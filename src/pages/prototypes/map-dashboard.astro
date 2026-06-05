@@ -1,0 +1,710 @@
+---
+// Epic B money shot — Interactive Map Dashboard (BCN-1267).
+// The AWS "where can Marco build" view: route segments colored by derived
+// permitting status, a footage-by-status burndown, and a click-to-drawer
+// per-segment detail panel. Rendered inside the Beacon AppShell.
+//
+// Leaflet is browser-only, so the map inits in a client <script> below; the
+// fixture is serialized to a <script type="application/json"> the island reads.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import {
+  segments,
+  permits,
+  STATUS_META,
+  STATUS_ORDER,
+  deriveStatus,
+  clearToBuildDate,
+  gatingPermits,
+  footageByStatus,
+  totalFeet,
+  formatDate,
+  PERMIT_STATUS_LABEL,
+  PERMIT_STATUS_VARIANT,
+} from '../../data/map-fixture';
+
+// ── Precompute everything the client + drawer need (no recompute in browser) ──
+const burndown = footageByStatus();
+const total = totalFeet();
+const clearedFeet = burndown.find((b) => b.status === 'cleared')?.feet ?? 0;
+const pct = (feet: number) => (total === 0 ? 0 : Math.round((feet / total) * 100));
+
+// Serializable map data for the Leaflet island (status + color baked in).
+const mapData = segments.map((s) => {
+  const status = deriveStatus(s);
+  return {
+    id: s.id,
+    name: s.name,
+    lineId: s.lineId,
+    geometry: s.geometry,
+    status,
+    color: STATUS_META[status].hex,
+  };
+});
+
+// Per-segment drawer payloads, keyed by id.
+const segmentDetails = segments.map((s) => {
+  const status = deriveStatus(s);
+  const meta = STATUS_META[status];
+  const covering = gatingPermits(s).map((p) => ({
+    id: p.id,
+    name: p.name,
+    agency: p.agency,
+    agencyLevel: p.agencyLevel,
+    status: p.status,
+    statusLabel: PERMIT_STATUS_LABEL[p.status],
+    variant: PERMIT_STATUS_VARIANT[p.status],
+    estDate: formatDate(p.actualApprovalDate ?? p.estimatedApprovalDate ?? null),
+    isActual: !!p.actualApprovalDate,
+  }));
+  return {
+    id: s.id,
+    name: s.name,
+    lineId: s.lineId,
+    jurisdiction: s.jurisdiction,
+    lengthFt: s.lengthFt,
+    status,
+    statusLabel: meta.label,
+    statusHex: meta.hex,
+    clearDate: formatDate(clearToBuildDate(s)),
+    covering,
+  };
+});
+---
+
+<AppShell title="Permit Status Map — AWS Raul 2">
+  <PageLayout
+    title="Permit Status Map"
+    icon="map"
+    breadcrumbs={[
+      { label: 'Raul', href: '#raul' },
+      { label: 'Tracking', href: '#tracking' },
+      { label: 'Permit Status Map' },
+    ]}
+  >
+    <!-- ═══ Footage burndown strip ═══ -->
+    <section class="burndown" aria-label="Footage by permitting status">
+      <div class="burndown__headline">
+        <span class="burndown__cleared-feet">{clearedFeet.toLocaleString()} ft</span>
+        <span class="burndown__cleared-label">Cleared to Construct</span>
+        <span class="burndown__total">of {total.toLocaleString()} ft total · {pct(clearedFeet)}%</span>
+      </div>
+
+      <div class="burndown__bar" role="img" aria-label={`${pct(clearedFeet)} percent cleared`}>
+        {
+          burndown
+            .filter((b) => b.feet > 0)
+            .map((b) => (
+              <div
+                class="burndown__seg"
+                style={`width:${(b.feet / total) * 100}%; background:var(${STATUS_META[b.status].colorVar});`}
+                title={`${STATUS_META[b.status].label}: ${b.feet.toLocaleString()} ft`}
+              />
+            ))
+        }
+      </div>
+
+      <ul class="burndown__legend">
+        {
+          STATUS_ORDER.map((status) => {
+            const row = burndown.find((b) => b.status === status)!;
+            return (
+              <li class="burndown__legend-item" data-empty={row.feet === 0 ? 'true' : 'false'}>
+                <span class="burndown__swatch" style={`background:var(${STATUS_META[status].colorVar});`} />
+                <span class="burndown__legend-label">{STATUS_META[status].label}</span>
+                <span class="burndown__legend-feet">{row.feet.toLocaleString()} ft</span>
+                <span class="burndown__legend-pct">{pct(row.feet)}%</span>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </section>
+
+    <!-- ═══ Map ═══ -->
+    <div class="map-wrap">
+      <div id="permit-map" class="map"></div>
+
+      <!-- Status legend (map overlay) -->
+      <div class="map-legend" aria-label="Segment status legend">
+        <span class="map-legend__title">Segment status</span>
+        {
+          STATUS_ORDER.map((status) => (
+            <span class="map-legend__row">
+              <span class="map-legend__line" style={`background:var(${STATUS_META[status].colorVar});`} />
+              {STATUS_META[status].label}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- ═══ Segment drawer (ported ui-side-dialog pattern) ═══ -->
+    <div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
+    <aside class="seg-drawer" id="seg-drawer" role="dialog" aria-modal="true" aria-labelledby="seg-drawer-title" hidden>
+      <header class="seg-drawer__header">
+        <div class="seg-drawer__header-main">
+          <span class="seg-drawer__eyebrow" id="dr-line"></span>
+          <h2 class="seg-drawer__title" id="seg-drawer-title"></h2>
+          <span class="seg-drawer__subtitle" id="dr-jurisdiction"></span>
+        </div>
+        <button type="button" class="seg-drawer__close" id="drawer-close" aria-label="Close dialog">
+          <EsaIcon name="x" size="sm" />
+        </button>
+      </header>
+
+      <div class="seg-drawer__body">
+        <!-- Derived status + clear-to-build -->
+        <div class="seg-drawer__status-block">
+          <span class="seg-drawer__status-chip" id="dr-status">
+            <span class="seg-drawer__status-dot" id="dr-status-dot"></span>
+            <span id="dr-status-label"></span>
+          </span>
+          <div class="seg-drawer__clear">
+            <span class="seg-drawer__clear-label">Projected clear-to-build</span>
+            <span class="seg-drawer__clear-date" id="dr-clear-date"></span>
+          </div>
+          <div class="seg-drawer__length">
+            <span class="seg-drawer__clear-label">Segment length</span>
+            <span class="seg-drawer__length-val" id="dr-length"></span>
+          </div>
+        </div>
+
+        <!-- Covering permits -->
+        <h3 class="seg-drawer__section-title">
+          Covering permits <span class="seg-drawer__count" id="dr-permit-count"></span>
+        </h3>
+        <ul class="seg-drawer__permits" id="dr-permits"></ul>
+      </div>
+    </aside>
+  </PageLayout>
+
+  <!-- Serialized fixture for the island -->
+  <script type="application/json" id="map-data" set:html={JSON.stringify(mapData)}></script>
+  <script type="application/json" id="seg-details" set:html={JSON.stringify(segmentDetails)}></script>
+</AppShell>
+
+<script>
+  import L from 'leaflet';
+  import 'leaflet/dist/leaflet.css';
+
+  interface MapSeg {
+    id: string;
+    name: string;
+    lineId: string;
+    geometry: [number, number][];
+    status: string;
+    color: string;
+  }
+  interface PermitRow {
+    name: string;
+    agency: string;
+    agencyLevel: string;
+    statusLabel: string;
+    estDate: string;
+    isActual: boolean;
+  }
+  interface SegDetail {
+    id: string;
+    name: string;
+    lineId: string;
+    jurisdiction: string;
+    lengthFt: number;
+    statusLabel: string;
+    statusHex: string;
+    clearDate: string;
+    covering: PermitRow[];
+  }
+
+  const mapData: MapSeg[] = JSON.parse(document.getElementById('map-data')!.textContent || '[]');
+  const details: SegDetail[] = JSON.parse(document.getElementById('seg-details')!.textContent || '[]');
+  const detailById = new Map(details.map((d) => [d.id, d]));
+
+  // ── Leaflet map ────────────────────────────────────────────────────────────
+  const map = L.map('permit-map', { zoomControl: true, attributionControl: true });
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap &copy; CARTO',
+    subdomains: 'abcd',
+    maxZoom: 20,
+  }).addTo(map);
+
+  const allLatLngs: L.LatLngExpression[] = [];
+  const layerById = new Map<string, L.Polyline>();
+
+  for (const seg of mapData) {
+    seg.geometry.forEach((c) => allLatLngs.push(c));
+    const line = L.polyline(seg.geometry, {
+      color: seg.color,
+      weight: 6,
+      opacity: 0.9,
+      lineCap: 'round',
+      lineJoin: 'round',
+    }).addTo(map);
+
+    line.on('mouseover', () => line.setStyle({ weight: 9, opacity: 1 }));
+    line.on('mouseout', () => line.setStyle({ weight: 6, opacity: 0.9 }));
+    line.on('click', () => openDrawer(seg.id));
+    line.bindTooltip(seg.name, { sticky: true, direction: 'top', offset: [0, -6] });
+    layerById.set(seg.id, line);
+  }
+
+  map.fitBounds(L.latLngBounds(allLatLngs as L.LatLngTuple[]).pad(0.15));
+
+  // ── Drawer ───────────────────────────────────────────────────────────────
+  const drawer = document.getElementById('seg-drawer')!;
+  const backdrop = document.getElementById('drawer-backdrop')!;
+  let activeId: string | null = null;
+
+  function openDrawer(id: string) {
+    const d = detailById.get(id);
+    if (!d) return;
+    activeId = id;
+
+    (document.getElementById('dr-line') as HTMLElement).textContent = d.lineId;
+    (document.getElementById('seg-drawer-title') as HTMLElement).textContent = d.name;
+    (document.getElementById('dr-jurisdiction') as HTMLElement).textContent = d.jurisdiction;
+    (document.getElementById('dr-status-label') as HTMLElement).textContent = d.statusLabel;
+    (document.getElementById('dr-status-dot') as HTMLElement).style.background = d.statusHex;
+    const chip = document.getElementById('dr-status') as HTMLElement;
+    chip.style.background = `color-mix(in srgb, ${d.statusHex} 16%, transparent)`;
+    chip.style.color = `color-mix(in srgb, ${d.statusHex} 75%, #1a1a1a)`;
+    (document.getElementById('dr-clear-date') as HTMLElement).textContent = d.clearDate;
+    (document.getElementById('dr-length') as HTMLElement).textContent = `${d.lengthFt.toLocaleString()} ft`;
+    (document.getElementById('dr-permit-count') as HTMLElement).textContent = `(${d.covering.length})`;
+
+    const list = document.getElementById('dr-permits') as HTMLElement;
+    list.innerHTML = '';
+    for (const p of d.covering) {
+      const li = document.createElement('li');
+      li.className = 'permit-row';
+      li.innerHTML = `
+        <div class="permit-row__main">
+          <span class="permit-row__name">${p.name}</span>
+          <span class="permit-row__agency">${p.agency} · ${p.agencyLevel}</span>
+        </div>
+        <div class="permit-row__meta">
+          <span class="permit-row__chip permit-row__chip--${p.statusLabel.toLowerCase().replace(/\s+/g, '-')}">${p.statusLabel}</span>
+          <span class="permit-row__date">${p.isActual ? 'Issued' : 'Est.'} ${p.estDate}</span>
+        </div>`;
+      list.appendChild(li);
+    }
+
+    drawer.hidden = false;
+    backdrop.hidden = false;
+    // next frame → play slide-in
+    requestAnimationFrame(() => {
+      drawer.classList.add('is-open');
+      backdrop.classList.add('is-open');
+    });
+
+    // highlight active segment
+    layerById.forEach((line, lid) => line.setStyle({ weight: lid === id ? 9 : 6, opacity: lid === id ? 1 : 0.55 }));
+  }
+
+  function closeDrawer() {
+    drawer.classList.remove('is-open');
+    backdrop.classList.remove('is-open');
+    activeId = null;
+    layerById.forEach((line) => line.setStyle({ weight: 6, opacity: 0.9 }));
+    // hide after transition
+    window.setTimeout(() => {
+      drawer.hidden = true;
+      backdrop.hidden = true;
+    }, 300);
+  }
+
+  document.getElementById('drawer-close')!.addEventListener('click', closeDrawer);
+  backdrop.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && activeId) closeDrawer();
+  });
+</script>
+
+<style>
+  /* ═══ Content stack (inside PageLayout's padded content) ═══ */
+  /* The page now lives inside AppShell > PageLayout; the page chrome
+     (breadcrumbs, Besley H1, bottom border, 32px padding) comes from PageLayout.
+     Below: the burndown strip + the Leaflet map, stacked. */
+
+  /* ═══ Burndown strip ═══ */
+  .burndown {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    margin-bottom: var(--spacing-500);
+    padding: var(--spacing-400);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+  }
+  .burndown__headline {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-200);
+    flex-wrap: wrap;
+  }
+  .burndown__cleared-feet {
+    font-size: 1.5rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-success);
+    line-height: 1;
+  }
+  .burndown__cleared-label {
+    font-size: 0.9375rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .burndown__total {
+    font-size: 0.8125rem;
+    color: var(--color-text-tertiary);
+  }
+  .burndown__bar {
+    display: flex;
+    height: 14px;
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    background: var(--bcn-gray-100);
+  }
+  .burndown__seg {
+    height: 100%;
+  }
+  .burndown__seg + .burndown__seg {
+    border-left: 1px solid var(--color-surface);
+  }
+  .burndown__legend {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-200) var(--spacing-500);
+  }
+  .burndown__legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+  .burndown__legend-item[data-empty='true'] {
+    opacity: 0.4;
+  }
+  .burndown__swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: var(--radius-050);
+    flex-shrink: 0;
+  }
+  .burndown__legend-label {
+    color: var(--color-text-primary);
+  }
+  .burndown__legend-feet {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .burndown__legend-pct {
+    color: var(--color-text-tertiary);
+  }
+
+  /* ═══ Map ═══ */
+  .map-wrap {
+    position: relative;
+    width: 100%;
+    height: 62vh;
+    min-height: 420px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+    overflow: hidden;
+  }
+  .map {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+  /* Leaflet panes must stay below the topbar (z 1100) and drawer */
+  :global(.leaflet-pane),
+  :global(.leaflet-top),
+  :global(.leaflet-bottom) {
+    z-index: 400;
+  }
+
+  .map-legend {
+    position: absolute;
+    bottom: var(--spacing-400);
+    left: var(--spacing-400);
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    padding: var(--spacing-300) var(--spacing-400);
+    background: color-mix(in srgb, var(--color-surface) 94%, transparent);
+    backdrop-filter: blur(4px);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+    box-shadow: var(--shadow-400);
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+  .map-legend__title {
+    font-size: 0.6875rem;
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-tertiary);
+  }
+  .map-legend__row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+  }
+  .map-legend__line {
+    width: 22px;
+    height: 5px;
+    border-radius: var(--radius-full);
+    flex-shrink: 0;
+  }
+
+  /* ═══ Segment drawer (ported _ui-side-dialog.scss) ═══ */
+  .drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1300;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    transition: opacity 280ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .drawer-backdrop.is-open {
+    opacity: 1;
+  }
+  .drawer-backdrop[hidden] {
+    display: none;
+  }
+
+  .seg-drawer {
+    position: fixed;
+    top: var(--spacing-400);
+    right: var(--spacing-400);
+    bottom: var(--spacing-400);
+    height: calc(100vh - var(--spacing-400) * 2);
+    width: 480px;
+    max-width: 90vw;
+    z-index: 1400;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--color-surface);
+    border-radius: var(--radius-400);
+    box-shadow: var(--shadow-400);
+    transform: translateX(calc(100% + var(--spacing-400)));
+    transition: transform 280ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .seg-drawer.is-open {
+    transform: translateX(0);
+  }
+  .seg-drawer[hidden] {
+    display: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .seg-drawer,
+    .drawer-backdrop {
+      transition-duration: 120ms;
+      transition-timing-function: linear;
+    }
+  }
+
+  /* header — mirrors ui-side-dialog-header (padding $spacing-400 $spacing-600 0) */
+  .seg-drawer__header {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-300);
+    padding: var(--spacing-400) var(--spacing-600) 0;
+    color: var(--color-text-primary);
+  }
+  .seg-drawer__header-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+  }
+  .seg-drawer__eyebrow {
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-tertiary);
+  }
+  .seg-drawer__title {
+    margin: 0;
+    font-size: 1.3125rem;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.2;
+    color: var(--color-text-primary);
+  }
+  .seg-drawer__subtitle {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+  .seg-drawer__close {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-200);
+    color: var(--color-text-tertiary);
+    transition: background 150ms ease, color 150ms ease;
+  }
+  .seg-drawer__close:hover {
+    background: var(--bcn-gray-100);
+    color: var(--color-text-primary);
+  }
+
+  /* body — mirrors ui-side-dialog-body (padding $spacing-400 $spacing-600 $spacing-600) */
+  .seg-drawer__body {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    padding: var(--spacing-400) var(--spacing-600) var(--spacing-600);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+
+  .seg-drawer__status-block {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--spacing-400);
+    padding: var(--spacing-400);
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+  }
+  .seg-drawer__status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    padding: var(--spacing-100) var(--spacing-300);
+    border-radius: var(--radius-full);
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-semibold);
+  }
+  .seg-drawer__status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-full);
+    flex-shrink: 0;
+  }
+  .seg-drawer__clear,
+  .seg-drawer__length {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .seg-drawer__clear-label {
+    font-size: 0.6875rem;
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-tertiary);
+  }
+  .seg-drawer__clear-date {
+    font-size: 1.0625rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+  }
+  .seg-drawer__length-val {
+    font-size: 1.0625rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+
+  .seg-drawer__section-title {
+    margin: 0;
+    font-size: 0.9375rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .seg-drawer__count {
+    color: var(--color-text-tertiary);
+    font-weight: var(--font-weight-regular);
+  }
+  .seg-drawer__permits {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+
+  /* permit rows (built in JS) */
+  .seg-drawer__permits :global(.permit-row) {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+    padding: var(--spacing-300);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+    background: var(--color-surface);
+  }
+  .seg-drawer__permits :global(.permit-row__main) {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .seg-drawer__permits :global(.permit-row__name) {
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .seg-drawer__permits :global(.permit-row__agency) {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+  }
+  .seg-drawer__permits :global(.permit-row__meta) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--spacing-100);
+    flex-shrink: 0;
+    text-align: right;
+  }
+  .seg-drawer__permits :global(.permit-row__chip) {
+    padding: 2px var(--spacing-200);
+    border-radius: var(--radius-full);
+    font-size: 0.6875rem;
+    font-weight: var(--font-weight-semibold);
+    white-space: nowrap;
+    background: var(--bcn-gray-100);
+    color: var(--color-text-secondary);
+  }
+  .seg-drawer__permits :global(.permit-row__chip--issued) {
+    background: var(--color-success-subtle);
+    color: #15803d;
+  }
+  .seg-drawer__permits :global(.permit-row__chip--under-review),
+  .seg-drawer__permits :global(.permit-row__chip--in-preparation) {
+    background: var(--color-warning-subtle);
+    color: #92560b;
+  }
+  .seg-drawer__permits :global(.permit-row__chip--submitted) {
+    background: var(--color-blue-100);
+    color: #2c5d85;
+  }
+  .seg-drawer__permits :global(.permit-row__date) {
+    font-size: 0.6875rem;
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+  }
+</style>

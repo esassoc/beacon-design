@@ -1,0 +1,142 @@
+---
+// Demo page for the Beacon AppShell — renders placeholder content inside the
+// ported "modern-layout" frame so the chrome (topbar + collapsible side nav) is
+// viewable in isolation.
+import AppShell from '../layouts/AppShell.astro';
+---
+
+<AppShell title="Beacon — Shell Demo">
+  <div class="demo">
+    <header class="demo__head">
+      <div>
+        <h1 class="demo__title">Commitments</h1>
+        <p class="demo__subtitle">AWS — Raul 2 · Pre-Permit Tracking</p>
+      </div>
+      <span class="demo__count">42 commitments</span>
+    </header>
+
+    <section class="demo__grid">
+      <article class="demo__card">
+        <h2 class="demo__card-title">Water Quality Monitoring</h2>
+        <p class="demo__card-body">
+          Continuous monitoring of turbidity and dissolved oxygen at the three
+          downstream stations through the construction window.
+        </p>
+        <span class="demo__pill demo__pill--in-progress">In progress</span>
+      </article>
+
+      <article class="demo__card">
+        <h2 class="demo__card-title">Vegetation Restoration</h2>
+        <p class="demo__card-body">
+          Replant the disturbed riparian buffer with native species at a 2:1
+          mitigation ratio within one growing season.
+        </p>
+        <span class="demo__pill demo__pill--not-started">Not started</span>
+      </article>
+
+      <article class="demo__card">
+        <h2 class="demo__card-title">Noise Abatement</h2>
+        <p class="demo__card-body">
+          Maintain construction noise below 65 dBA at the nearest residential
+          receptor during permitted work hours.
+        </p>
+        <span class="demo__pill demo__pill--completed">Completed</span>
+      </article>
+
+      <article class="demo__card">
+        <h2 class="demo__card-title">Cultural Resources Survey</h2>
+        <p class="demo__card-body">
+          Complete pedestrian survey and tribal consultation prior to any
+          ground-disturbing activity in the eastern parcel.
+        </p>
+        <span class="demo__pill demo__pill--in-progress">In progress</span>
+      </article>
+    </section>
+
+    <p class="demo__filler">
+      Scrollable content region — the topbar stays fixed and the side nav fills
+      the body height. Toggle the sidebar from the top-left button.
+    </p>
+  </div>
+</AppShell>
+
+<style>
+  .demo {
+    padding: var(--spacing-600) var(--spacing-700);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-600);
+  }
+  .demo__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+  }
+  .demo__title {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+  }
+  .demo__subtitle {
+    margin: var(--spacing-100) 0 0;
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+  }
+  .demo__count {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-tertiary);
+  }
+  .demo__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--spacing-400);
+  }
+  .demo__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding: var(--spacing-400);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--spacing-200);
+  }
+  .demo__card-title {
+    margin: 0;
+    font-size: 1.0625rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .demo__card-body {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+  .demo__pill {
+    align-self: flex-start;
+    padding: var(--spacing-050) var(--spacing-200);
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 9999px;
+  }
+  .demo__pill--not-started {
+    background: var(--bcn-gray-100);
+    color: var(--bcn-gray-600);
+  }
+  .demo__pill--in-progress {
+    background: color-mix(in srgb, var(--bcn-status-in-progress) 18%, transparent);
+    color: #92560b;
+  }
+  .demo__pill--completed {
+    background: var(--color-success-100);
+    color: #15803d;
+  }
+  .demo__filler {
+    font-size: 0.9375rem;
+    color: var(--color-text-tertiary);
+    max-width: 60ch;
+  }
+</style>

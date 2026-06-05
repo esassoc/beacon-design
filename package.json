@@ -1,0 +1,19 @@
+{
+  "name": "@beacon/design",
+  "version": "0.0.1",
+  "description": "Beacon — an Astro spoke of the ESA Ecology hub (../ecology). Prototyping surface for the Beacon environmental-compliance platform (AWS pre-permit tracking + map dashboard, and beyond).",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@esa/ecology": "file:../ecology/packages/ecology",
+    "@esa/tokens": "file:../ecology/packages/tokens",
+    "@types/leaflet": "^1.9.21",
+    "astro": "^5.0.0",
+    "leaflet": "^1.9.4"
+  }
+}

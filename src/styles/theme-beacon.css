@@ -1,0 +1,120 @@
+/*
+ * Beacon theme — a spoke of the Ecology hub (../ecology).
+ *
+ * Follows the hub's theming contract: a [data-theme] block overrides the
+ * SEMANTIC layer only. tokens.css (from @esa/tokens) defines the primitives +
+ * default teal semantics on :root; this re-skins to Beacon WITHOUT touching
+ * primitives.
+ *
+ * KEY FACT: the ecology hub was itself ported FROM Beacon's Angular design
+ * system (component-tokens.css says so — "Faithful port of the Angular lib…
+ * aligned with Beacon's UiSize"). So Beacon barely diverges from the hub:
+ *   - Color ramps (green/blue/orange/yellow/red) are IDENTICAL to Beacon's.
+ *   - --color-primary (teal-900 #005862) is EXACTLY Beacon's $primary.
+ * This file only re-points the handful of real deltas + adds Beacon's own
+ * spoke tokens. Verbatim Beacon look, expressed through ecology's vocabulary.
+ *
+ * TOKEN TIERS (mirror cb-fish):
+ *   - ecology tokens (--color-*, --form-*, --font-*): the durable hub vocabulary.
+ *     This file REASSIGNS the few that differ; esa-* components read only these.
+ *   - --bcn-* tokens: the spoke tier. Live ONLY in this file. Raw "re-point
+ *     material" (the warm gray + true-teal ramps) feeds the ecology tokens above;
+ *     hub components never read --bcn-* directly.
+ *   - A value that's really a gap in an ecology scale gets PROMOTED to the hub.
+ *
+ * Source of truth for every value below:
+ *   ../Beacon/Beacon.Web/src/scss/variables/_colors.scss  (just pulled, latest develop)
+ */
+
+[data-theme="beacon"] {
+  /* ===== SECONDARY — Beacon's true teal-500/800 (hub teal ramp diverges off-900) =====
+     Beacon $secondary = $teal-500 = #00918b; hover = $teal-800. The hub's teal
+     ramp matches Beacon only at 900, so re-point secondary explicitly. */
+  --color-secondary:       #00918b;
+  --color-secondary-hover: #0a6562;
+
+  /* ===== NEUTRAL CHAIN — Beacon's warmer grays =====
+     Re-point the whole neutral chain to Beacon's --bcn-gray-* ramp (raw material
+     below; primitives never move). Warms body text vs the hub's cool grays:
+     text-primary #171717 → #3d3d3d. Symmetric with cb-fish. */
+  --color-text-primary:   var(--bcn-gray-900);
+  --color-text-secondary: var(--bcn-gray-700);
+  --color-text-tertiary:  var(--bcn-gray-600);
+  --color-text-muted:     var(--bcn-gray-500);
+  --color-border:         var(--bcn-gray-200);
+  --color-border-light:   var(--bcn-gray-100);
+  --color-border-strong:  var(--bcn-gray-300);
+  --color-background:     var(--bcn-gray-50);
+  --color-surface-sunken: var(--bcn-gray-100);
+
+  /* ===== MONO / DECORATIVE FACES ===== */
+  /* Beacon ships Roboto Mono (not the hub default DM Mono) for code/id displays. */
+  --font-mono: 'Roboto Mono', ui-monospace, monospace;
+  /* Opt-in serif voice (setup wizard). Beacon-only — the hub has no equivalent;
+     --font-display stays sans. Components reach for this token explicitly. */
+  --font-decorative: 'Besley', serif;
+
+  /* ===== FORM SIZING — Beacon's compact heights =====
+     Beacon's UiSize runs smaller than the hub's defaults (xs 28 / sm 32 / md 40 /
+     lg 48). Re-point to Beacon's _form-inputs.scss: 24 / 28 / 36 / 44. */
+  --form-height-xs: 24px;
+  --form-height-sm: 28px;
+  --form-height-md: 36px;
+  --form-height-lg: 44px;
+
+  /* ===== Beacon spoke tokens (no ecology equivalent) ===== */
+
+  /* Warm gray ramp — Beacon's authoritative neutrals (_colors.scss $palette).
+     Raw material only: feeds the semantic re-points above; components never read
+     --bcn-gray-* directly. */
+  --bcn-gray-0:    #ffffff;
+  --bcn-gray-50:   #fafafa;
+  --bcn-gray-100:  #efefef;
+  --bcn-gray-200:  #dcdcdc;
+  --bcn-gray-300:  #bdbdbd;
+  --bcn-gray-400:  #989898;
+  --bcn-gray-500:  #7c7c7c;
+  --bcn-gray-600:  #656565;
+  --bcn-gray-700:  #525252;
+  --bcn-gray-800:  #464646;
+  --bcn-gray-900:  #3d3d3d;
+  --bcn-gray-950:  #292929;
+  --bcn-gray-1000: #000000;
+
+  /* Setup-wizard step accents (Source → Commitment → Requirement → Action).
+     Beacon exposes these globally as --color-source etc.; keep the same names so
+     ported views match verbatim. */
+  --color-source:      #003f5c;
+  --color-commitment:  #58508d;
+  --color-requirement: #a05195;
+  --color-action:      #d45087;
+
+  /* Semantic success ramp Beacon exposes as CSS vars. */
+  --color-success-50:  #f0fdf4;
+  --color-success-100: #dcfce7;
+  --color-success-200: #bbf7d0;
+
+  /* Flag-button "on" state — amber "attention required" cue, same family as the
+     Needs Revision pill. */
+  --bcn-flag-on-bg:       #fff3e0;
+  --bcn-flag-on-hover-bg: #ffe0b2;
+  --bcn-flag-on-color:    #b05000;
+  --bcn-flag-on-border:   #ffd9a8;
+
+  /* Implementation status palette (compliance tracking). */
+  --bcn-status-not-started: var(--bcn-gray-300);
+  --bcn-status-in-progress: #f59e0b;
+  --bcn-status-completed:   #22c55e;
+  --bcn-status-overdue:     #ef4444;
+
+  /* Progress-report fill/background pairs. */
+  --bcn-progress-not-started:    #444e86;
+  --bcn-progress-not-started-bg: #d3d7f0;
+  --bcn-progress-completed:      #dd5182;
+  --bcn-progress-completed-bg:   #fcdde8;
+  --bcn-progress-in-progress:    #955196;
+  --bcn-progress-in-progress-bg: #fedcff;
+
+  /* Citation surface (commitment quotes). */
+  --bcn-citation-bg: #f6f3ed;
+}

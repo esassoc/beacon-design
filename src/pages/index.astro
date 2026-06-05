@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/base';
+import { prototypesByNewest } from '../data/prototypes';
+
+const prototypes = prototypesByNewest();
+const statusLabel: Record<string, string> = {
+  live: 'Live', 'in-progress': 'In progress', planned: 'Planned', archived: 'Archived',
+};
+---
+<BaseLayout title="Beacon Design">
+  <main class="wrap">
+    <header class="head">
+      <p class="eyebrow">spoke of ecology</p>
+      <h1>Beacon Design</h1>
+      <p class="lede">
+        Prototyping surface for the Beacon environmental-compliance platform —
+        built on the <code>@esa/ecology</code> hub, themed to match Beacon's live
+        app. Start with the <a href={withBase('/foundations')}>foundations</a>.
+      </p>
+    </header>
+
+    <section>
+      <h2>Prototypes</h2>
+      <ul class="protos">
+        {prototypes.map((p) => (
+          <li class="proto">
+            <div class="proto__main">
+              <a class="proto__title" href={withBase(p.route)}>{p.title}</a>
+              <p class="proto__desc">{p.description}</p>
+            </div>
+            <div class="proto__meta">
+              {p.ticket && <span class="ticket">{p.ticket}</span>}
+              <span class={`status status--${p.status}`}>{statusLabel[p.status]}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .wrap { max-width: var(--content-narrow-width); margin: 0 auto; padding: var(--spacing-800) var(--spacing-500); }
+  .head { margin-bottom: var(--spacing-700); }
+  .eyebrow { color: var(--color-secondary); font-weight: var(--font-weight-semibold); font-size: var(--type-size-150); text-transform: lowercase; margin: 0 0 var(--spacing-200); }
+  h1 { font-size: var(--type-size-900); margin: 0 0 var(--spacing-300); color: var(--color-text-primary); }
+  .lede { color: var(--color-text-secondary); font-size: var(--type-size-300); line-height: var(--line-height-normal); max-width: 62ch; }
+  code { font-family: var(--font-mono); font-size: 0.9em; background: var(--color-surface-sunken); padding: 0.1em 0.35em; border-radius: var(--radius-100); }
+  h2 { font-size: var(--type-size-400); color: var(--color-text-primary); margin: 0 0 var(--spacing-400); }
+  .protos { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .proto { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--spacing-400); padding: var(--spacing-400); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-200); box-shadow: var(--shadow-50); }
+  .proto__title { font-size: var(--type-size-300); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .proto__title:hover { color: var(--color-primary); }
+  .proto__desc { margin: var(--spacing-150) 0 0; color: var(--color-text-secondary); font-size: var(--type-size-150); line-height: var(--line-height-normal); max-width: 54ch; }
+  .proto__meta { display: flex; align-items: center; gap: var(--spacing-200); flex-shrink: 0; }
+  .ticket { font-family: var(--font-mono); font-size: var(--type-size-050); color: var(--color-text-muted); }
+  .status { font-size: var(--type-size-050); font-weight: var(--font-weight-medium); padding: var(--spacing-050) var(--spacing-200); border-radius: var(--radius-full); }
+  .status--planned { background: var(--color-surface-sunken); color: var(--color-text-muted); }
+  .status--in-progress { background: var(--bcn-flag-on-bg); color: var(--bcn-flag-on-color); }
+  .status--live { background: var(--color-success-subtle); color: var(--color-success); }
+</style>
