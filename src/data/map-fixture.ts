@@ -410,3 +410,63 @@ export const PERMIT_STATUS_VARIANT: Record<PermitStatus, 'default' | 'primary' |
   issued: 'success',
   'not-required': 'default',
 };
+
+// ── Shared permit-status color (chips on Epic A's table MUST match the map) ───
+// Same family as STATUS_META: not-started gray, in-preparation orange-300,
+// submitted blue-500, under-review warning, issued = success/green (the map's
+// "cleared" color). not-required is a muted neutral (off-ladder).
+export interface PermitStatusMeta {
+  label: string;
+  colorVar: string;
+  hex: string;
+}
+export const PERMIT_STATUS_META: Record<PermitStatus, PermitStatusMeta> = {
+  'not-started': { label: 'Not Started', colorVar: '--bcn-gray-300', hex: '#bdbdbd' },
+  'in-preparation': { label: 'In Preparation', colorVar: '--color-orange-300', hex: '#fab54f' },
+  submitted: { label: 'Submitted', colorVar: '--color-blue-500', hex: '#699cc6' },
+  'under-review': { label: 'Under Review', colorVar: '--color-warning', hex: '#f59e0b' },
+  issued: { label: 'Issued', colorVar: '--color-success', hex: '#22c55e' },
+  'not-required': { label: 'Not Required', colorVar: '--bcn-gray-400', hex: '#989898' },
+};
+
+/** Display order for status filters/legends (least → most advanced; not-required last). */
+export const PERMIT_STATUS_ORDER: PermitStatus[] = [
+  'not-started',
+  'in-preparation',
+  'submitted',
+  'under-review',
+  'issued',
+  'not-required',
+];
+
+/** Derive a short "Type" label from a permit (no `type` field in the data). */
+export function permitType(permit: Permit): string {
+  const n = permit.name.toLowerCase();
+  if (n.includes('404') || n.includes('nationwide')) return 'Section 404';
+  if (n.includes('401') || n.includes('water quality')) return '401 Certification';
+  if (n.includes('stormwater') || n.includes('npdes')) return 'NPDES';
+  if (n.includes('right-of-way') || n.includes('sf-299')) return 'Right-of-Way';
+  if (n.includes('hydraulic') || n.includes('hpa')) return 'HPA';
+  if (n.includes('utility accommodation')) return 'Utility';
+  if (n.includes('aquatic lands')) return 'Aquatic Lands';
+  if (n.includes('sepa') || n.includes('environmental review')) return 'SEPA';
+  if (n.includes('franchise')) return 'Franchise';
+  if (n.includes('shoreline')) return 'Shoreline';
+  return 'Permit';
+}
+
+/** esa-badge variant for an agency level chip. */
+export const LEVEL_VARIANT: Record<AgencyLevel, 'primary' | 'secondary' | 'info'> = {
+  Federal: 'primary',
+  State: 'info',
+  Local: 'secondary',
+};
+
+const SEGMENTS_BY_PERMIT = new Map<string, number>();
+for (const seg of segments) {
+  for (const pid of seg.permitIds) {
+    SEGMENTS_BY_PERMIT.set(pid, (SEGMENTS_BY_PERMIT.get(pid) ?? 0) + 1);
+  }
+}
+/** How many segments include this permit in their permitIds. */
+export const segmentCountForPermit = (permitId: string): number => SEGMENTS_BY_PERMIT.get(permitId) ?? 0;

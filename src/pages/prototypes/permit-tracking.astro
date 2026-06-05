@@ -1,0 +1,779 @@
+---
+// Epic A — Permit Tracking workspace (BCN-1266). The CRUD spine that pairs with
+// the map (Epic B). Same fixture (map-fixture.ts) — Permits × Segments with both
+// pivots, plus the reusable EDITABLE permit drawer (the write surface the map
+// will later summon). Rendered inside AppShell > PageLayout.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaFormField from '@esa/ecology/esa-form-field.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import {
+  permits,
+  segments,
+  PERMIT_STATUS_META,
+  PERMIT_STATUS_LABEL,
+  PERMIT_STATUS_ORDER,
+  STATUS_META,
+  permitType,
+  segmentCountForPermit,
+  deriveStatus,
+  clearToBuildDate,
+  gatingPermits,
+  formatDate,
+  LEVEL_VARIANT,
+} from '../../data/map-fixture';
+
+// ── Precompute permit rows ───────────────────────────────────────────────────
+const permitRows = permits.map((p) => ({
+  id: p.id,
+  name: p.name,
+  agency: p.agency,
+  agencyLevel: p.agencyLevel,
+  type: permitType(p),
+  status: p.status,
+  statusLabel: PERMIT_STATUS_LABEL[p.status],
+  statusHex: PERMIT_STATUS_META[p.status].hex,
+  estDate: formatDate(p.actualApprovalDate ?? p.estimatedApprovalDate ?? null),
+  segmentCount: segmentCountForPermit(p.id),
+  // raw values for the editable drawer
+  submittedDate: p.submittedDate ?? '',
+  estimatedApprovalDate: p.estimatedApprovalDate ?? '',
+  actualApprovalDate: p.actualApprovalDate ?? '',
+  segmentIds: segments.filter((s) => s.permitIds.includes(p.id)).map((s) => s.id),
+}));
+
+// ── Precompute segment rows (derived view) ───────────────────────────────────
+const segmentRows = segments.map((s) => {
+  const status = deriveStatus(s);
+  return {
+    id: s.id,
+    name: s.name,
+    lineId: s.lineId,
+    jurisdiction: s.jurisdiction,
+    lengthFt: s.lengthFt,
+    status,
+    statusLabel: STATUS_META[status].label,
+    statusHex: STATUS_META[status].hex,
+    clearDate: formatDate(clearToBuildDate(s)),
+    permitCount: gatingPermits(s).length,
+  };
+});
+
+const allSegments = segments.map((s) => ({ id: s.id, name: s.name, lineId: s.lineId }));
+
+// Drawer payload — full permit detail keyed by id (for the editable form).
+const drawerData = permitRows.map((p) => ({
+  id: p.id,
+  name: p.name,
+  agency: p.agency,
+  agencyLevel: p.agencyLevel,
+  type: p.type,
+  status: p.status,
+  submittedDate: p.submittedDate,
+  estimatedApprovalDate: p.estimatedApprovalDate,
+  actualApprovalDate: p.actualApprovalDate,
+  segmentIds: p.segmentIds,
+}));
+---
+
+<AppShell title="Permit Tracking — AWS Raul">
+  <PageLayout
+    title="Permit Tracking"
+    icon="clipboard-list"
+    breadcrumbs={[
+      { label: 'Raul', href: '#raul' },
+      { label: 'Tracking', href: '#tracking' },
+      { label: 'Permit Tracking' },
+    ]}
+  >
+    <EsaButton slot="utilities" color="primary" icon="plus" size="sm">New Permit</EsaButton>
+
+    <!-- ═══ Pivot toggle + filter pills ═══ -->
+    <div class="pt-toolbar">
+      <div class="pt-pivot" role="tablist" aria-label="Pivot view">
+        <button type="button" class="pt-pivot__btn is-active" data-view="permits" role="tab" aria-selected="true">
+          Permits
+        </button>
+        <button type="button" class="pt-pivot__btn" data-view="segments" role="tab" aria-selected="false">
+          Segments
+        </button>
+      </div>
+
+      <!-- Filter pills (affordance; non-functional) -->
+      <div class="pt-filters" id="pt-filters">
+        <span class="pt-filter-label">Filters</span>
+        <span class="pt-pill">
+          Status: Under Review
+          <button type="button" class="pt-pill__x" aria-label="Remove filter"><EsaIcon name="x" size="xs" /></button>
+        </span>
+        <span class="pt-pill">
+          Level: Federal
+          <button type="button" class="pt-pill__x" aria-label="Remove filter"><EsaIcon name="x" size="xs" /></button>
+        </span>
+        <button type="button" class="pt-filter-clear">Clear all</button>
+      </div>
+    </div>
+
+    <!-- ═══ Permit-centric table ═══ -->
+    <div class="grid-wrap" id="view-permits">
+      <table class="grid">
+        <thead>
+          <tr>
+            <th class="grid__th grid__th--sortable">Permit <EsaIcon name="chevron-down" size="xs" /></th>
+            <th class="grid__th">Agency</th>
+            <th class="grid__th">Level</th>
+            <th class="grid__th">Type</th>
+            <th class="grid__th">Status</th>
+            <th class="grid__th">Est. Approval</th>
+            <th class="grid__th grid__th--num">Segments</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            permitRows.map((p) => (
+              <tr class="grid__row" data-permit-id={p.id} tabindex="0">
+                <td class="grid__td grid__td--name">{p.name}</td>
+                <td class="grid__td">{p.agency}</td>
+                <td class="grid__td">
+                  <EsaBadge value={p.agencyLevel} variant={LEVEL_VARIANT[p.agencyLevel]} size="sm" />
+                </td>
+                <td class="grid__td grid__td--muted">{p.type}</td>
+                <td class="grid__td">
+                  <span class="status-chip" style={`--_chip:${p.statusHex};`}>
+                    <span class="status-chip__dot" />
+                    {p.statusLabel}
+                  </span>
+                </td>
+                <td class="grid__td grid__td--muted">{p.estDate}</td>
+                <td class="grid__td grid__td--num">{p.segmentCount}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ═══ Segment-centric table (pivot) ═══ -->
+    <div class="grid-wrap" id="view-segments" hidden>
+      <table class="grid">
+        <thead>
+          <tr>
+            <th class="grid__th">Segment</th>
+            <th class="grid__th">Line</th>
+            <th class="grid__th">Jurisdiction</th>
+            <th class="grid__th grid__th--num">Length</th>
+            <th class="grid__th">Derived Status</th>
+            <th class="grid__th">Clear-to-Build</th>
+            <th class="grid__th grid__th--num">Permits</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            segmentRows.map((s) => (
+              <tr class="grid__row grid__row--static">
+                <td class="grid__td grid__td--name">{s.name}</td>
+                <td class="grid__td grid__td--muted">{s.lineId}</td>
+                <td class="grid__td grid__td--muted">{s.jurisdiction}</td>
+                <td class="grid__td grid__td--num">{s.lengthFt.toLocaleString()} ft</td>
+                <td class="grid__td">
+                  <span class="status-chip" style={`--_chip:${s.statusHex};`}>
+                    <span class="status-chip__dot" />
+                    {s.statusLabel}
+                  </span>
+                </td>
+                <td class="grid__td">{s.clearDate}</td>
+                <td class="grid__td grid__td--num">{s.permitCount}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </PageLayout>
+
+  <!-- ═══ Editable permit drawer (reusable ui-side-dialog write surface) ═══ -->
+  <div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
+  <aside class="permit-drawer" id="permit-drawer" role="dialog" aria-modal="true" aria-labelledby="pd-title" hidden>
+    <header class="permit-drawer__header">
+      <div class="permit-drawer__header-main">
+        <span class="permit-drawer__eyebrow" id="pd-agency"></span>
+        <h2 class="permit-drawer__title" id="pd-title"></h2>
+      </div>
+      <button type="button" class="permit-drawer__close" id="drawer-close" aria-label="Close dialog">
+        <EsaIcon name="x" size="sm" />
+      </button>
+    </header>
+
+    <div class="permit-drawer__body">
+      <EsaFormField label="Status">
+        <select class="pd-input" id="pd-status">
+          {PERMIT_STATUS_ORDER.map((s) => <option value={s}>{PERMIT_STATUS_LABEL[s]}</option>)}
+        </select>
+      </EsaFormField>
+
+      <div class="pd-row">
+        <EsaFormField label="Submitted date">
+          <input type="date" class="pd-input" id="pd-submitted" />
+        </EsaFormField>
+        <EsaFormField label="Estimated approval">
+          <input type="date" class="pd-input" id="pd-estimated" />
+        </EsaFormField>
+      </div>
+
+      <div class="pd-row">
+        <EsaFormField label="Actual approval">
+          <input type="date" class="pd-input" id="pd-actual" />
+        </EsaFormField>
+        <EsaFormField label="Agency">
+          <input type="text" class="pd-input" id="pd-agency-input" />
+        </EsaFormField>
+      </div>
+
+      <EsaFormField label="Permit type">
+        <input type="text" class="pd-input" id="pd-type" />
+      </EsaFormField>
+
+      <div class="pd-applicability">
+        <span class="pd-applicability__label">Segment applicability</span>
+        <ul class="pd-checklist" id="pd-segments">
+          {
+            allSegments.map((s) => (
+              <li class="pd-check">
+                <label class="pd-check__label">
+                  <input type="checkbox" class="pd-check__box" value={s.id} />
+                  <span class="pd-check__name">{s.name}</span>
+                  <span class="pd-check__line">{s.lineId}</span>
+                </label>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+
+    <footer class="permit-drawer__footer">
+      <span id="drawer-cancel" class="pd-action"><EsaButton color="ghost" appearance="outline" size="sm">Cancel</EsaButton></span>
+      <span id="drawer-save" class="pd-action"><EsaButton color="primary" size="sm">Save</EsaButton></span>
+    </footer>
+  </aside>
+
+  <script type="application/json" id="drawer-data" set:html={JSON.stringify(drawerData)}></script>
+</AppShell>
+
+<script>
+  interface DrawerPermit {
+    id: string;
+    name: string;
+    agency: string;
+    agencyLevel: string;
+    type: string;
+    status: string;
+    submittedDate: string;
+    estimatedApprovalDate: string;
+    actualApprovalDate: string;
+    segmentIds: string[];
+  }
+
+  const STATUS_HEX: Record<string, string> = {
+    'not-started': '#bdbdbd',
+    'in-preparation': '#fab54f',
+    submitted: '#699cc6',
+    'under-review': '#f59e0b',
+    issued: '#22c55e',
+    'not-required': '#989898',
+  };
+  const STATUS_LABEL: Record<string, string> = {
+    'not-started': 'Not Started',
+    'in-preparation': 'In Preparation',
+    submitted: 'Submitted',
+    'under-review': 'Under Review',
+    issued: 'Issued',
+    'not-required': 'Not Required',
+  };
+
+  const data: DrawerPermit[] = JSON.parse(document.getElementById('drawer-data')!.textContent || '[]');
+  const byId = new Map(data.map((d) => [d.id, structuredClone(d)]));
+
+  // ── Pivot toggle ───────────────────────────────────────────────────────────
+  const viewPermits = document.getElementById('view-permits')!;
+  const viewSegments = document.getElementById('view-segments')!;
+  const filters = document.getElementById('pt-filters')!;
+  document.querySelectorAll<HTMLButtonElement>('.pt-pivot__btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.pt-pivot__btn').forEach((b) => {
+        b.classList.remove('is-active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('is-active');
+      btn.setAttribute('aria-selected', 'true');
+      const isPermits = btn.dataset.view === 'permits';
+      viewPermits.hidden = !isPermits;
+      viewSegments.hidden = isPermits;
+      filters.style.visibility = isPermits ? 'visible' : 'hidden';
+    });
+  });
+
+  // ── Editable drawer ──────────────────────────────────────────────────────────
+  const drawer = document.getElementById('permit-drawer')!;
+  const backdrop = document.getElementById('drawer-backdrop')!;
+  let activeId: string | null = null;
+
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+
+  function openDrawer(id: string) {
+    const p = byId.get(id);
+    if (!p) return;
+    activeId = id;
+
+    $('pd-agency').textContent = p.agency;
+    $('pd-title').textContent = p.name;
+    ($('pd-status') as HTMLSelectElement).value = p.status;
+    ($('pd-submitted') as HTMLInputElement).value = p.submittedDate;
+    ($('pd-estimated') as HTMLInputElement).value = p.estimatedApprovalDate;
+    ($('pd-actual') as HTMLInputElement).value = p.actualApprovalDate;
+    ($('pd-agency-input') as HTMLInputElement).value = p.agency;
+    ($('pd-type') as HTMLInputElement).value = p.type;
+
+    drawer.querySelectorAll<HTMLInputElement>('.pd-check__box').forEach((box) => {
+      box.checked = p.segmentIds.includes(box.value);
+    });
+
+    drawer.hidden = false;
+    backdrop.hidden = false;
+    requestAnimationFrame(() => {
+      drawer.classList.add('is-open');
+      backdrop.classList.add('is-open');
+    });
+  }
+
+  function closeDrawer() {
+    drawer.classList.remove('is-open');
+    backdrop.classList.remove('is-open');
+    activeId = null;
+    window.setTimeout(() => {
+      drawer.hidden = true;
+      backdrop.hidden = true;
+    }, 300);
+  }
+
+  function saveDrawer() {
+    if (!activeId) return;
+    const p = byId.get(activeId)!;
+    const newStatus = ($('pd-status') as HTMLSelectElement).value;
+    p.status = newStatus;
+    p.submittedDate = ($('pd-submitted') as HTMLInputElement).value;
+    p.estimatedApprovalDate = ($('pd-estimated') as HTMLInputElement).value;
+    p.actualApprovalDate = ($('pd-actual') as HTMLInputElement).value;
+    p.agency = ($('pd-agency-input') as HTMLInputElement).value;
+    p.type = ($('pd-type') as HTMLInputElement).value;
+    p.segmentIds = Array.from(drawer.querySelectorAll<HTMLInputElement>('.pd-check__box:checked')).map((b) => b.value);
+
+    // Live update: the row's status chip in the table.
+    const row = document.querySelector<HTMLElement>(`.grid__row[data-permit-id="${activeId}"]`);
+    if (row) {
+      const chip = row.querySelector<HTMLElement>('.status-chip');
+      if (chip) {
+        chip.style.setProperty('--_chip', STATUS_HEX[newStatus]);
+        const text = chip.childNodes[chip.childNodes.length - 1];
+        if (text) text.textContent = STATUS_LABEL[newStatus];
+      }
+      // Est. approval + segment count cells reflect the edit.
+      const cells = row.querySelectorAll('.grid__td');
+      // cell 5 = est approval (idx 5), cell 6 = segments (idx 6)
+      const fmt = (iso: string) => {
+        if (!iso) return '—';
+        const [y, m, d] = iso.split('-').map(Number);
+        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        return `${months[m - 1]} ${d}, ${y}`;
+      };
+      cells[5].textContent = fmt(p.actualApprovalDate || p.estimatedApprovalDate);
+      cells[6].textContent = String(p.segmentIds.length);
+    }
+    closeDrawer();
+  }
+
+  document.querySelectorAll<HTMLElement>('.grid__row[data-permit-id]').forEach((row) => {
+    const open = () => openDrawer(row.dataset.permitId!);
+    row.addEventListener('click', open);
+    row.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        open();
+      }
+    });
+  });
+
+  $('drawer-close').addEventListener('click', closeDrawer);
+  $('drawer-cancel').addEventListener('click', closeDrawer);
+  $('drawer-save').addEventListener('click', saveDrawer);
+  backdrop.addEventListener('click', closeDrawer);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && activeId) closeDrawer();
+  });
+</script>
+
+<style>
+  /* ═══ Toolbar: pivot toggle + filter pills ═══ */
+  .pt-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    flex-wrap: wrap;
+    margin-bottom: var(--spacing-400);
+  }
+  .pt-pivot {
+    display: inline-flex;
+    padding: var(--spacing-050);
+    background: var(--bcn-gray-100);
+    border-radius: var(--radius-300);
+  }
+  .pt-pivot__btn {
+    padding: var(--spacing-150) var(--spacing-400);
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+    border-radius: var(--radius-200);
+    transition: background 150ms ease, color 150ms ease;
+  }
+  .pt-pivot__btn.is-active {
+    background: var(--color-surface);
+    color: var(--color-primary);
+    box-shadow: var(--shadow-100, 0 1px 2px rgba(0, 0, 0, 0.08));
+  }
+
+  /* Filter pills (reusing the --filter-* token contract) */
+  .pt-filters {
+    display: flex;
+    align-items: center;
+    gap: var(--filter-container-gap);
+    flex-wrap: wrap;
+  }
+  .pt-filter-label {
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-tertiary);
+  }
+  .pt-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    padding: var(--filter-pill-padding);
+    background: var(--filter-pill-bg);
+    color: var(--filter-pill-text);
+    border-radius: var(--filter-pill-radius);
+    font-size: var(--filter-pill-font-size);
+    font-weight: var(--font-weight-medium);
+  }
+  .pt-pill:hover {
+    background: var(--filter-pill-bg-hover);
+  }
+  .pt-pill__x {
+    display: inline-flex;
+    align-items: center;
+    color: var(--filter-pill-remove-color);
+    transition: color 150ms ease;
+  }
+  .pt-pill__x:hover {
+    color: var(--filter-pill-remove-color-hover);
+  }
+  .pt-filter-clear {
+    font-size: var(--type-size-100);
+    color: var(--filter-clear-color);
+    transition: color 150ms ease;
+  }
+  .pt-filter-clear:hover {
+    color: var(--filter-clear-color-hover);
+  }
+
+  /* ═══ Data grid (hub --grid-* tokens) ═══ */
+  .grid-wrap {
+    border: var(--grid-header-border);
+    border-radius: var(--grid-radius);
+    overflow: hidden;
+    background: var(--grid-row-bg);
+  }
+  .grid {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--grid-row-font-size);
+  }
+  .grid__th {
+    text-align: left;
+    padding: var(--grid-cell-padding);
+    background: var(--grid-header-bg);
+    color: var(--grid-header-color);
+    font-weight: var(--grid-header-weight);
+    font-size: var(--grid-header-font-size);
+    border-bottom: var(--grid-header-border);
+    white-space: nowrap;
+  }
+  .grid__th--num {
+    text-align: right;
+  }
+  .grid__th--sortable {
+    cursor: pointer;
+    user-select: none;
+  }
+  .grid__th--sortable :global(.esa-icon) {
+    display: inline-flex;
+    vertical-align: middle;
+    margin-left: var(--spacing-100);
+    color: var(--color-text-tertiary);
+  }
+  .grid__row {
+    cursor: pointer;
+    transition: background 120ms ease;
+  }
+  .grid__row--static {
+    cursor: default;
+  }
+  .grid__row:not(.grid__row--static):hover {
+    background: var(--grid-row-bg-hover);
+  }
+  .grid__row:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+  .grid__td {
+    padding: var(--grid-cell-padding);
+    border-bottom: var(--grid-row-border);
+    color: var(--color-text-primary);
+    vertical-align: middle;
+  }
+  .grid__row:last-child .grid__td {
+    border-bottom: 0;
+  }
+  .grid__td--name {
+    font-weight: var(--font-weight-semibold);
+  }
+  .grid__td--muted {
+    color: var(--color-text-secondary);
+  }
+  .grid__td--num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text-secondary);
+  }
+
+  /* status chip — color via inline --_chip; matches the map's status colors */
+  .status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    padding: 2px var(--spacing-250);
+    border-radius: var(--radius-full);
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    white-space: nowrap;
+    background: color-mix(in srgb, var(--_chip) 16%, transparent);
+    color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+  }
+  .status-chip__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: var(--_chip);
+    flex-shrink: 0;
+  }
+
+  /* ═══ Editable permit drawer (ui-side-dialog pattern + form + footer) ═══ */
+  .drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1300;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    transition: opacity 280ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .drawer-backdrop.is-open {
+    opacity: 1;
+  }
+  .drawer-backdrop[hidden] {
+    display: none;
+  }
+
+  .permit-drawer {
+    position: fixed;
+    top: var(--spacing-400);
+    right: var(--spacing-400);
+    bottom: var(--spacing-400);
+    height: calc(100vh - var(--spacing-400) * 2);
+    width: 480px;
+    max-width: 90vw;
+    z-index: 1400;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--color-surface);
+    border-radius: var(--radius-400);
+    box-shadow: var(--shadow-400);
+    transform: translateX(calc(100% + var(--spacing-400)));
+    transition: transform 280ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+  .permit-drawer.is-open {
+    transform: translateX(0);
+  }
+  .permit-drawer[hidden] {
+    display: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .permit-drawer,
+    .drawer-backdrop {
+      transition-duration: 120ms;
+      transition-timing-function: linear;
+    }
+  }
+
+  .permit-drawer__header {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-300);
+    padding: var(--spacing-400) var(--spacing-600) 0;
+  }
+  .permit-drawer__header-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+  }
+  .permit-drawer__eyebrow {
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-tertiary);
+  }
+  .permit-drawer__title {
+    margin: 0;
+    font-size: 1.3125rem;
+    font-weight: var(--font-weight-bold);
+    line-height: 1.2;
+    color: var(--color-text-primary);
+  }
+  .permit-drawer__close {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-200);
+    color: var(--color-text-tertiary);
+    transition: background 150ms ease, color 150ms ease;
+  }
+  .permit-drawer__close:hover {
+    background: var(--bcn-gray-100);
+    color: var(--color-text-primary);
+  }
+
+  .permit-drawer__body {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    padding: var(--spacing-400) var(--spacing-600) var(--spacing-600);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+  .pd-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-300);
+  }
+  /* form inputs (styled to the form-control token contract) */
+  .pd-input {
+    width: 100%;
+    height: var(--form-height-md, 36px);
+    padding: 0 var(--spacing-300);
+    font-family: inherit;
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-200);
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+  select.pd-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237c7c7c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right var(--spacing-300) center;
+    padding-right: var(--spacing-600);
+  }
+  .pd-input:focus-visible {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 18%, transparent);
+  }
+
+  .pd-applicability {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .pd-applicability__label {
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .pd-checklist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+    max-height: 260px;
+    overflow: auto;
+  }
+  .pd-check + .pd-check {
+    border-top: 1px solid var(--color-border-light);
+  }
+  .pd-check__label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-200) var(--spacing-300);
+    cursor: pointer;
+  }
+  .pd-check__label:hover {
+    background: var(--bcn-gray-50);
+  }
+  .pd-check__box {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--color-primary);
+    flex-shrink: 0;
+  }
+  .pd-check__name {
+    flex: 1;
+    font-size: 0.8125rem;
+    color: var(--color-text-primary);
+  }
+  .pd-check__line {
+    font-size: 0.6875rem;
+    color: var(--color-text-tertiary);
+  }
+
+  /* footer — ui-side-dialog-footer pattern */
+  .permit-drawer__footer {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-200);
+    padding: var(--spacing-400) var(--spacing-600);
+    background: var(--bcn-gray-50);
+    border-top: 1px solid var(--bcn-gray-200);
+  }
+  .pd-action {
+    display: contents;
+  }
+</style>

@@ -40,7 +40,7 @@ export const prototypes: Prototype[] = [
     route: '/prototypes/permit-tracking',
     createdAt: '2026-06-05',
     ticket: 'BCN-1266',
-    status: 'planned',
+    status: 'in-progress',
   },
 ];
 
