@@ -23,6 +23,16 @@ export interface Prototype {
 
 export const prototypes: Prototype[] = [
   {
+    slug: 'requirement-tracker',
+    title: 'Requirement Tracker (3600 Alameda)',
+    description:
+      'The Project Tracking workspace as an AG Grid — Grid / Kanban / Timeline toggle, Grid default. Real 3600 Alameda FEIR requirements (130 rows) with the Progress Report column set, Beacon grid theme, and the standard grid header (search + clear filters) and footer (download + record count).',
+    route: '/prototypes/requirement-tracker',
+    createdAt: '2026-06-08',
+    ticket: 'BCN-1136',
+    status: 'in-progress',
+  },
+  {
     slug: 'map-dashboard',
     title: 'Interactive Map Dashboard (AWS)',
     description:

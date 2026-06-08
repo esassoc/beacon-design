@@ -1,0 +1,572 @@
+---
+// Action Tracker (Prologis) — the "Compliance Tracking" workspace.
+//
+// Prologis wants the tracking surface as a real data grid, not the Kanban the
+// app defaults to. So the View toggle offers Kanban / Timeline / Grid, and this
+// prototype boots into GRID. The grid is AG Grid (community) mounted as a client
+// island; Kanban renders statically from the same fixture; Timeline is a stub.
+//
+// Rendered inside AppShell > PageLayout, themed with the Beacon spoke tokens.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { actions, STATUS_META, type ActionStatus } from '../../data/tracker-fixture';
+
+// Serialized payload for the AG Grid island.
+const gridPayload = {
+  rows: actions,
+  statusMeta: STATUS_META as Record<ActionStatus, { label: string; hex: string }>,
+};
+
+// Prologis-specific sidenav — the aliased / trimmed tree their tenant sees.
+// Project drops Organize Actions / Action Lists / Document Reviews / Spatial
+// Library Layers; Tracking drops All Components; Reporting drops Progress
+// Report; Data Catalog drops Actions (their "Requirements" will route to the
+// Actions catalog under the upcoming Simplified fork).
+const prologisNav = [
+  { id: 'setup-wizard', title: 'Setup Wizard', icon: 'compass', link: true },
+  {
+    id: 'project',
+    title: 'Project',
+    icon: 'layout-dashboard',
+    expanded: false,
+    dividerAfter: true,
+    items: [{ id: 'dashboard', label: 'Dashboard' }],
+  },
+  {
+    id: 'tracking',
+    title: 'Tracking',
+    icon: 'radar',
+    expanded: true,
+    active: true,
+    items: [{ id: 'project-tracking', label: 'Project Tracking', active: true }],
+  },
+  {
+    id: 'monitoring',
+    title: 'Monitoring',
+    icon: 'map-pinned',
+    expanded: false,
+    items: [{ id: 'monitoring-portal', label: 'Monitoring Portal' }],
+  },
+  {
+    id: 'reporting',
+    title: 'Reporting',
+    icon: 'clipboard-list',
+    expanded: false,
+    dividerAfter: true,
+    items: [{ id: 'report-center', label: 'Report Center' }],
+  },
+  {
+    id: 'data-catalog',
+    title: 'Data Catalog',
+    icon: 'database',
+    expanded: false,
+    items: [
+      { id: 'dc-source-documents', label: 'Source Documents' },
+      { id: 'dc-commitments', label: 'Commitments' },
+      { id: 'dc-requirements', label: 'Requirements' },
+      { id: 'dc-all-data', label: 'All Data' },
+    ],
+  },
+];
+---
+
+<AppShell title="Requirement Tracking — 3600 Alameda" tenantName="Prologis" projectName="3600 Alameda" navSections={prologisNav}>
+  <PageLayout
+    title="3600 Alameda"
+    icon="radar"
+    breadcrumbs={[
+      { label: '3600 Alameda', href: '#project' },
+      { label: 'Tracking', href: '#tracking' },
+      { label: 'Project Tracking' },
+    ]}
+  >
+    <span slot="title-badge" class="ctx-badge">Project Tracking</span>
+
+    <!-- ═══ Toolbar: View toggle · Search ═══ -->
+    <div class="tt-toolbar">
+      <div class="tt-views" role="tablist" aria-label="View as">
+        <button type="button" class="tt-view is-active" data-view="grid" role="tab" aria-selected="true">
+          <EsaIcon name="grid" size="sm" paths="<rect width='18' height='18' x='3' y='3' rx='2'/><path d='M3 9h18'/><path d='M3 15h18'/><path d='M9 3v18'/><path d='M15 3v18'/>" />
+          Grid
+        </button>
+        <button type="button" class="tt-view" data-view="kanban" role="tab" aria-selected="false">
+          <EsaIcon name="columns-3" size="sm" paths="<path d='M3 3h18v18H3z'/><path d='M9 3v18'/><path d='M15 3v18'/>" />
+          Kanban
+        </button>
+        <button type="button" class="tt-view" data-view="timeline" role="tab" aria-selected="false">
+          <EsaIcon name="calendar" size="sm" paths="<path d='M8 2v4'/><path d='M16 2v4'/><rect width='18' height='18' x='3' y='4' rx='2'/><path d='M3 10h18'/>" />
+          Timeline
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ═══ GRID view (default) — Beacon grid chrome + AG Grid island ═══ -->
+    <div class="tt-view-pane" id="view-grid">
+      <!-- Grid header: global search · clear filters -->
+      <div class="grid-header">
+        <div class="grid-header__filter">
+          <EsaIcon name="search" size="sm" />
+          <input type="search" id="tt-search" class="grid-header__input" placeholder="Search requirements…" aria-label="Search requirements" />
+          <button type="button" id="tt-search-clear" class="grid-header__clear" aria-label="Clear search" hidden>
+            <EsaIcon name="x" size="xs" />
+          </button>
+        </div>
+        <button type="button" id="tt-clear-filters" class="grid-clear-filters">Clear Filters</button>
+      </div>
+
+      <div id="tracker-grid" class="tracker-grid"></div>
+
+      <!-- Grid footer: download · record count -->
+      <div class="table-footer">
+        <button type="button" id="tt-download" class="download-button">
+          <EsaIcon name="download" size="sm" paths="<path d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/><polyline points='7 10 12 15 17 10'/><line x1='12' x2='12' y1='15' y2='3'/>" />
+          Download as CSV
+        </button>
+        <div class="row-count-data">
+          Total Records: <span id="tt-total">0</span>
+          <span id="tt-filtered" class="filtered-rows-count" hidden></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ KANBAN view (stub) ═══ -->
+    <div class="tt-view-pane" id="view-kanban" hidden>
+      <div class="tt-empty">
+        <EsaIcon name="columns-3" size="lg" paths="<path d='M3 3h18v18H3z'/><path d='M9 3v18'/><path d='M15 3v18'/>" />
+        <h3>Kanban view</h3>
+        <p>Status board of actions by tracking state. Not part of this prototype pass — Grid is the wired view.</p>
+      </div>
+    </div>
+
+    <!-- ═══ TIMELINE view (stub) ═══ -->
+    <div class="tt-view-pane" id="view-timeline" hidden>
+      <div class="tt-empty">
+        <EsaIcon name="calendar" size="lg" paths="<path d='M8 2v4'/><path d='M16 2v4'/><rect width='18' height='18' x='3' y='4' rx='2'/><path d='M3 10h18'/>" />
+        <h3>Timeline view</h3>
+        <p>Gantt-style schedule of actions by due date and phase. Not part of this prototype pass — Grid is the wired view.</p>
+      </div>
+    </div>
+  </PageLayout>
+
+  <script type="application/json" id="grid-data" set:html={JSON.stringify(gridPayload)}></script>
+</AppShell>
+
+<script>
+  import { createGrid, ModuleRegistry, AllCommunityModule, themeQuartz, iconOverrides } from 'ag-grid-community';
+  import type { GridApi, GridOptions, ColDef, ICellRendererParams } from 'ag-grid-community';
+
+  ModuleRegistry.registerModules([AllCommunityModule]);
+
+  type ActionStatus = 'not-started' | 'in-progress' | 'completed' | 'not-applicable';
+  interface ActionRow {
+    name: string;
+    commitment: string;
+    sourceDoc: string;
+    requirementText: string;
+    type: string;
+    status: ActionStatus;
+    comments: number;
+    action: string;
+    milestones: string;
+    resourceCategory: string;
+    phase: string;
+  }
+  interface Payload {
+    rows: ActionRow[];
+    statusMeta: Record<ActionStatus, { label: string; hex: string }>;
+  }
+
+  const payload: Payload = JSON.parse(document.getElementById('grid-data')!.textContent || '{}');
+  const { rows, statusMeta } = payload;
+
+  // Beacon "gold-star" Quartz theme — ported verbatim from esassoc/Beacon
+  // (Beacon.Web/.../ag-grid/beacon-grid-theme.ts). Literal hex, each annotated
+  // with the Beacon design token it mirrors.
+  const lucideFunnelSvg =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>';
+  const beaconIconOverrides = iconOverrides({
+    type: 'image',
+    mask: true,
+    icons: { filter: { svg: lucideFunnelSvg }, filterActive: { svg: lucideFunnelSvg } },
+  });
+
+  const beaconTheme = themeQuartz.withPart(beaconIconOverrides).withParams({
+    fontFamily: 'DM Sans, sans-serif',
+    headerFontFamily: 'DM Sans, sans-serif',
+    accentColor: '#f9a134', // ESA orange / --accent
+    foregroundColor: '#3d3d3d', // gray-900
+    headerBackgroundColor: '#005862', // teal-900 / --primary
+    headerTextColor: '#ffffff',
+    headerFontSize: '13px',
+    headerFontWeight: 600,
+    headerHeight: 48,
+    rowHeight: 44,
+    dataFontSize: '13px',
+    oddRowBackgroundColor: '#fafafa', // gray-50
+    rowHoverColor: '#effefb', // teal-50
+    borderColor: '#dcdcdc', // gray-200
+    wrapperBorder: '1px solid #dcdcdc', // gray-200
+    wrapperBorderRadius: '4px 4px 0 0',
+    borderRadius: '4px',
+    headerColumnResizeHandleColor: 'rgba(255, 255, 255, 0.2)',
+    checkboxCheckedBackgroundColor: '#f9a134', // ESA orange / --accent
+  });
+
+  // ── Renderers ───────────────────────────────────────────────────────────────
+  function statusRenderer(p: ICellRendererParams<ActionRow>) {
+    const meta = statusMeta[p.value as ActionStatus];
+    if (!meta) return '';
+    const el = document.createElement('span');
+    el.className = 'tg-chip';
+    el.style.setProperty('--_chip', meta.hex);
+    el.innerHTML = `<span class="tg-chip__dot"></span>${meta.label}`;
+    return el;
+  }
+
+  function linkRenderer(p: ICellRendererParams<ActionRow>) {
+    const el = document.createElement('a');
+    el.className = 'tg-name';
+    el.href = '#';
+    el.textContent = String(p.value ?? '');
+    el.addEventListener('click', (e) => e.preventDefault());
+    return el;
+  }
+
+  // Column set mirrors the live Progress Report view. Explicit (wider) widths so
+  // the grid overflows the viewport and scrolls left/right, the way Beacon's
+  // data-catalog grids do — no fit-to-width.
+  const columnDefs: ColDef<ActionRow>[] = [
+    { field: 'sourceDoc', headerName: 'Source Document', width: 260, cellRenderer: linkRenderer },
+    { field: 'commitment', headerName: 'Commitment ID', width: 170, cellRenderer: linkRenderer },
+    { field: 'name', headerName: 'Requirement Name', width: 340, cellRenderer: linkRenderer },
+    { field: 'requirementText', headerName: 'Requirement Text', width: 460 },
+    { field: 'type', headerName: 'Requirement Type', width: 200 },
+    { field: 'status', headerName: 'Status', width: 180, cellRenderer: statusRenderer, cellClass: 'tg-status-cell', filterValueGetter: (p) => statusMeta[p.data!.status]?.label },
+    { field: 'comments', headerName: 'Comment', width: 150, type: 'numericColumn', valueFormatter: (p) => (p.value ? String(p.value) : '') },
+    { field: 'action', headerName: 'Action', width: 260 },
+    { field: 'milestones', headerName: 'Milestone(s)', width: 200 },
+    { field: 'resourceCategory', headerName: 'Resource Category', width: 240 },
+  ];
+
+  // ── Footer record counts (Total / Filtered) ───────────────────────────────
+  const totalEl = document.getElementById('tt-total')!;
+  const filteredEl = document.getElementById('tt-filtered')!;
+  function updateCounts() {
+    const total = rows.length;
+    const displayed = api.getDisplayedRowCount();
+    totalEl.textContent = String(total);
+    if (displayed < total) {
+      filteredEl.hidden = false;
+      filteredEl.textContent = `Filtered Records: ${displayed}`;
+    } else {
+      filteredEl.hidden = true;
+    }
+  }
+
+  const gridOptions: GridOptions<ActionRow> = {
+    theme: beaconTheme,
+    rowData: rows,
+    columnDefs,
+    defaultColDef: {
+      sortable: true,
+      resizable: true,
+      filter: true,
+      floatingFilter: false,
+      suppressHeaderMenuButton: true,
+      tooltipValueGetter: (p) => p.value,
+    },
+    tooltipShowDelay: 0,
+    tooltipInteraction: true,
+    tooltipShowMode: 'whenTruncated',
+    onFirstDataRendered: updateCounts,
+    onFilterChanged: updateCounts,
+  };
+
+  const gridDiv = document.getElementById('tracker-grid')!;
+  const api: GridApi<ActionRow> = createGrid(gridDiv, gridOptions);
+
+  // ── Grid header: search → quick filter (+ clear-x) ─────────────────────────
+  const search = document.getElementById('tt-search') as HTMLInputElement;
+  const searchClear = document.getElementById('tt-search-clear')!;
+  search?.addEventListener('input', () => {
+    api.setGridOption('quickFilterText', search.value);
+    searchClear.hidden = !search.value;
+  });
+  searchClear.addEventListener('click', () => {
+    search.value = '';
+    api.setGridOption('quickFilterText', '');
+    searchClear.hidden = true;
+    search.focus();
+  });
+
+  // ── Clear Filters → reset all column filters (Beacon parity) ───────────────
+  document.getElementById('tt-clear-filters')!.addEventListener('click', () => api.setFilterModel(null));
+
+  // ── Download as CSV ────────────────────────────────────────────────────────
+  document.getElementById('tt-download')!.addEventListener('click', () =>
+    api.exportDataAsCsv({ fileName: '3600-alameda-requirements.csv' }),
+  );
+
+  // ── View toggle (Kanban / Timeline / Grid) ────────────────────────────────
+  const panes: Record<string, HTMLElement> = {
+    grid: document.getElementById('view-grid')!,
+    kanban: document.getElementById('view-kanban')!,
+    timeline: document.getElementById('view-timeline')!,
+  };
+  document.querySelectorAll<HTMLButtonElement>('.tt-view').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const view = btn.dataset.view!;
+      document.querySelectorAll('.tt-view').forEach((b) => {
+        b.classList.toggle('is-active', b === btn);
+        b.setAttribute('aria-selected', String(b === btn));
+      });
+      Object.entries(panes).forEach(([key, el]) => (el.hidden = key !== view));
+    });
+  });
+</script>
+
+<style>
+  /* ═══ Title badge — neutral, sits directly right of the H1 ═══ */
+  .ctx-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--spacing-100) var(--spacing-250);
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    background: var(--bcn-gray-100);
+    border: 1px solid var(--bcn-gray-200);
+    border-radius: var(--radius-100, 4px);
+  }
+
+  /* ═══ Toolbar ═══ */
+  .tt-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    flex-wrap: wrap;
+    margin-bottom: var(--spacing-400);
+  }
+  .tt-views {
+    display: inline-flex;
+    padding: var(--spacing-050);
+    background: var(--bcn-gray-100);
+    border-radius: var(--radius-300);
+  }
+  .tt-view {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    padding: var(--spacing-150) var(--spacing-400);
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+    border-radius: var(--radius-200);
+    transition: background 150ms ease, color 150ms ease;
+  }
+  .tt-view :global(.esa-icon) {
+    color: currentColor;
+  }
+  .tt-view.is-active {
+    background: var(--color-surface);
+    color: var(--color-primary);
+    box-shadow: var(--shadow-100, 0 1px 2px rgba(0, 0, 0, 0.08));
+  }
+
+  /* ═══ View panes ═══ */
+  .tt-view-pane[hidden] {
+    display: none;
+  }
+
+  /* ═══ Beacon grid header: search · clear filters ═══ */
+  .grid-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    margin-bottom: var(--spacing-300);
+  }
+  .grid-header__filter {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: 0 var(--spacing-300);
+    height: 36px;
+    min-width: 280px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-strong, #c7c7c7);
+    border-radius: var(--radius-200);
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+  .grid-header__filter:focus-within {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 18%, transparent);
+  }
+  .grid-header__filter :global(.esa-icon) {
+    color: var(--color-text-tertiary);
+    flex-shrink: 0;
+  }
+  .grid-header__input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+  }
+  .grid-header__input:focus {
+    outline: none;
+  }
+  .grid-header__clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-tertiary);
+    border-radius: var(--radius-100, 4px);
+  }
+  .grid-header__clear:hover {
+    color: var(--color-text-primary);
+  }
+  .grid-clear-filters {
+    height: 36px;
+    padding: 0 var(--spacing-400);
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    background: var(--bcn-gray-100);
+    border: 1px solid var(--bcn-gray-200);
+    border-radius: var(--radius-200);
+    white-space: nowrap;
+    transition: background 150ms ease, color 150ms ease;
+  }
+  .grid-clear-filters:hover {
+    background: var(--bcn-gray-200);
+    color: var(--color-text-primary);
+  }
+
+  /* ═══ AG Grid host ═══ */
+  .tracker-grid {
+    width: 100%;
+    height: calc(100vh - 420px);
+    min-height: 400px;
+  }
+
+  /* ═══ Beacon grid footer: download · record count ═══ */
+  .table-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    padding: var(--spacing-200) var(--spacing-400);
+    background: var(--bcn-gray-50);
+    border: 1px solid var(--bcn-gray-200);
+    border-top: 0;
+    border-radius: 0 0 var(--radius-100, 4px) var(--radius-100, 4px);
+  }
+  .download-button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-link, #005862);
+    border-radius: var(--radius-100, 4px);
+    transition: color 150ms ease;
+  }
+  .download-button:hover {
+    color: var(--color-primary-hover, #00474f);
+  }
+  .download-button :global(.esa-icon) {
+    color: currentColor;
+  }
+  .row-count-data {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-400);
+    font-size: var(--type-size-100);
+    color: var(--color-text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+  .filtered-rows-count {
+    color: var(--color-text-tertiary);
+  }
+  .filtered-rows-count[hidden] {
+    display: none;
+  }
+  .grid-header__clear[hidden] {
+    display: none;
+  }
+  /* Chip + name renderers (global — AG Grid injects cells outside scope) */
+  /* Status cell: vertically center the compact chip in the row. */
+  :global(.ag-cell.tg-status-cell) {
+    display: flex;
+    align-items: center;
+  }
+  :global(.tg-chip) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    padding: 1px var(--spacing-200);
+    border-radius: var(--radius-100, 4px);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    font-weight: var(--font-weight-semibold);
+    white-space: nowrap;
+    background: color-mix(in srgb, var(--_chip) 16%, transparent);
+    color: color-mix(in srgb, var(--_chip) 70%, #1a1a1a);
+  }
+  :global(.tg-chip__dot) {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--_chip);
+    flex-shrink: 0;
+  }
+  :global(.tg-name) {
+    color: var(--color-text-link, #005862);
+    font-weight: var(--font-weight-regular, 400);
+    text-decoration: underline;
+  }
+  :global(.tg-name:hover) {
+    color: var(--color-primary-hover, #00474f);
+  }
+
+
+  /* ═══ Empty state (timeline stub) ═══ */
+  .tt-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-900) var(--spacing-400);
+    color: var(--color-text-secondary);
+  }
+  .tt-empty :global(.esa-icon) {
+    color: var(--color-text-tertiary);
+  }
+  .tt-empty h3 {
+    margin: var(--spacing-200) 0 0;
+    font-size: var(--type-size-300);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .tt-empty p {
+    margin: 0;
+    max-width: 46ch;
+    line-height: 1.55;
+  }
+
+</style>
+
+<!-- Green radar icon in the H1 (PageLayout renders the icon outside this page's
+     scope, so override globally; only this page loads this rule). -->
+<style is:global>
+  .page-layout__title h1 .esa-icon {
+    color: var(--color-secondary) !important;
+  }
+</style>

@@ -4,3 +4,11 @@ dist/
 *.log
 .playwright-mcp/
 .astro/
+
+# Handoff bundles regenerate via `npm run handoff:all` (the spec in
+# src/data/handoff/<slug>.mjs is the committed source of truth). Manifests +
+# whole-page captures are build artifacts; keep only the browsable, curated
+# design-intent docs (public/handoff/<slug>/claude/*.md).
+public/handoff/**
+!public/handoff/**/
+!public/handoff/**/claude/*.md

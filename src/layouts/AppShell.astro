@@ -96,6 +96,7 @@ const {
       icon: 'layout-dashboard',
       iconPaths: LUCIDE['layout-dashboard'],
       expanded: true,
+      dividerAfter: true,
       items: [
         { id: 'dashboard', label: 'Dashboard', active: true },
         { id: 'source-documents', label: 'Source Documents' },
@@ -133,6 +134,7 @@ const {
       icon: 'clipboard-list',
       iconPaths: LUCIDE['clipboard-list'],
       expanded: true,
+      dividerAfter: true,
       items: [
         { id: 'progress-report', label: 'Progress Report' },
         { id: 'report-center', label: 'Report Center' },
@@ -143,7 +145,14 @@ const {
       title: 'Data Catalog',
       icon: 'database',
       iconPaths: LUCIDE['database'],
-      link: true,
+      expanded: true,
+      items: [
+        { id: 'dc-source-documents', label: 'Source Documents' },
+        { id: 'dc-commitments', label: 'Commitments' },
+        { id: 'dc-requirements', label: 'Requirements' },
+        { id: 'dc-actions', label: 'Actions' },
+        { id: 'dc-all-data', label: 'All Data' },
+      ],
     },
   ],
 } = Astro.props as Props;
@@ -277,7 +286,7 @@ const {
                 {section.link ? (
                   <div class:list={['nav-section', { 'nav-section--active': section.active }]}>
                     <a href={`#${section.id}`} class="nav-section__header nav-section__header--link">
-                      <EsaIcon name={section.icon} size="sm" paths={section.iconPaths} />
+                      <EsaIcon name={section.icon} size="sm" paths={section.iconPaths ?? LUCIDE[section.icon as keyof typeof LUCIDE]} />
                       <span class="nav-section__title">{section.title}</span>
                     </a>
                   </div>
@@ -289,7 +298,7 @@ const {
                     ]}
                   >
                     <button type="button" class="nav-section__header" aria-expanded={section.expanded ? 'true' : 'false'}>
-                      <EsaIcon name={section.icon} size="sm" paths={section.iconPaths} />
+                      <EsaIcon name={section.icon} size="sm" paths={section.iconPaths ?? LUCIDE[section.icon as keyof typeof LUCIDE]} />
                       <span class="nav-section__title">{section.title}</span>
                       <EsaIcon name="chevron-down" size="sm" />
                     </button>
