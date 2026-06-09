@@ -1,0 +1,159 @@
+---
+// Specimen / isolation harness for <BcnRequirementReference>. Renders the component
+// for three requirements with DIFFERENTIAL metadata so the conditional trio (Species /
+// Season / Construction activity) and Milestone visibly drop out, and wires the shared
+// source-document drawer the component's [data-bcn-source] trigger opens.
+//
+// This is the documented home of the bcn- component — drop it on any page with a
+// `requirement` and an `editHref` and it works.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaPill from '@esa/ecology/esa-pill.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaIconLink from '@esa/ecology/esa-icon-link.astro';
+import BcnRequirementReference from '../../components/bcn/BcnRequirementReference.astro';
+import { resolveFields, type RequirementReference } from '../../components/bcn/requirement-reference';
+import { withBase } from '../../lib/base';
+
+// Identity (shown only in the muted dialog-header echo) + the requirement payload.
+interface Sample {
+  commitment: string;
+  title: string;
+  requirement: RequirementReference;
+}
+const samples: Sample[] = [
+  {
+    commitment: 'MM-BIO-2',
+    title: 'Pre-Construction Nesting Bird Survey',
+    requirement: {
+      resourceCategory: 'Biological Resources',
+      type: 'Survey',
+      phase: 'Pre-Construction',
+      milestone: 'Building Permit',
+      species: ['Nesting raptors', 'Migratory birds'],
+      season: 'Feb 1 – Aug 31',
+      constructionActivities: ['Ground disturbance', 'Vegetation removal'],
+      responsibleParty: 'Project Biologist',
+      expectedEvidence: 'Survey report (PDF)',
+      text: 'Prior to any ground-disturbing activities or vegetation removal occurring during the nesting season (February 1 – August 31), a qualified biologist shall conduct a pre-construction survey for nesting raptors and other migratory birds within the project area and a 500-foot buffer. If active nests are identified, the biologist shall establish no-disturbance buffer zones and submit findings to the City prior to commencing work.',
+    },
+  },
+  {
+    commitment: 'SCA AIR-1',
+    title: 'Construction Dust Control — Watering',
+    requirement: {
+      resourceCategory: 'Air Quality',
+      type: 'Monitoring',
+      phase: 'Construction',
+      constructionActivities: ['Earthwork', 'Grading', 'Demolition'],
+      responsibleParty: 'QSP / Inspector',
+      expectedEvidence: 'Monitoring log',
+      text: 'Exposed surfaces, stockpiles, and unpaved haul routes shall be watered as needed to maintain a stabilized surface and prevent visible dust emissions from leaving the site during active earthmoving. Watering frequency shall be sufficient to keep disturbed soils visibly moist.',
+    },
+  },
+  {
+    commitment: 'SCA AES-2',
+    title: 'Graffiti Best Management Practices',
+    requirement: {
+      resourceCategory: 'Aesthetics',
+      type: 'Avoidance & BMPs',
+      phase: 'Construction',
+      responsibleParty: 'Property Manager',
+      expectedEvidence: 'Inspection checklist',
+      text: 'The applicant shall use graffiti-resistant materials and coatings on publicly visible surfaces and shall remove any graffiti within 72 hours of notification for the life of the project.',
+    },
+  },
+];
+
+const trioCount = (r: RequirementReference) => [r.species, r.season, r.constructionActivities].filter(Boolean).length;
+---
+
+<BaseLayout title="Requirement Reference — bcn- component">
+  <main class="lab">
+    <header class="lab__head">
+      <h1 class="lab__title">&lt;BcnRequirementReference&gt; — specimen</h1>
+      <p class="lab__intro">
+        The reusable component that replaces the dialog's gray <em>Requirement reference</em> box, shown across three
+        requirements with different metadata. The dialog header carries identity, so the block leads with the requirement
+        text in <strong>Besley serif</strong>, then a calm definition grid. The conditional trio (<strong>Species · Season ·
+        Construction activity</strong>) and Milestone render only when present. Frequency is fixed <strong>One-time</strong>.
+      </p>
+    </header>
+
+    {samples.map((s) => (
+      <section class="opt">
+        <div class="opt__bar">
+          <span class="opt__name">{s.commitment} — {s.requirement.resourceCategory}</span>
+          <span class="opt__note">{resolveFields(s.requirement).filter((f) => f.present).length} fields · conditional trio: {trioCount(s.requirement)} of 3</span>
+        </div>
+        <div class="opt__stage">
+          <div class="ctx">
+            <span class="ctx__tag">Dialog header</span>
+            <span class="commitment-id">{s.commitment}</span>
+            <span class="ctx__title">{s.title}</span>
+            <EsaPill label={s.requirement.type} removable={false} size="sm" />
+          </div>
+          <BcnRequirementReference requirement={s.requirement} />
+        </div>
+      </section>
+    ))}
+  </main>
+
+  <!-- Shared half-page PDF drawer — the host owns it; the component's
+       [data-bcn-source] triggers open it. -->
+  <esa-side-dialog id="source-drawer" heading="Source Document" size="lg" style="--_width: 52vw;">
+    <div class="srcbar">
+      <span class="srcbar__doc"><EsaIcon name="file-text" size="sm" /> 3600 Alameda Avenue Project FEIR</span>
+      <span class="srcbar__loc">Mitigation Monitoring &amp; Reporting Program</span>
+    </div>
+    <div class="pdf">
+      <iframe class="pdf__frame" src={`${withBase('/source-docs/feir-sample.pdf')}?v=187#view=FitH`} title="Source document — 3600 Alameda FEIR (sample)"></iframe>
+    </div>
+    <span slot="footer" class="srcfoot">
+      <EsaIconLink href={withBase('/source-docs/feir-sample.pdf')} icon="external-link" size="sm" weight="medium">Open full document</EsaIconLink>
+      <span id="source-close"><EsaButton color="primary" size="sm">Close</EsaButton></span>
+    </span>
+  </esa-side-dialog>
+</BaseLayout>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+
+  const drawer = document.getElementById('source-drawer') as HTMLElement & { show(): void; close(): void };
+  document.querySelectorAll('[data-bcn-source]').forEach((el) => el.addEventListener('click', () => drawer.show()));
+  document.getElementById('source-close')?.addEventListener('click', () => drawer.close());
+</script>
+
+<style>
+  /* ═══ Lab scaffolding (not product chrome) ═══ */
+  .lab { max-width: 960px; margin: 0 auto; padding: var(--spacing-700, 2.5rem) var(--spacing-500) var(--spacing-800, 4rem); display: flex; flex-direction: column; gap: var(--spacing-700, 2.5rem); }
+  .lab__head { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .lab__title { margin: 0; font-family: var(--font-decorative); font-size: 2rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .lab__intro { margin: 0; max-width: 74ch; font-size: var(--type-size-200, 1rem); line-height: 1.6; color: var(--color-text-secondary); }
+  .lab__intro strong { color: var(--color-text-primary); font-weight: var(--font-weight-semibold); }
+  .lab__intro em { font-style: italic; }
+
+  .opt { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .opt__bar { display: flex; align-items: baseline; gap: var(--spacing-300); flex-wrap: wrap; }
+  .opt__name { font-size: var(--type-size-300, 1.125rem); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .opt__note { font-size: var(--type-size-100, 0.875rem); color: var(--color-text-tertiary); }
+  .opt__stage { display: flex; flex-direction: column; gap: var(--spacing-400); padding: var(--spacing-600, 2rem); background: var(--color-surface, #fff); border: 1px dashed var(--bcn-gray-200); border-radius: var(--radius-400, 0.75rem); }
+
+  /* Muted dialog-header echo (context only — not part of the component). */
+  .ctx { display: inline-flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; padding: var(--spacing-200) var(--spacing-300); background: var(--bcn-gray-50); border: 1px dashed var(--bcn-gray-300); border-radius: var(--radius-300, 0.5rem); align-self: flex-start; opacity: 0.9; }
+  .ctx__tag { font-size: var(--type-size-100, 0.875rem); color: var(--color-text-tertiary); }
+  .ctx__title { font-family: var(--font-decorative); font-size: 1.125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  /* bcn-lego-checked: this purple Commitment-ID badge echoes the dialog header for
+     context only (Beacon identity token --color-commitment; no esa- purple variant) —
+     it is NOT part of the component. Lab scaffolding. */
+  .commitment-id { flex-shrink: 0; padding: 0.125rem 0.375rem; border-radius: var(--radius-100, 0.25rem); font-size: var(--type-size-100, 0.875rem); font-weight: var(--font-weight-semibold); line-height: 1.4; white-space: nowrap; color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); }
+
+  /* ═══ Shared PDF drawer (esa-side-dialog slotted body) ═══ */
+  .srcbar { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); padding-bottom: var(--spacing-300); margin-bottom: var(--spacing-300); border-bottom: 1px solid var(--bcn-gray-200); flex-wrap: wrap; }
+  .srcbar__doc { display: inline-flex; align-items: center; gap: var(--spacing-200); font-size: var(--type-size-100, 0.875rem); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .srcbar__doc :global(.esa-icon) { color: var(--color-text-secondary); }
+  .srcbar__loc { font-size: var(--type-size-100, 0.875rem); color: var(--color-text-tertiary); }
+  .pdf { height: calc(100vh - 11rem); min-height: 360px; border: 1px solid var(--bcn-gray-200); border-radius: var(--radius-300, 0.5rem); overflow: hidden; background: var(--bcn-gray-100); }
+  .pdf__frame { width: 100%; height: 100%; border: 0; }
+  .srcfoot { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-400); width: 100%; }
+</style>
