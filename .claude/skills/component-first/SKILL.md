@@ -59,7 +59,7 @@ esa-textarea       esa-tooltip
 
 ## Reinvented → Use the Lego (cautionary table)
 
-Every row below is a **real anti-pattern from this repo's `src/pages/prototypes/requirement-tracker.astro`** — do NOT repeat these. (That file is out of scope; cited only as the cautionary example.)
+Every row below was a **real anti-pattern from `src/pages/prototypes/requirement-tracker.astro`** — do NOT repeat these. That file has since been refactored into a **component manifest** (esa-* legos + documented bcn-* components) and is now the **reference for how a page should look**, not the warning. The rows below remain the canonical "reach for the lego, don't hand-roll it" list.
 
 | Reinvented (bespoke) | Use the lego instead |
 |----------------------|----------------------|

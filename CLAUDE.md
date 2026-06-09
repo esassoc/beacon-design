@@ -17,7 +17,10 @@ When ANY UI is needed, walk these tiers **in order**. Stop at the first hit.
 2. **Beacon next — the prod app.** `~/Dev/Beacon/Beacon.Web/src/app/shared/ui/components/` (Angular `ui-*`) and `~/Dev/Beacon/Beacon.Web/src/scss/`. Port the pattern faithfully (tokens, structure).
 3. **Only then a `bcn-` component.** If nothing exists, build a *real, reusable, documented* component prefixed `bcn-` — never a one-off `.rd-`/`.tt-` page blob. Token-driven, reusable in isolation.
 
-## Reinvented → use the lego (cautionary — from `src/pages/prototypes/requirement-tracker.astro`)
+## Reinvented → use the lego (the lookup that was missed the first time)
+
+Each of these bespoke primitives was hand-rolled before the lego was found. When you
+catch yourself about to write one, stop and reach for the lego instead:
 
 | Reinvented (don't) | Use instead |
 |--------------------|-------------|
@@ -31,7 +34,14 @@ When ANY UI is needed, walk these tiers **in order**. Stop at the first hit.
 | `.rd-field` wrappers | esa-form-field + esa-field-error |
 | raw `<input>`/`<select>`/styled `<button>` | esa-text-field / esa-select / esa-button |
 
-(`requirement-tracker.astro` is the cautionary example — leave it as-is; don't refactor it.)
+`requirement-tracker.astro` was the cautionary blob the rows above came from. It has
+since been refactored into a **component manifest**: it assembles esa-* legos +
+documented `bcn-*` components (`BcnStatusSelect`, `BcnFieldSection`, `BcnKeyValue`,
+`BcnChangeLog`, `BcnNotifications`, `BcnEvidenceList`, `BcnRequirementReference`,
+`BcnDiscussion`), and the only CSS left in the page is composition glue (grid chrome +
+dialog shell geometry). Treat it now as the **reference for how a page SHOULD look**,
+not what to avoid. Token rule it also enforces: components read the **semantic** layer
+(`--color-*`, `--form-*`, `--bcn-status-*`), never the raw `--bcn-gray-*` ramp.
 
 ## Escape hatch — `bcn-lego-checked:`
 
