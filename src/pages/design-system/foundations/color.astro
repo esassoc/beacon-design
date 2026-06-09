@@ -1,0 +1,26 @@
+---
+import DocsLayout from '../../../layouts/DocsLayout.astro';
+import ColorFoundation from '@esa/docs/ColorFoundation.astro';
+
+// Only Beacon's own primitive ramp is spoke-specific; the semantic roles + their
+// live values come from @esa/docs. The warm-gray ramp is Beacon's authoritative
+// neutrals (theme-beacon.css → _colors.scss).
+const grays = [
+  { step: '0', token: 'bcn-gray-0' },
+  { step: '50', token: 'bcn-gray-50' },
+  { step: '100', token: 'bcn-gray-100' },
+  { step: '200', token: 'bcn-gray-200' },
+  { step: '300', token: 'bcn-gray-300' },
+  { step: '400', token: 'bcn-gray-400' },
+  { step: '500', token: 'bcn-gray-500' },
+  { step: '600', token: 'bcn-gray-600' },
+  { step: '700', token: 'bcn-gray-700' },
+  { step: '800', token: 'bcn-gray-800' },
+  { step: '900', token: 'bcn-gray-900' },
+  { step: '950', token: 'bcn-gray-950' },
+  { step: '1000', token: 'bcn-gray-1000' },
+];
+---
+<DocsLayout title="Color — Beacon" activeHref="/design-system/foundations/color">
+  <ColorFoundation brand="Beacon" ramps={[{ name: 'Warm gray — Beacon neutrals', steps: grays }]} />
+</DocsLayout>

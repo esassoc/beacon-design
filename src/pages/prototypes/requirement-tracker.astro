@@ -10,6 +10,14 @@
 import AppShell from '../../layouts/AppShell.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaPill from '@esa/ecology/esa-pill.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import EsaAvatar from '@esa/ecology/esa-avatar.astro';
+import EsaIconLink from '@esa/ecology/esa-icon-link.astro';
 import { actions, STATUS_META, type ActionStatus } from '../../data/tracker-fixture';
 
 // Serialized payload for the AG Grid island.
@@ -17,6 +25,33 @@ const gridPayload = {
   rows: actions,
   statusMeta: STATUS_META as Record<ActionStatus, { label: string; hex: string }>,
 };
+
+// Evidence-of-Compliance fixture for the dialog drawer (mirrors the Beacon
+// EvidenceOfCompliance shape: Title / Notes / TagsList / Files). Three items so
+// the drawer shows a realistic list. Cards are collapsed by default.
+const eocs = [
+  {
+    id: 'eoc-1',
+    title: 'C-57 Driller License',
+    notes: 'Active C-57 driller license on file; renewed annually before the dry season.',
+    tags: ['License', 'Pre-construction'],
+    files: ['C57-driller-license-2026.pdf', 'license-renewal-receipt.pdf'],
+  },
+  {
+    id: 'eoc-2',
+    title: 'Pre-Construction Nesting Bird Survey',
+    notes: 'Survey completed within 3 days of ground disturbance; no active nests found.',
+    tags: ['Survey', 'Biological'],
+    files: ['nesting-bird-survey-2026.pdf'],
+  },
+  {
+    id: 'eoc-3',
+    title: 'WEAP Training Sign-In Sheets',
+    notes: '',
+    tags: ['Training'],
+    files: ['weap-signin-2026-05.pdf', 'weap-signin-2026-06.pdf', 'weap-slides.pdf'],
+  },
+];
 
 // Prologis-specific sidenav — the aliased / trimmed tree their tenant sees.
 // Project drops Organize Actions / Action Lists / Document Reviews / Spatial
@@ -81,25 +116,11 @@ const prologisNav = [
       { label: 'Project Tracking' },
     ]}
   >
-    <span slot="title-badge" class="ctx-badge">Project Tracking</span>
+    <EsaPill slot="title-badge" label="Project Tracking" removable={false} size="sm" />
 
-    <!-- ═══ Toolbar: View toggle · Search ═══ -->
+    <!-- ═══ Toolbar: View toggle (esa-button-toggle; options set in JS) ═══ -->
     <div class="tt-toolbar">
-      <div class="tt-views" role="tablist" aria-label="View as">
-        <button type="button" class="tt-view is-active" data-view="grid" role="tab" aria-selected="true">
-          <EsaIcon name="grid" size="sm" paths="<rect width='18' height='18' x='3' y='3' rx='2'/><path d='M3 9h18'/><path d='M3 15h18'/><path d='M9 3v18'/><path d='M15 3v18'/>" />
-          Grid
-        </button>
-        <button type="button" class="tt-view" data-view="kanban" role="tab" aria-selected="false">
-          <EsaIcon name="columns-3" size="sm" paths="<path d='M3 3h18v18H3z'/><path d='M9 3v18'/><path d='M15 3v18'/>" />
-          Kanban
-        </button>
-        <button type="button" class="tt-view" data-view="timeline" role="tab" aria-selected="false">
-          <EsaIcon name="calendar" size="sm" paths="<path d='M8 2v4'/><path d='M16 2v4'/><rect width='18' height='18' x='3' y='4' rx='2'/><path d='M3 10h18'/>" />
-          Timeline
-        </button>
-      </div>
-
+      <esa-button-toggle id="tt-views" value="grid" size="md"></esa-button-toggle>
     </div>
 
     <!-- ═══ GRID view (default) — Beacon grid chrome + AG Grid island ═══ -->
@@ -107,23 +128,17 @@ const prologisNav = [
       <!-- Grid header: global search · clear filters -->
       <div class="grid-header">
         <div class="grid-header__filter">
-          <EsaIcon name="search" size="sm" />
-          <input type="search" id="tt-search" class="grid-header__input" placeholder="Search requirements…" aria-label="Search requirements" />
-          <button type="button" id="tt-search-clear" class="grid-header__clear" aria-label="Clear search" hidden>
-            <EsaIcon name="x" size="xs" />
-          </button>
+          <esa-text-field id="tt-search" placeholder="Search requirements…" size="sm"></esa-text-field>
+          <span id="tt-search-clear" hidden><EsaIconButton icon="x" label="Clear search" size="sm" /></span>
         </div>
-        <button type="button" id="tt-clear-filters" class="grid-clear-filters">Clear Filters</button>
+        <span id="tt-clear-filters"><EsaButton color="ghost" appearance="outline" size="sm">Clear Filters</EsaButton></span>
       </div>
 
       <div id="tracker-grid" class="tracker-grid"></div>
 
       <!-- Grid footer: download · record count -->
       <div class="table-footer">
-        <button type="button" id="tt-download" class="download-button">
-          <EsaIcon name="download" size="sm" paths="<path d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'/><polyline points='7 10 12 15 17 10'/><line x1='12' x2='12' y1='15' y2='3'/>" />
-          Download as CSV
-        </button>
+        <span id="tt-download"><EsaButton color="ghost" appearance="outline" size="sm" icon="download">Download as CSV</EsaButton></span>
         <div class="row-count-data">
           Total Records: <span id="tt-total">0</span>
           <span id="tt-filtered" class="filtered-rows-count" hidden></span>
@@ -133,22 +148,338 @@ const prologisNav = [
 
     <!-- ═══ KANBAN view (stub) ═══ -->
     <div class="tt-view-pane" id="view-kanban" hidden>
-      <div class="tt-empty">
-        <EsaIcon name="columns-3" size="lg" paths="<path d='M3 3h18v18H3z'/><path d='M9 3v18'/><path d='M15 3v18'/>" />
-        <h3>Kanban view</h3>
-        <p>Status board of actions by tracking state. Not part of this prototype pass — Grid is the wired view.</p>
-      </div>
+      <EsaEmptyState title="Kanban view" description="Status board of actions by tracking state. Not part of this prototype pass — Grid is the wired view.">
+        <EsaIcon slot="icon" name="columns-3" size="xl" paths="<path d='M3 3h18v18H3z'/><path d='M9 3v18'/><path d='M15 3v18'/>" />
+      </EsaEmptyState>
     </div>
 
     <!-- ═══ TIMELINE view (stub) ═══ -->
     <div class="tt-view-pane" id="view-timeline" hidden>
-      <div class="tt-empty">
-        <EsaIcon name="calendar" size="lg" paths="<path d='M8 2v4'/><path d='M16 2v4'/><rect width='18' height='18' x='3' y='4' rx='2'/><path d='M3 10h18'/>" />
-        <h3>Timeline view</h3>
-        <p>Gantt-style schedule of actions by due date and phase. Not part of this prototype pass — Grid is the wired view.</p>
-      </div>
+      <EsaEmptyState title="Timeline view" description="Gantt-style schedule of actions by due date and phase. Not part of this prototype pass — Grid is the wired view.">
+        <EsaIcon slot="icon" name="calendar" size="xl" paths="<path d='M8 2v4'/><path d='M16 2v4'/><rect width='18' height='18' x='3' y='4' rx='2'/><path d='M3 10h18'/>" />
+      </EsaEmptyState>
     </div>
   </PageLayout>
+
+  <!-- ═══ Requirement dialog (simplified action-implementation upsert) ═══
+       esa-* legos: esa-dialog (max 1920px, fixed 86vh, --color-action pink top) +
+       esa-select / esa-date-picker / esa-textarea / esa-switch-toggle / esa-button.
+       No tabs. Jira-style: independently-scrolling main + sidebar two-column, with
+       Status primary at the top of the rail and Details / Notifications as native
+       <details> collapsibles. Evidence of Compliance is a full-width sticky bar
+       below the two columns that expands a scrollable area. Action Plan + Tasks are
+       hidden — assume the Prologis "simplified" config turns them off. -->
+  <esa-dialog
+    id="rd"
+    size="lg"
+    style="--_dialog-width: min(1920px, 94vw); --_dialog-max-height: 86vh; --_dialog-padding: 0; --_dialog-bg: linear-gradient(var(--color-action, #d45087), var(--color-action, #d45087)) top / 100% 4px no-repeat, var(--color-surface, #fff);"
+  >
+    <!-- Own close button (not show-close-button) so the header scrim can cover it -->
+    <div slot="header" class="rd-head">
+      <div class="rd-head__text">
+        <h2 class="rd-title" id="rd-title">—</h2>
+        <span class="rd-eyebrow"><span id="rd-commitment">—</span> · <span id="rd-type">—</span></span>
+      </div>
+      <span class="rd-head-close" id="rd-close"><EsaIconButton icon="x" label="Close dialog" /></span>
+      <div class="rd-head-scrim" aria-hidden="true"></div>
+    </div>
+
+    <div class="rd-shell" id="rd-shell">
+      <div class="rd-grid">
+        <!-- ── Main column (independently scrolls) ── -->
+        <div class="rd-main">
+          <div class="rd-reference">
+            <div class="rd-reference__head">
+              <span class="rd-reference__label">Requirement reference</span>
+              <EsaIconLink href="#data-catalog-action" trailing="external-link" size="sm" weight="medium">Edit requirement data</EsaIconLink>
+            </div>
+            <p class="rd-ref-val" id="rd-req-text">—</p>
+          </div>
+
+          <div class="rd-section">
+            <h3 class="rd-section__title">
+              <EsaIcon name="message-square" size="sm" paths="<path d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'/>" />
+              Discussion
+            </h3>
+            <ul class="rd-comments">
+              <li class="rd-comment">
+                <EsaAvatar name="James Okafor" size="sm" />
+                <div class="rd-comment__body">
+                  <div class="rd-comment__head"><span class="rd-comment__who">James Okafor</span><span class="rd-comment__when">Jun 4 at 9:12 AM</span></div>
+                  <p class="rd-comment__text">Pre-construction survey scheduled — waiting on biologist availability.</p>
+                </div>
+              </li>
+            </ul>
+            <div class="rd-compose">
+              <esa-textarea id="rd-comment" rows="2" placeholder="Add a comment…"></esa-textarea>
+              <EsaButton color="primary" size="sm">Post</EsaButton>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Sidebar (independently scrolls) ── -->
+        <aside class="rd-side">
+          <!-- A. Status -->
+          <details class="rd-acc" open>
+            <summary class="rd-acc__summary">
+              <EsaIcon name="square-check" size="sm" paths="<rect width='18' height='18' x='3' y='3' rx='2'/><path d='m9 12 2 2 4-4'/>" />
+              <span class="rd-acc__title">Status</span>
+            </summary>
+            <div class="rd-acc__body">
+              <div class="rd-statusdd" id="rd-status">
+                <button type="button" class="rd-statusdd__trigger" id="rd-status-trigger" aria-haspopup="listbox" aria-expanded="false">
+                  <span class="rd-statusdot" id="rd-status-dot"></span>
+                  <span class="rd-statusdd__label" id="rd-status-label">—</span>
+                  <svg class="rd-statusdd__chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+                <ul class="rd-statusdd__menu" id="rd-status-menu" role="listbox" hidden>
+                  <li class="rd-statusdd__opt" role="option" data-value="not-started"><span class="rd-statusdot" style="--_dot:#9aa3ad"></span>Not Started</li>
+                  <li class="rd-statusdd__opt" role="option" data-value="in-progress"><span class="rd-statusdot" style="--_dot:#e0a400"></span>In Progress</li>
+                  <li class="rd-statusdd__opt" role="option" data-value="completed"><span class="rd-statusdot" style="--_dot:#1a9b54"></span>Completed</li>
+                </ul>
+              </div>
+            </div>
+          </details>
+
+          <!-- B. Due Date -->
+          <details class="rd-acc" open>
+            <summary class="rd-acc__summary">
+              <EsaIcon name="calendar" size="sm" />
+              <span class="rd-acc__title">Due Date</span>
+            </summary>
+            <div class="rd-acc__body">
+              <esa-date-picker id="rd-due"></esa-date-picker>
+            </div>
+          </details>
+
+          <!-- C. Assigned to (Responsible Party + Assignee) -->
+          <details class="rd-acc" open>
+            <summary class="rd-acc__summary">
+              <EsaIcon name="users" size="sm" />
+              <span class="rd-acc__title">Assigned to</span>
+            </summary>
+            <div class="rd-acc__body">
+              <div class="rd-kv">
+                <span class="rd-kv__key">Responsible Party</span>
+                <span class="rd-kv__val" id="rd-resp-party">—</span>
+              </div>
+              <esa-select id="rd-assignee" label="Assignee"></esa-select>
+            </div>
+          </details>
+
+          <!-- D. Lists -->
+          <details class="rd-acc">
+            <summary class="rd-acc__summary">
+              <EsaIcon name="list" size="sm" paths="<path d='M8 6h13'/><path d='M8 12h13'/><path d='M8 18h13'/><path d='M3 6h.01'/><path d='M3 12h.01'/><path d='M3 18h.01'/>" />
+              <span class="rd-acc__title">Lists</span>
+            </summary>
+            <div class="rd-acc__body">
+              <div class="rd-lists">
+                <EsaPill label="Annual Reporting" removable={false} size="sm">
+                  <EsaIcon slot="icon" name="list" size="xs" paths="<path d='M8 6h13'/><path d='M8 12h13'/><path d='M8 18h13'/><path d='M3 6h.01'/><path d='M3 12h.01'/><path d='M3 18h.01'/>" />
+                </EsaPill>
+                <EsaPill label="Desktop Requirements" removable={false} size="sm">
+                  <EsaIcon slot="icon" name="list" size="xs" paths="<path d='M8 6h13'/><path d='M8 12h13'/><path d='M8 18h13'/><path d='M3 6h.01'/><path d='M3 12h.01'/><path d='M3 18h.01'/>" />
+                </EsaPill>
+              </div>
+            </div>
+          </details>
+
+          <!-- E. Notifications -->
+          <details class="rd-acc">
+            <summary class="rd-acc__summary">
+              <EsaIcon name="bell" size="sm" />
+              <span class="rd-acc__title">Notifications</span>
+            </summary>
+            <div class="rd-acc__body rd-notif">
+              <p class="rd-notif__lead">
+                Sent to the assignee on each implementation.
+                <EsaIconLink href="#data-catalog-action" trailing="arrow-right" size="sm">Edit recipients &amp; triggers on the Action</EsaIconLink>
+              </p>
+
+              <div class="rd-notif__field">
+                <span class="rd-kv__key">Next notification</span>
+                <span class="rd-notif-next"><EsaBadge dot variant="warning" /><span id="rd-notif-due">—</span></span>
+              </div>
+
+              <div class="rd-notif__field">
+                <span class="rd-kv__key">Additional recipients</span>
+                <div class="rd-recipients">
+                  <EsaPill label="Environmental Lead" removable={false} size="sm" />
+                  <EsaPill label="DWR Compliance (org)" removable={false} size="sm" />
+                </div>
+              </div>
+
+              <div class="rd-notif__field">
+                <span class="rd-kv__key">Triggers</span>
+                <ul class="rd-notif-types">
+                  <li class="rd-notif-type is-on"><span class="rd-notif-type__name">Coming up</span><span class="rd-notif-type__detail">7 days before</span></li>
+                  <li class="rd-notif-type is-on"><span class="rd-notif-type__name">Due</span><span class="rd-notif-type__detail">On due date</span></li>
+                  <li class="rd-notif-type is-off"><span class="rd-notif-type__name">Past due</span><span class="rd-notif-type__detail">Off</span></li>
+                </ul>
+              </div>
+            </div>
+          </details>
+
+          <!-- F. Change log — grouped by date, vertical timeline -->
+          <details class="rd-acc">
+            <summary class="rd-acc__summary">
+              <EsaIcon name="history" size="sm" />
+              <span class="rd-acc__title">Change Log</span>
+            </summary>
+            <div class="rd-acc__body">
+              <ol class="rd-log">
+                <li class="rd-log__day">
+                  <p class="rd-log__date">Jun 4, 2026</p>
+                  <ul class="rd-log__events">
+                    <li class="rd-log__event"><span class="rd-log__text">Status set to <strong>In Progress</strong></span><span class="rd-log__by">James Okafor · 9:12 AM</span></li>
+                  </ul>
+                </li>
+                <li class="rd-log__day">
+                  <p class="rd-log__date">Jun 2, 2026</p>
+                  <ul class="rd-log__events">
+                    <li class="rd-log__event"><span class="rd-log__text">Assignee set to <strong>Maria Chen</strong></span><span class="rd-log__by">Priya Patel · 2:40 PM</span></li>
+                    <li class="rd-log__event"><span class="rd-log__text">Due date set to <strong>Dec 2, 2027</strong></span><span class="rd-log__by">Priya Patel · 2:38 PM</span></li>
+                  </ul>
+                </li>
+                <li class="rd-log__day">
+                  <p class="rd-log__date">May 30, 2026</p>
+                  <ul class="rd-log__events">
+                    <li class="rd-log__event"><span class="rd-log__text">Implementation created</span><span class="rd-log__by">System · 12:00 AM</span></li>
+                  </ul>
+                </li>
+              </ol>
+            </div>
+          </details>
+
+          <!-- G. Details (Scope) -->
+          <details class="rd-acc">
+            <summary class="rd-acc__summary">
+              <EsaIcon name="info" size="sm" />
+              <span class="rd-acc__title">Details</span>
+            </summary>
+            <div class="rd-acc__body">
+              <div class="rd-kv">
+                <span class="rd-kv__key">Scope</span>
+                <span class="rd-kv__val">Project</span>
+                <span class="rd-kv__hint">Perform once, applies to entire project</span>
+              </div>
+              <label class="rd-na-row"><esa-switch-toggle id="rd-na" label="Not Applicable"></esa-switch-toggle></label>
+            </div>
+          </details>
+        </aside>
+      </div>
+
+      <!-- Dim scrim + slide-up Evidence drawer: overlays the body, fixed height,
+           does not affect modal height (collapsed by default) -->
+      <div class="rd-evidence-scrim" id="rd-evidence-scrim"></div>
+      <!-- bcn-lego-checked: the bottom slide-up SHEET (.rd-evidence-drawer) has no
+           ecology lego — esa-side-dialog is a side sheet, esa-dialog is centered;
+           neither is a bottom sheet anchored inside the modal body. And the
+           existing-attachment ROWS (.bcn-attachment) have no esa- file-DISPLAY lego
+           (esa-file-upload tracks new File objects only; Beacon's simple-file-display
+           is the precedent, absent from ecology). Both kept as documented bcn-. The
+           cards/buttons/pills/badges/empty-states inside DO use the legos. -->
+      <section class="rd-evidence-drawer" id="rd-evidence-drawer" aria-hidden="true" aria-label="Evidence of Compliance">
+        <header class="rd-evidence-drawer__head">
+          <div class="rd-evidence-drawer__heading">
+            <span class="rd-evidence-drawer__title">
+              <EsaIcon name="paperclip" size="sm" paths="<path d='m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48'/>" />
+              Evidence of Compliance <EsaBadge variant="secondary" size="sm" value={eocs.length} />
+            </span>
+            <span class="rd-evidence-drawer__expected">Expected: <span id="rd-exp-evidence">—</span></span>
+          </div>
+          <div class="rd-evidence-drawer__head-actions">
+            <span id="rd-evidence-download-all"><EsaIconButton icon="download" label="Download all evidence as .zip" size="md" /></span>
+            <span id="rd-evidence-close"><EsaIconButton icon="x" label="Close evidence" size="md" /></span>
+          </div>
+        </header>
+        <div class="rd-evidence-drawer__body">
+          <ul class="evi-list">
+            {eocs.map((e) => (
+              <li class="evi-item" id={e.id} data-title={e.title} data-notes={e.notes} data-tags={e.tags.join(',')} data-files={e.files.join(',')}>
+                <EsaCard padding="none">
+                  <div slot="header" class="evi__head">
+                    <span class="evi__lead">
+                      <EsaIcon name="chevron-right" size="sm" />
+                      <span class="evi__name">{e.title}</span>
+                    </span>
+                    <span class="evi__actions">
+                      <EsaIconButton icon="star" label="Add to summary page" size="sm" />
+                      <EsaIconButton icon="download" label="Download all files as .zip" size="sm" />
+                      <EsaIconButton icon="pencil" label="Edit evidence" size="sm" />
+                      <EsaIconButton icon="trash-2" label="Delete evidence" size="sm" />
+                    </span>
+                  </div>
+                  <div class="evi__fields" hidden>
+                    <div class="evi__field">
+                      <span class="evi__label">Notes</span>
+                      {e.notes ? <span class="evi__text">{e.notes}</span> : <span class="evi__text evi__text--muted">None</span>}
+                    </div>
+                    {e.tags.length > 0 && (
+                      <div class="evi__field">
+                        <span class="evi__label">Tags</span>
+                        <div class="evi__pills">{e.tags.map((t) => <EsaPill label={t} removable={false} size="sm" />)}</div>
+                      </div>
+                    )}
+                    <div class="evi__field">
+                      <span class="evi__label">Files <EsaBadge variant="secondary" size="sm" value={e.files.length} /></span>
+                      <ul class="bcn-attachments">
+                        {e.files.map((f) => (
+                          <li class="bcn-attachment">
+                            <EsaIcon name="file-text" size="sm" />
+                            <a class="bcn-attachment__name" href="#file" title={f}>{f}</a>
+                            <EsaIconButton icon="download" label={`Download ${f}`} size="xs" />
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </EsaCard>
+              </li>
+            ))}
+          </ul>
+          <div class="rd-row-actions">
+            <EsaButton color="primary" size="sm" icon="plus">Add New Evidence</EsaButton>
+            <EsaButton color="ghost" appearance="outline" size="sm">Add Existing Evidence</EsaButton>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ── Footer slot: Evidence trigger strip (inset + shadow) + action row ── -->
+    <div slot="footer" class="rd-footer">
+      <button type="button" class="rd-evidence-strip" id="rd-evidence-trigger" aria-expanded="false" aria-controls="rd-evidence-drawer">
+        <EsaIcon name="paperclip" size="sm" paths="<path d='m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48'/>" />
+        <span class="rd-evidence-strip__title">Evidence of Compliance <EsaBadge variant="secondary" size="sm" value={eocs.length} /></span>
+        <EsaIcon name="chevron-up" size="sm" />
+      </button>
+      <div class="rd-foot">
+        <span id="rd-cancel"><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
+        <span id="rd-save"><EsaButton color="primary">Save</EsaButton></span>
+      </div>
+    </div>
+  </esa-dialog>
+
+  <!-- Edit panel = esa-side-dialog lego (own backdrop, focus trap, Esc-to-close,
+       header/footer slots). At the PAGE ROOT so it isn't trapped in the esa-dialog
+       panel's stacking context; --z-modal/--z-modal-backdrop lift it above the
+       fixed .topbar (z 1100), which the lego exposes precisely for this. -->
+  <esa-side-dialog id="rd-eoc-editor" heading="Edit Evidence of Compliance" size="md" style="--z-modal: 1300; --z-modal-backdrop: 1250;">
+    <esa-text-field id="rd-edit-title" label="Title"></esa-text-field>
+    <esa-input-tag id="rd-edit-tags" label="Tags"></esa-input-tag>
+    <esa-textarea id="rd-edit-notes" label="Notes" rows="4"></esa-textarea>
+    <div class="evi-files-field">
+      <span class="evi-files-field__label">Files</span>
+      <!-- existing server files (no esa- file-display lego) — populated by JS -->
+      <ul class="bcn-attachments" id="rd-edit-files"></ul>
+      <esa-file-upload label="Add files" multiple accept=".pdf,.csv,.xlsx,.jpg,.jpeg,.png,.gif,.bmp,.zip"></esa-file-upload>
+    </div>
+    <span slot="footer" class="evi-foot">
+      <span id="rd-eoc-editor-cancel"><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span id="rd-eoc-editor-save"><EsaButton color="primary">Save</EsaButton></span>
+    </span>
+  </esa-side-dialog>
 
   <script type="application/json" id="grid-data" set:html={JSON.stringify(gridPayload)}></script>
 </AppShell>
@@ -156,6 +487,18 @@ const prologisNav = [
 <script>
   import { createGrid, ModuleRegistry, AllCommunityModule, themeQuartz, iconOverrides } from 'ag-grid-community';
   import type { GridApi, GridOptions, ColDef, ICellRendererParams } from 'ag-grid-community';
+
+  // Register the esa-* legos the requirement dialog composes (self-registering).
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-file-upload';
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-date-picker';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-switch-toggle';
+  import '@esa/ecology/esa-input-tag';
 
   ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -172,6 +515,10 @@ const prologisNav = [
     milestones: string;
     resourceCategory: string;
     phase: string;
+    responsibleParty: string;
+    assignee: string;
+    dueDate: string;
+    expectedEvidence: string;
   }
   interface Payload {
     rows: ActionRow[];
@@ -282,23 +629,25 @@ const prologisNav = [
     tooltipShowMode: 'whenTruncated',
     onFirstDataRendered: updateCounts,
     onFilterChanged: updateCounts,
+    onRowClicked: (e) => e.data && openDialog(e.data),
   };
 
   const gridDiv = document.getElementById('tracker-grid')!;
   const api: GridApi<ActionRow> = createGrid(gridDiv, gridOptions);
 
-  // ── Grid header: search → quick filter (+ clear-x) ─────────────────────────
-  const search = document.getElementById('tt-search') as HTMLInputElement;
+  // ── Grid header: esa-text-field → quick filter (+ clear-x). esa-text-field
+  //    fires a composed 'change' (with detail.value) on every keystroke. ────────
+  const search = document.getElementById('tt-search') as HTMLElement & { value: string };
   const searchClear = document.getElementById('tt-search-clear')!;
-  search?.addEventListener('input', () => {
-    api.setGridOption('quickFilterText', search.value);
-    searchClear.hidden = !search.value;
+  search?.addEventListener('change', (e) => {
+    const v = (e as CustomEvent).detail?.value ?? search.value ?? '';
+    api.setGridOption('quickFilterText', v);
+    searchClear.hidden = !v;
   });
   searchClear.addEventListener('click', () => {
     search.value = '';
     api.setGridOption('quickFilterText', '');
     searchClear.hidden = true;
-    search.focus();
   });
 
   // ── Clear Filters → reset all column filters (Beacon parity) ───────────────
@@ -309,37 +658,203 @@ const prologisNav = [
     api.exportDataAsCsv({ fileName: '3600-alameda-requirements.csv' }),
   );
 
-  // ── View toggle (Kanban / Timeline / Grid) ────────────────────────────────
+  // ── View toggle (esa-button-toggle lego; options set here, panes on change) ──
   const panes: Record<string, HTMLElement> = {
     grid: document.getElementById('view-grid')!,
     kanban: document.getElementById('view-kanban')!,
     timeline: document.getElementById('view-timeline')!,
   };
-  document.querySelectorAll<HTMLButtonElement>('.tt-view').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const view = btn.dataset.view!;
-      document.querySelectorAll('.tt-view').forEach((b) => {
-        b.classList.toggle('is-active', b === btn);
-        b.setAttribute('aria-selected', String(b === btn));
-      });
-      Object.entries(panes).forEach(([key, el]) => (el.hidden = key !== view));
+  const viewToggle = document.getElementById('tt-views') as HTMLElement & {
+    options: { label: string; value: string; icon?: string }[];
+    value: string;
+  };
+  // icon = inner Lucide SVG markup (esa-button-toggle's `icon` = esa-icon `paths`).
+  viewToggle.options = [
+    { label: 'Grid', value: 'grid', icon: "<rect width='18' height='18' x='3' y='3' rx='2'/><path d='M3 9h18'/><path d='M3 15h18'/><path d='M9 3v18'/><path d='M15 3v18'/>" },
+    { label: 'Kanban', value: 'kanban', icon: "<path d='M3 3h18v18H3z'/><path d='M9 3v18'/><path d='M15 3v18'/>" },
+    { label: 'Timeline', value: 'timeline', icon: "<path d='M8 2v4'/><path d='M16 2v4'/><rect width='18' height='18' x='3' y='4' rx='2'/><path d='M3 10h18'/>" },
+  ];
+  viewToggle.addEventListener('change', (e) => {
+    const view = (e as CustomEvent).detail.value as string;
+    Object.entries(panes).forEach(([key, el]) => (el.hidden = key !== view));
+  });
+
+  // ── Requirement dialog (composed from esa-* legos) ─────────────────────────
+  const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const fmtDue = (iso: string) => {
+    if (!iso) return 'Not set';
+    const [y, m, d] = iso.split('-').map(Number);
+    return `${MONTHS[m - 1]} ${d}, ${y}`;
+  };
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+
+  const rdDialog = $('rd') as HTMLElement & { open: boolean; showCloseButton: boolean };
+  rdDialog.showCloseButton = false; // we render our own close (inside .rd-head) so the header scrim covers it
+  const rdAssignee = $('rd-assignee') as HTMLElement & { options: { value: string; label: string }[]; value: string };
+  const rdDue = $('rd-due') as HTMLElement & { value: string };
+  const rdNa = $('rd-na') as HTMLElement & { checked: boolean };
+
+  rdAssignee.options = ['Unassigned', 'Maria Chen', 'James Okafor', 'Priya Patel', 'Daniel Reyes', 'Sarah Kim', 'Tom Alvarez', 'Nadia Hassan'].map(
+    (n) => ({ value: n, label: n }),
+  );
+
+  // ── Custom status dropdown — colored dot per state (gray / yellow / green) ──
+  // Not an esa-select: the trigger shows the live status color, so we drive a
+  // plain listbox by hand. STATUS_DOT/STATUS_LABEL mirror the <li data-value> set.
+  const STATUS_DOT: Record<string, string> = {
+    'not-started': '#9aa3ad',
+    'in-progress': '#e0a400',
+    completed: '#1a9b54',
+  };
+  const STATUS_LABEL: Record<string, string> = {
+    'not-started': 'Not Started',
+    'in-progress': 'In Progress',
+    completed: 'Completed',
+  };
+  const statusTrigger = $('rd-status-trigger') as HTMLButtonElement;
+  const statusMenu = $('rd-status-menu') as HTMLUListElement;
+  const statusDot = $('rd-status-dot') as HTMLSpanElement;
+  const statusLabelEl = $('rd-status-label') as HTMLSpanElement;
+  const statusOpts = [...statusMenu.querySelectorAll<HTMLLIElement>('.rd-statusdd__opt')];
+  let statusValue = 'not-started';
+
+  function setStatus(value: string) {
+    statusValue = value;
+    statusDot.style.setProperty('--_dot', STATUS_DOT[value] ?? '#9aa3ad');
+    statusLabelEl.textContent = STATUS_LABEL[value] ?? '—';
+    statusOpts.forEach((o) => o.setAttribute('aria-selected', String(o.dataset.value === value)));
+  }
+  function openStatusMenu(open: boolean) {
+    statusMenu.hidden = !open;
+    statusTrigger.setAttribute('aria-expanded', String(open));
+  }
+  statusTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    openStatusMenu(statusMenu.hidden);
+  });
+  statusOpts.forEach((opt) =>
+    opt.addEventListener('click', () => {
+      setStatus(opt.dataset.value!);
+      openStatusMenu(false);
+    }),
+  );
+  document.addEventListener('click', (e) => {
+    if (!$('rd-status').contains(e.target as Node)) openStatusMenu(false);
+  });
+
+  function openDialog(row: ActionRow) {
+    $('rd-title').textContent = row.name.trim();
+    $('rd-commitment').textContent = row.commitment;
+    $('rd-type').textContent = row.type;
+    setStatus(row.status === 'not-applicable' ? 'not-started' : row.status);
+    rdAssignee.value = row.assignee;
+    rdDue.value = row.dueDate;
+    rdNa.checked = row.status === 'not-applicable';
+    $('rd-req-text').textContent = row.requirementText;
+    $('rd-resp-party').textContent = row.responsibleParty;
+    $('rd-exp-evidence').textContent = row.expectedEvidence;
+    $('rd-notif-due').textContent = fmtDue(row.dueDate);
+    setEvidenceOpen(false); // always start collapsed
+    rdDialog.open = true;
+  }
+
+  // ── Evidence drawer (slides up over the body; never resizes the modal) ──
+  const rdShell = $('rd-shell');
+  const evTrigger = $('rd-evidence-trigger');
+  const evDrawer = $('rd-evidence-drawer');
+  function setEvidenceOpen(open: boolean) {
+    rdShell.classList.toggle('is-evidence-open', open);
+    rdDialog.classList.toggle('is-evidence-open', open); // host → drives header scrim
+    evTrigger.setAttribute('aria-expanded', String(open));
+    evDrawer.setAttribute('aria-hidden', String(!open));
+  }
+  evTrigger.addEventListener('click', () => setEvidenceOpen(!rdShell.classList.contains('is-evidence-open')));
+  $('rd-evidence-close').addEventListener('click', () => setEvidenceOpen(false));
+  $('rd-evidence-scrim').addEventListener('click', () => setEvidenceOpen(false));
+
+  // ── Evidence-of-Compliance editor (esa-side-dialog lego) ──
+  const eocEditor = $('rd-eoc-editor') as HTMLElement & { open: boolean; show(): void; close(): void };
+  const editTitle = $('rd-edit-title') as HTMLElement & { value: string };
+  const editTags = $('rd-edit-tags') as HTMLElement & { value: string[] };
+  const editNotes = $('rd-edit-notes') as HTMLElement & { value: string };
+  const editFiles = $('rd-edit-files') as HTMLUListElement;
+
+  // Inline lucide glyphs — the existing-file rows are built client-side (no esa-
+  // file-display lego), so they don't get Astro's scope attr; size them inline.
+  const FILE_SVG =
+    '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>';
+  const X_SVG =
+    '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
+
+  // Render the removable existing-file list (server records, not File objects).
+  function renderEditFiles(files: string[]) {
+    editFiles.replaceChildren();
+    files.forEach((name) => {
+      const li = document.createElement('li');
+      li.className = 'bcn-attachment';
+      li.innerHTML =
+        `<span class="bcn-attachment__icon">${FILE_SVG}</span>` +
+        `<span class="bcn-attachment__name" title="${name}">${name}</span>` +
+        `<button type="button" class="bcn-attachment__remove" aria-label="Remove ${name}">${X_SVG}</button>`;
+      li.querySelector('.bcn-attachment__remove')!.addEventListener('click', () => li.remove());
+      editFiles.appendChild(li);
+    });
+  }
+
+  function openEocEditor(card: HTMLElement) {
+    editTitle.value = card.dataset.title ?? '';
+    editNotes.value = card.dataset.notes ?? '';
+    editTags.value = (card.dataset.tags ?? '').split(',').filter(Boolean);
+    renderEditFiles((card.dataset.files ?? '').split(',').filter(Boolean));
+    eocEditor.show();
+  }
+  // esa-side-dialog owns its own backdrop-click + Esc + close-button → close().
+  $('rd-eoc-editor-cancel').addEventListener('click', () => eocEditor.close());
+  $('rd-eoc-editor-save').addEventListener('click', () => eocEditor.close());
+
+  // ── Evidence cards (esa-card lego): expand toggle, edit, star, delete.
+  // Buttons are esa-icon-button (no class passthrough) → select by aria-label. ──
+  document.querySelectorAll<HTMLLIElement>('.evi-item').forEach((item) => {
+    const lead = item.querySelector<HTMLElement>('.evi__lead')!;
+    const fields = item.querySelector<HTMLElement>('.evi__fields')!;
+    lead.addEventListener('click', () => {
+      const open = item.classList.toggle('is-expanded');
+      fields.hidden = !open;
+    });
+
+    const byLabel = (label: string) => item.querySelector<HTMLElement>(`[aria-label="${label}"]`);
+    byLabel('Edit evidence')?.addEventListener('click', () => openEocEditor(item));
+    byLabel('Delete evidence')?.addEventListener('click', () => item.remove());
+
+    const star = byLabel('Add to summary page');
+    star?.addEventListener('click', () => {
+      const on = star.getAttribute('aria-pressed') === 'true';
+      star.setAttribute('aria-pressed', String(!on));
+      star.classList.toggle('evi-starred', !on);
     });
   });
+
+  const closeDialog = () => (rdDialog.open = false);
+  $('rd-close').addEventListener('click', closeDialog);
+  $('rd-cancel').addEventListener('click', closeDialog);
+  $('rd-save').addEventListener('click', closeDialog);
+
+  // Escape precedence editor → evidence drawer → dialog. Capture phase so we run
+  // BEFORE esa-side-dialog's own Esc and stop the drawer/dialog from also closing.
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (eocEditor.open) {
+      e.stopPropagation();
+      eocEditor.close();
+    } else if (rdShell.classList.contains('is-evidence-open')) {
+      e.stopPropagation();
+      setEvidenceOpen(false);
+    }
+  }, true);
 </script>
 
 <style>
-  /* ═══ Title badge — neutral, sits directly right of the H1 ═══ */
-  .ctx-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: var(--spacing-100) var(--spacing-250);
-    font-size: var(--type-size-100);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-secondary);
-    background: var(--bcn-gray-100);
-    border: 1px solid var(--bcn-gray-200);
-    border-radius: var(--radius-100, 4px);
-  }
+  /* Title badge → EsaPill · view toggle → esa-button-toggle (own styling) */
 
   /* ═══ Toolbar ═══ */
   .tt-toolbar {
@@ -349,31 +864,6 @@ const prologisNav = [
     gap: var(--spacing-400);
     flex-wrap: wrap;
     margin-bottom: var(--spacing-400);
-  }
-  .tt-views {
-    display: inline-flex;
-    padding: var(--spacing-050);
-    background: var(--bcn-gray-100);
-    border-radius: var(--radius-300);
-  }
-  .tt-view {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-150);
-    padding: var(--spacing-150) var(--spacing-400);
-    font-size: var(--type-size-100);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-secondary);
-    border-radius: var(--radius-200);
-    transition: background 150ms ease, color 150ms ease;
-  }
-  .tt-view :global(.esa-icon) {
-    color: currentColor;
-  }
-  .tt-view.is-active {
-    background: var(--color-surface);
-    color: var(--color-primary);
-    box-shadow: var(--shadow-100, 0 1px 2px rgba(0, 0, 0, 0.08));
   }
 
   /* ═══ View panes ═══ */
@@ -389,64 +879,10 @@ const prologisNav = [
     gap: var(--spacing-400);
     margin-bottom: var(--spacing-300);
   }
-  .grid-header__filter {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-200);
-    padding: 0 var(--spacing-300);
-    height: 36px;
-    min-width: 280px;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border-strong, #c7c7c7);
-    border-radius: var(--radius-200);
-    transition: border-color 150ms ease, box-shadow 150ms ease;
-  }
-  .grid-header__filter:focus-within {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 18%, transparent);
-  }
-  .grid-header__filter :global(.esa-icon) {
-    color: var(--color-text-tertiary);
-    flex-shrink: 0;
-  }
-  .grid-header__input {
-    flex: 1;
-    min-width: 0;
-    border: none;
-    background: transparent;
-    font-family: inherit;
-    font-size: 0.875rem;
-    color: var(--color-text-primary);
-  }
-  .grid-header__input:focus {
-    outline: none;
-  }
-  .grid-header__clear {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-text-tertiary);
-    border-radius: var(--radius-100, 4px);
-  }
-  .grid-header__clear:hover {
-    color: var(--color-text-primary);
-  }
-  .grid-clear-filters {
-    height: 36px;
-    padding: 0 var(--spacing-400);
-    font-size: var(--type-size-100);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-secondary);
-    background: var(--bcn-gray-100);
-    border: 1px solid var(--bcn-gray-200);
-    border-radius: var(--radius-200);
-    white-space: nowrap;
-    transition: background 150ms ease, color 150ms ease;
-  }
-  .grid-clear-filters:hover {
-    background: var(--bcn-gray-200);
-    color: var(--color-text-primary);
-  }
+  /* Search → esa-text-field (own field styling) + clear EsaIconButton; Clear
+     Filters → EsaButton. Wrapper is just layout. */
+  .grid-header__filter { display: inline-flex; align-items: center; gap: var(--spacing-150); min-width: 280px; }
+  .grid-header__filter :global(esa-text-field) { flex: 1; }
 
   /* ═══ AG Grid host ═══ */
   .tracker-grid {
@@ -467,22 +903,7 @@ const prologisNav = [
     border-top: 0;
     border-radius: 0 0 var(--radius-100, 4px) var(--radius-100, 4px);
   }
-  .download-button {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-200);
-    font-size: var(--type-size-100);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-link, #005862);
-    border-radius: var(--radius-100, 4px);
-    transition: color 150ms ease;
-  }
-  .download-button:hover {
-    color: var(--color-primary-hover, #00474f);
-  }
-  .download-button :global(.esa-icon) {
-    color: currentColor;
-  }
+  /* Download as CSV → EsaButton (own styling) */
   .row-count-data {
     display: flex;
     align-items: center;
@@ -536,31 +957,226 @@ const prologisNav = [
   }
 
 
-  /* ═══ Empty state (timeline stub) ═══ */
-  .tt-empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: var(--spacing-200);
-    padding: var(--spacing-900) var(--spacing-400);
-    color: var(--color-text-secondary);
-  }
-  .tt-empty :global(.esa-icon) {
-    color: var(--color-text-tertiary);
-  }
-  .tt-empty h3 {
-    margin: var(--spacing-200) 0 0;
-    font-size: var(--type-size-300);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
-  }
-  .tt-empty p {
-    margin: 0;
-    max-width: 46ch;
-    line-height: 1.55;
-  }
+  /* Empty states (kanban/timeline stubs) now use the EsaEmptyState lego. */
 
+  /* ═══ Requirement dialog — esa-* legos compose the shell + fields; these are the
+     fixed-height, dual-scroll, Jira-style layout + reference/discussion/evidence/
+     notification styles ═══ */
+  .rd-head { position: relative; flex: 1; display: flex; align-items: center; gap: var(--spacing-300); min-width: 0; padding: var(--spacing-400) var(--spacing-500); }
+  .rd-head__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  /* Close → EsaIconButton; wrapper just anchors it right, above the header scrim */
+  .rd-head-close { flex-shrink: 0; margin-left: auto; z-index: 1; }
+  /* Header scrim — dims the whole header (title, close button, and the 1px
+     bottom border via bottom:-1px) in sync with the body scrim when the drawer
+     is open. Toggled by the .is-evidence-open class on the host. z-index 3 keeps
+     it above the close button so that dims too. */
+  .rd-head-scrim { position: absolute; top: 0; left: 0; right: 0; bottom: -1px; z-index: 3; background: rgba(15, 23, 42, 0.18); opacity: 0; pointer-events: none; transition: opacity 280ms ease; }
+  esa-dialog.is-evidence-open .rd-head-scrim { opacity: 1; pointer-events: auto; }
+  .rd-title { margin: 0; font-size: 1.375rem; font-weight: var(--font-weight-bold); line-height: 1.25; color: var(--color-text-primary); }
+  .rd-eyebrow { font-size: var(--type-size-100); font-weight: var(--font-weight-medium); color: var(--color-text-tertiary); }
+  /* Footer slot: Evidence trigger strip (inset + shadow) + action row. */
+  .rd-footer { display: flex; flex-direction: column; width: 100%; min-width: 0; gap: var(--spacing-300); }
+  .rd-foot { display: flex; justify-content: flex-end; gap: var(--spacing-200); padding: 0 var(--spacing-500); }
+
+  /* Fixed-height stage: holds the scrolling two-col grid + the Evidence drawer
+     overlay. The height is fixed so opening accordions or the drawer never
+     resizes the modal. overflow:hidden clips the off-screen drawer. */
+  .rd-shell { position: relative; height: calc(86vh - 13.5rem); min-height: 360px; overflow: hidden; }
+  .rd-grid { height: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 480px; align-items: stretch; }
+  /* Each column scrolls independently within the fixed-height stage */
+  .rd-main { overflow-y: auto; min-height: 0; padding: var(--spacing-500); display: flex; flex-direction: column; gap: var(--spacing-500); min-width: 0; }
+  .rd-side { overflow-y: auto; min-height: 0; padding: var(--spacing-500); border-left: 1px solid var(--bcn-gray-200); display: flex; flex-direction: column; gap: var(--spacing-400); background: var(--bcn-gray-50); min-width: 0; }
+
+  /* Status — primary, top of the rail (Jira). Label matches esa-select's
+     .field__label (14px / medium / primary), trigger matches esa-select md. */
+
+  /* Custom colored status dropdown — sized like esa-select md (40px / 8px / 14px) */
+  .rd-statusdd { position: relative; }
+  .rd-statusdd__trigger {
+    display: flex; align-items: center; gap: var(--spacing-200); width: 100%;
+    height: 40px; padding: 0 var(--spacing-300);
+    font-size: 0.875rem; font-weight: var(--font-weight-medium); color: var(--color-text-primary);
+    background: var(--color-surface); border: 1px solid var(--form-border-color, #d4d4d4);
+    border-radius: var(--form-radius-md, 8px); cursor: pointer;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+  .rd-statusdd__trigger:hover { border-color: var(--color-border-strong, #c7c7c7); }
+  .rd-statusdd__trigger[aria-expanded='true'] {
+    border-color: var(--color-primary, #005862);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary, #005862) 18%, transparent);
+  }
+  .rd-statusdd__label { flex: 1; text-align: left; }
+  .rd-statusdd__chev { color: var(--color-text-tertiary); flex-shrink: 0; transition: transform 150ms ease; }
+  .rd-statusdd__trigger[aria-expanded='true'] .rd-statusdd__chev { transform: rotate(180deg); }
+
+  .rd-statusdot { width: 9px; height: 9px; border-radius: 50%; background: var(--_dot, #9aa3ad); flex-shrink: 0; }
+
+  .rd-statusdd__menu {
+    position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 20;
+    margin: 0; padding: var(--spacing-100); list-style: none;
+    background: var(--color-surface); border: 1px solid var(--bcn-gray-200);
+    border-radius: var(--form-radius-md, 8px); box-shadow: var(--shadow-300, 0 8px 24px rgba(0, 0, 0, 0.12));
+  }
+  .rd-statusdd__menu[hidden] { display: none; }
+  .rd-statusdd__opt {
+    display: flex; align-items: center; gap: var(--spacing-200);
+    padding: var(--spacing-200) var(--spacing-300); font-size: 0.875rem; color: var(--color-text-primary);
+    border-radius: var(--radius-200); cursor: pointer;
+  }
+  .rd-statusdd__opt:hover { background: var(--bcn-gray-100); }
+  .rd-statusdd__opt[aria-selected='true'] { background: var(--bcn-gray-100); font-weight: var(--font-weight-semibold); }
+
+  /* Collapsible subject areas (native <details>) */
+  .rd-acc { border: 1px solid var(--bcn-gray-200); border-radius: var(--radius-300); background: var(--color-surface); }
+  .rd-acc__summary { display: flex; align-items: center; gap: var(--spacing-200); padding: var(--spacing-300) var(--spacing-400); font-size: 0.9375rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); cursor: pointer; list-style: none; }
+  .rd-acc__summary::-webkit-details-marker { display: none; }
+  /* Expand caret pushed to the right of the row (icon + title lead) */
+  .rd-acc__summary::after { content: ''; width: 8px; height: 8px; border-right: 2px solid var(--color-text-tertiary); border-bottom: 2px solid var(--color-text-tertiary); transform: rotate(-45deg); transition: transform 150ms ease; margin-left: auto; }
+  .rd-acc[open] > .rd-acc__summary::after { transform: rotate(45deg); }
+
+  /* Section header icons (accordion summaries, Discussion) — now EsaIcon */
+  .rd-acc__summary :global(.esa-icon) { flex-shrink: 0; color: var(--color-text-secondary); }
+  .rd-section__title :global(.esa-icon) { flex-shrink: 0; color: var(--color-text-secondary); }
+  .rd-acc__body { display: flex; flex-direction: column; gap: var(--spacing-400); padding: 0 var(--spacing-400) var(--spacing-400); }
+
+  /* Reference (read-only) */
+  .rd-reference { display: flex; flex-direction: column; gap: var(--spacing-200); padding: var(--spacing-400); background: var(--bcn-gray-50); border: 1px solid var(--bcn-gray-200); border-radius: var(--radius-300); }
+  .rd-reference__head { display: flex; align-items: center; justify-content: space-between; }
+  .rd-reference__label { font-size: 0.875rem; font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); }
+  /* "Edit requirement data" → EsaIconLink (own styling) */
+  .rd-ref-val { margin: 0; font-size: 0.875rem; line-height: 1.55; color: var(--color-text-primary); }
+
+  /* Sections */
+  .rd-section { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .rd-section__title { display: flex; align-items: center; gap: var(--spacing-200); margin: 0; font-size: var(--type-size-200); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+
+  /* Discussion */
+  .rd-comments { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .rd-comment { display: flex; gap: var(--spacing-300); }
+  /* Comment avatar → EsaAvatar (own styling) */
+  .rd-comment__body { display: flex; flex-direction: column; gap: 2px; }
+  .rd-comment__head { display: flex; align-items: baseline; gap: var(--spacing-200); }
+  .rd-comment__who { font-size: 0.875rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .rd-comment__when { font-size: 0.75rem; color: var(--color-text-tertiary); }
+  .rd-comment__text { margin: 0; font-size: 0.875rem; line-height: 1.5; color: var(--color-text-primary); }
+  .rd-compose { display: flex; flex-direction: column; gap: var(--spacing-200); align-items: flex-end; }
+  .rd-compose esa-textarea { width: 100%; }
+
+  /* Sidebar key/value (read-only prod details) */
+  .rd-kv { display: flex; flex-direction: column; gap: 2px; }
+  /* Key matches esa-select's .field__label (14px / medium / primary); value same size */
+  .rd-kv__key { font-size: 0.875rem; font-weight: var(--font-weight-medium); color: var(--color-text-primary); }
+  .rd-kv__val { font-size: 0.875rem; color: var(--color-text-secondary); }
+  .rd-kv__hint { font-size: 0.75rem; color: var(--color-text-tertiary); }
+
+  /* Lists & recipients → EsaPill (own styling); containers just wrap/flow */
+  .rd-lists { display: flex; flex-wrap: wrap; gap: var(--spacing-150); }
+
+  /* Notifications */
+  .rd-notif { gap: var(--spacing-400); }
+  .rd-notif__lead { margin: 0; font-size: 0.8125rem; line-height: 1.5; color: var(--color-text-secondary); }
+  .rd-notif__field { display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .rd-notif-next { display: inline-flex; align-items: center; gap: var(--spacing-200); font-size: 0.9375rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .rd-recipients { display: flex; flex-wrap: wrap; gap: var(--spacing-150); }
+  .rd-notif-types { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-150); }
+  .rd-notif-type { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); padding: var(--spacing-250) var(--spacing-300); border: 1px solid var(--bcn-gray-200); border-radius: var(--radius-200); background: var(--color-surface); }
+  .rd-notif-type__name { font-size: 0.875rem; font-weight: var(--font-weight-medium); color: var(--color-text-primary); }
+  .rd-notif-type__detail { display: inline-flex; align-items: center; gap: var(--spacing-150); font-size: 0.8125rem; color: var(--color-text-secondary); }
+  .rd-notif-type__detail::before { content: ''; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--bcn-gray-300, #c7c7c7); }
+  .rd-notif-type.is-on .rd-notif-type__detail::before { background: var(--color-success, #1a9b54); }
+  .rd-notif-type.is-off { opacity: 0.7; }
+  .rd-notif-type.is-off .rd-notif-type__detail { color: var(--color-text-tertiary); }
+
+  /* Change Log — vertical timeline, grouped by date */
+  .rd-log { list-style: none; margin: 0; padding: 0; }
+  .rd-log__day { position: relative; margin-left: 5px; padding: 0 0 var(--spacing-400) var(--spacing-500); border-left: 2px solid var(--bcn-gray-200); }
+  .rd-log__day:last-child { border-left-color: transparent; padding-bottom: 0; }
+  .rd-log__day::before { content: ''; position: absolute; left: -6px; top: 3px; width: 10px; height: 10px; border-radius: 50%; background: var(--color-surface); border: 2px solid var(--color-secondary, #00918b); }
+  .rd-log__date { margin: 0 0 var(--spacing-200); font-size: 0.8125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .rd-log__events { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .rd-log__event { display: flex; flex-direction: column; gap: 1px; }
+  .rd-log__text { font-size: 0.875rem; line-height: 1.4; color: var(--color-text-primary); }
+  .rd-log__by { font-size: 0.75rem; color: var(--color-text-tertiary); }
+
+  /* Evidence trigger strip — inset from the footer edges, shadowed, full-width
+     button. Clicking it slides the drawer up over the body. */
+  .rd-evidence-strip { display: flex; align-items: center; gap: var(--spacing-250); width: auto; margin: 0 var(--spacing-500); padding: var(--spacing-300) var(--spacing-400); text-align: left; background: var(--color-surface); border: 1px solid var(--bcn-gray-200); border-radius: var(--radius-300); box-shadow: none; cursor: pointer; transition: border-color 150ms ease, box-shadow 200ms ease; }
+  .rd-evidence-strip:hover { border-color: var(--color-border-strong, #c7c7c7); }
+  /* Shadow only while the drawer is open */
+  .rd-evidence-strip[aria-expanded='true'] { box-shadow: var(--shadow-300, 0 6px 18px rgba(0, 0, 0, 0.12)); }
+  .rd-evidence-strip__title { flex: 1; display: inline-flex; align-items: center; gap: var(--spacing-200); font-size: 0.9375rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  /* Trailing chevron is now an EsaIcon (chevron-up); rotate it when open */
+  .rd-evidence-strip :global(.esa-icon:last-child) { color: var(--color-text-tertiary); flex-shrink: 0; transition: transform 200ms ease; }
+  .rd-evidence-strip[aria-expanded='true'] :global(.esa-icon:last-child) { transform: rotate(180deg); }
+
+  /* ── Bottom evidence SHEET (bcn-, no ecology lego — see bcn-lego-checked in markup) ── */
+  /* Dim scrim behind the open sheet (within the stage) */
+  .rd-evidence-scrim { position: absolute; inset: 0; z-index: 4; background: rgba(15, 23, 42, 0.18); opacity: 0; pointer-events: none; transition: opacity 280ms ease; }
+  .rd-shell.is-evidence-open .rd-evidence-scrim { opacity: 1; pointer-events: auto; }
+  /* Slides up from the bottom of the stage, ~2/3 height */
+  .rd-evidence-drawer { position: absolute; left: 0; right: 0; bottom: 0; z-index: 5; height: 66%; min-height: 420px; display: flex; flex-direction: column; background: var(--color-surface); border-top: 1px solid var(--bcn-gray-200); border-radius: var(--radius-400, 0.75rem) var(--radius-400, 0.75rem) 0 0; box-shadow: none; transform: translateY(100%); transition: transform 300ms cubic-bezier(0.32, 0.72, 0, 1), box-shadow 300ms ease; }
+  .rd-shell.is-evidence-open .rd-evidence-drawer { transform: translateY(0); box-shadow: 0 -12px 32px rgba(0, 0, 0, 0.18); }
+  .rd-evidence-drawer__head { flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); padding: var(--spacing-400) var(--spacing-500); border-bottom: 1px solid var(--bcn-gray-200); }
+  .rd-evidence-drawer__heading { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .rd-evidence-drawer__title { display: inline-flex; align-items: center; gap: var(--spacing-200); font-size: var(--type-size-200); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .rd-evidence-drawer__expected { font-size: 0.8125rem; color: var(--color-text-tertiary); }
+  .rd-evidence-drawer__head-actions { display: flex; align-items: center; gap: var(--spacing-050); flex-shrink: 0; }
+  .rd-evidence-drawer__body { flex: 1; overflow-y: auto; padding: var(--spacing-500); display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .rd-row-actions { display: flex; gap: var(--spacing-300); }
+
+  /* ── Evidence cards — composition AROUND esa-card. The card chrome (border,
+     radius, header band, body) is the lego; only the collapse behavior, the
+     header row layout, and the dense action sizing are ours. ── */
+  .evi-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-300); }
+  /* esa-card header has 0 horizontal padding under padding="none"; supply our own.
+     Override the lego's 56px min-height for a denser list row. */
+  .evi-item :global(.esa-card__header) { min-height: 0; padding-block: var(--spacing-100); }
+  /* No internal divider when collapsed (header border would float over empty body) */
+  .evi-item:not(.is-expanded) :global(.esa-card__header) { border-bottom: 0; }
+  .evi__head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-150); width: 100%; padding-inline: var(--spacing-200); }
+  /* Clickable expand lead (chevron + title); actions sit outside it */
+  .evi__lead { flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--spacing-150); padding: var(--spacing-150) 0; cursor: pointer; }
+  .evi__lead :global(.esa-icon) { flex-shrink: 0; color: var(--color-text-tertiary); transition: transform 150ms ease; }
+  .evi-item.is-expanded .evi__lead :global(.esa-icon) { transform: rotate(90deg); }
+  .evi__name { min-width: 0; font-size: 0.8125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .evi__actions { display: flex; align-items: center; gap: 1px; flex-shrink: 0; }
+  /* Dense action buttons: shrink the esa-icon-button box + glyph */
+  .evi__actions :global(.esa-icon-button) { width: 26px; height: 26px; }
+  .evi__actions :global(.esa-icon) { width: 15px; height: 15px; }
+  .evi__actions :global(.evi-starred) { color: var(--accent, #f9a134); }
+  .evi__actions :global(.evi-starred svg) { fill: currentColor; }
+  /* Collapsible body — [hidden] beats display rules here since it's the default flow */
+  .evi__fields[hidden] { display: none; }
+  .evi__fields { display: flex; flex-direction: column; gap: var(--spacing-300); padding: var(--spacing-300) var(--spacing-400) var(--spacing-400); }
+  .evi__field { display: flex; flex-direction: column; gap: var(--spacing-100); }
+  .evi__label { display: inline-flex; align-items: center; gap: var(--spacing-150); font-size: 0.8125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .evi__text { font-size: 0.8125rem; line-height: 1.5; color: var(--color-text-secondary); }
+  .evi__text--muted { color: var(--color-text-tertiary); font-style: italic; }
+  .evi__pills { display: flex; flex-wrap: wrap; gap: var(--spacing-150); }
+
+  /* ── bcn-attachment — existing-file ROW (bcn-, no esa- file-display lego).
+     Reused in the card body (download action) and the editor (remove action).
+     Rules are :global() because the editor rows are injected via JS innerHTML. ── */
+  .bcn-attachments { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-150); }
+  .bcn-attachments:empty { display: none; }
+  :global(.bcn-attachment) { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--spacing-200); padding: 2px var(--spacing-300); border: 1px solid var(--bcn-gray-200); border-radius: 4px; background: var(--color-surface); font-size: 0.75rem; }
+  :global(.bcn-attachment > .esa-icon), :global(.bcn-attachment__icon) { display: inline-flex; color: var(--bcn-gray-400, #989898); }
+  :global(.bcn-attachment > .esa-icon svg) { width: 15px; height: 15px; }
+  :global(.bcn-attachment__name) { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--color-text-link, #005862); text-decoration: none; }
+  :global(.bcn-attachment__name:hover) { text-decoration: underline; }
+  :global(.bcn-attachment .esa-icon-button) { width: 24px; height: 24px; }
+  :global(.bcn-attachment__remove) { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border: 0; background: none; border-radius: var(--radius-200); color: var(--color-text-tertiary); cursor: pointer; transition: background 150ms ease, color 150ms ease; }
+  :global(.bcn-attachment__remove:hover) { background: var(--bcn-gray-100); color: var(--color-danger, #ef4444); }
+
+  /* ── Editor (esa-side-dialog lego) — only the body composition is ours ── */
+  .evi-files-field { display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .evi-files-field__label { font-size: 0.875rem; font-weight: var(--font-weight-medium); color: var(--color-text-primary); }
+  .evi-foot { display: flex; gap: var(--spacing-300); justify-content: flex-end; }
+
+  @media (max-width: 860px) {
+    .rd-grid { grid-template-columns: 1fr; }
+    .rd-side { border-left: 0; border-top: 1px solid var(--bcn-gray-200); }
+  }
 </style>
 
 <!-- Green radar icon in the H1 (PageLayout renders the icon outside this page's

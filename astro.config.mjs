@@ -14,7 +14,9 @@ export default defineConfig({
   base,
   server: { port: 4330 },
   // leaflet (CommonJS, used by the map-dashboard prototype) trips Vite's dev
-  // dependency pre-scan on the .astro entries. Pre-bundling it explicitly fixes
-  // `npm run dev`; production build is unaffected.
-  vite: { optimizeDeps: { include: ['leaflet', 'ag-grid-community'] } },
+  // dependency pre-scan, which crawls the .astro entries and chokes parsing the
+  // template markup as TS ("Expected > but found title"). `include` lists every
+  // dep that needs pre-bundling; `noDiscovery` skips the crawl that throws.
+  // Production build is unaffected.
+  vite: { optimizeDeps: { include: ['leaflet', 'ag-grid-community'], noDiscovery: true } },
 });

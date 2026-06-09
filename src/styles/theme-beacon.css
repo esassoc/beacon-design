@@ -27,11 +27,29 @@
  */
 
 [data-theme="beacon"] {
-  /* ===== SECONDARY — Beacon's true teal-500/800 (hub teal ramp diverges off-900) =====
-     Beacon $secondary = $teal-500 = #00918b; hover = $teal-800. The hub's teal
-     ramp matches Beacon only at 900, so re-point secondary explicitly. */
-  --color-secondary:       #00918b;
-  --color-secondary-hover: #0a6562;
+  /* ===== TEAL — Beacon's bespoke brand teal (the hub teal ramp is generic) =====
+     Beacon's teal ramp matches the hub ONLY at 900. Every other teal tint a
+     component shows (primary-subtle, primary-border, secondary) must come from
+     Beacon's own ramp (raw --bcn-teal-* below), or it renders off-brand.
+     Source: ../Beacon/Beacon.Web/src/scss/variables/_colors.scss $palette + semantics. */
+  --color-primary:         var(--bcn-teal-900);   /* $primary  = teal-900 #005862 */
+  --color-primary-hover:   #00474f;               /* color.adjust($primary, -10% L) */
+  --color-primary-active:  #003940;
+  --color-primary-subtle:  var(--bcn-teal-50);    /* was hub teal-50 #f0fdfa */
+  --color-primary-border:  var(--bcn-teal-200);   /* was hub teal-200 #99f6e4 */
+  --color-secondary:       var(--bcn-teal-500);   /* $secondary = teal-500 #00918b */
+  --color-secondary-hover: var(--bcn-teal-800);   /* teal-800 #0a6562 */
+
+  /* ===== FEEDBACK + AI — match Beacon's ui-button palette =====
+     Beacon's green/blue/orange ramps are identical to the hub's, but the hub's
+     SEMANTIC feedback tokens default to generic brights. Re-point to the exact
+     colors Beacon's <ui-button> renders ($button-colors map in ui-button.scss).
+     Hub primitives already carry these values — re-point onto them. */
+  --color-success: var(--color-green-700);  /* Beacon success = $green-700 #2e7571 (was #22c55e) */
+  --color-warning: var(--color-orange-500); /* Beacon warning = $orange-500 #f2770e (was #f59e0b) */
+  --color-info:    #228be6;                 /* Beacon $info (standalone azure, not on the blue ramp) */
+  --color-ai:       var(--color-blue-500);  /* Beacon ai = $blue-500 #699cc6 (hub default is copper) */
+  --color-ai-hover: var(--color-blue-700);  /* Beacon ai hover = $blue-700 #4c75a9 */
 
   /* ===== NEUTRAL CHAIN — Beacon's warmer grays =====
      Re-point the whole neutral chain to Beacon's --bcn-gray-* ramp (raw material
@@ -62,6 +80,19 @@
   --form-height-md: 36px;
   --form-height-lg: 44px;
 
+  /* Beacon rounds every control to a flat 4px ($input-border-radius = $radius-md
+     = 4px). The hub defaults md/lg to 8px (--radius-200), so buttons + inputs
+     read more rounded than Beacon. Re-point all four to 4px (--radius-100). */
+  --form-radius-xs: var(--radius-100);
+  --form-radius-sm: var(--radius-100);
+  --form-radius-md: var(--radius-100);
+  --form-radius-lg: var(--radius-100);
+
+  /* Beacon's warning fill (#f2770e) is dark enough for white text — its ui-button
+     uses white fg on warning. The hub default is dark text (for its lighter amber);
+     flip it here. */
+  --button-on-warning: #ffffff;
+
   /* ===== Beacon spoke tokens (no ecology equivalent) ===== */
 
   /* Warm gray ramp — Beacon's authoritative neutrals (_colors.scss $palette).
@@ -80,6 +111,17 @@
   --bcn-gray-900:  #3d3d3d;
   --bcn-gray-950:  #292929;
   --bcn-gray-1000: #000000;
+
+  /* Beacon's true teal ramp (_colors.scss $palette). The hub ships a generic
+     teal that only matches Beacon at 900 — these are Beacon's actual brand teal.
+     Raw material: feeds the --color-primary* / --color-secondary* re-points above. */
+  --bcn-teal-50:  #effefb;
+  --bcn-teal-100: #eef5f4;
+  --bcn-teal-200: #b9d6d2;
+  --bcn-teal-500: #00918b;
+  --bcn-teal-600: #0e807b;
+  --bcn-teal-800: #0a6562;
+  --bcn-teal-900: #005862;
 
   /* Setup-wizard step accents (Source → Commitment → Requirement → Action).
      Beacon exposes these globally as --color-source etc.; keep the same names so
