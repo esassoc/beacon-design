@@ -1,0 +1,650 @@
+---
+// Data Catalog — Requirement detail, STREAMLINED tenant (BCN-1163 + BCN-1283; Prologis).
+//
+// The streamlined twin of data-catalog-action.astro. Under the Streamlined Compliance
+// Workflow the Action and its Requirement COLLAPSE into one entity (1:1:1 Requirement ↔
+// Action ↔ one-time Action Implementation, auto-created/synced — BCN-1163), and the
+// Action entity is ALIASED to "Requirement" everywhere (BCN-1283). So this page reads
+// as ONE merged record:
+//   · the requirement's reference data (source text, Resource Category, Type, Phase,
+//     Species / Season / Construction Activities, Milestone) via BcnRequirementReference
+//   · the collapsed action's config (Responsible Party, Default Assignee, Expected
+//     Evidence, Reference Files, Notifications)
+// NO tracking / ActionImplementation leakage: the Data Catalog is setup/config/CRUD of
+// the building blocks — tracking data + presentation belong to the Tracking area. The
+// header's "Track this Requirement" deep-links to the Tracker (?track=<row>) and pops
+// ITS dialog; this page renders no status/due/assignee anywhere.
+// Prologis config: Action Text is HIDDEN (no Jira story yet — flagged as a quick one in
+// a later epic), Timing is one-time only (no frequency control), scope is fixed Project,
+// and Action Lists are dropped entirely.
+//
+// The "Edit requirement" MODAL keeps the regular page's fixed-size two-pane geometry,
+// but the left pane is now read-only SOURCE CONTEXT (serif requirement text, commitment,
+// source document) instead of requirements assignment — the 1:1 link is automatic.
+//
+// COMPONENT MANIFEST: AppShell + PageLayout chrome; read blocks reuse bcn-* components
+// (BcnRequirementReference, BcnKeyValue, BcnStatusSelect, BcnNotifications) + esa-* legos
+// (EsaButton/IconButton/Icon/Badge/Collapsible, esa-file-list, esa-date-picker,
+// esa-select); the edit modal is esa-dialog wrapping esa-tab-layout / esa-entity-search /
+// esa-file-upload / esa-input-tag / esa-switch-toggle / esa-select / esa-text-field /
+// esa-textarea; the source-document viewer is esa-side-dialog.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import EsaIconLink from '@esa/ecology/esa-icon-link.astro';
+import BcnKeyValue from '../../components/bcn/BcnKeyValue.astro';
+import BcnRequirementReference from '../../components/bcn/BcnRequirementReference.astro';
+import { actions } from '../../data/tracker-fixture';
+import { toRequirement } from '../../data/requirement-enrich';
+import { withBase } from '../../lib/base';
+
+const SQUARE_CHECK = "<rect width='18' height='18' x='3' y='3' rx='2'/><path d='m9 12 2 2 4-4'/>";
+const CLOCK = "<circle cx='12' cy='12' r='10'/><polyline points='12 6 12 12 16 14'/>";
+const INBOX = "<polyline points='22 12 16 12 14 15 10 15 8 12 2 12'/><path d='M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z'/>";
+const CALENDAR = "<path d='M8 2v4'/><path d='M16 2v4'/><rect width='18' height='18' x='3' y='4' rx='2'/><path d='M3 10h18'/>";
+
+// Streamlined Data Catalog sub-nav (same set as the list page).
+const dataCatalogNav = [
+  {
+    id: 'data-catalog',
+    title: 'Data Catalog',
+    icon: 'database',
+    expanded: true,
+    active: true,
+    items: [
+      { id: 'dc-projects', label: 'Projects' },
+      { id: 'dc-source-documents', label: 'Source Documents' },
+      { id: 'dc-commitments', label: 'Commitments' },
+      { id: 'dc-terms', label: 'Terms' },
+      { id: 'dc-requirements', label: 'Requirements', active: true },
+      { id: 'dc-evidence', label: 'Evidence of Compliance' },
+    ],
+  },
+];
+
+// ── The merged Requirement (read model): the MM-BIO-2 nesting-bird survey — it
+//    carries the FULL conditional trio (Species / Season / Construction Activities). ──
+const ROW_INDEX = 4; // also the ?track= deep-link target on the Tracker
+const row = actions[ROW_INDEX];
+const requirement = toRequirement(row);
+const reqName = row.name.trim();
+const commitmentId = row.commitment; // MM-BIO-2
+const reqType = row.type; // Survey
+const defaultAssignee = 'Sarah Kim';
+const deadlineRule = '14 days before milestone';
+const referenceFiles = ['nesting-bird-survey-protocol.pdf', 'no-disturbance-buffer-guidance.pdf'];
+
+// "Track this Requirement" → the Tracker, auto-opening ITS dialog for this row.
+const trackHref = `${withBase('/prototypes/requirement-tracker')}?track=${ROW_INDEX}`;
+
+// Notifications (read) — RULE phrasing only (config), never any one implementation's
+// dates: that would be tracking leakage.
+const notifTriggers = [
+  { name: 'Coming up', detail: '7 days before due', icon: 'inbox' },
+  { name: 'Due', detail: 'On the due date', icon: 'calendar' },
+  { name: 'Past due', detail: '1 day after due', icon: 'triangle-alert' },
+];
+const TRIGGER_PATHS: Record<string, string | undefined> = { inbox: INBOX, calendar: CALENDAR, 'triangle-alert': undefined };
+
+// Source document (the requirement's provenance — left pane of the edit modal + drawer).
+const sourcePdf = withBase('/source-docs/feir-sample.pdf');
+const sourceDocTitle = '3600 Alameda Avenue Project FEIR';
+const sourceDocHref = '#data-catalog/source-documents/3600-alameda-feir';
+
+const requirementsHref = withBase('/prototypes/data-catalog-requirements-streamlined');
+const editPayload = {
+  reqName,
+  requirementText: requirement.text,
+  species: requirement.species ?? [],
+  season: requirement.season ?? '',
+  constructionActivities: requirement.constructionActivities ?? [],
+  resourceCategory: requirement.resourceCategory,
+  phase: requirement.phase,
+  type: reqType,
+  responsibleParty: requirement.responsibleParty,
+  expectedEvidence: requirement.expectedEvidence,
+  milestone: row.milestones || 'Building Permit',
+  dueParts: { y: 2026, m: 5, d: 18 },
+};
+---
+
+<AppShell title={`${reqName} — Data Catalog`} tenantName="Prologis" projectName="Select a Project" navSections={dataCatalogNav}>
+  <PageLayout
+    title={reqName}
+    breadcrumbs={[{ label: 'Data Catalog', href: '#data-catalog' }, { label: 'Requirements', href: requirementsHref }, { label: reqName }]}
+  >
+    <div class="bcn-action">
+      <!-- Identity header — commitment badge on top, decorative name as H1, neutral
+           type badge trailing. Edit opens the upsert modal. -->
+      <header class="bcn-action__head">
+        <div class="bcn-action__identity">
+          <span class="bcn-action__badge bcn-action__badge--commitment">{commitmentId}</span>
+          <div class="bcn-action__title-row">
+            <h1 class="bcn-action__title">{reqName}</h1>
+            <span class="bcn-action__badge bcn-action__badge--type">{reqType}</span>
+          </div>
+        </div>
+        <div class="bcn-action__head-actions">
+          <span id="edit-req"><EsaButton color="primary"><span class="bcn-btn-ico"><EsaIcon name="pencil" size="xs" />Edit requirement</span></EsaButton></span>
+        </div>
+      </header>
+
+      <!-- Two-column body -->
+      <div class="bcn-action__body">
+        <!-- Main: the full requirement reference block (source text + metadata grid —
+             Resource Category / Type / Phase / Frequency / Milestone / Species / Season /
+             Construction activity / Responsible party / Expected evidence). The rail
+             carries ONLY what this block doesn't — zero duplication. The block's own
+             "Edit Requirement" footer button is hidden (the page header owns Edit);
+             "View in Source Document" opens the source drawer. -->
+        <div class="bcn-action__main">
+          <section class="bcn-action__section">
+            <h2 class="bcn-section-title">Requirement</h2>
+            <BcnRequirementReference requirement={requirement} />
+          </section>
+
+          <section class="bcn-action__section">
+            <h2 class="bcn-section-title">Reference Files</h2>
+            <esa-file-list id="ref-files"></esa-file-list>
+          </section>
+        </div>
+
+        <!-- Rail — conforms to the regular Action detail page (Details / Timing /
+             Notifications), minus Lists (dropped for Prologis). NO Tracking module:
+             zero status/due/assignee/ActionImplementation leakage on this page. The
+             "Track this Requirement" jump-off (→ the Tracker's own dialog via ?track=)
+             leads the rail. -->
+        <aside class="bcn-action__rail">
+          <a href={trackHref} class="bcn-track-link"><EsaButton color="ghost" appearance="outline"><span class="bcn-btn-ico"><EsaIcon name="square-check" size="xs" paths={SQUARE_CHECK} />Track this Requirement</span></EsaButton></a>
+
+          <!-- Details — Default Assignee + fixed scope: Responsible Party/Type live in
+               the reference block; Action Text is hidden for Prologis (no Jira story
+               yet — quick one in a later epic); Action Lists are dropped entirely. -->
+          <EsaCollapsible icon="info" title="Details" open>
+            <BcnKeyValue label="Default Assignee" value={defaultAssignee} />
+            <BcnKeyValue label="Scope" value="Project" hint="Streamlined requirements are always project-scoped" />
+          </EsaCollapsible>
+
+          <!-- Timing — one-time only (BCN-1163: no frequency/recurrence). Frequency +
+               Milestone read in the reference block; the rail adds the deadline rule. -->
+          <EsaCollapsible icon="clock" iconPaths={CLOCK} title="Timing" open>
+            <BcnKeyValue label="Deadline" value={deadlineRule} hint="One-time — single implementation, single due date" />
+          </EsaCollapsible>
+
+          <!-- Notifications — rule phrasing only (config), matching the regular Action
+               detail page's trigger rows. No per-implementation dates here. -->
+          <EsaCollapsible icon="bell" title="Notifications" open>
+            <ul class="bcn-triggers">
+              {notifTriggers.map((t) => (
+                <li class="bcn-trigger-row">
+                  <EsaIcon name={t.icon} size="sm" paths={TRIGGER_PATHS[t.icon]} />
+                  <span class="bcn-trigger-row__name">{t.name}</span>
+                  <span class="bcn-trigger-row__rule">{t.detail}</span>
+                </li>
+              ))}
+            </ul>
+          </EsaCollapsible>
+        </aside>
+      </div>
+    </div>
+  </PageLayout>
+
+  <!-- ═══ Edit Requirement MODAL — fixed-size two-pane, matching the regular page's
+       geometry. LEFT: read-only source context (serif requirement text, commitment,
+       source document). RIGHT: Details/Timing/Evidence/Notifications tabs. No
+       requirements-assignment pane — the 1:1 Action link is automatic (BCN-1163).
+       Action Text is hidden (Prologis). ═══ -->
+  <esa-dialog
+    id="edit-dialog"
+    size="lg"
+    style="--_dialog-width: 96vw; --_dialog-max-height: 94vh; --_dialog-bg: var(--color-surface, #fff); --z-modal-backdrop: 1150; --z-modal: 1200;"
+  >
+    <div slot="header" class="bcn-editor__head">
+      <span class="bcn-editor__head-title">{reqName}</span>
+      <span class="bcn-action__badge bcn-action__badge--type">{reqType}</span>
+    </div>
+    <div class="bcn-editor">
+      <!-- LEFT: source context (read) -->
+      <section class="bcn-context" aria-label="Source context">
+        <p class="bcn-context__text">{requirement.text}</p>
+        <div class="bcn-context__facts">
+          <span class="bcn-action__badge bcn-action__badge--commitment">{commitmentId}</span>
+          <span class="bcn-context__doc">
+            <EsaIcon name="file-text" size="sm" />
+            {sourceDocTitle}
+          </span>
+        </div>
+        <div class="bcn-context__actions">
+          <span id="ctx-source"><EsaButton color="ghost" appearance="outline" size="sm" icon="file-text">View in Source Document</EsaButton></span>
+        </div>
+      </section>
+
+      <!-- RIGHT: tabbed config -->
+      <section class="bcn-config" aria-label="Requirement configuration">
+        <esa-tab-layout id="config-tabs" appearance="underline">
+          <div slot="panel-0" class="bcn-form">
+            <esa-text-field id="d-name" label="Name" required></esa-text-field>
+            <esa-textarea id="d-text" label="Requirement Text" rows="4"></esa-textarea>
+            <!-- Action Text intentionally ABSENT — hidden under the Prologis config. -->
+            <div class="bcn-grid-2">
+              <esa-select id="d-type" label="Type"></esa-select>
+              <esa-select id="d-phase" label="Phase"></esa-select>
+            </div>
+            <esa-select id="d-cat" label="Resource Category"></esa-select>
+            <esa-input-tag id="d-species" label="Species"></esa-input-tag>
+            <div class="bcn-grid-2">
+              <esa-select id="d-season" label="Season"></esa-select>
+              <esa-text-field id="d-party" label="Responsible Party"></esa-text-field>
+            </div>
+            <esa-input-tag id="d-activities" label="Construction Activities"></esa-input-tag>
+            <esa-entity-search id="d-assignee" label="Default Assignee" placeholder="Search users, organizations, or people…"></esa-entity-search>
+          </div>
+
+          <div slot="panel-1" class="bcn-form">
+            <!-- One-time only (BCN-1163): no frequency control — a note instead. -->
+            <div class="bcn-note">
+              <EsaIcon name="info" size="sm" />
+              <span>Streamlined requirements are <strong>one-time</strong> — a single implementation with a single due date. Frequency and recurrence are not available.</span>
+            </div>
+            <div class="bcn-grid-3">
+              <esa-text-field id="t-offset" label="Deadline" type="number"></esa-text-field>
+              <esa-select id="t-unit" label="Unit"></esa-select>
+              <esa-select id="t-relative" label="Relative to"></esa-select>
+            </div>
+            <esa-select id="t-milestone" label="Milestone"></esa-select>
+          </div>
+
+          <div slot="panel-2" class="bcn-form">
+            <esa-textarea id="e-expected" label="Expected Evidence of Compliance" rows="6"></esa-textarea>
+            <div class="bcn-field">
+              <span class="bcn-field__label">Reference Files</span>
+              <esa-file-upload label="Drag & drop files, or browse" multiple accept=".pdf,.csv,.xlsx,.jpg,.jpeg,.png,.gif,.zip"></esa-file-upload>
+            </div>
+          </div>
+
+          <div slot="panel-3" class="bcn-form bcn-notif">
+            <section class="bcn-ncard">
+              <h4 class="bcn-ncard__title">Additional Recipients</h4>
+              <esa-entity-search id="n-recipients" label="Additional recipients" placeholder="Search users, organizations, or people…"></esa-entity-search>
+              <div class="bcn-note">
+                <EsaIcon name="info" size="sm" />
+                <span>Notifications are sent to the assignee. Add additional recipients here to also receive notifications.</span>
+              </div>
+            </section>
+
+            <section class="bcn-ncard">
+              <h4 class="bcn-ncard__title">Due Date</h4>
+              <p class="bcn-ncard__date">May 18, 2026</p>
+              <p class="bcn-ncard__hint">Notification times below are calculated relative to this date. The due date is edited in Project Tracking.</p>
+            </section>
+
+            <section class="bcn-ntoggle" data-notif="upcoming">
+              <header class="bcn-ntoggle__head">
+                <span class="bcn-ntoggle__title"><EsaIcon name="inbox" size="sm" paths={INBOX} />Your Requirement Is Coming Up</span>
+                <esa-switch-toggle id="n-upcoming" label="" checked></esa-switch-toggle>
+              </header>
+              <div class="bcn-ntoggle__body" data-notif-body>
+                <esa-text-field id="n-lead" label="Lead days" type="number"></esa-text-field>
+                <span class="bcn-field__hint">Default: 7 days</span>
+                <label class="bcn-check"><input type="checkbox" /><span>Repeat?</span></label>
+              </div>
+            </section>
+
+            <section class="bcn-ntoggle" data-notif="due">
+              <header class="bcn-ntoggle__head">
+                <span class="bcn-ntoggle__title"><EsaIcon name="calendar" size="sm" paths={CALENDAR} />Your Requirement Is Due</span>
+                <esa-switch-toggle id="n-due" label="" checked></esa-switch-toggle>
+              </header>
+              <div class="bcn-ntoggle__body" data-notif-body>
+                <p class="bcn-ncard__hint">A notification will be sent on the due date.</p>
+              </div>
+            </section>
+
+            <section class="bcn-ntoggle" data-notif="past">
+              <header class="bcn-ntoggle__head">
+                <span class="bcn-ntoggle__title"><EsaIcon name="triangle-alert" size="sm" />Your Requirement Is Past Due</span>
+                <esa-switch-toggle id="n-past" label="" checked></esa-switch-toggle>
+              </header>
+              <div class="bcn-ntoggle__body" data-notif-body>
+                <esa-text-field id="n-reminder" label="First reminder after (days)" type="number"></esa-text-field>
+                <span class="bcn-field__hint">Days after due date</span>
+                <label class="bcn-check"><input type="checkbox" /><span>Repeat?</span></label>
+              </div>
+            </section>
+
+            <section class="bcn-ncard">
+              <h4 class="bcn-ncard__title">Notification Schedule</h4>
+              <div id="notif-schedule-rows"></div>
+              <p id="notif-schedule-empty" class="bcn-ncard__hint">Enable notification types above to see the schedule.</p>
+              <div id="notif-test" class="bcn-nsched__test" hidden>
+                <span id="notif-test-btn"><EsaButton color="ghost" appearance="outline" size="sm">Send Test Emails</EsaButton></span>
+                <span class="bcn-ncard__hint">Sends to your email only</span>
+              </div>
+            </section>
+          </div>
+        </esa-tab-layout>
+      </section>
+    </div>
+    <div slot="footer" class="bcn-editor__foot">
+      <span id="er-cancel"><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span id="er-save"><EsaButton color="primary">Save</EsaButton></span>
+    </div>
+  </esa-dialog>
+
+  <!-- Source-document viewer = esa-side-dialog lego at page root; opened by both the
+       reference block's [data-bcn-source] trigger and the modal's context button.
+       --z lifts it above the edit dialog (z 1200). -->
+  <esa-side-dialog id="source-drawer" heading={sourceDocTitle} size="lg" style="--_width: 66vw; --z-modal: 1300; --z-modal-backdrop: 1250; --backdrop-filter: blur(4px);">
+    <div class="bcn-source-pdf">
+      <iframe class="bcn-source-pdf__frame" src={`${sourcePdf}#view=FitH&navpanes=0&pagemode=none`} title={`Source document — ${sourceDocTitle} (sample)`}></iframe>
+    </div>
+    <span slot="footer" class="bcn-source-foot">
+      <EsaIconLink href={sourceDocHref} trailing="arrow-right" size="sm" weight="medium">Open Source Document</EsaIconLink>
+    </span>
+  </esa-side-dialog>
+
+  <script type="application/json" id="edit-meta" set:html={JSON.stringify(editPayload)}></script>
+  <script type="application/json" id="ref-files-data" set:html={JSON.stringify(referenceFiles)}></script>
+</AppShell>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-tab-layout';
+  import '@esa/ecology/esa-entity-search';
+  import '@esa/ecology/esa-file-upload';
+  import '@esa/ecology/esa-file-list';
+  import '@esa/ecology/esa-switch-toggle';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-input-tag';
+
+  const editMeta = JSON.parse(document.getElementById('edit-meta')!.textContent || '{}');
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+
+  const setOptions = (id: string, opts: string[], value?: string) => {
+    const el = document.getElementById(id) as (HTMLElement & { options: { value: string; label: string }[]; value: string }) | null;
+    if (!el) return;
+    el.options = opts.map((o) => ({ value: o, label: o }));
+    if (value !== undefined) el.value = value;
+  };
+  const setValue = (id: string, value: string) => {
+    const el = document.getElementById(id) as (HTMLElement & { value: string }) | null;
+    if (el) el.value = value;
+  };
+  const setTags = (id: string, values: string[]) => {
+    const el = document.getElementById(id) as (HTMLElement & { value: string[] }) | null;
+    if (el) el.value = values;
+  };
+  const setEntities = (id: string, items: { id: string; title: string; subtitle?: string; scope: string }[]) => {
+    const el = document.getElementById(id) as (HTMLElement & { items: typeof items }) | null;
+    if (el) el.items = items;
+  };
+
+  // ── Reference files (read list) ──
+  const refFiles = JSON.parse(document.getElementById('ref-files-data')!.textContent || '[]') as string[];
+  const refList = $('ref-files') as HTMLElement & { files: { name: string }[] };
+  refList.files = refFiles.map((name) => ({ name }));
+
+  // ── Edit modal ──
+  const dialog = $('edit-dialog') as HTMLElement & { open: boolean };
+  const tabs = $('config-tabs') as HTMLElement & { tabs: { label: string }[] };
+  tabs.tabs = [{ label: 'Details' }, { label: 'Timing' }, { label: 'Evidence of Compliance' }, { label: 'Notifications' }];
+
+  // Details tab — the merged entity's fields. Requirement Text replaces Action Text
+  // (hidden for Prologis); the trio (Species / Season / Construction Activities) is
+  // editable as first-class fields.
+  setValue('d-name', editMeta.reqName ?? '');
+  setValue('d-text', editMeta.requirementText ?? '');
+  setOptions(
+    'd-type',
+    ['Analysis', 'Survey', 'Monitoring', 'Avoidance & BMPs', 'Restoration & Mitigation', 'Plan', 'Design', 'Reporting', 'Approval & Consultation', 'Financial', 'Training & Education', 'Other'],
+    editMeta.type,
+  );
+  setOptions('d-phase', ['Pre-Construction', 'Construction', 'Post-Construction'], editMeta.phase);
+  setOptions(
+    'd-cat',
+    ['Aesthetics', 'Air Quality', 'Biological Resources', 'Cultural Resources', 'Geology, Soils, and Paleontological Resources', 'Greenhouse Gas Emissions', 'Noise', 'Utilities and Service Systems'],
+    editMeta.resourceCategory,
+  );
+  setTags('d-species', editMeta.species ?? []);
+  setOptions('d-season', ['Feb 1 – Aug 31', 'Breeding season (Feb – Aug)', 'Dry season (Apr – Oct)', 'Year-round'], editMeta.season || '');
+  setValue('d-party', editMeta.responsibleParty ?? '');
+  setTags('d-activities', editMeta.constructionActivities ?? []);
+  const people = [
+    { id: 'u1', title: 'Sarah Kim', subtitle: 'Environmental Lead', scope: 'People' },
+    { id: 'u2', title: 'Maria Chen', subtitle: 'Project Biologist', scope: 'People' },
+    { id: 'o1', title: 'City of Oakland', subtitle: 'Organization', scope: 'Organizations' },
+  ];
+  setEntities('d-assignee', people);
+  setEntities('n-recipients', people);
+
+  // Timing tab — one-time only: deadline rule + milestone, no frequency control.
+  setValue('t-offset', '14');
+  setOptions('t-unit', ['Days', 'Weeks', 'Months'], 'Days');
+  setOptions('t-relative', ['Before', 'After'], 'Before');
+  setOptions('t-milestone', ['Building Permit', 'Demolition', 'Final Inspection', 'Grading Permit', 'Notice of Completion'], editMeta.milestone);
+
+  // Evidence tab.
+  setValue('e-expected', editMeta.expectedEvidence ?? '');
+
+  // Open / close.
+  $('edit-req').addEventListener('click', () => (dialog.open = true));
+  $('er-cancel').addEventListener('click', () => (dialog.open = false));
+  $('er-save').addEventListener('click', () => (dialog.open = false));
+
+  // ── Source drawer — opened by the reference block's trigger AND the modal context ──
+  const sourceDrawer = $('source-drawer') as HTMLElement & { open: boolean };
+  document.querySelectorAll<HTMLElement>('[data-bcn-source]').forEach((el) =>
+    el.addEventListener('click', () => (sourceDrawer.open = true)),
+  );
+  $('ctx-source').addEventListener('click', () => (sourceDrawer.open = true));
+
+  // ── Notifications: number defaults, toggle bodies (show/hide without resizing the
+  //    modal — the pane scrolls), and the schedule computed from the due date. ──
+  setValue('n-lead', '7');
+  setValue('n-reminder', '1');
+
+  const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const due = editMeta.dueParts as { y: number; m: number; d: number };
+  const shiftDays = (delta: number) => new Date(due.y, due.m - 1, due.d + delta);
+  const fmtDate = (dt: Date) => `${MONTHS[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()}`;
+  const numVal = (id: string, fallback: number) => {
+    const el = document.getElementById(id) as (HTMLElement & { value: string }) | null;
+    const n = parseInt(el?.value ?? '', 10);
+    return Number.isFinite(n) ? n : fallback;
+  };
+
+  const notifOn: Record<'upcoming' | 'due' | 'past', boolean> = { upcoming: true, due: true, past: true };
+  const rowsEl = $('notif-schedule-rows');
+  const emptyEl = $('notif-schedule-empty');
+  const testEl = $('notif-test');
+
+  function renderSchedule() {
+    const schedule: [string, string][] = [];
+    if (notifOn.upcoming) schedule.push(['Your Requirement Is Coming Up', fmtDate(shiftDays(-numVal('n-lead', 7)))]);
+    if (notifOn.due) schedule.push(['Your Requirement Is Due', fmtDate(shiftDays(0))]);
+    if (notifOn.past) schedule.push(['Your Requirement Is Past Due', fmtDate(shiftDays(numVal('n-reminder', 1)))]);
+    rowsEl.innerHTML = schedule.map(([k, v]) => `<p class="bcn-nsched__row"><span class="bcn-nsched__k">${k}:</span> ${v}</p>`).join('');
+    const any = schedule.length > 0;
+    emptyEl.hidden = any;
+    testEl.hidden = !any;
+  }
+
+  (['upcoming', 'due', 'past'] as const).forEach((key) => {
+    const sw = $(`n-${key}`) as HTMLElement & { checked: boolean };
+    const body = document.querySelector(`[data-notif="${key}"] [data-notif-body]`) as HTMLElement | null;
+    const sync = () => {
+      notifOn[key] = sw.checked;
+      if (body) body.hidden = !sw.checked;
+      renderSchedule();
+    };
+    sw.addEventListener('change', sync);
+    sync();
+  });
+  document.getElementById('n-lead')?.addEventListener('change', renderSchedule);
+  document.getElementById('n-reminder')?.addEventListener('change', renderSchedule);
+  renderSchedule();
+</script>
+
+<style>
+  /* bcn-lego-checked: page-composition glue only — the read layout (identity header,
+     two-column main+rail), the edit-modal two-pane SHELL (read context | tabs), and the
+     source-PDF frame. No esa-* lego models an entity detail/editor PAGE; checked Ecology
+     (every control is a lego — buttons/badges/collapsibles/dialog/side-dialog/tabs/
+     selects/toggles/input-tags/file-list/date-picker — all used here) and Beacon (mirrors
+     the prod detail + upsert-modal structure, simplified per BCN-1163). The read blocks
+     reuse bcn-* components; this is layout, not a new primitive. Ported from
+     data-catalog-action.astro. */
+
+  .bcn-action { display: flex; flex-direction: column; gap: var(--spacing-600); }
+
+  /* Identity header */
+  .bcn-action__head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-400); padding-bottom: var(--spacing-400); border-bottom: 1px solid var(--color-border); }
+  .bcn-action__head-actions { display: inline-flex; align-items: center; gap: var(--spacing-200); flex-shrink: 0; }
+  .bcn-action__identity { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-100); min-width: 0; }
+  .bcn-action__title-row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-200); min-width: 0; }
+  .bcn-action__title { margin: 0; font-family: var(--font-decorative); font-size: 1.5rem; font-weight: var(--font-weight-semibold); line-height: 1.2; color: var(--color-text-primary); }
+  .bcn-action__badge { flex-shrink: 0; padding: 0.125rem 0.375rem; border-radius: var(--radius-100); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); line-height: 1.4; white-space: nowrap; }
+  .bcn-action__badge--commitment { color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); }
+  .bcn-action__badge--type { color: var(--color-text-secondary); background: var(--color-surface-sunken); transform: translateY(2px); }
+
+  /* Two-column body */
+  .bcn-action__body { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: var(--spacing-600); align-items: start; }
+  .bcn-action__main { min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-600); }
+  .bcn-action__rail { min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-500); }
+  .bcn-action__rail :global(.esa-collapsible__title) {
+    font-size: var(--type-size-300);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .bcn-action__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-section-title {
+    display: flex; align-items: center; gap: var(--spacing-200); margin: 0;
+    font-size: var(--type-size-300); font-weight: var(--font-weight-semibold); color: var(--color-text-primary);
+  }
+
+  /* The page header owns Edit — hide the reference block's own footer Edit button
+     (it would deep-link to the regular Data Catalog, which doesn't apply here). */
+  .bcn-action__main :global([data-bcn-edit]) { display: none; }
+
+  /* The reference block sits on the page (not a white dialog) — surface white so it
+     reads as a card against the page background. */
+  .bcn-action__main :global(.bcn-reqref) { background: var(--color-surface); }
+
+  .bcn-btn-ico { display: inline-flex; align-items: center; gap: var(--spacing-150); }
+  /* Rail-leading jump-off: full-width so it reads as the sidebar's primary affordance. */
+  .bcn-track-link { text-decoration: none; display: block; }
+  .bcn-track-link :global(.esa-button),
+  .bcn-track-link :global(.esa-button__native) { width: 100%; justify-content: center; }
+
+  /* Rail Notifications — rules-only trigger rows (per-trigger icon | name | rule),
+     ported from the regular Action detail page. */
+  .bcn-triggers { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-trigger-row { display: flex; align-items: center; gap: var(--spacing-250); font-size: var(--form-font-size-md); }
+  .bcn-trigger-row :global(.esa-icon) { color: var(--color-primary); flex-shrink: 0; }
+  .bcn-trigger-row__name { color: var(--color-text-primary); font-weight: var(--font-weight-medium); }
+  .bcn-trigger-row__rule { margin-left: auto; color: var(--color-text-secondary); text-align: right; }
+
+  @media (max-width: 1024px) {
+    .bcn-action__body { grid-template-columns: 1fr; }
+  }
+
+  /* ═══ Edit modal — two-pane: read source context | tabbed config. FIXED-HEIGHT stage;
+     each pane scrolls independently so toggling notifications or switching tabs NEVER
+     resizes the modal. Same geometry as the regular Action page's editor. ═══ */
+  .bcn-editor {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    align-items: stretch;
+    height: calc(86vh - 8.5rem);
+    /* Full-bleed: cancel esa-dialog's body padding (--_dialog-padding) so the panes
+       reach the modal edges and the tab-bar border can span the full pane width. */
+    margin: calc(-1 * var(--_dialog-padding, 1.5rem));
+    overflow: hidden;
+  }
+  .bcn-editor__head { display: flex; align-items: center; gap: var(--spacing-200); }
+  .bcn-editor__head-title { font-family: var(--font-decorative); font-size: var(--type-size-300); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-editor__foot { display: flex; gap: var(--spacing-300); justify-content: flex-end; width: 100%; }
+
+  /* Left pane: read-only source context — quiet background, serif requirement text. */
+  .bcn-context {
+    display: flex; flex-direction: column; gap: var(--spacing-400);
+    min-width: 0; height: 100%; overflow-y: auto;
+    padding: var(--spacing-500);
+    background: var(--color-background);
+    border-right: 1px solid var(--color-border);
+  }
+  .bcn-context__text { margin: 0; font-family: var(--font-decorative); font-size: 1.0625rem; line-height: 1.65; color: var(--color-text-primary); }
+  .bcn-context__facts { display: flex; align-items: center; gap: var(--spacing-300); flex-wrap: wrap; padding-top: var(--spacing-300); border-top: 1px solid var(--color-border); }
+  .bcn-context__doc { display: inline-flex; align-items: center; gap: var(--spacing-150); font-size: var(--form-font-size-md); color: var(--color-text-secondary); }
+  .bcn-context__doc :global(.esa-icon) { color: var(--color-text-tertiary); }
+  .bcn-context__actions { display: flex; }
+
+  /* Config pane: NO padding here — the tab bar spans the full pane width. */
+  .bcn-config { min-width: 0; min-height: 0; overflow-y: auto; }
+  .bcn-config :global(esa-tab-layout) { display: block; --_tab-padding-x: var(--spacing-500); }
+  .bcn-form { display: flex; flex-direction: column; gap: var(--spacing-400); padding: var(--spacing-300) var(--spacing-500) var(--spacing-500); }
+  .bcn-grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-300); }
+  .bcn-grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-300); }
+  .bcn-field { display: flex; flex-direction: column; gap: var(--spacing-150); }
+  .bcn-field__label { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); color: var(--form-label-color); }
+  .bcn-field__hint { font-size: 0.75rem; color: var(--color-text-tertiary); }
+
+  .bcn-note {
+    display: flex; align-items: flex-start; gap: var(--spacing-200);
+    padding: var(--spacing-300); border-radius: var(--radius-200);
+    background: color-mix(in srgb, var(--color-primary) 8%, white);
+    color: var(--color-text-secondary); font-size: var(--form-font-size-md); line-height: 1.45;
+  }
+  .bcn-note :global(.esa-icon) { color: var(--color-primary); flex-shrink: 0; margin-top: 2px; }
+
+  /* Notifications tab — carded sections matching the prod modal. */
+  .bcn-notif { gap: var(--spacing-400); }
+  .bcn-ncard {
+    display: flex; flex-direction: column; gap: var(--spacing-250);
+    padding: var(--spacing-400); border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface);
+  }
+  .bcn-ncard__title { margin: 0; font-size: 0.875rem; font-weight: var(--font-weight-bold); letter-spacing: 0.03em; text-transform: uppercase; color: var(--color-text-primary); }
+  .bcn-ncard__date { margin: 0; font-size: var(--type-size-300); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-ncard__hint { margin: 0; font-size: var(--form-font-size-md); color: var(--color-text-secondary); line-height: 1.45; }
+
+  .bcn-ntoggle {
+    display: flex; flex-direction: column; gap: var(--spacing-300);
+    padding: var(--spacing-400); border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface);
+  }
+  .bcn-ntoggle__head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); }
+  .bcn-ntoggle__title { display: inline-flex; align-items: center; gap: var(--spacing-250); font-weight: var(--font-weight-semibold); color: var(--color-primary); }
+  .bcn-ntoggle__title :global(.esa-icon) { color: var(--color-text-primary); }
+  .bcn-ntoggle__body { display: flex; flex-direction: column; gap: var(--spacing-200); align-items: flex-start; }
+  .bcn-ntoggle__body[hidden] { display: none; }
+  .bcn-ntoggle__body :global(esa-text-field) { max-width: 240px; }
+
+  .bcn-check { display: inline-flex; align-items: center; gap: var(--spacing-200); font-size: var(--form-font-size-md); color: var(--color-text-primary); cursor: pointer; }
+  .bcn-check input { width: 1rem; height: 1rem; accent-color: var(--color-primary); }
+
+  .bcn-nsched__row { margin: 0 0 var(--spacing-150); font-size: var(--form-font-size-md); color: var(--color-text-primary); }
+  .bcn-nsched__k { font-weight: var(--font-weight-semibold); }
+  .bcn-nsched__test { display: flex; align-items: center; gap: var(--spacing-300); margin-top: var(--spacing-200); }
+  .bcn-nsched__test[hidden] { display: none; }
+
+  /* Source-document drawer body — full-height PDF frame. */
+  .bcn-source-pdf { height: 100%; min-height: 60vh; }
+  .bcn-source-pdf__frame { width: 100%; height: 100%; min-height: 60vh; border: 0; border-radius: var(--radius-200); background: var(--color-surface-sunken); }
+  .bcn-source-foot { display: flex; justify-content: flex-end; width: 100%; }
+
+  @media (max-width: 860px) {
+    .bcn-editor { grid-template-columns: 1fr; }
+  }
+</style>
+
+<!-- This page renders its own identity header (commitment badge + name + type badge),
+     so hide PageLayout's default title row. Page-scoped: only loaded here. -->
+<style is:global>
+  /* !important to beat PageLayout's scoped `.page-layout__title { display: flex }`
+     (Astro scoped selectors carry an attribute and outrank a bare class). */
+  .page-layout__title { display: none !important; }
+</style>

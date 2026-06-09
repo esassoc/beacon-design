@@ -4,9 +4,7 @@
 // (working screens, straight off the typed registry in src/data/prototypes.ts).
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { withBase } from '../lib/base';
-import { prototypesByNewest, type PrototypeStatus } from '../data/prototypes';
-
-const rows = prototypesByNewest();
+import { prototypeGroups, type PrototypeStatus } from '../data/prototypes';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 // Format from the ISO parts directly — avoids new Date() timezone drift that can
@@ -54,29 +52,39 @@ const STATUS_LABEL: Record<PrototypeStatus, string> = {
     <section class="protos" aria-label="Prototypes">
       <div class="protos__head">
         <h2>Prototypes</h2>
-        <p>Working screens for the platform, built on the system.</p>
+        <p>Working screens for the platform, built on the system — two major efforts, each with its sub-pages.</p>
       </div>
-      <ul class="proto-list">
-        {rows.map((p) => (
-          <li class="proto-card">
-            <a class="proto-card__link" href={withBase(p.route)}>
-              <span class="proto-card__title">
-                {p.title}
-                <svg class="proto-card__arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
-              </span>
-            </a>
-            <p class="proto-card__desc">{p.description}</p>
-            <div class="proto-card__foot">
-              <span class="lib-status" data-status={p.status}>
-                <span class="lib-status__dot" aria-hidden="true"></span>
-                {STATUS_LABEL[p.status]}
-              </span>
-              <time class="proto-card__meta" datetime={p.createdAt}>{fmtDate(p.createdAt)}</time>
-              {p.ticket && <span class="proto-card__meta">{p.ticket}</span>}
-            </div>
-          </li>
-        ))}
-      </ul>
+      {prototypeGroups.map((g) => (
+        <div class="proto-group">
+          <div class="proto-group__head">
+            <h3 class="proto-group__title">{g.title}</h3>
+            <p class="proto-group__desc">{g.description}</p>
+          </div>
+          <table class="proto-table">
+            <thead>
+              <tr>
+                <th scope="col">Page</th>
+                <th scope="col">Built</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {g.pages.map((p) => (
+                <tr>
+                  <td class="proto-table__page"><a href={withBase(p.route)}>{p.title}</a></td>
+                  <td class="proto-table__meta"><time datetime={p.createdAt}>{fmtDate(p.createdAt)}</time></td>
+                  <td>
+                    <span class="lib-status" data-status={p.status}>
+                      <span class="lib-status__dot" aria-hidden="true"></span>
+                      {STATUS_LABEL[p.status]}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ))}
     </section>
 
     <footer class="home__foot">
@@ -157,21 +165,48 @@ const STATUS_LABEL: Record<PrototypeStatus, string> = {
     .protos__head { margin-bottom: var(--spacing-400, 16px); }
     .protos__head h2 { margin: 0; font-family: var(--font-display, var(--font-sans)); font-size: var(--type-size-500, 1.5rem); font-weight: var(--font-weight-semibold, 550); color: var(--color-text-primary, #3d3d3d); }
     .protos__head p { margin: var(--spacing-100, 4px) 0 0; color: var(--color-text-secondary, #525252); }
-    .proto-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-300, 12px); }
-    .proto-card {
-      position: relative; padding: var(--spacing-400, 16px) var(--spacing-500, 24px);
-      border: 1px solid var(--color-border, #dcdcdc); border-radius: var(--radius-300, 8px);
-      transition: background-color 0.12s ease, border-color 0.12s ease;
+    /* Group: heading + one-liner + sub-page table */
+    .proto-group { margin-top: var(--spacing-600, 32px); }
+    .proto-group:first-of-type { margin-top: var(--spacing-200, 8px); }
+    .proto-group__head { margin-bottom: var(--spacing-300, 12px); }
+    .proto-group__title {
+      margin: 0;
+      font-family: var(--font-display, var(--font-sans));
+      font-size: var(--type-size-400, 1.25rem); font-weight: var(--font-weight-semibold, 550);
+      color: var(--color-text-primary, #3d3d3d);
     }
-    .proto-card:hover { background: var(--color-primary-subtle, #f0fdfa); border-color: var(--color-primary-border, #99f6e4); }
-    .proto-card__link { display: block; }
-    .proto-card__link::after { content: ''; position: absolute; inset: 0; }
-    .proto-card__title { display: inline-flex; align-items: center; gap: var(--spacing-150, 6px); font-weight: var(--font-weight-semibold, 550); font-size: var(--type-size-300, 1.0625rem); color: var(--color-text-link, #005862); }
-    .proto-card__arrow { opacity: 0; transition: opacity 0.12s ease; flex: none; }
-    .proto-card:hover .proto-card__arrow { opacity: 0.7; }
-    .proto-card__desc { margin: var(--spacing-150, 6px) 0 var(--spacing-300, 12px); font-size: var(--type-size-100, 0.9375rem); line-height: 1.5; color: var(--color-text-secondary, #525252); }
-    .proto-card__foot { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-300, 12px); }
-    .proto-card__meta { font-size: var(--type-size-100, 0.875rem); color: var(--color-text-muted, #7c7c7c); font-variant-numeric: tabular-nums; }
+    .proto-group__desc { margin: var(--spacing-100, 4px) 0 0; font-size: var(--type-size-200, 1rem); line-height: 1.5; color: var(--color-text-secondary, #525252); }
+
+    .proto-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid var(--color-border, #dcdcdc);
+      border-radius: var(--radius-300, 8px);
+      overflow: hidden;
+      font-size: var(--type-size-200, 1rem);
+    }
+    .proto-table th {
+      padding: var(--spacing-250, 10px) var(--spacing-400, 16px);
+      text-align: left;
+      font-size: var(--type-size-100, 0.9375rem);
+      font-weight: var(--font-weight-semibold, 550);
+      color: var(--color-text-secondary, #525252);
+      background: var(--color-surface-sunken, #f5f5f4);
+      border-bottom: 1px solid var(--color-border, #dcdcdc);
+      white-space: nowrap;
+    }
+    .proto-table td {
+      padding: var(--spacing-300, 12px) var(--spacing-400, 16px);
+      vertical-align: top;
+      border-bottom: 1px solid var(--color-border-light, #ebebeb);
+    }
+    .proto-table tbody tr:last-child td { border-bottom: 0; }
+    .proto-table tbody tr { transition: background-color 0.12s ease; }
+    .proto-table tbody tr:hover { background: var(--color-primary-subtle, #f0fdfa); }
+    .proto-table__page { width: 100%; }
+    .proto-table__page a { font-weight: var(--font-weight-semibold, 550); color: var(--color-text-link, #005862); text-decoration: none; }
+    .proto-table__page a:hover { text-decoration: underline; }
+    .proto-table__meta { white-space: nowrap; color: var(--color-text-muted, #7c7c7c); font-variant-numeric: tabular-nums; }
 
     .lib-status { display: inline-flex; align-items: center; gap: var(--spacing-150, 6px); padding: 2px var(--spacing-250, 10px) 2px var(--spacing-200, 8px); border-radius: var(--radius-full, 999px); font-size: var(--type-size-100, 0.875rem); font-weight: var(--font-weight-medium, 450); white-space: nowrap; }
     .lib-status__dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
@@ -192,6 +227,10 @@ const STATUS_LABEL: Record<PrototypeStatus, string> = {
       color: var(--color-text-muted, #7c7c7c); font-size: var(--type-size-100, 0.875rem);
     }
 
-    @media (max-width: 720px) { .layers, .proto-list { grid-template-columns: 1fr; } .hero { padding-top: var(--spacing-800, 64px); } }
+    @media (max-width: 720px) {
+      .layers { grid-template-columns: 1fr; }
+      .hero { padding-top: var(--spacing-800, 64px); }
+      .proto-table { display: block; overflow-x: auto; }
+    }
   </style>
 </BaseLayout>

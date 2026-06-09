@@ -21,6 +21,8 @@ interface NavItem {
   id: string;
   label: string;
   active?: boolean;
+  /** Real route (already withBase'd). Defaults to the `#id` stub when absent. */
+  href?: string;
 }
 interface NavSection {
   id: string;
@@ -305,7 +307,7 @@ const {
                     <ul class="nav-section__items">
                       {section.items?.map((item) => (
                         <li class="nav-item">
-                          <a href={`#${item.id}`} class:list={['nav-sublink', { active: item.active }]}>
+                          <a href={item.href ?? `#${item.id}`} class:list={['nav-sublink', { active: item.active }]}>
                             {item.label}
                           </a>
                         </li>

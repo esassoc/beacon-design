@@ -1,14 +1,15 @@
 ---
-// Data Catalog — Actions (BCN-1318).
+// Data Catalog — Requirements, STREAMLINED tenant (BCN-1163 + BCN-1283; Prologis).
 //
-// The Data Catalog's Actions list page: today the Data Catalog hub has a DISABLED
-// "Actions" entry and no list/detail. This screen enables it, mirroring the live
-// Requirements catalog page (teal AG Grid, link columns, "Search grid…" + "Clear
-// Filters" chrome) for the not-yet-existing Action entity. The Data Catalog is
-// project-agnostic, so the project switcher reads "Select a Project" and the sidebar
-// collapses to the Data Catalog's own sub-nav (BCN-1320) with Actions now active.
+// The streamlined-tenant twin of data-catalog-actions.astro. Under the Streamlined
+// Compliance Workflow, Actions are ALIASED to "Requirements" (BCN-1283 display
+// aliasing) and collapse 1:1:1 with the requirement + its single one-time
+// implementation (BCN-1163) — so this list IS the Actions catalog wearing the
+// Requirements name, with the requirement's own reference data (Species /
+// Construction Activities) surfaced as first-class columns. The NATIVE Requirement
+// entity remains in the catalog as "Terms" (renamed to break the label collision).
 //
-// Row click → the net-new Action detail page (data-catalog-action.astro).
+// Row click → the streamlined Requirement detail page.
 //
 // COMPONENT MANIFEST: AppShell + PageLayout chrome, esa-* legos (esa-text-field,
 // EsaButton, EsaIconButton), and the shared Beacon grid kit (src/lib/beacon-grid.ts).
@@ -18,11 +19,12 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
 import { actions, PROJECT_NAME } from '../../data/tracker-fixture';
+import { ENRICH } from '../../data/requirement-enrich';
 import { withBase } from '../../lib/base';
 
-// The Data Catalog sub-nav (BCN-1320) — the hub's entity entries, with the
-// previously-disabled Actions now enabled and active. No project is selected: the
-// catalog is the global, project-agnostic home for these entities.
+// The streamlined Data Catalog sub-nav (BCN-1320 shape, Prologis entity set):
+// no Actions entry (aliased away), no Components (streamlined ⇒ HasComponents=false),
+// native Requirements renamed "Terms", and "Requirements" = this aliased Actions list.
 const dataCatalogNav = [
   {
     id: 'data-catalog',
@@ -34,20 +36,20 @@ const dataCatalogNav = [
       { id: 'dc-projects', label: 'Projects' },
       { id: 'dc-source-documents', label: 'Source Documents' },
       { id: 'dc-commitments', label: 'Commitments' },
-      { id: 'dc-requirements', label: 'Requirements' },
-      { id: 'dc-actions', label: 'Actions', active: true },
-      { id: 'dc-components', label: 'Components' },
+      { id: 'dc-terms', label: 'Terms' },
+      { id: 'dc-requirements', label: 'Requirements', active: true },
       { id: 'dc-evidence', label: 'Evidence of Compliance' },
     ],
   },
 ];
 
-// Action-centric projection of the fixture. The catalog Actions list leads with the
-// Action name and surfaces its Responsible Party (action config facts), where the
-// Requirements list leads with Requirement Text — same grid, different entity.
-// NO Status column: status is tracking data (per-implementation) — it lives in the
-// Tracking area, not the Data Catalog (config surface).
-const detailHref = withBase('/prototypes/data-catalog-action');
+// Requirement-centric projection: the merged entity leads with the requirement Name,
+// and carries the requirement reference facets (Species / Construction Activities
+// from the ENRICH map) alongside the collapsed action's config facts (Responsible
+// Party). "Type" is the shared RequirementType enum — not "Action Type" here.
+// NO Status column: status is tracking data — it lives in the Tracking area, not the
+// Data Catalog (config surface).
+const detailHref = withBase('/prototypes/data-catalog-requirement-streamlined');
 const listRows = actions.map((a) => ({
   name: a.name.trim(),
   project: PROJECT_NAME,
@@ -57,6 +59,8 @@ const listRows = actions.map((a) => ({
   responsibleParty: a.responsibleParty,
   resourceCategory: a.resourceCategory,
   phase: a.phase,
+  species: (ENRICH[a.commitment]?.species ?? []).join(', '),
+  constructionActivities: (ENRICH[a.commitment]?.constructionActivities ?? []).join(', '),
 }));
 
 const gridPayload = {
@@ -65,10 +69,10 @@ const gridPayload = {
 };
 ---
 
-<AppShell title="Actions — Data Catalog" tenantName="Prologis" projectName="Select a Project" navSections={dataCatalogNav}>
+<AppShell title="Requirements — Data Catalog" tenantName="Prologis" projectName="Select a Project" navSections={dataCatalogNav}>
   <PageLayout
-    title="Actions"
-    breadcrumbs={[{ label: 'Data Catalog', href: '#data-catalog' }, { label: 'Actions' }]}
+    title="Requirements"
+    breadcrumbs={[{ label: 'Data Catalog', href: '#data-catalog' }, { label: 'Requirements' }]}
   >
     <!-- Grid header: global search · clear filters (Beacon-parity names) -->
     <div class="grid-header">
@@ -111,6 +115,8 @@ const gridPayload = {
     responsibleParty: string;
     resourceCategory: string;
     phase: string;
+    species: string;
+    constructionActivities: string;
   }
   interface Payload {
     rows: ListRow[];
@@ -120,18 +126,21 @@ const gridPayload = {
   const payload: Payload = JSON.parse(document.getElementById('dc-grid-data')!.textContent || '{}');
   const { rows, detailHref } = payload;
 
-  // Action-centric columns — config facts only (NO Status: tracking data stays in the
-  // Tracking area). Explicit (wider) widths so the grid overflows and scrolls
-  // left/right like Beacon's data-catalog grids — no fit-to-width.
+  // Requirement-centric columns: shared "Type" (not Action Type), plus the requirement
+  // reference facets (Species / Construction Activities). NO Status — tracking data
+  // stays in the Tracking area. Explicit (wider) widths so the grid overflows and
+  // scrolls left/right like Beacon's data-catalog grids.
   const columnDefs: ColDef<ListRow>[] = [
     { field: 'name', headerName: 'Name', width: 360, cellRenderer: linkRenderer },
     { field: 'project', headerName: 'Project', width: 210, cellRenderer: linkRenderer },
     { field: 'commitment', headerName: 'Commitment ID', width: 160, cellRenderer: linkRenderer },
     { field: 'sourceDoc', headerName: 'Source Document', width: 180, cellRenderer: linkRenderer },
-    { field: 'type', headerName: 'Action Type', width: 190 },
+    { field: 'type', headerName: 'Type', width: 190 },
     { field: 'responsibleParty', headerName: 'Responsible Party', width: 210 },
     { field: 'resourceCategory', headerName: 'Resource Category', width: 220 },
     { field: 'phase', headerName: 'Phase', width: 180 },
+    { field: 'species', headerName: 'Species', width: 220 },
+    { field: 'constructionActivities', headerName: 'Construction Activities', width: 240 },
   ];
 
   const totalEl = document.getElementById('dc-total')!;
@@ -163,7 +172,7 @@ const gridPayload = {
     tooltipShowMode: 'whenTruncated',
     onFirstDataRendered: updateCounts,
     onFilterChanged: updateCounts,
-    // Row click → the Action detail page (static prototype: one realized example).
+    // Row click → the streamlined Requirement detail page (static prototype: one realized example).
     onRowClicked: () => (window.location.href = detailHref),
   };
 
@@ -184,7 +193,7 @@ const gridPayload = {
   });
 
   document.getElementById('dc-clear-filters')!.addEventListener('click', () => api.setFilterModel(null));
-  document.getElementById('dc-download')!.addEventListener('click', () => api.exportDataAsCsv({ fileName: 'data-catalog-actions.csv' }));
+  document.getElementById('dc-download')!.addEventListener('click', () => api.exportDataAsCsv({ fileName: 'data-catalog-requirements.csv' }));
 </script>
 
 <style>
@@ -192,8 +201,8 @@ const gridPayload = {
      (search/clear header, AG Grid host, download/count footer). No esa-* lego wraps a
      full grid page; checked Ecology (esa-* has form/button legos, used here, but no
      grid-page shell) and Beacon (this IS the ported prod grid-page layout). Ported
-     verbatim from requirement-tracker.astro so the catalog grids stay identical. Every
-     control inside is a lego; this is layout, not a new primitive. */
+     verbatim from data-catalog-actions.astro so the catalog grids stay identical.
+     Every control inside is a lego; this is layout, not a new primitive. */
 
   /* Beacon grid header: search · clear filters */
   .grid-header {

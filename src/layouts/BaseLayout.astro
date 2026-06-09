@@ -5,7 +5,9 @@
 import '@esa/tokens/tokens.css';
 import '@esa/tokens/component-tokens.css';
 import '../styles/theme-beacon.css';
-import HandoffInspector from '../components/handoff/HandoffInspector.astro';
+// HandoffInspector: temporarily disabled for the demo — uncomment this import
+// AND the <HandoffInspector /> tag in <body> to re-enable.
+// import HandoffInspector from '../components/handoff/HandoffInspector.astro';
 
 interface Props {
   title?: string;
@@ -43,6 +45,6 @@ const { title = 'Beacon Design' } = Astro.props;
   </head>
   <body>
     <slot />
-    <HandoffInspector />
+    <!-- <HandoffInspector /> — disabled for the demo; re-enable with the import above. -->
   </body>
 </html>

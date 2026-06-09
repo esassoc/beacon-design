@@ -27,6 +27,10 @@ interface NotifTrigger {
 interface Props {
   lead?: string;
   editHref?: string;
+  /** Link copy — override where the entity noun is tenant-aliased (BCN-1283),
+   *  e.g. "Edit recipients & triggers" on streamlined pages where Action reads
+   *  "Requirement". */
+  editLabel?: string;
   recipients: string[];
   triggers: NotifTrigger[];
 }
@@ -34,6 +38,7 @@ interface Props {
 const {
   lead = 'Sent to the assignee on each implementation.',
   editHref = '#data-catalog-action',
+  editLabel = 'Edit recipients & triggers on the Action',
   recipients,
   triggers,
 } = Astro.props;
@@ -42,7 +47,7 @@ const {
 <div class="bcn-notifications">
   <p class="bcn-notifications__lead">
     {lead}
-    <EsaIconLink href={editHref} trailing="arrow-right" size="sm">Edit recipients &amp; triggers on the Action</EsaIconLink>
+    <EsaIconLink href={editHref} trailing="arrow-right" size="sm">{editLabel}</EsaIconLink>
   </p>
 
   <div class="bcn-notifications__field">

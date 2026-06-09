@@ -99,7 +99,9 @@ const hasUtilities = Astro.slots.has('utilities');
   .page-layout {
     display: flex;
     flex-direction: column;
-    min-height: calc(100vh - 15rem);
+    /* Fill the viewport below the fixed 52px topbar so the gray surface always
+       reaches the bottom, even on short-content pages (e.g. detail pages). */
+    min-height: calc(100vh - 52px);
     padding: var(--spacing-600);
     background: var(--bcn-gray-50);
     box-sizing: border-box;

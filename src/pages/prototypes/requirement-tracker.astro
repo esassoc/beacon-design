@@ -34,37 +34,14 @@ import BcnChangeLog from '../../components/bcn/BcnChangeLog.astro';
 import BcnNotifications from '../../components/bcn/BcnNotifications.astro';
 import BcnEvidenceList from '../../components/bcn/BcnEvidenceList.astro';
 import { actions, STATUS_META, type ActionStatus } from '../../data/tracker-fixture';
-import type { RequirementReference } from '../../components/bcn/requirement-reference';
 import { withBase } from '../../lib/base';
+import { ENRICH, toRequirement } from '../../data/requirement-enrich';
 
 // Serialized payload for the AG Grid island.
-// Conditional-trio enrichment (Species / Season / Construction activity) keyed by
-// commitment — the generated fixture doesn't carry these, so a small map drives the
-// differential metadata the reference block surfaces. Serialized to the client so
-// openDialog can rebuild the block per row.
-const ENRICH: Record<string, Pick<RequirementReference, 'species' | 'season' | 'constructionActivities'>> = {
-  'MM-BIO-1': { constructionActivities: ['Demolition', 'Site preparation'] },
-  'MM-BIO-2': { species: ['Nesting raptors', 'Migratory birds'], season: 'Feb 1 – Aug 31', constructionActivities: ['Ground disturbance', 'Vegetation removal'] },
-  'MM-BIO-3': { species: ['Roosting bats'], constructionActivities: ['Demolition', 'Tree removal'] },
-  'SCA BIO-1': { species: ['Migratory birds'] },
-  'SCA BIO-2': { season: 'Breeding season (Feb – Aug)', constructionActivities: ['Tree removal'] },
-  'SCA BIO-3': { constructionActivities: ['Tree removal', 'Grading'] },
-  'SCA AIR-1': { constructionActivities: ['Earthwork', 'Grading', 'Demolition'] },
-  'SCA AIR-2': { constructionActivities: ['Earthwork', 'Hauling'] },
-};
-
-// Map a fixture row → the component's RequirementReference (Frequency defaults to
-// One-time inside the component under the streamlined config).
-const toRequirement = (row: (typeof actions)[number]): RequirementReference => ({
-  text: row.requirementText,
-  resourceCategory: row.resourceCategory,
-  type: row.type,
-  phase: row.phase,
-  milestone: row.milestones || undefined,
-  responsibleParty: row.responsibleParty,
-  expectedEvidence: row.expectedEvidence,
-  ...ENRICH[row.commitment],
-});
+// Conditional-trio enrichment (Species / Season / Construction activity) lives in the
+// shared src/data/requirement-enrich.ts (also consumed by the streamlined Data Catalog
+// Requirements pages). Serialized to the client so openDialog can rebuild the
+// reference block per row.
 
 const initialReq = toRequirement(actions[0]);
 const sourcePdf = withBase('/source-docs/feir-sample.pdf');
@@ -134,8 +111,9 @@ const eocs = [
 // Prologis-specific sidenav — the aliased / trimmed tree their tenant sees.
 // Project drops Organize Actions / Action Lists / Document Reviews / Spatial
 // Library Layers; Tracking drops All Components; Reporting drops Progress
-// Report; Data Catalog drops Actions (their "Requirements" will route to the
-// Actions catalog under the upcoming Simplified fork).
+// Report; Data Catalog drops Actions — their "Requirements" routes to the
+// streamlined Requirements catalog (the aliased Actions, BCN-1163/BCN-1283), and
+// the native Requirement entity remains as "Terms".
 const prologisNav = [
   { id: 'setup-wizard', title: 'Setup Wizard', icon: 'compass', link: true },
   {
@@ -177,7 +155,9 @@ const prologisNav = [
     items: [
       { id: 'dc-source-documents', label: 'Source Documents' },
       { id: 'dc-commitments', label: 'Commitments' },
-      { id: 'dc-requirements', label: 'Requirements' },
+      // Aliased Actions — routes to the streamlined Requirements catalog (BCN-1163).
+      // (The native entity's "Terms" entry lives on the catalog pages' own sub-nav.)
+      { id: 'dc-requirements', label: 'Requirements', href: withBase('/prototypes/data-catalog-requirements-streamlined') },
       { id: 'dc-all-data', label: 'All Data' },
     ],
   },
@@ -298,7 +278,7 @@ const prologisNav = [
       <div class="bcn-dialog__grid">
         <!-- ── Main column (independently scrolls) ── -->
         <div class="bcn-dialog__main">
-          <BcnRequirementReference requirement={initialReq} editHref="#data-catalog/requirements" />
+          <BcnRequirementReference requirement={initialReq} editHref={withBase('/prototypes/data-catalog-requirement-streamlined')} />
           <BcnDiscussion comments={discussionComments} currentUser={currentUser} />
         </div>
 
@@ -809,6 +789,15 @@ const prologisNav = [
       setEvidenceOpen(false);
     }
   }, true);
+
+  // ── Deep link: ?track=<row index> auto-opens the tracking dialog. Used by the
+  //    streamlined Data Catalog Requirement detail page's "Track this Requirement" —
+  //    tracking data + presentation live HERE, the catalog only links in. ──
+  const trackParam = new URLSearchParams(location.search).get('track');
+  if (trackParam !== null) {
+    const trackRow = rows[Number(trackParam)];
+    if (trackRow) openDialog(trackRow);
+  }
 </script>
 
 <style>
