@@ -1,0 +1,53 @@
+---
+// <BcnChangeLog> — the tracking dialog's Change Log: a date-grouped vertical
+// timeline of activity, replacing the legacy page-level .rd-log. Each day is a node
+// on a connecting rail; under it, a list of events, each "{text} {emphasis}" on one
+// line with the actor + time beneath. Presentational — no JS, host supplies the data.
+//
+// bcn-lego-checked: no esa-* timeline/changelog lego — checked Ecology and Beacon.
+// bcn-change-log is a date-grouped vertical timeline; the spine is a rail, not a status
+// left-border.
+
+interface ChangeLogEvent {
+  text: string;
+  emphasis?: string;
+  by: string;
+}
+interface ChangeLogDay {
+  date: string;
+  events: ChangeLogEvent[];
+}
+interface Props {
+  days: ChangeLogDay[];
+}
+const { days } = Astro.props;
+---
+
+<ol class="bcn-change-log">
+  {days.map((day) => (
+    <li class="bcn-change-log__day">
+      <p class="bcn-change-log__date">{day.date}</p>
+      <ul class="bcn-change-log__events">
+        {day.events.map((e) => (
+          <li class="bcn-change-log__event">
+            <span class="bcn-change-log__text">{e.text} {e.emphasis && <strong>{e.emphasis}</strong>}</span>
+            <span class="bcn-change-log__by">{e.by}</span>
+          </li>
+        ))}
+      </ul>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .bcn-change-log { list-style: none; margin: 0; padding: 0; }
+  /* The left border is the timeline SPINE (a rail), not a status indicator. */
+  .bcn-change-log__day { position: relative; margin-left: 5px; padding: 0 0 var(--spacing-400) var(--spacing-500); border-left: 2px solid var(--color-border); }
+  .bcn-change-log__day:last-child { border-left-color: transparent; padding-bottom: 0; }
+  .bcn-change-log__day::before { content: ''; position: absolute; left: -6px; top: 3px; width: 10px; height: 10px; border-radius: 50%; background: var(--color-surface); border: 2px solid var(--color-secondary); }
+  .bcn-change-log__date { margin: 0 0 var(--spacing-200); font-size: 0.8125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-change-log__events { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-change-log__event { display: flex; flex-direction: column; gap: 1px; }
+  .bcn-change-log__text { font-size: 0.875rem; line-height: 1.4; color: var(--color-text-primary); }
+  .bcn-change-log__by { font-size: 0.75rem; color: var(--color-text-tertiary); }
+</style>

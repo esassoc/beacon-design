@@ -1,0 +1,124 @@
+---
+// <BcnEvidenceList> — the Evidence-of-Compliance card list: a collapsible list of
+// evidence records (Title / Notes / Tags / Files) plus the "Add New / Add Existing
+// Evidence" action row. Each row is composition AROUND esa-card — the card chrome
+// (border, radius, header band, body) is the lego; only the collapse behavior, the
+// header row layout, and the dense action rail are ours.
+//
+// It does NOT own the slide-up sheet that wraps it (its header / download-all / close /
+// drawer geometry stay in the host). For dynamic hosts, render the list then call
+// setupEvidenceList(root, { onEdit }) to wire expand/file-list/edit/delete/star
+// (see ./evidence-list.ts).
+//
+// bcn-lego-checked: esa-card IS the lego (one per row); the collapsible list, dense
+// action rail, and esa-file-list population are composition with no single esa-*
+// equivalent. Checked Ecology and Beacon. bcn-evidence-list is the reusable
+// Evidence-of-Compliance list.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaPill from '@esa/ecology/esa-pill.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+
+export interface EvidenceItem {
+  id: string;
+  title: string;
+  notes: string;
+  tags: string[];
+  files: string[];
+}
+
+interface Props {
+  items: EvidenceItem[];
+}
+const { items } = Astro.props;
+---
+
+<div class="bcn-evidence-list">
+  <ul class="bcn-evidence-list__items">
+    {items.map((e) => (
+      <li
+        class="bcn-evidence-card"
+        id={e.id}
+        data-title={e.title}
+        data-notes={e.notes}
+        data-tags={e.tags.join(',')}
+        data-files={e.files.join(',')}
+      >
+        <EsaCard padding="none">
+          <div slot="header" class="bcn-evidence-card__head">
+            <span class="bcn-evidence-card__lead">
+              <EsaIcon name="chevron-right" size="sm" />
+              <span class="bcn-evidence-card__name">{e.title}</span>
+            </span>
+            <span class="bcn-evidence-card__actions">
+              <EsaIconButton icon="star" label="Add to summary page" size="sm" />
+              <EsaIconButton icon="download" label="Download all files as .zip" size="sm" />
+              <EsaIconButton icon="pencil" label="Edit evidence" size="sm" />
+              <EsaIconButton icon="trash-2" label="Delete evidence" size="sm" />
+            </span>
+          </div>
+          <div class="bcn-evidence-card__fields" hidden>
+            <div class="bcn-evidence-card__field">
+              <span class="bcn-evidence-card__label">Notes</span>
+              {e.notes ? <span class="bcn-evidence-card__text">{e.notes}</span> : <span class="bcn-evidence-card__text bcn-evidence-card__text--muted">None</span>}
+            </div>
+            {e.tags.length > 0 && (
+              <div class="bcn-evidence-card__field">
+                <span class="bcn-evidence-card__label">Tags</span>
+                <div class="bcn-evidence-card__pills">{e.tags.map((t) => <EsaPill label={t} removable={false} size="sm" />)}</div>
+              </div>
+            )}
+            <div class="bcn-evidence-card__field">
+              <span class="bcn-evidence-card__label">Files <EsaBadge variant="secondary" size="sm" value={e.files.length} /></span>
+              <!-- files (array) are set as a property by setupEvidenceList -->
+              <esa-file-list class="bcn-evidence-card__files"></esa-file-list>
+            </div>
+          </div>
+        </EsaCard>
+      </li>
+    ))}
+  </ul>
+  <div class="bcn-evidence-list__row-actions">
+    <EsaButton color="primary" size="sm" icon="plus">Add New Evidence</EsaButton>
+    <EsaButton color="ghost" appearance="outline" size="sm">Add Existing Evidence</EsaButton>
+  </div>
+</div>
+
+<style>
+  .bcn-evidence-list { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .bcn-evidence-list__row-actions { display: flex; gap: var(--spacing-300); }
+
+  /* ── Evidence cards — composition AROUND esa-card. The card chrome (border,
+     radius, header band, body) is the lego; only the collapse behavior, the
+     header row layout, and the dense action sizing are ours. ── */
+  .bcn-evidence-list__items { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-300); }
+  /* esa-card header has 0 horizontal padding under padding="none"; supply our own.
+     Override the lego's 56px min-height for a denser list row. */
+  .bcn-evidence-card :global(.esa-card__header) { min-height: 0; padding-block: var(--spacing-100); }
+  /* No internal divider when collapsed (header border would float over empty body) */
+  .bcn-evidence-card:not(.is-expanded) :global(.esa-card__header) { border-bottom: 0; }
+  .bcn-evidence-card__head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-150); width: 100%; padding-inline: var(--spacing-200); }
+  /* Clickable expand lead (chevron + title); actions sit outside it */
+  .bcn-evidence-card__lead { flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--spacing-150); padding: var(--spacing-150) 0; cursor: pointer; }
+  .bcn-evidence-card__lead :global(.esa-icon) { flex-shrink: 0; color: var(--color-text-tertiary); transition: transform 150ms ease; }
+  .bcn-evidence-card.is-expanded .bcn-evidence-card__lead :global(.esa-icon) { transform: rotate(90deg); }
+  .bcn-evidence-card__name { min-width: 0; font-size: 0.8125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bcn-evidence-card__actions { display: flex; align-items: center; gap: 1px; flex-shrink: 0; }
+  /* Dense action buttons: shrink the esa-icon-button box + glyph */
+  .bcn-evidence-card__actions :global(.esa-icon-button) { width: 26px; height: 26px; }
+  .bcn-evidence-card__actions :global(.esa-icon) { width: 15px; height: 15px; }
+  .bcn-evidence-card__actions :global(.bcn-evidence-card__star--on) { color: var(--color-accent); }
+  .bcn-evidence-card__actions :global(.bcn-evidence-card__star--on svg) { fill: currentColor; }
+  /* Collapsible body — [hidden] beats display rules here since it's the default flow */
+  .bcn-evidence-card__fields[hidden] { display: none; }
+  .bcn-evidence-card__fields { display: flex; flex-direction: column; gap: var(--spacing-300); padding: var(--spacing-300) var(--spacing-400) var(--spacing-400); }
+  .bcn-evidence-card__field { display: flex; flex-direction: column; gap: var(--spacing-100); }
+  .bcn-evidence-card__label { display: inline-flex; align-items: center; gap: var(--spacing-150); font-size: 0.8125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-evidence-card__text { font-size: 0.8125rem; line-height: 1.5; color: var(--color-text-secondary); }
+  .bcn-evidence-card__text--muted { color: var(--color-text-tertiary); font-style: italic; }
+  .bcn-evidence-card__pills { display: flex; flex-wrap: wrap; gap: var(--spacing-150); }
+
+  /* File rows use the esa-file-list lego (own styling). */
+</style>

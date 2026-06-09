@@ -70,19 +70,19 @@ const fields = resolveFields(requirement);
 
 <style>
   /* Token-driven; parent owns outer spacing. Mirrors the dialog's .rd-reference shell. */
-  .bcn-reqref { display: flex; flex-direction: column; gap: var(--spacing-400); padding: var(--spacing-500); background: var(--bcn-gray-50); border: 1px solid var(--bcn-gray-200); border-radius: var(--radius-300, 0.5rem); }
+  .bcn-reqref { display: flex; flex-direction: column; gap: var(--spacing-400); padding: var(--spacing-500); background: var(--color-background); border: 1px solid var(--color-border); border-radius: var(--radius-300); }
 
   /* Source text in the decorative serif (Besley) — full width, quoted regulatory voice. */
   .bcn-reqref__text { margin: 0; font-family: var(--font-decorative); font-size: 1rem; line-height: 1.6; color: var(--color-text-primary); }
 
   /* Quiet key-value grid (no pills). */
-  .bcn-reqref__meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--spacing-600, 2rem); margin: 0; padding-top: var(--spacing-200); border-top: 1px solid var(--bcn-gray-200); }
-  .bcn-reqref__row { display: grid; grid-template-columns: 178px 1fr; align-items: start; gap: var(--spacing-300); padding: var(--spacing-250) 0; border-bottom: 1px solid var(--bcn-gray-100); }
+  .bcn-reqref__meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--spacing-600); margin: 0; padding-top: var(--spacing-200); border-top: 1px solid var(--color-border); }
+  .bcn-reqref__row { display: grid; grid-template-columns: 178px 1fr; align-items: start; gap: var(--spacing-300); padding: var(--spacing-250) 0; border-bottom: 1px solid var(--color-border-light); }
   .bcn-reqref__row[hidden] { display: none; }
-  .bcn-reqref__key { display: inline-flex; align-items: center; gap: var(--spacing-150); margin: 0; font-size: var(--type-size-100, 0.875rem); font-weight: var(--font-weight-medium); color: var(--color-text-secondary); }
+  .bcn-reqref__key { display: inline-flex; align-items: center; gap: var(--spacing-150); margin: 0; font-size: var(--type-size-100); font-weight: var(--font-weight-medium); color: var(--color-text-secondary); }
   /* Attribute glyphs — small, tertiary. */
   .bcn-reqref__key :global(.esa-icon) { --_icon-size: 11px; color: var(--color-text-tertiary); flex-shrink: 0; }
-  .bcn-reqref__val { margin: 0; font-size: var(--type-size-100, 0.875rem); color: var(--color-text-primary); line-height: 1.5; }
+  .bcn-reqref__val { margin: 0; font-size: var(--type-size-100); color: var(--color-text-primary); line-height: 1.5; }
 
   /* Footer actions — two identical low-emphasis buttons. */
   .bcn-reqref__footer { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-100); flex-wrap: wrap; padding-top: var(--spacing-200); }

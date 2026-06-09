@@ -39,6 +39,8 @@ export interface ActionRow {
   resourceCategory: string;
   /** Lifecycle phase (from CSV; used for grouping, not a Progress Report column). */
   phase: string;
+  /** Action-List membership (prototype stub — assigned by type; see listForType). */
+  list: string;
   /** Responsible Party (protoAction — read-only reference in the dialog). */
   responsibleParty: string;
   /** Implementation assignee (editable override). */
@@ -49,11 +51,15 @@ export interface ActionRow {
   expectedEvidence: string;
 }
 
+// Hex literals mirror the spoke's --bcn-status-* tokens (theme-beacon.css). AG Grid's
+// cell renderer needs literal strings (it can't read CSS vars at config time), so these
+// are kept in sync with the tokens by value — the dialog's BcnStatusSelect reads the same
+// tokens via CSS. Not-applicable has no status token; it's a neutral muted gray.
 export const STATUS_META: Record<ActionStatus, { label: string; hex: string }> = {
-  'not-started': { label: 'Not Started', hex: '#9aa3ad' },
-  'in-progress': { label: 'In Progress', hex: '#e0a400' },
-  completed: { label: 'Completed', hex: '#1a9b54' },
-  'not-applicable': { label: 'Not Applicable', hex: '#b8bcc2' },
+  'not-started': { label: 'Not Started', hex: '#bdbdbd' }, // --bcn-status-not-started (gray-300)
+  'in-progress': { label: 'In Progress', hex: '#f59e0b' }, // --bcn-status-in-progress
+  completed: { label: 'Completed', hex: '#22c55e' }, // --bcn-status-completed
+  'not-applicable': { label: 'Not Applicable', hex: '#b8bcc2' }, // muted gray (no status token)
 };
 
 /** Kanban/board order — Not Applicable is folded off the board by default. */
@@ -62,7 +68,7 @@ export const STATUS_ORDER: ActionStatus[] = ['not-started', 'in-progress', 'comp
 export const PROJECT_NAME = '3600 Alameda Avenue Project';
 export const SOURCE_DOCUMENT = '3600 Alameda Avenue Project FEIR';
 
-export const actions: ActionRow[] = [
+const rawActions: Omit<ActionRow, 'list'>[] = [
   { name: 'Develop WEAP Training', commitment: 'MM-BIO-1', sourceDoc: '3600 Alameda Avenue Project FEIR', type: 'Training & Education', status: 'not-started', comments: 0, action: 'Develop WEAP Training', milestones: 'Demolition', resourceCategory: 'Biological Resources', phase: 'Pre-Construction', responsibleParty: 'Project Biologist', assignee: 'Maria Chen', dueDate: '2026-01-01', expectedEvidence: 'Survey report (PDF)', requirementText: 'All project personnel shall receive develop WEAP Training prior to beginning work on site, with attendance documented for the compliance record.' },
   { name: 'Provide WEAP Training to all Project personnel', commitment: 'MM-BIO-1', sourceDoc: '3600 Alameda Avenue Project FEIR', type: 'Training & Education', status: 'completed', comments: 1, action: 'Provide WEAP Training to all', milestones: '', resourceCategory: 'Biological Resources', phase: 'Construction', responsibleParty: 'QSP / Inspector', assignee: 'Unassigned', dueDate: '2027-08-12', expectedEvidence: 'Monitoring log', requirementText: 'All project personnel shall receive provide WEAP Training to all Project personnel prior to beginning work on site, with attendance documented for the compliance record.' },
   { name: 'If bird nests are found, establish no-disturbance buffers zones', commitment: 'MM-BIO-2', sourceDoc: '3600 Alameda Avenue Project FEIR', type: 'Other', status: 'in-progress', comments: 0, action: 'Establish no-disturbance buffers zones', milestones: '', resourceCategory: 'Biological Resources', phase: 'Construction', responsibleParty: 'Cultural Resources Lead', assignee: 'Priya Patel', dueDate: '2026-03-23', expectedEvidence: 'Training sign-in sheet', requirementText: 'Requirement: If bird nests are found, establish no-disturbance buffers zones, in accordance with the applicable FEIR mitigation measure and standard conditions of approval.' },
@@ -194,3 +200,18 @@ export const actions: ActionRow[] = [
   { name: 'Water Efficient Landscape Ordinance', commitment: 'SCA UTIL-7', sourceDoc: '3600 Alameda Avenue Project FEIR', type: 'Design', status: 'completed', comments: 3, action: 'Water Efficient Landscape Ordinance', milestones: 'Final Inspection', resourceCategory: 'Utilities and Service Systems', phase: 'Pre-Construction', responsibleParty: 'Acoustical Consultant', assignee: 'Maria Chen', dueDate: '2026-09-05', expectedEvidence: 'Survey report (PDF)', requirementText: 'Project design shall incorporate water Efficient Landscape Ordinance consistent with the standards and performance criteria identified in the FEIR.' },
   { name: 'Water Efficient Landscape Ordinance installation', commitment: 'SCA UTIL-7', sourceDoc: '3600 Alameda Avenue Project FEIR', type: 'Other', status: 'not-started', comments: 1, action: 'Water Efficient Landscape Ordinance installation', milestones: '', resourceCategory: 'Utilities and Service Systems', phase: 'Construction', responsibleParty: 'Hydrogeologist', assignee: 'Unassigned', dueDate: '2027-04-16', expectedEvidence: 'Monitoring log', requirementText: 'Requirement: Water Efficient Landscape Ordinance installation, in accordance with the applicable FEIR mitigation measure and standard conditions of approval.' },
 ];
+
+// List facet (prototype stub): the FEIR export carries no Action-List membership,
+// so each row is assigned to one of three lists deterministically by requirement
+// type. Gives the Tracker's "List" filter real backing without hand-editing every
+// generated row. Swap for real list data when the export carries it.
+const LIST_BY_TYPE: Record<string, string> = {
+  Reporting: 'Annual Reporting',
+  Monitoring: 'Annual Reporting',
+  Plan: 'Desktop Requirements',
+  Design: 'Desktop Requirements',
+  'Approval & Consultation': 'Desktop Requirements',
+};
+const listForType = (type: string): string => LIST_BY_TYPE[type] ?? 'Field Verification';
+
+export const actions: ActionRow[] = rawActions.map((r) => ({ ...r, list: listForType(r.type) }));

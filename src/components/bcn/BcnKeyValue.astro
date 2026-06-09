@@ -1,0 +1,41 @@
+---
+// <BcnKeyValue> — the read-only key / value / hint tier from the tracking dialog's
+// Details and Notifications sections (replacing the legacy .rd-kv block). Presentational:
+// stacks a quiet label, an optional prominent value, and an optional tertiary hint.
+//
+// The label intentionally mirrors esa-select's .field__label EXACTLY (clamped
+// --form-font-size-md, --font-weight-medium 450, --form-label-color) so a read-only
+// "Responsible Party" reads identically to an editable "Assignee" select label. The
+// value is the prominent answer (semibold + primary). A <slot> lets a host pass rich
+// value content (links, pills) in place of the plain `value` string.
+//
+// bcn-lego-checked: no esa-* key/value (description-list) lego — checked Ecology and
+// Beacon. bcn-key-value codifies the label -> value -> hint tier used in the dialog's
+// Details and Notifications sections.
+
+interface Props {
+  label: string;
+  value?: string;
+  hint?: string;
+}
+const { label, value, hint } = Astro.props;
+---
+
+<div class="bcn-key-value">
+  <span class="bcn-key-value__key">{label}</span>
+  {value && <span class="bcn-key-value__val">{value}</span>}
+  <slot />
+  {hint && <span class="bcn-key-value__hint">{hint}</span>}
+</div>
+
+<style>
+  /* Sidebar key/value (read-only prod details) */
+  .bcn-key-value { display: flex; flex-direction: column; gap: 2px; }
+  /* Key mirrors esa-select's .field__label EXACTLY (clamped --form-font-size-md,
+     --font-weight-medium 450, --form-label-color) so "Responsible Party"
+     reads identically to the "Assignee" select label. Value is the prominent answer:
+     semibold + primary, so Scope's three lines gain a clear label→value→hint tier. */
+  .bcn-key-value__key { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); color: var(--form-label-color); }
+  .bcn-key-value__val { font-size: var(--form-font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-key-value__hint { font-size: 0.75rem; color: var(--color-text-tertiary); }
+</style>

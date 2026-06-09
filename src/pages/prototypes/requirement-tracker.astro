@@ -6,20 +6,34 @@
 // prototype boots into GRID. The grid is AG Grid (community) mounted as a client
 // island; Kanban renders statically from the same fixture; Timeline is a stub.
 //
+// COMPONENT MANIFEST: this page assembles esa-* hub legos + bcn-* spoke components.
+// The requirement dialog is composed from BcnRequirementReference / BcnDiscussion /
+// BcnStatusSelect / BcnKeyValue / BcnChangeLog / BcnNotifications /
+// BcnEvidenceList. The only CSS that remains here is page-composition glue: the grid
+// chrome, the dialog SHELL (header / two-column stage / slide-up evidence sheet), and
+// the side-dialogs — geometry with no reusable-component home.
+//
 // Rendered inside AppShell > PageLayout, themed with the Beacon spoke tokens.
 import AppShell from '../../layouts/AppShell.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
-import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
 import EsaPill from '@esa/ecology/esa-pill.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
-import EsaAvatar from '@esa/ecology/esa-avatar.astro';
 import EsaIconLink from '@esa/ecology/esa-icon-link.astro';
-import { actions, STATUS_META, type ActionStatus } from '../../data/tracker-fixture';
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import FilterContainer from '@esa/ecology/esa-filter-container.astro';
+import FilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
 import BcnRequirementReference from '../../components/bcn/BcnRequirementReference.astro';
+import BcnDiscussion, { type DiscussionComment } from '../../components/bcn/BcnDiscussion.astro';
+import BcnStatusSelect from '../../components/bcn/BcnStatusSelect.astro';
+import BcnKeyValue from '../../components/bcn/BcnKeyValue.astro';
+import BcnChangeLog from '../../components/bcn/BcnChangeLog.astro';
+import BcnNotifications from '../../components/bcn/BcnNotifications.astro';
+import BcnEvidenceList from '../../components/bcn/BcnEvidenceList.astro';
+import { actions, STATUS_META, type ActionStatus } from '../../data/tracker-fixture';
 import type { RequirementReference } from '../../components/bcn/requirement-reference';
 import { withBase } from '../../lib/base';
 
@@ -56,6 +70,33 @@ const initialReq = toRequirement(actions[0]);
 const sourcePdf = withBase('/source-docs/feir-sample.pdf');
 const sourceDocTitle = '3600 Alameda Avenue Project FEIR';
 const sourceDocHref = '#data-catalog/source-documents/3600-alameda-feir';
+
+// Seed Discussion thread (static prototype data; newest-first like Beacon).
+const currentUser = 'Maria Chen';
+const discussionComments: DiscussionComment[] = [
+  { author: 'James Okafor', time: 'Jun 6, 2026 at 9:12 AM', text: 'Pre-construction survey scheduled — waiting on biologist availability.', edited: false, own: false },
+  { author: 'Maria Chen', time: 'Jun 5, 2026 at 4:30 PM', text: 'Uploaded the signed C-57 driller license to evidence and flagged it for review.', edited: true, own: true },
+  { author: 'Priya Patel', time: 'Jun 2, 2026 at 2:40 PM', text: 'Assigned to Maria. Set the due date to align with the Building Permit milestone.', edited: false, own: false },
+];
+
+// Sidebar fixture data (was hardcoded in the dialog markup, now props-driven).
+const changeLog = [
+  { date: 'Jun 4, 2026', events: [{ text: 'Status set to', emphasis: 'In Progress', by: 'James Okafor · 9:12 AM' }] },
+  {
+    date: 'Jun 2, 2026',
+    events: [
+      { text: 'Assignee set to', emphasis: 'Maria Chen', by: 'Priya Patel · 2:40 PM' },
+      { text: 'Due date set to', emphasis: 'Dec 2, 2027', by: 'Priya Patel · 2:38 PM' },
+    ],
+  },
+  { date: 'May 30, 2026', events: [{ text: 'Implementation created', by: 'System · 12:00 AM' }] },
+];
+const notifRecipients = ['Environmental Lead', 'DWR Compliance (org)'];
+const notifTriggers = [
+  { name: 'Coming up', detail: '7 days before', on: true },
+  { name: 'Due', detail: 'On due date', on: true },
+  { name: 'Past due', detail: 'Off', on: false },
+];
 
 const gridPayload = {
   rows: actions,
@@ -155,22 +196,46 @@ const prologisNav = [
   >
     <EsaPill slot="title-badge" label="Project Tracking" removable={false} size="sm" />
 
-    <!-- ═══ Toolbar: View toggle (esa-button-toggle; options set in JS) ═══ -->
-    <div class="tt-toolbar">
-      <esa-button-toggle id="tt-views" value="grid" size="md"></esa-button-toggle>
+    <!-- ═══ Filter bar — carded two-band (Beacon prod parity) ═══
+         bcn-lego-checked: no esa- lego is a banded filter-toolbar SHELL — esa-filter-container
+         lays out the dropdown ROW only, not the View/N-A/Search top band + card chrome. The
+         card + vertical dividers + "View"/"Filters" labels are page-composition glue (same class
+         as .bcn-toolbar/dialog shell). Every CONTROL inside is a lego: esa-button-toggle (View),
+         esa-switch-toggle (N/A), esa-text-field (Search), esa-filter-dropdown ×7 in
+         esa-filter-container (Filters), esa-filter-clear-button (Clear all). Checked Beacon: this
+         mirrors the prod ui-filter toolbar, ported to the esa-* vocabulary. -->
+    <div class="bcn-filterbar">
+      <div class="bcn-filterbar__top">
+        <div class="bcn-filterbar__group">
+          <span class="bcn-filterbar__label">View</span>
+          <esa-button-toggle id="tt-views" value="grid" size="md"></esa-button-toggle>
+        </div>
+        <span class="bcn-filterbar__divider"></span>
+        <div class="bcn-filterbar__na">
+          <esa-switch-toggle id="tt-na" label="N/A" label-position="before"></esa-switch-toggle>
+        </div>
+        <div class="bcn-filterbar__search">
+          <esa-text-field id="tt-search" placeholder="Search requirements…" size="md"></esa-text-field>
+          <span id="tt-search-clear" hidden><EsaIconButton icon="x" label="Clear search" size="sm" /></span>
+        </div>
+      </div>
+      <div class="bcn-filterbar__bottom">
+        <span class="bcn-filterbar__label">Filters</span>
+        <FilterContainer>
+          <esa-filter-dropdown id="flt-type" label="Type" multiple size="sm"></esa-filter-dropdown>
+          <esa-filter-dropdown id="flt-phase" label="Phase" multiple size="sm"></esa-filter-dropdown>
+          <esa-filter-dropdown id="flt-commitment" label="Commitment" multiple size="sm"></esa-filter-dropdown>
+          <esa-filter-dropdown id="flt-list" label="List" multiple size="sm"></esa-filter-dropdown>
+          <esa-filter-dropdown id="flt-species" label="Species" multiple size="sm"></esa-filter-dropdown>
+          <esa-filter-dropdown id="flt-activity" label="Construction Activities" multiple size="sm"></esa-filter-dropdown>
+          <esa-filter-dropdown id="flt-milestone" label="Milestones" multiple size="sm"></esa-filter-dropdown>
+        </FilterContainer>
+        <span id="tt-clear-filters" class="bcn-filterbar__clear"><FilterClearButton /></span>
+      </div>
     </div>
 
     <!-- ═══ GRID view (default) — Beacon grid chrome + AG Grid island ═══ -->
-    <div class="tt-view-pane" id="view-grid">
-      <!-- Grid header: global search · clear filters -->
-      <div class="grid-header">
-        <div class="grid-header__filter">
-          <esa-text-field id="tt-search" placeholder="Search requirements…" size="sm"></esa-text-field>
-          <span id="tt-search-clear" hidden><EsaIconButton icon="x" label="Clear search" size="sm" /></span>
-        </div>
-        <span id="tt-clear-filters"><EsaButton color="ghost" appearance="outline" size="sm">Clear Filters</EsaButton></span>
-      </div>
-
+    <div class="bcn-view-pane" id="view-grid">
       <div id="tracker-grid" class="tracker-grid"></div>
 
       <!-- Grid footer: download · record count -->
@@ -184,14 +249,14 @@ const prologisNav = [
     </div>
 
     <!-- ═══ KANBAN view (stub) ═══ -->
-    <div class="tt-view-pane" id="view-kanban" hidden>
+    <div class="bcn-view-pane" id="view-kanban" hidden>
       <EsaEmptyState title="Kanban view" description="Status board of actions by tracking state. Not part of this prototype pass — Grid is the wired view.">
         <EsaIcon slot="icon" name="columns-3" size="xl" paths="<path d='M3 3h18v18H3z'/><path d='M9 3v18'/><path d='M15 3v18'/>" />
       </EsaEmptyState>
     </div>
 
     <!-- ═══ TIMELINE view (stub) ═══ -->
-    <div class="tt-view-pane" id="view-timeline" hidden>
+    <div class="bcn-view-pane" id="view-timeline" hidden>
       <EsaEmptyState title="Timeline view" description="Gantt-style schedule of actions by due date and phase. Not part of this prototype pass — Grid is the wired view.">
         <EsaIcon slot="icon" name="calendar" size="xl" paths="<path d='M8 2v4'/><path d='M16 2v4'/><rect width='18' height='18' x='3' y='4' rx='2'/><path d='M3 10h18'/>" />
       </EsaEmptyState>
@@ -199,271 +264,115 @@ const prologisNav = [
   </PageLayout>
 
   <!-- ═══ Requirement dialog (simplified action-implementation upsert) ═══
-       esa-* legos: esa-dialog (max 1920px, fixed 86vh, --color-action pink top) +
-       esa-select / esa-date-picker / esa-textarea / esa-switch-toggle / esa-button.
-       No tabs. Jira-style: independently-scrolling main + sidebar two-column, with
-       Status primary at the top of the rail and Details / Notifications as native
-       <details> collapsibles. Evidence of Compliance is a full-width sticky bar
-       below the two columns that expands a scrollable area. Action Plan + Tasks are
-       hidden — assume the Prologis "simplified" config turns them off. -->
+       esa-dialog shell + bcn-* section components. No tabs. Jira-style:
+       independently-scrolling main + sidebar two-column, with BcnStatusSelect primary
+       at the top of the rail and Details / Notifications / etc. as EsaCollapsible
+       collapsibles. Evidence of Compliance is a full-width slide-up sheet below the two
+       columns. Action Plan + Tasks are hidden — the Prologis "simplified" config off. -->
   <esa-dialog
     id="rd"
     size="lg"
     style="--_dialog-width: min(1920px, 94vw); --_dialog-padding: 0; --_dialog-bg: var(--color-surface, #fff); --_dialog-header-border: var(--color-border, #dcdcdc); --z-modal-backdrop: 1150; --z-modal: 1200;"
   >
     <!-- Own close button (not show-close-button) so the header scrim can cover it -->
-    <div slot="header" class="rd-head">
-      <div class="rd-head__text">
+    <div slot="header" class="bcn-dialog__head">
+      <div class="bcn-dialog__head-text">
         <!-- bcn-lego-checked: no esa- fits — the purple commitment-ID badge is a Beacon-specific
              identity (--color-commitment tint); checked Ecology (no commitment badge lego) and
              Beacon (ported client-commitment-id faithfully, sans-font per design call). Leading
              badge = commitment ID (purple), trailing = requirement type (neutral); ids preserved
              so openDialog() textContent bindings stay wired. -->
-        <h1 class="rd-title">
-          <span class="rd-badge rd-badge--commitment" id="rd-commitment">—</span>
-          <span class="rd-title__row">
-            <span class="rd-title__name" id="rd-title">—</span>
-            <span class="rd-badge rd-badge--type" id="rd-type">—</span>
+        <h1 class="bcn-dialog__title">
+          <span class="bcn-dialog__badge bcn-dialog__badge--commitment" id="rd-commitment">—</span>
+          <span class="bcn-dialog__title-row">
+            <span class="bcn-dialog__title-name" id="rd-title">—</span>
+            <span class="bcn-dialog__badge bcn-dialog__badge--type" id="rd-type">—</span>
           </span>
         </h1>
       </div>
-      <span class="rd-head-close" id="rd-close"><EsaIconButton icon="x" label="Close dialog" /></span>
-      <div class="rd-head-scrim" aria-hidden="true"></div>
+      <span class="bcn-dialog__head-close" id="rd-close"><EsaIconButton icon="x" label="Close dialog" /></span>
+      <div class="bcn-dialog__head-scrim" aria-hidden="true"></div>
     </div>
 
-    <div class="rd-shell" id="rd-shell">
-      <div class="rd-grid">
+    <div class="bcn-dialog__shell" id="rd-shell">
+      <div class="bcn-dialog__grid">
         <!-- ── Main column (independently scrolls) ── -->
-        <div class="rd-main">
+        <div class="bcn-dialog__main">
           <BcnRequirementReference requirement={initialReq} editHref="#data-catalog/requirements" />
-
-          <div class="rd-section">
-            <h3 class="rd-section__title">
-              <EsaIcon name="message-square" size="sm" paths="<path d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'/>" />
-              Discussion
-            </h3>
-            <ul class="rd-comments">
-              <li class="rd-comment">
-                <EsaAvatar name="James Okafor" size="sm" />
-                <div class="rd-comment__body">
-                  <div class="rd-comment__head"><span class="rd-comment__who">James Okafor</span><span class="rd-comment__when">Jun 4 at 9:12 AM</span></div>
-                  <p class="rd-comment__text">Pre-construction survey scheduled — waiting on biologist availability.</p>
-                </div>
-              </li>
-            </ul>
-            <div class="rd-compose">
-              <esa-textarea id="rd-comment" rows="2" placeholder="Add a comment…"></esa-textarea>
-              <EsaButton color="primary" size="sm">Post</EsaButton>
-            </div>
-          </div>
+          <BcnDiscussion comments={discussionComments} currentUser={currentUser} />
         </div>
 
         <!-- ── Sidebar (independently scrolls) ── -->
-        <aside class="rd-side">
-          <!-- A. Tracking — Status · Due Date · Assignee consolidated into one module.
-               (Assignee's Responsible Party now lives in the reference block.) -->
-          <details class="rd-acc" open>
-            <summary class="rd-acc__summary">
-              <EsaIcon name="square-check" size="sm" paths="<rect width='18' height='18' x='3' y='3' rx='2'/><path d='m9 12 2 2 4-4'/>" />
-              <span class="rd-acc__title">Tracking</span>
-            </summary>
-            <div class="rd-acc__body">
-              <!-- Status — custom colored dropdown; label matches the legos' .field__label -->
-              <div class="rd-trackfield">
-                <span class="rd-fieldlabel">Status</span>
-                <div class="rd-statusdd" id="rd-status">
-                  <button type="button" class="rd-statusdd__trigger" id="rd-status-trigger" aria-haspopup="listbox" aria-expanded="false">
-                    <span class="rd-statusdot" id="rd-status-dot"></span>
-                    <span class="rd-statusdd__label" id="rd-status-label">—</span>
-                    <svg class="rd-statusdd__chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-                  </button>
-                  <ul class="rd-statusdd__menu" id="rd-status-menu" role="listbox" hidden>
-                    <li class="rd-statusdd__opt" role="option" data-value="not-started"><span class="rd-statusdot" style="--_dot:#9aa3ad"></span>Not Started</li>
-                    <li class="rd-statusdd__opt" role="option" data-value="in-progress"><span class="rd-statusdot" style="--_dot:#e0a400"></span>In Progress</li>
-                    <li class="rd-statusdd__opt" role="option" data-value="completed"><span class="rd-statusdot" style="--_dot:#1a9b54"></span>Completed</li>
-                  </ul>
-                </div>
-              </div>
-              <esa-date-picker id="rd-due" label="Due Date"></esa-date-picker>
-              <esa-select id="rd-assignee" label="Assignee"></esa-select>
-            </div>
-          </details>
+        <aside class="bcn-dialog__side">
+          <!-- A. Tracking — Status · Due Date · Assignee. -->
+          <EsaCollapsible icon="square-check" iconPaths="<rect width='18' height='18' x='3' y='3' rx='2'/><path d='m9 12 2 2 4-4'/>" title="Tracking" open>
+            <BcnStatusSelect id="rd-status" />
+            <esa-date-picker id="rd-due" label="Due Date"></esa-date-picker>
+            <esa-select id="rd-assignee" label="Assignee"></esa-select>
+          </EsaCollapsible>
 
           <!-- D. Lists -->
-          <details class="rd-acc">
-            <summary class="rd-acc__summary">
-              <EsaIcon name="list" size="sm" paths="<path d='M8 6h13'/><path d='M8 12h13'/><path d='M8 18h13'/><path d='M3 6h.01'/><path d='M3 12h.01'/><path d='M3 18h.01'/>" />
-              <span class="rd-acc__title">Lists</span>
-            </summary>
-            <div class="rd-acc__body">
-              <ul class="rd-lists">
-                <li><a class="rd-list-link" href="#commitment-list">Annual Reporting</a></li>
-                <li><a class="rd-list-link" href="#commitment-list">Desktop Requirements</a></li>
-              </ul>
-            </div>
-          </details>
+          <EsaCollapsible icon="list" iconPaths="<path d='M8 6h13'/><path d='M8 12h13'/><path d='M8 18h13'/><path d='M3 6h.01'/><path d='M3 12h.01'/><path d='M3 18h.01'/>" title="Lists">
+            <ul class="bcn-lists">
+              <li><a class="bcn-list-link" href="#commitment-list">Annual Reporting</a></li>
+              <li><a class="bcn-list-link" href="#commitment-list">Desktop Requirements</a></li>
+            </ul>
+          </EsaCollapsible>
 
           <!-- E. Notifications -->
-          <details class="rd-acc">
-            <summary class="rd-acc__summary">
-              <EsaIcon name="bell" size="sm" />
-              <span class="rd-acc__title">Notifications</span>
-            </summary>
-            <div class="rd-acc__body rd-notif">
-              <p class="rd-notif__lead">
-                Sent to the assignee on each implementation.
-                <EsaIconLink href="#data-catalog-action" trailing="arrow-right" size="sm">Edit recipients &amp; triggers on the Action</EsaIconLink>
-              </p>
+          <EsaCollapsible icon="bell" title="Notifications">
+            <BcnNotifications recipients={notifRecipients} triggers={notifTriggers} editHref="#data-catalog-action" />
+          </EsaCollapsible>
 
-              <div class="rd-notif__field">
-                <span class="rd-kv__key">Next notification</span>
-                <span class="rd-notif-next"><EsaBadge dot variant="warning" /><span id="rd-notif-due">—</span></span>
-              </div>
-
-              <div class="rd-notif__field">
-                <span class="rd-kv__key">Additional recipients</span>
-                <div class="rd-recipients">
-                  <EsaPill label="Environmental Lead" removable={false} size="sm" />
-                  <EsaPill label="DWR Compliance (org)" removable={false} size="sm" />
-                </div>
-              </div>
-
-              <div class="rd-notif__field">
-                <span class="rd-kv__key">Triggers</span>
-                <ul class="rd-notif-types">
-                  <li class="rd-notif-type is-on"><span class="rd-notif-type__name">Coming up</span><span class="rd-notif-type__detail">7 days before</span></li>
-                  <li class="rd-notif-type is-on"><span class="rd-notif-type__name">Due</span><span class="rd-notif-type__detail">On due date</span></li>
-                  <li class="rd-notif-type is-off"><span class="rd-notif-type__name">Past due</span><span class="rd-notif-type__detail">Off</span></li>
-                </ul>
-              </div>
-            </div>
-          </details>
-
-          <!-- F. Change log — grouped by date, vertical timeline -->
-          <details class="rd-acc">
-            <summary class="rd-acc__summary">
-              <EsaIcon name="history" size="sm" />
-              <span class="rd-acc__title">Change Log</span>
-            </summary>
-            <div class="rd-acc__body">
-              <ol class="rd-log">
-                <li class="rd-log__day">
-                  <p class="rd-log__date">Jun 4, 2026</p>
-                  <ul class="rd-log__events">
-                    <li class="rd-log__event"><span class="rd-log__text">Status set to <strong>In Progress</strong></span><span class="rd-log__by">James Okafor · 9:12 AM</span></li>
-                  </ul>
-                </li>
-                <li class="rd-log__day">
-                  <p class="rd-log__date">Jun 2, 2026</p>
-                  <ul class="rd-log__events">
-                    <li class="rd-log__event"><span class="rd-log__text">Assignee set to <strong>Maria Chen</strong></span><span class="rd-log__by">Priya Patel · 2:40 PM</span></li>
-                    <li class="rd-log__event"><span class="rd-log__text">Due date set to <strong>Dec 2, 2027</strong></span><span class="rd-log__by">Priya Patel · 2:38 PM</span></li>
-                  </ul>
-                </li>
-                <li class="rd-log__day">
-                  <p class="rd-log__date">May 30, 2026</p>
-                  <ul class="rd-log__events">
-                    <li class="rd-log__event"><span class="rd-log__text">Implementation created</span><span class="rd-log__by">System · 12:00 AM</span></li>
-                  </ul>
-                </li>
-              </ol>
-            </div>
-          </details>
+          <!-- F. Change log -->
+          <EsaCollapsible icon="history" title="Change Log">
+            <BcnChangeLog days={changeLog} />
+          </EsaCollapsible>
 
           <!-- G. Details (Scope) -->
-          <details class="rd-acc">
-            <summary class="rd-acc__summary">
-              <EsaIcon name="info" size="sm" />
-              <span class="rd-acc__title">Details</span>
-            </summary>
-            <div class="rd-acc__body">
-              <div class="rd-kv">
-                <span class="rd-kv__key">Scope</span>
-                <span class="rd-kv__val">Project</span>
-                <span class="rd-kv__hint">Perform once, applies to entire project</span>
-              </div>
-              <label class="rd-na-row"><esa-switch-toggle id="rd-na" label="Not Applicable"></esa-switch-toggle></label>
-            </div>
-          </details>
+          <EsaCollapsible icon="info" title="Details">
+            <BcnKeyValue label="Scope" value="Project" hint="Perform once, applies to entire project" />
+            <label class="bcn-na-row"><esa-switch-toggle id="rd-na" label="Not Applicable"></esa-switch-toggle></label>
+          </EsaCollapsible>
         </aside>
       </div>
 
-      <!-- Dim scrim + slide-up Evidence drawer: overlays the body, fixed height,
+      <!-- Dim scrim + slide-up Evidence sheet: overlays the body, fixed height,
            does not affect modal height (collapsed by default) -->
-      <div class="rd-evidence-scrim" id="rd-evidence-scrim"></div>
-      <!-- bcn-lego-checked: the bottom slide-up SHEET (.rd-evidence-drawer) has no
+      <div class="bcn-evidence-sheet-scrim" id="rd-evidence-scrim"></div>
+      <!-- bcn-lego-checked: the bottom slide-up SHEET (.bcn-evidence-sheet) has no
            ecology lego — esa-side-dialog is a side sheet, esa-dialog is centered;
            neither is a bottom sheet anchored inside the modal body. Kept as a
-           documented bcn-. Everything inside uses legos (esa-card, esa-file-list,
-           esa-icon-button, esa-pill, esa-badge, esa-empty-state, esa-side-dialog). -->
-      <section class="rd-evidence-drawer" id="rd-evidence-drawer" aria-hidden="true" aria-label="Evidence of Compliance">
-        <header class="rd-evidence-drawer__head">
-          <div class="rd-evidence-drawer__heading">
-            <span class="rd-evidence-drawer__title">
+           documented page shell. The list inside is <BcnEvidenceList>; everything
+           else uses legos (esa-icon-button, esa-badge, esa-button). -->
+      <section class="bcn-evidence-sheet" id="rd-evidence-drawer" aria-hidden="true" aria-label="Evidence of Compliance">
+        <header class="bcn-evidence-sheet__head">
+          <div class="bcn-evidence-sheet__heading">
+            <span class="bcn-evidence-sheet__title">
               <EsaIcon name="paperclip" size="sm" paths="<path d='m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48'/>" />
               Evidence of Compliance <EsaBadge variant="secondary" size="sm" value={eocs.length} />
             </span>
-            <span class="rd-evidence-drawer__expected">Expected: <span id="rd-exp-evidence">—</span></span>
+            <span class="bcn-evidence-sheet__expected">Expected: <span id="rd-exp-evidence">—</span></span>
           </div>
-          <div class="rd-evidence-drawer__head-actions">
+          <div class="bcn-evidence-sheet__head-actions">
             <span id="rd-evidence-download-all"><EsaIconButton icon="download" label="Download all evidence as .zip" size="md" /></span>
             <span id="rd-evidence-close"><EsaIconButton icon="x" label="Close evidence" size="md" /></span>
           </div>
         </header>
-        <div class="rd-evidence-drawer__body">
-          <ul class="evi-list">
-            {eocs.map((e) => (
-              <li class="evi-item" id={e.id} data-title={e.title} data-notes={e.notes} data-tags={e.tags.join(',')} data-files={e.files.join(',')}>
-                <EsaCard padding="none">
-                  <div slot="header" class="evi__head">
-                    <span class="evi__lead">
-                      <EsaIcon name="chevron-right" size="sm" />
-                      <span class="evi__name">{e.title}</span>
-                    </span>
-                    <span class="evi__actions">
-                      <EsaIconButton icon="star" label="Add to summary page" size="sm" />
-                      <EsaIconButton icon="download" label="Download all files as .zip" size="sm" />
-                      <EsaIconButton icon="pencil" label="Edit evidence" size="sm" />
-                      <EsaIconButton icon="trash-2" label="Delete evidence" size="sm" />
-                    </span>
-                  </div>
-                  <div class="evi__fields" hidden>
-                    <div class="evi__field">
-                      <span class="evi__label">Notes</span>
-                      {e.notes ? <span class="evi__text">{e.notes}</span> : <span class="evi__text evi__text--muted">None</span>}
-                    </div>
-                    {e.tags.length > 0 && (
-                      <div class="evi__field">
-                        <span class="evi__label">Tags</span>
-                        <div class="evi__pills">{e.tags.map((t) => <EsaPill label={t} removable={false} size="sm" />)}</div>
-                      </div>
-                    )}
-                    <div class="evi__field">
-                      <span class="evi__label">Files <EsaBadge variant="secondary" size="sm" value={e.files.length} /></span>
-                      <!-- files (array) are set as a property in the card JS loop -->
-                      <esa-file-list class="evi__files"></esa-file-list>
-                    </div>
-                  </div>
-                </EsaCard>
-              </li>
-            ))}
-          </ul>
-          <div class="rd-row-actions">
-            <EsaButton color="primary" size="sm" icon="plus">Add New Evidence</EsaButton>
-            <EsaButton color="ghost" appearance="outline" size="sm">Add Existing Evidence</EsaButton>
-          </div>
+        <div class="bcn-evidence-sheet__body">
+          <BcnEvidenceList items={eocs} />
         </div>
       </section>
     </div>
 
     <!-- ── Footer slot: left Add-Evidence ghost trigger + right action row ── -->
-    <div slot="footer" class="rd-footer">
-      <div class="rd-foot">
-        <!-- Wrapper carries the id/aria the drawer JS toggles; click bubbles from the
-             EsaButton (same pattern as Cancel/Save). Keeps the drawer wiring unchanged. -->
-        <span id="rd-evidence-trigger" class="rd-evidence-btn" aria-controls="rd-evidence-drawer" aria-expanded="false">
+    <div slot="footer" class="bcn-dialog__footer">
+      <div class="bcn-dialog__foot">
+        <!-- Wrapper carries the id/aria the sheet JS toggles; click bubbles from the
+             EsaButton (same pattern as Cancel/Save). Keeps the sheet wiring unchanged. -->
+        <span id="rd-evidence-trigger" class="bcn-dialog__evidence-btn" aria-controls="rd-evidence-drawer" aria-expanded="false">
           <EsaButton color="ghost">
-            <span class="rd-evidence-btn__label">
+            <span class="bcn-dialog__evidence-btn-label">
               <EsaIcon name="paperclip" size="sm" paths="<path d='m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48'/>" />
               Add Evidence
               <EsaBadge variant="secondary" size="sm" value={eocs.length} />
@@ -484,13 +393,13 @@ const prologisNav = [
     <esa-text-field id="rd-edit-title" label="Title"></esa-text-field>
     <esa-input-tag id="rd-edit-tags" label="Tags"></esa-input-tag>
     <esa-textarea id="rd-edit-notes" label="Notes" rows="4"></esa-textarea>
-    <div class="evi-files-field">
-      <span class="evi-files-field__label">Files</span>
+    <div class="bcn-edit-files-field">
+      <span class="bcn-edit-files-field__label">Files</span>
       <!-- existing server files (no esa- file-display lego) — populated by JS -->
       <esa-file-list id="rd-edit-files" removable></esa-file-list>
       <esa-file-upload label="Add files" multiple accept=".pdf,.csv,.xlsx,.jpg,.jpeg,.png,.gif,.bmp,.zip"></esa-file-upload>
     </div>
-    <span slot="footer" class="evi-foot">
+    <span slot="footer" class="bcn-edit-foot">
       <span id="rd-eoc-editor-cancel"><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
       <span id="rd-eoc-editor-save"><EsaButton color="primary">Save</EsaButton></span>
     </span>
@@ -500,11 +409,11 @@ const prologisNav = [
        BcnRequirementReference [data-bcn-source] trigger opens it; lifts above the
        requirement dialog (z 1200) like the eoc editor. -->
   <esa-side-dialog id="rd-source-drawer" heading={sourceDocTitle} size="lg" style="--_width: 66vw; --z-modal: 1300; --z-modal-backdrop: 1250; --backdrop-filter: blur(4px);">
-    <div class="rd-pdf">
+    <div class="bcn-source-pdf">
       <!-- Custom viewer chrome: navpanes=0/pagemode=none hide the thumbnail sidebar. -->
-      <iframe class="rd-pdf__frame" src={`${sourcePdf}?v=187#view=FitH&navpanes=0&pagemode=none`} title={`Source document — ${sourceDocTitle} (sample)`}></iframe>
+      <iframe class="bcn-source-pdf__frame" src={`${sourcePdf}?v=187#view=FitH&navpanes=0&pagemode=none`} title={`Source document — ${sourceDocTitle} (sample)`}></iframe>
     </div>
-    <span slot="footer" class="rd-srcfoot">
+    <span slot="footer" class="bcn-source-foot">
       <EsaIconLink href={sourceDocHref} trailing="arrow-right" size="sm" weight="medium">Open Source Document</EsaIconLink>
     </span>
   </esa-side-dialog>
@@ -514,8 +423,10 @@ const prologisNav = [
 
 <script>
   import { createGrid, ModuleRegistry, AllCommunityModule, themeQuartz, iconOverrides } from 'ag-grid-community';
-  import type { GridApi, GridOptions, ColDef, ICellRendererParams } from 'ag-grid-community';
+  import type { GridApi, GridOptions, ColDef, ICellRendererParams, IRowNode } from 'ag-grid-community';
   import { applyRequirement, type RequirementReference } from '../../components/bcn/requirement-reference';
+  import { setupStatusSelect, type StatusValue } from '../../components/bcn/status-select';
+  import { setupEvidenceList, type EvidenceCardData } from '../../components/bcn/evidence-list';
 
   // Register the esa-* legos the requirement dialog composes (self-registering).
   import '@esa/ecology/esa-dialog';
@@ -529,6 +440,7 @@ const prologisNav = [
   import '@esa/ecology/esa-textarea';
   import '@esa/ecology/esa-switch-toggle';
   import '@esa/ecology/esa-input-tag';
+  import '@esa/ecology/esa-filter-dropdown';
 
   ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -545,6 +457,7 @@ const prologisNav = [
     milestones: string;
     resourceCategory: string;
     phase: string;
+    list: string;
     responsibleParty: string;
     assignee: string;
     dueDate: string;
@@ -587,7 +500,7 @@ const prologisNav = [
   const beaconTheme = themeQuartz.withPart(beaconIconOverrides).withParams({
     fontFamily: 'DM Sans, sans-serif',
     headerFontFamily: 'DM Sans, sans-serif',
-    accentColor: '#f9a134', // ESA orange / --accent
+    accentColor: '#f9a134', // ESA orange / --color-orange-400
     foregroundColor: '#3d3d3d', // gray-900
     headerBackgroundColor: '#005862', // teal-900 / --primary
     headerTextColor: '#ffffff',
@@ -603,7 +516,7 @@ const prologisNav = [
     wrapperBorderRadius: '4px 4px 0 0',
     borderRadius: '4px',
     headerColumnResizeHandleColor: 'rgba(255, 255, 255, 0.2)',
-    checkboxCheckedBackgroundColor: '#f9a134', // ESA orange / --accent
+    checkboxCheckedBackgroundColor: '#f9a134', // ESA orange / --color-orange-400
   });
 
   // ── Renderers ───────────────────────────────────────────────────────────────
@@ -611,15 +524,15 @@ const prologisNav = [
     const meta = statusMeta[p.value as ActionStatus];
     if (!meta) return '';
     const el = document.createElement('span');
-    el.className = 'tg-chip';
+    el.className = 'bcn-grid-chip';
     el.style.setProperty('--_chip', meta.hex);
-    el.innerHTML = `<span class="tg-chip__dot"></span>${meta.label}`;
+    el.innerHTML = `<span class="bcn-grid-chip__dot"></span>${meta.label}`;
     return el;
   }
 
   function linkRenderer(p: ICellRendererParams<ActionRow>) {
     const el = document.createElement('a');
-    el.className = 'tg-name';
+    el.className = 'bcn-grid-name';
     el.href = '#';
     el.textContent = String(p.value ?? '');
     el.addEventListener('click', (e) => e.preventDefault());
@@ -633,9 +546,9 @@ const prologisNav = [
     { field: 'sourceDoc', headerName: 'Source Document', width: 260, cellRenderer: linkRenderer },
     { field: 'commitment', headerName: 'Commitment ID', width: 170, cellRenderer: linkRenderer },
     { field: 'name', headerName: 'Requirement Name', width: 340, cellRenderer: linkRenderer },
+    { field: 'status', headerName: 'Status', width: 180, cellRenderer: statusRenderer, cellClass: 'bcn-grid-status-cell', filterValueGetter: (p) => statusMeta[p.data!.status]?.label },
     { field: 'requirementText', headerName: 'Requirement Text', width: 460 },
     { field: 'type', headerName: 'Requirement Type', width: 200 },
-    { field: 'status', headerName: 'Status', width: 180, cellRenderer: statusRenderer, cellClass: 'tg-status-cell', filterValueGetter: (p) => statusMeta[p.data!.status]?.label },
     { field: 'comments', headerName: 'Comment', width: 150, type: 'numericColumn', valueFormatter: (p) => (p.value ? String(p.value) : '') },
     { field: 'action', headerName: 'Action', width: 260 },
     { field: 'milestones', headerName: 'Milestone(s)', width: 200 },
@@ -657,6 +570,33 @@ const prologisNav = [
     }
   }
 
+  // ── Faceted filters → AG Grid EXTERNAL filter ───────────────────────────────
+  // The 7 dropdowns (Type · Phase · Commitment · List · Species · Construction
+  // Activities · Milestones) plus the N/A toggle filter through one external pass.
+  // Why external (not column setFilterModel): Species + Construction Activities are
+  // NOT grid columns — they're derived per row from the enrich map — so a single
+  // predicate filters row fields and derived facets the same way.
+  type FacetKey = 'type' | 'phase' | 'commitment' | 'list' | 'species' | 'activity' | 'milestone';
+  const facets: Record<FacetKey, string[]> = { type: [], phase: [], commitment: [], list: [], species: [], activity: [], milestone: [] };
+  let naIncluded = false; // N/A toggle off ⇒ not-applicable rows hidden (prod default)
+  const speciesOf = (r: ActionRow) => enrich[r.commitment]?.species ?? [];
+  const activitiesOf = (r: ActionRow) => enrich[r.commitment]?.constructionActivities ?? [];
+  const anyFacetActive = () => Object.values(facets).some((v) => v.length > 0);
+
+  function doesExternalFilterPass(node: IRowNode<ActionRow>) {
+    const r = node.data;
+    if (!r) return true;
+    if (!naIncluded && r.status === 'not-applicable') return false;
+    if (facets.type.length && !facets.type.includes(r.type)) return false;
+    if (facets.phase.length && !facets.phase.includes(r.phase)) return false;
+    if (facets.commitment.length && !facets.commitment.includes(r.commitment)) return false;
+    if (facets.list.length && !facets.list.includes(r.list)) return false;
+    if (facets.milestone.length && !facets.milestone.includes(r.milestones)) return false;
+    if (facets.species.length && !facets.species.some((s) => speciesOf(r).includes(s))) return false;
+    if (facets.activity.length && !facets.activity.some((a) => activitiesOf(r).includes(a))) return false;
+    return true;
+  }
+
   const gridOptions: GridOptions<ActionRow> = {
     theme: beaconTheme,
     rowData: rows,
@@ -672,6 +612,8 @@ const prologisNav = [
     tooltipShowDelay: 0,
     tooltipInteraction: true,
     tooltipShowMode: 'whenTruncated',
+    isExternalFilterPresent: () => !naIncluded || anyFacetActive(),
+    doesExternalFilterPass,
     onFirstDataRendered: updateCounts,
     onFilterChanged: updateCounts,
     onRowClicked: (e) => e.data && openDialog(e.data),
@@ -695,8 +637,50 @@ const prologisNav = [
     searchClear.hidden = true;
   });
 
-  // ── Clear Filters → reset all column filters (Beacon parity) ───────────────
-  document.getElementById('tt-clear-filters')!.addEventListener('click', () => api.setFilterModel(null));
+  // ── Faceted filter dropdowns (esa-filter-dropdown legos) ────────────────────
+  const uniq = (xs: string[]) => [...new Set(xs.filter(Boolean))].sort();
+  const toOpts = (xs: string[]) => xs.map((v) => ({ label: v, value: v }));
+  const facetOptions: Record<FacetKey, string[]> = {
+    type: uniq(rows.map((r) => r.type)),
+    phase: uniq(rows.map((r) => r.phase)),
+    commitment: uniq(rows.map((r) => r.commitment)),
+    list: uniq(rows.map((r) => r.list)),
+    species: uniq(rows.flatMap(speciesOf)),
+    activity: uniq(rows.flatMap(activitiesOf)),
+    milestone: uniq(rows.map((r) => r.milestones)),
+  };
+  const facetEls: Record<FacetKey, string> = {
+    type: 'flt-type', phase: 'flt-phase', commitment: 'flt-commitment', list: 'flt-list',
+    species: 'flt-species', activity: 'flt-activity', milestone: 'flt-milestone',
+  };
+  // esa-filter-dropdown: set `options` as a property; it emits `selection-change`
+  // with detail.value = the selected-values array (multiple mode). Its selection
+  // lives in reactive `_selected` state — reset that to clear it from outside.
+  type FilterDropdownEl = HTMLElement & { options: { label: string; value: string }[]; _selected: string[] };
+  const filterDropdowns = (Object.entries(facetEls) as [FacetKey, string][]).map(([key, id]) => {
+    const el = document.getElementById(id) as FilterDropdownEl;
+    el.options = toOpts(facetOptions[key]);
+    el.addEventListener('selection-change', (e) => {
+      facets[key] = ((e as CustomEvent).detail?.value as string[]) ?? [];
+      api.onFilterChanged();
+    });
+    return el;
+  });
+
+  // ── N/A toggle (esa-switch-toggle) → include/exclude not-applicable rows ─────
+  const naToggle = document.getElementById('tt-na') as HTMLElement & { checked: boolean };
+  naToggle.addEventListener('change', (e) => {
+    naIncluded = Boolean((e as CustomEvent).detail?.checked);
+    api.onFilterChanged();
+  });
+
+  // ── Clear all (esa-filter-clear-button) → reset every facet + column filters ─
+  document.getElementById('tt-clear-filters')!.addEventListener('esa-filter-clear', () => {
+    (Object.keys(facets) as FacetKey[]).forEach((k) => (facets[k] = []));
+    filterDropdowns.forEach((el) => (el._selected = []));
+    api.setFilterModel(null);
+    api.onFilterChanged();
+  });
 
   // ── Download as CSV ────────────────────────────────────────────────────────
   document.getElementById('tt-download')!.addEventListener('click', () =>
@@ -724,7 +708,7 @@ const prologisNav = [
     Object.entries(panes).forEach(([key, el]) => (el.hidden = key !== view));
   });
 
-  // ── Requirement dialog (composed from esa-* legos) ─────────────────────────
+  // ── Requirement dialog (esa-dialog shell + bcn-* section components) ─────────
   const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const fmtDue = (iso: string) => {
     if (!iso) return 'Not set';
@@ -734,75 +718,35 @@ const prologisNav = [
   const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 
   const rdDialog = $('rd') as HTMLElement & { open: boolean; showCloseButton: boolean };
-  rdDialog.showCloseButton = false; // we render our own close (inside .rd-head) so the header scrim covers it
+  rdDialog.showCloseButton = false; // we render our own close (inside .bcn-dialog__head) so the header scrim covers it
   const rdAssignee = $('rd-assignee') as HTMLElement & { options: { value: string; label: string }[]; value: string };
   const rdDue = $('rd-due') as HTMLElement & { value: string };
   const rdNa = $('rd-na') as HTMLElement & { checked: boolean };
+  const notifDue = document.querySelector('[data-bcn-notif-due]') as HTMLElement;
 
   rdAssignee.options = ['Unassigned', 'Maria Chen', 'James Okafor', 'Priya Patel', 'Daniel Reyes', 'Sarah Kim', 'Tom Alvarez', 'Nadia Hassan'].map(
     (n) => ({ value: n, label: n }),
   );
 
-  // ── Custom status dropdown — colored dot per state (gray / yellow / green) ──
-  // Not an esa-select: the trigger shows the live status color, so we drive a
-  // plain listbox by hand. STATUS_DOT/STATUS_LABEL mirror the <li data-value> set.
-  const STATUS_DOT: Record<string, string> = {
-    'not-started': '#9aa3ad',
-    'in-progress': '#e0a400',
-    completed: '#1a9b54',
-  };
-  const STATUS_LABEL: Record<string, string> = {
-    'not-started': 'Not Started',
-    'in-progress': 'In Progress',
-    completed: 'Completed',
-  };
-  const statusTrigger = $('rd-status-trigger') as HTMLButtonElement;
-  const statusMenu = $('rd-status-menu') as HTMLUListElement;
-  const statusDot = $('rd-status-dot') as HTMLSpanElement;
-  const statusLabelEl = $('rd-status-label') as HTMLSpanElement;
-  const statusOpts = [...statusMenu.querySelectorAll<HTMLLIElement>('.rd-statusdd__opt')];
-  let statusValue = 'not-started';
-
-  function setStatus(value: string) {
-    statusValue = value;
-    statusDot.style.setProperty('--_dot', STATUS_DOT[value] ?? '#9aa3ad');
-    statusLabelEl.textContent = STATUS_LABEL[value] ?? '—';
-    statusOpts.forEach((o) => o.setAttribute('aria-selected', String(o.dataset.value === value)));
-  }
-  function openStatusMenu(open: boolean) {
-    statusMenu.hidden = !open;
-    statusTrigger.setAttribute('aria-expanded', String(open));
-  }
-  statusTrigger.addEventListener('click', (e) => {
-    e.stopPropagation();
-    openStatusMenu(statusMenu.hidden);
-  });
-  statusOpts.forEach((opt) =>
-    opt.addEventListener('click', () => {
-      setStatus(opt.dataset.value!);
-      openStatusMenu(false);
-    }),
-  );
-  document.addEventListener('click', (e) => {
-    if (!$('rd-status').contains(e.target as Node)) openStatusMenu(false);
-  });
+  // Status control → BcnStatusSelect (token-driven dots; controller flips state).
+  const status = setupStatusSelect($('rd-status'));
 
   function openDialog(row: ActionRow) {
     $('rd-title').textContent = row.name.trim();
     $('rd-commitment').textContent = row.commitment;
     $('rd-type').textContent = row.type;
-    setStatus(row.status === 'not-applicable' ? 'not-started' : row.status);
+    status.setValue((row.status === 'not-applicable' ? 'not-started' : row.status) as StatusValue);
     rdAssignee.value = row.assignee;
     rdDue.value = row.dueDate;
     rdNa.checked = row.status === 'not-applicable';
     applyRequirement(referenceRoot, toReq(row));
     $('rd-exp-evidence').textContent = row.expectedEvidence;
-    $('rd-notif-due').textContent = fmtDue(row.dueDate);
+    if (notifDue) notifDue.textContent = fmtDue(row.dueDate);
     setEvidenceOpen(false); // always start collapsed
     rdDialog.open = true;
   }
 
-  // ── Evidence drawer (slides up over the body; never resizes the modal) ──
+  // ── Evidence sheet (slides up over the body; never resizes the modal) ──
   const rdShell = $('rd-shell');
   const evTrigger = $('rd-evidence-trigger');
   const evDrawer = $('rd-evidence-drawer');
@@ -826,45 +770,20 @@ const prologisNav = [
   const editFiles = $('rd-edit-files') as FileListEl;
   editFiles.downloadable = false; // editor shows remove only (default-true bool → set via prop)
 
-  const toFiles = (csv: string | undefined, href?: string) =>
-    (csv ?? '').split(',').filter(Boolean).map((name) => ({ name, ...(href ? { href } : {}) }));
-
-  function openEocEditor(card: HTMLElement) {
-    editTitle.value = card.dataset.title ?? '';
-    editNotes.value = card.dataset.notes ?? '';
-    editTags.value = (card.dataset.tags ?? '').split(',').filter(Boolean);
-    editFiles.files = toFiles(card.dataset.files);
+  // BcnEvidenceList owns the cards; the host only supplies the editor. onEdit hands
+  // back the card's data (EvidenceCardData), which fills the side-dialog.
+  function openEocEditor(data: EvidenceCardData) {
+    editTitle.value = data.title;
+    editNotes.value = data.notes;
+    editTags.value = data.tags;
+    editFiles.files = data.files.map((name) => ({ name }));
     eocEditor.show();
   }
+  setupEvidenceList(document.querySelector('.bcn-evidence-list')!, { onEdit: openEocEditor });
+
   // esa-side-dialog owns its own backdrop-click + Esc + close-button → close().
   $('rd-eoc-editor-cancel').addEventListener('click', () => eocEditor.close());
   $('rd-eoc-editor-save').addEventListener('click', () => eocEditor.close());
-
-  // ── Evidence cards (esa-card lego): expand toggle, edit, star, delete.
-  // Buttons are esa-icon-button (no class passthrough) → select by aria-label. ──
-  document.querySelectorAll<HTMLLIElement>('.evi-item').forEach((item) => {
-    const lead = item.querySelector<HTMLElement>('.evi__lead')!;
-    const fields = item.querySelector<HTMLElement>('.evi__fields')!;
-    lead.addEventListener('click', () => {
-      const open = item.classList.toggle('is-expanded');
-      fields.hidden = !open;
-    });
-
-    // Populate the card's esa-file-list (download-only) from data-files.
-    const fileList = item.querySelector<FileListEl>('esa-file-list');
-    if (fileList) fileList.files = toFiles(item.dataset.files, '#file');
-
-    const byLabel = (label: string) => item.querySelector<HTMLElement>(`[aria-label="${label}"]`);
-    byLabel('Edit evidence')?.addEventListener('click', () => openEocEditor(item));
-    byLabel('Delete evidence')?.addEventListener('click', () => item.remove());
-
-    const star = byLabel('Add to summary page');
-    star?.addEventListener('click', () => {
-      const on = star.getAttribute('aria-pressed') === 'true';
-      star.setAttribute('aria-pressed', String(!on));
-      star.classList.toggle('evi-starred', !on);
-    });
-  });
 
   const closeDialog = () => (rdDialog.open = false);
   $('rd-close').addEventListener('click', closeDialog);
@@ -875,8 +794,8 @@ const prologisNav = [
   const sourceDrawer = $('rd-source-drawer') as HTMLElement & { open: boolean; show(): void; close(): void };
   document.querySelectorAll('[data-bcn-source]').forEach((el) => el.addEventListener('click', () => sourceDrawer.show()));
 
-  // Escape precedence editor → evidence drawer → dialog. Capture phase so we run
-  // BEFORE esa-side-dialog's own Esc and stop the drawer/dialog from also closing.
+  // Escape precedence editor → evidence sheet → dialog. Capture phase so we run
+  // BEFORE esa-side-dialog's own Esc and stop the sheet/dialog from also closing.
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
     if (sourceDrawer.open) {
@@ -893,41 +812,61 @@ const prologisNav = [
 </script>
 
 <style>
-  /* Title badge → EsaPill · view toggle → esa-button-toggle (own styling) */
+  /* ═══════════════════════════════════════════════════════════════════════════
+     PAGE-COMPOSITION GLUE ONLY. Every reusable block now lives in a bcn-* component
+     (BcnStatusSelect / BcnKeyValue / BcnChangeLog / BcnNotifications
+     / BcnEvidenceList / BcnRequirementReference / BcnDiscussion). What's left here is
+     the grid chrome + the dialog SHELL (header / two-column stage / slide-up sheet) +
+     the side-dialogs — geometry with no reusable-component home.
+     ═══════════════════════════════════════════════════════════════════════════ */
 
-  /* ═══ Toolbar ═══ */
-  .tt-toolbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--spacing-400);
-    flex-wrap: wrap;
+  /* ═══ Filter bar — carded two-band (prod parity). Card shell + dividers + labels
+     are composition glue; every control inside is a lego. ═══ */
+  .bcn-filterbar {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
     margin-bottom: var(--spacing-400);
   }
+  .bcn-filterbar__top {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-400);
+    padding: var(--spacing-300) var(--spacing-400);
+    flex-wrap: wrap;
+  }
+  .bcn-filterbar__bottom {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding: var(--spacing-300) var(--spacing-400);
+    border-top: 1px solid var(--color-border);
+    flex-wrap: wrap;
+  }
+  .bcn-filterbar__group { display: inline-flex; align-items: center; gap: var(--spacing-300); }
+  .bcn-filterbar__label {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+  }
+  .bcn-filterbar__divider { width: 1px; align-self: stretch; background: var(--color-border); margin: 0 var(--spacing-100); }
+  .bcn-filterbar__na { display: inline-flex; align-items: center; }
+  .bcn-filterbar__search { margin-left: auto; display: inline-flex; align-items: center; gap: var(--spacing-150); min-width: 300px; }
+  .bcn-filterbar__search :global(esa-text-field) { flex: 1; }
+  .bcn-filterbar__clear { margin-left: auto; }
 
   /* ═══ View panes ═══ */
-  .tt-view-pane[hidden] {
+  .bcn-view-pane[hidden] {
     display: none;
   }
 
-  /* ═══ Beacon grid header: search · clear filters ═══ */
-  .grid-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--spacing-400);
-    margin-bottom: var(--spacing-300);
-  }
-  /* Search → esa-text-field (own field styling) + clear EsaIconButton; Clear
-     Filters → EsaButton. Wrapper is just layout. */
-  .grid-header__filter { display: inline-flex; align-items: center; gap: var(--spacing-150); min-width: 280px; }
-  .grid-header__filter :global(esa-text-field) { flex: 1; }
-
-  /* ═══ AG Grid host ═══ */
+  /* ═══ AG Grid host — taller stage so ~10 more rows are visible at once (the
+     min-height floor; the page scrolls past the fold on shorter laptops). ═══ */
   .tracker-grid {
     width: 100%;
-    height: calc(100vh - 420px);
-    min-height: 400px;
+    height: calc(100vh - 260px);
+    min-height: 840px;
   }
 
   /* ═══ Beacon grid footer: download · record count ═══ */
@@ -937,12 +876,11 @@ const prologisNav = [
     justify-content: space-between;
     gap: var(--spacing-400);
     padding: var(--spacing-200) var(--spacing-400);
-    background: var(--bcn-gray-50);
-    border: 1px solid var(--bcn-gray-200);
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
     border-top: 0;
-    border-radius: 0 0 var(--radius-100, 4px) var(--radius-100, 4px);
+    border-radius: 0 0 var(--radius-100) var(--radius-100);
   }
-  /* Download as CSV → EsaButton (own styling) */
   .row-count-data {
     display: flex;
     align-items: center;
@@ -951,27 +889,17 @@ const prologisNav = [
     color: var(--color-text-secondary);
     font-variant-numeric: tabular-nums;
   }
-  .filtered-rows-count {
-    color: var(--color-text-tertiary);
-  }
-  .filtered-rows-count[hidden] {
-    display: none;
-  }
-  .grid-header__clear[hidden] {
-    display: none;
-  }
-  /* Chip + name renderers (global — AG Grid injects cells outside scope) */
-  /* Status cell: vertically center the compact chip in the row. */
-  :global(.ag-cell.tg-status-cell) {
-    display: flex;
-    align-items: center;
-  }
-  :global(.tg-chip) {
+  .filtered-rows-count { color: var(--color-text-tertiary); }
+  .filtered-rows-count[hidden] { display: none; }
+
+  /* ═══ AG Grid cell renderers (global — AG Grid injects cells outside scope) ═══ */
+  :global(.ag-cell.bcn-grid-status-cell) { display: flex; align-items: center; }
+  :global(.bcn-grid-chip) {
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-150);
     padding: 1px var(--spacing-200);
-    border-radius: var(--radius-100, 4px);
+    border-radius: var(--radius-100);
     font-size: 0.75rem;
     line-height: 1.5;
     font-weight: var(--font-weight-semibold);
@@ -979,254 +907,99 @@ const prologisNav = [
     background: color-mix(in srgb, var(--_chip) 16%, transparent);
     color: color-mix(in srgb, var(--_chip) 70%, #1a1a1a);
   }
-  :global(.tg-chip__dot) {
+  :global(.bcn-grid-chip__dot) {
     width: 7px;
     height: 7px;
     border-radius: 50%;
     background: var(--_chip);
     flex-shrink: 0;
   }
-  :global(.tg-name) {
-    color: var(--color-text-link, #005862);
-    font-weight: var(--font-weight-regular, 400);
+  :global(.bcn-grid-name) {
+    color: var(--color-text-link);
+    font-weight: var(--font-weight-regular);
     text-decoration: underline;
   }
-  :global(.tg-name:hover) {
-    color: var(--color-primary-hover, #00474f);
-  }
+  :global(.bcn-grid-name:hover) { color: var(--color-primary-hover); }
 
-
-  /* Empty states (kanban/timeline stubs) now use the EsaEmptyState lego. */
-
-  /* ═══ Requirement dialog — esa-* legos compose the shell + fields; these are the
-     fixed-height, dual-scroll, Jira-style layout + reference/discussion/evidence/
-     notification styles ═══ */
-  .rd-head { position: relative; flex: 1; display: flex; align-items: center; gap: var(--spacing-300); min-width: 0; padding: var(--spacing-500); background: #fafafa; }
-  .rd-head__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  /* ═══ Requirement dialog SHELL — esa-dialog + bcn-* section components compose
+     the content; these rules are the header, the fixed-height dual-scroll stage,
+     and the slide-up evidence sheet geometry. ═══ */
+  .bcn-dialog__head { position: relative; flex: 1; display: flex; align-items: center; gap: var(--spacing-300); min-width: 0; padding: var(--spacing-500); background: var(--color-background); }
+  .bcn-dialog__head-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
   /* Close → EsaIconButton; wrapper just anchors it right, above the header scrim */
-  .rd-head-close { flex-shrink: 0; margin-left: auto; z-index: 1; }
-  /* Header scrim — dims the whole header (title, close button, and the 1px
-     bottom border via bottom:-1px) in sync with the body scrim when the drawer
-     is open. Toggled by the .is-evidence-open class on the host. z-index 3 keeps
-     it above the close button so that dims too. */
-  .rd-head-scrim { position: absolute; top: 0; left: 0; right: 0; bottom: -1px; z-index: 3; background: rgba(15, 23, 42, 0.18); opacity: 0; pointer-events: none; transition: opacity 280ms ease; }
-  esa-dialog.is-evidence-open .rd-head-scrim { opacity: 1; pointer-events: auto; }
+  .bcn-dialog__head-close { flex-shrink: 0; margin-left: auto; z-index: 1; }
+  /* Header scrim — dims the whole header in sync with the body scrim when the sheet
+     is open. Toggled by .is-evidence-open on the host. */
+  .bcn-dialog__head-scrim { position: absolute; top: 0; left: 0; right: 0; bottom: -1px; z-index: 3; background: rgba(15, 23, 42, 0.18); opacity: 0; pointer-events: none; transition: opacity 280ms ease; }
+  esa-dialog.is-evidence-open .bcn-dialog__head-scrim { opacity: 1; pointer-events: auto; }
   /* Title block: commitment badge stacked above, then a row of the Besley name +
      vertically-centered type badge. Badges keep the body font (no mono). */
-  .rd-title { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-100); margin: 0; min-width: 0; }
-  .rd-title__row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-200); min-width: 0; }
-  .rd-title__name { font-family: var(--font-decorative); font-size: 1.5rem; font-weight: var(--font-weight-semibold); line-height: 1.2; color: var(--color-text-primary); }
+  .bcn-dialog__title { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-100); margin: 0; min-width: 0; }
+  .bcn-dialog__title-row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-200); min-width: 0; }
+  .bcn-dialog__title-name { font-family: var(--font-decorative); font-size: 1.5rem; font-weight: var(--font-weight-semibold); line-height: 1.2; color: var(--color-text-primary); }
   /* Commitment-ID badge — faithful port of Beacon .client-commitment-id (purple
      --color-commitment on a 12% tint), minus Roboto Mono. */
-  .rd-badge { flex-shrink: 0; padding: 0.125rem 0.375rem; border-radius: var(--radius-100, 0.25rem); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); line-height: 1.4; white-space: nowrap; }
-  .rd-badge--commitment { color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); }
+  .bcn-dialog__badge { flex-shrink: 0; padding: 0.125rem 0.375rem; border-radius: var(--radius-100); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); line-height: 1.4; white-space: nowrap; }
+  .bcn-dialog__badge--commitment { color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); }
   /* Besley glyphs sit low in their line box; nudge the type badge down to optically
      center it against the title's cap height. */
-  .rd-badge--type { color: var(--color-text-secondary); background: var(--bcn-gray-100); transform: translateY(2px); }
-  /* Footer slot: left Add-Evidence ghost trigger + right action row (Cancel/Save).
-     margin-right:auto on the trigger pushes the action buttons to the right edge. */
-  .rd-footer { display: flex; flex-direction: column; width: 100%; min-width: 0; gap: var(--spacing-300); }
-  .rd-foot { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-200); padding: 0 var(--spacing-500); }
-  .rd-evidence-btn { margin-right: auto; }
-  /* Slotted icon + label + count, flex-aligned inside the ghost EsaButton so the
-     sm paperclip stays small while the button keeps its md height (matches Cancel/Save). */
-  .rd-evidence-btn__label { display: inline-flex; align-items: center; gap: var(--spacing-200); }
+  .bcn-dialog__badge--type { color: var(--color-text-secondary); background: var(--color-surface-sunken); transform: translateY(2px); }
 
-  /* Fixed-height stage: holds the scrolling two-col grid + the Evidence drawer
-     overlay. The height is fixed so opening accordions or the drawer never
-     resizes the modal. overflow:hidden clips the off-screen drawer. */
-  /* Dialog height lives here (not inline) so a height media query can lift it on
-     short laptop viewports; .rd-shell inherits the same var to stay in sync. */
+  /* Footer slot: left Add-Evidence ghost trigger + right action row (Cancel/Save). */
+  .bcn-dialog__footer { display: flex; flex-direction: column; width: 100%; min-width: 0; gap: var(--spacing-300); }
+  .bcn-dialog__foot { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-200); padding: 0 var(--spacing-500); }
+  .bcn-dialog__evidence-btn { margin-right: auto; }
+  .bcn-dialog__evidence-btn-label { display: inline-flex; align-items: center; gap: var(--spacing-200); }
+
+  /* Fixed-height stage: holds the scrolling two-col grid + the Evidence sheet overlay.
+     Height is fixed so opening sections or the sheet never resizes the modal.
+     Dialog height lives here (not inline) so a height media query can lift it on short
+     laptop viewports; .bcn-dialog__shell inherits the same var to stay in sync. */
   #rd { --_dialog-max-height: 88vh; }
   @media (max-height: 860px) { #rd { --_dialog-max-height: 96vh; } }
-  .rd-shell { position: relative; height: calc(var(--_dialog-max-height, 88vh) - 13.5rem); min-height: 360px; overflow: hidden; }
-  .rd-grid { height: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 480px; align-items: stretch; }
-  /* Each column scrolls independently within the fixed-height stage */
-  .rd-main { overflow-y: auto; min-height: 0; padding: var(--spacing-500); display: flex; flex-direction: column; gap: var(--spacing-500); min-width: 0; }
-  .rd-side { overflow-y: auto; min-height: 0; padding: var(--spacing-500); border-left: 1px solid var(--bcn-gray-200); display: flex; flex-direction: column; gap: var(--spacing-400); background: var(--bcn-gray-50); min-width: 0; }
+  .bcn-dialog__shell { position: relative; height: calc(var(--_dialog-max-height, 88vh) - 13.5rem); min-height: 360px; overflow: hidden; }
+  .bcn-dialog__grid { height: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 480px; align-items: stretch; }
+  /* Each column scrolls independently within the fixed-height stage. gap-700 = plenty
+     of breathing room between the reference block and Discussion. */
+  .bcn-dialog__main { overflow-y: auto; min-height: 0; padding: var(--spacing-500); display: flex; flex-direction: column; gap: var(--spacing-700); min-width: 0; }
+  .bcn-dialog__side { overflow-y: auto; min-height: 0; padding: var(--spacing-500); border-left: 1px solid var(--color-border); display: flex; flex-direction: column; gap: var(--spacing-400); background: var(--color-background); min-width: 0; }
 
-  /* Status — primary, top of the rail (Jira). Label matches esa-select's
-     .field__label (14px / medium / primary), trigger matches esa-select md. */
-
-  /* Custom colored status dropdown — sized like esa-select md (40px / 8px / 14px) */
-  /* Consolidated Tracking module: Status label matches the legos' .field__label
-     (esa-date-picker / esa-select), 4px gap to its control. */
-  .rd-trackfield { display: flex; flex-direction: column; gap: var(--spacing-100); }
-  .rd-fieldlabel { font-size: 0.875rem; font-weight: var(--font-weight-medium, 450); color: var(--form-label-color, var(--color-text-primary)); }
-
-  .rd-statusdd { position: relative; }
-  .rd-statusdd__trigger {
-    display: flex; align-items: center; gap: var(--spacing-200); width: 100%;
-    height: 40px; padding: 0 var(--spacing-300);
-    font-size: 0.875rem; font-weight: var(--font-weight-medium); color: var(--color-text-primary);
-    background: var(--color-surface); border: 1px solid var(--form-border-color, #d4d4d4);
-    border-radius: var(--form-radius-md, 8px); cursor: pointer;
-    transition: border-color 150ms ease, box-shadow 150ms ease;
-  }
-  .rd-statusdd__trigger:hover { border-color: var(--color-border-strong, #c7c7c7); }
-  .rd-statusdd__trigger[aria-expanded='true'] {
-    border-color: var(--color-primary, #005862);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary, #005862) 18%, transparent);
-  }
-  .rd-statusdd__label { flex: 1; text-align: left; }
-  .rd-statusdd__chev { color: var(--color-text-tertiary); flex-shrink: 0; transition: transform 150ms ease; }
-  .rd-statusdd__trigger[aria-expanded='true'] .rd-statusdd__chev { transform: rotate(180deg); }
-
-  .rd-statusdot { width: 9px; height: 9px; border-radius: 50%; background: var(--_dot, #9aa3ad); flex-shrink: 0; }
-
-  .rd-statusdd__menu {
-    position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 20;
-    margin: 0; padding: var(--spacing-100); list-style: none;
-    background: var(--color-surface); border: 1px solid var(--bcn-gray-200);
-    border-radius: var(--form-radius-md, 8px); box-shadow: var(--shadow-300, 0 8px 24px rgba(0, 0, 0, 0.12));
-  }
-  .rd-statusdd__menu[hidden] { display: none; }
-  .rd-statusdd__opt {
-    display: flex; align-items: center; gap: var(--spacing-200);
-    padding: var(--spacing-200) var(--spacing-300); font-size: 0.875rem; color: var(--color-text-primary);
-    border-radius: var(--radius-200); cursor: pointer;
-  }
-  .rd-statusdd__opt:hover { background: var(--bcn-gray-100); }
-  .rd-statusdd__opt[aria-selected='true'] { background: var(--bcn-gray-100); font-weight: var(--font-weight-semibold); }
-
-  /* Collapsible subject areas (native <details>) */
-  .rd-acc { border: 1px solid var(--bcn-gray-200); border-radius: var(--radius-300); background: var(--color-surface); }
-  .rd-acc__summary { display: flex; align-items: center; gap: var(--spacing-200); padding: var(--spacing-300) var(--spacing-400); font-size: 0.9375rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); cursor: pointer; list-style: none; }
-  .rd-acc__summary::-webkit-details-marker { display: none; }
-  /* Expand caret pushed to the right of the row (icon + title lead) */
-  .rd-acc__summary::after { content: ''; width: 8px; height: 8px; border-right: 2px solid var(--color-text-tertiary); border-bottom: 2px solid var(--color-text-tertiary); transform: rotate(-45deg); transition: transform 150ms ease; margin-left: auto; }
-  .rd-acc[open] > .rd-acc__summary::after { transform: rotate(45deg); }
-
-  /* Section header icons (accordion summaries, Discussion) — now EsaIcon */
-  .rd-acc__summary :global(.esa-icon) { flex-shrink: 0; color: var(--color-text-secondary); }
-  .rd-section__title :global(.esa-icon) { flex-shrink: 0; color: var(--color-text-secondary); }
-  .rd-acc__body { display: flex; flex-direction: column; gap: var(--spacing-400); padding: 0 var(--spacing-400) var(--spacing-400); }
-
-  /* Requirement reference → <BcnRequirementReference> (owns its own styling). */
+  /* Lists — page-level sidebar text links (esa-icon + <a>) inside an EsaCollapsible. */
+  .bcn-lists { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-200); margin: 0; padding: 0; list-style: none; }
+  .bcn-list-link { display: inline-flex; align-items: center; gap: var(--spacing-200); font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); color: var(--color-primary); text-decoration: none; }
+  .bcn-list-link:hover { text-decoration: underline; }
+  .bcn-list-link :global(.esa-icon) { color: var(--color-text-tertiary); flex-shrink: 0; }
+  /* Not-Applicable toggle: a divider ties it to the Details section instead of floating. */
+  .bcn-na-row { display: flex; align-items: center; padding-top: var(--spacing-400); border-top: 1px solid var(--color-border); }
 
   /* Source-document drawer (esa-side-dialog slotted body) */
-  .rd-pdf { height: calc(100vh - 10rem); min-height: 360px; border: 1px solid var(--bcn-gray-200); border-radius: var(--radius-300); overflow: hidden; background: var(--bcn-gray-100); }
-  .rd-pdf__frame { width: 100%; height: 100%; border: 0; }
-  .rd-srcfoot { display: flex; align-items: center; width: 100%; }
+  .bcn-source-pdf { height: calc(100vh - 10rem); min-height: 360px; border: 1px solid var(--color-border); border-radius: var(--radius-300); overflow: hidden; background: var(--color-surface-sunken); }
+  .bcn-source-pdf__frame { width: 100%; height: 100%; border: 0; }
+  .bcn-source-foot { display: flex; align-items: center; width: 100%; }
 
-  /* Sections */
-  .rd-section { display: flex; flex-direction: column; gap: var(--spacing-300); }
-  .rd-section__title { display: flex; align-items: center; gap: var(--spacing-200); margin: 0; font-size: var(--type-size-200); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  /* ── Evidence slide-up SHEET (page owns the sheet; the cards are <BcnEvidenceList>) ── */
+  .bcn-evidence-sheet-scrim { position: absolute; inset: 0; z-index: 4; background: rgba(15, 23, 42, 0.18); opacity: 0; pointer-events: none; transition: opacity 280ms ease; }
+  .bcn-dialog__shell.is-evidence-open .bcn-evidence-sheet-scrim { opacity: 1; pointer-events: auto; }
+  /* Slides up from the bottom of the stage, ~90% height. Bounded to the stage (a % of
+     it, never a px floor) so esa-dialog's shadow panel (which clips overflow) never
+     paints the sheet under the header. */
+  .bcn-evidence-sheet { position: absolute; left: var(--spacing-500); right: var(--spacing-500); bottom: 0; z-index: 5; height: 90%; min-height: 0; display: flex; flex-direction: column; background: var(--color-surface); border-top: 1px solid var(--color-border); border-radius: var(--radius-400) var(--radius-400) 0 0; box-shadow: none; transform: translateY(100%); transition: transform 300ms cubic-bezier(0.32, 0.72, 0, 1), box-shadow 300ms ease; }
+  .bcn-dialog__shell.is-evidence-open .bcn-evidence-sheet { transform: translateY(0); box-shadow: 0 -12px 32px rgba(0, 0, 0, 0.18); }
+  .bcn-evidence-sheet__head { flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); padding: var(--spacing-400) var(--spacing-500); border-bottom: 1px solid var(--color-border); }
+  .bcn-evidence-sheet__heading { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .bcn-evidence-sheet__title { display: inline-flex; align-items: center; gap: var(--spacing-200); font-size: var(--type-size-200); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-evidence-sheet__expected { font-size: 0.8125rem; color: var(--color-text-tertiary); }
+  .bcn-evidence-sheet__head-actions { display: flex; align-items: center; gap: var(--spacing-050); flex-shrink: 0; }
+  .bcn-evidence-sheet__body { flex: 1; overflow-y: auto; padding: var(--spacing-500); display: flex; flex-direction: column; gap: var(--spacing-400); }
 
-  /* Discussion */
-  .rd-comments { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-400); }
-  .rd-comment { display: flex; gap: var(--spacing-300); }
-  /* Comment avatar → EsaAvatar (own styling) */
-  .rd-comment__body { display: flex; flex-direction: column; gap: 2px; }
-  .rd-comment__head { display: flex; align-items: baseline; gap: var(--spacing-200); }
-  .rd-comment__who { font-size: 0.875rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .rd-comment__when { font-size: 0.75rem; color: var(--color-text-tertiary); }
-  .rd-comment__text { margin: 0; font-size: 0.875rem; line-height: 1.5; color: var(--color-text-primary); }
-  .rd-compose { display: flex; flex-direction: column; gap: var(--spacing-200); align-items: flex-end; }
-  .rd-compose esa-textarea { width: 100%; }
-
-  /* Sidebar key/value (read-only prod details) */
-  .rd-kv { display: flex; flex-direction: column; gap: 2px; }
-  /* Key mirrors esa-select's .field__label EXACTLY (clamped --form-font-size-md,
-     --font-weight-medium 450, --form-label-color #171717) so "Responsible Party"
-     reads identically to the "Assignee" select label. Value is the prominent answer:
-     semibold + primary, so Scope's three lines gain a clear label→value→hint tier. */
-  .rd-kv__key { font-size: var(--form-font-size-md, 0.875rem); font-weight: var(--font-weight-medium, 450); color: var(--form-label-color, #171717); }
-  .rd-kv__val { font-size: var(--form-font-size-md, 0.875rem); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .rd-kv__hint { font-size: 0.75rem; color: var(--color-text-tertiary); }
-
-  /* Lists → stacked text links (esa-icon + <a>); see bcn-lego-checked in markup. */
-  .rd-lists { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-200); margin: 0; padding: 0; list-style: none; }
-  .rd-list-link { display: inline-flex; align-items: center; gap: var(--spacing-200); font-size: var(--form-font-size-md, 0.875rem); font-weight: var(--font-weight-medium, 450); color: var(--color-primary); text-decoration: none; }
-  .rd-list-link:hover { text-decoration: underline; }
-  .rd-list-link :global(.esa-icon) { color: var(--color-text-tertiary); flex-shrink: 0; }
-  /* Not-Applicable toggle: a divider ties it to the Details section instead of floating. */
-  .rd-na-row { display: flex; align-items: center; padding-top: var(--spacing-400); border-top: 1px solid var(--bcn-gray-200); }
-
-  /* Notifications */
-  .rd-notif { gap: var(--spacing-400); }
-  .rd-notif__lead { margin: 0; font-size: 0.8125rem; line-height: 1.5; color: var(--color-text-secondary); }
-  .rd-notif__field { display: flex; flex-direction: column; gap: var(--spacing-200); }
-  .rd-notif-next { display: inline-flex; align-items: center; gap: var(--spacing-200); font-size: 0.9375rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .rd-recipients { display: flex; flex-wrap: wrap; gap: var(--spacing-150); }
-  .rd-notif-types { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-150); }
-  .rd-notif-type { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); padding: var(--spacing-250) var(--spacing-300); border: 1px solid var(--bcn-gray-200); border-radius: var(--radius-200); background: var(--color-surface); }
-  .rd-notif-type__name { font-size: 0.875rem; font-weight: var(--font-weight-medium); color: var(--color-text-primary); }
-  .rd-notif-type__detail { display: inline-flex; align-items: center; gap: var(--spacing-150); font-size: 0.8125rem; color: var(--color-text-secondary); }
-  .rd-notif-type__detail::before { content: ''; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--bcn-gray-300, #c7c7c7); }
-  .rd-notif-type.is-on .rd-notif-type__detail::before { background: var(--color-success, #1a9b54); }
-  .rd-notif-type.is-off { opacity: 0.7; }
-  .rd-notif-type.is-off .rd-notif-type__detail { color: var(--color-text-tertiary); }
-
-  /* Change Log — vertical timeline, grouped by date */
-  .rd-log { list-style: none; margin: 0; padding: 0; }
-  .rd-log__day { position: relative; margin-left: 5px; padding: 0 0 var(--spacing-400) var(--spacing-500); border-left: 2px solid var(--bcn-gray-200); }
-  .rd-log__day:last-child { border-left-color: transparent; padding-bottom: 0; }
-  .rd-log__day::before { content: ''; position: absolute; left: -6px; top: 3px; width: 10px; height: 10px; border-radius: 50%; background: var(--color-surface); border: 2px solid var(--color-secondary, #00918b); }
-  .rd-log__date { margin: 0 0 var(--spacing-200); font-size: 0.8125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .rd-log__events { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-300); }
-  .rd-log__event { display: flex; flex-direction: column; gap: 1px; }
-  .rd-log__text { font-size: 0.875rem; line-height: 1.4; color: var(--color-text-primary); }
-  .rd-log__by { font-size: 0.75rem; color: var(--color-text-tertiary); }
-
-  /* ── Bottom evidence SHEET (bcn-, no ecology lego — see bcn-lego-checked in markup) ── */
-  /* Dim scrim behind the open sheet (within the stage) */
-  .rd-evidence-scrim { position: absolute; inset: 0; z-index: 4; background: rgba(15, 23, 42, 0.18); opacity: 0; pointer-events: none; transition: opacity 280ms ease; }
-  .rd-shell.is-evidence-open .rd-evidence-scrim { opacity: 1; pointer-events: auto; }
-  /* Slides up from the bottom of the stage, ~2/3 height */
-  /* Height is a % of the stage (never a px floor) so a tall sheet still fits inside
-     the body slot — esa-dialog's shadow panel clips overflow, so the drawer cannot
-     paint over the header; bounding it to the stage avoids the clipped-under-header look. */
-  .rd-evidence-drawer { position: absolute; left: var(--spacing-500); right: var(--spacing-500); bottom: 0; z-index: 5; height: 90%; min-height: 0; display: flex; flex-direction: column; background: var(--color-surface); border-top: 1px solid var(--bcn-gray-200); border-radius: var(--radius-400, 0.75rem) var(--radius-400, 0.75rem) 0 0; box-shadow: none; transform: translateY(100%); transition: transform 300ms cubic-bezier(0.32, 0.72, 0, 1), box-shadow 300ms ease; }
-  .rd-shell.is-evidence-open .rd-evidence-drawer { transform: translateY(0); box-shadow: 0 -12px 32px rgba(0, 0, 0, 0.18); }
-  .rd-evidence-drawer__head { flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); padding: var(--spacing-400) var(--spacing-500); border-bottom: 1px solid var(--bcn-gray-200); }
-  .rd-evidence-drawer__heading { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-  .rd-evidence-drawer__title { display: inline-flex; align-items: center; gap: var(--spacing-200); font-size: var(--type-size-200); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .rd-evidence-drawer__expected { font-size: 0.8125rem; color: var(--color-text-tertiary); }
-  .rd-evidence-drawer__head-actions { display: flex; align-items: center; gap: var(--spacing-050); flex-shrink: 0; }
-  .rd-evidence-drawer__body { flex: 1; overflow-y: auto; padding: var(--spacing-500); display: flex; flex-direction: column; gap: var(--spacing-400); }
-  .rd-row-actions { display: flex; gap: var(--spacing-300); }
-
-  /* ── Evidence cards — composition AROUND esa-card. The card chrome (border,
-     radius, header band, body) is the lego; only the collapse behavior, the
-     header row layout, and the dense action sizing are ours. ── */
-  .evi-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-300); }
-  /* esa-card header has 0 horizontal padding under padding="none"; supply our own.
-     Override the lego's 56px min-height for a denser list row. */
-  .evi-item :global(.esa-card__header) { min-height: 0; padding-block: var(--spacing-100); }
-  /* No internal divider when collapsed (header border would float over empty body) */
-  .evi-item:not(.is-expanded) :global(.esa-card__header) { border-bottom: 0; }
-  .evi__head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-150); width: 100%; padding-inline: var(--spacing-200); }
-  /* Clickable expand lead (chevron + title); actions sit outside it */
-  .evi__lead { flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--spacing-150); padding: var(--spacing-150) 0; cursor: pointer; }
-  .evi__lead :global(.esa-icon) { flex-shrink: 0; color: var(--color-text-tertiary); transition: transform 150ms ease; }
-  .evi-item.is-expanded .evi__lead :global(.esa-icon) { transform: rotate(90deg); }
-  .evi__name { min-width: 0; font-size: 0.8125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .evi__actions { display: flex; align-items: center; gap: 1px; flex-shrink: 0; }
-  /* Dense action buttons: shrink the esa-icon-button box + glyph */
-  .evi__actions :global(.esa-icon-button) { width: 26px; height: 26px; }
-  .evi__actions :global(.esa-icon) { width: 15px; height: 15px; }
-  .evi__actions :global(.evi-starred) { color: var(--accent, #f9a134); }
-  .evi__actions :global(.evi-starred svg) { fill: currentColor; }
-  /* Collapsible body — [hidden] beats display rules here since it's the default flow */
-  .evi__fields[hidden] { display: none; }
-  .evi__fields { display: flex; flex-direction: column; gap: var(--spacing-300); padding: var(--spacing-300) var(--spacing-400) var(--spacing-400); }
-  .evi__field { display: flex; flex-direction: column; gap: var(--spacing-100); }
-  .evi__label { display: inline-flex; align-items: center; gap: var(--spacing-150); font-size: 0.8125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-  .evi__text { font-size: 0.8125rem; line-height: 1.5; color: var(--color-text-secondary); }
-  .evi__text--muted { color: var(--color-text-tertiary); font-style: italic; }
-  .evi__pills { display: flex; flex-wrap: wrap; gap: var(--spacing-150); }
-
-  /* Existing-file rows now use the esa-file-list lego (own styling). */
-
-  /* ── Editor (esa-side-dialog lego) — only the body composition is ours ── */
-  .evi-files-field { display: flex; flex-direction: column; gap: var(--spacing-200); }
-  .evi-files-field__label { font-size: 0.875rem; font-weight: var(--font-weight-medium); color: var(--color-text-primary); }
-  .evi-foot { display: flex; gap: var(--spacing-300); justify-content: flex-end; }
+  /* ── Evidence-of-Compliance editor (esa-side-dialog lego) — only body composition is ours ── */
+  .bcn-edit-files-field { display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-edit-files-field__label { font-size: 0.875rem; font-weight: var(--font-weight-medium); color: var(--color-text-primary); }
+  .bcn-edit-foot { display: flex; gap: var(--spacing-300); justify-content: flex-end; }
 
   @media (max-width: 860px) {
-    .rd-grid { grid-template-columns: 1fr; }
-    .rd-side { border-left: 0; border-top: 1px solid var(--bcn-gray-200); }
+    .bcn-dialog__grid { grid-template-columns: 1fr; }
+    .bcn-dialog__side { border-left: 0; border-top: 1px solid var(--color-border); }
   }
 </style>
 

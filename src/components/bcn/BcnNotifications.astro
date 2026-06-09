@@ -1,0 +1,93 @@
+---
+// <BcnNotifications> — the tracking dialog's Notifications section: a quiet summary of
+// who gets notified and on which triggers for an Action's implementations. Presentational
+// only (no JS). Leads with a one-line explainer + an "Edit recipients & triggers" link
+// (the settings live on the Action in the Data Catalog), then three labeled fields:
+// "Next notification" (a warning dot + a host-supplied date), "Additional recipients"
+// (pills), and "Triggers" (a list of named triggers, each on or off).
+//
+// The "Next notification" date is host-set at runtime: this renders
+// <span data-bcn-notif-due>—</span> so the page can query [data-bcn-notif-due] per row
+// and set textContent. The field labels use this component's OWN __label class (copied
+// from the dialog's .rd-kv__key sizing) so it stays decoupled from any key-value lego.
+//
+// bcn-lego-checked: no esa-* notification-settings lego — checked Ecology and Beacon.
+// bcn-notifications composes esa-pill / esa-badge / esa-icon-link into the per-action
+// notification summary.
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaPill from '@esa/ecology/esa-pill.astro';
+import EsaIconLink from '@esa/ecology/esa-icon-link.astro';
+
+interface NotifTrigger {
+  name: string;
+  detail: string;
+  on: boolean;
+}
+
+interface Props {
+  lead?: string;
+  editHref?: string;
+  recipients: string[];
+  triggers: NotifTrigger[];
+}
+
+const {
+  lead = 'Sent to the assignee on each implementation.',
+  editHref = '#data-catalog-action',
+  recipients,
+  triggers,
+} = Astro.props;
+---
+
+<div class="bcn-notifications">
+  <p class="bcn-notifications__lead">
+    {lead}
+    <EsaIconLink href={editHref} trailing="arrow-right" size="sm">Edit recipients &amp; triggers on the Action</EsaIconLink>
+  </p>
+
+  <div class="bcn-notifications__field">
+    <span class="bcn-notifications__label">Next notification</span>
+    <span class="bcn-notifications__next"><EsaBadge dot variant="warning" /><span data-bcn-notif-due>—</span></span>
+  </div>
+
+  <div class="bcn-notifications__field">
+    <span class="bcn-notifications__label">Additional recipients</span>
+    <div class="bcn-notifications__recipients">
+      {recipients.map((r) => <EsaPill label={r} removable={false} size="sm" />)}
+    </div>
+  </div>
+
+  <div class="bcn-notifications__field">
+    <span class="bcn-notifications__label">Triggers</span>
+    <ul class="bcn-notifications__triggers">
+      {triggers.map((t) => (
+        <li class={`bcn-notifications__trigger ${t.on ? 'is-on' : 'is-off'}`}>
+          <span class="bcn-notifications__trigger-name">{t.name}</span>
+          <span class="bcn-notifications__trigger-detail">{t.detail}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
+
+<style>
+  /* Notifications — quiet summary; parent owns outer spacing. */
+  .bcn-notifications { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .bcn-notifications__lead { margin: 0; font-size: 0.8125rem; line-height: 1.5; color: var(--color-text-secondary); }
+
+  /* Field label — own class, copied from the dialog's .rd-kv__key sizing (decoupled). */
+  .bcn-notifications__label { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); color: var(--form-label-color); }
+
+  .bcn-notifications__field { display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-notifications__next { display: inline-flex; align-items: center; gap: var(--spacing-200); font-size: 0.9375rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-notifications__recipients { display: flex; flex-wrap: wrap; gap: var(--spacing-150); }
+
+  .bcn-notifications__triggers { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-150); }
+  .bcn-notifications__trigger { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); padding: var(--spacing-250) var(--spacing-300); border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface); }
+  .bcn-notifications__trigger-name { font-size: 0.875rem; font-weight: var(--font-weight-medium); color: var(--color-text-primary); }
+  .bcn-notifications__trigger-detail { display: inline-flex; align-items: center; gap: var(--spacing-150); font-size: 0.8125rem; color: var(--color-text-secondary); }
+  .bcn-notifications__trigger-detail::before { content: ''; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--color-border-strong); }
+  .bcn-notifications__trigger.is-on .bcn-notifications__trigger-detail::before { background: var(--color-success); }
+  .bcn-notifications__trigger.is-off { opacity: 0.7; }
+  .bcn-notifications__trigger.is-off .bcn-notifications__trigger-detail { color: var(--color-text-tertiary); }
+</style>

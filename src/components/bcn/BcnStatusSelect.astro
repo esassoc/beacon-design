@@ -1,0 +1,101 @@
+---
+// <BcnStatusSelect> — the Status control in the tracking dialog's Tracking section.
+// A label + a hand-driven listbox whose trigger shows the LIVE status color dot,
+// which is exactly why it isn't an esa-select: the trigger has to render a
+// value-driven color the lego can't. Three states only (Not Started / In Progress
+// / Completed).
+//
+// Dot color is 100% CSS, keyed off [data-value] on the root → --bcn-status-* tokens.
+// The component renders its own initial value via the `value` prop (set as data-value
+// in markup); status-select.ts (setupStatusSelect) only flips state — dataset.value,
+// aria, label text, open — and emits 'change' on user selection. Render once, then
+// const ctl = setupStatusSelect(root) to wire it; ctl.setValue(v) updates WITHOUT
+// firing 'change'.
+//
+// bcn-lego-checked: no esa-* models a status select whose trigger shows the live status
+// color; esa-select cannot render a value-driven color dot in its own trigger. Checked
+// Ecology (esa-select, esa-dropdown-menu) and Beacon (status pill). bcn-status-select is
+// the reusable home; dots are token-driven (--bcn-status-*).
+
+interface Props {
+  id?: string;
+  label?: string;
+  value?: 'not-started' | 'in-progress' | 'completed';
+}
+const { id, label = 'Status', value = 'not-started' } = Astro.props;
+
+const LABELS: Record<NonNullable<Props['value']>, string> = {
+  'not-started': 'Not Started',
+  'in-progress': 'In Progress',
+  completed: 'Completed',
+};
+const OPTIONS: NonNullable<Props['value']>[] = ['not-started', 'in-progress', 'completed'];
+---
+
+<div class="bcn-status-select" id={id} data-value={value}>
+  <span class="bcn-status-select__label">{label}</span>
+  <div class="bcn-status-select__dd">
+    <button type="button" class="bcn-status-select__trigger" aria-haspopup="listbox" aria-expanded="false">
+      <span class="bcn-status-select__dot bcn-status-select__dot--trigger"></span>
+      <span class="bcn-status-select__value">{LABELS[value]}</span>
+      <svg class="bcn-status-select__chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+    </button>
+    <ul class="bcn-status-select__menu" role="listbox" hidden>
+      {OPTIONS.map((opt) => (
+        <li class="bcn-status-select__opt" role="option" data-value={opt} aria-selected={String(opt === value)}>
+          <span class={`bcn-status-select__dot bcn-status-select__dot--${opt}`}></span>{LABELS[opt]}
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
+
+<style>
+  /* Label matches the legos' .field__label (esa-date-picker / esa-select), 4px gap
+     to its control. */
+  .bcn-status-select { display: flex; flex-direction: column; gap: var(--spacing-100); }
+  .bcn-status-select__label { font-size: 0.875rem; font-weight: var(--font-weight-medium); color: var(--form-label-color); }
+
+  .bcn-status-select__dd { position: relative; }
+  .bcn-status-select__trigger {
+    display: flex; align-items: center; gap: var(--spacing-200); width: 100%;
+    height: 40px; padding: 0 var(--spacing-300);
+    font-size: 0.875rem; font-weight: var(--font-weight-medium); color: var(--color-text-primary);
+    background: var(--color-surface); border: 1px solid var(--form-border-color);
+    border-radius: var(--form-radius-md); cursor: pointer;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+  .bcn-status-select__trigger:hover { border-color: var(--color-border-strong); }
+  .bcn-status-select__trigger[aria-expanded='true'] {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 18%, transparent);
+  }
+  .bcn-status-select__value { flex: 1; text-align: left; }
+  .bcn-status-select__chev { color: var(--color-text-tertiary); flex-shrink: 0; transition: transform 150ms ease; }
+  .bcn-status-select__trigger[aria-expanded='true'] .bcn-status-select__chev { transform: rotate(180deg); }
+
+  /* Dot color is value-driven, never hardcoded: the menu options carry their own
+     state color, and the trigger's dot mirrors the root's [data-value]. */
+  .bcn-status-select__dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .bcn-status-select__dot--not-started { background: var(--bcn-status-not-started); }
+  .bcn-status-select__dot--in-progress { background: var(--bcn-status-in-progress); }
+  .bcn-status-select__dot--completed { background: var(--bcn-status-completed); }
+  .bcn-status-select[data-value='not-started'] .bcn-status-select__dot--trigger { background: var(--bcn-status-not-started); }
+  .bcn-status-select[data-value='in-progress'] .bcn-status-select__dot--trigger { background: var(--bcn-status-in-progress); }
+  .bcn-status-select[data-value='completed'] .bcn-status-select__dot--trigger { background: var(--bcn-status-completed); }
+
+  .bcn-status-select__menu {
+    position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 20;
+    margin: 0; padding: var(--spacing-100); list-style: none;
+    background: var(--color-surface); border: 1px solid var(--color-border);
+    border-radius: var(--form-radius-md); box-shadow: var(--shadow-300);
+  }
+  .bcn-status-select__menu[hidden] { display: none; }
+  .bcn-status-select__opt {
+    display: flex; align-items: center; gap: var(--spacing-200);
+    padding: var(--spacing-200) var(--spacing-300); font-size: 0.875rem; color: var(--color-text-primary);
+    border-radius: var(--radius-200); cursor: pointer;
+  }
+  .bcn-status-select__opt:hover { background: var(--color-surface-sunken); }
+  .bcn-status-select__opt[aria-selected='true'] { background: var(--color-surface-sunken); font-weight: var(--font-weight-semibold); }
+</style>

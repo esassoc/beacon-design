@@ -1,0 +1,140 @@
+---
+// <BcnDiscussion> — the tracking dialog's Discussion section as a timeline of
+// comments (avatars as nodes on a connecting rail, matching the dialog's Change
+// Log). STRICTLY faithful to Beacon's ActionImplementation comments — no invented
+// features: plain text, newest-first, flat; per comment an initials avatar, bold
+// author, absolute timestamp ("MMM d, y 'at' h:mm a"), an "(edited)" marker when
+// edited, and author-only Edit/Delete (revealed on hover); a "Posting as" compose
+// with a plain textarea (placeholder "Write your comment...") and "Post Comment";
+// empty state "No comments yet. Start the discussion!". NONE of @mentions,
+// attachments, threading/replies, reactions, rich text, read state.
+//
+// Avatar color uses the setup-wizard STEPPER palette (source → commitment →
+// requirement → action), assigned deterministically per author.
+//
+// bcn-lego-checked: no esa-* models a comment thread — checked Ecology (none) and
+// Beacon (the prod comment list is a page-level template, not a shared component).
+// Two consumers (specimen + tracker dialog) → a real reusable bcn-. Every control
+// is a lego (esa-avatar, esa-icon, esa-badge, esa-icon-button, esa-textarea,
+// esa-button); avatar color is a token-only override of the lego's own
+// --_avatar-bg. The rest is token-driven layout. No bespoke primitive.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaAvatar from '@esa/ecology/esa-avatar.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+
+export interface DiscussionComment {
+  author: string;
+  /** Absolute timestamp, Beacon format: "MMM d, y 'at' h:mm a". */
+  time: string;
+  text: string;
+  edited: boolean;
+  /** Current user is the author → Edit/Delete available. */
+  own: boolean;
+}
+
+interface Props {
+  comments: DiscussionComment[];
+  currentUser: string;
+}
+const { comments, currentUser } = Astro.props;
+
+// Lucide message-square-dot.
+const MSG_DOT = "<path d='M11.7 3H5a2 2 0 0 0-2 2v16l4-4h12a2 2 0 0 0 2-2v-2.7'/><circle cx='18' cy='5' r='3'/>";
+
+// Setup-wizard stepper palette → one color per author, assigned by first-appearance
+// order (cycles past 4). Per-author consistent within a thread, but spread across the
+// palette instead of colliding the way a name-hash would.
+const STEPPER = ['--color-source', '--color-commitment', '--color-requirement', '--color-action'];
+const authorColors = new Map<string, string>();
+let nextColor = 0;
+for (const c of comments) {
+  if (!authorColors.has(c.author)) authorColors.set(c.author, STEPPER[nextColor++ % STEPPER.length]);
+}
+if (!authorColors.has(currentUser)) authorColors.set(currentUser, STEPPER[nextColor++ % STEPPER.length]);
+const stepColor = (name: string): string => authorColors.get(name) ?? STEPPER[0];
+---
+
+<section class="bcn-disc">
+  <h3 class="bcn-disc__head">
+    <EsaIcon name="message-square-dot" paths={MSG_DOT} size="sm" />
+    Discussion
+    {comments.length > 0 && <EsaBadge variant="secondary" size="sm" value={comments.length} />}
+  </h3>
+
+  {comments.length === 0 && <p class="bcn-disc__none">No comments yet. Start the discussion!</p>}
+
+  <ul class="bcn-disc__tl">
+    {comments.map((c) => (
+      <li class="bcn-disc__item">
+        <span class="bcn-disc__node" style={`--_node-color: var(${stepColor(c.author)})`}><EsaAvatar name={c.author} size="sm" /></span>
+        <div class="bcn-disc__body">
+          <div class="bcn-disc__meta">
+            <span class="bcn-disc__author">{c.author}</span>
+            <span class="bcn-disc__time">{c.time}</span>
+            {c.edited && <span class="bcn-disc__edited">(edited)</span>}
+            {c.own && (
+              <span class="bcn-disc__actions">
+                <EsaIconButton icon="pencil" label="Edit" size="sm" />
+                <EsaIconButton icon="trash-2" label="Delete" size="sm" />
+              </span>
+            )}
+          </div>
+          <p class="bcn-disc__text">{c.text}</p>
+        </div>
+      </li>
+    ))}
+
+    <!-- Compose — the trailing node. -->
+    <li class="bcn-disc__item bcn-disc__item--compose">
+      <span class="bcn-disc__node" style={`--_node-color: var(${stepColor(currentUser)})`}><EsaAvatar name={currentUser} size="sm" /></span>
+      <div class="bcn-disc__compose">
+        <span class="bcn-disc__as">Posting as {currentUser}</span>
+        <esa-textarea rows="2" placeholder="Write your comment..."></esa-textarea>
+        <div class="bcn-disc__compose-actions"><EsaButton color="primary" size="sm">Post Comment</EsaButton></div>
+      </div>
+    </li>
+  </ul>
+</section>
+
+<script>
+  import '@esa/ecology/esa-textarea';
+</script>
+
+<style>
+  .bcn-disc { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .bcn-disc__head { display: flex; align-items: center; gap: var(--spacing-200); margin: 0; font-size: var(--type-size-200); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-disc__head :global(.esa-icon) { flex-shrink: 0; color: var(--color-text-secondary); }
+  .bcn-disc__none { margin: 0; font-size: 0.875rem; color: var(--color-text-tertiary); }
+
+  /* Timeline — avatars as connected nodes (same vocabulary as the Change Log). */
+  .bcn-disc__tl { list-style: none; margin: 0; padding: 0; }
+  .bcn-disc__item { position: relative; display: grid; grid-template-columns: auto 1fr; gap: var(--spacing-300); padding-bottom: var(--spacing-400); }
+  .bcn-disc__item:not(:last-child)::before { content: ''; position: absolute; left: 13px; top: 32px; bottom: 0; width: 2px; background: var(--color-border); }
+  .bcn-disc__item--compose { padding-bottom: 0; }
+  .bcn-disc__node { position: relative; z-index: 1; }
+  /* Avatar color = the wrapper's --_node-color (stepper token), overriding the
+     lego's name-hash default. */
+  .bcn-disc__node :global(.esa-avatar) { --_avatar-bg: var(--_node-color, var(--color-secondary)); }
+
+  .bcn-disc__body { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .bcn-disc__meta { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--spacing-200); }
+  .bcn-disc__author { font-size: 0.875rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-disc__time { font-size: 0.75rem; color: var(--color-text-tertiary); }
+  .bcn-disc__edited { font-size: 0.75rem; font-style: italic; color: var(--color-text-tertiary); }
+  .bcn-disc__text { margin: 0; font-size: 0.875rem; line-height: 1.5; color: var(--color-text-primary); white-space: pre-wrap; }
+
+  /* Author-only Edit/Delete — revealed on hover/focus (prod behavior). */
+  .bcn-disc__actions { display: inline-flex; align-items: center; gap: 1px; margin-left: auto; opacity: 0; transition: opacity 120ms ease; }
+  .bcn-disc__item:hover .bcn-disc__actions,
+  .bcn-disc__item:focus-within .bcn-disc__actions { opacity: 1; }
+  .bcn-disc__actions :global(.esa-icon-button) { width: 26px; height: 26px; }
+  .bcn-disc__actions :global(.esa-icon) { width: 15px; height: 15px; }
+
+  /* Compose. */
+  .bcn-disc__compose { min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-disc__as { font-size: 0.8125rem; color: var(--color-text-secondary); }
+  .bcn-disc__compose esa-textarea { width: 100%; }
+  .bcn-disc__compose-actions { display: flex; justify-content: flex-end; }
+</style>
