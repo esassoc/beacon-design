@@ -23,6 +23,26 @@ export interface Prototype {
 
 export const prototypes: Prototype[] = [
   {
+    slug: 'data-catalog-action',
+    title: 'Action detail page (Data Catalog)',
+    description:
+      'The net-new Action detail page (BCN-1318) — a read-only view of the whole Action (requirements satisfied, details, timing, evidence, notifications, the Action Lists it belongs to, and a grid of materialized Implementations + statuses), with one "Edit action" button that opens the full upsert MODAL (two-pane requirements assignment | Details/Timing/Evidence/Notifications tabs). Manual CRUD; per-cycle tracking lives on ActionImplementations in the Tracker.',
+    route: '/prototypes/data-catalog-action',
+    createdAt: '2026-06-09',
+    ticket: 'BCN-1317',
+    status: 'in-progress',
+  },
+  {
+    slug: 'data-catalog-actions',
+    title: 'Actions list (Data Catalog)',
+    description:
+      'The Data Catalog Actions list (BCN-1318) — enables the previously-disabled Actions entry, mirroring the live Requirements catalog page (teal Beacon grid, link columns, search + clear-filters chrome) for the net-new Action entity. Project-agnostic framing; row click opens the Action detail page.',
+    route: '/prototypes/data-catalog-actions',
+    createdAt: '2026-06-09',
+    ticket: 'BCN-1317',
+    status: 'in-progress',
+  },
+  {
     slug: 'requirement-tracker',
     title: 'Requirement Tracker (3600 Alameda)',
     description:

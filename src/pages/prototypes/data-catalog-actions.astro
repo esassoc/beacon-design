@@ -1,0 +1,272 @@
+---
+// Data Catalog — Actions (BCN-1318).
+//
+// The Data Catalog's Actions list page: today the Data Catalog hub has a DISABLED
+// "Actions" entry and no list/detail. This screen enables it, mirroring the live
+// Requirements catalog page (teal AG Grid, link columns, "Search grid…" + "Clear
+// Filters" chrome) for the not-yet-existing Action entity. The Data Catalog is
+// project-agnostic, so the project switcher reads "Select a Project" and the sidebar
+// collapses to the Data Catalog's own sub-nav (BCN-1320) with Actions now active.
+//
+// Row click → the net-new Action detail page (data-catalog-action.astro).
+//
+// COMPONENT MANIFEST: AppShell + PageLayout chrome, esa-* legos (esa-text-field,
+// EsaButton, EsaIconButton), and the shared Beacon grid kit (src/lib/beacon-grid.ts).
+// The only CSS here is the grid-page composition glue, ported from the tracker.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import { actions, STATUS_META, PROJECT_NAME, type ActionStatus } from '../../data/tracker-fixture';
+import { withBase } from '../../lib/base';
+
+// The Data Catalog sub-nav (BCN-1320) — the hub's entity entries, with the
+// previously-disabled Actions now enabled and active. No project is selected: the
+// catalog is the global, project-agnostic home for these entities.
+const dataCatalogNav = [
+  {
+    id: 'data-catalog',
+    title: 'Data Catalog',
+    icon: 'database',
+    expanded: true,
+    active: true,
+    items: [
+      { id: 'dc-projects', label: 'Projects' },
+      { id: 'dc-source-documents', label: 'Source Documents' },
+      { id: 'dc-commitments', label: 'Commitments' },
+      { id: 'dc-requirements', label: 'Requirements' },
+      { id: 'dc-actions', label: 'Actions', active: true },
+      { id: 'dc-components', label: 'Components' },
+      { id: 'dc-evidence', label: 'Evidence of Compliance' },
+    ],
+  },
+];
+
+// Action-centric projection of the fixture. The catalog Actions list leads with the
+// Action name and surfaces its Responsible Party + Status (action facts), where the
+// Requirements list leads with Requirement Text — same grid, different entity.
+const detailHref = withBase('/prototypes/data-catalog-action');
+const listRows = actions.map((a) => ({
+  name: a.name.trim(),
+  project: PROJECT_NAME,
+  commitment: a.commitment,
+  sourceDoc: 'FEIR',
+  type: a.type,
+  responsibleParty: a.responsibleParty,
+  status: a.status,
+  resourceCategory: a.resourceCategory,
+  phase: a.phase,
+}));
+
+const gridPayload = {
+  rows: listRows,
+  statusMeta: STATUS_META as Record<ActionStatus, { label: string; hex: string }>,
+  detailHref,
+};
+---
+
+<AppShell title="Actions — Data Catalog" tenantName="Prologis" projectName="Select a Project" navSections={dataCatalogNav}>
+  <PageLayout
+    title="Actions"
+    breadcrumbs={[{ label: 'Data Catalog', href: '#data-catalog' }, { label: 'Actions' }]}
+  >
+    <!-- Grid header: global search · clear filters (Beacon-parity names) -->
+    <div class="grid-header">
+      <div class="grid-header__filter">
+        <esa-text-field id="dc-search" placeholder="Search grid…" size="sm"></esa-text-field>
+        <span id="dc-search-clear" hidden><EsaIconButton icon="x" label="Clear search" size="sm" /></span>
+      </div>
+      <span id="dc-clear-filters"><EsaButton color="ghost" appearance="outline" size="sm">Clear Filters</EsaButton></span>
+    </div>
+
+    <div id="dc-grid" class="tracker-grid"></div>
+
+    <!-- Grid footer: download · record count -->
+    <div class="table-footer">
+      <span id="dc-download"><EsaButton color="ghost" appearance="outline" size="sm" icon="download">Download as CSV</EsaButton></span>
+      <div class="row-count-data">
+        Total Records: <span id="dc-total">0</span>
+        <span id="dc-filtered" class="filtered-rows-count" hidden></span>
+      </div>
+    </div>
+  </PageLayout>
+
+  <script type="application/json" id="dc-grid-data" set:html={JSON.stringify(gridPayload)}></script>
+</AppShell>
+
+<script>
+  import { createGrid, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
+  import type { GridApi, GridOptions, ColDef } from 'ag-grid-community';
+  import { beaconTheme, makeStatusRenderer, linkRenderer } from '../../lib/beacon-grid';
+  import '@esa/ecology/esa-text-field';
+
+  ModuleRegistry.registerModules([AllCommunityModule]);
+
+  type ActionStatus = 'not-started' | 'in-progress' | 'completed' | 'not-applicable';
+  interface ListRow {
+    name: string;
+    project: string;
+    commitment: string;
+    sourceDoc: string;
+    type: string;
+    responsibleParty: string;
+    status: ActionStatus;
+    resourceCategory: string;
+    phase: string;
+  }
+  interface Payload {
+    rows: ListRow[];
+    statusMeta: Record<ActionStatus, { label: string; hex: string }>;
+    detailHref: string;
+  }
+
+  const payload: Payload = JSON.parse(document.getElementById('dc-grid-data')!.textContent || '{}');
+  const { rows, statusMeta, detailHref } = payload;
+  const statusRenderer = makeStatusRenderer(statusMeta);
+
+  // Action-centric columns. Explicit (wider) widths so the grid overflows and scrolls
+  // left/right like Beacon's data-catalog grids — no fit-to-width.
+  const columnDefs: ColDef<ListRow>[] = [
+    { field: 'name', headerName: 'Name', width: 360, cellRenderer: linkRenderer },
+    { field: 'project', headerName: 'Project', width: 210, cellRenderer: linkRenderer },
+    { field: 'commitment', headerName: 'Commitment ID', width: 160, cellRenderer: linkRenderer },
+    { field: 'sourceDoc', headerName: 'Source Document', width: 180, cellRenderer: linkRenderer },
+    { field: 'type', headerName: 'Action Type', width: 190 },
+    { field: 'responsibleParty', headerName: 'Responsible Party', width: 210 },
+    { field: 'status', headerName: 'Status', width: 170, cellRenderer: statusRenderer, cellClass: 'bcn-grid-status-cell', filterValueGetter: (p) => statusMeta[p.data!.status]?.label },
+    { field: 'resourceCategory', headerName: 'Resource Category', width: 220 },
+    { field: 'phase', headerName: 'Phase', width: 180 },
+  ];
+
+  const totalEl = document.getElementById('dc-total')!;
+  const filteredEl = document.getElementById('dc-filtered')!;
+  function updateCounts() {
+    const total = rows.length;
+    const displayed = api.getDisplayedRowCount();
+    totalEl.textContent = String(total);
+    if (displayed < total) {
+      filteredEl.hidden = false;
+      filteredEl.textContent = `Filtered Records: ${displayed}`;
+    } else {
+      filteredEl.hidden = true;
+    }
+  }
+
+  const gridOptions: GridOptions<ListRow> = {
+    theme: beaconTheme,
+    rowData: rows,
+    columnDefs,
+    defaultColDef: {
+      sortable: true,
+      resizable: true,
+      filter: true,
+      suppressHeaderMenuButton: true,
+      tooltipValueGetter: (p) => p.value,
+    },
+    tooltipShowDelay: 0,
+    tooltipShowMode: 'whenTruncated',
+    onFirstDataRendered: updateCounts,
+    onFilterChanged: updateCounts,
+    // Row click → the Action detail page (static prototype: one realized example).
+    onRowClicked: () => (window.location.href = detailHref),
+  };
+
+  const api: GridApi<ListRow> = createGrid(document.getElementById('dc-grid')!, gridOptions);
+
+  // Grid header: search → quick filter (+ clear-x).
+  const search = document.getElementById('dc-search') as HTMLElement & { value: string };
+  const searchClear = document.getElementById('dc-search-clear')!;
+  search?.addEventListener('change', (e) => {
+    const v = (e as CustomEvent).detail?.value ?? search.value ?? '';
+    api.setGridOption('quickFilterText', v);
+    searchClear.hidden = !v;
+  });
+  searchClear.addEventListener('click', () => {
+    search.value = '';
+    api.setGridOption('quickFilterText', '');
+    searchClear.hidden = true;
+  });
+
+  document.getElementById('dc-clear-filters')!.addEventListener('click', () => api.setFilterModel(null));
+  document.getElementById('dc-download')!.addEventListener('click', () => api.exportDataAsCsv({ fileName: 'data-catalog-actions.csv' }));
+</script>
+
+<style>
+  /* bcn-lego-checked: page-composition glue only — the data-catalog grid chrome
+     (search/clear header, AG Grid host, download/count footer). No esa-* lego wraps a
+     full grid page; checked Ecology (esa-* has form/button legos, used here, but no
+     grid-page shell) and Beacon (this IS the ported prod grid-page layout). Ported
+     verbatim from requirement-tracker.astro so the catalog grids stay identical. Every
+     control inside is a lego; this is layout, not a new primitive. */
+
+  /* Beacon grid header: search · clear filters */
+  .grid-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    margin-bottom: var(--spacing-300);
+  }
+  .grid-header__filter { display: inline-flex; align-items: center; gap: var(--spacing-150); min-width: 280px; }
+  .grid-header__filter :global(esa-text-field) { flex: 1; }
+
+  /* AG Grid host */
+  .tracker-grid {
+    width: 100%;
+    height: calc(100vh - 360px);
+    min-height: 400px;
+  }
+
+  /* Beacon grid footer: download · record count */
+  .table-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    padding: var(--spacing-200) var(--spacing-400);
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-top: 0;
+    border-radius: 0 0 var(--radius-100) var(--radius-100);
+  }
+  .row-count-data {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-400);
+    font-size: var(--type-size-100);
+    color: var(--color-text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+  .filtered-rows-count { color: var(--color-text-tertiary); }
+  .filtered-rows-count[hidden] { display: none; }
+
+  /* AG Grid cell renderers (global — AG Grid injects cells outside Astro's scope) */
+  :global(.ag-cell.bcn-grid-status-cell) { display: flex; align-items: center; }
+  :global(.ag-row) { cursor: pointer; }
+  :global(.bcn-grid-chip) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    padding: 1px var(--spacing-200);
+    border-radius: var(--radius-100);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    font-weight: var(--font-weight-semibold);
+    white-space: nowrap;
+    background: color-mix(in srgb, var(--_chip) 16%, transparent);
+    color: color-mix(in srgb, var(--_chip) 70%, #1a1a1a);
+  }
+  :global(.bcn-grid-chip__dot) {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--_chip);
+    flex-shrink: 0;
+  }
+  :global(.bcn-grid-name) {
+    color: var(--color-text-link);
+    font-weight: var(--font-weight-regular);
+    text-decoration: underline;
+  }
+  :global(.bcn-grid-name:hover) { color: var(--color-primary-hover); }
+</style>

@@ -1,0 +1,770 @@
+---
+// Data Catalog — Action detail page (BCN-1318, the pattern-setter). LAYOUT: Option A.
+//
+// A READ-ONLY presentation of the whole Action — identity, the requirements it
+// satisfies, details, timing, evidence, notifications, the Action Lists it belongs to,
+// and the materialized Implementations + their statuses. All EDITING happens in the
+// "Edit action" MODAL (a page-level port of the prod Action upsert dialog: two-pane
+// requirements assignment + Details/Timing/Evidence/Notifications tabs). Manual CRUD —
+// NO "Approve" (that's the setup wizard's suggest-flow, not here).
+//
+// An Action is the CONFIGURATION entity; per-cycle status/assignee/due are
+// ActionImplementation concerns — shown read-only here, edited in the Tracker.
+//
+// COMPONENT MANIFEST: AppShell + PageLayout chrome; read blocks reuse bcn-* components
+// (BcnKeyValue, BcnNotifications) + esa-* legos (EsaPill/Badge/Button/Icon, esa-file-list,
+// EsaCollapsible); the Implementations grid uses the shared Beacon grid kit; the edit
+// modal is esa-dialog wrapping esa-tab-layout / esa-entity-search / esa-file-upload /
+// esa-button-toggle / esa-switch-toggle / esa-select / esa-text-field / esa-textarea.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import BcnKeyValue from '../../components/bcn/BcnKeyValue.astro';
+import { actions, STATUS_META, type ActionStatus } from '../../data/tracker-fixture';
+import { withBase } from '../../lib/base';
+
+const SQUARE_CHECK = "<rect width='18' height='18' x='3' y='3' rx='2'/><path d='m9 12 2 2 4-4'/>";
+const CLOCK = "<circle cx='12' cy='12' r='10'/><polyline points='12 6 12 12 16 14'/>";
+const LIST = "<path d='M8 6h13'/><path d='M8 12h13'/><path d='M8 18h13'/><path d='M3 6h.01'/><path d='M3 12h.01'/><path d='M3 18h.01'/>";
+const INBOX = "<polyline points='22 12 16 12 14 15 10 15 8 12 2 12'/><path d='M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z'/>";
+const CALENDAR = "<path d='M8 2v4'/><path d='M16 2v4'/><rect width='18' height='18' x='3' y='4' rx='2'/><path d='M3 10h18'/>";
+
+const dataCatalogNav = [
+  {
+    id: 'data-catalog',
+    title: 'Data Catalog',
+    icon: 'database',
+    expanded: true,
+    active: true,
+    items: [
+      { id: 'dc-projects', label: 'Projects' },
+      { id: 'dc-source-documents', label: 'Source Documents' },
+      { id: 'dc-commitments', label: 'Commitments' },
+      { id: 'dc-requirements', label: 'Requirements' },
+      { id: 'dc-actions', label: 'Actions', active: true },
+      { id: 'dc-components', label: 'Components' },
+      { id: 'dc-evidence', label: 'Evidence of Compliance' },
+    ],
+  },
+];
+
+// ── The Action (read model). Air Quality / SCA AIR-1 so the commitment badge matches
+//    its assigned dust-control requirements below. ──
+const actionName = 'Conduct Quarterly Dust-Control Monitoring & Reporting';
+const commitmentId = 'SCA AIR-1';
+const actionType = 'Monitoring';
+const responsibleParty = 'QSP / Inspector';
+const defaultAssignee = 'Maria Chen';
+const frequencyLabel = 'Recurring';
+const scopeLabel = 'Component';
+const nextDue = 'Jun 30, 2026';
+const milestone = 'Building Permit';
+const deadlineRule = 'Every 3 months, after milestone';
+const actionText =
+  'Monitor construction-phase fugitive-dust controls at each active work area per the project dust-control plan, log visible-dust observations and corrective actions, and compile the quarterly dust-control report for the air district.';
+const expectedEvidence = 'Quarterly dust-control monitoring log (PDF) with visible-dust observations and corrective actions.';
+const referenceFiles = ['dust-control-monitoring-template.pdf', 'air-district-reporting-form.pdf'];
+const actionLists = ['Annual Reporting', 'Air Quality'];
+
+// Requirements this action satisfies (read; seeded from the fixture).
+const assigned = [
+  { commitment: actions[17].commitment, name: actions[17].name.trim() },
+  { commitment: actions[20].commitment, name: actions[20].name.trim() },
+];
+// Browse pool for the edit modal.
+const assignedKeys = new Set(assigned.map((a) => `${a.commitment}::${a.name}`));
+const browse = actions
+  .map((a) => ({ commitment: a.commitment, name: a.name.trim() }))
+  .filter((a) => !assignedKeys.has(`${a.commitment}::${a.name}`))
+  .slice(0, 12);
+const browseTotal = 72;
+
+// Notifications (read).
+// Rule phrasing (NOT a preview of any one implementation's notifications).
+const notifTriggers = [
+  { name: 'Coming up', detail: '14 days before due', icon: 'inbox' },
+  { name: 'Due', detail: 'On the due date', icon: 'calendar' },
+  { name: 'Past due', detail: '3 days after due', icon: 'triangle-alert' },
+];
+const TRIGGER_PATHS: Record<string, string | undefined> = { inbox: INBOX, calendar: CALENDAR, 'triangle-alert': undefined };
+
+// Materialized Action Implementations — one per Component the action is tracked
+// against (read; status drives the grid chip).
+const implementations = [
+  { component: 'Demolition Area', due: 'Mar 31, 2026', status: 'completed' as ActionStatus, assignee: 'Maria Chen', evidence: 2 },
+  { component: 'North Grading Area', due: 'Jun 30, 2026', status: 'in-progress' as ActionStatus, assignee: 'Maria Chen', evidence: 1 },
+  { component: 'South Grading Area', due: 'Sep 30, 2026', status: 'not-started' as ActionStatus, assignee: 'Unassigned', evidence: 0 },
+  { component: 'Haul Routes', due: 'Dec 31, 2026', status: 'not-started' as ActionStatus, assignee: 'Daniel Reyes', evidence: 0 },
+];
+
+const actionsHref = withBase('/prototypes/data-catalog-actions');
+const implPayload = { rows: implementations, statusMeta: STATUS_META as Record<ActionStatus, { label: string; hex: string }> };
+const editPayload = { actionName, browseTotal, dueParts: { y: 2026, m: 6, d: 30 }, leadDays: 7, firstReminder: 1 };
+---
+
+<AppShell title={`${actionName} — Data Catalog`} tenantName="Prologis" projectName="Select a Project" navSections={dataCatalogNav}>
+  <PageLayout
+    title={actionName}
+    breadcrumbs={[{ label: 'Data Catalog', href: '#data-catalog' }, { label: 'Actions', href: actionsHref }, { label: actionName }]}
+  >
+    <div class="bcn-action">
+      <!-- Identity header — tracker-modal treatment: commitment badge on top, decorative
+           name as H1, neutral type badge trailing. Edit opens the upsert modal. -->
+      <header class="bcn-action__head">
+        <div class="bcn-action__identity">
+          <span class="bcn-action__badge bcn-action__badge--commitment">{commitmentId}</span>
+          <div class="bcn-action__title-row">
+            <h1 class="bcn-action__title">{actionName}</h1>
+            <span class="bcn-action__badge bcn-action__badge--type">{actionType}</span>
+          </div>
+        </div>
+        <div class="bcn-action__head-actions">
+          <span id="edit-action"><EsaButton color="primary"><span class="bcn-btn-ico"><EsaIcon name="pencil" size="xs" />Edit action</span></EsaButton></span>
+        </div>
+      </header>
+
+      <!-- Two-column body -->
+      <div class="bcn-action__body">
+        <!-- Main -->
+        <div class="bcn-action__main">
+          <section class="bcn-action__section">
+            <h2 class="bcn-section-title">Requirements <EsaBadge variant="secondary" size="sm" value={assigned.length} /></h2>
+            <ul class="bcn-req-read">
+              {assigned.map((r) => (
+                <li class="bcn-req-read__row">
+                  <span class="bcn-req-read__badge">{r.commitment}</span>
+                  <a class="bcn-req-read__name" href="#data-catalog/requirements">{r.name}</a>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section class="bcn-action__section">
+            <h2 class="bcn-section-title">Action Text</h2>
+            <p class="bcn-prose">{actionText}</p>
+          </section>
+
+          <section class="bcn-action__section bcn-action__section--evidence">
+            <h2 class="bcn-section-title">Evidence of Compliance</h2>
+            <div class="bcn-subfield">
+              <span class="bcn-subfield__label">Expected evidence</span>
+              <p class="bcn-prose">{expectedEvidence}</p>
+            </div>
+            <div class="bcn-subfield">
+              <span class="bcn-subfield__label">Reference Files</span>
+              <esa-file-list id="ref-files"></esa-file-list>
+            </div>
+          </section>
+        </div>
+
+        <!-- Rail -->
+        <aside class="bcn-action__rail">
+          <EsaCollapsible icon="info" title="Details" open>
+            <BcnKeyValue label="Type" value={actionType} />
+            <BcnKeyValue label="Responsible Party" value={responsibleParty} />
+            <BcnKeyValue label="Default Assignee" value={defaultAssignee} />
+            <BcnKeyValue label="Scope" value={scopeLabel} hint="Tracked per component" />
+          </EsaCollapsible>
+
+          <EsaCollapsible icon="clock" iconPaths={CLOCK} title="Timing" open>
+            <BcnKeyValue label="Frequency" value={frequencyLabel} />
+            <BcnKeyValue label="Deadline" value={deadlineRule} />
+            <BcnKeyValue label="Milestone" value={milestone} />
+          </EsaCollapsible>
+
+          <EsaCollapsible icon="list" iconPaths={LIST} title="Lists" open>
+            <ul class="bcn-lists">
+              {actionLists.map((l) => <li><a class="bcn-list-link" href="#data-catalog/action-lists">{l}</a></li>)}
+            </ul>
+          </EsaCollapsible>
+
+          <EsaCollapsible icon="bell" title="Notifications" open>
+            <ul class="bcn-triggers">
+              {notifTriggers.map((t) => (
+                <li class="bcn-trigger-row">
+                  <EsaIcon name={t.icon} size="sm" paths={TRIGGER_PATHS[t.icon]} />
+                  <span class="bcn-trigger-row__name">{t.name}</span>
+                  <span class="bcn-trigger-row__rule">{t.detail}</span>
+                </li>
+              ))}
+            </ul>
+          </EsaCollapsible>
+        </aside>
+      </div>
+
+      <!-- Tracked Actions (full width) — the materialized per-component instances. -->
+      <section class="bcn-action__impl">
+        <h2 class="bcn-section-title">Tracked Actions <EsaBadge variant="secondary" size="sm" value={implementations.length} /></h2>
+        <div id="impl-grid" class="bcn-impl-grid"></div>
+      </section>
+    </div>
+  </PageLayout>
+
+  <!-- ═══ Edit Action MODAL — manual CRUD (no Approve). Page-level port of the prod
+       Action upsert dialog: LEFT requirements assignment | RIGHT Details/Timing/
+       Evidence/Notifications tabs. ═══ -->
+  <esa-dialog
+    id="edit-dialog"
+    size="lg"
+    style="--_dialog-width: 96vw; --_dialog-max-height: 94vh; --_dialog-bg: var(--color-surface, #fff); --z-modal-backdrop: 1150; --z-modal: 1200;"
+  >
+    <div slot="header" class="bcn-editor__head">
+      <span class="bcn-editor__head-title">{actionName}</span>
+      <span class="bcn-action__badge bcn-action__badge--type">{actionType}</span>
+    </div>
+    <div class="bcn-editor">
+      <!-- LEFT: requirements assignment — Assigned + Browse All, each 50% height -->
+      <section class="bcn-reqs" aria-label="Assigned requirements">
+        <div class="bcn-reqs__region">
+          <header class="bcn-reqs__head"><h3 class="bcn-section-title">Assigned <EsaBadge variant="secondary" size="sm" value={assigned.length} /></h3></header>
+          <ul class="bcn-reqs__assigned" id="assigned-list">
+            {assigned.map((r) => (
+              <li class="bcn-req-row bcn-req-row--assigned">
+                <span class="bcn-req-row__badge">{r.commitment}</span>
+                <span class="bcn-req-row__name">{r.name}</span>
+                <span class="bcn-req-row__act"><EsaIconButton icon="x" label={`Remove ${r.commitment}`} size="xs" /></span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="bcn-reqs__region bcn-reqs__region--browse">
+          <header class="bcn-reqs__head"><h3 class="bcn-section-title">Browse All <EsaBadge variant="secondary" size="sm" value={browseTotal} /></h3></header>
+          <div class="bcn-reqs__filters">
+            <esa-text-field id="req-search" placeholder="Search by name or text…"></esa-text-field>
+            <div class="bcn-reqs__filter-row">
+              <esa-select id="f-species" label="Species"></esa-select>
+              <esa-select id="f-milestones" label="Milestones"></esa-select>
+              <esa-select id="f-activities" label="Construction Activities"></esa-select>
+            </div>
+          </div>
+          <ul class="bcn-reqs__browse" id="browse-list">
+            {browse.map((r) => (
+              <li class="bcn-req-row">
+                <span class="bcn-req-row__badge">{r.commitment}</span>
+                <span class="bcn-req-row__name">{r.name}</span>
+                <span class="bcn-req-row__act"><EsaIconButton icon="plus" label={`Assign ${r.commitment}`} size="xs" /></span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <!-- RIGHT: tabbed config -->
+      <section class="bcn-config" aria-label="Action configuration">
+        <esa-tab-layout id="config-tabs" appearance="underline">
+          <div slot="panel-0" class="bcn-form">
+            <esa-text-field id="d-name" label="Name" required></esa-text-field>
+            <esa-select id="d-type" label="Type"></esa-select>
+            <esa-text-field id="d-party" label="Responsible Party"></esa-text-field>
+            <esa-entity-search id="d-assignee" label="Default Assignee" placeholder="Search users, organizations, or people…"></esa-entity-search>
+            <div class="bcn-field">
+              <span class="bcn-field__label">Scope</span>
+              <esa-button-toggle id="d-scope" value="project" size="md"></esa-button-toggle>
+              <span class="bcn-field__hint">Perform once, applies to entire project</span>
+            </div>
+            <esa-select id="d-lists" label="Assigned Action Lists"></esa-select>
+            <esa-textarea id="d-text" label="Action Text" rows="5"></esa-textarea>
+          </div>
+
+          <div slot="panel-1" class="bcn-form">
+            <div class="bcn-field">
+              <span class="bcn-field__label">Frequency</span>
+              <esa-button-toggle id="t-frequency" value="recurring" size="md"></esa-button-toggle>
+            </div>
+            <div class="bcn-field">
+              <span class="bcn-field__label">Deadline</span>
+              <esa-switch-toggle id="t-range" label="Within a range of the milestone"></esa-switch-toggle>
+            </div>
+            <div class="bcn-grid-3">
+              <esa-text-field id="t-every" label="Every"></esa-text-field>
+              <esa-select id="t-period" label="Period"></esa-select>
+              <esa-select id="t-relative" label="Relative to"></esa-select>
+            </div>
+            <esa-select id="t-milestone" label="Milestone"></esa-select>
+          </div>
+
+          <div slot="panel-2" class="bcn-form">
+            <esa-textarea id="e-expected" label="Expected Evidence of Compliance" rows="6"></esa-textarea>
+            <div class="bcn-field">
+              <span class="bcn-field__label">Reference Files</span>
+              <esa-file-upload label="Drag & drop files, or browse" multiple accept=".pdf,.csv,.xlsx,.jpg,.jpeg,.png,.gif,.zip"></esa-file-upload>
+            </div>
+          </div>
+
+          <div slot="panel-3" class="bcn-form bcn-notif">
+            <section class="bcn-ncard">
+              <h4 class="bcn-ncard__title">Additional Recipients</h4>
+              <esa-entity-search id="n-recipients" label="Additional recipients" placeholder="Search users, organizations, or people…"></esa-entity-search>
+              <div class="bcn-note">
+                <EsaIcon name="info" size="sm" />
+                <span>Notifications are sent to the assignee on each implementation. Add additional recipients here to also receive notifications.</span>
+              </div>
+            </section>
+
+            <section class="bcn-ncard">
+              <h4 class="bcn-ncard__title">Next Due Date</h4>
+              <p class="bcn-ncard__date">{nextDue}</p>
+              <p class="bcn-ncard__hint">Notification times below are calculated relative to this date. Edit the due date on the implementation itself.</p>
+            </section>
+
+            <section class="bcn-ntoggle" data-notif="upcoming">
+              <header class="bcn-ntoggle__head">
+                <span class="bcn-ntoggle__title"><EsaIcon name="inbox" size="sm" paths={INBOX} />Your Action Is Coming Up</span>
+                <esa-switch-toggle id="n-upcoming" label="" checked></esa-switch-toggle>
+              </header>
+              <div class="bcn-ntoggle__body" data-notif-body>
+                <esa-text-field id="n-lead" label="Lead days" type="number"></esa-text-field>
+                <span class="bcn-field__hint">Default: 7 days</span>
+                <label class="bcn-check"><input type="checkbox" /><span>Repeat?</span></label>
+              </div>
+            </section>
+
+            <section class="bcn-ntoggle" data-notif="due">
+              <header class="bcn-ntoggle__head">
+                <span class="bcn-ntoggle__title"><EsaIcon name="calendar" size="sm" paths={CALENDAR} />Your Action Is Due</span>
+                <esa-switch-toggle id="n-due" label="" checked></esa-switch-toggle>
+              </header>
+              <div class="bcn-ntoggle__body" data-notif-body>
+                <p class="bcn-ncard__hint">A notification will be sent on the due date.</p>
+              </div>
+            </section>
+
+            <section class="bcn-ntoggle" data-notif="past">
+              <header class="bcn-ntoggle__head">
+                <span class="bcn-ntoggle__title"><EsaIcon name="triangle-alert" size="sm" />Your Action Is Past Due</span>
+                <esa-switch-toggle id="n-past" label="" checked></esa-switch-toggle>
+              </header>
+              <div class="bcn-ntoggle__body" data-notif-body>
+                <esa-text-field id="n-reminder" label="First reminder after (days)" type="number"></esa-text-field>
+                <span class="bcn-field__hint">Days after due date</span>
+                <label class="bcn-check"><input type="checkbox" /><span>Repeat?</span></label>
+              </div>
+            </section>
+
+            <section class="bcn-ncard">
+              <h4 class="bcn-ncard__title">Notification Schedule</h4>
+              <div id="notif-schedule-rows"></div>
+              <p id="notif-schedule-empty" class="bcn-ncard__hint">Enable notification types above to see the schedule.</p>
+              <div id="notif-test" class="bcn-nsched__test" hidden>
+                <span id="notif-test-btn"><EsaButton color="ghost" appearance="outline" size="sm">Send Test Emails</EsaButton></span>
+                <span class="bcn-ncard__hint">Sends to your email only</span>
+              </div>
+            </section>
+          </div>
+        </esa-tab-layout>
+      </section>
+    </div>
+    <div slot="footer" class="bcn-editor__foot">
+      <span id="ea-cancel"><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span id="ea-save"><EsaButton color="primary">Save</EsaButton></span>
+    </div>
+  </esa-dialog>
+
+  <script type="application/json" id="impl-grid-data" set:html={JSON.stringify(implPayload)}></script>
+  <script type="application/json" id="edit-meta" set:html={JSON.stringify(editPayload)}></script>
+  <script type="application/json" id="ref-files-data" set:html={JSON.stringify(referenceFiles)}></script>
+</AppShell>
+
+<script>
+  import { createGrid, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
+  import type { GridApi, GridOptions, ColDef } from 'ag-grid-community';
+  import { beaconTheme, makeStatusRenderer, linkRenderer } from '../../lib/beacon-grid';
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-tab-layout';
+  import '@esa/ecology/esa-entity-search';
+  import '@esa/ecology/esa-file-upload';
+  import '@esa/ecology/esa-file-list';
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-switch-toggle';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+
+  ModuleRegistry.registerModules([AllCommunityModule]);
+
+  type ActionStatus = 'not-started' | 'in-progress' | 'completed' | 'not-applicable';
+
+  // ── Implementations grid (read) ──
+  interface ImplRow { component: string; due: string; status: ActionStatus; assignee: string; evidence: number; }
+  const implData = JSON.parse(document.getElementById('impl-grid-data')!.textContent || '{}') as {
+    rows: ImplRow[];
+    statusMeta: Record<ActionStatus, { label: string; hex: string }>;
+  };
+  const statusRenderer = makeStatusRenderer(implData.statusMeta);
+  const implCols: ColDef<ImplRow>[] = [
+    { field: 'component', headerName: 'Component', flex: 1, minWidth: 180, cellRenderer: linkRenderer },
+    { field: 'due', headerName: 'Due Date', width: 160 },
+    { field: 'status', headerName: 'Status', width: 170, cellRenderer: statusRenderer, cellClass: 'bcn-grid-status-cell' },
+    { field: 'assignee', headerName: 'Assignee', flex: 1, minWidth: 150 },
+    { field: 'evidence', headerName: 'Evidence', width: 140, type: 'numericColumn', valueFormatter: (p) => (p.value ? `${p.value} file${p.value === 1 ? '' : 's'}` : '—') },
+  ];
+  const implOptions: GridOptions<ImplRow> = {
+    theme: beaconTheme,
+    rowData: implData.rows,
+    columnDefs: implCols,
+    defaultColDef: { sortable: true, resizable: true, suppressHeaderMenuButton: true },
+    domLayout: 'autoHeight',
+  };
+  createGrid(document.getElementById('impl-grid')!, implOptions) as GridApi<ImplRow>;
+
+  // ── Reference files (read list) ──
+  const refFiles = JSON.parse(document.getElementById('ref-files-data')!.textContent || '[]') as string[];
+  const refList = document.getElementById('ref-files') as HTMLElement & { files: { name: string }[]; removable: boolean };
+  refList.files = refFiles.map((name) => ({ name }));
+
+  // ── Edit modal ──
+  const editMeta = JSON.parse(document.getElementById('edit-meta')!.textContent || '{}');
+  const dialog = document.getElementById('edit-dialog') as HTMLElement & { open: boolean };
+
+  const tabs = document.getElementById('config-tabs') as HTMLElement & { tabs: { label: string }[] };
+  tabs.tabs = [{ label: 'Details' }, { label: 'Timing' }, { label: 'Evidence of Compliance' }, { label: 'Notifications' }];
+
+  const setOptions = (id: string, opts: string[], value?: string) => {
+    const el = document.getElementById(id) as (HTMLElement & { options: { value: string; label: string }[]; value: string }) | null;
+    if (!el) return;
+    el.options = opts.map((o) => ({ value: o, label: o }));
+    if (value !== undefined) el.value = value;
+  };
+  const setValue = (id: string, value: string) => {
+    const el = document.getElementById(id) as (HTMLElement & { value: string }) | null;
+    if (el) el.value = value;
+  };
+  const setEntities = (id: string, items: { id: string; title: string; subtitle?: string; scope: string }[]) => {
+    const el = document.getElementById(id) as (HTMLElement & { items: typeof items }) | null;
+    if (el) el.items = items;
+  };
+
+  setValue('d-name', editMeta.actionName ?? '');
+  setOptions('d-type', ['Avoidance & BMPs', 'Monitoring', 'Plan', 'Survey', 'Reporting', 'Design', 'Training & Education', 'Other'], 'Monitoring');
+  setValue('d-party', 'QSP / Inspector');
+  setOptions('d-lists', ['Annual Reporting', 'Air Quality', 'Desktop Requirements'], 'Annual Reporting');
+  const people = [
+    { id: 'u1', title: 'Maria Chen', subtitle: 'Environmental Lead', scope: 'People' },
+    { id: 'u2', title: 'James Okafor', subtitle: 'QSP / Inspector', scope: 'People' },
+    { id: 'o1', title: 'RWQCB Compliance', subtitle: 'Organization', scope: 'Organizations' },
+  ];
+  setEntities('d-assignee', people);
+  setEntities('n-recipients', people);
+
+  // Browse All filters (real, normal-size dropdowns — not the weak small ones).
+  setOptions('f-species', ['Nesting birds', 'Roosting bats', 'Migratory birds']);
+  setOptions('f-milestones', ['Building Permit', 'Demolition', 'Final Inspection']);
+  setOptions('f-activities', ['Grading', 'Demolition', 'Hauling', 'Tree removal']);
+
+  const scope = document.getElementById('d-scope') as HTMLElement & { options: { label: string; value: string; icon?: string }[]; value: string };
+  scope.options = [
+    { label: 'Project', value: 'project', icon: "<path d='M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z'/>" },
+    { label: 'Component', value: 'component', icon: "<rect width='7' height='7' x='3' y='3' rx='1'/><rect width='7' height='7' x='14' y='3' rx='1'/><rect width='7' height='7' x='14' y='14' rx='1'/><rect width='7' height='7' x='3' y='14' rx='1'/>" },
+  ];
+
+  const freq = document.getElementById('t-frequency') as HTMLElement & { options: { label: string; value: string }[]; value: string };
+  freq.options = [
+    { label: 'One-time', value: 'one-time' },
+    { label: 'Recurring', value: 'recurring' },
+    { label: 'Ongoing', value: 'ongoing' },
+    { label: 'As Needed', value: 'as-needed' },
+  ];
+  setValue('t-every', '3');
+  setOptions('t-period', ['Days', 'Weeks', 'Months', 'Years'], 'Months');
+  setOptions('t-relative', ['Before', 'After'], 'After');
+  setOptions('t-milestone', ['Building Permit', 'Demolition', 'Final Inspection', 'Grading Permit', 'Notice of Completion'], 'Building Permit');
+  const expected = document.getElementById('e-expected') as HTMLElement & { value: string };
+  if (expected) expected.value = 'Quarterly dust-control monitoring log (PDF) with visible-dust observations and corrective actions.';
+  const actionTextField = document.getElementById('d-text') as HTMLElement & { value: string };
+  if (actionTextField) actionTextField.value = 'Monitor construction-phase fugitive-dust controls at each active work area per the project dust-control plan, log visible-dust observations and corrective actions, and compile the quarterly dust-control report for the air district.';
+
+  // Open / close
+  document.getElementById('edit-action')!.addEventListener('click', () => (dialog.open = true));
+  document.getElementById('ea-cancel')!.addEventListener('click', () => (dialog.open = false));
+  document.getElementById('ea-save')!.addEventListener('click', () => (dialog.open = false));
+
+  // ── Notifications: number defaults, toggle bodies (show/hide without resizing the
+  //    modal — the pane scrolls), and the schedule computed from the next due date. ──
+  setValue('n-lead', '7');
+  setValue('n-reminder', '1');
+
+  const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const due = editMeta.dueParts as { y: number; m: number; d: number };
+  const shiftDays = (delta: number) => new Date(due.y, due.m - 1, due.d + delta);
+  const fmtDate = (dt: Date) => `${MONTHS[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()}`;
+  const numVal = (id: string, fallback: number) => {
+    const el = document.getElementById(id) as (HTMLElement & { value: string }) | null;
+    const n = parseInt(el?.value ?? '', 10);
+    return Number.isFinite(n) ? n : fallback;
+  };
+
+  const notifOn: Record<'upcoming' | 'due' | 'past', boolean> = { upcoming: true, due: true, past: true };
+  const rowsEl = document.getElementById('notif-schedule-rows')!;
+  const emptyEl = document.getElementById('notif-schedule-empty')!;
+  const testEl = document.getElementById('notif-test')!;
+
+  function renderSchedule() {
+    const rows: [string, string][] = [];
+    if (notifOn.upcoming) rows.push(['Your Action Is Coming Up', fmtDate(shiftDays(-numVal('n-lead', 7)))]);
+    if (notifOn.due) rows.push(['Your Action Is Due', fmtDate(shiftDays(0))]);
+    if (notifOn.past) rows.push(['Your Action Is Past Due', fmtDate(shiftDays(numVal('n-reminder', 1)))]);
+    rowsEl.innerHTML = rows.map(([k, v]) => `<p class="bcn-nsched__row"><span class="bcn-nsched__k">${k}:</span> ${v}</p>`).join('');
+    const any = rows.length > 0;
+    emptyEl.hidden = any;
+    testEl.hidden = !any;
+  }
+
+  (['upcoming', 'due', 'past'] as const).forEach((key) => {
+    const sw = document.getElementById(`n-${key}`) as HTMLElement & { checked: boolean };
+    const body = document.querySelector(`[data-notif="${key}"] [data-notif-body]`) as HTMLElement | null;
+    const sync = () => {
+      notifOn[key] = sw.checked;
+      if (body) body.hidden = !sw.checked;
+      renderSchedule();
+    };
+    sw.addEventListener('change', sync);
+    sync();
+  });
+  document.getElementById('n-lead')?.addEventListener('change', renderSchedule);
+  document.getElementById('n-reminder')?.addEventListener('change', renderSchedule);
+  renderSchedule();
+
+  // Requirements add (Browse → Assigned) / remove — inside the modal.
+  const assignedList = document.getElementById('assigned-list')!;
+  const assignedBadge = assignedList.closest('.bcn-reqs')!.querySelector('.bcn-reqs__head .esa-badge');
+  const refreshAssignedCount = () => {
+    if (assignedBadge) assignedBadge.textContent = String(assignedList.querySelectorAll('.bcn-req-row').length);
+  };
+  document.getElementById('browse-list')!.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest('.bcn-req-row__act');
+    if (!btn) return;
+    const row = btn.closest('.bcn-req-row') as HTMLElement;
+    const badge = row.querySelector('.bcn-req-row__badge')!.textContent;
+    const name = row.querySelector('.bcn-req-row__name')!.textContent;
+    const li = document.createElement('li');
+    li.className = 'bcn-req-row bcn-req-row--assigned';
+    li.innerHTML = `<span class="bcn-req-row__badge">${badge}</span><span class="bcn-req-row__name">${name}</span><button class="bcn-req-row__remove" type="button" aria-label="Remove ${badge}">✕</button>`;
+    assignedList.appendChild(li);
+    row.remove();
+    refreshAssignedCount();
+  });
+  assignedList.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest('.bcn-req-row__act, .bcn-req-row__remove');
+    if (!btn) return;
+    btn.closest('.bcn-req-row')!.remove();
+    refreshAssignedCount();
+  });
+</script>
+
+<style>
+  /* bcn-lego-checked: page-composition glue only — the Option-A read layout (summary
+     facts strip, two-column main+rail, full-width implementations), the read requirement
+     rows, and the edit-modal two-pane editor. No esa-* lego models an entity detail/editor
+     PAGE; checked Ecology (every control is a lego — pills/badges/buttons/collapsibles/
+     dialog/tabs/selects/toggles/file-list — all used here) and Beacon (mirrors the prod
+     detail + upsert-modal structure). The read blocks reuse bcn-* components; this is
+     layout, not a new primitive. */
+
+  .bcn-action { display: flex; flex-direction: column; gap: var(--spacing-600); }
+
+  /* Identity header — tracker-modal treatment (commitment badge top, decorative name,
+     neutral type badge trailing). */
+  .bcn-action__head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-400); padding-bottom: var(--spacing-400); border-bottom: 1px solid var(--color-border); }
+  .bcn-action__head-actions { display: inline-flex; align-items: center; gap: var(--spacing-200); flex-shrink: 0; }
+  .bcn-action__identity { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-100); min-width: 0; }
+  .bcn-action__title-row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-200); min-width: 0; }
+  .bcn-action__title { margin: 0; font-family: var(--font-decorative); font-size: 1.5rem; font-weight: var(--font-weight-semibold); line-height: 1.2; color: var(--color-text-primary); }
+  .bcn-action__badge { flex-shrink: 0; padding: 0.125rem 0.375rem; border-radius: var(--radius-100); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); line-height: 1.4; white-space: nowrap; }
+  .bcn-action__badge--commitment { color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); }
+  .bcn-action__badge--type { color: var(--color-text-secondary); background: var(--color-surface-sunken); transform: translateY(2px); }
+
+  /* Two-column body */
+  .bcn-action__body { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: var(--spacing-600); align-items: start; }
+  .bcn-action__main { min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-600); }
+  .bcn-action__rail {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-500);
+  }
+  /* Rail module headers (Details / Timing / Lists / Notifications) match the page
+     section titles (Requirements / Action Text / Evidence of Compliance). */
+  .bcn-action__rail :global(.esa-collapsible__title) {
+    font-size: var(--type-size-300);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .bcn-action__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-section-head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); }
+  .bcn-section-title {
+    display: flex; align-items: center; gap: var(--spacing-200); margin: 0;
+    font-size: var(--type-size-300); font-weight: var(--font-weight-semibold); color: var(--color-text-primary);
+  }
+  .bcn-prose { margin: 0; font-size: var(--form-font-size-md); line-height: 1.6; color: var(--color-text-primary); }
+
+  /* Sub-field inside a section (Expected evidence / Reference Files): a quiet label
+     over content. The body uses .bcn-prose so Expected evidence reads identically to
+     Action Text — consistent body typography across the two sections. */
+  .bcn-action__section--evidence { gap: var(--spacing-500); }
+  .bcn-subfield { display: flex; flex-direction: column; gap: var(--spacing-250); }
+  .bcn-subfield__label { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); color: var(--color-text-secondary); }
+  .bcn-subfield :global(esa-file-list) { margin-top: var(--spacing-100); }
+
+  /* Read requirement rows */
+  .bcn-req-read { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-req-read__row {
+    display: flex; align-items: center; gap: var(--spacing-250);
+    padding: var(--spacing-150) var(--spacing-300);
+    border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface);
+  }
+  .bcn-req-read__badge {
+    flex-shrink: 0; padding: 0.0625rem 0.375rem; border-radius: var(--radius-100);
+    font-size: 0.6875rem; font-weight: var(--font-weight-semibold);
+    color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); white-space: nowrap;
+  }
+  .bcn-req-read__name { flex: 1; min-width: 0; font-size: var(--form-font-size-md); color: var(--color-text-primary); text-decoration: none; }
+  .bcn-req-read__name:hover { text-decoration: underline; }
+
+  /* Action Lists */
+  .bcn-lists { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-150); margin: 0; padding: 0; list-style: none; }
+  .bcn-list-link { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); color: var(--color-primary); text-decoration: none; }
+  .bcn-list-link:hover { text-decoration: underline; }
+
+  /* Rail Notifications — rules-only summary: differentiated icon rows for recipients
+     (person/org icons) and triggers (per-trigger icon | name | rule). */
+  .bcn-triggers { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-trigger-row { display: flex; align-items: center; gap: var(--spacing-250); font-size: var(--form-font-size-md); }
+  .bcn-trigger-row :global(.esa-icon) { color: var(--color-primary); flex-shrink: 0; }
+  .bcn-trigger-row__name { color: var(--color-text-primary); font-weight: var(--font-weight-medium); }
+  .bcn-trigger-row__rule { margin-left: auto; color: var(--color-text-secondary); text-align: right; }
+
+  .bcn-btn-ico { display: inline-flex; align-items: center; gap: var(--spacing-150); }
+
+  /* Implementations */
+  .bcn-action__impl { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-impl-grid { width: 100%; }
+  :global(.ag-cell.bcn-grid-status-cell) { display: flex; align-items: center; }
+  :global(.bcn-grid-chip) {
+    display: inline-flex; align-items: center; gap: var(--spacing-150);
+    padding: 1px var(--spacing-200); border-radius: var(--radius-100);
+    font-size: 0.75rem; line-height: 1.5; font-weight: var(--font-weight-semibold); white-space: nowrap;
+    background: color-mix(in srgb, var(--_chip) 16%, transparent); color: color-mix(in srgb, var(--_chip) 70%, #1a1a1a);
+  }
+  :global(.bcn-grid-chip__dot) { width: 7px; height: 7px; border-radius: 50%; background: var(--_chip); flex-shrink: 0; }
+
+  @media (max-width: 1024px) {
+    .bcn-action__body { grid-template-columns: 1fr; }
+  }
+
+  /* ═══ Edit modal — two-pane editor. FIXED-HEIGHT stage; each pane scrolls
+     independently so toggling notifications or switching tabs NEVER resizes the modal.
+     --_dialog-padding is 0 (esa-dialog applies it to header/body/footer), so the
+     header/footer/panes pad themselves here. ═══ */
+  .bcn-editor {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    align-items: stretch;
+    height: calc(86vh - 8.5rem);
+    /* Full-bleed: cancel esa-dialog's body padding (--_dialog-padding) so the panes
+       reach the modal edges and the tab-bar border can span the full pane width. The
+       header keeps that padding, which is what insets the close button + title. */
+    margin: calc(-1 * var(--_dialog-padding, 1.5rem));
+    overflow: hidden;
+  }
+  /* Header/footer are padded by the dialog (--_dialog-padding); don't double-pad. */
+  .bcn-editor__head { display: flex; align-items: center; gap: var(--spacing-200); }
+  .bcn-editor__head-title { font-family: var(--font-decorative); font-size: var(--type-size-300); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-editor__foot { display: flex; gap: var(--spacing-300); justify-content: flex-end; width: 100%; }
+
+  /* Left pane: Assigned + Browse All split 50/50, each scrolling internally. */
+  /* Left pane: no padding on the wrapper — each region pads its own content, so the
+     Browse divider/border spans the full column width and its gray fill bleeds edge to edge. */
+  .bcn-reqs { display: flex; flex-direction: column; min-width: 0; height: 100%; overflow: hidden; border-right: 1px solid var(--color-border); }
+  .bcn-reqs__region { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; gap: var(--spacing-300); padding: var(--spacing-500); }
+  .bcn-reqs__region--browse { border-top: 1px solid var(--color-border); background: var(--color-background); }
+  .bcn-reqs__assigned, .bcn-reqs__browse { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-150); overflow-y: auto; flex: 1 1 0; min-height: 0; }
+  .bcn-reqs__assigned:empty::after {
+    content: 'No requirements assigned yet. Use the + button in Browse All.';
+    display: block; padding: var(--spacing-500); text-align: center;
+    font-size: var(--form-font-size-md); color: var(--color-text-tertiary);
+    border: 1px dashed var(--color-border); border-radius: var(--radius-200);
+  }
+  .bcn-reqs__filters { display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-reqs__filter-row { display: flex; gap: var(--spacing-200); flex-wrap: wrap; }
+  .bcn-reqs__filter-row :global(esa-select) { flex: 1; min-width: 0; }
+
+  .bcn-req-row {
+    display: flex; align-items: center; gap: var(--spacing-200);
+    padding: var(--spacing-100) var(--spacing-250);
+    border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface);
+  }
+  .bcn-req-row--assigned { background: var(--color-background); }
+  .bcn-req-row__badge {
+    flex-shrink: 0; padding: 0.0625rem 0.375rem; border-radius: var(--radius-100);
+    font-size: 0.6875rem; font-weight: var(--font-weight-semibold);
+    color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); white-space: nowrap;
+  }
+  .bcn-req-row__name { flex: 1; min-width: 0; font-size: var(--form-font-size-md); color: var(--color-text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-req-row__act { flex-shrink: 0; }
+  .bcn-req-row__remove { border: 0; background: transparent; cursor: pointer; color: var(--color-text-tertiary); font-size: 0.875rem; line-height: 1; padding: var(--spacing-100); border-radius: var(--radius-100); }
+  .bcn-req-row__remove:hover { background: var(--color-surface-sunken); color: var(--color-text-primary); }
+
+  /* Config pane: NO padding here — the tab bar spans the full pane width. The tabs and
+     each panel pad themselves separately so the tab-bar border reaches both edges. */
+  .bcn-config { min-width: 0; min-height: 0; overflow-y: auto; }
+  .bcn-config :global(esa-tab-layout) { display: block; --_tab-padding-x: var(--spacing-500); }
+  .bcn-form { display: flex; flex-direction: column; gap: var(--spacing-400); padding: var(--spacing-300) var(--spacing-500) var(--spacing-500); }
+  .bcn-grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--spacing-300); }
+  .bcn-field { display: flex; flex-direction: column; gap: var(--spacing-150); }
+  .bcn-field__label { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); color: var(--form-label-color); }
+  .bcn-field__value { font-size: var(--type-size-200); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-field__hint { font-size: 0.75rem; color: var(--color-text-tertiary); }
+
+  .bcn-note {
+    display: flex; align-items: flex-start; gap: var(--spacing-200);
+    padding: var(--spacing-300); border-radius: var(--radius-200);
+    background: color-mix(in srgb, var(--color-primary) 8%, white);
+    color: var(--color-text-secondary); font-size: var(--form-font-size-md); line-height: 1.45;
+  }
+  .bcn-note :global(.esa-icon) { color: var(--color-primary); flex-shrink: 0; margin-top: 2px; }
+
+  /* Notifications tab — carded sections matching the prod modal. */
+  .bcn-notif { gap: var(--spacing-400); }
+  .bcn-ncard {
+    display: flex; flex-direction: column; gap: var(--spacing-250);
+    padding: var(--spacing-400); border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface);
+  }
+  .bcn-ncard__title { margin: 0; font-size: 0.875rem; font-weight: var(--font-weight-bold); letter-spacing: 0.03em; text-transform: uppercase; color: var(--color-text-primary); }
+  .bcn-ncard__date { margin: 0; font-size: var(--type-size-300); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-ncard__hint { margin: 0; font-size: var(--form-font-size-md); color: var(--color-text-secondary); line-height: 1.45; }
+
+  .bcn-ntoggle {
+    display: flex; flex-direction: column; gap: var(--spacing-300);
+    padding: var(--spacing-400); border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface);
+  }
+  .bcn-ntoggle__head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); }
+  .bcn-ntoggle__title { display: inline-flex; align-items: center; gap: var(--spacing-250); font-weight: var(--font-weight-semibold); color: var(--color-primary); }
+  .bcn-ntoggle__title :global(.esa-icon) { color: var(--color-text-primary); }
+  .bcn-ntoggle__body { display: flex; flex-direction: column; gap: var(--spacing-200); align-items: flex-start; }
+  .bcn-ntoggle__body[hidden] { display: none; }
+  .bcn-ntoggle__body :global(esa-text-field) { max-width: 240px; }
+
+  .bcn-check { display: inline-flex; align-items: center; gap: var(--spacing-200); font-size: var(--form-font-size-md); color: var(--color-text-primary); cursor: pointer; }
+  .bcn-check input { width: 1rem; height: 1rem; accent-color: var(--color-primary); }
+
+  .bcn-nsched__row { margin: 0 0 var(--spacing-150); font-size: var(--form-font-size-md); color: var(--color-text-primary); }
+  .bcn-nsched__k { font-weight: var(--font-weight-semibold); }
+  .bcn-nsched__test { display: flex; align-items: center; gap: var(--spacing-300); margin-top: var(--spacing-200); }
+  .bcn-nsched__test[hidden] { display: none; }
+
+  @media (max-width: 860px) {
+    .bcn-editor { grid-template-columns: 1fr; }
+  }
+</style>
+
+<!-- This page renders its own tracker-style identity header (commitment badge + name +
+     type badge), so hide PageLayout's default title row. Page-scoped: only loaded here. -->
+<style is:global>
+  /* !important to beat PageLayout's scoped `.page-layout__title { display: flex }`
+     (Astro scoped selectors carry an attribute and outrank a bare class). */
+  .page-layout__title { display: none !important; }
+</style>
