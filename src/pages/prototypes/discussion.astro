@@ -1,0 +1,218 @@
+---
+// Discussion — Timeline (chosen direction), exploring avatar color.
+// STRICTLY faithful to Beacon's ActionImplementation comments — no invented
+// features: plain text, newest-first, flat; initials avatar, bold author,
+// absolute timestamp "MMM d, y 'at' h:mm a", "(edited)" marker, author-only
+// Edit/Delete (on hover), "Posting as" compose with "Post Comment", empty state
+// "No comments yet. Start the discussion!". NO mentions / attachments / threading
+// / reactions / rich text — Beacon has none.
+//
+// The only open question is avatar color: the two sections below compare the
+// setup-wizard STEPPER palette (source → commitment → requirement → action,
+// assigned per author) against a calm uniform brand teal.
+//
+// bcn-lego-checked: the timeline + comment + compose are layout compositions
+// around legos (esa-avatar, esa-textarea, esa-button, esa-icon-button, esa-badge,
+// esa-icon) — no esa- "comment thread" lego exists; checked Ecology (none) and
+// Beacon (the prod comment list is a page-level template). Avatar color is set by
+// overriding the lego's own --_avatar-bg token. Token-driven layout only.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaAvatar from '@esa/ecology/esa-avatar.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+
+// Lucide message-square-dot.
+const MSG_DOT = "<path d='M11.7 3H5a2 2 0 0 0-2 2v16l4-4h12a2 2 0 0 0 2-2v-2.7'/><circle cx='18' cy='5' r='3'/>";
+
+const currentUser = 'Maria Chen';
+
+interface Comment {
+  author: string;
+  time: string;
+  text: string;
+  edited: boolean;
+  own: boolean;
+}
+// Newest-first, as Beacon sorts (CreateDate descending).
+const comments: Comment[] = [
+  { author: 'James Okafor', time: 'Jun 6, 2026 at 9:12 AM', text: 'Pre-construction survey scheduled — waiting on biologist availability.', edited: false, own: false },
+  { author: 'Maria Chen', time: 'Jun 5, 2026 at 4:30 PM', text: 'Uploaded the signed C-57 driller license to evidence and flagged it for review.', edited: true, own: true },
+  { author: 'Priya Patel', time: 'Jun 2, 2026 at 2:40 PM', text: 'Assigned to Maria. Set the due date to align with the Building Permit milestone.', edited: false, own: false },
+];
+
+// Per-author setup-wizard stepper color (deterministic, distinct for the sample set).
+const STEP: Record<string, string> = {
+  'James Okafor': '--color-source',
+  'Maria Chen': '--color-commitment',
+  'Priya Patel': '--color-requirement',
+};
+const stepColor = (name: string) => STEP[name] ?? '--color-action';
+---
+
+<BaseLayout title="Discussion — Timeline">
+  <main class="lab">
+    <header class="lab__head">
+      <h1 class="lab__title">Discussion — Timeline</h1>
+      <p class="lab__intro">
+        The chosen layout: avatars as nodes on a connecting rail (same vocabulary as the dialog's Change Log). Every element
+        is what Beacon's <strong>ActionImplementation comments</strong> already support — newest-first plain text, an
+        <em>(edited)</em> marker, author-only Edit/Delete, and a "Posting as" compose. The two sections below only differ in
+        <strong>avatar color</strong>: the setup-wizard stepper palette vs. a uniform brand teal.
+      </p>
+    </header>
+
+    <!-- ═══════════ Avatars: setup-wizard stepper palette ═══════════ -->
+    <section class="opt">
+      <div class="opt__bar">
+        <span class="opt__num">1</span>
+        <span class="opt__name">Stepper palette</span>
+        <span class="opt__note">Per author: source · commitment · requirement · action</span>
+      </div>
+      <div class="opt__stage">
+        <section class="disc">
+          <h3 class="disc__head">
+            <EsaIcon name="message-square-dot" paths={MSG_DOT} size="sm" />
+            Discussion
+            <EsaBadge variant="secondary" size="sm" value={comments.length} />
+          </h3>
+          <ul class="disc-tl">
+            {comments.map((c) => (
+              <li class="disc-tl__item">
+                <span class="disc-tl__node" style={`--_node-color: var(${stepColor(c.author)})`}><EsaAvatar name={c.author} size="sm" /></span>
+                <div class="disc-c__body">
+                  <div class="disc-c__meta">
+                    <span class="disc-c__author">{c.author}</span>
+                    <span class="disc-c__time">{c.time}</span>
+                    {c.edited && <span class="disc-c__edited">(edited)</span>}
+                    {c.own && (
+                      <span class="disc-c__actions">
+                        <EsaIconButton icon="pencil" label="Edit" size="sm" />
+                        <EsaIconButton icon="trash-2" label="Delete" size="sm" />
+                      </span>
+                    )}
+                  </div>
+                  <p class="disc-c__text">{c.text}</p>
+                </div>
+              </li>
+            ))}
+            <li class="disc-tl__item disc-tl__item--compose">
+              <span class="disc-tl__node" style={`--_node-color: var(${stepColor(currentUser)})`}><EsaAvatar name={currentUser} size="sm" /></span>
+              <div class="disc-compose__field">
+                <span class="disc-compose__as">Posting as {currentUser}</span>
+                <esa-textarea rows="2" placeholder="Write your comment..."></esa-textarea>
+                <div class="disc-compose__actions"><EsaButton color="primary" size="sm">Post Comment</EsaButton></div>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </section>
+
+    <!-- ═══════════ Avatars: uniform brand teal ═══════════ -->
+    <section class="opt">
+      <div class="opt__bar">
+        <span class="opt__num">2</span>
+        <span class="opt__name">Uniform teal</span>
+        <span class="opt__note">Single brand color (calmer; closest to prod's teal avatars)</span>
+      </div>
+      <div class="opt__stage">
+        <section class="disc disc--teal">
+          <h3 class="disc__head">
+            <EsaIcon name="message-square-dot" paths={MSG_DOT} size="sm" />
+            Discussion
+            <EsaBadge variant="secondary" size="sm" value={comments.length} />
+          </h3>
+          <ul class="disc-tl">
+            {comments.map((c) => (
+              <li class="disc-tl__item">
+                <span class="disc-tl__node"><EsaAvatar name={c.author} size="sm" /></span>
+                <div class="disc-c__body">
+                  <div class="disc-c__meta">
+                    <span class="disc-c__author">{c.author}</span>
+                    <span class="disc-c__time">{c.time}</span>
+                    {c.edited && <span class="disc-c__edited">(edited)</span>}
+                    {c.own && (
+                      <span class="disc-c__actions">
+                        <EsaIconButton icon="pencil" label="Edit" size="sm" />
+                        <EsaIconButton icon="trash-2" label="Delete" size="sm" />
+                      </span>
+                    )}
+                  </div>
+                  <p class="disc-c__text">{c.text}</p>
+                </div>
+              </li>
+            ))}
+            <li class="disc-tl__item disc-tl__item--compose">
+              <span class="disc-tl__node"><EsaAvatar name={currentUser} size="sm" /></span>
+              <div class="disc-compose__field">
+                <span class="disc-compose__as">Posting as {currentUser}</span>
+                <esa-textarea rows="2" placeholder="Write your comment..."></esa-textarea>
+                <div class="disc-compose__actions"><EsaButton color="primary" size="sm">Post Comment</EsaButton></div>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<script>
+  import '@esa/ecology/esa-textarea';
+</script>
+
+<style>
+  /* ═══ Lab scaffolding (not product chrome) ═══ */
+  .lab { max-width: 880px; margin: 0 auto; padding: var(--spacing-700, 2.5rem) var(--spacing-500) var(--spacing-800, 4rem); display: flex; flex-direction: column; gap: var(--spacing-700, 2.5rem); }
+  .lab__head { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .lab__title { margin: 0; font-family: var(--font-decorative); font-size: 2rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .lab__intro { margin: 0; max-width: 74ch; font-size: var(--type-size-200, 1rem); line-height: 1.6; color: var(--color-text-secondary); }
+  .lab__intro strong { color: var(--color-text-primary); font-weight: var(--font-weight-semibold); }
+  .lab__intro em { font-style: italic; }
+
+  .opt { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .opt__bar { display: flex; align-items: center; gap: var(--spacing-300); flex-wrap: wrap; }
+  .opt__num { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--color-primary); color: #fff; font-size: 0.875rem; font-weight: var(--font-weight-semibold); flex-shrink: 0; }
+  .opt__name { font-size: var(--type-size-300, 1.125rem); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .opt__note { font-size: var(--type-size-100, 0.875rem); color: var(--color-text-tertiary); }
+  .opt__stage { padding: var(--spacing-600, 2rem); background: var(--color-surface, #fff); border: 1px dashed var(--bcn-gray-200); border-radius: var(--radius-400, 0.75rem); }
+
+  /* ═══ Discussion (shared) ═══ */
+  .disc { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .disc__head { display: flex; align-items: center; gap: var(--spacing-200); margin: 0; font-size: var(--type-size-200, 1rem); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .disc__head :global(.esa-icon) { color: var(--color-text-secondary); }
+
+  .disc-c__body { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .disc-c__meta { display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--spacing-200); }
+  .disc-c__author { font-size: 0.875rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .disc-c__time { font-size: 0.75rem; color: var(--color-text-tertiary); }
+  .disc-c__edited { font-size: 0.75rem; font-style: italic; color: var(--color-text-tertiary); }
+  .disc-c__text { margin: 0; font-size: 0.875rem; line-height: 1.5; color: var(--color-text-primary); white-space: pre-wrap; }
+
+  /* Author-only Edit/Delete — revealed on hover/focus (prod behavior). */
+  .disc-c__actions { display: inline-flex; align-items: center; gap: 1px; margin-left: auto; opacity: 0; transition: opacity 120ms ease; }
+  .disc-tl__item:hover .disc-c__actions,
+  .disc-tl__item:focus-within .disc-c__actions { opacity: 1; }
+  .disc-c__actions :global(.esa-icon-button) { width: 26px; height: 26px; }
+  .disc-c__actions :global(.esa-icon) { width: 15px; height: 15px; }
+
+  /* Compose. */
+  .disc-compose__as { display: inline-flex; align-items: center; gap: var(--spacing-150); font-size: 0.8125rem; color: var(--color-text-secondary); }
+  .disc-compose__field { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .disc-compose__field esa-textarea { width: 100%; }
+  .disc-compose__actions { display: flex; justify-content: flex-end; }
+
+  /* ═══ Timeline (avatars as connected nodes) ═══ */
+  .disc-tl { list-style: none; margin: 0; padding: 0; }
+  .disc-tl__item { position: relative; display: grid; grid-template-columns: auto 1fr; gap: var(--spacing-300); padding-bottom: var(--spacing-400); }
+  .disc-tl__item:not(:last-child)::before { content: ''; position: absolute; left: 13px; top: 32px; bottom: 0; width: 2px; background: var(--bcn-gray-200); }
+  .disc-tl__node { position: relative; z-index: 1; }
+  .disc-tl__item--compose { padding-bottom: 0; }
+
+  /* Avatar color = the wrapper's --_node-color (stepper token), overriding the
+     lego's name-hash default. Section 2 forces a uniform teal. */
+  .disc-tl__node :global(.esa-avatar) { --_avatar-bg: var(--_node-color, var(--color-secondary)); }
+  .disc--teal .disc-tl__node :global(.esa-avatar) { --_avatar-bg: var(--color-secondary); }
+</style>
