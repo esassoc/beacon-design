@@ -375,11 +375,9 @@ const prologisNav = [
       <div class="rd-evidence-scrim" id="rd-evidence-scrim"></div>
       <!-- bcn-lego-checked: the bottom slide-up SHEET (.rd-evidence-drawer) has no
            ecology lego — esa-side-dialog is a side sheet, esa-dialog is centered;
-           neither is a bottom sheet anchored inside the modal body. And the
-           existing-attachment ROWS (.bcn-attachment) have no esa- file-DISPLAY lego
-           (esa-file-upload tracks new File objects only; Beacon's simple-file-display
-           is the precedent, absent from ecology). Both kept as documented bcn-. The
-           cards/buttons/pills/badges/empty-states inside DO use the legos. -->
+           neither is a bottom sheet anchored inside the modal body. Kept as a
+           documented bcn-. Everything inside uses legos (esa-card, esa-file-list,
+           esa-icon-button, esa-pill, esa-badge, esa-empty-state, esa-side-dialog). -->
       <section class="rd-evidence-drawer" id="rd-evidence-drawer" aria-hidden="true" aria-label="Evidence of Compliance">
         <header class="rd-evidence-drawer__head">
           <div class="rd-evidence-drawer__heading">
@@ -424,15 +422,8 @@ const prologisNav = [
                     )}
                     <div class="evi__field">
                       <span class="evi__label">Files <EsaBadge variant="secondary" size="sm" value={e.files.length} /></span>
-                      <ul class="bcn-attachments">
-                        {e.files.map((f) => (
-                          <li class="bcn-attachment">
-                            <EsaIcon name="file-text" size="sm" />
-                            <a class="bcn-attachment__name" href="#file" title={f}>{f}</a>
-                            <EsaIconButton icon="download" label={`Download ${f}`} size="xs" />
-                          </li>
-                        ))}
-                      </ul>
+                      <!-- files (array) are set as a property in the card JS loop -->
+                      <esa-file-list class="evi__files"></esa-file-list>
                     </div>
                   </div>
                 </EsaCard>
@@ -472,7 +463,7 @@ const prologisNav = [
     <div class="evi-files-field">
       <span class="evi-files-field__label">Files</span>
       <!-- existing server files (no esa- file-display lego) — populated by JS -->
-      <ul class="bcn-attachments" id="rd-edit-files"></ul>
+      <esa-file-list id="rd-edit-files" removable></esa-file-list>
       <esa-file-upload label="Add files" multiple accept=".pdf,.csv,.xlsx,.jpg,.jpeg,.png,.gif,.bmp,.zip"></esa-file-upload>
     </div>
     <span slot="footer" class="evi-foot">
@@ -492,6 +483,7 @@ const prologisNav = [
   import '@esa/ecology/esa-dialog';
   import '@esa/ecology/esa-side-dialog';
   import '@esa/ecology/esa-file-upload';
+  import '@esa/ecology/esa-file-list';
   import '@esa/ecology/esa-button-toggle';
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-select';
@@ -777,35 +769,19 @@ const prologisNav = [
   const editTitle = $('rd-edit-title') as HTMLElement & { value: string };
   const editTags = $('rd-edit-tags') as HTMLElement & { value: string[] };
   const editNotes = $('rd-edit-notes') as HTMLElement & { value: string };
-  const editFiles = $('rd-edit-files') as HTMLUListElement;
+  // esa-file-list (removable in the editor); files set as a property, never an attr.
+  type FileListEl = HTMLElement & { files: { name: string; href?: string }[]; removable: boolean; downloadable: boolean };
+  const editFiles = $('rd-edit-files') as FileListEl;
+  editFiles.downloadable = false; // editor shows remove only (default-true bool → set via prop)
 
-  // Inline lucide glyphs — the existing-file rows are built client-side (no esa-
-  // file-display lego), so they don't get Astro's scope attr; size them inline.
-  const FILE_SVG =
-    '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>';
-  const X_SVG =
-    '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
-
-  // Render the removable existing-file list (server records, not File objects).
-  function renderEditFiles(files: string[]) {
-    editFiles.replaceChildren();
-    files.forEach((name) => {
-      const li = document.createElement('li');
-      li.className = 'bcn-attachment';
-      li.innerHTML =
-        `<span class="bcn-attachment__icon">${FILE_SVG}</span>` +
-        `<span class="bcn-attachment__name" title="${name}">${name}</span>` +
-        `<button type="button" class="bcn-attachment__remove" aria-label="Remove ${name}">${X_SVG}</button>`;
-      li.querySelector('.bcn-attachment__remove')!.addEventListener('click', () => li.remove());
-      editFiles.appendChild(li);
-    });
-  }
+  const toFiles = (csv: string | undefined, href?: string) =>
+    (csv ?? '').split(',').filter(Boolean).map((name) => ({ name, ...(href ? { href } : {}) }));
 
   function openEocEditor(card: HTMLElement) {
     editTitle.value = card.dataset.title ?? '';
     editNotes.value = card.dataset.notes ?? '';
     editTags.value = (card.dataset.tags ?? '').split(',').filter(Boolean);
-    renderEditFiles((card.dataset.files ?? '').split(',').filter(Boolean));
+    editFiles.files = toFiles(card.dataset.files);
     eocEditor.show();
   }
   // esa-side-dialog owns its own backdrop-click + Esc + close-button → close().
@@ -821,6 +797,10 @@ const prologisNav = [
       const open = item.classList.toggle('is-expanded');
       fields.hidden = !open;
     });
+
+    // Populate the card's esa-file-list (download-only) from data-files.
+    const fileList = item.querySelector<FileListEl>('esa-file-list');
+    if (fileList) fileList.files = toFiles(item.dataset.files, '#file');
 
     const byLabel = (label: string) => item.querySelector<HTMLElement>(`[aria-label="${label}"]`);
     byLabel('Edit evidence')?.addEventListener('click', () => openEocEditor(item));
@@ -1154,19 +1134,7 @@ const prologisNav = [
   .evi__text--muted { color: var(--color-text-tertiary); font-style: italic; }
   .evi__pills { display: flex; flex-wrap: wrap; gap: var(--spacing-150); }
 
-  /* ── bcn-attachment — existing-file ROW (bcn-, no esa- file-display lego).
-     Reused in the card body (download action) and the editor (remove action).
-     Rules are :global() because the editor rows are injected via JS innerHTML. ── */
-  .bcn-attachments { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-150); }
-  .bcn-attachments:empty { display: none; }
-  :global(.bcn-attachment) { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--spacing-200); padding: 2px var(--spacing-300); border: 1px solid var(--bcn-gray-200); border-radius: 4px; background: var(--color-surface); font-size: 0.75rem; }
-  :global(.bcn-attachment > .esa-icon), :global(.bcn-attachment__icon) { display: inline-flex; color: var(--bcn-gray-400, #989898); }
-  :global(.bcn-attachment > .esa-icon svg) { width: 15px; height: 15px; }
-  :global(.bcn-attachment__name) { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--color-text-link, #005862); text-decoration: none; }
-  :global(.bcn-attachment__name:hover) { text-decoration: underline; }
-  :global(.bcn-attachment .esa-icon-button) { width: 24px; height: 24px; }
-  :global(.bcn-attachment__remove) { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border: 0; background: none; border-radius: var(--radius-200); color: var(--color-text-tertiary); cursor: pointer; transition: background 150ms ease, color 150ms ease; }
-  :global(.bcn-attachment__remove:hover) { background: var(--bcn-gray-100); color: var(--color-danger, #ef4444); }
+  /* Existing-file rows now use the esa-file-list lego (own styling). */
 
   /* ── Editor (esa-side-dialog lego) — only the body composition is ours ── */
   .evi-files-field { display: flex; flex-direction: column; gap: var(--spacing-200); }
