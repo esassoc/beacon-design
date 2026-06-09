@@ -1,0 +1,61 @@
+---
+import ComponentDoc from '../../../layouts/ComponentDoc.astro';
+import Section from '@esa/docs/Section.astro';
+import Preview from '@esa/docs/Preview.astro';
+import Api from '@esa/docs/Api.astro';
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+
+const props = [
+  { name: 'title', type: 'string', description: 'Summary label (required).' },
+  { name: 'icon', type: 'string', description: 'Optional leading Lucide icon name (kebab-case).' },
+  { name: 'iconPaths', type: 'string', description: 'Inner SVG markup for an icon outside esa-icon’s built-in registry (passed through to esa-icon).' },
+  { name: 'open', type: 'boolean', default: 'false', description: 'Render expanded on load.' },
+];
+---
+<ComponentDoc name="Collapsible" category="Layout" slug="esa-collapsible" type=".astro"
+  summary="A single disclosure section — an icon + title summary over a slotted body — built on native <code>&lt;details&gt;</code> for free accessibility, keyboard support, and open/close state with no JS. The native triangle is hidden in favor of a right-aligned caret so the icon and title lead the row. <strong>Net-new to the hub</strong>, promoted up from spoke demand (both the Beacon and CB-Fish spokes hand-rolled this same pattern). It is a single disclosure, not a single-open accordion group: stack several and each opens independently.">
+
+  <Section id="basic" title="Basic">
+    <p>A required <code>title</code>, an optional leading <code>icon</code>, and slotted body content. Compose a stack for a sidebar of detail groups; <code>open</code> controls the initial state per section.</p>
+    <Preview align="start" code={`<EsaCollapsible title="Tracking" icon="square-check" open>
+  Status, due date, and assignee fields go here.
+</EsaCollapsible>
+<EsaCollapsible title="Details" icon="info">
+  Scope and other read-only metadata.
+</EsaCollapsible>`}>
+      <div style="display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 420px;">
+        <EsaCollapsible title="Tracking" icon="square-check" open>
+          <p style="margin: 0; color: var(--color-text-secondary);">Status, due date, and assignee fields go here.</p>
+        </EsaCollapsible>
+        <EsaCollapsible title="Details" icon="info">
+          <p style="margin: 0; color: var(--color-text-secondary);">Scope and other read-only metadata.</p>
+        </EsaCollapsible>
+      </div>
+    </Preview>
+  </Section>
+
+  <Section id="no-icon" title="Without an icon">
+    <p>The icon is optional — omit it for a plain title summary. The caret still leads the open/close affordance from the right.</p>
+    <Preview align="start" code={`<EsaCollapsible title="Notifications">
+  Recipients and triggers.
+</EsaCollapsible>`}>
+      <div style="display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 420px;">
+        <EsaCollapsible title="Notifications">
+          <p style="margin: 0; color: var(--color-text-secondary);">Recipients and triggers.</p>
+        </EsaCollapsible>
+      </div>
+    </Preview>
+  </Section>
+
+  <Section id="api" title="API">
+    <Api props={props} />
+  </Section>
+
+  <Section id="tokens" title="Tokens">
+    <ul class="tokens">
+      <li><code>--color-border</code> (frame) · <code>--color-surface</code> (fill) · <code>--radius-300</code></li>
+      <li><code>--color-text-primary</code> (title) · <code>--color-text-secondary</code> (leading icon) · <code>--color-text-tertiary</code> (caret)</li>
+      <li><code>--type-size-150</code> · <code>--font-weight-semibold</code> · <code>--spacing-*</code></li>
+    </ul>
+  </Section>
+</ComponentDoc>
