@@ -1,0 +1,1126 @@
+{
+  "name": "permit-tracking",
+  "url": "http://localhost:4399/beacon-design/prototypes/permit-tracking/",
+  "theme": "beacon",
+  "stats": {
+    "rulesMatched": 97,
+    "originalBytes": 47249,
+    "tokensReferenced": 87
+  },
+  "tokens": [
+    {
+      "name": "--bcn-gray-100",
+      "value": "#efefef",
+      "tier": "component"
+    },
+    {
+      "name": "--bcn-gray-1000",
+      "value": "#000000",
+      "tier": "component"
+    },
+    {
+      "name": "--bcn-gray-200",
+      "value": "#dcdcdc",
+      "tier": "component"
+    },
+    {
+      "name": "--bcn-gray-300",
+      "value": "#bdbdbd",
+      "tier": "component"
+    },
+    {
+      "name": "--bcn-gray-400",
+      "value": "#989898",
+      "tier": "component"
+    },
+    {
+      "name": "--bcn-gray-50",
+      "value": "#fafafa",
+      "tier": "component"
+    },
+    {
+      "name": "--bcn-gray-500",
+      "value": "#7c7c7c",
+      "tier": "component"
+    },
+    {
+      "name": "--bcn-gray-600",
+      "value": "#656565",
+      "tier": "component"
+    },
+    {
+      "name": "--bcn-gray-900",
+      "value": "#3d3d3d",
+      "tier": "component"
+    },
+    {
+      "name": "--bcn-gray-950",
+      "value": "#292929",
+      "tier": "component"
+    },
+    {
+      "name": "--color-accent",
+      "value": "#f9a134",
+      "tier": "semantic"
+    },
+    {
+      "name": "--color-info",
+      "value": "#228be6",
+      "tier": "semantic"
+    },
+    {
+      "name": "--color-primary",
+      "value": "#005862",
+      "tier": "semantic"
+    },
+    {
+      "name": "--color-primary-hover",
+      "value": "#00474f",
+      "tier": "semantic"
+    },
+    {
+      "name": "--color-secondary",
+      "value": "#00918b",
+      "tier": "semantic"
+    },
+    {
+      "name": "--color-surface",
+      "value": "#ffffff",
+      "tier": "semantic"
+    },
+    {
+      "name": "--color-text-inverse",
+      "value": "#ffffff",
+      "tier": "semantic"
+    },
+    {
+      "name": "--color-text-link",
+      "value": "#005862",
+      "tier": "semantic"
+    },
+    {
+      "name": "--color-text-primary",
+      "value": "#3d3d3d",
+      "tier": "semantic"
+    },
+    {
+      "name": "--color-text-secondary",
+      "value": "#525252",
+      "tier": "semantic"
+    },
+    {
+      "name": "--color-text-tertiary",
+      "value": "#656565",
+      "tier": "semantic"
+    },
+    {
+      "name": "--filter-clear-color",
+      "value": "#7c7c7c",
+      "tier": "component"
+    },
+    {
+      "name": "--filter-container-gap",
+      "value": ".5rem",
+      "tier": "component"
+    },
+    {
+      "name": "--filter-pill-bg",
+      "value": "color-mix(in srgb, #005862 8%, transparent)",
+      "tier": "component"
+    },
+    {
+      "name": "--filter-pill-font-size",
+      "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+      "tier": "component"
+    },
+    {
+      "name": "--filter-pill-padding",
+      "value": ".25rem .625rem",
+      "tier": "component"
+    },
+    {
+      "name": "--filter-pill-radius",
+      "value": "9999px",
+      "tier": "component"
+    },
+    {
+      "name": "--filter-pill-remove-color",
+      "value": "#7c7c7c",
+      "tier": "component"
+    },
+    {
+      "name": "--filter-pill-text",
+      "value": "#005862",
+      "tier": "component"
+    },
+    {
+      "name": "--font-decorative",
+      "value": "\"Besley\", serif",
+      "tier": "component"
+    },
+    {
+      "name": "--font-sans",
+      "value": "\"DM Sans\", sans-serif",
+      "tier": "primitive"
+    },
+    {
+      "name": "--font-weight-bold",
+      "value": "650",
+      "tier": "primitive"
+    },
+    {
+      "name": "--font-weight-medium",
+      "value": "450",
+      "tier": "primitive"
+    },
+    {
+      "name": "--font-weight-regular",
+      "value": "350",
+      "tier": "primitive"
+    },
+    {
+      "name": "--font-weight-semibold",
+      "value": "550",
+      "tier": "primitive"
+    },
+    {
+      "name": "--form-font-size-md",
+      "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+      "tier": "component"
+    },
+    {
+      "name": "--form-font-size-sm",
+      "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+      "tier": "component"
+    },
+    {
+      "name": "--form-height-md",
+      "value": "36px",
+      "tier": "component"
+    },
+    {
+      "name": "--form-height-sm",
+      "value": "28px",
+      "tier": "component"
+    },
+    {
+      "name": "--form-padding-x-md",
+      "value": ".75rem",
+      "tier": "component"
+    },
+    {
+      "name": "--form-padding-x-sm",
+      "value": ".625rem",
+      "tier": "component"
+    },
+    {
+      "name": "--form-radius-md",
+      "value": ".25rem",
+      "tier": "component"
+    },
+    {
+      "name": "--form-radius-sm",
+      "value": ".25rem",
+      "tier": "component"
+    },
+    {
+      "name": "--grid-cell-padding",
+      "value": ".5rem .75rem",
+      "tier": "component"
+    },
+    {
+      "name": "--grid-header-bg",
+      "value": "#fafafa",
+      "tier": "component"
+    },
+    {
+      "name": "--grid-header-border",
+      "value": "1px solid #dcdcdc",
+      "tier": "component"
+    },
+    {
+      "name": "--grid-header-color",
+      "value": "#3d3d3d",
+      "tier": "component"
+    },
+    {
+      "name": "--grid-header-font-size",
+      "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+      "tier": "component"
+    },
+    {
+      "name": "--grid-header-weight",
+      "value": "550",
+      "tier": "component"
+    },
+    {
+      "name": "--grid-radius",
+      "value": ".5rem",
+      "tier": "component"
+    },
+    {
+      "name": "--grid-row-bg",
+      "value": "#ffffff",
+      "tier": "component"
+    },
+    {
+      "name": "--grid-row-border",
+      "value": "1px solid #efefef",
+      "tier": "component"
+    },
+    {
+      "name": "--grid-row-font-size",
+      "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+      "tier": "component"
+    },
+    {
+      "name": "--radius-200",
+      "value": ".5rem",
+      "tier": "primitive"
+    },
+    {
+      "name": "--radius-300",
+      "value": ".5rem",
+      "tier": "primitive"
+    },
+    {
+      "name": "--radius-400",
+      "value": ".75rem",
+      "tier": "primitive"
+    },
+    {
+      "name": "--radius-full",
+      "value": "9999px",
+      "tier": "primitive"
+    },
+    {
+      "name": "--shadow-100",
+      "value": "0 2px 12px 0 rgba(0, 0, 0, .04)",
+      "tier": "primitive"
+    },
+    {
+      "name": "--shadow-400",
+      "value": "0 8px 32px -8px rgba(0, 0, 0, .08)",
+      "tier": "primitive"
+    },
+    {
+      "name": "--spacing-050",
+      "value": ".125rem",
+      "tier": "primitive"
+    },
+    {
+      "name": "--spacing-100",
+      "value": ".25rem",
+      "tier": "primitive"
+    },
+    {
+      "name": "--spacing-150",
+      "value": ".375rem",
+      "tier": "primitive"
+    },
+    {
+      "name": "--spacing-200",
+      "value": ".5rem",
+      "tier": "primitive"
+    },
+    {
+      "name": "--spacing-250",
+      "value": ".625rem",
+      "tier": "primitive"
+    },
+    {
+      "name": "--spacing-300",
+      "value": ".75rem",
+      "tier": "primitive"
+    },
+    {
+      "name": "--spacing-400",
+      "value": "1rem",
+      "tier": "primitive"
+    },
+    {
+      "name": "--spacing-500",
+      "value": "1.5rem",
+      "tier": "primitive"
+    },
+    {
+      "name": "--spacing-600",
+      "value": "2rem",
+      "tier": "primitive"
+    },
+    {
+      "name": "--spacing-700",
+      "value": "3rem",
+      "tier": "primitive"
+    },
+    {
+      "name": "--transition-fast",
+      "value": ".15s ease",
+      "tier": "primitive"
+    },
+    {
+      "name": "--type-size-100",
+      "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+      "tier": "primitive"
+    },
+    {
+      "name": "--type-size-500",
+      "value": "clamp(1.125rem, .98rem + .72vw, 1.5rem)",
+      "tier": "primitive"
+    }
+  ],
+  "components": [
+    {
+      "component": "esa-badge",
+      "source": "/Users/andrewlovseth/Dev/ecology/packages/ecology/src/components/esa-badge.astro",
+      "origin": "hub"
+    },
+    {
+      "component": "esa-button",
+      "source": "/Users/andrewlovseth/Dev/ecology/packages/ecology/src/components/esa-button.astro",
+      "origin": "hub"
+    },
+    {
+      "component": "esa-form-field",
+      "source": "/Users/andrewlovseth/Dev/ecology/packages/ecology/src/components/esa-form-field.astro",
+      "origin": "hub"
+    },
+    {
+      "component": "esa-icon",
+      "source": "/Users/andrewlovseth/Dev/ecology/packages/ecology/src/components/esa-icon.astro",
+      "origin": "hub"
+    }
+  ],
+  "sections": [
+    {
+      "index": 0,
+      "label": "Permit Tracking",
+      "tag": "div",
+      "html": "<div class=\"modern-layout\">\n  <!-- ═══ TOPBAR (header-nav-modern) ═══ -->\n  <header class=\"topbar\">\n    <!-- Left: sidebar toggle + tenant trigger -->\n    <div class=\"topbar__left\">\n      <button\n        type=\"button\"\n        class=\"sidebar-toggle\"\n        id=\"sidebar-toggle\"\n        aria-label=\"Collapse sidebar\"\n        aria-expanded=\"true\"\n      >\n        <svg\n          xmlns=\"http://www.w3.org/2000/svg\"\n          width=\"20\"\n          height=\"20\"\n          viewBox=\"0 0 24 24\"\n          fill=\"none\"\n          stroke=\"currentColor\"\n          stroke-width=\"1.5\"\n          stroke-linecap=\"round\"\n          stroke-linejoin=\"round\"\n          class=\"sidebar-toggle__icon\"\n        >\n          <rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\"></rect>\n          <path d=\"M9 3v18\"></path>\n        </svg>\n      </button>\n      <button type=\"button\" class=\"tenant-trigger\">\n        <span>AWS</span>\n        <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\">\n          <svg\n            width=\"14\"\n            height=\"14\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            focusable=\"false\"\n          >\n            <path d=\"m6 9 6 6 6-6\"></path>\n          </svg>\n        </span>\n      </button>\n    </div>\n    <!-- Center: spacer (1fr) -->\n    <div class=\"topbar__center\"></div>\n    <!-- Right: QA badge, search, config/admin icon-buttons, user menu -->\n    <div class=\"topbar__right\">\n      <span class=\"qa-warning\">\n        <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n          <svg\n            width=\"16\"\n            height=\"16\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            focusable=\"false\"\n          >\n            <path\n              d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\"\n            ></path>\n            <path d=\"M12 9v4\"></path>\n            <path d=\"M12 17h.01\"></path>\n          </svg>\n        </span>\n        QA\n      </span>\n      <button type=\"button\" class=\"icon-button\" aria-label=\"Search\">\n        <span class=\"esa-icon esa-icon--md\" aria-hidden=\"true\">\n          <svg\n            width=\"20\"\n            height=\"20\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            focusable=\"false\"\n          >\n            <circle cx=\"11\" cy=\"11\" r=\"8\"></circle>\n            <path d=\"m21 21-4.3-4.3\"></path>\n          </svg>\n        </span>\n      </button>\n      <a href=\"#esa-config\" class=\"icon-button\" aria-label=\"ESA-Config\">\n        <span class=\"esa-icon esa-icon--md\" aria-hidden=\"true\">\n          <svg\n            width=\"20\"\n            height=\"20\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            focusable=\"false\"\n          >\n            <line x1=\"21\" x2=\"14\" y1=\"4\" y2=\"4\"></line>\n            <line x1=\"10\" x2=\"3\" y1=\"4\" y2=\"4\"></line>\n            <line x1=\"21\" x2=\"12\" y1=\"12\" y2=\"12\"></line>\n            <line x1=\"8\" x2=\"3\" y1=\"12\" y2=\"12\"></line>\n            <line x1=\"21\" x2=\"16\" y1=\"20\" y2=\"20\"></line>\n            <line x1=\"12\" x2=\"3\" y1=\"20\" y2=\"20\"></line>\n            <line x1=\"14\" x2=\"14\" y1=\"2\" y2=\"6\"></line>\n            <line x1=\"8\" x2=\"8\" y1=\"10\" y2=\"14\"></line>\n            <line x1=\"16\" x2=\"16\" y1=\"18\" y2=\"22\"></line>\n          </svg>\n        </span>\n      </a>\n      <a href=\"#admin\" class=\"icon-button\" aria-label=\"Admin settings\">\n        <span class=\"esa-icon esa-icon--md\" aria-hidden=\"true\">\n          <svg\n            width=\"20\"\n            height=\"20\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            focusable=\"false\"\n          >\n            <path\n              d=\"M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z\"\n            ></path>\n            <circle cx=\"12\" cy=\"12\" r=\"3\"></circle>\n          </svg>\n        </span>\n      </a>\n      <div class=\"user-menu\" id=\"user-menu\">\n        <button\n          type=\"button\"\n          class=\"user-menu-trigger\"\n          id=\"user-menu-trigger\"\n          aria-label=\"User menu\"\n          aria-expanded=\"false\"\n        >\n          <span class=\"user-menu-trigger__avatar user-menu-trigger__avatar--fallback\">\n            <span class=\"esa-icon esa-icon--md\" aria-hidden=\"true\">\n              <svg\n                width=\"20\"\n                height=\"20\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path d=\"M18 20a6 6 0 0 0-12 0\"></path>\n                <circle cx=\"12\" cy=\"10\" r=\"4\"></circle>\n                <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n              </svg>\n            </span>\n          </span>\n        </button>\n        <div class=\"user-panel\" id=\"user-panel\" hidden=\"\">\n          <div class=\"user-panel__header\">\n            <div class=\"user-panel__avatar-wrapper\">\n              <span class=\"user-panel__avatar user-panel__avatar--fallback\">\n                <span class=\"esa-icon esa-icon--lg\" aria-hidden=\"true\">\n                  <svg\n                    width=\"24\"\n                    height=\"24\"\n                    viewBox=\"0 0 24 24\"\n                    fill=\"none\"\n                    stroke=\"currentColor\"\n                    stroke-width=\"2\"\n                    stroke-linecap=\"round\"\n                    stroke-linejoin=\"round\"\n                    focusable=\"false\"\n                  >\n                    <path d=\"M18 20a6 6 0 0 0-12 0\"></path>\n                    <circle cx=\"12\" cy=\"10\" r=\"4\"></circle>\n                    <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n                  </svg>\n                </span>\n              </span>\n            </div>\n            <div class=\"user-panel__info\">\n              <span class=\"user-panel__name\">Andy Lovseth</span>\n              <span class=\"user-panel__email\">andy.lovseth@esassoc.com</span>\n            </div>\n          </div>\n          <div class=\"user-panel__menu\">\n            <button type=\"button\" class=\"user-panel__item\">\n              <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n                <svg\n                  width=\"16\"\n                  height=\"16\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                >\n                  <path\n                    d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\"\n                  ></path>\n                  <path d=\"m15 5 4 4\"></path>\n                </svg>\n              </span>\n              <span>Edit Profile</span>\n            </button>\n            <a class=\"user-panel__item\" href=\"#help\">\n              <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n                <svg\n                  width=\"16\"\n                  height=\"16\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                >\n                  <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n                  <path d=\"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3\"></path>\n                  <path d=\"M12 17h.01\"></path>\n                </svg>\n              </span>\n              <span>Get Help</span>\n            </a>\n            <button type=\"button\" class=\"user-panel__item user-panel__item--danger\">\n              <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n                <svg\n                  width=\"16\"\n                  height=\"16\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                >\n                  <path d=\"M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4\"></path>\n                  <polyline points=\"16 17 21 12 16 7\"></polyline>\n                  <line x1=\"21\" x2=\"9\" y1=\"12\" y2=\"12\"></line>\n                </svg>\n              </span>\n              <span>Sign Out</span>\n            </button>\n          </div>\n        </div>\n      </div>\n    </div>\n  </header>\n  <!-- ═══ BODY (sidenav + content) ═══ -->\n  <div class=\"modern-layout__body\">\n    <!-- ─── side-nav-modern ─── -->\n    <nav class=\"side-nav\" id=\"side-nav\">\n      <div class=\"sidebar-header\">\n        <a href=\"#home\" class=\"site-logo\" aria-label=\"Beacon home\">\n          <img src=\"/beacon-design/beacon-icon.svg\" alt=\"Beacon\" class=\"site-logo__img\" />\n        </a>\n      </div>\n      <!-- project-switcher (ported from project-switcher.component) -->\n      <div class=\"project-switcher-container\">\n        <button type=\"button\" class=\"project-switcher__trigger\">\n          <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n            <svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"m15 12-8.373 8.373a1 1 0 1 1-3-3L12 9\"></path>\n              <path d=\"m18 15 4-4\"></path>\n              <path\n                d=\"m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172V7l-2.26-2.26a6 6 0 0 0-4.202-1.756L9 2.96l.92.82A6.18 6.18 0 0 1 12 8.4V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5\"\n              ></path>\n            </svg>\n          </span>\n          <span class=\"project-switcher__name\">Raul</span>\n          <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n            <svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"m6 9 6 6 6-6\"></path>\n            </svg>\n          </span>\n        </button>\n      </div>\n      <div class=\"main-nav\">\n        <div class=\"nav-section\">\n          <a href=\"#setup-wizard\" class=\"nav-section__header nav-section__header--link\">\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path\n                  d=\"m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z\"\n                ></path>\n                <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n              </svg>\n            </span>\n            <span class=\"nav-section__title\">Setup Wizard</span>\n          </a>\n        </div>\n        <div class=\"nav-section\">\n          <button type=\"button\" class=\"nav-section__header\" aria-expanded=\"true\">\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <rect width=\"7\" height=\"9\" x=\"3\" y=\"3\" rx=\"1\"></rect>\n                <rect width=\"7\" height=\"5\" x=\"14\" y=\"3\" rx=\"1\"></rect>\n                <rect width=\"7\" height=\"9\" x=\"14\" y=\"12\" rx=\"1\"></rect>\n                <rect width=\"7\" height=\"5\" x=\"3\" y=\"16\" rx=\"1\"></rect>\n              </svg>\n            </span>\n            <span class=\"nav-section__title\">Project</span>\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path d=\"m6 9 6 6 6-6\"></path>\n              </svg>\n            </span>\n          </button>\n          <ul class=\"nav-section__items\">\n            <li class=\"nav-item\">\n              <a href=\"#dashboard\" class=\"nav-sublink active\"> Dashboard </a>\n            </li>\n            <li class=\"nav-item\">\n              <a href=\"#source-documents\" class=\"nav-sublink\"> Source Documents </a>\n            </li>\n            <li class=\"nav-item\"><a href=\"#commitments\" class=\"nav-sublink\"> Commitments </a></li>\n            <li class=\"nav-item\"><a href=\"#requirements\" class=\"nav-sublink\"> Requirements </a></li>\n            <li class=\"nav-item\">\n              <a href=\"#organize-actions\" class=\"nav-sublink\"> Organize Actions </a>\n            </li>\n            <li class=\"nav-item\"><a href=\"#action-lists\" class=\"nav-sublink\"> Action Lists </a></li>\n            <li class=\"nav-item\">\n              <a href=\"#document-reviews\" class=\"nav-sublink\"> Document Reviews </a>\n            </li>\n            <li class=\"nav-item\">\n              <a href=\"#spatial-library-layers\" class=\"nav-sublink\"> Spatial Library Layers </a>\n            </li>\n          </ul>\n        </div>\n        <hr class=\"nav-divider\" aria-hidden=\"true\" />\n        <div class=\"nav-section\">\n          <button type=\"button\" class=\"nav-section__header\" aria-expanded=\"true\">\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path d=\"M19.07 4.93A10 10 0 0 0 6.99 3.34\"></path>\n                <path d=\"M4 6h.01\"></path>\n                <path d=\"M2.29 9.62A10 10 0 1 0 21.31 8.35\"></path>\n                <path d=\"M16.24 7.76A6 6 0 1 0 8.23 16.67\"></path>\n                <path d=\"M12 18h.01\"></path>\n                <path d=\"M17.99 11.66A6 6 0 0 1 15.77 16.67\"></path>\n                <circle cx=\"12\" cy=\"12\" r=\"2\"></circle>\n                <path d=\"m13.41 10.59 5.66-5.66\"></path>\n              </svg>\n            </span>\n            <span class=\"nav-section__title\">Tracking</span>\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path d=\"m6 9 6 6 6-6\"></path>\n              </svg>\n            </span>\n          </button>\n          <ul class=\"nav-section__items\">\n            <li class=\"nav-item\">\n              <a href=\"#tracking-summary\" class=\"nav-sublink\"> Tracking Summary </a>\n            </li>\n            <li class=\"nav-item\">\n              <a href=\"#project-tracking\" class=\"nav-sublink\"> Project Tracking </a>\n            </li>\n            <li class=\"nav-item\">\n              <a href=\"#all-components\" class=\"nav-sublink\"> All Components </a>\n            </li>\n          </ul>\n        </div>\n        <div class=\"nav-section\">\n          <button type=\"button\" class=\"nav-section__header\" aria-expanded=\"true\">\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path\n                  d=\"M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0\"\n                ></path>\n                <circle cx=\"12\" cy=\"8\" r=\"2\"></circle>\n                <path\n                  d=\"M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712\"\n                ></path>\n              </svg>\n            </span>\n            <span class=\"nav-section__title\">Monitoring</span>\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path d=\"m6 9 6 6 6-6\"></path>\n              </svg>\n            </span>\n          </button>\n          <ul class=\"nav-section__items\">\n            <li class=\"nav-item\">\n              <a href=\"#monitoring-portal\" class=\"nav-sublink\"> Monitoring Portal </a>\n            </li>\n          </ul>\n        </div>\n        <div class=\"nav-section\">\n          <button type=\"button\" class=\"nav-section__header\" aria-expanded=\"true\">\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <rect width=\"8\" height=\"4\" x=\"8\" y=\"2\" rx=\"1\" ry=\"1\"></rect>\n                <path\n                  d=\"M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2\"\n                ></path>\n                <path d=\"M12 11h4\"></path>\n                <path d=\"M12 16h4\"></path>\n                <path d=\"M8 11h.01\"></path>\n                <path d=\"M8 16h.01\"></path>\n              </svg>\n            </span>\n            <span class=\"nav-section__title\">Reporting</span>\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path d=\"m6 9 6 6 6-6\"></path>\n              </svg>\n            </span>\n          </button>\n          <ul class=\"nav-section__items\">\n            <li class=\"nav-item\">\n              <a href=\"#progress-report\" class=\"nav-sublink\"> Progress Report </a>\n            </li>\n            <li class=\"nav-item\">\n              <a href=\"#report-center\" class=\"nav-sublink\"> Report Center </a>\n            </li>\n          </ul>\n        </div>\n        <hr class=\"nav-divider\" aria-hidden=\"true\" />\n        <div class=\"nav-section\">\n          <button type=\"button\" class=\"nav-section__header\" aria-expanded=\"true\">\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <ellipse cx=\"12\" cy=\"5\" rx=\"9\" ry=\"3\"></ellipse>\n                <path d=\"M3 5V19A9 3 0 0 0 21 19V5\"></path>\n                <path d=\"M3 12A9 3 0 0 0 21 12\"></path>\n              </svg>\n            </span>\n            <span class=\"nav-section__title\">Data Catalog</span>\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path d=\"m6 9 6 6 6-6\"></path>\n              </svg>\n            </span>\n          </button>\n          <ul class=\"nav-section__items\">\n            <li class=\"nav-item\">\n              <a href=\"#dc-source-documents\" class=\"nav-sublink\"> Source Documents </a>\n            </li>\n            <li class=\"nav-item\">\n              <a href=\"#dc-commitments\" class=\"nav-sublink\"> Commitments </a>\n            </li>\n            <li class=\"nav-item\">\n              <a href=\"#dc-requirements\" class=\"nav-sublink\"> Requirements </a>\n            </li>\n            <li class=\"nav-item\"><a href=\"#dc-actions\" class=\"nav-sublink\"> Actions </a></li>\n            <li class=\"nav-item\"><a href=\"#dc-all-data\" class=\"nav-sublink\"> All Data </a></li>\n          </ul>\n        </div>\n      </div>\n    </nav>\n    <!-- content -->\n    <div class=\"modern-layout__content\">\n      <div class=\"page-layout\">\n        <div class=\"page-layout__container\">\n          <section class=\"page-layout__breadcrumbs\">\n            <nav class=\"breadcrumbs\" aria-label=\"Breadcrumb\">\n              <div class=\"breadcrumbs__items\">\n                <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n                  <svg\n                    width=\"16\"\n                    height=\"16\"\n                    viewBox=\"0 0 24 24\"\n                    fill=\"none\"\n                    stroke=\"currentColor\"\n                    stroke-width=\"2\"\n                    stroke-linecap=\"round\"\n                    stroke-linejoin=\"round\"\n                    focusable=\"false\"\n                  >\n                    <path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\"></path>\n                    <path\n                      d=\"M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"\n                    ></path>\n                  </svg>\n                </span>\n                <a class=\"breadcrumb-item\" href=\"#raul\"> Raul </a\n                ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n                  <svg\n                    width=\"16\"\n                    height=\"16\"\n                    viewBox=\"0 0 24 24\"\n                    fill=\"none\"\n                    stroke=\"currentColor\"\n                    stroke-width=\"2\"\n                    stroke-linecap=\"round\"\n                    stroke-linejoin=\"round\"\n                    focusable=\"false\"\n                  >\n                    <path d=\"m9 18 6-6-6-6\"></path>\n                  </svg>\n                </span>\n                <a class=\"breadcrumb-item\" href=\"#tracking\"> Tracking </a\n                ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n                  <svg\n                    width=\"16\"\n                    height=\"16\"\n                    viewBox=\"0 0 24 24\"\n                    fill=\"none\"\n                    stroke=\"currentColor\"\n                    stroke-width=\"2\"\n                    stroke-linecap=\"round\"\n                    stroke-linejoin=\"round\"\n                    focusable=\"false\"\n                  >\n                    <path d=\"m9 18 6-6-6-6\"></path>\n                  </svg>\n                </span>\n                <span class=\"breadcrumb-item\" aria-current=\"page\"> Permit Tracking </span>\n              </div>\n            </nav>\n          </section>\n          <section class=\"page-layout__title\">\n            <div class=\"page-layout__title-main\">\n              <h1>\n                <span class=\"esa-icon esa-icon--md\" aria-hidden=\"true\">\n                  <svg\n                    width=\"20\"\n                    height=\"20\"\n                    viewBox=\"0 0 24 24\"\n                    fill=\"none\"\n                    stroke=\"currentColor\"\n                    stroke-width=\"2\"\n                    stroke-linecap=\"round\"\n                    stroke-linejoin=\"round\"\n                    focusable=\"false\"\n                  ></svg>\n                </span>\n                Permit Tracking\n              </h1>\n            </div>\n            <div class=\"page-layout__utilities\">\n              <span\n                class=\"esa-button esa-button--color-primary esa-button--appearance-fill esa-button--sm\"\n              >\n                <button class=\"esa-button__native\" type=\"button\">\n                  <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n                    <svg\n                      width=\"16\"\n                      height=\"16\"\n                      viewBox=\"0 0 24 24\"\n                      fill=\"none\"\n                      stroke=\"currentColor\"\n                      stroke-width=\"2\"\n                      stroke-linecap=\"round\"\n                      stroke-linejoin=\"round\"\n                      focusable=\"false\"\n                    >\n                      <path d=\"M5 12h14\"></path>\n                      <path d=\"M12 5v14\"></path>\n                    </svg>\n                  </span>\n                  <span class=\"esa-button__label\"> New Permit </span>\n                </button>\n              </span>\n            </div>\n          </section>\n          <section class=\"page-layout__content\">\n            <div class=\"pt-toolbar\">\n              <div class=\"pt-pivot\" role=\"tablist\" aria-label=\"Pivot view\">\n                <button\n                  type=\"button\"\n                  class=\"pt-pivot__btn is-active\"\n                  data-view=\"permits\"\n                  role=\"tab\"\n                  aria-selected=\"true\"\n                >\n                  Permits\n                </button>\n                <button\n                  type=\"button\"\n                  class=\"pt-pivot__btn\"\n                  data-view=\"segments\"\n                  role=\"tab\"\n                  aria-selected=\"false\"\n                >\n                  Segments\n                </button>\n              </div>\n              <!-- Filter pills (affordance; non-functional) -->\n              <div class=\"pt-filters\" id=\"pt-filters\">\n                <span class=\"pt-filter-label\">Filters</span>\n                <span class=\"pt-pill\">\n                  Status: Under Review\n                  <button type=\"button\" class=\"pt-pill__x\" aria-label=\"Remove filter\">\n                    <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\">\n                      <svg\n                        width=\"14\"\n                        height=\"14\"\n                        viewBox=\"0 0 24 24\"\n                        fill=\"none\"\n                        stroke=\"currentColor\"\n                        stroke-width=\"2\"\n                        stroke-linecap=\"round\"\n                        stroke-linejoin=\"round\"\n                        focusable=\"false\"\n                      >\n                        <path d=\"M18 6 6 18\"></path>\n                        <path d=\"m6 6 12 12\"></path>\n                      </svg>\n                    </span>\n                  </button>\n                </span>\n                <span class=\"pt-pill\">\n                  Level: Federal\n                  <button type=\"button\" class=\"pt-pill__x\" aria-label=\"Remove filter\">\n                    <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\">\n                      <svg\n                        width=\"14\"\n                        height=\"14\"\n                        viewBox=\"0 0 24 24\"\n                        fill=\"none\"\n                        stroke=\"currentColor\"\n                        stroke-width=\"2\"\n                        stroke-linecap=\"round\"\n                        stroke-linejoin=\"round\"\n                        focusable=\"false\"\n                      >\n                        <path d=\"M18 6 6 18\"></path>\n                        <path d=\"m6 6 12 12\"></path>\n                      </svg>\n                    </span>\n                  </button>\n                </span>\n                <button type=\"button\" class=\"pt-filter-clear\">Clear all</button>\n              </div>\n            </div>\n            <div class=\"grid-wrap\" id=\"view-permits\">\n              <table class=\"grid\">\n                <thead>\n                  <tr>\n                    <th class=\"grid__th grid__th--sortable\">\n                      Permit\n                      <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\">\n                        <svg\n                          width=\"14\"\n                          height=\"14\"\n                          viewBox=\"0 0 24 24\"\n                          fill=\"none\"\n                          stroke=\"currentColor\"\n                          stroke-width=\"2\"\n                          stroke-linecap=\"round\"\n                          stroke-linejoin=\"round\"\n                          focusable=\"false\"\n                        >\n                          <path d=\"m6 9 6 6 6-6\"></path>\n                        </svg>\n                      </span>\n                    </th>\n                    <th class=\"grid__th\">Agency</th>\n                    <th class=\"grid__th\">Level</th>\n                    <th class=\"grid__th\">Type</th>\n                    <th class=\"grid__th\">Status</th>\n                    <th class=\"grid__th\">Est. Approval</th>\n                    <th class=\"grid__th grid__th--num\">Segments</th>\n                  </tr>\n                </thead>\n                <tbody>\n                  <tr class=\"grid__row\" data-permit-id=\"usace-nwp\" tabindex=\"0\">\n                    <td class=\"grid__td grid__td--name\">Nationwide Permit (Section 404)</td>\n                    <td class=\"grid__td\">US Army Corps of Engineers</td>\n                    <td class=\"grid__td\">\n                      <span class=\"esa-badge esa-badge--primary esa-badge--sm\">\n                        <span class=\"esa-badge__text\">Federal</span>\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Section 404</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #22c55e\">\n                        <span class=\"status-chip__dot\"></span> Issued\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">May 28, 2026</td>\n                    <td class=\"grid__td grid__td--num\">9</td>\n                  </tr>\n                  <tr class=\"grid__row\" data-permit-id=\"usfws-sf299\" tabindex=\"0\">\n                    <td class=\"grid__td grid__td--name\">Refuge Right-of-Way (SF-299)</td>\n                    <td class=\"grid__td\">US Fish &amp; Wildlife Service</td>\n                    <td class=\"grid__td\">\n                      <span class=\"esa-badge esa-badge--primary esa-badge--sm\">\n                        <span class=\"esa-badge__text\">Federal</span>\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Right-of-Way</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #22c55e\">\n                        <span class=\"status-chip__dot\"></span> Issued\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">May 30, 2026</td>\n                    <td class=\"grid__td grid__td--num\">1</td>\n                  </tr>\n                  <tr class=\"grid__row\" data-permit-id=\"wsdot-uap\" tabindex=\"0\">\n                    <td class=\"grid__td grid__td--name\">Utility Accommodation Permit</td>\n                    <td class=\"grid__td\">WSDOT</td>\n                    <td class=\"grid__td\">\n                      <span class=\"esa-badge esa-badge--info esa-badge--sm\">\n                        <span class=\"esa-badge__text\">State</span>\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Utility</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #fab54f\">\n                        <span class=\"status-chip__dot\"></span> In Preparation\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Jul 20, 2026</td>\n                    <td class=\"grid__td grid__td--num\">2</td>\n                  </tr>\n                  <tr class=\"grid__row\" data-permit-id=\"ecology-401\" tabindex=\"0\">\n                    <td class=\"grid__td grid__td--name\">Water Quality Certification (401)</td>\n                    <td class=\"grid__td\">WA Dept. of Ecology</td>\n                    <td class=\"grid__td\">\n                      <span class=\"esa-badge esa-badge--info esa-badge--sm\">\n                        <span class=\"esa-badge__text\">State</span>\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">401 Certification</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #f59e0b\">\n                        <span class=\"status-chip__dot\"></span> Under Review\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Aug 30, 2026</td>\n                    <td class=\"grid__td grid__td--num\">3</td>\n                  </tr>\n                  <tr class=\"grid__row\" data-permit-id=\"ecology-stormwater\" tabindex=\"0\">\n                    <td class=\"grid__td grid__td--name\">Construction Stormwater (NPDES)</td>\n                    <td class=\"grid__td\">WA Dept. of Ecology</td>\n                    <td class=\"grid__td\">\n                      <span class=\"esa-badge esa-badge--info esa-badge--sm\">\n                        <span class=\"esa-badge__text\">State</span>\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">NPDES</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #fab54f\">\n                        <span class=\"status-chip__dot\"></span> In Preparation\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Jul 15, 2026</td>\n                    <td class=\"grid__td grid__td--num\">2</td>\n                  </tr>\n                  <tr class=\"grid__row\" data-permit-id=\"wdfw-hpa\" tabindex=\"0\">\n                    <td class=\"grid__td grid__td--name\">Hydraulic Project Approval (HPA)</td>\n                    <td class=\"grid__td\">WA Dept. of Fish &amp; Wildlife</td>\n                    <td class=\"grid__td\">\n                      <span class=\"esa-badge esa-badge--info esa-badge--sm\">\n                        <span class=\"esa-badge__text\">State</span>\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">HPA</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #f59e0b\">\n                        <span class=\"status-chip__dot\"></span> Under Review\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Aug 10, 2026</td>\n                    <td class=\"grid__td grid__td--num\">2</td>\n                  </tr>\n                  <tr class=\"grid__row\" data-permit-id=\"wa-dnr\" tabindex=\"0\">\n                    <td class=\"grid__td grid__td--name\">Aquatic Lands Use Authorization</td>\n                    <td class=\"grid__td\">WA Dept. of Natural Resources</td>\n                    <td class=\"grid__td\">\n                      <span class=\"esa-badge esa-badge--info esa-badge--sm\">\n                        <span class=\"esa-badge__text\">State</span>\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Aquatic Lands</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #22c55e\">\n                        <span class=\"status-chip__dot\"></span> Issued\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Jun 1, 2026</td>\n                    <td class=\"grid__td grid__td--num\">10</td>\n                  </tr>\n                  <tr class=\"grid__row\" data-permit-id=\"sepa-walla-walla\" tabindex=\"0\">\n                    <td class=\"grid__td grid__td--name\">SEPA Environmental Review</td>\n                    <td class=\"grid__td\">Walla Walla County (Lead Agency)</td>\n                    <td class=\"grid__td\">\n                      <span class=\"esa-badge esa-badge--secondary esa-badge--sm\">\n                        <span class=\"esa-badge__text\">Local</span>\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">SEPA</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #22c55e\">\n                        <span class=\"status-chip__dot\"></span> Issued\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Apr 22, 2026</td>\n                    <td class=\"grid__td grid__td--num\">10</td>\n                  </tr>\n                  <tr class=\"grid__row\" data-permit-id=\"ww-county-row\" tabindex=\"0\">\n                    <td class=\"grid__td grid__td--name\">County Right-of-Way Permit</td>\n                    <td class=\"grid__td\">Walla Walla County Public Works</td>\n                    <td class=\"grid__td\">\n                      <span class=\"esa-badge esa-badge--secondary esa-badge--sm\">\n                        <span class=\"esa-badge__text\">Local</span>\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Right-of-Way</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #22c55e\">\n                        <span class=\"status-chip__dot\"></span> Issued\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Jun 2, 2026</td>\n                    <td class=\"grid__td grid__td--num\">2</td>\n                  </tr>\n                  <tr class=\"grid__row\" data-permit-id=\"franchise\" tabindex=\"0\">\n                    <td class=\"grid__td grid__td--name\">Franchise Agreement</td>\n                    <td class=\"grid__td\">Walla Walla County</td>\n                    <td class=\"grid__td\">\n                      <span class=\"esa-badge esa-badge--secondary esa-badge--sm\">\n                        <span class=\"esa-badge__text\">Local</span>\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Franchise</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #bdbdbd\">\n                        <span class=\"status-chip__dot\"></span> Not Started\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Oct 15, 2026</td>\n                    <td class=\"grid__td grid__td--num\">1</td>\n                  </tr>\n                  <tr class=\"grid__row\" data-permit-id=\"shoreline-ssd\" tabindex=\"0\">\n                    <td class=\"grid__td grid__td--name\">Shoreline Substantial Development / CUP</td>\n                    <td class=\"grid__td\">Walla Walla County</td>\n                    <td class=\"grid__td\">\n                      <span class=\"esa-badge esa-badge--secondary esa-badge--sm\">\n                        <span class=\"esa-badge__text\">Local</span>\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Shoreline</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #699cc6\">\n                        <span class=\"status-chip__dot\"></span> Submitted\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Sep 5, 2026</td>\n                    <td class=\"grid__td grid__td--num\">1</td>\n                  </tr>\n                </tbody>\n              </table>\n            </div>\n            <div class=\"grid-wrap\" id=\"view-segments\" hidden=\"\">\n              <table class=\"grid\">\n                <thead>\n                  <tr>\n                    <th class=\"grid__th\">Segment</th>\n                    <th class=\"grid__th\">Line</th>\n                    <th class=\"grid__th\">Jurisdiction</th>\n                    <th class=\"grid__th grid__th--num\">Length</th>\n                    <th class=\"grid__th\">Derived Status</th>\n                    <th class=\"grid__th\">Clear-to-Build</th>\n                    <th class=\"grid__th grid__th--num\">Permits</th>\n                  </tr>\n                </thead>\n                <tbody>\n                  <tr class=\"grid__row grid__row--static\">\n                    <td class=\"grid__td grid__td--name\">Barnes RD to SR-12</td>\n                    <td class=\"grid__td grid__td--muted\">Raul 2 — West Reach</td>\n                    <td class=\"grid__td grid__td--muted\">Walla Walla County</td>\n                    <td class=\"grid__td grid__td--num\">4,820 ft</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #22c55e\">\n                        <span class=\"status-chip__dot\"></span> Cleared to Construct\n                      </span>\n                    </td>\n                    <td class=\"grid__td\">Jun 2, 2026</td>\n                    <td class=\"grid__td grid__td--num\">4</td>\n                  </tr>\n                  <tr class=\"grid__row grid__row--static\">\n                    <td class=\"grid__td grid__td--name\">SR-12 / Lowden Junction</td>\n                    <td class=\"grid__td grid__td--muted\">Raul 2 — West Reach</td>\n                    <td class=\"grid__td grid__td--muted\">WSDOT</td>\n                    <td class=\"grid__td grid__td--num\">3,180 ft</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #fab54f\">\n                        <span class=\"status-chip__dot\"></span> In Preparation\n                      </span>\n                    </td>\n                    <td class=\"grid__td\">Jul 20, 2026</td>\n                    <td class=\"grid__td grid__td--num\">4</td>\n                  </tr>\n                  <tr class=\"grid__row grid__row--static\">\n                    <td class=\"grid__td grid__td--name\">Touchet River Crossing</td>\n                    <td class=\"grid__td grid__td--muted\">Raul 2 — West Reach</td>\n                    <td class=\"grid__td grid__td--muted\">WA Ecology / WDFW</td>\n                    <td class=\"grid__td grid__td--num\">2,240 ft</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #f59e0b\">\n                        <span class=\"status-chip__dot\"></span> Under Review\n                      </span>\n                    </td>\n                    <td class=\"grid__td\">Aug 30, 2026</td>\n                    <td class=\"grid__td grid__td--num\">5</td>\n                  </tr>\n                  <tr class=\"grid__row grid__row--static\">\n                    <td class=\"grid__td grid__td--name\">Ash Hollow RD to PDX</td>\n                    <td class=\"grid__td grid__td--muted\">Raul 2 — Central Reach</td>\n                    <td class=\"grid__td grid__td--muted\">Walla Walla County</td>\n                    <td class=\"grid__td grid__td--num\">5,310 ft</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #fab54f\">\n                        <span class=\"status-chip__dot\"></span> In Preparation\n                      </span>\n                    </td>\n                    <td class=\"grid__td\">Jul 15, 2026</td>\n                    <td class=\"grid__td grid__td--num\">4</td>\n                  </tr>\n                  <tr class=\"grid__row grid__row--static\">\n                    <td class=\"grid__td grid__td--name\">US-12 / McNary Refuge</td>\n                    <td class=\"grid__td grid__td--muted\">Raul 2 — Central Reach</td>\n                    <td class=\"grid__td grid__td--muted\">USFWS Refuge</td>\n                    <td class=\"grid__td grid__td--num\">3,940 ft</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #22c55e\">\n                        <span class=\"status-chip__dot\"></span> Cleared to Construct\n                      </span>\n                    </td>\n                    <td class=\"grid__td\">Jun 1, 2026</td>\n                    <td class=\"grid__td grid__td--num\">4</td>\n                  </tr>\n                  <tr class=\"grid__row grid__row--static\">\n                    <td class=\"grid__td grid__td--name\">McNary to Frenchtown</td>\n                    <td class=\"grid__td grid__td--muted\">Raul 2 — Central Reach</td>\n                    <td class=\"grid__td grid__td--muted\">Walla Walla County</td>\n                    <td class=\"grid__td grid__td--num\">2,670 ft</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #22c55e\">\n                        <span class=\"status-chip__dot\"></span> Cleared to Construct\n                      </span>\n                    </td>\n                    <td class=\"grid__td\">Jun 2, 2026</td>\n                    <td class=\"grid__td grid__td--num\">4</td>\n                  </tr>\n                  <tr class=\"grid__row grid__row--static\">\n                    <td class=\"grid__td grid__td--name\">Frenchtown Shoreline Reach</td>\n                    <td class=\"grid__td grid__td--muted\">Raul 2 — East Reach</td>\n                    <td class=\"grid__td grid__td--muted\">Walla Walla County (Shoreline)</td>\n                    <td class=\"grid__td grid__td--num\">3,120 ft</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #699cc6\">\n                        <span class=\"status-chip__dot\"></span> Submitted\n                      </span>\n                    </td>\n                    <td class=\"grid__td\">Sep 5, 2026</td>\n                    <td class=\"grid__td grid__td--num\">5</td>\n                  </tr>\n                  <tr class=\"grid__row grid__row--static\">\n                    <td class=\"grid__td grid__td--name\">Frenchtown to Dixie RD</td>\n                    <td class=\"grid__td grid__td--muted\">Raul 2 — East Reach</td>\n                    <td class=\"grid__td grid__td--muted\">WSDOT</td>\n                    <td class=\"grid__td grid__td--num\">4,480 ft</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #fab54f\">\n                        <span class=\"status-chip__dot\"></span> In Preparation\n                      </span>\n                    </td>\n                    <td class=\"grid__td\">Jul 20, 2026</td>\n                    <td class=\"grid__td grid__td--num\">5</td>\n                  </tr>\n                  <tr class=\"grid__row grid__row--static\">\n                    <td class=\"grid__td grid__td--name\">Dixie RD Tie-In</td>\n                    <td class=\"grid__td grid__td--muted\">Raul 2 — East Reach</td>\n                    <td class=\"grid__td grid__td--muted\">Walla Walla County</td>\n                    <td class=\"grid__td grid__td--num\">2,050 ft</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #bdbdbd\">\n                        <span class=\"status-chip__dot\"></span> Not Started\n                      </span>\n                    </td>\n                    <td class=\"grid__td\">Oct 15, 2026</td>\n                    <td class=\"grid__td grid__td--num\">3</td>\n                  </tr>\n                  <tr class=\"grid__row grid__row--static\">\n                    <td class=\"grid__td grid__td--name\">East Terminus / Mill Creek</td>\n                    <td class=\"grid__td grid__td--muted\">Raul 2 — East Reach</td>\n                    <td class=\"grid__td grid__td--muted\">WA Ecology / WDFW</td>\n                    <td class=\"grid__td grid__td--num\">1,760 ft</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #f59e0b\">\n                        <span class=\"status-chip__dot\"></span> Under Review\n                      </span>\n                    </td>\n                    <td class=\"grid__td\">Aug 30, 2026</td>\n                    <td class=\"grid__td grid__td--num\">5</td>\n                  </tr>\n                </tbody>\n              </table>\n            </div>\n          </section>\n        </div>\n      </div>\n      <div class=\"drawer-backdrop\" id=\"drawer-backdrop\" hidden=\"\"></div>\n      <aside\n        class=\"permit-drawer\"\n        id=\"permit-drawer\"\n        role=\"dialog\"\n        aria-modal=\"true\"\n        aria-labelledby=\"pd-title\"\n        hidden=\"\"\n      >\n        <header class=\"permit-drawer__header\">\n          <div class=\"permit-drawer__header-main\">\n            <span class=\"permit-drawer__eyebrow\" id=\"pd-agency\"></span>\n            <h2 class=\"permit-drawer__title\" id=\"pd-title\"></h2>\n          </div>\n          <button\n            type=\"button\"\n            class=\"permit-drawer__close\"\n            id=\"drawer-close\"\n            aria-label=\"Close dialog\"\n          >\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path d=\"M18 6 6 18\"></path>\n                <path d=\"m6 6 12 12\"></path>\n              </svg>\n            </span>\n          </button>\n        </header>\n        <div class=\"permit-drawer__body\">\n          <div class=\"esa-form-field esa-form-field--md\">\n            <label class=\"esa-form-field__label\"> Status </label>\n            <div class=\"esa-form-field__input\">\n              <select class=\"pd-input\" id=\"pd-status\">\n                <option value=\"not-started\">Not Started</option>\n                <option value=\"in-preparation\">In Preparation</option>\n                <option value=\"submitted\">Submitted</option>\n                <option value=\"under-review\">Under Review</option>\n                <option value=\"issued\">Issued</option>\n                <option value=\"not-required\">Not Required</option>\n              </select>\n            </div>\n          </div>\n          <div class=\"pd-row\">\n            <div class=\"esa-form-field esa-form-field--md\">\n              <label class=\"esa-form-field__label\"> Submitted date </label>\n              <div class=\"esa-form-field__input\">\n                <input type=\"date\" class=\"pd-input\" id=\"pd-submitted\" />\n              </div>\n            </div>\n            <div class=\"esa-form-field esa-form-field--md\">\n              <label class=\"esa-form-field__label\"> Estimated approval </label>\n              <div class=\"esa-form-field__input\">\n                <input type=\"date\" class=\"pd-input\" id=\"pd-estimated\" />\n              </div>\n            </div>\n          </div>\n          <div class=\"pd-row\">\n            <div class=\"esa-form-field esa-form-field--md\">\n              <label class=\"esa-form-field__label\"> Actual approval </label>\n              <div class=\"esa-form-field__input\">\n                <input type=\"date\" class=\"pd-input\" id=\"pd-actual\" />\n              </div>\n            </div>\n            <div class=\"esa-form-field esa-form-field--md\">\n              <label class=\"esa-form-field__label\"> Agency </label>\n              <div class=\"esa-form-field__input\">\n                <input type=\"text\" class=\"pd-input\" id=\"pd-agency-input\" />\n              </div>\n            </div>\n          </div>\n          <div class=\"esa-form-field esa-form-field--md\">\n            <label class=\"esa-form-field__label\"> Permit type </label>\n            <div class=\"esa-form-field__input\">\n              <input type=\"text\" class=\"pd-input\" id=\"pd-type\" />\n            </div>\n          </div>\n          <div class=\"pd-applicability\">\n            <span class=\"pd-applicability__label\">Segment applicability</span>\n            <ul class=\"pd-checklist\" id=\"pd-segments\">\n              <li class=\"pd-check\">\n                <label class=\"pd-check__label\">\n                  <input type=\"checkbox\" class=\"pd-check__box\" value=\"seg-01\" />\n                  <span class=\"pd-check__name\">Barnes RD to SR-12</span>\n                  <span class=\"pd-check__line\">Raul 2 — West Reach</span>\n                </label>\n              </li>\n              <li class=\"pd-check\">\n                <label class=\"pd-check__label\">\n                  <input type=\"checkbox\" class=\"pd-check__box\" value=\"seg-02\" />\n                  <span class=\"pd-check__name\">SR-12 / Lowden Junction</span>\n                  <span class=\"pd-check__line\">Raul 2 — West Reach</span>\n                </label>\n              </li>\n              <li class=\"pd-check\">\n                <label class=\"pd-check__label\">\n                  <input type=\"checkbox\" class=\"pd-check__box\" value=\"seg-03\" />\n                  <span class=\"pd-check__name\">Touchet River Crossing</span>\n                  <span class=\"pd-check__line\">Raul 2 — West Reach</span>\n                </label>\n              </li>\n              <li class=\"pd-check\">\n                <label class=\"pd-check__label\">\n                  <input type=\"checkbox\" class=\"pd-check__box\" value=\"seg-04\" />\n                  <span class=\"pd-check__name\">Ash Hollow RD to PDX</span>\n                  <span class=\"pd-check__line\">Raul 2 — Central Reach</span>\n                </label>\n              </li>\n              <li class=\"pd-check\">\n                <label class=\"pd-check__label\">\n                  <input type=\"checkbox\" class=\"pd-check__box\" value=\"seg-05\" />\n                  <span class=\"pd-check__name\">US-12 / McNary Refuge</span>\n                  <span class=\"pd-check__line\">Raul 2 — Central Reach</span>\n                </label>\n              </li>\n              <li class=\"pd-check\">\n                <label class=\"pd-check__label\">\n                  <input type=\"checkbox\" class=\"pd-check__box\" value=\"seg-06\" />\n                  <span class=\"pd-check__name\">McNary to Frenchtown</span>\n                  <span class=\"pd-check__line\">Raul 2 — Central Reach</span>\n                </label>\n              </li>\n              <li class=\"pd-check\">\n                <label class=\"pd-check__label\">\n                  <input type=\"checkbox\" class=\"pd-check__box\" value=\"seg-07\" />\n                  <span class=\"pd-check__name\">Frenchtown Shoreline Reach</span>\n                  <span class=\"pd-check__line\">Raul 2 — East Reach</span>\n                </label>\n              </li>\n              <li class=\"pd-check\">\n                <label class=\"pd-check__label\">\n                  <input type=\"checkbox\" class=\"pd-check__box\" value=\"seg-08\" />\n                  <span class=\"pd-check__name\">Frenchtown to Dixie RD</span>\n                  <span class=\"pd-check__line\">Raul 2 — East Reach</span>\n                </label>\n              </li>\n              <li class=\"pd-check\">\n                <label class=\"pd-check__label\">\n                  <input type=\"checkbox\" class=\"pd-check__box\" value=\"seg-09\" />\n                  <span class=\"pd-check__name\">Dixie RD Tie-In</span>\n                  <span class=\"pd-check__line\">Raul 2 — East Reach</span>\n                </label>\n              </li>\n              <li class=\"pd-check\">\n                <label class=\"pd-check__label\">\n                  <input type=\"checkbox\" class=\"pd-check__box\" value=\"seg-10\" />\n                  <span class=\"pd-check__name\">East Terminus / Mill Creek</span>\n                  <span class=\"pd-check__line\">Raul 2 — East Reach</span>\n                </label>\n              </li>\n            </ul>\n          </div>\n        </div>\n        <footer class=\"permit-drawer__footer\">\n          <span id=\"drawer-cancel\" class=\"pd-action\"\n            ><span\n              class=\"esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm\"\n            >\n              <button class=\"esa-button__native\" type=\"button\">\n                <span class=\"esa-button__label\"> Cancel </span>\n              </button>\n            </span>\n          </span>\n          <span id=\"drawer-save\" class=\"pd-action\"\n            ><span\n              class=\"esa-button esa-button--color-primary esa-button--appearance-fill esa-button--sm\"\n            >\n              <button class=\"esa-button__native\" type=\"button\">\n                <span class=\"esa-button__label\"> Save </span>\n              </button>\n            </span>\n          </span>\n        </footer>\n      </aside>\n      <script type=\"application/json\" id=\"drawer-data\">\n        [\n          {\n            \"id\": \"usace-nwp\",\n            \"name\": \"Nationwide Permit (Section 404)\",\n            \"agency\": \"US Army Corps of Engineers\",\n            \"agencyLevel\": \"Federal\",\n            \"type\": \"Section 404\",\n            \"status\": \"issued\",\n            \"submittedDate\": \"2026-03-10\",\n            \"estimatedApprovalDate\": \"2026-08-15\",\n            \"actualApprovalDate\": \"2026-05-28\",\n            \"segmentIds\": [\n              \"seg-01\",\n              \"seg-02\",\n              \"seg-03\",\n              \"seg-04\",\n              \"seg-05\",\n              \"seg-06\",\n              \"seg-07\",\n              \"seg-08\",\n              \"seg-10\"\n            ]\n          },\n          {\n            \"id\": \"usfws-sf299\",\n            \"name\": \"Refuge Right-of-Way (SF-299)\",\n            \"agency\": \"US Fish & Wildlife Service\",\n            \"agencyLevel\": \"Federal\",\n            \"type\": \"Right-of-Way\",\n            \"status\": \"issued\",\n            \"submittedDate\": \"2026-04-02\",\n            \"estimatedApprovalDate\": \"2026-09-30\",\n            \"actualApprovalDate\": \"2026-05-30\",\n            \"segmentIds\": [\"seg-05\"]\n          },\n          {\n            \"id\": \"wsdot-uap\",\n            \"name\": \"Utility Accommodation Permit\",\n            \"agency\": \"WSDOT\",\n            \"agencyLevel\": \"State\",\n            \"type\": \"Utility\",\n            \"status\": \"in-preparation\",\n            \"submittedDate\": \"\",\n            \"estimatedApprovalDate\": \"2026-07-20\",\n            \"actualApprovalDate\": \"\",\n            \"segmentIds\": [\"seg-02\", \"seg-08\"]\n          },\n          {\n            \"id\": \"ecology-401\",\n            \"name\": \"Water Quality Certification (401)\",\n            \"agency\": \"WA Dept. of Ecology\",\n            \"agencyLevel\": \"State\",\n            \"type\": \"401 Certification\",\n            \"status\": \"under-review\",\n            \"submittedDate\": \"2026-03-28\",\n            \"estimatedApprovalDate\": \"2026-08-30\",\n            \"actualApprovalDate\": \"\",\n            \"segmentIds\": [\"seg-03\", \"seg-07\", \"seg-10\"]\n          },\n          {\n            \"id\": \"ecology-stormwater\",\n            \"name\": \"Construction Stormwater (NPDES)\",\n            \"agency\": \"WA Dept. of Ecology\",\n            \"agencyLevel\": \"State\",\n            \"type\": \"NPDES\",\n            \"status\": \"in-preparation\",\n            \"submittedDate\": \"\",\n            \"estimatedApprovalDate\": \"2026-07-15\",\n            \"actualApprovalDate\": \"\",\n            \"segmentIds\": [\"seg-04\", \"seg-08\"]\n          },\n          {\n            \"id\": \"wdfw-hpa\",\n            \"name\": \"Hydraulic Project Approval (HPA)\",\n            \"agency\": \"WA Dept. of Fish & Wildlife\",\n            \"agencyLevel\": \"State\",\n            \"type\": \"HPA\",\n            \"status\": \"under-review\",\n            \"submittedDate\": \"2026-03-18\",\n            \"estimatedApprovalDate\": \"2026-08-10\",\n            \"actualApprovalDate\": \"\",\n            \"segmentIds\": [\"seg-03\", \"seg-10\"]\n          },\n          {\n            \"id\": \"wa-dnr\",\n            \"name\": \"Aquatic Lands Use Authorization\",\n            \"agency\": \"WA Dept. of Natural Resources\",\n            \"agencyLevel\": \"State\",\n            \"type\": \"Aquatic Lands\",\n            \"status\": \"issued\",\n            \"submittedDate\": \"2026-04-10\",\n            \"estimatedApprovalDate\": \"2026-09-15\",\n            \"actualApprovalDate\": \"2026-06-01\",\n            \"segmentIds\": [\n              \"seg-01\",\n              \"seg-02\",\n              \"seg-03\",\n              \"seg-04\",\n              \"seg-05\",\n              \"seg-06\",\n              \"seg-07\",\n              \"seg-08\",\n              \"seg-09\",\n              \"seg-10\"\n            ]\n          },\n          {\n            \"id\": \"sepa-walla-walla\",\n            \"name\": \"SEPA Environmental Review\",\n            \"agency\": \"Walla Walla County (Lead Agency)\",\n            \"agencyLevel\": \"Local\",\n            \"type\": \"SEPA\",\n            \"status\": \"issued\",\n            \"submittedDate\": \"2026-01-15\",\n            \"estimatedApprovalDate\": \"2026-04-30\",\n            \"actualApprovalDate\": \"2026-04-22\",\n            \"segmentIds\": [\n              \"seg-01\",\n              \"seg-02\",\n              \"seg-03\",\n              \"seg-04\",\n              \"seg-05\",\n              \"seg-06\",\n              \"seg-07\",\n              \"seg-08\",\n              \"seg-09\",\n              \"seg-10\"\n            ]\n          },\n          {\n            \"id\": \"ww-county-row\",\n            \"name\": \"County Right-of-Way Permit\",\n            \"agency\": \"Walla Walla County Public Works\",\n            \"agencyLevel\": \"Local\",\n            \"type\": \"Right-of-Way\",\n            \"status\": \"issued\",\n            \"submittedDate\": \"2026-03-05\",\n            \"estimatedApprovalDate\": \"2026-07-25\",\n            \"actualApprovalDate\": \"2026-06-02\",\n            \"segmentIds\": [\"seg-01\", \"seg-06\"]\n          },\n          {\n            \"id\": \"franchise\",\n            \"name\": \"Franchise Agreement\",\n            \"agency\": \"Walla Walla County\",\n            \"agencyLevel\": \"Local\",\n            \"type\": \"Franchise\",\n            \"status\": \"not-started\",\n            \"submittedDate\": \"\",\n            \"estimatedApprovalDate\": \"2026-10-15\",\n            \"actualApprovalDate\": \"\",\n            \"segmentIds\": [\"seg-09\"]\n          },\n          {\n            \"id\": \"shoreline-ssd\",\n            \"name\": \"Shoreline Substantial Development / CUP\",\n            \"agency\": \"Walla Walla County\",\n            \"agencyLevel\": \"Local\",\n            \"type\": \"Shoreline\",\n            \"status\": \"submitted\",\n            \"submittedDate\": \"2026-04-05\",\n            \"estimatedApprovalDate\": \"2026-09-05\",\n            \"actualApprovalDate\": \"\",\n            \"segmentIds\": [\"seg-07\"]\n          }\n        ]\n      </script>\n    </div>\n  </div>\n</div>\n",
+      "css": ".pt-toolbar {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: var(--spacing-400);\n  flex-wrap: wrap;\n  margin-bottom: var(--spacing-400);\n}\n.pt-pivot {\n  display: inline-flex;\n  padding: var(--spacing-050);\n  background: var(--bcn-gray-100);\n  border-radius: var(--radius-300);\n}\n.pt-pivot__btn {\n  padding: var(--spacing-150) var(--spacing-400);\n  font-size: var(--type-size-100);\n  font-weight: var(--font-weight-semibold);\n  color: var(--color-text-secondary);\n  border-radius: var(--radius-200);\n  transition:\n    background 0.15s ease,\n    color 0.15s ease;\n}\n.pt-pivot__btn.is-active {\n  background: var(--color-surface);\n  color: var(--color-primary);\n  box-shadow: var(--shadow-100, 0 1px 2px rgba(0, 0, 0, 0.08));\n}\n.pt-filters {\n  display: flex;\n  align-items: center;\n  gap: var(--filter-container-gap);\n  flex-wrap: wrap;\n}\n.pt-filter-label {\n  font-size: var(--type-size-100);\n  font-weight: var(--font-weight-semibold);\n  color: var(--color-text-tertiary);\n}\n.pt-pill {\n  display: inline-flex;\n  align-items: center;\n  gap: var(--spacing-100);\n  padding: var(--filter-pill-padding);\n  background: var(--filter-pill-bg);\n  color: var(--filter-pill-text);\n  border-radius: var(--filter-pill-radius);\n  font-size: var(--filter-pill-font-size);\n  font-weight: var(--font-weight-medium);\n}\n.pt-pill__x {\n  display: inline-flex;\n  align-items: center;\n  color: var(--filter-pill-remove-color);\n  transition: color 0.15s ease;\n}\n.pt-filter-clear {\n  font-size: var(--type-size-100);\n  color: var(--filter-clear-color);\n  transition: color 0.15s ease;\n}\n.grid-wrap {\n  border: var(--grid-header-border);\n  border-radius: var(--grid-radius);\n  overflow: hidden;\n  background: var(--grid-row-bg);\n}\n.grid {\n  width: 100%;\n  border-collapse: collapse;\n  font-size: var(--grid-row-font-size);\n}\n.grid__th {\n  text-align: left;\n  padding: var(--grid-cell-padding);\n  background: var(--grid-header-bg);\n  color: var(--grid-header-color);\n  font-weight: var(--grid-header-weight);\n  font-size: var(--grid-header-font-size);\n  border-bottom: var(--grid-header-border);\n  white-space: nowrap;\n}\n.grid__th--sortable {\n  cursor: pointer;\n  user-select: none;\n}\n.grid__th--sortable .esa-icon {\n  display: inline-flex;\n  vertical-align: middle;\n  margin-left: var(--spacing-100);\n  color: var(--color-text-tertiary);\n}\n.grid__th--num {\n  text-align: right;\n}\n.grid__row {\n  cursor: pointer;\n  transition: background 0.12s ease;\n}\n.grid__td {\n  padding: var(--grid-cell-padding);\n  border-bottom: var(--grid-row-border);\n  color: var(--color-text-primary);\n  vertical-align: middle;\n}\n.grid__td--name {\n  font-weight: var(--font-weight-semibold);\n}\n.esa-badge {\n  --_badge-bg: var(--color-primary, #005862);\n  --_badge-text: var(--color-text-inverse, #fff);\n  --_badge-height: 20px;\n  --_badge-font-size: 11px;\n  --_badge-padding-x: 6px;\n  --_badge-min-width: 20px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  height: var(--_badge-height);\n  min-width: var(--_badge-min-width);\n  padding-inline: var(--_badge-padding-x);\n  border-radius: var(--radius-full, 9999px);\n  background: var(--_badge-bg);\n  color: var(--_badge-text);\n  font-size: var(--_badge-font-size);\n  font-weight: 600;\n  line-height: 1;\n  white-space: nowrap;\n  box-sizing: border-box;\n}\n.esa-badge--sm {\n  --_badge-height: 16px;\n  --_badge-font-size: 10px;\n  --_badge-padding-x: 4px;\n  --_badge-min-width: 16px;\n}\n.grid__td--muted {\n  color: var(--color-text-secondary);\n}\n.status-chip {\n  display: inline-flex;\n  align-items: center;\n  gap: var(--spacing-150);\n  padding: 2px var(--spacing-250);\n  border-radius: var(--radius-full);\n  font-size: var(--type-size-100);\n  font-weight: var(--font-weight-semibold);\n  white-space: nowrap;\n  background: color-mix(in srgb, var(--_chip) 16%, transparent);\n  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);\n}\n.status-chip__dot {\n  width: 8px;\n  height: 8px;\n  border-radius: var(--radius-full);\n  background: var(--_chip);\n  flex-shrink: 0;\n}\n.grid__td--num {\n  text-align: right;\n  font-variant-numeric: tabular-nums;\n  color: var(--color-text-secondary);\n}\n.esa-badge--info {\n  --_badge-bg: var(--color-info, #3b82f6);\n}\n.esa-badge--secondary {\n  --_badge-bg: var(--color-secondary, #0d9488);\n}\n.grid__row:last-child .grid__td {\n  border-bottom: 0;\n}\n.drawer-backdrop {\n  position: fixed;\n  inset: 0;\n  z-index: 1300;\n  background: #00000073;\n  backdrop-filter: blur(2px);\n  opacity: 0;\n  transition: opacity 0.28s cubic-bezier(0.32, 0.72, 0, 1);\n}\n.drawer-backdrop[hidden] {\n  display: none;\n}\n.permit-drawer {\n  position: fixed;\n  top: var(--spacing-400);\n  right: var(--spacing-400);\n  bottom: var(--spacing-400);\n  height: calc(100vh - var(--spacing-400) * 2);\n  width: 480px;\n  max-width: 90vw;\n  z-index: 1400;\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  background: var(--color-surface);\n  border-radius: var(--radius-400);\n  box-shadow: var(--shadow-400);\n  transform: translate(calc(100% + var(--spacing-400)));\n  transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);\n}\n.permit-drawer[hidden] {\n  display: none;\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-medium, 20px);\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  line-height: 1;\n  color: inherit;\n}\n.esa-icon svg {\n  display: block;\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n}\n.page-layout {\n  display: flex;\n  flex-direction: column;\n  min-height: calc(100vh - 15rem);\n  padding: var(--spacing-600);\n  background: var(--bcn-gray-50);\n  box-sizing: border-box;\n}\n.page-layout__container {\n  display: flex;\n  flex-direction: column;\n}\n.page-layout section {\n  width: 100%;\n}\n.breadcrumbs {\n  padding: var(--spacing-400) 0;\n}\n.breadcrumbs__items {\n  display: flex;\n  gap: var(--spacing-100);\n  align-items: center;\n  flex-wrap: wrap;\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.breadcrumb-item {\n  color: var(--bcn-gray-600);\n  text-transform: capitalize;\n  font-size: 0.875rem;\n}\na.breadcrumb-item {\n  text-decoration: none;\n}\n.page-layout__title {\n  border-bottom: 1px solid var(--bcn-gray-200);\n  padding: var(--spacing-500) 0;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  box-sizing: border-box;\n}\n.page-layout__title-main {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-200);\n  min-width: 0;\n}\n.page-layout__title h1 {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-200);\n  font-family: var(--font-decorative);\n  font-weight: var(--font-weight-bold);\n  font-size: var(--type-size-500);\n  margin: 0;\n  color: var(--bcn-gray-1000);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--bcn-gray-1000);\n  flex-shrink: 0;\n}\n.page-layout__utilities {\n  display: flex;\n  gap: var(--spacing-200);\n}\n.page-layout__content {\n  padding: var(--spacing-500) 0;\n  min-height: 70vh;\n  position: relative;\n}\n.esa-button {\n  --_btn-height: var(--form-height-md, 40px);\n  --_btn-padding-x: var(--form-padding-x-md, 16px);\n  --_btn-font-size: var(--form-font-size-md, 14px);\n  --_btn-radius: var(--form-radius-md, 6px);\n  --_accent: var(--color-primary, #005862);\n  --_accent-hover: var(--color-primary-hover, #004752);\n  --_on: var(--color-text-inverse, #ffffff);\n  display: inline-block;\n}\n.esa-button--sm {\n  --_btn-height: var(--form-height-sm, 32px);\n  --_btn-padding-x: var(--form-padding-x-sm, 12px);\n  --_btn-font-size: var(--form-font-size-sm, 12px);\n  --_btn-radius: var(--form-radius-sm, 4px);\n}\n.esa-button__native {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: var(--spacing-200, 8px);\n  width: 100%;\n  height: var(--_btn-height);\n  padding-inline: var(--_btn-padding-x);\n  border: 1px solid transparent;\n  border-radius: var(--_btn-radius);\n  font-size: var(--_btn-font-size);\n  font-family: var(--font-sans, system-ui, sans-serif);\n  font-weight: var(--font-weight-medium, 500);\n  line-height: 1;\n  cursor: pointer;\n  transition:\n    background var(--transition-fast, 0.15s ease),\n    border-color var(--transition-fast, 0.15s ease);\n  -webkit-appearance: none;\n  appearance: none;\n}\n.esa-button--appearance-fill .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: transparent;\n}\n.esa-button__label {\n  white-space: nowrap;\n}\n.modern-layout {\n  display: flex;\n  flex-direction: column;\n  height: 100vh;\n}\n.topbar {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 52px;\n  background: var(--bcn-gray-100);\n  border-bottom: 1px solid var(--bcn-gray-300);\n  z-index: 1100;\n  display: grid;\n  grid-template-columns: auto 1fr auto;\n  align-items: center;\n  padding: 0 var(--spacing-200);\n}\n.topbar {\n  padding: 0 var(--spacing-400);\n}\n.topbar__left {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-200);\n}\n.sidebar-toggle {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 32px;\n  height: 32px;\n  padding: 0;\n  border: none;\n  border-radius: var(--spacing-050);\n  background: transparent;\n  color: var(--bcn-gray-600);\n  cursor: pointer;\n  transition:\n    background 0.15s ease,\n    color 0.15s ease;\n}\n.sidebar-toggle__icon {\n  transition: transform 0.15s ease;\n}\n.tenant-trigger {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-100);\n  padding: var(--spacing-100) var(--spacing-200);\n  background: transparent;\n  border: none;\n  border-radius: var(--spacing-050);\n  font-size: 0.875rem;\n  font-weight: 600;\n  color: var(--bcn-gray-900);\n  cursor: pointer;\n  transition: background 0.15s ease;\n}\n.topbar__center {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-400);\n  padding: 0 var(--spacing-400);\n}\n.topbar__right {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: var(--spacing-100);\n}\n.qa-warning {\n  display: inline-flex;\n  align-items: center;\n  gap: var(--spacing-100);\n  padding: var(--spacing-050) var(--spacing-200);\n  font-size: 0.75rem;\n  font-weight: 600;\n  background: var(--color-accent);\n  color: var(--color-surface);\n  border-radius: var(--spacing-100);\n  white-space: nowrap;\n}\n.icon-button {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 32px;\n  height: 32px;\n  padding: 0;\n  border: none;\n  border-radius: var(--spacing-050);\n  background: transparent;\n  color: var(--bcn-gray-600);\n  text-decoration: none;\n  cursor: pointer;\n  transition:\n    background 0.15s ease,\n    color 0.15s ease;\n}\n.user-menu {\n  position: relative;\n}\n.user-menu-trigger {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 44px;\n  height: 44px;\n  padding: 0;\n  border: none;\n  border-radius: 9999px;\n  background: transparent;\n  cursor: pointer;\n  transition: transform 0.15s ease;\n}\n.user-menu-trigger__avatar {\n  width: 32px;\n  height: 32px;\n  border-radius: 9999px;\n  object-fit: cover;\n  border: 2px solid var(--bcn-gray-200);\n  transition: border-color 0.15s ease;\n}\n.user-menu-trigger__avatar--fallback {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: var(--bcn-gray-200);\n  color: var(--bcn-gray-500);\n}\n.user-panel {\n  position: absolute;\n  top: calc(100% + var(--spacing-200));\n  right: 0;\n  min-width: 280px;\n  background: var(--color-surface);\n  border-radius: var(--spacing-200);\n  border: 1px solid var(--bcn-gray-200);\n  box-shadow: 0 4px 24px #0000001f;\n  z-index: 1200;\n}\n.user-panel[hidden] {\n  display: none;\n}\n.modern-layout__body {\n  display: flex;\n  flex: 1;\n  overflow: hidden;\n  padding-top: 52px;\n}\n.side-nav {\n  width: 280px;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  background-color: var(--bcn-gray-50);\n  font-size: 0.875rem;\n  overflow: visible;\n  transition: width 0.2s ease-in-out;\n  border-right: 1px solid var(--bcn-gray-200);\n  flex-shrink: 0;\n}\n.sidebar-header {\n  flex-shrink: 0;\n  padding: var(--spacing-300) var(--spacing-400);\n  transition: padding 0.2s ease-in-out;\n}\n.site-logo {\n  display: inline-flex;\n  align-items: center;\n  padding: var(--spacing-200);\n  border-radius: var(--spacing-050);\n  text-decoration: none;\n  transition: background 0.15s ease;\n}\n.site-logo__img {\n  width: var(--spacing-700);\n  height: 3.75rem;\n  object-fit: contain;\n  object-position: left center;\n  transition: all 0.2s ease-in-out;\n}\n.project-switcher-container {\n  flex-shrink: 0;\n  padding: 0 var(--spacing-400) var(--spacing-300);\n  transition: padding 0.2s ease-in-out;\n  min-width: 0;\n}\n.project-switcher__trigger {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-200);\n  width: 100%;\n  min-width: 0;\n  box-sizing: border-box;\n  padding: var(--spacing-200) var(--spacing-300);\n  background: var(--color-surface);\n  border: 1px solid var(--bcn-gray-200);\n  border-radius: var(--spacing-200);\n  cursor: pointer;\n  transition: all 0.15s ease;\n  color: var(--bcn-gray-950);\n  font-size: 0.875rem;\n  font-weight: 500;\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  flex-shrink: 0;\n  color: var(--bcn-gray-500);\n}\n.project-switcher__name {\n  flex: 1;\n  min-width: 0;\n  text-align: left;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.main-nav {\n  flex: 1;\n  overflow-y: auto;\n  overflow-x: visible;\n  padding: 0 var(--spacing-400);\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-050);\n  transition: padding 0.2s ease-in-out;\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n}\n.nav-section {\n  display: flex;\n  flex-direction: column;\n  position: relative;\n}\n.nav-section__header {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-300);\n  padding: var(--spacing-250) var(--spacing-200);\n  color: var(--bcn-gray-950);\n  font-size: 0.9375rem;\n  font-weight: 550;\n  border: none;\n  background: transparent;\n  border-radius: var(--spacing-050);\n  transition: all 0.15s ease;\n  white-space: nowrap;\n  width: 100%;\n  text-align: left;\n  cursor: pointer;\n  text-decoration: none;\n}\n.nav-section__header--link {\n  text-decoration: none;\n  color: var(--bcn-gray-950);\n}\n.nav-section__header > .esa-icon:first-child {\n  flex-shrink: 0;\n  color: var(--bcn-gray-950);\n  transition: color 0.15s ease;\n}\n.nav-section__title {\n  flex: 1;\n  overflow: hidden;\n  transition: opacity 0.2s ease-in-out;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  transition:\n    transform 0.15s ease,\n    opacity 0.2s ease-in-out;\n  flex-shrink: 0;\n}\n.nav-section__items {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  max-height: 500px;\n  opacity: 1;\n  transition:\n    max-height 0.2s ease-in-out,\n    opacity 0.2s ease-in-out;\n}\n.nav-item {\n  padding: 0 0 0 2.5rem;\n}\n.nav-sublink {\n  display: block;\n  padding: var(--spacing-200);\n  color: var(--bcn-gray-950);\n  text-decoration: none;\n  border-radius: var(--spacing-050);\n  font-size: 0.8125rem;\n  transition: all 0.15s ease;\n  line-height: 1.2;\n}\n.nav-sublink.active {\n  background: #0000000a;\n  color: var(--color-primary);\n}\n.nav-item + .nav-item {\n  margin-top: var(--spacing-050);\n}\n.nav-divider {\n  flex-shrink: 0;\n  height: 1px;\n  margin: var(--spacing-200) 0;\n  border: 0;\n  background: var(--bcn-gray-200);\n}\n.modern-layout__content {\n  flex: 1;\n  overflow-y: auto;\n  min-width: 0;\n}\n",
+      "tokens": [
+        {
+          "name": "--bcn-gray-100",
+          "value": "#efefef",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-1000",
+          "value": "#000000",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-200",
+          "value": "#dcdcdc",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-300",
+          "value": "#bdbdbd",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-400",
+          "value": "#989898",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-50",
+          "value": "#fafafa",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-500",
+          "value": "#7c7c7c",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-600",
+          "value": "#656565",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-900",
+          "value": "#3d3d3d",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-950",
+          "value": "#292929",
+          "tier": "component"
+        },
+        {
+          "name": "--color-accent",
+          "value": "#f9a134",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-info",
+          "value": "#228be6",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-primary",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-primary-hover",
+          "value": "#00474f",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-secondary",
+          "value": "#00918b",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-surface",
+          "value": "#ffffff",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-inverse",
+          "value": "#ffffff",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-primary",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-secondary",
+          "value": "#525252",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-tertiary",
+          "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--filter-clear-color",
+          "value": "#7c7c7c",
+          "tier": "component"
+        },
+        {
+          "name": "--filter-container-gap",
+          "value": ".5rem",
+          "tier": "component"
+        },
+        {
+          "name": "--filter-pill-bg",
+          "value": "color-mix(in srgb, #005862 8%, transparent)",
+          "tier": "component"
+        },
+        {
+          "name": "--filter-pill-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "component"
+        },
+        {
+          "name": "--filter-pill-padding",
+          "value": ".25rem .625rem",
+          "tier": "component"
+        },
+        {
+          "name": "--filter-pill-radius",
+          "value": "9999px",
+          "tier": "component"
+        },
+        {
+          "name": "--filter-pill-remove-color",
+          "value": "#7c7c7c",
+          "tier": "component"
+        },
+        {
+          "name": "--filter-pill-text",
+          "value": "#005862",
+          "tier": "component"
+        },
+        {
+          "name": "--font-decorative",
+          "value": "\"Besley\", serif",
+          "tier": "component"
+        },
+        {
+          "name": "--font-sans",
+          "value": "\"DM Sans\", sans-serif",
+          "tier": "primitive"
+        },
+        {
+          "name": "--font-weight-bold",
+          "value": "650",
+          "tier": "primitive"
+        },
+        {
+          "name": "--font-weight-medium",
+          "value": "450",
+          "tier": "primitive"
+        },
+        {
+          "name": "--font-weight-semibold",
+          "value": "550",
+          "tier": "primitive"
+        },
+        {
+          "name": "--form-font-size-md",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "component"
+        },
+        {
+          "name": "--form-font-size-sm",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "component"
+        },
+        {
+          "name": "--form-height-md",
+          "value": "36px",
+          "tier": "component"
+        },
+        {
+          "name": "--form-height-sm",
+          "value": "28px",
+          "tier": "component"
+        },
+        {
+          "name": "--form-padding-x-md",
+          "value": ".75rem",
+          "tier": "component"
+        },
+        {
+          "name": "--form-padding-x-sm",
+          "value": ".625rem",
+          "tier": "component"
+        },
+        {
+          "name": "--form-radius-md",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--form-radius-sm",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--grid-cell-padding",
+          "value": ".5rem .75rem",
+          "tier": "component"
+        },
+        {
+          "name": "--grid-header-bg",
+          "value": "#fafafa",
+          "tier": "component"
+        },
+        {
+          "name": "--grid-header-border",
+          "value": "1px solid #dcdcdc",
+          "tier": "component"
+        },
+        {
+          "name": "--grid-header-color",
+          "value": "#3d3d3d",
+          "tier": "component"
+        },
+        {
+          "name": "--grid-header-font-size",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "component"
+        },
+        {
+          "name": "--grid-header-weight",
+          "value": "550",
+          "tier": "component"
+        },
+        {
+          "name": "--grid-radius",
+          "value": ".5rem",
+          "tier": "component"
+        },
+        {
+          "name": "--grid-row-bg",
+          "value": "#ffffff",
+          "tier": "component"
+        },
+        {
+          "name": "--grid-row-border",
+          "value": "1px solid #efefef",
+          "tier": "component"
+        },
+        {
+          "name": "--grid-row-font-size",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "component"
+        },
+        {
+          "name": "--radius-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-300",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-400",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-full",
+          "value": "9999px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--shadow-100",
+          "value": "0 2px 12px 0 rgba(0, 0, 0, .04)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--shadow-400",
+          "value": "0 8px 32px -8px rgba(0, 0, 0, .08)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-050",
+          "value": ".125rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-100",
+          "value": ".25rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-150",
+          "value": ".375rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-250",
+          "value": ".625rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-300",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-400",
+          "value": "1rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-500",
+          "value": "1.5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-600",
+          "value": "2rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-700",
+          "value": "3rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--transition-fast",
+          "value": ".15s ease",
+          "tier": "primitive"
+        },
+        {
+          "name": "--type-size-100",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--type-size-500",
+          "value": "clamp(1.125rem, .98rem + .72vw, 1.5rem)",
+          "tier": "primitive"
+        }
+      ],
+      "claudePath": "claude/permit-tracking.md",
+      "repoPath": "public/handoff/permit-tracking/claude/permit-tracking.md"
+    }
+  ],
+  "full": {
+    "label": "Full page",
+    "html": "<div class=\"modern-layout\">\n  <!-- ═══ TOPBAR (header-nav-modern) ═══ -->\n  <header class=\"topbar\">\n    <!-- Left: sidebar toggle + tenant trigger -->\n    <div class=\"topbar__left\">\n      <button\n        type=\"button\"\n        class=\"sidebar-toggle\"\n        id=\"sidebar-toggle\"\n        aria-label=\"Collapse sidebar\"\n        aria-expanded=\"true\"\n      >\n        <svg\n          xmlns=\"http://www.w3.org/2000/svg\"\n          width=\"20\"\n          height=\"20\"\n          viewBox=\"0 0 24 24\"\n          fill=\"none\"\n          stroke=\"currentColor\"\n          stroke-width=\"1.5\"\n          stroke-linecap=\"round\"\n          stroke-linejoin=\"round\"\n          class=\"sidebar-toggle__icon\"\n        >\n          <rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\"></rect>\n          <path d=\"M9 3v18\"></path>\n        </svg>\n      </button>\n      <button type=\"button\" class=\"tenant-trigger\">\n        <span>AWS</span>\n        <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\">\n          <svg\n            width=\"14\"\n            height=\"14\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            focusable=\"false\"\n          >\n            <path d=\"m6 9 6 6 6-6\"></path>\n          </svg>\n        </span>\n      </button>\n    </div>\n    <!-- Center: spacer (1fr) -->\n    <div class=\"topbar__center\"></div>\n    <!-- Right: QA badge, search, config/admin icon-buttons, user menu -->\n    <div class=\"topbar__right\">\n      <span class=\"qa-warning\">\n        <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n          <svg\n            width=\"16\"\n            height=\"16\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            focusable=\"false\"\n          >\n            <path\n              d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\"\n            ></path>\n            <path d=\"M12 9v4\"></path>\n            <path d=\"M12 17h.01\"></path>\n          </svg>\n        </span>\n        QA\n      </span>\n      <button type=\"button\" class=\"icon-button\" aria-label=\"Search\">\n        <span class=\"esa-icon esa-icon--md\" aria-hidden=\"true\">\n          <svg\n            width=\"20\"\n            height=\"20\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            focusable=\"false\"\n          >\n            <circle cx=\"11\" cy=\"11\" r=\"8\"></circle>\n            <path d=\"m21 21-4.3-4.3\"></path>\n          </svg>\n        </span>\n      </button>\n      <a href=\"#esa-config\" class=\"icon-button\" aria-label=\"ESA-Config\">\n        <span class=\"esa-icon esa-icon--md\" aria-hidden=\"true\">\n          <svg\n            width=\"20\"\n            height=\"20\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            focusable=\"false\"\n          >\n            <line x1=\"21\" x2=\"14\" y1=\"4\" y2=\"4\"></line>\n            <line x1=\"10\" x2=\"3\" y1=\"4\" y2=\"4\"></line>\n            <line x1=\"21\" x2=\"12\" y1=\"12\" y2=\"12\"></line>\n            <line x1=\"8\" x2=\"3\" y1=\"12\" y2=\"12\"></line>\n            <line x1=\"21\" x2=\"16\" y1=\"20\" y2=\"20\"></line>\n            <line x1=\"12\" x2=\"3\" y1=\"20\" y2=\"20\"></line>\n            <line x1=\"14\" x2=\"14\" y1=\"2\" y2=\"6\"></line>\n            <line x1=\"8\" x2=\"8\" y1=\"10\" y2=\"14\"></line>\n            <line x1=\"16\" x2=\"16\" y1=\"18\" y2=\"22\"></line>\n          </svg>\n        </span>\n      </a>\n      <a href=\"#admin\" class=\"icon-button\" aria-label=\"Admin settings\">\n        <span class=\"esa-icon esa-icon--md\" aria-hidden=\"true\">\n          <svg\n            width=\"20\"\n            height=\"20\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            focusable=\"false\"\n          >\n            <path\n              d=\"M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z\"\n            ></path>\n            <circle cx=\"12\" cy=\"12\" r=\"3\"></circle>\n          </svg>\n        </span>\n      </a>\n      <div class=\"user-menu\" id=\"user-menu\">\n        <button\n          type=\"button\"\n          class=\"user-menu-trigger\"\n          id=\"user-menu-trigger\"\n          aria-label=\"User menu\"\n          aria-expanded=\"false\"\n        >\n          <span class=\"user-menu-trigger__avatar user-menu-trigger__avatar--fallback\">\n            <span class=\"esa-icon esa-icon--md\" aria-hidden=\"true\">\n              <svg\n                width=\"20\"\n                height=\"20\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path d=\"M18 20a6 6 0 0 0-12 0\"></path>\n                <circle cx=\"12\" cy=\"10\" r=\"4\"></circle>\n                <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n              </svg>\n            </span>\n          </span>\n        </button>\n        <div class=\"user-panel\" id=\"user-panel\" hidden=\"\">\n          <div class=\"user-panel__header\">\n            <div class=\"user-panel__avatar-wrapper\">\n              <span class=\"user-panel__avatar user-panel__avatar--fallback\">\n                <span class=\"esa-icon esa-icon--lg\" aria-hidden=\"true\">\n                  <svg\n                    width=\"24\"\n                    height=\"24\"\n                    viewBox=\"0 0 24 24\"\n                    fill=\"none\"\n                    stroke=\"currentColor\"\n                    stroke-width=\"2\"\n                    stroke-linecap=\"round\"\n                    stroke-linejoin=\"round\"\n                    focusable=\"false\"\n                  >\n                    <path d=\"M18 20a6 6 0 0 0-12 0\"></path>\n                    <circle cx=\"12\" cy=\"10\" r=\"4\"></circle>\n                    <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n                  </svg>\n                </span>\n              </span>\n            </div>\n            <div class=\"user-panel__info\">\n              <span class=\"user-panel__name\">Andy Lovseth</span>\n              <span class=\"user-panel__email\">andy.lovseth@esassoc.com</span>\n            </div>\n          </div>\n          <div class=\"user-panel__menu\">\n            <button type=\"button\" class=\"user-panel__item\">\n              <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n                <svg\n                  width=\"16\"\n                  height=\"16\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                >\n                  <path\n                    d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\"\n                  ></path>\n                  <path d=\"m15 5 4 4\"></path>\n                </svg>\n              </span>\n              <span>Edit Profile</span>\n            </button>\n            <a class=\"user-panel__item\" href=\"#help\">\n              <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n                <svg\n                  width=\"16\"\n                  height=\"16\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                >\n                  <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n                  <path d=\"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3\"></path>\n                  <path d=\"M12 17h.01\"></path>\n                </svg>\n              </span>\n              <span>Get Help</span>\n            </a>\n            <button type=\"button\" class=\"user-panel__item user-panel__item--danger\">\n              <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n                <svg\n                  width=\"16\"\n                  height=\"16\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                >\n                  <path d=\"M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4\"></path>\n                  <polyline points=\"16 17 21 12 16 7\"></polyline>\n                  <line x1=\"21\" x2=\"9\" y1=\"12\" y2=\"12\"></line>\n                </svg>\n              </span>\n              <span>Sign Out</span>\n            </button>\n          </div>\n        </div>\n      </div>\n    </div>\n  </header>\n  <!-- ═══ BODY (sidenav + content) ═══ -->\n  <div class=\"modern-layout__body\">\n    <!-- ─── side-nav-modern ─── -->\n    <nav class=\"side-nav\" id=\"side-nav\">\n      <div class=\"sidebar-header\">\n        <a href=\"#home\" class=\"site-logo\" aria-label=\"Beacon home\">\n          <img src=\"/beacon-design/beacon-icon.svg\" alt=\"Beacon\" class=\"site-logo__img\" />\n        </a>\n      </div>\n      <!-- project-switcher (ported from project-switcher.component) -->\n      <div class=\"project-switcher-container\">\n        <button type=\"button\" class=\"project-switcher__trigger\">\n          <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n            <svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"m15 12-8.373 8.373a1 1 0 1 1-3-3L12 9\"></path>\n              <path d=\"m18 15 4-4\"></path>\n              <path\n                d=\"m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172V7l-2.26-2.26a6 6 0 0 0-4.202-1.756L9 2.96l.92.82A6.18 6.18 0 0 1 12 8.4V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5\"\n              ></path>\n            </svg>\n          </span>\n          <span class=\"project-switcher__name\">Raul</span>\n          <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n            <svg\n              width=\"16\"\n              height=\"16\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <path d=\"m6 9 6 6 6-6\"></path>\n            </svg>\n          </span>\n        </button>\n      </div>\n      <div class=\"main-nav\">\n        <div class=\"nav-section\">\n          <a href=\"#setup-wizard\" class=\"nav-section__header nav-section__header--link\">\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path\n                  d=\"m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z\"\n                ></path>\n                <circle cx=\"12\" cy=\"12\" r=\"10\"></circle>\n              </svg>\n            </span>\n            <span class=\"nav-section__title\">Setup Wizard</span>\n          </a>\n        </div>\n        <div class=\"nav-section\">\n          <button type=\"button\" class=\"nav-section__header\" aria-expanded=\"true\">\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <rect width=\"7\" height=\"9\" x=\"3\" y=\"3\" rx=\"1\"></rect>\n                <rect width=\"7\" height=\"5\" x=\"14\" y=\"3\" rx=\"1\"></rect>\n                <rect width=\"7\" height=\"9\" x=\"14\" y=\"12\" rx=\"1\"></rect>\n                <rect width=\"7\" height=\"5\" x=\"3\" y=\"16\" rx=\"1\"></rect>\n              </svg>\n            </span>\n            <span class=\"nav-section__title\">Project</span>\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path d=\"m6 9 6 6 6-6\"></path>\n              </svg>\n            </span>\n          </button>\n          <ul class=\"nav-section__items\">\n            <li class=\"nav-item\">\n              <a href=\"#dashboard\" class=\"nav-sublink active\"> Dashboard </a>\n            </li>\n            <li class=\"nav-item\">\n              <a href=\"#source-documents\" class=\"nav-sublink\"> Source Documents </a>\n            </li>\n            <li class=\"nav-item\"><a href=\"#commitments\" class=\"nav-sublink\"> Commitments </a></li>\n            <li class=\"nav-item\"><a href=\"#requirements\" class=\"nav-sublink\"> Requirements </a></li>\n            <li class=\"nav-item\">\n              <a href=\"#organize-actions\" class=\"nav-sublink\"> Organize Actions </a>\n            </li>\n            <li class=\"nav-item\"><a href=\"#action-lists\" class=\"nav-sublink\"> Action Lists </a></li>\n            <li class=\"nav-item\">\n              <a href=\"#document-reviews\" class=\"nav-sublink\"> Document Reviews </a>\n            </li>\n            <li class=\"nav-item\">\n              <a href=\"#spatial-library-layers\" class=\"nav-sublink\"> Spatial Library Layers </a>\n            </li>\n          </ul>\n        </div>\n        <hr class=\"nav-divider\" aria-hidden=\"true\" />\n        <div class=\"nav-section\">\n          <button type=\"button\" class=\"nav-section__header\" aria-expanded=\"true\">\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path d=\"M19.07 4.93A10 10 0 0 0 6.99 3.34\"></path>\n                <path d=\"M4 6h.01\"></path>\n                <path d=\"M2.29 9.62A10 10 0 1 0 21.31 8.35\"></path>\n                <path d=\"M16.24 7.76A6 6 0 1 0 8.23 16.67\"></path>\n                <path d=\"M12 18h.01\"></path>\n                <path d=\"M17.99 11.66A6 6 0 0 1 15.77 16.67\"></path>\n                <circle cx=\"12\" cy=\"12\" r=\"2\"></circle>\n                <path d=\"m13.41 10.59 5.66-5.66\"></path>\n              </svg>\n            </span>\n            <span class=\"nav-section__title\">Tracking</span>\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path d=\"m6 9 6 6 6-6\"></path>\n              </svg>\n            </span>\n          </button>\n          <ul class=\"nav-section__items\">\n            <li class=\"nav-item\">\n              <a href=\"#tracking-summary\" class=\"nav-sublink\"> Tracking Summary </a>\n            </li>\n            <li class=\"nav-item\">\n              <a href=\"#project-tracking\" class=\"nav-sublink\"> Project Tracking </a>\n            </li>\n            <li class=\"nav-item\">\n              <a href=\"#all-components\" class=\"nav-sublink\"> All Components </a>\n            </li>\n          </ul>\n        </div>\n        <div class=\"nav-section\">\n          <button type=\"button\" class=\"nav-section__header\" aria-expanded=\"true\">\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path\n                  d=\"M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0\"\n                ></path>\n                <circle cx=\"12\" cy=\"8\" r=\"2\"></circle>\n                <path\n                  d=\"M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712\"\n                ></path>\n              </svg>\n            </span>\n            <span class=\"nav-section__title\">Monitoring</span>\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path d=\"m6 9 6 6 6-6\"></path>\n              </svg>\n            </span>\n          </button>\n          <ul class=\"nav-section__items\">\n            <li class=\"nav-item\">\n              <a href=\"#monitoring-portal\" class=\"nav-sublink\"> Monitoring Portal </a>\n            </li>\n          </ul>\n        </div>\n        <div class=\"nav-section\">\n          <button type=\"button\" class=\"nav-section__header\" aria-expanded=\"true\">\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <rect width=\"8\" height=\"4\" x=\"8\" y=\"2\" rx=\"1\" ry=\"1\"></rect>\n                <path\n                  d=\"M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2\"\n                ></path>\n                <path d=\"M12 11h4\"></path>\n                <path d=\"M12 16h4\"></path>\n                <path d=\"M8 11h.01\"></path>\n                <path d=\"M8 16h.01\"></path>\n              </svg>\n            </span>\n            <span class=\"nav-section__title\">Reporting</span>\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path d=\"m6 9 6 6 6-6\"></path>\n              </svg>\n            </span>\n          </button>\n          <ul class=\"nav-section__items\">\n            <li class=\"nav-item\">\n              <a href=\"#progress-report\" class=\"nav-sublink\"> Progress Report </a>\n            </li>\n            <li class=\"nav-item\">\n              <a href=\"#report-center\" class=\"nav-sublink\"> Report Center </a>\n            </li>\n          </ul>\n        </div>\n        <hr class=\"nav-divider\" aria-hidden=\"true\" />\n        <div class=\"nav-section\">\n          <button type=\"button\" class=\"nav-section__header\" aria-expanded=\"true\">\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <ellipse cx=\"12\" cy=\"5\" rx=\"9\" ry=\"3\"></ellipse>\n                <path d=\"M3 5V19A9 3 0 0 0 21 19V5\"></path>\n                <path d=\"M3 12A9 3 0 0 0 21 12\"></path>\n              </svg>\n            </span>\n            <span class=\"nav-section__title\">Data Catalog</span>\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path d=\"m6 9 6 6 6-6\"></path>\n              </svg>\n            </span>\n          </button>\n          <ul class=\"nav-section__items\">\n            <li class=\"nav-item\">\n              <a href=\"#dc-source-documents\" class=\"nav-sublink\"> Source Documents </a>\n            </li>\n            <li class=\"nav-item\">\n              <a href=\"#dc-commitments\" class=\"nav-sublink\"> Commitments </a>\n            </li>\n            <li class=\"nav-item\">\n              <a href=\"#dc-requirements\" class=\"nav-sublink\"> Requirements </a>\n            </li>\n            <li class=\"nav-item\"><a href=\"#dc-actions\" class=\"nav-sublink\"> Actions </a></li>\n            <li class=\"nav-item\"><a href=\"#dc-all-data\" class=\"nav-sublink\"> All Data </a></li>\n          </ul>\n        </div>\n      </div>\n    </nav>\n    <!-- content -->\n    <div class=\"modern-layout__content\">\n      <div class=\"page-layout\">\n        <div class=\"page-layout__container\">\n          <section class=\"page-layout__breadcrumbs\">\n            <nav class=\"breadcrumbs\" aria-label=\"Breadcrumb\">\n              <div class=\"breadcrumbs__items\">\n                <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n                  <svg\n                    width=\"16\"\n                    height=\"16\"\n                    viewBox=\"0 0 24 24\"\n                    fill=\"none\"\n                    stroke=\"currentColor\"\n                    stroke-width=\"2\"\n                    stroke-linecap=\"round\"\n                    stroke-linejoin=\"round\"\n                    focusable=\"false\"\n                  >\n                    <path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\"></path>\n                    <path\n                      d=\"M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"\n                    ></path>\n                  </svg>\n                </span>\n                <a class=\"breadcrumb-item\" href=\"#raul\"> Raul </a\n                ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n                  <svg\n                    width=\"16\"\n                    height=\"16\"\n                    viewBox=\"0 0 24 24\"\n                    fill=\"none\"\n                    stroke=\"currentColor\"\n                    stroke-width=\"2\"\n                    stroke-linecap=\"round\"\n                    stroke-linejoin=\"round\"\n                    focusable=\"false\"\n                  >\n                    <path d=\"m9 18 6-6-6-6\"></path>\n                  </svg>\n                </span>\n                <a class=\"breadcrumb-item\" href=\"#tracking\"> Tracking </a\n                ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n                  <svg\n                    width=\"16\"\n                    height=\"16\"\n                    viewBox=\"0 0 24 24\"\n                    fill=\"none\"\n                    stroke=\"currentColor\"\n                    stroke-width=\"2\"\n                    stroke-linecap=\"round\"\n                    stroke-linejoin=\"round\"\n                    focusable=\"false\"\n                  >\n                    <path d=\"m9 18 6-6-6-6\"></path>\n                  </svg>\n                </span>\n                <span class=\"breadcrumb-item\" aria-current=\"page\"> Permit Tracking </span>\n              </div>\n            </nav>\n          </section>\n          <section class=\"page-layout__title\">\n            <div class=\"page-layout__title-main\">\n              <h1>\n                <span class=\"esa-icon esa-icon--md\" aria-hidden=\"true\">\n                  <svg\n                    width=\"20\"\n                    height=\"20\"\n                    viewBox=\"0 0 24 24\"\n                    fill=\"none\"\n                    stroke=\"currentColor\"\n                    stroke-width=\"2\"\n                    stroke-linecap=\"round\"\n                    stroke-linejoin=\"round\"\n                    focusable=\"false\"\n                  ></svg>\n                </span>\n                Permit Tracking\n              </h1>\n            </div>\n            <div class=\"page-layout__utilities\">\n              <span\n                class=\"esa-button esa-button--color-primary esa-button--appearance-fill esa-button--sm\"\n              >\n                <button class=\"esa-button__native\" type=\"button\">\n                  <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n                    <svg\n                      width=\"16\"\n                      height=\"16\"\n                      viewBox=\"0 0 24 24\"\n                      fill=\"none\"\n                      stroke=\"currentColor\"\n                      stroke-width=\"2\"\n                      stroke-linecap=\"round\"\n                      stroke-linejoin=\"round\"\n                      focusable=\"false\"\n                    >\n                      <path d=\"M5 12h14\"></path>\n                      <path d=\"M12 5v14\"></path>\n                    </svg>\n                  </span>\n                  <span class=\"esa-button__label\"> New Permit </span>\n                </button>\n              </span>\n            </div>\n          </section>\n          <section class=\"page-layout__content\">\n            <div class=\"pt-toolbar\">\n              <div class=\"pt-pivot\" role=\"tablist\" aria-label=\"Pivot view\">\n                <button\n                  type=\"button\"\n                  class=\"pt-pivot__btn is-active\"\n                  data-view=\"permits\"\n                  role=\"tab\"\n                  aria-selected=\"true\"\n                >\n                  Permits\n                </button>\n                <button\n                  type=\"button\"\n                  class=\"pt-pivot__btn\"\n                  data-view=\"segments\"\n                  role=\"tab\"\n                  aria-selected=\"false\"\n                >\n                  Segments\n                </button>\n              </div>\n              <!-- Filter pills (affordance; non-functional) -->\n              <div class=\"pt-filters\" id=\"pt-filters\">\n                <span class=\"pt-filter-label\">Filters</span>\n                <span class=\"pt-pill\">\n                  Status: Under Review\n                  <button type=\"button\" class=\"pt-pill__x\" aria-label=\"Remove filter\">\n                    <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\">\n                      <svg\n                        width=\"14\"\n                        height=\"14\"\n                        viewBox=\"0 0 24 24\"\n                        fill=\"none\"\n                        stroke=\"currentColor\"\n                        stroke-width=\"2\"\n                        stroke-linecap=\"round\"\n                        stroke-linejoin=\"round\"\n                        focusable=\"false\"\n                      >\n                        <path d=\"M18 6 6 18\"></path>\n                        <path d=\"m6 6 12 12\"></path>\n                      </svg>\n                    </span>\n                  </button>\n                </span>\n                <span class=\"pt-pill\">\n                  Level: Federal\n                  <button type=\"button\" class=\"pt-pill__x\" aria-label=\"Remove filter\">\n                    <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\">\n                      <svg\n                        width=\"14\"\n                        height=\"14\"\n                        viewBox=\"0 0 24 24\"\n                        fill=\"none\"\n                        stroke=\"currentColor\"\n                        stroke-width=\"2\"\n                        stroke-linecap=\"round\"\n                        stroke-linejoin=\"round\"\n                        focusable=\"false\"\n                      >\n                        <path d=\"M18 6 6 18\"></path>\n                        <path d=\"m6 6 12 12\"></path>\n                      </svg>\n                    </span>\n                  </button>\n                </span>\n                <button type=\"button\" class=\"pt-filter-clear\">Clear all</button>\n              </div>\n            </div>\n            <div class=\"grid-wrap\" id=\"view-permits\">\n              <table class=\"grid\">\n                <thead>\n                  <tr>\n                    <th class=\"grid__th grid__th--sortable\">\n                      Permit\n                      <span class=\"esa-icon esa-icon--xs\" aria-hidden=\"true\">\n                        <svg\n                          width=\"14\"\n                          height=\"14\"\n                          viewBox=\"0 0 24 24\"\n                          fill=\"none\"\n                          stroke=\"currentColor\"\n                          stroke-width=\"2\"\n                          stroke-linecap=\"round\"\n                          stroke-linejoin=\"round\"\n                          focusable=\"false\"\n                        >\n                          <path d=\"m6 9 6 6 6-6\"></path>\n                        </svg>\n                      </span>\n                    </th>\n                    <th class=\"grid__th\">Agency</th>\n                    <th class=\"grid__th\">Level</th>\n                    <th class=\"grid__th\">Type</th>\n                    <th class=\"grid__th\">Status</th>\n                    <th class=\"grid__th\">Est. Approval</th>\n                    <th class=\"grid__th grid__th--num\">Segments</th>\n                  </tr>\n                </thead>\n                <tbody>\n                  <tr class=\"grid__row\" data-permit-id=\"usace-nwp\" tabindex=\"0\">\n                    <td class=\"grid__td grid__td--name\">Nationwide Permit (Section 404)</td>\n                    <td class=\"grid__td\">US Army Corps of Engineers</td>\n                    <td class=\"grid__td\">\n                      <span class=\"esa-badge esa-badge--primary esa-badge--sm\">\n                        <span class=\"esa-badge__text\">Federal</span>\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Section 404</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #22c55e\">\n                        <span class=\"status-chip__dot\"></span> Issued\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">May 28, 2026</td>\n                    <td class=\"grid__td grid__td--num\">9</td>\n                  </tr>\n                  <tr class=\"grid__row\" data-permit-id=\"usfws-sf299\" tabindex=\"0\">\n                    <td class=\"grid__td grid__td--name\">Refuge Right-of-Way (SF-299)</td>\n                    <td class=\"grid__td\">US Fish &amp; Wildlife Service</td>\n                    <td class=\"grid__td\">\n                      <span class=\"esa-badge esa-badge--primary esa-badge--sm\">\n                        <span class=\"esa-badge__text\">Federal</span>\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Right-of-Way</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #22c55e\">\n                        <span class=\"status-chip__dot\"></span> Issued\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">May 30, 2026</td>\n                    <td class=\"grid__td grid__td--num\">1</td>\n                  </tr>\n                  <tr class=\"grid__row\" data-permit-id=\"wsdot-uap\" tabindex=\"0\">\n                    <td class=\"grid__td grid__td--name\">Utility Accommodation Permit</td>\n                    <td class=\"grid__td\">WSDOT</td>\n                    <td class=\"grid__td\">\n                      <span class=\"esa-badge esa-badge--info esa-badge--sm\">\n                        <span class=\"esa-badge__text\">State</span>\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Utility</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #fab54f\">\n                        <span class=\"status-chip__dot\"></span> In Preparation\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Jul 20, 2026</td>\n                    <td class=\"grid__td grid__td--num\">2</td>\n                  </tr>\n                  <tr class=\"grid__row\" data-permit-id=\"ecology-401\" tabindex=\"0\">\n                    <td class=\"grid__td grid__td--name\">Water Quality Certification (401)</td>\n                    <td class=\"grid__td\">WA Dept. of Ecology</td>\n                    <td class=\"grid__td\">\n                      <span class=\"esa-badge esa-badge--info esa-badge--sm\">\n                        <span class=\"esa-badge__text\">State</span>\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">401 Certification</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #f59e0b\">\n                        <span class=\"status-chip__dot\"></span> Under Review\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Aug 30, 2026</td>\n                    <td class=\"grid__td grid__td--num\">3</td>\n                  </tr>\n                  <tr class=\"grid__row\" data-permit-id=\"ecology-stormwater\" tabindex=\"0\">\n                    <td class=\"grid__td grid__td--name\">Construction Stormwater (NPDES)</td>\n                    <td class=\"grid__td\">WA Dept. of Ecology</td>\n                    <td class=\"grid__td\">\n                      <span class=\"esa-badge esa-badge--info esa-badge--sm\">\n                        <span class=\"esa-badge__text\">State</span>\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">NPDES</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #fab54f\">\n                        <span class=\"status-chip__dot\"></span> In Preparation\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Jul 15, 2026</td>\n                    <td class=\"grid__td grid__td--num\">2</td>\n                  </tr>\n                  <tr class=\"grid__row\" data-permit-id=\"wdfw-hpa\" tabindex=\"0\">\n                    <td class=\"grid__td grid__td--name\">Hydraulic Project Approval (HPA)</td>\n                    <td class=\"grid__td\">WA Dept. of Fish &amp; Wildlife</td>\n                    <td class=\"grid__td\">\n                      <span class=\"esa-badge esa-badge--info esa-badge--sm\">\n                        <span class=\"esa-badge__text\">State</span>\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">HPA</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #f59e0b\">\n                        <span class=\"status-chip__dot\"></span> Under Review\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Aug 10, 2026</td>\n                    <td class=\"grid__td grid__td--num\">2</td>\n                  </tr>\n                  <tr class=\"grid__row\" data-permit-id=\"wa-dnr\" tabindex=\"0\">\n                    <td class=\"grid__td grid__td--name\">Aquatic Lands Use Authorization</td>\n                    <td class=\"grid__td\">WA Dept. of Natural Resources</td>\n                    <td class=\"grid__td\">\n                      <span class=\"esa-badge esa-badge--info esa-badge--sm\">\n                        <span class=\"esa-badge__text\">State</span>\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Aquatic Lands</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #22c55e\">\n                        <span class=\"status-chip__dot\"></span> Issued\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Jun 1, 2026</td>\n                    <td class=\"grid__td grid__td--num\">10</td>\n                  </tr>\n                  <tr class=\"grid__row\" data-permit-id=\"sepa-walla-walla\" tabindex=\"0\">\n                    <td class=\"grid__td grid__td--name\">SEPA Environmental Review</td>\n                    <td class=\"grid__td\">Walla Walla County (Lead Agency)</td>\n                    <td class=\"grid__td\">\n                      <span class=\"esa-badge esa-badge--secondary esa-badge--sm\">\n                        <span class=\"esa-badge__text\">Local</span>\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">SEPA</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #22c55e\">\n                        <span class=\"status-chip__dot\"></span> Issued\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Apr 22, 2026</td>\n                    <td class=\"grid__td grid__td--num\">10</td>\n                  </tr>\n                  <tr class=\"grid__row\" data-permit-id=\"ww-county-row\" tabindex=\"0\">\n                    <td class=\"grid__td grid__td--name\">County Right-of-Way Permit</td>\n                    <td class=\"grid__td\">Walla Walla County Public Works</td>\n                    <td class=\"grid__td\">\n                      <span class=\"esa-badge esa-badge--secondary esa-badge--sm\">\n                        <span class=\"esa-badge__text\">Local</span>\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Right-of-Way</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #22c55e\">\n                        <span class=\"status-chip__dot\"></span> Issued\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Jun 2, 2026</td>\n                    <td class=\"grid__td grid__td--num\">2</td>\n                  </tr>\n                  <tr class=\"grid__row\" data-permit-id=\"franchise\" tabindex=\"0\">\n                    <td class=\"grid__td grid__td--name\">Franchise Agreement</td>\n                    <td class=\"grid__td\">Walla Walla County</td>\n                    <td class=\"grid__td\">\n                      <span class=\"esa-badge esa-badge--secondary esa-badge--sm\">\n                        <span class=\"esa-badge__text\">Local</span>\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Franchise</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #bdbdbd\">\n                        <span class=\"status-chip__dot\"></span> Not Started\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Oct 15, 2026</td>\n                    <td class=\"grid__td grid__td--num\">1</td>\n                  </tr>\n                  <tr class=\"grid__row\" data-permit-id=\"shoreline-ssd\" tabindex=\"0\">\n                    <td class=\"grid__td grid__td--name\">Shoreline Substantial Development / CUP</td>\n                    <td class=\"grid__td\">Walla Walla County</td>\n                    <td class=\"grid__td\">\n                      <span class=\"esa-badge esa-badge--secondary esa-badge--sm\">\n                        <span class=\"esa-badge__text\">Local</span>\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Shoreline</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #699cc6\">\n                        <span class=\"status-chip__dot\"></span> Submitted\n                      </span>\n                    </td>\n                    <td class=\"grid__td grid__td--muted\">Sep 5, 2026</td>\n                    <td class=\"grid__td grid__td--num\">1</td>\n                  </tr>\n                </tbody>\n              </table>\n            </div>\n            <div class=\"grid-wrap\" id=\"view-segments\" hidden=\"\">\n              <table class=\"grid\">\n                <thead>\n                  <tr>\n                    <th class=\"grid__th\">Segment</th>\n                    <th class=\"grid__th\">Line</th>\n                    <th class=\"grid__th\">Jurisdiction</th>\n                    <th class=\"grid__th grid__th--num\">Length</th>\n                    <th class=\"grid__th\">Derived Status</th>\n                    <th class=\"grid__th\">Clear-to-Build</th>\n                    <th class=\"grid__th grid__th--num\">Permits</th>\n                  </tr>\n                </thead>\n                <tbody>\n                  <tr class=\"grid__row grid__row--static\">\n                    <td class=\"grid__td grid__td--name\">Barnes RD to SR-12</td>\n                    <td class=\"grid__td grid__td--muted\">Raul 2 — West Reach</td>\n                    <td class=\"grid__td grid__td--muted\">Walla Walla County</td>\n                    <td class=\"grid__td grid__td--num\">4,820 ft</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #22c55e\">\n                        <span class=\"status-chip__dot\"></span> Cleared to Construct\n                      </span>\n                    </td>\n                    <td class=\"grid__td\">Jun 2, 2026</td>\n                    <td class=\"grid__td grid__td--num\">4</td>\n                  </tr>\n                  <tr class=\"grid__row grid__row--static\">\n                    <td class=\"grid__td grid__td--name\">SR-12 / Lowden Junction</td>\n                    <td class=\"grid__td grid__td--muted\">Raul 2 — West Reach</td>\n                    <td class=\"grid__td grid__td--muted\">WSDOT</td>\n                    <td class=\"grid__td grid__td--num\">3,180 ft</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #fab54f\">\n                        <span class=\"status-chip__dot\"></span> In Preparation\n                      </span>\n                    </td>\n                    <td class=\"grid__td\">Jul 20, 2026</td>\n                    <td class=\"grid__td grid__td--num\">4</td>\n                  </tr>\n                  <tr class=\"grid__row grid__row--static\">\n                    <td class=\"grid__td grid__td--name\">Touchet River Crossing</td>\n                    <td class=\"grid__td grid__td--muted\">Raul 2 — West Reach</td>\n                    <td class=\"grid__td grid__td--muted\">WA Ecology / WDFW</td>\n                    <td class=\"grid__td grid__td--num\">2,240 ft</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #f59e0b\">\n                        <span class=\"status-chip__dot\"></span> Under Review\n                      </span>\n                    </td>\n                    <td class=\"grid__td\">Aug 30, 2026</td>\n                    <td class=\"grid__td grid__td--num\">5</td>\n                  </tr>\n                  <tr class=\"grid__row grid__row--static\">\n                    <td class=\"grid__td grid__td--name\">Ash Hollow RD to PDX</td>\n                    <td class=\"grid__td grid__td--muted\">Raul 2 — Central Reach</td>\n                    <td class=\"grid__td grid__td--muted\">Walla Walla County</td>\n                    <td class=\"grid__td grid__td--num\">5,310 ft</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #fab54f\">\n                        <span class=\"status-chip__dot\"></span> In Preparation\n                      </span>\n                    </td>\n                    <td class=\"grid__td\">Jul 15, 2026</td>\n                    <td class=\"grid__td grid__td--num\">4</td>\n                  </tr>\n                  <tr class=\"grid__row grid__row--static\">\n                    <td class=\"grid__td grid__td--name\">US-12 / McNary Refuge</td>\n                    <td class=\"grid__td grid__td--muted\">Raul 2 — Central Reach</td>\n                    <td class=\"grid__td grid__td--muted\">USFWS Refuge</td>\n                    <td class=\"grid__td grid__td--num\">3,940 ft</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #22c55e\">\n                        <span class=\"status-chip__dot\"></span> Cleared to Construct\n                      </span>\n                    </td>\n                    <td class=\"grid__td\">Jun 1, 2026</td>\n                    <td class=\"grid__td grid__td--num\">4</td>\n                  </tr>\n                  <tr class=\"grid__row grid__row--static\">\n                    <td class=\"grid__td grid__td--name\">McNary to Frenchtown</td>\n                    <td class=\"grid__td grid__td--muted\">Raul 2 — Central Reach</td>\n                    <td class=\"grid__td grid__td--muted\">Walla Walla County</td>\n                    <td class=\"grid__td grid__td--num\">2,670 ft</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #22c55e\">\n                        <span class=\"status-chip__dot\"></span> Cleared to Construct\n                      </span>\n                    </td>\n                    <td class=\"grid__td\">Jun 2, 2026</td>\n                    <td class=\"grid__td grid__td--num\">4</td>\n                  </tr>\n                  <tr class=\"grid__row grid__row--static\">\n                    <td class=\"grid__td grid__td--name\">Frenchtown Shoreline Reach</td>\n                    <td class=\"grid__td grid__td--muted\">Raul 2 — East Reach</td>\n                    <td class=\"grid__td grid__td--muted\">Walla Walla County (Shoreline)</td>\n                    <td class=\"grid__td grid__td--num\">3,120 ft</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #699cc6\">\n                        <span class=\"status-chip__dot\"></span> Submitted\n                      </span>\n                    </td>\n                    <td class=\"grid__td\">Sep 5, 2026</td>\n                    <td class=\"grid__td grid__td--num\">5</td>\n                  </tr>\n                  <tr class=\"grid__row grid__row--static\">\n                    <td class=\"grid__td grid__td--name\">Frenchtown to Dixie RD</td>\n                    <td class=\"grid__td grid__td--muted\">Raul 2 — East Reach</td>\n                    <td class=\"grid__td grid__td--muted\">WSDOT</td>\n                    <td class=\"grid__td grid__td--num\">4,480 ft</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #fab54f\">\n                        <span class=\"status-chip__dot\"></span> In Preparation\n                      </span>\n                    </td>\n                    <td class=\"grid__td\">Jul 20, 2026</td>\n                    <td class=\"grid__td grid__td--num\">5</td>\n                  </tr>\n                  <tr class=\"grid__row grid__row--static\">\n                    <td class=\"grid__td grid__td--name\">Dixie RD Tie-In</td>\n                    <td class=\"grid__td grid__td--muted\">Raul 2 — East Reach</td>\n                    <td class=\"grid__td grid__td--muted\">Walla Walla County</td>\n                    <td class=\"grid__td grid__td--num\">2,050 ft</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #bdbdbd\">\n                        <span class=\"status-chip__dot\"></span> Not Started\n                      </span>\n                    </td>\n                    <td class=\"grid__td\">Oct 15, 2026</td>\n                    <td class=\"grid__td grid__td--num\">3</td>\n                  </tr>\n                  <tr class=\"grid__row grid__row--static\">\n                    <td class=\"grid__td grid__td--name\">East Terminus / Mill Creek</td>\n                    <td class=\"grid__td grid__td--muted\">Raul 2 — East Reach</td>\n                    <td class=\"grid__td grid__td--muted\">WA Ecology / WDFW</td>\n                    <td class=\"grid__td grid__td--num\">1,760 ft</td>\n                    <td class=\"grid__td\">\n                      <span class=\"status-chip\" style=\"--_chip: #f59e0b\">\n                        <span class=\"status-chip__dot\"></span> Under Review\n                      </span>\n                    </td>\n                    <td class=\"grid__td\">Aug 30, 2026</td>\n                    <td class=\"grid__td grid__td--num\">5</td>\n                  </tr>\n                </tbody>\n              </table>\n            </div>\n          </section>\n        </div>\n      </div>\n      <div class=\"drawer-backdrop\" id=\"drawer-backdrop\" hidden=\"\"></div>\n      <aside\n        class=\"permit-drawer\"\n        id=\"permit-drawer\"\n        role=\"dialog\"\n        aria-modal=\"true\"\n        aria-labelledby=\"pd-title\"\n        hidden=\"\"\n      >\n        <header class=\"permit-drawer__header\">\n          <div class=\"permit-drawer__header-main\">\n            <span class=\"permit-drawer__eyebrow\" id=\"pd-agency\"></span>\n            <h2 class=\"permit-drawer__title\" id=\"pd-title\"></h2>\n          </div>\n          <button\n            type=\"button\"\n            class=\"permit-drawer__close\"\n            id=\"drawer-close\"\n            aria-label=\"Close dialog\"\n          >\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path d=\"M18 6 6 18\"></path>\n                <path d=\"m6 6 12 12\"></path>\n              </svg>\n            </span>\n          </button>\n        </header>\n        <div class=\"permit-drawer__body\">\n          <div class=\"esa-form-field esa-form-field--md\">\n            <label class=\"esa-form-field__label\"> Status </label>\n            <div class=\"esa-form-field__input\">\n              <select class=\"pd-input\" id=\"pd-status\">\n                <option value=\"not-started\">Not Started</option>\n                <option value=\"in-preparation\">In Preparation</option>\n                <option value=\"submitted\">Submitted</option>\n                <option value=\"under-review\">Under Review</option>\n                <option value=\"issued\">Issued</option>\n                <option value=\"not-required\">Not Required</option>\n              </select>\n            </div>\n          </div>\n          <div class=\"pd-row\">\n            <div class=\"esa-form-field esa-form-field--md\">\n              <label class=\"esa-form-field__label\"> Submitted date </label>\n              <div class=\"esa-form-field__input\">\n                <input type=\"date\" class=\"pd-input\" id=\"pd-submitted\" />\n              </div>\n            </div>\n            <div class=\"esa-form-field esa-form-field--md\">\n              <label class=\"esa-form-field__label\"> Estimated approval </label>\n              <div class=\"esa-form-field__input\">\n                <input type=\"date\" class=\"pd-input\" id=\"pd-estimated\" />\n              </div>\n            </div>\n          </div>\n          <div class=\"pd-row\">\n            <div class=\"esa-form-field esa-form-field--md\">\n              <label class=\"esa-form-field__label\"> Actual approval </label>\n              <div class=\"esa-form-field__input\">\n                <input type=\"date\" class=\"pd-input\" id=\"pd-actual\" />\n              </div>\n            </div>\n            <div class=\"esa-form-field esa-form-field--md\">\n              <label class=\"esa-form-field__label\"> Agency </label>\n              <div class=\"esa-form-field__input\">\n                <input type=\"text\" class=\"pd-input\" id=\"pd-agency-input\" />\n              </div>\n            </div>\n          </div>\n          <div class=\"esa-form-field esa-form-field--md\">\n            <label class=\"esa-form-field__label\"> Permit type </label>\n            <div class=\"esa-form-field__input\">\n              <input type=\"text\" class=\"pd-input\" id=\"pd-type\" />\n            </div>\n          </div>\n          <div class=\"pd-applicability\">\n            <span class=\"pd-applicability__label\">Segment applicability</span>\n            <ul class=\"pd-checklist\" id=\"pd-segments\">\n              <li class=\"pd-check\">\n                <label class=\"pd-check__label\">\n                  <input type=\"checkbox\" class=\"pd-check__box\" value=\"seg-01\" />\n                  <span class=\"pd-check__name\">Barnes RD to SR-12</span>\n                  <span class=\"pd-check__line\">Raul 2 — West Reach</span>\n                </label>\n              </li>\n              <li class=\"pd-check\">\n                <label class=\"pd-check__label\">\n                  <input type=\"checkbox\" class=\"pd-check__box\" value=\"seg-02\" />\n                  <span class=\"pd-check__name\">SR-12 / Lowden Junction</span>\n                  <span class=\"pd-check__line\">Raul 2 — West Reach</span>\n                </label>\n              </li>\n              <li class=\"pd-check\">\n                <label class=\"pd-check__label\">\n                  <input type=\"checkbox\" class=\"pd-check__box\" value=\"seg-03\" />\n                  <span class=\"pd-check__name\">Touchet River Crossing</span>\n                  <span class=\"pd-check__line\">Raul 2 — West Reach</span>\n                </label>\n              </li>\n              <li class=\"pd-check\">\n                <label class=\"pd-check__label\">\n                  <input type=\"checkbox\" class=\"pd-check__box\" value=\"seg-04\" />\n                  <span class=\"pd-check__name\">Ash Hollow RD to PDX</span>\n                  <span class=\"pd-check__line\">Raul 2 — Central Reach</span>\n                </label>\n              </li>\n              <li class=\"pd-check\">\n                <label class=\"pd-check__label\">\n                  <input type=\"checkbox\" class=\"pd-check__box\" value=\"seg-05\" />\n                  <span class=\"pd-check__name\">US-12 / McNary Refuge</span>\n                  <span class=\"pd-check__line\">Raul 2 — Central Reach</span>\n                </label>\n              </li>\n              <li class=\"pd-check\">\n                <label class=\"pd-check__label\">\n                  <input type=\"checkbox\" class=\"pd-check__box\" value=\"seg-06\" />\n                  <span class=\"pd-check__name\">McNary to Frenchtown</span>\n                  <span class=\"pd-check__line\">Raul 2 — Central Reach</span>\n                </label>\n              </li>\n              <li class=\"pd-check\">\n                <label class=\"pd-check__label\">\n                  <input type=\"checkbox\" class=\"pd-check__box\" value=\"seg-07\" />\n                  <span class=\"pd-check__name\">Frenchtown Shoreline Reach</span>\n                  <span class=\"pd-check__line\">Raul 2 — East Reach</span>\n                </label>\n              </li>\n              <li class=\"pd-check\">\n                <label class=\"pd-check__label\">\n                  <input type=\"checkbox\" class=\"pd-check__box\" value=\"seg-08\" />\n                  <span class=\"pd-check__name\">Frenchtown to Dixie RD</span>\n                  <span class=\"pd-check__line\">Raul 2 — East Reach</span>\n                </label>\n              </li>\n              <li class=\"pd-check\">\n                <label class=\"pd-check__label\">\n                  <input type=\"checkbox\" class=\"pd-check__box\" value=\"seg-09\" />\n                  <span class=\"pd-check__name\">Dixie RD Tie-In</span>\n                  <span class=\"pd-check__line\">Raul 2 — East Reach</span>\n                </label>\n              </li>\n              <li class=\"pd-check\">\n                <label class=\"pd-check__label\">\n                  <input type=\"checkbox\" class=\"pd-check__box\" value=\"seg-10\" />\n                  <span class=\"pd-check__name\">East Terminus / Mill Creek</span>\n                  <span class=\"pd-check__line\">Raul 2 — East Reach</span>\n                </label>\n              </li>\n            </ul>\n          </div>\n        </div>\n        <footer class=\"permit-drawer__footer\">\n          <span id=\"drawer-cancel\" class=\"pd-action\"\n            ><span\n              class=\"esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm\"\n            >\n              <button class=\"esa-button__native\" type=\"button\">\n                <span class=\"esa-button__label\"> Cancel </span>\n              </button>\n            </span>\n          </span>\n          <span id=\"drawer-save\" class=\"pd-action\"\n            ><span\n              class=\"esa-button esa-button--color-primary esa-button--appearance-fill esa-button--sm\"\n            >\n              <button class=\"esa-button__native\" type=\"button\">\n                <span class=\"esa-button__label\"> Save </span>\n              </button>\n            </span>\n          </span>\n        </footer>\n      </aside>\n      <script type=\"application/json\" id=\"drawer-data\">\n        [\n          {\n            \"id\": \"usace-nwp\",\n            \"name\": \"Nationwide Permit (Section 404)\",\n            \"agency\": \"US Army Corps of Engineers\",\n            \"agencyLevel\": \"Federal\",\n            \"type\": \"Section 404\",\n            \"status\": \"issued\",\n            \"submittedDate\": \"2026-03-10\",\n            \"estimatedApprovalDate\": \"2026-08-15\",\n            \"actualApprovalDate\": \"2026-05-28\",\n            \"segmentIds\": [\n              \"seg-01\",\n              \"seg-02\",\n              \"seg-03\",\n              \"seg-04\",\n              \"seg-05\",\n              \"seg-06\",\n              \"seg-07\",\n              \"seg-08\",\n              \"seg-10\"\n            ]\n          },\n          {\n            \"id\": \"usfws-sf299\",\n            \"name\": \"Refuge Right-of-Way (SF-299)\",\n            \"agency\": \"US Fish & Wildlife Service\",\n            \"agencyLevel\": \"Federal\",\n            \"type\": \"Right-of-Way\",\n            \"status\": \"issued\",\n            \"submittedDate\": \"2026-04-02\",\n            \"estimatedApprovalDate\": \"2026-09-30\",\n            \"actualApprovalDate\": \"2026-05-30\",\n            \"segmentIds\": [\"seg-05\"]\n          },\n          {\n            \"id\": \"wsdot-uap\",\n            \"name\": \"Utility Accommodation Permit\",\n            \"agency\": \"WSDOT\",\n            \"agencyLevel\": \"State\",\n            \"type\": \"Utility\",\n            \"status\": \"in-preparation\",\n            \"submittedDate\": \"\",\n            \"estimatedApprovalDate\": \"2026-07-20\",\n            \"actualApprovalDate\": \"\",\n            \"segmentIds\": [\"seg-02\", \"seg-08\"]\n          },\n          {\n            \"id\": \"ecology-401\",\n            \"name\": \"Water Quality Certification (401)\",\n            \"agency\": \"WA Dept. of Ecology\",\n            \"agencyLevel\": \"State\",\n            \"type\": \"401 Certification\",\n            \"status\": \"under-review\",\n            \"submittedDate\": \"2026-03-28\",\n            \"estimatedApprovalDate\": \"2026-08-30\",\n            \"actualApprovalDate\": \"\",\n            \"segmentIds\": [\"seg-03\", \"seg-07\", \"seg-10\"]\n          },\n          {\n            \"id\": \"ecology-stormwater\",\n            \"name\": \"Construction Stormwater (NPDES)\",\n            \"agency\": \"WA Dept. of Ecology\",\n            \"agencyLevel\": \"State\",\n            \"type\": \"NPDES\",\n            \"status\": \"in-preparation\",\n            \"submittedDate\": \"\",\n            \"estimatedApprovalDate\": \"2026-07-15\",\n            \"actualApprovalDate\": \"\",\n            \"segmentIds\": [\"seg-04\", \"seg-08\"]\n          },\n          {\n            \"id\": \"wdfw-hpa\",\n            \"name\": \"Hydraulic Project Approval (HPA)\",\n            \"agency\": \"WA Dept. of Fish & Wildlife\",\n            \"agencyLevel\": \"State\",\n            \"type\": \"HPA\",\n            \"status\": \"under-review\",\n            \"submittedDate\": \"2026-03-18\",\n            \"estimatedApprovalDate\": \"2026-08-10\",\n            \"actualApprovalDate\": \"\",\n            \"segmentIds\": [\"seg-03\", \"seg-10\"]\n          },\n          {\n            \"id\": \"wa-dnr\",\n            \"name\": \"Aquatic Lands Use Authorization\",\n            \"agency\": \"WA Dept. of Natural Resources\",\n            \"agencyLevel\": \"State\",\n            \"type\": \"Aquatic Lands\",\n            \"status\": \"issued\",\n            \"submittedDate\": \"2026-04-10\",\n            \"estimatedApprovalDate\": \"2026-09-15\",\n            \"actualApprovalDate\": \"2026-06-01\",\n            \"segmentIds\": [\n              \"seg-01\",\n              \"seg-02\",\n              \"seg-03\",\n              \"seg-04\",\n              \"seg-05\",\n              \"seg-06\",\n              \"seg-07\",\n              \"seg-08\",\n              \"seg-09\",\n              \"seg-10\"\n            ]\n          },\n          {\n            \"id\": \"sepa-walla-walla\",\n            \"name\": \"SEPA Environmental Review\",\n            \"agency\": \"Walla Walla County (Lead Agency)\",\n            \"agencyLevel\": \"Local\",\n            \"type\": \"SEPA\",\n            \"status\": \"issued\",\n            \"submittedDate\": \"2026-01-15\",\n            \"estimatedApprovalDate\": \"2026-04-30\",\n            \"actualApprovalDate\": \"2026-04-22\",\n            \"segmentIds\": [\n              \"seg-01\",\n              \"seg-02\",\n              \"seg-03\",\n              \"seg-04\",\n              \"seg-05\",\n              \"seg-06\",\n              \"seg-07\",\n              \"seg-08\",\n              \"seg-09\",\n              \"seg-10\"\n            ]\n          },\n          {\n            \"id\": \"ww-county-row\",\n            \"name\": \"County Right-of-Way Permit\",\n            \"agency\": \"Walla Walla County Public Works\",\n            \"agencyLevel\": \"Local\",\n            \"type\": \"Right-of-Way\",\n            \"status\": \"issued\",\n            \"submittedDate\": \"2026-03-05\",\n            \"estimatedApprovalDate\": \"2026-07-25\",\n            \"actualApprovalDate\": \"2026-06-02\",\n            \"segmentIds\": [\"seg-01\", \"seg-06\"]\n          },\n          {\n            \"id\": \"franchise\",\n            \"name\": \"Franchise Agreement\",\n            \"agency\": \"Walla Walla County\",\n            \"agencyLevel\": \"Local\",\n            \"type\": \"Franchise\",\n            \"status\": \"not-started\",\n            \"submittedDate\": \"\",\n            \"estimatedApprovalDate\": \"2026-10-15\",\n            \"actualApprovalDate\": \"\",\n            \"segmentIds\": [\"seg-09\"]\n          },\n          {\n            \"id\": \"shoreline-ssd\",\n            \"name\": \"Shoreline Substantial Development / CUP\",\n            \"agency\": \"Walla Walla County\",\n            \"agencyLevel\": \"Local\",\n            \"type\": \"Shoreline\",\n            \"status\": \"submitted\",\n            \"submittedDate\": \"2026-04-05\",\n            \"estimatedApprovalDate\": \"2026-09-05\",\n            \"actualApprovalDate\": \"\",\n            \"segmentIds\": [\"seg-07\"]\n          }\n        ]\n      </script>\n    </div>\n  </div>\n</div>\n",
+    "css": ":root,\n[data-theme=\"beacon\"] {\n  --bcn-gray-100: #efefef;\n  --bcn-gray-1000: #000000;\n  --bcn-gray-200: #dcdcdc;\n  --bcn-gray-300: #bdbdbd;\n  --bcn-gray-400: #989898;\n  --bcn-gray-50: #fafafa;\n  --bcn-gray-500: #7c7c7c;\n  --bcn-gray-600: #656565;\n  --bcn-gray-900: #3d3d3d;\n  --bcn-gray-950: #292929;\n  --color-accent: #f9a134;\n  --color-info: #228be6;\n  --color-primary: #005862;\n  --color-primary-hover: #00474f;\n  --color-secondary: #00918b;\n  --color-surface: #ffffff;\n  --color-text-inverse: #ffffff;\n  --color-text-link: #005862;\n  --color-text-primary: #3d3d3d;\n  --color-text-secondary: #525252;\n  --color-text-tertiary: #656565;\n  --filter-clear-color: #7c7c7c;\n  --filter-container-gap: 0.5rem;\n  --filter-pill-bg: color-mix(in srgb, #005862 8%, transparent);\n  --filter-pill-font-size: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);\n  --filter-pill-padding: 0.25rem 0.625rem;\n  --filter-pill-radius: 9999px;\n  --filter-pill-remove-color: #7c7c7c;\n  --filter-pill-text: #005862;\n  --font-decorative: \"Besley\", serif;\n  --font-sans: \"DM Sans\", sans-serif;\n  --font-weight-bold: 650;\n  --font-weight-medium: 450;\n  --font-weight-regular: 350;\n  --font-weight-semibold: 550;\n  --form-font-size-md: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);\n  --form-font-size-sm: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);\n  --form-height-md: 36px;\n  --form-height-sm: 28px;\n  --form-padding-x-md: 0.75rem;\n  --form-padding-x-sm: 0.625rem;\n  --form-radius-md: 0.25rem;\n  --form-radius-sm: 0.25rem;\n  --grid-cell-padding: 0.5rem 0.75rem;\n  --grid-header-bg: #fafafa;\n  --grid-header-border: 1px solid #dcdcdc;\n  --grid-header-color: #3d3d3d;\n  --grid-header-font-size: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);\n  --grid-header-weight: 550;\n  --grid-radius: 0.5rem;\n  --grid-row-bg: #ffffff;\n  --grid-row-border: 1px solid #efefef;\n  --grid-row-font-size: clamp(0.6875rem, 0.61rem + 0.38vw, 0.875rem);\n  --radius-200: 0.5rem;\n  --radius-300: 0.5rem;\n  --radius-400: 0.75rem;\n  --radius-full: 9999px;\n  --shadow-100: 0 2px 12px 0 rgba(0, 0, 0, 0.04);\n  --shadow-400: 0 8px 32px -8px rgba(0, 0, 0, 0.08);\n  --spacing-050: 0.125rem;\n  --spacing-100: 0.25rem;\n  --spacing-150: 0.375rem;\n  --spacing-200: 0.5rem;\n  --spacing-250: 0.625rem;\n  --spacing-300: 0.75rem;\n  --spacing-400: 1rem;\n  --spacing-500: 1.5rem;\n  --spacing-600: 2rem;\n  --spacing-700: 3rem;\n  --transition-fast: 0.15s ease;\n  --type-size-100: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);\n  --type-size-500: clamp(1.125rem, 0.98rem + 0.72vw, 1.5rem);\n}\n\n.pt-toolbar {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  gap: var(--spacing-400);\n  flex-wrap: wrap;\n  margin-bottom: var(--spacing-400);\n}\n.pt-pivot {\n  display: inline-flex;\n  padding: var(--spacing-050);\n  background: var(--bcn-gray-100);\n  border-radius: var(--radius-300);\n}\n.pt-pivot__btn {\n  padding: var(--spacing-150) var(--spacing-400);\n  font-size: var(--type-size-100);\n  font-weight: var(--font-weight-semibold);\n  color: var(--color-text-secondary);\n  border-radius: var(--radius-200);\n  transition:\n    background 0.15s ease,\n    color 0.15s ease;\n}\n.pt-pivot__btn.is-active {\n  background: var(--color-surface);\n  color: var(--color-primary);\n  box-shadow: var(--shadow-100, 0 1px 2px rgba(0, 0, 0, 0.08));\n}\n.pt-filters {\n  display: flex;\n  align-items: center;\n  gap: var(--filter-container-gap);\n  flex-wrap: wrap;\n}\n.pt-filter-label {\n  font-size: var(--type-size-100);\n  font-weight: var(--font-weight-semibold);\n  color: var(--color-text-tertiary);\n}\n.pt-pill {\n  display: inline-flex;\n  align-items: center;\n  gap: var(--spacing-100);\n  padding: var(--filter-pill-padding);\n  background: var(--filter-pill-bg);\n  color: var(--filter-pill-text);\n  border-radius: var(--filter-pill-radius);\n  font-size: var(--filter-pill-font-size);\n  font-weight: var(--font-weight-medium);\n}\n.pt-pill__x {\n  display: inline-flex;\n  align-items: center;\n  color: var(--filter-pill-remove-color);\n  transition: color 0.15s ease;\n}\n.pt-filter-clear {\n  font-size: var(--type-size-100);\n  color: var(--filter-clear-color);\n  transition: color 0.15s ease;\n}\n.grid-wrap {\n  border: var(--grid-header-border);\n  border-radius: var(--grid-radius);\n  overflow: hidden;\n  background: var(--grid-row-bg);\n}\n.grid {\n  width: 100%;\n  border-collapse: collapse;\n  font-size: var(--grid-row-font-size);\n}\n.grid__th {\n  text-align: left;\n  padding: var(--grid-cell-padding);\n  background: var(--grid-header-bg);\n  color: var(--grid-header-color);\n  font-weight: var(--grid-header-weight);\n  font-size: var(--grid-header-font-size);\n  border-bottom: var(--grid-header-border);\n  white-space: nowrap;\n}\n.grid__th--sortable {\n  cursor: pointer;\n  user-select: none;\n}\n.grid__th--sortable .esa-icon {\n  display: inline-flex;\n  vertical-align: middle;\n  margin-left: var(--spacing-100);\n  color: var(--color-text-tertiary);\n}\n.grid__th--num {\n  text-align: right;\n}\n.grid__row {\n  cursor: pointer;\n  transition: background 0.12s ease;\n}\n.grid__td {\n  padding: var(--grid-cell-padding);\n  border-bottom: var(--grid-row-border);\n  color: var(--color-text-primary);\n  vertical-align: middle;\n}\n.grid__td--name {\n  font-weight: var(--font-weight-semibold);\n}\n.esa-badge {\n  --_badge-bg: var(--color-primary, #005862);\n  --_badge-text: var(--color-text-inverse, #fff);\n  --_badge-height: 20px;\n  --_badge-font-size: 11px;\n  --_badge-padding-x: 6px;\n  --_badge-min-width: 20px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  height: var(--_badge-height);\n  min-width: var(--_badge-min-width);\n  padding-inline: var(--_badge-padding-x);\n  border-radius: var(--radius-full, 9999px);\n  background: var(--_badge-bg);\n  color: var(--_badge-text);\n  font-size: var(--_badge-font-size);\n  font-weight: 600;\n  line-height: 1;\n  white-space: nowrap;\n  box-sizing: border-box;\n}\n.esa-badge--sm {\n  --_badge-height: 16px;\n  --_badge-font-size: 10px;\n  --_badge-padding-x: 4px;\n  --_badge-min-width: 16px;\n}\n.grid__td--muted {\n  color: var(--color-text-secondary);\n}\n.status-chip {\n  display: inline-flex;\n  align-items: center;\n  gap: var(--spacing-150);\n  padding: 2px var(--spacing-250);\n  border-radius: var(--radius-full);\n  font-size: var(--type-size-100);\n  font-weight: var(--font-weight-semibold);\n  white-space: nowrap;\n  background: color-mix(in srgb, var(--_chip) 16%, transparent);\n  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);\n}\n.status-chip__dot {\n  width: 8px;\n  height: 8px;\n  border-radius: var(--radius-full);\n  background: var(--_chip);\n  flex-shrink: 0;\n}\n.grid__td--num {\n  text-align: right;\n  font-variant-numeric: tabular-nums;\n  color: var(--color-text-secondary);\n}\n.esa-badge--info {\n  --_badge-bg: var(--color-info, #3b82f6);\n}\n.esa-badge--secondary {\n  --_badge-bg: var(--color-secondary, #0d9488);\n}\n.grid__row:last-child .grid__td {\n  border-bottom: 0;\n}\n.drawer-backdrop {\n  position: fixed;\n  inset: 0;\n  z-index: 1300;\n  background: #00000073;\n  backdrop-filter: blur(2px);\n  opacity: 0;\n  transition: opacity 0.28s cubic-bezier(0.32, 0.72, 0, 1);\n}\n.drawer-backdrop[hidden] {\n  display: none;\n}\n.permit-drawer {\n  position: fixed;\n  top: var(--spacing-400);\n  right: var(--spacing-400);\n  bottom: var(--spacing-400);\n  height: calc(100vh - var(--spacing-400) * 2);\n  width: 480px;\n  max-width: 90vw;\n  z-index: 1400;\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  background: var(--color-surface);\n  border-radius: var(--radius-400);\n  box-shadow: var(--shadow-400);\n  transform: translate(calc(100% + var(--spacing-400)));\n  transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);\n}\n.permit-drawer[hidden] {\n  display: none;\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-medium, 20px);\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  line-height: 1;\n  color: inherit;\n}\n.esa-icon svg {\n  display: block;\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n}\n.page-layout {\n  display: flex;\n  flex-direction: column;\n  min-height: calc(100vh - 15rem);\n  padding: var(--spacing-600);\n  background: var(--bcn-gray-50);\n  box-sizing: border-box;\n}\n.page-layout__container {\n  display: flex;\n  flex-direction: column;\n}\n.page-layout section {\n  width: 100%;\n}\n.breadcrumbs {\n  padding: var(--spacing-400) 0;\n}\n.breadcrumbs__items {\n  display: flex;\n  gap: var(--spacing-100);\n  align-items: center;\n  flex-wrap: wrap;\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.breadcrumb-item {\n  color: var(--bcn-gray-600);\n  text-transform: capitalize;\n  font-size: 0.875rem;\n}\na.breadcrumb-item {\n  text-decoration: none;\n}\n.page-layout__title {\n  border-bottom: 1px solid var(--bcn-gray-200);\n  padding: var(--spacing-500) 0;\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  box-sizing: border-box;\n}\n.page-layout__title-main {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-200);\n  min-width: 0;\n}\n.page-layout__title h1 {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-200);\n  font-family: var(--font-decorative);\n  font-weight: var(--font-weight-bold);\n  font-size: var(--type-size-500);\n  margin: 0;\n  color: var(--bcn-gray-1000);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--bcn-gray-1000);\n  flex-shrink: 0;\n}\n.page-layout__utilities {\n  display: flex;\n  gap: var(--spacing-200);\n}\n.page-layout__content {\n  padding: var(--spacing-500) 0;\n  min-height: 70vh;\n  position: relative;\n}\n.esa-button {\n  --_btn-height: var(--form-height-md, 40px);\n  --_btn-padding-x: var(--form-padding-x-md, 16px);\n  --_btn-font-size: var(--form-font-size-md, 14px);\n  --_btn-radius: var(--form-radius-md, 6px);\n  --_accent: var(--color-primary, #005862);\n  --_accent-hover: var(--color-primary-hover, #004752);\n  --_on: var(--color-text-inverse, #ffffff);\n  display: inline-block;\n}\n.esa-button--sm {\n  --_btn-height: var(--form-height-sm, 32px);\n  --_btn-padding-x: var(--form-padding-x-sm, 12px);\n  --_btn-font-size: var(--form-font-size-sm, 12px);\n  --_btn-radius: var(--form-radius-sm, 4px);\n}\n.esa-button__native {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: var(--spacing-200, 8px);\n  width: 100%;\n  height: var(--_btn-height);\n  padding-inline: var(--_btn-padding-x);\n  border: 1px solid transparent;\n  border-radius: var(--_btn-radius);\n  font-size: var(--_btn-font-size);\n  font-family: var(--font-sans, system-ui, sans-serif);\n  font-weight: var(--font-weight-medium, 500);\n  line-height: 1;\n  cursor: pointer;\n  transition:\n    background var(--transition-fast, 0.15s ease),\n    border-color var(--transition-fast, 0.15s ease);\n  -webkit-appearance: none;\n  appearance: none;\n}\n.esa-button--appearance-fill .esa-button__native {\n  background: var(--_accent);\n  color: var(--_on);\n  border-color: transparent;\n}\n.esa-button__label {\n  white-space: nowrap;\n}\n.modern-layout {\n  display: flex;\n  flex-direction: column;\n  height: 100vh;\n}\n.topbar {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 52px;\n  background: var(--bcn-gray-100);\n  border-bottom: 1px solid var(--bcn-gray-300);\n  z-index: 1100;\n  display: grid;\n  grid-template-columns: auto 1fr auto;\n  align-items: center;\n  padding: 0 var(--spacing-200);\n}\n.topbar {\n  padding: 0 var(--spacing-400);\n}\n.topbar__left {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-200);\n}\n.sidebar-toggle {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 32px;\n  height: 32px;\n  padding: 0;\n  border: none;\n  border-radius: var(--spacing-050);\n  background: transparent;\n  color: var(--bcn-gray-600);\n  cursor: pointer;\n  transition:\n    background 0.15s ease,\n    color 0.15s ease;\n}\n.sidebar-toggle__icon {\n  transition: transform 0.15s ease;\n}\n.tenant-trigger {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-100);\n  padding: var(--spacing-100) var(--spacing-200);\n  background: transparent;\n  border: none;\n  border-radius: var(--spacing-050);\n  font-size: 0.875rem;\n  font-weight: 600;\n  color: var(--bcn-gray-900);\n  cursor: pointer;\n  transition: background 0.15s ease;\n}\n.topbar__center {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-400);\n  padding: 0 var(--spacing-400);\n}\n.topbar__right {\n  display: flex;\n  align-items: center;\n  justify-content: flex-end;\n  gap: var(--spacing-100);\n}\n.qa-warning {\n  display: inline-flex;\n  align-items: center;\n  gap: var(--spacing-100);\n  padding: var(--spacing-050) var(--spacing-200);\n  font-size: 0.75rem;\n  font-weight: 600;\n  background: var(--color-accent);\n  color: var(--color-surface);\n  border-radius: var(--spacing-100);\n  white-space: nowrap;\n}\n.icon-button {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 32px;\n  height: 32px;\n  padding: 0;\n  border: none;\n  border-radius: var(--spacing-050);\n  background: transparent;\n  color: var(--bcn-gray-600);\n  text-decoration: none;\n  cursor: pointer;\n  transition:\n    background 0.15s ease,\n    color 0.15s ease;\n}\n.user-menu {\n  position: relative;\n}\n.user-menu-trigger {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 44px;\n  height: 44px;\n  padding: 0;\n  border: none;\n  border-radius: 9999px;\n  background: transparent;\n  cursor: pointer;\n  transition: transform 0.15s ease;\n}\n.user-menu-trigger__avatar {\n  width: 32px;\n  height: 32px;\n  border-radius: 9999px;\n  object-fit: cover;\n  border: 2px solid var(--bcn-gray-200);\n  transition: border-color 0.15s ease;\n}\n.user-menu-trigger__avatar--fallback {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: var(--bcn-gray-200);\n  color: var(--bcn-gray-500);\n}\n.user-panel {\n  position: absolute;\n  top: calc(100% + var(--spacing-200));\n  right: 0;\n  min-width: 280px;\n  background: var(--color-surface);\n  border-radius: var(--spacing-200);\n  border: 1px solid var(--bcn-gray-200);\n  box-shadow: 0 4px 24px #0000001f;\n  z-index: 1200;\n}\n.user-panel[hidden] {\n  display: none;\n}\n.modern-layout__body {\n  display: flex;\n  flex: 1;\n  overflow: hidden;\n  padding-top: 52px;\n}\n.side-nav {\n  width: 280px;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  background-color: var(--bcn-gray-50);\n  font-size: 0.875rem;\n  overflow: visible;\n  transition: width 0.2s ease-in-out;\n  border-right: 1px solid var(--bcn-gray-200);\n  flex-shrink: 0;\n}\n.sidebar-header {\n  flex-shrink: 0;\n  padding: var(--spacing-300) var(--spacing-400);\n  transition: padding 0.2s ease-in-out;\n}\n.site-logo {\n  display: inline-flex;\n  align-items: center;\n  padding: var(--spacing-200);\n  border-radius: var(--spacing-050);\n  text-decoration: none;\n  transition: background 0.15s ease;\n}\n.site-logo__img {\n  width: var(--spacing-700);\n  height: 3.75rem;\n  object-fit: contain;\n  object-position: left center;\n  transition: all 0.2s ease-in-out;\n}\n.project-switcher-container {\n  flex-shrink: 0;\n  padding: 0 var(--spacing-400) var(--spacing-300);\n  transition: padding 0.2s ease-in-out;\n  min-width: 0;\n}\n.project-switcher__trigger {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-200);\n  width: 100%;\n  min-width: 0;\n  box-sizing: border-box;\n  padding: var(--spacing-200) var(--spacing-300);\n  background: var(--color-surface);\n  border: 1px solid var(--bcn-gray-200);\n  border-radius: var(--spacing-200);\n  cursor: pointer;\n  transition: all 0.15s ease;\n  color: var(--bcn-gray-950);\n  font-size: 0.875rem;\n  font-weight: 500;\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  flex-shrink: 0;\n  color: var(--bcn-gray-500);\n}\n.project-switcher__name {\n  flex: 1;\n  min-width: 0;\n  text-align: left;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.main-nav {\n  flex: 1;\n  overflow-y: auto;\n  overflow-x: visible;\n  padding: 0 var(--spacing-400);\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-050);\n  transition: padding 0.2s ease-in-out;\n  scrollbar-width: none;\n  -ms-overflow-style: none;\n}\n.nav-section {\n  display: flex;\n  flex-direction: column;\n  position: relative;\n}\n.nav-section__header {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-300);\n  padding: var(--spacing-250) var(--spacing-200);\n  color: var(--bcn-gray-950);\n  font-size: 0.9375rem;\n  font-weight: 550;\n  border: none;\n  background: transparent;\n  border-radius: var(--spacing-050);\n  transition: all 0.15s ease;\n  white-space: nowrap;\n  width: 100%;\n  text-align: left;\n  cursor: pointer;\n  text-decoration: none;\n}\n.nav-section__header--link {\n  text-decoration: none;\n  color: var(--bcn-gray-950);\n}\n.nav-section__header > .esa-icon:first-child {\n  flex-shrink: 0;\n  color: var(--bcn-gray-950);\n  transition: color 0.15s ease;\n}\n.nav-section__title {\n  flex: 1;\n  overflow: hidden;\n  transition: opacity 0.2s ease-in-out;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  transition:\n    transform 0.15s ease,\n    opacity 0.2s ease-in-out;\n  flex-shrink: 0;\n}\n.nav-section__items {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  max-height: 500px;\n  opacity: 1;\n  transition:\n    max-height 0.2s ease-in-out,\n    opacity 0.2s ease-in-out;\n}\n.nav-item {\n  padding: 0 0 0 2.5rem;\n}\n.nav-sublink {\n  display: block;\n  padding: var(--spacing-200);\n  color: var(--bcn-gray-950);\n  text-decoration: none;\n  border-radius: var(--spacing-050);\n  font-size: 0.8125rem;\n  transition: all 0.15s ease;\n  line-height: 1.2;\n}\n.nav-sublink.active {\n  background: #0000000a;\n  color: var(--color-primary);\n}\n.nav-item + .nav-item {\n  margin-top: var(--spacing-050);\n}\n.nav-divider {\n  flex-shrink: 0;\n  height: 1px;\n  margin: var(--spacing-200) 0;\n  border: 0;\n  background: var(--bcn-gray-200);\n}\n.modern-layout__content {\n  flex: 1;\n  overflow-y: auto;\n  min-width: 0;\n}\n*,\n*:before,\n*:after {\n  box-sizing: border-box;\n}\nbody {\n  margin: 0;\n  font-family: var(--font-sans, system-ui, sans-serif);\n  font-weight: var(--font-weight-regular, 350);\n  color: var(--color-text-primary, #3d3d3d);\n  background: var(--color-surface, #fff);\n  -webkit-font-smoothing: antialiased;\n}\nbutton {\n  font-family: inherit;\n  cursor: pointer;\n  background: none;\n  border: 0;\n}\na {\n  color: var(--color-text-link, #005862);\n  text-decoration: none;\n}\nimg {\n  display: block;\n  max-width: 100%;\n}\n",
+    "tokens": [
+      {
+        "name": "--bcn-gray-100",
+        "value": "#efefef",
+        "tier": "component"
+      },
+      {
+        "name": "--bcn-gray-1000",
+        "value": "#000000",
+        "tier": "component"
+      },
+      {
+        "name": "--bcn-gray-200",
+        "value": "#dcdcdc",
+        "tier": "component"
+      },
+      {
+        "name": "--bcn-gray-300",
+        "value": "#bdbdbd",
+        "tier": "component"
+      },
+      {
+        "name": "--bcn-gray-400",
+        "value": "#989898",
+        "tier": "component"
+      },
+      {
+        "name": "--bcn-gray-50",
+        "value": "#fafafa",
+        "tier": "component"
+      },
+      {
+        "name": "--bcn-gray-500",
+        "value": "#7c7c7c",
+        "tier": "component"
+      },
+      {
+        "name": "--bcn-gray-600",
+        "value": "#656565",
+        "tier": "component"
+      },
+      {
+        "name": "--bcn-gray-900",
+        "value": "#3d3d3d",
+        "tier": "component"
+      },
+      {
+        "name": "--bcn-gray-950",
+        "value": "#292929",
+        "tier": "component"
+      },
+      {
+        "name": "--color-accent",
+        "value": "#f9a134",
+        "tier": "semantic"
+      },
+      {
+        "name": "--color-info",
+        "value": "#228be6",
+        "tier": "semantic"
+      },
+      {
+        "name": "--color-primary",
+        "value": "#005862",
+        "tier": "semantic"
+      },
+      {
+        "name": "--color-primary-hover",
+        "value": "#00474f",
+        "tier": "semantic"
+      },
+      {
+        "name": "--color-secondary",
+        "value": "#00918b",
+        "tier": "semantic"
+      },
+      {
+        "name": "--color-surface",
+        "value": "#ffffff",
+        "tier": "semantic"
+      },
+      {
+        "name": "--color-text-inverse",
+        "value": "#ffffff",
+        "tier": "semantic"
+      },
+      {
+        "name": "--color-text-link",
+        "value": "#005862",
+        "tier": "semantic"
+      },
+      {
+        "name": "--color-text-primary",
+        "value": "#3d3d3d",
+        "tier": "semantic"
+      },
+      {
+        "name": "--color-text-secondary",
+        "value": "#525252",
+        "tier": "semantic"
+      },
+      {
+        "name": "--color-text-tertiary",
+        "value": "#656565",
+        "tier": "semantic"
+      },
+      {
+        "name": "--filter-clear-color",
+        "value": "#7c7c7c",
+        "tier": "component"
+      },
+      {
+        "name": "--filter-container-gap",
+        "value": ".5rem",
+        "tier": "component"
+      },
+      {
+        "name": "--filter-pill-bg",
+        "value": "color-mix(in srgb, #005862 8%, transparent)",
+        "tier": "component"
+      },
+      {
+        "name": "--filter-pill-font-size",
+        "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+        "tier": "component"
+      },
+      {
+        "name": "--filter-pill-padding",
+        "value": ".25rem .625rem",
+        "tier": "component"
+      },
+      {
+        "name": "--filter-pill-radius",
+        "value": "9999px",
+        "tier": "component"
+      },
+      {
+        "name": "--filter-pill-remove-color",
+        "value": "#7c7c7c",
+        "tier": "component"
+      },
+      {
+        "name": "--filter-pill-text",
+        "value": "#005862",
+        "tier": "component"
+      },
+      {
+        "name": "--font-decorative",
+        "value": "\"Besley\", serif",
+        "tier": "component"
+      },
+      {
+        "name": "--font-sans",
+        "value": "\"DM Sans\", sans-serif",
+        "tier": "primitive"
+      },
+      {
+        "name": "--font-weight-bold",
+        "value": "650",
+        "tier": "primitive"
+      },
+      {
+        "name": "--font-weight-medium",
+        "value": "450",
+        "tier": "primitive"
+      },
+      {
+        "name": "--font-weight-regular",
+        "value": "350",
+        "tier": "primitive"
+      },
+      {
+        "name": "--font-weight-semibold",
+        "value": "550",
+        "tier": "primitive"
+      },
+      {
+        "name": "--form-font-size-md",
+        "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+        "tier": "component"
+      },
+      {
+        "name": "--form-font-size-sm",
+        "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+        "tier": "component"
+      },
+      {
+        "name": "--form-height-md",
+        "value": "36px",
+        "tier": "component"
+      },
+      {
+        "name": "--form-height-sm",
+        "value": "28px",
+        "tier": "component"
+      },
+      {
+        "name": "--form-padding-x-md",
+        "value": ".75rem",
+        "tier": "component"
+      },
+      {
+        "name": "--form-padding-x-sm",
+        "value": ".625rem",
+        "tier": "component"
+      },
+      {
+        "name": "--form-radius-md",
+        "value": ".25rem",
+        "tier": "component"
+      },
+      {
+        "name": "--form-radius-sm",
+        "value": ".25rem",
+        "tier": "component"
+      },
+      {
+        "name": "--grid-cell-padding",
+        "value": ".5rem .75rem",
+        "tier": "component"
+      },
+      {
+        "name": "--grid-header-bg",
+        "value": "#fafafa",
+        "tier": "component"
+      },
+      {
+        "name": "--grid-header-border",
+        "value": "1px solid #dcdcdc",
+        "tier": "component"
+      },
+      {
+        "name": "--grid-header-color",
+        "value": "#3d3d3d",
+        "tier": "component"
+      },
+      {
+        "name": "--grid-header-font-size",
+        "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+        "tier": "component"
+      },
+      {
+        "name": "--grid-header-weight",
+        "value": "550",
+        "tier": "component"
+      },
+      {
+        "name": "--grid-radius",
+        "value": ".5rem",
+        "tier": "component"
+      },
+      {
+        "name": "--grid-row-bg",
+        "value": "#ffffff",
+        "tier": "component"
+      },
+      {
+        "name": "--grid-row-border",
+        "value": "1px solid #efefef",
+        "tier": "component"
+      },
+      {
+        "name": "--grid-row-font-size",
+        "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+        "tier": "component"
+      },
+      {
+        "name": "--radius-200",
+        "value": ".5rem",
+        "tier": "primitive"
+      },
+      {
+        "name": "--radius-300",
+        "value": ".5rem",
+        "tier": "primitive"
+      },
+      {
+        "name": "--radius-400",
+        "value": ".75rem",
+        "tier": "primitive"
+      },
+      {
+        "name": "--radius-full",
+        "value": "9999px",
+        "tier": "primitive"
+      },
+      {
+        "name": "--shadow-100",
+        "value": "0 2px 12px 0 rgba(0, 0, 0, .04)",
+        "tier": "primitive"
+      },
+      {
+        "name": "--shadow-400",
+        "value": "0 8px 32px -8px rgba(0, 0, 0, .08)",
+        "tier": "primitive"
+      },
+      {
+        "name": "--spacing-050",
+        "value": ".125rem",
+        "tier": "primitive"
+      },
+      {
+        "name": "--spacing-100",
+        "value": ".25rem",
+        "tier": "primitive"
+      },
+      {
+        "name": "--spacing-150",
+        "value": ".375rem",
+        "tier": "primitive"
+      },
+      {
+        "name": "--spacing-200",
+        "value": ".5rem",
+        "tier": "primitive"
+      },
+      {
+        "name": "--spacing-250",
+        "value": ".625rem",
+        "tier": "primitive"
+      },
+      {
+        "name": "--spacing-300",
+        "value": ".75rem",
+        "tier": "primitive"
+      },
+      {
+        "name": "--spacing-400",
+        "value": "1rem",
+        "tier": "primitive"
+      },
+      {
+        "name": "--spacing-500",
+        "value": "1.5rem",
+        "tier": "primitive"
+      },
+      {
+        "name": "--spacing-600",
+        "value": "2rem",
+        "tier": "primitive"
+      },
+      {
+        "name": "--spacing-700",
+        "value": "3rem",
+        "tier": "primitive"
+      },
+      {
+        "name": "--transition-fast",
+        "value": ".15s ease",
+        "tier": "primitive"
+      },
+      {
+        "name": "--type-size-100",
+        "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+        "tier": "primitive"
+      },
+      {
+        "name": "--type-size-500",
+        "value": "clamp(1.125rem, .98rem + .72vw, 1.5rem)",
+        "tier": "primitive"
+      }
+    ],
+    "claudePath": "claude/full-page.md",
+    "repoPath": "public/handoff/permit-tracking/claude/full-page.md"
+  }
+}

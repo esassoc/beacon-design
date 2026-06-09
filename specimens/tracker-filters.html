@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Requirement Tracker — Filter Area · 3 options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Besley:wght@400;600;700&family=DM+Sans:opsz,wght@9..40,350..650&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  /* ───────────────────────────────────────────────────────────────────────────
+     SPECIMEN — standalone, throwaway HTML. Values mirror the Beacon spoke tokens
+     (theme-beacon.css + @esa/tokens) so this renders at brand parity. When a
+     direction is picked, it translates to esa-* legos (mapping noted at bottom).
+     ─────────────────────────────────────────────────────────────────────────── */
+  :root {
+    /* Beacon palette (warm grays + true teal) */
+    --gray-0:#fff; --gray-50:#fafafa; --gray-100:#efefef; --gray-200:#dcdcdc;
+    --gray-300:#bdbdbd; --gray-400:#989898; --gray-500:#7c7c7c; --gray-600:#656565;
+    --gray-700:#525252; --gray-900:#3d3d3d;
+    --teal-50:#effefb; --teal-200:#b9d6d2; --teal-500:#00918b; --teal-900:#005862;
+    --teal-900-hover:#00474f;
+    --orange:#f2770e; --orange-tab:#f9a134;
+    --commitment:#58508d;
+
+    --text:var(--gray-900); --text-2:var(--gray-700); --text-3:var(--gray-600); --muted:var(--gray-500);
+    --border:var(--gray-200); --border-strong:var(--gray-300); --surface:#fff; --sunken:var(--gray-100); --bg:var(--gray-50);
+
+    --r:4px; --r-full:9999px;
+    --h-sm:28px; --h-md:36px;
+    --sans:'DM Sans',system-ui,sans-serif; --serif:'Besley',serif; --mono:'Roboto Mono',monospace;
+    --shadow:0 6px 20px rgba(15,23,42,.14);
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.5; }
+
+  /* ── page chrome ── */
+  .page { max-width:1240px; margin:0 auto; padding:40px 28px 96px; }
+  .page__head h1 { font-family:var(--serif); font-size:30px; font-weight:700; margin:0 0 6px; letter-spacing:-.01em; }
+  .page__head p { margin:0; color:var(--text-2); max-width:74ch; }
+  .page__head .meta { margin-top:10px; font-size:14px; color:var(--muted); }
+
+  .guide { margin:22px 0 8px; padding:14px 18px; background:var(--teal-50); border:1px solid var(--teal-200);
+           border-radius:8px; font-size:14.5px; color:var(--gray-700); }
+  .guide b { color:var(--teal-900); }
+  .guide ul { margin:8px 0 0; padding-left:20px; } .guide li { margin:2px 0; }
+
+  .option { margin-top:44px; }
+  .option__hd { display:flex; align-items:baseline; gap:12px; margin-bottom:4px; flex-wrap:wrap; }
+  .tag { font-family:var(--mono); font-size:11px; font-weight:500; letter-spacing:.06em; text-transform:uppercase;
+         color:#fff; background:var(--teal-900); padding:3px 9px; border-radius:var(--r-full); }
+  .option__hd h2 { font-size:21px; font-weight:600; margin:0; }
+  .option__why { margin:0 0 16px; color:var(--text-2); font-size:15px; max-width:80ch; }
+  .option__why .px { color:var(--muted); }
+
+  /* the framed app surface each option is shown inside */
+  .frame { background:var(--bg); border:1px solid var(--border); border-radius:10px; padding:20px; }
+
+  /* ── shared control primitives (faux esa-* legos) ───────────────────────────── */
+
+  /* segmented View toggle = esa-button-toggle */
+  .seg { display:inline-flex; background:var(--gray-100); border:1px solid var(--border); border-radius:var(--r); padding:2px; gap:2px; }
+  .seg button { font:inherit; font-size:13px; font-weight:500; color:var(--text-2); background:transparent; border:0;
+                padding:0 12px; height:calc(var(--h-md) - 6px); border-radius:3px; cursor:pointer; display:inline-flex;
+                align-items:center; gap:6px; white-space:nowrap; }
+  .seg button.is-on { background:#fff; color:var(--teal-900); font-weight:600; box-shadow:0 1px 2px rgba(0,0,0,.08); }
+  .seg svg { width:15px; height:15px; }
+
+  /* N/A switch = esa-switch-toggle */
+  .switch { display:inline-flex; align-items:center; gap:8px; font-size:14px; color:var(--text-2); white-space:nowrap; cursor:pointer; user-select:none; }
+  .switch .track { width:34px; height:20px; border-radius:var(--r-full); background:var(--gray-300); position:relative; transition:background .15s; flex:none; }
+  .switch .track::after { content:""; position:absolute; top:2px; left:2px; width:16px; height:16px; border-radius:50%; background:#fff; transition:transform .15s; }
+  .switch.is-on .track { background:var(--teal-500); } .switch.is-on .track::after { transform:translateX(14px); }
+  .switch .ic { width:15px; height:15px; color:var(--muted); }
+
+  /* search field = esa-text-field */
+  .search { position:relative; display:inline-flex; align-items:center; }
+  .search svg { position:absolute; left:10px; width:16px; height:16px; color:var(--muted); pointer-events:none; }
+  .search input { font:inherit; font-size:14px; height:var(--h-md); border:1px solid var(--border-strong); border-radius:var(--r);
+                  background:#fff; padding:0 12px 0 32px; color:var(--text); min-width:220px; }
+  .search input::placeholder { color:var(--muted); }
+  .search input:focus { outline:2px solid var(--teal-900); outline-offset:0; border-color:var(--teal-900); }
+
+  /* filter row wrapper = esa-filter-container (flex-wrap row) */
+  [data-filters] { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+  /* filter dropdown = esa-filter-dropdown (multi-select w/ checkbox panel) */
+  .fd { position:relative; }
+  .fd > button { font:inherit; font-size:13.5px; font-weight:500; color:var(--text); background:#fff;
+                 border:1px solid var(--border-strong); border-radius:var(--r); height:var(--h-md);
+                 padding:0 9px 0 12px; display:inline-flex; align-items:center; gap:8px; cursor:pointer; white-space:nowrap; }
+  .fd > button:hover { border-color:var(--gray-400); }
+  .fd.is-active > button { border-color:var(--teal-900); color:var(--teal-900); background:var(--teal-50); }
+  .fd.is-open > button { border-color:var(--teal-900); box-shadow:0 0 0 1px var(--teal-900); }
+  .fd .count { font-size:11px; font-weight:600; min-width:18px; height:18px; padding:0 5px; border-radius:var(--r-full);
+               background:var(--teal-900); color:#fff; display:inline-flex; align-items:center; justify-content:center; }
+  .fd .chev { width:15px; height:15px; color:var(--muted); transition:transform .15s; }
+  .fd.is-open .chev { transform:rotate(180deg); }
+  .fd__panel { position:absolute; z-index:30; top:calc(100% + 6px); left:0; min-width:230px; background:#fff;
+               border:1px solid var(--border); border-radius:6px; box-shadow:var(--shadow); padding:6px; display:none; }
+  .fd.is-open .fd__panel { display:block; }
+  .fd__search { width:100%; font:inherit; font-size:13px; height:30px; border:1px solid var(--border); border-radius:var(--r);
+                padding:0 9px; margin:2px 0 6px; }
+  .fd__opt { display:flex; align-items:center; gap:9px; padding:7px 8px; border-radius:var(--r); font-size:14px; color:var(--text-2); cursor:pointer; }
+  .fd__opt:hover { background:var(--gray-100); }
+  .fd__opt input { accent-color:var(--teal-900); width:15px; height:15px; }
+  .fd__foot { display:flex; justify-content:space-between; padding:6px 6px 2px; margin-top:4px; border-top:1px solid var(--border); }
+  .fd__foot button { font:inherit; font-size:12.5px; background:none; border:0; color:var(--teal-900); cursor:pointer; padding:4px 6px; border-radius:var(--r); }
+  .fd__foot button:hover { background:var(--teal-50); }
+
+  /* active-filter pill = esa-filter-pills */
+  .pill { display:inline-flex; align-items:center; gap:6px; height:26px; padding:0 6px 0 11px; border-radius:var(--r-full);
+          background:var(--sunken); font-size:13px; color:var(--text); white-space:nowrap; }
+  .pill b { color:var(--muted); font-weight:500; }
+  .pill .x { width:18px; height:18px; border-radius:50%; border:0; background:transparent; color:var(--muted); cursor:pointer;
+             display:inline-flex; align-items:center; justify-content:center; }
+  .pill .x:hover { background:var(--gray-200); color:var(--text); }
+  .pill .x svg { width:13px; height:13px; }
+
+  /* clear-all link = esa-filter-clear-button */
+  .clear { font:inherit; font-size:13.5px; font-weight:500; color:var(--teal-900); background:none; border:0; cursor:pointer;
+           display:inline-flex; align-items:center; gap:5px; text-decoration:underline; text-underline-offset:2px; padding:4px 6px; border-radius:var(--r); }
+  .clear:hover { background:rgba(0,0,0,.03); }
+  .clear svg { width:16px; height:16px; }
+
+  .lbl { font-size:13px; font-weight:600; color:var(--text-3); white-space:nowrap; }
+  .vdiv { width:1px; align-self:stretch; background:var(--border); margin:0 4px; }
+
+  /* faux grid below each option, to judge how the filter area sits above AG Grid */
+  .grid { margin-top:14px; border:1px solid var(--border); border-radius:var(--r) var(--r) 0 0; overflow:hidden; background:#fff; }
+  .grid__hd { display:grid; grid-template-columns:1.6fr 1fr 1.2fr .8fr; background:var(--teal-900); color:#fff; font-size:13px; font-weight:600; }
+  .grid__hd > div { padding:11px 14px; border-right:1px solid rgba(255,255,255,.12); }
+  .grid__row { display:grid; grid-template-columns:1.6fr 1fr 1.2fr .8fr; font-size:13px; color:var(--text-2); }
+  .grid__row:nth-child(even) { background:var(--gray-50); }
+  .grid__row > div { padding:11px 14px; border-bottom:1px solid var(--border); border-right:1px solid var(--border); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .grid__chip { display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:600; padding:1px 8px; border-radius:var(--r); }
+  .grid__chip::before { content:""; width:7px; height:7px; border-radius:50%; background:currentColor; }
+  .c-ns { color:#7c7c7c; background:#7c7c7c29; } .c-ip { color:#b06a00; background:#f59e0b29; } .c-done { color:#1b7a3a; background:#22c55e29; }
+  .grid__more { padding:9px 14px; font-size:12.5px; color:var(--muted); background:#fff; }
+
+  /* ─────────── Option-specific layouts ─────────── */
+
+  /* A — Carded two-band (prod parity) */
+  .a-card { background:#fff; border:1px solid var(--border); border-radius:8px; }
+  .a-top { display:flex; align-items:center; gap:16px; padding:14px 18px; flex-wrap:wrap; }
+  .a-grp { display:flex; align-items:center; gap:10px; }
+  .a-top .search { margin-left:auto; } .a-top .search input { min-width:300px; }
+  .a-bot { display:flex; align-items:center; gap:10px; padding:12px 18px; border-top:1px solid var(--border); flex-wrap:wrap; }
+
+  /* B — Flat toolbar (max grid room) */
+  .b-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .b-bar .search { margin-left:auto; }
+  .b-filters { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:10px; }
+  .b-funnel { width:17px; height:17px; color:var(--muted); }
+
+  /* C — Tinted filter strip */
+  .c-top { display:flex; align-items:center; gap:16px; padding:0 2px 14px; flex-wrap:wrap; }
+  .c-top .search { margin-left:auto; flex:1; min-width:260px; max-width:520px; }
+  .c-top .search input { width:100%; }
+  .c-strip { display:flex; align-items:center; gap:10px; padding:12px 14px; background:var(--teal-50);
+             border:1px solid var(--teal-200); border-radius:8px; flex-wrap:wrap; }
+  .c-strip .lbl { color:var(--teal-900); display:inline-flex; align-items:center; gap:7px; }
+  .c-strip .lbl svg { width:16px; height:16px; }
+
+  .pills-row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:12px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="page__head">
+    <h1>Requirement Tracker — Filter Area</h1>
+    <p>Three directions for adapting the tracker's filter zone to match Beacon prod: a <b>top bar</b> (View tabs · N/A · keyword Search) over a row of <b>multi-select filters</b> — Type, Phase, Commitment, List, Species, Construction&nbsp;Activities, Milestones. Scopes removed; the small type-pills removed; Type &amp; Phase added. This intentionally drops our standard "search box + Clear&nbsp;Filters" pattern in favor of dropdown facets.</p>
+    <p class="meta">Specimen · standalone HTML · not wired to the grid. Click any filter to see its checkbox panel. Pick a direction and I'll build it from esa-* legos.</p>
+  </header>
+
+  <div class="guide">
+    <b>What to react to</b> — the three differ mainly in how heavily the filter zone is framed and how active selections read:
+    <ul>
+      <li><b>A — Carded two-band:</b> closest to prod. Bordered card, labeled groups w/ dividers, "Filters" row underneath. Familiar, but tallest (eats grid height).</li>
+      <li><b>B — Flat toolbar:</b> no card chrome. View+search+N/A on one line, dropdowns on the next. Lightest, gives the most vertical room to the grid (ties into ask&nbsp;#2).</li>
+      <li><b>C — Tinted filter strip:</b> middle ground. Search-led top row, then filters grouped by a soft teal background instead of a border — reads as a distinct "filter zone" without a heavy box.</li>
+    </ul>
+  </div>
+
+  <!-- ══════════════ OPTION A ══════════════ -->
+  <section class="option">
+    <div class="option__hd"><span class="tag">Option A</span><h2>Carded two-band — prod parity</h2></div>
+    <p class="option__why">Mirrors the current Beacon screen most literally. Top band groups View / N/A / Search with vertical dividers; the filter band sits below a divider with a leading <span class="px">Filters</span> label. Active facets show an inline count badge. <span class="px">Trade-off: most chrome, tallest footprint.</span></p>
+    <div class="frame">
+      <div class="a-card">
+        <div class="a-top">
+          <div class="a-grp"><span class="lbl">View</span><div data-view></div></div>
+          <div class="vdiv"></div>
+          <div class="a-grp" data-na></div>
+          <div class="search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input placeholder="Search requirements…" />
+          </div>
+        </div>
+        <div class="a-bot">
+          <span class="lbl">Filters</span>
+          <div data-filters></div>
+          <div data-clear style="margin-left:auto"></div>
+        </div>
+      </div>
+      <div data-grid></div>
+    </div>
+  </section>
+
+  <!-- ══════════════ OPTION B ══════════════ -->
+  <section class="option">
+    <div class="option__hd"><span class="tag">Option B</span><h2>Flat toolbar — max grid room</h2></div>
+    <p class="option__why">Strips the card. View toggle + N/A on the left, search pushed right; the filter dropdowns flow on a second line behind a funnel glyph — no "Filters" label, no box. Lowest height, so the AG&nbsp;Grid gets the extra rows from ask&nbsp;#2. Active selections collapse into removable pills only when present.</p>
+    <div class="frame">
+      <div class="b-bar">
+        <div data-view></div>
+        <div class="vdiv"></div>
+        <div data-na></div>
+        <div class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input placeholder="Search requirements…" />
+        </div>
+      </div>
+      <div class="b-filters">
+        <svg class="b-funnel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+        <div data-filters></div>
+      </div>
+      <div class="pills-row" data-pills></div>
+      <div data-grid></div>
+    </div>
+  </section>
+
+  <!-- ══════════════ OPTION C ══════════════ -->
+  <section class="option">
+    <div class="option__hd"><span class="tag">Option C</span><h2>Tinted filter strip — grouped without a box</h2></div>
+    <p class="option__why">Search-led: View + N/A on the left, a wide search filling the top row. The seven filters live inside a soft teal strip — grouped by background, not a border — so the "filter zone" reads as one unit while staying light. A <span class="px">Clear all</span> link appears at the strip's end when anything is active.</p>
+    <div class="frame">
+      <div class="c-top">
+        <div class="a-grp"><span class="lbl">View</span><div data-view></div></div>
+        <div class="vdiv"></div>
+        <div data-na></div>
+        <div class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input placeholder="Search requirements…" />
+        </div>
+      </div>
+      <div class="c-strip">
+        <span class="lbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>Filters</span>
+        <div data-filters></div>
+        <div data-clear style="margin-left:auto"></div>
+      </div>
+      <div data-grid></div>
+    </div>
+  </section>
+
+  <!-- lego mapping -->
+  <div class="guide" style="margin-top:48px;background:var(--gray-100);border-color:var(--border);">
+    <b>Lego mapping (all three build from the same hub components)</b>
+    <ul>
+      <li>View tabs → <code>esa-button-toggle</code> · N/A → <code>esa-switch-toggle</code> · Search → <code>esa-text-field</code></li>
+      <li>Each filter → <code>esa-filter-dropdown</code> (multi-select + checkbox panel — the Beacon <code>ui-filter</code> equivalent), wrapped in <code>esa-filter-container</code></li>
+      <li>Active pills → <code>esa-filter-pills</code> · Clear all → <code>esa-filter-clear-button</code></li>
+      <li>Filter order is fixed: <b>Type · Phase · Commitment · List · Species · Construction Activities · Milestones</b></li>
+      <li><b>Ask #2:</b> grid height grows by ~10 rows (<code>calc(100vh − 420px)</code> → smaller offset / more rows). Option&nbsp;B's shorter filter zone buys the most room for free.</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  // ── filter facets (order is the spec'd order) ──────────────────────────────
+  const FILTERS = [
+    { name:'type',     label:'Type',                   opts:['Mitigation Measure','Standard Condition','Permit Condition','BMP'], sel:[] },
+    { name:'phase',    label:'Phase',                  opts:['Pre-Construction','Construction','Operation','Post-Construction'], sel:[] },
+    { name:'commit',   label:'Commitment',             opts:['AQ-1','BIO-2','EC-2','MM-BIO-1','SCA-AIR-1'], sel:['BIO-2'] },
+    { name:'list',     label:'List',                   opts:['Annual Reporting','Desktop Requirements','Field Verification'], sel:[] },
+    { name:'species',  label:'Species',                opts:['Nesting raptors','Migratory birds','Roosting bats','Vernal pool shrimp'], sel:['Migratory birds','Roosting bats'] },
+    { name:'activity', label:'Construction Activities',opts:['Ground disturbance','Vegetation removal','Demolition','Grading','Hauling'], sel:[] },
+    { name:'mile',     label:'Milestones',             opts:['Building Permit','Grading Permit','Final Inspection'], sel:[] },
+  ];
+  const xIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>';
+  const chev  = '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>';
+
+  function dropdownHTML(f) {
+    const n = f.sel.length;
+    const opts = f.opts.map(o =>
+      `<label class="fd__opt"><input type="checkbox" ${f.sel.includes(o)?'checked':''}/> ${o}</label>`).join('');
+    return `<div class="fd ${n?'is-active':''}" data-fd>
+      <button type="button" data-fd-toggle>
+        ${f.label} ${n?`<span class="count">${n}</span>`:''} ${chev}
+      </button>
+      <div class="fd__panel">
+        <input class="fd__search" placeholder="Search ${f.label.toLowerCase()}…" />
+        ${opts}
+        <div class="fd__foot"><button type="button">Select all</button><button type="button">Clear</button></div>
+      </div>
+    </div>`;
+  }
+
+  function viewHTML() {
+    const grid = "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><rect width='18' height='18' x='3' y='3' rx='2'/><path d='M3 9h18'/><path d='M3 15h18'/><path d='M9 3v18'/><path d='M15 3v18'/></svg>";
+    const kan  = "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M3 3h18v18H3z'/><path d='M9 3v18'/><path d='M15 3v18'/></svg>";
+    const tl   = "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'><path d='M8 2v4'/><path d='M16 2v4'/><rect width='18' height='18' x='3' y='4' rx='2'/><path d='M3 10h18'/></svg>";
+    return `<div class="seg">
+      <button class="is-on">${grid} Grid</button><button>${kan} Kanban</button><button>${tl} Timeline</button>
+    </div>`;
+  }
+  const naHTML = `<label class="switch">
+    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></svg>
+    N/A <span class="track"></span></label>`;
+  const clearHTML = `<button class="clear"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 3H2l8 9.46V19l4 2v-8.54L22 3"/><path d="m22 3-5 5"/><path d="m17 3 5 5"/></svg>Clear all</button>`;
+
+  function pillsHTML() {
+    const active = FILTERS.flatMap(f => f.sel.map(v => ({ label:f.label, v })));
+    if (!active.length) return '';
+    return active.map(a =>
+      `<span class="pill"><b>${a.label}:</b> ${a.v}<button class="x">${xIcon}</button></span>`).join('')
+      + clearHTML;
+  }
+
+  // mount into every placeholder across all three options
+  document.querySelectorAll('[data-view]').forEach(el => el.innerHTML = viewHTML());
+  document.querySelectorAll('[data-na]').forEach(el => el.innerHTML = naHTML);
+  document.querySelectorAll('[data-clear]').forEach(el => el.innerHTML = clearHTML);
+  document.querySelectorAll('[data-filters]').forEach(el => el.innerHTML = FILTERS.map(dropdownHTML).join(''));
+  document.querySelectorAll('[data-pills]').forEach(el => el.innerHTML = pillsHTML());
+
+  // faux grid
+  const rows = [
+    ['Conduct Annual Reporting for Emissions Reduction','Mitigation Measure','Annual Reporting','ns'],
+    ['Confirm Contract Specifications','Standard Condition','Field Verification','ip'],
+    ['Develop Hazardous Materials Management Plans','Permit Condition','Desktop Requirements','done'],
+    ['Pre-Construction Nesting Bird Survey','Mitigation Measure','Field Verification','ns'],
+    ['WEAP Worker Awareness Training','Standard Condition','Annual Reporting','ip'],
+  ];
+  const chipMap = { ns:['c-ns','Not Started'], ip:['c-ip','In Progress'], done:['c-done','Completed'] };
+  function gridHTML() {
+    const body = rows.map(r => {
+      const [cls,txt] = chipMap[r[3]];
+      return `<div class="grid__row"><div>${r[0]}</div><div>${r[1]}</div><div>${r[2]}</div>
+        <div><span class="grid__chip ${cls}">${txt}</span></div></div>`;
+    }).join('');
+    return `<div class="grid">
+      <div class="grid__hd"><div>Requirement Name</div><div>Type</div><div>List</div><div>Status</div></div>
+      ${body}
+      <div class="grid__more">+ ~170 more rows · ask #2 adds ~10 visible rows of height</div>
+    </div>`;
+  }
+  document.querySelectorAll('[data-grid]').forEach(el => el.innerHTML = gridHTML());
+
+  // ── interactions ────────────────────────────────────────────────────────────
+  document.addEventListener('click', (e) => {
+    const tog = e.target.closest('[data-fd-toggle]');
+    const openFd = tog ? tog.closest('[data-fd]') : null;
+    // close others
+    document.querySelectorAll('[data-fd].is-open').forEach(fd => { if (fd !== openFd) fd.classList.remove('is-open'); });
+    if (tog) { openFd.classList.toggle('is-open'); e.stopPropagation(); return; }
+    if (e.target.closest('.fd__panel')) return; // keep open while interacting
+    document.querySelectorAll('[data-fd].is-open').forEach(fd => fd.classList.remove('is-open'));
+    const sw = e.target.closest('.switch'); if (sw) sw.classList.toggle('is-on');
+  });
+</script>
+</body>
+</html>
