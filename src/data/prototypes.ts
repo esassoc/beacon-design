@@ -109,7 +109,7 @@ export const prototypeGroups: PrototypeGroup[] = [
         slug: 'permit-tracking',
         title: 'Permit Tracking',
         description:
-          'Map tab (default): the four real Phase-1 paths colored by derived permit status, mileage burndown, live color-scheme switcher. Data tab: Permits × Segments pivots with the editable permit drawer — saves repaint the map.',
+          'Map tab (default): the four real Phase-1 paths colored by derived permit status (cartographic readiness ramp), Path + Status filters, mileage strip + insight cards. Data tab: Permits × Segments AG Grids with the editable permit drawer — saves repaint the map.',
         route: '/prototypes/permit-tracking',
         createdAt: '2026-06-05',
         ticket: 'BCN-1266',

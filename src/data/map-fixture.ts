@@ -1,14 +1,18 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Epic B — Interactive Map Dashboard (BCN-1267) fixture.
+// Permit Tracking fixture (BCN-1266 map + data, formerly Epics A/B BCN-1266/1267).
 //
-// The whole concept lives here: three layers (Permits, Segments, derived status)
-// for the AWS Raul 2 pre-permit tracking demo. Hand-authored — these are REAL
-// permits from the AWS plan-of-work, applied to a linear route traced roughly
-// along US-12 through Walla Walla County, WA (centre ~46.06, -118.34).
+// Three layers: Permits, Segments, derived status — for the AWS pre-permit
+// tracking demo. Permits are REAL (AWS plan-of-work, WA + OR agencies).
+// Segments are REAL geometry: the four Phase-1 paths from the client KMZ
+// ("Phase-1 05.27 — Paths 1_2_3_4"), extracted by scripts/kmz-to-routes.py
+// into ./aws-routes.json (19 deduped segments, ~200 route-miles, Wallula WA →
+// Umatilla OR). Which permits gate which segment is hand-curated below — the
+// KMZ has no permit data.
 //
 // Nothing here is stored "derived" — segment status and clear-to-build date are
 // COMPUTED from the permits covering each segment (see helpers at the bottom).
 // ─────────────────────────────────────────────────────────────────────────────
+import routesJson from './aws-routes.json';
 
 /** Permit acquisition lifecycle (ordinal = advancement). `not-required` is off-ladder. */
 export type PermitStatus =
@@ -35,7 +39,12 @@ export interface Permit {
 export interface Segment {
   id: string;
   name: string;
-  lineId: string;
+  /** The route line — 'Path 1' … 'Path 4' (from the KMZ Routes folders). */
+  line: string;
+  /** Build phases this segment appears in ('Day 1', 'Day 2', 'Risk Mitigation'). */
+  phases: string[];
+  /** Proposed build contractor from the KMZ subfolder (Fishel / IIG / Windwave). */
+  contractor: string;
   jurisdiction: string;
   lengthFt: number;
   /** Ordered [lat, lng] vertices for the Leaflet polyline. */
@@ -44,7 +53,7 @@ export interface Segment {
   permitIds: string[];
 }
 
-// ── Permits (real AWS plan-of-work permits) ──────────────────────────────────
+// ── Permits (real AWS plan-of-work permits, WA + OR) ─────────────────────────
 export const permits: Permit[] = [
   {
     id: 'usace-nwp',
@@ -147,143 +156,94 @@ export const permits: Permit[] = [
     submittedDate: '2026-04-05',
     estimatedApprovalDate: '2026-09-05',
   },
+  // The Phase-1 paths cross into Oregon (Umatilla County) and Benton County, WA —
+  // the agencies below gate those reaches.
+  {
+    id: 'odot-permit',
+    name: 'Right-of-Way & Utility Permit',
+    agency: 'Oregon DOT',
+    agencyLevel: 'State',
+    status: 'under-review',
+    submittedDate: '2026-04-12',
+    estimatedApprovalDate: '2026-08-20',
+  },
+  {
+    id: 'or-dsl',
+    name: 'Removal–Fill Permit',
+    agency: 'Oregon Dept. of State Lands',
+    agencyLevel: 'State',
+    status: 'in-preparation',
+    estimatedApprovalDate: '2026-09-25',
+  },
+  {
+    id: 'uma-county-row',
+    name: 'County Right-of-Way Permit',
+    agency: 'Umatilla County Public Works',
+    agencyLevel: 'Local',
+    status: 'submitted',
+    submittedDate: '2026-05-02',
+    estimatedApprovalDate: '2026-09-10',
+  },
+  {
+    id: 'benton-row',
+    name: 'County Right-of-Way Permit',
+    agency: 'Benton County Public Works',
+    agencyLevel: 'Local',
+    status: 'not-started',
+    estimatedApprovalDate: '2026-11-01',
+  },
 ];
 
-// ── Segments (linear route ~US-12 through Walla Walla County) ─────────────────
-// Path-wide permits (USACE NWP, WA DNR, SEPA) appear in MANY segments; ROW and
-// shoreline permits are localized. Coordinates trace a rough W→E corridor.
-export const segments: Segment[] = [
-  {
-    id: 'seg-01',
-    name: 'Barnes RD to SR-12',
-    lineId: 'Raul 2 — West Reach',
-    jurisdiction: 'Walla Walla County',
-    lengthFt: 4820,
-    geometry: [
-      [46.0712, -118.4361],
-      [46.0689, -118.4218],
-      [46.0671, -118.4087],
-    ],
-    permitIds: ['sepa-walla-walla', 'wa-dnr', 'usace-nwp', 'ww-county-row'],
-  },
-  {
-    id: 'seg-02',
-    name: 'SR-12 / Lowden Junction',
-    lineId: 'Raul 2 — West Reach',
-    jurisdiction: 'WSDOT',
-    lengthFt: 3180,
-    geometry: [
-      [46.0671, -118.4087],
-      [46.0648, -118.3962],
-      [46.0631, -118.3841],
-    ],
-    permitIds: ['sepa-walla-walla', 'wa-dnr', 'usace-nwp', 'wsdot-uap'],
-  },
-  {
-    id: 'seg-03',
-    name: 'Touchet River Crossing',
-    lineId: 'Raul 2 — West Reach',
-    jurisdiction: 'WA Ecology / WDFW',
-    lengthFt: 2240,
-    geometry: [
-      [46.0631, -118.3841],
-      [46.0617, -118.3729],
-      [46.0609, -118.3648],
-    ],
-    permitIds: ['sepa-walla-walla', 'usace-nwp', 'ecology-401', 'wdfw-hpa', 'wa-dnr'],
-  },
-  {
-    id: 'seg-04',
-    name: 'Ash Hollow RD to PDX',
-    lineId: 'Raul 2 — Central Reach',
-    jurisdiction: 'Walla Walla County',
-    lengthFt: 5310,
-    geometry: [
-      [46.0609, -118.3648],
-      [46.0594, -118.3501],
-      [46.0581, -118.3372],
-    ],
-    permitIds: ['sepa-walla-walla', 'wa-dnr', 'usace-nwp', 'ecology-stormwater'],
-  },
-  {
-    id: 'seg-05',
-    name: 'US-12 / McNary Refuge',
-    lineId: 'Raul 2 — Central Reach',
-    jurisdiction: 'USFWS Refuge',
-    lengthFt: 3940,
-    geometry: [
-      [46.0581, -118.3372],
-      [46.0568, -118.3241],
-      [46.0559, -118.3138],
-    ],
-    permitIds: ['sepa-walla-walla', 'usace-nwp', 'usfws-sf299', 'wa-dnr'],
-  },
-  {
-    id: 'seg-06',
-    name: 'McNary to Frenchtown',
-    lineId: 'Raul 2 — Central Reach',
-    jurisdiction: 'Walla Walla County',
-    lengthFt: 2670,
-    geometry: [
-      [46.0559, -118.3138],
-      [46.055, -118.3019],
-      [46.0542, -118.2918],
-    ],
-    permitIds: ['sepa-walla-walla', 'wa-dnr', 'usace-nwp', 'ww-county-row'],
-  },
-  {
-    id: 'seg-07',
-    name: 'Frenchtown Shoreline Reach',
-    lineId: 'Raul 2 — East Reach',
-    jurisdiction: 'Walla Walla County (Shoreline)',
-    lengthFt: 3120,
-    geometry: [
-      [46.0542, -118.2918],
-      [46.0531, -118.2794],
-      [46.0524, -118.2691],
-    ],
-    permitIds: ['sepa-walla-walla', 'usace-nwp', 'shoreline-ssd', 'wa-dnr', 'ecology-401'],
-  },
-  {
-    id: 'seg-08',
-    name: 'Frenchtown to Dixie RD',
-    lineId: 'Raul 2 — East Reach',
-    jurisdiction: 'WSDOT',
-    lengthFt: 4480,
-    geometry: [
-      [46.0524, -118.2691],
-      [46.0513, -118.2552],
-      [46.0508, -118.2431],
-    ],
-    permitIds: ['sepa-walla-walla', 'wa-dnr', 'usace-nwp', 'wsdot-uap', 'ecology-stormwater'],
-  },
-  {
-    id: 'seg-09',
-    name: 'Dixie RD Tie-In',
-    lineId: 'Raul 2 — East Reach',
-    jurisdiction: 'Walla Walla County',
-    lengthFt: 2050,
-    geometry: [
-      [46.0508, -118.2431],
-      [46.0501, -118.2318],
-      [46.0497, -118.2224],
-    ],
-    permitIds: ['sepa-walla-walla', 'wa-dnr', 'franchise'],
-  },
-  {
-    id: 'seg-10',
-    name: 'East Terminus / Mill Creek',
-    lineId: 'Raul 2 — East Reach',
-    jurisdiction: 'WA Ecology / WDFW',
-    lengthFt: 1760,
-    geometry: [
-      [46.0497, -118.2224],
-      [46.0489, -118.2106],
-      [46.0484, -118.2008],
-    ],
-    permitIds: ['sepa-walla-walla', 'usace-nwp', 'ecology-401', 'wdfw-hpa', 'wa-dnr'],
-  },
-];
+// ── Segments (real Phase-1 route geometry ← aws-routes.json) ─────────────────
+// Permit gating is curated to tell the demo story: Path 1 is the active build
+// (cleared WA reaches, OR reaches in review), Path 2 is mid-flight, Path 3 is
+// early (Benton County not started), the Risk Mitigation variant hasn't begun,
+// Path 4 is a submitted shoreline spur.
+const SEGMENT_PERMITS: Record<string, string[]> = {
+  'seg-eas': ['sepa-walla-walla', 'ecology-401', 'wdfw-hpa'],
+  'seg-1a': ['usace-nwp', 'odot-permit', 'uma-county-row'],
+  'seg-1b': ['usace-nwp', 'odot-permit'],
+  'seg-1c': ['or-dsl', 'uma-county-row', 'usace-nwp'],
+  'seg-1e': ['sepa-walla-walla', 'wa-dnr', 'usace-nwp', 'ww-county-row'],
+  'seg-1f': ['sepa-walla-walla', 'usace-nwp', 'wa-dnr', 'ww-county-row'],
+  'seg-2a': ['usace-nwp', 'odot-permit', 'or-dsl', 'uma-county-row'],
+  'seg-2b': ['sepa-walla-walla', 'usace-nwp', 'ecology-401', 'wdfw-hpa'],
+  'seg-3a': ['or-dsl', 'uma-county-row'],
+  'seg-3b': ['uma-county-row', 'usace-nwp'],
+  'seg-3c': ['benton-row', 'ecology-stormwater'],
+  'seg-3d': ['benton-row'],
+  'seg-3e': ['benton-row', 'ecology-stormwater', 'usace-nwp'],
+  'seg-3f': ['sepa-walla-walla', 'wsdot-uap'],
+  'seg-3g': ['sepa-walla-walla', 'ww-county-row', 'usace-nwp'],
+  'seg-3h': ['franchise', 'sepa-walla-walla'],
+  'seg-3i': ['franchise'],
+  'seg-3j': ['franchise', 'ww-county-row'],
+  'seg-4a': ['shoreline-ssd', 'sepa-walla-walla', 'wa-dnr'],
+};
+
+export const segments: Segment[] = routesJson.features.map((f) => ({
+  id: f.properties.id,
+  name: f.properties.name,
+  line: f.properties.line,
+  phases: f.properties.phases,
+  contractor: f.properties.contractor,
+  jurisdiction: f.properties.jurisdiction,
+  lengthFt: f.properties.lengthFt,
+  // GeoJSON is [lng, lat]; Leaflet wants [lat, lng].
+  geometry: f.geometry.coordinates.map(([lng, lat]) => [lat, lng] as [number, number]),
+  permitIds: SEGMENT_PERMITS[f.properties.id] ?? [],
+}));
+
+/** The route lines, in display order, with rollup footage (drives the map's path filter). */
+export interface LineSummary {
+  id: string;
+  segmentCount: number;
+  lengthFt: number;
+}
+export const lines: LineSummary[] = [...new Set(segments.map((s) => s.line))].sort().map((id) => {
+  const segs = segments.filter((s) => s.line === id);
+  return { id, segmentCount: segs.length, lengthFt: segs.reduce((sum, s) => sum + s.lengthFt, 0) };
+});
 
 // ── Derived status model ─────────────────────────────────────────────────────
 
@@ -296,7 +256,7 @@ export type DerivedStatus =
   | 'cleared';
 
 /** Advancement ordinal — higher is more advanced. `not-required` is off-ladder (null). */
-const STATUS_ORDINAL: Record<PermitStatus, number | null> = {
+export const STATUS_ORDINAL: Record<PermitStatus, number | null> = {
   'not-started': 0,
   'in-preparation': 1,
   submitted: 2,
@@ -313,13 +273,81 @@ export interface StatusMeta {
   hex: string;
 }
 
-/** Canonical status → label + color. "Cleared" = all gating permits issued = green. */
+// ── Status color schemes ──────────────────────────────────────────────────────
+// The page exposes these as live options on the map. ONE invariant across all
+// schemes: green always means cleared. Every page surface (lines, chips,
+// burndown, legend) reads the runtime --st-<status> custom properties, which
+// default to the first scheme and are re-pointed by the switcher.
+export interface ColorScheme {
+  id: string;
+  label: string;
+  /** One line on what the palette is saying — shown in the switcher. */
+  blurb: string;
+  colors: Record<DerivedStatus, string>;
+}
+
+// All four schemes are READINESS ramps (red = far from buildable → green =
+// cleared) — the chosen direction after the June 10 review. They differ on two
+// axes: where the red→green pivot lands (balanced vs conservative) and how
+// saturated the ink is (vivid vs print-map vs muted).
+export const COLOR_SCHEMES: ColorScheme[] = [
+  {
+    id: 'cartographic',
+    label: 'Cartographic',
+    blurb: 'Soft print-map ramp (RdYlGn) — gentler ink over the basemap.',
+    colors: {
+      'not-started': '#d73027',
+      'in-preparation': '#fc8d59',
+      submitted: '#e3c14d',
+      'under-review': '#91cf60',
+      cleared: '#1a9850',
+    },
+  },
+  {
+    id: 'readiness',
+    label: 'Readiness heat',
+    blurb: 'Even spectrum — red through amber to green, balanced pivot at Submitted.',
+    colors: {
+      'not-started': '#dc2626',
+      'in-preparation': '#f97316',
+      submitted: '#eab308',
+      'under-review': '#65a30d',
+      cleared: '#16a34a',
+    },
+  },
+  {
+    id: 'conservative',
+    label: 'Conservative',
+    blurb: 'Red until proven green — nothing reads "warm" before agency review.',
+    colors: {
+      'not-started': '#991b1b',
+      'in-preparation': '#dc2626',
+      submitted: '#ea580c',
+      'under-review': '#f59e0b',
+      cleared: '#16a34a',
+    },
+  },
+  {
+    id: 'earth',
+    label: 'Muted earth',
+    blurb: 'Desaturated brick → olive — the quietest option, basemap stays legible.',
+    colors: {
+      'not-started': '#a13d32',
+      'in-preparation': '#c47a3b',
+      submitted: '#c9a227',
+      'under-review': '#7d9a44',
+      cleared: '#2f7d4f',
+    },
+  },
+];
+
+/** Canonical status → label + runtime color var (hex = first scheme, the SSR default). */
 export const STATUS_META: Record<DerivedStatus, StatusMeta> = {
-  'not-started': { key: 'not-started', label: 'Not Started', colorVar: '--bcn-gray-300', hex: '#bdbdbd' },
-  'in-preparation': { key: 'in-preparation', label: 'In Preparation', colorVar: '--color-orange-300', hex: '#fab54f' },
-  submitted: { key: 'submitted', label: 'Submitted', colorVar: '--color-blue-500', hex: '#699cc6' },
-  'under-review': { key: 'under-review', label: 'Under Review', colorVar: '--color-warning', hex: '#f59e0b' },
-  cleared: { key: 'cleared', label: 'Cleared to Construct', colorVar: '--color-success', hex: '#22c55e' },
+  'not-started': { key: 'not-started', label: 'Not Started', colorVar: '--st-not-started', hex: '#d73027' },
+  'in-preparation': { key: 'in-preparation', label: 'In Preparation', colorVar: '--st-in-preparation', hex: '#fc8d59' },
+  submitted: { key: 'submitted', label: 'Submitted', colorVar: '--st-submitted', hex: '#e3c14d' },
+  'under-review': { key: 'under-review', label: 'Under Review', colorVar: '--st-under-review', hex: '#91cf60' },
+  cleared: { key: 'cleared', label: 'Cleared to Construct', colorVar: '--st-cleared', hex: '#1a9850' },
 };
 
 /** Display order for legends + burndown (least → most advanced). */
@@ -392,6 +420,11 @@ export function formatDate(iso: string | null): string {
   return `${months[m - 1]} ${d}, ${y}`;
 }
 
+/** Format feet → "18.2 mi" (the corridor is ~200 mi — feet alone stops meaning anything). */
+export function formatMiles(feet: number): string {
+  return `${(feet / 5280).toFixed(1)} mi`;
+}
+
 export const PERMIT_STATUS_LABEL: Record<PermitStatus, string> = {
   'not-started': 'Not Started',
   'in-preparation': 'In Preparation',
@@ -411,22 +444,22 @@ export const PERMIT_STATUS_VARIANT: Record<PermitStatus, 'default' | 'primary' |
   'not-required': 'default',
 };
 
-// ── Shared permit-status color (chips on Epic A's table MUST match the map) ───
-// Same family as STATUS_META: not-started gray, in-preparation orange-300,
-// submitted blue-500, under-review warning, issued = success/green (the map's
-// "cleared" color). not-required is a muted neutral (off-ladder).
+// ── Shared permit-status color (chips MUST match the map lines) ───────────────
+// Permit ladder maps onto the same runtime --st-* vars: `issued` shares the
+// cleared color, `not-required` is a fixed off-ladder neutral the schemes
+// never re-point.
 export interface PermitStatusMeta {
   label: string;
   colorVar: string;
   hex: string;
 }
 export const PERMIT_STATUS_META: Record<PermitStatus, PermitStatusMeta> = {
-  'not-started': { label: 'Not Started', colorVar: '--bcn-gray-300', hex: '#bdbdbd' },
-  'in-preparation': { label: 'In Preparation', colorVar: '--color-orange-300', hex: '#fab54f' },
-  submitted: { label: 'Submitted', colorVar: '--color-blue-500', hex: '#699cc6' },
-  'under-review': { label: 'Under Review', colorVar: '--color-warning', hex: '#f59e0b' },
-  issued: { label: 'Issued', colorVar: '--color-success', hex: '#22c55e' },
-  'not-required': { label: 'Not Required', colorVar: '--bcn-gray-400', hex: '#989898' },
+  'not-started': { label: 'Not Started', colorVar: '--st-not-started', hex: '#d73027' },
+  'in-preparation': { label: 'In Preparation', colorVar: '--st-in-preparation', hex: '#fc8d59' },
+  submitted: { label: 'Submitted', colorVar: '--st-submitted', hex: '#e3c14d' },
+  'under-review': { label: 'Under Review', colorVar: '--st-under-review', hex: '#91cf60' },
+  issued: { label: 'Issued', colorVar: '--st-cleared', hex: '#1a9850' },
+  'not-required': { label: 'Not Required', colorVar: '--st-not-required', hex: '#989898' },
 };
 
 /** Display order for status filters/legends (least → most advanced; not-required last). */
@@ -452,6 +485,7 @@ export function permitType(permit: Permit): string {
   if (n.includes('sepa') || n.includes('environmental review')) return 'SEPA';
   if (n.includes('franchise')) return 'Franchise';
   if (n.includes('shoreline')) return 'Shoreline';
+  if (n.includes('removal')) return 'Removal–Fill';
   return 'Permit';
 }
 

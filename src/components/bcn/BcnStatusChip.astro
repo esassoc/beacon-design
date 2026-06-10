@@ -1,0 +1,56 @@
+---
+// <BcnStatusChip> — the colored status chip used across Permit Tracking (both
+// data tables, the segment dialog, the map drawer). Dot + tinted pill whose
+// color is VALUE-driven: it reads the runtime --st-<status> custom property,
+// so when the map's color-scheme switcher re-points --st-*, every chip on the
+// page follows the lines. Same rationale as BcnStatusSelect's trigger dot —
+// esa-badge/esa-pill have fixed variants and can't render a value-driven color.
+//
+// `status` is the token key (derived-segment or permit ladder — both map onto
+// --st-*; `issued` shares --st-cleared, `not-required` is the fixed off-ladder
+// neutral). `hex` is the SSR fallback for surfaces where --st-* isn't defined.
+// Hosts that re-render the label/color at runtime hook .bcn-status-chip via
+// data-* attributes they add themselves.
+//
+// bcn-lego-checked: no esa-* chip supports value-driven color (esa-badge and
+// esa-pill are fixed-variant); checked Beacon (status pill is the same fixed
+// set). bcn-status-chip is the reusable home, color via runtime --st-* tokens.
+
+interface Props {
+  /** Status key, e.g. 'submitted', 'cleared', 'issued', 'not-required'. */
+  status: string;
+  label: string;
+  /** SSR/default color, used when --st-<status> is undefined. */
+  hex: string;
+}
+const { status, label, hex } = Astro.props;
+// issued advances a permit to the same color as a cleared segment.
+const varKey = status === 'issued' ? 'cleared' : status;
+---
+
+<span class="bcn-status-chip" data-status={status} style={`--_chip: var(--st-${varKey}, ${hex});`}>
+  <span class="bcn-status-chip__dot"></span>
+  <span class="bcn-status-chip__label">{label}</span>
+</span>
+
+<style>
+  .bcn-status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    padding: 2px var(--spacing-250);
+    border-radius: var(--radius-full);
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    white-space: nowrap;
+    background: color-mix(in srgb, var(--_chip) 16%, transparent);
+    color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+  }
+  .bcn-status-chip__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: var(--_chip);
+    flex-shrink: 0;
+  }
+</style>

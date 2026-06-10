@@ -45,6 +45,8 @@ interface Props {
   userEmail?: string;
   navSections?: NavSection[];
   showQaBadge?: boolean;
+  /** NavItem id to highlight (overrides the static defaults, e.g. Dashboard). */
+  activeNavId?: string;
 }
 
 // ── Lucide glyphs not in esa-icon's built-in registry (inner SVG markup only) ──
@@ -83,6 +85,7 @@ const {
   userName = 'Andy Lovseth',
   userEmail = 'andy.lovseth@esassoc.com',
   showQaBadge = true,
+  activeNavId,
   // Verbatim nav structure from side-nav-modern.component.ts (standard labels).
   navSections = [
     {
@@ -119,6 +122,7 @@ const {
       items: [
         { id: 'tracking-summary', label: 'Tracking Summary' },
         { id: 'project-tracking', label: 'Project Tracking' },
+        { id: 'permit-tracking', label: 'Permit Tracking', href: withBase('/prototypes/permit-tracking') },
         { id: 'all-components', label: 'All Components' },
       ],
     },
@@ -158,6 +162,18 @@ const {
     },
   ],
 } = Astro.props as Props;
+
+// Per-page nav highlight — activeNavId beats the static defaults (Dashboard).
+if (activeNavId) {
+  for (const section of navSections) {
+    let hit = false;
+    for (const item of section.items ?? []) {
+      item.active = item.id === activeNavId;
+      if (item.active) hit = true;
+    }
+    section.active = hit;
+  }
+}
 
 ---
 

@@ -1,269 +1,446 @@
 ---
-// Epic A — Permit Tracking workspace (BCN-1266). The CRUD spine that pairs with
-// the map (Epic B). Same fixture (map-fixture.ts) — Permits × Segments with both
-// pivots, plus the reusable EDITABLE permit drawer (the write surface the map
-// will later summon). Rendered inside AppShell > PageLayout.
+// Permit Tracking — ONE feature (BCN-1266 + BCN-1267 merged): Tracking →
+// Permit Tracking, with two tabs.
+//
+//   Map  (default) — the four real Phase-1 paths from the client KMZ, colored
+//                    by derived permitting status (readiness ramps — red far
+//                    from buildable, green cleared), a live palette switcher,
+//                    a per-path filter, and a SECONDARY mileage strip below
+//                    the map. The map answers "what segments are ready?"
+//   Data           — Permits × Segments as AG Grids (beacon-grid kit) behind
+//                    the requirement-tracker filter bar: View toggle, Status +
+//                    Level dropdowns, keyword search. Permit rows open the
+//                    EDITABLE drawer; saving re-derives segment status
+//                    everywhere (map lines, chips, grids, mileage strip).
+//
+// Segment click → the same read-only segment drawer from BOTH tabs; permits
+// listed in it jump to the permit editor.
+//
+// Geometry is real: src/data/aws-routes.json (scripts/kmz-to-routes.py).
+// Status is never stored per segment — always derived from gating permits,
+// at build time here and re-derived in the browser after every edit.
 import AppShell from '../../layouts/AppShell.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaBadge from '@esa/ecology/esa-badge.astro';
-import EsaFormField from '@esa/ecology/esa-form-field.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import FilterContainer from '@esa/ecology/esa-filter-container.astro';
+import FilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
+import BcnKeyValue from '../../components/bcn/BcnKeyValue.astro';
+import BcnStatusChip from '../../components/bcn/BcnStatusChip.astro';
 import {
   permits,
   segments,
+  lines,
+  COLOR_SCHEMES,
+  STATUS_META,
+  STATUS_ORDER,
   PERMIT_STATUS_META,
   PERMIT_STATUS_LABEL,
   PERMIT_STATUS_ORDER,
-  STATUS_META,
-  permitType,
-  segmentCountForPermit,
   deriveStatus,
   clearToBuildDate,
   gatingPermits,
+  footageByStatus,
+  totalFeet,
   formatDate,
-  LEVEL_VARIANT,
+  formatMiles,
+  permitType,
 } from '../../data/map-fixture';
 
-// ── Precompute permit rows ───────────────────────────────────────────────────
+// ── Precompute (build-time mirror of what the client re-derives after edits) ──
+const burndown = footageByStatus();
+const total = totalFeet();
+const clearedFeet = burndown.find((b) => b.status === 'cleared')?.feet ?? 0;
+const pct = (feet: number) => (total === 0 ? 0 : Math.round((feet / total) * 100));
+
+// Template rows for the segment drawer's covering-permits list (cloned in JS).
 const permitRows = permits.map((p) => ({
   id: p.id,
   name: p.name,
   agency: p.agency,
   agencyLevel: p.agencyLevel,
-  type: permitType(p),
   status: p.status,
   statusLabel: PERMIT_STATUS_LABEL[p.status],
   statusHex: PERMIT_STATUS_META[p.status].hex,
   estDate: formatDate(p.actualApprovalDate ?? p.estimatedApprovalDate ?? null),
-  segmentCount: segmentCountForPermit(p.id),
-  // raw values for the editable drawer
-  submittedDate: p.submittedDate ?? '',
-  estimatedApprovalDate: p.estimatedApprovalDate ?? '',
-  actualApprovalDate: p.actualApprovalDate ?? '',
-  segmentIds: segments.filter((s) => s.permitIds.includes(p.id)).map((s) => s.id),
 }));
 
-// ── Precompute segment rows (derived view) ───────────────────────────────────
-const segmentRows = segments.map((s) => {
-  const status = deriveStatus(s);
-  return {
+// One serialized payload — the client store. Everything live (grids, map,
+// drawers, mileage strip) is re-derived from this.
+const payload = {
+  schemes: COLOR_SCHEMES,
+  statusOrder: STATUS_ORDER,
+  statusLabels: Object.fromEntries(STATUS_ORDER.map((s) => [s, STATUS_META[s].label])),
+  permitLabels: PERMIT_STATUS_LABEL,
+  permitOrder: PERMIT_STATUS_ORDER,
+  lines: lines.map((l) => ({ id: l.id, miles: formatMiles(l.lengthFt) })),
+  permits: permits.map((p) => ({
+    id: p.id,
+    name: p.name,
+    agency: p.agency,
+    agencyLevel: p.agencyLevel,
+    type: permitType(p),
+    status: p.status,
+    submittedDate: p.submittedDate ?? '',
+    estimatedApprovalDate: p.estimatedApprovalDate ?? '',
+    actualApprovalDate: p.actualApprovalDate ?? '',
+    segmentIds: segments.filter((s) => s.permitIds.includes(p.id)).map((s) => s.id),
+  })),
+  segments: segments.map((s) => ({
     id: s.id,
     name: s.name,
-    lineId: s.lineId,
+    line: s.line,
+    phases: s.phases,
+    contractor: s.contractor,
     jurisdiction: s.jurisdiction,
     lengthFt: s.lengthFt,
-    status,
-    statusLabel: STATUS_META[status].label,
-    statusHex: STATUS_META[status].hex,
-    clearDate: formatDate(clearToBuildDate(s)),
-    permitCount: gatingPermits(s).length,
-  };
-});
-
-const allSegments = segments.map((s) => ({ id: s.id, name: s.name, lineId: s.lineId }));
-
-// Drawer payload — full permit detail keyed by id (for the editable form).
-const drawerData = permitRows.map((p) => ({
-  id: p.id,
-  name: p.name,
-  agency: p.agency,
-  agencyLevel: p.agencyLevel,
-  type: p.type,
-  status: p.status,
-  submittedDate: p.submittedDate,
-  estimatedApprovalDate: p.estimatedApprovalDate,
-  actualApprovalDate: p.actualApprovalDate,
-  segmentIds: p.segmentIds,
-}));
+    geometry: s.geometry,
+  })),
+};
 ---
 
-<AppShell title="Permit Tracking — AWS Raul">
+<!-- bcn-lego-checked: composed from esa-tab-layout, esa-side-dialog ×2, esa-select,
+     esa-date-picker, esa-text-field, esa-button-toggle ×2, esa-collapsible (flush),
+     esa-filter-dropdown in esa-filter-container, esa-filter-clear-button, esa-tooltip,
+     esa-button, esa-icon-button, esa-icon, esa-badge, esa-pill + BcnStatusChip,
+     BcnKeyValue + the shared beacon-grid AG Grid kit (src/lib/beacon-grid.ts).
+     Remaining CSS is composition glue: Leaflet map chrome (status legend overlay — no
+     esa- lego models map overlays; checked Beacon, prod has no map UI), the secondary
+     mileage strip + insight cards + clear-to-build timeline chart (no esa- lego models
+     a time-axis chart), the bulk-action bar over the AG Grid selection, the print/board
+     stylesheet, the filter-bar card shell + grid footer (faithful copies of
+     requirement-tracker's page glue), and the global .bcn-grid-chip cells AG Grid
+     injects outside Astro's scope. -->
+<AppShell title="Permit Tracking — AWS Raul" activeNavId="permit-tracking">
   <PageLayout
     title="Permit Tracking"
-    icon="clipboard-list"
+    icon="map"
     breadcrumbs={[
       { label: 'Raul', href: '#raul' },
       { label: 'Tracking', href: '#tracking' },
       { label: 'Permit Tracking' },
     ]}
   >
-    <EsaButton slot="utilities" color="primary" icon="plus" size="sm">New Permit</EsaButton>
+    <!-- No "New Permit" here on purpose: permits ARE source documents — this page
+         is a projection of that data through the permitting lens, not their home. -->
+    <esa-tab-layout id="pt-tabs" appearance="underline">
+      <!-- ═══ TAB 1 — MAP (the hero: which segments are ready?) ═══ -->
+      <section slot="panel-0" class="map-panel" aria-label="Permit status map">
+        <!-- Print-only board header (filled by the Export button) -->
+        <div class="print-header" aria-hidden="true">
+          <span class="print-header__title">Permit Tracking</span>
+          <span class="print-header__meta" id="print-meta"></span>
+        </div>
 
-    <!-- ═══ Pivot toggle + filter pills ═══ -->
-    <div class="pt-toolbar">
-      <div class="pt-pivot" role="tablist" aria-label="Pivot view">
-        <button type="button" class="pt-pivot__btn is-active" data-view="permits" role="tab" aria-selected="true">
-          Permits
-        </button>
-        <button type="button" class="pt-pivot__btn" data-view="segments" role="tab" aria-selected="false">
-          Segments
-        </button>
-      </div>
+        <!-- Map filters — scope the MAP and every figure below it (mileage
+             strip + insight cards), not just the layers. -->
+        <div class="map-filterbar">
+          <div class="map-filterbar__group">
+            <span class="map-filterbar__label">Paths</span>
+            <esa-button-toggle id="path-toggle" value="all" size="md"></esa-button-toggle>
+          </div>
+          <span class="map-filterbar__divider"></span>
+          <div class="map-filterbar__group">
+            <span class="map-filterbar__label">Status</span>
+            <esa-button-toggle id="status-toggle" value="all" size="md"></esa-button-toggle>
+          </div>
+          <span class="map-filterbar__export" id="board-export">
+            <EsaButton color="ghost" appearance="outline" size="sm" icon="download">Export board</EsaButton>
+          </span>
+        </div>
 
-      <!-- Filter pills (affordance; non-functional) -->
-      <div class="pt-filters" id="pt-filters">
-        <span class="pt-filter-label">Filters</span>
-        <span class="pt-pill">
-          Status: Under Review
-          <button type="button" class="pt-pill__x" aria-label="Remove filter"><EsaIcon name="x" size="xs" /></button>
-        </span>
-        <span class="pt-pill">
-          Level: Federal
-          <button type="button" class="pt-pill__x" aria-label="Remove filter"><EsaIcon name="x" size="xs" /></button>
-        </span>
-        <button type="button" class="pt-filter-clear">Clear all</button>
-      </div>
-    </div>
+        <div class="map-wrap">
+          <div id="permit-map" class="map"></div>
 
-    <!-- ═══ Permit-centric table ═══ -->
-    <div class="grid-wrap" id="view-permits">
-      <table class="grid">
-        <thead>
-          <tr>
-            <th class="grid__th grid__th--sortable">Permit <EsaIcon name="chevron-down" size="xs" /></th>
-            <th class="grid__th">Agency</th>
-            <th class="grid__th">Level</th>
-            <th class="grid__th">Type</th>
-            <th class="grid__th">Status</th>
-            <th class="grid__th">Est. Approval</th>
-            <th class="grid__th grid__th--num">Segments</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            permitRows.map((p) => (
-              <tr class="grid__row" data-permit-id={p.id} tabindex="0">
-                <td class="grid__td grid__td--name">{p.name}</td>
-                <td class="grid__td">{p.agency}</td>
-                <td class="grid__td">
-                  <EsaBadge value={p.agencyLevel} variant={LEVEL_VARIANT[p.agencyLevel]} size="sm" />
-                </td>
-                <td class="grid__td grid__td--muted">{p.type}</td>
-                <td class="grid__td">
-                  <span class="status-chip" style={`--_chip:${p.statusHex};`}>
-                    <span class="status-chip__dot" />
-                    {p.statusLabel}
-                  </span>
-                </td>
-                <td class="grid__td grid__td--muted">{p.estDate}</td>
-                <td class="grid__td grid__td--num">{p.segmentCount}</td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
-    </div>
+          <div class="map-legend" aria-label="Segment status legend">
+            <span class="map-legend__title">Segment status</span>
+            {
+              STATUS_ORDER.map((status) => (
+                <span class="map-legend__row">
+                  <span class="map-legend__line" style={`background:var(${STATUS_META[status].colorVar});`} />
+                  {STATUS_META[status].label}
+                </span>
+              ))
+            }
+          </div>
+        </div>
 
-    <!-- ═══ Segment-centric table (pivot) ═══ -->
-    <div class="grid-wrap" id="view-segments" hidden>
-      <table class="grid">
-        <thead>
-          <tr>
-            <th class="grid__th">Segment</th>
-            <th class="grid__th">Line</th>
-            <th class="grid__th">Jurisdiction</th>
-            <th class="grid__th grid__th--num">Length</th>
-            <th class="grid__th">Derived Status</th>
-            <th class="grid__th">Clear-to-Build</th>
-            <th class="grid__th grid__th--num">Permits</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            segmentRows.map((s) => (
-              <tr class="grid__row grid__row--static">
-                <td class="grid__td grid__td--name">{s.name}</td>
-                <td class="grid__td grid__td--muted">{s.lineId}</td>
-                <td class="grid__td grid__td--muted">{s.jurisdiction}</td>
-                <td class="grid__td grid__td--num">{s.lengthFt.toLocaleString()} ft</td>
-                <td class="grid__td">
-                  <span class="status-chip" style={`--_chip:${s.statusHex};`}>
-                    <span class="status-chip__dot" />
-                    {s.statusLabel}
-                  </span>
-                </td>
-                <td class="grid__td">{s.clearDate}</td>
-                <td class="grid__td grid__td--num">{s.permitCount}</td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
-    </div>
+        <!-- Secondary figure: mileage by status (supporting, not the headline) -->
+        <section class="burndown" aria-label="Mileage by permitting status">
+          <div class="burndown__head">
+            <span class="burndown__title">Mileage by status</span>
+            <span class="burndown__summary">
+              Cleared to Construct <strong id="bd-cleared">{formatMiles(clearedFeet)}</strong>
+              <span id="bd-total">of {formatMiles(total)} total · {pct(clearedFeet)}%</span>
+            </span>
+          </div>
+          <div class="burndown__bar" id="bd-bar" role="img" aria-label={`${pct(clearedFeet)} percent cleared`}>
+            {
+              burndown
+                .filter((b) => b.feet > 0)
+                .map((b) => (
+                  <div
+                    style={`height:100%; flex: 0 0 ${(b.feet / total) * 100}%; background:var(${STATUS_META[b.status].colorVar});`}
+                    title={`${STATUS_META[b.status].label}: ${formatMiles(b.feet)}`}
+                  />
+                ))
+            }
+          </div>
+          <ul class="burndown__legend">
+            {
+              STATUS_ORDER.map((status) => {
+                const row = burndown.find((b) => b.status === status)!;
+                return (
+                  <li class="burndown__legend-item" data-bd-item={status} data-empty={row.feet === 0 ? 'true' : 'false'}>
+                    <span class="burndown__swatch" style={`background:var(${STATUS_META[status].colorVar});`} />
+                    <span class="burndown__legend-label">{STATUS_META[status].label}</span>
+                    <span class="burndown__legend-mi" data-bd-mi={status}>{formatMiles(row.feet)}</span>
+                    <span class="burndown__legend-pct" data-bd-pct={status}>{pct(row.feet)}%</span>
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </section>
+
+        <!-- Clear-to-build timeline — directly below Mileage by status (the two
+             headline figures read together). Segments ordered by projected clear
+             date. Click a row → segment drawer. -->
+        <section class="ctb" aria-label="Clear-to-build timeline">
+          <div class="ctb__head">
+            <h3 class="ctb__title">Clear-to-build timeline</h3>
+            <p class="ctb__sub">Segments by projected clear-to-build date</p>
+          </div>
+          <div class="ctb__axisrow" aria-hidden="true">
+            <span></span>
+            <div class="ctb__axis" id="ctb-axis"></div>
+            <span></span>
+          </div>
+          <ul class="ctb__rows" id="ctb-rows"></ul>
+        </section>
+
+        <!-- Insight cards — two only, side by side: the status census and the
+             actionable blockers list. JS-rendered from the same store as the
+             map, so they re-derive after every permit edit. -->
+        <div class="insights">
+          <section class="ins-card" aria-label="Permits by status">
+            <h3 class="ins-card__title">Permits by status</h3>
+            <ul class="ins-list" id="ins-status"></ul>
+          </section>
+          <section class="ins-card" aria-label="Blocking the most mileage">
+            <h3 class="ins-card__title">Blocking the most mileage</h3>
+            <p class="ins-card__sub">Pending permits, ranked by the route-miles they gate</p>
+            <ul class="ins-list" id="ins-blockers"></ul>
+          </section>
+        </div>
+      </section>
+
+      <!-- ═══ TAB 2 — DATA (requirement-tracker filter bar + beacon AG Grids) ═══ -->
+      <section slot="panel-1" class="data-panel" aria-label="Permit tracking data">
+        <div class="bcn-filterbar">
+          <div class="bcn-filterbar__top">
+            <div class="bcn-filterbar__group">
+              <span class="bcn-filterbar__label">View</span>
+              <esa-button-toggle id="pivot-toggle" value="permits" size="md"></esa-button-toggle>
+            </div>
+            <div class="bcn-filterbar__search">
+              <esa-text-field id="pt-search" placeholder="Search permits…" size="md"></esa-text-field>
+              <span id="pt-search-clear" hidden><EsaIconButton icon="x" label="Clear search" size="sm" /></span>
+            </div>
+          </div>
+          <div class="bcn-filterbar__bottom">
+            <span class="bcn-filterbar__label">Filters</span>
+            <FilterContainer>
+              <esa-filter-dropdown id="flt-status" label="Status" multiple size="sm"></esa-filter-dropdown>
+              <span id="flt-level-wrap"><esa-filter-dropdown id="flt-level" label="Level" multiple size="sm"></esa-filter-dropdown></span>
+            </FilterContainer>
+            <span id="pt-clear-filters" class="bcn-filterbar__clear"><FilterClearButton /></span>
+          </div>
+        </div>
+
+        <!-- Bulk status bar — appears when permits-grid rows are checkbox-selected -->
+        <div class="bulk-bar" id="bulk-bar" hidden>
+          <span class="bulk-bar__count" id="bulk-count">0 selected</span>
+          <esa-select id="bulk-status" placeholder="Set status…"></esa-select>
+          <span id="bulk-apply"><EsaButton color="primary" size="sm">Apply status</EsaButton></span>
+          <span id="bulk-clear"><EsaButton color="ghost" appearance="outline" size="sm">Clear selection</EsaButton></span>
+        </div>
+
+        <div class="bcn-view-pane" id="pane-permits">
+          <div id="grid-permits" class="pt-grid"></div>
+        </div>
+        <div class="bcn-view-pane" id="pane-segments" hidden>
+          <div id="grid-segments" class="pt-grid"></div>
+        </div>
+
+        <div class="table-footer">
+          <span id="pt-download"><EsaButton color="ghost" appearance="outline" size="sm" icon="download">Download as CSV</EsaButton></span>
+          <div class="row-count-data">
+            Total Records: <span id="pt-total">0</span>
+            <span id="pt-filtered" class="filtered-rows-count" hidden></span>
+          </div>
+        </div>
+      </section>
+    </esa-tab-layout>
   </PageLayout>
 
-  <!-- ═══ Editable permit drawer (reusable ui-side-dialog write surface) ═══ -->
-  <div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
-  <aside class="permit-drawer" id="permit-drawer" role="dialog" aria-modal="true" aria-labelledby="pd-title" hidden>
-    <header class="permit-drawer__header">
-      <div class="permit-drawer__header-main">
-        <span class="permit-drawer__eyebrow" id="pd-agency"></span>
-        <h2 class="permit-drawer__title" id="pd-title"></h2>
-      </div>
-      <button type="button" class="permit-drawer__close" id="drawer-close" aria-label="Close dialog">
-        <EsaIcon name="x" size="sm" />
-      </button>
-    </header>
-
-    <div class="permit-drawer__body">
-      <EsaFormField label="Status">
-        <select class="pd-input" id="pd-status">
-          {PERMIT_STATUS_ORDER.map((s) => <option value={s}>{PERMIT_STATUS_LABEL[s]}</option>)}
-        </select>
-      </EsaFormField>
-
-      <div class="pd-row">
-        <EsaFormField label="Submitted date">
-          <input type="date" class="pd-input" id="pd-submitted" />
-        </EsaFormField>
-        <EsaFormField label="Estimated approval">
-          <input type="date" class="pd-input" id="pd-estimated" />
-        </EsaFormField>
-      </div>
-
-      <div class="pd-row">
-        <EsaFormField label="Actual approval">
-          <input type="date" class="pd-input" id="pd-actual" />
-        </EsaFormField>
-        <EsaFormField label="Agency">
-          <input type="text" class="pd-input" id="pd-agency-input" />
-        </EsaFormField>
-      </div>
-
-      <EsaFormField label="Permit type">
-        <input type="text" class="pd-input" id="pd-type" />
-      </EsaFormField>
-
-      <div class="pd-applicability">
-        <span class="pd-applicability__label">Segment applicability</span>
-        <ul class="pd-checklist" id="pd-segments">
-          {
-            allSegments.map((s) => (
-              <li class="pd-check">
-                <label class="pd-check__label">
-                  <input type="checkbox" class="pd-check__box" value={s.id} />
-                  <span class="pd-check__name">{s.name}</span>
-                  <span class="pd-check__line">{s.lineId}</span>
-                </label>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+  <!-- ═══ Segment drawer (read) — esa-side-dialog lego, reachable from BOTH tabs ═══ -->
+  <esa-side-dialog id="segment-dialog" size="md" style="--_width: 640px; --z-modal: 1300; --z-modal-backdrop: 1250;">
+    <div slot="header" class="sd__header">
+      <h2 class="sd__title" id="sd-title">Segment</h2>
+      <span id="sd-chip"><BcnStatusChip status="cleared" label="—" hex={STATUS_META.cleared.hex} /></span>
     </div>
+    <div class="sd">
+      <dl class="sd__meta">
+        <div class="sd__kv"><dt>Path</dt><dd id="sd-path">—</dd></div>
+        <div class="sd__kv"><dt>Build phase</dt><dd id="sd-phase">—</dd></div>
+        <div class="sd__kv"><dt>Projected clear-to-build</dt><dd id="sd-clear">—</dd></div>
+        <div class="sd__kv"><dt>Length</dt><dd id="sd-length">—</dd></div>
+        <div class="sd__kv"><dt>Jurisdiction</dt><dd id="sd-jur">—</dd></div>
+        <div class="sd__kv"><dt>Build contractor</dt><dd id="sd-build">—</dd></div>
+      </dl>
+      <h3 class="sd__section">Covering permits <span id="sd-count"><EsaBadge value="0" size="sm" /></span></h3>
+      <ul class="sd__permits" id="sd-permits"></ul>
+    </div>
+  </esa-side-dialog>
 
-    <footer class="permit-drawer__footer">
-      <span id="drawer-cancel" class="pd-action"><EsaButton color="ghost" appearance="outline" size="sm">Cancel</EsaButton></span>
-      <span id="drawer-save" class="pd-action"><EsaButton color="primary" size="sm">Save</EsaButton></span>
-    </footer>
-  </aside>
+  <!-- One <li> per permit; the segment drawer clones the rows it needs. Cloning
+       SSR nodes (not innerHTML strings) keeps Astro's scoped styles + the chip
+       component markup as the single source. -->
+  <template id="pt-permit-rows">
+    <ul>
+      {
+        permitRows.map((p) => (
+          <li class="sd-permit" data-permit-row={p.id}>
+            <button type="button" class="sd-permit__btn" data-edit-permit={p.id}>
+              <span class="sd-permit__main">
+                <span class="sd-permit__name">{p.name}</span>
+                <span class="sd-permit__agency">{p.agency} · {p.agencyLevel}</span>
+              </span>
+              <span class="sd-permit__meta">
+                <span class="sd-permit__chips">
+                  <esa-tooltip text="Least-advanced covering permit — its status sets this segment's status" position="top">
+                    <span class="sd-permit__gating" data-gating-tag hidden>Gating</span>
+                  </esa-tooltip>
+                  <span data-permit-chip={p.id}>
+                    <BcnStatusChip status={p.status} label={p.statusLabel} hex={p.statusHex} />
+                  </span>
+                </span>
+                <span class="sd-permit__date" data-permit-date={p.id}>{p.estDate}</span>
+              </span>
+              <EsaIcon name="chevron-right" size="sm" />
+            </button>
+          </li>
+        ))
+      }
+    </ul>
+  </template>
 
-  <script type="application/json" id="drawer-data" set:html={JSON.stringify(drawerData)}></script>
+  <!-- ═══ Permit drawer (EDIT — the write surface) — esa-side-dialog lego ═══ -->
+  <esa-side-dialog id="permit-dialog" size="md" style="--_width: 640px; --z-modal: 1340; --z-modal-backdrop: 1310;">
+    <div slot="header" class="pd__header">
+      <h2 class="pd__title" id="pd-title">Permit</h2>
+      <span id="pd-chip"><BcnStatusChip status="not-started" label="—" hex={PERMIT_STATUS_META['not-started'].hex} /></span>
+    </div>
+    <div class="pd">
+      <section class="pd__section">
+        <h3 class="pd__section-head">
+          <EsaIcon name="circle-dot" size="sm" paths="<circle cx='12' cy='12' r='10'/><circle cx='12' cy='12' r='1'/>" />
+          Status
+        </h3>
+        <div class="pd__group">
+          <esa-select id="pd-status"></esa-select>
+        </div>
+      </section>
+
+      <section class="pd__section">
+        <h3 class="pd__section-head">
+          <EsaIcon name="clock" size="sm" paths="<circle cx='12' cy='12' r='10'/><polyline points='12 6 12 12 16 14'/>" />
+          Timing
+        </h3>
+        <div class="pd__group">
+          <div class="pd__row">
+            <esa-date-picker id="pd-submitted" label="Submitted date"></esa-date-picker>
+            <esa-date-picker id="pd-estimated" label="Estimated approval"></esa-date-picker>
+          </div>
+          <esa-date-picker id="pd-actual" label="Actual approval"></esa-date-picker>
+        </div>
+      </section>
+
+      <section class="pd__section">
+        <h3 class="pd__section-head">
+          <EsaIcon name="route" size="sm" paths="<circle cx='6' cy='19' r='3'/><path d='M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15'/><circle cx='18' cy='5' r='3'/>" />
+          Segments
+        </h3>
+        <div class="pd__group">
+          <!-- Editable applicability — esa-input-tag in strict mode (segments are a
+               fixed vocabulary), selected chips below the search input -->
+          <esa-input-tag id="pd-segments" strict tags-below placeholder="Search segments…"></esa-input-tag>
+        </div>
+      </section>
+
+      <!-- Details are READ-ONLY: agency / level / type are source-document data —
+           this drawer edits permit status, timing, and segment applicability. -->
+      <section class="pd__section">
+        <h3 class="pd__section-head">
+          <EsaIcon name="info" size="sm" />
+          Details
+        </h3>
+        <div class="pd__group">
+          <BcnKeyValue label="Agency"><span class="pd__kv-val" id="pd-agency"></span></BcnKeyValue>
+          <div class="pd__row">
+            <BcnKeyValue label="Level"><span class="pd__kv-val" id="pd-level"></span></BcnKeyValue>
+            <BcnKeyValue label="Permit type"><span class="pd__kv-val" id="pd-type"></span></BcnKeyValue>
+          </div>
+        </div>
+      </section>
+
+      <!-- Change log — seeded from the permit's own dates, grows as edits land -->
+      <section class="pd__section">
+        <h3 class="pd__section-head">
+          <EsaIcon name="history" size="sm" paths="<path d='M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8'/><path d='M3 3v5h5'/><path d='M12 7v5l4 2'/>" />
+          Activity
+        </h3>
+        <ul class="pd__activity" id="pd-activity"></ul>
+      </section>
+    </div>
+    <div slot="footer" class="pd__footer">
+      <span id="pd-cancel"><EsaButton color="ghost" appearance="outline" size="md">Cancel</EsaButton></span>
+      <span id="pd-save"><EsaButton color="primary" size="md">Save</EsaButton></span>
+    </div>
+  </esa-side-dialog>
+
+  <script type="application/json" id="pt-data" set:html={JSON.stringify(payload)}></script>
 </AppShell>
 
 <script>
-  interface DrawerPermit {
+  import L from 'leaflet';
+  import 'leaflet/dist/leaflet.css';
+  import { createGrid, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
+  import type { GridApi, GridOptions, ColDef, IRowNode } from 'ag-grid-community';
+  import { beaconTheme, makeStatusRenderer } from '../../lib/beacon-grid';
+  import '@esa/ecology/esa-tab-layout';
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-date-picker';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-input-tag';
+  import '@esa/ecology/esa-tooltip';
+  import '@esa/ecology/esa-filter-dropdown';
+
+  ModuleRegistry.registerModules([AllCommunityModule]);
+
+  // ── Types mirroring the serialized payload ──────────────────────────────────
+  interface Scheme {
+    id: string;
+    label: string;
+    blurb: string;
+    colors: Record<string, string>;
+  }
+  interface PtPermit {
     id: string;
     name: string;
     agency: string;
@@ -275,505 +452,1723 @@ const drawerData = permitRows.map((p) => ({
     actualApprovalDate: string;
     segmentIds: string[];
   }
+  interface PtSegment {
+    id: string;
+    name: string;
+    line: string;
+    phases: string[];
+    contractor: string;
+    jurisdiction: string;
+    lengthFt: number;
+    geometry: [number, number][];
+  }
+  interface Payload {
+    schemes: Scheme[];
+    statusOrder: string[];
+    statusLabels: Record<string, string>;
+    permitLabels: Record<string, string>;
+    permitOrder: string[];
+    lines: { id: string; miles: string }[];
+    permits: PtPermit[];
+    segments: PtSegment[];
+  }
 
-  const STATUS_HEX: Record<string, string> = {
-    'not-started': '#bdbdbd',
-    'in-preparation': '#fab54f',
-    submitted: '#699cc6',
-    'under-review': '#f59e0b',
-    issued: '#22c55e',
-    'not-required': '#989898',
-  };
-  const STATUS_LABEL: Record<string, string> = {
-    'not-started': 'Not Started',
-    'in-preparation': 'In Preparation',
-    submitted: 'Submitted',
-    'under-review': 'Under Review',
-    issued: 'Issued',
-    'not-required': 'Not Required',
-  };
-
-  const data: DrawerPermit[] = JSON.parse(document.getElementById('drawer-data')!.textContent || '[]');
-  const byId = new Map(data.map((d) => [d.id, structuredClone(d)]));
-
-  // ── Pivot toggle ───────────────────────────────────────────────────────────
-  const viewPermits = document.getElementById('view-permits')!;
-  const viewSegments = document.getElementById('view-segments')!;
-  const filters = document.getElementById('pt-filters')!;
-  document.querySelectorAll<HTMLButtonElement>('.pt-pivot__btn').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.pt-pivot__btn').forEach((b) => {
-        b.classList.remove('is-active');
-        b.setAttribute('aria-selected', 'false');
-      });
-      btn.classList.add('is-active');
-      btn.setAttribute('aria-selected', 'true');
-      const isPermits = btn.dataset.view === 'permits';
-      viewPermits.hidden = !isPermits;
-      viewSegments.hidden = isPermits;
-      filters.style.visibility = isPermits ? 'visible' : 'hidden';
-    });
-  });
-
-  // ── Editable drawer ──────────────────────────────────────────────────────────
-  const drawer = document.getElementById('permit-drawer')!;
-  const backdrop = document.getElementById('drawer-backdrop')!;
-  let activeId: string | null = null;
-
+  const DATA: Payload = JSON.parse(document.getElementById('pt-data')!.textContent || '{}');
+  const permitById = new Map(DATA.permits.map((p) => [p.id, p]));
+  const segById = new Map(DATA.segments.map((s) => [s.id, s]));
   const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 
-  function openDrawer(id: string) {
-    const p = byId.get(id);
-    if (!p) return;
-    activeId = id;
+  // ── Derived-status model (same rules the fixture runs at build time) ────────
+  const ORDINAL: Record<string, number | null> = {
+    'not-started': 0,
+    'in-preparation': 1,
+    submitted: 2,
+    'under-review': 3,
+    issued: 4,
+    'not-required': null,
+  };
+  const BY_ORDINAL = ['not-started', 'in-preparation', 'submitted', 'under-review', 'cleared'];
 
-    $('pd-agency').textContent = p.agency;
-    $('pd-title').textContent = p.name;
-    ($('pd-status') as HTMLSelectElement).value = p.status;
-    ($('pd-submitted') as HTMLInputElement).value = p.submittedDate;
-    ($('pd-estimated') as HTMLInputElement).value = p.estimatedApprovalDate;
-    ($('pd-actual') as HTMLInputElement).value = p.actualApprovalDate;
-    ($('pd-agency-input') as HTMLInputElement).value = p.agency;
-    ($('pd-type') as HTMLInputElement).value = p.type;
+  const gating = (segId: string) =>
+    DATA.permits.filter((p) => p.segmentIds.includes(segId) && p.status !== 'not-required');
 
-    drawer.querySelectorAll<HTMLInputElement>('.pd-check__box').forEach((box) => {
-      box.checked = p.segmentIds.includes(box.value);
-    });
-
-    drawer.hidden = false;
-    backdrop.hidden = false;
-    requestAnimationFrame(() => {
-      drawer.classList.add('is-open');
-      backdrop.classList.add('is-open');
-    });
-  }
-
-  function closeDrawer() {
-    drawer.classList.remove('is-open');
-    backdrop.classList.remove('is-open');
-    activeId = null;
-    window.setTimeout(() => {
-      drawer.hidden = true;
-      backdrop.hidden = true;
-    }, 300);
-  }
-
-  function saveDrawer() {
-    if (!activeId) return;
-    const p = byId.get(activeId)!;
-    const newStatus = ($('pd-status') as HTMLSelectElement).value;
-    p.status = newStatus;
-    p.submittedDate = ($('pd-submitted') as HTMLInputElement).value;
-    p.estimatedApprovalDate = ($('pd-estimated') as HTMLInputElement).value;
-    p.actualApprovalDate = ($('pd-actual') as HTMLInputElement).value;
-    p.agency = ($('pd-agency-input') as HTMLInputElement).value;
-    p.type = ($('pd-type') as HTMLInputElement).value;
-    p.segmentIds = Array.from(drawer.querySelectorAll<HTMLInputElement>('.pd-check__box:checked')).map((b) => b.value);
-
-    // Live update: the row's status chip in the table.
-    const row = document.querySelector<HTMLElement>(`.grid__row[data-permit-id="${activeId}"]`);
-    if (row) {
-      const chip = row.querySelector<HTMLElement>('.status-chip');
-      if (chip) {
-        chip.style.setProperty('--_chip', STATUS_HEX[newStatus]);
-        const text = chip.childNodes[chip.childNodes.length - 1];
-        if (text) text.textContent = STATUS_LABEL[newStatus];
-      }
-      // Est. approval + segment count cells reflect the edit.
-      const cells = row.querySelectorAll('.grid__td');
-      // cell 5 = est approval (idx 5), cell 6 = segments (idx 6)
-      const fmt = (iso: string) => {
-        if (!iso) return '—';
-        const [y, m, d] = iso.split('-').map(Number);
-        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-        return `${months[m - 1]} ${d}, ${y}`;
-      };
-      cells[5].textContent = fmt(p.actualApprovalDate || p.estimatedApprovalDate);
-      cells[6].textContent = String(p.segmentIds.length);
+  function derive(segId: string): string {
+    const g = gating(segId);
+    if (!g.length) return 'cleared';
+    let min = Infinity;
+    for (const p of g) {
+      const o = ORDINAL[p.status];
+      if (o !== null && o < min) min = o;
     }
-    closeDrawer();
+    return min === Infinity || min >= 4 ? 'cleared' : BY_ORDINAL[min];
   }
 
-  document.querySelectorAll<HTMLElement>('.grid__row[data-permit-id]').forEach((row) => {
-    const open = () => openDrawer(row.dataset.permitId!);
-    row.addEventListener('click', open);
-    row.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        open();
+  function clearDate(segId: string): string {
+    const dates = gating(segId)
+      .map((p) => p.actualApprovalDate || p.estimatedApprovalDate)
+      .filter(Boolean);
+    return dates.length ? dates.reduce((a, b) => (a > b ? a : b)) : '';
+  }
+
+  const fmtDate = (iso: string) => {
+    if (!iso) return '—';
+    const [y, m, d] = iso.split('-').map(Number);
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return `${months[m - 1]} ${d}, ${y}`;
+  };
+  const fmtMiles = (ft: number) => `${(ft / 5280).toFixed(1)} mi`;
+
+  // ── Change log (in-session store, seeded from the fixture's own dates so the
+  //    design reads with history on day one; edits made in the UI append) ──────
+  interface ChangeEntry {
+    ts: string; // ISO — date-only for seeds, full datetime for live edits
+    permitId: string;
+    text: string;
+    user: string;
+  }
+  const changeLog: ChangeEntry[] = [];
+  const SEED_USERS = ['Sarah (GIS)', 'Ryan Swanson'];
+  DATA.permits.forEach((p, i) => {
+    const user = SEED_USERS[i % SEED_USERS.length];
+    if (p.submittedDate) changeLog.push({ ts: p.submittedDate, permitId: p.id, text: 'Status → Submitted', user });
+    if (p.actualApprovalDate) changeLog.push({ ts: p.actualApprovalDate, permitId: p.id, text: 'Status → Issued', user });
+  });
+  const logChange = (permitId: string, text: string) =>
+    changeLog.push({ ts: new Date().toISOString(), permitId, text, user: 'Andy Lovseth' });
+  const fmtTs = (ts: string) =>
+    ts.length > 10 ? `Today · ${new Date(ts).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}` : fmtDate(ts);
+  const entriesFor = (pid?: string) =>
+    changeLog.filter((c) => !pid || c.permitId === pid).sort((a, b) => b.ts.localeCompare(a.ts));
+
+  // ── Chip updates (BcnStatusChip hooks — drawer + template clones) ────────────
+  function setChip(wrapper: Element, statusKey: string, label: string) {
+    const chip = wrapper.querySelector<HTMLElement>('.bcn-status-chip');
+    if (!chip) return;
+    const varKey = statusKey === 'issued' ? 'cleared' : statusKey;
+    chip.style.setProperty('--_chip', `var(--st-${varKey})`);
+    chip.dataset.status = statusKey;
+    const text = chip.querySelector('.bcn-status-chip__label');
+    if (text) text.textContent = label;
+  }
+
+  // ── Map (Leaflet, lazy-built so a #data deep link doesn't init at 0×0) ──────
+  let map: L.Map | null = null;
+  const coreById = new Map<string, L.Polyline>();
+  const casingById = new Map<string, L.Polyline>();
+  let activeSegId: string | null = null;
+
+  // The committed palette (Cartographic — first scheme; matches the CSS --st-* defaults).
+  const colorFor = (segId: string) => DATA.schemes[0].colors[derive(segId)];
+
+  // Filter state (each single-select; null = All) — Paths × Status scopes the
+  // map AND the figures below it.
+  let activeLine: string | null = null;
+  let activeStatus: string | null = null;
+  const segShown = (s: PtSegment) =>
+    (!activeLine || s.line === activeLine) && (!activeStatus || derive(s.id) === activeStatus);
+  const visibleSegs = () => DATA.segments.filter(segShown);
+
+  /** Fit the viewport tight to the VISIBLE segments — fractional zoom (zoomSnap
+      0.25) + pixel padding instead of a 12% bounds pad, so the default view is
+      as zoomed-in as the geometry allows. Re-runs whenever the filters change. */
+  function fitVisible() {
+    if (!map) return;
+    const pts: L.LatLngTuple[] = [];
+    visibleSegs().forEach((s) => s.geometry.forEach((c) => pts.push(c as L.LatLngTuple)));
+    if (pts.length) map.fitBounds(L.latLngBounds(pts), { padding: [32, 32] });
+  }
+
+  /** Add/remove segment layers per the current filters. Status is DERIVED, so
+      edits can move a segment in/out of an active status filter — refreshSegments
+      re-syncs the affected ones (without refitting the viewport). */
+  function syncVisibility(segIds?: string[]) {
+    if (!map) return;
+    for (const seg of DATA.segments) {
+      if (segIds && !segIds.includes(seg.id)) continue;
+      const show = segShown(seg);
+      const core = coreById.get(seg.id);
+      const casing = casingById.get(seg.id);
+      if (!core || !casing) continue;
+      if (show) {
+        casing.addTo(map);
+        core.addTo(map);
+      } else {
+        core.removeFrom(map);
+        casing.removeFrom(map);
       }
+    }
+  }
+
+  function buildMap() {
+    map = L.map('permit-map', { zoomControl: true, attributionControl: true, zoomSnap: 0.25 });
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap &copy; CARTO',
+      subdomains: 'abcd',
+      maxZoom: 20,
+    }).addTo(map);
+
+    for (const seg of DATA.segments) {
+      const casing = L.polyline(seg.geometry, {
+        color: '#ffffff',
+        weight: 9,
+        opacity: 1,
+        lineCap: 'round',
+        lineJoin: 'round',
+        interactive: false,
+      });
+      const core = L.polyline(seg.geometry, {
+        color: colorFor(seg.id),
+        weight: 5,
+        opacity: 0.95,
+        lineCap: 'round',
+        lineJoin: 'round',
+      });
+
+      core.on('mouseover', () => core.setStyle({ weight: 7 }));
+      core.on('mouseout', () => core.setStyle({ weight: activeSegId === seg.id ? 8 : 5 }));
+      core.on('click', () => openSegment(seg.id));
+      core.bindTooltip(`${seg.name} · ${seg.line}`, { sticky: true, direction: 'top', offset: [0, -6] });
+
+      coreById.set(seg.id, core);
+      casingById.set(seg.id, casing);
+    }
+    applyFilters(); // adds the visible layers + fits the viewport
+  }
+
+  const ensureMap = () => (map ? map.invalidateSize() : buildMap());
+
+  /** Filter change: re-sync layers, refit, re-scope every figure below the map. */
+  function applyFilters() {
+    syncVisibility();
+    fitVisible();
+    refreshBurndown();
+    renderInsights();
+    renderTimeline();
+  }
+
+  // ── Mileage strip (secondary figure below the map; scoped to visible paths) ─
+  function refreshBurndown() {
+    const totals = new Map<string, number>(DATA.statusOrder.map((s) => [s, 0]));
+    let total = 0;
+    for (const seg of visibleSegs()) {
+      const st = derive(seg.id);
+      totals.set(st, (totals.get(st) ?? 0) + seg.lengthFt);
+      total += seg.lengthFt;
+    }
+    const pct = (ft: number) => (total ? Math.round((ft / total) * 100) : 0);
+    const cleared = totals.get('cleared') ?? 0;
+    $('bd-cleared').textContent = fmtMiles(cleared);
+    $('bd-total').textContent = `of ${fmtMiles(total)} total · ${pct(cleared)}%`;
+
+    const bar = $('bd-bar');
+    bar.innerHTML = '';
+    for (const status of DATA.statusOrder) {
+      const ft = totals.get(status) ?? 0;
+      if (!ft) continue;
+      const div = document.createElement('div');
+      div.style.cssText = `height:100%; flex: 0 0 ${(ft / total) * 100}%; background:var(--st-${status});`;
+      div.title = `${DATA.statusLabels[status]}: ${fmtMiles(ft)}`;
+      bar.appendChild(div);
+    }
+    for (const status of DATA.statusOrder) {
+      const ft = totals.get(status) ?? 0;
+      document.querySelector(`[data-bd-mi="${status}"]`)!.textContent = fmtMiles(ft);
+      document.querySelector(`[data-bd-pct="${status}"]`)!.textContent = `${pct(ft)}%`;
+      (document.querySelector(`[data-bd-item="${status}"]`) as HTMLElement).dataset.empty = ft ? 'false' : 'true';
+    }
+  }
+
+  // ── Insight cards (JS-rendered from the store; re-run after every edit and
+  //    scoped to the visible paths — a permit counts if it covers at least one
+  //    visible segment) ─────────────────────────────────────────────────────────
+  function renderInsights() {
+    const stVar = (s: string) => `var(--st-${s === 'issued' ? 'cleared' : s === 'not-required' ? 'not-required' : s})`;
+    const visibleIds = new Set(visibleSegs().map((s) => s.id));
+    const scopedPermits = DATA.permits.filter((p) => p.segmentIds.some((sid) => visibleIds.has(sid)));
+    const row = (html: string, permitId?: string) => {
+      const li = document.createElement('li');
+      li.className = 'ins-row';
+      if (permitId) {
+        li.dataset.insPermit = permitId;
+        li.tabIndex = 0;
+        li.setAttribute('role', 'button');
+      }
+      li.innerHTML = html;
+      return li;
+    };
+
+    // 1. Permits by status — count + proportional bar per ladder step.
+    const counts = new Map<string, number>(DATA.permitOrder.map((s) => [s, 0]));
+    scopedPermits.forEach((p) => counts.set(p.status, (counts.get(p.status) ?? 0) + 1));
+    const statusList = $('ins-status');
+    statusList.innerHTML = '';
+    for (const s of DATA.permitOrder) {
+      const n = counts.get(s) ?? 0;
+      statusList.appendChild(
+        row(`<span class="ins-dot" style="background:${stVar(s)}"></span>
+          <span class="ins-row__label">${DATA.permitLabels[s]}</span>
+          <span class="ins-bar"><span style="display:block;height:100%;border-radius:inherit;width:${scopedPermits.length ? (n / scopedPermits.length) * 100 : 0}%;background:${stVar(s)}"></span></span>
+          <span class="ins-row__val">${n}</span>`)
+      );
+    }
+
+    // 2. Top blockers — pending permits ranked by VISIBLE route-miles they gate.
+    const blockers = scopedPermits
+      .filter((p) => p.status !== 'issued' && p.status !== 'not-required')
+      .map((p) => {
+        const segs = p.segmentIds.filter((sid) => visibleIds.has(sid));
+        return { p, segs: segs.length, feet: segs.reduce((sum, sid) => sum + (segById.get(sid)?.lengthFt ?? 0), 0) };
+      })
+      .filter((b) => b.feet > 0)
+      .sort((a, b) => b.feet - a.feet)
+      .slice(0, 5);
+    const blockerList = $('ins-blockers');
+    blockerList.innerHTML = '';
+    for (const { p, segs, feet } of blockers) {
+      blockerList.appendChild(
+        row(`<span class="ins-dot" style="background:${stVar(p.status)}"></span>
+          <span class="ins-row__label">${p.name}<span class="ins-row__sub">${p.agency} · ${segs} segment${segs === 1 ? '' : 's'}</span></span>
+          <span class="ins-row__val">${fmtMiles(feet)}<span class="ins-row__sub">gated</span></span>`, p.id)
+      );
+    }
+  }
+
+  // ── Clear-to-build timeline (segments by projected clear date) ─
+  function renderTimeline() {
+    const rowsEl = $('ctb-rows');
+    const axisEl = $('ctb-axis');
+    const todayIso = new Date().toISOString().slice(0, 10);
+
+    const items = visibleSegs()
+      .map((s) => ({ s, st: derive(s.id), iso: clearDate(s.id) }))
+      .sort((a, b) => (a.iso || '9999').localeCompare(b.iso || '9999'));
+
+    rowsEl.innerHTML = '';
+    axisEl.innerHTML = '';
+    const dated = items.filter((i) => i.iso);
+    if (!dated.length) return;
+
+    const minIso = dated[0].iso < todayIso ? dated[0].iso : todayIso;
+    const maxIso = dated.reduce((a, b) => (a > b.iso ? a : b.iso), todayIso);
+    const start = new Date(new Date(minIso).getFullYear(), new Date(minIso).getMonth(), 1);
+    const end = new Date(new Date(maxIso).getFullYear(), new Date(maxIso).getMonth() + 1, 1);
+    const span = end.getTime() - start.getTime();
+    const pct = (iso: string) => Math.min(100, Math.max(0, ((new Date(iso).getTime() - start.getTime()) / span) * 100));
+
+    // month ticks (+ Today marker)
+    const months: Date[] = [];
+    for (const d = new Date(start); d < end; d.setMonth(d.getMonth() + 1)) months.push(new Date(d));
+    const step = months.length > 10 ? 2 : 1;
+    months.forEach((m, i) => {
+      if (i % step) return;
+      const tick = document.createElement('span');
+      tick.className = 'ctb-tick';
+      tick.style.left = `${((m.getTime() - start.getTime()) / span) * 100}%`;
+      tick.textContent =
+        m.toLocaleDateString([], { month: 'short' }) + (i === 0 || m.getMonth() === 0 ? ` ’${String(m.getFullYear()).slice(2)}` : '');
+      axisEl.appendChild(tick);
     });
+    const todayTick = document.createElement('span');
+    todayTick.className = 'ctb-tick ctb-tick--today';
+    todayTick.style.left = `${pct(todayIso)}%`;
+    todayTick.textContent = 'Today';
+    axisEl.appendChild(todayTick);
+
+    const todayX = pct(todayIso);
+    for (const it of items) {
+      const li = document.createElement('li');
+      li.className = 'ctb-row';
+      const x = it.iso ? pct(it.iso) : null;
+      li.innerHTML = `
+        <span class="ctb-row__name">${it.s.name}<span class="ctb-row__sub">${it.s.line}</span></span>
+        <span class="ctb-row__track">${
+          x == null
+            ? ''
+            : `<span class="ctb-row__bar" style="left:${Math.min(todayX, x)}%; width:${Math.max(0.5, Math.abs(x - todayX))}%; background:var(--st-${it.st});"></span>
+               <span class="ctb-row__dot" style="left:${x}%; background:var(--st-${it.st});"></span>`
+        }</span>
+        <span class="ctb-row__meta">${it.iso ? fmtDate(it.iso) : '—'}</span>`;
+      li.addEventListener('click', () => openSegment(it.s.id));
+      rowsEl.appendChild(li);
+    }
+  }
+
+  // Insight rows deep-link to the permit editor.
+  document.querySelector('.insights')!.addEventListener('click', (e) => {
+    const li = (e.target as HTMLElement).closest<HTMLElement>('[data-ins-permit]');
+    if (li) openPermit(li.dataset.insPermit!);
   });
 
-  $('drawer-close').addEventListener('click', closeDrawer);
-  $('drawer-cancel').addEventListener('click', closeDrawer);
-  $('drawer-save').addEventListener('click', saveDrawer);
-  backdrop.addEventListener('click', closeDrawer);
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && activeId) closeDrawer();
+  // ── AG Grids (beacon-grid kit; lazy-built when the Data tab first shows) ────
+  interface PermitRow {
+    id: string;
+    name: string;
+    agency: string;
+    agencyLevel: string;
+    type: string;
+    status: string;
+    estDate: string;
+    segments: number;
+  }
+  interface SegmentRow {
+    id: string;
+    name: string;
+    line: string;
+    phases: string;
+    jurisdiction: string;
+    lengthFt: number;
+    status: string;
+    clearDate: string;
+    permits: number;
+  }
+
+  const buildPermitRows = (): PermitRow[] =>
+    DATA.permits.map((p) => ({
+      id: p.id,
+      name: p.name,
+      agency: p.agency,
+      agencyLevel: p.agencyLevel,
+      type: p.type,
+      status: p.status,
+      estDate: fmtDate(p.actualApprovalDate || p.estimatedApprovalDate),
+      segments: p.segmentIds.length,
+    }));
+
+  const buildSegmentRows = (): SegmentRow[] =>
+    DATA.segments.map((s) => ({
+      id: s.id,
+      name: s.name,
+      line: s.line,
+      phases: s.phases.join(' + '),
+      jurisdiction: s.jurisdiction,
+      lengthFt: s.lengthFt,
+      status: derive(s.id),
+      clearDate: fmtDate(clearDate(s.id)),
+      permits: gating(s.id).length,
+    }));
+
+  // Chip renderers read the runtime --st-* vars, so grid chips follow the
+  // map's color-scheme switcher with zero refresh work.
+  const permitChip = makeStatusRenderer(
+    Object.fromEntries(
+      DATA.permitOrder.map((s) => [
+        s,
+        {
+          label: DATA.permitLabels[s],
+          hex: s === 'issued' ? 'var(--st-cleared)' : s === 'not-required' ? 'var(--st-not-required)' : `var(--st-${s})`,
+        },
+      ])
+    )
+  );
+  const segmentChip = makeStatusRenderer(
+    Object.fromEntries(DATA.statusOrder.map((s) => [s, { label: DATA.statusLabels[s], hex: `var(--st-${s})` }]))
+  );
+
+  // Facets (Status / Level dropdowns) → AG Grid external filter.
+  let statusFacet: string[] = [];
+  let levelFacet: string[] = [];
+  let permitsApi: GridApi<PermitRow> | null = null;
+  let segmentsApi: GridApi<SegmentRow> | null = null;
+  let pivotValue = 'permits';
+  const activeApi = (): GridApi<PermitRow> | GridApi<SegmentRow> | null =>
+    pivotValue === 'permits' ? permitsApi : segmentsApi;
+
+  function updateCounts() {
+    const api = activeApi();
+    if (!api) return;
+    const total = pivotValue === 'permits' ? DATA.permits.length : DATA.segments.length;
+    const displayed = api.getDisplayedRowCount();
+    $('pt-total').textContent = String(total);
+    const filteredEl = $('pt-filtered');
+    if (displayed < total) {
+      filteredEl.hidden = false;
+      filteredEl.textContent = `Filtered Records: ${displayed}`;
+    } else {
+      filteredEl.hidden = true;
+    }
+  }
+
+  function ensureGrids() {
+    if (permitsApi) return;
+
+    // flex (not fixed width) so the grid always spans its container.
+    // Status + dates lead (cols 2/3) — they're what this view is for.
+    const permitCols: ColDef<PermitRow>[] = [
+      { field: 'name', headerName: 'Permit', flex: 2.2, minWidth: 240 },
+      {
+        field: 'status',
+        headerName: 'Status',
+        flex: 1.2,
+        minWidth: 160,
+        cellRenderer: permitChip,
+        cellClass: 'bcn-grid-status-cell',
+        filterValueGetter: (p) => DATA.permitLabels[p.data!.status],
+      },
+      { field: 'estDate', headerName: 'Est. Approval', flex: 1, minWidth: 130 },
+      { field: 'agency', headerName: 'Agency', flex: 1.8, minWidth: 200 },
+      { field: 'agencyLevel', headerName: 'Level', flex: 0.7, minWidth: 90 },
+      { field: 'type', headerName: 'Type', flex: 1.1, minWidth: 130 },
+      { field: 'segments', headerName: 'Segments', flex: 0.7, minWidth: 100, type: 'numericColumn' },
+    ];
+
+    const segmentCols: ColDef<SegmentRow>[] = [
+      { field: 'name', headerName: 'Segment', flex: 1.3, minWidth: 150 },
+      {
+        field: 'status',
+        headerName: 'Derived Status',
+        flex: 1.3,
+        minWidth: 180,
+        cellRenderer: segmentChip,
+        cellClass: 'bcn-grid-status-cell',
+        filterValueGetter: (p) => DATA.statusLabels[p.data!.status],
+      },
+      { field: 'clearDate', headerName: 'Clear-to-Build', flex: 1, minWidth: 130 },
+      { field: 'line', headerName: 'Path', flex: 0.7, minWidth: 90 },
+      { field: 'phases', headerName: 'Phase', flex: 1, minWidth: 120 },
+      { field: 'jurisdiction', headerName: 'Jurisdiction', flex: 1.5, minWidth: 180 },
+      {
+        field: 'lengthFt',
+        headerName: 'Length',
+        flex: 0.7,
+        minWidth: 100,
+        type: 'numericColumn',
+        valueFormatter: (p) => fmtMiles(p.value as number),
+      },
+      { field: 'permits', headerName: 'Permits', flex: 0.6, minWidth: 90, type: 'numericColumn' },
+    ];
+
+    const shared = {
+      theme: beaconTheme,
+      defaultColDef: {
+        sortable: true,
+        resizable: true,
+        filter: true,
+        floatingFilter: false,
+        suppressHeaderMenuButton: true,
+      },
+      onFilterChanged: updateCounts,
+      onFirstDataRendered: updateCounts,
+    };
+
+    const permitOptions: GridOptions<PermitRow> = {
+      ...shared,
+      rowData: buildPermitRows(),
+      columnDefs: permitCols,
+      // Checkbox multi-select drives the bulk status bar; row clicks still open
+      // the drawer (click-to-select is off, so the two don't fight).
+      rowSelection: { mode: 'multiRow' },
+      onSelectionChanged: () => updateBulkBar(),
+      isExternalFilterPresent: () => statusFacet.length > 0 || levelFacet.length > 0,
+      doesExternalFilterPass: (node: IRowNode<PermitRow>) => {
+        const r = node.data;
+        if (!r) return true;
+        if (statusFacet.length && !statusFacet.includes(r.status)) return false;
+        if (levelFacet.length && !levelFacet.includes(r.agencyLevel)) return false;
+        return true;
+      },
+      onRowClicked: (e) => {
+        if ((e.event?.target as HTMLElement | undefined)?.closest('.ag-selection-checkbox, .ag-checkbox')) return;
+        if (e.data) openPermit(e.data.id);
+      },
+    };
+
+    const segmentOptions: GridOptions<SegmentRow> = {
+      ...shared,
+      rowData: buildSegmentRows(),
+      columnDefs: segmentCols,
+      isExternalFilterPresent: () => statusFacet.length > 0,
+      doesExternalFilterPass: (node: IRowNode<SegmentRow>) => {
+        const r = node.data;
+        if (!r) return true;
+        if (statusFacet.length && !statusFacet.includes(r.status)) return false;
+        return true;
+      },
+      onRowClicked: (e) => e.data && openSegment(e.data.id),
+    };
+
+    permitsApi = createGrid($('grid-permits'), permitOptions);
+    segmentsApi = createGrid($('grid-segments'), segmentOptions);
+  }
+
+  function refreshGrids() {
+    permitsApi?.setGridOption('rowData', buildPermitRows());
+    segmentsApi?.setGridOption('rowData', buildSegmentRows());
+    updateCounts();
+  }
+
+  // ── Bulk status update (permits grid checkbox selection → action bar) ───────
+  const bulkBar = $('bulk-bar');
+  const bulkStatus = $('bulk-status') as Field;
+  bulkStatus.options = DATA.permitOrder.map((s) => ({ value: s, label: DATA.permitLabels[s] }));
+
+  function updateBulkBar() {
+    const n = permitsApi?.getSelectedRows().length ?? 0;
+    bulkBar.hidden = n === 0 || pivotValue !== 'permits';
+    $('bulk-count').textContent = `${n} permit${n === 1 ? '' : 's'} selected`;
+  }
+
+  $('bulk-apply').addEventListener('click', () => {
+    const status = bulkStatus.value;
+    const rows = permitsApi?.getSelectedRows() ?? [];
+    if (!status || !rows.length) return;
+    const affected = new Set<string>();
+    for (const r of rows) {
+      const p = permitById.get(r.id)!;
+      if (p.status === status) continue;
+      logChange(p.id, `Status: ${DATA.permitLabels[p.status]} → ${DATA.permitLabels[status]}`);
+      p.status = status;
+      p.segmentIds.forEach((sid) => affected.add(sid));
+      refreshPermitUI(p.id);
+    }
+    refreshSegments([...affected]);
+    refreshBurndown();
+    refreshGrids(); // rowData reset also clears the selection
+    renderInsights();
+    renderTimeline();
+    updateBulkBar();
   });
+  $('bulk-clear').addEventListener('click', () => permitsApi?.deselectAll());
+
+  // ── Filter bar wiring ────────────────────────────────────────────────────────
+  type FilterDropdownEl = HTMLElement & { options: { label: string; value: string }[]; _selected: string[] };
+  const fltStatus = $('flt-status') as FilterDropdownEl;
+  const fltLevel = $('flt-level') as FilterDropdownEl;
+
+  const statusOptionsFor = (pivot: string) =>
+    pivot === 'permits'
+      ? DATA.permitOrder.map((s) => ({ value: s, label: DATA.permitLabels[s] }))
+      : DATA.statusOrder.map((s) => ({ value: s, label: DATA.statusLabels[s] }));
+
+  fltStatus.options = statusOptionsFor('permits');
+  fltLevel.options = [...new Set(DATA.permits.map((p) => p.agencyLevel))].map((v) => ({ value: v, label: v }));
+
+  fltStatus.addEventListener('selection-change', (e) => {
+    statusFacet = ((e as CustomEvent).detail?.value as string[]) ?? [];
+    activeApi()?.onFilterChanged();
+  });
+  fltLevel.addEventListener('selection-change', (e) => {
+    levelFacet = ((e as CustomEvent).detail?.value as string[]) ?? [];
+    permitsApi?.onFilterChanged();
+  });
+
+  $('pt-clear-filters').addEventListener('esa-filter-clear', () => {
+    statusFacet = [];
+    levelFacet = [];
+    fltStatus._selected = [];
+    fltLevel._selected = [];
+    permitsApi?.setFilterModel(null);
+    segmentsApi?.setFilterModel(null);
+    permitsApi?.onFilterChanged();
+    segmentsApi?.onFilterChanged();
+  });
+
+  // Keyword search → quick filter on both grids (esa-text-field 'change' per keystroke).
+  const search = $('pt-search') as HTMLElement & { value: string; placeholder: string };
+  const searchClear = $('pt-search-clear');
+  search.addEventListener('change', (e) => {
+    const v = (e as CustomEvent).detail?.value ?? search.value ?? '';
+    permitsApi?.setGridOption('quickFilterText', v);
+    segmentsApi?.setGridOption('quickFilterText', v);
+    searchClear.hidden = !v;
+  });
+  searchClear.addEventListener('click', () => {
+    search.value = '';
+    permitsApi?.setGridOption('quickFilterText', '');
+    segmentsApi?.setGridOption('quickFilterText', '');
+    searchClear.hidden = true;
+  });
+
+  // Pivot toggle (esa-button-toggle lego)
+  const pivot = $('pivot-toggle') as HTMLElement & { options: { value: string; label: string }[]; value: string };
+  pivot.options = [
+    { value: 'permits', label: 'Permits' },
+    { value: 'segments', label: 'Segments' },
+  ];
+  pivot.addEventListener('change', (e) => {
+    pivotValue = ((e as CustomEvent).detail?.value as string) ?? pivot.value;
+    const isPermits = pivotValue === 'permits';
+    $('pane-permits').hidden = !isPermits;
+    $('pane-segments').hidden = isPermits;
+    $('flt-level-wrap').hidden = !isPermits;
+    search.placeholder = isPermits ? 'Search permits…' : 'Search segments…';
+    // Status values differ per pivot (permit ladder vs derived) — swap + reset.
+    statusFacet = [];
+    fltStatus._selected = [];
+    fltStatus.options = statusOptionsFor(pivotValue);
+    permitsApi?.deselectAll();
+    updateBulkBar();
+    permitsApi?.onFilterChanged();
+    segmentsApi?.onFilterChanged();
+    updateCounts();
+  });
+
+  $('pt-download').addEventListener('click', () =>
+    activeApi()?.exportDataAsCsv({ fileName: `permit-tracking-${pivotValue}.csv` })
+  );
+
+  // ── Live refresh after an edit ───────────────────────────────────────────────
+  function refreshPermitUI(pid: string) {
+    const p = permitById.get(pid)!;
+    document.querySelectorAll(`[data-permit-chip="${pid}"]`).forEach((el) => setChip(el, p.status, DATA.permitLabels[p.status]));
+    const est = fmtDate(p.actualApprovalDate || p.estimatedApprovalDate);
+    document.querySelectorAll(`[data-permit-date="${pid}"]`).forEach((el) => (el.textContent = est));
+  }
+
+  function refreshSegments(segIds?: string[]) {
+    for (const seg of DATA.segments) {
+      if (segIds && !segIds.includes(seg.id)) continue;
+      const core = coreById.get(seg.id);
+      if (core) core.setStyle({ color: colorFor(seg.id) });
+    }
+    syncVisibility(segIds); // derived status may move a segment in/out of the status filter
+    if (activeSegId && (!segIds || segIds.includes(activeSegId))) fillSegmentDialog(activeSegId);
+  }
+
+  // ── Segment drawer (read) ────────────────────────────────────────────────────
+  type SideDialog = HTMLElement & { open: boolean; heading: string; show(): void; close(): void };
+  const segDialog = $('segment-dialog') as SideDialog;
+  const permitDialog = $('permit-dialog') as SideDialog;
+  const rowTemplate = $('pt-permit-rows') as unknown as HTMLTemplateElement;
+
+  function fillSegmentDialog(segId: string) {
+    const seg = segById.get(segId)!;
+    const st = derive(segId);
+    segDialog.heading = seg.name; // aria-label; the visible header is the slot below
+    $('sd-title').textContent = seg.name;
+    setChip($('sd-chip'), st, DATA.statusLabels[st]);
+    $('sd-path').textContent = seg.line;
+    $('sd-phase').textContent = seg.phases.join(' + ');
+    $('sd-clear').textContent = fmtDate(clearDate(segId));
+    $('sd-length').textContent = `${fmtMiles(seg.lengthFt)} (${seg.lengthFt.toLocaleString()} ft)`;
+    $('sd-jur').textContent = seg.jurisdiction;
+    $('sd-build').textContent = seg.contractor ? `${seg.contractor} (proposed)` : '—';
+
+    const covering = gating(segId);
+    const countBadge = $('sd-count').querySelector('.esa-badge__text');
+    if (countBadge) countBadge.textContent = String(covering.length);
+    // The least-advanced ordinal among covering permits IS the segment status —
+    // tag those permits so the derivation is legible.
+    const minOrd = Math.min(...covering.map((p) => ORDINAL[p.status] ?? Infinity));
+    const list = $('sd-permits');
+    list.innerHTML = '';
+    for (const p of covering) {
+      const row = rowTemplate.content.querySelector(`[data-permit-row="${p.id}"]`)!.cloneNode(true) as HTMLElement;
+      const tag = row.querySelector<HTMLElement>('[data-gating-tag]');
+      if (tag) tag.hidden = !(ORDINAL[p.status] === minOrd && minOrd < 4);
+      list.appendChild(row);
+      refreshPermitUI(p.id); // clone may predate edits — repaint chip/date from the store
+    }
+  }
+
+  function openSegment(segId: string) {
+    activeSegId = segId;
+    fillSegmentDialog(segId);
+    segDialog.show();
+    coreById.forEach((core, id) => core.setStyle({ weight: id === segId ? 8 : 5, opacity: id === segId ? 1 : 0.6 }));
+  }
+  segDialog.addEventListener('close', () => {
+    activeSegId = null;
+    coreById.forEach((core) => core.setStyle({ weight: 5, opacity: 0.95 }));
+  });
+
+  // Permit rows inside the segment drawer → the editor (stacks above).
+  $('sd-permits').addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-edit-permit]');
+    if (btn) openPermit(btn.dataset.editPermit!);
+  });
+
+  // ── Permit drawer (edit) ─────────────────────────────────────────────────────
+  type Field = HTMLElement & { value: string; options?: { value: string; label: string }[] };
+  let activePermitId: string | null = null;
+
+  const pdStatus = $('pd-status') as Field;
+  pdStatus.options = DATA.permitOrder.map((s) => ({ value: s, label: DATA.permitLabels[s] }));
+  const pdSegments = $('pd-segments') as HTMLElement & {
+    options: { value: string; label: string }[];
+    value: string[];
+  };
+  pdSegments.options = DATA.segments.map((s) => ({ value: s.id, label: `${s.name} — ${s.line}` }));
+
+  function openPermit(pid: string) {
+    const p = permitById.get(pid)!;
+    activePermitId = pid;
+    permitDialog.heading = p.name; // aria-label; the visible header is the slot
+    $('pd-title').textContent = p.name;
+    setChip($('pd-chip'), p.status, DATA.permitLabels[p.status]);
+    pdStatus.value = p.status;
+    ($('pd-submitted') as Field).value = p.submittedDate;
+    ($('pd-estimated') as Field).value = p.estimatedApprovalDate;
+    ($('pd-actual') as Field).value = p.actualApprovalDate;
+    pdSegments.value = [...p.segmentIds];
+    // Details are read-only source-doc data.
+    $('pd-agency').textContent = p.agency;
+    $('pd-level').textContent = p.agencyLevel;
+    $('pd-type').textContent = p.type;
+    // Activity — this permit's change log, newest first.
+    const act = $('pd-activity');
+    act.innerHTML = '';
+    const entries = entriesFor(pid).slice(0, 8);
+    if (!entries.length) {
+      act.innerHTML = `<li class="ins-row"><span class="ins-row__label"><span class="ins-row__sub">No changes yet — edits made here are logged.</span></span></li>`;
+    }
+    for (const c of entries) {
+      const li = document.createElement('li');
+      li.className = 'ins-row';
+      li.innerHTML = `<span class="ins-row__label">${c.text}<span class="ins-row__sub">${c.user}</span></span>
+        <span class="ins-row__val"><span class="ins-row__sub">${fmtTs(c.ts)}</span></span>`;
+      act.appendChild(li);
+    }
+    // Card-stack when the editor opens over the segment drawer: the under card
+    // slides left to peek out, and the top card brings NO second backdrop.
+    const stacked = segDialog.open;
+    permitDialog.classList.toggle('is-stacked', stacked);
+    segDialog.classList.toggle('is-under', stacked);
+    permitDialog.show();
+  }
+  permitDialog.addEventListener('close', () => segDialog.classList.remove('is-under'));
+
+  function savePermit() {
+    if (!activePermitId) return;
+    const p = permitById.get(activePermitId)!;
+    // Writable here: status, timing, segment applicability. Agency/level/type
+    // are source-doc data (read-only).
+    const before = new Set(p.segmentIds);
+    const nextSegs = [...pdSegments.value];
+
+    // Diff → change log (only what actually changed).
+    if (p.status !== pdStatus.value)
+      logChange(p.id, `Status: ${DATA.permitLabels[p.status]} → ${DATA.permitLabels[pdStatus.value]}`);
+    const dateFields: [keyof PtPermit, string, string][] = [
+      ['submittedDate', 'pd-submitted', 'Submitted date'],
+      ['estimatedApprovalDate', 'pd-estimated', 'Estimated approval'],
+      ['actualApprovalDate', 'pd-actual', 'Actual approval'],
+    ];
+    for (const [field, id, label] of dateFields) {
+      const next = ($(id) as Field).value;
+      if (p[field] !== next) logChange(p.id, `${label}: ${fmtDate(p[field] as string)} → ${fmtDate(next)}`);
+    }
+    const added = nextSegs.filter((s) => !before.has(s)).map((s) => segById.get(s)?.name);
+    const removed = [...before].filter((s) => !nextSegs.includes(s)).map((s) => segById.get(s)?.name);
+    if (added.length || removed.length)
+      logChange(
+        p.id,
+        `Segments: ${[...added.map((n) => `+${n}`), ...removed.map((n) => `−${n}`)].join(', ')}`
+      );
+
+    p.status = pdStatus.value;
+    p.submittedDate = ($('pd-submitted') as Field).value;
+    p.estimatedApprovalDate = ($('pd-estimated') as Field).value;
+    p.actualApprovalDate = ($('pd-actual') as Field).value;
+    p.segmentIds = nextSegs;
+
+    const affected = [...new Set([...before, ...p.segmentIds])];
+    refreshPermitUI(activePermitId);
+    refreshSegments(affected);
+    refreshBurndown();
+    refreshGrids();
+    renderInsights();
+    renderTimeline();
+    permitDialog.close();
+    activePermitId = null;
+  }
+  $('pd-save').addEventListener('click', savePermit);
+  $('pd-cancel').addEventListener('click', () => permitDialog.close());
+
+  // ── Map filters (above the map) — scope layers, mileage strip, insights ─────
+  type ToggleEl = HTMLElement & { options: { value: string; label: string }[]; value: string };
+  const pathToggle = $('path-toggle') as ToggleEl;
+  pathToggle.options = [{ value: 'all', label: 'All Paths' }, ...DATA.lines.map((l) => ({ value: l.id, label: l.id }))];
+  pathToggle.addEventListener('change', (e) => {
+    const v = ((e as CustomEvent).detail?.value as string) ?? pathToggle.value;
+    activeLine = v === 'all' ? null : v;
+    applyFilters();
+  });
+
+  const statusToggle = $('status-toggle') as ToggleEl;
+  statusToggle.options = [
+    { value: 'all', label: 'All' },
+    ...DATA.statusOrder.map((s) => ({ value: s, label: s === 'cleared' ? 'Cleared' : DATA.statusLabels[s] })),
+  ];
+  statusToggle.addEventListener('change', (e) => {
+    const v = ((e as CustomEvent).detail?.value as string) ?? statusToggle.value;
+    activeStatus = v === 'all' ? null : v;
+    applyFilters();
+  });
+
+  // ── Tabs (Map default; #data deep-links to the grid) ────────────────────────
+  const tabs = $('pt-tabs') as HTMLElement & { tabs: { label: string; icon?: string }[]; activeIndex: number };
+  const ICON = (paths: string) =>
+    `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`;
+  tabs.tabs = [
+    {
+      label: 'Map',
+      icon: ICON(
+        '<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>'
+      ),
+    },
+    {
+      label: 'Data',
+      icon: ICON('<path d="M12 3v18"/><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/>'),
+    },
+  ];
+  if (location.hash === '#data') tabs.activeIndex = 1;
+  tabs.addEventListener('tabchange', (e) => {
+    const idx = (e as CustomEvent).detail.index;
+    history.replaceState(null, '', idx === 1 ? '#data' : '#map');
+    if (idx === 0) requestAnimationFrame(ensureMap);
+    else requestAnimationFrame(ensureGrids);
+  });
+
+  // ── Board export — print-styled snapshot (map + strip + insights + timeline).
+  //    The map's on-screen size is pinned during print so Leaflet's already-
+  //    loaded tiles are reused (no gray un-tiled band at the print width). ─────
+  $('board-export').addEventListener('click', () => {
+    const segs = visibleSegs();
+    const mi = fmtMiles(segs.reduce((sum, s) => sum + s.lengthFt, 0));
+    $('print-meta').textContent =
+      `Exported ${new Date().toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}` +
+      ` · Paths: ${activeLine ?? 'All'} · Status: ${activeStatus ? DATA.statusLabels[activeStatus] : 'All'}` +
+      ` · ${segs.length} segments · ${mi}`;
+    const wrap = document.querySelector<HTMLElement>('.map-wrap')!;
+    wrap.style.width = `${wrap.offsetWidth}px`;
+    wrap.style.height = `${wrap.offsetHeight}px`;
+    window.print();
+  });
+  window.addEventListener('afterprint', () => {
+    const wrap = document.querySelector<HTMLElement>('.map-wrap')!;
+    wrap.style.width = '';
+    wrap.style.height = '';
+    map?.invalidateSize();
+  });
+
+  // ── Boot (line colors come straight from the CSS --st-* defaults) ───────────
+  renderInsights();
+  renderTimeline();
+  if (tabs.activeIndex === 0) requestAnimationFrame(ensureMap);
+  else requestAnimationFrame(ensureGrids);
 </script>
 
 <style>
-  /* ═══ Toolbar: pivot toggle + filter pills ═══ */
-  .pt-toolbar {
+  /* Runtime status colors — defaults = first scheme, "Cartographic" (the chosen
+     palette; matches the SSR hex fallbacks). The switcher re-points these; lines,
+     chips, grids, mileage strip, legend all follow. */
+  :global(:root) {
+    --st-not-started: #d73027;
+    --st-in-preparation: #fc8d59;
+    --st-submitted: #e3c14d;
+    --st-under-review: #91cf60;
+    --st-cleared: #1a9850;
+    --st-not-required: #989898; /* off-ladder; schemes never re-point this */
+  }
+
+  /* ═══ Drawer stacking (editor over segment drawer) — two index cards ═══
+     The under card slides left to peek out from behind the editor; the top
+     card brings no second backdrop, so the page doesn't double-dim. Both knobs
+     are esa-side-dialog custom properties; the slide is the lego's own inset
+     transition. */
+  #segment-dialog.is-under {
+    --side-dialog-inset: 44px;
+  }
+  #permit-dialog.is-stacked {
+    --color-backdrop: transparent;
+    --backdrop-filter: none;
+  }
+
+  /* Pre-upgrade FOUC guard: only the default (Map) panel shows until the lego defines */
+  esa-tab-layout:not(:defined) [slot='panel-1'] {
+    display: none;
+  }
+
+  /* ═══ Map + overlays (the hero) ═══ */
+  .map-wrap {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    min-height: 480px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+    overflow: hidden;
+  }
+  .map {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+  /* Leaflet panes stay below the topbar (z 1100) and the side-dialogs */
+  :global(.leaflet-pane),
+  :global(.leaflet-top),
+  :global(.leaflet-bottom) {
+    z-index: 400;
+  }
+
+  /* Map filter bar (Paths · Status) — sits above the map, scopes everything in this tab */
+  .map-filterbar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: var(--spacing-400);
     flex-wrap: wrap;
-    margin-bottom: var(--spacing-400);
-  }
-  .pt-pivot {
-    display: inline-flex;
-    padding: var(--spacing-050);
-    background: var(--bcn-gray-100);
-    border-radius: var(--radius-300);
-  }
-  .pt-pivot__btn {
-    padding: var(--spacing-150) var(--spacing-400);
-    font-size: var(--type-size-100);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-secondary);
-    border-radius: var(--radius-200);
-    transition: background 150ms ease, color 150ms ease;
-  }
-  .pt-pivot__btn.is-active {
+    margin-bottom: var(--spacing-300);
+    padding: var(--spacing-250) var(--spacing-400);
     background: var(--color-surface);
-    color: var(--color-primary);
-    box-shadow: var(--shadow-100, 0 1px 2px rgba(0, 0, 0, 0.08));
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+  }
+  .map-filterbar__group {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+  .map-filterbar__divider {
+    width: 1px;
+    align-self: stretch;
+    background: var(--color-border);
+    margin: 0 var(--spacing-100);
+  }
+  .map-filterbar__label {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+  }
+  .map-filterbar__export {
+    margin-left: auto;
   }
 
-  /* Filter pills (reusing the --filter-* token contract) */
-  .pt-filters {
+  .map-legend {
+    position: absolute;
+    bottom: var(--spacing-400);
+    left: var(--spacing-400);
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    padding: var(--spacing-300) var(--spacing-400);
+    background: color-mix(in srgb, var(--color-surface) 94%, transparent);
+    backdrop-filter: blur(4px);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+    box-shadow: var(--shadow-400);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+  .map-legend__title {
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .map-legend__row {
     display: flex;
     align-items: center;
-    gap: var(--filter-container-gap);
-    flex-wrap: wrap;
+    gap: var(--spacing-200);
   }
-  .pt-filter-label {
-    font-size: var(--type-size-100);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-tertiary);
-  }
-  .pt-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-100);
-    padding: var(--filter-pill-padding);
-    background: var(--filter-pill-bg);
-    color: var(--filter-pill-text);
-    border-radius: var(--filter-pill-radius);
-    font-size: var(--filter-pill-font-size);
-    font-weight: var(--font-weight-medium);
-  }
-  .pt-pill:hover {
-    background: var(--filter-pill-bg-hover);
-  }
-  .pt-pill__x {
-    display: inline-flex;
-    align-items: center;
-    color: var(--filter-pill-remove-color);
-    transition: color 150ms ease;
-  }
-  .pt-pill__x:hover {
-    color: var(--filter-pill-remove-color-hover);
-  }
-  .pt-filter-clear {
-    font-size: var(--type-size-100);
-    color: var(--filter-clear-color);
-    transition: color 150ms ease;
-  }
-  .pt-filter-clear:hover {
-    color: var(--filter-clear-color-hover);
-  }
-
-  /* ═══ Data grid (hub --grid-* tokens) ═══ */
-  .grid-wrap {
-    border: var(--grid-header-border);
-    border-radius: var(--grid-radius);
-    overflow: hidden;
-    background: var(--grid-row-bg);
-  }
-  .grid {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: var(--grid-row-font-size);
-  }
-  .grid__th {
-    text-align: left;
-    padding: var(--grid-cell-padding);
-    background: var(--grid-header-bg);
-    color: var(--grid-header-color);
-    font-weight: var(--grid-header-weight);
-    font-size: var(--grid-header-font-size);
-    border-bottom: var(--grid-header-border);
-    white-space: nowrap;
-  }
-  .grid__th--num {
-    text-align: right;
-  }
-  .grid__th--sortable {
-    cursor: pointer;
-    user-select: none;
-  }
-  .grid__th--sortable :global(.esa-icon) {
-    display: inline-flex;
-    vertical-align: middle;
-    margin-left: var(--spacing-100);
-    color: var(--color-text-tertiary);
-  }
-  .grid__row {
-    cursor: pointer;
-    transition: background 120ms ease;
-  }
-  .grid__row--static {
-    cursor: default;
-  }
-  .grid__row:not(.grid__row--static):hover {
-    background: var(--grid-row-bg-hover);
-  }
-  .grid__row:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: -2px;
-  }
-  .grid__td {
-    padding: var(--grid-cell-padding);
-    border-bottom: var(--grid-row-border);
-    color: var(--color-text-primary);
-    vertical-align: middle;
-  }
-  .grid__row:last-child .grid__td {
-    border-bottom: 0;
-  }
-  .grid__td--name {
-    font-weight: var(--font-weight-semibold);
-  }
-  .grid__td--muted {
-    color: var(--color-text-secondary);
-  }
-  .grid__td--num {
-    text-align: right;
-    font-variant-numeric: tabular-nums;
-    color: var(--color-text-secondary);
-  }
-
-  /* status chip — color via inline --_chip; matches the map's status colors */
-  .status-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-150);
-    padding: 2px var(--spacing-250);
+  .map-legend__line {
+    width: 22px;
+    height: 5px;
     border-radius: var(--radius-full);
-    font-size: var(--type-size-100);
-    font-weight: var(--font-weight-semibold);
-    white-space: nowrap;
-    background: color-mix(in srgb, var(--_chip) 16%, transparent);
-    color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
-  }
-  .status-chip__dot {
-    width: 8px;
-    height: 8px;
-    border-radius: var(--radius-full);
-    background: var(--_chip);
     flex-shrink: 0;
   }
 
-  /* ═══ Editable permit drawer (ui-side-dialog pattern + form + footer) ═══ */
-  .drawer-backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: 1300;
-    background: rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(2px);
-    opacity: 0;
-    transition: opacity 280ms cubic-bezier(0.32, 0.72, 0, 1);
-  }
-  .drawer-backdrop.is-open {
-    opacity: 1;
-  }
-  .drawer-backdrop[hidden] {
-    display: none;
-  }
-
-  .permit-drawer {
-    position: fixed;
-    top: var(--spacing-400);
-    right: var(--spacing-400);
-    bottom: var(--spacing-400);
-    height: calc(100vh - var(--spacing-400) * 2);
-    width: 480px;
-    max-width: 90vw;
-    z-index: 1400;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    background: var(--color-surface);
-    border-radius: var(--radius-400);
-    box-shadow: var(--shadow-400);
-    transform: translateX(calc(100% + var(--spacing-400)));
-    transition: transform 280ms cubic-bezier(0.32, 0.72, 0, 1);
-  }
-  .permit-drawer.is-open {
-    transform: translateX(0);
-  }
-  .permit-drawer[hidden] {
-    display: none;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .permit-drawer,
-    .drawer-backdrop {
-      transition-duration: 120ms;
-      transition-timing-function: linear;
-    }
-  }
-
-  .permit-drawer__header {
-    flex: 0 0 auto;
-    display: flex;
-    align-items: flex-start;
-    gap: var(--spacing-300);
-    padding: var(--spacing-400) var(--spacing-600) 0;
-  }
-  .permit-drawer__header-main {
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-100);
-  }
-  .permit-drawer__eyebrow {
-    font-size: 0.75rem;
-    font-weight: var(--font-weight-semibold);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--color-text-tertiary);
-  }
-  .permit-drawer__title {
-    margin: 0;
-    font-size: 1.3125rem;
-    font-weight: var(--font-weight-bold);
-    line-height: 1.2;
-    color: var(--color-text-primary);
-  }
-  .permit-drawer__close {
-    flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius-200);
-    color: var(--color-text-tertiary);
-    transition: background 150ms ease, color 150ms ease;
-  }
-  .permit-drawer__close:hover {
-    background: var(--bcn-gray-100);
-    color: var(--color-text-primary);
-  }
-
-  .permit-drawer__body {
-    flex: 1;
-    min-height: 0;
-    overflow: auto;
-    padding: var(--spacing-400) var(--spacing-600) var(--spacing-600);
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-400);
-  }
-  .pd-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--spacing-300);
-  }
-  /* form inputs (styled to the form-control token contract) */
-  .pd-input {
-    width: 100%;
-    height: var(--form-height-md, 36px);
-    padding: 0 var(--spacing-300);
-    font-family: inherit;
-    font-size: 0.875rem;
-    color: var(--color-text-primary);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border-strong);
-    border-radius: var(--radius-200);
-    transition: border-color 150ms ease, box-shadow 150ms ease;
-  }
-  select.pd-input {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237c7c7c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right var(--spacing-300) center;
-    padding-right: var(--spacing-600);
-  }
-  .pd-input:focus-visible {
-    outline: none;
-    border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 18%, transparent);
-  }
-
-  .pd-applicability {
+  /* ═══ Mileage strip — SECONDARY figure below the map ═══ */
+  .burndown {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-200);
+    margin-top: var(--spacing-400);
+    padding: var(--spacing-300) var(--spacing-400);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
   }
-  .pd-applicability__label {
-    font-size: 0.8125rem;
+  .burndown__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+    flex-wrap: wrap;
+  }
+  .burndown__title {
+    font-size: 0.875rem;
     font-weight: var(--font-weight-semibold);
     color: var(--color-text-primary);
   }
-  .pd-checklist {
+  .burndown__summary {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+  .burndown__summary strong {
+    color: var(--st-cleared);
+    font-weight: var(--font-weight-bold);
+  }
+  .burndown__bar {
+    display: flex;
+    height: 10px;
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    background: var(--bcn-gray-100);
+  }
+  .burndown__bar > :global(div + div) {
+    border-left: 1px solid var(--color-surface);
+  }
+  .burndown__legend {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-200) var(--spacing-500);
+  }
+  .burndown__legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+  .burndown__legend-item[data-empty='true'] {
+    opacity: 0.4;
+  }
+  .burndown__swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: var(--radius-050);
+    flex-shrink: 0;
+  }
+  .burndown__legend-label {
+    color: var(--color-text-primary);
+  }
+  .burndown__legend-mi {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .burndown__legend-pct {
+    color: var(--color-text-tertiary);
+  }
+
+  /* ═══ Insight cards (lists injected by JS → ins-* classes are :global) ═══
+     Two-up below the headline figures — never a cramped five-across row; the odd
+     card out (Recent activity, a feed) reads naturally at full width. */
+  .insights {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-400);
+    margin-top: var(--spacing-400);
+  }
+  @media (max-width: 900px) {
+    .insights {
+      grid-template-columns: 1fr;
+    }
+  }
+  .ins-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding: var(--spacing-400);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+  }
+  .ins-card__title {
+    margin: 0;
+    font-size: 0.9375rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .ins-card__sub {
+    margin: calc(-1 * var(--spacing-100)) 0 0;
+    font-size: 0.8125rem;
+    color: var(--color-text-tertiary);
+  }
+  .ins-list {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-100);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-300);
-    max-height: 260px;
-    overflow: auto;
   }
-  .pd-check + .pd-check {
+  :global(.ins-row) {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-250);
+    padding: var(--spacing-200) 0;
+  }
+  :global(.ins-row + .ins-row) {
     border-top: 1px solid var(--color-border-light);
   }
-  .pd-check__label {
+  :global(.ins-row[data-ins-permit]) {
+    cursor: pointer;
+    margin: 0 calc(-1 * var(--spacing-200));
+    padding-inline: var(--spacing-200);
+    border-radius: var(--radius-200);
+  }
+  :global(.ins-row[data-ins-permit]:hover) {
+    background: var(--grid-row-bg-hover);
+  }
+  :global(.ins-dot) {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  :global(.ins-row__label) {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+  }
+  :global(.ins-row__sub) {
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+  }
+  :global(.ins-row__val) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1px;
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  :global(.ins-bar) {
+    flex: 0 0 72px;
+    height: 6px;
+    border-radius: var(--radius-full);
+    background: var(--bcn-gray-100);
+    overflow: hidden;
+  }
+
+  /* ═══ Clear-to-build timeline (rows injected by JS → ctb-* classes :global) ═══ */
+  .ctb {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    margin-top: var(--spacing-400);
+    padding: var(--spacing-400);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+  }
+  .ctb__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+    flex-wrap: wrap;
+  }
+  .ctb__title {
+    margin: 0;
+    font-size: 0.9375rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .ctb__sub {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--color-text-tertiary);
+  }
+  .ctb__axisrow {
+    display: grid;
+    grid-template-columns: 190px 1fr 260px;
+    gap: var(--spacing-400);
+  }
+  .ctb__axis {
+    position: relative;
+    height: 18px;
+  }
+  :global(.ctb-tick) {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+  }
+  :global(.ctb-tick--today) {
+    color: var(--color-primary);
+    font-weight: var(--font-weight-semibold);
+  }
+  .ctb__rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  :global(.ctb-row) {
+    display: grid;
+    grid-template-columns: 190px 1fr 260px;
+    gap: var(--spacing-400);
+    align-items: center;
+    padding: var(--spacing-200) 0;
+    border-top: 1px solid var(--color-border-light);
+    cursor: pointer;
+  }
+  :global(.ctb-row:hover) {
+    background: var(--grid-row-bg-hover);
+  }
+  :global(.ctb-row__name) {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  :global(.ctb-row__sub) {
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-regular);
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  :global(.ctb-row__track) {
+    position: relative;
+    height: 12px;
+    border-radius: var(--radius-full);
+    background: var(--bcn-gray-100);
+  }
+  :global(.ctb-row__bar) {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 4px;
+    border-radius: var(--radius-full);
+    opacity: 0.55;
+  }
+  :global(.ctb-row__dot) {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--color-surface);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
+  }
+  :global(.ctb-row__meta) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1px;
+    min-width: 0;
+    text-align: right;
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ═══ Bulk status bar (permits grid selection) ═══ */
+  .bulk-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    margin-bottom: var(--spacing-300);
+    padding: var(--spacing-200) var(--spacing-400);
+    background: color-mix(in srgb, var(--color-primary) 5%, var(--color-surface));
+    border: 1px solid color-mix(in srgb, var(--color-primary) 25%, var(--color-border));
+    border-radius: var(--radius-200);
+  }
+  .bulk-bar[hidden] {
+    display: none;
+  }
+  .bulk-bar__count {
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-right: var(--spacing-200);
+  }
+  .bulk-bar :global(esa-select) {
+    width: 220px;
+  }
+  .bulk-bar #bulk-clear {
+    margin-left: auto;
+  }
+
+  /* ═══ Permit drawer activity list (entries injected by JS, ins-row classes) ═══ */
+  .pd__activity {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ═══ Board export (print) — clean landscape snapshot of the map tab ═══ */
+  .print-header {
+    display: none;
+  }
+  @media print {
+    @page {
+      size: letter landscape;
+      margin: 10mm;
+    }
+    :global(.topbar),
+    :global(.side-nav),
+    :global(.page-layout__breadcrumbs),
+    :global(.page-layout__title) {
+      display: none !important;
+    }
+    /* hide the tab strip (exposed shadow part) */
+    :global(esa-tab-layout)::part(tabs) {
+      display: none;
+    }
+    .map-filterbar {
+      display: none;
+    }
+    .print-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--spacing-400);
+      margin-bottom: var(--spacing-300);
+    }
+    .print-header__title {
+      font-size: 16pt;
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-primary);
+    }
+    .print-header__meta {
+      font-size: 9pt;
+      color: var(--color-text-secondary);
+    }
+    .map-wrap {
+      height: 380pt;
+      min-height: 0;
+      break-inside: avoid;
+    }
+    .burndown,
+    .ins-card,
+    .ctb {
+      break-inside: avoid;
+      border-color: #ccc;
+    }
+    .insights {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* ═══ Filter bar — carded two-band, faithful copy of requirement-tracker's
+     page glue. Every control inside is a lego. ═══ */
+  .bcn-filterbar {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    margin-bottom: var(--spacing-400);
+  }
+  .bcn-filterbar__top {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-400);
+    padding: var(--spacing-300) var(--spacing-400);
+    flex-wrap: wrap;
+  }
+  .bcn-filterbar__bottom {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding: var(--spacing-300) var(--spacing-400);
+    border-top: 1px solid var(--color-border);
+    flex-wrap: wrap;
+  }
+  .bcn-filterbar__group {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+  .bcn-filterbar__label {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+  }
+  .bcn-filterbar__search {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    min-width: 300px;
+  }
+  .bcn-filterbar__search :global(esa-text-field) {
+    flex: 1;
+  }
+  .bcn-filterbar__clear {
+    margin-left: auto;
+  }
+  #flt-level-wrap[hidden] {
+    display: none;
+  }
+
+  /* ═══ Grid panes + beacon grid footer ═══ */
+  .bcn-view-pane[hidden] {
+    display: none;
+  }
+  .pt-grid {
+    width: 100%;
+    height: calc(100vh - 430px);
+    min-height: 520px;
+  }
+  :global(#grid-permits .ag-row),
+  :global(#grid-segments .ag-row) {
+    cursor: pointer;
+  }
+  .table-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    padding: var(--spacing-200) var(--spacing-400);
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-top: 0;
+    border-radius: 0 0 var(--radius-100) var(--radius-100);
+  }
+  .row-count-data {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-400);
+    font-size: var(--type-size-100);
+    color: var(--color-text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+  .filtered-rows-count {
+    color: var(--color-text-tertiary);
+  }
+  .filtered-rows-count[hidden] {
+    display: none;
+  }
+
+  /* AG Grid cell renderers (global — AG Grid injects cells outside Astro's scope).
+     Chip color comes through --_chip, which the renderer points at var(--st-*),
+     so grid chips track the map's color scheme live. */
+  :global(.ag-cell.bcn-grid-status-cell) {
+    display: flex;
+    align-items: center;
+  }
+  :global(.bcn-grid-chip) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    padding: 1px var(--spacing-200);
+    border-radius: var(--radius-100);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    font-weight: var(--font-weight-semibold);
+    white-space: nowrap;
+    background: color-mix(in srgb, var(--_chip) 16%, transparent);
+    color: color-mix(in srgb, var(--_chip) 70%, #1a1a1a);
+  }
+  :global(.bcn-grid-chip__dot) {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--_chip);
+    flex-shrink: 0;
+  }
+
+  /* ═══ Segment drawer body (esa-side-dialog slotted composition) ═══ */
+  .sd {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+  /* Slotted header: name + status chip trailing (replaces the lego's plain title) */
+  .sd__header {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+  .sd__title {
+    margin: 0;
+    font-size: var(--type-size-400);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .sd__meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-300) var(--spacing-400);
+    margin: 0;
+    padding: var(--spacing-400);
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+  }
+  .sd__kv {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .sd__kv dt {
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-medium);
+    color: var(--form-label-color);
+  }
+  .sd__kv dd {
+    margin: 0;
+    font-size: 0.9375rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .sd__section {
+    margin: 0;
+    font-size: 0.9375rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .sd__section :global(.esa-badge) {
+    vertical-align: middle;
+    margin-left: var(--spacing-100);
+  }
+  .sd__permits {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+
+  /* Permit rows (template-cloned into the drawer) */
+  .sd-permit__btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+    width: 100%;
+    padding: var(--spacing-300);
+    text-align: left;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+    cursor: pointer;
+    transition: border-color 120ms ease, background 120ms ease;
+  }
+  .sd-permit__btn:hover {
+    background: var(--grid-row-bg-hover);
+    border-color: var(--color-border-strong);
+  }
+  .sd-permit__main {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+  }
+  .sd-permit__name {
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .sd-permit__agency {
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+  .sd-permit__meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--spacing-100);
+    flex-shrink: 0;
+  }
+  .sd-permit__chips {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+  }
+  /* "This permit is what's holding the segment back" tag */
+  .sd-permit__gating {
+    padding: 1px var(--spacing-200);
+    border-radius: var(--radius-full);
+    font-size: 0.6875rem;
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    background: var(--color-text-primary);
+    color: var(--color-surface);
+    white-space: nowrap;
+  }
+  .sd-permit__gating[hidden] {
+    display: none;
+  }
+  .sd-permit__date {
+    font-size: 0.8125rem;
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+  }
+  .sd-permit__btn :global(.esa-icon) {
+    color: var(--color-text-tertiary);
+    flex-shrink: 0;
+  }
+
+  /* ═══ Permit drawer body — plain sections (icon + header), hairline-separated;
+     Status / Timing / Segments editable, Details read-only ═══ */
+  .pd {
+    display: flex;
+    flex-direction: column;
+  }
+  /* Slotted header: permit name + live status chip (replaces the lego's title) */
+  .pd__header {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+  .pd__title {
+    margin: 0;
+    font-size: var(--type-size-300);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .pd__section {
+    padding-block: var(--spacing-400);
+  }
+  .pd__section:first-child {
+    padding-top: var(--spacing-100);
+  }
+  .pd__section + .pd__section {
+    border-top: 1px solid var(--color-border-light);
+  }
+  .pd__section-head {
     display: flex;
     align-items: center;
     gap: var(--spacing-200);
-    padding: var(--spacing-200) var(--spacing-300);
-    cursor: pointer;
-  }
-  .pd-check__label:hover {
-    background: var(--bcn-gray-50);
-  }
-  .pd-check__box {
-    width: 16px;
-    height: 16px;
-    accent-color: var(--color-primary);
-    flex-shrink: 0;
-  }
-  .pd-check__name {
-    flex: 1;
-    font-size: 0.8125rem;
+    margin: 0 0 var(--spacing-300);
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
     color: var(--color-text-primary);
   }
-  .pd-check__line {
-    font-size: 0.6875rem;
-    color: var(--color-text-tertiary);
+  .pd__section-head :global(.esa-icon) {
+    flex-shrink: 0;
+    color: var(--color-text-secondary);
   }
-
-  /* footer — ui-side-dialog-footer pattern */
-  .permit-drawer__footer {
-    flex: 0 0 auto;
+  .pd__group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .pd__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-300);
+  }
+  /* Read-only values slotted into BcnKeyValue (mirrors its __val tier) */
+  .pd__kv-val {
+    font-size: var(--form-font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .pd__footer {
     display: flex;
     justify-content: flex-end;
     gap: var(--spacing-200);
-    padding: var(--spacing-400) var(--spacing-600);
-    background: var(--bcn-gray-50);
-    border-top: 1px solid var(--bcn-gray-200);
-  }
-  .pd-action {
-    display: contents;
   }
 </style>
