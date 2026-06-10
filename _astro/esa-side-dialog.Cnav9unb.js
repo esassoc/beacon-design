@@ -48,6 +48,9 @@ import{i as a,b as i,a as n}from"./lit-element.C8p3bJxG.js";class l extends a{co
       z-index: var(--z-modal, 400);
       outline: none;
       overflow: hidden;
+      /* Hosts may re-point --side-dialog-inset while open (e.g. card-stacking a
+         second dialog on top) — ease the reposition instead of jumping. */
+      transition: top 220ms ease, right 220ms ease, bottom 220ms ease, left 220ms ease;
     }
     :host([position='right']) .panel { right: var(--_inset); animation: slide-right 220ms ease; }
     :host([position='left']) .panel { left: var(--_inset); animation: slide-left 220ms ease; }
