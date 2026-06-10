@@ -69,6 +69,15 @@ export const prototypeGroups: PrototypeGroup[] = [
         status: 'in-progress',
       },
       {
+        slug: 'data-catalog-requirement',
+        title: 'Requirement detail — standard (Data Catalog)',
+        description:
+          'The first first-class Requirement detail page (regular workflow) — requirement-owned reference data + applicability, the one linked Action as jump-off; single-pane upsert with no timing/evidence/notifications (those live on the Action).',
+        route: '/prototypes/data-catalog-requirement',
+        createdAt: '2026-06-10',
+        status: 'in-progress',
+      },
+      {
         slug: 'data-catalog-requirements-streamlined',
         title: 'Requirements list — streamlined (Data Catalog)',
         description:
@@ -94,26 +103,16 @@ export const prototypeGroups: PrototypeGroup[] = [
     slug: 'permit-tracking',
     title: 'Permit Tracking',
     description:
-      'Linear-infrastructure permitting — the CRUD workspace and the map-first status dashboard.',
+      'Linear-infrastructure permitting as ONE feature (Tracking → Permit Tracking): the map-first dashboard and the CRUD workspace are tabs of a single page (BCN-1266 / BCN-1267).',
     pages: [
       {
         slug: 'permit-tracking',
-        title: 'Permit Tracking workspace',
+        title: 'Permit Tracking',
         description:
-          'The CRUD spine — Permits × Segments table with both pivots, and the reusable slide-in permit drawer (status, dates, segment applicability).',
+          'Map tab (default): the four real Phase-1 paths colored by derived permit status, mileage burndown, live color-scheme switcher. Data tab: Permits × Segments pivots with the editable permit drawer — saves repaint the map.',
         route: '/prototypes/permit-tracking',
         createdAt: '2026-06-05',
         ticket: 'BCN-1266',
-        status: 'in-progress',
-      },
-      {
-        slug: 'map-dashboard',
-        title: 'Interactive Map Dashboard',
-        description:
-          'Segments colored by derived permitting status, footage-by-status burndown, per-segment clear-to-build date, click-to-drawer — the "where can I build" view.',
-        route: '/prototypes/map-dashboard',
-        createdAt: '2026-06-05',
-        ticket: 'BCN-1267',
         status: 'in-progress',
       },
     ],

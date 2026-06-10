@@ -1,0 +1,652 @@
+---
+// Data Catalog — Requirement detail, STANDARD workflow (every tenant that does NOT
+// opt into Streamlined Compliance).
+//
+// The first FIRST-CLASS Requirement detail page: historically a requirement was only
+// ever seen as a sub-page of its Commitment. This page is what a user lands on from
+// Data Catalog → Requirements (cross-project AG Grid) → row click.
+//
+// FIELD OWNERSHIP (prod RequirementDto / RequirementUpsertDto — the page's whole
+// argument vs the streamlined twin):
+//   · Requirement OWNS: Name, requirement text (ApplicableCommitmentText), Type,
+//     Scope, Phases, Species, Seasons, Construction Activities, Milestones, Tags.
+//   · Resource Category is INHERITED from the parent Commitment (read-only here).
+//   · Responsible Party / Expected Evidence / Timing / Notifications belong to the
+//     ACTION — so NO Timing or Notifications rail modules and a SINGLE-PANE edit form
+//     (no tabs), unlike data-catalog-action / the streamlined requirement page.
+//   · A requirement is implemented by AT MOST ONE Action (unique constraint on
+//     ActionRequirement.RequirementID); the Action section is the jump-off to all
+//     scheduling/evidence/notification config. Still zero tracking leakage: the Data
+//     Catalog is setup/CRUD of building blocks.
+//
+// The "Edit requirement" MODAL keeps the family's fixed-size two-pane geometry: LEFT
+// is read-only PARENT-COMMITMENT context (full commitment text, source document —
+// the requirement is a carved-out slice of it), RIGHT is the prod requirement-upsert
+// form as one scrolling pane.
+//
+// COMPONENT MANIFEST: AppShell + PageLayout chrome; read blocks reuse bcn-* components
+// (BcnKeyValue) + esa-* legos (EsaButton/Icon/Pill/Badge/Collapsible/IconLink/
+// IconButton); the edit modal is esa-dialog wrapping esa-select / esa-text-field /
+// esa-textarea / esa-input-tag; drawers are esa-side-dialog ×3 (source-document PDF,
+// parsed commitment text à la document review, and the wizard-style "+ add entity"
+// creation panel with esa-date-picker).
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaPill from '@esa/ecology/esa-pill.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import EsaIconLink from '@esa/ecology/esa-icon-link.astro';
+import BcnKeyValue from '../../components/bcn/BcnKeyValue.astro';
+import { actions, PROJECT_NAME } from '../../data/tracker-fixture';
+import { ENRICH } from '../../data/requirement-enrich';
+import { ICON_PATHS } from '../../components/bcn/requirement-reference';
+import { withBase } from '../../lib/base';
+
+const CHEVRON_RIGHT = "<path d='m9 18 6-6-6-6'/>";
+const GIT_BRANCH = "<line x1='6' x2='6' y1='3' y2='15'/><circle cx='18' cy='6' r='3'/><circle cx='6' cy='18' r='3'/><path d='M18 9a9 9 0 0 1-9 9'/>";
+const FOLDER = "<path d='M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z'/>";
+const SCROLL_TEXT = "<path d='M15 12h-5'/><path d='M15 8h-5'/><path d='M19 17V5a2 2 0 0 0-2-2H4'/><path d='M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3'/>";
+const CLIPBOARD_CHECK = "<rect width='8' height='4' x='8' y='2' rx='1' ry='1'/><path d='M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2'/><path d='m9 14 2 2 4-4'/>";
+
+// Standard Data Catalog sub-nav — the full entity set (Actions + Components present;
+// no streamlined "Terms" alias).
+const dataCatalogNav = [
+  {
+    id: 'data-catalog',
+    title: 'Data Catalog',
+    icon: 'database',
+    expanded: true,
+    active: true,
+    items: [
+      { id: 'dc-projects', label: 'Projects' },
+      { id: 'dc-source-documents', label: 'Source Documents' },
+      { id: 'dc-commitments', label: 'Commitments' },
+      { id: 'dc-requirements', label: 'Requirements', active: true },
+      { id: 'dc-actions', label: 'Actions' },
+      { id: 'dc-components', label: 'Components' },
+      { id: 'dc-evidence', label: 'Evidence of Compliance' },
+    ],
+  },
+];
+
+// ── The Requirement: the MM-BIO-2 nesting-bird survey — same record as the
+//    streamlined twin so the two workflows can be compared side by side. ──
+const row = actions[4];
+const enrich = ENRICH[row.commitment] ?? {};
+const reqName = row.name.trim();
+const commitmentId = row.commitment; // MM-BIO-2
+const reqType = row.type; // Survey
+
+// Requirement-owned reference data (multi-valued in the standard model).
+// Seasons are NAMED, species-specific windows with date ranges; Milestones are
+// TEXT-DERIVED anchors ("Before Construction Begins"), not permit events — both
+// page-local overrides of the generic fixture values.
+const phases = [row.phase];
+const species = enrich.species ?? [];
+const seasons = ['Nesting Bird Season (Feb 1 – Aug 31)'];
+const constructionActivities = enrich.constructionActivities ?? [];
+const milestones = ['Before Construction Begins'];
+const tags = ['CDFW', 'Nesting season'];
+const scopeLabel = 'Project';
+const resourceCategory = row.resourceCategory; // inherited from the commitment
+
+// Parent commitment (provenance + the edit modal's left context pane).
+const commitmentTitle = 'Nesting Birds and Raptors';
+const commitmentText =
+  'If construction, ground-disturbing, or vegetation-removal activities would occur during the nesting season (February 1 – August 31), a qualified biologist shall conduct a pre-construction survey for nesting raptors and other migratory birds within 14 days prior to the start of those activities. If active nests are found, the biologist shall establish appropriate no-disturbance buffer zones around each nest, to remain in place until young have fledged. If work must occur within an established buffer zone, it shall proceed only under biological monitoring, and a report of findings documenting any such work shall be submitted to the City.';
+const commitmentHref = '#data-catalog/commitments/mm-bio-2';
+
+// The commitment's full parsed text, bulleted as in the source — each bullet ≈ a
+// carved-out requirement. (A "this requirement" slice highlight was tried and
+// DEFERRED — just show the text.)
+const commitmentSections = [
+  {
+    label: 'Pre-Construction Survey',
+    text: 'If construction, ground-disturbing, or vegetation-removal activities would occur during the nesting season (February 1 – August 31), a qualified biologist shall conduct a pre-construction survey for nesting raptors and other migratory birds within 14 days prior to the start of those activities.',
+  },
+  {
+    label: 'No-Disturbance Buffers',
+    text: 'If active nests are found, the biologist shall establish appropriate no-disturbance buffer zones around each nest, to remain in place until young have fledged.',
+  },
+  {
+    label: 'Work Within Buffer Zones',
+    text: 'If work must occur within an established buffer zone, it shall proceed only under biological monitoring by the qualified biologist.',
+  },
+  {
+    label: 'Reporting',
+    text: 'A report of findings documenting any construction conducted within a no-disturbance buffer zone shall be submitted to the City.',
+  },
+];
+
+// Actions implementing this requirement (at most one in the standard model — kept as
+// a list so the section header carries a count, mirroring the commitment page's
+// future requirements list).
+const linkedActions = [
+  {
+    name: 'Conduct Pre-Construction Nesting Bird & Raptor Survey',
+    type: 'Survey',
+    href: withBase('/prototypes/data-catalog-action'),
+  },
+];
+
+// Source document (provenance + drawer).
+const sourcePdf = withBase('/source-docs/feir-sample.pdf');
+const sourceDocTitle = row.sourceDoc;
+const sourceDocHref = '#data-catalog/source-documents/3600-alameda-feir';
+const createdMeta = 'Created Feb 12, 2026 · Updated Jun 3, 2026';
+
+// Lineage — the entity chain this requirement descends from, rendered as a connected
+// rail (the BcnChangeLog spine treatment) with per-entity glyphs. Last node = here.
+const lineage = [
+  { kind: 'Project', name: PROJECT_NAME, href: '#data-catalog/projects/3600-alameda', icon: 'folder', paths: FOLDER, current: false },
+  { kind: 'Source Document', name: sourceDocTitle, href: sourceDocHref, icon: 'file-text', paths: undefined, current: false },
+  { kind: 'Commitment', name: `${commitmentId} — ${commitmentTitle}`, href: commitmentHref, icon: 'scroll-text', paths: SCROLL_TEXT, current: false },
+  { kind: 'Requirement', name: reqName, href: undefined, icon: 'clipboard-check', paths: CLIPBOARD_CHECK, current: true },
+];
+
+const editPayload = {
+  reqName,
+  requirementText: row.requirementText,
+  type: reqType,
+  scope: scopeLabel,
+  phases,
+  species,
+  seasons,
+  constructionActivities,
+  milestones,
+  tags,
+};
+---
+
+<AppShell title={`${reqName} — Data Catalog`} projectName="Select a Project" navSections={dataCatalogNav}>
+  <PageLayout
+    title={reqName}
+    breadcrumbs={[{ label: 'Data Catalog', href: '#data-catalog' }, { label: 'Requirements', href: '#data-catalog/requirements' }, { label: reqName }]}
+  >
+    <div class="bcn-req">
+      <!-- Identity header — family treatment: commitment badge on top, decorative
+           name as H1, neutral type badge trailing. Edit opens the upsert modal. -->
+      <header class="bcn-req__head">
+        <div class="bcn-req__identity">
+          <span class="bcn-req__badge bcn-req__badge--commitment">{commitmentId}</span>
+          <div class="bcn-req__title-row">
+            <h1 class="bcn-req__title">{reqName}</h1>
+            <span class="bcn-req__badge bcn-req__badge--type">{reqType}</span>
+          </div>
+        </div>
+        <div class="bcn-req__head-actions">
+          <span id="edit-req"><EsaButton color="primary"><span class="bcn-btn-ico"><EsaIcon name="pencil" size="xs" />Edit requirement</span></EsaButton></span>
+        </div>
+      </header>
+
+      <!-- Two-column body -->
+      <div class="bcn-req__body">
+        <div class="bcn-req__main">
+          <!-- The requirement text — the entity's core. Serif (quoted regulatory
+               voice) on a quiet card, with the source-document affordance. -->
+          <section class="bcn-req__section">
+            <h2 class="bcn-section-title">Requirement Text</h2>
+            <article class="bcn-reqtext">
+              <p class="bcn-reqtext__text">{row.requirementText}</p>
+              <footer class="bcn-reqtext__footer">
+                <span id="open-commitment"><EsaButton color="ghost" size="sm"><span class="bcn-btn-ico"><EsaIcon name="scroll-text" size="xs" paths={SCROLL_TEXT} />View Commitment Text</span></EsaButton></span>
+                <span data-bcn-source><EsaButton color="ghost" size="sm" icon="file-text">View in Source Document</EsaButton></span>
+              </footer>
+            </article>
+          </section>
+
+          <!-- Actions implementing this requirement — the jump-off to scheduling /
+               evidence / notification config (which the Requirement does NOT own). -->
+          <section class="bcn-req__section">
+            <h2 class="bcn-section-title">Actions <EsaBadge variant="secondary" size="sm" value={linkedActions.length} /></h2>
+            <ul class="bcn-action-list">
+              {linkedActions.map((a) => (
+                <li>
+                  <a class="bcn-linked-action" href={a.href}>
+                    <span class="bcn-req__badge bcn-req__badge--commitment">{commitmentId}</span>
+                    <span class="bcn-linked-action__name">{a.name}</span>
+                    <span class="bcn-req__badge bcn-req__badge--type">{a.type}</span>
+                    <EsaIcon name="chevron-right" size="sm" paths={CHEVRON_RIGHT} />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </div>
+
+        <!-- Rail — Details / Related Data / Lineage. Deliberately NO Timing and
+             NO Notifications modules: those are Action config in the standard model. -->
+        <aside class="bcn-req__rail">
+          <EsaCollapsible icon="info" title="Details" open>
+            <BcnKeyValue label="Type" value={reqType} />
+            <BcnKeyValue label="Scope" value={scopeLabel} />
+            <BcnKeyValue label="Resource Category" value={resourceCategory} />
+            <BcnKeyValue label="Tags">
+              <span class="bcn-tagrow">
+                {tags.map((t) => <EsaPill label={t} size="sm" removable={false} />)}
+              </span>
+            </BcnKeyValue>
+            <p class="bcn-rail-meta">{createdMeta}</p>
+          </EsaCollapsible>
+
+          <EsaCollapsible icon="layers" iconPaths={ICON_PATHS.layers} title="Related Data" open>
+            <BcnKeyValue label="Phases" value={phases.join(', ')} />
+            {species.length > 0 && <BcnKeyValue label="Species" value={species.join(', ')} />}
+            {seasons.length > 0 && <BcnKeyValue label="Seasons" value={seasons.join(', ')} />}
+            {constructionActivities.length > 0 && <BcnKeyValue label="Construction Activities" value={constructionActivities.join(', ')} />}
+            {milestones.length > 0 && <BcnKeyValue label="Milestones" value={milestones.join(', ')} />}
+          </EsaCollapsible>
+
+          <!-- Lineage — Project → Source Document → Commitment → this Requirement,
+               on a connecting rail (the BcnChangeLog spine treatment). -->
+          <EsaCollapsible icon="git-branch" iconPaths={GIT_BRANCH} title="Lineage" open>
+            <ol class="bcn-lineage">
+              {lineage.map((n) => (
+                <li class={`bcn-lineage__node${n.current ? ' bcn-lineage__node--current' : ''}`}>
+                  <span class="bcn-lineage__icon"><EsaIcon name={n.icon} size="sm" paths={n.paths} /></span>
+                  <span class="bcn-lineage__body">
+                    <span class="bcn-lineage__kind">{n.kind}</span>
+                    {n.href ? <a class="bcn-lineage__name" href={n.href}>{n.name}</a> : <span class="bcn-lineage__name bcn-lineage__name--current">{n.name}</span>}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </EsaCollapsible>
+        </aside>
+      </div>
+    </div>
+  </PageLayout>
+
+  <!-- ═══ Edit Requirement MODAL — family two-pane geometry. LEFT: read-only parent-
+       commitment context (the requirement is a carved-out slice of it). RIGHT: the
+       prod requirement-upsert form as ONE scrolling pane — no Timing/Evidence/
+       Notifications tabs, because those belong to the Action. ═══ -->
+  <esa-dialog
+    id="edit-dialog"
+    size="lg"
+    style="--_dialog-width: 96vw; --_dialog-max-height: 94vh; --_dialog-bg: var(--color-surface, #fff); --z-modal-backdrop: 1150; --z-modal: 1200;"
+  >
+    <div slot="header" class="bcn-editor__head">
+      <span class="bcn-editor__head-title">{reqName}</span>
+      <span class="bcn-req__badge bcn-req__badge--type">{reqType}</span>
+    </div>
+    <div class="bcn-editor">
+      <!-- LEFT: parent commitment context (read) -->
+      <section class="bcn-context" aria-label="Commitment context">
+        <div class="bcn-context__commitment">
+          <span class="bcn-req__badge bcn-req__badge--commitment">{commitmentId}</span>
+          <span class="bcn-context__commitment-title">{commitmentTitle}</span>
+        </div>
+        <p class="bcn-context__text">{commitmentText}</p>
+        <div class="bcn-context__actions">
+          <span id="ctx-source"><EsaButton color="ghost" appearance="outline" size="sm" icon="file-text">View in Source Document</EsaButton></span>
+        </div>
+      </section>
+
+      <!-- RIGHT: single-pane upsert form (prod RequirementUpsertDto field set) -->
+      <section class="bcn-config" aria-label="Requirement reference data">
+        <div class="bcn-form">
+          <esa-text-field id="d-name" label="Name" required></esa-text-field>
+          <esa-textarea id="d-text" label="Requirement Text" rows="5"></esa-textarea>
+          <div class="bcn-grid-2">
+            <esa-select id="d-type" label="Type"></esa-select>
+            <esa-select id="d-scope" label="Scope"></esa-select>
+          </div>
+          <esa-input-tag id="d-phases" label="Phases"></esa-input-tag>
+          <!-- Entity fields carry the setup wizard's "+" affordance — a creation
+               drawer for lookup values that don't exist yet (Tags create inline). -->
+          <div class="bcn-grid-2">
+            <div class="bcn-field-add">
+              <esa-input-tag id="d-species" label="Species"></esa-input-tag>
+              <span class="bcn-field-add__btn" data-add-entity="Species" data-target="d-species"><EsaIconButton icon="plus" label="Add new species" size="xs" /></span>
+            </div>
+            <div class="bcn-field-add">
+              <esa-input-tag id="d-seasons" label="Seasons"></esa-input-tag>
+              <span class="bcn-field-add__btn" data-add-entity="Season" data-target="d-seasons"><EsaIconButton icon="plus" label="Add new season" size="xs" /></span>
+            </div>
+          </div>
+          <div class="bcn-field-add">
+            <esa-input-tag id="d-activities" label="Construction Activities"></esa-input-tag>
+            <span class="bcn-field-add__btn" data-add-entity="Construction Activity" data-target="d-activities"><EsaIconButton icon="plus" label="Add new construction activity" size="xs" /></span>
+          </div>
+          <div class="bcn-grid-2">
+            <div class="bcn-field-add">
+              <esa-input-tag id="d-milestones" label="Milestones"></esa-input-tag>
+              <span class="bcn-field-add__btn" data-add-entity="Milestone" data-target="d-milestones"><EsaIconButton icon="plus" label="Add new milestone" size="xs" /></span>
+            </div>
+            <esa-input-tag id="d-tags" label="Tags"></esa-input-tag>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div slot="footer" class="bcn-editor__foot">
+      <span id="er-cancel"><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span id="er-save"><EsaButton color="primary">Save</EsaButton></span>
+    </div>
+  </esa-dialog>
+
+  <!-- Source-document viewer = esa-side-dialog lego at page root; opened by the
+       requirement-text card's trigger and the modal's context button. -->
+  <esa-side-dialog id="source-drawer" heading={sourceDocTitle} size="lg" style="--_width: 66vw; --z-modal: 1300; --z-modal-backdrop: 1250; --backdrop-filter: blur(4px);">
+    <div class="bcn-source-pdf">
+      <iframe class="bcn-source-pdf__frame" src={`${sourcePdf}#view=FitH&navpanes=0&pagemode=none`} title={`Source document — ${sourceDocTitle} (sample)`}></iframe>
+    </div>
+    <span slot="footer" class="bcn-source-foot">
+      <EsaIconLink href={sourceDocHref} trailing="arrow-right" size="sm" weight="medium">Open Source Document</EsaIconLink>
+    </span>
+  </esa-side-dialog>
+
+  <!-- Full-commitment-text viewer (the document-review treatment): the commitment's
+       parsed text in the serif regulatory voice; badge + title in the header. -->
+  <esa-side-dialog id="commitment-drawer" heading={`${commitmentId} — ${commitmentTitle}`} style="--_width: 560px; --z-modal: 1300; --z-modal-backdrop: 1250; --backdrop-filter: blur(4px);">
+    <span slot="header" class="bcn-drawer-head">
+      <span class="bcn-req__badge bcn-req__badge--commitment">{commitmentId}</span>
+      <span class="bcn-drawer-head__title">{commitmentTitle}</span>
+    </span>
+    <div class="bcn-parsed">
+      <p class="bcn-parsed__title">Mitigation Measure BIO-2: {commitmentTitle}.</p>
+      <ul class="bcn-parsed__list">
+        {commitmentSections.map((s) => (
+          <li class="bcn-parsed__item">
+            <strong>{s.label}:</strong> {s.text}
+          </li>
+        ))}
+      </ul>
+    </div>
+    <span slot="footer" class="bcn-source-foot">
+      <EsaIconLink href={commitmentHref} trailing="arrow-right" size="sm" weight="medium">Open Commitment</EsaIconLink>
+    </span>
+  </esa-side-dialog>
+
+  <!-- Entity-creation panel (the wizard's "+" affordance) — one drawer, retitled per
+       invoking field; Estimated Date shows for Milestones only. -->
+  <esa-side-dialog id="entity-drawer" heading="Add Entity" style="--_width: 420px; --z-modal: 1300; --z-modal-backdrop: 1250;">
+    <div class="bcn-entity-form">
+      <esa-text-field id="ent-name" label="Name" required></esa-text-field>
+      <div id="ent-date-wrap" class="bcn-entity-form__date">
+        <esa-date-picker id="ent-date" label="Estimated Date"></esa-date-picker>
+        <span class="bcn-field__hint">Optional — leave blank if not yet known.</span>
+      </div>
+      <esa-textarea id="ent-desc" label="Description" rows="4" placeholder="Optional context…"></esa-textarea>
+    </div>
+    <div slot="footer" class="bcn-editor__foot">
+      <span id="ent-cancel"><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span id="ent-add"><EsaButton color="primary">Add</EsaButton></span>
+    </div>
+  </esa-side-dialog>
+
+  <script type="application/json" id="edit-meta" set:html={JSON.stringify(editPayload)}></script>
+</AppShell>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-input-tag';
+  import '@esa/ecology/esa-date-picker';
+
+  const editMeta = JSON.parse(document.getElementById('edit-meta')!.textContent || '{}');
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+
+  const setOptions = (id: string, opts: string[], value?: string) => {
+    const el = document.getElementById(id) as (HTMLElement & { options: { value: string; label: string }[]; value: string }) | null;
+    if (!el) return;
+    el.options = opts.map((o) => ({ value: o, label: o }));
+    if (value !== undefined) el.value = value;
+  };
+  const setValue = (id: string, value: string) => {
+    const el = document.getElementById(id) as (HTMLElement & { value: string }) | null;
+    if (el) el.value = value;
+  };
+  const setTags = (id: string, values: string[]) => {
+    const el = document.getElementById(id) as (HTMLElement & { value: string[] }) | null;
+    if (el) el.value = values;
+  };
+
+  // ── Edit modal — the prod requirement-upsert field set. ──
+  const dialog = $('edit-dialog') as HTMLElement & { open: boolean };
+  setValue('d-name', editMeta.reqName ?? '');
+  setValue('d-text', editMeta.requirementText ?? '');
+  setOptions(
+    'd-type',
+    ['Analysis', 'Survey', 'Monitoring', 'Avoidance & BMPs', 'Restoration & Mitigation', 'Plan', 'Design', 'Reporting', 'Approval & Consultation', 'Financial', 'Training & Education', 'Other'],
+    editMeta.type,
+  );
+  setOptions('d-scope', ['Project', 'Component'], editMeta.scope);
+  setTags('d-phases', editMeta.phases ?? []);
+  setTags('d-species', editMeta.species ?? []);
+  setTags('d-seasons', editMeta.seasons ?? []);
+  setTags('d-activities', editMeta.constructionActivities ?? []);
+  setTags('d-milestones', editMeta.milestones ?? []);
+  setTags('d-tags', editMeta.tags ?? []);
+
+  // Open / close.
+  $('edit-req').addEventListener('click', () => (dialog.open = true));
+  $('er-cancel').addEventListener('click', () => (dialog.open = false));
+  $('er-save').addEventListener('click', () => (dialog.open = false));
+
+  // ── Source drawer — opened by the requirement-text card AND the modal context. ──
+  const sourceDrawer = $('source-drawer') as HTMLElement & { open: boolean };
+  document.querySelectorAll<HTMLElement>('[data-bcn-source]').forEach((el) =>
+    el.addEventListener('click', () => (sourceDrawer.open = true)),
+  );
+  $('ctx-source').addEventListener('click', () => (sourceDrawer.open = true));
+
+  // ── Parsed-commitment-text drawer (document-review treatment). ──
+  const commitmentDrawer = $('commitment-drawer') as HTMLElement & { open: boolean };
+  $('open-commitment').addEventListener('click', () => (commitmentDrawer.open = true));
+
+  // ── Entity-creation drawer — one panel, retitled per invoking "+" field; the
+  //    Estimated Date block shows for Milestones only. "Add" drops the new name
+  //    straight into the invoking input-tag. ──
+  const entityDrawer = $('entity-drawer') as HTMLElement & { open: boolean; heading: string };
+  const entDateWrap = $('ent-date-wrap');
+  let entityTarget = '';
+  document.querySelectorAll<HTMLElement>('[data-add-entity]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      entityTarget = btn.dataset.target ?? '';
+      entityDrawer.heading = `Add ${btn.dataset.addEntity}`;
+      entDateWrap.hidden = btn.dataset.addEntity !== 'Milestone';
+      setValue('ent-name', '');
+      setValue('ent-desc', '');
+      entityDrawer.open = true;
+    });
+  });
+  $('ent-cancel').addEventListener('click', () => (entityDrawer.open = false));
+  $('ent-add').addEventListener('click', () => {
+    const nameEl = document.getElementById('ent-name') as (HTMLElement & { value: string }) | null;
+    const target = document.getElementById(entityTarget) as (HTMLElement & { value: string[] }) | null;
+    const name = (nameEl?.value ?? '').trim();
+    if (name && target) target.value = [...(target.value ?? []), name];
+    entityDrawer.open = false;
+  });
+</script>
+
+<style>
+  /* bcn-lego-checked: page-composition glue only — the read layout (identity header,
+     two-column main+rail), the requirement-text card, the linked-Action row, provenance
+     links, and the edit-modal two-pane SHELL (commitment context | single-pane form).
+     No esa-* lego models an entity detail/editor PAGE; checked Ecology (every control
+     is a lego — buttons/pills/collapsibles/dialog/side-dialog/selects/text-fields/
+     textareas/input-tags/icon-link — all used here) and Beacon (mirrors the prod
+     requirement-upsert field set; requirements have no prod detail page — that's the
+     point of this prototype). Read blocks reuse BcnKeyValue; this is layout, not a new
+     primitive. Ported from data-catalog-requirement-streamlined.astro. */
+
+  .bcn-req { display: flex; flex-direction: column; gap: var(--spacing-600); }
+
+  /* Identity header */
+  .bcn-req__head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-400); padding-bottom: var(--spacing-400); border-bottom: 1px solid var(--color-border); }
+  .bcn-req__head-actions { display: inline-flex; align-items: center; gap: var(--spacing-200); flex-shrink: 0; }
+  .bcn-req__identity { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-100); min-width: 0; }
+  .bcn-req__title-row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-200); min-width: 0; }
+  .bcn-req__title { margin: 0; font-family: var(--font-decorative); font-size: 1.5rem; font-weight: var(--font-weight-semibold); line-height: 1.2; color: var(--color-text-primary); }
+  .bcn-req__badge { flex-shrink: 0; padding: 0.125rem 0.375rem; border-radius: var(--radius-100); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); line-height: 1.4; white-space: nowrap; }
+  .bcn-req__badge--commitment { color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); }
+  .bcn-req__badge--type { color: var(--color-text-secondary); background: var(--color-surface-sunken); transform: translateY(2px); }
+
+  /* Two-column body */
+  .bcn-req__body { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: var(--spacing-600); align-items: start; }
+  .bcn-req__main { min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-600); }
+  .bcn-req__rail { min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-500); }
+  .bcn-req__rail :global(.esa-collapsible__title) {
+    font-size: var(--type-size-300);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .bcn-req__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-section-title {
+    display: flex; align-items: center; gap: var(--spacing-200); margin: 0;
+    font-size: var(--type-size-300); font-weight: var(--font-weight-semibold); color: var(--color-text-primary);
+  }
+  /* Requirement-text card — serif regulatory voice on a quiet surface (mirrors the
+     BcnRequirementReference shell, minus the Action-owned metadata grid). */
+  .bcn-reqtext { display: flex; flex-direction: column; gap: var(--spacing-300); padding: var(--spacing-500); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-300); }
+  .bcn-reqtext__text { margin: 0; font-family: var(--font-decorative); font-size: 1.0625rem; line-height: 1.65; color: var(--color-text-primary); }
+  .bcn-reqtext__footer { display: flex; justify-content: flex-end; gap: var(--spacing-100); padding-top: var(--spacing-200); border-top: 1px solid var(--color-border-light); }
+  /* Footer links read in the PRIMARY (darker) green — token-only tint of esa-button's ghost. */
+  .bcn-reqtext__footer :global(.esa-button--color-ghost .esa-button__native) { color: var(--color-primary); }
+  .bcn-reqtext__footer :global(.esa-button--color-ghost .esa-button__native:hover:not(:disabled)) { color: var(--color-primary-hover); background: color-mix(in srgb, var(--color-primary) 8%, transparent); }
+
+  /* Linked Action rows — quiet single-line jump-offs: commitment badge | name |
+     type badge | chevron. Hover is a whisper (surface tint + chevron nudge), not an
+     underline/border shout. */
+  .bcn-action-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-linked-action {
+    display: flex; align-items: center; gap: var(--spacing-300);
+    padding: var(--spacing-300) var(--spacing-400);
+    border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface);
+    text-decoration: none;
+    transition: background-color 120ms ease;
+  }
+  .bcn-linked-action:hover { background: color-mix(in srgb, var(--color-primary) 4%, var(--color-surface)); }
+  .bcn-linked-action__name { flex: 1; min-width: 0; font-size: var(--form-font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-linked-action .bcn-req__badge--type { transform: none; }
+  .bcn-linked-action > :global(.esa-icon:last-child) { color: var(--color-text-tertiary); flex-shrink: 0; transition: transform 120ms ease, color 120ms ease; }
+  .bcn-linked-action:hover > :global(.esa-icon:last-child) { transform: translateX(2px); color: var(--color-text-secondary); }
+
+  /* Rail extras — tag chips: squared (4px), light gray fill, mid-gray border (the
+     rounded esa-pill default reads too playful here). */
+  .bcn-tagrow { display: flex; flex-wrap: wrap; gap: var(--spacing-150); margin-top: var(--spacing-100); }
+  .bcn-tagrow :global(.esa-pill) {
+    border-radius: var(--radius-100);
+    background: var(--color-surface-sunken);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+  }
+
+  /* Lineage — entity chain on a connecting rail (BcnChangeLog spine treatment).
+     The current node (this requirement) gets the secondary-ring accent. */
+  .bcn-lineage { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .bcn-lineage__node { position: relative; display: flex; align-items: flex-start; gap: var(--spacing-300); padding-bottom: var(--spacing-400); }
+  .bcn-lineage__node::before { content: ''; position: absolute; left: 13px; top: 30px; bottom: 2px; width: 2px; background: var(--color-border); }
+  .bcn-lineage__node:last-child { padding-bottom: 0; }
+  .bcn-lineage__node:last-child::before { display: none; }
+  .bcn-lineage__icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; flex-shrink: 0;
+    border-radius: 50%; background: var(--color-surface);
+    border: 1px solid var(--color-border); color: var(--color-text-secondary);
+  }
+  .bcn-lineage__icon :global(.esa-icon) { --_icon-size: 14px; }
+  .bcn-lineage__node--current .bcn-lineage__icon { border-color: var(--color-secondary); color: var(--color-secondary); }
+  .bcn-lineage__body { display: flex; flex-direction: column; gap: 1px; min-width: 0; padding-top: 2px; }
+  .bcn-lineage__kind { font-size: 0.75rem; color: var(--color-text-tertiary); }
+  .bcn-lineage__name { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); line-height: 1.35; color: var(--color-primary); text-decoration: none; }
+  a.bcn-lineage__name:hover { text-decoration: underline; }
+  .bcn-lineage__name--current { color: var(--color-text-primary); font-weight: var(--font-weight-semibold); }
+
+  /* Created/Updated (Details panel) — genuine meta: small but legible, a step darker
+     than tertiary, separated from the key-values above by a hairline. */
+  .bcn-rail-meta { margin: var(--spacing-300) 0 0; padding-top: var(--spacing-300); border-top: 1px solid var(--color-border-light); font-size: 0.75rem; color: var(--color-text-secondary); }
+
+  .bcn-btn-ico { display: inline-flex; align-items: center; gap: var(--spacing-150); }
+
+  @media (max-width: 1024px) {
+    .bcn-req__body { grid-template-columns: 1fr; }
+  }
+
+  /* ═══ Edit modal — two-pane: commitment context | single-pane form. FIXED-HEIGHT
+     stage; each pane scrolls independently. Same geometry as the sibling detail
+     pages' editors. ═══ */
+  .bcn-editor {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    align-items: stretch;
+    height: calc(86vh - 8.5rem);
+    /* Full-bleed: cancel esa-dialog's body padding (--_dialog-padding) so the panes
+       reach the modal edges. */
+    margin: calc(-1 * var(--_dialog-padding, 1.5rem));
+    overflow: hidden;
+  }
+  .bcn-editor__head { display: flex; align-items: center; gap: var(--spacing-200); }
+  .bcn-editor__head-title { font-family: var(--font-decorative); font-size: var(--type-size-300); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-editor__foot { display: flex; gap: var(--spacing-300); justify-content: flex-end; width: 100%; }
+
+  /* Left pane: read-only commitment context — quiet background, serif text. */
+  .bcn-context {
+    display: flex; flex-direction: column; gap: var(--spacing-400);
+    min-width: 0; height: 100%; overflow-y: auto;
+    padding: var(--spacing-500);
+    background: var(--color-background);
+    border-right: 1px solid var(--color-border);
+  }
+  .bcn-context__commitment { display: flex; align-items: center; gap: var(--spacing-250); }
+  .bcn-context__commitment-title { font-size: var(--form-font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-context__text { margin: 0; font-family: var(--font-decorative); font-size: 1.0625rem; line-height: 1.65; color: var(--color-text-primary); }
+  .bcn-context__actions { display: flex; }
+
+  /* Form pane — one scrolling column (no tabs: the requirement owns reference data only). */
+  .bcn-config { min-width: 0; min-height: 0; overflow-y: auto; }
+  .bcn-form { display: flex; flex-direction: column; gap: var(--spacing-400); padding: var(--spacing-400) var(--spacing-500) var(--spacing-500); }
+  .bcn-grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-300); }
+  /* Neutral squared chips in the form's input-tags (prod ui-input-tag look: gray
+     fill, dark-gray text, small radius) — via the lego's chip hooks. */
+  .bcn-form :global(esa-input-tag) {
+    --_chip-bg: var(--color-surface-sunken);
+    --_chip-color: var(--color-text-primary);
+    --_chip-radius: var(--radius-100);
+  }
+
+  /* Entity fields with the wizard's "+" affordance — the icon button sits INSIDE the
+     input control, anchored to its right edge (the field label sits above, so the
+     control is the wrapper's bottom row). */
+  .bcn-field-add { position: relative; min-width: 0; }
+  .bcn-field-add__btn { position: absolute; right: 5px; bottom: 5px; display: inline-flex; }
+  .bcn-field__hint { font-size: 0.75rem; color: var(--color-text-tertiary); }
+
+  /* Entity-creation drawer body. */
+  .bcn-entity-form { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .bcn-entity-form__date { display: flex; flex-direction: column; gap: var(--spacing-150); }
+  .bcn-entity-form__date[hidden] { display: none; }
+
+  /* Full-commitment drawer — badge + title header, then the parsed text in the
+     serif regulatory voice (matching the requirement-text card). */
+  .bcn-drawer-head { display: inline-flex; align-items: center; gap: var(--spacing-250); }
+  .bcn-drawer-head__title { font-size: var(--type-size-300); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-parsed { display: flex; flex-direction: column; gap: var(--spacing-400); font-family: var(--font-decorative); font-size: 1.0625rem; line-height: 1.65; color: var(--color-text-primary); }
+  .bcn-parsed__title { margin: 0; font-weight: var(--font-weight-semibold); }
+  .bcn-parsed__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-400); }
+
+  /* Source-document drawer body — full-height PDF frame. */
+  .bcn-source-pdf { height: 100%; min-height: 60vh; }
+  .bcn-source-pdf__frame { width: 100%; height: 100%; min-height: 60vh; border: 0; border-radius: var(--radius-200); background: var(--color-surface-sunken); }
+  .bcn-source-foot { display: flex; justify-content: flex-end; width: 100%; }
+
+  @media (max-width: 860px) {
+    .bcn-editor { grid-template-columns: 1fr; }
+  }
+</style>
+
+<!-- This page renders its own identity header (commitment badge + name + type badge),
+     so hide PageLayout's default title row. Page-scoped: only loaded here. -->
+<style is:global>
+  /* !important to beat PageLayout's scoped `.page-layout__title { display: flex }`
+     (Astro scoped selectors carry an attribute and outrank a bare class). */
+  .page-layout__title { display: none !important; }
+</style>
