@@ -1,0 +1,353 @@
+---
+// Data Catalog — Source Document detail (standard workflow).
+//
+// The catalog home of ONE source document (the FEIR): what it is, who approved it,
+// what it contains. Modeled on the prod Source Document overview (Project, Reference
+// Number, Agreement Terms, Date of Latest Amendment, Approving Agency / Contact /
+// Signatory, Files, Associated Components, Description, child Commitments) but
+// recomposed in the Data Catalog detail family: identity header, main + rail,
+// lineage, PDF drawer, single-pane upsert (the prod Edit Source Document field set).
+//
+// The MAIN event is the commitments roster — the document's children, each row with
+// its requirement count (computed from the fixture). MM-BIO-2 deep-links to the
+// Commitment detail prototype; the rest are catalog stubs.
+//
+// COMPONENT MANIFEST: AppShell + PageLayout chrome; BcnKeyValue + esa-* legos
+// (EsaButton/Icon/Badge/Collapsible/IconLink, esa-file-list); the edit modal is a
+// single-column esa-dialog (esa-select / esa-text-field / esa-textarea /
+// esa-date-picker); the document viewer is esa-side-dialog.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import EsaIconLink from '@esa/ecology/esa-icon-link.astro';
+import BcnKeyValue from '../../components/bcn/BcnKeyValue.astro';
+import { actions, PROJECT_NAME, SOURCE_DOCUMENT } from '../../data/tracker-fixture';
+import { withBase } from '../../lib/base';
+
+const CHEVRON_RIGHT = "<path d='m9 18 6-6-6-6'/>";
+const FOLDER = "<path d='M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z'/>";
+const SCROLL_TEXT = "<path d='M15 12h-5'/><path d='M15 8h-5'/><path d='M19 17V5a2 2 0 0 0-2-2H4'/><path d='M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3'/>";
+
+const dataCatalogNav = [
+  {
+    id: 'data-catalog',
+    title: 'Data Catalog',
+    icon: 'database',
+    expanded: true,
+    active: true,
+    items: [
+      { id: 'dc-projects', label: 'Projects' },
+      { id: 'dc-source-documents', label: 'Source Documents', active: true },
+      { id: 'dc-commitments', label: 'Commitments' },
+      { id: 'dc-requirements', label: 'Requirements' },
+      { id: 'dc-actions', label: 'Actions' },
+      { id: 'dc-components', label: 'Components' },
+      { id: 'dc-evidence', label: 'Evidence of Compliance' },
+    ],
+  },
+];
+
+// ── The document ──
+const docTitle = SOURCE_DOCUMENT; // 3600 Alameda Avenue Project FEIR
+const docType = 'Final EIR';
+const description =
+  'Final Environmental Impact Report for the 3600 Alameda Avenue Project, certified by the City of Oakland. It establishes the mitigation measures and standard conditions of approval that govern demolition, construction, and post-construction operation of the project, and is the source of every commitment and requirement tracked under it.';
+
+// Reference details (prod Source Document overview field set).
+const referenceNumber = 'SCH #2023040072';
+const latestAmendment = 'Feb 20, 2026';
+const approvingAgency = 'City of Oakland — Bureau of Planning';
+const agencyContact = 'Dana Whitfield, Senior Planner';
+const agencySignatory = 'M. Reyes, Planning Director';
+const agreementTerms = '—';
+const createdMeta = 'Created Jan 8, 2026 · Updated Jun 3, 2026';
+
+// ── Contents: every commitment/requirement under this document (fixture-computed). ──
+const commitmentsTotal = new Set(actions.map((a) => a.commitment)).size;
+const requirementsTotal = actions.length;
+const countFor = (id: string) => actions.filter((a) => a.commitment === id).length;
+
+// Curated roster sample (titles inferred from the requirement families); MM-BIO-2
+// deep-links to the Commitment detail prototype.
+const commitmentHref = withBase('/prototypes/data-catalog-commitment');
+const roster = [
+  { id: 'MM-BIO-1', title: 'Worker Environmental Awareness Program (WEAP)', href: '#data-catalog/commitments/mm-bio-1' },
+  { id: 'MM-BIO-2', title: 'Nesting Birds and Raptors', href: commitmentHref },
+  { id: 'MM-BIO-3', title: 'Roosting Bats', href: '#data-catalog/commitments/mm-bio-3' },
+  { id: 'SCA AIR-1', title: 'Construction Dust Controls', href: '#data-catalog/commitments/sca-air-1' },
+  { id: 'SCA AIR-2', title: 'Criteria Air Pollutant Controls', href: '#data-catalog/commitments/sca-air-2' },
+  { id: 'SCA AES-3', title: 'Landscaping', href: '#data-catalog/commitments/sca-aes-3' },
+  { id: 'SCA BIO-1', title: 'Bird Collision Reduction', href: '#data-catalog/commitments/sca-bio-1' },
+  { id: 'SCA BIO-3', title: 'Tree Protection and Replacement', href: '#data-catalog/commitments/sca-bio-3' },
+].map((c) => ({ ...c, count: countFor(c.id) }));
+
+const files = ['feir-volume-1.pdf', 'feir-volume-2_appendices.pdf', 'mmrp_adopted_2026-02.pdf'];
+const associatedComponents = ['Demolition Area', 'North Grading Area', 'South Grading Area', 'Haul Routes'];
+
+// Lineage — short chain: the document sits directly under its project.
+const lineage = [
+  { kind: 'Project', name: PROJECT_NAME, href: '#data-catalog/projects/3600-alameda', icon: 'folder', paths: FOLDER, current: false },
+  { kind: 'Source Document', name: docTitle, href: undefined, icon: 'file-text', paths: undefined, current: true },
+];
+
+const sourcePdf = withBase('/source-docs/feir-sample.pdf');
+const editPayload = { docTitle, project: PROJECT_NAME, latestAmendment: '2026-02-20', referenceNumber, approvingAgency, agencyContact, agencySignatory, description };
+---
+
+<AppShell title={`${docTitle} — Data Catalog`} projectName="Select a Project" navSections={dataCatalogNav}>
+  <PageLayout
+    title={docTitle}
+    breadcrumbs={[{ label: 'Data Catalog', href: '#data-catalog' }, { label: 'Source Documents', href: '#data-catalog/source-documents' }, { label: docTitle }]}
+  >
+    <div class="bcn-doc">
+      <!-- Identity header — family treatment; the doc-type badge trails the title. -->
+      <header class="bcn-doc__head">
+        <div class="bcn-doc__identity">
+          <div class="bcn-doc__title-row">
+            <h1 class="bcn-doc__title">{docTitle}</h1>
+            <span class="bcn-doc__badge bcn-doc__badge--type">{docType}</span>
+          </div>
+        </div>
+        <div class="bcn-doc__head-actions">
+          <span id="view-doc"><EsaButton color="ghost" appearance="outline"><span class="bcn-btn-ico"><EsaIcon name="file-text" size="xs" />View Document</span></EsaButton></span>
+          <span id="edit-doc"><EsaButton color="primary"><span class="bcn-btn-ico"><EsaIcon name="pencil" size="xs" />Edit source document</span></EsaButton></span>
+        </div>
+      </header>
+
+      <div class="bcn-doc__body">
+        <div class="bcn-doc__main">
+          <section class="bcn-doc__section">
+            <h2 class="bcn-section-title">Description</h2>
+            <p class="bcn-prose">{description}</p>
+          </section>
+
+          <!-- The document's children — each commitment with its requirement count. -->
+          <section class="bcn-doc__section">
+            <h2 class="bcn-section-title">Commitments <EsaBadge variant="secondary" size="sm" value={commitmentsTotal} /></h2>
+            <ul class="bcn-row-list">
+              {roster.map((c) => (
+                <li>
+                  <a class="bcn-row" href={c.href}>
+                    <span class="bcn-doc__badge bcn-doc__badge--commitment">{c.id}</span>
+                    <span class="bcn-row__name">{c.title}</span>
+                    <span class="bcn-row__meta">{c.count} requirement{c.count === 1 ? '' : 's'}</span>
+                    <EsaIcon name="chevron-right" size="sm" paths={CHEVRON_RIGHT} />
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <div class="bcn-row-list__more">
+              <EsaIconLink href="#data-catalog/commitments" trailing="arrow-right" size="sm" weight="medium">View all {commitmentsTotal} commitments</EsaIconLink>
+            </div>
+          </section>
+
+          <section class="bcn-doc__section">
+            <h2 class="bcn-section-title">Files <EsaBadge variant="secondary" size="sm" value={files.length} /></h2>
+            <esa-file-list id="doc-files"></esa-file-list>
+          </section>
+        </div>
+
+        <aside class="bcn-doc__rail">
+          <EsaCollapsible icon="info" title="Details" open>
+            <BcnKeyValue label="Reference Number" value={referenceNumber} />
+            <BcnKeyValue label="Date of Latest Amendment" value={latestAmendment} />
+            <BcnKeyValue label="Approving Agency" value={approvingAgency} />
+            <BcnKeyValue label="Agency Contact" value={agencyContact} />
+            <BcnKeyValue label="Agency Signatory" value={agencySignatory} />
+            <BcnKeyValue label="Agreement Terms" value={agreementTerms} />
+            <BcnKeyValue label="Contains" value={`${commitmentsTotal} commitments · ${requirementsTotal} requirements`} />
+            <p class="bcn-rail-meta">{createdMeta}</p>
+          </EsaCollapsible>
+
+          <EsaCollapsible icon="layers" iconPaths={"<rect width='7' height='7' x='3' y='3' rx='1'/><rect width='7' height='7' x='14' y='3' rx='1'/><rect width='7' height='7' x='14' y='14' rx='1'/><rect width='7' height='7' x='3' y='14' rx='1'/>"} title="Associated Components" open>
+            <ul class="bcn-lists">
+              {associatedComponents.map((c) => <li><a class="bcn-list-link" href="#data-catalog/components">{c}</a></li>)}
+            </ul>
+          </EsaCollapsible>
+
+          <EsaCollapsible icon="git-branch" iconPaths={"<line x1='6' x2='6' y1='3' y2='15'/><circle cx='18' cy='6' r='3'/><circle cx='6' cy='18' r='3'/><path d='M18 9a9 9 0 0 1-9 9'/>"} title="Lineage" open>
+            <ol class="bcn-lineage">
+              {lineage.map((n) => (
+                <li class={`bcn-lineage__node${n.current ? ' bcn-lineage__node--current' : ''}`}>
+                  <span class="bcn-lineage__icon"><EsaIcon name={n.icon} size="sm" paths={n.paths} /></span>
+                  <span class="bcn-lineage__body">
+                    <span class="bcn-lineage__kind">{n.kind}</span>
+                    {n.href ? <a class="bcn-lineage__name" href={n.href}>{n.name}</a> : <span class="bcn-lineage__name bcn-lineage__name--current">{n.name}</span>}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </EsaCollapsible>
+        </aside>
+      </div>
+    </div>
+  </PageLayout>
+
+  <!-- ═══ Edit Source Document MODAL — single-column form (prod field set). ═══ -->
+  <esa-dialog id="edit-dialog" heading="Edit Source Document" style="--_dialog-width: 640px; --_dialog-max-height: 92vh; --_dialog-bg: var(--color-surface, #fff); --z-modal-backdrop: 1150; --z-modal: 1200;">
+    <div class="bcn-form bcn-form--dialog">
+      <esa-text-field id="d-name" label="Name" required></esa-text-field>
+      <esa-select id="d-project" label="Project" required></esa-select>
+      <div class="bcn-grid-2">
+        <esa-date-picker id="d-amended" label="Date of Latest Amendment"></esa-date-picker>
+        <esa-text-field id="d-ref" label="Reference Number"></esa-text-field>
+      </div>
+      <esa-text-field id="d-agency" label="Approving Agency"></esa-text-field>
+      <div class="bcn-grid-2">
+        <esa-text-field id="d-contact" label="Agency Contact"></esa-text-field>
+        <esa-text-field id="d-signatory" label="Agency Signatory"></esa-text-field>
+      </div>
+      <esa-textarea id="d-desc" label="Description" rows="5"></esa-textarea>
+    </div>
+    <div slot="footer" class="bcn-editor__foot">
+      <span id="ed-cancel"><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span id="ed-save"><EsaButton color="primary">Save</EsaButton></span>
+    </div>
+  </esa-dialog>
+
+  <!-- Document viewer — the source PDF in the family side drawer. -->
+  <esa-side-dialog id="source-drawer" heading={docTitle} size="lg" style="--_width: 66vw; --z-modal: 1300; --z-modal-backdrop: 1250; --backdrop-filter: blur(4px);">
+    <div class="bcn-source-pdf">
+      <iframe class="bcn-source-pdf__frame" src={`${sourcePdf}#view=FitH&navpanes=0&pagemode=none`} title={`Source document — ${docTitle} (sample)`}></iframe>
+    </div>
+  </esa-side-dialog>
+
+  <script type="application/json" id="edit-meta" set:html={JSON.stringify(editPayload)}></script>
+  <script type="application/json" id="doc-files-data" set:html={JSON.stringify(files)}></script>
+</AppShell>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-date-picker';
+  import '@esa/ecology/esa-file-list';
+
+  const editMeta = JSON.parse(document.getElementById('edit-meta')!.textContent || '{}');
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+  const setValue = (id: string, value: string) => {
+    const el = document.getElementById(id) as (HTMLElement & { value: string }) | null;
+    if (el) el.value = value;
+  };
+  const setOptions = (id: string, opts: string[], value?: string) => {
+    const el = document.getElementById(id) as (HTMLElement & { options: { value: string; label: string }[]; value: string }) | null;
+    if (!el) return;
+    el.options = opts.map((o) => ({ value: o, label: o }));
+    if (value !== undefined) el.value = value;
+  };
+
+  // Files (read list)
+  const docFiles = JSON.parse(document.getElementById('doc-files-data')!.textContent || '[]') as string[];
+  ($('doc-files') as HTMLElement & { files: { name: string }[] }).files = docFiles.map((name) => ({ name }));
+
+  // Edit modal
+  const dialog = $('edit-dialog') as HTMLElement & { open: boolean };
+  setValue('d-name', editMeta.docTitle ?? '');
+  setOptions('d-project', [editMeta.project, 'Harbor Logistics Center', 'Foothill Substation Upgrade'], editMeta.project);
+  setValue('d-amended', editMeta.latestAmendment ?? '');
+  setValue('d-ref', editMeta.referenceNumber ?? '');
+  setValue('d-agency', editMeta.approvingAgency ?? '');
+  setValue('d-contact', editMeta.agencyContact ?? '');
+  setValue('d-signatory', editMeta.agencySignatory ?? '');
+  setValue('d-desc', editMeta.description ?? '');
+  $('edit-doc').addEventListener('click', () => (dialog.open = true));
+  $('ed-cancel').addEventListener('click', () => (dialog.open = false));
+  $('ed-save').addEventListener('click', () => (dialog.open = false));
+
+  // Document drawer
+  const drawer = $('source-drawer') as HTMLElement & { open: boolean };
+  $('view-doc').addEventListener('click', () => (drawer.open = true));
+</script>
+
+<style>
+  /* bcn-lego-checked: page-composition glue only — the family detail layout (identity
+     header, main+rail), commitment roster rows, lineage rail, and the single-column
+     dialog form. No esa-* lego models an entity detail PAGE; checked Ecology (every
+     control here is a lego — buttons/badges/collapsibles/dialog/side-dialog/selects/
+     text-fields/textarea/date-picker/file-list/icon-link) and Beacon (recomposes the
+     prod Source Document overview + Edit Source Document modal field set). Ported from
+     data-catalog-requirement.astro. */
+
+  .bcn-doc { display: flex; flex-direction: column; gap: var(--spacing-600); }
+
+  .bcn-doc__head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-400); padding-bottom: var(--spacing-400); border-bottom: 1px solid var(--color-border); }
+  .bcn-doc__head-actions { display: inline-flex; align-items: center; gap: var(--spacing-200); flex-shrink: 0; }
+  .bcn-doc__identity { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-100); min-width: 0; }
+  .bcn-doc__title-row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-200); min-width: 0; }
+  .bcn-doc__title { margin: 0; font-family: var(--font-decorative); font-size: 1.5rem; font-weight: var(--font-weight-semibold); line-height: 1.2; color: var(--color-text-primary); }
+  .bcn-doc__badge { flex-shrink: 0; padding: 0.125rem 0.375rem; border-radius: var(--radius-100); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); line-height: 1.4; white-space: nowrap; }
+  .bcn-doc__badge--type { color: var(--color-text-secondary); background: var(--color-surface-sunken); transform: translateY(2px); }
+  .bcn-doc__badge--commitment { color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); }
+
+  .bcn-doc__body { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: var(--spacing-600); align-items: start; }
+  .bcn-doc__main { min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-600); }
+  .bcn-doc__rail { min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-500); }
+  .bcn-doc__rail :global(.esa-collapsible__title) { font-size: var(--type-size-300); font-weight: var(--font-weight-semibold); }
+
+  .bcn-doc__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-section-title { display: flex; align-items: center; gap: var(--spacing-200); margin: 0; font-size: var(--type-size-300); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-prose { margin: 0; font-size: var(--form-font-size-md); line-height: 1.6; color: var(--color-text-primary); }
+  .bcn-btn-ico { display: inline-flex; align-items: center; gap: var(--spacing-150); }
+
+  /* Commitment roster rows — quiet single-line jump-offs (family hover whisper). */
+  .bcn-row-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-row {
+    display: flex; align-items: center; gap: var(--spacing-300);
+    padding: var(--spacing-300) var(--spacing-400);
+    border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface);
+    text-decoration: none;
+    transition: background-color 120ms ease;
+  }
+  .bcn-row:hover { background: color-mix(in srgb, var(--color-primary) 4%, var(--color-surface)); }
+  .bcn-row__name { flex: 1; min-width: 0; font-size: var(--form-font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-row__meta { flex-shrink: 0; font-size: var(--form-font-size-md); color: var(--color-text-secondary); }
+  .bcn-row .bcn-doc__badge--type { transform: none; }
+  .bcn-row > :global(.esa-icon:last-child) { color: var(--color-text-tertiary); flex-shrink: 0; transition: transform 120ms ease, color 120ms ease; }
+  .bcn-row:hover > :global(.esa-icon:last-child) { transform: translateX(2px); color: var(--color-text-secondary); }
+  .bcn-row-list__more { display: flex; justify-content: flex-end; padding-top: var(--spacing-100); }
+
+  /* Rail lists (Associated Components) */
+  .bcn-lists { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-150); margin: 0; padding: 0; list-style: none; }
+  .bcn-list-link { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); color: var(--color-primary); text-decoration: none; }
+  .bcn-list-link:hover { text-decoration: underline; }
+
+  /* Lineage rail (family treatment) */
+  .bcn-lineage { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .bcn-lineage__node { position: relative; display: flex; align-items: flex-start; gap: var(--spacing-300); padding-bottom: var(--spacing-400); }
+  .bcn-lineage__node::before { content: ''; position: absolute; left: 13px; top: 30px; bottom: 2px; width: 2px; background: var(--color-border); }
+  .bcn-lineage__node:last-child { padding-bottom: 0; }
+  .bcn-lineage__node:last-child::before { display: none; }
+  .bcn-lineage__icon { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text-secondary); }
+  .bcn-lineage__icon :global(.esa-icon) { --_icon-size: 14px; }
+  .bcn-lineage__node--current .bcn-lineage__icon { border-color: var(--color-secondary); color: var(--color-secondary); }
+  .bcn-lineage__body { display: flex; flex-direction: column; gap: 1px; min-width: 0; padding-top: 2px; }
+  .bcn-lineage__kind { font-size: 0.75rem; color: var(--color-text-tertiary); }
+  .bcn-lineage__name { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); line-height: 1.35; color: var(--color-primary); text-decoration: none; }
+  a.bcn-lineage__name:hover { text-decoration: underline; }
+  .bcn-lineage__name--current { color: var(--color-text-primary); font-weight: var(--font-weight-semibold); }
+
+  .bcn-rail-meta { margin: var(--spacing-300) 0 0; padding-top: var(--spacing-300); border-top: 1px solid var(--color-border-light); font-size: 0.75rem; color: var(--color-text-secondary); }
+
+  @media (max-width: 1024px) {
+    .bcn-doc__body { grid-template-columns: 1fr; }
+  }
+
+  /* Single-column dialog form */
+  .bcn-form { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .bcn-form--dialog { padding: var(--spacing-100) 0; }
+  .bcn-grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-300); }
+  .bcn-editor__foot { display: flex; gap: var(--spacing-300); justify-content: flex-end; width: 100%; }
+
+  .bcn-source-pdf { height: 100%; min-height: 60vh; }
+  .bcn-source-pdf__frame { width: 100%; height: 100%; min-height: 60vh; border: 0; border-radius: var(--radius-200); background: var(--color-surface-sunken); }
+</style>
+
+<!-- Page renders its own identity header; hide PageLayout's default title row. -->
+<style is:global>
+  .page-layout__title { display: none !important; }
+</style>

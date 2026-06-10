@@ -1,0 +1,498 @@
+---
+// Data Catalog — Commitment detail (standard workflow). The PARENT entity page.
+//
+// Recomposes the prod Commitment detail (Overview + Requirements + Revision History
+// tabs) into the Data Catalog family: identity header (ID badge · serif title · type
+// badge · version chip), main + rail, lineage, PDF drawer, single-pane upsert (the
+// prod Edit Commitment field set: Title / ID / Source Document / Type / Resource
+// Category / General Guidance / Tags / Full Commitment Text).
+//
+// The MAIN events:
+//   · Full Commitment Text — the document-review serif treatment, bulleted as
+//     parsed; each bullet ≈ one carved-out requirement.
+//   · Requirements grouped by the SIX prod builder phases (Implementation Planning /
+//     Pre-Construction / Construction / Post-Construction / Maintenance /
+//     Restoration), each group with a count and an Add affordance; empty groups
+//     show esa-empty-state. The survey row deep-links to the Requirement detail.
+// The rail rolls up Related Data (Species / Seasons / Construction Activities) from
+// the child requirements, carries a Revisions version timeline (the prod Revision
+// History tab as a spine module), Associated Components, and Lineage.
+//
+// First-pass omissions (flagged for review): commitment review status
+// (Not Started / Flagged / Done), Footprint Layers map, Related Commitments,
+// danger-zone delete, Reorder + Suggest Requirements (wizard concerns).
+//
+// COMPONENT MANIFEST: AppShell + PageLayout chrome; BcnKeyValue + esa-* legos
+// (EsaButton/Icon/Badge/Pill/Collapsible/IconLink, esa-empty-state, esa-file-list);
+// edit modal = single-column esa-dialog (esa-select / esa-text-field / esa-textarea /
+// esa-input-tag); source viewer = esa-side-dialog.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaPill from '@esa/ecology/esa-pill.astro';
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import EsaIconLink from '@esa/ecology/esa-icon-link.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import BcnKeyValue from '../../components/bcn/BcnKeyValue.astro';
+import { PROJECT_NAME, SOURCE_DOCUMENT } from '../../data/tracker-fixture';
+import { ICON_PATHS } from '../../components/bcn/requirement-reference';
+import { withBase } from '../../lib/base';
+
+const CHEVRON_RIGHT = "<path d='m9 18 6-6-6-6'/>";
+const FOLDER = "<path d='M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z'/>";
+const SCROLL_TEXT = "<path d='M15 12h-5'/><path d='M15 8h-5'/><path d='M19 17V5a2 2 0 0 0-2-2H4'/><path d='M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3'/>";
+const GIT_BRANCH = "<line x1='6' x2='6' y1='3' y2='15'/><circle cx='18' cy='6' r='3'/><circle cx='6' cy='18' r='3'/><path d='M18 9a9 9 0 0 1-9 9'/>";
+const HISTORY = "<path d='M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8'/><path d='M3 3v5h5'/><path d='M12 7v5l4 2'/>";
+const COMPONENTS = "<rect width='7' height='7' x='3' y='3' rx='1'/><rect width='7' height='7' x='14' y='3' rx='1'/><rect width='7' height='7' x='14' y='14' rx='1'/><rect width='7' height='7' x='3' y='14' rx='1'/>";
+
+const dataCatalogNav = [
+  {
+    id: 'data-catalog',
+    title: 'Data Catalog',
+    icon: 'database',
+    expanded: true,
+    active: true,
+    items: [
+      { id: 'dc-projects', label: 'Projects' },
+      { id: 'dc-source-documents', label: 'Source Documents' },
+      { id: 'dc-commitments', label: 'Commitments', active: true },
+      { id: 'dc-requirements', label: 'Requirements' },
+      { id: 'dc-actions', label: 'Actions' },
+      { id: 'dc-components', label: 'Components' },
+      { id: 'dc-evidence', label: 'Evidence of Compliance' },
+    ],
+  },
+];
+
+// ── The Commitment: MM-BIO-2 — parent of the Requirement detail prototype's record. ──
+const commitmentId = 'MM-BIO-2';
+const commitmentTitle = 'Nesting Birds and Raptors';
+const commitmentType = 'Mitigation Measure';
+const version = 'v.2';
+const resourceCategory = 'Biological Resources';
+const tags = ['CDFW', 'Wildlife'];
+const generalGuidance =
+  'Include the nesting-season survey and buffer requirements in contractor bid documents. Coordinate any buffer-zone reduction with CDFW before work proceeds inside an established buffer.';
+const createdMeta = 'Created Jan 8, 2026 · Updated Jun 3, 2026';
+
+// Full commitment text, bulleted as parsed — each bullet ≈ one carved-out requirement.
+const commitmentSections = [
+  {
+    label: 'Pre-Construction Survey',
+    text: 'If construction, ground-disturbing, or vegetation-removal activities would occur during the nesting season (February 1 – August 31), a qualified biologist shall conduct a pre-construction survey for nesting raptors and other migratory birds within 14 days prior to the start of those activities.',
+  },
+  {
+    label: 'No-Disturbance Buffers',
+    text: 'If active nests are found, the biologist shall establish appropriate no-disturbance buffer zones around each nest, to remain in place until young have fledged.',
+  },
+  {
+    label: 'Work Within Buffer Zones',
+    text: 'If work must occur within an established buffer zone, it shall proceed only under biological monitoring by the qualified biologist.',
+  },
+  {
+    label: 'Reporting',
+    text: 'A report of findings documenting any construction conducted within a no-disturbance buffer zone shall be submitted to the City.',
+  },
+];
+
+// ── Requirements grouped by the SIX prod builder phases. The survey deep-links to
+//    the Requirement detail prototype; siblings are catalog stubs. ──
+const requirementHref = withBase('/prototypes/data-catalog-requirement');
+const phaseGroups = [
+  { phase: 'Implementation Planning', items: [] },
+  {
+    phase: 'Pre-Construction',
+    items: [
+      { name: 'Pre-construction survey for nesting raptors and other migratory birds during nesting season', type: 'Survey', href: requirementHref },
+    ],
+  },
+  {
+    phase: 'Construction',
+    items: [
+      { name: 'If bird nests are found, establish no-disturbance buffer zones', type: 'Other', href: '#data-catalog/requirements/mm-bio-2-buffers' },
+      { name: 'If work must occur within established no-disturbance buffer zones', type: 'Other', href: '#data-catalog/requirements/mm-bio-2-work-within' },
+    ],
+  },
+  {
+    phase: 'Post-Construction',
+    items: [
+      { name: 'Report of findings for construction within any no-disturbance buffer zone', type: 'Reporting', href: '#data-catalog/requirements/mm-bio-2-report' },
+    ],
+  },
+  { phase: 'Maintenance', items: [] },
+  { phase: 'Restoration', items: [] },
+];
+const requirementsTotal = phaseGroups.reduce((n, g) => n + g.items.length, 0);
+
+// Related Data — rolled up from the child requirements (prod commitment roll-up).
+const species = ['Nesting raptors', 'Migratory birds'];
+const seasons = ['Nesting Bird Season (Feb 1 – Aug 31)'];
+const constructionActivities = ['Ground disturbance', 'Vegetation removal'];
+
+const files = ['feir-ch3.4_biological-resources.pdf', 'mmrp_mm-bio-2_excerpt.pdf'];
+const associatedComponents = ['North Grading Area', 'South Grading Area'];
+
+// Revisions — the prod Revision History tab as a rail spine module (newest first).
+const revisions = [
+  { label: 'Version 2', summary: 'DWR OGC review of Vol. 1, Submittal 1', by: 'Leah McNearney · Jun 1, 2026', current: true },
+  { label: 'Version 1', summary: 'Original FEIR language', by: 'Mikey Knowles · Mar 6, 2026', current: false },
+];
+
+const sourceDocHref = withBase('/prototypes/data-catalog-source-document');
+const lineage = [
+  { kind: 'Project', name: PROJECT_NAME, href: '#data-catalog/projects/3600-alameda', icon: 'folder', paths: FOLDER, current: false },
+  { kind: 'Source Document', name: SOURCE_DOCUMENT, href: sourceDocHref, icon: 'file-text', paths: undefined, current: false },
+  { kind: 'Commitment', name: `${commitmentId} — ${commitmentTitle}`, href: undefined, icon: 'scroll-text', paths: SCROLL_TEXT, current: true },
+];
+
+const sourcePdf = withBase('/source-docs/feir-sample.pdf');
+const editPayload = {
+  commitmentTitle,
+  commitmentId,
+  sourceDoc: SOURCE_DOCUMENT,
+  commitmentType,
+  resourceCategory,
+  generalGuidance,
+  tags,
+  fullText: commitmentSections.map((s) => `${s.label}: ${s.text}`).join('\n\n'),
+};
+---
+
+<AppShell title={`${commitmentId} — Data Catalog`} projectName="Select a Project" navSections={dataCatalogNav}>
+  <PageLayout
+    title={commitmentTitle}
+    breadcrumbs={[{ label: 'Data Catalog', href: '#data-catalog' }, { label: 'Commitments', href: '#data-catalog/commitments' }, { label: commitmentId }]}
+  >
+    <div class="bcn-cmt">
+      <!-- Identity header — ID badge on top, serif title, type badge + version chip. -->
+      <header class="bcn-cmt__head">
+        <div class="bcn-cmt__identity">
+          <span class="bcn-cmt__badge bcn-cmt__badge--commitment">{commitmentId}</span>
+          <div class="bcn-cmt__title-row">
+            <h1 class="bcn-cmt__title">{commitmentTitle}</h1>
+            <span class="bcn-cmt__badge bcn-cmt__badge--type">{commitmentType}</span>
+            <span class="bcn-cmt__badge bcn-cmt__badge--type">{version}</span>
+          </div>
+        </div>
+        <div class="bcn-cmt__head-actions">
+          <span id="edit-cmt"><EsaButton color="primary"><span class="bcn-btn-ico"><EsaIcon name="pencil" size="xs" />Edit commitment</span></EsaButton></span>
+        </div>
+      </header>
+
+      <div class="bcn-cmt__body">
+        <div class="bcn-cmt__main">
+          <!-- Full commitment text — serif regulatory voice, bulleted as parsed. -->
+          <section class="bcn-cmt__section">
+            <h2 class="bcn-section-title">Full Commitment Text</h2>
+            <article class="bcn-cmttext">
+              <ul class="bcn-cmttext__list">
+                {commitmentSections.map((s) => (
+                  <li class="bcn-cmttext__item"><strong>{s.label}:</strong> {s.text}</li>
+                ))}
+              </ul>
+              <footer class="bcn-cmttext__footer">
+                <span data-bcn-source><EsaButton color="ghost" size="sm" icon="file-text">View in Source Document</EsaButton></span>
+              </footer>
+            </article>
+          </section>
+
+          <!-- Requirements grouped by the six prod builder phases. -->
+          <section class="bcn-cmt__section">
+            <h2 class="bcn-section-title">Requirements <EsaBadge variant="secondary" size="sm" value={requirementsTotal} /></h2>
+            <div class="bcn-phases">
+              {phaseGroups.map((g) => (
+                <section class="bcn-phase">
+                  <header class="bcn-phase__head">
+                    <h3 class="bcn-phase__title">{g.phase} <EsaBadge variant="secondary" size="sm" value={g.items.length} /></h3>
+                    <EsaIconLink href="#add-requirement" icon="plus" size="sm" weight="medium">Add</EsaIconLink>
+                  </header>
+                  {g.items.length > 0 ? (
+                    <ul class="bcn-row-list">
+                      {g.items.map((r) => (
+                        <li>
+                          <a class="bcn-row" href={r.href}>
+                            <span class="bcn-row__name">{r.name}</span>
+                            <span class="bcn-cmt__badge bcn-cmt__badge--type">{r.type}</span>
+                            <EsaIcon name="chevron-right" size="sm" paths={CHEVRON_RIGHT} />
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <div class="bcn-phase__empty">
+                      <EsaEmptyState title="No requirements" size="xs" />
+                    </div>
+                  )}
+                </section>
+              ))}
+            </div>
+          </section>
+
+          <section class="bcn-cmt__section">
+            <h2 class="bcn-section-title">Files <EsaBadge variant="secondary" size="sm" value={files.length} /></h2>
+            <esa-file-list id="cmt-files"></esa-file-list>
+          </section>
+        </div>
+
+        <aside class="bcn-cmt__rail">
+          <EsaCollapsible icon="info" title="Details" open>
+            <BcnKeyValue label="Type" value={commitmentType} />
+            <BcnKeyValue label="Resource Category" value={resourceCategory} />
+            <BcnKeyValue label="General Guidance" value={generalGuidance} />
+            <BcnKeyValue label="Tags">
+              <span class="bcn-tagrow">
+                {tags.map((t) => <EsaPill label={t} size="sm" removable={false} />)}
+              </span>
+            </BcnKeyValue>
+            <p class="bcn-rail-meta">{createdMeta}</p>
+          </EsaCollapsible>
+
+          <EsaCollapsible icon="layers" iconPaths={ICON_PATHS.layers} title="Related Data" open>
+            <BcnKeyValue label="Species" value={species.join(', ')} />
+            <BcnKeyValue label="Seasons" value={seasons.join(', ')} />
+            <BcnKeyValue label="Construction Activities" value={constructionActivities.join(', ')} />
+          </EsaCollapsible>
+
+          <EsaCollapsible icon="grid" iconPaths={COMPONENTS} title="Associated Components" open>
+            <ul class="bcn-lists">
+              {associatedComponents.map((c) => <li><a class="bcn-list-link" href="#data-catalog/components">{c}</a></li>)}
+            </ul>
+          </EsaCollapsible>
+
+          <!-- Revisions — the prod Revision History tab as a spine module. -->
+          <EsaCollapsible icon="history" iconPaths={HISTORY} title="Revisions" open>
+            <ol class="bcn-lineage bcn-revs">
+              {revisions.map((r) => (
+                <li class={`bcn-lineage__node${r.current ? ' bcn-lineage__node--current' : ''}`}>
+                  <span class="bcn-lineage__icon"><EsaIcon name="history" size="sm" paths={HISTORY} /></span>
+                  <span class="bcn-lineage__body">
+                    <span class="bcn-lineage__kind">{r.label}{r.current ? ' · Current' : ''}</span>
+                    <span class={`bcn-lineage__name${r.current ? ' bcn-lineage__name--current' : ''}`}>{r.summary}</span>
+                    <span class="bcn-revs__by">{r.by}</span>
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </EsaCollapsible>
+
+          <EsaCollapsible icon="git-branch" iconPaths={GIT_BRANCH} title="Lineage" open>
+            <ol class="bcn-lineage">
+              {lineage.map((n) => (
+                <li class={`bcn-lineage__node${n.current ? ' bcn-lineage__node--current' : ''}`}>
+                  <span class="bcn-lineage__icon"><EsaIcon name={n.icon} size="sm" paths={n.paths} /></span>
+                  <span class="bcn-lineage__body">
+                    <span class="bcn-lineage__kind">{n.kind}</span>
+                    {n.href ? <a class="bcn-lineage__name" href={n.href}>{n.name}</a> : <span class="bcn-lineage__name bcn-lineage__name--current">{n.name}</span>}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </EsaCollapsible>
+        </aside>
+      </div>
+    </div>
+  </PageLayout>
+
+  <!-- ═══ Edit Commitment MODAL — single-column form (prod field set). ═══ -->
+  <esa-dialog id="edit-dialog" heading="Edit Commitment" style="--_dialog-width: 760px; --_dialog-max-height: 92vh; --_dialog-bg: var(--color-surface, #fff); --z-modal-backdrop: 1150; --z-modal: 1200;">
+    <div class="bcn-form bcn-form--dialog">
+      <esa-text-field id="c-title" label="Title" required></esa-text-field>
+      <div class="bcn-grid-2">
+        <esa-text-field id="c-id" label="Commitment ID" required></esa-text-field>
+        <esa-select id="c-doc" label="Source Document" required></esa-select>
+      </div>
+      <div class="bcn-grid-2">
+        <esa-select id="c-type" label="Commitment Type" required></esa-select>
+        <esa-select id="c-cat" label="Resource Category"></esa-select>
+      </div>
+      <esa-textarea id="c-guidance" label="General Guidance" rows="3"></esa-textarea>
+      <esa-input-tag id="c-tags" label="Tags"></esa-input-tag>
+      <esa-textarea id="c-text" label="Full Commitment Text" rows="10"></esa-textarea>
+    </div>
+    <div slot="footer" class="bcn-editor__foot">
+      <span id="ec-cancel"><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span id="ec-save"><EsaButton color="primary">Save</EsaButton></span>
+    </div>
+  </esa-dialog>
+
+  <!-- Source-document viewer. -->
+  <esa-side-dialog id="source-drawer" heading={SOURCE_DOCUMENT} size="lg" style="--_width: 66vw; --z-modal: 1300; --z-modal-backdrop: 1250; --backdrop-filter: blur(4px);">
+    <div class="bcn-source-pdf">
+      <iframe class="bcn-source-pdf__frame" src={`${sourcePdf}#view=FitH&navpanes=0&pagemode=none`} title={`Source document — ${SOURCE_DOCUMENT} (sample)`}></iframe>
+    </div>
+    <span slot="footer" class="bcn-source-foot">
+      <EsaIconLink href={sourceDocHref} trailing="arrow-right" size="sm" weight="medium">Open Source Document</EsaIconLink>
+    </span>
+  </esa-side-dialog>
+
+  <script type="application/json" id="edit-meta" set:html={JSON.stringify(editPayload)}></script>
+  <script type="application/json" id="cmt-files-data" set:html={JSON.stringify(files)}></script>
+</AppShell>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-input-tag';
+  import '@esa/ecology/esa-file-list';
+
+  const editMeta = JSON.parse(document.getElementById('edit-meta')!.textContent || '{}');
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+  const setValue = (id: string, value: string) => {
+    const el = document.getElementById(id) as (HTMLElement & { value: string }) | null;
+    if (el) el.value = value;
+  };
+  const setOptions = (id: string, opts: string[], value?: string) => {
+    const el = document.getElementById(id) as (HTMLElement & { options: { value: string; label: string }[]; value: string }) | null;
+    if (!el) return;
+    el.options = opts.map((o) => ({ value: o, label: o }));
+    if (value !== undefined) el.value = value;
+  };
+  const setTags = (id: string, values: string[]) => {
+    const el = document.getElementById(id) as (HTMLElement & { value: string[] }) | null;
+    if (el) el.value = values;
+  };
+
+  // Files (read list)
+  const cmtFiles = JSON.parse(document.getElementById('cmt-files-data')!.textContent || '[]') as string[];
+  ($('cmt-files') as HTMLElement & { files: { name: string }[] }).files = cmtFiles.map((name) => ({ name }));
+
+  // Edit modal — prod Edit Commitment field set.
+  const dialog = $('edit-dialog') as HTMLElement & { open: boolean };
+  setValue('c-title', editMeta.commitmentTitle ?? '');
+  setValue('c-id', editMeta.commitmentId ?? '');
+  setOptions('c-doc', [editMeta.sourceDoc, 'Conditions of Approval — Planning Permit', 'SWPPP'], editMeta.sourceDoc);
+  setOptions('c-type', ['Mitigation Measure', 'Standard Condition of Approval', 'Permit Condition', 'Commitment'], editMeta.commitmentType);
+  setOptions(
+    'c-cat',
+    ['Aesthetics', 'Air Quality', 'Biological Resources', 'Cultural Resources', 'Geology, Soils, and Paleontological Resources', 'Greenhouse Gas Emissions', 'Noise', 'Utilities and Service Systems'],
+    editMeta.resourceCategory,
+  );
+  setValue('c-guidance', editMeta.generalGuidance ?? '');
+  setTags('c-tags', editMeta.tags ?? []);
+  setValue('c-text', editMeta.fullText ?? '');
+  $('edit-cmt').addEventListener('click', () => (dialog.open = true));
+  $('ec-cancel').addEventListener('click', () => (dialog.open = false));
+  $('ec-save').addEventListener('click', () => (dialog.open = false));
+
+  // Source drawer
+  const drawer = $('source-drawer') as HTMLElement & { open: boolean };
+  document.querySelectorAll<HTMLElement>('[data-bcn-source]').forEach((el) =>
+    el.addEventListener('click', () => (drawer.open = true)),
+  );
+</script>
+
+<style>
+  /* bcn-lego-checked: page-composition glue only — the family detail layout (identity
+     header, main+rail), the serif commitment-text card, phase-grouped requirement
+     rows, the revisions/lineage spine modules, and the single-column dialog form. No
+     esa-* lego models an entity detail PAGE; checked Ecology (every control is a lego
+     — buttons/badges/pills/collapsibles/empty-state/dialog/side-dialog/selects/
+     text-fields/textareas/input-tag/file-list/icon-link) and Beacon (recomposes the
+     prod Commitment Overview + Requirements + Revision History tabs and the Edit
+     Commitment modal field set). Ported from data-catalog-requirement.astro. */
+
+  .bcn-cmt { display: flex; flex-direction: column; gap: var(--spacing-600); }
+
+  .bcn-cmt__head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-400); padding-bottom: var(--spacing-400); border-bottom: 1px solid var(--color-border); }
+  .bcn-cmt__head-actions { display: inline-flex; align-items: center; gap: var(--spacing-200); flex-shrink: 0; }
+  .bcn-cmt__identity { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-100); min-width: 0; }
+  .bcn-cmt__title-row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-200); min-width: 0; }
+  .bcn-cmt__title { margin: 0; font-family: var(--font-decorative); font-size: 1.5rem; font-weight: var(--font-weight-semibold); line-height: 1.2; color: var(--color-text-primary); }
+  .bcn-cmt__badge { flex-shrink: 0; padding: 0.125rem 0.375rem; border-radius: var(--radius-100); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); line-height: 1.4; white-space: nowrap; }
+  .bcn-cmt__badge--commitment { color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); }
+  .bcn-cmt__badge--type { color: var(--color-text-secondary); background: var(--color-surface-sunken); transform: translateY(2px); }
+
+  .bcn-cmt__body { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: var(--spacing-600); align-items: start; }
+  .bcn-cmt__main { min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-600); }
+  .bcn-cmt__rail { min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-500); }
+  .bcn-cmt__rail :global(.esa-collapsible__title) { font-size: var(--type-size-300); font-weight: var(--font-weight-semibold); }
+
+  .bcn-cmt__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-section-title { display: flex; align-items: center; gap: var(--spacing-200); margin: 0; font-size: var(--type-size-300); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-btn-ico { display: inline-flex; align-items: center; gap: var(--spacing-150); }
+
+  /* Commitment-text card — serif regulatory voice, parsed bullets with bold lead-ins. */
+  .bcn-cmttext { display: flex; flex-direction: column; gap: var(--spacing-300); padding: var(--spacing-500); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-300); }
+  .bcn-cmttext__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .bcn-cmttext__item { font-family: var(--font-decorative); font-size: 1.0625rem; line-height: 1.65; color: var(--color-text-primary); }
+  .bcn-cmttext__footer { display: flex; justify-content: flex-end; gap: var(--spacing-100); padding-top: var(--spacing-200); border-top: 1px solid var(--color-border-light); }
+  .bcn-cmttext__footer :global(.esa-button--color-ghost .esa-button__native) { color: var(--color-primary); }
+  .bcn-cmttext__footer :global(.esa-button--color-ghost .esa-button__native:hover:not(:disabled)) { color: var(--color-primary-hover); background: color-mix(in srgb, var(--color-primary) 8%, transparent); }
+
+  /* Phase groups — six prod builder phases, each with count + Add; quiet empty states. */
+  .bcn-phases { display: flex; flex-direction: column; gap: var(--spacing-500); }
+  .bcn-phase { display: flex; flex-direction: column; gap: var(--spacing-250); }
+  .bcn-phase__head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); padding-bottom: var(--spacing-150); border-bottom: 1px solid var(--color-border-light); }
+  .bcn-phase__title { display: flex; align-items: center; gap: var(--spacing-200); margin: 0; font-size: var(--form-font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-phase__empty { border: 1px dashed var(--color-border); border-radius: var(--radius-200); padding: var(--spacing-200); }
+  .bcn-phase__empty :global(.esa-empty-state__title) { color: var(--color-text-tertiary); font-weight: var(--font-weight-regular); }
+
+  /* Requirement rows — family hover whisper. */
+  .bcn-row-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-row {
+    display: flex; align-items: center; gap: var(--spacing-300);
+    padding: var(--spacing-300) var(--spacing-400);
+    border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface);
+    text-decoration: none;
+    transition: background-color 120ms ease;
+  }
+  .bcn-row:hover { background: color-mix(in srgb, var(--color-primary) 4%, var(--color-surface)); }
+  .bcn-row__name { flex: 1; min-width: 0; font-size: var(--form-font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-row .bcn-cmt__badge--type { transform: none; }
+  .bcn-row > :global(.esa-icon:last-child) { color: var(--color-text-tertiary); flex-shrink: 0; transition: transform 120ms ease, color 120ms ease; }
+  .bcn-row:hover > :global(.esa-icon:last-child) { transform: translateX(2px); color: var(--color-text-secondary); }
+
+  /* Rail extras */
+  .bcn-tagrow { display: flex; flex-wrap: wrap; gap: var(--spacing-150); margin-top: var(--spacing-100); }
+  .bcn-tagrow :global(.esa-pill) { border-radius: var(--radius-100); background: var(--color-surface-sunken); border: 1px solid var(--color-border); color: var(--color-text-secondary); }
+  .bcn-lists { display: flex; flex-direction: column; align-items: flex-start; gap: var(--spacing-150); margin: 0; padding: 0; list-style: none; }
+  .bcn-list-link { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); color: var(--color-primary); text-decoration: none; }
+  .bcn-list-link:hover { text-decoration: underline; }
+  .bcn-rail-meta { margin: var(--spacing-300) 0 0; padding-top: var(--spacing-300); border-top: 1px solid var(--color-border-light); font-size: 0.75rem; color: var(--color-text-secondary); }
+
+  /* Lineage / Revisions spine modules (family treatment). */
+  .bcn-lineage { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .bcn-lineage__node { position: relative; display: flex; align-items: flex-start; gap: var(--spacing-300); padding-bottom: var(--spacing-400); }
+  .bcn-lineage__node::before { content: ''; position: absolute; left: 13px; top: 30px; bottom: 2px; width: 2px; background: var(--color-border); }
+  .bcn-lineage__node:last-child { padding-bottom: 0; }
+  .bcn-lineage__node:last-child::before { display: none; }
+  .bcn-lineage__icon { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; flex-shrink: 0; border-radius: 50%; background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text-secondary); }
+  .bcn-lineage__icon :global(.esa-icon) { --_icon-size: 14px; }
+  .bcn-lineage__node--current .bcn-lineage__icon { border-color: var(--color-secondary); color: var(--color-secondary); }
+  .bcn-lineage__body { display: flex; flex-direction: column; gap: 1px; min-width: 0; padding-top: 2px; }
+  .bcn-lineage__kind { font-size: 0.75rem; color: var(--color-text-tertiary); }
+  .bcn-lineage__name { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); line-height: 1.35; color: var(--color-primary); text-decoration: none; }
+  a.bcn-lineage__name:hover { text-decoration: underline; }
+  .bcn-lineage__name--current { color: var(--color-text-primary); font-weight: var(--font-weight-semibold); }
+  .bcn-revs .bcn-lineage__name { color: var(--color-text-primary); font-weight: var(--font-weight-medium); }
+  .bcn-revs__by { font-size: 0.75rem; color: var(--color-text-tertiary); }
+
+  @media (max-width: 1024px) {
+    .bcn-cmt__body { grid-template-columns: 1fr; }
+  }
+
+  /* Single-column dialog form; neutral squared chips in the Tags input-tag. */
+  .bcn-form { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .bcn-form--dialog { padding: var(--spacing-100) 0; }
+  .bcn-form :global(esa-input-tag) {
+    --_chip-bg: var(--color-surface-sunken);
+    --_chip-color: var(--color-text-primary);
+    --_chip-radius: var(--radius-100);
+  }
+  .bcn-grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--spacing-300); }
+  .bcn-editor__foot { display: flex; gap: var(--spacing-300); justify-content: flex-end; width: 100%; }
+
+  .bcn-source-pdf { height: 100%; min-height: 60vh; }
+  .bcn-source-pdf__frame { width: 100%; height: 100%; min-height: 60vh; border: 0; border-radius: var(--radius-200); background: var(--color-surface-sunken); }
+  .bcn-source-foot { display: flex; justify-content: flex-end; width: 100%; }
+</style>
+
+<!-- Page renders its own identity header; hide PageLayout's default title row. -->
+<style is:global>
+  .page-layout__title { display: none !important; }
+</style>

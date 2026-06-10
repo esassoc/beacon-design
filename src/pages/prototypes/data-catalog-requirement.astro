@@ -97,7 +97,7 @@ const resourceCategory = row.resourceCategory; // inherited from the commitment
 const commitmentTitle = 'Nesting Birds and Raptors';
 const commitmentText =
   'If construction, ground-disturbing, or vegetation-removal activities would occur during the nesting season (February 1 – August 31), a qualified biologist shall conduct a pre-construction survey for nesting raptors and other migratory birds within 14 days prior to the start of those activities. If active nests are found, the biologist shall establish appropriate no-disturbance buffer zones around each nest, to remain in place until young have fledged. If work must occur within an established buffer zone, it shall proceed only under biological monitoring, and a report of findings documenting any such work shall be submitted to the City.';
-const commitmentHref = '#data-catalog/commitments/mm-bio-2';
+const commitmentHref = withBase('/prototypes/data-catalog-commitment');
 
 // The commitment's full parsed text, bulleted as in the source — each bullet ≈ a
 // carved-out requirement. (A "this requirement" slice highlight was tried and
@@ -135,7 +135,7 @@ const linkedActions = [
 // Source document (provenance + drawer).
 const sourcePdf = withBase('/source-docs/feir-sample.pdf');
 const sourceDocTitle = row.sourceDoc;
-const sourceDocHref = '#data-catalog/source-documents/3600-alameda-feir';
+const sourceDocHref = withBase('/prototypes/data-catalog-source-document');
 const createdMeta = 'Created Feb 12, 2026 · Updated Jun 3, 2026';
 
 // Lineage — the entity chain this requirement descends from, rendered as a connected

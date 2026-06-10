@@ -69,6 +69,24 @@ export const prototypeGroups: PrototypeGroup[] = [
         status: 'in-progress',
       },
       {
+        slug: 'data-catalog-source-document',
+        title: 'Source Document detail (Data Catalog)',
+        description:
+          'The document home — description, commitments roster with per-commitment requirement counts, files, agency reference details, two-node lineage; single-pane upsert (prod field set) + in-app PDF viewer.',
+        route: '/prototypes/data-catalog-source-document',
+        createdAt: '2026-06-10',
+        status: 'in-progress',
+      },
+      {
+        slug: 'data-catalog-commitment',
+        title: 'Commitment detail (Data Catalog)',
+        description:
+          'The parent entity — serif parsed commitment text, requirements grouped by the six builder phases with counts/Add/empty states, rolled-up Related Data, version timeline, components, lineage; single-pane upsert (prod field set).',
+        route: '/prototypes/data-catalog-commitment',
+        createdAt: '2026-06-10',
+        status: 'in-progress',
+      },
+      {
         slug: 'data-catalog-requirement',
         title: 'Requirement detail — standard (Data Catalog)',
         description:
