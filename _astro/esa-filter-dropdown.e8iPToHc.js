@@ -44,6 +44,10 @@ import{i as n,b as o,a as l}from"./lit-element.C8p3bJxG.js";import"./esa-checkbo
                           aria-hidden="true"
                           tabindex="-1"
                         ></esa-checkbox>
+                        ${t.color?o`<span
+                              class="esa-filter-dropdown__option-dot"
+                              style="background:${t.color}"
+                            ></span>`:null}
                         <span class="esa-filter-dropdown__option-label">${t.label}</span>
                       </div>`)}
               </div>
@@ -248,6 +252,13 @@ import{i as n,b as o,a as l}from"./lit-element.C8p3bJxG.js";import"./esa-checkbo
     /* Display-only: the row owns the click so the box never double-toggles. */
     .esa-filter-dropdown__checkbox {
       pointer-events: none;
+      flex-shrink: 0;
+    }
+    /* Optional per-option color dot (options[].color) */
+    .esa-filter-dropdown__option-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
       flex-shrink: 0;
     }
     .esa-filter-dropdown__option-label {
