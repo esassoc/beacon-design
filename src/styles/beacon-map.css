@@ -1,0 +1,38 @@
+/* bcn-lego-checked: Leaflet-injected DOM chrome — .leaflet-tooltip nodes are created
+   by Leaflet inside its own panes, outside any Astro/component scope. No esa- lego
+   models them (esa-tooltip wraps in-page elements, not Leaflet's injected overlay
+   DOM); checked Beacon — prod has no map UI. This file is the shared restyle for
+   every Beacon map page (permit-tracking, site-clearance); keep selectors
+   page-agnostic and read semantic tokens only (--color-*), never the raw ramp. */
+
+/* Leaflet's default tooltip is too small and too light. Lift it to the page's
+   control language: 15px / semibold, semantic surface + text colors, the 4px
+   control radius (--radius-100 — Beacon rounds every control to 4px), and a
+   subtle shadow. Scoped under .leaflet-container so this wins the equal-
+   specificity fight with leaflet.css regardless of bundle order. */
+.leaflet-container .leaflet-tooltip {
+  padding: 6px 12px;
+  font-family: var(--font-sans, inherit);
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-semibold, 600);
+  line-height: 1.4;
+  color: var(--color-text-primary, #3d3d3d);
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #dcdcdc);
+  border-radius: var(--radius-100, 4px);
+  box-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+}
+
+/* Directional arrows follow the overridden surface color. */
+.leaflet-container .leaflet-tooltip-top::before {
+  border-top-color: var(--color-surface, #ffffff);
+}
+.leaflet-container .leaflet-tooltip-bottom::before {
+  border-bottom-color: var(--color-surface, #ffffff);
+}
+.leaflet-container .leaflet-tooltip-left::before {
+  border-left-color: var(--color-surface, #ffffff);
+}
+.leaflet-container .leaflet-tooltip-right::before {
+  border-right-color: var(--color-surface, #ffffff);
+}

@@ -47,6 +47,8 @@ interface Props {
   showQaBadge?: boolean;
   /** NavItem id to highlight (overrides the static defaults, e.g. Dashboard). */
   activeNavId?: string;
+  /** Section ids to render expanded (overrides the per-section `expanded` defaults when provided). */
+  expandedSections?: string[];
 }
 
 // ── Lucide glyphs not in esa-icon's built-in registry (inner SVG markup only) ──
@@ -86,6 +88,7 @@ const {
   userEmail = 'andy.lovseth@esassoc.com',
   showQaBadge = true,
   activeNavId,
+  expandedSections,
   // Verbatim nav structure from side-nav-modern.component.ts (standard labels).
   navSections = [
     {
@@ -132,7 +135,10 @@ const {
       icon: 'map-pinned',
       iconPaths: LUCIDE['map-pinned'],
       expanded: true,
-      items: [{ id: 'monitoring-portal', label: 'Monitoring Portal' }],
+      items: [
+        { id: 'monitoring-portal', label: 'Monitoring Portal' },
+        { id: 'site-clearance', label: 'Site Clearance', href: withBase('/prototypes/site-clearance') },
+      ],
     },
     {
       id: 'reporting',
@@ -162,6 +168,13 @@ const {
     },
   ],
 } = Astro.props as Props;
+
+// Per-page section expansion — when provided, a section is expanded iff its id is listed.
+if (expandedSections) {
+  for (const section of navSections) {
+    section.expanded = expandedSections.includes(section.id);
+  }
+}
 
 // Per-page nav highlight — activeNavId beats the static defaults (Dashboard).
 if (activeNavId) {

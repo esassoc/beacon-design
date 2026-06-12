@@ -1,0 +1,2198 @@
+---
+// Work Area drawer — Decision-first v2 deep dive (specimen).
+//
+// Round 1 presented three structural options ("make different choices about
+// what the priority data/interfaces need to be"); the client picked
+// Decision-first and asked to go deeper. The page now LEADS with the v2 deep
+// dive and demotes the round-1 three-option row to a reference section at the
+// bottom.
+//
+// The four v2 directives:
+//   1. Dates up high — Notification · Clearance visit · Planned start
+//      (+ Blocked until when relevant) as an always-visible band directly
+//      under the header. Decision inputs, not detail.
+//   2. Streamlined confirm — the provisional banner becomes ONE slim line
+//      (obs ID badge · "within buffer · est. through Jul 24" · compact inline
+//      Confirm block). The decision block reads in ~2 seconds.
+//   3. Disciplines open a STACKED CHILD DRAWER, not tabs — mirroring
+//      permit-tracking's segment → permit-editor stacking (the under card
+//      slides left via --side-dialog-inset and sits dimmed behind; the top
+//      card brings no second backdrop). Depicted statically here.
+//   4. Multiple reviews per discipline — the child drawer is a review HISTORY
+//      (reverse-chron: date, kind, reviewer, outcome chip, notes); the latest
+//      COMPLETED review drives the discipline's board status; future reviews
+//      ride the history as scheduled. Mocked statically with DCTR2-DH-010
+//      biological: May 18 clearance survey → Blocked (SWHA nest found) →
+//      re-survey scheduled Sep 2 (post-fledge est. Jul 24). NO fixture
+//      changes — see the data-model note rendered in the page.
+//
+// Stress cases (REAL, derived live from the fixture):
+//   DCRDS-DH-184 — provisional block (the "decide NOW" case)
+//   DCRAI-DH-014 — multi-discipline, planned start before its reviews
+//   DCTR2-DH-010 — confirmed block + the June → September re-survey story
+//
+// Static / lightly interactive: structure and hierarchy are the point, not
+// working CRUD. The only JS is round-1 concept 2's discipline switcher.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import BcnStatusChip from '../../components/bcn/BcnStatusChip.astro';
+import BcnKeyValue from '../../components/bcn/BcnKeyValue.astro';
+import {
+  workAreas,
+  observations,
+  STATUS_META,
+  GATE_DIMENSIONS,
+  GATE_DIMENSION_LABEL,
+  deriveStatus,
+  bufferConflicts,
+  blockedUntil,
+  distanceFt,
+  gateFor,
+  formatDate,
+  daysUntil,
+} from '../../data/geotech-fixture';
+import type { ClearanceStatus, WorkArea } from '../../data/geotech-fixture';
+
+// SSR :root status vars — same contract as site-clearance: STATUS_META's hexes
+// ARE the committed field-map palette; every chip/dot on this page reads the
+// runtime --st-* custom properties.
+const rootVars =
+  `:root{` +
+  Object.values(STATUS_META)
+    .map((m) => `${m.colorVar}:${m.hex};`)
+    .join('') +
+  `--st-neutral:#8a9099;}`;
+
+const byId = (id: string): WorkArea => workAreas.find((w) => w.id === id)!;
+const wa184 = byId('DCRDS-DH-184');
+const wa014 = byId('DCRAI-DH-014');
+
+// Derived — never stored (the same pure helpers the live page uses).
+const st184 = deriveStatus(wa184, observations); // → provisional-block
+const st014 = deriveStatus(wa014, observations); // → survey-scheduled (worst gate)
+
+const swha = bufferConflicts(wa184, observations)[0]; // SWHA-2289-05182026
+const swhaDist = Math.round(distanceFt(wa184.lat, wa184.lng, swha.lat, swha.lng));
+const until184 = blockedUntil(wa184, observations)!; // 2026-07-24
+
+const g184bio = gateFor(wa184, 'biological')!; // survey-scheduled Jun 15
+const g014bio = gateFor(wa014, 'biological')!; // cleared Jun 3 · C. Anderson
+const g014geo = gateFor(wa014, 'geology')!; // survey-scheduled Jun 18
+const g014noise = gateFor(wa014, 'noise')!; // survey-scheduled Jun 20
+
+// ── v2 deep-dive additions ────────────────────────────────────────────────────
+// DCTR2-DH-010 — the June → September re-survey story (confirmed block).
+const wa010 = byId('DCTR2-DH-010');
+const st010 = deriveStatus(wa010, observations); // → blocked (gate + live conflict)
+const until010 = blockedUntil(wa010, observations)!; // 2026-07-24
+const g010bio = gateFor(wa010, 'biological')!; // blocked May 18 · C. Anderson
+const swha010Dist = Math.round(distanceFt(wa010.lat, wa010.lng, swha.lat, swha.lng));
+// Short obs ID for the slim confirm line (SWHA-2289-05182026 → SWHA-2289).
+const swhaShort = swha.id.split('-').slice(0, 2).join('-');
+// STATIC MOCK — the post-fledge re-survey is NOT in the fixture (no fixture
+// changes for the specimen); see the data-model note in the page.
+const RESURVEY = '2026-09-02';
+// Review counts per discipline for the v2 board badges (>1 only). Static mock
+// for the same reason: the fixture's single-gate shape can't hold two reviews.
+const counts010: Partial<Record<string, number>> = { biological: 2 };
+
+const meta = (s: ClearanceStatus) => STATUS_META[s];
+const cells = (w: WorkArea) =>
+  GATE_DIMENSIONS.map((dim) => ({ dim, label: GATE_DIMENSION_LABEL[dim], gate: gateFor(w, dim) }));
+
+// Compact meta line for a status-board cell / checklist row.
+const gateWhen = (g: { status: ClearanceStatus; reviewDate?: string; reviewer?: string } | null): string => {
+  if (!g?.reviewDate) return '—';
+  if (g.status === 'survey-scheduled') return `Scheduled ${formatDate(g.reviewDate)}`;
+  return `${formatDate(g.reviewDate)}${g.reviewer ? ` · ${g.reviewer}` : ''}`;
+};
+
+// Lucide paths (same glyphs the live drawer uses).
+const ALERT = "<path d='m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3'/><path d='M12 9v4'/><path d='M12 17h.01'/>";
+const CLIPBOARD = "<rect width='8' height='4' x='8' y='2' rx='1' ry='1'/><path d='M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2'/><path d='m9 14 2 2 4-4'/>";
+const QUOTE = "<path d='M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z'/><path d='M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z'/>";
+const CLOCK = "<circle cx='12' cy='12' r='10'/><polyline points='12 6 12 12 16 14'/>";
+const HISTORY = "<path d='M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8'/><path d='M3 3v5h5'/><path d='M12 7v5l4 2'/>";
+const SHIELD = "<path d='M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z'/><path d='m9 12 2 2 4-4'/>";
+const CHEVRON = "<path d='m9 18 6-6-6-6'/>";
+---
+
+<!-- bcn-lego-checked: static design specimen — structural mockups of the
+     site-clearance work-area drawer (no working CRUD). esa- legos are used
+     everywhere they are load-bearing: esa-button (all actions), esa-icon,
+     esa-icon-button (the child drawer's close), esa-badge (the >1 review count
+     on board cells), esa-collapsible (the demoted sections) + BcnStatusChip
+     (value-driven status chips incl. the hollow provisional variant) and
+     BcnKeyValue (the v2 date band is a BcnKeyValue grid promoted out of its
+     collapsible). The drawer frames are static inline stand-ins for
+     esa-side-dialog — checked it: the lego is a fixed full-height overlay and
+     cannot render multiple drawers side by side for comparison, which is this
+     page's entire job; the v2 parent→child STACK is likewise a static
+     depiction of the lego's own committed stacking mechanics (permit-tracking:
+     --side-dialog-inset on the under card, no second backdrop on the top
+     card). The structures under exploration are the bespoke parts BY DESIGN:
+     the 4-cell discipline status board (cells = buttons that open the child
+     drawer), the per-discipline review-history list (checked Ecology + Beacon —
+     no timeline/history lego exists; same precedent as the discussion-timeline
+     and site-clearance Timeline-tab page glue), and round 1's tabbed workspace
+     (checked esa-tab-layout — page-level chrome with URL/hash routing, wrong
+     shape inside a 420px drawer panel) + lifecycle stepper. The hollow "Not
+     reviewed" chip + provisional-block outlined-chip treatments replicate the
+     live page's committed idioms so the comparison reads as Beacon. Remaining
+     CSS is specimen-page glue. -->
+<BaseLayout title="Work Area drawer — Decision-first v2 deep dive">
+  <style is:inline set:html={rootVars}></style>
+
+  <main class="spec">
+    <header class="spec__head">
+      <h1 class="spec__title">Work Area drawer — Decision-first v2</h1>
+      <p class="spec__intro">
+        Round 1 compared three drawer structures; <strong>Decision-first</strong> was selected
+        (<em>"Decision-first seems right"</em>). This page now leads with the v2 deep dive — dates promoted to
+        an always-visible band, a confirm that reads in two seconds, discipline cells that open a stacked
+        child drawer, and a per-discipline review history that survives the June → September re-survey
+        reality. The round-1 exploration is kept at the bottom for reference. All data is real fixture data;
+        the only static mock is the September re-survey (flagged in the data-model note).
+      </p>
+    </header>
+
+    <!-- ═══════════════════════ Decision-first — v2 deep dive ═══════════════════════ -->
+    <section class="v2" aria-labelledby="v2-title">
+      <header class="v2__head">
+        <h2 class="v2__title" id="v2-title">Decision-first — v2 deep dive</h2>
+        <ul class="v2__changes">
+          <li>
+            <strong>Dates up high.</strong> Notification · Clearance visit · Planned start (+ Blocked until
+            when relevant) render as a compact band directly under the header — decision inputs, not detail.
+          </li>
+          <li>
+            <strong>A two-second confirm.</strong> The provisional banner is now one slim line — observation
+            ID · "within buffer · est. through Jul 24" · a compact Confirm block inline.
+          </li>
+          <li>
+            <strong>Disciplines open a stacked child drawer.</strong> Each board cell is a button that opens
+            that discipline's own drawer over the parent (the permit workspace's segment → editor stacking) —
+            not tabs, not one long form.
+          </li>
+          <li>
+            <strong>Review history per discipline.</strong> The child drawer holds every review — clearance
+            survey, re-survey, management determination — newest first. The latest completed review sets the
+            board status; future reviews ride the history as scheduled. Cells show a count when there is more
+            than one. Survey records live here now, not in a parent section.
+          </li>
+        </ul>
+      </header>
+
+      <div class="v2__pair">
+        <!-- v2 · Case A: DCRDS-DH-184 -->
+        <figure class="mockup">
+          <figcaption class="mockup__case">
+            DCRDS-DH-184 · provisional block — the dates band answers "when", the slim line answers "what now".
+          </figcaption>
+          <article class="drawer">
+            <header class="drawer__head">
+              <div class="drawer__headrow">
+                <h3 class="drawer__title">{wa184.id}</h3>
+                <BcnStatusChip status={st184} label={meta(st184).label} hex={meta(st184).hex} />
+              </div>
+              <p class="drawer__sub">{wa184.segment} · {wa184.constructionPackage}</p>
+            </header>
+            <div class="band">
+              <BcnKeyValue label="Notification" value={formatDate(wa184.notificationDate)} />
+              <BcnKeyValue label="Clearance visit" value={formatDate(wa184.clearanceVisitDate)} />
+              <BcnKeyValue label="Planned start" value={formatDate(wa184.plannedStartDate)} />
+            </div>
+            <div class="drawer__body">
+              <div class="decide decide--prov">
+                <p class="decide__line decide__line--fact">
+                  <span class="obs-id">{swhaShort}</span>
+                  <span>within buffer · est. through {formatDate(until184)}</span>
+                </p>
+                <div class="decide__actions">
+                  <EsaButton color="danger" size="sm">Confirm block</EsaButton>
+                </div>
+              </div>
+
+              <section>
+                <h4 class="drawer__section">
+                  <EsaIcon name="shield-check" size="sm" paths={SHIELD} />
+                  Disciplines
+                </h4>
+                <div class="board">
+                  {
+                    cells(wa184).map(({ label, gate }) => (
+                      <button type="button" class="board__cell board__cell--btn">
+                        <span class="board__cellhead">
+                          <span class="board__dim">{label}</span>
+                          <span class="board__chev"><EsaIcon name="chevron-right" size="sm" paths={CHEVRON} /></span>
+                        </span>
+                        {gate ? (
+                          <BcnStatusChip status={gate.status} label={meta(gate.status).label} hex={meta(gate.status).hex} />
+                        ) : (
+                          <span class="unreviewed">Not reviewed</span>
+                        )}
+                        <span class="board__meta">{gateWhen(gate)}</span>
+                      </button>
+                    ))
+                  }
+                </div>
+              </section>
+
+              <div class="drawer__more">
+                <EsaCollapsible title="Buffer conflicts (1)" flush icon="alert-triangle" iconPaths={ALERT}>
+                  <ul class="rows">
+                    <li class="conflict">
+                      <span class="conflict__main">
+                        {swha.species}
+                        <span class="conflict__sub">{swha.id} · {swha.bufferFt.toLocaleString()} ft buffer</span>
+                      </span>
+                      <span class="conflict__meta">
+                        {swhaDist.toLocaleString()} ft away
+                        <span class="conflict__sub">est. end {formatDate(swha.estEndDate)}</span>
+                      </span>
+                    </li>
+                  </ul>
+                </EsaCollapsible>
+                <EsaCollapsible title="Notes (1)" flush icon="quote" iconPaths={QUOTE}>
+                  <blockquote class="note">{wa184.biologistNote}</blockquote>
+                </EsaCollapsible>
+                <EsaCollapsible title="Activity" flush icon="history" iconPaths={HISTORY}>
+                  <p class="empty">No changes this session.</p>
+                </EsaCollapsible>
+              </div>
+            </div>
+            <footer class="drawer__foot">
+              <EsaButton color="ghost" appearance="outline" size="md">Edit site details</EsaButton>
+            </footer>
+          </article>
+        </figure>
+
+        <!-- v2 · Case B: DCRAI-DH-014 -->
+        <figure class="mockup">
+          <figcaption class="mockup__case">
+            DCRAI-DH-014 · multi-discipline — the empty dates are as informative as the filled ones.
+          </figcaption>
+          <article class="drawer">
+            <header class="drawer__head">
+              <div class="drawer__headrow">
+                <h3 class="drawer__title">{wa014.id}</h3>
+                <BcnStatusChip status={st014} label={meta(st014).label} hex={meta(st014).hex} />
+              </div>
+              <p class="drawer__sub">{wa014.segment} · {wa014.constructionPackage}</p>
+            </header>
+            <div class="band">
+              <BcnKeyValue label="Notification" value={formatDate(wa014.notificationDate)} />
+              <BcnKeyValue label="Clearance visit" value={formatDate(wa014.clearanceVisitDate)} />
+              <BcnKeyValue label="Planned start" value={formatDate(wa014.plannedStartDate)} />
+            </div>
+            <div class="drawer__body">
+              <div class="decide">
+                <p class="decide__line">
+                  Awaiting geology review — {formatDate(g014geo.reviewDate)} (in {daysUntil(g014geo.reviewDate!)} days)
+                </p>
+                <div class="decide__row decide__row--warn">
+                  <EsaIcon name="alert-triangle" size="sm" paths={ALERT} />
+                  <span class="decide__warntext">
+                    Start {formatDate(wa014.plannedStartDate)} precedes the geology and noise reviews
+                  </span>
+                </div>
+                <div class="decide__actions">
+                  <EsaButton color="ghost" appearance="outline" size="sm">Edit start</EsaButton>
+                </div>
+              </div>
+
+              <section>
+                <h4 class="drawer__section">
+                  <EsaIcon name="shield-check" size="sm" paths={SHIELD} />
+                  Disciplines
+                </h4>
+                <div class="board">
+                  {
+                    cells(wa014).map(({ label, gate }) => (
+                      <button type="button" class="board__cell board__cell--btn">
+                        <span class="board__cellhead">
+                          <span class="board__dim">{label}</span>
+                          <span class="board__chev"><EsaIcon name="chevron-right" size="sm" paths={CHEVRON} /></span>
+                        </span>
+                        {gate ? (
+                          <BcnStatusChip status={gate.status} label={meta(gate.status).label} hex={meta(gate.status).hex} />
+                        ) : (
+                          <span class="unreviewed">Not reviewed</span>
+                        )}
+                        <span class="board__meta">{gateWhen(gate)}</span>
+                      </button>
+                    ))
+                  }
+                </div>
+              </section>
+
+              <div class="drawer__more">
+                <EsaCollapsible title="Notes (1)" flush icon="quote" iconPaths={QUOTE}>
+                  <blockquote class="note">{wa014.biologistNote}</blockquote>
+                </EsaCollapsible>
+                <EsaCollapsible title="Activity" flush icon="history" iconPaths={HISTORY}>
+                  <p class="empty">No changes this session.</p>
+                </EsaCollapsible>
+              </div>
+            </div>
+            <footer class="drawer__foot">
+              <EsaButton color="ghost" appearance="outline" size="md">Edit site details</EsaButton>
+            </footer>
+          </article>
+        </figure>
+      </div>
+
+      <h3 class="v2__sub">The discipline child drawer — stacked over the parent</h3>
+      <figure class="mockup mockup--stack">
+        <figcaption class="mockup__case">
+          DCTR2-DH-010 · clicking the Biological cell (count "2") opens its review history as a child drawer
+          stacked over the parent — the parent slides aside and dims behind it, exactly as the permit
+          workspace stacks its permit editor over the segment drawer.
+        </figcaption>
+        <div class="stack">
+          <!-- Parent drawer (under card — dimmed, peeking out at the left) -->
+          <article class="drawer stack__parent">
+            <header class="drawer__head">
+              <div class="drawer__headrow">
+                <h4 class="drawer__title">{wa010.id}</h4>
+                <BcnStatusChip status={st010} label={meta(st010).label} hex={meta(st010).hex} />
+              </div>
+              <p class="drawer__sub">{wa010.segment} · {wa010.constructionPackage}</p>
+            </header>
+            <div class="band band--4">
+              <BcnKeyValue label="Notification" value={formatDate(wa010.notificationDate)} />
+              <BcnKeyValue label="Clearance visit" value={formatDate(wa010.clearanceVisitDate)} />
+              <BcnKeyValue label="Planned start" value={formatDate(wa010.plannedStartDate)} />
+              <BcnKeyValue label="Blocked until">
+                <span class="band__alert">{formatDate(until010)}</span>
+              </BcnKeyValue>
+            </div>
+            <div class="drawer__body">
+              <div class="decide decide--blocked">
+                <p class="decide__line">
+                  Blocked through {formatDate(until010)} — est. {daysUntil(until010)} more days · re-survey
+                  {formatDate(RESURVEY)}
+                </p>
+              </div>
+
+              <section>
+                <h4 class="drawer__section">
+                  <EsaIcon name="shield-check" size="sm" paths={SHIELD} />
+                  Disciplines
+                </h4>
+                <div class="board">
+                  {
+                    cells(wa010).map(({ dim, label, gate }) => (
+                      <button type="button" class="board__cell board__cell--btn" data-active={dim === 'biological' ? 'true' : undefined}>
+                        <span class="board__cellhead">
+                          <span class="board__dim">{label}</span>
+                          {(counts010[dim] ?? 1) > 1 && <EsaBadge value={counts010[dim]} variant="secondary" size="sm" />}
+                          <span class="board__chev"><EsaIcon name="chevron-right" size="sm" paths={CHEVRON} /></span>
+                        </span>
+                        {gate ? (
+                          <BcnStatusChip status={gate.status} label={meta(gate.status).label} hex={meta(gate.status).hex} />
+                        ) : (
+                          <span class="unreviewed">Not reviewed</span>
+                        )}
+                        <span class="board__meta">{gateWhen(gate)}</span>
+                      </button>
+                    ))
+                  }
+                </div>
+              </section>
+
+              <div class="drawer__more">
+                <EsaCollapsible title="Buffer conflicts (1)" flush icon="alert-triangle" iconPaths={ALERT}>
+                  <ul class="rows">
+                    <li class="conflict">
+                      <span class="conflict__main">
+                        {swha.species}
+                        <span class="conflict__sub">{swha.id} · {swha.bufferFt.toLocaleString()} ft buffer</span>
+                      </span>
+                      <span class="conflict__meta">
+                        {swha010Dist.toLocaleString()} ft away
+                        <span class="conflict__sub">est. end {formatDate(swha.estEndDate)}</span>
+                      </span>
+                    </li>
+                  </ul>
+                </EsaCollapsible>
+                <EsaCollapsible title="Notes (1)" flush icon="quote" iconPaths={QUOTE}>
+                  <blockquote class="note">{wa010.biologistNote}</blockquote>
+                </EsaCollapsible>
+                <EsaCollapsible title="Activity" flush icon="history" iconPaths={HISTORY}>
+                  <p class="empty">No changes this session.</p>
+                </EsaCollapsible>
+              </div>
+            </div>
+            <footer class="drawer__foot">
+              <EsaButton color="ghost" appearance="outline" size="md">Edit site details</EsaButton>
+            </footer>
+          </article>
+
+          <!-- Child drawer (top card — the discipline's review history) -->
+          <article class="drawer stack__child">
+            <header class="drawer__head">
+              <div class="drawer__headrow">
+                <h4 class="drawer__title">Biological review</h4>
+                <BcnStatusChip status={g010bio.status} label={meta(g010bio.status).label} hex={meta(g010bio.status).hex} />
+                <span class="drawer__close"><EsaIconButton icon="x" label="Close review history" size="sm" /></span>
+              </div>
+              <p class="drawer__sub">{wa010.id} · the latest completed review sets this status</p>
+            </header>
+            <div class="drawer__body">
+              <div class="child__bar">
+                <span class="child__count">2 reviews</span>
+                <EsaButton color="ghost" appearance="outline" size="sm">Add review</EsaButton>
+              </div>
+              <ol class="revs">
+                <li class="rev" data-kind="scheduled">
+                  <span class="rev__dot"></span>
+                  <div class="rev__main">
+                    <p class="rev__head">
+                      Re-survey <span class="rev__when">scheduled {formatDate(RESURVEY)}</span>
+                    </p>
+                    <div class="rev__chiprow">
+                      <BcnStatusChip
+                        status="survey-scheduled"
+                        label={meta('survey-scheduled').label}
+                        hex={meta('survey-scheduled').hex}
+                      />
+                    </div>
+                    <p class="rev__note">
+                      Post-fledge confirmation visit — SWHA est. fledge {formatDate(until010)}. Reviewer not
+                      yet assigned.
+                    </p>
+                  </div>
+                </li>
+                <li class="rev" data-kind="blocked">
+                  <span class="rev__dot"></span>
+                  <div class="rev__main">
+                    <p class="rev__head">
+                      Clearance survey
+                      <span class="rev__when">{formatDate(g010bio.reviewDate)} · {g010bio.reviewer}</span>
+                    </p>
+                    <div class="rev__chiprow">
+                      <BcnStatusChip status={g010bio.status} label={meta(g010bio.status).label} hex={meta(g010bio.status).hex} />
+                      <span class="rev__until">until {formatDate(g010bio.blockedUntil)}</span>
+                      <span class="rev__current">Sets current status</span>
+                    </div>
+                    <p class="rev__note">{g010bio.note}</p>
+                  </div>
+                </li>
+              </ol>
+            </div>
+            <footer class="drawer__foot">
+              <EsaButton color="ghost" appearance="outline" size="md">Close</EsaButton>
+            </footer>
+          </article>
+        </div>
+      </figure>
+
+      <aside class="model-note">
+        <p class="model-note__title">Data-model note (for productionizing)</p>
+        <p class="model-note__text">
+          Today's <code>ClearanceGate</code> holds one status per discipline — it cannot say "Blocked now,
+          re-survey scheduled Sep 2." Productionizing v2 turns each discipline's gate into a per-discipline
+          <strong>review list</strong> (date, kind — Clearance survey / Re-survey / Management determination —
+          reviewer, outcome, notes/stipulations): the latest completed review derives the discipline's current
+          status, and future reviews ride the history as scheduled. The fixture keeps its single-gate shape for
+          now; the June → September story above is mocked statically in this specimen.
+        </p>
+      </aside>
+    </section>
+
+    <!-- ═══ How to evaluate (v2) ═══ -->
+    <section class="evaluate" aria-labelledby="eval-title">
+      <h2 class="evaluate__title" id="eval-title">How to evaluate v2</h2>
+      <ol class="evaluate__list">
+        <li>From a cold open, how fast do you know whether work can start — and what the single next action is?</li>
+        <li>Are the dates you decide with — notification, visit, planned start, blocked-until — visible without
+          opening anything?</li>
+        <li>Does the stacked discipline drawer keep you oriented to the parent site?</li>
+        <li>Is a June → September re-survey history legible at a glance?</li>
+        <li>Where does a pasted field-biologist email note go, and could you find it again a week later?</li>
+      </ol>
+    </section>
+
+    <!-- ═══════════════════ Round 1 exploration (reference) ═══════════════════ -->
+    <section class="round1" aria-labelledby="round1-title">
+      <header class="round1__head">
+        <h2 class="round1__title" id="round1-title">Round 1 exploration (reference)</h2>
+        <p class="round1__line">
+          The three structural options as first presented — Decision-first (option 1) was selected and is
+          developed at the top of the page. Kept for the record of what each structure prioritized.
+        </p>
+      </header>
+
+      <div class="concepts">
+      <!-- ═══════════════════ Concept 1 — Decision-first ═══════════════════ -->
+      <section class="concept" aria-labelledby="c1-name">
+        <header class="concept__thesis">
+          <h3 class="concept__name" id="c1-name"><span class="concept__num">1</span>Decision-first</h3>
+          <p class="concept__line">
+            The top half answers one question: can work start — and if not, what single action moves it?
+          </p>
+          <div class="concept__pt">
+            <p class="concept__pt-label">Prioritizes</p>
+            <ul>
+              <li>The manager's go/no-go decision, with the ONE next action promoted to a real button</li>
+              <li>A four-cell discipline board you can scan in a second</li>
+            </ul>
+            <p class="concept__pt-label">Trades away</p>
+            <ul>
+              <li>Ambient detail — conflicts, surveys, notes, dates and activity collapse until asked for</li>
+            </ul>
+          </div>
+        </header>
+
+        <!-- Case A: DCRDS-DH-184 -->
+        <figure class="mockup">
+          <figcaption class="mockup__case">
+            DCRDS-DH-184 · provisional block — the system found a buffer conflict; a manager must decide now.
+          </figcaption>
+          <article class="drawer">
+            <header class="drawer__head">
+              <div class="drawer__headrow">
+                <h3 class="drawer__title">{wa184.id}</h3>
+                <BcnStatusChip status={st184} label={meta(st184).label} hex={meta(st184).hex} />
+              </div>
+              <p class="drawer__sub">{wa184.segment} · {wa184.constructionPackage}</p>
+            </header>
+            <div class="drawer__body">
+              <section>
+                <h4 class="drawer__section">Next action</h4>
+                <div class="action action--provisional">
+                  <p class="action__title">Confirm the block?</p>
+                  <p class="action__text">
+                    Inside the {swha.species} ½-mile buffer ({swha.id}) — {swhaDist.toLocaleString()} ft from
+                    the nest, est. end {formatDate(swha.estEndDate)}. The system detected the conflict; it
+                    stays provisional until a manager decides.
+                  </p>
+                  <p class="action__facts">
+                    Survey scheduled {formatDate(wa184.clearanceVisitDate)} · planned start
+                    {formatDate(wa184.plannedStartDate)} (in {daysUntil(wa184.plannedStartDate!)} days)
+                  </p>
+                  <div class="action__btns">
+                    <EsaButton color="primary" size="sm">Confirm block</EsaButton>
+                    <EsaButton color="ghost" appearance="outline" size="sm">Review gates</EsaButton>
+                  </div>
+                </div>
+              </section>
+
+              <section>
+                <h4 class="drawer__section">
+                  <EsaIcon name="shield-check" size="sm" paths={SHIELD} />
+                  Disciplines
+                </h4>
+                <div class="board">
+                  {
+                    cells(wa184).map(({ label, gate }) => (
+                      <div class="board__cell">
+                        <span class="board__dim">{label}</span>
+                        {gate ? (
+                          <BcnStatusChip status={gate.status} label={meta(gate.status).label} hex={meta(gate.status).hex} />
+                        ) : (
+                          <span class="unreviewed">Not reviewed</span>
+                        )}
+                        <span class="board__meta">{gateWhen(gate)}</span>
+                      </div>
+                    ))
+                  }
+                </div>
+              </section>
+
+              <div class="drawer__more">
+                <EsaCollapsible title="Buffer conflicts (1)" flush open icon="alert-triangle" iconPaths={ALERT}>
+                  <ul class="rows">
+                    <li class="conflict">
+                      <span class="conflict__main">
+                        {swha.species}
+                        <span class="conflict__sub">{swha.id} · {swha.bufferFt.toLocaleString()} ft buffer</span>
+                      </span>
+                      <span class="conflict__meta">
+                        {swhaDist.toLocaleString()} ft away
+                        <span class="conflict__sub">est. end {formatDate(swha.estEndDate)}</span>
+                      </span>
+                    </li>
+                  </ul>
+                </EsaCollapsible>
+                <EsaCollapsible title="Survey records" flush icon="clipboard-check" iconPaths={CLIPBOARD}>
+                  <p class="empty">No survey on record.</p>
+                </EsaCollapsible>
+                <EsaCollapsible title="Notes (1)" flush icon="quote" iconPaths={QUOTE}>
+                  <blockquote class="note">{wa184.biologistNote}</blockquote>
+                </EsaCollapsible>
+                <EsaCollapsible title="Dates" flush icon="clock" iconPaths={CLOCK}>
+                  <div class="dates">
+                    <BcnKeyValue label="Notification" value={formatDate(wa184.notificationDate)} />
+                    <BcnKeyValue label="Clearance visit" value={formatDate(wa184.clearanceVisitDate)} />
+                    <BcnKeyValue label="Planned start" value={formatDate(wa184.plannedStartDate)} />
+                  </div>
+                </EsaCollapsible>
+                <EsaCollapsible title="Activity" flush icon="history" iconPaths={HISTORY}>
+                  <p class="empty">No changes this session.</p>
+                </EsaCollapsible>
+              </div>
+            </div>
+            <footer class="drawer__foot">
+              <EsaButton color="ghost" appearance="outline" size="md">Edit clearance</EsaButton>
+            </footer>
+          </article>
+        </figure>
+
+        <!-- Case B: DCRAI-DH-014 -->
+        <figure class="mockup">
+          <figcaption class="mockup__case">
+            DCRAI-DH-014 · multi-discipline — pending reviews, and a planned start that lands before them.
+          </figcaption>
+          <article class="drawer">
+            <header class="drawer__head">
+              <div class="drawer__headrow">
+                <h3 class="drawer__title">{wa014.id}</h3>
+                <BcnStatusChip status={st014} label={meta(st014).label} hex={meta(st014).hex} />
+              </div>
+              <p class="drawer__sub">{wa014.segment} · {wa014.constructionPackage}</p>
+            </header>
+            <div class="drawer__body">
+              <section>
+                <h4 class="drawer__section">Next action</h4>
+                <div class="action">
+                  <p class="action__title">Awaiting geology review — {formatDate(g014geo.reviewDate)}</p>
+                  <p class="action__text">
+                    {g014geo.note} Noise review follows {formatDate(g014noise.reviewDate)}.
+                  </p>
+                  <p class="action__conflict">
+                    <EsaIcon name="alert-triangle" size="sm" paths={ALERT} />
+                    Planned start {formatDate(wa014.plannedStartDate)} lands before both pending reviews.
+                  </p>
+                  <div class="action__btns">
+                    <EsaButton color="ghost" appearance="outline" size="sm">Edit planned start</EsaButton>
+                  </div>
+                </div>
+              </section>
+
+              <section>
+                <h4 class="drawer__section">
+                  <EsaIcon name="shield-check" size="sm" paths={SHIELD} />
+                  Disciplines
+                </h4>
+                <div class="board">
+                  {
+                    cells(wa014).map(({ label, gate }) => (
+                      <div class="board__cell">
+                        <span class="board__dim">{label}</span>
+                        {gate ? (
+                          <BcnStatusChip status={gate.status} label={meta(gate.status).label} hex={meta(gate.status).hex} />
+                        ) : (
+                          <span class="unreviewed">Not reviewed</span>
+                        )}
+                        <span class="board__meta">{gateWhen(gate)}</span>
+                      </div>
+                    ))
+                  }
+                </div>
+              </section>
+
+              <div class="drawer__more">
+                <EsaCollapsible title="Survey records (1)" flush icon="clipboard-check" iconPaths={CLIPBOARD}>
+                  <ul class="rows">
+                    <li class="survey">
+                      <a class="survey__link" href="#" onclick="return false">
+                        Pre-construction clearance survey · {formatDate(g014bio.reviewDate)} · {g014bio.reviewer}
+                      </a>
+                    </li>
+                  </ul>
+                </EsaCollapsible>
+                <EsaCollapsible title="Notes (1)" flush icon="quote" iconPaths={QUOTE}>
+                  <blockquote class="note">{wa014.biologistNote}</blockquote>
+                </EsaCollapsible>
+                <EsaCollapsible title="Dates" flush icon="clock" iconPaths={CLOCK}>
+                  <div class="dates">
+                    <BcnKeyValue label="Notification" value={formatDate(wa014.notificationDate)} />
+                    <BcnKeyValue label="Clearance visit" value={formatDate(wa014.clearanceVisitDate)} />
+                    <BcnKeyValue label="Planned start" value={formatDate(wa014.plannedStartDate)} />
+                  </div>
+                </EsaCollapsible>
+                <EsaCollapsible title="Activity" flush icon="history" iconPaths={HISTORY}>
+                  <p class="empty">No changes this session.</p>
+                </EsaCollapsible>
+              </div>
+            </div>
+            <footer class="drawer__foot">
+              <EsaButton color="ghost" appearance="outline" size="md">Edit clearance</EsaButton>
+            </footer>
+          </article>
+        </figure>
+      </section>
+
+      <!-- ═══════════════════ Concept 2 — Discipline workspace ═══════════════════ -->
+      <section class="concept" aria-labelledby="c2-name">
+        <header class="concept__thesis">
+          <h3 class="concept__name" id="c2-name"><span class="concept__num">2</span>Discipline workspace</h3>
+          <p class="concept__line">
+            One discipline at a time, at full depth — the drawer is a segmented workspace, not a stack.
+          </p>
+          <div class="concept__pt">
+            <p class="concept__pt-label">Prioritizes</p>
+            <ul>
+              <li>Per-discipline depth: status, dates, reviewer, notes and survey record in one panel</li>
+              <li>Clean per-discipline editing — add/edit/remove scoped to the open panel, no long form</li>
+              <li>A thin rollup strip keeps the site-level answer and the live conflict always in view</li>
+            </ul>
+            <p class="concept__pt-label">Trades away</p>
+            <ul>
+              <li>Whole-site glanceability — you visit four panels to read everything</li>
+            </ul>
+          </div>
+        </header>
+
+        <figure class="mockup">
+          <figcaption class="mockup__case">
+            DCRAI-DH-014 · the switcher opens on Geology — the next pending review. The tabs work; click through.
+          </figcaption>
+          <article class="drawer" data-workspace>
+            <header class="drawer__head">
+              <div class="drawer__headrow">
+                <h3 class="drawer__title">{wa014.id}</h3>
+                <BcnStatusChip status={st014} label={meta(st014).label} hex={meta(st014).hex} />
+              </div>
+              <p class="drawer__sub">{wa014.segment} · {wa014.constructionPackage}</p>
+            </header>
+            <div class="drawer__body">
+              <!-- Always-visible rollup strip: derived status + the live conflict -->
+              <div class="strip">
+                <EsaIcon name="alert-triangle" size="sm" paths={ALERT} />
+                <span class="strip__text">
+                  <strong>Planned start {formatDate(wa014.plannedStartDate)}</strong> — lands before 2 pending
+                  reviews (geology {formatDate(g014geo.reviewDate)}, noise {formatDate(g014noise.reviewDate)})
+                </span>
+              </div>
+
+              <div class="disc-tabs" role="tablist" aria-label="Disciplines">
+                {
+                  cells(wa014).map(({ dim, label, gate }) => (
+                    <button type="button" role="tab" data-dim={dim} aria-selected={dim === 'geology' ? 'true' : 'false'}>
+                      <span
+                        class="disc-tabs__dot"
+                        data-none={gate ? undefined : 'true'}
+                        style={gate ? `background:var(${meta(gate.status).colorVar}, ${meta(gate.status).hex});` : undefined}
+                      />
+                      <span class="disc-tabs__label">{label.split(' ')[0]}</span>
+                    </button>
+                  ))
+                }
+              </div>
+
+              <!-- Biological — cleared -->
+              <section class="disc-panel" data-panel="biological" hidden>
+                <div class="disc-panel__head">
+                  <BcnStatusChip status={g014bio.status} label={meta(g014bio.status).label} hex={meta(g014bio.status).hex} />
+                  <span class="disc-panel__when">Reviewed {formatDate(g014bio.reviewDate)}</span>
+                </div>
+                <BcnKeyValue label="Reviewer" value={g014bio.reviewer} />
+                <BcnKeyValue label="Determination note"><span class="kv-text">{g014bio.note}</span></BcnKeyValue>
+                <BcnKeyValue label="Survey record">
+                  <a class="survey__link" href="#" onclick="return false">
+                    Pre-construction clearance survey · {formatDate(g014bio.reviewDate)}
+                  </a>
+                </BcnKeyValue>
+                <BcnKeyValue label="Field note (verbatim)">
+                  <blockquote class="note note--sm">{wa014.biologistNote}</blockquote>
+                </BcnKeyValue>
+                <div class="disc-panel__foot">
+                  <EsaButton color="ghost" appearance="outline" size="sm">Edit biological review</EsaButton>
+                </div>
+              </section>
+
+              <!-- Cultural — not reviewed -->
+              <section class="disc-panel" data-panel="cultural" hidden>
+                <div class="disc-panel__head">
+                  <span class="unreviewed">Not reviewed</span>
+                </div>
+                <p class="empty">No cultural resources review has been recorded for this work area.</p>
+                <div class="disc-panel__foot">
+                  <EsaButton color="ghost" appearance="outline" size="sm">Add review</EsaButton>
+                  <EsaButton color="ghost" appearance="outline" size="sm">Mark no review required</EsaButton>
+                </div>
+              </section>
+
+              <!-- Noise — review scheduled -->
+              <section class="disc-panel" data-panel="noise" hidden>
+                <div class="disc-panel__head">
+                  <BcnStatusChip status={g014noise.status} label={meta(g014noise.status).label} hex={meta(g014noise.status).hex} />
+                  <span class="disc-panel__when">
+                    Review scheduled {formatDate(g014noise.reviewDate)} (in {daysUntil(g014noise.reviewDate!)} days)
+                  </span>
+                </div>
+                <BcnKeyValue label="Reviewer" value="Not assigned" />
+                <BcnKeyValue label="Determination note"><span class="kv-text">{g014noise.note}</span></BcnKeyValue>
+                <BcnKeyValue label="Survey record" value="No noise survey on record" />
+                <div class="disc-panel__foot">
+                  <EsaButton color="ghost" appearance="outline" size="sm">Edit noise review</EsaButton>
+                </div>
+              </section>
+
+              <!-- Geology — review scheduled (default panel: the next pending review) -->
+              <section class="disc-panel" data-panel="geology">
+                <div class="disc-panel__head">
+                  <BcnStatusChip status={g014geo.status} label={meta(g014geo.status).label} hex={meta(g014geo.status).hex} />
+                  <span class="disc-panel__when">
+                    Review scheduled {formatDate(g014geo.reviewDate)} (in {daysUntil(g014geo.reviewDate!)} days)
+                  </span>
+                </div>
+                <BcnKeyValue label="Reviewer" value="Not assigned" />
+                <BcnKeyValue label="Determination note"><span class="kv-text">{g014geo.note}</span></BcnKeyValue>
+                <BcnKeyValue label="Survey record" value="No geology survey on record" />
+                <p class="disc-panel__warn">
+                  <EsaIcon name="alert-triangle" size="sm" paths={ALERT} />
+                  This review lands one day after the planned start ({formatDate(wa014.plannedStartDate)}).
+                </p>
+                <div class="disc-panel__foot">
+                  <EsaButton color="ghost" appearance="outline" size="sm">Edit geology review</EsaButton>
+                </div>
+              </section>
+            </div>
+            <footer class="drawer__foot">
+              <EsaButton color="ghost" appearance="outline" size="md">Edit site details</EsaButton>
+            </footer>
+          </article>
+        </figure>
+      </section>
+
+      <!-- ═══════════════════ Concept 3 — Lifecycle / checklist ═══════════════════ -->
+      <section class="concept" aria-labelledby="c3-name">
+        <header class="concept__thesis">
+          <h3 class="concept__name" id="c3-name"><span class="concept__num">3</span>Lifecycle / checklist</h3>
+          <p class="concept__line">
+            The work area is a pipeline — Notification → Survey → Determinations → Outcome → Work start — and
+            every fact, conflict and edit lives at its step.
+          </p>
+          <div class="concept__pt">
+            <p class="concept__pt-label">Prioritizes</p>
+            <ul>
+              <li>Temporal clarity: where are we, what's next, what's late — dates on every step</li>
+              <li>Conflicts surface where they belong: the buffer conflict at Determinations, the
+                start-before-review clash at Work start</li>
+              <li>Inline edits at the step — no separate edit mode</li>
+            </ul>
+            <p class="concept__pt-label">Trades away</p>
+            <ul>
+              <li>Dense at-a-glance status across disciplines; the pipeline runs tall</li>
+            </ul>
+          </div>
+        </header>
+
+        <!-- Case A: DCRDS-DH-184 -->
+        <figure class="mockup">
+          <figcaption class="mockup__case">
+            DCRDS-DH-184 · the conflict jumped the queue — Determinations is live before the survey happens.
+          </figcaption>
+          <article class="drawer">
+            <header class="drawer__head">
+              <div class="drawer__headrow">
+                <h3 class="drawer__title">{wa184.id}</h3>
+                <BcnStatusChip status={st184} label={meta(st184).label} hex={meta(st184).hex} />
+              </div>
+              <p class="drawer__sub">{wa184.segment} · {wa184.constructionPackage}</p>
+            </header>
+            <div class="drawer__body">
+              <ol class="steps">
+                <li class="step" data-state="done">
+                  <span class="step__dot"></span>
+                  <div class="step__content">
+                    <p class="step__title">Notification <span class="step__when">{formatDate(wa184.notificationDate)}</span></p>
+                    <p class="step__text">30-day landowner notification sent.</p>
+                  </div>
+                </li>
+                <li class="step" data-state="scheduled">
+                  <span class="step__dot"></span>
+                  <div class="step__content">
+                    <p class="step__title">
+                      Clearance survey
+                      <span class="step__when">scheduled {formatDate(wa184.clearanceVisitDate)}</span>
+                    </p>
+                    <p class="step__text">Biological clearance visit in {daysUntil(wa184.clearanceVisitDate!)} days.</p>
+                  </div>
+                </li>
+                <li class="step" data-state="live-red">
+                  <span class="step__dot"></span>
+                  <div class="step__content">
+                    <p class="step__title">Determinations <span class="step__when">decision needed now</span></p>
+                    <ul class="check">
+                      {
+                        cells(wa184).map(({ label, gate }) => (
+                          <li class="check__row">
+                            <span
+                              class="check__dot"
+                              data-none={gate ? undefined : 'true'}
+                              style={gate ? `background:var(${meta(gate.status).colorVar}, ${meta(gate.status).hex});` : undefined}
+                            />
+                            <span class="check__dim">{label}</span>
+                            <span class="check__state">{gate ? gateWhen(gate) : 'Not reviewed'}</span>
+                          </li>
+                        ))
+                      }
+                    </ul>
+                    <div class="action action--provisional action--instep">
+                      <p class="action__text">
+                        <strong>Buffer conflict — needs a manager decision.</strong> Inside the {swha.species}
+                        ½-mile buffer ({swha.id}), {swhaDist.toLocaleString()} ft from the nest · est. end
+                        {formatDate(swha.estEndDate)}.
+                      </p>
+                      <div class="action__btns">
+                        <EsaButton color="primary" size="sm">Confirm block</EsaButton>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="step" data-state="future">
+                  <span class="step__dot"></span>
+                  <div class="step__content">
+                    <p class="step__title">Cleared / Blocked</p>
+                    <p class="step__text">
+                      Projected: Blocked through {formatDate(until184)} (est. {daysUntil(until184)} more days)
+                      once the block is confirmed.
+                    </p>
+                  </div>
+                </li>
+                <li class="step" data-state="future">
+                  <span class="step__dot"></span>
+                  <div class="step__content">
+                    <p class="step__title">
+                      Work start
+                      <span class="step__when">planned {formatDate(wa184.plannedStartDate)}</span>
+                    </p>
+                    <p class="step__flag">
+                      <EsaIcon name="alert-triangle" size="sm" paths={ALERT} />
+                      Inside the buffer window — if the block is confirmed, the start slips past
+                      {formatDate(until184)}.
+                    </p>
+                  </div>
+                </li>
+              </ol>
+            </div>
+          </article>
+        </figure>
+
+        <!-- Case B: DCRAI-DH-014 -->
+        <figure class="mockup">
+          <figcaption class="mockup__case">
+            DCRAI-DH-014 · determinations are the live step; the start-before-review clash is flagged at Work start.
+          </figcaption>
+          <article class="drawer">
+            <header class="drawer__head">
+              <div class="drawer__headrow">
+                <h3 class="drawer__title">{wa014.id}</h3>
+                <BcnStatusChip status={st014} label={meta(st014).label} hex={meta(st014).hex} />
+              </div>
+              <p class="drawer__sub">{wa014.segment} · {wa014.constructionPackage}</p>
+            </header>
+            <div class="drawer__body">
+              <ol class="steps">
+                <li class="step" data-state="future">
+                  <span class="step__dot"></span>
+                  <div class="step__content">
+                    <p class="step__title">Notification <span class="step__when">not on record</span></p>
+                    <p class="step__text">No 30-day landowner notification recorded.</p>
+                    <div class="step__act">
+                      <EsaButton color="ghost" appearance="outline" size="sm">Record notification</EsaButton>
+                    </div>
+                  </div>
+                </li>
+                <li class="step" data-state="done">
+                  <span class="step__dot"></span>
+                  <div class="step__content">
+                    <p class="step__title">
+                      Clearance survey <span class="step__when">{formatDate(g014bio.reviewDate)}</span>
+                    </p>
+                    <p class="step__text">
+                      <a class="survey__link" href="#" onclick="return false">
+                        Pre-construction clearance survey · {formatDate(g014bio.reviewDate)} · {g014bio.reviewer}
+                      </a>
+                    </p>
+                  </div>
+                </li>
+                <li class="step" data-state="live">
+                  <span class="step__dot"></span>
+                  <div class="step__content">
+                    <p class="step__title">Determinations <span class="step__when">2 reviews pending</span></p>
+                    <ul class="check">
+                      <li class="check__row">
+                        <span class="check__dot" style={`background:var(${meta(g014bio.status).colorVar}, ${meta(g014bio.status).hex});`}></span>
+                        <span class="check__dim">Biological</span>
+                        <span class="check__state">Cleared · {gateWhen(g014bio)}</span>
+                      </li>
+                      <li class="check__row">
+                        <span class="check__dot" style={`background:var(${meta(g014geo.status).colorVar}, ${meta(g014geo.status).hex});`}></span>
+                        <span class="check__dim">Geology</span>
+                        <span class="check__state">{gateWhen(g014geo)} — site relocated</span>
+                      </li>
+                      <li class="check__row">
+                        <span class="check__dot" style={`background:var(${meta(g014noise.status).colorVar}, ${meta(g014noise.status).hex});`}></span>
+                        <span class="check__dim">Noise</span>
+                        <span class="check__state">{gateWhen(g014noise)}</span>
+                      </li>
+                      <li class="check__row">
+                        <span class="check__dot" data-none="true"></span>
+                        <span class="check__dim">Cultural Resources</span>
+                        <span class="check__act"><EsaButton color="ghost" appearance="outline" size="sm">Add review</EsaButton></span>
+                        <span class="check__state">Not reviewed</span>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="step" data-state="future">
+                  <span class="step__dot"></span>
+                  <div class="step__content">
+                    <p class="step__title">Cleared / Blocked</p>
+                    <p class="step__text">Pending 2 scheduled reviews and 1 unreviewed discipline.</p>
+                  </div>
+                </li>
+                <li class="step" data-state="future">
+                  <span class="step__dot"></span>
+                  <div class="step__content">
+                    <p class="step__title">
+                      Work start
+                      <span class="step__when">planned {formatDate(wa014.plannedStartDate)}</span>
+                    </p>
+                    <p class="step__flag">
+                      <EsaIcon name="alert-triangle" size="sm" paths={ALERT} />
+                      Lands before geology ({formatDate(g014geo.reviewDate)}) and noise
+                      ({formatDate(g014noise.reviewDate)}) — move the start or expedite the reviews.
+                    </p>
+                    <div class="step__act">
+                      <EsaButton color="ghost" appearance="outline" size="sm">Edit planned start</EsaButton>
+                    </div>
+                  </div>
+                </li>
+              </ol>
+            </div>
+          </article>
+        </figure>
+      </section>
+    </div>
+    </section>
+  </main>
+
+  <script>
+    // Concept 2's discipline switcher — the specimen's only interactivity.
+    for (const host of document.querySelectorAll<HTMLElement>('[data-workspace]')) {
+      host.addEventListener('click', (e) => {
+        const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[role="tab"][data-dim]');
+        if (!btn || !host.contains(btn)) return;
+        const dim = btn.dataset.dim;
+        for (const tab of host.querySelectorAll<HTMLElement>('[role="tab"][data-dim]'))
+          tab.setAttribute('aria-selected', String(tab === btn));
+        for (const panel of host.querySelectorAll<HTMLElement>('[data-panel]'))
+          panel.hidden = panel.dataset.panel !== dim;
+      });
+    }
+  </script>
+
+  <style>
+    :global(body) {
+      background: var(--color-background);
+    }
+
+    /* ═══ Page frame ═══ */
+    .spec {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: var(--spacing-700) var(--spacing-500) var(--spacing-800);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-700);
+    }
+    .spec__head {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-300);
+    }
+    .spec__title {
+      margin: 0;
+      font-family: var(--font-decorative);
+      font-size: 2rem;
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+    }
+    .spec__intro {
+      margin: 0;
+      max-width: 86ch;
+      font-size: var(--type-size-200, 1rem);
+      line-height: 1.6;
+      color: var(--color-text-secondary);
+    }
+    .spec__intro strong {
+      color: var(--color-text-primary);
+      font-weight: var(--font-weight-semibold);
+    }
+
+    /* ═══ v2 deep dive ═══ */
+    .v2 {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-500);
+    }
+    .v2__head {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-300);
+    }
+    .v2__title {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+    }
+    .v2__changes {
+      margin: 0;
+      padding-left: 1.25rem;
+      max-width: 86ch;
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-200);
+    }
+    .v2__changes li {
+      font-size: 1rem;
+      line-height: 1.55;
+      color: var(--color-text-secondary);
+    }
+    .v2__changes strong {
+      color: var(--color-text-primary);
+      font-weight: var(--font-weight-semibold);
+    }
+    .v2__pair {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: var(--spacing-500);
+      align-items: start;
+      max-width: 1000px;
+    }
+    .v2__pair .mockup {
+      max-width: 460px;
+      width: 100%;
+      justify-self: center;
+    }
+    .v2__sub {
+      margin: var(--spacing-300) 0 0;
+      font-size: 1.1875rem;
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+    }
+
+    /* Date band — always-visible decision inputs directly under the header
+       (BcnKeyValue grid promoted out of its round-1 collapsible). */
+    .band {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--spacing-200) var(--spacing-300);
+      padding: var(--spacing-250) var(--spacing-400);
+      background: var(--color-background);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .band--4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .band__alert {
+      font-size: var(--form-font-size-md);
+      font-weight: var(--font-weight-semibold);
+      color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+    }
+
+    /* The decision block — reads in ~2 seconds, in TWO rows: the fact line
+       gets the full width (no wrap-squeeze), the compact action sits
+       right-aligned below it. --prov = the slim confirm (obs ID badge + fact);
+       --blocked = the confirmed-block statement line (no action). */
+    .decide {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-200);
+      padding: var(--spacing-250) var(--spacing-300);
+      border-radius: var(--radius-200);
+      background: var(--color-background);
+      border: 1px solid var(--color-border);
+    }
+    .decide--prov {
+      background: color-mix(in srgb, var(--st-provisional-block) 6%, transparent);
+      border-color: color-mix(in srgb, var(--st-provisional-block) 45%, transparent);
+      /* Confirm block is the serious action — esa-button's own danger variant,
+         re-pointed from the hub's #ef4444 to the page's committed status red
+         so button, border, and ink stay one red family. */
+      --color-danger: var(--st-provisional-block);
+    }
+    .decide--blocked {
+      background: color-mix(in srgb, var(--st-blocked) 10%, transparent);
+      border-color: color-mix(in srgb, var(--st-blocked) 30%, transparent);
+    }
+    .decide__line {
+      margin: 0;
+      font-size: 0.9375rem;
+      font-weight: var(--font-weight-semibold);
+      line-height: 1.45;
+      color: var(--color-text-primary);
+    }
+    /* Row 1 of the slim confirm: badge + fact, full width, wraps freely. */
+    .decide__line--fact {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--spacing-250);
+    }
+    /* Row 2: the compact action, right-aligned. */
+    .decide__actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: var(--spacing-200);
+    }
+    .decide--prov .decide__line {
+      color: color-mix(in srgb, var(--st-provisional-block) 72%, #1a1a1a);
+    }
+    .decide--blocked .decide__line {
+      color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+    }
+    .obs-id {
+      flex-shrink: 0;
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      padding: 1px var(--spacing-200);
+      border-radius: var(--radius-100);
+      background: var(--color-surface);
+      border: 1px solid color-mix(in srgb, var(--st-provisional-block) 45%, transparent);
+      color: color-mix(in srgb, var(--st-provisional-block) 72%, #1a1a1a);
+      white-space: nowrap;
+    }
+    .decide__row {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-250);
+    }
+    .decide__row--warn :global(.esa-icon) {
+      flex-shrink: 0;
+      color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+    }
+    .decide__warntext {
+      flex: 1;
+      min-width: 0;
+      font-size: 0.875rem;
+      font-weight: var(--font-weight-semibold);
+      line-height: 1.45;
+      color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+    }
+
+    /* v2 board cells are BUTTONS — each opens its discipline's child drawer. */
+    .board__cell--btn {
+      width: 100%;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+      border: 1px solid var(--color-border-light);
+      background: var(--color-surface);
+      transition: border-color 120ms ease, background 120ms ease;
+    }
+    .board__cell--btn:hover {
+      border-color: var(--color-border-strong);
+      background: var(--grid-row-bg-hover, var(--color-background));
+    }
+    .board__cell--btn[data-active] {
+      border-color: var(--color-primary);
+      box-shadow: inset 0 0 0 1px var(--color-primary);
+      background: var(--color-primary-subtle);
+    }
+    .board__cellhead {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-150);
+      width: 100%;
+    }
+    .board__cellhead .board__dim {
+      flex: 1;
+      min-width: 0;
+    }
+    .board__chev {
+      display: inline-flex;
+      color: var(--color-text-tertiary);
+    }
+
+    /* ═══ The parent → child drawer stack (static depiction of esa-side-dialog
+       stacking: under card inset + dimmed, top card elevated, no double dim) ═══ */
+    .stack {
+      position: relative;
+      width: 100%;
+      max-width: 540px;
+    }
+    .stack__parent {
+      position: relative;
+      width: calc(100% - 72px);
+    }
+    .stack__parent::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: var(--radius-300);
+      background: rgba(13, 17, 20, 0.22);
+      z-index: 4;
+      pointer-events: none;
+    }
+    .stack__child {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: calc(100% - 72px);
+      display: flex;
+      flex-direction: column;
+      box-shadow: -16px 0 40px rgba(0, 0, 0, 0.22);
+      z-index: 5;
+    }
+    .stack__child .drawer__body {
+      flex: 1;
+    }
+    .drawer__close {
+      margin-left: auto;
+      color: var(--color-text-secondary);
+    }
+
+    /* Child drawer — review history */
+    .child__bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--spacing-300);
+    }
+    .child__count {
+      font-size: 0.9375rem;
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+    }
+    .revs {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .rev {
+      position: relative;
+      display: grid;
+      grid-template-columns: 16px 1fr;
+      column-gap: var(--spacing-250);
+      padding-bottom: var(--spacing-400);
+    }
+    .rev:last-child {
+      padding-bottom: 0;
+    }
+    /* History rail — same node-on-rail vocabulary as the change log. */
+    .rev:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 20px;
+      bottom: 2px;
+      width: 2px;
+      background: var(--color-border);
+    }
+    .rev__dot {
+      width: 16px;
+      height: 16px;
+      border-radius: var(--radius-full);
+      margin-top: 2px;
+      z-index: 1;
+      background: var(--color-surface);
+      border: 2px solid var(--color-border-strong);
+    }
+    .rev[data-kind='scheduled'] .rev__dot {
+      border-color: var(--st-survey-scheduled);
+    }
+    .rev[data-kind='blocked'] .rev__dot {
+      background: var(--st-blocked);
+      border-color: var(--st-blocked);
+    }
+    .rev__main {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-150);
+      min-width: 0;
+    }
+    .rev__head {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: var(--spacing-200);
+      margin: 0;
+      font-size: 1rem;
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+    }
+    .rev__when {
+      font-size: 0.875rem;
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-secondary);
+    }
+    .rev__chiprow {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--spacing-200);
+    }
+    .rev__until {
+      font-size: 0.875rem;
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-secondary);
+    }
+    .rev__current {
+      display: inline-flex;
+      align-items: center;
+      padding: 1px var(--spacing-200);
+      border-radius: var(--radius-full);
+      background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+      border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+      font-size: 0.75rem;
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-primary);
+      white-space: nowrap;
+    }
+    .rev__note {
+      margin: 0;
+      font-size: 0.9375rem;
+      line-height: 1.55;
+      color: var(--color-text-secondary);
+    }
+
+    /* Data-model note */
+    .model-note {
+      max-width: 86ch;
+      padding: var(--spacing-400) var(--spacing-500);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-300);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-200);
+    }
+    .model-note__title {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+    }
+    .model-note__text {
+      margin: 0;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      color: var(--color-text-secondary);
+    }
+    .model-note__text code {
+      font-family: var(--font-mono);
+      font-size: 0.875em;
+      padding: 1px 5px;
+      border-radius: var(--radius-100);
+      background: var(--color-background);
+      border: 1px solid var(--color-border-light);
+    }
+    .model-note__text strong {
+      color: var(--color-text-primary);
+      font-weight: var(--font-weight-semibold);
+    }
+
+    /* ═══ Round 1 (reference) ═══ */
+    .round1 {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-500);
+      padding-top: var(--spacing-600);
+      border-top: 1px solid var(--color-border);
+    }
+    .round1__head {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-200);
+    }
+    .round1__title {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+    }
+    .round1__line {
+      margin: 0;
+      max-width: 86ch;
+      font-size: 1rem;
+      line-height: 1.55;
+      color: var(--color-text-secondary);
+    }
+
+    /* ═══ Concept columns ═══ */
+    .concepts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: var(--spacing-700) var(--spacing-500);
+      align-items: start;
+    }
+    .concept {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-400);
+      max-width: 460px;
+      width: 100%;
+      justify-self: center;
+    }
+    .concept__thesis {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-250);
+    }
+    .concept__name {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-250);
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+    }
+    .concept__num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-full);
+      background: var(--color-primary);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: var(--font-weight-semibold);
+      flex-shrink: 0;
+    }
+    .concept__line {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+    }
+    .concept__pt {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-100);
+    }
+    .concept__pt-label {
+      margin: var(--spacing-150) 0 0;
+      font-size: 0.9375rem;
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+    }
+    .concept__pt ul {
+      margin: 0;
+      padding-left: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-100);
+    }
+    .concept__pt li {
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+    }
+
+    /* ═══ Mockup framing ═══ */
+    .mockup {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-200);
+    }
+    .mockup__case {
+      font-size: 0.875rem;
+      font-weight: var(--font-weight-semibold);
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+    }
+
+    /* ═══ Drawer shell (static stand-in for esa-side-dialog) ═══ */
+    .drawer {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-300);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    .drawer__head {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: var(--spacing-400);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .drawer__headrow {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-300);
+    }
+    .drawer__title {
+      margin: 0;
+      font-size: var(--type-size-400);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+    }
+    .drawer__sub {
+      margin: 0;
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+    }
+    .drawer__body {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-400);
+      padding: var(--spacing-400);
+    }
+    .drawer__foot {
+      display: flex;
+      justify-content: flex-end;
+      gap: var(--spacing-200);
+      padding: var(--spacing-300) var(--spacing-400);
+      border-top: 1px solid var(--color-border);
+      background: var(--color-surface);
+    }
+    .drawer__section {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-200);
+      margin: 0 0 var(--spacing-300);
+      font-size: 0.9375rem;
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+    }
+    .drawer__section :global(.esa-icon) {
+      flex-shrink: 0;
+      color: var(--color-text-secondary);
+    }
+    .drawer__more {
+      display: flex;
+      flex-direction: column;
+    }
+    .drawer__more :global(.esa-collapsible + .esa-collapsible) {
+      border-top: 1px solid var(--color-border-light);
+    }
+
+    /* Provisional-block chips — the OUTLINED-red hollow variant (the live page's
+       committed idiom: white fill + red ring + hollow dot). */
+    :global(.bcn-status-chip[data-status='provisional-block']) {
+      background: var(--color-surface);
+      box-shadow: inset 0 0 0 1.5px var(--st-provisional-block);
+    }
+    :global(.bcn-status-chip[data-status='provisional-block'] .bcn-status-chip__dot) {
+      background: var(--color-surface);
+      box-shadow: inset 0 0 0 1.5px var(--st-provisional-block);
+    }
+
+    /* "Not reviewed" — the hollow dashed chip idiom (an unknown, not a status). */
+    .unreviewed {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px var(--spacing-250);
+      border: 1px dashed var(--color-border-strong);
+      border-radius: var(--radius-full);
+      font-size: var(--type-size-100);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-tertiary);
+      white-space: nowrap;
+    }
+
+    /* ═══ Concept 1 — action block + status board ═══ */
+    .action {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-250);
+      padding: var(--spacing-400);
+      border-radius: var(--radius-300);
+      background: var(--color-background);
+      border: 1px solid var(--color-border);
+    }
+    .action--provisional {
+      background: color-mix(in srgb, var(--st-provisional-block) 6%, transparent);
+      border: 1px solid color-mix(in srgb, var(--st-provisional-block) 45%, transparent);
+    }
+    .action--instep {
+      padding: var(--spacing-300);
+      margin-top: var(--spacing-250);
+    }
+    .action__title {
+      margin: 0;
+      font-size: 1.0625rem;
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+    }
+    .action--provisional .action__title {
+      color: color-mix(in srgb, var(--st-provisional-block) 72%, #1a1a1a);
+    }
+    .action__text {
+      margin: 0;
+      font-size: 0.9375rem;
+      line-height: 1.55;
+      color: var(--color-text-secondary);
+    }
+    .action__text strong {
+      color: color-mix(in srgb, var(--st-provisional-block) 72%, #1a1a1a);
+      font-weight: var(--font-weight-semibold);
+    }
+    .action__facts {
+      margin: 0;
+      font-size: 0.875rem;
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-secondary);
+    }
+    .action__conflict {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--spacing-150);
+      margin: 0;
+      font-size: 0.9375rem;
+      font-weight: var(--font-weight-semibold);
+      line-height: 1.45;
+      color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+    }
+    .action__conflict :global(.esa-icon) {
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .action__btns {
+      display: flex;
+      gap: var(--spacing-200);
+      margin-top: var(--spacing-100);
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-200);
+    }
+    .board__cell {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--spacing-150);
+      padding: var(--spacing-250) var(--spacing-300);
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-200);
+      background: var(--color-surface);
+    }
+    .board__dim {
+      font-size: 0.875rem;
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+    }
+    .board__meta {
+      font-size: 0.8125rem;
+      color: var(--color-text-tertiary);
+    }
+
+    /* ═══ Shared row idioms (conflict / survey / note / dates / empty) ═══ */
+    .rows {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-200);
+    }
+    .conflict {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--spacing-300);
+      padding: var(--spacing-250) var(--spacing-300);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-300);
+    }
+    .conflict__main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+      flex: 1;
+      font-size: 0.9375rem;
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+    }
+    .conflict__meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+      font-size: 0.875rem;
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+      white-space: nowrap;
+    }
+    .conflict__sub {
+      font-size: 0.8125rem;
+      font-weight: var(--font-weight-regular);
+      color: var(--color-text-tertiary);
+    }
+    .survey {
+      padding: var(--spacing-100) 0;
+    }
+    .survey__link {
+      font-size: 0.9375rem;
+      font-weight: var(--font-weight-medium);
+      color: var(--color-secondary);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .survey__link:hover {
+      color: var(--color-secondary-hover);
+      text-decoration: underline;
+    }
+    .note {
+      margin: 0;
+      padding: var(--spacing-300) var(--spacing-400);
+      background: var(--color-background);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-300);
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--color-text-secondary);
+      white-space: pre-line;
+    }
+    .note--sm {
+      font-size: 0.9375rem;
+      padding: var(--spacing-250) var(--spacing-300);
+    }
+    .dates {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--spacing-300) var(--spacing-400);
+    }
+    .empty {
+      margin: 0;
+      font-size: 0.875rem;
+      color: var(--color-text-tertiary);
+    }
+    .kv-text {
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+    }
+
+    /* ═══ Concept 2 — rollup strip + discipline switcher + panel ═══ */
+    .strip {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-250);
+      padding: var(--spacing-250) var(--spacing-300);
+      background: var(--color-background);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-200);
+    }
+    .strip :global(.esa-icon) {
+      flex-shrink: 0;
+      color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+    }
+    .strip__text {
+      font-size: 0.875rem;
+      line-height: 1.45;
+      color: var(--color-text-secondary);
+    }
+    .strip__text strong {
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+    }
+
+    .disc-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--spacing-150);
+    }
+    .disc-tabs [role='tab'] {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--spacing-100);
+      padding: var(--spacing-200) var(--spacing-100);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-200);
+      background: var(--color-surface);
+      font-family: inherit;
+      cursor: pointer;
+      transition: border-color 120ms ease, background 120ms ease;
+    }
+    .disc-tabs [role='tab']:hover {
+      border-color: var(--color-border-strong);
+    }
+    .disc-tabs [role='tab'][aria-selected='true'] {
+      border-color: var(--color-primary);
+      background: var(--color-primary-subtle);
+      box-shadow: inset 0 0 0 1px var(--color-primary);
+    }
+    .disc-tabs__dot {
+      width: 10px;
+      height: 10px;
+      border-radius: var(--radius-full);
+      flex-shrink: 0;
+    }
+    .disc-tabs__dot[data-none='true'] {
+      background: var(--color-surface);
+      border: 1px dashed var(--color-border-strong);
+    }
+    .disc-tabs__label {
+      font-size: 0.875rem;
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-primary);
+    }
+
+    .disc-panel {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-300);
+      padding: var(--spacing-400);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-300);
+      background: var(--color-surface);
+    }
+    .disc-panel[hidden] {
+      display: none;
+    }
+    .disc-panel__head {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-300);
+    }
+    .disc-panel__when {
+      font-size: 0.875rem;
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-secondary);
+    }
+    .disc-panel__warn {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--spacing-150);
+      margin: 0;
+      font-size: 0.875rem;
+      font-weight: var(--font-weight-semibold);
+      line-height: 1.45;
+      color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+    }
+    .disc-panel__warn :global(.esa-icon) {
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .disc-panel__foot {
+      display: flex;
+      gap: var(--spacing-200);
+      margin-top: var(--spacing-100);
+    }
+
+    /* ═══ Concept 3 — lifecycle stepper ═══ */
+    .steps {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .step {
+      position: relative;
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      column-gap: var(--spacing-300);
+      padding-bottom: var(--spacing-400);
+    }
+    .step:last-child {
+      padding-bottom: 0;
+    }
+    /* The rail — a progression line between step nodes (timeline vocabulary,
+       not a status border). */
+    .step:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: 11px;
+      top: 28px;
+      bottom: 4px;
+      width: 2px;
+      background: var(--color-border);
+    }
+    .step__dot {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: var(--radius-full);
+      background: var(--color-surface);
+      border: 2px solid var(--color-border-strong);
+      margin-top: 0;
+      z-index: 1;
+    }
+    .step[data-state='done'] .step__dot {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+    }
+    .step[data-state='done'] .step__dot::after {
+      content: '';
+      width: 9px;
+      height: 5px;
+      border-left: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+      transform: rotate(-45deg);
+      margin-top: -2px;
+    }
+    .step[data-state='scheduled'] .step__dot {
+      border-color: var(--st-survey-scheduled);
+    }
+    .step[data-state='live'] .step__dot {
+      border-color: var(--st-survey-scheduled);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--st-survey-scheduled) 22%, transparent);
+    }
+    .step[data-state='live'] .step__dot::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-full);
+      background: var(--st-survey-scheduled);
+    }
+    .step[data-state='live-red'] .step__dot {
+      border-color: var(--st-provisional-block);
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--st-provisional-block) 18%, transparent);
+    }
+    .step[data-state='live-red'] .step__dot::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-full);
+      background: var(--st-provisional-block);
+    }
+    .step[data-state='future'] .step__dot {
+      border-style: dashed;
+      border-color: var(--color-border-strong);
+    }
+    .step__content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-150);
+      min-width: 0;
+      padding-top: 2px;
+    }
+    .step__title {
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: var(--spacing-200);
+      margin: 0;
+      font-size: 1rem;
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+    }
+    .step__when {
+      font-size: 0.875rem;
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-secondary);
+    }
+    .step[data-state='live-red'] .step__when {
+      color: color-mix(in srgb, var(--st-provisional-block) 72%, #1a1a1a);
+    }
+    .step__text {
+      margin: 0;
+      font-size: 0.9375rem;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+    }
+    .step__flag {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--spacing-150);
+      margin: 0;
+      font-size: 0.9375rem;
+      font-weight: var(--font-weight-semibold);
+      line-height: 1.45;
+      color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+    }
+    .step__flag :global(.esa-icon) {
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step__act {
+      display: flex;
+      gap: var(--spacing-200);
+      margin-top: var(--spacing-100);
+    }
+
+    /* Determinations checklist — per-discipline sub-items */
+    .check {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .check__row {
+      display: grid;
+      grid-template-columns: 12px 1fr auto;
+      column-gap: var(--spacing-250);
+      row-gap: 2px;
+      align-items: center;
+      padding: var(--spacing-200) 0;
+    }
+    .check__row + .check__row {
+      border-top: 1px solid var(--color-border-light);
+    }
+    .check__dot {
+      width: 10px;
+      height: 10px;
+      border-radius: var(--radius-full);
+      justify-self: center;
+    }
+    .check__dot[data-none='true'] {
+      background: var(--color-surface);
+      border: 1px dashed var(--color-border-strong);
+    }
+    .check__dim {
+      font-size: 0.9375rem;
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+    }
+    .check__state {
+      grid-column: 2 / -1;
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+    }
+    .check__act {
+      grid-row: 1;
+      grid-column: 3;
+    }
+
+    /* ═══ Evaluation footer ═══ */
+    .evaluate {
+      max-width: 86ch;
+      padding: var(--spacing-500);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-300);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-300);
+    }
+    .evaluate__title {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+    }
+    .evaluate__list {
+      margin: 0;
+      padding-left: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-250);
+    }
+    .evaluate__list li {
+      font-size: 1rem;
+      line-height: 1.55;
+      color: var(--color-text-secondary);
+    }
+  </style>
+</BaseLayout>

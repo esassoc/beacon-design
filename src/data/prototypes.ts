@@ -135,4 +135,30 @@ export const prototypeGroups: PrototypeGroup[] = [
       },
     ],
   },
+  {
+    slug: 'site-clearance',
+    title: 'Site Clearance',
+    description:
+      'Monitoring Portal decision support — clearance surveys + observation buffers derive a go/no-go status per work area (map-first), with the clearance drawer as the write surface.',
+    pages: [
+      {
+        slug: 'site-clearance',
+        title: 'Site Clearance',
+        description:
+          'Map tab: 231 work areas colored by derived clearance status (zoom-adaptive markers), observation buffers, view presets (All/Cleared/Blocked/Scheduled/Unscheduled) + Status/Planned-start filters, readiness strip. Data tab: Work Areas × Observations grids. Timeline tab: Work starts / Clearance visits / Blocks-lift swimlanes on one TODAY-marked axis. Activity tab: date-grouped feed + Upcoming sidebar. Work-area drawer is the approved Decision-first v2: always-visible dates band, 2-second decision block (Confirm block on provisionals), 2×2 disciplines board whose cells open a STACKED discipline drawer with the full review history — clearance surveys, re-surveys, management determinations; the latest completed review sets each discipline status, scheduled reviews ride the history — plus add/edit review forms that re-derive and repaint everywhere on save.',
+        route: '/prototypes/site-clearance',
+        createdAt: '2026-06-11',
+        status: 'in-progress',
+      },
+      {
+        slug: 'work-area-drawer-specimen',
+        title: 'Work Area drawer — 3 structure options (specimen)',
+        description:
+          'Decision-first v2 deep dive (client-selected): always-visible date band, 2-second confirm line, discipline cells opening a stacked child drawer with per-discipline review history (June → September re-survey) — round-1 three-option exploration kept below as reference.',
+        route: '/prototypes/work-area-drawer-specimen',
+        createdAt: '2026-06-11',
+        status: 'in-progress',
+      },
+    ],
+  },
 ];
