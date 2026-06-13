@@ -67,7 +67,15 @@ in the spoke).
 
 ---
 
-## 3. Status
+## 3. Hub gaps discovered (file upstream)
+
+| Gap | Where it bit | Proposed fix |
+|---|---|---|
+| **`esa-icon-button` can't forward custom Lucide `paths`.** The lego renders `<EsaIcon name={icon} size={size} />` with no `paths` prop, so any glyph outside esa-icon's built-in registry renders blank. | `AppShell.astro` top bar — the **ESA-Config** control uses `sliders-horizontal` (not in the registry), so it can't be swapped to `<EsaIconButton>` and stays hand-rolled (`.icon-button`). Search + Admin (registry glyphs) swapped fine. | Add a `paths?: string` prop to `esa-icon-button` that forwards to its inner `EsaIcon` — OR add `sliders-horizontal` to esa-icon's registry. Either closes it. |
+
+---
+
+## 4. Status
 
 - [x] Spoke scaffolded (config, base, BaseLayout, theme, prototypes registry).
 - [x] `theme-beacon.css` re-points the token deltas above.

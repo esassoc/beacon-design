@@ -15,6 +15,7 @@
 // panel are wired with a tiny inline script — no framework.
 import BaseLayout from './BaseLayout.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
 import { withBase } from '../lib/base';
 
 interface NavItem {
@@ -240,17 +241,16 @@ if (activeNavId) {
           )
         }
 
-        <button type="button" class="icon-button" aria-label="Search">
-          <EsaIcon name="search" size="md" />
-        </button>
+        <EsaIconButton icon="search" label="Search" size="md" />
 
+        {/* ESA-Config keeps the hand-rolled .icon-button: its glyph (sliders-horizontal)
+            is not in esa-icon's built-in registry, and esa-icon-button gives no way to
+            forward custom Lucide `paths`. See NEEDS.md. */}
         <a href="#esa-config" class="icon-button" aria-label="ESA-Config">
           <EsaIcon name="sliders-horizontal" size="md" paths={LUCIDE['sliders-horizontal']} />
         </a>
 
-        <a href="#admin" class="icon-button" aria-label="Admin settings">
-          <EsaIcon name="settings" size="md" />
-        </a>
+        <EsaIconButton icon="settings" label="Admin settings" size="md" href="#admin" />
 
         <div class="user-menu" id="user-menu">
           <button type="button" class="user-menu-trigger" id="user-menu-trigger" aria-label="User menu" aria-expanded="false">
@@ -536,6 +536,13 @@ if (activeNavId) {
   }
 
   /* Icon button */
+  /* esa-icon-button inherits currentColor; give the top-bar legos (Search, Admin)
+     their resting icon color via the zone. The hand-rolled .icon-button (ESA-Config)
+     reads the same semantic token below. */
+  .topbar__right :global(.esa-icon-button) {
+    color: var(--color-text-secondary);
+  }
+
   .icon-button {
     display: flex;
     align-items: center;
@@ -546,13 +553,13 @@ if (activeNavId) {
     border: none;
     border-radius: var(--spacing-050);
     background: transparent;
-    color: var(--bcn-gray-600);
+    color: var(--color-text-secondary);
     text-decoration: none;
     cursor: pointer;
     transition: background 150ms ease, color 150ms ease;
   }
   .icon-button:hover {
-    background: var(--bcn-gray-200);
+    background: var(--color-surface-sunken);
     color: var(--color-primary);
   }
   .icon-button--active {
