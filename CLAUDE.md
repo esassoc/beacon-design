@@ -59,7 +59,20 @@ The component-first skill, the hook, /spoke-init, and the pre-commit review all
 ship from the **spoke-kit plugin** (`ecology` marketplace, hosted in the hub repo
 `esassoc/ecology`). Nothing is copied into this repo: `.claude/settings.json`
 declares the marketplace and enables the plugin, and a SessionStart check warns
-if it's missing. To update: `claude plugin marketplace update ecology`.
+if it's missing.
+
+**To update (two steps + restart — the marketplace refresh alone is NOT enough):**
+
+```sh
+# 1. force-pull the marketplace checkout — `claude plugin marketplace update ecology`
+#    is TTL-cached and will report success WITHOUT re-pulling, leaving you stale.
+git -C ~/.claude/plugins/marketplaces/ecology pull --ff-only origin main
+# 2. materialize the new version into the plugin cache. spoke-kit is enabled in this
+#    repo's committed .claude/settings.json, so it is PROJECT-scoped — the default
+#    --scope user will fail with "not installed at scope user".
+claude plugin update spoke-kit@ecology --scope project
+# 3. restart Claude Code — the running session keeps the old skills/hooks until then.
+```
 
 - Skill: `component-first` (→ `lego-lookup.md`, `bcn-authoring.md`)
 - Hook: `check-component-first` (PreToolUse, from the plugin)
