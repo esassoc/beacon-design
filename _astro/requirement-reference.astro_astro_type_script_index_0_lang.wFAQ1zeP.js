@@ -1,0 +1,1 @@
+import"./esa-side-dialog.dYSTc6GU.js";import"./lit-element.C8p3bJxG.js";const e=document.getElementById("source-drawer");document.querySelectorAll("[data-bcn-source]").forEach(c=>c.addEventListener("click",()=>e.show()));document.getElementById("source-close")?.addEventListener("click",()=>e.close());
