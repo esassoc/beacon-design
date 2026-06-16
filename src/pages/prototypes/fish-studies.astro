@@ -1,0 +1,595 @@
+---
+// Fish Studies — the Science Plan workspace (DCP Covered Fish Species Monitoring).
+//
+// THE THESIS: the four documents the team maintains by hand today — a narrative
+// science plan, the crosswalk spreadsheet, the roles matrix, and the timeline memo
+// + gantt — are all PROJECTIONS of one COA-keyed dataset. This page is the index:
+// the SAME studies shown as a crosswalk GRID and as a water-year TIMELINE, with a
+// "Generate outputs" affordance that re-emits the source documents on demand.
+// Clicking a row (grid) or a bar (timeline) opens a side drawer to manage the
+// study's status + dates — a save repaints BOTH views (the AWS permit-tracking
+// editable-drawer pattern).
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIconLink from '@esa/ecology/esa-icon-link.astro';
+import FilterContainer from '@esa/ecology/esa-filter-container.astro';
+import FilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
+import BcnScheduleTimeline from '../../components/bcn/BcnScheduleTimeline.astro';
+import BcnStatusSelect from '../../components/bcn/BcnStatusSelect.astro';
+import { STUDIES } from '../../data/fish-studies';
+import { CATEGORY_META, PLAN_STATUS_META, EXEC_STATUS_META, PROJECT_NAME } from '../../data/fish-model';
+import { PHASE_META } from '../../data/fish-schedule';
+import { withBase } from '../../lib/base';
+
+const TODAY = '2026-06-15';
+const detailRoute = '/prototypes/fish-study';
+
+// flask-conical isn't in esa-icon's registry — pass the Lucide paths to the nav.
+const FLASK =
+  '<path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/>';
+
+// ── Grid payload (serialized to the client island) ──
+const gridRows = STUDIES.map((s) => ({
+  coaNumber: s.coaNumber,
+  name: s.name,
+  category: CATEGORY_META[s.category].short,
+  studyType: s.method ? `${s.studyProgram} — ${s.method}` : s.studyProgram,
+  dcpLead: s.dcpLead,
+  planStatus: s.planStatus,
+  execStatus: s.execStatus,
+  timeframe: s.timeframe,
+  comments: s.commentCount,
+  deliverables: s.deliverables.length,
+  phases: s.phases.map((p) => PHASE_META[p].short),
+  species: s.focalSpecies.map((f) => f.name),
+}));
+const gridPayload = {
+  rows: gridRows,
+  planMeta: PLAN_STATUS_META,
+  execMeta: EXEC_STATUS_META,
+  detailBase: withBase(detailRoute),
+};
+
+// ── Drawer payload (coa → editable record) ──
+const drawerData = Object.fromEntries(
+  STUDIES.map((s) => [
+    s.coaNumber,
+    { name: s.name, planStatus: s.planStatus, execStatus: s.execStatus, start: s.scheduleStart, end: s.scheduleEnd, planDue: s.planning.studyPlanDue ?? '' },
+  ]),
+);
+
+// Colored, ramp-ordered status options for the drawer's BcnStatusSelect controls.
+const planOpts = (Object.entries(PLAN_STATUS_META) as [string, { label: string; hex: string }][]).map(([value, m]) => ({ value, label: m.label, color: m.hex }));
+const execOpts = (Object.entries(EXEC_STATUS_META) as [string, { label: string; hex: string }][]).map(([value, m]) => ({ value, label: m.label, color: m.hex }));
+
+// ── Sidebar nav — the Science Plan module ──
+const fishNav = [
+  { id: 'project', title: 'Project', icon: 'layout-dashboard', iconPaths: '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>', expanded: false, items: [{ id: 'dashboard', label: 'Dashboard' }] },
+  {
+    id: 'studies', title: 'Studies', icon: 'flask-conical', iconPaths: FLASK, expanded: true, active: true, dividerAfter: true,
+    items: [{ id: 'science-plan', label: 'Science Plan', active: true }],
+  },
+  { id: 'tracking', title: 'Tracking', icon: 'radar', expanded: false, items: [{ id: 'project-tracking', label: 'Project Tracking' }] },
+  { id: 'monitoring', title: 'Monitoring', icon: 'map-pinned', expanded: false, items: [{ id: 'monitoring-portal', label: 'Monitoring Portal' }] },
+];
+---
+
+<!-- manifest:
+  layout: stack
+  sections:
+    - header actions      -> esa-button          # Generate outputs + New study (legos)
+    - filter bar          -> esa-filter-container # esa-button-toggle / esa-text-field / esa-filter-dropdown ×5 (carded shell = glue)
+    - crosswalk grid view -> beacon-grid          # the shared Beacon AG Grid kit — the crosswalk projection
+    - timeline view       -> bcn-schedule-timeline # the water-year gantt — the schedule projection
+    - generate outputs    -> esa-dialog           # the one-dataset → many-documents picker
+    - manage study drawer -> esa-side-dialog       # edit plan/exec status + dates; save repaints grid + timeline
+-->
+
+<AppShell title={`${PROJECT_NAME} — Beacon`} tenantName="DWR" projectName="Delta Conveyance" navSections={fishNav}>
+  <PageLayout
+    title="Science Plan"
+    icon="flask-conical"
+    breadcrumbs={[{ label: 'Delta Conveyance', href: '#project' }, { label: 'Studies', href: '#studies' }, { label: 'Science Plan' }]}
+  >
+    <div slot="utilities" class="bcn-fs-utils">
+      <span id="fs-generate"><EsaButton color="ghost" appearance="outline" size="md" icon="download">Generate outputs</EsaButton></span>
+    </div>
+
+    <!-- ═══ Filter bar — carded (Tracker parity); every control is a lego ═══
+         bcn-lego-checked: the carded toolbar SHELL + "View"/"Filters" labels are
+         page-composition glue (same class as the Tracker's .bcn-filterbar); every
+         CONTROL is a lego — esa-button-toggle (View), esa-text-field (Search),
+         esa-filter-dropdown ×5 in esa-filter-container, esa-filter-clear-button. -->
+    <div class="bcn-filterbar">
+      <div class="bcn-filterbar__top">
+        <div class="bcn-filterbar__group">
+          <span class="bcn-filterbar__label">View</span>
+          <esa-button-toggle id="fs-views" value="timeline" size="md"></esa-button-toggle>
+        </div>
+        <div class="bcn-filterbar__group" id="fs-sort-group">
+          <span class="bcn-filterbar__label">Arrange</span>
+          <esa-button-toggle id="fs-sort" value="date" size="md"></esa-button-toggle>
+        </div>
+        <div class="bcn-filterbar__search">
+          <esa-text-field id="fs-search" placeholder="Search studies…" size="md"></esa-text-field>
+          <span id="fs-search-clear" hidden><EsaIconButton icon="x" label="Clear search" size="sm" /></span>
+        </div>
+      </div>
+      <div class="bcn-filterbar__bottom">
+        <span class="bcn-filterbar__label">Filters</span>
+        <FilterContainer>
+          <esa-filter-dropdown id="flt-category" label="Category" multiple size="sm"></esa-filter-dropdown>
+          <esa-filter-dropdown id="flt-lead" label="DCP Lead" multiple size="sm"></esa-filter-dropdown>
+          <esa-filter-dropdown id="flt-plan" label="Plan Status" multiple size="sm"></esa-filter-dropdown>
+          <esa-filter-dropdown id="flt-phase" label="Phase" multiple size="sm"></esa-filter-dropdown>
+          <esa-filter-dropdown id="flt-species" label="Species" multiple size="sm"></esa-filter-dropdown>
+        </FilterContainer>
+        <span id="fs-clear-filters" class="bcn-filterbar__clear"><FilterClearButton /></span>
+      </div>
+    </div>
+
+    <!-- ═══ GRID view — the crosswalk projection ═══ -->
+    <div class="bcn-view-pane" id="view-grid" hidden>
+      <div id="fs-grid" class="fs-grid"></div>
+      <div class="table-footer">
+        <span id="fs-download"><EsaButton color="ghost" appearance="outline" size="sm" icon="download">Download crosswalk (CSV)</EsaButton></span>
+        <div class="row-count-data">
+          Total studies: <span id="fs-total">0</span>
+          <span id="fs-filtered" class="filtered-rows-count" hidden></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ TIMELINE view (default) — the schedule projection (same data) ═══ -->
+    <div class="bcn-view-pane" id="view-timeline">
+      <BcnScheduleTimeline studies={STUDIES} today={TODAY} />
+    </div>
+  </PageLayout>
+
+  <!-- ═══ Generate outputs dialog (the differentiator: one dataset → many documents) ═══ -->
+  <esa-dialog id="fs-outputs" size="md" style="--_dialog-width: min(560px, 94vw);">
+    <span slot="header" class="bcn-out__head">Generate outputs</span>
+    <p class="bcn-out__lede">
+      Every document below is generated live from this single dataset — edit a study once and each
+      output regenerates. No more re-keying across four files.
+    </p>
+    <ul class="bcn-out__list">
+      <li class="bcn-out__item">
+        <EsaIcon name="file-text" size="md" paths="<path d='M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z'/><path d='M14 2v5h5'/>" />
+        <div><strong>Covered Fish Species Monitoring &amp; Science Plan</strong><span>Word — the 27 study sketches, ready for CDFW review</span></div>
+        <EsaButton color="ghost" appearance="outline" size="sm">.docx</EsaButton>
+      </li>
+      <li class="bcn-out__item">
+        <EsaIcon name="table" size="md" paths="<path d='M12 3v18'/><rect width='18' height='18' x='3' y='3' rx='2'/><path d='M3 9h18'/><path d='M3 15h18'/>" />
+        <div><strong>ITP Aquatic Study Crosswalk</strong><span>Excel — the wide reference table</span></div>
+        <EsaButton color="ghost" appearance="outline" size="sm">.xlsx</EsaButton>
+      </li>
+      <li class="bcn-out__item">
+        <EsaIcon name="users" size="md" paths="<path d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2'/><circle cx='9' cy='7' r='4'/><path d='M22 21v-2a4 4 0 0 0-3-3.87'/>" />
+        <div><strong>Roles &amp; Responsibilities Summary</strong><span>Excel — the RACI matrix</span></div>
+        <EsaButton color="ghost" appearance="outline" size="sm">.xlsx</EsaButton>
+      </li>
+      <li class="bcn-out__item">
+        <EsaIcon name="calendar" size="md" paths="<path d='M8 2v4'/><path d='M16 2v4'/><rect width='18' height='18' x='3' y='4' rx='2'/><path d='M3 10h18'/>" />
+        <div><strong>Prior-to-2030 Timeline &amp; Gantt</strong><span>PDF — the water-year schedule</span></div>
+        <EsaButton color="ghost" appearance="outline" size="sm">.pdf</EsaButton>
+      </li>
+    </ul>
+    <div slot="footer" class="bcn-out__foot">
+      <span id="fs-outputs-close"><EsaButton color="ghost" appearance="outline">Close</EsaButton></span>
+    </div>
+  </esa-dialog>
+
+  <!-- ═══ Manage-study drawer (esa-side-dialog) — edit status + dates from either view ═══ -->
+  <!-- z lifts the panel + backdrop above the fixed topbar (z 1100), per the
+       esa-dialog overlay note — otherwise the heading slides under the topbar. -->
+  <esa-side-dialog id="fs-drawer" size="md" style="--z-modal: 1300; --z-modal-backdrop: 1250;">
+    <div slot="header" class="bcn-drawer-head">
+      <span class="bcn-drawer-head__badge" id="fs-drawer-coa">COA —</span>
+      <span class="bcn-drawer-head__title" id="fs-drawer-title">Manage study</span>
+    </div>
+    <div class="bcn-drawer">
+      <BcnStatusSelect id="fs-drawer-plan" label="Plan status" options={planOpts} />
+      <BcnStatusSelect id="fs-drawer-exec" label="Execution status" options={execOpts} />
+      <div class="bcn-drawer__dates">
+        <esa-date-picker id="fs-drawer-start" label="Schedule start"></esa-date-picker>
+        <esa-date-picker id="fs-drawer-end" label="Schedule end"></esa-date-picker>
+      </div>
+      <esa-date-picker id="fs-drawer-due" label="Study plan due"></esa-date-picker>
+    </div>
+    <span slot="footer" class="bcn-drawer__foot">
+      <span id="fs-drawer-open"><EsaIconLink href="#" trailing="arrow-right" size="sm" weight="medium">Open full study</EsaIconLink></span>
+      <span class="bcn-drawer__foot-actions">
+        <span id="fs-drawer-cancel"><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
+        <span id="fs-drawer-save"><EsaButton color="primary">Save</EsaButton></span>
+      </span>
+    </span>
+  </esa-side-dialog>
+
+  <script type="application/json" id="fs-grid-data" set:html={JSON.stringify(gridPayload)}></script>
+  <script type="application/json" id="fs-drawer-data" set:html={JSON.stringify(drawerData)}></script>
+</AppShell>
+
+<script>
+  import { createGrid, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
+  import type { GridApi, GridOptions, ColDef, IRowNode } from 'ag-grid-community';
+  import { beaconTheme, makeStatusRenderer, linkRenderer } from '../../lib/beacon-grid';
+  import { PLAN_STATUS_META } from '../../data/fish-model';
+  import { axisFraction } from '../../data/fish-schedule';
+  import { setupStatusSelect } from '../../components/bcn/status-select';
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-date-picker';
+  import '@esa/ecology/esa-filter-dropdown';
+
+  ModuleRegistry.registerModules([AllCommunityModule]);
+
+  interface StudyRow {
+    coaNumber: string; name: string; category: string; studyType: string; dcpLead: string;
+    planStatus: string; execStatus: string; timeframe: string; comments: number;
+    deliverables: number; phases: string[]; species: string[];
+  }
+  interface Payload {
+    rows: StudyRow[];
+    planMeta: Record<string, { label: string; hex: string }>;
+    execMeta: Record<string, { label: string; hex: string }>;
+    detailBase: string;
+  }
+  interface DrawerRecord { name: string; planStatus: string; execStatus: string; start: string; end: string; planDue: string; }
+
+  const payload: Payload = JSON.parse(document.getElementById('fs-grid-data')!.textContent || '{}');
+  const { rows, planMeta, execMeta, detailBase } = payload;
+  const drawerData: Record<string, DrawerRecord> = JSON.parse(document.getElementById('fs-drawer-data')!.textContent || '{}');
+
+  // ── Columns: the crosswalk projection ──
+  const columnDefs: ColDef<StudyRow>[] = [
+    { field: 'coaNumber', headerName: 'COA', width: 110, cellRenderer: linkRenderer, pinned: 'left' },
+    { field: 'name', headerName: 'Study Name', width: 320, cellRenderer: linkRenderer },
+    { field: 'category', headerName: 'Category', width: 200 },
+    { field: 'studyType', headerName: 'Study Type', width: 320 },
+    { field: 'dcpLead', headerName: 'DCP Lead', width: 140 },
+    { field: 'planStatus', headerName: 'Plan Status', width: 180, cellRenderer: makeStatusRenderer(planMeta), cellClass: 'bcn-grid-status-cell', filterValueGetter: (p) => planMeta[p.data!.planStatus]?.label },
+    { field: 'execStatus', headerName: 'Execution', width: 160, cellRenderer: makeStatusRenderer(execMeta), cellClass: 'bcn-grid-status-cell', filterValueGetter: (p) => execMeta[p.data!.execStatus]?.label },
+    { field: 'comments', headerName: 'Comments', width: 130, type: 'numericColumn', valueFormatter: (p) => (p.value ? String(p.value) : '') },
+    { field: 'deliverables', headerName: 'Deliverables', width: 140, type: 'numericColumn' },
+    { field: 'timeframe', headerName: 'Timeframe', width: 460 },
+  ];
+
+  // ── Shared facet state + predicate (drives grid AND timeline) ──
+  type FacetKey = 'category' | 'lead' | 'plan' | 'phase' | 'species';
+  const facets: Record<FacetKey, string[]> = { category: [], lead: [], plan: [], phase: [], species: [] };
+  let quickText = '';
+  const planLabel = (r: StudyRow) => planMeta[r.planStatus]?.label ?? r.planStatus;
+  const anyFacet = () => Object.values(facets).some((v) => v.length > 0);
+
+  function rowMatches(f: { category: string; lead: string; plan: string; phases: string[]; species: string[]; name: string }) {
+    if (facets.category.length && !facets.category.includes(f.category)) return false;
+    if (facets.lead.length && !facets.lead.includes(f.lead)) return false;
+    if (facets.plan.length && !facets.plan.includes(f.plan)) return false;
+    if (facets.phase.length && !facets.phase.some((p) => f.phases.includes(p))) return false;
+    if (facets.species.length && !facets.species.some((sp) => f.species.includes(sp))) return false;
+    if (quickText && !f.name.includes(quickText)) return false;
+    return true;
+  }
+
+  function doesExternalFilterPass(node: IRowNode<StudyRow>) {
+    const r = node.data;
+    if (!r) return true;
+    return rowMatches({ category: r.category, lead: r.dcpLead, plan: planLabel(r), phases: r.phases, species: r.species, name: `${r.coaNumber} ${r.name}`.toLowerCase() });
+  }
+
+  const gridOptions: GridOptions<StudyRow> = {
+    theme: beaconTheme,
+    rowData: rows,
+    columnDefs,
+    defaultColDef: { sortable: true, resizable: true, filter: true, suppressHeaderMenuButton: true, tooltipValueGetter: (p) => p.value },
+    tooltipShowDelay: 0,
+    tooltipShowMode: 'whenTruncated',
+    isExternalFilterPresent: () => anyFacet() || !!quickText,
+    doesExternalFilterPass,
+    onFirstDataRendered: updateCounts,
+    onFilterChanged: updateCounts,
+    onRowClicked: (e) => e.data && openDrawer(e.data.coaNumber),
+  };
+  const api: GridApi<StudyRow> = createGrid(document.getElementById('fs-grid')!, gridOptions);
+
+  // ── Timeline arrangement + filtering (mirror the grid predicate over the SSR rows) ──
+  let arrangeMode: 'date' | 'category' = 'date';
+  const tlBody = () => document.querySelector<HTMLElement>('.bcn-timeline__body');
+
+  function applyTimelineFilter() {
+    const body = tlBody();
+    if (!body) return;
+    const visibleByCat: Record<string, number> = {};
+    body.querySelectorAll<HTMLElement>('.bcn-timeline__row').forEach((row) => {
+      const ok = rowMatches({
+        category: row.dataset.category ?? '',
+        lead: row.dataset.lead ?? '',
+        plan: row.dataset.plan ?? '',
+        phases: (row.dataset.phase ?? '').split('|').filter(Boolean),
+        species: (row.dataset.species ?? '').split('|').filter(Boolean),
+        name: row.dataset.name ?? '',
+      });
+      row.hidden = !ok;
+      if (ok) visibleByCat[row.dataset.category ?? ''] = (visibleByCat[row.dataset.category ?? ''] ?? 0) + 1;
+    });
+    // Category headers only show in category mode, and only when they have visible rows.
+    body.querySelectorAll<HTMLElement>('.bcn-timeline__lane-title').forEach((h) => {
+      h.hidden = arrangeMode !== 'category' || (visibleByCat[h.dataset.cat ?? ''] ?? 0) === 0;
+    });
+  }
+
+  // Re-order the flat timeline rows. "date" = trad stair-step gantt (start asc, then
+  // status green→red top-to-bottom via data-plan-rank). "category" = crosswalk swimlanes.
+  function arrange(mode: 'date' | 'category') {
+    arrangeMode = mode;
+    const body = tlBody();
+    if (!body) return;
+    body.dataset.arrange = mode;
+    const rows = [...body.querySelectorAll<HTMLElement>('.bcn-timeline__row')];
+    const headers = [...body.querySelectorAll<HTMLElement>('.bcn-timeline__lane-title')];
+    if (mode === 'date') {
+      headers.forEach((h) => (h.hidden = true));
+      rows.sort((a, b) => {
+        const sa = a.dataset.start ?? '', sb = b.dataset.start ?? '';
+        if (sa !== sb) return sa < sb ? -1 : 1;
+        return Number(a.dataset.planRank ?? 0) - Number(b.dataset.planRank ?? 0); // green → red
+      });
+      rows.forEach((r) => body.appendChild(r));
+    } else {
+      headers.forEach((h) => {
+        body.appendChild(h);
+        const cat = h.dataset.cat ?? '';
+        rows
+          .filter((r) => r.dataset.category === cat)
+          .sort((a, b) => Number(a.dataset.catOrder) - Number(b.dataset.catOrder))
+          .forEach((r) => body.appendChild(r));
+      });
+    }
+    applyTimelineFilter();
+  }
+
+  function applyFilters() {
+    api.onFilterChanged();
+    applyTimelineFilter();
+  }
+
+  // ── Footer counts ──
+  const totalEl = document.getElementById('fs-total')!;
+  const filteredEl = document.getElementById('fs-filtered')!;
+  function updateCounts() {
+    totalEl.textContent = String(rows.length);
+    const shown = api.getDisplayedRowCount();
+    if (shown < rows.length) { filteredEl.hidden = false; filteredEl.textContent = `Filtered: ${shown}`; }
+    else filteredEl.hidden = true;
+  }
+
+  // ── Search → quick filter (both views) ──
+  const search = document.getElementById('fs-search') as HTMLElement & { value: string };
+  const searchClear = document.getElementById('fs-search-clear')!;
+  search.addEventListener('change', (e) => {
+    const v = (e as CustomEvent).detail?.value ?? search.value ?? '';
+    quickText = String(v).toLowerCase();
+    api.setGridOption('quickFilterText', String(v));
+    searchClear.hidden = !v;
+    applyFilters();
+  });
+  searchClear.addEventListener('click', () => {
+    search.value = ''; quickText = '';
+    api.setGridOption('quickFilterText', '');
+    searchClear.hidden = true;
+    applyFilters();
+  });
+
+  // ── Filter dropdowns ──
+  const uniq = (xs: string[]) => [...new Set(xs.filter(Boolean))].sort();
+  const toOpts = (xs: string[]) => xs.map((v) => ({ label: v, value: v }));
+  const facetOptions: Record<FacetKey, string[]> = {
+    category: uniq(rows.map((r) => r.category)),
+    lead: uniq(rows.map((r) => r.dcpLead)),
+    plan: uniq(rows.map(planLabel)),
+    phase: uniq(rows.flatMap((r) => r.phases)),
+    species: uniq(rows.flatMap((r) => r.species)),
+  };
+  // Plan Status options: colored dots + ramp (linear) order — not alphabetical.
+  const planFacetOpts = (Object.entries(PLAN_STATUS_META) as [string, { label: string; hex: string }][])
+    .filter(([k]) => rows.some((r) => r.planStatus === k))
+    .map(([, m]) => ({ value: m.label, label: m.label, color: m.hex }));
+  const facetIds: Record<FacetKey, string> = { category: 'flt-category', lead: 'flt-lead', plan: 'flt-plan', phase: 'flt-phase', species: 'flt-species' };
+  type FilterDropdownEl = HTMLElement & { options: { label: string; value: string; color?: string }[]; _selected: string[] };
+  const dropdowns = (Object.entries(facetIds) as [FacetKey, string][]).map(([key, id]) => {
+    const el = document.getElementById(id) as FilterDropdownEl;
+    el.options = key === 'plan' ? planFacetOpts : toOpts(facetOptions[key]);
+    el.addEventListener('selection-change', (e) => {
+      facets[key] = ((e as CustomEvent).detail?.value as string[]) ?? [];
+      applyFilters();
+    });
+    return el;
+  });
+
+  // ── Clear all ──
+  document.getElementById('fs-clear-filters')!.addEventListener('esa-filter-clear', () => {
+    (Object.keys(facets) as FacetKey[]).forEach((k) => (facets[k] = []));
+    dropdowns.forEach((el) => (el._selected = []));
+    api.setFilterModel(null);
+    applyFilters();
+  });
+
+  // ── Download CSV ──
+  document.getElementById('fs-download')!.addEventListener('click', () => api.exportDataAsCsv({ fileName: 'itp-aquatic-study-crosswalk.csv' }));
+
+  // ── View toggle (Grid | Timeline) ──
+  const panes: Record<string, HTMLElement> = { grid: document.getElementById('view-grid')!, timeline: document.getElementById('view-timeline')! };
+  const viewToggle = document.getElementById('fs-views') as HTMLElement & { options: { label: string; value: string; icon?: string }[]; value: string };
+  // Timeline first + default (the schedule is the hero view for this module).
+  viewToggle.options = [
+    { label: 'Timeline', value: 'timeline', icon: "<path d='M8 2v4'/><path d='M16 2v4'/><rect width='18' height='18' x='3' y='4' rx='2'/><path d='M3 10h18'/>" },
+    { label: 'Grid', value: 'grid', icon: "<rect width='18' height='18' x='3' y='3' rx='2'/><path d='M3 9h18'/><path d='M3 15h18'/><path d='M9 3v18'/><path d='M15 3v18'/>" },
+  ];
+  viewToggle.value = 'timeline';
+  const sortGroup = document.getElementById('fs-sort-group')!;
+  viewToggle.addEventListener('change', (e) => {
+    const view = (e as CustomEvent).detail.value as string;
+    Object.entries(panes).forEach(([k, el]) => (el.hidden = k !== view));
+    sortGroup.hidden = view !== 'timeline'; // arrange is a timeline-only control
+    // AG Grid inits with 0 height while hidden; nudge it to render rows once shown.
+    if (view === 'grid') requestAnimationFrame(() => api.setGridOption('rowData', rows));
+  });
+
+  // ── Arrange toggle (By date | By category) — timeline only ──
+  const sortToggle = document.getElementById('fs-sort') as HTMLElement & { options: { label: string; value: string; icon?: string }[]; value: string };
+  sortToggle.options = [
+    { label: 'By date', value: 'date', icon: "<path d='m3 16 4 4 4-4'/><path d='M7 20V4'/><path d='M11 4h10'/><path d='M11 8h7'/><path d='M11 12h4'/>" },
+    { label: 'By category', value: 'category', icon: "<path d='M8 6h13'/><path d='M8 12h13'/><path d='M8 18h13'/><path d='M3 6h.01'/><path d='M3 12h.01'/><path d='M3 18h.01'/>" },
+  ];
+  sortToggle.value = 'date';
+  sortToggle.addEventListener('change', (e) => arrange((e as CustomEvent).detail.value as 'date' | 'category'));
+  arrange('date'); // default = trad stair-step gantt
+
+  // ── Generate-outputs dialog ──
+  const outputs = document.getElementById('fs-outputs') as HTMLElement & { open: boolean };
+  document.getElementById('fs-generate')!.addEventListener('click', () => (outputs.open = true));
+  document.getElementById('fs-outputs-close')!.addEventListener('click', () => (outputs.open = false));
+
+  // ── Manage-study drawer (esa-side-dialog) ──
+  const drawer = document.getElementById('fs-drawer') as HTMLElement & { show(): void; close(): void };
+  const dCoa = document.getElementById('fs-drawer-coa')!;
+  const dTitle = document.getElementById('fs-drawer-title')!;
+  // Status pickers = BcnStatusSelect (labeled field, colored dot trigger + menu,
+  // normal styling — not the teal-active filter-dropdown). Options were set in markup.
+  const planCtl = setupStatusSelect(document.getElementById('fs-drawer-plan')!);
+  const execCtl = setupStatusSelect(document.getElementById('fs-drawer-exec')!);
+  const dStart = document.getElementById('fs-drawer-start') as HTMLElement & { value: string };
+  const dEnd = document.getElementById('fs-drawer-end') as HTMLElement & { value: string };
+  const dDue = document.getElementById('fs-drawer-due') as HTMLElement & { value: string };
+  const dOpen = document.querySelector('#fs-drawer-open a') as HTMLAnchorElement;
+
+  let editingCoa = '';
+  function openDrawer(coa: string) {
+    const rec = drawerData[coa];
+    if (!rec) return;
+    editingCoa = coa;
+    dCoa.textContent = `COA ${coa}`;
+    dTitle.textContent = rec.name;
+    planCtl.setValue(rec.planStatus);
+    execCtl.setValue(rec.execStatus);
+    dStart.value = rec.start;
+    dEnd.value = rec.end;
+    dDue.value = rec.planDue;
+    dOpen.href = `${detailBase}/${encodeURIComponent(coa)}`;
+    drawer.show();
+  }
+
+  // Timeline bar OR study-name label click → same drawer.
+  document.getElementById('view-timeline')!.addEventListener('click', (e) => {
+    const trigger = (e.target as HTMLElement).closest('.bcn-timeline__bar, .bcn-timeline__row-label') as HTMLElement | null;
+    if (!trigger) return;
+    const coa = trigger.dataset.coa ?? (trigger.closest('.bcn-timeline__row') as HTMLElement | null)?.dataset.coa;
+    if (coa) openDrawer(coa);
+  });
+
+  document.getElementById('fs-drawer-cancel')!.addEventListener('click', () => drawer.close());
+  document.getElementById('fs-drawer-save')!.addEventListener('click', () => {
+    const coa = editingCoa;
+    const rec = drawerData[coa];
+    if (!rec) return drawer.close();
+    rec.planStatus = planCtl.value;
+    rec.execStatus = execCtl.value;
+    rec.start = dStart.value || rec.start; rec.end = dEnd.value || rec.end;
+    rec.planDue = dDue.value;
+
+    // Repaint GRID row.
+    const gridRow = rows.find((r) => r.coaNumber === coa);
+    if (gridRow) {
+      gridRow.planStatus = rec.planStatus; gridRow.execStatus = rec.execStatus;
+      const node = api.getRowNode(String(rows.indexOf(gridRow)));
+      api.applyTransaction({ update: [gridRow] });
+      if (node) api.refreshCells({ rowNodes: [node], force: true });
+    }
+
+    // Repaint TIMELINE bar (color + geometry) + keep its facet attrs in sync.
+    const planHex = PLAN_STATUS_META[rec.planStatus as keyof typeof PLAN_STATUS_META]?.hex ?? '#999';
+    const planText = PLAN_STATUS_META[rec.planStatus as keyof typeof PLAN_STATUS_META]?.label ?? rec.planStatus;
+    const barEl = document.querySelector<HTMLElement>(`.bcn-timeline__bar[data-coa="${CSS.escape(coa)}"]`);
+    if (barEl) {
+      const left = axisFraction(rec.start) * 100;
+      const width = Math.max(axisFraction(rec.end) * 100 - left, 1);
+      barEl.style.left = `${left.toFixed(2)}%`;
+      barEl.style.width = `${width.toFixed(2)}%`;
+      barEl.style.setProperty('--_c', planHex);
+      barEl.dataset.start = rec.start; barEl.dataset.end = rec.end;
+      barEl.title = `COA ${coa} — ${rec.name} · ${planText} · ${rec.start} → ${rec.end}`;
+      const rowEl = barEl.closest('.bcn-timeline__row') as HTMLElement | null;
+      if (rowEl) {
+        rowEl.dataset.plan = planText;
+        rowEl.dataset.start = rec.start;
+        const keys = Object.keys(PLAN_STATUS_META);
+        rowEl.dataset.planRank = String(keys.length - 1 - keys.indexOf(rec.planStatus));
+      }
+    }
+    arrange(arrangeMode); // re-sort (date view's start/status order may have changed) + re-filter
+    drawer.close();
+  });
+</script>
+
+<style>
+  /* bcn-lego-checked: PAGE-COMPOSITION GLUE ONLY. Grid host + footer + filter-bar
+     shell mirror the Requirement Tracker (esa-* controls inside); the outputs dialog
+     + manage drawer bodies are layout of legos (esa-select / esa-date-picker /
+     esa-button). No reinvented primitives — checked esa-* (no gantt, no outputs
+     picker, no study-edit drawer body) and Beacon. */
+
+  .bcn-fs-utils { display: inline-flex; align-items: center; gap: var(--spacing-200); }
+
+  /* Filter bar (Tracker parity) */
+  .bcn-filterbar { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-200); margin-bottom: var(--spacing-400); }
+  .bcn-filterbar__top { display: flex; align-items: center; gap: var(--spacing-400); padding: var(--spacing-300) var(--spacing-400); flex-wrap: wrap; }
+  .bcn-filterbar__bottom { display: flex; align-items: center; gap: var(--spacing-300); padding: var(--spacing-300) var(--spacing-400); border-top: 1px solid var(--color-border); flex-wrap: wrap; }
+  .bcn-filterbar__group { display: inline-flex; align-items: center; gap: var(--spacing-300); }
+  .bcn-filterbar__group[hidden] { display: none; } /* Arrange is timeline-only; override inline-flex */
+  .bcn-filterbar__label { font-size: var(--type-size-150); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); white-space: nowrap; }
+  .bcn-filterbar__search { margin-left: auto; display: inline-flex; align-items: center; gap: var(--spacing-150); min-width: 300px; }
+  .bcn-filterbar__search :global(esa-text-field) { flex: 1; }
+  .bcn-filterbar__clear { margin-left: auto; }
+
+  /* View panes + grid host */
+  .bcn-view-pane[hidden] { display: none; }
+  .fs-grid { width: 100%; height: calc(100vh - 300px); min-height: 600px; }
+  .table-footer { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-400); padding: var(--spacing-200) var(--spacing-400); background: var(--color-background); border: 1px solid var(--color-border); border-top: 0; border-radius: 0 0 var(--radius-100) var(--radius-100); }
+  .row-count-data { display: flex; align-items: center; gap: var(--spacing-400); font-size: var(--type-size-100); color: var(--color-text-secondary); font-variant-numeric: tabular-nums; }
+  .filtered-rows-count { color: var(--color-text-tertiary); }
+  .filtered-rows-count[hidden] { display: none; }
+
+  /* AG Grid injected cells (global) */
+  :global(.ag-cell.bcn-grid-status-cell) { display: flex; align-items: center; }
+  :global(.bcn-grid-chip) { display: inline-flex; align-items: center; gap: var(--spacing-150); padding: 1px var(--spacing-200); border-radius: var(--radius-100); font-size: 0.75rem; line-height: 1.5; font-weight: var(--font-weight-semibold); white-space: nowrap; background: color-mix(in srgb, var(--_chip) 16%, transparent); color: color-mix(in srgb, var(--_chip) 70%, #1a1a1a); }
+  :global(.bcn-grid-chip__dot) { width: 7px; height: 7px; border-radius: 50%; background: var(--_chip); flex-shrink: 0; }
+  :global(.bcn-grid-name) { color: var(--color-text-link); font-weight: var(--font-weight-regular); text-decoration: underline; }
+  :global(.bcn-grid-name:hover) { color: var(--color-primary-hover); }
+
+  /* Outputs dialog body */
+  .bcn-out__head { font-family: var(--font-decorative); font-size: 1.375rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-out__lede { margin: 0 0 var(--spacing-400); font-size: var(--type-size-200); color: var(--color-text-secondary); line-height: 1.5; }
+  .bcn-out__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-out__item { display: flex; align-items: center; gap: var(--spacing-300); padding: var(--spacing-300); border: 1px solid var(--color-border); border-radius: var(--radius-200); }
+  .bcn-out__item :global(.esa-icon) { color: var(--color-secondary); flex-shrink: 0; }
+  .bcn-out__item div { display: flex; flex-direction: column; gap: 1px; flex: 1; min-width: 0; }
+  .bcn-out__item strong { font-size: var(--form-font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-out__item span { font-size: 0.8125rem; color: var(--color-text-tertiary); }
+  .bcn-out__foot { display: flex; justify-content: flex-end; width: 100%; }
+
+  /* Manage-study drawer body */
+  .bcn-drawer { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  /* Drawer header: COA purple commitment badge prefixing the study title. */
+  .bcn-drawer-head { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; min-width: 0; }
+  .bcn-drawer-head__badge { flex-shrink: 0; font-family: var(--font-mono); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 1px var(--spacing-200); border-radius: var(--radius-100); }
+  .bcn-drawer-head__title { font-family: var(--font-decorative); font-size: 1.125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); line-height: 1.25; min-width: 0; }
+  .bcn-drawer__dates { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-300); }
+  .bcn-drawer__foot { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: var(--spacing-300); }
+  .bcn-drawer__foot-actions { display: inline-flex; align-items: center; gap: var(--spacing-200); }
+</style>

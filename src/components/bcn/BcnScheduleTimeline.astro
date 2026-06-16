@@ -1,0 +1,273 @@
+---
+// <BcnScheduleTimeline> — the water-year study gantt.
+//
+// bcn-lego-checked: NO esa-* lego renders a gantt/timeline (checked the full
+// catalog — esa-progress-bar is a single bar, esa-stat/esa-card are static; none
+// plot dated bars on a shared time axis). Checked Beacon prod (no gantt component;
+// scheduling lives in exported spreadsheets). The requirement-tracker page even
+// ships a "Timeline" view as an esa-empty-state STUB precisely because this did
+// not exist. bcn-schedule-timeline is the reusable home.
+//
+// Domain rules it encodes (from the "Prior to 2030 Timelines Memo"):
+//   • Studies are bars on a WATER-YEAR axis; deadlines anchor to Oct 1 of the
+//     prior calendar year (handled upstream in scheduleStart/scheduleEnd).
+//   • Phase bands (baseline → in-water → Phase 1/2 ops) paint behind the bars.
+//   • Milestone marker lines (30%/60% design, in-water construction, ops) are the
+//     anchors studies are back-scheduled from.
+//
+// ARRANGEMENT: rows render FLAT (headers + rows as siblings) so the host page can
+// re-order them client-side between two modes without re-rendering:
+//   • "By date"     — every study sorted by start (classic stair-step gantt). DEFAULT
+//                     SSR order, so no first-paint reflow.
+//   • "By category" — the crosswalk's ITP Study Category swimlanes (header shown,
+//                     rows in crosswalk order via data-cat-order).
+// Bars carry data-coa/data-start/data-end so a click opens the host's edit drawer
+// and a save repaints in place. Rows carry the grid's facet data-* so one predicate
+// filters both views. Bar color = plan status (the AWS RdYlGn readiness ramp).
+import type { Study } from '../../data/fish-model';
+import { CATEGORY_META, PLAN_STATUS_META, type StudyCategory } from '../../data/fish-model';
+import {
+  DCP_PHASES,
+  MILESTONES,
+  PHASE_META,
+  axisFraction,
+  axisYears,
+  SCHEDULE_START_YEAR,
+  SCHEDULE_END_YEAR,
+} from '../../data/fish-schedule';
+
+interface Props {
+  studies: Study[];
+  /** ISO date for the TODAY marker; omit to hide it. */
+  today?: string;
+}
+const { studies, today } = Astro.props;
+
+const CATEGORY_ORDER = Object.keys(CATEGORY_META) as StudyCategory[];
+// Category-grouped order (for the "by category" arrangement) — crosswalk order
+// within each category. Records each study's index within its category.
+const grouped = CATEGORY_ORDER.map((cat) => ({
+  cat,
+  meta: CATEGORY_META[cat],
+  rows: studies.filter((s) => s.category === cat),
+})).filter((g) => g.rows.length > 0);
+const catOrder = new Map<string, number>();
+grouped.forEach((g) => g.rows.forEach((s, i) => catOrder.set(s.coaNumber, i)));
+
+// Status rank for the date view's secondary sort: green (approved) → red (draft),
+// top to bottom. PLAN_STATUS_META is ordered red→green, so invert the index.
+const PLAN_KEYS = Object.keys(PLAN_STATUS_META);
+const planRank = (status: string) => PLAN_KEYS.length - 1 - PLAN_KEYS.indexOf(status);
+
+// SSR default = date order (stair-step). String compare on ISO dates is chronological.
+const byDate = [...studies].sort((a, b) =>
+  a.scheduleStart < b.scheduleStart ? -1 : a.scheduleStart > b.scheduleStart ? 1 : 0,
+);
+
+const years = axisYears();
+const span = SCHEDULE_END_YEAR - SCHEDULE_START_YEAR;
+const pct = (n: number) => `${(n * 100).toFixed(2)}%`;
+const yearFrac = (y: number) => (y - SCHEDULE_START_YEAR) / span;
+const bar = (s: Study) => {
+  const left = axisFraction(s.scheduleStart);
+  const right = axisFraction(s.scheduleEnd);
+  return { left: pct(left), width: pct(Math.max(right - left, 0.01)) };
+};
+---
+
+<div class="bcn-timeline">
+  <!-- Legend: plan-status colors -->
+  <div class="bcn-timeline__legend">
+    <span class="bcn-timeline__legend-title">Plan status</span>
+    {
+      (Object.entries(PLAN_STATUS_META) as [string, { label: string; hex: string }][]).map(([, m]) => (
+        <span class="bcn-timeline__legend-item">
+          <span class="bcn-timeline__legend-dot" style={`--_c: ${m.hex};`} />
+          {m.label}
+        </span>
+      ))
+    }
+    <span class="bcn-timeline__legend-hint">Click a bar or study name to manage status &amp; dates</span>
+  </div>
+
+  <div class="bcn-timeline__scroll">
+    <div class="bcn-timeline__canvas">
+      <!-- ── Axis header: 3 stacked rows (phases / years / milestones) ── -->
+      <header class="bcn-timeline__axis">
+        <div class="bcn-timeline__corner">Study</div>
+        <div class="bcn-timeline__head-plot">
+          <!-- continuous phase-band layer behind the whole header (phases + years + milestones) -->
+          <div class="bcn-timeline__head-bands">
+            {
+              DCP_PHASES.map((p) => (
+                <span class="bcn-timeline__band" data-phase={p.id} style={`left: ${pct(yearFrac(p.startYear))}; width: ${pct(yearFrac(p.endYear) - yearFrac(p.startYear))};`} />
+              ))
+            }
+          </div>
+          <div class="bcn-timeline__head-phases">
+            {
+              DCP_PHASES.map((p) => (
+                <span class="bcn-timeline__phase-tag" data-phase={p.id} style={`left: ${pct(yearFrac(p.startYear))}; width: ${pct(yearFrac(p.endYear) - yearFrac(p.startYear))};`}>
+                  {PHASE_META[p.id].short}
+                </span>
+              ))
+            }
+          </div>
+          <div class="bcn-timeline__head-years">
+            {
+              years.slice(0, -1).map((y) => (
+                <span class="bcn-timeline__yr" class:list={[{ 'is-five': y % 5 === 0 }]} style={`left: ${pct(yearFrac(y))}; width: ${pct(1 / span)};`}>
+                  <span class="bcn-timeline__yr-label">{`’${String(y).slice(2)}`}</span>
+                </span>
+              ))
+            }
+          </div>
+          <div class="bcn-timeline__head-ms">
+            {
+              MILESTONES.map((m, i) => (
+                <span class="bcn-timeline__ms-tag" class:list={[{ 'is-alt': i % 2 === 1 }]} style={`left: ${pct(axisFraction(m.date))};`} title={`${m.label} (WY${m.waterYear})`}>
+                  {m.tag}
+                </span>
+              ))
+            }
+          </div>
+        </div>
+      </header>
+
+      <!-- ── Body: flat (headers + rows as siblings); host arranges by date | category ── -->
+      <div class="bcn-timeline__body" data-arrange="date">
+        {/* category headers — hidden in date mode, shown + reordered by the host in category mode */}
+        {grouped.map((g) => <h3 class="bcn-timeline__lane-title" data-cat={g.meta.short} hidden>{g.meta.short}</h3>)}
+        {
+          byDate.map((s) => {
+            const geo = bar(s);
+            const ps = PLAN_STATUS_META[s.planStatus];
+            return (
+              <div
+                class="bcn-timeline__row"
+                data-coa={s.coaNumber}
+                data-category={CATEGORY_META[s.category].short}
+                data-cat-order={catOrder.get(s.coaNumber)}
+                data-lead={s.dcpLead}
+                data-plan={PLAN_STATUS_META[s.planStatus].label}
+                data-phase={s.phases.map((p) => PHASE_META[p].short).join('|')}
+                data-species={s.focalSpecies.map((f) => f.name).join('|')}
+                data-name={`${s.coaNumber} ${s.name}`.toLowerCase()}
+                data-start={s.scheduleStart}
+                data-plan-rank={planRank(s.planStatus)}
+              >
+                <button type="button" class="bcn-timeline__row-label" title={`COA ${s.coaNumber} — ${s.name}`} aria-label={`Manage ${s.coaNumber} ${s.name}`}>
+                  <span class="bcn-timeline__coa">{s.coaNumber}</span>
+                  <span class="bcn-timeline__name">{s.name}</span>
+                </button>
+                <div class="bcn-timeline__plot">
+                  {DCP_PHASES.map((p) => (
+                    <span class="bcn-timeline__band" data-phase={p.id} style={`left: ${pct(yearFrac(p.startYear))}; width: ${pct(yearFrac(p.endYear) - yearFrac(p.startYear))};`} />
+                  ))}
+                  {years.slice(1, -1).map((y) => (
+                    <span class="bcn-timeline__grid" class:list={[{ 'is-five': y % 5 === 0 }]} style={`left: ${pct(yearFrac(y))};`} />
+                  ))}
+                  {MILESTONES.map((m) => (
+                    <span class="bcn-timeline__ms-line" style={`left: ${pct(axisFraction(m.date))};`} />
+                  ))}
+                  {today && <span class="bcn-timeline__today" style={`left: ${pct(axisFraction(today))};`} />}
+                  <button
+                    type="button"
+                    class="bcn-timeline__bar"
+                    data-coa={s.coaNumber}
+                    data-start={s.scheduleStart}
+                    data-end={s.scheduleEnd}
+                    style={`left: ${geo.left}; width: ${geo.width}; --_c: ${ps.hex};`}
+                    title={`COA ${s.coaNumber} — ${s.name} · ${ps.label} · ${s.scheduleStart} → ${s.scheduleEnd}`}
+                    aria-label={`Manage ${s.coaNumber} ${s.name}`}
+                  />
+                </div>
+              </div>
+            );
+          })
+        }
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .bcn-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    --_label-w: 340px;
+    --_plot-w: 1900px;
+    --_row-h: 30px;
+  }
+
+  /* ── Legend ── */
+  .bcn-timeline__legend { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-300); font-size: var(--type-size-100); color: var(--color-text-secondary); }
+  .bcn-timeline__legend-title { font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); }
+  .bcn-timeline__legend-item { display: inline-flex; align-items: center; gap: var(--spacing-150); }
+  .bcn-timeline__legend-dot { width: 9px; height: 9px; border-radius: var(--radius-full); background: var(--_c); }
+  .bcn-timeline__legend-hint { margin-left: auto; color: var(--color-text-muted); font-style: italic; }
+
+  /* ── Scroll + canvas ── */
+  .bcn-timeline__scroll { overflow-x: auto; border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface); }
+  .bcn-timeline__canvas { min-width: calc(var(--_label-w) + var(--_plot-w)); }
+
+  /* ── Axis header — 3 stacked sub-rows ── */
+  .bcn-timeline__axis { display: grid; grid-template-columns: var(--_label-w) 1fr; position: sticky; top: 0; z-index: 5; background: var(--color-surface); border-bottom: 1px solid var(--color-border); }
+  .bcn-timeline__corner { display: flex; align-items: flex-end; padding: var(--spacing-200) var(--spacing-300); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); border-right: 1px solid var(--color-border); }
+  .bcn-timeline__head-plot { position: relative; }
+  .bcn-timeline__head-bands { position: absolute; inset: 0; z-index: 0; }
+  .bcn-timeline__head-phases { position: relative; z-index: 1; height: 18px; }
+  .bcn-timeline__head-years { position: relative; z-index: 1; height: 20px; }
+  .bcn-timeline__head-ms { position: relative; z-index: 1; height: 22px; }
+
+  .bcn-timeline__phase-tag { position: absolute; top: 0; bottom: 0; display: inline-flex; align-items: center; padding: 0 var(--spacing-150); font-size: 0.625rem; font-weight: var(--font-weight-semibold); text-transform: uppercase; letter-spacing: 0.03em; color: var(--color-text-secondary); white-space: nowrap; overflow: hidden; }
+  .bcn-timeline__yr { position: absolute; top: 0; bottom: 0; border-left: 1px solid var(--color-border-light); display: flex; align-items: center; }
+  .bcn-timeline__yr.is-five { border-left-color: var(--color-border-strong); }
+  .bcn-timeline__yr-label { font-size: 0.6875rem; color: var(--color-text-muted); padding-left: 4px; font-variant-numeric: tabular-nums; }
+  .bcn-timeline__yr.is-five .bcn-timeline__yr-label { color: var(--color-text-secondary); font-weight: var(--font-weight-semibold); }
+  .bcn-timeline__ms-tag { position: absolute; top: 2px; transform: translateX(-50%); font-size: 0.625rem; font-weight: var(--font-weight-semibold); color: var(--color-primary); white-space: nowrap; background: var(--color-surface); padding: 0 3px; border: 1px solid var(--color-primary-border); border-radius: var(--radius-100); }
+  .bcn-timeline__ms-tag.is-alt { top: 11px; }
+
+  /* Neutral phase bands — alternating faint grays (not hues) so phase boundaries
+     read without competing with the status-colored bars. */
+  .bcn-timeline__band[data-phase='baseline'] { background: color-mix(in srgb, var(--color-text-primary) 7%, transparent); }
+  .bcn-timeline__band[data-phase='in-water-construction'] { background: color-mix(in srgb, var(--color-text-primary) 3%, transparent); }
+  .bcn-timeline__band[data-phase='phase1-ops'] { background: color-mix(in srgb, var(--color-text-primary) 7%, transparent); }
+  .bcn-timeline__band[data-phase='phase2-ops'] { background: color-mix(in srgb, var(--color-text-primary) 3%, transparent); }
+
+  /* ── Body / rows ── */
+  .bcn-timeline__lane-title { margin: 0; padding: var(--spacing-150) var(--spacing-300); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); background: var(--color-surface-sunken); border-bottom: 1px solid var(--color-border); position: sticky; left: 0; z-index: 3; }
+  .bcn-timeline__lane-title[hidden] { display: none; }
+  .bcn-timeline__row { display: grid; grid-template-columns: var(--_label-w) 1fr; border-bottom: 1px solid var(--color-border-light); }
+  .bcn-timeline__row[hidden] { display: none; }
+  .bcn-timeline__row:hover .bcn-timeline__plot { background: color-mix(in srgb, var(--color-secondary) 4%, transparent); }
+
+  /* clickable study label (opens the manage drawer, like the bar) */
+  .bcn-timeline__row-label { display: flex; align-items: center; gap: var(--spacing-200); padding: 0 var(--spacing-300); min-height: var(--_row-h); width: 100%; border: 0; border-right: 1px solid var(--color-border); overflow: hidden; background: var(--color-surface); position: sticky; left: 0; z-index: 3; cursor: pointer; text-align: left; font: inherit; }
+  .bcn-timeline__row-label:hover .bcn-timeline__name { color: var(--color-primary); text-decoration: underline; }
+  .bcn-timeline__row-label:focus-visible { outline: 2px solid var(--color-primary); outline-offset: -2px; }
+  /* COA = purple commitment badge (faithful to the Beacon commitment-id badge). */
+  .bcn-timeline__coa { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.625rem; font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 1px 5px; border-radius: var(--radius-100); }
+  .bcn-timeline__name { font-size: var(--type-size-200); font-weight: var(--font-weight-medium); color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  .bcn-timeline__plot { position: relative; min-height: var(--_row-h); }
+  .bcn-timeline__band { position: absolute; top: 0; bottom: 0; }
+  .bcn-timeline__grid { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px solid var(--color-border-light); }
+  .bcn-timeline__grid.is-five { border-left-color: var(--color-border); }
+  .bcn-timeline__ms-line { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed color-mix(in srgb, var(--color-primary) 35%, transparent); }
+  .bcn-timeline__today { position: absolute; top: 0; bottom: 0; width: 0; border-left: 2px solid var(--color-warning); z-index: 2; }
+
+  /* status bar: 4px radius + left→right gradient (base → a lighter calculated tint) */
+  .bcn-timeline__bar {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    height: 16px; min-width: 5px;
+    border: 1px solid color-mix(in srgb, var(--_c) 72%, black);
+    border-radius: var(--radius-100);
+    background: linear-gradient(90deg, var(--_c) 0%, color-mix(in srgb, var(--_c) 62%, white) 100%);
+    padding: 0; cursor: pointer; z-index: 1;
+    transition: filter 120ms ease, box-shadow 120ms ease;
+  }
+  .bcn-timeline__bar:hover { filter: brightness(1.05); box-shadow: 0 0 0 2px color-mix(in srgb, var(--_c) 35%, transparent); }
+  .bcn-timeline__bar:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 1px; }
+</style>

@@ -1,0 +1,152 @@
+---
+// <BcnReviewThread> — the agency review-comment cycle for a study sketch.
+//
+// This is the layer that makes the science plan a REVIEW artifact, not a static
+// document (the source file was literally "CDFW Comments_…_DWR_Review"). Each
+// comment is PINNED to a (study, field): CDFW raises it, the author threads a
+// reply, and it carries an intent (rephrase RQ / add metric / fix COA link / scope
+// dispute / model peer-review / governance) and a status (open → addressed →
+// resolved). Grouped by the field it targets so a reviewer sees the plan and its
+// open questions side by side — and so the next revision can show what changed in
+// response to which comment.
+//
+// bcn-lego-checked: no esa-* lego models agency review comments (esa- has no
+// comment/annotation component; BcnDiscussion is a flat newest-first thread with no
+// field anchor / intent / status / replies). Checked Beacon (no such component).
+// Reusable across study detail pages → a real bcn-. Controls are legos (esa-avatar,
+// esa-badge, esa-icon, esa-pill) + the existing BcnStatusChip; the rest is layout.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaAvatar from '@esa/ecology/esa-avatar.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaPill from '@esa/ecology/esa-pill.astro';
+import BcnStatusChip from './BcnStatusChip.astro';
+import {
+  COMMENT_INTENT_META,
+  COMMENT_STATUS_META,
+  SKETCH_FIELD_META,
+  type ReviewComment,
+} from '../../data/fish-model';
+
+interface Props {
+  comments: ReviewComment[];
+}
+const { comments } = Astro.props;
+
+// Group by anchored field, preserving the sketch field order from the meta map.
+const fieldOrder = Object.keys(SKETCH_FIELD_META);
+const byField = new Map<string, ReviewComment[]>();
+for (const c of comments) {
+  const key = String(c.field);
+  if (!byField.has(key)) byField.set(key, []);
+  byField.get(key)!.push(c);
+}
+const groups = [...byField.entries()].sort(
+  (a, b) => fieldOrder.indexOf(a[0]) - fieldOrder.indexOf(b[0]),
+);
+
+const counts = {
+  open: comments.filter((c) => c.status === 'open').length,
+  addressed: comments.filter((c) => c.status === 'addressed').length,
+  resolved: comments.filter((c) => c.status === 'resolved').length,
+};
+const fieldLabel = (f: string) => SKETCH_FIELD_META[f as keyof typeof SKETCH_FIELD_META]?.label ?? f;
+---
+
+<section class="bcn-review">
+  <header class="bcn-review__head">
+    <h3 class="bcn-review__title">
+      <EsaIcon name="message-square-warning" paths="<path d='M12 7v2'/><path d='M12 13h.01'/><path d='M11.7 3H5a2 2 0 0 0-2 2v16l4-4h12a2 2 0 0 0 2-2V8'/>" size="sm" />
+      Agency Review — CDFW
+      <EsaBadge variant="secondary" size="sm" value={comments.length} />
+    </h3>
+    <div class="bcn-review__counts">
+      <span class="bcn-review__count" data-s="open">{counts.open} open</span>
+      <span class="bcn-review__count" data-s="addressed">{counts.addressed} addressed</span>
+      <span class="bcn-review__count" data-s="resolved">{counts.resolved} resolved</span>
+    </div>
+  </header>
+
+  {comments.length === 0 && (
+    <p class="bcn-review__none">No agency comments yet. Submit this plan for CDFW review to begin the cycle.</p>
+  )}
+
+  <div class="bcn-review__groups">
+    {groups.map(([field, items]) => (
+      <div class="bcn-review__group">
+        <h4 class="bcn-review__field">
+          <EsaIcon name="map-pin" paths="<path d='M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0'/><circle cx='12' cy='10' r='3'/>" size="sm" />
+          Pinned to: {fieldLabel(field)}
+        </h4>
+        <ul class="bcn-review__list">
+          {items.map((c) => (
+            <li class="bcn-review__item">
+              <span class="bcn-review__node"><EsaAvatar name={c.author} size="sm" /></span>
+              <div class="bcn-review__body">
+                <div class="bcn-review__meta">
+                  <span class="bcn-review__author">{c.author}</span>
+                  {c.agency && <EsaBadge variant="warning" size="sm" value="CDFW" />}
+                  <span class="bcn-review__time">{c.date}</span>
+                  <span class="bcn-review__tags">
+                    <EsaPill label={COMMENT_INTENT_META[c.intent].label} removable={false} size="sm" />
+                    <BcnStatusChip status={c.status} label={COMMENT_STATUS_META[c.status].label} hex={COMMENT_STATUS_META[c.status].hex} />
+                  </span>
+                </div>
+                <p class="bcn-review__text">{c.text}</p>
+                {c.replies && c.replies.length > 0 && (
+                  <ul class="bcn-review__replies">
+                    {c.replies.map((r) => (
+                      <li class="bcn-review__reply">
+                        <span class="bcn-review__node bcn-review__node--reply"><EsaAvatar name={r.author} size="sm" /></span>
+                        <div class="bcn-review__body">
+                          <div class="bcn-review__meta">
+                            <span class="bcn-review__author">{r.author}</span>
+                            <span class="bcn-review__time">{r.date}</span>
+                          </div>
+                          <p class="bcn-review__text">{r.text}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .bcn-review { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .bcn-review__head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--spacing-300); }
+  .bcn-review__title { display: flex; align-items: center; gap: var(--spacing-200); margin: 0; font-size: var(--type-size-300); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-review__title :global(.esa-icon) { color: var(--color-warning); flex-shrink: 0; }
+  .bcn-review__counts { display: inline-flex; align-items: center; gap: var(--spacing-300); font-size: var(--type-size-100); }
+  .bcn-review__count { display: inline-flex; align-items: center; gap: var(--spacing-100); color: var(--color-text-secondary); }
+  .bcn-review__count::before { content: ''; width: 8px; height: 8px; border-radius: var(--radius-full); }
+  .bcn-review__count[data-s='open']::before { background: var(--color-warning); }
+  .bcn-review__count[data-s='addressed']::before { background: var(--color-info); }
+  .bcn-review__count[data-s='resolved']::before { background: var(--color-success); }
+  .bcn-review__none { margin: 0; font-size: var(--type-size-200); color: var(--color-text-tertiary); }
+
+  .bcn-review__groups { display: flex; flex-direction: column; gap: var(--spacing-500); }
+  .bcn-review__group { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-review__field { display: flex; align-items: center; gap: var(--spacing-150); margin: 0; font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); text-transform: uppercase; letter-spacing: 0.02em; color: var(--color-text-tertiary); }
+  .bcn-review__field :global(.esa-icon) { color: var(--color-text-muted); }
+
+  .bcn-review__list, .bcn-review__replies { list-style: none; margin: 0; padding: 0; }
+  .bcn-review__item { display: grid; grid-template-columns: auto 1fr; gap: var(--spacing-300); padding: var(--spacing-300); border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface); }
+  .bcn-review__item + .bcn-review__item { margin-top: var(--spacing-200); }
+  .bcn-review__body { min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-150); }
+  .bcn-review__meta { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-200); }
+  .bcn-review__author { font-size: 0.875rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-review__time { font-size: 0.75rem; color: var(--color-text-tertiary); }
+  .bcn-review__tags { display: inline-flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-150); margin-left: auto; }
+  .bcn-review__text { margin: 0; font-size: var(--type-size-200); line-height: 1.55; color: var(--color-text-secondary); }
+
+  /* Threaded author replies — indented, on a connecting rail. */
+  .bcn-review__replies { margin-top: var(--spacing-200); padding-left: var(--spacing-400); border-left: 2px solid var(--color-border); display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-review__reply { display: grid; grid-template-columns: auto 1fr; gap: var(--spacing-200); }
+  .bcn-review__node--reply :global(.esa-avatar) { --_avatar-bg: var(--color-secondary); }
+</style>

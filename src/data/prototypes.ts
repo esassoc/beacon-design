@@ -161,4 +161,30 @@ export const prototypeGroups: PrototypeGroup[] = [
       },
     ],
   },
+  {
+    slug: 'fish-studies',
+    title: 'Fish Studies',
+    description:
+      'Science-plan project management — one COA-keyed study dataset projected as the crosswalk grid, a water-year gantt, and the narrative sketch + CDFW review-comment cycle, with on-demand document outputs (the single-source-of-truth pitch for Aaron/Paul).',
+    pages: [
+      {
+        slug: 'fish-studies',
+        title: 'Science Plan (studies index)',
+        description:
+          'The crosswalk projection: 36 ITP studies as a filterable AG Grid (Category / Lead / Plan Status / Phase / Species) with a Grid ↔ Timeline view toggle, derived stats, and a "Generate outputs" picker (Word / Excel / Excel / PDF) from one dataset. Row → study detail.',
+        route: '/prototypes/fish-studies',
+        createdAt: '2026-06-15',
+        status: 'in-progress',
+      },
+      {
+        slug: 'fish-study',
+        title: 'Study detail / sketch',
+        description:
+          'The narrative projection: the 9-field science-plan sketch (focal species, objectives + research questions, components → methods/metrics, reporting) + the CDFW review-comment cycle pinned per field, with details / dependencies / deliverables / RACI roles / planning in the rail. One static page per COA; flagship studies (10.19.1, 10.26, 10.18.3, 10.21.10) are deep-filled.',
+        route: '/prototypes/fish-study/10.19.1',
+        createdAt: '2026-06-15',
+        status: 'in-progress',
+      },
+    ],
+  },
 ];

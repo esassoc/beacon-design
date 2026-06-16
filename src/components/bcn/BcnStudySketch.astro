@@ -1,0 +1,163 @@
+---
+// <BcnStudySketch> — renders a study's 9-field "sketch" (the science-plan Table 1
+// schema) as readable, anchored sections. This is the NARRATIVE projection of a
+// study record: the same data the crosswalk grid and gantt show, expanded into the
+// form CDFW reviews. Each field carries data-field so review comments can anchor to
+// it (the (study, field) pin the review cycle depends on).
+//
+// bcn-lego-checked: no esa-* lego renders a structured multi-field document body
+// (esa-collapsible is a single disclosure; esa-card is a generic box). Checked
+// Beacon (the science plan is a Word doc, not a component). Reusable across every
+// study detail page → a real bcn-. Species chips use esa-pill; everything else is
+// token-driven layout. No reinvented primitive.
+import EsaPill from '@esa/ecology/esa-pill.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import type { StudySketch, FocalSpecies } from '../../data/fish-model';
+
+interface Props {
+  sketch: StudySketch;
+  species: FocalSpecies[];
+}
+const { sketch, species } = Astro.props;
+
+const SPECIES_TINT: Record<FocalSpecies['group'], string> = {
+  listed: 'var(--color-action)',
+  predator: 'var(--color-warning)',
+  other: 'var(--color-text-muted)',
+};
+// Lucide flask-conical (study) / target (objectives) / book-open (background) etc.
+const ICON = {
+  flask: "<path d='M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2'/><path d='M6.453 15h11.094'/><path d='M8.5 2h7'/>",
+  target: "<circle cx='12' cy='12' r='10'/><circle cx='12' cy='12' r='6'/><circle cx='12' cy='12' r='2'/>",
+};
+---
+
+<article class="bcn-sketch">
+  <!-- Field 1 — Focal Species -->
+  <section class="bcn-sketch__field" data-field="focalSpeciesNote">
+    <h3 class="bcn-sketch__h">Focal Species</h3>
+    {species.length > 0 && (
+      <div class="bcn-sketch__chips">
+        {species.map((s) => (
+          <EsaPill label={s.name} removable={false} size="sm" style={`--_pill-accent: ${SPECIES_TINT[s.group]};`} />
+        ))}
+      </div>
+    )}
+    <p class="bcn-sketch__p">{sketch.focalSpeciesNote}</p>
+  </section>
+
+  <!-- Field 2 — Project Effect Links -->
+  <section class="bcn-sketch__field" data-field="projectEffectLinks">
+    <h3 class="bcn-sketch__h">Project Effect Links</h3>
+    <p class="bcn-sketch__p">{sketch.projectEffectLinks}</p>
+  </section>
+
+  <!-- Field 3 — Objectives, Research Questions & Hypotheses -->
+  <section class="bcn-sketch__field" data-field="objectivesSummary">
+    <h3 class="bcn-sketch__h">Objectives, Research Questions &amp; Hypotheses</h3>
+    <p class="bcn-sketch__p">{sketch.objectivesSummary}</p>
+    {sketch.researchQuestions.length > 0 && (
+      <ol class="bcn-sketch__rq">
+        {sketch.researchQuestions.map((q) => <li>{q}</li>)}
+      </ol>
+    )}
+    {sketch.hypotheses && sketch.hypotheses.length > 0 && (
+      <ul class="bcn-sketch__hyp">
+        {sketch.hypotheses.map((h) => <li>{h}</li>)}
+      </ul>
+    )}
+  </section>
+
+  <!-- Field 4 — Background -->
+  <section class="bcn-sketch__field" data-field="background">
+    <h3 class="bcn-sketch__h">Background</h3>
+    <p class="bcn-sketch__p">{sketch.background}</p>
+  </section>
+
+  <!-- Field 5 — Methods (Study Area + Components, or study-level methods) -->
+  <section class="bcn-sketch__field" data-field="methods">
+    <h3 class="bcn-sketch__h">Methods</h3>
+    {sketch.studyArea && (
+      <p class="bcn-sketch__p"><span class="bcn-sketch__sub">Study area.</span> {sketch.studyArea}</p>
+    )}
+    {sketch.components && sketch.components.length > 0 ? (
+      <div class="bcn-sketch__components">
+        {sketch.components.map((c) => (
+          <div class="bcn-sketch__component">
+            <h4 class="bcn-sketch__component-h"><EsaIcon name="flask-conical" paths={ICON.flask} size="sm" />{c.name}</h4>
+            <div class="bcn-sketch__cols">
+              <div>
+                <span class="bcn-sketch__col-label">Methods / protocols</span>
+                <ul class="bcn-sketch__list">{c.methods.map((m) => <li>{m}</li>)}</ul>
+              </div>
+              <div>
+                <span class="bcn-sketch__col-label">Performance metrics</span>
+                <ul class="bcn-sketch__list">{c.metrics.map((m) => <li>{m}</li>)}</ul>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    ) : (
+      sketch.methods && sketch.methods.length > 0 && (
+        <ul class="bcn-sketch__list">{sketch.methods.map((m) => <li>{m}</li>)}</ul>
+      )
+    )}
+  </section>
+
+  <!-- Field 6 — Performance Metrics (study-level; component metrics render above) -->
+  {sketch.performanceMetrics && sketch.performanceMetrics.length > 0 && (
+    <section class="bcn-sketch__field" data-field="performanceMetrics">
+      <h3 class="bcn-sketch__h"><EsaIcon name="target" paths={ICON.target} size="sm" />Performance Metrics</h3>
+      <ul class="bcn-sketch__list">{sketch.performanceMetrics.map((m) => <li>{m}</li>)}</ul>
+    </section>
+  )}
+
+  <!-- Field 7 — Data Management -->
+  <section class="bcn-sketch__field" data-field="dataManagement">
+    <h3 class="bcn-sketch__h">Data Management</h3>
+    <p class="bcn-sketch__p">{sketch.dataManagement}</p>
+  </section>
+
+  <!-- Field 8 — Reporting Requirements -->
+  <section class="bcn-sketch__field" data-field="reportingRequirements">
+    <h3 class="bcn-sketch__h">Reporting Requirements</h3>
+    <p class="bcn-sketch__p">{sketch.reportingRequirements}</p>
+  </section>
+</article>
+
+<style>
+  .bcn-sketch { display: flex; flex-direction: column; gap: var(--spacing-600); }
+  .bcn-sketch__field { display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-sketch__h {
+    display: flex; align-items: center; gap: var(--spacing-200);
+    margin: 0;
+    font-size: var(--type-size-300);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    padding-bottom: var(--spacing-150);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .bcn-sketch__h :global(.esa-icon) { color: var(--color-secondary); flex-shrink: 0; }
+  .bcn-sketch__p { margin: 0; font-size: var(--type-size-200); line-height: 1.6; color: var(--color-text-secondary); }
+  .bcn-sketch__sub { font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+
+  .bcn-sketch__chips { display: flex; flex-wrap: wrap; gap: var(--spacing-150); margin-bottom: var(--spacing-100); }
+
+  .bcn-sketch__rq { margin: var(--spacing-100) 0 0; padding-left: var(--spacing-500); display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-sketch__rq li { font-size: var(--type-size-200); line-height: 1.5; color: var(--color-text-primary); }
+  .bcn-sketch__hyp { margin: var(--spacing-200) 0 0; padding-left: var(--spacing-500); }
+  .bcn-sketch__hyp li { font-size: var(--type-size-200); line-height: 1.5; color: var(--color-text-secondary); font-style: italic; }
+
+  .bcn-sketch__list { margin: 0; padding-left: var(--spacing-500); display: flex; flex-direction: column; gap: var(--spacing-100); }
+  .bcn-sketch__list li { font-size: var(--type-size-200); line-height: 1.5; color: var(--color-text-secondary); }
+
+  /* Components — each a bordered block with a 2-col methods/metrics split. */
+  .bcn-sketch__components { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-sketch__component { border: 1px solid var(--color-border); border-radius: var(--radius-200); padding: var(--spacing-300) var(--spacing-400); background: var(--color-surface); }
+  .bcn-sketch__component-h { display: flex; align-items: center; gap: var(--spacing-200); margin: 0 0 var(--spacing-200); font-size: var(--type-size-200); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-sketch__component-h :global(.esa-icon) { color: var(--color-secondary); }
+  .bcn-sketch__cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-400); }
+  .bcn-sketch__col-label { display: block; font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); margin-bottom: var(--spacing-150); }
+  @media (max-width: 720px) { .bcn-sketch__cols { grid-template-columns: 1fr; } }
+</style>

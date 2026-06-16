@@ -1,49 +1,71 @@
 ---
-// <BcnStatusSelect> — the Status control in the tracking dialog's Tracking section.
-// A label + a hand-driven listbox whose trigger shows the LIVE status color dot,
-// which is exactly why it isn't an esa-select: the trigger has to render a
-// value-driven color the lego can't. Three states only (Not Started / In Progress
-// / Completed).
+// <BcnStatusSelect> — a labeled status control whose trigger shows the LIVE status
+// color dot (which is why it isn't an esa-select: the trigger renders a value-driven
+// color the lego can't). Normal field styling — NOT the teal "active" state an
+// esa-filter-dropdown shows when it holds a selection.
 //
-// Dot color is 100% CSS, keyed off [data-value] on the root → --bcn-status-* tokens.
-// The component renders its own initial value via the `value` prop (set as data-value
-// in markup); status-select.ts (setupStatusSelect) only flips state — dataset.value,
-// aria, label text, open — and emits 'change' on user selection. Render once, then
-// const ctl = setupStatusSelect(root) to wire it; ctl.setValue(v) updates WITHOUT
-// firing 'change'.
+// TWO modes:
+//   • Default (no `options`)  — the tracking dialog's 3 states (Not Started / In
+//     Progress / Completed); dot color is token-driven (--bcn-status-*) via CSS.
+//   • Option-driven           — pass `options: {value,label,color}[]` for any status
+//     set (e.g. the fish-study plan/exec ramps); dots render the given hex inline.
+// Both are wired the same way: render once, then setupStatusSelect(root); the
+// controller flips state + (in option mode) repaints the trigger dot from the
+// selected option's color. ctl.setValue(v) updates WITHOUT firing 'change'.
 //
-// bcn-lego-checked: no esa-* models a status select whose trigger shows the live status
-// color; esa-select cannot render a value-driven color dot in its own trigger. Checked
-// Ecology (esa-select, esa-dropdown-menu) and Beacon (status pill). bcn-status-select is
-// the reusable home; dots are token-driven (--bcn-status-*).
+// bcn-lego-checked: no esa-* models a status select whose trigger shows the live
+// status color; esa-select can't render a value-driven dot, esa-filter-dropdown is a
+// teal-active multi-filter. Checked Ecology + Beacon (status pill). bcn-status-select
+// is the reusable home.
 
+interface Option {
+  value: string;
+  label: string;
+  /** Inline dot color (option mode). Omit for the token-driven default set. */
+  color?: string;
+}
 interface Props {
   id?: string;
   label?: string;
-  value?: 'not-started' | 'in-progress' | 'completed';
+  value?: string;
+  /** Custom status set; omit for the default Not Started / In Progress / Completed. */
+  options?: Option[];
 }
-const { id, label = 'Status', value = 'not-started' } = Astro.props;
+const { id, label = 'Status', value, options } = Astro.props;
 
-const LABELS: Record<NonNullable<Props['value']>, string> = {
-  'not-started': 'Not Started',
-  'in-progress': 'In Progress',
-  completed: 'Completed',
-};
-const OPTIONS: NonNullable<Props['value']>[] = ['not-started', 'in-progress', 'completed'];
+const DEFAULT_OPTIONS: Option[] = [
+  { value: 'not-started', label: 'Not Started' },
+  { value: 'in-progress', label: 'In Progress' },
+  { value: 'completed', label: 'Completed' },
+];
+const opts = options ?? DEFAULT_OPTIONS;
+const tokenMode = !options; // default set → dot color from CSS tokens, no inline hex
+const current = value ?? opts[0].value;
+const selected = opts.find((o) => o.value === current) ?? opts[0];
 ---
 
-<div class="bcn-status-select" id={id} data-value={value}>
+<div class="bcn-status-select" id={id} data-value={current}>
   <span class="bcn-status-select__label">{label}</span>
   <div class="bcn-status-select__dd">
     <button type="button" class="bcn-status-select__trigger" aria-haspopup="listbox" aria-expanded="false">
-      <span class="bcn-status-select__dot bcn-status-select__dot--trigger"></span>
-      <span class="bcn-status-select__value">{LABELS[value]}</span>
+      <span
+        class="bcn-status-select__dot bcn-status-select__dot--trigger"
+        style={selected.color ? `background:${selected.color}` : undefined}
+      ></span>
+      <span class="bcn-status-select__value">{selected.label}</span>
       <svg class="bcn-status-select__chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
     </button>
     <ul class="bcn-status-select__menu" role="listbox" hidden>
-      {OPTIONS.map((opt) => (
-        <li class="bcn-status-select__opt" role="option" data-value={opt} aria-selected={String(opt === value)}>
-          <span class={`bcn-status-select__dot bcn-status-select__dot--${opt}`}></span>{LABELS[opt]}
+      {opts.map((opt) => (
+        <li
+          class="bcn-status-select__opt"
+          role="option"
+          data-value={opt.value}
+          data-label={opt.label}
+          data-color={opt.color}
+          aria-selected={String(opt.value === current)}
+        >
+          <span class={`bcn-status-select__dot ${tokenMode ? `bcn-status-select__dot--${opt.value}` : ''}`} style={opt.color ? `background:${opt.color}` : undefined}></span>{opt.label}
         </li>
       ))}
     </ul>
@@ -51,8 +73,7 @@ const OPTIONS: NonNullable<Props['value']>[] = ['not-started', 'in-progress', 'c
 </div>
 
 <style>
-  /* Label matches the legos' .field__label (esa-date-picker / esa-select), 4px gap
-     to its control. */
+  /* Label matches the legos' .field__label (esa-date-picker / esa-select), 4px gap. */
   .bcn-status-select { display: flex; flex-direction: column; gap: var(--spacing-100); }
   .bcn-status-select__label { font-size: 0.875rem; font-weight: var(--font-weight-medium); color: var(--form-label-color); }
 
@@ -74,8 +95,7 @@ const OPTIONS: NonNullable<Props['value']>[] = ['not-started', 'in-progress', 'c
   .bcn-status-select__chev { color: var(--color-text-tertiary); flex-shrink: 0; transition: transform 150ms ease; }
   .bcn-status-select__trigger[aria-expanded='true'] .bcn-status-select__chev { transform: rotate(180deg); }
 
-  /* Dot color is value-driven, never hardcoded: the menu options carry their own
-     state color, and the trigger's dot mirrors the root's [data-value]. */
+  /* Default-set dot colors are token-driven (option mode supplies inline color instead). */
   .bcn-status-select__dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
   .bcn-status-select__dot--not-started { background: var(--bcn-status-not-started); }
   .bcn-status-select__dot--in-progress { background: var(--bcn-status-in-progress); }
