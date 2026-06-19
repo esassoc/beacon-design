@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Due Diligence — Beacon</title>
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/shell.css" />
+  <link rel="stylesheet" href="../assets/css/components.css" />
+  <style>
+    .project-tile {
+      display: flex; flex-direction: column;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-200);
+      text-decoration: none; color: inherit;
+      overflow: hidden;
+      transition: border-color 150ms ease, box-shadow 150ms ease;
+    }
+    .project-tile:hover { border-color: var(--color-primary); box-shadow: var(--shadow-sm); text-decoration: none; }
+    .project-tile__map {
+      height: 140px;
+      background: linear-gradient(135deg, #d8e8e6, #b9d6d2 60%, #91b9b3);
+      position: relative;
+    }
+    .project-tile__map::after {
+      content: ''; position: absolute; inset: 30% 25% 30% 25%;
+      border: 2px solid var(--color-primary);
+      border-radius: 4px;
+      background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+    }
+    .project-tile__body { padding: var(--spacing-400) var(--spacing-500); }
+    .project-tile__name { font-weight: var(--font-weight-semi); font-size: var(--type-size-400); }
+    .project-tile__meta { color: var(--color-text-tertiary); font-size: var(--type-size-200); margin-top: 4px; }
+    .project-tile__row {
+      display: flex; align-items: center; gap: var(--spacing-300);
+      padding: var(--spacing-300) var(--spacing-500);
+      border-top: 1px solid var(--color-border-light);
+      background: var(--bcn-gray-50);
+      font-size: var(--type-size-200);
+    }
+    .findings-row { display: flex; gap: var(--spacing-200); flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="page-layout">
+      <div class="page-layout__container">
+
+        <!-- Breadcrumbs -->
+        <section class="page-layout__breadcrumbs">
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <div class="breadcrumbs__items" id="crumbs"></div>
+          </nav>
+        </section>
+
+        <!-- Title -->
+        <section class="page-layout__title">
+          <div class="page-layout__title-main">
+            <h1 id="page-title"></h1>
+          </div>
+          <div class="page-layout__utilities">
+            <a href="new-project.html" class="btn btn--primary" id="new-btn"></a>
+          </div>
+        </section>
+
+        <section class="page-layout__content">
+
+          <!-- Stat tiles -->
+          <div class="card-grid card-grid--4" style="margin-bottom: var(--spacing-500);">
+            <div class="stat"><span class="stat__label">Active projects</span><span class="stat__value">2</span><span class="stat__delta">in Due Diligence</span></div>
+            <div class="stat"><span class="stat__label">CIAs in progress</span><span class="stat__value">2</span><span class="stat__delta">avg 4–6 wks to draft</span></div>
+            <div class="stat"><span class="stat__label">Constraints flagged</span><span class="stat__value">3 <span style="font-size:1rem; color: var(--risk-high);">High</span></span><span class="stat__delta stat__delta--high">across portfolio</span></div>
+            <div class="stat"><span class="stat__label">Permits identified</span><span class="stat__value">17</span><span class="stat__delta">12 local · 3 state · 2 federal</span></div>
+          </div>
+
+          <!-- AI assist callout -->
+          <div class="alert alert--ai" style="margin-bottom: var(--spacing-500);">
+            <span class="alert__icon" id="ai-icon"></span>
+            <div class="alert__body">
+              <div class="alert__title">AI assist on this module</div>
+              <div>Beacon's GIS data feeds refresh nightly from CAL FIRE, CNDDB, EnviroStor, FEMA NFHL, and NAHC sources. The assistant cross-references each project boundary on update and surfaces new high-risk overlaps in the constraints view.</div>
+            </div>
+          </div>
+
+          <!-- Project tile grid -->
+          <h2 style="font-size: var(--type-size-400); margin-bottom: var(--spacing-300); font-weight: var(--font-weight-semi);">Projects in Due Diligence</h2>
+          <div class="card-grid card-grid--2" id="dd-projects"></div>
+
+          <div class="divider"></div>
+
+          <h2 style="font-size: var(--type-size-400); margin-bottom: var(--spacing-300); font-weight: var(--font-weight-semi);">Recently moved to next phase</h2>
+          <div class="card">
+            <div id="moved-list"></div>
+          </div>
+
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/data/projects.js"></script>
+  <script>
+    window.BeaconShell = { phase: 'due-diligence', activeNavId: 'dd-projects', project: 'Portfolio', hideProject: true };
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('crumbs').innerHTML = `
+        ${bcnIcon('home','icon icon--sm')}
+        <a class="breadcrumb-item" href="../index.html">Portfolio</a>
+        ${bcnIcon('chevron-right','icon icon--sm')}
+        <span class="breadcrumb-item">Due Diligence</span>`;
+      document.getElementById('page-title').innerHTML = `${bcnIcon('compass-2','icon icon--lg')} Due Diligence`;
+      document.getElementById('new-btn').innerHTML = `${bcnIcon('plus')} New project`;
+      document.getElementById('ai-icon').innerHTML = bcnIcon('sparkles');
+
+      const dd = BeaconData.projects.filter(p => p.phase === 'due-diligence');
+      document.getElementById('dd-projects').innerHTML = dd.map(p => `
+        <a class="project-tile" href="project.html">
+          <div class="project-tile__map"></div>
+          <div class="project-tile__body">
+            <div class="project-tile__name">${p.name}</div>
+            <div class="project-tile__meta">${p.location} · ${p.mw} MW · ${p.acres} ac</div>
+            <div class="findings-row" style="margin-top: var(--spacing-300);">
+              <span class="chip chip--high">${p.findings.high} High</span>
+              <span class="chip chip--medium">${p.findings.medium} Med</span>
+              <span class="chip chip--low">${p.findings.low} Low</span>
+              <span class="chip chip--none">${p.findings.none} None</span>
+            </div>
+          </div>
+          <div class="project-tile__row">
+            <span class="text-tertiary">${p.stage}</span>
+            <span class="flex-1"></span>
+            <span style="color: var(--color-primary); font-weight: var(--font-weight-semi);">Open ${bcnIcon('arrow-right','icon icon--sm')}</span>
+          </div>
+        </a>`).join('');
+
+      const moved = BeaconData.projects.filter(p => p.phase !== 'due-diligence');
+      document.getElementById('moved-list').innerHTML = moved.map(p => `
+        <div style="display:flex; align-items:center; gap: var(--spacing-300); padding: var(--spacing-300) var(--spacing-500); border-bottom: 1px solid var(--color-border-light);">
+          ${bcnIcon('circle-check')}
+          <div style="flex:1;">
+            <div style="font-weight: var(--font-weight-semi);">${p.name}</div>
+            <div class="text-small text-tertiary">${p.location} · advanced to ${p.phase === 'planning-permitting' ? 'Planning & Permitting' : 'Compliance'}</div>
+          </div>
+          <span class="chip chip--${p.phase === 'planning-permitting' ? 'planning' : 'compliance'}"><span class="chip__dot"></span>${p.phase === 'planning-permitting' ? 'Planning & Permitting' : 'Compliance'}</span>
+        </div>`).join('');
+    });
+  </script>
+</body>
+</html>

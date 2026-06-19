@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mojave Stockyard BESS — Overview</title>
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/shell.css" />
+  <link rel="stylesheet" href="../assets/css/components.css" />
+  <style>
+    .activity-row { display:flex; gap: var(--spacing-300); padding: var(--spacing-300) var(--spacing-400); border-bottom: 1px solid var(--color-border-light); font-size: var(--type-size-300); }
+    .activity-row:last-child { border-bottom: none; }
+    .activity-row__dot { width: 8px; height: 8px; border-radius: 9999px; background: var(--color-primary); margin-top: 8px; flex-shrink: 0; }
+    .activity-row__time { color: var(--color-text-tertiary); font-size: var(--type-size-200); white-space: nowrap; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="page-layout">
+      <div class="page-layout__container">
+
+        <section class="page-layout__breadcrumbs">
+          <nav class="breadcrumbs" aria-label="Breadcrumb"><div class="breadcrumbs__items" id="crumbs"></div></nav>
+        </section>
+
+        <section class="page-layout__title">
+          <div class="page-layout__title-main">
+            <h1 id="page-title"></h1>
+            <span class="chip chip--due-diligence" style="margin-left: var(--spacing-300);"><span class="chip__dot"></span>Due Diligence</span>
+          </div>
+          <div class="page-layout__utilities">
+            <a class="btn btn--ghost" id="export-btn"></a>
+            <a class="btn btn--primary" href="report.html" id="report-btn"></a>
+          </div>
+        </section>
+
+        <section class="page-layout__content">
+
+          <!-- Phase progress -->
+          <div class="phase-progress">
+            <div class="phase-progress__step phase-progress__step--current">
+              <span class="phase-progress__step-label">Phase 1</span>
+              <span class="phase-progress__step-name">Due Diligence</span>
+              <span class="phase-progress__step-meta">42% complete · CIA in draft</span>
+            </div>
+            <div class="phase-progress__step">
+              <span class="phase-progress__step-label">Phase 2</span>
+              <span class="phase-progress__step-name">Planning &amp; Permitting</span>
+              <span class="phase-progress__step-meta">Locked — finish Due Diligence first</span>
+            </div>
+            <div class="phase-progress__step">
+              <span class="phase-progress__step-label">Phase 3</span>
+              <span class="phase-progress__step-name">Compliance</span>
+              <span class="phase-progress__step-meta">Locked</span>
+            </div>
+          </div>
+
+          <div class="split">
+            <!-- Left rail: project facts -->
+            <div class="stack-400">
+              <div class="card">
+                <div class="card__header"><div class="card__title" id="facts-title"></div></div>
+                <div class="card__body">
+                  <dl class="kv">
+                    <dt>Developer</dt><dd>Acme Energy</dd>
+                    <dt>Location</dt><dd>Kern County, CA</dd>
+                    <dt>Site address</dt><dd>14250 Stockyard Rd, Mojave, CA 93501</dd>
+                    <dt>Capacity</dt><dd>500 MW / 2,000 MWh</dd>
+                    <dt>Footprint</dt><dd>18.2 ac (net)</dd>
+                    <dt>APNs</dt><dd class="text-mono">237-104-007, 237-104-008</dd>
+                    <dt>Lead agency</dt><dd>City of Mojave Stockyard</dd>
+                    <dt>Created</dt><dd>2026-05-12 by M. Gibson</dd>
+                    <dt>Last GIS sync</dt><dd>2026-06-16 02:14 PT</dd>
+                  </dl>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card__header"><div class="card__title" id="team-title"></div></div>
+                <div class="card__body stack-300">
+                  <div class="row-300">
+                    <span class="user-avatar" style="width:32px; height:32px;" id="av1"></span>
+                    <div><div style="font-weight: var(--font-weight-semi);">Meghan Gibson</div><div class="text-small text-tertiary">Project Manager</div></div>
+                  </div>
+                  <div class="row-300">
+                    <span class="user-avatar" style="width:32px; height:32px;" id="av2"></span>
+                    <div><div style="font-weight: var(--font-weight-semi);">David Crook, AICP</div><div class="text-small text-tertiary">Project Director · QA/QC</div></div>
+                  </div>
+                  <div class="row-300">
+                    <span class="user-avatar" style="width:32px; height:32px;" id="av3"></span>
+                    <div><div style="font-weight: var(--font-weight-semi);">Liesbeth Magna, PMP</div><div class="text-small text-tertiary">Strategic Advisor</div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right content -->
+            <div class="stack-400">
+
+              <!-- Critical issues — bullet summary (Section 3 pattern from real CIAs) -->
+              <div class="card">
+                <div class="card__header">
+                  <div>
+                    <div class="card__title" id="critical-title"></div>
+                    <div class="card__subtitle">The headline issues that may impact feasibility, schedule, or cost</div>
+                  </div>
+                  <a class="btn btn--text" href="report.html" id="open-report-btn"></a>
+                </div>
+                <div class="card__body">
+                  <ul id="critical-list" style="margin: 0; padding-left: 20px; line-height: 1.65;"></ul>
+                </div>
+              </div>
+
+              <!-- Findings snapshot -->
+              <div class="card">
+                <div class="card__header">
+                  <div>
+                    <div class="card__title" id="findings-title"></div>
+                    <div class="card__subtitle">Auto-derived from the current GIS data sync</div>
+                  </div>
+                  <a class="btn btn--text" href="constraints.html" id="open-constraints-btn"></a>
+                </div>
+                <div class="card__body">
+                  <div class="card-grid card-grid--4">
+                    <div class="stack-200">
+                      <div class="row-200"><span class="chip chip--high"><span class="chip__dot"></span>High</span><strong>2</strong></div>
+                      <div class="gauge"><span class="gauge__fill gauge__fill--high" style="width:60%;"></span></div>
+                      <div class="text-small text-tertiary">Hazardous materials · Sensitive biological</div>
+                    </div>
+                    <div class="stack-200">
+                      <div class="row-200"><span class="chip chip--medium"><span class="chip__dot"></span>Medium</span><strong>4</strong></div>
+                      <div class="gauge"><span class="gauge__fill gauge__fill--medium" style="width:45%;"></span></div>
+                      <div class="text-small text-tertiary">Zoning · Fire hazard · Cultural · Hydrology</div>
+                    </div>
+                    <div class="stack-200">
+                      <div class="row-200"><span class="chip chip--low"><span class="chip__dot"></span>Low</span><strong>5</strong></div>
+                      <div class="gauge"><span class="gauge__fill gauge__fill--low" style="width:25%;"></span></div>
+                      <div class="text-small text-tertiary">Jurisdiction · Parcels · Ag · Transmission</div>
+                    </div>
+                    <div class="stack-200">
+                      <div class="row-200"><span class="chip chip--none"><span class="chip__dot"></span>None</span><strong>11</strong></div>
+                      <div class="gauge"><span class="gauge__fill" style="width:8%; background: var(--bcn-gray-300);"></span></div>
+                      <div class="text-small text-tertiary" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Farmland · Mineral resources · Recreation</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Workflow cards -->
+              <div class="card-grid card-grid--2">
+                <a href="new-project.html" class="module-card module-card--due-diligence">
+                  <span class="module-card__phase-bar"></span>
+                  <div class="module-card__head">
+                    <span class="module-card__icon" id="ico-bnd"></span>
+                    <span class="chip chip--success">Defined</span>
+                  </div>
+                  <div class="module-card__title">Project Boundary</div>
+                  <div class="module-card__desc">Drawn on map · 18.2 ac · 2 parcels · last edited 2026-06-12</div>
+                  <span class="module-card__cta">Review boundary <span id="cta-bnd"></span></span>
+                </a>
+
+                <a href="constraints.html" class="module-card module-card--due-diligence">
+                  <span class="module-card__phase-bar"></span>
+                  <div class="module-card__head">
+                    <span class="module-card__icon" id="ico-con"></span>
+                    <span class="chip chip--warning">2 high findings</span>
+                  </div>
+                  <div class="module-card__title">Constraints Cross-Reference</div>
+                  <div class="module-card__desc">10 GIS layers active · 6 with overlap · CalFire FHSZ + EnviroStor flagged</div>
+                  <span class="module-card__cta">Open map <span id="cta-con"></span></span>
+                </a>
+
+                <a href="permits.html" class="module-card module-card--due-diligence">
+                  <span class="module-card__phase-bar"></span>
+                  <div class="module-card__head">
+                    <span class="module-card__icon" id="ico-perm"></span>
+                    <span class="chip chip--info">9 likely</span>
+                  </div>
+                  <div class="module-card__title">Permit Matrix</div>
+                  <div class="module-card__desc">Local CUP, Building, Fire (NFPA 855), SWPPP, USACE/CDFW, CAISO interconnect</div>
+                  <span class="module-card__cta">Open matrix <span id="cta-perm"></span></span>
+                </a>
+
+                <a href="report.html" class="module-card module-card--due-diligence">
+                  <span class="module-card__phase-bar"></span>
+                  <div class="module-card__head">
+                    <span class="module-card__icon" id="ico-rep"></span>
+                    <span class="badge badge--draft">Draft</span>
+                  </div>
+                  <div class="module-card__title">Preliminary CIA Report</div>
+                  <div class="module-card__desc">Auto-assembled from findings + permit matrix. Ready to review &amp; export.</div>
+                  <span class="module-card__cta">Review draft <span id="cta-rep"></span></span>
+                </a>
+              </div>
+
+              <!-- Activity -->
+              <div class="card">
+                <div class="card__header"><div class="card__title" id="activity-title"></div></div>
+                <div>
+                  <div class="activity-row"><span class="activity-row__dot"></span><div style="flex:1;"><strong>EnviroStor sync</strong> · 2 closed LUST sites + 1 open VCP within 1 mi flagged as new high-severity findings.</div><span class="activity-row__time">2 hr ago</span></div>
+                  <div class="activity-row"><span class="activity-row__dot" style="background: var(--color-warning);"></span><div style="flex:1;"><strong>CalFire FHSZ</strong> · NE corner of boundary now overlaps Moderate FHSZ (2025 update).</div><span class="activity-row__time">1 day ago</span></div>
+                  <div class="activity-row"><span class="activity-row__dot" style="background: var(--bcn-gray-300);"></span><div style="flex:1;"><strong>M. Gibson</strong> added two parcels (237-104-007, 237-104-008) to the boundary.</div><span class="activity-row__time">3 days ago</span></div>
+                  <div class="activity-row"><span class="activity-row__dot" style="background: var(--bcn-gray-300);"></span><div style="flex:1;"><strong>Project created</strong> by M. Gibson.</div><span class="activity-row__time">May 12</span></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/data/projects.js"></script>
+  <script>
+    window.BeaconShell = { phase: 'due-diligence', activeNavId: 'dd-overview', project: 'Mojave Stockyard BESS' };
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('crumbs').innerHTML = `
+        ${bcnIcon('home','icon icon--sm')}
+        <a class="breadcrumb-item" href="../index.html">Portfolio</a>
+        ${bcnIcon('chevron-right','icon icon--sm')}
+        <a class="breadcrumb-item" href="index.html">Due Diligence</a>
+        ${bcnIcon('chevron-right','icon icon--sm')}
+        <span class="breadcrumb-item">Mojave Stockyard BESS</span>`;
+      document.getElementById('page-title').innerHTML = `${bcnIcon('layout','icon icon--lg')} Mojave Stockyard BESS`;
+      document.getElementById('export-btn').innerHTML = `${bcnIcon('download')} Export`;
+      document.getElementById('report-btn').innerHTML = `${bcnIcon('file-text')} Open report`;
+      document.getElementById('facts-title').innerHTML = `${bcnIcon('info')} Project facts`;
+      document.getElementById('team-title').innerHTML = `${bcnIcon('user')} Team`;
+      document.getElementById('critical-title').innerHTML = `${bcnIcon('alert')} Critical issues`;
+      document.getElementById('open-report-btn').innerHTML = `Open report ${bcnIcon('arrow-right','icon icon--sm')}`;
+      document.getElementById('critical-list').innerHTML = BeaconData.criticalIssues.map(i => `<li>${i}</li>`).join('');
+      document.getElementById('findings-title').innerHTML = `${bcnIcon('alert')} Findings by severity`;
+      document.getElementById('open-constraints-btn').innerHTML = `Open constraints ${bcnIcon('arrow-right','icon icon--sm')}`;
+      document.getElementById('ico-bnd').innerHTML = bcnIcon('map-pinned','icon icon--lg');
+      document.getElementById('ico-con').innerHTML = bcnIcon('layers','icon icon--lg');
+      document.getElementById('ico-perm').innerHTML = bcnIcon('clipboard','icon icon--lg');
+      document.getElementById('ico-rep').innerHTML = bcnIcon('file-text','icon icon--lg');
+      document.getElementById('cta-bnd').innerHTML = bcnIcon('arrow-right','icon icon--sm');
+      document.getElementById('cta-con').innerHTML = bcnIcon('arrow-right','icon icon--sm');
+      document.getElementById('cta-perm').innerHTML = bcnIcon('arrow-right','icon icon--sm');
+      document.getElementById('cta-rep').innerHTML = bcnIcon('arrow-right','icon icon--sm');
+      document.getElementById('activity-title').innerHTML = `${bcnIcon('route')} Activity`;
+      document.getElementById('av1').innerHTML = bcnIcon('user');
+      document.getElementById('av2').innerHTML = bcnIcon('user');
+      document.getElementById('av3').innerHTML = bcnIcon('user');
+    });
+  </script>
+</body>
+</html>

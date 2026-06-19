@@ -1,0 +1,394 @@
+/*
+ * Beacon design tokens — aligned to the ecology hub token contract
+ * (esassoc/ecology, packages/tokens) with Beacon's spoke re-points layered on
+ * top (esassoc/beacon-design, theme-beacon.css).
+ *
+ * Three tiers:
+ *   1. Primitives  (--bcn-*, --spacing-*, --radius-*, --type-size-*, …)
+ *   2. Semantic    (--color-primary, --color-text-*, --form-*, …)
+ *   3. Type roles  (.type-display, .type-page-title, …)
+ */
+
+/* Web fonts — DM Sans (sans + display) and DM Mono (mono). Roboto Mono kept
+   as a Beacon spoke override; Besley kept for the optional decorative slot. */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;350;400;450;500;550;600;650;700&family=DM+Mono:wght@400;500&family=Roboto+Mono:wght@400;500&family=Besley:wght@500;600;700&display=swap');
+
+:root {
+  /* ─────────────────────────────────────────────────────────────────
+     PRIMITIVES — warm gray ramp (Beacon's authoritative neutrals)
+     ───────────────────────────────────────────────────────────────── */
+  --bcn-gray-0:    #ffffff;
+  --bcn-gray-50:   #fafafa;
+  --bcn-gray-100:  #efefef;
+  --bcn-gray-200:  #dcdcdc;
+  --bcn-gray-300:  #bdbdbd;
+  --bcn-gray-400:  #989898;
+  --bcn-gray-500:  #7c7c7c;
+  --bcn-gray-600:  #656565;
+  --bcn-gray-700:  #525252;
+  --bcn-gray-800:  #464646;
+  --bcn-gray-900:  #3d3d3d;
+  --bcn-gray-950:  #292929;
+  --bcn-gray-1000: #000000;
+
+  /* Mirror onto the hub's --color-gray-* scale so component tokens that
+     reference {color.gray.N} resolve to Beacon's warm grays. */
+  --color-gray-0:    var(--bcn-gray-0);
+  --color-gray-50:   var(--bcn-gray-50);
+  --color-gray-100:  var(--bcn-gray-100);
+  --color-gray-200:  var(--bcn-gray-200);
+  --color-gray-300:  var(--bcn-gray-300);
+  --color-gray-400:  var(--bcn-gray-400);
+  --color-gray-500:  var(--bcn-gray-500);
+  --color-gray-600:  var(--bcn-gray-600);
+  --color-gray-700:  var(--bcn-gray-700);
+  --color-gray-800:  var(--bcn-gray-800);
+  --color-gray-900:  var(--bcn-gray-900);
+  --color-gray-950:  var(--bcn-gray-950);
+
+  /* True teal ramp (Beacon brand) */
+  --bcn-teal-50:  #effefb;
+  --bcn-teal-100: #eef5f4;
+  --bcn-teal-200: #b9d6d2;
+  --bcn-teal-500: #00918b;
+  --bcn-teal-600: #0e807b;
+  --bcn-teal-800: #0a6562;
+  --bcn-teal-900: #005862;
+
+  /* ─────────────────────────────────────────────────────────────────
+     PRIMITIVES — spacing (rem-based, matches ecology primitive/spacing.json)
+     ───────────────────────────────────────────────────────────────── */
+  --spacing-050:  0.125rem; /*  2 */
+  --spacing-100:  0.25rem;  /*  4 */
+  --spacing-150:  0.375rem; /*  6 */
+  --spacing-200:  0.5rem;   /*  8 */
+  --spacing-250:  0.625rem; /* 10 */
+  --spacing-300:  0.75rem;  /* 12 */
+  --spacing-400:  1rem;     /* 16 */
+  --spacing-500:  1.5rem;   /* 24 */
+  --spacing-600:  2rem;     /* 32 */
+  --spacing-650:  2.5rem;   /* 40 */
+  --spacing-700:  3rem;     /* 48 */
+  --spacing-800:  4rem;     /* 64 */
+  --spacing-900:  6rem;     /* 96 */
+  --spacing-950:  7.5rem;   /* 120 */
+  --spacing-1000: 15rem;    /* 240 */
+
+  /* ─────────────────────────────────────────────────────────────────
+     PRIMITIVES — radius
+     ───────────────────────────────────────────────────────────────── */
+  --radius-050:  0.125rem; /* 2 */
+  --radius-100:  0.25rem;  /* 4 */
+  --radius-200:  0.5rem;   /* 8 */
+  --radius-300:  0.5rem;   /* 8 */
+  --radius-400:  0.75rem;  /* 12 */
+  --radius-500:  1rem;     /* 16 */
+  --radius-full: 9999px;
+
+  /* ─────────────────────────────────────────────────────────────────
+     PRIMITIVES — typography
+     ───────────────────────────────────────────────────────────────── */
+  --font-sans:    'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: var(--font-sans);                  /* DM Sans serves both */
+  --font-mono:    'Roboto Mono', 'DM Mono', ui-monospace, monospace;
+  --font-decorative: 'Besley', 'DM Sans', Georgia, serif; /* optional opt-in voice */
+  /* Compatibility alias for older selectors */
+  --font-body:    var(--font-sans);
+
+  /* Font weights — DM Sans optical values (each weight ships as a discrete
+     master, not interpolated; these numbers ARE the named weights). */
+  --font-weight-light:    300;
+  --font-weight-regular:  350;
+  --font-weight-medium:   450;
+  --font-weight-semibold: 550;
+  --font-weight-bold:     650;
+  /* Compatibility alias for older selectors */
+  --font-weight-semi:     var(--font-weight-semibold);
+
+  /* Fluid type scale — clamp(min, fluid, max).
+     Identical to ecology primitive/typography.json. */
+  --type-size-050:  clamp(0.5rem,    0.44rem + 0.30vw, 0.625rem);    /*  8 → 10 */
+  --type-size-100:  clamp(0.625rem,  0.56rem + 0.32vw, 0.75rem);     /* 10 → 12 */
+  --type-size-150:  clamp(0.6875rem, 0.61rem + 0.38vw, 0.875rem);    /* 11 → 14 */
+  --type-size-200:  clamp(0.75rem,   0.66rem + 0.44vw, 0.9375rem);   /* 12 → 15  — body default */
+  --type-size-250:  clamp(0.8125rem, 0.71rem + 0.50vw, 1.0625rem);   /* 13 → 17 */
+  --type-size-300:  clamp(0.875rem,  0.77rem + 0.52vw, 1.125rem);    /* 14 → 18 */
+  --type-size-400:  clamp(1rem,      0.88rem + 0.60vw, 1.25rem);     /* 16 → 20 */
+  --type-size-500:  clamp(1.125rem,  0.98rem + 0.72vw, 1.5rem);      /* 18 → 24 */
+  --type-size-600:  clamp(1.375rem,  1.20rem + 0.88vw, 1.875rem);    /* 22 → 30 */
+  --type-size-700:  clamp(1.625rem,  1.41rem + 1.08vw, 2.25rem);     /* 26 → 36 */
+  --type-size-800:  clamp(2rem,      1.73rem + 1.35vw, 2.75rem);     /* 32 → 44 */
+  --type-size-900:  clamp(2.5rem,    2.15rem + 1.75vw, 3.375rem);    /* 40 → 54 */
+  --type-size-1000: clamp(3rem,      2.60rem + 2.00vw, 4rem);        /* 48 → 64 */
+
+  --line-height-tight:   1.3;
+  --line-height-normal:  1.6;
+  --line-height-relaxed: 1.8;
+
+  --letter-spacing-tight:  -0.01em;
+  --letter-spacing-normal:  0.01em;
+  --letter-spacing-wide:    0.03em;
+  --letter-spacing-wider:   0.06em;
+
+  /* ─────────────────────────────────────────────────────────────────
+     PRIMITIVES — effect
+     ───────────────────────────────────────────────────────────────── */
+  --shadow-100: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-200: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-300: 0 4px 24px rgba(0,0,0,0.12);
+  /* Backward-compat names */
+  --shadow-sm:  var(--shadow-100);
+  --shadow-md:  var(--shadow-200);
+  --shadow-lg:  var(--shadow-300);
+
+  --transition-fast: 150ms ease;
+  --transition-base: 200ms ease;
+
+  /* ─────────────────────────────────────────────────────────────────
+     SEMANTIC — color (Beacon spoke re-points teal in for the hub's blue)
+     ───────────────────────────────────────────────────────────────── */
+  --color-primary:         var(--bcn-teal-900);
+  --color-primary-hover:   #00474f;
+  --color-primary-active:  #003940;
+  --color-primary-subtle:  var(--bcn-teal-50);
+  --color-primary-border:  var(--bcn-teal-200);
+
+  --color-secondary:       var(--bcn-teal-500);
+  --color-secondary-hover: var(--bcn-teal-800);
+
+  --color-accent:          #f2770e;
+  --color-ai:              #699cc6;
+  --color-ai-hover:        #4c75a9;
+  --color-ai-subtle:       #eff5fb;
+
+  /* Status — Beacon's compliance palette */
+  --color-success:        #2e7571;
+  --color-success-subtle: #ecf6f5;
+  --color-success-border: #cfe6e3;
+  --color-success-strong: #1a4b48;
+
+  --color-warning:        #f2770e;
+  --color-warning-subtle: #fff3e0;
+  --color-warning-border: #ffd9a8;
+  --color-warning-strong: #8a4307;
+
+  --color-info:           #228be6;
+  --color-info-subtle:    #e9f3fc;
+  --color-info-border:    #c4dff5;
+  --color-info-strong:    #154f78;
+
+  --color-danger:         #ef4444;
+  --color-danger-subtle:  #fef2f2;
+  --color-danger-border:  #fecaca;
+  --color-danger-strong:  #b91c1c;
+
+  /* Text — note the deliberate ordering: secondary is LIGHTER (gray-600),
+     tertiary is DARKER (gray-700). Per ecology semantic/color.json. */
+  --color-text-primary:   var(--bcn-gray-900);
+  --color-text-secondary: var(--bcn-gray-600);
+  --color-text-tertiary:  var(--bcn-gray-700);
+  --color-text-muted:     var(--bcn-gray-500);
+  --color-text-inverse:   var(--bcn-gray-0);
+  --color-text-link:      var(--color-primary);
+  --color-text-link-hover:var(--color-primary-hover);
+
+  --color-border:         var(--bcn-gray-200);
+  --color-border-light:   var(--bcn-gray-100);
+  --color-border-strong:  var(--bcn-gray-300);
+  --color-border-focus:   var(--color-primary);
+
+  --color-surface:        var(--bcn-gray-0);
+  --color-surface-elevated: var(--bcn-gray-0);
+  --color-surface-sunken: var(--bcn-gray-100);
+  --color-surface-inverse: var(--bcn-gray-900);
+  --color-background:     var(--bcn-gray-50);
+
+  --color-disabled-bg:     var(--bcn-gray-100);
+  --color-disabled-text:   var(--bcn-gray-400);
+  --color-disabled-border: var(--bcn-gray-200);
+
+  /* Setup-wizard step accents (carried over from Beacon's existing palette) */
+  --color-source:      #003f5c;
+  --color-commitment:  #58508d;
+  --color-requirement: #a05195;
+  --color-action:      #d45087;
+
+  /* Phase / module accents (this prototype's addition for the new modular
+     experience — Due Diligence / Planning & Permitting / Compliance). */
+  --phase-due-diligence:    var(--bcn-teal-500);
+  --phase-due-diligence-bg: #e6f4f3;
+  --phase-planning:         #d45087;
+  --phase-planning-bg:      #fce4ee;
+  --phase-compliance:       #58508d;
+  --phase-compliance-bg:    #ebeaf3;
+
+  /* CIA / constraint risk severity (chip backgrounds + foregrounds) */
+  --risk-high:    #c0392b;
+  --risk-high-bg: #fdecea;
+  --risk-medium:  #d68910;
+  --risk-medium-bg:#fdf2dc;
+  --risk-low:     #2e7571;
+  --risk-low-bg:  #e6f4f3;
+  --risk-none:    var(--bcn-gray-400);
+  --risk-none-bg: var(--bcn-gray-100);
+
+  /* Implementation status palette */
+  --status-not-started: var(--bcn-gray-300);
+  --status-in-progress: #f59e0b;
+  --status-completed:   #22c55e;
+  --status-overdue:     #ef4444;
+
+  /* ─────────────────────────────────────────────────────────────────
+     SEMANTIC — form sizing (Beacon spoke override of the hub defaults)
+     The hub ships md=40; Beacon's UiSize runs smaller (md=36) per
+     theme-beacon.css. All form radii flat 4px (vs hub md=8px).
+     ───────────────────────────────────────────────────────────────── */
+  --form-height-xs: 24px;
+  --form-height-sm: 28px;
+  --form-height-md: 36px;
+  --form-height-lg: 44px;
+
+  --form-padding-x-xs: var(--spacing-200);
+  --form-padding-x-sm: var(--spacing-250);
+  --form-padding-x-md: var(--spacing-300);
+  --form-padding-x-lg: var(--spacing-400);
+
+  --form-font-size-xs: var(--type-size-050);
+  --form-font-size-sm: var(--type-size-100);
+  --form-font-size-md: var(--type-size-200);
+  --form-font-size-lg: var(--type-size-300);
+
+  --form-radius-xs: var(--radius-100);
+  --form-radius-sm: var(--radius-100);
+  --form-radius-md: var(--radius-100); /* Beacon flat 4px */
+  --form-radius-lg: var(--radius-100);
+
+  --form-bg:                var(--color-surface);
+  --form-border-color:      var(--color-border);
+  --form-border-color-hover: var(--color-border-strong);
+  --form-border-color-focus: var(--color-border-focus);
+  --form-text-color:        var(--color-text-primary);
+  --form-placeholder-color: var(--color-text-muted);
+  --form-label-color:       var(--color-text-secondary);
+  --form-help-color:        var(--color-text-muted);
+
+  /* ─────────────────────────────────────────────────────────────────
+     SEMANTIC — layout
+     ───────────────────────────────────────────────────────────────── */
+  --layout-sidebar-width:           280px;
+  --layout-sidebar-width-collapsed: 72px;
+  --layout-header-height:           52px;
+  --layout-content-max-width:       1200px;
+  --layout-content-narrow-width:    800px;
+  --layout-content-wide-width:      1440px;
+
+  /* Focus ring (used by buttons, inputs, links) */
+  --focus-ring-width:  2px;
+  --focus-ring-color:  var(--color-primary);
+  --focus-ring-offset: 2px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   BASE — body, headings, links, buttons. Body font reads --font-sans
+   (DM Sans). Body size is --type-size-200 (12 → 15px fluid).
+   ───────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--type-size-200);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 { margin: 0; font-weight: var(--font-weight-semibold); line-height: var(--line-height-tight); }
+
+a { color: var(--color-text-link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus-visible { outline: var(--focus-ring-width) solid var(--focus-ring-color); outline-offset: var(--focus-ring-offset); border-radius: var(--radius-100); }
+
+button { font-family: inherit; }
+button:focus-visible { outline: var(--focus-ring-width) solid var(--focus-ring-color); outline-offset: var(--focus-ring-offset); }
+
+/* ─────────────────────────────────────────────────────────────────────
+   TYPE ROLES — semantic typography utility classes (ported from
+   ecology/packages/tokens/src/type-roles.css). Apply to elements or
+   extend in component styles for consistent hierarchy.
+   ───────────────────────────────────────────────────────────────────── */
+.type-display {
+  font-family: var(--font-display);
+  font-size: var(--type-size-800);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+}
+.type-page-title {
+  font-family: var(--font-display);
+  font-size: var(--type-size-600);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+}
+.type-section-title {
+  font-family: var(--font-display);
+  font-size: var(--type-size-500);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+}
+.type-card-title {
+  font-size: var(--type-size-400);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-body-large {
+  font-size: var(--type-size-300);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-relaxed);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-body {
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-relaxed);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-body-small {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-label {
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-caption {
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+  color: var(--color-text-tertiary);
+}
+.type-overline {
+  font-size: var(--type-size-050);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-wider);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+.type-code {
+  font-family: var(--font-mono);
+  font-size: var(--type-size-100);
+  line-height: var(--line-height-normal);
+}

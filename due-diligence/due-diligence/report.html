@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Critical Issues Assessment — Mojave Stockyard BESS — Beacon</title>
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/shell.css" />
+  <link rel="stylesheet" href="../assets/css/components.css" />
+  <style>
+    .report-shell { display: grid; grid-template-columns: 220px 1fr; gap: var(--spacing-500); align-items: start; }
+    .report-toc {
+      position: sticky; top: 110px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-200);
+      padding: var(--spacing-300);
+    }
+    .report-toc__label { font-size: var(--type-size-100); color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.04em; font-weight: var(--font-weight-semi); padding: var(--spacing-200) var(--spacing-200); }
+    .report-toc a {
+      display: block;
+      padding: var(--spacing-200);
+      color: var(--color-text-secondary);
+      font-size: var(--type-size-200);
+      border-radius: var(--radius-100);
+      text-decoration: none;
+      line-height: 1.35;
+    }
+    .report-toc a:hover { background: var(--bcn-gray-50); color: var(--color-primary); text-decoration: none; }
+    .report-toc a.active { background: var(--color-primary-subtle); color: var(--color-primary); font-weight: var(--font-weight-semi); }
+    .report-toc__sub a { padding-left: var(--spacing-500); font-size: 11px; color: var(--color-text-tertiary); }
+    .report-doc {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-200);
+      padding: var(--spacing-700) var(--spacing-800);
+      max-width: 920px;
+    }
+    .report-doc h1 { font-family: var(--font-decorative); font-size: 1.85rem; font-weight: var(--font-weight-bold); margin: 0 0 var(--spacing-200) 0; color: var(--bcn-gray-1000); }
+    .report-doc h2 {
+      font-family: var(--font-decorative);
+      font-size: 1.25rem;
+      font-weight: var(--font-weight-bold);
+      margin: var(--spacing-700) 0 var(--spacing-300) 0;
+      padding-bottom: var(--spacing-200);
+      border-bottom: 1px solid var(--color-border);
+      color: var(--bcn-gray-1000);
+    }
+    .report-doc h3 { font-size: var(--type-size-400); font-weight: var(--font-weight-semi); margin: var(--spacing-500) 0 var(--spacing-200) 0; color: var(--color-text-primary); }
+    .report-doc h4 {
+      font-size: var(--type-size-300);
+      font-weight: var(--font-weight-semi);
+      margin: var(--spacing-400) 0 var(--spacing-100) 0;
+      color: var(--color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .report-doc p { line-height: 1.65; margin: 0 0 var(--spacing-300) 0; color: var(--color-text-primary); }
+    .report-doc ul, .report-doc ol { line-height: 1.65; }
+    .report-doc__meta { color: var(--color-text-tertiary); font-size: var(--type-size-300); border-bottom: 1px solid var(--color-border); padding-bottom: var(--spacing-400); margin-bottom: var(--spacing-500); }
+    .report-doc__meta dl { display: grid; grid-template-columns: 160px 1fr; gap: var(--spacing-150) var(--spacing-300); margin-top: var(--spacing-300); }
+    .report-doc__meta dt { color: var(--color-text-tertiary); font-weight: var(--font-weight-medium); }
+    .report-doc__meta dd { margin: 0; color: var(--color-text-primary); }
+    .ai-callout {
+      background: #f3f7fb; border-left: 3px solid var(--color-ai);
+      padding: var(--spacing-300) var(--spacing-400);
+      font-size: var(--type-size-200);
+      color: #2c5c8a;
+      margin: var(--spacing-300) 0;
+      border-radius: 0 var(--radius-100) var(--radius-100) 0;
+    }
+    .resource-summary {
+      background: var(--bcn-gray-50);
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-100);
+      padding: var(--spacing-300) var(--spacing-400);
+      margin: var(--spacing-200) 0 var(--spacing-300) 0;
+      font-size: var(--type-size-200);
+      display: flex; gap: var(--spacing-400); align-items: center; flex-wrap: wrap;
+    }
+    .resource-summary__label { color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.04em; font-size: var(--type-size-100); font-weight: var(--font-weight-semi); }
+    .report-table { width: 100%; border-collapse: collapse; font-size: var(--type-size-200); margin: var(--spacing-300) 0; }
+    .report-table th, .report-table td {
+      text-align: left; padding: var(--spacing-250) var(--spacing-300);
+      border-bottom: 1px solid var(--color-border-light); vertical-align: top;
+    }
+    .report-table thead th { background: var(--bcn-gray-50); color: var(--color-text-tertiary); text-transform: uppercase; font-size: var(--type-size-100); letter-spacing: 0.04em; }
+    .limitation-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-400); }
+    @media (max-width: 1100px) { .report-shell { grid-template-columns: 1fr; } .report-toc { position: static; } .report-doc { padding: var(--spacing-500); } .limitation-grid { grid-template-columns: 1fr; } }
+    @media print {
+      body { background: #fff; }
+      .topbar, .phase-strip, .side-nav, .breadcrumbs, .page-layout__title, .report-toc, .modern-layout__body { display: none !important; }
+      .modern-layout__body { padding: 0 !important; }
+      .modern-layout__content { overflow: visible !important; }
+      .page-layout { padding: 0; }
+      .report-doc { border: none; padding: 0; max-width: none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="page-layout">
+      <div class="page-layout__container">
+
+        <section class="page-layout__breadcrumbs">
+          <nav class="breadcrumbs" aria-label="Breadcrumb"><div class="breadcrumbs__items" id="crumbs"></div></nav>
+        </section>
+
+        <section class="page-layout__title">
+          <div class="page-layout__title-main">
+            <h1 id="page-title"></h1>
+            <span class="badge badge--draft">Draft v0.3</span>
+          </div>
+          <div class="page-layout__utilities">
+            <button class="btn btn--ghost" onclick="window.print()" id="print-btn"></button>
+            <button class="btn btn--ghost" id="docx-btn"></button>
+            <button class="btn btn--primary" id="advance-btn"></button>
+          </div>
+        </section>
+
+        <section class="page-layout__content">
+
+          <div class="alert alert--ai" style="margin-bottom: var(--spacing-500);">
+            <span class="alert__icon" id="ai-icon"></span>
+            <div class="alert__body">
+              <div class="alert__title">Auto-assembled from your project data</div>
+              The CIA below is composed from the boundary, constraint findings, and permit matrix you reviewed. Section structure follows ESA's standard CIA template (Findings + Recommendations per resource, permit matrix appendix, explicit limitations). Each section is editable — click any heading to override.
+            </div>
+          </div>
+
+          <div class="report-shell">
+            <!-- TOC -->
+            <aside class="report-toc">
+              <div class="report-toc__label">Contents</div>
+              <a href="#summary" class="active">Executive Summary</a>
+              <a href="#project">1. Project Description</a>
+              <a href="#methodology">2. Methodology</a>
+              <a href="#findings">3. Environmental Characteristics</a>
+              <div class="report-toc__sub">
+                <a href="#land-use">3.1 Land Use &amp; Planning</a>
+                <a href="#aesthetics">3.2 Aesthetics &amp; Visual</a>
+                <a href="#agriculture">3.3 Agriculture</a>
+                <a href="#bio">3.4 Biological &amp; Aquatic</a>
+                <a href="#cultural">3.5 Cultural &amp; Tribal</a>
+                <a href="#haz">3.6 Hazardous Materials</a>
+                <a href="#hydro">3.7 Hydrology &amp; Water Quality</a>
+                <a href="#services">3.8 Public Services &amp; Wildfire</a>
+              </div>
+              <a href="#critical">4. Critical Issues</a>
+              <a href="#permits">5. Permit &amp; Approval Matrix</a>
+              <a href="#limitations">6. Limitations</a>
+              <a href="#references">7. References</a>
+              <a href="#figures">Figures &amp; Appendices</a>
+            </aside>
+
+            <!-- Report body -->
+            <article class="report-doc">
+              <div class="report-doc__meta">
+                <h1>Critical Issues Assessment</h1>
+                <div style="color: var(--color-text-tertiary); font-size: var(--type-size-400);">Mojave Stockyard Battery Energy Storage System Project · Kern County, California</div>
+                <dl>
+                  <dt>Prepared for</dt><dd>Acme Energy</dd>
+                  <dt>Prepared by</dt><dd>Environmental Science Associates — Beacon Due Diligence module</dd>
+                  <dt>Project Manager</dt><dd>Meghan Gibson</dd>
+                  <dt>Project Director</dt><dd>David Crook, AICP, LEED AP</dd>
+                  <dt>Capacity</dt><dd>500 MW / 2,000 MWh BESS</dd>
+                  <dt>Site footprint</dt><dd>18.2 acres (APN 237-104-007, 237-104-008)</dd>
+                  <dt>Report status</dt><dd>Draft v0.3 · 2026-06-17</dd>
+                </dl>
+              </div>
+
+              <!-- ── EXECUTIVE SUMMARY ── -->
+              <h2 id="summary">Executive Summary</h2>
+              <p>Environmental Science Associates (ESA) is pleased to present Acme Energy with this Critical Issues Assessment (CIA) for the proposed Mojave Stockyard Battery Energy Storage System (BESS) Project. The Project would occupy a single 18.2-acre site (APN 237-104-007, 237-104-008) within the City of Mojave Stockyard, Kern County, California.</p>
+              <p>The purpose of this CIA is to identify environmental resources, federal, State, and local planning decisions, and potential development constraints that may impact Project feasibility, cost, or schedule. The CIA includes a desktop-level environmental characteristics discussion utilizing publicly available data from federal, State, and local sources. The list of resources considered is based on ESA's extensive experience with battery storage permitting in California and focuses on the resources and issues most likely to have substantial impact on feasibility, cost, or schedule. <strong>No field work was performed as part of this effort.</strong></p>
+              <p>Following the environmental characteristics discussion in Section 3, critical issues and recommendations are summarized in Section 4. A summary of the permits and approvals that may be necessary for construction of the Project is presented in Section 5, and limitations to the CIA are presented in Section 6.</p>
+
+              <h4>Summary of findings</h4>
+              <ul id="exec-summary-list"></ul>
+
+              <!-- ── 1. PROJECT DESCRIPTION ── -->
+              <h2 id="project">1. Project Description</h2>
+              <p>The Project site is located at 14250 Stockyard Road in the City of Mojave Stockyard, approximately 0.6 mile southeast of the existing Mojave Stockyard 230 kV substation. The site consists of two parcels (APN 237-104-007 and 237-104-008) totaling 18.2 acres of vacant land currently designated M-2 (Heavy Industrial). The site is bounded on the north and east by existing industrial uses, with a Class I rail spur to the south.</p>
+              <p>The proposed Project would include approximately 1,000 battery enclosures arranged in fire-rated rows, inverter and transformer pads, a switchyard, a 36,000-gallon fire water tank, perimeter security fencing (8-foot chain link), and an access drive off Stockyard Road. No on-site staffing is planned during operations; the facility will be remotely operated with periodic site visits. The Project would interconnect to the existing 230 kV substation via a short underground gen-tie. The Project is currently in CAISO Interconnection Cluster 16. The Project site and study area are presented in Figure 1.</p>
+
+              <!-- ── 2. METHODOLOGY ── -->
+              <h2 id="methodology">2. Methodology</h2>
+              <p>ESA performed a desktop evaluation through Beacon's Due Diligence module by reviewing publicly available datasets, agency records, and aerial photographs to identify potential constraints on or proximal to the Project. Agency consultation or correspondence was not conducted as part of this scope, except for the database research and records reviews described below. Geographic information system (GIS) spatial data from federal, state, and local sources were analyzed against the Project boundary.</p>
+              <p>Datasets reviewed (with Beacon sync dates) include:</p>
+              <ul>
+                <li>CAL FIRE Fire Hazard Severity Zone (FHSZ) — LRA + SRA, 2025 update</li>
+                <li>California Natural Diversity Database (CNDDB) — Q2 2026 release</li>
+                <li>USFWS designated Critical Habitat and Information for Planning and Consultation (IPaC)</li>
+                <li>California Native Plant Society (CNPS) Online Inventory of Rare and Endangered Plants</li>
+                <li>DTSC EnviroStor + SWRCB GeoTracker (refreshed nightly)</li>
+                <li>FEMA National Flood Hazard Layer (NFHL)</li>
+                <li>National Hydrography Dataset (NHD) + National Wetlands Inventory (NWI)</li>
+                <li>City General Plan, zoning, and parcel boundaries (last sync 2026-06-01)</li>
+                <li>SCAG Connect SoCal 2024 RTP/SCS goals and policies</li>
+                <li>NAHC Sacred Lands File (record search initiated; results pending)</li>
+                <li>CEC Energy Atlas — substation and transmission infrastructure</li>
+                <li>California Farmland Mapping and Monitoring Program (FMMP) + Williamson Act</li>
+              </ul>
+              <p>Because this CIA relies on desktop information, additional surveys and reviews will be necessary to confirm this preliminary assessment as the Project design progresses.</p>
+
+              <!-- ── 3. ENVIRONMENTAL CHARACTERISTICS ── -->
+              <h2 id="findings">3. Environmental Characteristics</h2>
+              <p>The following sections summarize findings for each resource area considered in this CIA. Each subsection presents <em>Findings</em> from the desktop review, followed by <em>Recommendations</em> for additional study or actions that should be considered in subsequent project design and permitting strategy conversations.</p>
+
+              <!-- 3.1 Land Use & Planning -->
+              <h3 id="land-use">3.1 Land Use, Zoning &amp; Planning</h3>
+              <div class="resource-summary">
+                <span class="resource-summary__label">Severity</span>
+                <span class="chip chip--medium"><span class="chip__dot"></span>Medium</span>
+                <span class="resource-summary__label" style="margin-left: var(--spacing-300);">Lead agency</span>
+                <span>City of Mojave Stockyard, Planning Division</span>
+              </div>
+              <h4>Findings</h4>
+              <p>The Project site is designated <strong>M-2 (Heavy Industrial)</strong> under the City's zoning code, with an underlying General Plan land use designation of <em>Industrial Employment Center</em>. Battery energy storage is treated as a utility/industrial use and is permitted subject to a Conditional Use Permit (CUP) pursuant to recently adopted SB 283 implementing standards. The Project is consistent with applicable SCAG RTP/SCS goals relating to clean energy infrastructure and grid resilience. Setback and access requirements will need to be confirmed during the application phase, particularly regarding NFPA 855 separation distances and County Fire access standards.</p>
+              <h4>Recommendations</h4>
+              <p>ESA recommends Acme Energy request consultation and conceptual review with the City's Planning Division to confirm the CUP path, SB 283 timing requirements, and any anticipated conditions of approval. No General Plan Amendment or rezoning is anticipated.</p>
+
+              <!-- 3.2 Aesthetics -->
+              <h3 id="aesthetics">3.2 Aesthetics &amp; Visual Resources</h3>
+              <div class="resource-summary">
+                <span class="resource-summary__label">Severity</span>
+                <span class="chip chip--low"><span class="chip__dot"></span>Low</span>
+              </div>
+              <h4>Findings</h4>
+              <p>No State scenic highways or locally designated scenic corridors traverse the area. The site sits within an existing industrial corridor with adjacent industrial development providing visual context. Public viewers are primarily limited to motorists along Stockyard Road. The City of Mojave Stockyard does not have a dark-sky overlay applicable to the Project area.</p>
+              <h4>Recommendations</h4>
+              <p>Standard design considerations for fencing, lighting (downcast / shielded), and structure reflectivity should be sufficient to address aesthetics. No formal visual resources technical report is anticipated to be required.</p>
+
+              <!-- 3.3 Agriculture -->
+              <h3 id="agriculture">3.3 Agricultural Resources</h3>
+              <div class="resource-summary">
+                <span class="resource-summary__label">Severity</span>
+                <span class="chip chip--low"><span class="chip__dot"></span>Low</span>
+              </div>
+              <h4>Findings</h4>
+              <p>The Project site is classified as <em>Other Land</em> under the California Department of Conservation Farmland Mapping and Monitoring Program (FMMP). There are no Williamson Act contracts associated with the parcels and no FMMP-designated Prime Farmland, Unique Farmland, or Farmland of Statewide Importance within or adjacent to the Project boundary.</p>
+              <h4>Recommendations</h4>
+              <p>No additional action is anticipated for agricultural resources.</p>
+
+              <!-- 3.4 Biological & Aquatic -->
+              <h3 id="bio">3.4 Biological &amp; Aquatic Resources</h3>
+              <div class="resource-summary">
+                <span class="resource-summary__label">Severity</span>
+                <span class="chip chip--high"><span class="chip__dot"></span>High</span>
+              </div>
+              <h4>Findings</h4>
+              <p>The Project site lies adjacent to designated Critical Habitat for the <strong>Mohave ground squirrel</strong> (Federally listed) and within CNDDB sensitivity polygons for <strong>burrowing owl</strong> and <strong>western Joshua tree</strong>. A 5-mile CNDDB query also returned occurrences of desert tortoise, Le Conte's thrasher, Swainson's hawk (foraging only), and one record of prairie falcon. The site does not fall within a USFWS Habitat Conservation Plan (HCP) or CDFW Natural Community Conservation Planning (NCCP) program area.</p>
+              <p>An ephemeral wash traverses the southwestern portion of the parcel as identified in the National Hydrography Dataset (NHD). The USFWS National Wetlands Inventory (NWI) identifies riverine features consistent with the NHD mapping. Following the Supreme Court decision in <em>Sackett v. EPA</em>, ephemeral washes such as those on the parcel are unlikely to be Waters of the U.S. and would not be subject to Section 404 permitting; however, the wash may be subject to State jurisdiction.</p>
+              <div class="ai-callout">
+                <strong>Assistant note —</strong> the CNDDB Q2 2026 refresh added one new occurrence of western Joshua tree within the parcel that was not present in the prior release. Verify before finalizing.
+              </div>
+              <h4>Recommendations</h4>
+              <p>ESA recommends a general biological reconnaissance survey to determine the presence or absence of habitat suitable for special status species on the Project site and within the direct proximity. The reconnaissance survey will inform whether focused protocol-level surveys are required, including Mohave ground squirrel, burrowing owl (CDFW 2012 protocol), and a western Joshua tree inventory. A biological technical report with mitigation measures is anticipated. If habitat areas suitable for desert tortoise are present and would be affected, a federal Incidental Take authorization may be required from USFWS under Section 7 or Section 10 of the Endangered Species Act. A Section 2081 Incidental Take Permit and/or a Western Joshua Tree Conservation Act (WJTCA) Incidental Take Permit may also be required from CDFW.</p>
+              <p>ESA also recommends conducting an aquatic resources delineation. If the ephemeral wash cannot be avoided, a Section 1602 Streambed Alteration Agreement with CDFW and a 401 Water Quality Certification from the Lahontan RWQCB are likely to be required.</p>
+
+              <!-- 3.5 Cultural -->
+              <h3 id="cultural">3.5 Cultural &amp; Tribal Resources</h3>
+              <div class="resource-summary">
+                <span class="resource-summary__label">Severity</span>
+                <span class="chip chip--medium"><span class="chip__dot"></span>Medium</span>
+              </div>
+              <h4>Findings</h4>
+              <p>No known recorded cultural resources occur within the Project boundary based on publicly available data. One cultural sensitivity area is recorded within 1 mile. A records search request has been initiated with the South Central Coastal Information Center (SCCIC) of the California Historical Resources Information System (CHRIS); results are pending.</p>
+              <h4>Recommendations</h4>
+              <p>ESA recommends Acme Energy await SCCIC return before finalizing site disturbance plans. A pedestrian survey may be required depending on CHRIS results and City direction. AB 52 consultation should be initiated through the City as Lead Agency at the Notice of Preparation stage; consultation may last through the CEQA process. Tribal monitor coordination during ground disturbance should be anticipated.</p>
+
+              <!-- 3.6 Hazardous Materials -->
+              <h3 id="haz">3.6 Hazardous Materials</h3>
+              <div class="resource-summary">
+                <span class="resource-summary__label">Severity</span>
+                <span class="chip chip--high"><span class="chip__dot"></span>High</span>
+              </div>
+              <h4>Findings</h4>
+              <p>The Project site is not listed in the DTSC EnviroStor or SWRCB GeoTracker databases. Within a 1-mile search radius, however, <strong>two closed Leaking Underground Storage Tank (LUST) sites</strong> and <strong>one open Voluntary Cleanup Program (VCP) case</strong> were identified.</p>
+              <h4>Recommendations</h4>
+              <p>The presence of hazardous materials should be verified with a Phase I Environmental Site Assessment (ASTM E1527-21) prior to grading-permit application. Review of DTSC EnviroStor and GeoTracker case files for closure conditions of nearby sites is recommended.</p>
+
+              <!-- 3.7 Hydrology -->
+              <h3 id="hydro">3.7 Hydrology &amp; Water Quality</h3>
+              <div class="resource-summary">
+                <span class="resource-summary__label">Severity</span>
+                <span class="chip chip--medium"><span class="chip__dot"></span>Medium</span>
+              </div>
+              <h4>Findings</h4>
+              <p>The Project site is located within the Mojave Adjudicated groundwater basin. The NHD identifies one ephemeral wash crossing the southwestern portion of the parcel. The site is mapped as FEMA Zone X (outside the Special Flood Hazard Area). No Clean Water Act Section 303(d)-listed surface water segments would be affected.</p>
+              <h4>Recommendations</h4>
+              <p>A Drainage Study and Stormwater Pollution Prevention Plan (SWPPP) will be required to protect identified drainage systems and ensure runoff meets NPDES standards. Acme Energy should discuss the potential need for a Water Quality Management Plan with the City's Planning Division. Coverage under the SWRCB Construction General Permit (Order 2009-0009-DWQ) will be required prior to soil disturbance.</p>
+
+              <!-- 3.8 Public Services & Wildfire -->
+              <h3 id="services">3.8 Public Services &amp; Wildfire</h3>
+              <div class="resource-summary">
+                <span class="resource-summary__label">Severity</span>
+                <span class="chip chip--medium"><span class="chip__dot"></span>Medium</span>
+              </div>
+              <h4>Findings</h4>
+              <p>Fire protection services are provided by Kern County Fire. Based on CAL FIRE FHSZ data, the northeast corner of the Project boundary overlaps a <strong>Moderate FHSZ</strong> (SRA portion). The remainder of the site is outside designated FHSZ. The site is approximately 0.6 mile from the nearest existing substation. The County Fire department has reviewed two prior BESS projects in the jurisdiction.</p>
+              <h4>Recommendations</h4>
+              <p>Due to the nature of battery storage facilities, Kern County Fire will review project plans and provide comments during the permitting and approval process. Early consultation with County Fire regarding NFPA 855 compliance, emergency response planning, and water supply is recommended. SB 283 requires fire authority outreach at least 10 months prior to application submittal. Defensible-space setbacks and ignition-resistant construction should be documented on the site plan.</p>
+
+              <!-- ── 4. CRITICAL ISSUES ── -->
+              <h2 id="critical">4. Critical Issues &amp; Recommendations</h2>
+              <p>The results of the desktop resource evaluation are summarized in the table below. Based on our review, the following critical issues for the Project have been identified:</p>
+              <ul id="critical-issues-list"></ul>
+
+              <h4>Resource summary</h4>
+              <table class="report-table">
+                <thead>
+                  <tr><th style="width: 26%;">Resource</th><th style="width: 14%;">Severity</th><th>Findings &amp; recommendations</th></tr>
+                </thead>
+                <tbody id="resource-summary-rows"></tbody>
+              </table>
+
+              <p>If the Project warrants take authorization from USFWS, it could substantially affect schedule and cost — a Section 10 permit can take 12 to 24 months to obtain. Site testing and evaluation of cultural resources, if determined to be present, in consultation with the City and tribal representatives, can also have a substantial impact on schedule and cost. By addressing potential critical issues early in the development process, impacts to these resources and the Project schedule and cost can be minimized, mitigated, or avoided.</p>
+
+              <p>To gain additional information on the Project environment and potential constraints, the following actions may also be taken by Acme Energy:</p>
+              <ul>
+                <li>Review CEQA documentation posted online for renewable energy projects within the area to inform anticipated impact assessments, mitigation requirements, and AB 52 tribal contacts.</li>
+                <li>Conduct a comprehensive General Plan policy consistency analysis (optional task).</li>
+                <li>Conduct a desktop review of geotechnical and soils conditions — proximity to Holocene-active faults, seismic shaking, unstable or corrosive soils, paleontological potential, and mineral resources.</li>
+                <li>Query census/CalEnviroScreen data to identify communities of special environmental concern in proximity to the site.</li>
+              </ul>
+
+              <!-- ── 5. PERMIT MATRIX ── -->
+              <h2 id="permits">5. Permit &amp; Approval Matrix</h2>
+              <p>The table below provides a summary of the environmental permits and approvals that may be required by local, State, and Federal permitting agencies based on this desktop review. Not all permits listed will be required. Conversely, other permits not listed may be necessary depending on issues identified as the Project is developed. Determinations are based on data available as of the report date and are subject to change pending regulatory updates, additional project information, or design revisions.</p>
+              <table class="report-table">
+                <thead>
+                  <tr>
+                    <th style="width: 22%;">Agency</th>
+                    <th style="width: 22%;">Permit / Approval</th>
+                    <th>Requirement</th>
+                    <th style="width: 110px;">Applicable?</th>
+                    <th style="width: 22%;">Comments</th>
+                  </tr>
+                </thead>
+                <tbody id="permit-rows"></tbody>
+              </table>
+              <p class="text-small text-tertiary" style="margin-top: var(--spacing-200);">See <a href="permits.html">live permit matrix</a> for filters and Excel export.</p>
+
+              <!-- ── 6. LIMITATIONS ── -->
+              <h2 id="limitations">6. Limitations</h2>
+              <p>As noted throughout this report, the assessment of potential issues or concerns was limited to publicly available desktop information. No onsite surveys or other fieldwork were conducted, and no formal coordination or consultation with agencies was conducted. The conclusions in this CIA rely on the accuracy of public data currently available. For cultural resources, the CHRIS records search request has been initiated but results are pending at the time of this draft.</p>
+              <p>Not all CEQA resources were covered in this assessment. The CIA evaluates the resource areas most likely to result in critical permits or impacts to scope, schedule, or cost — not the full Appendix G inventory. The table below summarizes coverage:</p>
+              <div class="limitation-grid" id="limitation-grid"></div>
+              <p style="margin-top: var(--spacing-400);">Resources deferred to the CEQA stage will be addressed in the Initial Study or Environmental Impact Report prepared during the Planning &amp; Permitting phase.</p>
+
+              <!-- ── 7. REFERENCES ── -->
+              <h2 id="references">7. References</h2>
+              <ul>
+                <li>California Department of Conservation. <em>Farmland Mapping and Monitoring Program</em> (FMMP), 2024 update.</li>
+                <li>California Department of Fish and Wildlife. <em>California Natural Diversity Database</em> (CNDDB), Q2 2026 release.</li>
+                <li>CAL FIRE. <em>Fire Hazard Severity Zone Maps</em> (LRA + SRA), 2025 update.</li>
+                <li>California Native Plant Society. <em>Online Inventory of Rare and Endangered Plants</em>.</li>
+                <li>DTSC. <em>EnviroStor Database</em>, accessed 2026-06-16.</li>
+                <li>FEMA. <em>National Flood Hazard Layer</em>, 2026.</li>
+                <li>SCAG. <em>Connect SoCal 2024 Regional Transportation Plan / Sustainable Communities Strategy</em>.</li>
+                <li>SWRCB. <em>GeoTracker Database</em>, accessed 2026-06-16.</li>
+                <li>U.S. Fish and Wildlife Service. <em>Information for Planning and Consultation (IPaC)</em> + Critical Habitat designations.</li>
+                <li>USGS. <em>National Hydrography Dataset (NHD)</em>; National Wetlands Inventory (NWI).</li>
+              </ul>
+
+              <!-- ── FIGURES & APPENDICES ── -->
+              <h2 id="figures">Figures &amp; Appendices</h2>
+              <ul>
+                <li>Figure 1 — Project Location and Study Area</li>
+                <li>Figure 2 — Aesthetic Resources &amp; Public Viewers</li>
+                <li>Figure 3 — Biological Resources (CNDDB &amp; Critical Habitat)</li>
+                <li>Figure 4 — Hydrologic Features (NHD, NWI, FEMA Flood Zones)</li>
+                <li>Figure 5 — Zoning, General Plan, &amp; Fire Hazard</li>
+                <li>Appendix A — Full Permit &amp; Approval Matrix (Excel export)</li>
+                <li>Appendix B — CEQA Appendix G Considerations (optional task)</li>
+                <li>Appendix C — AHJ Outreach Summary (optional task)</li>
+              </ul>
+            </article>
+          </div>
+
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/data/projects.js"></script>
+  <script>
+    window.BeaconShell = { phase: 'due-diligence', activeNavId: 'dd-report', project: 'Mojave Stockyard BESS' };
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('crumbs').innerHTML = `
+        ${bcnIcon('home','icon icon--sm')}
+        <a class="breadcrumb-item" href="../index.html">Portfolio</a>
+        ${bcnIcon('chevron-right','icon icon--sm')}
+        <a class="breadcrumb-item" href="index.html">Due Diligence</a>
+        ${bcnIcon('chevron-right','icon icon--sm')}
+        <a class="breadcrumb-item" href="project.html">Mojave Stockyard BESS</a>
+        ${bcnIcon('chevron-right','icon icon--sm')}
+        <span class="breadcrumb-item">CIA Report</span>`;
+      document.getElementById('page-title').innerHTML = `${bcnIcon('file-text','icon icon--lg')} Critical Issues Assessment`;
+      document.getElementById('print-btn').innerHTML = `${bcnIcon('download')} Print / PDF`;
+      document.getElementById('docx-btn').innerHTML = `${bcnIcon('download')} Export DOCX`;
+      document.getElementById('advance-btn').innerHTML = `Advance to Planning &amp; Permitting ${bcnIcon('arrow-right','icon icon--sm')}`;
+      document.getElementById('ai-icon').innerHTML = bcnIcon('sparkles');
+
+      // Executive summary bullets
+      document.getElementById('exec-summary-list').innerHTML = BeaconData.criticalIssues.map(i => `<li>${i}</li>`).join('');
+      document.getElementById('critical-issues-list').innerHTML = BeaconData.criticalIssues.map(i => `<li>${i}</li>`).join('');
+
+      // Resource summary table (Section 4)
+      const resourceRows = [
+        { name: 'Aesthetics &amp; Visual Resources', sev: 'low',    note: 'Industrial corridor; standard design considerations sufficient. No formal visual report anticipated.' },
+        { name: 'Agriculture',                       sev: 'low',    note: 'FMMP Other Land; no Williamson Act contract. No additional action required.' },
+        { name: 'Biological &amp; Aquatic Resources',sev: 'high',   note: 'Mohave ground squirrel Critical Habitat adjacent; CNDDB burrowing owl, WJT on parcel. Recon + protocol surveys; aquatic delineation; potential §2081/§10/§1602 permits.' },
+        { name: 'Cultural &amp; Tribal Resources',   sev: 'medium', note: 'SCCIC search initiated; AB 52 consultation to be opened through the City at NOP.' },
+        { name: 'Hazardous Materials',               sev: 'high',   note: '2 closed LUST + 1 open VCP within 1 mi. Phase I ESA (ASTM E1527-21) recommended pre-grading.' },
+        { name: 'Hydrology &amp; Water Quality',     sev: 'medium', note: 'Ephemeral wash on parcel; FEMA Zone X. SWPPP + drainage study required; WQ Management Plan likely.' },
+        { name: 'Land Use, Zoning &amp; Planning',   sev: 'medium', note: 'M-2 zoning; CUP required under SB 283. No GPA / rezoning anticipated.' },
+        { name: 'Public Services &amp; Wildfire',    sev: 'medium', note: 'Moderate FHSZ overlap at NE corner. SB 283 fire authority outreach ≥ 10 mo lead.' },
+      ];
+      const sevChip = { high: 'High', medium: 'Medium', low: 'Low' };
+      document.getElementById('resource-summary-rows').innerHTML = resourceRows.map(r => `
+        <tr>
+          <td style="font-weight: var(--font-weight-semi);">${r.name}</td>
+          <td><span class="chip chip--${r.sev}"><span class="chip__dot"></span>${sevChip[r.sev]}</span></td>
+          <td>${r.note}</td>
+        </tr>`).join('');
+
+      // Permit matrix (Section 5)
+      const appMeta = {
+        'applicable':     { label: 'Applicable',             chip: 'chip--warning' },
+        'potentially':    { label: 'Potentially Applicable', chip: 'chip--medium'  },
+        'not-likely':     { label: 'Not Likely Applicable',  chip: 'chip--low'     },
+        'not-applicable': { label: 'Not Applicable',         chip: 'chip--none'    },
+      };
+      document.getElementById('permit-rows').innerHTML = BeaconData.permits.map(p => {
+        const a = appMeta[p.applicability] || appMeta['potentially'];
+        return `
+          <tr>
+            <td><div style="font-weight: var(--font-weight-semi);">${p.agency}</div><div class="text-small text-tertiary">${p.level}</div></td>
+            <td>${p.name}</td>
+            <td>${p.requirement}</td>
+            <td><span class="chip ${a.chip}"><span class="chip__dot"></span>${a.label}</span></td>
+            <td class="text-small text-tertiary">${p.notes}</td>
+          </tr>`;
+      }).join('');
+
+      // Limitations grid
+      document.getElementById('limitation-grid').innerHTML = BeaconData.limitations.map(group => `
+        <div>
+          <div style="font-weight: var(--font-weight-semi); margin-bottom: var(--spacing-200);">${group.covered}</div>
+          <ul style="margin: 0; padding-left: 18px;">${group.items.map(i => `<li>${i}</li>`).join('')}</ul>
+        </div>`).join('');
+
+      // Smooth-scroll TOC + active-section highlight
+      const toc = document.querySelectorAll('.report-toc a');
+      const sections = Array.from(toc).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+      const root = document.getElementById('shell-content');
+      function onScroll() {
+        if (!sections.length) return;
+        let active = sections[0];
+        for (const s of sections) {
+          const rect = s.getBoundingClientRect();
+          if (rect.top - 140 <= 0) active = s; else break;
+        }
+        toc.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + active.id));
+      }
+      (root || window).addEventListener('scroll', onScroll);
+
+      document.getElementById('advance-btn').addEventListener('click', () => {
+        window.location.href = '../planning-permitting/index.html';
+      });
+    });
+  </script>
+</body>
+</html>
