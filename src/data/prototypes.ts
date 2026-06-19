@@ -159,6 +159,43 @@ export const prototypeGroups: PrototypeGroup[] = [
         createdAt: '2026-06-11',
         status: 'in-progress',
       },
+      {
+        slug: 'site-clearance-simple',
+        title: 'Site Clearance — simplified model',
+        description:
+          'Side-by-side comparison variant: the DIRECT status-per-discipline model. Each discipline lead SETS their own clearance status (one status select) instead of it being derived from a review history; surveys, field notes, and relocations attach as an append-only EVIDENCE LOG that justifies the status without deriving it. Same work areas, palette, rollup, and blocked-until math as the rich page — scoped to the work-area list + drawer + discipline editor so the model contrast is unmistakable. For weighing whether the survey-derivation complexity is worth it.',
+        route: '/prototypes/site-clearance-simple',
+        createdAt: '2026-06-17',
+        status: 'in-progress',
+      },
+    ],
+  },
+  {
+    slug: 'monitoring-portal',
+    title: 'Monitoring Portal',
+    description:
+      'The field-monitoring command center — the tabs-to-sidebar nav refactor, the commitment-compliance dashboard explored as three switchable variants, and survey documents (Fulcrum / Survey123 / CASP) brought in as a grid.',
+    pages: [
+      {
+        slug: 'monitoring-dashboard',
+        title: 'Dashboard',
+        description:
+          'The portal dashboard: observation stat cards + the Commitment Compliance feature with three switchable variants (phase list / per-find dossier / triage board), built on the shipped flat observation→commitment model.',
+        route: '/prototypes/monitoring/dashboard',
+        createdAt: '2026-06-16',
+        ticket: 'BCN-1315',
+        status: 'in-progress',
+      },
+      {
+        slug: 'monitoring-surveys',
+        title: 'Surveys',
+        description:
+          'Survey documents as an AG Grid (date, surveyor, type, species, work area) with a draft/QC/final status column, a "QC’d only" default filter that hides un-QC’d drafts, and a not-in-compliance warning chip.',
+        route: '/prototypes/monitoring/surveys',
+        createdAt: '2026-06-16',
+        ticket: 'BCN-1265',
+        status: 'in-progress',
+      },
     ],
   },
   {

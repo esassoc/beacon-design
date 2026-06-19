@@ -1,0 +1,67 @@
+---
+// <BcnCommitmentRow> — one relevant commitment (a COA measure) for an observation,
+// as a SLIM clickable row: a code badge + the title. The structured detail (buffer,
+// restriction, method) and the full Condition-of-Approval text live in the side
+// drawer the row opens — so the list stays dense and scannable.
+//
+// NO per-commitment compliance status here: compliance is judged at the OBSERVATION
+// level (the observation's own status chip), not per measure. These rows are simply
+// "the measures that apply to this observation — review them."
+//
+// bcn-lego-checked: no esa-* lego is a "commitment row" (esa-card is a generic
+// container). Composes esa-icon (the open affordance); checked Beacon (prod accordion
+// rows are bespoke per-screen). bcn-commitment-row is the reusable home.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import type { CommitmentDef } from '../../data/monitoring';
+
+interface Props {
+  commitment: CommitmentDef;
+}
+const { commitment } = Astro.props;
+---
+
+<div class="bcn-crow" data-code={commitment.code} role="button" tabindex="0" aria-label={`Open commitment ${commitment.code}: ${commitment.title}`}>
+  <span class="bcn-crow__code">{commitment.code}</span>
+  <span class="bcn-crow__title">{commitment.title}</span>
+  <span class="bcn-crow__open" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+</div>
+
+<style>
+  /* Slim, clickable row — opens the commitment's full CoA text in a side drawer. */
+  .bcn-crow {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-250);
+    padding: var(--spacing-200) var(--spacing-300);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    cursor: pointer;
+    transition: border-color 150ms ease, background 150ms ease;
+  }
+  .bcn-crow:hover { border-color: var(--color-border-strong); background: var(--color-surface-sunken); }
+  .bcn-crow:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
+
+  .bcn-crow__code {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-commitment);
+    background: color-mix(in srgb, var(--color-commitment) 12%, white);
+    padding: 1px var(--spacing-200);
+    border-radius: var(--radius-100);
+  }
+  .bcn-crow__title {
+    flex: 1;
+    min-width: 0;
+    font-size: var(--type-size-200);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-crow__open { flex-shrink: 0; display: inline-flex; color: var(--color-text-tertiary); }
+  .bcn-crow:hover .bcn-crow__open { color: var(--color-secondary); }
+</style>

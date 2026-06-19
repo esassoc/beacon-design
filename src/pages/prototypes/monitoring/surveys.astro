@@ -1,0 +1,297 @@
+---
+// Monitoring Portal → Surveys — the Fulcrum / Survey123 / CASP survey documents
+// brought into Beacon as Evidence-of-Compliance records, shown as a grid (the
+// BCN-1265 / BCN-922 / BCN-948 lineage). Mirrors the Fish Studies grid kit.
+//
+// Two feedback rules are baked in:
+//   1. Draft vs QC/final status is a first-class column AND a filter — Christy:
+//      "don't expose data field staff haven't QC'd." The "QC'd only" toggle (default)
+//      hides un-QC'd drafts; flip to "All" to reveal them.
+//   2. A survey log flagged not-in-compliance raises a warning chip (Compliance col).
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import FilterContainer from '@esa/ecology/esa-filter-container.astro';
+import FilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
+import { SURVEYS, SURVEY_STATUS_META, SURVEY_COUNT, PROJECT_NAME } from '../../../data/monitoring';
+
+// Compliance flag meta — only the two determinations render a chip; 'na' stays blank.
+const COMPLIANCE_FLAG_META = {
+  flag: { label: 'Not in compliance', hex: '#ef4444' },
+  ok: { label: 'In compliance', hex: '#2e7571' },
+};
+
+const gridRows = SURVEYS.map((s) => ({
+  date: s.date,
+  surveyor: s.surveyor,
+  surveyType: s.surveyType,
+  source: s.source,
+  species: s.species,
+  workArea: s.workArea,
+  status: s.status,
+  complianceKey: s.compliant === false ? 'flag' : s.compliant === true ? 'ok' : 'na',
+}));
+
+const gridPayload = {
+  rows: gridRows,
+  statusMeta: SURVEY_STATUS_META,
+  complianceMeta: COMPLIANCE_FLAG_META,
+};
+---
+
+<!-- manifest:
+  layout: stack
+  sections:
+    - filter bar   -> esa-filter-container   # QC toggle / search / esa-filter-dropdown ×5 (carded shell = glue)
+    - surveys grid -> beacon-grid            # the shared Beacon AG Grid kit — Fulcrum/Survey123/CASP docs as EoC
+-->
+
+<AppShell
+  title={`Surveys — ${PROJECT_NAME}`}
+  tenantName="DWR"
+  projectName="Delta Conveyance"
+  activeNavId="mp-surveys"
+  expandedSections={['monitoring']}
+>
+  <PageLayout
+    title="Surveys"
+    icon="clipboard-list"
+    breadcrumbs={[
+      { label: 'Delta Conveyance', href: '#project' },
+      { label: 'Monitoring Portal', href: '#monitoring' },
+      { label: 'Surveys' },
+    ]}
+  >
+    <!-- ═══ Filter bar — carded (Tracker/Fish parity); every control is a lego ═══
+         bcn-lego-checked: the carded toolbar SHELL + "Show"/"Filters" labels are
+         page-composition glue (same .bcn-filterbar as the Tracker / Fish Studies);
+         every CONTROL is a lego — esa-button-toggle (QC), esa-text-field (Search),
+         esa-filter-dropdown ×5 in esa-filter-container, esa-filter-clear-button. -->
+    <div class="bcn-filterbar">
+      <div class="bcn-filterbar__top">
+        <div class="bcn-filterbar__group">
+          <span class="bcn-filterbar__label">Show</span>
+          <esa-button-toggle id="sv-qc" value="qc" size="md"></esa-button-toggle>
+        </div>
+        <div class="bcn-filterbar__search">
+          <esa-text-field id="sv-search" placeholder="Search surveys…" size="md"></esa-text-field>
+          <span id="sv-search-clear" hidden><EsaIconButton icon="x" label="Clear search" size="sm" /></span>
+        </div>
+      </div>
+      <div class="bcn-filterbar__bottom">
+        <span class="bcn-filterbar__label">Filters</span>
+        <FilterContainer>
+          <esa-filter-dropdown id="flt-type" label="Survey Type" multiple size="sm"></esa-filter-dropdown>
+          <esa-filter-dropdown id="flt-source" label="Source" multiple size="sm"></esa-filter-dropdown>
+          <esa-filter-dropdown id="flt-species" label="Species" multiple size="sm"></esa-filter-dropdown>
+          <esa-filter-dropdown id="flt-area" label="Work Area" multiple size="sm"></esa-filter-dropdown>
+          <esa-filter-dropdown id="flt-status" label="Status" multiple size="sm"></esa-filter-dropdown>
+        </FilterContainer>
+        <span id="sv-clear-filters" class="bcn-filterbar__clear"><FilterClearButton /></span>
+      </div>
+    </div>
+
+    <!-- ═══ Surveys grid ═══ -->
+    <div id="sv-grid" class="sv-grid"></div>
+    <div class="table-footer">
+      <span id="sv-download"><EsaButton color="ghost" appearance="outline" size="sm" icon="download">Download (CSV)</EsaButton></span>
+      <div class="row-count-data">
+        Total surveys: <span id="sv-total">0</span>
+        <span id="sv-filtered" class="filtered-rows-count" hidden></span>
+      </div>
+    </div>
+  </PageLayout>
+
+  <script type="application/json" id="sv-grid-data" set:html={JSON.stringify(gridPayload)}></script>
+</AppShell>
+
+<script>
+  import { createGrid, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
+  import type { GridApi, GridOptions, ColDef, IRowNode, ICellRendererParams } from 'ag-grid-community';
+  import { beaconTheme, makeStatusRenderer, linkRenderer } from '../../../lib/beacon-grid';
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-filter-dropdown';
+
+  ModuleRegistry.registerModules([AllCommunityModule]);
+
+  interface SurveyRow {
+    date: string; surveyor: string; surveyType: string; source: string;
+    species: string; workArea: string; status: string; complianceKey: string;
+  }
+  interface Payload {
+    rows: SurveyRow[];
+    statusMeta: Record<string, { label: string; hex: string }>;
+    complianceMeta: Record<string, { label: string; hex: string }>;
+  }
+
+  const payload: Payload = JSON.parse(document.getElementById('sv-grid-data')!.textContent || '{}');
+  const { rows, statusMeta, complianceMeta } = payload;
+
+  // Per-row download affordance (visual only — the DMR/survey PDF is the deliverable).
+  function downloadRenderer(_p: ICellRendererParams) {
+    const a = document.createElement('a');
+    a.className = 'bcn-grid-dl';
+    a.href = '#';
+    a.setAttribute('aria-label', 'Download survey report');
+    a.innerHTML =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>';
+    a.addEventListener('click', (e) => e.preventDefault());
+    return a;
+  }
+
+  const columnDefs: ColDef<SurveyRow>[] = [
+    { field: 'date', headerName: 'Date', width: 120, cellRenderer: linkRenderer, pinned: 'left' },
+    { field: 'surveyor', headerName: 'Surveyor', width: 170 },
+    { field: 'surveyType', headerName: 'Survey Type', width: 250 },
+    { field: 'source', headerName: 'Source', width: 120 },
+    { field: 'species', headerName: 'Species / Resource', width: 200 },
+    { field: 'workArea', headerName: 'Work Area', width: 160 },
+    { field: 'status', headerName: 'Status', width: 130, cellRenderer: makeStatusRenderer(statusMeta), cellClass: 'bcn-grid-status-cell', filterValueGetter: (p) => statusMeta[p.data!.status]?.label },
+    { field: 'complianceKey', headerName: 'Compliance', width: 190, cellRenderer: makeStatusRenderer(complianceMeta), cellClass: 'bcn-grid-status-cell', sortable: false },
+    { field: 'download' as keyof SurveyRow, headerName: '', width: 64, cellRenderer: downloadRenderer, sortable: false, filter: false, resizable: false },
+  ];
+
+  // ── Shared facet state + predicate ──
+  type FacetKey = 'type' | 'source' | 'species' | 'area' | 'status';
+  const facets: Record<FacetKey, string[]> = { type: [], source: [], species: [], area: [], status: [] };
+  let quickText = '';
+  // QC mode: 'qc' (hide un-QC'd drafts — Christy's default) | 'all'.
+  let qcMode: 'qc' | 'all' = 'qc';
+  const statusLabel = (r: SurveyRow) => statusMeta[r.status]?.label ?? r.status;
+  const anyFacet = () => Object.values(facets).some((v) => v.length > 0);
+
+  function doesExternalFilterPass(node: IRowNode<SurveyRow>) {
+    const r = node.data;
+    if (!r) return true;
+    if (qcMode === 'qc' && r.status === 'draft') return false;
+    if (facets.type.length && !facets.type.includes(r.surveyType)) return false;
+    if (facets.source.length && !facets.source.includes(r.source)) return false;
+    if (facets.species.length && !facets.species.includes(r.species)) return false;
+    if (facets.area.length && !facets.area.includes(r.workArea)) return false;
+    if (facets.status.length && !facets.status.includes(statusLabel(r))) return false;
+    return true;
+  }
+
+  const gridOptions: GridOptions<SurveyRow> = {
+    theme: beaconTheme,
+    rowData: rows,
+    columnDefs,
+    defaultColDef: { sortable: true, resizable: true, filter: true, suppressHeaderMenuButton: true, tooltipValueGetter: (p) => p.value },
+    tooltipShowDelay: 0,
+    tooltipShowMode: 'whenTruncated',
+    isExternalFilterPresent: () => true, // qcMode default hides drafts, so always on
+    doesExternalFilterPass,
+    onFirstDataRendered: updateCounts,
+    onFilterChanged: updateCounts,
+  };
+  const api: GridApi<SurveyRow> = createGrid(document.getElementById('sv-grid')!, gridOptions);
+
+  // ── Footer counts ──
+  const totalEl = document.getElementById('sv-total')!;
+  const filteredEl = document.getElementById('sv-filtered')!;
+  function updateCounts() {
+    totalEl.textContent = String(rows.length);
+    const shown = api.getDisplayedRowCount();
+    if (shown < rows.length) { filteredEl.hidden = false; filteredEl.textContent = `Showing: ${shown}`; }
+    else filteredEl.hidden = true;
+  }
+
+  // ── QC toggle (QC'd only | All) ──
+  const qcToggle = document.getElementById('sv-qc') as HTMLElement & { options: { label: string; value: string; icon?: string }[]; value: string };
+  qcToggle.options = [
+    { label: 'QC’d only', value: 'qc', icon: "<path d='M20 6 9 17l-5-5'/>" },
+    { label: 'All', value: 'all', icon: "<rect width='18' height='18' x='3' y='3' rx='2'/><path d='M3 9h18'/><path d='M3 15h18'/>" },
+  ];
+  qcToggle.value = 'qc';
+  qcToggle.addEventListener('change', (e) => {
+    qcMode = (e as CustomEvent).detail.value as 'qc' | 'all';
+    api.onFilterChanged();
+  });
+
+  // ── Search → quick filter ──
+  const search = document.getElementById('sv-search') as HTMLElement & { value: string };
+  const searchClear = document.getElementById('sv-search-clear')!;
+  search.addEventListener('change', (e) => {
+    const v = (e as CustomEvent).detail?.value ?? search.value ?? '';
+    quickText = String(v).toLowerCase();
+    api.setGridOption('quickFilterText', String(v));
+    searchClear.hidden = !v;
+  });
+  searchClear.addEventListener('click', () => {
+    search.value = ''; quickText = '';
+    api.setGridOption('quickFilterText', '');
+    searchClear.hidden = true;
+  });
+
+  // ── Filter dropdowns ──
+  const uniq = (xs: string[]) => [...new Set(xs.filter(Boolean))].sort();
+  const toOpts = (xs: string[]) => xs.map((v) => ({ label: v, value: v }));
+  const facetOptions: Record<FacetKey, string[]> = {
+    type: uniq(rows.map((r) => r.surveyType)),
+    source: uniq(rows.map((r) => r.source)),
+    species: uniq(rows.map((r) => r.species)),
+    area: uniq(rows.map((r) => r.workArea)),
+    status: uniq(rows.map(statusLabel)),
+  };
+  // Status options: colored dots + ramp (draft → qc → final), not alphabetical.
+  const statusFacetOpts = (Object.entries(statusMeta) as [string, { label: string; hex: string }][])
+    .filter(([k]) => rows.some((r) => r.status === k))
+    .map(([, m]) => ({ value: m.label, label: m.label, color: m.hex }));
+  const facetIds: Record<FacetKey, string> = { type: 'flt-type', source: 'flt-source', species: 'flt-species', area: 'flt-area', status: 'flt-status' };
+  type FilterDropdownEl = HTMLElement & { options: { label: string; value: string; color?: string }[]; _selected: string[] };
+  const dropdowns = (Object.entries(facetIds) as [FacetKey, string][]).map(([key, id]) => {
+    const el = document.getElementById(id) as FilterDropdownEl;
+    el.options = key === 'status' ? statusFacetOpts : toOpts(facetOptions[key]);
+    el.addEventListener('selection-change', (e) => {
+      facets[key] = ((e as CustomEvent).detail?.value as string[]) ?? [];
+      api.onFilterChanged();
+    });
+    return el;
+  });
+
+  // ── Clear all ──
+  document.getElementById('sv-clear-filters')!.addEventListener('esa-filter-clear', () => {
+    (Object.keys(facets) as FacetKey[]).forEach((k) => (facets[k] = []));
+    dropdowns.forEach((el) => (el._selected = []));
+    api.setFilterModel(null);
+    api.onFilterChanged();
+  });
+
+  // ── Download CSV ──
+  document.getElementById('sv-download')!.addEventListener('click', () => api.exportDataAsCsv({ fileName: 'monitoring-surveys.csv' }));
+</script>
+
+<style>
+  /* bcn-lego-checked: PAGE-COMPOSITION GLUE ONLY. The filter-bar shell + grid host +
+     footer mirror the Requirement Tracker / Fish Studies (esa-* controls inside); the
+     AG-Grid injected cells (status chip, link, download) are global. No reinvented
+     primitives — checked esa-* (no data-grid lego; AG Grid is the kit) and Beacon. */
+
+  /* Filter bar (Tracker / Fish parity) */
+  .bcn-filterbar { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-200); margin-bottom: var(--spacing-400); }
+  .bcn-filterbar__top { display: flex; align-items: center; gap: var(--spacing-400); padding: var(--spacing-300) var(--spacing-400); flex-wrap: wrap; }
+  .bcn-filterbar__bottom { display: flex; align-items: center; gap: var(--spacing-300); padding: var(--spacing-300) var(--spacing-400); border-top: 1px solid var(--color-border); flex-wrap: wrap; }
+  .bcn-filterbar__group { display: inline-flex; align-items: center; gap: var(--spacing-300); }
+  .bcn-filterbar__label { font-size: var(--type-size-150); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); white-space: nowrap; }
+  .bcn-filterbar__search { margin-left: auto; display: inline-flex; align-items: center; gap: var(--spacing-150); min-width: 300px; }
+  .bcn-filterbar__search :global(esa-text-field) { flex: 1; }
+  .bcn-filterbar__clear { margin-left: auto; }
+
+  /* Grid host + footer */
+  .sv-grid { width: 100%; height: calc(100vh - 320px); min-height: 540px; }
+  .table-footer { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-400); padding: var(--spacing-200) var(--spacing-400); background: var(--color-background); border: 1px solid var(--color-border); border-top: 0; border-radius: 0 0 var(--radius-100) var(--radius-100); }
+  .row-count-data { display: flex; align-items: center; gap: var(--spacing-400); font-size: var(--type-size-100); color: var(--color-text-secondary); font-variant-numeric: tabular-nums; }
+  .filtered-rows-count { color: var(--color-text-tertiary); }
+  .filtered-rows-count[hidden] { display: none; }
+
+  /* AG Grid injected cells (global) */
+  :global(.ag-cell.bcn-grid-status-cell) { display: flex; align-items: center; }
+  :global(.bcn-grid-chip) { display: inline-flex; align-items: center; gap: var(--spacing-150); padding: 1px var(--spacing-200); border-radius: var(--radius-100); font-size: 0.75rem; line-height: 1.5; font-weight: var(--font-weight-semibold); white-space: nowrap; background: color-mix(in srgb, var(--_chip) 16%, transparent); color: color-mix(in srgb, var(--_chip) 70%, #1a1a1a); }
+  :global(.bcn-grid-chip__dot) { width: 7px; height: 7px; border-radius: 50%; background: var(--_chip); flex-shrink: 0; }
+  :global(.bcn-grid-name) { color: var(--color-text-link); font-weight: var(--font-weight-regular); text-decoration: underline; font-variant-numeric: tabular-nums; }
+  :global(.bcn-grid-name:hover) { color: var(--color-primary-hover); }
+  :global(.bcn-grid-dl) { display: inline-flex; align-items: center; justify-content: center; color: var(--color-secondary); }
+  :global(.bcn-grid-dl:hover) { color: var(--color-primary); }
+</style>

@@ -1,0 +1,199 @@
+---
+// <BcnObservationCard> — the OBSERVATION is the parent; its relevant commitments are
+// the children. An inline-expandable card: collapsed = the observation summary
+// (species, id, observed date, work area, fledging, compliance status); expanded =
+// the dossier — the fledging countdown and the RELEVANT commitments to review, with
+// a "show all phases" backstop for the pre/post measures.
+//
+// Reframes the feature observation-first (Leah/Christy): you start from "a Swainson's
+// hawk nest came in at DH-039" and get everything you need to do about it. The child
+// defaults to the CONSTRUCTION / field-actionable "prevent take" set; the pre/post
+// planning measures hide behind "show all phases" so they stay available without
+// clutter — Christy's caveat that the 14-day re-survey rule can revive a pre-con
+// measure, so we never hard-delete them.
+//
+// bcn-lego-checked: esa-collapsible only accepts a string `title`, so it cannot host
+// this card's RICH summary trigger (species badge + name + id + fledging + status
+// chip) — the native <details>/<summary> is the accessible disclosure primitive for a
+// rich trigger (and for the lightweight "show all phases" text-toggle). Checked
+// Ecology (no esa-* rich-disclosure card) and Beacon (prod accordion rows are
+// bespoke). Inside it composes legos + bcn-* components only: BcnStatusChip,
+// BcnFledgingCountdown, BcnCommitmentRow, esa-icon, esa-icon-link.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnStatusChip from './BcnStatusChip.astro';
+import BcnFledgingCountdown from './BcnFledgingCountdown.astro';
+import BcnCommitmentRow from './BcnCommitmentRow.astro';
+import type { Find } from '../../data/monitoring';
+import { findStateMeta, findNeedsAction } from '../../data/monitoring';
+
+interface Props {
+  find: Find;
+  /** Start expanded. */
+  open?: boolean;
+}
+const { find, open = false } = Astro.props;
+
+const meta = findStateMeta(find);
+const needsAction = findNeedsAction(find);
+const hasFledge = Boolean(find.fledgeDate);
+const isConcern = find.kind === 'concern';
+const dateVerb = isConcern ? 'raised' : 'observed';
+const ALERT = '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>';
+---
+
+<details
+  class="bcn-obs"
+  open={open}
+  data-needs-action={String(needsAction)}
+  data-species={find.species}
+  data-date={find.observedDate}
+>
+  <summary class="bcn-obs__summary" data-kind={find.kind}>
+    <span class="bcn-obs__chev" aria-hidden="true"><EsaIcon name="chevron-right" size="sm" /></span>
+    {isConcern ? (
+      <>
+        <span class="bcn-obs__concern-icon" aria-label="Compliance concern"><EsaIcon name="triangle-alert" size="sm" paths={ALERT} /></span>
+        <span class="bcn-obs__name">{find.title ?? 'Compliance concern'}</span>
+      </>
+    ) : (
+      <>
+        <span class="bcn-obs__badge">{find.speciesCode}</span>
+        <span class="bcn-obs__name">{find.species}</span>
+      </>
+    )}
+    <span class="bcn-obs__id">{find.shortId}</span>
+    <span class="bcn-obs__meta">{dateVerb} {find.observedDate}{find.workArea && ` · ${find.workArea}`}</span>
+    <span class="bcn-obs__spacer"></span>
+    {hasFledge && <span class="bcn-obs__fledge">~{find.daysToFledge}d to fledge</span>}
+    <BcnStatusChip status={find.state} label={meta.label} hex={meta.hex} />
+  </summary>
+
+  <div class="bcn-obs__body">
+    {find.description && (
+      <p class="bcn-obs__desc">
+        {find.description}{' '}
+        <a class="bcn-obs__detail-link" href={`#${isConcern ? 'concern' : 'observation'}/${find.shortId}`}>View {isConcern ? 'Concern' : 'Observation'}</a>
+      </p>
+    )}
+
+    {hasFledge && (
+      <div class="bcn-obs__fledge-panel">
+        <BcnFledgingCountdown find={find} />
+      </div>
+    )}
+
+    <section class="bcn-obs__section">
+      <h4 class="bcn-obs__h">Relevant commitments</h4>
+      <div class="bcn-obs__rows">
+        {find.commitments.map((c) => <BcnCommitmentRow commitment={c} />)}
+      </div>
+    </section>
+  </div>
+</details>
+
+<style>
+  .bcn-obs {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+    background: var(--color-surface);
+    overflow: hidden;
+  }
+  .bcn-obs[hidden] { display: none; }
+
+  /* ── Summary (collapsed-visible row; rich trigger) ── */
+  .bcn-obs__summary {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-250);
+    padding: var(--spacing-300) var(--spacing-400);
+    cursor: pointer;
+    list-style: none;
+  }
+  .bcn-obs__summary::-webkit-details-marker { display: none; }
+  .bcn-obs__summary:hover { background: var(--color-surface-sunken); }
+
+  .bcn-obs__chev { display: inline-flex; flex-shrink: 0; color: var(--color-text-tertiary); transition: transform 150ms ease; }
+  .bcn-obs[open] > .bcn-obs__summary .bcn-obs__chev { transform: rotate(90deg); }
+
+  /* Compliance concern marker — a warning glyph; the concern is a raised violation. */
+  .bcn-obs__concern-icon { display: inline-flex; flex-shrink: 0; color: var(--color-danger); }
+
+  .bcn-obs__badge {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-secondary);
+    background: color-mix(in srgb, var(--color-secondary) 12%, white);
+    padding: 1px var(--spacing-200);
+    border-radius: var(--radius-100);
+  }
+  .bcn-obs__name {
+    flex-shrink: 0;
+    font-size: var(--type-size-200);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .bcn-obs__id {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: var(--type-size-100);
+    color: var(--color-text-secondary);
+  }
+  .bcn-obs__meta {
+    font-size: var(--type-size-100);
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bcn-obs__spacer { flex: 1 1 var(--spacing-300); }
+  .bcn-obs__fledge {
+    flex-shrink: 0;
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-secondary);
+    white-space: nowrap;
+  }
+
+  /* ── Body (the dossier, revealed inline) — white; the commitment cards read as
+        discrete objects via their own borders. ── */
+  .bcn-obs__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    padding: var(--spacing-400);
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border-light);
+  }
+  /* The real field note grounds the observation. */
+  .bcn-obs__desc {
+    margin: 0;
+    font-size: var(--type-size-200);
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+  /* Jump to the observation/concern detail page. */
+  .bcn-obs__detail-link {
+    color: var(--color-text-link);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
+  }
+  .bcn-obs__detail-link:hover { color: var(--color-primary-hover); }
+  .bcn-obs__fledge-panel {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    padding: var(--spacing-300) var(--spacing-400);
+  }
+  .bcn-obs__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-obs__h {
+    margin: 0;
+    font-size: var(--type-size-200);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .bcn-obs__rows { display: flex; flex-direction: column; gap: var(--spacing-100); }
+</style>

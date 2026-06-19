@@ -1,0 +1,130 @@
+---
+// <BcnConsultationLog> — the agency-consultation log: a date-grouped vertical
+// timeline of what an agency said and when ("on 5/12 CDFW reduced the buffer to ¼
+// mile with a full-time monitor"). It's the record that lets anyone see what's
+// permitted for a nest WITHOUT re-litigating it. Reverse-chronological. Each entry
+// shows the AGENCY as a quiet pill, the outcome as the readable body line (the
+// substance), the date, and an optional "by" attribution as meta. Optionally renders
+// a visual-only "Log consultation" affordance. Empty → esa-empty-state.
+//
+// bcn-lego-checked: no esa-* consultation/timeline lego — checked Ecology
+// (esa-pill / esa-button / esa-empty-state are composed here) and Beacon. Reuses the
+// <BcnChangeLog> date-grouped vertical-timeline idiom for a consultation log; the
+// left border is the timeline SPINE (a rail), not a status left-border.
+import EsaPill from '@esa/ecology/esa-pill.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import type { ConsultationEntry } from '../../data/monitoring';
+
+interface Props {
+  entries: ConsultationEntry[];
+  /** Show the "Log consultation" button (visual only). */
+  addable?: boolean;
+}
+const { entries, addable = false } = Astro.props;
+
+// Group by date, preserving the order the entries arrive in (data is already
+// reverse-chronological). Each date becomes one node on the timeline rail.
+const groups: { date: string; entries: ConsultationEntry[] }[] = [];
+for (const entry of entries) {
+  const last = groups.at(-1);
+  if (last && last.date === entry.date) last.entries.push(entry);
+  else groups.push({ date: entry.date, entries: [entry] });
+}
+---
+
+<div class="bcn-consultation-log">
+  {addable && (
+    <div class="bcn-consultation-log__add">
+      <EsaButton color="secondary" appearance="outline" size="sm" icon="plus">
+        Log consultation
+      </EsaButton>
+    </div>
+  )}
+
+  {entries.length === 0 ? (
+    <EsaEmptyState
+      title="No agency consultations logged"
+      description="Record what an agency permitted for this nest so it doesn't get re-litigated."
+      size="sm"
+    />
+  ) : (
+    <ol class="bcn-consultation-log__list">
+      {groups.map((group) => (
+        <li class="bcn-consultation-log__day">
+          <p class="bcn-consultation-log__date">{group.date}</p>
+          <ul class="bcn-consultation-log__entries">
+            {group.entries.map((entry) => (
+              <li class="bcn-consultation-log__entry">
+                <span class="bcn-consultation-log__agency">
+                  <EsaPill label={entry.agency} size="sm" removable={false} />
+                </span>
+                <p class="bcn-consultation-log__outcome">{entry.outcome}</p>
+                {entry.by && <span class="bcn-consultation-log__by">{entry.by}</span>}
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ol>
+  )}
+</div>
+
+<style>
+  .bcn-consultation-log__add {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: var(--spacing-400);
+  }
+
+  .bcn-consultation-log__list { list-style: none; margin: 0; padding: 0; }
+
+  /* The left border is the timeline SPINE (a rail), not a status indicator. */
+  .bcn-consultation-log__day {
+    position: relative;
+    margin-left: 5px;
+    padding: 0 0 var(--spacing-400) var(--spacing-500);
+    border-left: 2px solid var(--color-border);
+  }
+  .bcn-consultation-log__day:last-child { border-left-color: transparent; padding-bottom: 0; }
+  .bcn-consultation-log__day::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 3px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-surface);
+    border: 2px solid var(--color-secondary);
+  }
+
+  .bcn-consultation-log__date {
+    margin: 0 0 var(--spacing-200);
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+
+  .bcn-consultation-log__entries {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+  .bcn-consultation-log__entry { display: flex; flex-direction: column; gap: var(--spacing-150); }
+
+  .bcn-consultation-log__agency { display: inline-flex; }
+
+  /* The outcome is the substance — readable body text, not meta. */
+  .bcn-consultation-log__outcome {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.45;
+    color: var(--color-text-primary);
+  }
+
+  .bcn-consultation-log__by { font-size: 0.75rem; color: var(--color-text-tertiary); }
+</style>

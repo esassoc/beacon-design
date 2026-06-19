@@ -1,0 +1,258 @@
+---
+// <BcnMonitoringStats> — the Monitoring Portal dashboard's top stat band.
+//
+// Four esa-card panels in a sidebar layout: a large "Active Observations" card
+// (left) carrying a donut + an Outstanding Issues mini-list, and three stacked
+// cards (Nesting Birds, Compliance Concerns, Biological Resources) on the right.
+// Each card's big-number tier IS esa-stat (value/label/sub); the per-category
+// bars and the breakdown donut are the only bespoke viz — see the token below.
+//
+// bcn-lego-checked: a donut (conic-gradient) and horizontal value-bars are
+// data-driven micro-viz with NO esa-* equivalent (checked the catalog —
+// esa-progress-bar is a single fixed bar, esa-stat/esa-card are static blocks,
+// esa-badge is a fixed-variant pill). Checked Beacon prod (these dashboard
+// charts are bespoke SVG/CSS there too). Their COLORS come from each datum's
+// `hex` (the same value-driven idiom as BcnStatusChip / BcnScheduleTimeline:
+// an inline `--_c` custom property), never hardcoded. bcn-monitoring-stats is
+// the reusable home; the card shells + the stat block are all legos.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaStat from '@esa/ecology/esa-stat.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import type { DashboardStats } from '../../data/monitoring';
+
+interface Props {
+  stats: DashboardStats;
+  outstandingIssues: { id: string; ageDays: number }[];
+  /** Base route for issue links (prototype: '#'). */
+  detailBase?: string;
+}
+const { stats, outstandingIssues, detailBase = '#' } = Astro.props;
+
+const total30dCaption = (n: number) => `${n} Total in the past 30 days`;
+
+// ── Donut: build the conic-gradient stops from the breakdown's running sums.
+// One sweep, so a 0-value slice contributes nothing and the order is the data's.
+const donutTotal = stats.observationBreakdown.reduce((sum, b) => sum + b.value, 0) || 1;
+let acc = 0;
+const donutStops = stats.observationBreakdown
+  .map((b) => {
+    const from = (acc / donutTotal) * 100;
+    acc += b.value;
+    const to = (acc / donutTotal) * 100;
+    return `${b.hex} ${from.toFixed(2)}% ${to.toFixed(2)}%`;
+  })
+  .join(', ');
+
+// ── Bars: scale each value against the group max so the longest fills the track.
+const barWidth = (value: number, items: { value: number }[]) => {
+  const max = Math.max(1, ...items.map((i) => i.value));
+  return `${Math.max((value / max) * 100, 4).toFixed(1)}%`;
+};
+---
+
+<div class="bcn-mstats sidebar" data-gap="lg">
+  <!-- ── Active Observations (large, left) ── -->
+  <EsaCard title="Active Observations">
+    <div class="stack" data-gap="lg">
+      <!-- big number + donut, side by side -->
+      <div class="cluster" data-gap="lg" data-justify="between" data-align="start">
+        <EsaStat
+          value={stats.activeObservations}
+          label="Active observations"
+          sub={total30dCaption(stats.total30d)}
+        />
+        <div class="cluster" data-gap="md" data-align="center">
+          <div class="bcn-mstats__donut" style={`--_stops: ${donutStops};`} aria-hidden="true">
+            <span class="bcn-mstats__donut-hole">{stats.activeObservations}</span>
+          </div>
+          <ul class="bcn-mstats__legend stack" data-gap="2xs">
+            {stats.observationBreakdown.map((b) => (
+              <li class="bcn-mstats__legend-item">
+                <span class="bcn-mstats__dot" style={`--_c: ${b.hex};`}></span>
+                <span class="type-body-small">{b.label} ({b.value})</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <!-- Outstanding Issues mini-panel -->
+      <section class="bcn-mstats__issues stack" data-gap="sm">
+        <h4 class="bcn-mstats__issues-title type-label">
+          Outstanding Issues ({outstandingIssues.length})
+        </h4>
+        <ul class="stack" data-gap="2xs">
+          {outstandingIssues.map((issue) => (
+            <li class="bcn-mstats__issue">
+              <EsaBadge value={`${issue.ageDays}d`} variant="warning" size="sm" />
+              <a class="bcn-mstats__issue-link" href={`${detailBase}${issue.id}`}>{issue.id}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  </EsaCard>
+
+  <!-- ── three stacked cards (right) ── -->
+  <div class="stack" data-gap="lg">
+    <!-- Nesting Birds -->
+    <EsaCard title="Nesting Birds">
+      <div class="stack" data-gap="md">
+        <EsaStat
+          value={stats.nestingBirds.total}
+          label="Nesting birds"
+          sub={total30dCaption(stats.nestingBirds.total30d)}
+        />
+        <ul class="bcn-mstats__bars stack" data-gap="xs">
+          {stats.nestingBirds.species.map((s) => (
+            <li class="bcn-mstats__bar-row">
+              <span class="bcn-mstats__bar-label type-body-small">{s.label}</span>
+              <span class="bcn-mstats__bar-track">
+                <span class="bcn-mstats__bar-fill" style={`--_c: ${s.hex}; width: ${barWidth(s.value, stats.nestingBirds.species)};`}></span>
+              </span>
+              <span class="bcn-mstats__bar-value type-label">{s.value}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </EsaCard>
+
+    <!-- Compliance Concerns -->
+    <EsaCard title="Compliance Concerns">
+      <EsaStat
+        value={stats.complianceConcerns.active}
+        label="Active compliance concerns"
+        sub={total30dCaption(stats.complianceConcerns.total30d)}
+      />
+    </EsaCard>
+
+    <!-- Biological Resources -->
+    <EsaCard title="Biological Resources">
+      <div class="stack" data-gap="md">
+        <EsaStat
+          value={stats.biologicalResources.total}
+          label="Biological resources"
+          sub={total30dCaption(stats.biologicalResources.total30d)}
+        />
+        <ul class="bcn-mstats__bars stack" data-gap="xs">
+          {stats.biologicalResources.items.map((item) => (
+            <li class="bcn-mstats__bar-row">
+              <span class="bcn-mstats__bar-label type-body-small">{item.label}</span>
+              <span class="bcn-mstats__bar-track">
+                <span class="bcn-mstats__bar-fill" style={`--_c: ${item.hex}; width: ${barWidth(item.value, stats.biologicalResources.items)};`}></span>
+              </span>
+              <span class="bcn-mstats__bar-value type-label">{item.value}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </EsaCard>
+  </div>
+</div>
+
+<style>
+  /* The big "Active Observations" card leads; the three stack as the sidebar
+     aside. Tune the sidebar primitive's knobs — composition glue only. */
+  .bcn-mstats {
+    --sidebar-width: 22rem;
+    --sidebar-content-min: 55%;
+    align-items: stretch;
+  }
+  .bcn-mstats > :first-child { flex-grow: 999; }
+  .bcn-mstats > :last-child { flex-grow: 1; }
+
+  /* ── Donut (bespoke viz; color from data via --_stops) ── */
+  .bcn-mstats__donut {
+    position: relative;
+    width: 92px;
+    height: 92px;
+    border-radius: var(--radius-full);
+    background: conic-gradient(var(--_stops));
+    flex-shrink: 0;
+  }
+  .bcn-mstats__donut-hole {
+    position: absolute;
+    inset: 18px;
+    display: grid;
+    place-items: center;
+    border-radius: var(--radius-full);
+    background: var(--color-surface);
+    font-family: var(--font-display, var(--font-sans));
+    font-size: var(--type-size-400);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+  }
+
+  .bcn-mstats__legend { list-style: none; padding: 0; }
+  .bcn-mstats__legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    color: var(--color-text-secondary);
+  }
+  .bcn-mstats__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-full);
+    background: var(--_c);
+    flex-shrink: 0;
+  }
+
+  /* ── Outstanding Issues mini-panel ── */
+  .bcn-mstats__issues {
+    padding-top: var(--spacing-300);
+    border-top: 1px solid var(--color-border-light);
+  }
+  .bcn-mstats__issues-title {
+    margin: 0;
+    color: var(--color-text-secondary);
+  }
+  .bcn-mstats__issues ul { list-style: none; padding: 0; }
+  .bcn-mstats__issue {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+  }
+  .bcn-mstats__issue-link {
+    font-size: var(--type-size-150);
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-mstats__issue-link:hover { color: var(--color-primary-hover); }
+
+  /* ── Horizontal value bars (bespoke viz; color from data via --_c) ── */
+  .bcn-mstats__bars { list-style: none; padding: 0; }
+  .bcn-mstats__bar-row {
+    display: grid;
+    grid-template-columns: 4rem 1fr auto;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+  .bcn-mstats__bar-label {
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bcn-mstats__bar-track {
+    height: 10px;
+    border-radius: var(--radius-full);
+    background: var(--color-surface-sunken);
+    overflow: hidden;
+  }
+  .bcn-mstats__bar-fill {
+    display: block;
+    height: 100%;
+    border-radius: var(--radius-full);
+    background: var(--_c);
+  }
+  .bcn-mstats__bar-value {
+    color: var(--color-text-primary);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+</style>

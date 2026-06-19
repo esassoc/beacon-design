@@ -24,6 +24,8 @@ interface NavItem {
   active?: boolean;
   /** Real route (already withBase'd). Defaults to the `#id` stub when absent. */
   href?: string;
+  /** Render a thin divider ABOVE this item (e.g. to set a peer tool apart). */
+  divider?: boolean;
 }
 interface NavSection {
   id: string;
@@ -137,8 +139,16 @@ const {
       iconPaths: LUCIDE['map-pinned'],
       expanded: true,
       items: [
-        { id: 'monitoring-portal', label: 'Monitoring Portal' },
-        { id: 'site-clearance', label: 'Site Clearance', href: withBase('/prototypes/site-clearance') },
+        // The Monitoring Portal's former top-tabs, promoted into the rail (tabs → sidebar).
+        { id: 'mp-dashboard', label: 'Dashboard', href: withBase('/prototypes/monitoring/dashboard') },
+        { id: 'mp-compliance-concerns', label: 'Compliance Concerns', href: withBase('/prototypes/monitoring/compliance-concerns') },
+        { id: 'mp-nesting-birds', label: 'Nesting Birds', href: withBase('/prototypes/monitoring/nesting-birds') },
+        { id: 'mp-biological-resources', label: 'Biological Resources', href: withBase('/prototypes/monitoring/biological-resources') },
+        { id: 'mp-daily-monitoring-reports', label: 'Daily Monitoring Reports', href: withBase('/prototypes/monitoring/daily-monitoring-reports') },
+        { id: 'mp-surveys', label: 'Surveys', href: withBase('/prototypes/monitoring/surveys') },
+        { id: 'mp-all-observations', label: 'All Observations', href: withBase('/prototypes/monitoring/all-observations') },
+        // Site Clearance is a distinct go/no-go workspace — divided off as the last item.
+        { id: 'site-clearance', label: 'Site Clearance', href: withBase('/prototypes/site-clearance'), divider: true },
       ],
     },
     {
@@ -335,11 +345,14 @@ if (activeNavId) {
                     </button>
                     <ul class="nav-section__items">
                       {section.items?.map((item) => (
-                        <li class="nav-item">
-                          <a href={item.href ?? `#${item.id}`} class:list={['nav-sublink', { active: item.active }]}>
-                            {item.label}
-                          </a>
-                        </li>
+                        <>
+                          {item.divider && <li class="nav-subdivider" aria-hidden="true" />}
+                          <li class="nav-item">
+                            <a href={item.href ?? `#${item.id}`} class:list={['nav-sublink', { active: item.active }]}>
+                              {item.label}
+                            </a>
+                          </li>
+                        </>
                       ))}
                     </ul>
                   </div>
@@ -956,6 +969,14 @@ if (activeNavId) {
   }
   .nav-item + .nav-item {
     margin-top: var(--spacing-050);
+  }
+
+  /* Sub-item divider — sets a peer tool (Site Clearance) apart from the portal views. */
+  .nav-subdivider {
+    list-style: none;
+    height: 1px;
+    margin: var(--spacing-150) 0 var(--spacing-150) 2.5rem;
+    background: var(--bcn-gray-200);
   }
 
   .nav-sublink {

@@ -1,0 +1,325 @@
+---
+// Monitoring Portal → Dashboard — the portal's landing view (top-tabs are gone;
+// the rail is the nav now). Two bands:
+//   1. The observation stat cards (reproducing the prod screenshot).
+//   2. Commitment Compliance, reframed OBSERVATION-FIRST (Leah/Christy): each
+//      observation is the parent, its RELEVANT commitments are the children. An
+//      inline-expandable card per observation opens to the dossier — fledging
+//      countdown + the relevant commitments to review (+ "show all phases"). The
+//      section groups by Species (default) or Date, and DEFAULTS to "Needs action".
+//      Design input for the empty BCN-1315.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnStatusChip from '../../../components/bcn/BcnStatusChip.astro';
+import BcnMonitoringStats from '../../../components/bcn/BcnMonitoringStats.astro';
+import BcnObservationCard from '../../../components/bcn/BcnObservationCard.astro';
+import { DASHBOARD, OUTSTANDING_ISSUES, FINDS, PROJECT_NAME } from '../../../data/monitoring';
+import { COMMITMENT_TEXT } from '../../../data/commitment-text';
+
+// Side-drawer payload: every whitelisted commitment's title + the real CoA text.
+const commitmentDrawerData = Object.fromEntries(
+  Object.entries(COMMITMENT_TEXT).map(([code, v]) => [code, { code, title: v.title, source: v.source, text: v.text }]),
+);
+
+// Date view: a reverse-chronological log — group by observed date (newest first),
+// each header a full weekday date ("Monday, June 15, 2026").
+const fmtLong = (iso: string) =>
+  new Date(`${iso}T00:00:00`).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+const dateMap = new Map<string, typeof FINDS>();
+for (const f of FINDS) {
+  const arr = dateMap.get(f.observedDate) ?? [];
+  arr.push(f);
+  dateMap.set(f.observedDate, arr);
+}
+const dateGroups = [...dateMap.entries()]
+  .sort((a, b) => (a[0] < b[0] ? 1 : -1))
+  .map(([date, finds]) => ({ date, label: fmtLong(date), finds }));
+
+// Source view (default): the two lanes — compliance concerns vs species observations.
+const sourceGroups = [
+  { key: 'concern', label: 'Compliance concerns', finds: FINDS.filter((f) => f.kind === 'concern') },
+  { key: 'observation', label: 'Species observations', finds: FINDS.filter((f) => f.kind === 'observation') },
+];
+---
+
+<!-- manifest:
+  layout: stack
+  sections:
+    - portal stats            -> bcn-monitoring-stats   # the four observation cards
+    - compliance controls     -> esa-button-toggle      # group-by + needs-action (strip = glue)
+    - compliance observations -> bcn-observation-card    # observation parent → relevant commitments
+-->
+
+<AppShell
+  title={`Monitoring Portal — ${PROJECT_NAME}`}
+  tenantName="DWR"
+  projectName="Delta Conveyance"
+  activeNavId="mp-dashboard"
+  expandedSections={['monitoring']}
+>
+  <PageLayout
+    title="Monitoring Portal"
+    icon="map"
+    breadcrumbs={[
+      { label: 'Delta Conveyance', href: '#project' },
+      { label: 'Monitoring Portal' },
+    ]}
+  >
+    <BcnStatusChip slot="title-badge" status="cleared" label="Connected" hex="#2e7571" />
+    <div slot="utilities">
+      <EsaButton color="ghost" appearance="outline" size="sm">Edit Connection</EsaButton>
+    </div>
+
+    <!-- ═══ 1 · Observation stat cards ═══ -->
+    <BcnMonitoringStats stats={DASHBOARD} outstandingIssues={OUTSTANDING_ISSUES} />
+
+    <!-- ═══ 2 · Commitment Compliance — observation-first ═══
+         bcn-lego-checked: the section header, the organize-control STRIP, the
+         view-pane wrappers, and the species/date group headers are page-composition
+         glue (the Fish Studies view-toggle idiom). Every control is a lego
+         (esa-button-toggle) and every observation is a bcn-* component
+         (BcnObservationCard, which owns the parent→child commitment view). -->
+    <section class="cc">
+      <div class="cc__bar">
+        <h2 class="cc__title">Commitment Compliance</h2>
+        <div class="cc__controls">
+          <div class="cc__ctx">
+            <span class="cc__ctx-label">Show</span>
+            <esa-button-toggle id="cc-needs" value="needs" size="sm"></esa-button-toggle>
+          </div>
+          <div class="cc__ctx">
+            <span class="cc__ctx-label">Group by</span>
+            <esa-button-toggle id="cc-group" value="species" size="sm"></esa-button-toggle>
+          </div>
+        </div>
+      </div>
+
+      <!-- Group by source (default) — the two lanes -->
+      <div class="cc__pane" id="cc-by-source">
+        {sourceGroups.map((g) => (
+          <section class="cc-group">
+            <header class="cc-group__head">
+              <span class="cc-group__name">{g.label}</span>
+              <span class="cc-badge">{g.finds.length}</span>
+            </header>
+            <div class="cc-group__cards">
+              {g.finds.map((f) => <BcnObservationCard find={f} />)}
+            </div>
+          </section>
+        ))}
+      </div>
+
+      <!-- Group by date (reverse-chronological log) -->
+      <div class="cc__pane" id="cc-by-date" hidden>
+        {dateGroups.map((g) => (
+          <section class="cc-group">
+            <header class="cc-group__head">
+              <span class="cc-group__name">{g.label}</span>
+              <span class="cc-badge">{g.finds.length}</span>
+            </header>
+            <div class="cc-group__cards">
+              {g.finds.map((f) => <BcnObservationCard find={f} />)}
+            </div>
+          </section>
+        ))}
+      </div>
+    </section>
+  </PageLayout>
+
+  <!-- ═══ Commitment side drawer — full Condition-of-Approval text (document-review pattern) ═══
+       z lifts the panel + backdrop above the fixed topbar (z 1100), per the esa-dialog
+       overlay note. Body text is set in Besley (--font-decorative), preserving the
+       register's own line breaks. -->
+  <esa-side-dialog id="cmt-drawer" size="md" style="--z-modal: 1300; --z-modal-backdrop: 1250; --side-dialog-width: 640px;">
+    <div slot="header" class="cmt-head">
+      <span class="cmt-head__code" id="cmt-code">—</span>
+      <span class="cmt-head__title" id="cmt-title">—</span>
+    </div>
+    <article class="cmt-body" id="cmt-body"></article>
+    <span slot="footer" class="cmt-foot">
+      <span class="cmt-foot__src" id="cmt-source"></span>
+      <span id="cmt-close"><EsaButton color="ghost" appearance="outline">Close</EsaButton></span>
+    </span>
+  </esa-side-dialog>
+  <script type="application/json" id="cmt-data" set:html={JSON.stringify(commitmentDrawerData)}></script>
+</AppShell>
+
+<script>
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-side-dialog';
+
+  interface ToggleEl extends HTMLElement {
+    options: { label: string; value: string; icon?: string }[];
+    value: string;
+  }
+  const el = (id: string) => document.getElementById(id);
+
+  // ── Show filter (Needs action default | All) ──
+  const needs = el('cc-needs') as ToggleEl;
+  needs.options = [
+    { label: 'Needs action', value: 'needs' },
+    { label: 'All', value: 'all' },
+  ];
+  needs.value = 'needs';
+  function applyNeeds(mode: string) {
+    document.querySelectorAll<HTMLElement>('.bcn-obs').forEach((card) => {
+      card.hidden = mode === 'needs' && card.dataset.needsAction === 'false';
+    });
+    // Re-count each group's visible cards: update its badge, hide it if empty.
+    document.querySelectorAll<HTMLElement>('.cc-group').forEach((grp) => {
+      const visible = [...grp.querySelectorAll<HTMLElement>('.bcn-obs')].filter((c) => !c.hidden).length;
+      const badge = grp.querySelector('.cc-badge');
+      if (badge) badge.textContent = String(visible);
+      grp.hidden = visible === 0;
+    });
+  }
+  needs.addEventListener('change', (e) => applyNeeds((e as CustomEvent).detail.value as string));
+  applyNeeds('needs'); // default lens = needs action
+
+  // ── Group by (Species | Date) ──
+  const panes: Record<string, HTMLElement> = {
+    source: el('cc-by-source')!,
+    date: el('cc-by-date')!,
+  };
+  const group = el('cc-group') as ToggleEl;
+  group.options = [
+    { label: 'Source', value: 'source', icon: "<path d='m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z'/><path d='M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12'/><path d='M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17'/>" },
+    { label: 'Date', value: 'date', icon: "<path d='M8 2v4'/><path d='M16 2v4'/><rect width='18' height='18' x='3' y='4' rx='2'/><path d='M3 10h18'/>" },
+  ];
+  group.value = 'source';
+  group.addEventListener('change', (e) => {
+    const v = (e as CustomEvent).detail.value as string;
+    Object.entries(panes).forEach(([k, p]) => (p.hidden = k !== v));
+  });
+
+  // ── Commitment side drawer (full CoA text) ──
+  interface CommitmentEntry { code: string; title: string; source: string; text: string; }
+  const cmtData = JSON.parse(document.getElementById('cmt-data')!.textContent || '{}') as Record<string, CommitmentEntry>;
+  const drawer = document.getElementById('cmt-drawer') as HTMLElement & { show(): void; close(): void };
+  const dCode = document.getElementById('cmt-code')!;
+  const dTitle = document.getElementById('cmt-title')!;
+  const dBody = document.getElementById('cmt-body')!;
+  const dSource = document.getElementById('cmt-source')!;
+  function openCommitment(code: string) {
+    const c = cmtData[code];
+    if (!c) return;
+    dCode.textContent = c.code;
+    dTitle.textContent = c.title;
+    dSource.textContent = c.source ? `Source: ${c.source}` : '';
+    dBody.textContent = c.text; // white-space: pre-wrap preserves the register's line breaks
+    drawer.show();
+  }
+  // Delegate clicks + keyboard from ANY commitment row (the dossier OR the library).
+  document.addEventListener('click', (e) => {
+    const row = (e.target as HTMLElement).closest('.bcn-crow') as HTMLElement | null;
+    if (row?.dataset.code) openCommitment(row.dataset.code);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const row = (e.target as HTMLElement).closest('.bcn-crow') as HTMLElement | null;
+    if (row?.dataset.code) { e.preventDefault(); openCommitment(row.dataset.code); }
+  });
+  document.getElementById('cmt-close')!.addEventListener('click', () => drawer.close());
+</script>
+
+<style>
+  /* bcn-lego-checked: PAGE-COMPOSITION GLUE ONLY — the Commitment-Compliance section
+     header, the organize-control strip, the view-pane wrappers, the species/date
+     group headers, and the quiet count badge (4px radius, light-gray border — the
+     design-principles "compact + quiet" badge, no esa-* outline-badge variant exists).
+     Every control is a lego (esa-button-toggle); every observation is a bcn-*
+     component (BcnObservationCard). */
+
+  .cc { margin-top: var(--spacing-700); display: flex; flex-direction: column; gap: var(--spacing-400); }
+
+  .cc__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    flex-wrap: wrap;
+    padding-bottom: var(--spacing-200);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .cc__title {
+    margin: 0;
+    font-family: var(--font-decorative);
+    font-size: var(--type-size-400);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+  }
+  .cc__controls { display: flex; align-items: center; gap: var(--spacing-400); flex-wrap: wrap; }
+  .cc__ctx { display: inline-flex; align-items: center; gap: var(--spacing-200); }
+  .cc__ctx-label {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+  }
+
+  /* View panes — one grouping at a time. */
+  .cc__pane[hidden] { display: none; }
+
+  /* Species / date groups. */
+  .cc-group[hidden] { display: none; }
+  .cc-group + .cc-group { margin-top: var(--spacing-500); }
+  .cc-group__head { display: flex; align-items: center; gap: var(--spacing-250); margin-bottom: var(--spacing-300); }
+  .cc-group__name {
+    font-size: var(--type-size-300);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  /* Quiet count badge — 4px radius, light-gray border (design-principles standard). */
+  .cc-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 var(--spacing-150);
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-100);
+    font-variant-numeric: tabular-nums;
+  }
+  .cc-group__cards { display: flex; flex-direction: column; gap: var(--spacing-200); }
+
+  /* ── Commitment side drawer ── */
+  .cmt-head { display: flex; flex-direction: column; gap: var(--spacing-200); min-width: 0; }
+  .cmt-head__code {
+    width: max-content;
+    font-family: var(--font-mono);
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-commitment);
+    background: color-mix(in srgb, var(--color-commitment) 12%, white);
+    padding: 1px var(--spacing-200);
+    border-radius: var(--radius-100);
+  }
+  .cmt-head__title {
+    font-family: var(--font-decorative);
+    font-size: var(--type-size-400);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    line-height: 1.25;
+  }
+  /* The CoA text — Besley, preserving the register's own line breaks. */
+  .cmt-body {
+    display: block;
+    white-space: pre-wrap;
+    font-family: var(--font-decorative);
+    font-size: var(--type-size-200);
+    line-height: 1.6;
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    padding: var(--spacing-400);
+    background: var(--color-surface);
+  }
+  .cmt-foot { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: var(--spacing-300); }
+  .cmt-foot__src { font-size: var(--type-size-100); color: var(--color-text-tertiary); }
+</style>

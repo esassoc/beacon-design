@@ -1,0 +1,641 @@
+---
+// Site Clearance — SIMPLIFIED MODEL (comparison variant).
+//
+// The side-by-side counterpart to site-clearance.astro. Same chrome, tokens,
+// legos, and field-map palette; same derived work-area rollup + blocked-until
+// math (from geotech-fixture-simple). The ONE thing that changes is the
+// DISCIPLINE EDITOR — the actual decision point Andy is weighing:
+//
+//   site-clearance.astro (rich model)
+//     A discipline cell opens a STACKED child drawer holding the discipline's
+//     full REVIEW HISTORY; status is DERIVED ("the latest completed review sets
+//     the status"), with a kind + outcome + scheduled-vs-completed model.
+//
+//   site-clearance-simple.astro (THIS page — direct model)
+//     A discipline cell opens a child drawer where the owner SETS the status
+//     directly (one BcnStatusSelect), with optional reviewer / date / note /
+//     stipulations, plus an append-only EVIDENCE LOG (surveys, field notes,
+//     relocations) that JUSTIFIES the status without deriving it.
+//
+// Deliberately scoped to the work-area list + drawer + discipline editor so the
+// model contrast is unmistakable and fully working. The full Map / Timeline /
+// Activity tabs live on the rich page — they are identical regardless of which
+// discipline model wins, so they are not the thing under comparison here.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaPill from '@esa/ecology/esa-pill.astro';
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import BcnKeyValue from '../../components/bcn/BcnKeyValue.astro';
+import BcnStatusChip from '../../components/bcn/BcnStatusChip.astro';
+import BcnStatusSelect from '../../components/bcn/BcnStatusSelect.astro';
+import {
+  workAreas,
+  observations,
+  STATUS_ORDER,
+  STATUS_META,
+  SELECTABLE_STATUSES,
+  GATE_DIMENSIONS,
+  GATE_DIMENSION_LABEL,
+  deriveStatus,
+  bufferConflicts,
+} from '../../data/geotech-fixture-simple';
+
+// SSR :root status colors — exact fixture values (field-map palette).
+const rootVars =
+  `:root{` +
+  Object.values(STATUS_META)
+    .map((m) => `${m.colorVar}:${m.hex};`)
+    .join('') +
+  `--st-neutral:#8a9099;}`;
+
+// The discipline-editor ladder, with each option's dot color from STATUS_META.
+const statusOptions = SELECTABLE_STATUSES.map((s) => ({
+  value: s,
+  label: STATUS_META[s].label,
+  color: STATUS_META[s].hex,
+}));
+
+// The "interesting" subset for the comparison list: anything with clearance
+// activity, a schedule, a field note, or a live buffer conflict (the active
+// ~20 sites — not all 231 unreviewed pins; the rich page carries the full map).
+const activeAreas = workAreas
+  .filter(
+    (wa) =>
+      Object.keys(wa.disciplines).length > 0 ||
+      wa.plannedStartDate ||
+      wa.clearanceVisitDate ||
+      wa.biologistNote ||
+      bufferConflicts(wa, observations).length > 0
+  )
+  .map((wa) => ({ wa, status: deriveStatus(wa, observations) }))
+  .sort((a, b) => STATUS_ORDER.indexOf(a.status) - STATUS_ORDER.indexOf(b.status));
+
+const ICON_SHIELD =
+  "<path d='M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z'/><path d='m9 12 2 2 4-4'/>";
+const ICON_QUOTE =
+  "<path d='M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z'/><path d='M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z'/>";
+const ICON_HISTORY =
+  "<path d='M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8'/><path d='M3 3v5h5'/><path d='M12 7v5l4 2'/>";
+const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
+---
+
+<!-- manifest:
+  layout: stack(xl)
+  sections:
+    - work-area list     -> bcn-status-chip    # clickable row table; each row's derived clearance status is a chip (the row chrome is list glue)
+    - work-area drawer   -> esa-side-dialog     # parent drawer: dates band (bcn-key-value) + 2×2 disciplines board + field note (esa-collapsible)
+    - discipline editor  -> bcn-status-select   # the DIRECT status editor — the variant's whole point; + esa-date-picker / esa-text-field / esa-textarea / esa-input-tag
+    - field note         -> esa-collapsible     # the verbatim biologist note, demoted into a fold
+-->
+
+<!-- bcn-lego-checked: composed from AppShell/PageLayout chrome + esa-side-dialog
+     ×2 (work-area parent + stacked discipline child — the lego's own
+     --side-dialog-inset drives the card-stack, zero bespoke stacking CSS),
+     BcnStatusSelect (the direct discipline-status editor — the whole point of
+     this variant; esa-select can't render the value-driven status dot, checked),
+     BcnStatusChip / BcnKeyValue, esa-button / esa-icon / esa-badge / esa-pill /
+     esa-collapsible, esa-date-picker / esa-text-field / esa-textarea /
+     esa-input-tag (the discipline editor fields — same legos as the rich page's
+     review form). Remaining CSS is composition glue only: the work-area list
+     rows, the drawer's dates band + 2×2 disciplines board + evidence log rail
+     (faithful copies of the rich page's page-glue), and the .is-under /
+     .is-stacked inset re-point. No new primitive is introduced; the data model
+     (direct per-discipline status) is the only substantive change. -->
+<AppShell
+  title="Site Clearance — simplified model"
+  activeNavId="site-clearance"
+  expandedSections={['monitoring']}
+  tenantName="Delta Conveyance"
+  projectName="Delta Conveyance Project"
+>
+  <style is:inline set:html={rootVars}></style>
+  <PageLayout
+    title="Site Clearance — simplified model"
+    icon="map"
+    breadcrumbs={[
+      { label: 'Monitoring', href: '#monitoring' },
+      { label: 'Monitoring Portal', href: '#monitoring-portal' },
+      { label: 'Site Clearance — simplified' },
+    ]}
+  >
+    <!-- Orientation note — this is the comparison variant. -->
+    <div class="cmp-note">
+      <EsaIcon name="info" size="sm" paths="<circle cx='12' cy='12' r='10'/><path d='M12 16v-4'/><path d='M12 8h.01'/>" />
+      <p>
+        <strong>Simplified model.</strong> Each discipline lead <em>sets</em> their own status; surveys and field
+        notes attach as evidence that justifies the status — they don't derive it. Open a work area, then a discipline
+        cell, to see the direct editor. (The full Map / Timeline / Activity tabs live on the rich variant.)
+      </p>
+    </div>
+
+    <section class="wa-list" aria-label="Work areas">
+      <div class="wa-list__head">
+        <span class="wa-list__col wa-list__col--id">Work area</span>
+        <span class="wa-list__col wa-list__col--seg">Segment / County</span>
+        <span class="wa-list__col wa-list__col--start">Planned start</span>
+        <span class="wa-list__col wa-list__col--status">Clearance status</span>
+      </div>
+      {
+        activeAreas.map(({ wa, status }) => (
+          <button type="button" class="wa-row" data-wa={wa.id}>
+            <span class="wa-list__col wa-list__col--id">
+              <span class="wa-row__id">{wa.id}</span>
+              <span class="wa-row__method">{wa.method ?? '—'} · {wa.depthFt ? `${wa.depthFt} ft` : '—'}</span>
+            </span>
+            <span class="wa-list__col wa-list__col--seg">
+              <span class="wa-row__seg">{wa.segment}</span>
+              <span class="wa-row__county">{wa.county ?? '—'}</span>
+            </span>
+            <span class="wa-list__col wa-list__col--start wa-row__start">
+              {wa.plannedStartDate ?? '—'}
+            </span>
+            <span class="wa-list__col wa-list__col--status">
+              <span class="wa-row__chip">
+                <BcnStatusChip status={status} label={STATUS_META[status].label} hex={STATUS_META[status].hex} />
+              </span>
+            </span>
+          </button>
+        ))
+      }
+    </section>
+  </PageLayout>
+
+  <!-- ═══ Work-area drawer ═══ -->
+  <esa-side-dialog id="wa-dialog" size="md" style="--_width: 620px; --z-modal: 1300; --z-modal-backdrop: 1250;">
+    <div slot="header" class="wa__header">
+      <div class="wa__headmain">
+        <h2 class="wa__title" id="wa-title">Work area</h2>
+        <span id="wa-chip"><BcnStatusChip status="cleared" label="—" hex={STATUS_META.cleared.hex} /></span>
+      </div>
+      <p class="wa__subtitle" id="wa-sub">—</p>
+    </div>
+
+    <div class="wa">
+      <div class="band">
+        <BcnKeyValue label="Notification"><span class="wa__kv-val" id="wa-d-notif">—</span></BcnKeyValue>
+        <BcnKeyValue label="Clearance visit"><span class="wa__kv-val" id="wa-d-visit">—</span></BcnKeyValue>
+        <BcnKeyValue label="Planned start"><span class="wa__kv-val" id="wa-d-start">—</span></BcnKeyValue>
+        <span class="band__cell" id="wa-d-until-wrap" hidden>
+          <BcnKeyValue label="Blocked until"><span class="band__alert" id="wa-d-until">—</span></BcnKeyValue>
+        </span>
+      </div>
+
+      <p class="decide" id="wa-decide"></p>
+
+      <section>
+        <h3 class="wa__section">
+          <EsaIcon name="shield-check" size="sm" paths={ICON_SHIELD} />
+          Disciplines
+        </h3>
+        <div class="board" id="wa-board">
+          {
+            GATE_DIMENSIONS.map((dim) => (
+              <button type="button" class="board__cell" data-dim={dim}>
+                <span class="board__cellhead">
+                  <span class="board__dim">{GATE_DIMENSION_LABEL[dim]}</span>
+                  <span class="board__chev">
+                    <EsaIcon name="chevron-right" size="sm" paths={ICON_CHEVRON} />
+                  </span>
+                </span>
+                <span class="board__chipwrap" />
+                <span class="board__unreviewed" hidden>Not reviewed</span>
+                <span class="board__meta">—</span>
+              </button>
+            ))
+          }
+        </div>
+      </section>
+
+      <div class="wa__more">
+        <span class="wa__more-item" id="wa-notes-col" hidden>
+          <EsaCollapsible title="Field note" flush icon="quote" iconPaths={ICON_QUOTE}>
+            <blockquote class="wa__note" id="wa-note"></blockquote>
+          </EsaCollapsible>
+        </span>
+      </div>
+    </div>
+
+    <div slot="footer" class="wa__footer">
+      <span id="wa-close"><EsaButton color="ghost" appearance="outline" size="md">Close</EsaButton></span>
+    </div>
+  </esa-side-dialog>
+
+  <!-- ═══ Discipline drawer (CHILD) — the DIRECT status editor ═══ -->
+  <esa-side-dialog id="disc-dialog" size="md" style="--_width: 540px; --z-modal: 1340; --z-modal-backdrop: 1310;">
+    <div slot="header" class="wa__header">
+      <div class="wa__headmain">
+        <h2 class="wa__title" id="dd-title">Discipline</h2>
+        <span id="dd-chip" hidden><BcnStatusChip status="cleared" label="—" hex={STATUS_META.cleared.hex} /></span>
+        <span class="board__unreviewed" id="dd-unreviewed" hidden>Not reviewed</span>
+      </div>
+      <p class="wa__subtitle" id="dd-sub">—</p>
+    </div>
+
+    <div class="wa">
+      <section class="dd__form">
+        <BcnStatusSelect id="dd-status" label="Clearance status (set by the discipline lead)" options={statusOptions} value="survey-scheduled" />
+        <div class="we__row">
+          <esa-date-picker id="dd-date" label="Determined" size="sm"></esa-date-picker>
+          <esa-text-field id="dd-reviewer" label="Reviewer" placeholder="Name (org)" size="sm"></esa-text-field>
+        </div>
+        <span id="dd-until-wrap" hidden>
+          <esa-date-picker id="dd-until" label="Blocked until (blank = until further notice)" size="sm"></esa-date-picker>
+        </span>
+        <esa-textarea id="dd-note" label="Note" rows="2" auto-resize size="sm"></esa-textarea>
+        <esa-input-tag id="dd-stips" label="Stipulations" placeholder="Add stipulation…" tags-below size="sm"></esa-input-tag>
+      </section>
+
+      <section>
+        <h3 class="wa__section">
+          <EsaIcon name="history" size="sm" paths={ICON_HISTORY} />
+          Evidence log
+          <span id="dd-log-count"><EsaBadge value="0" variant="secondary" size="sm" /></span>
+        </h3>
+        <p class="dd__hint">Surveys, field notes, relocations — the record that justifies the status. Append-only.</p>
+        <ul class="dd__log" id="dd-log"></ul>
+        <div class="dd__addnote">
+          <div class="we__row">
+            <esa-date-picker id="dd-ev-date" label="Date" size="sm"></esa-date-picker>
+            <esa-text-field id="dd-ev-author" label="Author" placeholder="Who recorded it" size="sm"></esa-text-field>
+          </div>
+          <esa-textarea id="dd-ev-text" label="Add evidence note" rows="2" auto-resize placeholder="Paste the survey result / biologist email…" size="sm"></esa-textarea>
+        </div>
+      </section>
+    </div>
+
+    <div slot="footer" class="wa__footer">
+      <span id="dd-cancel"><EsaButton color="ghost" appearance="outline" size="md">Cancel</EsaButton></span>
+      <span id="dd-save"><EsaButton color="primary" size="md">Save status</EsaButton></span>
+    </div>
+  </esa-side-dialog>
+
+  <!-- Cloneable chip lego for JS-rendered rows/cells. -->
+  <template id="chip-tpl">
+    <span class="chipwrap"><BcnStatusChip status="cleared" label="—" hex={STATUS_META.cleared.hex} /></span>
+  </template>
+  <template id="pill-tpl">
+    <EsaPill label="—" removable={false} size="sm" />
+  </template>
+</AppShell>
+
+<style>
+  /* ── Composition glue only (bcn-lego-checked above). ─────────────────────── */
+  .cmp-note {
+    display: flex; gap: var(--spacing-300); align-items: flex-start;
+    background: var(--color-surface-sunken); border: 1px solid var(--color-border);
+    border-radius: var(--radius-300); padding: var(--spacing-400);
+    margin-bottom: var(--spacing-500); color: var(--color-text-secondary);
+  }
+  .cmp-note p { margin: 0; font-size: var(--type-size-200); line-height: 1.5; }
+  .cmp-note strong { color: var(--color-text-primary); }
+
+  /* Work-area list — a quiet row table (not a status-bordered card). */
+  .wa-list { display: flex; flex-direction: column; border: 1px solid var(--color-border); border-radius: var(--radius-300); overflow: hidden; background: var(--color-surface); }
+  .wa-list__head, .wa-row {
+    display: grid;
+    grid-template-columns: minmax(150px, 1.4fr) minmax(140px, 1.4fr) minmax(110px, 0.9fr) minmax(150px, 1fr);
+    gap: var(--spacing-400); align-items: center;
+    padding: var(--spacing-300) var(--spacing-400);
+  }
+  .wa-list__head {
+    background: var(--color-surface-sunken); border-bottom: 1px solid var(--color-border);
+    font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-text-secondary);
+  }
+  .wa-row { width: 100%; text-align: left; background: none; border: none; border-bottom: 1px solid var(--color-border); cursor: pointer; font: inherit; }
+  .wa-row:last-child { border-bottom: none; }
+  .wa-row:hover { background: var(--color-surface-sunken); }
+  .wa-row__id { display: block; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .wa-row__method, .wa-row__county { display: block; font-size: var(--type-size-100); color: var(--color-text-tertiary); margin-top: 2px; }
+  .wa-row__seg { display: block; color: var(--color-text-primary); }
+  .wa-row__start { color: var(--color-text-secondary); font-variant-numeric: tabular-nums; }
+
+  /* Drawer shells */
+  .wa__header { display: flex; flex-direction: column; gap: var(--spacing-150); }
+  .wa__headmain { display: flex; align-items: center; gap: var(--spacing-300); flex-wrap: wrap; }
+  .wa__title { margin: 0; font-size: var(--type-size-400); font-weight: var(--font-weight-bold); color: var(--color-text-primary); }
+  .wa__subtitle { margin: 0; font-size: var(--type-size-200); color: var(--color-text-secondary); }
+  .wa { display: flex; flex-direction: column; gap: var(--spacing-500); }
+  .wa__section { display: flex; align-items: center; gap: var(--spacing-200); margin: 0 0 var(--spacing-300); font-size: var(--type-size-200); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+
+  /* Dates band — full-bleed against the lego body padding. */
+  .band {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: var(--spacing-400);
+    background: var(--color-surface-sunken); border-block: 1px solid var(--color-border);
+    padding: var(--spacing-400); margin-inline: calc(-1 * var(--spacing-500));
+    padding-inline: var(--spacing-500);
+  }
+  .wa__kv-val { font-size: var(--form-font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); font-variant-numeric: tabular-nums; }
+  .band__alert { font-weight: var(--font-weight-semibold); color: var(--st-blocked); font-variant-numeric: tabular-nums; }
+
+  .decide { margin: 0; font-size: var(--type-size-200); color: var(--color-text-secondary); }
+
+  /* 2×2 disciplines board */
+  .board { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-300); }
+  .board__cell {
+    display: flex; flex-direction: column; gap: var(--spacing-200); align-items: flex-start;
+    padding: var(--spacing-350); text-align: left; cursor: pointer; font: inherit;
+    background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-300);
+    transition: border-color 150ms ease, background 150ms ease;
+  }
+  .board__cell:hover { border-color: var(--color-border-strong); background: var(--color-surface-sunken); }
+  .board__cellhead { display: flex; align-items: center; gap: var(--spacing-200); width: 100%; }
+  .board__dim { font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .board__chev { margin-left: auto; color: var(--color-text-tertiary); display: inline-flex; }
+  .board__unreviewed {
+    font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary);
+    border: 1px dashed var(--color-border-strong); border-radius: var(--radius-full); padding: 2px var(--spacing-250);
+  }
+  .board__meta { font-size: var(--type-size-100); color: var(--color-text-tertiary); }
+
+  .wa__note { margin: 0; padding-left: var(--spacing-400); border-left: 2px solid var(--color-border-strong); color: var(--color-text-secondary); font-size: var(--type-size-200); line-height: 1.5; white-space: pre-line; }
+
+  /* Discipline editor */
+  .dd__form { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .we__row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-300); }
+  .dd__hint { margin: 0 0 var(--spacing-300); font-size: var(--type-size-100); color: var(--color-text-tertiary); }
+  .dd__log { list-style: none; margin: 0 0 var(--spacing-400); padding: 0; display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .dd__log:empty { display: none; }
+  .dd__log-item { padding: var(--spacing-300); background: var(--color-surface-sunken); border-radius: var(--radius-200); }
+  .dd__log-meta { font-size: var(--type-size-100); color: var(--color-text-tertiary); margin-bottom: 2px; }
+  .dd__log-text { font-size: var(--type-size-200); color: var(--color-text-secondary); white-space: pre-line; }
+  .dd__addnote { display: flex; flex-direction: column; gap: var(--spacing-300); padding-top: var(--spacing-300); border-top: 1px solid var(--color-border); }
+
+  .wa__footer { display: flex; gap: var(--spacing-300); justify-content: flex-end; }
+
+  /* Stacked-dialog inset — the lego's own custom property. */
+  esa-side-dialog.is-under { --side-dialog-inset: 48px; }
+
+  .chipwrap { display: inline-flex; }
+</style>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-date-picker';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-input-tag';
+  import { setupStatusSelect } from '../../components/bcn/status-select';
+  import {
+    workAreas,
+    observations,
+    TODAY,
+    STATUS_META,
+    GATE_DIMENSION_LABEL,
+    deriveStatus,
+    blockedUntil,
+    bufferConflicts,
+    disciplineState,
+    formatDate,
+  } from '../../data/geotech-fixture-simple';
+  import type { WorkArea, GateDimension, ClearanceStatus, EvidenceNote } from '../../data/geotech-fixture-simple';
+
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+  type Field = HTMLElement & { value: string };
+  type TagEl = HTMLElement & { value: string[] };
+  type SideDialog = HTMLElement & { open: boolean; heading: string; show(): void; close(): void };
+
+  const waById = new Map(workAreas.map((w) => [w.id, w]));
+  const activeObs = observations;
+
+  const waDialog = $('wa-dialog') as SideDialog;
+  const discDialog = $('disc-dialog') as SideDialog;
+
+  let activeWaId: string | null = null;
+  let activeDim: GateDimension | null = null;
+
+  // ── Chip rendering — clone the SSR template so the component's scoped styles
+  //    travel with the node (scoped CSS never reaches innerHTML-injected nodes). ─
+  const chipTpl = $('chip-tpl') as HTMLTemplateElement;
+  function makeChip(status: ClearanceStatus): HTMLElement {
+    const wrap = chipTpl.content.cloneNode(true) as DocumentFragment;
+    const chip = wrap.querySelector('.bcn-status-chip') as HTMLElement;
+    paintChip(chip, status);
+    return wrap.firstElementChild as HTMLElement;
+  }
+  function paintChip(chip: HTMLElement, status: ClearanceStatus) {
+    const meta = STATUS_META[status];
+    chip.dataset.status = status;
+    const varKey = status === 'provisional-block' ? 'provisional-block' : status;
+    chip.style.setProperty('--_chip', `var(--st-${varKey}, ${meta.hex})`);
+    (chip.querySelector('.bcn-status-chip__label') as HTMLElement).textContent = meta.label;
+    // Provisional block reads hollow — white fill, red ring (the page idiom).
+    if (status === 'provisional-block') {
+      chip.style.background = 'var(--color-surface)';
+      chip.style.boxShadow = `inset 0 0 0 1px ${meta.hex}`;
+    } else {
+      chip.style.background = '';
+      chip.style.boxShadow = '';
+    }
+  }
+  function setChip(wrap: HTMLElement, status: ClearanceStatus) {
+    wrap.replaceChildren(makeChip(status));
+  }
+
+  // ── Status select controller (the direct discipline editor) ────────────────
+  const statusCtl = setupStatusSelect($('dd-status'));
+  statusCtl.element.addEventListener('change', () => syncUntilVisibility());
+  function syncUntilVisibility() {
+    $('dd-until-wrap').hidden = statusCtl.value !== 'blocked';
+  }
+
+  // ── Open the work-area drawer ──────────────────────────────────────────────
+  function openWa(id: string) {
+    const wa = waById.get(id);
+    if (!wa) return;
+    activeWaId = id;
+    if (discDialog.open) discDialog.close();
+    paintWa(wa);
+    waDialog.show();
+  }
+
+  function paintWa(wa: WorkArea) {
+    const status = deriveStatus(wa, activeObs);
+    $('wa-title').textContent = wa.id;
+    waDialog.heading = wa.id;
+    setChip($('wa-chip'), status);
+    $('wa-sub').textContent = `${wa.segment} · ${wa.county ?? '—'} · ${wa.method ?? '—'}${wa.depthFt ? ` · ${wa.depthFt} ft` : ''}`;
+
+    ($('wa-d-notif')).textContent = formatDate(wa.notificationDate);
+    ($('wa-d-visit')).textContent = formatDate(wa.clearanceVisitDate);
+    ($('wa-d-start')).textContent = formatDate(wa.plannedStartDate);
+    const until = blockedUntil(wa, activeObs);
+    $('wa-d-until-wrap').hidden = !until;
+    if (until) $('wa-d-until').textContent = formatDate(until);
+
+    $('wa-decide').textContent = decisionLine(wa, status);
+
+    // Board cells
+    const cells = [...$('wa-board').querySelectorAll<HTMLElement>('.board__cell')];
+    for (const cell of cells) {
+      const dim = cell.dataset.dim as GateDimension;
+      const state = disciplineState(wa, dim);
+      const chipwrap = cell.querySelector('.board__chipwrap') as HTMLElement;
+      const unreviewed = cell.querySelector('.board__unreviewed') as HTMLElement;
+      const meta = cell.querySelector('.board__meta') as HTMLElement;
+      if (state) {
+        chipwrap.hidden = false;
+        setChip(chipwrap, state.status);
+        unreviewed.hidden = true;
+        const bits: string[] = [];
+        if (state.date) bits.push(formatDate(state.date));
+        if (state.reviewer) bits.push(state.reviewer);
+        meta.textContent = bits.join(' · ') || '—';
+      } else {
+        chipwrap.hidden = true;
+        chipwrap.replaceChildren();
+        unreviewed.hidden = false;
+        meta.textContent = 'No status set';
+      }
+    }
+
+    // Field note
+    $('wa-notes-col').hidden = !wa.biologistNote;
+    if (wa.biologistNote) $('wa-note').textContent = wa.biologistNote;
+
+    // Repaint the list row chip if present
+    const rowChip = document.querySelector<HTMLElement>(`.wa-row[data-wa="${cssEsc(wa.id)}"] .wa-row__chip`);
+    if (rowChip) setChip(rowChip, status);
+  }
+
+  function decisionLine(wa: WorkArea, status: ClearanceStatus): string {
+    const until = blockedUntil(wa, activeObs);
+    switch (status) {
+      case 'cleared':
+        return 'Cleared to drill — all reviewed disciplines clear, no buffer conflicts.';
+      case 'cleared-stipulations':
+        return 'Cleared with stipulations — see the discipline notes before mobilizing.';
+      case 'blocked':
+        return until ? `Blocked — work cannot start until ${formatDate(until)}.` : 'Blocked until further notice.';
+      case 'provisional-block': {
+        const obs = bufferConflicts(wa, activeObs)[0];
+        return `Provisional block — inside ${obs ? obs.species + ' (' + obs.id + ')' : 'an observation'} buffer. The system flagged it; a manager records the call.`;
+      }
+      case 'inaccessible':
+        return 'Inaccessible — site cannot currently be reached for clearance.';
+      case 'survey-scheduled':
+        return 'Survey scheduled — awaiting the clearance visit result.';
+      default:
+        return 'Not yet surveyed — no discipline has recorded a status.';
+    }
+  }
+
+  // ── Open the discipline child drawer (the DIRECT editor) ───────────────────
+  $('wa-board').addEventListener('click', (e) => {
+    const cell = (e.target as HTMLElement).closest<HTMLElement>('[data-dim]');
+    if (cell) openDiscipline(cell.dataset.dim as GateDimension);
+  });
+
+  function openDiscipline(dim: GateDimension) {
+    const wa = activeWaId ? waById.get(activeWaId) : null;
+    if (!wa) return;
+    activeDim = dim;
+    fillDisc(wa, dim);
+    const stacked = waDialog.open;
+    discDialog.classList.toggle('is-stacked', stacked);
+    waDialog.classList.toggle('is-under', stacked);
+    discDialog.show();
+  }
+
+  function fillDisc(wa: WorkArea, dim: GateDimension) {
+    discDialog.heading = `${GATE_DIMENSION_LABEL[dim]} clearance`;
+    $('dd-title').textContent = `${GATE_DIMENSION_LABEL[dim]} clearance`;
+    $('dd-sub').textContent = `${wa.id} · status set by the discipline lead`;
+    const state = disciplineState(wa, dim);
+
+    $('dd-chip').hidden = !state;
+    if (state) paintChip($('dd-chip').firstElementChild as HTMLElement, state.status);
+    $('dd-unreviewed').hidden = !!state;
+
+    statusCtl.setValue(state?.status ?? 'survey-scheduled');
+    ($('dd-date') as Field).value = state?.date ?? TODAY;
+    ($('dd-reviewer') as Field).value = state?.reviewer ?? '';
+    ($('dd-note') as Field).value = state?.note ?? '';
+    ($('dd-stips') as TagEl).value = [...(state?.stipulations ?? [])];
+    ($('dd-until') as Field).value = state?.blockedUntil ?? '';
+    syncUntilVisibility();
+
+    // Evidence log (read-only) + reset the add-note form
+    renderLog(state?.log ?? []);
+    ($('dd-ev-date') as Field).value = TODAY;
+    ($('dd-ev-author') as Field).value = '';
+    ($('dd-ev-text') as Field).value = '';
+  }
+
+  function renderLog(log: EvidenceNote[]) {
+    const list = $('dd-log');
+    list.replaceChildren();
+    const sorted = [...log].sort((a, b) => b.date.localeCompare(a.date));
+    for (const note of sorted) {
+      const li = document.createElement('li');
+      li.className = 'dd__log-item';
+      const meta = document.createElement('div');
+      meta.className = 'dd__log-meta';
+      meta.textContent = [formatDate(note.date), note.author].filter(Boolean).join(' · ');
+      const text = document.createElement('div');
+      text.className = 'dd__log-text';
+      text.textContent = note.text;
+      li.append(meta, text);
+      list.append(li);
+    }
+    const badgeWrap = $('dd-log-count');
+    badgeWrap.hidden = log.length === 0;
+    const badgeText = badgeWrap.querySelector('.esa-badge__text');
+    if (badgeText) badgeText.textContent = String(log.length);
+  }
+
+  // ── Save the discipline status (direct write — no review derivation) ───────
+  $('dd-save').addEventListener('click', () => {
+    const wa = activeWaId ? waById.get(activeWaId) : null;
+    if (!wa || !activeDim) return;
+    const status = statusCtl.value as ClearanceStatus;
+    const prev = wa.disciplines[activeDim];
+    const log = [...(prev?.log ?? [])];
+
+    // Fold a pending evidence note into the log on save.
+    const evText = (($('dd-ev-text') as Field).value ?? '').trim();
+    if (evText) {
+      log.push({
+        date: ($('dd-ev-date') as Field).value || TODAY,
+        author: (($('dd-ev-author') as Field).value ?? '').trim() || undefined,
+        text: evText,
+      });
+    }
+
+    const reviewer = (($('dd-reviewer') as Field).value ?? '').trim();
+    const note = (($('dd-note') as Field).value ?? '').trim();
+    const stips = [...(($('dd-stips') as TagEl).value ?? [])];
+
+    wa.disciplines[activeDim] = {
+      status,
+      date: ($('dd-date') as Field).value || TODAY,
+      reviewer: reviewer || undefined,
+      note: note || undefined,
+      stipulations: stips.length ? stips : undefined,
+      blockedUntil: status === 'blocked' ? (($('dd-until') as Field).value || null) : undefined,
+      log: log.length ? log : undefined,
+    };
+
+    discDialog.close();
+    paintWa(wa);
+  });
+
+  discDialog.addEventListener('close', () => {
+    waDialog.classList.remove('is-under');
+    activeDim = null;
+  });
+  $('dd-cancel').addEventListener('click', () => discDialog.close());
+  $('wa-close').addEventListener('click', () => waDialog.close());
+
+  // ── List rows open the drawer ──────────────────────────────────────────────
+  document.querySelectorAll<HTMLElement>('.wa-row').forEach((row) =>
+    row.addEventListener('click', () => openWa(row.dataset.wa!))
+  );
+
+  // CSS.escape fallback for attribute selectors on IDs with dots.
+  function cssEsc(s: string): string {
+    return (window.CSS && CSS.escape) ? CSS.escape(s) : s.replace(/[^a-zA-Z0-9_-]/g, '\\$&');
+  }
+</script>
