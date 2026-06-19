@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Permit Matrix — Mojave Stockyard BESS — Beacon</title>
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/shell.css" />
+  <link rel="stylesheet" href="../assets/css/components.css" />
+  <style>
+    .matrix-trigger { color: var(--color-primary); cursor: pointer; font-weight: var(--font-weight-medium); text-decoration: underline dotted; }
+    .level-badge { font-size: var(--type-size-100); letter-spacing: 0.02em; padding: 2px 8px; border-radius: 999px; font-weight: var(--font-weight-semi); text-transform: uppercase; }
+    .level-federal { background: #fde7f3; color: #a72b6e; }
+    .level-state   { background: #e1ecf7; color: #2c5c8a; }
+    .level-regional{ background: #fff3e0; color: #b05000; }
+    .level-local   { background: #e6f4f3; color: var(--phase-due-diligence); }
+    .level-local-state { background: #efeef9; color: #58508d; }
+    .tabs-row { display: flex; gap: var(--spacing-100); margin-bottom: var(--spacing-400); border-bottom: 1px solid var(--color-border); }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="page-layout">
+      <div class="page-layout__container">
+
+        <section class="page-layout__breadcrumbs">
+          <nav class="breadcrumbs" aria-label="Breadcrumb"><div class="breadcrumbs__items" id="crumbs"></div></nav>
+        </section>
+
+        <section class="page-layout__title">
+          <div class="page-layout__title-main">
+            <h1 id="page-title"></h1>
+          </div>
+          <div class="page-layout__utilities">
+            <button class="btn btn--ghost" id="excel-btn"></button>
+            <a class="btn btn--primary" href="report.html" id="continue-btn"></a>
+          </div>
+        </section>
+
+        <section class="page-layout__content">
+
+          <!-- Stats -->
+          <div class="card-grid card-grid--4" style="margin-bottom: var(--spacing-400);" id="permit-stats"></div>
+
+          <!-- Tabs -->
+          <div class="tabs">
+            <button class="tab active" data-tab="permits"><span id="t1"></span> Permit matrix</button>
+            <button class="tab" data-tab="ceqa"><span id="t2"></span> CEQA Appendix G</button>
+            <button class="tab" data-tab="ahj"><span id="t3"></span> AHJ outreach</button>
+          </div>
+
+          <!-- ── Permit matrix tab ── -->
+          <div id="tab-permits">
+            <div class="alert alert--info" style="margin-bottom: var(--spacing-400);">
+              <span class="alert__icon" id="info-icon"></span>
+              <div class="alert__body">
+                <div class="alert__title">Auto-generated from constraint findings</div>
+                Columns follow the standard CIA permit matrix format. Applicability is automatically derived from finding severity; reviewers can override per row. Export to Excel hands off a regulator-friendly version.
+              </div>
+            </div>
+
+            <div class="filter-bar">
+              <div class="filter-bar__group">
+                <span class="filter-bar__label">Level</span>
+                <select class="select" style="height: var(--form-height-sm); width: 140px;">
+                  <option>All</option><option>Federal</option><option>State</option><option>Regional</option><option>Local</option>
+                </select>
+              </div>
+              <div class="filter-bar__group">
+                <span class="filter-bar__label">Applicability</span>
+                <select class="select" style="height: var(--form-height-sm); width: 180px;">
+                  <option>All</option><option>Applicable</option><option>Potentially Applicable</option><option>Not Likely Applicable</option><option>Not Applicable</option>
+                </select>
+              </div>
+              <span class="filter-bar__spacer"></span>
+              <input class="input" placeholder="Search permits…" style="height: var(--form-height-sm); width: 240px;" />
+            </div>
+
+            <div class="table-wrap">
+              <table class="table" id="permit-table">
+                <thead>
+                  <tr>
+                    <th style="width: 30%;">Agency</th>
+                    <th style="width: 22%;">Permit / Approval</th>
+                    <th>Requirement</th>
+                    <th style="width: 160px;">Applicable?</th>
+                    <th style="width: 28%;">Comments / Notes</th>
+                  </tr>
+                </thead>
+                <tbody id="permit-body"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- ── CEQA tab ── -->
+          <div id="tab-ceqa" hidden>
+            <div class="alert alert--info" style="margin-bottom: var(--spacing-400);">
+              <span class="alert__icon" id="info-icon-2"></span>
+              <div class="alert__body">
+                <div class="alert__title">Optional task — preliminary CEQA evaluation</div>
+                A first-pass evaluation of each Appendix G resource. Intensity ratings (high / medium / low) feed the IS/MND scoping decision.
+              </div>
+            </div>
+
+            <div class="table-wrap">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Resource</th>
+                    <th style="width: 120px;">Construction</th>
+                    <th style="width: 120px;">Operations</th>
+                    <th>Rationale / data needed</th>
+                  </tr>
+                </thead>
+                <tbody id="ceqa-body"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- ── AHJ tab ── -->
+          <div id="tab-ahj" hidden>
+            <div class="alert alert--ai" style="margin-bottom: var(--spacing-400);">
+              <span class="alert__icon" id="ai-icon"></span>
+              <div class="alert__body">
+                <div class="alert__title">AHJ research — assistant-summarized</div>
+                Public commission and council minutes for the past 24 months were scanned for BESS, energy-storage, and fire-safety mentions. Findings below are draft and require human verification.
+              </div>
+            </div>
+
+            <div class="card-grid card-grid--2" id="ahj-grid"></div>
+          </div>
+
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/data/projects.js"></script>
+  <script>
+    window.BeaconShell = { phase: 'due-diligence', activeNavId: 'dd-permits', project: 'Mojave Stockyard BESS' };
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('crumbs').innerHTML = `
+        ${bcnIcon('home','icon icon--sm')}
+        <a class="breadcrumb-item" href="../index.html">Portfolio</a>
+        ${bcnIcon('chevron-right','icon icon--sm')}
+        <a class="breadcrumb-item" href="index.html">Due Diligence</a>
+        ${bcnIcon('chevron-right','icon icon--sm')}
+        <a class="breadcrumb-item" href="project.html">Mojave Stockyard BESS</a>
+        ${bcnIcon('chevron-right','icon icon--sm')}
+        <span class="breadcrumb-item">Permit Matrix</span>`;
+      document.getElementById('page-title').innerHTML = `${bcnIcon('clipboard','icon icon--lg')} Permit Matrix`;
+      document.getElementById('excel-btn').innerHTML = `${bcnIcon('download')} Export to Excel`;
+      document.getElementById('continue-btn').innerHTML = `Carry to report ${bcnIcon('arrow-right','icon icon--sm')}`;
+      document.getElementById('t1').innerHTML = bcnIcon('clipboard','icon icon--sm');
+      document.getElementById('t2').innerHTML = bcnIcon('file-text','icon icon--sm');
+      document.getElementById('t3').innerHTML = bcnIcon('user','icon icon--sm');
+      document.getElementById('info-icon').innerHTML = bcnIcon('info');
+      document.getElementById('info-icon-2').innerHTML = bcnIcon('info');
+      document.getElementById('ai-icon').innerHTML = bcnIcon('sparkles');
+
+      // ── Stats ──
+      const countByLevel = (lvl) => BeaconData.permits.filter(p => p.level === lvl).length;
+      const countByApp = (a) => BeaconData.permits.filter(p => p.applicability === a).length;
+      document.getElementById('permit-stats').innerHTML = `
+        <div class="stat"><span class="stat__label">Permits identified</span><span class="stat__value">${BeaconData.permits.length}</span><span class="stat__delta">${countByApp('applicable')} applicable · ${countByApp('potentially')} potentially</span></div>
+        <div class="stat"><span class="stat__label">Local</span><span class="stat__value">${countByLevel('Local')}</span><span class="stat__delta">City + County</span></div>
+        <div class="stat"><span class="stat__label">State / Regional</span><span class="stat__value">${countByLevel('State') + countByLevel('Regional')}</span><span class="stat__delta">CDFW · SWRCB · CEC · AQMD</span></div>
+        <div class="stat"><span class="stat__label">Federal</span><span class="stat__value">${countByLevel('Federal')}</span><span class="stat__delta">USACE · USFWS · NEPA</span></div>`;
+
+      // ── Permit rows ──
+      const levelClass = { Federal: 'level-federal', State: 'level-state', Regional: 'level-regional', Local: 'level-local' };
+      const appMeta = {
+        'applicable':     { label: 'Applicable',             chip: 'chip--warning' },
+        'potentially':    { label: 'Potentially Applicable', chip: 'chip--medium'  },
+        'not-likely':     { label: 'Not Likely Applicable',  chip: 'chip--low'     },
+        'not-applicable': { label: 'Not Applicable',         chip: 'chip--none'    },
+      };
+      document.getElementById('permit-body').innerHTML = BeaconData.permits.map(p => {
+        const a = appMeta[p.applicability] || appMeta['potentially'];
+        return `
+        <tr>
+          <td>
+            <div style="font-weight: var(--font-weight-semi);">${p.agency}</div>
+            <div class="text-small" style="margin-top:2px;"><span class="level-badge ${levelClass[p.level] || 'level-state'}">${p.level}</span></div>
+          </td>
+          <td style="font-weight: var(--font-weight-semi);">${p.name}</td>
+          <td class="text-small">${p.requirement}</td>
+          <td><span class="chip ${a.chip}"><span class="chip__dot"></span>${a.label}</span></td>
+          <td class="text-small text-tertiary">${p.notes}</td>
+        </tr>`;
+      }).join('');
+
+      // ── CEQA rows ──
+      const rankClass = { 'High': 'chip--high', 'Med': 'chip--medium', 'Low': 'chip--low', '—': 'chip--none' };
+      document.getElementById('ceqa-body').innerHTML = BeaconData.ceqaResources.map(r => `
+        <tr>
+          <td style="font-weight: var(--font-weight-medium);">${r.name}</td>
+          <td><span class="chip ${rankClass[r.construction]}">${r.construction}</span></td>
+          <td><span class="chip ${rankClass[r.operations]}">${r.operations}</span></td>
+          <td class="text-small text-tertiary">${r.notes}</td>
+        </tr>`).join('');
+
+      // ── AHJ ──
+      document.getElementById('ahj-grid').innerHTML = BeaconData.ahjNotes.map(n => `
+        <div class="card">
+          <div class="card__header"><div class="card__title">${n.topic}</div><span class="badge">Assistant draft</span></div>
+          <div class="card__body text-small">${n.summary}</div>
+        </div>`).join('');
+
+      // Tabs
+      document.querySelectorAll('.tab').forEach(t => {
+        t.addEventListener('click', () => {
+          document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+          t.classList.add('active');
+          ['permits','ceqa','ahj'].forEach(id => {
+            document.getElementById('tab-' + id).hidden = id !== t.dataset.tab;
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>

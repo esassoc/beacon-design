@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Compliance — Beacon</title>
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/shell.css" />
+  <link rel="stylesheet" href="../assets/css/components.css" />
+  <style>
+    .stub-band {
+      background:
+        radial-gradient(circle at 90% 0%, color-mix(in srgb, var(--phase-compliance) 22%, transparent) 0%, transparent 55%),
+        var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-300);
+      padding: var(--spacing-600);
+      display: flex; align-items: center; gap: var(--spacing-500);
+    }
+    .stub-band__icon {
+      width: 72px; height: 72px;
+      border-radius: var(--radius-200);
+      background: var(--phase-compliance-bg);
+      color: var(--phase-compliance);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .stub-band__icon svg { width: 36px; height: 36px; }
+    .feature-tile {
+      padding: var(--spacing-400) var(--spacing-500);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-200);
+      display: flex; flex-direction: column; gap: var(--spacing-200);
+    }
+    .feature-tile__head { display: flex; align-items: center; gap: var(--spacing-200); }
+    .feature-tile__icon { width: 32px; height: 32px; border-radius: var(--radius-100); background: var(--phase-compliance-bg); color: var(--phase-compliance); display:flex; align-items:center; justify-content:center; }
+    .feature-tile__title { font-weight: var(--font-weight-semi); font-size: var(--type-size-300); }
+    .feature-tile__desc  { color: var(--color-text-tertiary); font-size: var(--type-size-200); line-height: 1.5; }
+    .feature-tile__chip  { font-size: var(--type-size-100); color: var(--color-text-muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="page-layout">
+      <div class="page-layout__container">
+
+        <section class="page-layout__breadcrumbs">
+          <nav class="breadcrumbs" aria-label="Breadcrumb"><div class="breadcrumbs__items" id="crumbs"></div></nav>
+        </section>
+
+        <section class="page-layout__title">
+          <div class="page-layout__title-main">
+            <h1 id="page-title"></h1>
+            <span class="chip chip--compliance" style="margin-left: var(--spacing-300);"><span class="chip__dot"></span>Phase 3 · Today's Beacon lives here</span>
+          </div>
+        </section>
+
+        <section class="page-layout__content">
+
+          <div class="stub-band" style="margin-bottom: var(--spacing-500);">
+            <div class="stub-band__icon" id="hero-icon"></div>
+            <div>
+              <h2 style="font-family: var(--font-decorative); font-size: 1.5rem; font-weight: var(--font-weight-bold); margin: 0 0 var(--spacing-200) 0;">From approval through operations.</h2>
+              <p style="margin: 0; color: var(--color-text-tertiary); max-width: 720px; line-height: 1.6;">Compliance covers everything Beacon does today: tracking commitments, requirements, source documents, and actions through construction and operations. The modular rework reorganizes this content under the Compliance phase, but the data model and feature set are unchanged.</p>
+            </div>
+          </div>
+
+          <!-- Projects in compliance -->
+          <h2 style="font-size: var(--type-size-400); margin-bottom: var(--spacing-300); font-weight: var(--font-weight-semi);">Projects in Compliance</h2>
+          <div class="card" style="margin-bottom: var(--spacing-500);">
+            <div id="cp-list"></div>
+          </div>
+
+          <!-- Existing features grid -->
+          <h2 style="font-size: var(--type-size-400); margin-bottom: var(--spacing-300); font-weight: var(--font-weight-semi);">Existing Beacon features (now grouped under Compliance)</h2>
+          <div class="card-grid card-grid--3" id="features-grid"></div>
+
+          <div style="margin-top: var(--spacing-500);">
+            <div class="alert alert--info">
+              <span class="alert__icon" id="info-icon"></span>
+              <div class="alert__body">
+                <div class="alert__title">No re-platforming required</div>
+                The Compliance module is the existing Beacon experience, surfaced under the modular shell. The Setup Wizard, Source Documents, Commitments, Requirements, Actions, Tracking, Monitoring, Reporting, and Data Catalog all remain.
+              </div>
+            </div>
+          </div>
+
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/data/projects.js"></script>
+  <script>
+    window.BeaconShell = { phase: 'compliance', activeNavId: 'cp-dashboard', project: 'Rio Vista BESS — Phase II' };
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('crumbs').innerHTML = `
+        ${bcnIcon('home','icon icon--sm')}
+        <a class="breadcrumb-item" href="../index.html">Portfolio</a>
+        ${bcnIcon('chevron-right','icon icon--sm')}
+        <span class="breadcrumb-item">Compliance</span>`;
+      document.getElementById('page-title').innerHTML = `${bcnIcon('shield','icon icon--lg')} Compliance`;
+      document.getElementById('hero-icon').innerHTML = bcnIcon('shield','icon icon--xl');
+      document.getElementById('info-icon').innerHTML = bcnIcon('info');
+
+      const cp = BeaconData.projects.filter(p => p.phase === 'compliance');
+      document.getElementById('cp-list').innerHTML = cp.length ? cp.map(p => `
+        <div style="display:flex; gap: var(--spacing-300); align-items:center; padding: var(--spacing-300) var(--spacing-500); border-bottom: 1px solid var(--color-border-light);">
+          <span style="width:10px; height:10px; border-radius: 9999px; background: var(--phase-compliance);"></span>
+          <div style="flex:1;">
+            <div style="font-weight: var(--font-weight-semi);">${p.name}</div>
+            <div class="text-small text-tertiary">${p.location} · ${p.mw} MW · ${p.stage}</div>
+          </div>
+          <span class="chip chip--compliance"><span class="chip__dot"></span>${Math.round(p.progress*100)}% through phase</span>
+        </div>`).join('') : '';
+
+      const features = [
+        { name: 'Setup Wizard',       desc: 'Walk through Source → Commitment → Requirement → Action setup for a new compliance scope.', icon: 'compass-2' },
+        { name: 'Source Documents',   desc: 'EIRs, MMRPs, permits, and Conditions of Approval — the authoritative record.', icon: 'file-text' },
+        { name: 'Commitments',        desc: 'Project-level commitments derived from source documents.', icon: 'clipboard' },
+        { name: 'Requirements',       desc: 'Atomic requirements with assignees, due dates, and evidence.', icon: 'list' },
+        { name: 'Actions',            desc: 'Concrete work items that satisfy requirements.', icon: 'check' },
+        { name: 'Document Reviews',   desc: 'Reviewer workflow for capturing comments and dispositions on source documents.', icon: 'eye' },
+        { name: 'Spatial Library Layers', desc: 'Geographic layers attached to requirements (e.g., monitoring buffers).', icon: 'layers' },
+        { name: 'Tracking Summary',   desc: 'Cross-project compliance status rollup.', icon: 'route' },
+        { name: 'Permit Tracking',    desc: 'Permit status by segment — the existing Tracking → Permit Tracking view.', icon: 'map' },
+        { name: 'Monitoring Portal',  desc: 'Field crew portal for capturing monitoring observations against requirements.', icon: 'map-pinned' },
+        { name: 'Progress Report',    desc: 'Stakeholder-facing progress reporting and exports.', icon: 'file-text' },
+        { name: 'Data Catalog',       desc: 'Cross-project library of source documents, commitments, requirements, and actions.', icon: 'database' },
+      ];
+      document.getElementById('features-grid').innerHTML = features.map(f => `
+        <div class="feature-tile">
+          <div class="feature-tile__head">
+            <span class="feature-tile__icon">${bcnIcon(f.icon)}</span>
+            <span class="feature-tile__title">${f.name}</span>
+          </div>
+          <div class="feature-tile__desc">${f.desc}</div>
+          <div class="feature-tile__chip">Existing Beacon feature</div>
+        </div>`).join('');
+    });
+  </script>
+</body>
+</html>

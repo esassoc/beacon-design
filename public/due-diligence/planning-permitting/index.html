@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Planning &amp; Permitting — Beacon</title>
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/shell.css" />
+  <link rel="stylesheet" href="../assets/css/components.css" />
+  <style>
+    .stub-band {
+      background:
+        radial-gradient(circle at 90% 0%, color-mix(in srgb, var(--phase-planning) 22%, transparent) 0%, transparent 55%),
+        var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-300);
+      padding: var(--spacing-600);
+      display: flex; align-items: center; gap: var(--spacing-500);
+    }
+    .stub-band__icon {
+      width: 72px; height: 72px;
+      border-radius: var(--radius-200);
+      background: var(--phase-planning-bg);
+      color: var(--phase-planning);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .stub-band__icon svg { width: 36px; height: 36px; }
+    .planned-row { display: flex; gap: var(--spacing-300); padding: var(--spacing-300) var(--spacing-400); border-bottom: 1px solid var(--color-border-light); align-items: flex-start; }
+    .planned-row:last-child { border-bottom: none; }
+    .planned-row__num { width: 24px; height: 24px; border-radius: 9999px; background: var(--phase-planning); color: #fff; display:flex; align-items:center; justify-content:center; font-size: 12px; font-weight: var(--font-weight-semi); flex-shrink: 0; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="page-layout">
+      <div class="page-layout__container">
+
+        <section class="page-layout__breadcrumbs">
+          <nav class="breadcrumbs" aria-label="Breadcrumb"><div class="breadcrumbs__items" id="crumbs"></div></nav>
+        </section>
+
+        <section class="page-layout__title">
+          <div class="page-layout__title-main">
+            <h1 id="page-title"></h1>
+            <span class="chip chip--planning" style="margin-left: var(--spacing-300);"><span class="chip__dot"></span>Phase 2 · Coming next</span>
+          </div>
+        </section>
+
+        <section class="page-layout__content">
+
+          <div class="stub-band" style="margin-bottom: var(--spacing-500);">
+            <div class="stub-band__icon" id="hero-icon"></div>
+            <div>
+              <h2 style="font-family: var(--font-decorative); font-size: 1.5rem; font-weight: var(--font-weight-bold); margin: 0 0 var(--spacing-200) 0;">From findings to filings.</h2>
+              <p style="margin: 0; color: var(--color-text-tertiary); max-width: 720px; line-height: 1.6;">When a project's Due Diligence work is complete, it advances to Planning &amp; Permitting. This is where the permit matrix becomes a schedule, applications are drafted and submitted, AHJ relationships are managed, and the regulatory record is built. The features below are sketched here and will be detailed in a follow-on prototype.</p>
+            </div>
+          </div>
+
+          <!-- Projects currently in P&P -->
+          <h2 style="font-size: var(--type-size-400); margin-bottom: var(--spacing-300); font-weight: var(--font-weight-semi);">Projects in Planning &amp; Permitting</h2>
+          <div class="card" style="margin-bottom: var(--spacing-500);">
+            <div id="pp-list"></div>
+          </div>
+
+          <!-- Planned features -->
+          <div class="card-grid card-grid--2">
+            <div class="card">
+              <div class="card__header"><div class="card__title" id="features-title"></div></div>
+              <div>
+                <div class="planned-row"><span class="planned-row__num">1</span><div><strong>Permit Strategy</strong><div class="text-small text-tertiary">Sequence the permits identified in Due Diligence; tag dependencies; size lead times.</div></div></div>
+                <div class="planned-row"><span class="planned-row__num">2</span><div><strong>Applications</strong><div class="text-small text-tertiary">Draft submissions per permit; track agency comments and revisions.</div></div></div>
+                <div class="planned-row"><span class="planned-row__num">3</span><div><strong>AHJ Coordination</strong><div class="text-small text-tertiary">Log meetings, calls, and commitments with Authorities Having Jurisdiction.</div></div></div>
+                <div class="planned-row"><span class="planned-row__num">4</span><div><strong>Permit Schedule</strong><div class="text-small text-tertiary">Gantt-style view of all permits with clear-to-construct milestones.</div></div></div>
+                <div class="planned-row"><span class="planned-row__num">5</span><div><strong>Conditions Capture</strong><div class="text-small text-tertiary">Capture every Condition of Approval as it lands — ready to hand to Compliance.</div></div></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card__header"><div class="card__title" id="handoff-title"></div></div>
+              <div class="card__body stack-300">
+                <p style="margin: 0;">When a project's permits are <strong>cleared to construct</strong>, the Conditions of Approval captured here flow automatically into Beacon's Compliance module as <em>commitments</em> — the existing data model.</p>
+                <div class="row-300">
+                  <span class="chip chip--planning"><span class="chip__dot"></span>Permit conditions</span>
+                  <span id="arrow"></span>
+                  <span class="chip chip--compliance"><span class="chip__dot"></span>Compliance commitments</span>
+                </div>
+                <p style="margin: 0; color: var(--color-text-tertiary);" class="text-small">No re-entry, no parallel tracking — the same record, surfaced for the phase you're in.</p>
+              </div>
+            </div>
+          </div>
+
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/data/projects.js"></script>
+  <script>
+    window.BeaconShell = { phase: 'planning-permitting', activeNavId: 'pp-overview', project: 'Saddle Creek BESS' };
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('crumbs').innerHTML = `
+        ${bcnIcon('home','icon icon--sm')}
+        <a class="breadcrumb-item" href="../index.html">Portfolio</a>
+        ${bcnIcon('chevron-right','icon icon--sm')}
+        <span class="breadcrumb-item">Planning &amp; Permitting</span>`;
+      document.getElementById('page-title').innerHTML = `${bcnIcon('clipboard','icon icon--lg')} Planning &amp; Permitting`;
+      document.getElementById('hero-icon').innerHTML = bcnIcon('clipboard','icon icon--xl');
+      document.getElementById('features-title').innerHTML = `${bcnIcon('list')} Planned features`;
+      document.getElementById('handoff-title').innerHTML = `${bcnIcon('arrow-right')} Handoff to Compliance`;
+      document.getElementById('arrow').innerHTML = bcnIcon('arrow-right','icon');
+
+      const pp = BeaconData.projects.filter(p => p.phase === 'planning-permitting');
+      document.getElementById('pp-list').innerHTML = pp.length ? pp.map(p => `
+        <div style="display:flex; gap: var(--spacing-300); align-items:center; padding: var(--spacing-300) var(--spacing-500); border-bottom: 1px solid var(--color-border-light);">
+          <span style="width:10px; height:10px; border-radius: 9999px; background: var(--phase-planning);"></span>
+          <div style="flex:1;">
+            <div style="font-weight: var(--font-weight-semi);">${p.name}</div>
+            <div class="text-small text-tertiary">${p.location} · ${p.mw} MW · ${p.stage}</div>
+          </div>
+          <span class="chip chip--planning"><span class="chip__dot"></span>${Math.round(p.progress*100)}% through phase</span>
+        </div>`).join('') : `<div class="empty"><div class="empty__icon" id="empty-icon"></div><div class="empty__title">No projects here yet</div><div>Projects advance to Planning &amp; Permitting after their CIA is finalized.</div></div>`;
+    });
+  </script>
+</body>
+</html>

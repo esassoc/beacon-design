@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Beacon — Portfolio</title>
+  <link rel="stylesheet" href="assets/css/theme.css" />
+  <link rel="stylesheet" href="assets/css/shell.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <style>
+    /* Landing-only layout overrides */
+    .hero {
+      background:
+        radial-gradient(circle at 20% 0%, color-mix(in srgb, var(--bcn-teal-200) 35%, transparent) 0%, transparent 45%),
+        radial-gradient(circle at 100% 100%, color-mix(in srgb, var(--phase-planning) 18%, transparent) 0%, transparent 55%),
+        var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-300);
+      padding: var(--spacing-700) var(--spacing-600);
+      margin-bottom: var(--spacing-600);
+    }
+    .hero h1 { font-family: var(--font-decorative); font-size: 2.25rem; font-weight: var(--font-weight-bold); margin: 0 0 var(--spacing-300) 0; }
+    .hero p  { color: var(--color-text-tertiary); max-width: 680px; font-size: var(--type-size-400); line-height: 1.6; margin: 0; }
+    .hero__pills { display: flex; gap: var(--spacing-200); margin-top: var(--spacing-400); }
+    .portfolio-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: var(--spacing-400) var(--spacing-500);
+      border-bottom: 1px solid var(--color-border-light);
+      gap: var(--spacing-400);
+      text-decoration: none;
+      color: inherit;
+    }
+    .portfolio-row:hover { background: var(--bcn-gray-50); text-decoration: none; }
+    .portfolio-row:last-child { border-bottom: none; }
+    .portfolio-row__main { display: flex; align-items: center; gap: var(--spacing-400); flex: 1; min-width: 0; }
+    .portfolio-row__phase-dot { width: 10px; height: 10px; border-radius: 9999px; flex-shrink: 0; }
+    .portfolio-row__title { font-weight: var(--font-weight-semi); font-size: var(--type-size-400); }
+    .portfolio-row__meta { color: var(--color-text-tertiary); font-size: var(--type-size-200); margin-top: 2px; }
+    .portfolio-row__progress { width: 140px; }
+    .portfolio-row__progress-bar { height: 4px; background: var(--bcn-gray-100); border-radius: 9999px; overflow: hidden; }
+    .portfolio-row__progress-bar > span { display: block; height: 100%; background: var(--color-primary); border-radius: 9999px; }
+    .portfolio-row__cta { color: var(--color-primary); font-weight: var(--font-weight-semi); display: inline-flex; align-items: center; gap: var(--spacing-100); }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="page-layout">
+      <div class="page-layout__container">
+
+        <!-- Hero -->
+        <section class="hero">
+          <span class="badge" style="background: var(--bcn-teal-100); color: var(--color-primary);">Module-based experience</span>
+          <h1 style="margin-top: var(--spacing-300);">A project's journey, in three phases.</h1>
+          <p>Beacon now organizes a project's full lifecycle into three modules — Due Diligence, Planning &amp; Permitting, and Compliance. A project moves through each in turn, and Beacon tailors the workspace to the phase you're in. Open any project below to pick up where you left off.</p>
+          <div class="hero__pills">
+            <span class="chip chip--due-diligence"><span class="chip__dot"></span>Due Diligence</span>
+            <span class="chip chip--planning"><span class="chip__dot"></span>Planning &amp; Permitting</span>
+            <span class="chip chip--compliance"><span class="chip__dot"></span>Compliance</span>
+          </div>
+        </section>
+
+        <!-- Module summary cards -->
+        <div class="card-grid card-grid--3" style="margin-bottom: var(--spacing-600);">
+          <a href="due-diligence/index.html" class="module-card module-card--due-diligence">
+            <span class="module-card__phase-bar"></span>
+            <div class="module-card__head">
+              <span class="module-card__icon" id="ico-dd"></span>
+              <span class="chip chip--due-diligence"><span class="chip__dot"></span>Phase 1</span>
+            </div>
+            <div class="module-card__title">Due Diligence</div>
+            <div class="module-card__desc">Define a project boundary, cross-reference public GIS data, identify constraints across resource categories, and generate a preliminary report — before substantial investment is made.</div>
+            <span class="module-card__cta">Open module <span id="cta-dd"></span></span>
+          </a>
+
+          <a href="planning-permitting/index.html" class="module-card module-card--planning">
+            <span class="module-card__phase-bar"></span>
+            <div class="module-card__head">
+              <span class="module-card__icon" id="ico-pp"></span>
+              <span class="chip chip--planning"><span class="chip__dot"></span>Phase 2</span>
+            </div>
+            <div class="module-card__title">Planning &amp; Permitting</div>
+            <div class="module-card__desc">Build the permitting strategy, draft applications, coordinate with Authorities Having Jurisdiction, and track the regulatory schedule through approvals.</div>
+            <span class="module-card__cta">Open module <span id="cta-pp"></span></span>
+          </a>
+
+          <a href="compliance/index.html" class="module-card module-card--compliance">
+            <span class="module-card__phase-bar"></span>
+            <div class="module-card__head">
+              <span class="module-card__icon" id="ico-cp"></span>
+              <span class="chip chip--compliance"><span class="chip__dot"></span>Phase 3</span>
+            </div>
+            <div class="module-card__title">Compliance</div>
+            <div class="module-card__desc">Track commitments, requirements, source documents, and actions through construction and operations. This is where today's Beacon lives.</div>
+            <span class="module-card__cta">Open module <span id="cta-cp"></span></span>
+          </a>
+        </div>
+
+        <!-- Portfolio list -->
+        <section class="card">
+          <div class="card__header">
+            <div>
+              <div class="card__title" id="portfolio-title"></div>
+              <div class="card__subtitle">All projects across the three modules. Each is pinned to its current phase.</div>
+            </div>
+            <div class="row-200">
+              <a href="due-diligence/new-project.html" class="btn btn--primary" id="new-project-btn"></a>
+            </div>
+          </div>
+          <div id="portfolio-list"></div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="assets/js/shell.js"></script>
+  <script src="assets/data/projects.js"></script>
+  <script>
+    // The module-switcher landing intentionally hides the project context —
+    // a user lands here when they're choosing which project to open.
+    window.BeaconShell = { phase: 'due-diligence', activeNavId: 'dd-projects', tenant: 'Acme Energy', hideProject: true };
+  </script>
+  <script>
+    // Render dynamic bits after shell mounts.
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('ico-dd').innerHTML = bcnIcon('compass-2','icon icon--lg');
+      document.getElementById('ico-pp').innerHTML = bcnIcon('clipboard','icon icon--lg');
+      document.getElementById('ico-cp').innerHTML = bcnIcon('shield','icon icon--lg');
+      document.getElementById('cta-dd').innerHTML = bcnIcon('arrow-right','icon icon--sm');
+      document.getElementById('cta-pp').innerHTML = bcnIcon('arrow-right','icon icon--sm');
+      document.getElementById('cta-cp').innerHTML = bcnIcon('arrow-right','icon icon--sm');
+      document.getElementById('portfolio-title').innerHTML = `${bcnIcon('list')} <span>Project portfolio</span>`;
+      document.getElementById('new-project-btn').innerHTML = `${bcnIcon('plus')} New project`;
+
+      const phaseColor = {
+        'due-diligence':       'var(--phase-due-diligence)',
+        'planning-permitting': 'var(--phase-planning)',
+        'compliance':          'var(--phase-compliance)',
+      };
+      const phaseHref = {
+        'due-diligence':       'due-diligence/project.html',
+        'planning-permitting': 'planning-permitting/index.html',
+        'compliance':          'compliance/index.html',
+      };
+      const phaseLabel = {
+        'due-diligence':       'Due Diligence',
+        'planning-permitting': 'Planning & Permitting',
+        'compliance':          'Compliance',
+      };
+
+      const list = document.getElementById('portfolio-list');
+      list.innerHTML = BeaconData.projects.map(p => `
+        <a class="portfolio-row" href="${phaseHref[p.phase]}">
+          <div class="portfolio-row__main">
+            <span class="portfolio-row__phase-dot" style="background:${phaseColor[p.phase]};"></span>
+            <div style="flex:1; min-width:0;">
+              <div class="portfolio-row__title">${p.name}</div>
+              <div class="portfolio-row__meta">${p.location} · ${p.mw} MW · ${p.acres} ac · Updated ${p.updated}</div>
+            </div>
+            <span class="chip chip--${p.phase === 'planning-permitting' ? 'planning' : p.phase}">
+              <span class="chip__dot"></span>${phaseLabel[p.phase]} · ${p.stage}
+            </span>
+          </div>
+          <div class="portfolio-row__progress">
+            <div class="text-small text-tertiary" style="margin-bottom:4px;">${Math.round(p.progress*100)}% through phase</div>
+            <div class="portfolio-row__progress-bar"><span style="width:${p.progress*100}%; background:${phaseColor[p.phase]};"></span></div>
+          </div>
+          <span class="portfolio-row__cta">Open ${bcnIcon('arrow-right','icon icon--sm')}</span>
+        </a>`).join('');
+    });
+  </script>
+</body>
+</html>

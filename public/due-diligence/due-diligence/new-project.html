@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>New Project — Boundary — Beacon</title>
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/shell.css" />
+  <link rel="stylesheet" href="../assets/css/components.css" />
+  <!-- Leaflet + Leaflet-Draw + Geoman draw — via CDN -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.css" />
+  <style>
+    .leaflet-container { font-family: var(--font-body); }
+    .map-shell--draw { height: 560px; }
+    .leaflet-draw-toolbar a { background-color: var(--color-surface); }
+    .step-marker { display:flex; align-items:center; gap: var(--spacing-200); color: var(--color-text-tertiary); font-size: var(--type-size-200); font-weight: var(--font-weight-semi); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: var(--spacing-200); }
+    .step-marker__num { width:20px; height:20px; border-radius:9999px; background: var(--color-primary); color:#fff; display:flex; align-items:center; justify-content:center; font-size: 11px; }
+    .upload-zone {
+      border: 1.5px dashed var(--color-border-strong);
+      border-radius: var(--radius-200);
+      padding: var(--spacing-500);
+      text-align: center;
+      color: var(--color-text-tertiary);
+      background: var(--bcn-gray-50);
+      cursor: pointer;
+    }
+    .upload-zone:hover { border-color: var(--color-primary); color: var(--color-text-primary); background: var(--color-surface); }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="page-layout">
+      <div class="page-layout__container">
+
+        <section class="page-layout__breadcrumbs">
+          <nav class="breadcrumbs" aria-label="Breadcrumb"><div class="breadcrumbs__items" id="crumbs"></div></nav>
+        </section>
+
+        <section class="page-layout__title">
+          <div class="page-layout__title-main">
+            <h1 id="page-title"></h1>
+          </div>
+          <div class="page-layout__utilities">
+            <a class="btn btn--ghost" href="index.html" id="cancel-btn"></a>
+            <button class="btn btn--primary" id="continue-btn"></button>
+          </div>
+        </section>
+
+        <section class="page-layout__content">
+
+          <div class="split">
+            <!-- Left rail: project details + boundary method -->
+            <div class="stack-400">
+              <div class="card">
+                <div class="card__header"><div class="card__title" id="details-title"></div></div>
+                <div class="card__body stack-300">
+                  <div class="field">
+                    <label class="field__label">Project name</label>
+                    <input class="input" value="Mojave Stockyard BESS" />
+                  </div>
+                  <div class="field">
+                    <label class="field__label">Developer / Client</label>
+                    <input class="input" value="Acme Energy" />
+                  </div>
+                  <div class="field">
+                    <label class="field__label">Project type</label>
+                    <select class="select"><option>Battery Energy Storage (BESS)</option><option>Solar PV</option><option>Solar + Storage Hybrid</option><option>Transmission</option><option>Other</option></select>
+                  </div>
+                  <div class="row-300">
+                    <div class="field flex-1">
+                      <label class="field__label">Capacity (MW)</label>
+                      <input class="input" value="500" />
+                    </div>
+                    <div class="field flex-1">
+                      <label class="field__label">Estimated acres</label>
+                      <input class="input" value="18" />
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label class="field__label">Jurisdiction (auto-detected from boundary)</label>
+                    <input class="input" id="auto-juris" value="—" readonly style="background: var(--bcn-gray-50);" />
+                    <span class="field__hint">Populated when a boundary is drawn or uploaded.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card__header"><div class="card__title" id="method-title"></div></div>
+                <div class="card__body stack-400">
+                  <div class="step-marker"><span class="step-marker__num">1</span>Choose a method</div>
+                  <div class="row-200" id="method-row">
+                    <button class="btn btn--secondary" id="m-draw"><span id="m-draw-icon"></span> Draw on map</button>
+                    <button class="btn btn--ghost" id="m-upload"><span id="m-upload-icon"></span> Upload file</button>
+                  </div>
+
+                  <div id="method-draw">
+                    <div class="step-marker"><span class="step-marker__num">2</span>Draw the boundary</div>
+                    <p class="text-small text-tertiary" style="margin: 0 0 var(--spacing-200) 0;">Use the polygon tool in the map toolbar to outline the project site. Close the shape to finish.</p>
+                    <div class="alert alert--info">
+                      <span class="alert__icon" id="hint-icon"></span>
+                      <div class="alert__body">
+                        <div class="alert__title">Tip</div>
+                        Pan to your site (use the search or zoom to coordinates). Beacon will snap to parcel edges when you draw within 10 m of a parcel line.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div id="method-upload" hidden>
+                    <div class="step-marker"><span class="step-marker__num">2</span>Upload a GIS file</div>
+                    <label class="upload-zone" id="upload-zone">
+                      <div id="upload-icon-big"></div>
+                      <div style="margin-top: var(--spacing-200); font-weight: var(--font-weight-semi); color: var(--color-text-primary);">Drop or browse</div>
+                      <div class="text-small">Shapefile (.zip), GeoJSON, KML, KMZ — up to 25 MB</div>
+                      <input type="file" id="upload-input" hidden />
+                    </label>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: live map -->
+            <div class="stack-300">
+              <div class="filter-bar">
+                <div class="filter-bar__group">
+                  <span class="filter-bar__label">Basemap</span>
+                  <select class="select" id="basemap-select" style="height: var(--form-height-sm); width: 160px;">
+                    <option value="osm">Streets (OSM)</option>
+                    <option value="sat">Satellite</option>
+                    <option value="terrain">Terrain</option>
+                  </select>
+                </div>
+                <span class="filter-bar__spacer"></span>
+                <span class="text-small text-tertiary" id="coord-readout">Pan / zoom to site</span>
+                <button class="btn btn--ghost btn--sm" id="clear-shape"><span id="clear-icon"></span> Clear shape</button>
+              </div>
+
+              <div class="map-shell map-shell--draw">
+                <div id="boundary-map" style="position:absolute; inset:0;"></div>
+              </div>
+
+              <div class="card" id="summary-card" style="display:none;">
+                <div class="card__header"><div class="card__title" id="summary-title"></div></div>
+                <div class="card__body">
+                  <dl class="kv">
+                    <dt>Vertices</dt><dd id="s-vertices">—</dd>
+                    <dt>Perimeter</dt><dd id="s-perim">—</dd>
+                    <dt>Area</dt><dd id="s-area">—</dd>
+                    <dt>Centroid</dt><dd id="s-centroid" class="text-mono">—</dd>
+                    <dt>Detected parcels</dt><dd id="s-parcels">2 (APN 237-104-007, 237-104-008)</dd>
+                    <dt>Jurisdiction</dt><dd id="s-juris">City of Mojave Stockyard · Kern County</dd>
+                  </dl>
+                </div>
+                <div class="card__footer">
+                  <span class="text-small text-tertiary">Boundary will be locked when you continue. You can return to edit at any time.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="../assets/js/shell.js"></script>
+  <script src="../assets/data/projects.js"></script>
+  <!-- Leaflet + Draw plugin via CDN -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
+  <script>
+    window.BeaconShell = { phase: 'due-diligence', activeNavId: 'dd-boundary', project: 'Mojave Stockyard BESS' };
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('crumbs').innerHTML = `
+        ${bcnIcon('home','icon icon--sm')}
+        <a class="breadcrumb-item" href="../index.html">Portfolio</a>
+        ${bcnIcon('chevron-right','icon icon--sm')}
+        <a class="breadcrumb-item" href="index.html">Due Diligence</a>
+        ${bcnIcon('chevron-right','icon icon--sm')}
+        <a class="breadcrumb-item" href="project.html">Mojave Stockyard BESS</a>
+        ${bcnIcon('chevron-right','icon icon--sm')}
+        <span class="breadcrumb-item">Project Boundary</span>`;
+      document.getElementById('page-title').innerHTML = `${bcnIcon('map-pinned','icon icon--lg')} Project Boundary`;
+      document.getElementById('cancel-btn').innerHTML = 'Cancel';
+      document.getElementById('continue-btn').innerHTML = `Run constraints check ${bcnIcon('arrow-right','icon icon--sm')}`;
+      document.getElementById('details-title').innerHTML = `${bcnIcon('info')} Project details`;
+      document.getElementById('method-title').innerHTML = `${bcnIcon('pencil')} Define the site`;
+      document.getElementById('m-draw-icon').innerHTML = bcnIcon('pencil','icon icon--sm');
+      document.getElementById('m-upload-icon').innerHTML = bcnIcon('upload','icon icon--sm');
+      document.getElementById('hint-icon').innerHTML = bcnIcon('info');
+      document.getElementById('upload-icon-big').innerHTML = bcnIcon('upload','icon icon--xl');
+      document.getElementById('clear-icon').innerHTML = bcnIcon('x','icon icon--sm');
+      document.getElementById('summary-title').innerHTML = `${bcnIcon('circle-check')} Boundary captured`;
+
+      // Method tabs
+      const methods = ['draw','upload'];
+      methods.forEach(m => {
+        document.getElementById('m-' + m).addEventListener('click', () => {
+          methods.forEach(other => {
+            document.getElementById('m-' + other).className = other === m ? 'btn btn--secondary' : 'btn btn--ghost';
+            document.getElementById('method-' + other).hidden = other !== m;
+          });
+        });
+      });
+
+      // ── Leaflet map ──
+      const map = L.map('boundary-map', { zoomControl: true }).setView([35.052, -118.176], 16);
+      const basemaps = {
+        osm: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© OpenStreetMap' }),
+        sat: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19, attribution: '© Esri World Imagery' }),
+        terrain: L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', { maxZoom: 17, attribution: '© OpenTopoMap' }),
+      };
+      basemaps.osm.addTo(map);
+      document.getElementById('basemap-select').addEventListener('change', (e) => {
+        Object.values(basemaps).forEach(b => map.removeLayer(b));
+        basemaps[e.target.value].addTo(map);
+      });
+
+      map.on('mousemove', (e) => {
+        document.getElementById('coord-readout').textContent = `${e.latlng.lat.toFixed(5)}, ${e.latlng.lng.toFixed(5)}`;
+      });
+
+      // Drawn features layer
+      const drawn = new L.FeatureGroup();
+      map.addLayer(drawn);
+      const drawControl = new L.Control.Draw({
+        edit: { featureGroup: drawn, remove: true },
+        draw: { polyline: false, marker: false, circle: false, circlemarker: false, rectangle: { shapeOptions: { color: '#005862', weight: 2, fillOpacity: 0.12 } }, polygon: { shapeOptions: { color: '#005862', weight: 2, fillOpacity: 0.12 } } }
+      });
+      map.addControl(drawControl);
+
+      const summaryCard = document.getElementById('summary-card');
+      function updateSummary(layer) {
+        summaryCard.style.display = 'block';
+        const latlngs = layer.getLatLngs()[0] || layer.getLatLngs();
+        document.getElementById('s-vertices').textContent = latlngs.length;
+        // crude perimeter + area (planar approx using haversine for perimeter)
+        let perim = 0;
+        for (let i = 0; i < latlngs.length; i++) {
+          const a = latlngs[i], b = latlngs[(i+1) % latlngs.length];
+          perim += a.distanceTo(b);
+        }
+        const areaSqm = L.GeometryUtil ? L.GeometryUtil.geodesicArea(latlngs) :
+          (function(){ // shoelace approximation
+            let s = 0;
+            for (let i = 0; i < latlngs.length; i++) {
+              const a = latlngs[i], b = latlngs[(i+1) % latlngs.length];
+              s += (b.lng - a.lng) * (b.lat + a.lat);
+            }
+            return Math.abs(s) * 0.5 * 111319.9 * 111319.9 * Math.cos(latlngs[0].lat * Math.PI/180);
+          })();
+        const acres = areaSqm / 4046.86;
+        const center = layer.getBounds().getCenter();
+        document.getElementById('s-perim').textContent = (perim / 1000).toFixed(2) + ' km · ' + (perim * 3.28084).toFixed(0) + ' ft';
+        document.getElementById('s-area').textContent = acres.toFixed(1) + ' ac · ' + areaSqm.toFixed(0) + ' m²';
+        document.getElementById('s-centroid').textContent = center.lat.toFixed(5) + ', ' + center.lng.toFixed(5);
+        document.getElementById('auto-juris').value = 'City of Mojave Stockyard, Kern County';
+      }
+
+      map.on(L.Draw.Event.CREATED, (e) => {
+        drawn.clearLayers();
+        drawn.addLayer(e.layer);
+        updateSummary(e.layer);
+      });
+      map.on(L.Draw.Event.EDITED, (e) => {
+        e.layers.eachLayer(updateSummary);
+      });
+      map.on(L.Draw.Event.DELETED, () => {
+        summaryCard.style.display = 'none';
+        document.getElementById('auto-juris').value = '—';
+      });
+
+      // Seed with the demo boundary so the page demonstrates the wired-up state.
+      const seed = L.polygon([
+        [35.0492, -118.1790], [35.0492, -118.1730],
+        [35.0540, -118.1730], [35.0540, -118.1790],
+      ], { color: '#005862', weight: 2, fillOpacity: 0.15 });
+      drawn.addLayer(seed);
+      updateSummary(seed);
+
+      document.getElementById('clear-shape').addEventListener('click', () => {
+        drawn.clearLayers();
+        summaryCard.style.display = 'none';
+        document.getElementById('auto-juris').value = '—';
+      });
+
+      document.getElementById('continue-btn').addEventListener('click', () => {
+        window.location.href = 'constraints.html';
+      });
+
+      // Upload zone — wire to file picker (does not actually parse, this is a prototype).
+      const uploadZone = document.getElementById('upload-zone');
+      const uploadInput = document.getElementById('upload-input');
+      if (uploadZone) {
+        uploadZone.addEventListener('click', () => uploadInput.click());
+        uploadInput.addEventListener('change', () => {
+          if (uploadInput.files.length) {
+            updateSummary(seed);
+            document.getElementById('s-vertices').textContent = '4 (from uploaded file)';
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
