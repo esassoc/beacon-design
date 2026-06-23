@@ -1,0 +1,58 @@
+---
+// <BcnDangerZone> — GitHub-style danger zone: a section heading that sits OUTSIDE
+// (above) a bordered panel, and inside the panel a row of [bold title + normal
+// description | right-aligned action]. The action is slotted (pass an esa-button).
+//
+// bcn-lego-checked: esa-danger-zone exists but faithfully ports Beacon's ui-danger-zone
+// layout — the heading lives INSIDE the panel and heading/description/actions stack.
+// The requested treatment is GitHub's: title OUTSIDE the box (above, with gap) and a
+// per-item row with the action right-aligned. That anatomy isn't exposed by the lego,
+// so this is a real, reusable bcn- component (candidate to promote to an esa- variant).
+// Reads only the semantic token layer (--color-*/--type-*/--spacing-*/--radius-*).
+
+interface Props {
+  /** Section title, rendered above the box. */
+  heading?: string;
+  /** The destructive item's bold header. */
+  title: string;
+  /** Normal-weight explanation under the title. */
+  description?: string;
+}
+const { heading = 'Danger Zone', title, description } = Astro.props;
+
+let nextId = 0;
+const headingId = `bcn-danger-zone-${++nextId}`;
+---
+
+<section class="bcn-danger-zone" aria-labelledby={headingId}>
+  <h2 class="bcn-danger-zone__heading" id={headingId}>{heading}</h2>
+  <div class="bcn-danger-zone__box">
+    <div class="bcn-danger-zone__item">
+      <div class="bcn-danger-zone__text">
+        <h3 class="bcn-danger-zone__title">{title}</h3>
+        {description && <p class="bcn-danger-zone__desc">{description}</p>}
+      </div>
+      <div class="bcn-danger-zone__action"><slot /></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bcn-danger-zone { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-danger-zone__heading { margin: 0; font-size: var(--type-size-250); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-danger-zone__box {
+    padding: var(--spacing-500);
+    border: 1px solid var(--color-danger);
+    border-radius: var(--radius-200);
+    background: var(--color-surface);
+  }
+  .bcn-danger-zone__item { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-400); }
+  .bcn-danger-zone__text { display: flex; flex-direction: column; gap: var(--spacing-100); min-width: 0; }
+  .bcn-danger-zone__title { margin: 0; font-size: var(--form-font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-danger-zone__desc { margin: 0; font-size: var(--form-font-size-md); color: var(--color-text-secondary); }
+  .bcn-danger-zone__action { flex-shrink: 0; }
+
+  @media (max-width: 640px) {
+    .bcn-danger-zone__item { flex-direction: column; align-items: flex-start; }
+  }
+</style>
