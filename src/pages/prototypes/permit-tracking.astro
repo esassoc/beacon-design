@@ -122,11 +122,12 @@ const payload = {
 <!-- manifest:
   layout: esa-tab-layout                                  # 3-tab spine — Map (default) · Data · Summary
   sections:
-    - map status board     -> esa-button-toggle           # Leaflet status map + Paths/Status scopes; mileage strip, clear-to-build timeline & insight cards are inline viz (see bcn-lego-checked)
+    - map status board     -> esa-button-toggle           # Leaflet status map + Paths/Status scopes + Download KMZ (esa-button); mileage strip, clear-to-build timeline & insight cards are inline viz (see bcn-lego-checked)
     - permit & segment data -> beacon-grid                 # the shared Beacon AG Grid kit (Permits × Segments); filter bar = esa-filter-container glue
     - segment drawer       -> esa-side-dialog              # read-only segment dossier, reached from both tabs
-    - permit editor        -> esa-side-dialog              # the write surface — status/timing/segments; saving re-derives everywhere
-    - executive summary    -> esa-stat                     # leadership rollup: hero % + KPIs are esa-stat in esa-card; donut, per-path bars, burn-up & risk are inline viz (see bcn-lego-checked)
+    - permit editor        -> esa-side-dialog              # write surface — status/timing/segments + a Comments thread (@-mention); saving re-derives everywhere
+    - executive summary    -> esa-stat                     # leadership rollup: hero % + KPIs are esa-stat in esa-card; donut, per-path bars & burn-up are inline viz (see bcn-lego-checked)
+    - notification settings -> esa-dialog                  # global per-user prefs (esa-switch-toggle rows), opened from the page utilities
 -->
 
 <!-- bcn-lego-checked: composed from esa-tab-layout, esa-side-dialog ×2, esa-select,
@@ -138,14 +139,20 @@ const payload = {
      Remaining CSS is composition glue: Leaflet map chrome (status legend overlay — no
      esa- lego models map overlays; checked Beacon, prod has no map UI), the secondary
      mileage strip + insight cards + clear-to-build timeline chart (no esa- lego models
-     a time-axis chart), the bulk-action bar over the AG Grid selection, the print/board
-     stylesheet, the filter-bar card shell + grid footer (faithful copies of
+     a time-axis chart), the bulk-action bar over the AG Grid selection, the Summary
+     print stylesheet, the filter-bar card shell + grid footer (faithful copies of
      requirement-tracker's page glue), and the global .bcn-grid-chip cells AG Grid
      injects outside Astro's scope. The Summary tab adds the same class of bespoke,
      value-colored micro-viz canonicalized in BcnMonitoringStats — a status donut
      (conic-gradient), per-path stacked status bars, and a route-cleared burn-up (SVG
      time-axis vs target) — none of which any esa- lego models; their colors all read
-     the runtime --st-* status vars, never hardcoded. -->
+     the runtime --st-* status vars, never hardcoded.
+     BCN-1364 collaboration/reporting adds: a Download-KMZ action (esa-button; the KML
+     overlay is generated + zipped in-browser); the global notification-settings dialog
+     (esa-dialog + esa-switch-toggle rows); and the per-permit Comments thread in the
+     editor (esa-textarea compose + an @-mention typeahead). The thread is rendered live
+     per-permit (so it can't be the static BcnDiscussion SSR component) — its initials
+     avatars + mention highlights mirror that component's vocabulary, token-colored. -->
 <AppShell title="Permit Tracking — AWS Raul" activeNavId="permit-tracking">
   <PageLayout
     title="Permit Tracking"
@@ -156,17 +163,15 @@ const payload = {
       { label: 'Permit Tracking' },
     ]}
   >
+    <div slot="utilities">
+      <span id="notif-open"><EsaButton color="ghost" appearance="outline" size="sm" icon="bell">Notifications</EsaButton></span>
+    </div>
+
     <!-- No "New Permit" here on purpose: permits ARE source documents — this page
          is a projection of that data through the permitting lens, not their home. -->
     <esa-tab-layout id="pt-tabs" appearance="underline">
       <!-- ═══ TAB 1 — MAP (the hero: which segments are ready?) ═══ -->
       <section slot="panel-0" class="map-panel" aria-label="Permit status map">
-        <!-- Print-only board header (filled by the Export button) -->
-        <div class="print-header" aria-hidden="true">
-          <span class="print-header__title">Permit Tracking</span>
-          <span class="print-header__meta" id="print-meta"></span>
-        </div>
-
         <!-- Map filters — scope the MAP and every figure below it (mileage
              strip + insight cards), not just the layers. -->
         <div class="map-filterbar">
@@ -179,8 +184,8 @@ const payload = {
             <span class="map-filterbar__label">Status</span>
             <esa-button-toggle id="status-toggle" value="all" size="md"></esa-button-toggle>
           </div>
-          <span class="map-filterbar__export" id="board-export">
-            <EsaButton color="ghost" appearance="outline" size="sm" icon="download">Export board</EsaButton>
+          <span class="map-filterbar__actions">
+            <span id="download-kmz"><EsaButton color="ghost" appearance="outline" size="sm" icon="download">Download KMZ</EsaButton></span>
           </span>
         </div>
 
@@ -331,8 +336,10 @@ const payload = {
               </div>
               <div class="exec__kpis">
                 <div class="exec__kpi">
-                  <span class="exec__kpi-icon exec__kpi-icon--up" id="exec-trend-icon">
-                    <EsaIcon name="trending-up" size="sm" paths="<polyline points='22 7 13.5 15.5 8.5 10.5 2 17'/><polyline points='16 7 22 7 22 13'/>" />
+                  <span class="exec__kpi-iconslot">
+                    <span class="exec__kpi-icon exec__kpi-icon--up" id="exec-trend-icon">
+                      <EsaIcon name="trending-up" size="sm" paths="<polyline points='22 7 13.5 15.5 8.5 10.5 2 17'/><polyline points='16 7 22 7 22 13'/>" />
+                    </span>
                   </span>
                   <span id="exec-trend-stat">
                     <EsaStat
@@ -342,8 +349,10 @@ const payload = {
                   </span>
                 </div>
                 <div class="exec__kpi">
-                  <span class="exec__kpi-icon" id="exec-forecast-icon">
-                    <EsaIcon name="flag" size="sm" paths="<path d='M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z'/><line x1='4' y1='22' x2='4' y2='15'/>" />
+                  <span class="exec__kpi-iconslot">
+                    <span class="exec__kpi-icon" id="exec-forecast-icon">
+                      <EsaIcon name="flag" size="sm" paths="<path d='M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z'/><line x1='4' y1='22' x2='4' y2='15'/>" />
+                    </span>
                   </span>
                   <span id="exec-forecast-stat">
                     <EsaStat
@@ -499,6 +508,26 @@ const payload = {
         </div>
       </section>
 
+      <!-- Comments (BCN-1364) — a collaboration thread, DISTINCT from the read-only
+           Activity log below. @-mention project users (feeds notifications). -->
+      <section class="pd__section">
+        <h3 class="pd__section-head">
+          <EsaIcon name="message-square" size="sm" paths="<path d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'/>" />
+          Comments <span id="pd-comment-count"></span>
+        </h3>
+        <ul class="pd__comments" id="pd-comments"></ul>
+        <div class="pd__compose">
+          <div class="pd__compose-field">
+            <esa-textarea id="pd-comment-input" rows="2" placeholder="Write a comment…  type @ to mention a teammate"></esa-textarea>
+            <ul class="pd__mention-menu" id="pd-mention-menu" hidden></ul>
+          </div>
+          <div class="pd__compose-foot">
+            <span class="pd__compose-hint">Posting as Andy Lovseth</span>
+            <span id="pd-comment-post"><EsaButton color="primary" size="sm">Post comment</EsaButton></span>
+          </div>
+        </div>
+      </section>
+
       <!-- Change log — seeded from the permit's own dates, grows as edits land -->
       <section class="pd__section">
         <h3 class="pd__section-head">
@@ -513,6 +542,51 @@ const payload = {
       <span id="pd-save"><EsaButton color="primary" size="md">Save</EsaButton></span>
     </div>
   </esa-side-dialog>
+
+  <!-- ═══ Notification settings (BCN-1364) — GLOBAL, per-user prefs for the whole
+       Permit Tracking feature (not per-permit). esa-dialog + esa-switch-toggle. ═══ -->
+  <esa-dialog id="notif-dialog" heading="Notification settings" size="md" style="--z-modal: 1400; --z-modal-backdrop: 1380;">
+    <div class="notif">
+      <p class="notif__lede">
+        Email <strong>you</strong> when these happen anywhere in Permit Tracking — across every path and
+        permit. These are your personal preferences; they don't change what teammates receive.
+      </p>
+      <ul class="notif__list">
+        <li class="notif__row">
+          <span class="notif__text">
+            <span class="notif__title">A permit's status changes</span>
+            <span class="notif__sub">Any move along the permitting ladder (e.g. Submitted → Issued)</span>
+          </span>
+          <esa-switch-toggle id="notif-status" checked></esa-switch-toggle>
+        </li>
+        <li class="notif__row">
+          <span class="notif__text">
+            <span class="notif__title">A segment becomes Cleared to Construct</span>
+            <span class="notif__sub">The milestone that lets crews roll on that reach</span>
+          </span>
+          <esa-switch-toggle id="notif-cleared" checked></esa-switch-toggle>
+        </li>
+        <li class="notif__row">
+          <span class="notif__text">
+            <span class="notif__title">You're @-mentioned in a comment</span>
+            <span class="notif__sub">Someone pulls you into a permit discussion</span>
+          </span>
+          <esa-switch-toggle id="notif-mention" checked></esa-switch-toggle>
+        </li>
+        <li class="notif__row">
+          <span class="notif__text">
+            <span class="notif__title">Any comment is posted on a permit</span>
+            <span class="notif__sub">High volume — off by default</span>
+          </span>
+          <esa-switch-toggle id="notif-comment"></esa-switch-toggle>
+        </li>
+      </ul>
+    </div>
+    <div slot="footer" class="notif__footer">
+      <span id="notif-cancel"><EsaButton color="ghost" appearance="outline" size="md">Cancel</EsaButton></span>
+      <span id="notif-save"><EsaButton color="primary" size="md">Save preferences</EsaButton></span>
+    </div>
+  </esa-dialog>
 
   <script type="application/json" id="pt-data" set:html={JSON.stringify(payload)}></script>
 </AppShell>
@@ -532,6 +606,9 @@ const payload = {
   import '@esa/ecology/esa-input-tag';
   import '@esa/ecology/esa-tooltip';
   import '@esa/ecology/esa-filter-dropdown';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-switch-toggle';
 
   ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -914,16 +991,29 @@ const payload = {
     if (sub != null) { const s = wrap.querySelector('.esa-stat__sub'); if (s) s.textContent = sub; }
   };
 
-  // Burn-up: cumulative miles cleared (frozen history + live "today") vs. the pace
-  // line needed to reach the full route by the projected clear date. viewBox-scaled
-  // SVG (no pixel measurement) so it renders correctly even while the tab is hidden.
+  // Burn-up: cumulative miles cleared (frozen history + live "today") vs. the
+  // projected path to full clearance. The SVG viewBox is drawn at the container's
+  // REAL pixel width (1:1), not a fixed 760, so the axis/label text is true pixels
+  // and never balloons when the card is wide. We cache the last inputs + width and
+  // a ResizeObserver re-renders on resize (and when the tab first becomes visible,
+  // where the hidden container measures 0 → fall back to 760 until shown).
+  interface BurnupArgs {
+    clearedMi: number;
+    totalMi: number;
+    projected: { iso: string; mi: number }[];
+  }
+  let _lastBurnup: BurnupArgs | null = null;
+  let _lastBurnupW = -1;
   function renderBurnup(clearedMi: number, totalMi: number, projected: { iso: string; mi: number }[]) {
     const hist = DATA.reportHistory;
     const actual = [...hist.map((h) => ({ iso: h.date, mi: h.clearedMiles })), { iso: DATA.reportAsOf, mi: clearedMi }];
     const startIso = actual[0].iso;
     const endIso = projected.length > 1 ? projected[projected.length - 1].iso : DATA.reportAsOf;
     const t0 = Date.parse(startIso), t1 = Date.parse(endIso);
-    const W = 760, H = 240, PAD = { l: 52, r: 20, t: 20, b: 30 };
+    const host = $('exec-burnup');
+    _lastBurnup = { clearedMi, totalMi, projected };
+    _lastBurnupW = Math.round(host.clientWidth) || 760;
+    const W = _lastBurnupW, H = 280, PAD = { l: 44, r: 20, t: 22, b: 30 };
     const plotW = W - PAD.l - PAD.r, plotH = H - PAD.t - PAD.b;
     const yMax = Math.max(totalMi, 1);
     const x = (iso: string) => PAD.l + ((Date.parse(iso) - t0) / (t1 - t0 || 1)) * plotW;
@@ -1477,6 +1567,7 @@ const payload = {
         <span class="ins-row__val"><span class="ins-row__sub">${fmtTs(c.ts)}</span></span>`;
       act.appendChild(li);
     }
+    renderComments(pid); // Comments thread for this permit (BCN-1364)
     // Card-stack when the editor opens over the segment drawer: the under card
     // slides left to peek out, and the top card brings NO second backdrop.
     const stacked = segDialog.open;
@@ -1585,27 +1676,264 @@ const payload = {
     else requestAnimationFrame(renderExec);
   });
 
-  // ── Board export — print-styled snapshot (map + strip + insights + timeline).
-  //    The map's on-screen size is pinned during print so Leaflet's already-
-  //    loaded tiles are reused (no gray un-tiled band at the print width). ─────
-  $('board-export').addEventListener('click', () => {
-    const segs = visibleSegs();
-    const mi = fmtMiles(segs.reduce((sum, s) => sum + s.lengthFt, 0));
-    $('print-meta').textContent =
-      `Exported ${new Date().toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}` +
-      ` · Paths: ${activeLine ?? 'All'} · Status: ${activeStatus ? DATA.statusLabels[activeStatus] : 'All'}` +
-      ` · ${segs.length} segments · ${mi}`;
-    const wrap = document.querySelector<HTMLElement>('.map-wrap')!;
-    wrap.style.width = `${wrap.offsetWidth}px`;
-    wrap.style.height = `${wrap.offsetHeight}px`;
-    window.print();
+  // ── Download KMZ (BCN-1364) — the whole route as a Google-Earth overlay,
+  //    paths/segments colored by derived status, shareable without a Beacon login.
+  //    A KMZ is a ZIP of doc.kml; we write a minimal store-only (uncompressed) ZIP
+  //    in-browser so leadership gets a real .kmz, not a renamed .kml. Colors come
+  //    from the committed map palette (scheme 0) so the overlay matches the app. ──
+  const SCHEME = DATA.schemes[0].colors; // derived-status → hex (cartographic)
+  /** #RRGGBB → KML aabbggr (opaque). */
+  const kmlColor = (hex: string) => {
+    const h = hex.replace('#', '');
+    return `ff${h.slice(4, 6)}${h.slice(2, 4)}${h.slice(0, 2)}`.toLowerCase();
+  };
+  const xmlEscape = (s: string) =>
+    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+  function buildKml(): string {
+    const styles = DATA.statusOrder
+      .map(
+        (st) =>
+          `<Style id="st-${st}"><LineStyle><color>${kmlColor(SCHEME[st] || '#888888')}</color><width>4</width></LineStyle></Style>`
+      )
+      .join('');
+    const folders = DATA.lines
+      .map((line) => {
+        const placemarks = DATA.segments
+          .filter((s) => s.line === line.id)
+          .map((s) => {
+            const st = derive(s.id);
+            const coords = s.geometry.map(([lat, lng]) => `${lng},${lat},0`).join(' ');
+            const gating = DATA.permits
+              .filter((p) => p.segmentIds.includes(s.id) && p.status !== 'not-required')
+              .map((p) => `${p.name} (${DATA.permitLabels[p.status]})`);
+            const desc =
+              `Path: ${s.line}\nStatus: ${DATA.statusLabels[st]}\nLength: ${fmtMiles(s.lengthFt)}\n` +
+              `Projected clear: ${clearDate(s.id) ? fmtDate(clearDate(s.id)) : '—'}\n` +
+              `Gating permits:\n  ${gating.join('\n  ') || '—'}`;
+            return (
+              `<Placemark><name>${xmlEscape(s.name)} — ${xmlEscape(DATA.statusLabels[st])}</name>` +
+              `<description>${xmlEscape(desc)}</description><styleUrl>#st-${st}</styleUrl>` +
+              `<LineString><tessellate>1</tessellate><coordinates>${coords}</coordinates></LineString></Placemark>`
+            );
+          })
+          .join('');
+        return `<Folder><name>${xmlEscape(line.id)}</name>${placemarks}</Folder>`;
+      })
+      .join('');
+    return (
+      `<?xml version="1.0" encoding="UTF-8"?>\n<kml xmlns="http://www.opengis.net/kml/2.2"><Document>` +
+      `<name>AWS Raul — Permit Tracking</name>` +
+      `<description>${xmlEscape(`Route paths colored by derived permitting status. As of ${fmtDate(DATA.reportAsOf)}.`)}</description>` +
+      styles +
+      folders +
+      `</Document></kml>`
+    );
+  }
+
+  // Minimal store-only ZIP (one entry: doc.kml) → a valid .kmz.
+  function crc32(bytes: Uint8Array): number {
+    let c = ~0;
+    for (let i = 0; i < bytes.length; i++) {
+      c ^= bytes[i];
+      for (let k = 0; k < 8; k++) c = (c >>> 1) ^ (0xedb88320 & -(c & 1));
+    }
+    return (~c >>> 0) >>> 0;
+  }
+  function toKmz(kml: string): Blob {
+    const enc = new TextEncoder();
+    const name = enc.encode('doc.kml');
+    const data = enc.encode(kml);
+    const crc = crc32(data);
+    const n = data.length;
+    const local = new Uint8Array(30 + name.length);
+    const ld = new DataView(local.buffer);
+    ld.setUint32(0, 0x04034b50, true);
+    ld.setUint16(4, 20, true);
+    ld.setUint16(8, 0, true); // store
+    ld.setUint32(14, crc, true);
+    ld.setUint32(18, n, true);
+    ld.setUint32(22, n, true);
+    ld.setUint16(26, name.length, true);
+    local.set(name, 30);
+    const central = new Uint8Array(46 + name.length);
+    const cd = new DataView(central.buffer);
+    cd.setUint32(0, 0x02014b50, true);
+    cd.setUint16(4, 20, true);
+    cd.setUint16(6, 20, true);
+    cd.setUint32(16, crc, true);
+    cd.setUint32(20, n, true);
+    cd.setUint32(24, n, true);
+    cd.setUint16(28, name.length, true);
+    central.set(name, 46);
+    const eocd = new Uint8Array(22);
+    const ed = new DataView(eocd.buffer);
+    ed.setUint32(0, 0x06054b50, true);
+    ed.setUint16(8, 1, true);
+    ed.setUint16(10, 1, true);
+    ed.setUint32(12, central.length, true);
+    ed.setUint32(16, local.length + n, true);
+    return new Blob([local, data, central, eocd], { type: 'application/vnd.google-earth.kmz' });
+  }
+
+  $('download-kmz').addEventListener('click', () => {
+    const url = URL.createObjectURL(toKmz(buildKml()));
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'aws-raul-permit-tracking.kmz';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   });
-  window.addEventListener('afterprint', () => {
-    const wrap = document.querySelector<HTMLElement>('.map-wrap')!;
-    wrap.style.width = '';
-    wrap.style.height = '';
-    map?.invalidateSize();
+
+  // ── Permit comments + @-mention (BCN-1364) ──────────────────────────────────
+  //    A per-permit collaboration thread, distinct from the system Activity log.
+  //    @-mentions of project users render highlighted (and would feed the email
+  //    notifications below). Mirrors BcnDiscussion visually, but is rendered live
+  //    (per-permit, postable) so it can't be the static SSR component.
+  const CURRENT_USER = 'Andy Lovseth';
+  const PROJECT_USERS = ['Marco Reyes', 'Sarah Chen', 'Ryan Swanson', 'Andy Lovseth', 'Dana Whitfield'];
+  const AVATAR_TOKENS = ['--color-source', '--color-commitment', '--color-requirement', '--color-action'];
+  interface PtComment {
+    author: string;
+    ts: string;
+    text: string;
+  }
+  // Seed the two long-pole permits so the thread reads populated on day one.
+  const commentsByPermit: Record<string, PtComment[]> = {
+    'odot-permit': [
+      { author: 'Sarah Chen', ts: '2026-06-15T14:30:00', text: 'Call with ODOT today — they want the revised crossing detail before they will issue. @Ryan Swanson can you upload the markup to the source doc?' },
+      { author: 'Ryan Swanson', ts: '2026-06-16T09:10:00', text: 'Uploaded. @Marco Reyes heads up — this permit is the long pole on Paths 1 and 2.' },
+    ],
+    'uma-county-row': [
+      { author: 'Marco Reyes', ts: '2026-06-18T16:05:00', text: 'Leadership is watching this one — it gates the most mileage. @Andy Lovseth keep me posted on any movement.' },
+    ],
+  };
+
+  const initials = (name: string) =>
+    name.split(/\s+/).map((w) => w[0]).slice(0, 2).join('').toUpperCase();
+  const userToken = (name: string) => {
+    const i = PROJECT_USERS.indexOf(name);
+    return `var(${AVATAR_TOKENS[(i < 0 ? 0 : i) % AVATAR_TOKENS.length]})`;
+  };
+  const escapeHtml = (s: string) =>
+    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const fmtCommentTime = (ts: string) =>
+    new Date(ts).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+  // Wrap "@Name" tokens (known users) in a highlight; the current user stands out.
+  function renderMentions(text: string): string {
+    let html = escapeHtml(text);
+    for (const u of [...PROJECT_USERS].sort((a, b) => b.length - a.length)) {
+      const cls = u === CURRENT_USER ? 'pd-mention pd-mention--me' : 'pd-mention';
+      html = html.split('@' + u).join(`<span class="${cls}">@${u}</span>`);
+    }
+    return html;
+  }
+
+  function renderComments(pid: string) {
+    const list = $('pd-comments');
+    const arr = commentsByPermit[pid] ?? [];
+    $('pd-comment-count').innerHTML = arr.length ? `<span class="pd-badge">${arr.length}</span>` : '';
+    list.innerHTML = '';
+    if (!arr.length) {
+      list.innerHTML = `<li class="pd-comment pd-comment--empty">No comments yet. Start the discussion.</li>`;
+    }
+    for (const c of arr) {
+      const li = document.createElement('li');
+      li.className = 'pd-comment';
+      li.innerHTML = `
+        <span class="pd-comment__avatar" style="--_c:${userToken(c.author)}">${initials(c.author)}</span>
+        <div class="pd-comment__body">
+          <div class="pd-comment__meta"><span class="pd-comment__author">${escapeHtml(c.author)}</span><span class="pd-comment__time">${fmtCommentTime(c.ts)}</span></div>
+          <p class="pd-comment__text">${renderMentions(c.text)}</p>
+        </div>`;
+      list.appendChild(li);
+    }
+    const ta = getCommentTA();
+    if (ta) ta.value = '';
+    hideMentionMenu();
+  }
+
+  // The esa-textarea wraps a native <textarea> in shadow DOM; operating on that
+  // inner element gives reliable value + caret access for the @-mention typeahead.
+  let _commentTA: HTMLTextAreaElement | null = null;
+  function getCommentTA(): HTMLTextAreaElement | null {
+    if (_commentTA && _commentTA.isConnected) return _commentTA;
+    const host = $('pd-comment-input');
+    _commentTA = (host.shadowRoot?.querySelector('textarea') ?? host.querySelector('textarea')) as HTMLTextAreaElement | null;
+    return _commentTA;
+  }
+
+  const mentionMenu = $('pd-mention-menu');
+  let mentionAt = -1; // index of the '@' that opened the menu
+  const hideMentionMenu = () => {
+    mentionMenu.hidden = true;
+    mentionAt = -1;
+  };
+  function updateMentionMenu() {
+    const ta = getCommentTA();
+    if (!ta) return;
+    const upto = ta.value.slice(0, ta.selectionStart ?? ta.value.length);
+    const m = upto.match(/@([A-Za-z]*)$/);
+    if (!m) return hideMentionMenu();
+    const partial = m[1].toLowerCase();
+    const matches = PROJECT_USERS.filter((u) => u !== CURRENT_USER && u.toLowerCase().startsWith(partial));
+    if (!matches.length) return hideMentionMenu();
+    mentionAt = (m.index ?? 0);
+    mentionMenu.innerHTML = matches
+      .map(
+        (u) =>
+          `<li class="pd-mention-opt" role="option" data-user="${u}"><span class="pd-comment__avatar pd-comment__avatar--xs" style="--_c:${userToken(u)}">${initials(u)}</span>${u}</li>`
+      )
+      .join('');
+    mentionMenu.hidden = false;
+  }
+  function insertMention(user: string) {
+    const ta = getCommentTA();
+    if (!ta || mentionAt < 0) return;
+    const caret = ta.selectionStart ?? ta.value.length;
+    ta.value = ta.value.slice(0, mentionAt) + '@' + user + ' ' + ta.value.slice(caret);
+    const pos = mentionAt + user.length + 2;
+    ta.focus();
+    ta.setSelectionRange(pos, pos);
+    hideMentionMenu();
+  }
+  // Bind lazily once the inner textarea exists.
+  function bindCommentEvents() {
+    const ta = getCommentTA();
+    if (!ta || ta.dataset.bound) return;
+    ta.dataset.bound = '1';
+    ta.addEventListener('input', updateMentionMenu);
+    ta.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Escape' && !mentionMenu.hidden) {
+        e.stopPropagation();
+        hideMentionMenu();
+      }
+    });
+    ta.addEventListener('blur', () => setTimeout(hideMentionMenu, 150));
+  }
+  $('pd-comment-input').addEventListener('focusin', bindCommentEvents);
+  mentionMenu.addEventListener('mousedown', (e) => {
+    const opt = (e.target as HTMLElement).closest<HTMLElement>('[data-user]');
+    if (opt) {
+      e.preventDefault();
+      insertMention(opt.dataset.user!);
+    }
   });
+  $('pd-comment-post').addEventListener('click', () => {
+    const ta = getCommentTA();
+    if (!ta || !activePermitId) return;
+    const text = ta.value.trim();
+    if (!text) return;
+    (commentsByPermit[activePermitId] ??= []).push({ author: CURRENT_USER, ts: new Date().toISOString(), text });
+    renderComments(activePermitId);
+  });
+
+  // ── Notification settings (BCN-1364) — global per-user prefs dialog ──────────
+  type Dialog = HTMLElement & { show(): void; close(): void };
+  const notifDialog = $('notif-dialog') as Dialog;
+  $('notif-open').addEventListener('click', () => notifDialog.show());
+  $('notif-cancel').addEventListener('click', () => notifDialog.close());
+  $('notif-save').addEventListener('click', () => notifDialog.close());
 
   // ── Boot (line colors come straight from the CSS --st-* defaults) ───────────
   renderInsights();
@@ -1614,6 +1942,13 @@ const payload = {
   // "As of" stamp — the live moment the report was opened.
   $('exec-asof').textContent =
     'As of ' + new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+  // Keep the burn-up's SVG text at true pixel size: redraw at the container's real
+  // width on resize and when the Summary tab first reveals it (0 → real width).
+  new ResizeObserver(() => {
+    if (!_lastBurnup) return;
+    const w = Math.round($('exec-burnup').clientWidth) || 760;
+    if (w !== _lastBurnupW) renderBurnup(_lastBurnup.clearedMi, _lastBurnup.totalMi, _lastBurnup.projected);
+  }).observe($('exec-burnup'));
   if (tabs.activeIndex === 0) requestAnimationFrame(ensureMap);
   else if (tabs.activeIndex === 1) requestAnimationFrame(ensureGrids);
 </script>
@@ -1702,8 +2037,11 @@ const payload = {
     color: var(--color-text-tertiary);
     white-space: nowrap;
   }
-  .map-filterbar__export {
+  .map-filterbar__actions {
     margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200);
   }
 
   .map-legend {
@@ -2069,60 +2407,6 @@ const payload = {
     flex-direction: column;
   }
 
-  /* ═══ Board export (print) — clean landscape snapshot of the map tab ═══ */
-  .print-header {
-    display: none;
-  }
-  @media print {
-    @page {
-      size: letter landscape;
-      margin: 10mm;
-    }
-    :global(.topbar),
-    :global(.side-nav),
-    :global(.page-layout__breadcrumbs),
-    :global(.page-layout__title) {
-      display: none !important;
-    }
-    /* hide the tab strip (exposed shadow part) */
-    :global(esa-tab-layout)::part(tabs) {
-      display: none;
-    }
-    .map-filterbar {
-      display: none;
-    }
-    .print-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: var(--spacing-400);
-      margin-bottom: var(--spacing-300);
-    }
-    .print-header__title {
-      font-size: 16pt;
-      font-weight: var(--font-weight-bold);
-      color: var(--color-text-primary);
-    }
-    .print-header__meta {
-      font-size: 9pt;
-      color: var(--color-text-secondary);
-    }
-    .map-wrap {
-      height: 380pt;
-      min-height: 0;
-      break-inside: avoid;
-    }
-    .burndown,
-    .ins-card,
-    .ctb {
-      break-inside: avoid;
-      border-color: var(--color-border, #ccc);
-    }
-    .insights {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
   /* ═══ Filter bar — carded two-band, faithful copy of requirement-tracker's
      page glue. Every control inside is a lego. ═══ */
   .bcn-filterbar {
@@ -2473,10 +2757,13 @@ const payload = {
     flex-direction: column;
     gap: var(--spacing-500);
   }
-  /* Override esa-stat's value size/weight for the headline (its public knobs) */
+  /* Override esa-stat's value size/weight + tighten the line-heights so the big %
+     and its label sit close together (the default 1.3/1.6 leave a big gap). */
   .exec__hero-headline {
     --stat-value-size: clamp(3rem, 7vw, 4.25rem);
     --stat-value-weight: var(--font-weight-bold);
+    --line-height-tight: 1;
+    --line-height-normal: 1.35;
   }
   .exec__kpis {
     display: flex;
@@ -2487,6 +2774,14 @@ const payload = {
     display: flex;
     align-items: flex-start;
     gap: var(--spacing-250);
+  }
+  /* Slot sized to the value's line box, top-aligned with the stat → the icon
+     circle centers on the big VALUE line, not the whole value+label block. */
+  .exec__kpi-iconslot {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    height: calc(var(--type-size-700, 2.25rem) * 1.3);
   }
   .exec__kpi-icon {
     display: inline-flex;
@@ -2718,24 +3013,24 @@ const payload = {
   }
   :global(.bu-ylabel) {
     fill: var(--color-text-tertiary);
-    font-size: 11px;
+    font-size: 12.5px;
     text-anchor: end;
     dominant-baseline: middle;
   }
   :global(.bu-xlabel) {
     fill: var(--color-text-tertiary);
-    font-size: 11px;
+    font-size: 12.5px;
     text-anchor: middle;
   }
   :global(.bu-todaylabel) {
     fill: var(--color-primary);
-    font-size: 11px;
+    font-size: 13.5px;
     font-weight: 600;
     text-anchor: middle;
   }
   :global(.bu-nowlabel) {
     fill: var(--st-cleared);
-    font-size: 11px;
+    font-size: 13.5px;
     font-weight: 700;
     text-anchor: middle;
   }
@@ -2773,8 +3068,21 @@ const payload = {
     border-top-style: dotted;
   }
 
-  /* Print — clean letter snapshot of the Summary tab (Ctrl/Cmd-P) */
+  /* Print — clean snapshot of the active tab (Ctrl/Cmd-P), tuned for the Summary:
+     drop the app chrome + tab strip, keep cards whole. */
   @media print {
+    @page {
+      margin: 12mm;
+    }
+    :global(.topbar),
+    :global(.side-nav),
+    :global(.page-layout__breadcrumbs),
+    :global(.page-layout__title) {
+      display: none !important;
+    }
+    :global(esa-tab-layout)::part(tabs) {
+      display: none;
+    }
     .exec {
       gap: 14pt;
     }
@@ -2783,5 +3091,215 @@ const payload = {
       break-inside: avoid;
       box-shadow: none;
     }
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     BCN-1364 — Permit comments (+ @-mention) in the editor drawer & the global
+     notification-settings dialog. Thread rendered live (per-permit), so its rows
+     are :global; mirrors BcnDiscussion's avatar/author/time/text vocabulary.
+     ═══════════════════════════════════════════════════════════════════════════ */
+  .pd__comments {
+    list-style: none;
+    margin: 0 0 var(--spacing-300);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+  :global(.pd-comment) {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--spacing-300);
+    align-items: start;
+  }
+  :global(.pd-comment--empty) {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--color-text-tertiary);
+  }
+  :global(.pd-comment__avatar) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--_c, var(--color-secondary));
+    color: #fff;
+    font-size: 0.6875rem;
+    font-weight: var(--font-weight-bold);
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+  :global(.pd-comment__avatar--xs) {
+    width: 22px;
+    height: 22px;
+    font-size: 0.625rem;
+  }
+  :global(.pd-comment__body) {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  :global(.pd-comment__meta) {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-200);
+    flex-wrap: wrap;
+  }
+  :global(.pd-comment__author) {
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  :global(.pd-comment__time) {
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+  }
+  :global(.pd-comment__text) {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-text-primary);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  :global(.pd-mention) {
+    color: var(--color-primary);
+    font-weight: var(--font-weight-semibold);
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    border-radius: var(--radius-050);
+    padding: 0 2px;
+  }
+  :global(.pd-mention--me) {
+    color: var(--st-cleared);
+    background: color-mix(in srgb, var(--st-cleared) 14%, transparent);
+  }
+  :global(.pd-badge) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: var(--radius-full);
+    background: var(--color-surface-sunken);
+    color: var(--color-text-secondary);
+    font-size: 0.6875rem;
+    font-weight: var(--font-weight-bold);
+    vertical-align: middle;
+    margin-left: var(--spacing-100);
+  }
+
+  /* Compose + @-mention typeahead */
+  .pd__compose {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .pd__compose-field {
+    position: relative;
+  }
+  .pd__compose-field :global(esa-textarea) {
+    width: 100%;
+  }
+  .pd__mention-menu {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + 4px);
+    z-index: 5;
+    list-style: none;
+    margin: 0;
+    padding: var(--spacing-100);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    box-shadow: var(--shadow-400);
+    max-height: 208px;
+    overflow-y: auto;
+  }
+  .pd__mention-menu[hidden] {
+    display: none;
+  }
+  :global(.pd-mention-opt) {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-200);
+    border-radius: var(--radius-100);
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+    cursor: pointer;
+  }
+  :global(.pd-mention-opt:hover) {
+    background: var(--grid-row-bg-hover);
+  }
+  .pd__compose-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+  }
+  .pd__compose-hint {
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+
+  /* Notification settings dialog */
+  .notif {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+  .notif__lede {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+  }
+  .notif__lede strong {
+    color: var(--color-text-primary);
+  }
+  .notif__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .notif__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    padding: var(--spacing-300) 0;
+  }
+  .notif__row + .notif__row {
+    border-top: 1px solid var(--color-border-light);
+  }
+  .notif__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+  .notif__title {
+    font-size: 0.9375rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .notif__sub {
+    font-size: 0.8125rem;
+    color: var(--color-text-tertiary);
+  }
+  .notif :global(esa-switch-toggle) {
+    flex-shrink: 0;
+  }
+  .notif__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-200);
   }
 </style>
