@@ -26,6 +26,8 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaStat from '@esa/ecology/esa-stat.astro';
 import FilterContainer from '@esa/ecology/esa-filter-container.astro';
 import FilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
 import BcnKeyValue from '../../components/bcn/BcnKeyValue.astro';
@@ -48,6 +50,9 @@ import {
   formatDate,
   formatMiles,
   permitType,
+  reportHistory,
+  reportAsOf,
+  fullRouteClearDate,
 } from '../../data/map-fixture';
 
 // ── Precompute (build-time mirror of what the client re-derives after edits) ──
@@ -55,6 +60,13 @@ const burndown = footageByStatus();
 const total = totalFeet();
 const clearedFeet = burndown.find((b) => b.status === 'cleared')?.feet ?? 0;
 const pct = (feet: number) => (total === 0 ? 0 : Math.round((feet / total) * 100));
+
+// ── Executive Summary — build-time hero values (clean first paint; the client's
+//    renderExec() re-derives the whole tab live after every permit edit) ───────
+const clearedMilesNow = clearedFeet / 5280;
+const lastReport = reportHistory[reportHistory.length - 1];
+const trendMiles = clearedMilesNow - lastReport.clearedMiles; // miles cleared since last review
+const fullClear = fullRouteClearDate();
 
 // Template rows for the segment drawer's covering-permits list (cloned in JS).
 const permitRows = permits.map((p) => ({
@@ -99,21 +111,41 @@ const payload = {
     lengthFt: s.lengthFt,
     geometry: s.geometry,
   })),
+  // Executive Summary inputs: frozen reporting history (for the burn-up trail +
+  // "since last report" delta) and the projected full-route clear date.
+  reportHistory,
+  reportAsOf,
+  fullClearDate: fullClear,
 };
 ---
+
+<!-- manifest:
+  layout: esa-tab-layout                                  # 3-tab spine — Map (default) · Data · Summary
+  sections:
+    - map status board     -> esa-button-toggle           # Leaflet status map + Paths/Status scopes; mileage strip, clear-to-build timeline & insight cards are inline viz (see bcn-lego-checked)
+    - permit & segment data -> beacon-grid                 # the shared Beacon AG Grid kit (Permits × Segments); filter bar = esa-filter-container glue
+    - segment drawer       -> esa-side-dialog              # read-only segment dossier, reached from both tabs
+    - permit editor        -> esa-side-dialog              # the write surface — status/timing/segments; saving re-derives everywhere
+    - executive summary    -> esa-stat                     # leadership rollup: hero % + KPIs are esa-stat in esa-card; donut, per-path bars, burn-up & risk are inline viz (see bcn-lego-checked)
+-->
 
 <!-- bcn-lego-checked: composed from esa-tab-layout, esa-side-dialog ×2, esa-select,
      esa-date-picker, esa-text-field, esa-button-toggle ×2, esa-collapsible (flush),
      esa-filter-dropdown in esa-filter-container, esa-filter-clear-button, esa-tooltip,
      esa-button, esa-icon-button, esa-icon, esa-badge, esa-pill + BcnStatusChip,
-     BcnKeyValue + the shared beacon-grid AG Grid kit (src/lib/beacon-grid.ts).
+     BcnKeyValue, esa-card + esa-stat (the Summary tab's frames + KPI numbers) + the
+     shared beacon-grid AG Grid kit (src/lib/beacon-grid.ts).
      Remaining CSS is composition glue: Leaflet map chrome (status legend overlay — no
      esa- lego models map overlays; checked Beacon, prod has no map UI), the secondary
      mileage strip + insight cards + clear-to-build timeline chart (no esa- lego models
      a time-axis chart), the bulk-action bar over the AG Grid selection, the print/board
      stylesheet, the filter-bar card shell + grid footer (faithful copies of
      requirement-tracker's page glue), and the global .bcn-grid-chip cells AG Grid
-     injects outside Astro's scope. -->
+     injects outside Astro's scope. The Summary tab adds the same class of bespoke,
+     value-colored micro-viz canonicalized in BcnMonitoringStats — a status donut
+     (conic-gradient), per-path stacked status bars, and a route-cleared burn-up (SVG
+     time-axis vs target) — none of which any esa- lego models; their colors all read
+     the runtime --st-* status vars, never hardcoded. -->
 <AppShell title="Permit Tracking — AWS Raul" activeNavId="permit-tracking">
   <PageLayout
     title="Permit Tracking"
@@ -283,6 +315,75 @@ const payload = {
             <span id="pt-filtered" class="filtered-rows-count" hidden></span>
           </div>
         </div>
+      </section>
+
+      <!-- ═══ TAB 3 — EXECUTIVE SUMMARY (leadership rollup; whole project, miles-weighted) ═══
+           Read-only. Every figure re-derives from the same store as the Map/Data tabs
+           (renderExec), so a permit edit moves the rollup here too. Miles-weighted
+           throughout — route-miles cleared is what lets crews roll, never permit counts. -->
+      <section slot="panel-2" class="exec" aria-label="Executive summary">
+        <!-- Hero band: headline % + KPIs (esa-stat) on the left, status donut on the right -->
+        <EsaCard>
+          <div class="exec__hero">
+            <div class="exec__hero-figures">
+              <div class="exec__hero-headline" id="exec-hero-stat">
+                <EsaStat value={`${pct(clearedFeet)}%`} label="of the route cleared to construct" />
+              </div>
+              <div class="exec__kpis">
+                <div class="exec__kpi">
+                  <span class="exec__kpi-icon exec__kpi-icon--up" id="exec-trend-icon">
+                    <EsaIcon name="trending-up" size="sm" paths="<polyline points='22 7 13.5 15.5 8.5 10.5 2 17'/><polyline points='16 7 22 7 22 13'/>" />
+                  </span>
+                  <span id="exec-trend-stat">
+                    <EsaStat
+                      value={`${trendMiles >= 0 ? '+' : '−'}${Math.abs(trendMiles).toFixed(1)} mi`}
+                      label="cleared in the past 14 days"
+                    />
+                  </span>
+                </div>
+                <div class="exec__kpi">
+                  <span class="exec__kpi-icon" id="exec-forecast-icon">
+                    <EsaIcon name="flag" size="sm" paths="<path d='M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z'/><line x1='4' y1='22' x2='4' y2='15'/>" />
+                  </span>
+                  <span id="exec-forecast-stat">
+                    <EsaStat
+                      value={fullClear ? formatDate(fullClear) : '—'}
+                      label="forecast full-route clear"
+                      sub="if agency estimates hold"
+                    />
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="exec__donut-wrap">
+              <div class="exec__donut" id="exec-donut" role="img" aria-label="Route-miles by permitting status">
+                <div class="exec__donut-hole">
+                  <span class="exec__donut-pct" id="exec-donut-pct">{pct(clearedFeet)}%</span>
+                  <span class="exec__donut-cap">cleared</span>
+                </div>
+              </div>
+              <ul class="exec__legend" id="exec-donut-legend"></ul>
+            </div>
+          </div>
+          <p class="exec__asof" id="exec-asof"></p>
+        </EsaCard>
+
+        <!-- Per-path breakdown — one stacked status bar per path, comparable top-to-bottom -->
+        <EsaCard title="Clearance by path" subtitle="Route-miles by status — each path is a separately-scoped build crew">
+          <ul class="exec__paths" id="exec-paths"></ul>
+        </EsaCard>
+
+        <!-- Momentum — cumulative miles cleared (burn-up) against the pace needed to finish -->
+        <EsaCard title="Route cleared over time" subtitle="Miles cleared to date, with the projected path to full clearance from current agency estimates">
+          <div class="exec__burnup">
+            <div class="exec__burnup-chart" id="exec-burnup"></div>
+            <ul class="exec__burnup-legend">
+              <li><span class="exec__burnup-key exec__burnup-key--actual"></span>Miles cleared</li>
+              <li><span class="exec__burnup-key exec__burnup-key--proj"></span>Projected clearance</li>
+              <li><span class="exec__burnup-key exec__burnup-key--target"></span>Full route ({formatMiles(total)})</li>
+            </ul>
+          </div>
+        </EsaCard>
       </section>
     </esa-tab-layout>
   </PageLayout>
@@ -472,6 +573,9 @@ const payload = {
     lines: { id: string; miles: string }[];
     permits: PtPermit[];
     segments: PtSegment[];
+    reportHistory: { date: string; clearedMiles: number }[];
+    reportAsOf: string;
+    fullClearDate: string | null;
   }
 
   const DATA: Payload = JSON.parse(document.getElementById('pt-data')!.textContent || '{}');
@@ -800,6 +904,159 @@ const payload = {
     if (li) openPermit(li.dataset.insPermit!);
   });
 
+  // ── Executive Summary (Tab 3) — whole-project, miles-weighted rollup ─────────
+  //    Re-derives from the SAME store as the map, but is NEVER scoped to the map's
+  //    path/status filters: a leadership rollup is always the entire route. Repaints
+  //    on boot and after every permit edit (savePermit / bulk-apply).
+  const setStat = (wrapId: string, value?: string, sub?: string) => {
+    const wrap = $(wrapId);
+    if (value != null) { const v = wrap.querySelector('.esa-stat__value'); if (v) v.textContent = value; }
+    if (sub != null) { const s = wrap.querySelector('.esa-stat__sub'); if (s) s.textContent = sub; }
+  };
+
+  // Burn-up: cumulative miles cleared (frozen history + live "today") vs. the pace
+  // line needed to reach the full route by the projected clear date. viewBox-scaled
+  // SVG (no pixel measurement) so it renders correctly even while the tab is hidden.
+  function renderBurnup(clearedMi: number, totalMi: number, projected: { iso: string; mi: number }[]) {
+    const hist = DATA.reportHistory;
+    const actual = [...hist.map((h) => ({ iso: h.date, mi: h.clearedMiles })), { iso: DATA.reportAsOf, mi: clearedMi }];
+    const startIso = actual[0].iso;
+    const endIso = projected.length > 1 ? projected[projected.length - 1].iso : DATA.reportAsOf;
+    const t0 = Date.parse(startIso), t1 = Date.parse(endIso);
+    const W = 760, H = 240, PAD = { l: 52, r: 20, t: 20, b: 30 };
+    const plotW = W - PAD.l - PAD.r, plotH = H - PAD.t - PAD.b;
+    const yMax = Math.max(totalMi, 1);
+    const x = (iso: string) => PAD.l + ((Date.parse(iso) - t0) / (t1 - t0 || 1)) * plotW;
+    const y = (mi: number) => PAD.t + (1 - mi / yMax) * plotH;
+
+    let grid = '';
+    for (const f of [0, 0.25, 0.5, 0.75, 1]) {
+      const yy = y(yMax * f).toFixed(1);
+      grid += `<line x1="${PAD.l}" y1="${yy}" x2="${W - PAD.r}" y2="${yy}" class="bu-grid"/>`;
+      grid += `<text x="${PAD.l - 8}" y="${yy}" class="bu-ylabel">${Math.round(yMax * f)}</text>`;
+    }
+    const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    let xticks = '';
+    for (let t = new Date(new Date(t0).getFullYear(), new Date(t0).getMonth(), 1).getTime(); t <= t1; t = new Date(new Date(t).getFullYear(), new Date(t).getMonth() + 1, 1).getTime()) {
+      const dt = new Date(t);
+      xticks += `<text x="${x(dt.toISOString().slice(0, 10)).toFixed(1)}" y="${H - 8}" class="bu-xlabel">${MON[dt.getMonth()]}</text>`;
+    }
+    const yTop = y(yMax).toFixed(1);
+    const todayX = x(DATA.reportAsOf).toFixed(1);
+    const target = `<line x1="${PAD.l}" y1="${yTop}" x2="${W - PAD.r}" y2="${yTop}" class="bu-target"/>`;
+    const todayMark = `<line x1="${todayX}" y1="${PAD.t}" x2="${todayX}" y2="${H - PAD.b}" class="bu-today"/><text x="${todayX}" y="${PAD.t - 6}" class="bu-todaylabel">Today</text>`;
+    // Actual (history → today): solid line + area under
+    const aPts = actual.map((p) => `${x(p.iso).toFixed(1)},${y(p.mi).toFixed(1)}`).join(' ');
+    const areaPts = `${PAD.l},${y(0).toFixed(1)} ${aPts} ${todayX},${y(0).toFixed(1)}`;
+    const aDots = actual.map((p) => `<circle cx="${x(p.iso).toFixed(1)}" cy="${y(p.mi).toFixed(1)}" r="3" class="bu-dot"/>`).join('');
+    // Projected (today → full clearance): dashed continuation from estimated dates
+    const pPts = projected.map((p) => `${x(p.iso).toFixed(1)},${y(p.mi).toFixed(1)}`).join(' ');
+    const projLine = projected.length > 1 ? `<polyline points="${pPts}" class="bu-proj"/>` : '';
+    const nowLabel = `<text x="${todayX}" y="${(y(clearedMi) - 9).toFixed(1)}" class="bu-nowlabel">${clearedMi.toFixed(1)} mi</text>`;
+
+    $('exec-burnup').innerHTML =
+      `<svg viewBox="0 0 ${W} ${H}" class="bu-svg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Cumulative route-miles cleared to date, with the projected path to full clearance from current agency estimates">` +
+      grid + xticks + target + projLine +
+      `<polygon points="${areaPts}" class="bu-area"/><polyline points="${aPts}" class="bu-actual"/>` +
+      aDots + todayMark + nowLabel + '</svg>';
+  }
+
+  function renderExec() {
+    // 1 ▸ whole-project miles by derived status (ALL segments — never filtered)
+    const statusFeet = new Map<string, number>(DATA.statusOrder.map((s) => [s, 0]));
+    let totalFt = 0;
+    for (const s of DATA.segments) {
+      const st = derive(s.id);
+      statusFeet.set(st, (statusFeet.get(st) ?? 0) + s.lengthFt);
+      totalFt += s.lengthFt;
+    }
+    const clearedFt = statusFeet.get('cleared') ?? 0;
+    const clearedMi = clearedFt / 5280, totalMi = totalFt / 5280;
+    const heroPct = totalFt ? Math.round((clearedFt / totalFt) * 100) : 0;
+
+    setStat('exec-hero-stat', `${heroPct}%`);
+    $('exec-donut-pct').textContent = `${heroPct}%`;
+
+    const lastSnap = DATA.reportHistory[DATA.reportHistory.length - 1];
+    const trend = clearedMi - lastSnap.clearedMiles;
+    setStat('exec-trend-stat', `${trend >= 0 ? '+' : '−'}${Math.abs(trend).toFixed(1)} mi`);
+    const ti = $('exec-trend-icon');
+    ti.classList.toggle('exec__kpi-icon--up', trend > 0.05);
+    ti.classList.toggle('exec__kpi-icon--down', trend < -0.05);
+
+    const allDates = DATA.segments.map((s) => clearDate(s.id)).filter(Boolean);
+    const fullClear = allDates.length ? allDates.reduce((a, b) => (a > b ? a : b)) : '';
+    setStat('exec-forecast-stat', fullClear ? fmtDate(fullClear) : '—');
+
+    // 2 ▸ status donut + legend (colors track the runtime --st-* palette)
+    let acc = 0;
+    const stops: string[] = [];
+    const legend = $('exec-donut-legend');
+    legend.innerHTML = '';
+    for (const status of DATA.statusOrder) {
+      const ft = statusFeet.get(status) ?? 0;
+      const from = totalFt ? (acc / totalFt) * 100 : 0;
+      acc += ft;
+      const to = totalFt ? (acc / totalFt) * 100 : 0;
+      if (ft > 0) stops.push(`var(--st-${status}) ${from.toFixed(2)}% ${to.toFixed(2)}%`);
+      const li = document.createElement('li');
+      li.className = 'exec-legend__item';
+      li.dataset.empty = ft ? 'false' : 'true';
+      li.innerHTML = `<span class="exec-legend__dot" style="background:var(--st-${status})"></span>
+        <span class="exec-legend__label">${DATA.statusLabels[status]}</span>
+        <span class="exec-legend__mi">${fmtMiles(ft)}</span>
+        <span class="exec-legend__pct">${totalFt ? Math.round((ft / totalFt) * 100) : 0}%</span>`;
+      legend.appendChild(li);
+    }
+    $('exec-donut').style.background = stops.length ? `conic-gradient(${stops.join(', ')})` : 'var(--bcn-gray-100)';
+
+    // 3 ▸ per-path stacked status bars
+    const pathsEl = $('exec-paths');
+    pathsEl.innerHTML = '';
+    for (const line of DATA.lines) {
+      const segs = DATA.segments.filter((s) => s.line === line.id);
+      const lineFt = segs.reduce((a, s) => a + s.lengthFt, 0);
+      const segsHtml = DATA.statusOrder
+        .map((status) => ({ status, ft: segs.filter((s) => derive(s.id) === status).reduce((a, s) => a + s.lengthFt, 0) }))
+        .filter((b) => b.ft > 0)
+        .map((b) => `<span class="exec-path__seg" style="flex:0 0 ${lineFt ? (b.ft / lineFt) * 100 : 0}%; background:var(--st-${b.status});" title="${DATA.statusLabels[b.status]}: ${fmtMiles(b.ft)}"></span>`)
+        .join('');
+      const clearedLineFt = segs.filter((s) => derive(s.id) === 'cleared').reduce((a, s) => a + s.lengthFt, 0);
+      const dates = segs.map((s) => clearDate(s.id)).filter(Boolean);
+      const clearBy = dates.length ? dates.reduce((a, b) => (a > b ? a : b)) : '';
+      const li = document.createElement('li');
+      li.className = 'exec-path';
+      li.innerHTML = `
+        <div class="exec-path__head">
+          <span class="exec-path__name">${line.id}</span>
+          <span class="exec-path__metric"><strong>${fmtMiles(clearedLineFt)}</strong> cleared of ${fmtMiles(lineFt)} · ${lineFt ? Math.round((clearedLineFt / lineFt) * 100) : 0}%</span>
+        </div>
+        <div class="exec-path__bar">${segsHtml || '<span class="exec-path__seg" style="flex:1;background:var(--bcn-gray-100)"></span>'}</div>
+        <div class="exec-path__foot"><span>Projected clear-to-build</span><span class="exec-path__clearby">${clearBy ? fmtDate(clearBy) : '—'}</span></div>`;
+      pathsEl.appendChild(li);
+    }
+
+    // 4 ▸ momentum burn-up — actual history → today, then a PROJECTED continuation
+    //     built from each pending segment's estimated clear-to-build date. It's a
+    //     forecast (when the route is expected to clear if estimates hold), NOT a
+    //     target/schedule — there's no committed deadline; every permit is pursued ASAP.
+    const projByDate = new Map<string, number>();
+    for (const s of DATA.segments) {
+      if (derive(s.id) === 'cleared') continue;
+      const d = clearDate(s.id);
+      if (!d) continue;
+      const iso = d > DATA.reportAsOf ? d : DATA.reportAsOf; // clamp overdue estimates to today
+      projByDate.set(iso, (projByDate.get(iso) ?? 0) + s.lengthFt / 5280);
+    }
+    let cum = clearedMi;
+    const projected = [{ iso: DATA.reportAsOf, mi: clearedMi }];
+    for (const [iso, mi] of [...projByDate.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
+      cum += mi;
+      projected.push({ iso, mi: cum });
+    }
+    renderBurnup(clearedMi, totalMi, projected);
+  }
+
   // ── AG Grids (beacon-grid kit; lazy-built when the Data tab first shows) ────
   interface PermitRow {
     id: string;
@@ -1026,6 +1283,7 @@ const payload = {
     refreshGrids(); // rowData reset also clears the selection
     renderInsights();
     renderTimeline();
+    renderExec();
     updateBulkBar();
   });
   $('bulk-clear').addEventListener('click', () => permitsApi?.deselectAll());
@@ -1269,6 +1527,7 @@ const payload = {
     refreshGrids();
     renderInsights();
     renderTimeline();
+    renderExec();
     permitDialog.close();
     activePermitId = null;
   }
@@ -1311,13 +1570,19 @@ const payload = {
       label: 'Data',
       icon: ICON('<path d="M12 3v18"/><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/>'),
     },
+    {
+      label: 'Executive Summary',
+      icon: ICON('<path d="M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z"/><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/>'),
+    },
   ];
   if (location.hash === '#data') tabs.activeIndex = 1;
+  else if (location.hash === '#summary') tabs.activeIndex = 2;
   tabs.addEventListener('tabchange', (e) => {
     const idx = (e as CustomEvent).detail.index;
-    history.replaceState(null, '', idx === 1 ? '#data' : '#map');
+    history.replaceState(null, '', idx === 1 ? '#data' : idx === 2 ? '#summary' : '#map');
     if (idx === 0) requestAnimationFrame(ensureMap);
-    else requestAnimationFrame(ensureGrids);
+    else if (idx === 1) requestAnimationFrame(ensureGrids);
+    else requestAnimationFrame(renderExec);
   });
 
   // ── Board export — print-styled snapshot (map + strip + insights + timeline).
@@ -1345,8 +1610,12 @@ const payload = {
   // ── Boot (line colors come straight from the CSS --st-* defaults) ───────────
   renderInsights();
   renderTimeline();
+  renderExec();
+  // "As of" stamp — the live moment the report was opened.
+  $('exec-asof').textContent =
+    'As of ' + new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
   if (tabs.activeIndex === 0) requestAnimationFrame(ensureMap);
-  else requestAnimationFrame(ensureGrids);
+  else if (tabs.activeIndex === 1) requestAnimationFrame(ensureGrids);
 </script>
 
 <style>
@@ -2171,5 +2440,348 @@ const payload = {
     display: flex;
     justify-content: flex-end;
     gap: var(--spacing-200);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════════════
+     TAB 3 — Executive Summary (leadership rollup). esa-card frames + esa-stat KPIs;
+     the donut, per-path bars, burn-up & blocker bars are bespoke value-colored viz
+     (the BcnMonitoringStats idiom) painted by renderExec into :global containers.
+     print-color-adjust inherits down so the export carries its colors.
+     ═══════════════════════════════════════════════════════════════════════════ */
+  .exec {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  /* Hero band — headline % + KPIs (left), status donut (right) */
+  .exec__hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--spacing-600);
+    align-items: center;
+  }
+  @media (max-width: 820px) {
+    .exec__hero {
+      grid-template-columns: 1fr;
+    }
+  }
+  .exec__hero-figures {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-500);
+  }
+  /* Override esa-stat's value size/weight for the headline (its public knobs) */
+  .exec__hero-headline {
+    --stat-value-size: clamp(3rem, 7vw, 4.25rem);
+    --stat-value-weight: var(--font-weight-bold);
+  }
+  .exec__kpis {
+    display: flex;
+    gap: var(--spacing-600);
+    flex-wrap: wrap;
+  }
+  .exec__kpi {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-250);
+  }
+  .exec__kpi-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    background: var(--color-surface-sunken);
+    color: var(--color-text-tertiary);
+    flex-shrink: 0;
+  }
+  .exec__kpi-icon--up {
+    background: color-mix(in srgb, var(--st-cleared) 16%, transparent);
+    color: var(--st-cleared);
+  }
+  .exec__kpi-icon--down {
+    background: color-mix(in srgb, var(--st-not-started) 16%, transparent);
+    color: var(--st-not-started);
+  }
+  /* "As of" timestamp — subtle meta, bottom-right of the hero card */
+  .exec__asof {
+    margin: var(--spacing-400) 0 0;
+    text-align: right;
+    font-size: var(--type-size-100);
+    font-style: italic;
+    color: var(--color-text-tertiary);
+  }
+
+  /* Status donut (conic-gradient; hero % in the hole) + legend */
+  .exec__donut-wrap {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-500);
+  }
+  @media (max-width: 560px) {
+    .exec__donut-wrap {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+  .exec__donut {
+    position: relative;
+    width: 168px;
+    height: 168px;
+    border-radius: var(--radius-full);
+    background: var(--bcn-gray-100);
+    flex-shrink: 0;
+  }
+  .exec__donut-hole {
+    position: absolute;
+    inset: 30px;
+    border-radius: var(--radius-full);
+    background: var(--color-surface);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+  }
+  .exec__donut-pct {
+    font-family: var(--font-display, var(--font-sans));
+    font-size: var(--type-size-500);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    line-height: 1;
+  }
+  .exec__donut-cap {
+    font-size: var(--type-size-100);
+    color: var(--color-text-tertiary);
+  }
+  .exec__legend {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    min-width: 0;
+  }
+  :global(.exec-legend__item) {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: var(--spacing-200);
+    font-size: var(--type-size-150);
+    white-space: nowrap;
+  }
+  :global(.exec-legend__item[data-empty='true']) {
+    opacity: 0.45;
+  }
+  :global(.exec-legend__dot) {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  :global(.exec-legend__label) {
+    color: var(--color-text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  :global(.exec-legend__mi) {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    font-variant-numeric: tabular-nums;
+  }
+  :global(.exec-legend__pct) {
+    color: var(--color-text-tertiary);
+    font-variant-numeric: tabular-nums;
+    min-width: 34px;
+    text-align: right;
+  }
+
+  /* Per-path stacked status bars */
+  .exec__paths {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+  :global(.exec-path) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+  }
+  :global(.exec-path__head) {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+  }
+  :global(.exec-path__name) {
+    font-size: var(--type-size-250);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  :global(.exec-path__metric) {
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+  :global(.exec-path__metric strong) {
+    color: var(--st-cleared);
+    font-weight: var(--font-weight-bold);
+  }
+  :global(.exec-path__bar) {
+    display: flex;
+    height: 18px;
+    border-radius: var(--radius-100);
+    overflow: hidden;
+    background: var(--bcn-gray-100);
+  }
+  :global(.exec-path__seg) {
+    height: 100%;
+  }
+  :global(.exec-path__seg + .exec-path__seg) {
+    border-left: 1px solid var(--color-surface);
+  }
+  :global(.exec-path__foot) {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+    font-size: var(--type-size-100);
+    color: var(--color-text-tertiary);
+  }
+  :global(.exec-path__clearby) {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Momentum burn-up (SVG; viewBox-scaled) */
+  .exec__burnup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .exec__burnup-chart {
+    width: 100%;
+  }
+  :global(.bu-svg) {
+    width: 100%;
+    height: auto;
+    display: block;
+    overflow: visible;
+  }
+  :global(.bu-grid) {
+    stroke: var(--color-border-light);
+    stroke-width: 1;
+  }
+  :global(.bu-target) {
+    stroke: var(--color-text-tertiary);
+    stroke-width: 1.5;
+    stroke-dasharray: 2 3;
+  }
+  :global(.bu-proj) {
+    fill: none;
+    stroke: var(--st-cleared);
+    stroke-width: 2;
+    stroke-dasharray: 5 4;
+    stroke-linejoin: round;
+    opacity: 0.75;
+  }
+  :global(.bu-today) {
+    stroke: var(--color-primary);
+    stroke-width: 1;
+    stroke-dasharray: 3 3;
+    opacity: 0.6;
+  }
+  :global(.bu-area) {
+    fill: color-mix(in srgb, var(--st-cleared) 14%, transparent);
+    stroke: none;
+  }
+  :global(.bu-actual) {
+    fill: none;
+    stroke: var(--st-cleared);
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+  :global(.bu-dot) {
+    fill: var(--st-cleared);
+    stroke: var(--color-surface);
+    stroke-width: 1.5;
+  }
+  :global(.bu-ylabel) {
+    fill: var(--color-text-tertiary);
+    font-size: 11px;
+    text-anchor: end;
+    dominant-baseline: middle;
+  }
+  :global(.bu-xlabel) {
+    fill: var(--color-text-tertiary);
+    font-size: 11px;
+    text-anchor: middle;
+  }
+  :global(.bu-todaylabel) {
+    fill: var(--color-primary);
+    font-size: 11px;
+    font-weight: 600;
+    text-anchor: middle;
+  }
+  :global(.bu-nowlabel) {
+    fill: var(--st-cleared);
+    font-size: 11px;
+    font-weight: 700;
+    text-anchor: middle;
+  }
+  .exec__burnup-legend {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-200) var(--spacing-500);
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+  }
+  .exec__burnup-legend li {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+  }
+  .exec__burnup-key {
+    width: 18px;
+    height: 0;
+    border-top-width: 2.5px;
+    border-top-style: solid;
+    flex-shrink: 0;
+  }
+  .exec__burnup-key--actual {
+    border-top-color: var(--st-cleared);
+  }
+  .exec__burnup-key--proj {
+    border-top-color: var(--st-cleared);
+    border-top-style: dashed;
+  }
+  .exec__burnup-key--target {
+    border-top-color: var(--color-text-tertiary);
+    border-top-style: dotted;
+  }
+
+  /* Print — clean letter snapshot of the Summary tab (Ctrl/Cmd-P) */
+  @media print {
+    .exec {
+      gap: 14pt;
+    }
+    .exec :global(.esa-card),
+    .exec__hero {
+      break-inside: avoid;
+      box-shadow: none;
+    }
   }
 </style>
