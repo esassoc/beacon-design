@@ -28,10 +28,22 @@ const { buildTierIndex, classifyTokens } = await import(new URL('tokens.mjs', HU
 const tierIndex = await buildTierIndex(root('node_modules/@esa/tokens'));
 
 // --- routes from the registry (parse, not import — keeps this dep-free) -------
+// The registry is GROUPED: PrototypeGroups have a `slug` but no `route`; only the
+// nested PrototypePages have both. So we can't pair slugs↔routes positionally
+// (the counts differ). Instead walk slug/route tokens in document order and pair
+// each route with its nearest preceding slug — within a page object `slug:` always
+// immediately precedes `route:`, and group slugs are harmlessly overwritten by the
+// page slug before any route consumes them.
 const registry = readFileSync(root('src/data/prototypes.ts'), 'utf8');
-const slugs = [...registry.matchAll(/slug:\s*'([^']+)'/g)].map((m) => m[1]);
-const routes = [...registry.matchAll(/route:\s*'([^']+)'/g)].map((m) => m[1]);
-const targets = slugs.map((slug, i) => ({ slug, route: routes[i] }));
+const targets = [];
+let pendingSlug = null;
+for (const m of registry.matchAll(/slug:\s*'([^']+)'|route:\s*'([^']+)'/g)) {
+  if (m[1] !== undefined) pendingSlug = m[1];
+  else if (pendingSlug) {
+    targets.push({ slug: pendingSlug, route: m[2] });
+    pendingSlug = null; // each route consumes its slug — guards against double-pairing
+  }
+}
 if (!targets.length) {
   console.error('handoff:all — no prototypes found in src/data/prototypes.ts');
   process.exit(1);

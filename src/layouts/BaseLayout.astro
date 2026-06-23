@@ -10,10 +10,10 @@ import '@esa/tokens/component-tokens.css';
 import '@esa/tokens/layouts.css';
 import '@esa/tokens/type-roles.css';
 import '../styles/theme-beacon.css';
-// HandoffInspector: temporarily disabled for the demo — uncomment this import
-// AND the <HandoffInspector /> tag in <body> to re-enable. (Now ships from the
-// hub package — the old spoke-local copy is gone.)
-// import HandoffInspector from '@esa/handoff/HandoffInspector.astro';
+// HandoffInspector: runtime inspector shipped from the hub package
+// (@esa/handoff). Self-gates per route — stays invisible unless a
+// /handoff/<route-slug>/manifest.json exists (run `npm run handoff:all`).
+import HandoffInspector from '@esa/handoff/HandoffInspector.astro';
 
 interface Props {
   title?: string;
@@ -51,6 +51,6 @@ const { title = 'Beacon Design' } = Astro.props;
   </head>
   <body>
     <slot />
-    <!-- <HandoffInspector /> — disabled for the demo; re-enable with the import above. -->
+    <HandoffInspector />
   </body>
 </html>
