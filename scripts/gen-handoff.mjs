@@ -126,8 +126,8 @@ function specMarkdown(s) {
   return lines.join('\n');
 }
 
-function writeCuratedBundle(slug, url, theme, sections) {
-  const outDir = root(`public/handoff/${slug}`);
+function writeCuratedBundle(dirSlug, name, url, theme, sections) {
+  const outDir = root(`public/handoff/${dirSlug}`);
   rmSync(outDir, { recursive: true, force: true });
   mkdirSync(`${outDir}/claude`, { recursive: true });
   const manifestSections = sections.map((s) => {
@@ -144,13 +144,20 @@ function writeCuratedBundle(slug, url, theme, sections) {
       guide: s.guide,
       tokens: s.tokens,
       claudePath: `claude/${fileSlug}.md`,
-      repoPath: `public/handoff/${slug}/claude/${fileSlug}.md`,
+      repoPath: `public/handoff/${dirSlug}/claude/${fileSlug}.md`,
     };
   });
-  const manifest = { name: slug, url, theme, generatedFrom: 'spec', sections: manifestSections };
+  const manifest = { name, url, theme, generatedFrom: 'spec', sections: manifestSections };
   writeFileSync(`${outDir}/manifest.json`, JSON.stringify(manifest, null, 2));
-  console.log(`  wrote ${manifestSections.length} curated section(s) → public/handoff/${slug}/`);
+  console.log(`  wrote ${manifestSections.length} curated section(s) → public/handoff/${dirSlug}/`);
 }
+
+// The runtime inspector finds a route's bundle by deriving the slug FROM THE URL
+// PATH (base-stripped, leading/trailing slash trimmed, remaining slashes → dashes) —
+// see @esa/handoff inspector.client.ts routeSlug(). The bundle DIRECTORY must equal
+// that string exactly or the inspector fetches a 404 and stays dormant. The registry
+// `slug` is only our spec-file key; the route is the source of truth for the dir name.
+const bundleSlug = (route) => route.replace(/^\/+|\/+$/g, '').replace(/\//g, '-');
 
 // ------------------------------------------------------------------------------
 console.log(`handoff:all — ${targets.length} route(s): ${targets.map((t) => t.slug).join(', ')}`);
@@ -165,6 +172,7 @@ try {
   await waitForServer(`${ORIGIN}${BASE}`);
   for (const { slug, route } of targets) {
     const url = `${ORIGIN}${BASE}${route.replace(/^\/+|\/+$/g, '')}/`;
+    const dirSlug = bundleSlug(route); // what the inspector will look for at runtime
     const specPath = root(`src/data/handoff/${slug}.mjs`);
 
     if (existsSync(specPath)) {
@@ -180,10 +188,10 @@ try {
         s.guide = guideOf(spc);
         s.js = jsOf(spc);
       }
-      writeCuratedBundle(slug, url, theme, sections);
+      writeCuratedBundle(dirSlug, slug, url, theme, sections);
     } else {
       console.log(`\nhandoff:all — capturing ${slug} (whole-page fallback)  →  ${url}`);
-      run('node', ['node_modules/@esa/handoff/bin/handoff.mjs', url, '--name', slug, '--out', 'public/handoff']);
+      run('node', ['node_modules/@esa/handoff/bin/handoff.mjs', url, '--name', dirSlug, '--out', 'public/handoff']);
     }
   }
 } finally {
