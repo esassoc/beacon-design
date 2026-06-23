@@ -412,6 +412,40 @@ export function footageByStatus(): { status: DerivedStatus; feet: number }[] {
 
 export const totalFeet = (): number => segments.reduce((sum, s) => sum + s.lengthFt, 0);
 
+// ── Reporting history (point-in-time snapshots) ──────────────────────────────
+// Route-miles "Cleared to Construct" as recorded at each biweekly leadership
+// review. This is the ONE thing that can't be derived from the current permit
+// states — clearance is a running total, and a burn-up needs where it WAS, not
+// just where it is. The series is frozen history; the live present value is
+// always the derived total (footageByStatus → cleared), so the burn-up's "today"
+// point and the "since last report" delta track real edits while the trail
+// behind them stays put. Cumulative + monotonic; the last entry is the most
+// recent completed review (strictly below today's derived ~10.6 mi, so momentum
+// reads as forward motion). Early-phase honest: flat for months, lifting now.
+export interface ReportSnapshot {
+  /** Review date (YYYY-MM-DD). */
+  date: string;
+  /** Cumulative route-miles cleared to construct as of that review. */
+  clearedMiles: number;
+}
+export const reportHistory: ReportSnapshot[] = [
+  { date: '2026-03-30', clearedMiles: 0 },
+  { date: '2026-04-13', clearedMiles: 0 },
+  { date: '2026-04-27', clearedMiles: 0 },
+  { date: '2026-05-11', clearedMiles: 0 },
+  { date: '2026-05-25', clearedMiles: 2.9 },
+  { date: '2026-06-08', clearedMiles: 7.4 }, // last completed review
+];
+
+/** The report's "as of" date — today, the moment this snapshot was generated. */
+export const reportAsOf = '2026-06-23';
+
+/** Latest projected clear-to-build across ALL segments = full-route clear date. */
+export function fullRouteClearDate(): string | null {
+  const dates = segments.map((s) => clearToBuildDate(s)).filter((d): d is string => !!d);
+  return dates.length ? dates.reduce((a, b) => (a > b ? a : b)) : null;
+}
+
 /** Format YYYY-MM-DD → "Aug 15, 2026". */
 export function formatDate(iso: string | null): string {
   if (!iso) return '—';
