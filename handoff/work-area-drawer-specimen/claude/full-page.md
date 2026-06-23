@@ -1,0 +1,3639 @@
+# Full page
+
+Re-implement this UI section faithfully on your stack. Keep the CSS custom-property
+names (`var(--…)`) so it stays themeable — the values below are the resolved
+`beacon` theme of the **work-area-drawer-specimen** design system (an ESA Ecology spoke).
+
+- **Source prototype:** http://localhost:4399/beacon-design/prototypes/work-area-drawer-specimen/
+- **Section element:** `<page>`
+- **Components:** esa-badge (hub), esa-button (hub), esa-collapsible (hub), esa-icon (hub), esa-icon-button (hub)
+
+## Markup (de-scoped, framework-free)
+```html
+<main class="spec">
+  <header class="spec__head">
+    <h1 class="spec__title">Work Area drawer — Decision-first v2</h1>
+    <p class="spec__intro">
+      Round 1 compared three drawer structures; <strong>Decision-first</strong> was selected (<em
+        >"Decision-first seems right"</em
+      >). This page now leads with the v2 deep dive — dates promoted to an always-visible band, a
+      confirm that reads in two seconds, discipline cells that open a stacked child drawer, and a
+      per-discipline review history that survives the June → September re-survey reality. The
+      round-1 exploration is kept at the bottom for reference. All data is real fixture data; the
+      only static mock is the September re-survey (flagged in the data-model note).
+    </p>
+  </header>
+  <!-- ═══════════════════════ Decision-first — v2 deep dive ═══════════════════════ -->
+  <section class="v2" aria-labelledby="v2-title">
+    <header class="v2__head">
+      <h2 class="v2__title" id="v2-title">Decision-first — v2 deep dive</h2>
+      <ul class="v2__changes">
+        <li>
+          <strong>Dates up high.</strong> Notification · Clearance visit · Planned start (+ Blocked
+          until when relevant) render as a compact band directly under the header — decision inputs,
+          not detail.
+        </li>
+        <li>
+          <strong>A two-second confirm.</strong> The provisional banner is now one slim line —
+          observation ID · "within buffer · est. through Jul 24" · a compact Confirm block inline.
+        </li>
+        <li>
+          <strong>Disciplines open a stacked child drawer.</strong> Each board cell is a button that
+          opens that discipline's own drawer over the parent (the permit workspace's segment →
+          editor stacking) — not tabs, not one long form.
+        </li>
+        <li>
+          <strong>Review history per discipline.</strong> The child drawer holds every review —
+          clearance survey, re-survey, management determination — newest first. The latest completed
+          review sets the board status; future reviews ride the history as scheduled. Cells show a
+          count when there is more than one. Survey records live here now, not in a parent section.
+        </li>
+      </ul>
+    </header>
+    <div class="v2__pair">
+      <!-- v2 · Case A: DCRDS-DH-184 -->
+      <figure class="mockup">
+        <figcaption class="mockup__case">
+          DCRDS-DH-184 · provisional block — the dates band answers "when", the slim line answers
+          "what now".
+        </figcaption>
+        <article class="drawer">
+          <header class="drawer__head">
+            <div class="drawer__headrow">
+              <h3 class="drawer__title">DCRDS-DH-184</h3>
+              <span
+                class="bcn-status-chip"
+                data-status="provisional-block"
+                style="--_chip: var(--st-provisional-block, #d73027)"
+              >
+                <span class="bcn-status-chip__dot"></span>
+                <span class="bcn-status-chip__label">Provisional Block</span>
+              </span>
+            </div>
+            <p class="drawer__sub">Roads · 2024-2029 Geotechnical Activities</p>
+          </header>
+          <div class="band">
+            <div class="bcn-key-value">
+              <span class="bcn-key-value__key">Notification</span>
+              <span class="bcn-key-value__val">May 15, 2026</span>
+            </div>
+            <div class="bcn-key-value">
+              <span class="bcn-key-value__key">Clearance visit</span>
+              <span class="bcn-key-value__val">Jun 15, 2026</span>
+            </div>
+            <div class="bcn-key-value">
+              <span class="bcn-key-value__key">Planned start</span>
+              <span class="bcn-key-value__val">Jun 29, 2026</span>
+            </div>
+          </div>
+          <div class="drawer__body">
+            <div class="decide decide--prov">
+              <p class="decide__line decide__line--fact">
+                <span class="obs-id">SWHA-2289</span>
+                <span>within buffer · est. through Jul 24, 2026</span>
+              </p>
+              <div class="decide__actions">
+                <span
+                  class="esa-button esa-button--color-danger esa-button--appearance-fill esa-button--sm"
+                >
+                  <button class="esa-button__native" type="button">
+                    <span class="esa-button__label"> Confirm block </span>
+                  </button>
+                </span>
+              </div>
+            </div>
+            <section>
+              <h4 class="drawer__section">
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path
+                      d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+                    ></path>
+                    <path d="m9 12 2 2 4-4"></path>
+                  </svg>
+                </span>
+                Disciplines
+              </h4>
+              <div class="board">
+                <button type="button" class="board__cell board__cell--btn">
+                  <span class="board__cellhead">
+                    <span class="board__dim">Biological</span>
+                    <span class="board__chev"
+                      ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path d="m9 18 6-6-6-6"></path>
+                        </svg>
+                      </span>
+                    </span>
+                  </span>
+                  <span
+                    class="bcn-status-chip"
+                    data-status="survey-scheduled"
+                    style="--_chip: var(--st-survey-scheduled, #74add1)"
+                  >
+                    <span class="bcn-status-chip__dot"></span>
+                    <span class="bcn-status-chip__label">Survey Scheduled</span>
+                  </span>
+                  <span class="board__meta">Scheduled Jun 15, 2026</span></button
+                ><button type="button" class="board__cell board__cell--btn">
+                  <span class="board__cellhead">
+                    <span class="board__dim">Cultural Resources</span>
+                    <span class="board__chev"
+                      ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path d="m9 18 6-6-6-6"></path>
+                        </svg>
+                      </span>
+                    </span>
+                  </span>
+                  <span class="unreviewed">Not reviewed</span>
+                  <span class="board__meta">—</span></button
+                ><button type="button" class="board__cell board__cell--btn">
+                  <span class="board__cellhead">
+                    <span class="board__dim">Noise</span>
+                    <span class="board__chev"
+                      ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path d="m9 18 6-6-6-6"></path>
+                        </svg>
+                      </span>
+                    </span>
+                  </span>
+                  <span class="unreviewed">Not reviewed</span>
+                  <span class="board__meta">—</span></button
+                ><button type="button" class="board__cell board__cell--btn">
+                  <span class="board__cellhead">
+                    <span class="board__dim">Geology</span>
+                    <span class="board__chev"
+                      ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path d="m9 18 6-6-6-6"></path>
+                        </svg>
+                      </span>
+                    </span>
+                  </span>
+                  <span class="unreviewed">Not reviewed</span> <span class="board__meta">—</span>
+                </button>
+              </div>
+            </section>
+            <div class="drawer__more">
+              <details class="esa-collapsible esa-collapsible--flush">
+                <summary class="esa-collapsible__summary">
+                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path>
+                    </svg>
+                  </span>
+                  <span class="esa-collapsible__title">Buffer conflicts (1)</span>
+                </summary>
+                <div class="esa-collapsible__body">
+                  <ul class="rows">
+                    <li class="conflict">
+                      <span class="conflict__main">
+                        Swainson's Hawk
+                        <span class="conflict__sub">SWHA-2289-05182026 · 2,640 ft buffer</span>
+                      </span>
+                      <span class="conflict__meta">
+                        146 ft away <span class="conflict__sub">est. end Jul 24, 2026</span>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+              <details class="esa-collapsible esa-collapsible--flush">
+                <summary class="esa-collapsible__summary">
+                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+                      ></path>
+                      <path
+                        d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+                      ></path>
+                    </svg>
+                  </span>
+                  <span class="esa-collapsible__title">Notes (1)</span>
+                </summary>
+                <div class="esa-collapsible__body">
+                  <blockquote class="note">
+                    5/27 email (from H. Barbare): 30-day Notification was scheduled to be sent
+                    5/15/2026 for 6/15/2026 site clearance visit and 6/29/2026 work. This location
+                    is the closest to the nest.
+                  </blockquote>
+                </div>
+              </details>
+              <details class="esa-collapsible esa-collapsible--flush">
+                <summary class="esa-collapsible__summary">
+                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                      <path d="M3 3v5h5"></path>
+                      <path d="M12 7v5l4 2"></path>
+                    </svg>
+                  </span>
+                  <span class="esa-collapsible__title">Activity</span>
+                </summary>
+                <div class="esa-collapsible__body">
+                  <p class="empty">No changes this session.</p>
+                </div>
+              </details>
+            </div>
+          </div>
+          <footer class="drawer__foot">
+            <span
+              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
+            >
+              <button class="esa-button__native" type="button">
+                <span class="esa-button__label"> Edit site details </span>
+              </button>
+            </span>
+          </footer>
+        </article>
+      </figure>
+      <!-- v2 · Case B: DCRAI-DH-014 -->
+      <figure class="mockup">
+        <figcaption class="mockup__case">
+          DCRAI-DH-014 · multi-discipline — the empty dates are as informative as the filled ones.
+        </figcaption>
+        <article class="drawer">
+          <header class="drawer__head">
+            <div class="drawer__headrow">
+              <h3 class="drawer__title">DCRAI-DH-014</h3>
+              <span
+                class="bcn-status-chip"
+                data-status="survey-scheduled"
+                style="--_chip: var(--st-survey-scheduled, #74add1)"
+              >
+                <span class="bcn-status-chip__dot"></span>
+                <span class="bcn-status-chip__label">Survey Scheduled</span>
+              </span>
+            </div>
+            <p class="drawer__sub">Rail Alignment · 2024-2029 Geotechnical Activities</p>
+          </header>
+          <div class="band">
+            <div class="bcn-key-value">
+              <span class="bcn-key-value__key">Notification</span>
+              <span class="bcn-key-value__val">—</span>
+            </div>
+            <div class="bcn-key-value">
+              <span class="bcn-key-value__key">Clearance visit</span>
+              <span class="bcn-key-value__val">—</span>
+            </div>
+            <div class="bcn-key-value">
+              <span class="bcn-key-value__key">Planned start</span>
+              <span class="bcn-key-value__val">Jun 17, 2026</span>
+            </div>
+          </div>
+          <div class="drawer__body">
+            <div class="decide">
+              <p class="decide__line">Awaiting geology review — Jun 18, 2026 (in 7 days)</p>
+              <div class="decide__row decide__row--warn">
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path
+                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                    ></path>
+                    <path d="M12 9v4"></path>
+                    <path d="M12 17h.01"></path>
+                  </svg>
+                </span>
+                <span class="decide__warntext">
+                  Start Jun 17, 2026 precedes the geology and noise reviews
+                </span>
+              </div>
+              <div class="decide__actions">
+                <span
+                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                >
+                  <button class="esa-button__native" type="button">
+                    <span class="esa-button__label"> Edit start </span>
+                  </button>
+                </span>
+              </div>
+            </div>
+            <section>
+              <h4 class="drawer__section">
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path
+                      d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+                    ></path>
+                    <path d="m9 12 2 2 4-4"></path>
+                  </svg>
+                </span>
+                Disciplines
+              </h4>
+              <div class="board">
+                <button type="button" class="board__cell board__cell--btn">
+                  <span class="board__cellhead">
+                    <span class="board__dim">Biological</span>
+                    <span class="board__chev"
+                      ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path d="m9 18 6-6-6-6"></path>
+                        </svg>
+                      </span>
+                    </span>
+                  </span>
+                  <span
+                    class="bcn-status-chip"
+                    data-status="cleared"
+                    style="--_chip: var(--st-cleared, #1a9850)"
+                  >
+                    <span class="bcn-status-chip__dot"></span>
+                    <span class="bcn-status-chip__label">Cleared</span>
+                  </span>
+                  <span class="board__meta">Jun 3, 2026 · C. Anderson (ESA)</span></button
+                ><button type="button" class="board__cell board__cell--btn">
+                  <span class="board__cellhead">
+                    <span class="board__dim">Cultural Resources</span>
+                    <span class="board__chev"
+                      ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path d="m9 18 6-6-6-6"></path>
+                        </svg>
+                      </span>
+                    </span>
+                  </span>
+                  <span class="unreviewed">Not reviewed</span>
+                  <span class="board__meta">—</span></button
+                ><button type="button" class="board__cell board__cell--btn">
+                  <span class="board__cellhead">
+                    <span class="board__dim">Noise</span>
+                    <span class="board__chev"
+                      ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path d="m9 18 6-6-6-6"></path>
+                        </svg>
+                      </span>
+                    </span>
+                  </span>
+                  <span
+                    class="bcn-status-chip"
+                    data-status="survey-scheduled"
+                    style="--_chip: var(--st-survey-scheduled, #74add1)"
+                  >
+                    <span class="bcn-status-chip__dot"></span>
+                    <span class="bcn-status-chip__label">Survey Scheduled</span>
+                  </span>
+                  <span class="board__meta">Scheduled Jun 20, 2026</span></button
+                ><button type="button" class="board__cell board__cell--btn">
+                  <span class="board__cellhead">
+                    <span class="board__dim">Geology</span>
+                    <span class="board__chev"
+                      ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path d="m9 18 6-6-6-6"></path>
+                        </svg>
+                      </span>
+                    </span>
+                  </span>
+                  <span
+                    class="bcn-status-chip"
+                    data-status="survey-scheduled"
+                    style="--_chip: var(--st-survey-scheduled, #74add1)"
+                  >
+                    <span class="bcn-status-chip__dot"></span>
+                    <span class="bcn-status-chip__label">Survey Scheduled</span>
+                  </span>
+                  <span class="board__meta">Scheduled Jun 18, 2026</span>
+                </button>
+              </div>
+            </section>
+            <div class="drawer__more">
+              <details class="esa-collapsible esa-collapsible--flush">
+                <summary class="esa-collapsible__summary">
+                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+                      ></path>
+                      <path
+                        d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+                      ></path>
+                    </svg>
+                  </span>
+                  <span class="esa-collapsible__title">Notes (1)</span>
+                </summary>
+                <div class="esa-collapsible__body">
+                  <blockquote class="note">
+                    6/3 email: This DH is located in a gravel work pad. It was moved slightly to be
+                    placed outside of a dry roadside ditch and to be situated further from the
+                    railroad tracks. There are several large trees, and waterways nearby, but the
+                    site is situated in an area that is highly disturbed. A few elderberry shrubs
+                    are near the entrance to the road, but they are greater than 165' away.
+                  </blockquote>
+                </div>
+              </details>
+              <details class="esa-collapsible esa-collapsible--flush">
+                <summary class="esa-collapsible__summary">
+                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                      <path d="M3 3v5h5"></path>
+                      <path d="M12 7v5l4 2"></path>
+                    </svg>
+                  </span>
+                  <span class="esa-collapsible__title">Activity</span>
+                </summary>
+                <div class="esa-collapsible__body">
+                  <p class="empty">No changes this session.</p>
+                </div>
+              </details>
+            </div>
+          </div>
+          <footer class="drawer__foot">
+            <span
+              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
+            >
+              <button class="esa-button__native" type="button">
+                <span class="esa-button__label"> Edit site details </span>
+              </button>
+            </span>
+          </footer>
+        </article>
+      </figure>
+    </div>
+    <h3 class="v2__sub">The discipline child drawer — stacked over the parent</h3>
+    <figure class="mockup mockup--stack">
+      <figcaption class="mockup__case">
+        DCTR2-DH-010 · clicking the Biological cell (count "2") opens its review history as a child
+        drawer stacked over the parent — the parent slides aside and dims behind it, exactly as the
+        permit workspace stacks its permit editor over the segment drawer.
+      </figcaption>
+      <div class="stack">
+        <!-- Parent drawer (under card — dimmed, peeking out at the left) -->
+        <article class="drawer stack__parent">
+          <header class="drawer__head">
+            <div class="drawer__headrow">
+              <h4 class="drawer__title">DCTR2-DH-010</h4>
+              <span
+                class="bcn-status-chip"
+                data-status="blocked"
+                style="--_chip: var(--st-blocked, #d73027)"
+              >
+                <span class="bcn-status-chip__dot"></span>
+                <span class="bcn-status-chip__label">Blocked</span>
+              </span>
+            </div>
+            <p class="drawer__sub">Tunnel Reach 2 · 2024-2029 Geotechnical Activities</p>
+          </header>
+          <div class="band band--4">
+            <div class="bcn-key-value">
+              <span class="bcn-key-value__key">Notification</span>
+              <span class="bcn-key-value__val">—</span>
+            </div>
+            <div class="bcn-key-value">
+              <span class="bcn-key-value__key">Clearance visit</span>
+              <span class="bcn-key-value__val">May 18, 2026</span>
+            </div>
+            <div class="bcn-key-value">
+              <span class="bcn-key-value__key">Planned start</span>
+              <span class="bcn-key-value__val">—</span>
+            </div>
+            <div class="bcn-key-value">
+              <span class="bcn-key-value__key">Blocked until</span>
+              <span class="band__alert">Jul 24, 2026</span>
+            </div>
+          </div>
+          <div class="drawer__body">
+            <div class="decide decide--blocked">
+              <p class="decide__line">
+                Blocked through Jul 24, 2026 — est. 43 more days · re-survey Sep 2, 2026
+              </p>
+            </div>
+            <section>
+              <h4 class="drawer__section">
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path
+                      d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+                    ></path>
+                    <path d="m9 12 2 2 4-4"></path>
+                  </svg>
+                </span>
+                Disciplines
+              </h4>
+              <div class="board">
+                <button type="button" class="board__cell board__cell--btn" data-active="true">
+                  <span class="board__cellhead">
+                    <span class="board__dim">Biological</span>
+                    <span class="esa-badge esa-badge--secondary esa-badge--sm">
+                      <span class="esa-badge__text">2</span>
+                    </span>
+                    <span class="board__chev"
+                      ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path d="m9 18 6-6-6-6"></path>
+                        </svg>
+                      </span>
+                    </span>
+                  </span>
+                  <span
+                    class="bcn-status-chip"
+                    data-status="blocked"
+                    style="--_chip: var(--st-blocked, #d73027)"
+                  >
+                    <span class="bcn-status-chip__dot"></span>
+                    <span class="bcn-status-chip__label">Blocked</span>
+                  </span>
+                  <span class="board__meta">May 18, 2026 · C. Anderson (ESA)</span></button
+                ><button type="button" class="board__cell board__cell--btn">
+                  <span class="board__cellhead">
+                    <span class="board__dim">Cultural Resources</span>
+                    <span class="board__chev"
+                      ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path d="m9 18 6-6-6-6"></path>
+                        </svg>
+                      </span>
+                    </span>
+                  </span>
+                  <span class="unreviewed">Not reviewed</span>
+                  <span class="board__meta">—</span></button
+                ><button type="button" class="board__cell board__cell--btn">
+                  <span class="board__cellhead">
+                    <span class="board__dim">Noise</span>
+                    <span class="board__chev"
+                      ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path d="m9 18 6-6-6-6"></path>
+                        </svg>
+                      </span>
+                    </span>
+                  </span>
+                  <span class="unreviewed">Not reviewed</span>
+                  <span class="board__meta">—</span></button
+                ><button type="button" class="board__cell board__cell--btn">
+                  <span class="board__cellhead">
+                    <span class="board__dim">Geology</span>
+                    <span class="board__chev"
+                      ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path d="m9 18 6-6-6-6"></path>
+                        </svg>
+                      </span>
+                    </span>
+                  </span>
+                  <span class="unreviewed">Not reviewed</span> <span class="board__meta">—</span>
+                </button>
+              </div>
+            </section>
+            <div class="drawer__more">
+              <details class="esa-collapsible esa-collapsible--flush">
+                <summary class="esa-collapsible__summary">
+                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path>
+                    </svg>
+                  </span>
+                  <span class="esa-collapsible__title">Buffer conflicts (1)</span>
+                </summary>
+                <div class="esa-collapsible__body">
+                  <ul class="rows">
+                    <li class="conflict">
+                      <span class="conflict__main">
+                        Swainson's Hawk
+                        <span class="conflict__sub">SWHA-2289-05182026 · 2,640 ft buffer</span>
+                      </span>
+                      <span class="conflict__meta">
+                        878 ft away <span class="conflict__sub">est. end Jul 24, 2026</span>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+              <details class="esa-collapsible esa-collapsible--flush">
+                <summary class="esa-collapsible__summary">
+                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+                      ></path>
+                      <path
+                        d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+                      ></path>
+                    </svg>
+                  </span>
+                  <span class="esa-collapsible__title">Notes (1)</span>
+                </summary>
+                <div class="esa-collapsible__body">
+                  <blockquote class="note">
+                    This was the site clearance visit that identified the SWHA nest on 5/18.
+                  </blockquote>
+                </div>
+              </details>
+              <details class="esa-collapsible esa-collapsible--flush">
+                <summary class="esa-collapsible__summary">
+                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                      <path d="M3 3v5h5"></path>
+                      <path d="M12 7v5l4 2"></path>
+                    </svg>
+                  </span>
+                  <span class="esa-collapsible__title">Activity</span>
+                </summary>
+                <div class="esa-collapsible__body">
+                  <p class="empty">No changes this session.</p>
+                </div>
+              </details>
+            </div>
+          </div>
+          <footer class="drawer__foot">
+            <span
+              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
+            >
+              <button class="esa-button__native" type="button">
+                <span class="esa-button__label"> Edit site details </span>
+              </button>
+            </span>
+          </footer>
+        </article>
+        <!-- Child drawer (top card — the discipline's review history) -->
+        <article class="drawer stack__child">
+          <header class="drawer__head">
+            <div class="drawer__headrow">
+              <h4 class="drawer__title">Biological review</h4>
+              <span
+                class="bcn-status-chip"
+                data-status="blocked"
+                style="--_chip: var(--st-blocked, #d73027)"
+              >
+                <span class="bcn-status-chip__dot"></span>
+                <span class="bcn-status-chip__label">Blocked</span>
+              </span>
+              <span class="drawer__close"
+                ><button
+                  class="esa-icon-button esa-icon-button--sm"
+                  type="button"
+                  aria-label="Close review history"
+                  title="Close review history"
+                >
+                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path d="M18 6 6 18"></path>
+                      <path d="m6 6 12 12"></path>
+                    </svg>
+                  </span>
+                </button>
+              </span>
+            </div>
+            <p class="drawer__sub">DCTR2-DH-010 · the latest completed review sets this status</p>
+          </header>
+          <div class="drawer__body">
+            <div class="child__bar">
+              <span class="child__count">2 reviews</span>
+              <span
+                class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+              >
+                <button class="esa-button__native" type="button">
+                  <span class="esa-button__label"> Add review </span>
+                </button>
+              </span>
+            </div>
+            <ol class="revs">
+              <li class="rev" data-kind="scheduled">
+                <span class="rev__dot"></span>
+                <div class="rev__main">
+                  <p class="rev__head">
+                    Re-survey <span class="rev__when">scheduled Sep 2, 2026</span>
+                  </p>
+                  <div class="rev__chiprow">
+                    <span
+                      class="bcn-status-chip"
+                      data-status="survey-scheduled"
+                      style="--_chip: var(--st-survey-scheduled, #74add1)"
+                    >
+                      <span class="bcn-status-chip__dot"></span>
+                      <span class="bcn-status-chip__label">Survey Scheduled</span>
+                    </span>
+                  </div>
+                  <p class="rev__note">
+                    Post-fledge confirmation visit — SWHA est. fledge Jul 24, 2026. Reviewer not yet
+                    assigned.
+                  </p>
+                </div>
+              </li>
+              <li class="rev" data-kind="blocked">
+                <span class="rev__dot"></span>
+                <div class="rev__main">
+                  <p class="rev__head">
+                    Clearance survey
+                    <span class="rev__when">May 18, 2026 · C. Anderson (ESA)</span>
+                  </p>
+                  <div class="rev__chiprow">
+                    <span
+                      class="bcn-status-chip"
+                      data-status="blocked"
+                      style="--_chip: var(--st-blocked, #d73027)"
+                    >
+                      <span class="bcn-status-chip__dot"></span>
+                      <span class="bcn-status-chip__label">Blocked</span>
+                    </span>
+                    <span class="rev__until">until Jul 24, 2026</span>
+                    <span class="rev__current">Sets current status</span>
+                  </div>
+                  <p class="rev__note">
+                    Active SWHA nest within the 0.5-mile no-disturbance buffer — discovered during
+                    the site clearance visit.
+                  </p>
+                </div>
+              </li>
+            </ol>
+          </div>
+          <footer class="drawer__foot">
+            <span
+              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
+            >
+              <button class="esa-button__native" type="button">
+                <span class="esa-button__label"> Close </span>
+              </button>
+            </span>
+          </footer>
+        </article>
+      </div>
+    </figure>
+    <aside class="model-note">
+      <p class="model-note__title">Data-model note (for productionizing)</p>
+      <p class="model-note__text">
+        Today's <code>ClearanceGate</code> holds one status per discipline — it cannot say "Blocked
+        now, re-survey scheduled Sep 2." Productionizing v2 turns each discipline's gate into a
+        per-discipline <strong>review list</strong> (date, kind — Clearance survey / Re-survey /
+        Management determination — reviewer, outcome, notes/stipulations): the latest completed
+        review derives the discipline's current status, and future reviews ride the history as
+        scheduled. The fixture keeps its single-gate shape for now; the June → September story above
+        is mocked statically in this specimen.
+      </p>
+    </aside>
+  </section>
+  <!-- ═══ How to evaluate (v2) ═══ -->
+  <section class="evaluate" aria-labelledby="eval-title">
+    <h2 class="evaluate__title" id="eval-title">How to evaluate v2</h2>
+    <ol class="evaluate__list">
+      <li>
+        From a cold open, how fast do you know whether work can start — and what the single next
+        action is?
+      </li>
+      <li>
+        Are the dates you decide with — notification, visit, planned start, blocked-until — visible
+        without opening anything?
+      </li>
+      <li>Does the stacked discipline drawer keep you oriented to the parent site?</li>
+      <li>Is a June → September re-survey history legible at a glance?</li>
+      <li>
+        Where does a pasted field-biologist email note go, and could you find it again a week later?
+      </li>
+    </ol>
+  </section>
+  <!-- ═══════════════════ Round 1 exploration (reference) ═══════════════════ -->
+  <section class="round1" aria-labelledby="round1-title">
+    <header class="round1__head">
+      <h2 class="round1__title" id="round1-title">Round 1 exploration (reference)</h2>
+      <p class="round1__line">
+        The three structural options as first presented — Decision-first (option 1) was selected and
+        is developed at the top of the page. Kept for the record of what each structure prioritized.
+      </p>
+    </header>
+    <div class="concepts">
+      <!-- ═══════════════════ Concept 1 — Decision-first ═══════════════════ -->
+      <section class="concept" aria-labelledby="c1-name">
+        <header class="concept__thesis">
+          <h3 class="concept__name" id="c1-name">
+            <span class="concept__num">1</span>Decision-first
+          </h3>
+          <p class="concept__line">
+            The top half answers one question: can work start — and if not, what single action moves
+            it?
+          </p>
+          <div class="concept__pt">
+            <p class="concept__pt-label">Prioritizes</p>
+            <ul>
+              <li>
+                The manager's go/no-go decision, with the ONE next action promoted to a real button
+              </li>
+              <li>A four-cell discipline board you can scan in a second</li>
+            </ul>
+            <p class="concept__pt-label">Trades away</p>
+            <ul>
+              <li>
+                Ambient detail — conflicts, surveys, notes, dates and activity collapse until asked
+                for
+              </li>
+            </ul>
+          </div>
+        </header>
+        <!-- Case A: DCRDS-DH-184 -->
+        <figure class="mockup">
+          <figcaption class="mockup__case">
+            DCRDS-DH-184 · provisional block — the system found a buffer conflict; a manager must
+            decide now.
+          </figcaption>
+          <article class="drawer">
+            <header class="drawer__head">
+              <div class="drawer__headrow">
+                <h3 class="drawer__title">DCRDS-DH-184</h3>
+                <span
+                  class="bcn-status-chip"
+                  data-status="provisional-block"
+                  style="--_chip: var(--st-provisional-block, #d73027)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Provisional Block</span>
+                </span>
+              </div>
+              <p class="drawer__sub">Roads · 2024-2029 Geotechnical Activities</p>
+            </header>
+            <div class="drawer__body">
+              <section>
+                <h4 class="drawer__section">Next action</h4>
+                <div class="action action--provisional">
+                  <p class="action__title">Confirm the block?</p>
+                  <p class="action__text">
+                    Inside the Swainson's Hawk ½-mile buffer (SWHA-2289-05182026) — 146 ft from the
+                    nest, est. end Jul 24, 2026. The system detected the conflict; it stays
+                    provisional until a manager decides.
+                  </p>
+                  <p class="action__facts">
+                    Survey scheduled Jun 15, 2026 · planned start Jun 29, 2026 (in 18 days)
+                  </p>
+                  <div class="action__btns">
+                    <span
+                      class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--sm"
+                    >
+                      <button class="esa-button__native" type="button">
+                        <span class="esa-button__label"> Confirm block </span>
+                      </button>
+                    </span>
+                    <span
+                      class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                    >
+                      <button class="esa-button__native" type="button">
+                        <span class="esa-button__label"> Review gates </span>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </section>
+              <section>
+                <h4 class="drawer__section">
+                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+                      ></path>
+                      <path d="m9 12 2 2 4-4"></path>
+                    </svg>
+                  </span>
+                  Disciplines
+                </h4>
+                <div class="board">
+                  <div class="board__cell">
+                    <span class="board__dim">Biological</span>
+                    <span
+                      class="bcn-status-chip"
+                      data-status="survey-scheduled"
+                      style="--_chip: var(--st-survey-scheduled, #74add1)"
+                    >
+                      <span class="bcn-status-chip__dot"></span>
+                      <span class="bcn-status-chip__label">Survey Scheduled</span>
+                    </span>
+                    <span class="board__meta">Scheduled Jun 15, 2026</span>
+                  </div>
+                  <div class="board__cell">
+                    <span class="board__dim">Cultural Resources</span>
+                    <span class="unreviewed">Not reviewed</span> <span class="board__meta">—</span>
+                  </div>
+                  <div class="board__cell">
+                    <span class="board__dim">Noise</span>
+                    <span class="unreviewed">Not reviewed</span> <span class="board__meta">—</span>
+                  </div>
+                  <div class="board__cell">
+                    <span class="board__dim">Geology</span>
+                    <span class="unreviewed">Not reviewed</span> <span class="board__meta">—</span>
+                  </div>
+                </div>
+              </section>
+              <div class="drawer__more">
+                <details class="esa-collapsible esa-collapsible--flush" open="">
+                  <summary class="esa-collapsible__summary">
+                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        focusable="false"
+                      >
+                        <path
+                          d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                        ></path>
+                        <path d="M12 9v4"></path>
+                        <path d="M12 17h.01"></path>
+                      </svg>
+                    </span>
+                    <span class="esa-collapsible__title">Buffer conflicts (1)</span>
+                  </summary>
+                  <div class="esa-collapsible__body">
+                    <ul class="rows">
+                      <li class="conflict">
+                        <span class="conflict__main">
+                          Swainson's Hawk
+                          <span class="conflict__sub">SWHA-2289-05182026 · 2,640 ft buffer</span>
+                        </span>
+                        <span class="conflict__meta">
+                          146 ft away <span class="conflict__sub">est. end Jul 24, 2026</span>
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </details>
+                <details class="esa-collapsible esa-collapsible--flush">
+                  <summary class="esa-collapsible__summary">
+                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        focusable="false"
+                      >
+                        <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
+                        <path
+                          d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+                        ></path>
+                        <path d="m9 14 2 2 4-4"></path>
+                      </svg>
+                    </span>
+                    <span class="esa-collapsible__title">Survey records</span>
+                  </summary>
+                  <div class="esa-collapsible__body"><p class="empty">No survey on record.</p></div>
+                </details>
+                <details class="esa-collapsible esa-collapsible--flush">
+                  <summary class="esa-collapsible__summary">
+                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        focusable="false"
+                      >
+                        <path
+                          d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+                        ></path>
+                        <path
+                          d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+                        ></path>
+                      </svg>
+                    </span>
+                    <span class="esa-collapsible__title">Notes (1)</span>
+                  </summary>
+                  <div class="esa-collapsible__body">
+                    <blockquote class="note">
+                      5/27 email (from H. Barbare): 30-day Notification was scheduled to be sent
+                      5/15/2026 for 6/15/2026 site clearance visit and 6/29/2026 work. This location
+                      is the closest to the nest.
+                    </blockquote>
+                  </div>
+                </details>
+                <details class="esa-collapsible esa-collapsible--flush">
+                  <summary class="esa-collapsible__summary">
+                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        focusable="false"
+                      >
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                      </svg>
+                    </span>
+                    <span class="esa-collapsible__title">Dates</span>
+                  </summary>
+                  <div class="esa-collapsible__body">
+                    <div class="dates">
+                      <div class="bcn-key-value">
+                        <span class="bcn-key-value__key">Notification</span>
+                        <span class="bcn-key-value__val">May 15, 2026</span>
+                      </div>
+                      <div class="bcn-key-value">
+                        <span class="bcn-key-value__key">Clearance visit</span>
+                        <span class="bcn-key-value__val">Jun 15, 2026</span>
+                      </div>
+                      <div class="bcn-key-value">
+                        <span class="bcn-key-value__key">Planned start</span>
+                        <span class="bcn-key-value__val">Jun 29, 2026</span>
+                      </div>
+                    </div>
+                  </div>
+                </details>
+                <details class="esa-collapsible esa-collapsible--flush">
+                  <summary class="esa-collapsible__summary">
+                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        focusable="false"
+                      >
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                        <path d="M3 3v5h5"></path>
+                        <path d="M12 7v5l4 2"></path>
+                      </svg>
+                    </span>
+                    <span class="esa-collapsible__title">Activity</span>
+                  </summary>
+                  <div class="esa-collapsible__body">
+                    <p class="empty">No changes this session.</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+            <footer class="drawer__foot">
+              <span
+                class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
+              >
+                <button class="esa-button__native" type="button">
+                  <span class="esa-button__label"> Edit clearance </span>
+                </button>
+              </span>
+            </footer>
+          </article>
+        </figure>
+        <!-- Case B: DCRAI-DH-014 -->
+        <figure class="mockup">
+          <figcaption class="mockup__case">
+            DCRAI-DH-014 · multi-discipline — pending reviews, and a planned start that lands before
+            them.
+          </figcaption>
+          <article class="drawer">
+            <header class="drawer__head">
+              <div class="drawer__headrow">
+                <h3 class="drawer__title">DCRAI-DH-014</h3>
+                <span
+                  class="bcn-status-chip"
+                  data-status="survey-scheduled"
+                  style="--_chip: var(--st-survey-scheduled, #74add1)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Survey Scheduled</span>
+                </span>
+              </div>
+              <p class="drawer__sub">Rail Alignment · 2024-2029 Geotechnical Activities</p>
+            </header>
+            <div class="drawer__body">
+              <section>
+                <h4 class="drawer__section">Next action</h4>
+                <div class="action">
+                  <p class="action__title">Awaiting geology review — Jun 18, 2026</p>
+                  <p class="action__text">
+                    Site relocated — pending geologist confirmation of the new position. Noise
+                    review follows Jun 20, 2026.
+                  </p>
+                  <p class="action__conflict">
+                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        focusable="false"
+                      >
+                        <path
+                          d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                        ></path>
+                        <path d="M12 9v4"></path>
+                        <path d="M12 17h.01"></path>
+                      </svg>
+                    </span>
+                    Planned start Jun 17, 2026 lands before both pending reviews.
+                  </p>
+                  <div class="action__btns">
+                    <span
+                      class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                    >
+                      <button class="esa-button__native" type="button">
+                        <span class="esa-button__label"> Edit planned start </span>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+              </section>
+              <section>
+                <h4 class="drawer__section">
+                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+                      ></path>
+                      <path d="m9 12 2 2 4-4"></path>
+                    </svg>
+                  </span>
+                  Disciplines
+                </h4>
+                <div class="board">
+                  <div class="board__cell">
+                    <span class="board__dim">Biological</span>
+                    <span
+                      class="bcn-status-chip"
+                      data-status="cleared"
+                      style="--_chip: var(--st-cleared, #1a9850)"
+                    >
+                      <span class="bcn-status-chip__dot"></span>
+                      <span class="bcn-status-chip__label">Cleared</span>
+                    </span>
+                    <span class="board__meta">Jun 3, 2026 · C. Anderson (ESA)</span>
+                  </div>
+                  <div class="board__cell">
+                    <span class="board__dim">Cultural Resources</span>
+                    <span class="unreviewed">Not reviewed</span> <span class="board__meta">—</span>
+                  </div>
+                  <div class="board__cell">
+                    <span class="board__dim">Noise</span>
+                    <span
+                      class="bcn-status-chip"
+                      data-status="survey-scheduled"
+                      style="--_chip: var(--st-survey-scheduled, #74add1)"
+                    >
+                      <span class="bcn-status-chip__dot"></span>
+                      <span class="bcn-status-chip__label">Survey Scheduled</span>
+                    </span>
+                    <span class="board__meta">Scheduled Jun 20, 2026</span>
+                  </div>
+                  <div class="board__cell">
+                    <span class="board__dim">Geology</span>
+                    <span
+                      class="bcn-status-chip"
+                      data-status="survey-scheduled"
+                      style="--_chip: var(--st-survey-scheduled, #74add1)"
+                    >
+                      <span class="bcn-status-chip__dot"></span>
+                      <span class="bcn-status-chip__label">Survey Scheduled</span>
+                    </span>
+                    <span class="board__meta">Scheduled Jun 18, 2026</span>
+                  </div>
+                </div>
+              </section>
+              <div class="drawer__more">
+                <details class="esa-collapsible esa-collapsible--flush">
+                  <summary class="esa-collapsible__summary">
+                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        focusable="false"
+                      >
+                        <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
+                        <path
+                          d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+                        ></path>
+                        <path d="m9 14 2 2 4-4"></path>
+                      </svg>
+                    </span>
+                    <span class="esa-collapsible__title">Survey records (1)</span>
+                  </summary>
+                  <div class="esa-collapsible__body">
+                    <ul class="rows">
+                      <li class="survey">
+                        <a class="survey__link" href="#" onclick="return false;">
+                          Pre-construction clearance survey · Jun 3, 2026 · C. Anderson (ESA)
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </details>
+                <details class="esa-collapsible esa-collapsible--flush">
+                  <summary class="esa-collapsible__summary">
+                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        focusable="false"
+                      >
+                        <path
+                          d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+                        ></path>
+                        <path
+                          d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"
+                        ></path>
+                      </svg>
+                    </span>
+                    <span class="esa-collapsible__title">Notes (1)</span>
+                  </summary>
+                  <div class="esa-collapsible__body">
+                    <blockquote class="note">
+                      6/3 email: This DH is located in a gravel work pad. It was moved slightly to
+                      be placed outside of a dry roadside ditch and to be situated further from the
+                      railroad tracks. There are several large trees, and waterways nearby, but the
+                      site is situated in an area that is highly disturbed. A few elderberry shrubs
+                      are near the entrance to the road, but they are greater than 165' away.
+                    </blockquote>
+                  </div>
+                </details>
+                <details class="esa-collapsible esa-collapsible--flush">
+                  <summary class="esa-collapsible__summary">
+                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        focusable="false"
+                      >
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                      </svg>
+                    </span>
+                    <span class="esa-collapsible__title">Dates</span>
+                  </summary>
+                  <div class="esa-collapsible__body">
+                    <div class="dates">
+                      <div class="bcn-key-value">
+                        <span class="bcn-key-value__key">Notification</span>
+                        <span class="bcn-key-value__val">—</span>
+                      </div>
+                      <div class="bcn-key-value">
+                        <span class="bcn-key-value__key">Clearance visit</span>
+                        <span class="bcn-key-value__val">—</span>
+                      </div>
+                      <div class="bcn-key-value">
+                        <span class="bcn-key-value__key">Planned start</span>
+                        <span class="bcn-key-value__val">Jun 17, 2026</span>
+                      </div>
+                    </div>
+                  </div>
+                </details>
+                <details class="esa-collapsible esa-collapsible--flush">
+                  <summary class="esa-collapsible__summary">
+                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        focusable="false"
+                      >
+                        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                        <path d="M3 3v5h5"></path>
+                        <path d="M12 7v5l4 2"></path>
+                      </svg>
+                    </span>
+                    <span class="esa-collapsible__title">Activity</span>
+                  </summary>
+                  <div class="esa-collapsible__body">
+                    <p class="empty">No changes this session.</p>
+                  </div>
+                </details>
+              </div>
+            </div>
+            <footer class="drawer__foot">
+              <span
+                class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
+              >
+                <button class="esa-button__native" type="button">
+                  <span class="esa-button__label"> Edit clearance </span>
+                </button>
+              </span>
+            </footer>
+          </article>
+        </figure>
+      </section>
+      <!-- ═══════════════════ Concept 2 — Discipline workspace ═══════════════════ -->
+      <section class="concept" aria-labelledby="c2-name">
+        <header class="concept__thesis">
+          <h3 class="concept__name" id="c2-name">
+            <span class="concept__num">2</span>Discipline workspace
+          </h3>
+          <p class="concept__line">
+            One discipline at a time, at full depth — the drawer is a segmented workspace, not a
+            stack.
+          </p>
+          <div class="concept__pt">
+            <p class="concept__pt-label">Prioritizes</p>
+            <ul>
+              <li>
+                Per-discipline depth: status, dates, reviewer, notes and survey record in one panel
+              </li>
+              <li>
+                Clean per-discipline editing — add/edit/remove scoped to the open panel, no long
+                form
+              </li>
+              <li>
+                A thin rollup strip keeps the site-level answer and the live conflict always in view
+              </li>
+            </ul>
+            <p class="concept__pt-label">Trades away</p>
+            <ul>
+              <li>Whole-site glanceability — you visit four panels to read everything</li>
+            </ul>
+          </div>
+        </header>
+        <figure class="mockup">
+          <figcaption class="mockup__case">
+            DCRAI-DH-014 · the switcher opens on Geology — the next pending review. The tabs work;
+            click through.
+          </figcaption>
+          <article class="drawer" data-workspace="">
+            <header class="drawer__head">
+              <div class="drawer__headrow">
+                <h3 class="drawer__title">DCRAI-DH-014</h3>
+                <span
+                  class="bcn-status-chip"
+                  data-status="survey-scheduled"
+                  style="--_chip: var(--st-survey-scheduled, #74add1)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Survey Scheduled</span>
+                </span>
+              </div>
+              <p class="drawer__sub">Rail Alignment · 2024-2029 Geotechnical Activities</p>
+            </header>
+            <div class="drawer__body">
+              <!-- Always-visible rollup strip: derived status + the live conflict -->
+              <div class="strip">
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path
+                      d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                    ></path>
+                    <path d="M12 9v4"></path>
+                    <path d="M12 17h.01"></path>
+                  </svg>
+                </span>
+                <span class="strip__text">
+                  <strong>Planned start Jun 17, 2026</strong> — lands before 2 pending reviews
+                  (geology Jun 18, 2026, noise Jun 20, 2026)
+                </span>
+              </div>
+              <div class="disc-tabs" role="tablist" aria-label="Disciplines">
+                <button type="button" role="tab" data-dim="biological" aria-selected="false">
+                  <span
+                    class="disc-tabs__dot"
+                    style="background: var(--st-cleared, #1a9850)"
+                  ></span>
+                  <span class="disc-tabs__label">Biological</span></button
+                ><button type="button" role="tab" data-dim="cultural" aria-selected="false">
+                  <span class="disc-tabs__dot" data-none="true"></span>
+                  <span class="disc-tabs__label">Cultural</span></button
+                ><button type="button" role="tab" data-dim="noise" aria-selected="false">
+                  <span
+                    class="disc-tabs__dot"
+                    style="background: var(--st-survey-scheduled, #74add1)"
+                  ></span>
+                  <span class="disc-tabs__label">Noise</span></button
+                ><button type="button" role="tab" data-dim="geology" aria-selected="true">
+                  <span
+                    class="disc-tabs__dot"
+                    style="background: var(--st-survey-scheduled, #74add1)"
+                  ></span>
+                  <span class="disc-tabs__label">Geology</span>
+                </button>
+              </div>
+              <!-- Biological — cleared -->
+              <section class="disc-panel" data-panel="biological" hidden="">
+                <div class="disc-panel__head">
+                  <span
+                    class="bcn-status-chip"
+                    data-status="cleared"
+                    style="--_chip: var(--st-cleared, #1a9850)"
+                  >
+                    <span class="bcn-status-chip__dot"></span>
+                    <span class="bcn-status-chip__label">Cleared</span>
+                  </span>
+                  <span class="disc-panel__when">Reviewed Jun 3, 2026</span>
+                </div>
+                <div class="bcn-key-value">
+                  <span class="bcn-key-value__key">Reviewer</span>
+                  <span class="bcn-key-value__val">C. Anderson (ESA)</span>
+                </div>
+                <div class="bcn-key-value">
+                  <span class="bcn-key-value__key">Determination note</span>
+                  <span class="kv-text"
+                    >Highly disturbed gravel work pad; elderberry shrubs &gt;165 ft from
+                    access.</span
+                  >
+                </div>
+                <div class="bcn-key-value">
+                  <span class="bcn-key-value__key">Survey record</span>
+                  <a class="survey__link" href="#" onclick="return false;">
+                    Pre-construction clearance survey · Jun 3, 2026
+                  </a>
+                </div>
+                <div class="bcn-key-value">
+                  <span class="bcn-key-value__key">Field note (verbatim)</span>
+                  <blockquote class="note note--sm">
+                    6/3 email: This DH is located in a gravel work pad. It was moved slightly to be
+                    placed outside of a dry roadside ditch and to be situated further from the
+                    railroad tracks. There are several large trees, and waterways nearby, but the
+                    site is situated in an area that is highly disturbed. A few elderberry shrubs
+                    are near the entrance to the road, but they are greater than 165' away.
+                  </blockquote>
+                </div>
+                <div class="disc-panel__foot">
+                  <span
+                    class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                  >
+                    <button class="esa-button__native" type="button">
+                      <span class="esa-button__label"> Edit biological review </span>
+                    </button>
+                  </span>
+                </div>
+              </section>
+              <!-- Cultural — not reviewed -->
+              <section class="disc-panel" data-panel="cultural" hidden="">
+                <div class="disc-panel__head"><span class="unreviewed">Not reviewed</span></div>
+                <p class="empty">
+                  No cultural resources review has been recorded for this work area.
+                </p>
+                <div class="disc-panel__foot">
+                  <span
+                    class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                  >
+                    <button class="esa-button__native" type="button">
+                      <span class="esa-button__label"> Add review </span>
+                    </button>
+                  </span>
+                  <span
+                    class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                  >
+                    <button class="esa-button__native" type="button">
+                      <span class="esa-button__label"> Mark no review required </span>
+                    </button>
+                  </span>
+                </div>
+              </section>
+              <!-- Noise — review scheduled -->
+              <section class="disc-panel" data-panel="noise" hidden="">
+                <div class="disc-panel__head">
+                  <span
+                    class="bcn-status-chip"
+                    data-status="survey-scheduled"
+                    style="--_chip: var(--st-survey-scheduled, #74add1)"
+                  >
+                    <span class="bcn-status-chip__dot"></span>
+                    <span class="bcn-status-chip__label">Survey Scheduled</span>
+                  </span>
+                  <span class="disc-panel__when"> Review scheduled Jun 20, 2026 (in 9 days) </span>
+                </div>
+                <div class="bcn-key-value">
+                  <span class="bcn-key-value__key">Reviewer</span>
+                  <span class="bcn-key-value__val">Not assigned</span>
+                </div>
+                <div class="bcn-key-value">
+                  <span class="bcn-key-value__key">Determination note</span>
+                  <span class="kv-text"
+                    >Potential noise issue raised near receptors; acoustic review pending.</span
+                  >
+                </div>
+                <div class="bcn-key-value">
+                  <span class="bcn-key-value__key">Survey record</span>
+                  <span class="bcn-key-value__val">No noise survey on record</span>
+                </div>
+                <div class="disc-panel__foot">
+                  <span
+                    class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                  >
+                    <button class="esa-button__native" type="button">
+                      <span class="esa-button__label"> Edit noise review </span>
+                    </button>
+                  </span>
+                </div>
+              </section>
+              <!-- Geology — review scheduled (default panel: the next pending review) -->
+              <section class="disc-panel" data-panel="geology">
+                <div class="disc-panel__head">
+                  <span
+                    class="bcn-status-chip"
+                    data-status="survey-scheduled"
+                    style="--_chip: var(--st-survey-scheduled, #74add1)"
+                  >
+                    <span class="bcn-status-chip__dot"></span>
+                    <span class="bcn-status-chip__label">Survey Scheduled</span>
+                  </span>
+                  <span class="disc-panel__when"> Review scheduled Jun 18, 2026 (in 7 days) </span>
+                </div>
+                <div class="bcn-key-value">
+                  <span class="bcn-key-value__key">Reviewer</span>
+                  <span class="bcn-key-value__val">Not assigned</span>
+                </div>
+                <div class="bcn-key-value">
+                  <span class="bcn-key-value__key">Determination note</span>
+                  <span class="kv-text"
+                    >Site relocated — pending geologist confirmation of the new position.</span
+                  >
+                </div>
+                <div class="bcn-key-value">
+                  <span class="bcn-key-value__key">Survey record</span>
+                  <span class="bcn-key-value__val">No geology survey on record</span>
+                </div>
+                <p class="disc-panel__warn">
+                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path>
+                    </svg>
+                  </span>
+                  This review lands one day after the planned start (Jun 17, 2026).
+                </p>
+                <div class="disc-panel__foot">
+                  <span
+                    class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                  >
+                    <button class="esa-button__native" type="button">
+                      <span class="esa-button__label"> Edit geology review </span>
+                    </button>
+                  </span>
+                </div>
+              </section>
+            </div>
+            <footer class="drawer__foot">
+              <span
+                class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
+              >
+                <button class="esa-button__native" type="button">
+                  <span class="esa-button__label"> Edit site details </span>
+                </button>
+              </span>
+            </footer>
+          </article>
+        </figure>
+      </section>
+      <!-- ═══════════════════ Concept 3 — Lifecycle / checklist ═══════════════════ -->
+      <section class="concept" aria-labelledby="c3-name">
+        <header class="concept__thesis">
+          <h3 class="concept__name" id="c3-name">
+            <span class="concept__num">3</span>Lifecycle / checklist
+          </h3>
+          <p class="concept__line">
+            The work area is a pipeline — Notification → Survey → Determinations → Outcome → Work
+            start — and every fact, conflict and edit lives at its step.
+          </p>
+          <div class="concept__pt">
+            <p class="concept__pt-label">Prioritizes</p>
+            <ul>
+              <li>
+                Temporal clarity: where are we, what's next, what's late — dates on every step
+              </li>
+              <li>
+                Conflicts surface where they belong: the buffer conflict at Determinations, the
+                start-before-review clash at Work start
+              </li>
+              <li>Inline edits at the step — no separate edit mode</li>
+            </ul>
+            <p class="concept__pt-label">Trades away</p>
+            <ul>
+              <li>Dense at-a-glance status across disciplines; the pipeline runs tall</li>
+            </ul>
+          </div>
+        </header>
+        <!-- Case A: DCRDS-DH-184 -->
+        <figure class="mockup">
+          <figcaption class="mockup__case">
+            DCRDS-DH-184 · the conflict jumped the queue — Determinations is live before the survey
+            happens.
+          </figcaption>
+          <article class="drawer">
+            <header class="drawer__head">
+              <div class="drawer__headrow">
+                <h3 class="drawer__title">DCRDS-DH-184</h3>
+                <span
+                  class="bcn-status-chip"
+                  data-status="provisional-block"
+                  style="--_chip: var(--st-provisional-block, #d73027)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Provisional Block</span>
+                </span>
+              </div>
+              <p class="drawer__sub">Roads · 2024-2029 Geotechnical Activities</p>
+            </header>
+            <div class="drawer__body">
+              <ol class="steps">
+                <li class="step" data-state="done">
+                  <span class="step__dot"></span>
+                  <div class="step__content">
+                    <p class="step__title">
+                      Notification <span class="step__when">May 15, 2026</span>
+                    </p>
+                    <p class="step__text">30-day landowner notification sent.</p>
+                  </div>
+                </li>
+                <li class="step" data-state="scheduled">
+                  <span class="step__dot"></span>
+                  <div class="step__content">
+                    <p class="step__title">
+                      Clearance survey
+                      <span class="step__when">scheduled Jun 15, 2026</span>
+                    </p>
+                    <p class="step__text">Biological clearance visit in 4 days.</p>
+                  </div>
+                </li>
+                <li class="step" data-state="live-red">
+                  <span class="step__dot"></span>
+                  <div class="step__content">
+                    <p class="step__title">
+                      Determinations <span class="step__when">decision needed now</span>
+                    </p>
+                    <ul class="check">
+                      <li class="check__row">
+                        <span
+                          class="check__dot"
+                          style="background: var(--st-survey-scheduled, #74add1)"
+                        ></span>
+                        <span class="check__dim">Biological</span>
+                        <span class="check__state">Scheduled Jun 15, 2026</span>
+                      </li>
+                      <li class="check__row">
+                        <span class="check__dot" data-none="true"></span>
+                        <span class="check__dim">Cultural Resources</span>
+                        <span class="check__state">Not reviewed</span>
+                      </li>
+                      <li class="check__row">
+                        <span class="check__dot" data-none="true"></span>
+                        <span class="check__dim">Noise</span>
+                        <span class="check__state">Not reviewed</span>
+                      </li>
+                      <li class="check__row">
+                        <span class="check__dot" data-none="true"></span>
+                        <span class="check__dim">Geology</span>
+                        <span class="check__state">Not reviewed</span>
+                      </li>
+                    </ul>
+                    <div class="action action--provisional action--instep">
+                      <p class="action__text">
+                        <strong>Buffer conflict — needs a manager decision.</strong> Inside the
+                        Swainson's Hawk ½-mile buffer (SWHA-2289-05182026), 146 ft from the nest ·
+                        est. end Jul 24, 2026.
+                      </p>
+                      <div class="action__btns">
+                        <span
+                          class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--sm"
+                        >
+                          <button class="esa-button__native" type="button">
+                            <span class="esa-button__label"> Confirm block </span>
+                          </button>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="step" data-state="future">
+                  <span class="step__dot"></span>
+                  <div class="step__content">
+                    <p class="step__title">Cleared / Blocked</p>
+                    <p class="step__text">
+                      Projected: Blocked through Jul 24, 2026 (est. 43 more days) once the block is
+                      confirmed.
+                    </p>
+                  </div>
+                </li>
+                <li class="step" data-state="future">
+                  <span class="step__dot"></span>
+                  <div class="step__content">
+                    <p class="step__title">
+                      Work start
+                      <span class="step__when">planned Jun 29, 2026</span>
+                    </p>
+                    <p class="step__flag">
+                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path
+                            d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                          ></path>
+                          <path d="M12 9v4"></path>
+                          <path d="M12 17h.01"></path>
+                        </svg>
+                      </span>
+                      Inside the buffer window — if the block is confirmed, the start slips past Jul
+                      24, 2026.
+                    </p>
+                  </div>
+                </li>
+              </ol>
+            </div>
+          </article>
+        </figure>
+        <!-- Case B: DCRAI-DH-014 -->
+        <figure class="mockup">
+          <figcaption class="mockup__case">
+            DCRAI-DH-014 · determinations are the live step; the start-before-review clash is
+            flagged at Work start.
+          </figcaption>
+          <article class="drawer">
+            <header class="drawer__head">
+              <div class="drawer__headrow">
+                <h3 class="drawer__title">DCRAI-DH-014</h3>
+                <span
+                  class="bcn-status-chip"
+                  data-status="survey-scheduled"
+                  style="--_chip: var(--st-survey-scheduled, #74add1)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Survey Scheduled</span>
+                </span>
+              </div>
+              <p class="drawer__sub">Rail Alignment · 2024-2029 Geotechnical Activities</p>
+            </header>
+            <div class="drawer__body">
+              <ol class="steps">
+                <li class="step" data-state="future">
+                  <span class="step__dot"></span>
+                  <div class="step__content">
+                    <p class="step__title">
+                      Notification <span class="step__when">not on record</span>
+                    </p>
+                    <p class="step__text">No 30-day landowner notification recorded.</p>
+                    <div class="step__act">
+                      <span
+                        class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                      >
+                        <button class="esa-button__native" type="button">
+                          <span class="esa-button__label"> Record notification </span>
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                </li>
+                <li class="step" data-state="done">
+                  <span class="step__dot"></span>
+                  <div class="step__content">
+                    <p class="step__title">
+                      Clearance survey <span class="step__when">Jun 3, 2026</span>
+                    </p>
+                    <p class="step__text">
+                      <a class="survey__link" href="#" onclick="return false;">
+                        Pre-construction clearance survey · Jun 3, 2026 · C. Anderson (ESA)
+                      </a>
+                    </p>
+                  </div>
+                </li>
+                <li class="step" data-state="live">
+                  <span class="step__dot"></span>
+                  <div class="step__content">
+                    <p class="step__title">
+                      Determinations <span class="step__when">2 reviews pending</span>
+                    </p>
+                    <ul class="check">
+                      <li class="check__row">
+                        <span
+                          class="check__dot"
+                          style="background: var(--st-cleared, #1a9850)"
+                        ></span>
+                        <span class="check__dim">Biological</span>
+                        <span class="check__state">Cleared · Jun 3, 2026 · C. Anderson (ESA)</span>
+                      </li>
+                      <li class="check__row">
+                        <span
+                          class="check__dot"
+                          style="background: var(--st-survey-scheduled, #74add1)"
+                        ></span>
+                        <span class="check__dim">Geology</span>
+                        <span class="check__state">Scheduled Jun 18, 2026 — site relocated</span>
+                      </li>
+                      <li class="check__row">
+                        <span
+                          class="check__dot"
+                          style="background: var(--st-survey-scheduled, #74add1)"
+                        ></span>
+                        <span class="check__dim">Noise</span>
+                        <span class="check__state">Scheduled Jun 20, 2026</span>
+                      </li>
+                      <li class="check__row">
+                        <span class="check__dot" data-none="true"></span>
+                        <span class="check__dim">Cultural Resources</span>
+                        <span class="check__act"
+                          ><span
+                            class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                          >
+                            <button class="esa-button__native" type="button">
+                              <span class="esa-button__label"> Add review </span>
+                            </button>
+                          </span>
+                        </span>
+                        <span class="check__state">Not reviewed</span>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="step" data-state="future">
+                  <span class="step__dot"></span>
+                  <div class="step__content">
+                    <p class="step__title">Cleared / Blocked</p>
+                    <p class="step__text">
+                      Pending 2 scheduled reviews and 1 unreviewed discipline.
+                    </p>
+                  </div>
+                </li>
+                <li class="step" data-state="future">
+                  <span class="step__dot"></span>
+                  <div class="step__content">
+                    <p class="step__title">
+                      Work start
+                      <span class="step__when">planned Jun 17, 2026</span>
+                    </p>
+                    <p class="step__flag">
+                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path
+                            d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                          ></path>
+                          <path d="M12 9v4"></path>
+                          <path d="M12 17h.01"></path>
+                        </svg>
+                      </span>
+                      Lands before geology (Jun 18, 2026) and noise (Jun 20, 2026) — move the start
+                      or expedite the reviews.
+                    </p>
+                    <div class="step__act">
+                      <span
+                        class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                      >
+                        <button class="esa-button__native" type="button">
+                          <span class="esa-button__label"> Edit planned start </span>
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                </li>
+              </ol>
+            </div>
+          </article>
+        </figure>
+      </section>
+    </div>
+  </section>
+</main>
+```
+
+## Styles (only what this section uses; tokens resolved for the theme)
+```css
+:root,
+[data-theme="beacon"] {
+  --badge-bg: #005862;
+  --badge-height-md: 20px;
+  --badge-height-sm: 16px;
+  --badge-radius: 0.25rem;
+  --badge-text-color: #ffffff;
+  --collapsible-bg: #ffffff;
+  --collapsible-border-color: #dcdcdc;
+  --collapsible-padding-x: 1rem;
+  --collapsible-radius: 0.5rem;
+  --collapsible-title-color: #3d3d3d;
+  --color-background: #fafafa;
+  --color-border: #dcdcdc;
+  --color-border-light: #efefef;
+  --color-border-strong: #bdbdbd;
+  --color-danger: #ef4444;
+  --color-primary: #005862;
+  --color-primary-hover: #00474f;
+  --color-primary-subtle: #effefb;
+  --color-secondary: #00918b;
+  --color-surface: #ffffff;
+  --color-text-inverse: #ffffff;
+  --color-text-link: #005862;
+  --color-text-primary: #3d3d3d;
+  --color-text-secondary: #525252;
+  --color-text-tertiary: #656565;
+  --font-decorative: "Besley", serif;
+  --font-mono: "Roboto Mono", ui-monospace, monospace;
+  --font-sans: "DM Sans", sans-serif;
+  --font-weight-medium: 450;
+  --font-weight-regular: 350;
+  --font-weight-semibold: 550;
+  --form-font-size-md: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
+  --form-font-size-sm: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
+  --form-height-md: 36px;
+  --form-height-sm: 28px;
+  --form-label-color: #525252;
+  --form-padding-x-md: 0.75rem;
+  --form-padding-x-sm: 0.625rem;
+  --form-radius-md: 0.25rem;
+  --form-radius-sm: 0.25rem;
+  --icon-size-md: 20px;
+  --icon-size-medium: 20px;
+  --icon-size-sm: 16px;
+  --icon-size-small: 16px;
+  --radius-100: 0.25rem;
+  --radius-200: 0.5rem;
+  --radius-300: 0.5rem;
+  --radius-full: 9999px;
+  --spacing-100: 0.25rem;
+  --spacing-150: 0.375rem;
+  --spacing-200: 0.5rem;
+  --spacing-250: 0.625rem;
+  --spacing-300: 0.75rem;
+  --spacing-400: 1rem;
+  --spacing-500: 1.5rem;
+  --spacing-600: 2rem;
+  --spacing-700: 3rem;
+  --spacing-800: 4rem;
+  --st-blocked: #d73027;
+  --st-provisional-block: #d73027;
+  --st-survey-scheduled: #74add1;
+  --transition-fast: 0.15s ease;
+  --type-size-100: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
+  --type-size-150: clamp(0.6875rem, 0.61rem + 0.38vw, 0.875rem);
+  --type-size-200: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
+  --type-size-400: clamp(1rem, 0.88rem + 0.6vw, 1.25rem);
+}
+
+body {
+  background: var(--color-background);
+}
+.spec {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: var(--spacing-700) var(--spacing-500) var(--spacing-800);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-700);
+}
+.spec__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+}
+.spec__title {
+  margin: 0;
+  font-family: var(--font-decorative);
+  font-size: 2rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.spec__intro {
+  margin: 0;
+  max-width: 86ch;
+  font-size: var(--type-size-200, 1rem);
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+.spec__intro strong {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
+}
+.v2 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-500);
+}
+.v2__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+}
+.v2__title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.v2__changes {
+  margin: 0;
+  padding-left: 1.25rem;
+  max-width: 86ch;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+.v2__changes li {
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+.v2__changes strong {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
+}
+.v2__pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: var(--spacing-500);
+  align-items: start;
+  max-width: 1000px;
+}
+.mockup {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+.v2__pair .mockup {
+  max-width: 460px;
+  width: 100%;
+  justify-self: center;
+}
+.mockup__case {
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+.drawer {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+  box-shadow: 0 12px 32px #0000001a;
+  overflow: hidden;
+}
+.drawer__head {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--spacing-400);
+  border-bottom: 1px solid var(--color-border);
+}
+.drawer__headrow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+}
+.drawer__title {
+  margin: 0;
+  font-size: var(--type-size-400);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-status-chip[data-status="provisional-block"],
+.bcn-status-chip[data-status="provisional-block"] .bcn-status-chip__dot {
+  background: var(--color-surface);
+  box-shadow: inset 0 0 0 1.5px var(--st-provisional-block);
+}
+.drawer__sub {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+.band {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-200) var(--spacing-300);
+  padding: var(--spacing-250) var(--spacing-400);
+  background: var(--color-background);
+  border-bottom: 1px solid var(--color-border);
+}
+.drawer__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+  padding: var(--spacing-400);
+}
+.decide {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  padding: var(--spacing-250) var(--spacing-300);
+  border-radius: var(--radius-200);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+}
+.decide--prov {
+  background: color-mix(in srgb, var(--st-provisional-block) 6%, transparent);
+  border-color: color-mix(in srgb, var(--st-provisional-block) 45%, transparent);
+  --color-danger: var(--st-provisional-block);
+}
+.decide__line {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.45;
+  color: var(--color-text-primary);
+}
+.decide__line--fact {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-250);
+}
+.decide--prov .decide__line {
+  color: color-mix(in srgb, var(--st-provisional-block) 72%, #1a1a1a);
+}
+.obs-id {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 1px var(--spacing-200);
+  border-radius: var(--radius-100);
+  background: var(--color-surface);
+  border: 1px solid color-mix(in srgb, var(--st-provisional-block) 45%, transparent);
+  color: color-mix(in srgb, var(--st-provisional-block) 72%, #1a1a1a);
+  white-space: nowrap;
+}
+.decide__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-200);
+}
+.drawer__section {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  margin: 0 0 var(--spacing-300);
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.drawer__section .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+}
+.board {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-200);
+}
+.board__cell--btn {
+  width: 100%;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  border: 1px solid var(--color-border-light);
+  background: var(--color-surface);
+  transition:
+    border-color 0.12s ease,
+    background 0.12s ease;
+}
+.board__cell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-150);
+  padding: var(--spacing-250) var(--spacing-300);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-200);
+  background: var(--color-surface);
+}
+.board__cellhead {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  width: 100%;
+}
+.board__dim {
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.board__cellhead .board__dim {
+  flex: 1;
+  min-width: 0;
+}
+.board__chev {
+  display: inline-flex;
+  color: var(--color-text-tertiary);
+}
+.board__meta {
+  font-size: 0.8125rem;
+  color: var(--color-text-tertiary);
+}
+.unreviewed {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--spacing-250);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-full);
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+}
+.drawer__more {
+  display: flex;
+  flex-direction: column;
+}
+.drawer__more .esa-collapsible + .esa-collapsible {
+  border-top: 1px solid var(--color-border-light);
+}
+.drawer__foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-200);
+  padding: var(--spacing-300) var(--spacing-400);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+.decide__row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-250);
+}
+.decide__row--warn .esa-icon {
+  flex-shrink: 0;
+  color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+}
+.decide__warntext {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+}
+.v2__sub {
+  margin: var(--spacing-300) 0 0;
+  font-size: 1.1875rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.stack {
+  position: relative;
+  width: 100%;
+  max-width: 540px;
+}
+.stack__parent {
+  position: relative;
+  width: calc(100% - 72px);
+}
+.band--4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+.band__alert {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+}
+.decide--blocked {
+  background: color-mix(in srgb, var(--st-blocked) 10%, transparent);
+  border-color: color-mix(in srgb, var(--st-blocked) 30%, transparent);
+}
+.decide--blocked .decide__line {
+  color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+}
+.board__cell--btn[data-active] {
+  border-color: var(--color-primary);
+  box-shadow: inset 0 0 0 1px var(--color-primary);
+  background: var(--color-primary-subtle);
+}
+.stack__parent:after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-300);
+  background: #0d111438;
+  z-index: 4;
+  pointer-events: none;
+}
+.stack__child {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: calc(100% - 72px);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -16px 0 40px #00000038;
+  z-index: 5;
+}
+.drawer__close {
+  margin-left: auto;
+  color: var(--color-text-secondary);
+}
+.stack__child .drawer__body {
+  flex: 1;
+}
+.child__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-300);
+}
+.child__count {
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.revs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.rev {
+  position: relative;
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  column-gap: var(--spacing-250);
+  padding-bottom: var(--spacing-400);
+}
+.rev:not(:last-child):before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 20px;
+  bottom: 2px;
+  width: 2px;
+  background: var(--color-border);
+}
+.rev__dot {
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-full);
+  margin-top: 2px;
+  z-index: 1;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border-strong);
+}
+.rev[data-kind="scheduled"] .rev__dot {
+  border-color: var(--st-survey-scheduled);
+}
+.rev__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  min-width: 0;
+}
+.rev__head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--spacing-200);
+  margin: 0;
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.rev__when {
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+.rev__chiprow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-200);
+}
+.rev__note {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+.rev:last-child {
+  padding-bottom: 0;
+}
+.rev[data-kind="blocked"] .rev__dot {
+  background: var(--st-blocked);
+  border-color: var(--st-blocked);
+}
+.rev__until {
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+.rev__current {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px var(--spacing-200);
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+.model-note {
+  max-width: 86ch;
+  padding: var(--spacing-400) var(--spacing-500);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+.model-note__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.model-note__text {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+.model-note__text code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  padding: 1px 5px;
+  border-radius: var(--radius-100);
+  background: var(--color-background);
+  border: 1px solid var(--color-border-light);
+}
+.model-note__text strong {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
+}
+.evaluate {
+  max-width: 86ch;
+  padding: var(--spacing-500);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+}
+.evaluate__title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.evaluate__list {
+  margin: 0;
+  padding-left: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-250);
+}
+.evaluate__list li {
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+.round1 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-500);
+  padding-top: var(--spacing-600);
+  border-top: 1px solid var(--color-border);
+}
+.round1__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+.round1__title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.round1__line {
+  margin: 0;
+  max-width: 86ch;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+.concepts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: var(--spacing-700) var(--spacing-500);
+  align-items: start;
+}
+.concept {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+  max-width: 460px;
+  width: 100%;
+  justify-self: center;
+}
+.concept__thesis {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-250);
+}
+.concept__name {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-250);
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.concept__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  flex-shrink: 0;
+}
+.concept__line {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+.concept__pt {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+}
+.concept__pt-label {
+  margin: var(--spacing-150) 0 0;
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.concept__pt ul {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+}
+.concept__pt li {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+.action {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-250);
+  padding: var(--spacing-400);
+  border-radius: var(--radius-300);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+}
+.action--provisional {
+  background: color-mix(in srgb, var(--st-provisional-block) 6%, transparent);
+  border: 1px solid color-mix(in srgb, var(--st-provisional-block) 45%, transparent);
+}
+.action__title {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.action--provisional .action__title {
+  color: color-mix(in srgb, var(--st-provisional-block) 72%, #1a1a1a);
+}
+.action__text {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+.action__facts {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+.action__btns {
+  display: flex;
+  gap: var(--spacing-200);
+  margin-top: var(--spacing-100);
+}
+.rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+.conflict {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-300);
+  padding: var(--spacing-250) var(--spacing-300);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+}
+.conflict__main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.conflict__sub {
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-tertiary);
+}
+.conflict__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+.action__conflict {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-150);
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+}
+.action__conflict .esa-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.strip {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-250);
+  padding: var(--spacing-250) var(--spacing-300);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+}
+.strip .esa-icon {
+  flex-shrink: 0;
+  color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+}
+.strip__text {
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--color-text-secondary);
+}
+.strip__text strong {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.disc-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-150);
+}
+.disc-tabs [role="tab"] {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-100);
+  padding: var(--spacing-200) var(--spacing-100);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+  background: var(--color-surface);
+  font-family: inherit;
+  cursor: pointer;
+  transition:
+    border-color 0.12s ease,
+    background 0.12s ease;
+}
+.disc-tabs__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+.disc-tabs__label {
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+.disc-tabs__dot[data-none="true"] {
+  background: var(--color-surface);
+  border: 1px dashed var(--color-border-strong);
+}
+.disc-tabs [role="tab"][aria-selected="true"] {
+  border-color: var(--color-primary);
+  background: var(--color-primary-subtle);
+  box-shadow: inset 0 0 0 1px var(--color-primary);
+}
+.disc-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  padding: var(--spacing-400);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+  background: var(--color-surface);
+}
+.disc-panel[hidden] {
+  display: none;
+}
+.disc-panel__head {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+}
+.disc-panel__when {
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+.kv-text {
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+.disc-panel__warn {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-150);
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+}
+.disc-panel__warn .esa-icon {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.disc-panel__foot {
+  display: flex;
+  gap: var(--spacing-200);
+  margin-top: var(--spacing-100);
+}
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  column-gap: var(--spacing-300);
+  padding-bottom: var(--spacing-400);
+}
+.step:not(:last-child):before {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 28px;
+  bottom: 4px;
+  width: 2px;
+  background: var(--color-border);
+}
+.step__dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  border: 2px solid var(--color-border-strong);
+  margin-top: 0;
+  z-index: 1;
+}
+.step[data-state="done"] .step__dot {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.step[data-state="done"] .step__dot:after {
+  content: "";
+  width: 9px;
+  height: 5px;
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotate(-45deg);
+  margin-top: -2px;
+}
+.step__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  min-width: 0;
+  padding-top: 2px;
+}
+.step__title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--spacing-200);
+  margin: 0;
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.step__when {
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+.step__text {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+.step[data-state="scheduled"] .step__dot {
+  border-color: var(--st-survey-scheduled);
+}
+.step[data-state="live-red"] .step__dot {
+  border-color: var(--st-provisional-block);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--st-provisional-block) 18%, transparent);
+}
+.step[data-state="live-red"] .step__dot:after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--st-provisional-block);
+}
+.step[data-state="live-red"] .step__when {
+  color: color-mix(in srgb, var(--st-provisional-block) 72%, #1a1a1a);
+}
+.check {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.check__row {
+  display: grid;
+  grid-template-columns: 12px 1fr auto;
+  column-gap: var(--spacing-250);
+  row-gap: 2px;
+  align-items: center;
+  padding: var(--spacing-200) 0;
+}
+.check__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  justify-self: center;
+}
+.check__dim {
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.check__state {
+  grid-column: 2 / -1;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+.check__row + .check__row {
+  border-top: 1px solid var(--color-border-light);
+}
+.check__dot[data-none="true"] {
+  background: var(--color-surface);
+  border: 1px dashed var(--color-border-strong);
+}
+.action--instep {
+  padding: var(--spacing-300);
+  margin-top: var(--spacing-250);
+}
+.action__text strong {
+  color: color-mix(in srgb, var(--st-provisional-block) 72%, #1a1a1a);
+  font-weight: var(--font-weight-semibold);
+}
+.step[data-state="future"] .step__dot {
+  border-style: dashed;
+  border-color: var(--color-border-strong);
+}
+.step:last-child {
+  padding-bottom: 0;
+}
+.step__flag {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-150);
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+}
+.step__flag .esa-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.step__act {
+  display: flex;
+  gap: var(--spacing-200);
+  margin-top: var(--spacing-100);
+}
+.survey__link {
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-secondary);
+  text-decoration: none;
+  cursor: pointer;
+}
+.step[data-state="live"] .step__dot {
+  border-color: var(--st-survey-scheduled);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--st-survey-scheduled) 22%, transparent);
+}
+.step[data-state="live"] .step__dot:after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--st-survey-scheduled);
+}
+.check__act {
+  grid-row: 1;
+  grid-column: 3;
+}
+.bcn-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  padding: 2px var(--spacing-250);
+  border-radius: var(--radius-full);
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--_chip) 16%, transparent);
+  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+}
+.bcn-status-chip__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--_chip);
+  flex-shrink: 0;
+}
+.bcn-key-value {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.bcn-key-value__key {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--form-label-color);
+}
+.bcn-key-value__val {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-collapsible {
+  border: 1px solid var(--collapsible-border-color, var(--color-border, #e5e5e5));
+  border-radius: var(--collapsible-radius, var(--radius-300, 0.5rem));
+  background: var(--collapsible-bg, var(--color-surface, #fff));
+}
+.esa-collapsible--flush {
+  border: none;
+  border-radius: 0;
+  background: transparent;
+}
+.esa-collapsible__summary {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200, 0.5rem);
+  padding: var(--spacing-300, 0.75rem) var(--collapsible-padding-x, var(--spacing-400, 1rem));
+  font-size: var(--type-size-150, 0.9375rem);
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--collapsible-title-color, var(--color-text-primary, #171717));
+  cursor: pointer;
+  list-style: none;
+}
+.esa-collapsible--flush > .esa-collapsible__summary,
+.esa-collapsible--flush > .esa-collapsible__body {
+  padding-inline: 0;
+}
+.esa-collapsible__summary .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary, #404040);
+}
+.esa-collapsible__summary:after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--color-text-tertiary, #737373);
+  border-bottom: 2px solid var(--color-text-tertiary, #737373);
+  transform: rotate(-45deg);
+  transition: transform 0.15s ease;
+  margin-left: auto;
+}
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
+  --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));
+  --_badge-height: var(--badge-height-md, 20px);
+  --_badge-font-size: 11px;
+  --_badge-padding-x: 6px;
+  --_badge-min-width: var(--badge-height-md, 20px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--_badge-height);
+  min-width: var(--_badge-min-width);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--badge-radius, var(--radius-100, 4px));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  font-size: var(--_badge-font-size);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+.esa-badge--sm {
+  --_badge-height: var(--badge-height-sm, 16px);
+  --_badge-font-size: 10px;
+  --_badge-padding-x: 4px;
+  --_badge-min-width: var(--badge-height-sm, 16px);
+}
+.esa-badge--secondary {
+  --_badge-bg: var(--color-secondary, #5787b9);
+}
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-icon-button--sm {
+  --_ib-size: var(--form-height-sm, 32px);
+}
+.esa-collapsible[open] > .esa-collapsible__summary:after {
+  transform: rotate(45deg);
+}
+.esa-collapsible__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400, 1rem);
+  padding: 0 var(--collapsible-padding-x, var(--spacing-400, 1rem)) var(--spacing-400, 1rem);
+}
+.esa-button {
+  --_btn-height: var(--form-height-md, 40px);
+  --_btn-padding-x: var(--form-padding-x-md, 16px);
+  --_btn-font-size: var(--form-font-size-md, 14px);
+  --_btn-radius: var(--form-radius-md, 6px);
+  --_accent: var(--color-primary, #43608a);
+  --_accent-hover: var(--color-primary-hover, #39506f);
+  --_on: var(--color-text-inverse, #ffffff);
+  display: inline-block;
+}
+.esa-button--sm {
+  --_btn-height: var(--form-height-sm, 32px);
+  --_btn-padding-x: var(--form-padding-x-sm, 12px);
+  --_btn-font-size: var(--form-font-size-sm, 12px);
+  --_btn-radius: var(--form-radius-sm, 4px);
+}
+.esa-button--color-danger {
+  --_accent: var(--color-danger, #ef4444);
+  --_accent-hover: color-mix(in srgb, var(--color-danger, #ef4444) 85%, #000);
+}
+.esa-button__native {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  height: var(--_btn-height);
+  padding-inline: var(--_btn-padding-x);
+  border: 1px solid transparent;
+  border-radius: var(--_btn-radius);
+  font-size: var(--_btn-font-size);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-button--sm .esa-button__native {
+  height: auto;
+  padding-block: var(--spacing-150, 6px);
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: transparent;
+}
+.esa-button__label {
+  white-space: nowrap;
+}
+.esa-button--appearance-outline .esa-button__native,
+.esa-button--appearance-dashed .esa-button__native {
+  background: transparent;
+  color: var(--_accent);
+  border-color: var(--_accent);
+}
+.esa-button--color-ghost .esa-button__native {
+  background: transparent;
+  color: var(--color-text-primary, #171717);
+  border-color: transparent;
+}
+.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border, #e5e5e5);
+}
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-weight: var(--font-weight-regular, 350);
+  color: var(--color-text-primary, #3d3d3d);
+  background: var(--color-surface, #fff);
+  -webkit-font-smoothing: antialiased;
+}
+:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
+  margin: 0;
+}
+button {
+  font-family: inherit;
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+a {
+  color: var(--color-text-link, #005862);
+  text-decoration: none;
+}
+```
+
+## Tokens
+| Token | Value | Tier |
+|---|---|---|
+| `--badge-bg` | `#005862` | component |
+| `--badge-height-md` | `20px` | component |
+| `--badge-height-sm` | `16px` | component |
+| `--badge-radius` | `.25rem` | component |
+| `--badge-text-color` | `#ffffff` | component |
+| `--collapsible-bg` | `#ffffff` | component |
+| `--collapsible-border-color` | `#dcdcdc` | component |
+| `--collapsible-padding-x` | `1rem` | component |
+| `--collapsible-radius` | `.5rem` | component |
+| `--collapsible-title-color` | `#3d3d3d` | component |
+| `--color-background` | `#fafafa` | semantic |
+| `--color-border` | `#dcdcdc` | semantic |
+| `--color-border-light` | `#efefef` | semantic |
+| `--color-border-strong` | `#bdbdbd` | semantic |
+| `--color-danger` | `#ef4444` | semantic |
+| `--color-primary` | `#005862` | semantic |
+| `--color-primary-hover` | `#00474f` | semantic |
+| `--color-primary-subtle` | `#effefb` | semantic |
+| `--color-secondary` | `#00918b` | semantic |
+| `--color-surface` | `#ffffff` | semantic |
+| `--color-text-inverse` | `#ffffff` | semantic |
+| `--color-text-link` | `#005862` | semantic |
+| `--color-text-primary` | `#3d3d3d` | semantic |
+| `--color-text-secondary` | `#525252` | semantic |
+| `--color-text-tertiary` | `#656565` | semantic |
+| `--font-decorative` | `"Besley", serif` | component |
+| `--font-mono` | `"Roboto Mono", ui-monospace, monospace` | primitive |
+| `--font-sans` | `"DM Sans", sans-serif` | primitive |
+| `--font-weight-medium` | `450` | primitive |
+| `--font-weight-regular` | `350` | primitive |
+| `--font-weight-semibold` | `550` | primitive |
+| `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | component |
+| `--form-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` | component |
+| `--form-height-md` | `36px` | component |
+| `--form-height-sm` | `28px` | component |
+| `--form-label-color` | `#525252` | component |
+| `--form-padding-x-md` | `.75rem` | component |
+| `--form-padding-x-sm` | `.625rem` | component |
+| `--form-radius-md` | `.25rem` | component |
+| `--form-radius-sm` | `.25rem` | component |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-medium` | `20px` | component |
+| `--icon-size-sm` | `16px` | primitive |
+| `--icon-size-small` | `16px` | component |
+| `--radius-100` | `.25rem` | primitive |
+| `--radius-200` | `.5rem` | primitive |
+| `--radius-300` | `.5rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--spacing-600` | `2rem` | primitive |
+| `--spacing-700` | `3rem` | primitive |
+| `--spacing-800` | `4rem` | primitive |
+| `--st-blocked` | `#d73027` | component |
+| `--st-provisional-block` | `#d73027` | component |
+| `--st-survey-scheduled` | `#74add1` | component |
+| `--transition-fast` | `.15s ease` | primitive |
+| `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | primitive |
+| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | primitive |
+| `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
+
+---
+_Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._
