@@ -1,12 +1,13 @@
 # Token contract — permit-tracking
 
-The 70 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 81 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
 | Token | Value |
 |---|---|
 | `--color-accent` | `#f9a134` |
+| `--color-background` | `#fafafa` |
 | `--color-border` | `#dcdcdc` |
 | `--color-border-light` | `#efefef` |
 | `--color-primary` | `#005862` |
@@ -23,6 +24,11 @@ The 70 design tokens this page actually uses, resolved to their final values for
 
 | Token | Value |
 |---|---|
+| `--badge-bg` | `#005862` |
+| `--badge-height-md` | `20px` |
+| `--badge-height-sm` | `16px` |
+| `--badge-radius` | `.25rem` |
+| `--badge-text-color` | `#ffffff` |
 | `--bcn-gray-100` | `#efefef` |
 | `--bcn-gray-1000` | `#000000` |
 | `--bcn-gray-200` | `#dcdcdc` |
@@ -41,6 +47,7 @@ The 70 design tokens this page actually uses, resolved to their final values for
 | `--form-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--form-height-md` | `36px` |
 | `--form-height-sm` | `28px` |
+| `--form-label-color` | `#525252` |
 | `--form-padding-x-md` | `.75rem` |
 | `--form-padding-x-sm` | `.625rem` |
 | `--form-radius-md` | `.25rem` |
@@ -68,6 +75,7 @@ The 70 design tokens this page actually uses, resolved to their final values for
 | `--icon-size-sm` | `16px` |
 | `--icon-size-xs` | `14px` |
 | `--radius-050` | `.125rem` |
+| `--radius-100` | `.25rem` |
 | `--radius-200` | `.5rem` |
 | `--radius-300` | `.5rem` |
 | `--radius-full` | `9999px` |
@@ -83,7 +91,10 @@ The 70 design tokens this page actually uses, resolved to their final values for
 | `--spacing-600` | `2rem` |
 | `--spacing-700` | `3rem` |
 | `--transition-fast` | `.15s ease` |
+| `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
 | `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
+| `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
 | `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
 

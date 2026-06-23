@@ -1,6 +1,6 @@
 # Token contract — monitoring-dashboard
 
-The 91 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 92 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -50,6 +50,7 @@ The 91 design tokens this page actually uses, resolved to their final values for
 | `--card-header-color` | `#3d3d3d` |
 | `--card-padding` | `1.5rem` |
 | `--card-radius` | `.5rem` |
+| `--color-commitment` | `#58508d` |
 | `--font-decorative` | `"Besley", serif` |
 | `--form-bg` | `#ffffff` |
 | `--form-border-color` | `#dcdcdc` |
