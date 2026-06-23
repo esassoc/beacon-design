@@ -1,6 +1,6 @@
 # Token contract — prototypes-permit-tracking
 
-The 96 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 102 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -14,6 +14,7 @@ The 96 design tokens this page actually uses, resolved to their final values for
 | `--color-primary-hover` | `#00474f` |
 | `--color-secondary` | `#00918b` |
 | `--color-surface` | `#ffffff` |
+| `--color-surface-elevated` | `#ffffff` |
 | `--color-surface-sunken` | `#efefef` |
 | `--color-text-inverse` | `#ffffff` |
 | `--color-text-link` | `#005862` |
@@ -48,6 +49,10 @@ The 96 design tokens this page actually uses, resolved to their final values for
 | `--card-header-color` | `#3d3d3d` |
 | `--card-padding` | `1.5rem` |
 | `--card-radius` | `.5rem` |
+| `--dialog-bg` | `#ffffff` |
+| `--dialog-border-color` | `#efefef` |
+| `--dialog-radius` | `.75rem` |
+| `--dialog-width` | `480px` |
 | `--font-decorative` | `"Besley", serif` |
 | `--form-bg` | `#ffffff` |
 | `--form-border-color` | `#dcdcdc` |
@@ -91,6 +96,7 @@ The 96 design tokens this page actually uses, resolved to their final values for
 | `--radius-100` | `.25rem` |
 | `--radius-200` | `.5rem` |
 | `--radius-300` | `.5rem` |
+| `--radius-400` | `.75rem` |
 | `--radius-full` | `9999px` |
 | `--shadow-400` | `0 8px 32px -8px rgba(0, 0, 0, .08)` |
 | `--spacing-050` | `.125rem` |
