@@ -1,13 +1,12 @@
 # Token contract — prototypes-data-catalog-action
 
-The 79 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 76 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
 | Token | Value |
 |---|---|
 | `--color-accent` | `#f9a134` |
-| `--color-background` | `#fafafa` |
 | `--color-border` | `#dcdcdc` |
 | `--color-border-light` | `#efefef` |
 | `--color-primary` | `#005862` |
@@ -58,7 +57,6 @@ The 79 design tokens this page actually uses, resolved to their final values for
 | `--form-border-width` | `1px` |
 | `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
 | `--form-height-md` | `36px` |
-| `--form-height-xs` | `24px` |
 | `--form-label-color` | `#525252` |
 | `--form-padding-x-md` | `.75rem` |
 | `--form-radius-md` | `.25rem` |
@@ -70,7 +68,6 @@ The 79 design tokens this page actually uses, resolved to their final values for
 | Token | Value |
 |---|---|
 | `--font-sans` | `"DM Sans", sans-serif` |
-| `--font-weight-bold` | `650` |
 | `--font-weight-medium` | `450` |
 | `--font-weight-regular` | `350` |
 | `--font-weight-semibold` | `550` |

@@ -1,6 +1,6 @@
 # Token contract — prototypes-data-catalog-requirement-streamlined
 
-The 76 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 80 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -58,6 +58,9 @@ The 76 design tokens this page actually uses, resolved to their final values for
 | `--form-padding-x-sm` | `.625rem` |
 | `--form-radius-md` | `.25rem` |
 | `--form-radius-sm` | `.25rem` |
+| `--icon-link-font-size-md` | `1rem` |
+| `--icon-link-font-size-sm` | `.875rem` |
+| `--icon-link-gap` | `.375rem` |
 | `--icon-size-medium` | `20px` |
 | `--icon-size-small` | `16px` |
 | `--side-dialog-width` | `400px` |
@@ -68,6 +71,7 @@ The 76 design tokens this page actually uses, resolved to their final values for
 | Token | Value |
 |---|---|
 | `--font-sans` | `"DM Sans", sans-serif` |
+| `--font-weight-bold` | `650` |
 | `--font-weight-medium` | `450` |
 | `--font-weight-regular` | `350` |
 | `--font-weight-semibold` | `550` |

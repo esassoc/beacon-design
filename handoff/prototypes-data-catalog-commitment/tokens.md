@@ -1,6 +1,6 @@
 # Token contract — prototypes-data-catalog-commitment
 
-The 93 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 101 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -9,9 +9,11 @@ The 93 design tokens this page actually uses, resolved to their final values for
 | `--color-accent` | `#f9a134` |
 | `--color-border` | `#dcdcdc` |
 | `--color-border-light` | `#efefef` |
+| `--color-border-strong` | `#bdbdbd` |
+| `--color-danger` | `#ef4444` |
 | `--color-primary` | `#005862` |
 | `--color-primary-hover` | `#00474f` |
-| `--color-secondary` | `#00918b` |
+| `--color-primary-subtle` | `#effefb` |
 | `--color-surface` | `#ffffff` |
 | `--color-surface-elevated` | `#ffffff` |
 | `--color-surface-sunken` | `#efefef` |
@@ -46,15 +48,16 @@ The 93 design tokens this page actually uses, resolved to their final values for
 | `--collapsible-radius` | `.5rem` |
 | `--collapsible-title-color` | `#3d3d3d` |
 | `--color-commitment` | `#58508d` |
+| `--color-link` | `#005862` |
 | `--dialog-bg` | `#ffffff` |
 | `--dialog-border-color` | `#efefef` |
 | `--dialog-radius` | `.75rem` |
 | `--dialog-width` | `480px` |
-| `--empty-state-gap` | `.5rem` |
-| `--empty-state-icon-size-md` | `48px` |
-| `--empty-state-icon-size-xs` | `24px` |
-| `--empty-state-title-color` | `#3d3d3d` |
+| `--filter-clear-color` | `#7c7c7c` |
+| `--filter-clear-color-hover` | `#ef4444` |
 | `--font-decorative` | `"Besley", serif` |
+| `--form-bg` | `#ffffff` |
+| `--form-border-color` | `#dcdcdc` |
 | `--form-border-width` | `1px` |
 | `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
 | `--form-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
@@ -63,8 +66,11 @@ The 93 design tokens this page actually uses, resolved to their final values for
 | `--form-label-color` | `#525252` |
 | `--form-padding-x-md` | `.75rem` |
 | `--form-padding-x-sm` | `.625rem` |
+| `--form-padding-y-md` | `.5rem` |
+| `--form-placeholder-color` | `#7c7c7c` |
 | `--form-radius-md` | `.25rem` |
 | `--form-radius-sm` | `.25rem` |
+| `--form-text-color` | `#3d3d3d` |
 | `--icon-link-font-size-md` | `1rem` |
 | `--icon-link-font-size-sm` | `.875rem` |
 | `--icon-link-gap` | `.375rem` |
@@ -108,6 +114,8 @@ The 93 design tokens this page actually uses, resolved to their final values for
 | `--transition-fast` | `.15s ease` |
 | `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
+| `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--type-size-250` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` |
 | `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
 
 ## Component-scoped
