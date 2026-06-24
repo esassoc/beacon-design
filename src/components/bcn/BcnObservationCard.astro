@@ -21,7 +21,9 @@
 // BcnFledgingCountdown, BcnCommitmentRow, esa-icon, esa-icon-link.
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import BcnStatusChip from './BcnStatusChip.astro';
-import BcnFledgingCountdown from './BcnFledgingCountdown.astro';
+// Fledging UI hidden (commented out, not deleted) — re-enable alongside the hasFledge
+// const, the summary pill, and the body panel below.
+// import BcnFledgingCountdown from './BcnFledgingCountdown.astro';
 import BcnCommitmentRow from './BcnCommitmentRow.astro';
 import type { Find } from '../../data/monitoring';
 import { findStateMeta, findNeedsAction } from '../../data/monitoring';
@@ -35,7 +37,7 @@ const { find, open = false } = Astro.props;
 
 const meta = findStateMeta(find);
 const needsAction = findNeedsAction(find);
-const hasFledge = Boolean(find.fledgeDate);
+// const hasFledge = Boolean(find.fledgeDate); // hidden with the fledging UI (see commented blocks below)
 const isConcern = find.kind === 'concern';
 const dateVerb = isConcern ? 'raised' : 'observed';
 const ALERT = '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>';
@@ -64,7 +66,8 @@ const ALERT = '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a
     <span class="bcn-obs__id">{find.shortId}</span>
     <span class="bcn-obs__meta">{dateVerb} {find.observedDate}{find.workArea && ` · ${find.workArea}`}</span>
     <span class="bcn-obs__spacer"></span>
-    {hasFledge && <span class="bcn-obs__fledge">~{find.daysToFledge}d to fledge</span>}
+    {/* Fledging pill — hidden (commented out, not deleted) pending sign-off on hatch/fledge estimates.
+    {hasFledge && <span class="bcn-obs__fledge">~{find.daysToFledge}d to fledge</span>} */}
     <BcnStatusChip status={find.state} label={meta.label} hex={meta.hex} />
   </summary>
 
@@ -76,11 +79,12 @@ const ALERT = '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a
       </p>
     )}
 
+    {/* Fledging countdown — hidden (commented out, not deleted) pending sign-off on hatch/fledge estimate data.
     {hasFledge && (
       <div class="bcn-obs__fledge-panel">
         <BcnFledgingCountdown find={find} />
       </div>
-    )}
+    )} */}
 
     <section class="bcn-obs__section">
       <h4 class="bcn-obs__h">Relevant commitments</h4>
