@@ -50,7 +50,6 @@ export default {
       acceptance: [
         'Lands on "Needs action" + "Source"; switching Show to All reveals every card and restores full counts; switching Group by to Date re-lays the same cards as a newest-first dated log; groups with no visible cards disappear.',
       ],
-      js: ['src/pages/prototypes/monitoring/dashboard.astro'],
     },
     {
       label: 'Observation card (parent → commitments)',
@@ -72,7 +71,6 @@ export default {
       acceptance: [
         'Collapsed, the card shows species/concern + id + meta + a single status chip; clicking it expands inline to the field note + relevant-commitment rows; concern cards show the danger marker and "raised"; no fledging pill or panel renders while hidden.',
       ],
-      js: ['src/components/bcn/BcnObservationCard.astro'],
     },
     {
       label: 'Relevant-commitment row',
@@ -90,7 +88,6 @@ export default {
       acceptance: [
         'Each relevant commitment renders as a slim row (code + title + chevron); click or Enter/Space opens the drawer for that code; there is no status chip on the row.',
       ],
-      js: ['src/components/bcn/BcnCommitmentRow.astro'],
     },
     {
       label: 'Commitment side drawer (full CoA text)',
@@ -111,7 +108,6 @@ export default {
       acceptance: [
         'Clicking a commitment row opens a 640px right side-dialog over a blurred backdrop, above the topbar, showing the code, title, source, and full CoA text with the original line breaks; Close dismisses it.',
       ],
-      js: ['src/pages/prototypes/monitoring/dashboard.astro'],
     },
   ],
 };

@@ -56,7 +56,6 @@ export default {
       acceptance: [
         'Paths/Status default to "all"; narrowing either re-scopes the map and every figure below it; "Download KMZ" saves a real .kmz whose colors match the map palette.',
       ],
-      js: ['src/pages/prototypes/permit-tracking.astro'],
     },
     {
       label: 'Status map & legend',
@@ -77,7 +76,6 @@ export default {
       acceptance: [
         'Each path segment is colored by derived status on the red→green readiness ramp; the legend matches those colors in ramp order; clicking a segment opens its dossier.',
       ],
-      js: ['src/pages/prototypes/permit-tracking.astro', 'src/data/map-fixture.ts'],
     },
     {
       label: 'Mileage by status (burndown)',
@@ -96,7 +94,6 @@ export default {
       acceptance: [
         'A stacked miles-by-status bar with a "Cleared to Construct X of Y · Z%" headline and a miles+percent legend; it moves when a permit edit changes derived status.',
       ],
-      js: ['src/pages/prototypes/permit-tracking.astro', 'src/data/map-fixture.ts'],
     },
     {
       label: 'Clear-to-build timeline',
@@ -115,7 +112,6 @@ export default {
       acceptance: [
         'Segments listed by projected clear date with bars from Today to that date, colored by status; clicking a row opens the segment dossier.',
       ],
-      js: ['src/pages/prototypes/permit-tracking.astro', 'src/data/map-fixture.ts'],
     },
     {
       label: 'Insight — permits by status (census)',
@@ -132,7 +128,6 @@ export default {
       acceptance: [
         'One row per permitting status with a live count, in ladder order; the counts move when a permit\'s status is edited.',
       ],
-      js: ['src/pages/prototypes/permit-tracking.astro'],
     },
     {
       label: 'Insight — blocking the most mileage',
@@ -151,7 +146,6 @@ export default {
       acceptance: [
         'Pending permits ranked by gated route-miles; clicking a row opens that permit\'s editor drawer.',
       ],
-      js: ['src/pages/prototypes/permit-tracking.astro'],
     },
 
     // ─────────────────────────────  DATA TAB (panel-1)  ─────────────────────────────
@@ -174,7 +168,6 @@ export default {
       acceptance: [
         'View toggles the grid between Permits and Segments; Status/Level dropdowns and search filter the active grid; clear resets all; search-clear shows only with a query.',
       ],
-      js: ['src/pages/prototypes/permit-tracking.astro'],
     },
     {
       label: 'Data tab — bulk status bar',
@@ -194,7 +187,6 @@ export default {
       acceptance: [
         'Selecting permit rows reveals the bar with a live count; "Apply status" sets the chosen status on all selected and re-derives every dependent figure; "Clear selection" hides it.',
       ],
-      js: ['src/pages/prototypes/permit-tracking.astro'],
     },
     {
       label: 'Data tab — Permits / Segments grids',
@@ -216,7 +208,6 @@ export default {
       acceptance: [
         'Permits and Segments render as themed AG Grids matching the Beacon grid kit; clicking a permit row opens the editor, a segment row opens the dossier; the pivot swaps panes.',
       ],
-      js: ['src/pages/prototypes/permit-tracking.astro', 'src/lib/beacon-grid.ts'],
     },
     {
       label: 'Data tab — table footer',
@@ -235,7 +226,6 @@ export default {
       acceptance: [
         'Footer shows total records, adds a filtered count only when filtering, and "Download as CSV" exports the active, filtered grid.',
       ],
-      js: ['src/pages/prototypes/permit-tracking.astro'],
     },
 
     // ───────────────────────  EXECUTIVE SUMMARY TAB (panel-2)  ───────────────────────
@@ -259,7 +249,6 @@ export default {
       acceptance: [
         'Hero shows the cleared % headline, a 14-day miles trend KPI (signed, correct icon), a forecast full-route clear date with its caveat, and a status donut whose center % matches the headline.',
       ],
-      js: ['src/pages/prototypes/permit-tracking.astro', 'src/data/map-fixture.ts'],
     },
     {
       label: 'Exec — clearance by path',
@@ -277,7 +266,6 @@ export default {
       acceptance: [
         'Four stacked miles-by-status bars, one per path, sharing the map palette and a common scale; they re-derive when a permit edit changes status.',
       ],
-      js: ['src/pages/prototypes/permit-tracking.astro', 'src/data/map-fixture.ts'],
     },
     {
       label: 'Exec — route cleared over time (burn-up)',
@@ -296,7 +284,6 @@ export default {
       acceptance: [
         'A burn-up with an actual-cleared trail, a projected continuation, and a full-route target line, correctly sized to the container on reveal and resize.',
       ],
-      js: ['src/pages/prototypes/permit-tracking.astro', 'src/data/map-fixture.ts'],
     },
 
     // ─────────────────────  CROSS-TAB DIALOGS (reachable from both)  ─────────────────────
@@ -320,7 +307,6 @@ export default {
       acceptance: [
         'Opening a segment shows its derived-status header, meta, and covering permits with the gating one tagged; clicking a covering permit opens that permit\'s editor; nothing in the dossier is editable.',
       ],
-      js: ['src/pages/prototypes/permit-tracking.astro', 'src/components/bcn/BcnStatusChip.astro'],
     },
     {
       label: 'Permit editor (write surface)',
@@ -343,11 +329,6 @@ export default {
       acceptance: [
         'Opening a permit shows editable Status/Timing/Segments, read-only Details, a live Comments thread with @-mention, and a seeded Activity log; Save re-derives status across the map, grids, and rollup; Cancel discards.',
       ],
-      js: [
-        'src/pages/prototypes/permit-tracking.astro',
-        'src/components/bcn/BcnKeyValue.astro',
-        'src/components/bcn/BcnStatusChip.astro',
-      ],
     },
     {
       label: 'Notification settings (global prefs)',
@@ -368,7 +349,6 @@ export default {
       acceptance: [
         'The Notifications utility opens a centered dialog of four toggle rows with the documented defaults (comment-posted off); Save/Cancel close it; preferences are framed as personal and feature-global.',
       ],
-      js: ['src/pages/prototypes/permit-tracking.astro'],
     },
   ],
 };

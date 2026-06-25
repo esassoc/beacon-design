@@ -35,7 +35,6 @@ export default {
       acceptance: [
         'H1 shows the document name; the only header action is "Edit source document"; no View or Delete in the header.',
       ],
-      js: ['src/pages/prototypes/data-catalog-source-document.astro'],
     },
     {
       label: 'Files (files-as-viewer)',
@@ -56,7 +55,6 @@ export default {
       acceptance: [
         'Clicking a file name opens the PDF viewer drawer; the per-row download button downloads; the "Files (N)" count matches the list length.',
       ],
-      js: ['src/pages/prototypes/data-catalog-source-document.astro'],
     },
     {
       label: 'Document viewer',
@@ -75,7 +73,6 @@ export default {
       acceptance: [
         'Opening a file shows the PDF in a 66vw right side-dialog over a blurred backdrop.',
       ],
-      js: ['src/pages/prototypes/data-catalog-source-document.astro'],
     },
     {
       label: 'Lineage spine',
@@ -96,7 +93,6 @@ export default {
       acceptance: [
         'One unbroken spine: Project → Source Document (filled current dot) → Commitments / Requirements / Actions with neutral counts; kind captions and names link to the correct catalog targets.',
       ],
-      js: ['src/pages/prototypes/data-catalog-source-document.astro'],
     },
     {
       label: 'Coversheet download',
@@ -113,7 +109,6 @@ export default {
       acceptance: [
         'A full-width "Download Source Coversheet" button at the bottom of the rail triggers a download.',
       ],
-      js: ['src/pages/prototypes/data-catalog-source-document.astro'],
     },
     {
       label: 'Danger zone (delete)',
@@ -134,10 +129,6 @@ export default {
       acceptance: [
         'A red-bordered danger zone at the page bottom with a soft-danger "Delete source document" button; clicking it opens a simple confirm; confirming routes to the source-documents list.',
       ],
-      js: [
-        'src/pages/prototypes/data-catalog-source-document.astro',
-        'src/components/bcn/BcnDangerZone.astro',
-      ],
     },
     {
       label: 'Edit Source Document modal',
@@ -157,7 +148,6 @@ export default {
       acceptance: [
         'Clicking "Edit source document" opens a 640px single-column modal with the 8 prod fields pre-filled; Cancel and Save close it.',
       ],
-      js: ['src/pages/prototypes/data-catalog-source-document.astro'],
     },
   ],
 };

@@ -21,7 +21,6 @@
  * @property {string[]} [decisions] Key design/implementation decisions.
  * @property {string[]} [gotchas]   Traps to avoid when re-implementing.
  * @property {string[]} [acceptance] "Done when…" checks.
- * @property {string[]} [js]    Source files that drive this section's behavior.
  */
 
 /** @type {{ sections: HandoffSection[] }} */
@@ -44,7 +43,6 @@ export default {
       acceptance: [
         'H1 shows the project name with a green radar glyph; "Project Tracking" badge sits immediately to its right and reads as a neutral label.',
       ],
-      js: ['src/layouts/PageLayout.astro'],
     },
     {
       label: 'View toggle',
@@ -63,7 +61,6 @@ export default {
       acceptance: [
         'Grid is active on load; switching panes hides the grid chrome for the non-Grid views.',
       ],
-      js: ['src/pages/prototypes/requirement-tracker.astro'],
     },
     {
       label: 'Grid header',
@@ -81,7 +78,6 @@ export default {
       acceptance: [
         'Typing filters the grid within ~1 frame; ✕ clears search; Clear Filters resets column funnels; the two do not interfere.',
       ],
-      js: ['src/pages/prototypes/requirement-tracker.astro'],
     },
     {
       label: 'Requirements grid',
@@ -104,7 +100,6 @@ export default {
       acceptance: [
         'Teal header with funnel filter icons; orange sort/filter-active accent; columns overflow horizontally; status chips compact + centered; links underlined regular-weight.',
       ],
-      js: ['src/pages/prototypes/requirement-tracker.astro', 'src/data/tracker-fixture.ts'],
     },
     {
       label: 'Grid footer',
@@ -123,7 +118,6 @@ export default {
       acceptance: [
         'Total Records: 130 on load; searching shows Filtered Records: N; Download exports a CSV.',
       ],
-      js: ['src/pages/prototypes/requirement-tracker.astro'],
     },
     {
       label: 'Prologis sidenav',
@@ -144,7 +138,6 @@ export default {
       acceptance: [
         'Tracking is the only expanded section; Data Catalog shows no "Actions"; separators sit below Project and above Data Catalog.',
       ],
-      js: ['src/layouts/AppShell.astro'],
     },
   ],
 };
