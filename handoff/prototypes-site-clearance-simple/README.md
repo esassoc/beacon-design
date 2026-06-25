@@ -12,4 +12,4 @@ snapshot of one page for a developer (or an AI agent) to re-implement on any sta
 - **`manifest.json`** — per-section data powering the live dev-mode overlay.
 
 Source URL: http://localhost:4399/beacon-design/prototypes/site-clearance-simple/
-Rules shipped: 155 · Tokens referenced: 82
+Rules shipped: 111 · Tokens referenced: 51
