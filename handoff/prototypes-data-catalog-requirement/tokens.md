@@ -1,12 +1,13 @@
 # Token contract — prototypes-data-catalog-requirement
 
-The 85 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 90 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
 | Token | Value |
 |---|---|
 | `--color-accent` | `#f9a134` |
+| `--color-background` | `#fafafa` |
 | `--color-border` | `#dcdcdc` |
 | `--color-border-light` | `#efefef` |
 | `--color-primary` | `#005862` |
@@ -55,11 +56,15 @@ The 85 design tokens this page actually uses, resolved to their final values for
 | `--form-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--form-height-md` | `36px` |
 | `--form-height-sm` | `28px` |
+| `--form-height-xs` | `24px` |
 | `--form-label-color` | `#525252` |
 | `--form-padding-x-md` | `.75rem` |
 | `--form-padding-x-sm` | `.625rem` |
 | `--form-radius-md` | `.25rem` |
 | `--form-radius-sm` | `.25rem` |
+| `--icon-link-font-size-md` | `1rem` |
+| `--icon-link-font-size-sm` | `.875rem` |
+| `--icon-link-gap` | `.375rem` |
 | `--icon-size-medium` | `20px` |
 | `--icon-size-small` | `16px` |
 | `--pill-bg` | `#efefef` |
