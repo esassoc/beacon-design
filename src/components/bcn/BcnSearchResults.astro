@@ -127,7 +127,7 @@ const scopeCount = (id: string): number => ENTITIES.filter((e) => e.scope === id
 <script>
   // Drive the page off the SAME index the rows came from: read q + scope from the URL,
   // filter the server-rendered DOM, highlight matches, keep counts + URL in sync.
-  import { SCOPES, ENTITIES, matchEntities, isBodyOnlyMatch } from '../../data/global-search';
+  import { SCOPES, ENTITIES, matchEntities, isBodyOnlyMatch, bodySnippet } from '../../data/global-search';
 
   const root = document.querySelector<HTMLElement>('.bcn-sr');
   if (root) {
@@ -218,13 +218,29 @@ const scopeCount = (id: string): number => ENTITIES.filter((e) => e.scope === id
             if (entity) {
               const titleEl = row.querySelector<HTMLElement>('.bcn-sr__row-title');
               if (titleEl) titleEl.innerHTML = highlight(entity.title, q);
-              // Body-only hit → show the FULL matching document text (highlighted, multi-
-              // line) in a bordered card, echoing Beacon's commitment-search text block.
+              // Body-only hit → render the MATCHING blocks (paragraphs / list items) of
+              // the real document text, each as its own <p>, with the rest summarised as
+              // "+ N more" (Beacon's commitment-search model). Falls back to a windowed
+              // snippet for entities that carry no block structure.
               const snipEl = row.querySelector<HTMLElement>('.bcn-sr__row-snippet');
               if (snipEl) {
-                const showBody = !!(q && entity.body && isBodyOnlyMatch(entity, q));
-                snipEl.innerHTML = showBody ? highlight(entity.body!, q) : '';
-                snipEl.hidden = !showBody;
+                let html = '';
+                if (q && isBodyOnlyMatch(entity, q)) {
+                  const hits = (entity.blocks ?? []).filter((b) => b.toLowerCase().includes(q));
+                  if (hits.length) {
+                    const shown = hits.slice(0, 4);
+                    const hidden = entity.blocks!.length - shown.length;
+                    // Each block is its own paragraph; a short/clean block shows whole, a
+                    // long run-on block is windowed around the match so it never walls.
+                    html = shown.map((b) => `<p>${bodySnippet(b, q, 300, 2) ?? highlight(b, q)}</p>`).join('');
+                    if (hidden > 0)
+                      html += `<p class="bcn-sr__row-more">+ ${hidden} more paragraph${hidden === 1 ? '' : 's'} in this commitment</p>`;
+                  } else if (entity.body) {
+                    html = bodySnippet(entity.body, q, 200, 3) ?? '';
+                  }
+                }
+                snipEl.innerHTML = html;
+                snipEl.hidden = !html;
               }
             }
           }
@@ -400,7 +416,7 @@ const scopeCount = (id: string): number => ENTITIES.filter((e) => e.scope === id
     line-height: 1.5;
   }
 
-  .bcn-sr__rows { display: flex; flex-direction: column; gap: 2px; }
+  .bcn-sr__rows { display: flex; flex-direction: column; gap: var(--spacing-300); }
 
   /* Row — a head line (chip + badge + title), with an optional document-text card below. */
   .bcn-sr__row {
@@ -442,18 +458,32 @@ const scopeCount = (id: string): number => ENTITIES.filter((e) => e.scope === id
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  /* Body-only match → the FULL matching document text, multi-line, in a bordered card
-     (echoes Beacon's commitment-search text block). Document text → serif. */
+  /* Body-only match → the matching document blocks, each its own paragraph, in a bordered
+     card (echoes Beacon's commitment-search text block). Document text → serif, left-aligned
+     with generous leading and paragraph spacing so it reads as prose, not a wall. */
   .bcn-sr__row-snippet {
-    margin-top: var(--spacing-100);
-    padding: var(--spacing-250) var(--spacing-300);
+    margin-top: var(--spacing-150);
+    padding: var(--spacing-300) var(--spacing-350, 1.25rem);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-100);
+    border-radius: var(--radius-200);
     background: var(--color-surface);
     font-family: var(--font-decorative);
     font-size: var(--type-size-150);
-    line-height: 1.6;
+    line-height: 1.7;
     color: var(--color-text-primary);
+    text-align: left;
+  }
+  .bcn-sr__row-snippet :global(p) { margin: 0; }
+  .bcn-sr__row-snippet :global(p + p) { margin-top: 0.85em; }
+  /* the "+ N more paragraphs" tail — a muted, non-document note */
+  .bcn-sr__row-snippet :global(.bcn-sr__row-more) {
+    margin-top: 1em;
+    padding-top: 0.7em;
+    border-top: 1px solid var(--color-border);
+    font-family: var(--font-sans, system-ui, sans-serif);
+    font-size: var(--type-size-100);
+    font-style: normal;
+    color: var(--color-text-tertiary);
   }
   .bcn-sr__row-snippet[hidden] { display: none; }
 

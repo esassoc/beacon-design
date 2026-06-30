@@ -13,6 +13,11 @@
 // DCP commitments register (commitment-text.ts: AES/AG Condition-of-Approval text), and
 // the geotech monitoring export (monitoring.ts). `url`s are root-relative and base-less
 // — wrap with withBase() at the point of navigation/render.
+//
+// COMMITMENTS are the FULL DCP register (375), loaded from the real CSV export via
+// dcp-commitments.json (regenerate with scripts/parse-commitments — see that file).
+// Code · Title · full Commitment Text are all searchable.
+import dcpCommitmentsData from './dcp-commitments.json';
 
 /** A facet the search narrows to. `icon` is inner Lucide SVG markup (no <svg> wrapper). */
 export interface SearchScope {
@@ -38,6 +43,9 @@ export interface SearchEntity {
   /** Full body text for FULL-TEXT matching. A highlighted snippet of the match shows
    *  when the query hits the body but not the title/subtitle. */
   body?: string;
+  /** The body as structured blocks (paragraphs / list items). When present, the results
+   *  card renders the MATCHING blocks as separate paragraphs instead of a flat snippet. */
+  blocks?: string[];
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -101,9 +109,26 @@ const R = {
   fish: '/prototypes/fish-studies',
 };
 
+// The full DCP commitment register, mapped from the CSV export. `code` (Commitment ID),
+// `title`, and `body` (full Commitment Text) are the searchable fields; `category` rides
+// along as non-searchable meta.
+const DCP_COMMITMENTS: SearchEntity[] = (
+  dcpCommitmentsData as Array<{ code: string; title: string; category: string; sourceDoc: string; blocks: string[] }>
+).map((c, i) => ({
+  id: `cm-dcp-${i}`,
+  scope: 'commitments',
+  code: c.code,
+  title: c.title,
+  blocks: c.blocks,
+  body: c.blocks.join(' '), // flat text for matching + the omnibox one-line snippet
+  meta: c.category || undefined,
+  url: R.commitment,
+}));
+
 // ─────────────────────────────────────────────────────────────────────────────
-// Entities — curated from the real fixtures (see header). Commitments + requirements
-// carry real/representative `body` text so full-text search has something to find.
+// Entities — curated from the real fixtures (see header), EXCEPT commitments, which
+// are the full DCP register (DCP_COMMITMENTS). Requirements carry representative `body`
+// text so full-text search has something to find.
 // ─────────────────────────────────────────────────────────────────────────────
 export const ENTITIES: SearchEntity[] = [
   // ── Source Documents ──
@@ -114,37 +139,8 @@ export const ENTITIES: SearchEntity[] = [
   { id: 'sd-nbmp', scope: 'source-documents', title: 'Nesting Bird Management Plan', subtitle: 'Construction management plan', meta: 'Plan', url: R.sourceDoc },
   { id: 'sd-swppp', scope: 'source-documents', title: 'Stormwater Pollution Prevention Plan (SWPPP)', subtitle: 'Construction stormwater plan', meta: 'Plan', url: R.sourceDoc },
 
-  // ── Commitments (real codes / titles / Condition-of-Approval body) ──
-  {
-    id: 'cm-mmbio1', scope: 'commitments', code: 'MM-BIO-1', title: 'Worker Environmental Awareness Program (WEAP) Training',
-    subtitle: '3600 Alameda FEIR · Biological Resources', meta: '2 reqs', url: R.commitment,
-    body: 'DWR will develop and implement a Worker Environmental Awareness Program (WEAP). A qualified biologist will train all construction personnel on the special-status species with potential to occur in the work area, the no-disturbance buffers and avoidance measures in effect, and the procedure for reporting any incidental take or sensitive-species observation to the designated biologist.',
-  },
-  {
-    id: 'cm-mmbio2', scope: 'commitments', code: 'MM-BIO-2', title: 'Nesting Bird Buffers and Avoidance',
-    subtitle: '3600 Alameda FEIR · Biological Resources', meta: '5 reqs', url: R.commitment,
-    body: 'If active bird nests are found during preconstruction surveys, the qualified biologist will establish no-disturbance buffer zones around each nest. Buffers remain in effect until a biologist determines the young have fledged or the nest is no longer active. No construction, grading, or vegetation removal will occur within a buffer without biological monitoring and concurrence.',
-  },
-  {
-    id: 'cm-aes4a', scope: 'commitments', code: 'AES-4a', title: 'Limit Construction Outside of Daylight Hours near Residents',
-    subtitle: 'DCP EIR · Aesthetics', meta: 'EIR', url: R.commitment,
-    body: 'Within occupational safety standards, DWR will minimize the impact of nighttime construction light and glare on residences within 0.25 mile of the intake construction sites by limiting non-tunnel-related surface construction after daylight hours and minimizing the use of high-wattage lighting. DWR will establish a construction hotline, which will enable residents to report any construction violation including construction activities outside of daylight hours.',
-  },
-  {
-    id: 'cm-aes4b', scope: 'commitments', code: 'AES-4b', title: 'Minimize Fugitive Light from Portable Sources',
-    subtitle: 'DCP EIR · Aesthetics', meta: 'EIR', url: R.commitment,
-    body: 'DWR will minimize fugitive light, or light trespass, from portable lighting sources used during construction. Color-corrected lights will be used. Portable lights will be operated at the lowest feasible wattage and height. All lights will be screened and directed down toward work activities and away from the night sky and nearby residents to the maximum extent safely possible.',
-  },
-  {
-    id: 'cm-ag1', scope: 'commitments', code: 'AG-1', title: 'Preserve Agricultural Land',
-    subtitle: 'DCP EIR · Agriculture', meta: 'EIR', url: R.commitment,
-    body: 'Permanently converted Important Farmland will be mitigated at an acreage ratio of at least 1:1, achieved through acquisition and dedication of agricultural land, acquisition of development rights or conservation easements, or payment of in-lieu fees. Impacts on Prime Farmland will be mitigated through protection of Prime Farmland. Preservation will occur within the Delta counties.',
-  },
-  {
-    id: 'cm-ag3', scope: 'commitments', code: 'AG-3', title: 'Replacement or Relocation of Affected Infrastructure',
-    subtitle: 'DCP EIR · Agriculture', meta: 'EIR', url: R.commitment,
-    body: 'To the extent feasible, project designs will be modified to avoid conflicts with irrigation or drainage infrastructure servicing farmland outside the construction footprint. DWR will provide new water wells until diversion connection is reestablished, or relocate and replace wells, pipelines, power lines, drainage systems, and other infrastructure needed to support ongoing agricultural uses.',
-  },
+  // ── Commitments — the full DCP register (375), from dcp-commitments.json ──
+  ...DCP_COMMITMENTS,
 
   // ── Requirements (real names from requirements.csv + representative body text) ──
   {
@@ -218,13 +214,19 @@ export const ENTITIES: SearchEntity[] = [
 // the two surfaces always agree.
 // ─────────────────────────────────────────────────────────────────────────────
 
+const haystackOf = (e: SearchEntity): string =>
+  `${e.code ?? ''} ${e.title} ${e.subtitle ?? ''} ${e.body ?? ''}`.toLowerCase();
+
+// Precomputed lowercased search text per entity — so a keystroke over the full DCP
+// register (375 commitments × ~3KB body ≈ 1.3MB) is just N substring checks, never a
+// re-lowercase of the whole corpus.
+const HAYSTACK = new Map(ENTITIES.map((e) => [e.id, haystackOf(e)]));
+
 /** Case-insensitive substring match across code + title + subtitle + body (full-text). */
 export function matchEntities(query: string, entities: SearchEntity[] = ENTITIES): SearchEntity[] {
   const q = query.toLowerCase().trim();
   if (!q) return entities;
-  return entities.filter((e) =>
-    `${e.code ?? ''} ${e.title} ${e.subtitle ?? ''} ${e.body ?? ''}`.toLowerCase().includes(q),
-  );
+  return entities.filter((e) => (HAYSTACK.get(e.id) ?? haystackOf(e)).includes(q));
 }
 
 /** True when the query hits the body but NOT the code/title/subtitle — i.e. a full-text-
