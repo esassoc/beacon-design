@@ -1,0 +1,359 @@
+---
+// <BcnOmniSearch> — Beacon's global-search command palette: a fixed, vertically +
+// horizontally CENTERED overlay, opened by the topbar search field, ⌘/Ctrl+K, or "/".
+// It filters the shared index (src/data/global-search) across all 8 scopes, FULL-TEXT
+// (title + subtitle + commitment/requirement body), groups by scope with counts,
+// highlights matches, and shows a body snippet for full-text-only hits. Scope facets
+// live in a left RAIL beside the results. Mounted once app-wide in AppShell. Behavior
+// lives in omni-search.client.ts.
+//
+// CSS split (per the Astro scoped-CSS + innerHTML rule): the SHELL below is server-
+// rendered, so it uses scoped `<style>`. The rail facets + result rows are built by the
+// client and injected, so they can't carry Astro's scope hash — their rules live in the
+// `<style is:global>` block, every selector prefixed `.bcn-omni-*` to stay contained.
+//
+// bcn-lego-checked: the esa-entity-search lego is the closest fit but (1) hardcodes its
+// position (top: 12%) in shadow DOM with no centering hook, (2) sizes via max-height with
+// no fixed-tall option, and (3) matches + renders title/subtitle only — no full-text body
+// matching or matched-snippet. Those need a hub edit to the shared lego; the client chose
+// a spoke-local bcn- version instead (cb-fish set the precedent with cbf-omni-search).
+// Checked Ecology (esa-entity-search) + Beacon (Document Review "Commitment Search" is
+// this full-text behavior). bcn-omni-search is the reusable home.
+---
+
+<div class="bcn-omni" data-omni hidden>
+  <div class="bcn-omni__scrim" data-omni-close></div>
+
+  <div class="bcn-omni__panel" role="dialog" aria-modal="true" aria-label="Global search">
+    <div class="bcn-omni__searchrow">
+      <span class="bcn-omni__searchicon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+      </span>
+      <span class="bcn-omni__inputwrap">
+        <span class="bcn-omni__ghost" data-omni-ghost aria-hidden="true"></span>
+        <input
+          class="bcn-omni__input"
+          data-omni-input
+          type="text"
+          placeholder="Search…"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+          aria-label="Search"
+        />
+      </span>
+      <button class="bcn-omni__clear" data-omni-clear type="button" aria-label="Clear search" hidden>
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+      </button>
+      <kbd>Esc</kbd>
+    </div>
+
+    <div class="bcn-omni__split">
+      <nav class="bcn-omni__rail" data-omni-scopes role="tablist" aria-label="Filter by type"></nav>
+      <div class="bcn-omni__body" data-omni-body role="listbox"></div>
+    </div>
+
+    <button class="bcn-omni__showall" data-omni-showall type="button" hidden>
+      <span data-omni-showall-label>See all results</span>
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+    </button>
+
+    <div class="bcn-omni__footer">
+      <span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span>
+      <span><kbd>↵</kbd> Select</span>
+      <span><kbd>Tab</kbd> Complete</span>
+      <span><kbd>Esc</kbd> Close</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initOmniSearch } from './omni-search.client';
+  initOmniSearch();
+</script>
+
+<style>
+  /* ── shell (server-rendered → scoped) ── */
+  .bcn-omni {
+    position: fixed;
+    inset: 0;
+    z-index: 1300; /* clears the z-1100 topbar */
+    display: flex;
+    align-items: center;     /* vertical centering */
+    justify-content: center; /* horizontal centering */
+    padding: var(--spacing-500);
+  }
+  .bcn-omni[hidden] { display: none; }
+
+  .bcn-omni__scrim {
+    position: absolute;
+    inset: 0;
+    background: var(--color-backdrop, rgba(20, 30, 40, 0.45));
+    backdrop-filter: blur(2px);
+  }
+
+  .bcn-omni__panel {
+    position: relative;
+    z-index: 1;
+    width: 860px;
+    max-width: 100%;
+    height: min(680px, 84vh); /* fixed-tall — does not jump as results change */
+    display: flex;
+    flex-direction: column;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-400, 12px);
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(20, 30, 40, 0.32);
+    animation: bcn-omni-enter 140ms ease-out;
+  }
+  @keyframes bcn-omni-enter {
+    from { opacity: 0; transform: scale(0.97); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .bcn-omni__searchrow {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    flex: none;
+    padding: var(--spacing-300) var(--spacing-500);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .bcn-omni__searchicon { display: inline-flex; flex: none; color: var(--color-text-tertiary); }
+  .bcn-omni__searchicon svg { width: 22px; height: 22px; }
+  .bcn-omni__inputwrap { position: relative; flex: 1; min-width: 0; display: flex; align-items: center; }
+  .bcn-omni__input {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    font-family: inherit;
+    font-size: var(--type-size-400, 1.25rem);
+    line-height: 1.4;
+    color: var(--color-text-primary);
+  }
+  .bcn-omni__input::placeholder { color: var(--color-text-tertiary); }
+  /* ghost = inline-autocomplete preview sitting behind the input */
+  .bcn-omni__ghost {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: flex;
+    align-items: center;
+    font-family: inherit;
+    font-size: var(--type-size-400, 1.25rem);
+    line-height: 1.4;
+    color: var(--color-text-tertiary);
+    white-space: pre;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .bcn-omni__ghost-pad { color: transparent; white-space: pre; }
+  .bcn-omni__clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    flex: none;
+    border: 0;
+    border-radius: var(--radius-full);
+    background: var(--color-surface-sunken);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+  }
+  .bcn-omni__clear[hidden] { display: none; }
+  .bcn-omni__clear:hover { background: var(--color-border); }
+
+  .bcn-omni kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 19px;
+    height: 19px;
+    padding: 0 5px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+  }
+
+  /* searchrow (full width) sits atop a [rail | body] split. The rail is always present;
+     its facets are disabled (no counts) until a query is typed (handled in the client). */
+  .bcn-omni__split {
+    display: flex;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+  .bcn-omni__rail {
+    box-sizing: border-box;
+    flex: none;
+    width: 208px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: var(--spacing-200);
+    border-right: 1px solid var(--color-border);
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .bcn-omni__rail::-webkit-scrollbar { display: none; }
+
+  .bcn-omni__body {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-y: auto;
+    padding: var(--spacing-200) 0;
+  }
+  /* null state: center the lone landing prompt in the tall panel */
+  .bcn-omni__body.is-landing {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-400);
+  }
+
+  .bcn-omni__showall {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-200);
+    flex: none;
+    width: 100%;
+    padding: var(--spacing-300);
+    border: 0;
+    background: var(--color-primary);
+    color: var(--color-text-inverse);
+    font-family: inherit;
+    font-size: var(--type-size-200);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+  }
+  .bcn-omni__showall[hidden] { display: none; }
+  .bcn-omni__showall:hover { background: var(--color-primary-hover, var(--color-primary)); filter: brightness(0.96); }
+
+  .bcn-omni__footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-400);
+    flex: none;
+    padding: var(--spacing-250) var(--spacing-500);
+    border-top: 1px solid var(--color-border);
+    font-size: var(--type-size-150);
+    color: var(--color-text-tertiary);
+  }
+  .bcn-omni__footer span { display: inline-flex; align-items: center; gap: 6px; }
+</style>
+
+<style is:global>
+  /* ── JS-built subtree (rail facets + result rows) — global, contained under .bcn-omni-* ── */
+  .bcn-omni-rail__item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    width: 100%;
+    padding: var(--spacing-150) var(--spacing-250);
+    border: 0;
+    border-radius: var(--radius-200);
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-family: inherit;
+    font-size: var(--type-size-150);
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.1s, color 0.1s;
+  }
+  .bcn-omni-rail__item:not(:disabled):hover { background: var(--color-surface-sunken); color: var(--color-text-primary); }
+  .bcn-omni-rail__item.is-active { background: var(--color-primary); color: var(--color-text-inverse); font-weight: var(--font-weight-semibold); }
+  .bcn-omni-rail__item:disabled { color: var(--color-text-tertiary); cursor: default; } /* null-state: present but inert */
+  .bcn-omni-rail__label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-omni-rail__c { flex: none; font-size: 11px; font-variant-numeric: tabular-nums; opacity: 0.8; }
+
+  .bcn-omni-group__head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-200) var(--spacing-400) var(--spacing-100);
+  }
+  .bcn-omni-group__label { font-size: var(--type-size-150); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  /* count clustered next to the label as a bordered badge (clear bg, gray-200 border, 4px) */
+  .bcn-omni-group__count {
+    font-size: var(--type-size-100);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text-secondary);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-100);
+    padding: 0 6px;
+    line-height: 1.5;
+  }
+
+  .bcn-omni-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: var(--spacing-150) var(--spacing-400);
+    border: 0;
+    background: transparent;
+    color: var(--color-text-primary);
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  .bcn-omni-row.is-active { background: var(--color-surface-sunken); }
+  .bcn-omni-row__text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+  .bcn-omni-row__titlerow { display: flex; align-items: center; gap: var(--spacing-150); min-width: 0; }
+  /* purple commitment-ID badge (faithful to Beacon's --color-commitment identity token) */
+  .bcn-omni-row__code {
+    flex: none;
+    padding: 1px 6px;
+    border-radius: var(--radius-100);
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.4;
+    white-space: nowrap;
+    color: var(--color-commitment);
+    background: color-mix(in srgb, var(--color-commitment) 12%, white);
+  }
+  .bcn-omni-row__title { flex: 0 1 auto; min-width: 0; font-size: var(--type-size-150); font-weight: var(--font-weight-medium); color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* document text from a commitment/requirement → serif */
+  .bcn-omni-row__snippet { margin-top: 2px; font-family: var(--font-decorative); font-size: var(--type-size-150); color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* highlighter-yellow hits (dark text for contrast on the yellow) */
+  .bcn-omni-row mark,
+  .bcn-omni-empty mark {
+    background: #fde047;
+    color: var(--color-text-primary);
+    border-radius: 2px;
+    padding: 0 1px;
+  }
+  .bcn-omni-empty {
+    padding: var(--spacing-600) var(--spacing-500);
+    text-align: center;
+    color: var(--color-text-tertiary);
+    font-size: var(--type-size-200);
+  }
+
+  /* null-state landing (the whole body before any query is typed) */
+  .bcn-omni-landing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--spacing-150);
+    padding: var(--spacing-500);
+  }
+  .bcn-omni-landing__icon { width: 26px; height: 26px; color: var(--color-text-tertiary); }
+  .bcn-omni-landing__title { margin: 0; font-size: var(--type-size-200); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-omni-landing__hint { margin: 0; max-width: 46ch; font-size: var(--type-size-150); color: var(--color-text-tertiary); line-height: 1.55; }
+</style>

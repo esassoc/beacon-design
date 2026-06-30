@@ -1,0 +1,471 @@
+---
+// <BcnSearchResults> — the full-page GLOBAL SEARCH RESULTS surface: the destination of
+// the omnibox's "see all results" (⌘+Enter). It server-renders EVERY search record
+// grouped by scope; a client script then filters that DOM down to the ?q= / ?scope=
+// URL params, highlights matches, updates counts, and lets the user refine the query
+// and switch scope on the page. It deliberately ECHOES the omnibox rows (chip + a purple
+// commitment-ID badge + title, a left scope-facet rail, per-scope group head with a
+// bordered count badge) so a record reads identically in the palette and on the page.
+//
+// bcn-lego-checked: no esa-* lego renders a server-rendered, on-page grouped result
+// list with scope-filter pills. Checked Ecology: esa-entity-search IS the omnibox, but
+// it is OVERLAY-ONLY — it renders nothing inline and instead emits a `show-all` event
+// for exactly THIS destination. Checked Beacon: prod global-search results IS this
+// on-page surface. So bcn-search-results is the reusable home. The top search field is
+// a bare leading-icon + native <input> that mirrors esa-entity-search's OWN search bar
+// (esa-text-field is a shadow-DOM Lit field with no leading-icon affordance, so it
+// would diverge from the omnibox look we must echo). The scope pills + result rows are
+// the only bespoke chrome; everything else composes a lego: esa-empty-state owns the
+// no-matches state.
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import { SCOPES, ENTITIES, groupByScope } from '../../data/global-search';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  /** Optional passthrough class for the host. */
+  class?: string;
+}
+const { class: className } = Astro.props;
+
+// Server-render the full index grouped by scope; the client only shows/hides.
+const groups = groupByScope(ENTITIES);
+const total = ENTITIES.length;
+const scopeCount = (id: string): number => ENTITIES.filter((e) => e.scope === id).length;
+---
+
+<section class:list={['bcn-sr', className]}>
+  <!-- 1 · Search field — mirrors the omnibox's own leading-icon + bare input -->
+  <div class="bcn-sr__search">
+    <span class="bcn-sr__search-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+    </span>
+    <input
+      id="results-query"
+      class="bcn-sr__input"
+      type="search"
+      placeholder="Search…"
+      autocomplete="off"
+      aria-label="Search all records"
+    />
+  </div>
+
+  <!-- 2 · [ scope-facet rail | results ] split -->
+  <div class="bcn-sr__split">
+    <nav class="bcn-sr__rail" role="tablist" aria-label="Filter results by type">
+      <button type="button" class="bcn-sr__scope bcn-sr__scope--active" data-scope="" role="tab" aria-selected="true">
+        <span class="bcn-sr__scope-label">All</span>
+        <span class="bcn-sr__scope-count" data-scope-count>{total}</span>
+      </button>
+      {SCOPES.map((s) => (
+        <button type="button" class="bcn-sr__scope" data-scope={s.id} role="tab" aria-selected="false">
+          <span class="bcn-sr__scope-label">{s.label}</span>
+          <span class="bcn-sr__scope-count" data-scope-count>{scopeCount(s.id)}</span>
+        </button>
+      ))}
+    </nav>
+
+    <div class="bcn-sr__main">
+      <!-- Result count line (client-updated) -->
+      <p class="bcn-sr__count" id="results-count">{total} results</p>
+
+      <!-- Null state: shown when the query is empty — no results listed, rail disabled -->
+      <div class="bcn-sr__landing" id="results-landing" hidden>
+        <EsaEmptyState
+          title="Search the project"
+          description="Source documents, commitments, requirements, actions, components, evidence, work areas, and observations — search titles and full document text."
+        >
+          <svg slot="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+        </EsaEmptyState>
+      </div>
+
+      <!-- Grouped results -->
+      <div class="bcn-sr__results">
+    {groups.map((g) => (
+      <section class="bcn-sr__group" data-group={g.scope.id}>
+        <header class="bcn-sr__group-head">
+          <span class="bcn-sr__group-label">{g.scope.label}</span>
+          <span class="bcn-sr__group-count" data-group-count>{g.items.length}</span>
+        </header>
+        <div class="bcn-sr__rows">
+          {g.items.map((e) => (
+            <a
+              class="bcn-sr__row"
+              href={withBase(e.url ?? '#')}
+              data-id={e.id}
+              data-scope={e.scope}
+              data-entity={`${e.title} ${e.subtitle ?? ''}`.toLowerCase()}
+            >
+              <span class="bcn-sr__row-head">
+                <span class="bcn-sr__row-titlerow">
+                  {e.code && <span class="bcn-sr__row-code">{e.code}</span>}
+                  <span class="bcn-sr__row-title">{e.title}</span>
+                </span>
+              </span>
+              <div class="bcn-sr__row-snippet" hidden></div>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <!-- 5 · Empty state (the lego) — hidden until the client finds zero matches -->
+    <div class="bcn-sr__empty" id="results-empty" hidden>
+      <EsaEmptyState
+        title="No matches"
+        description="No records match your search. Try a different term or clear the active type filter."
+      >
+        <svg slot="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m13.5 8.5-5 5"></path><path d="m8.5 8.5 5 5"></path><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+      </EsaEmptyState>
+    </div>
+      </div>
+      <!-- /main -->
+    </div>
+    <!-- /split -->
+  </div>
+</section>
+
+<script>
+  // Drive the page off the SAME index the rows came from: read q + scope from the URL,
+  // filter the server-rendered DOM, highlight matches, keep counts + URL in sync.
+  import { SCOPES, ENTITIES, matchEntities, isBodyOnlyMatch } from '../../data/global-search';
+
+  const root = document.querySelector<HTMLElement>('.bcn-sr');
+  if (root) {
+    const input = root.querySelector<HTMLInputElement>('#results-query')!;
+    const countEl = root.querySelector<HTMLElement>('#results-count')!;
+    const emptyEl = root.querySelector<HTMLElement>('#results-empty')!;
+    const landingEl = root.querySelector<HTMLElement>('#results-landing')!;
+    const resultsEl = root.querySelector<HTMLElement>('.bcn-sr__results')!;
+    const pills = Array.from(root.querySelectorAll<HTMLButtonElement>('.bcn-sr__scope'));
+    const groupEls = Array.from(root.querySelectorAll<HTMLElement>('[data-group]'));
+    const rowEls = Array.from(root.querySelectorAll<HTMLAnchorElement>('.bcn-sr__row'));
+
+    const byId = new Map(ENTITIES.map((e) => [e.id, e] as const));
+    const isScope = (s: string): boolean => s === '' || SCOPES.some((sc) => sc.id === s);
+
+    // Escape, then wrap case-insensitive query matches in <mark> — same as the lego.
+    const ENT: Record<string, string> = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+    const escapeHtml = (s: string): string => s.replace(/[&<>"']/g, (c) => ENT[c]);
+    const highlight = (text: string, q: string): string => {
+      const escaped = escapeHtml(text);
+      if (!q) return escaped;
+      const qEsc = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return escaped.replace(new RegExp(`(${qEsc})`, 'ig'), '<mark>$1</mark>');
+    };
+
+    let activeScope = '';
+
+    const updateUrl = (q: string, scope: string): void => {
+      const params = new URLSearchParams();
+      if (q) params.set('q', q);
+      if (scope) params.set('scope', scope);
+      const qs = params.toString();
+      history.replaceState(null, '', qs ? `${location.pathname}?${qs}` : location.pathname);
+    };
+
+    const applyFilter = (): void => {
+      const raw = input.value.trim();
+
+      // Null state (empty query): no results listed, count hidden, rail disabled, landing shown.
+      const idle = raw === '';
+      root.classList.toggle('bcn-sr--idle', idle);
+      for (const pill of pills) pill.disabled = idle;
+      landingEl.hidden = !idle;
+      resultsEl.hidden = idle;
+      countEl.hidden = idle;
+      emptyEl.hidden = emptyEl.hidden || idle;
+      if (idle) {
+        activeScope = '';
+        for (const pill of pills) {
+          pill.classList.remove('bcn-sr__scope--active');
+          pill.setAttribute('aria-selected', 'false');
+        }
+        return;
+      }
+      // leaving idle → restore the active-scope highlight the rail may have lost
+      for (const pill of pills) {
+        const on = (pill.dataset.scope ?? '') === activeScope;
+        pill.classList.toggle('bcn-sr__scope--active', on);
+        pill.setAttribute('aria-selected', String(on));
+      }
+
+      const q = raw.toLowerCase();
+      const matched = matchEntities(q); // respects query only (so pill counts show reach)
+      const matchedIds = new Set(matched.map((e) => e.id));
+
+      // Pill count badges — per-scope reach for the query, ignoring the active scope.
+      for (const pill of pills) {
+        const sid = pill.dataset.scope ?? '';
+        const n = sid === '' ? matched.length : matched.filter((e) => e.scope === sid).length;
+        const badge = pill.querySelector<HTMLElement>('[data-scope-count]');
+        if (badge) badge.textContent = String(n);
+      }
+
+      // Rows + group visibility (and highlight what's shown).
+      let totalVisible = 0;
+      for (const group of groupEls) {
+        const gid = group.dataset.group ?? '';
+        let groupVisible = 0;
+        for (const row of rowEls) {
+          if ((row.dataset.scope ?? '') !== gid) continue;
+          const id = row.dataset.id ?? '';
+          const visible = matchedIds.has(id) && (activeScope === '' || gid === activeScope);
+          row.hidden = !visible;
+          if (visible) {
+            groupVisible++;
+            totalVisible++;
+            const entity = byId.get(id);
+            if (entity) {
+              const titleEl = row.querySelector<HTMLElement>('.bcn-sr__row-title');
+              if (titleEl) titleEl.innerHTML = highlight(entity.title, q);
+              // Body-only hit → show the FULL matching document text (highlighted, multi-
+              // line) in a bordered card, echoing Beacon's commitment-search text block.
+              const snipEl = row.querySelector<HTMLElement>('.bcn-sr__row-snippet');
+              if (snipEl) {
+                const showBody = !!(q && entity.body && isBodyOnlyMatch(entity, q));
+                snipEl.innerHTML = showBody ? highlight(entity.body!, q) : '';
+                snipEl.hidden = !showBody;
+              }
+            }
+          }
+        }
+        const gc = group.querySelector<HTMLElement>('[data-group-count]');
+        if (gc) gc.textContent = String(groupVisible);
+        group.hidden = groupVisible === 0;
+      }
+
+      // Count line + empty state.
+      const noun = totalVisible === 1 ? 'result' : 'results';
+      countEl.textContent = raw ? `${totalVisible} ${noun} for “${raw}”` : `${totalVisible} ${noun}`;
+      emptyEl.hidden = totalVisible > 0;
+    };
+
+    const setActiveScope = (scope: string): void => {
+      activeScope = isScope(scope) ? scope : '';
+      for (const pill of pills) {
+        const on = (pill.dataset.scope ?? '') === activeScope;
+        pill.classList.toggle('bcn-sr__scope--active', on);
+        pill.setAttribute('aria-selected', String(on));
+      }
+    };
+
+    // Initial state from the URL.
+    const params = new URLSearchParams(location.search);
+    input.value = params.get('q') ?? '';
+    setActiveScope(params.get('scope') ?? '');
+    applyFilter();
+
+    input.addEventListener('input', () => {
+      updateUrl(input.value.trim(), activeScope);
+      applyFilter();
+    });
+    for (const pill of pills) {
+      pill.addEventListener('click', () => {
+        setActiveScope(pill.dataset.scope ?? '');
+        updateUrl(input.value.trim(), activeScope);
+        applyFilter();
+      });
+    }
+  }
+</script>
+
+<style>
+  .bcn-sr {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+
+  /* ── 1 · Search field — leading magnifier + bare input, echoing the omnibox bar ── */
+  .bcn-sr__search {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding: var(--spacing-300) var(--spacing-400);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+  }
+  .bcn-sr__search:focus-within {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px var(--color-primary-subtle);
+  }
+  .bcn-sr__search-icon { display: inline-flex; flex-shrink: 0; color: var(--color-text-tertiary); }
+  .bcn-sr__search-icon svg { width: 20px; height: 20px; }
+  .bcn-sr__input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: var(--type-size-300);
+    color: var(--color-text-primary);
+  }
+  .bcn-sr__input::placeholder { color: var(--color-text-tertiary); }
+
+  /* ── Result count line ── */
+  .bcn-sr__count {
+    margin: 0;
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+  }
+
+  /* ── [ scope-facet rail | results ] split ── */
+  .bcn-sr__split {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-500);
+  }
+  .bcn-sr__rail {
+    flex: none;
+    width: 220px;
+    position: sticky;
+    top: var(--spacing-400);
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .bcn-sr__main {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    border-left: 1px solid var(--color-border); /* divider between rail and results */
+    padding-left: var(--spacing-500);
+  }
+
+  /* Scope facets — a vertical rail (matches the omnibox rail). */
+  .bcn-sr__scope {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    width: 100%;
+    padding: var(--spacing-200) var(--spacing-250);
+    border: 0;
+    border-radius: var(--radius-200);
+    background: transparent;
+    color: var(--color-text-secondary);
+    font-family: inherit;
+    font-size: var(--type-size-150);
+    text-align: left;
+    cursor: pointer;
+    transition: background 120ms ease, color 120ms ease;
+  }
+  .bcn-sr__scope:hover { background: var(--color-surface-sunken); color: var(--color-text-primary); }
+  .bcn-sr__scope--active {
+    background: var(--color-primary);
+    color: var(--color-text-inverse);
+    font-weight: var(--font-weight-semibold);
+  }
+  .bcn-sr__scope-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-sr__scope-count { flex: none; font-size: 11px; font-variant-numeric: tabular-nums; opacity: 0.8; }
+
+  /* Null state (empty query): the rail is present but disabled — muted, no counts. */
+  .bcn-sr--idle .bcn-sr__scope { color: var(--color-text-tertiary); cursor: default; }
+  .bcn-sr--idle .bcn-sr__scope:hover { background: transparent; color: var(--color-text-tertiary); }
+  .bcn-sr--idle .bcn-sr__scope-count { display: none; }
+
+  /* Null-state landing prompt (the esa-empty-state lego), with breathing room. */
+  .bcn-sr__landing { padding: var(--spacing-700) 0; }
+  .bcn-sr__landing[hidden] { display: none; }
+  .bcn-sr__results[hidden] { display: none; }
+
+  /* ── Grouped results ── */
+  .bcn-sr__results { display: flex; flex-direction: column; gap: var(--spacing-500); }
+  .bcn-sr__group { display: flex; flex-direction: column; gap: var(--spacing-150); }
+  .bcn-sr__group[hidden] { display: none; }
+  .bcn-sr__group-head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: 0 var(--spacing-200) var(--spacing-150);
+    border-bottom: 1px solid var(--color-border-light);
+  }
+  .bcn-sr__group-label {
+    font-size: var(--type-size-200);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  /* count clustered next to the label as a bordered badge (clear bg, gray-200 border, 4px) */
+  .bcn-sr__group-count {
+    font-size: var(--type-size-100);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text-secondary);
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-100);
+    padding: 0 6px;
+    line-height: 1.5;
+  }
+
+  .bcn-sr__rows { display: flex; flex-direction: column; gap: 2px; }
+
+  /* Row — a head line (chip + badge + title), with an optional document-text card below. */
+  .bcn-sr__row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    padding: var(--spacing-200) var(--spacing-300);
+    border-radius: var(--radius-200);
+    background: transparent;
+    color: var(--color-text-primary);
+    text-decoration: none;
+    transition: background 120ms ease;
+  }
+  .bcn-sr__row:hover { background: var(--color-surface-sunken); }
+  .bcn-sr__row[hidden] { display: none; }
+
+  .bcn-sr__row-head { display: flex; align-items: center; min-width: 0; }
+
+  .bcn-sr__row-titlerow { flex: 1; display: flex; align-items: center; gap: var(--spacing-200); min-width: 0; }
+  /* purple commitment-ID badge (faithful to Beacon's --color-commitment identity token) */
+  .bcn-sr__row-code {
+    flex: none;
+    padding: 1px 6px;
+    border-radius: var(--radius-100);
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.4;
+    white-space: nowrap;
+    color: var(--color-commitment);
+    background: color-mix(in srgb, var(--color-commitment) 12%, white);
+  }
+  .bcn-sr__row-title {
+    flex: 0 1 auto;
+    min-width: 0;
+    font-size: var(--type-size-200);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /* Body-only match → the FULL matching document text, multi-line, in a bordered card
+     (echoes Beacon's commitment-search text block). Document text → serif. */
+  .bcn-sr__row-snippet {
+    margin-top: var(--spacing-100);
+    padding: var(--spacing-250) var(--spacing-300);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-100);
+    background: var(--color-surface);
+    font-family: var(--font-decorative);
+    font-size: var(--type-size-150);
+    line-height: 1.6;
+    color: var(--color-text-primary);
+  }
+  .bcn-sr__row-snippet[hidden] { display: none; }
+
+  /* The <mark> is JS-injected, so it never gets Astro's scope hash — style it :global. */
+  .bcn-sr__row-title :global(mark),
+  .bcn-sr__row-snippet :global(mark) {
+    background: #fde047; /* highlighter yellow */
+    color: var(--color-text-primary);
+    border-radius: 2px;
+    padding: 0 1px;
+  }
+
+  /* ── 5 · Empty state ── */
+  .bcn-sr__empty[hidden] { display: none; }
+</style>

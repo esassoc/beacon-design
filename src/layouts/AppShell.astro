@@ -16,6 +16,8 @@
 import BaseLayout from './BaseLayout.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import BcnSearchTrigger from '../components/bcn/BcnSearchTrigger.astro';
+import BcnOmniSearch from '../components/bcn/BcnOmniSearch.astro';
 import { withBase } from '../lib/base';
 
 interface NavItem {
@@ -237,8 +239,10 @@ if (activeNavId) {
         </button>
       </div>
 
-      <!-- Center: spacer (1fr) -->
-      <div class="topbar__center"></div>
+      <!-- Center: global-search trigger field (opens BcnOmniSearch) -->
+      <div class="topbar__center">
+        <BcnSearchTrigger />
+      </div>
 
       <!-- Right: QA badge, search, config/admin icon-buttons, user menu -->
       <div class="topbar__right">
@@ -250,8 +254,6 @@ if (activeNavId) {
             </span>
           )
         }
-
-        <EsaIconButton icon="search" label="Search" size="md" />
 
         {/* ESA-Config keeps the hand-rolled .icon-button: its glyph (sliders-horizontal)
             is not in esa-icon's built-in registry, and esa-icon-button gives no way to
@@ -369,6 +371,10 @@ if (activeNavId) {
         <slot />
       </div>
     </div>
+
+    <!-- Global ⌘K search palette (bespoke bcn-omni-search). Sits at the modern-layout
+         root so its fixed, centered overlay clears the z-1100 topbar; app-wide. -->
+    <BcnOmniSearch />
   </div>
 </BaseLayout>
 
@@ -488,6 +494,8 @@ if (activeNavId) {
   .topbar__center {
     display: flex;
     align-items: center;
+    justify-content: center;
+    min-width: 0;
     gap: var(--spacing-400);
     padding: 0 var(--spacing-400);
   }

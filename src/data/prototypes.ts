@@ -33,6 +33,23 @@ export interface PrototypeGroup {
 
 export const prototypeGroups: PrototypeGroup[] = [
   {
+    slug: 'global-search',
+    title: 'Global Search',
+    description:
+      'Cross-entity search for the whole project — the "/" omnibox (mounted app-wide in the chrome) and the full results page.',
+    pages: [
+      {
+        slug: 'global-search',
+        title: 'Global Search',
+        description:
+          'A centered command palette (bcn-omni-search, opened by the topbar search field or "/") + full results page, scoped across Source Documents, Commitments, Requirements, Actions, Components, Evidence of Compliance, Work Areas, and Observations. Inline ghost-text typeahead; a null-state landing + Recents that gives way to a scope-facet rail once you type. Full-text search of commitment/requirement body text with highlighted snippets (Beacon Commitment-Search style); grouped results, per-scope counts; ⌘+Enter forks to the results page carrying the query + active scope.',
+        route: '/prototypes/global-search',
+        createdAt: '2026-06-29',
+        status: 'in-progress',
+      },
+    ],
+  },
+  {
     slug: 'tracking-improvements',
     title: 'Tracking Improvements',
     description:

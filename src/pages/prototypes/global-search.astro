@@ -1,0 +1,26 @@
+---
+// Global Search — the full results page. The destination of the omnibox's "see all
+// results" (⌘+Enter from the app-wide esa-entity-search overlay). BcnSearchResults
+// reads ?q= / ?scope= from the URL and filters the shared index down on the client;
+// with no params it browses every searchable record. The omnibox itself is mounted
+// app-wide in AppShell, so ⌘K works here too.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import BcnSearchResults from '../../components/bcn/BcnSearchResults.astro';
+import { withBase } from '../../lib/base';
+
+const crumbs = [
+  { label: 'Home', href: withBase('/') },
+  { label: 'Search' },
+];
+---
+<!-- manifest:
+  layout: AppShell > PageLayout            # the Beacon page spine (topbar + rail + padded chrome)
+  sections:
+    - results -> bcn-search-results        # search field + scope filter bar + grouped list + empty state
+-->
+<AppShell title="Search — Beacon">
+  <PageLayout breadcrumbs={crumbs} title="Search" icon="search">
+    <BcnSearchResults />
+  </PageLayout>
+</AppShell>

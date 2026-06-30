@@ -1,0 +1,200 @@
+---
+// Scope-selector specimen — five layout options for the global-search omnibox's
+// scope facets, now that there are 9 scopes and the wrapped chip row is crowded.
+// Each option is rendered as a realistic omnibox panel (real tokens, real scopes +
+// counts, the same three sample result rows) so the SELECTOR is the only variable.
+// Static — for choosing a direction; the winner gets built into BcnOmniSearch.
+//
+// bcn-lego-checked: static design specimen exploring omnibox facet-selector layouts
+// before finalizing one. Not a shipped component — the chosen variant becomes the
+// real bcn-omni-search scope UI. Checked Ecology (no esa- facet-rail/omnibox lego) +
+// Beacon. Lives under design-system/ (exempt from the manifest gate).
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { SCOPES, ENTITIES } from '../../../data/global-search';
+
+const total = ENTITIES.length;
+const countOf = (id: string) => ENTITIES.filter((e) => e.scope === id).length;
+const iconOf = (id: string) => SCOPES.find((s) => s.id === id)?.icon ?? '';
+const sampleRows = ['cm-mmbio1', 'rq-weap-dev', 'ac-weap-schedule']
+  .map((id) => ENTITIES.find((e) => e.id === id)!)
+  .filter(Boolean);
+
+const searchSvg =
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>';
+---
+
+<BaseLayout title="Scope selector — options">
+  <main class="spec">
+    <header class="spec__head">
+      <h1 class="spec__title">Omnibox scope selector — options</h1>
+      <p class="spec__lede">
+        Nine scopes crowd the wrapped chip row. Each panel below shows the same omnibox with a
+        different scope-facet layout (real scopes + counts, identical sample results). Pick a direction.
+      </p>
+    </header>
+
+    {/* ── 1 · Wrapped chips (current baseline) ── */}
+    <section class="spec-variant">
+      <h2 class="spec-variant__label">1 · Wrapped chips <span class="spec-variant__tag">current</span></h2>
+      <p class="spec-variant__desc">Today's layout — all 10 chips wrap to two rows. Honest but busy; the row height jumps.</p>
+      <div class="spec-omni">
+        <div class="spec-omni__search"><span class="spec-ic-search" set:html={searchSvg} /><span class="spec-omni__ph">Search…</span><kbd>/</kbd></div>
+        <div class="spec-scopes spec-chips">
+          <button class="spec-chip is-active">All<span class="spec-chip__c">{total}</span></button>
+          {SCOPES.map((s) => (
+            <button class="spec-chip"><svg class="spec-ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={s.icon} />{s.label}<span class="spec-chip__c">{countOf(s.id)}</span></button>
+          ))}
+        </div>
+        <div class="spec-results">{sampleRows.map((e) => (
+          <a class="spec-row" href="#"><span class="spec-row__chip"><svg class="spec-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={iconOf(e.scope)} /></span><span class="spec-row__text"><span class="spec-row__title">{e.title}</span><span class="spec-row__sub">{e.subtitle}</span></span><span class="spec-row__meta">{e.meta}</span></a>
+        ))}</div>
+      </div>
+    </section>
+
+    {/* ── 2 · Vertical facet rail ── */}
+    <section class="spec-variant">
+      <h2 class="spec-variant__label">2 · Vertical facet rail</h2>
+      <p class="spec-variant__desc">Scopes become a left column with counts; results fill the right. Scannable, scales past 9 types, stable height.</p>
+      <div class="spec-omni">
+        <div class="spec-omni__search"><span class="spec-ic-search" set:html={searchSvg} /><span class="spec-omni__ph">Search…</span><kbd>/</kbd></div>
+        <div class="spec-rail-body">
+          <nav class="spec-rail">
+            <button class="spec-rail__item is-active"><span class="spec-rail__label">All</span><span class="spec-rail__c">{total}</span></button>
+            {SCOPES.map((s) => (
+              <button class="spec-rail__item"><svg class="spec-ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={s.icon} /><span class="spec-rail__label">{s.label}</span><span class="spec-rail__c">{countOf(s.id)}</span></button>
+            ))}
+          </nav>
+          <div class="spec-results spec-results--rail">{sampleRows.map((e) => (
+            <a class="spec-row" href="#"><span class="spec-row__chip"><svg class="spec-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={iconOf(e.scope)} /></span><span class="spec-row__text"><span class="spec-row__title">{e.title}</span><span class="spec-row__sub">{e.subtitle}</span></span><span class="spec-row__meta">{e.meta}</span></a>
+          ))}</div>
+        </div>
+      </div>
+    </section>
+
+    {/* ── 3 · Condensed icon chips ── */}
+    <section class="spec-variant">
+      <h2 class="spec-variant__label">3 · Condensed icon chips</h2>
+      <p class="spec-variant__desc">One non-wrapping row — the active scope shows its label, the rest are icon + count (full label on hover). Keeps the horizontal model.</p>
+      <div class="spec-omni">
+        <div class="spec-omni__search"><span class="spec-ic-search" set:html={searchSvg} /><span class="spec-omni__ph">Search…</span><kbd>/</kbd></div>
+        <div class="spec-scopes spec-ichips">
+          <button class="spec-ichip is-active"><svg class="spec-ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html="" /><span class="spec-ichip__label">All</span><span class="spec-ichip__c">{total}</span></button>
+          {SCOPES.map((s) => (
+            <button class="spec-ichip" title={s.label} aria-label={s.label}><svg class="spec-ic-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={s.icon} /><span class="spec-ichip__c">{countOf(s.id)}</span></button>
+          ))}
+        </div>
+        <div class="spec-results">{sampleRows.map((e) => (
+          <a class="spec-row" href="#"><span class="spec-row__chip"><svg class="spec-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={iconOf(e.scope)} /></span><span class="spec-row__text"><span class="spec-row__title">{e.title}</span><span class="spec-row__sub">{e.subtitle}</span></span><span class="spec-row__meta">{e.meta}</span></a>
+        ))}</div>
+      </div>
+    </section>
+
+    {/* ── 4 · Type dropdown ── */}
+    <section class="spec-variant">
+      <h2 class="spec-variant__label">4 · Type dropdown</h2>
+      <p class="spec-variant__desc">A single “All types ▾” menu frees the whole row and centers attention on the query. Scope becomes a deliberate pick.</p>
+      <div class="spec-omni">
+        <div class="spec-omni__search"><span class="spec-ic-search" set:html={searchSvg} /><span class="spec-omni__ph">Search…</span><kbd>/</kbd></div>
+        <div class="spec-scopes spec-dropdown">
+          <button class="spec-dd"><span class="spec-dd__dot" set:html={iconOf('commitments')} />All types<svg class="spec-dd__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg></button>
+          <span class="spec-dd__count">{total} results</span>
+        </div>
+        <div class="spec-results">{sampleRows.map((e) => (
+          <a class="spec-row" href="#"><span class="spec-row__chip"><svg class="spec-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={iconOf(e.scope)} /></span><span class="spec-row__text"><span class="spec-row__title">{e.title}</span><span class="spec-row__sub">{e.subtitle}</span></span><span class="spec-row__meta">{e.meta}</span></a>
+        ))}</div>
+      </div>
+    </section>
+
+    {/* ── 5 · Underlined tabs ── */}
+    <section class="spec-variant">
+      <h2 class="spec-variant__label">5 · Underlined tabs</h2>
+      <p class="spec-variant__desc">A horizontal, scrollable tab strip with an active underline and counts. Familiar “view switch” feel; overflow scrolls rather than wraps.</p>
+      <div class="spec-omni">
+        <div class="spec-omni__search"><span class="spec-ic-search" set:html={searchSvg} /><span class="spec-omni__ph">Search…</span><kbd>/</kbd></div>
+        <div class="spec-scopes spec-tabs">
+          <button class="spec-tab is-active">All<span class="spec-tab__c">{total}</span></button>
+          {SCOPES.map((s) => (
+            <button class="spec-tab">{SCOPES.find((x) => x.id === s.id)?.label}<span class="spec-tab__c">{countOf(s.id)}</span></button>
+          ))}
+        </div>
+        <div class="spec-results">{sampleRows.map((e) => (
+          <a class="spec-row" href="#"><span class="spec-row__chip"><svg class="spec-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={iconOf(e.scope)} /></span><span class="spec-row__text"><span class="spec-row__title">{e.title}</span><span class="spec-row__sub">{e.subtitle}</span></span><span class="spec-row__meta">{e.meta}</span></a>
+        ))}</div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .spec { max-width: 820px; margin: 0 auto; padding: var(--spacing-700) var(--spacing-500) var(--spacing-900); }
+  .spec__head { margin-bottom: var(--spacing-700); }
+  .spec__title { margin: 0 0 var(--spacing-200); font-family: var(--font-decorative, var(--font-sans)); font-size: var(--type-size-600); font-weight: var(--font-weight-bold); color: var(--color-text-primary); }
+  .spec__lede { margin: 0; font-size: var(--type-size-300); line-height: 1.5; color: var(--color-text-secondary); max-width: 60ch; }
+
+  .spec-variant { margin-bottom: var(--spacing-800); }
+  .spec-variant__label { display: flex; align-items: center; gap: var(--spacing-200); margin: 0 0 4px; font-size: var(--type-size-300); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .spec-variant__tag { font-size: var(--type-size-100); font-weight: var(--font-weight-medium); color: var(--color-text-tertiary); border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: 1px 8px; }
+  .spec-variant__desc { margin: 0 0 var(--spacing-300); font-size: var(--type-size-200); line-height: 1.5; color: var(--color-text-secondary); max-width: 70ch; }
+
+  /* ── shared omni panel chrome ── */
+  .spec-omni { border: 1px solid var(--color-border); border-radius: var(--radius-400); background: var(--color-surface); overflow: hidden; box-shadow: 0 12px 36px rgba(20, 30, 40, 0.12); }
+  .spec-omni__search { display: flex; align-items: center; gap: var(--spacing-300); padding: var(--spacing-300) var(--spacing-400); border-bottom: 1px solid var(--color-border); }
+  .spec-omni__search :global(svg) { width: 20px; height: 20px; }
+  .spec-ic-search { display: inline-flex; color: var(--color-text-tertiary); }
+  .spec-omni__ph { flex: 1; font-size: var(--type-size-300); color: var(--color-text-tertiary); }
+  .spec-omni__search kbd { display: inline-flex; align-items: center; justify-content: center; min-width: 19px; height: 19px; padding: 0 6px; font-family: inherit; font-size: 12px; color: var(--color-text-secondary); background: var(--color-surface); border: 1px solid var(--color-border); border-bottom-width: 2px; border-radius: 4px; }
+
+  .spec-scopes { padding: var(--spacing-250) var(--spacing-400); border-bottom: 1px solid var(--color-border); }
+  .spec-ic-sm { width: 15px; height: 15px; flex: none; }
+  .spec-ic { width: 18px; height: 18px; }
+
+  /* result rows (identical across variants) */
+  .spec-results { padding: var(--spacing-200) 0; }
+  .spec-row { display: flex; align-items: center; gap: var(--spacing-300); padding: var(--spacing-200) var(--spacing-400); text-decoration: none; }
+  .spec-row:hover { background: var(--color-surface-sunken); }
+  .spec-row__chip { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; flex: none; border-radius: var(--radius-200); background: var(--color-surface-sunken); color: var(--color-text-secondary); }
+  .spec-row__text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+  .spec-row__title { font-size: var(--type-size-200); font-weight: var(--font-weight-medium); color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .spec-row__sub { font-size: var(--type-size-150); color: var(--color-text-tertiary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .spec-row__meta { flex: none; font-size: var(--type-size-150); color: var(--color-text-tertiary); }
+
+  /* 1 · wrapped chips */
+  .spec-chips { display: flex; flex-wrap: wrap; gap: var(--spacing-150); }
+  .spec-chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px var(--spacing-300); border: 1px solid var(--color-border); border-radius: var(--radius-full); background: var(--color-surface); color: var(--color-text-secondary); font-size: var(--type-size-150); }
+  .spec-chip.is-active { background: var(--color-primary); border-color: var(--color-primary); color: var(--color-text-inverse); }
+  .spec-chip__c { font-size: 11px; opacity: 0.75; font-variant-numeric: tabular-nums; }
+
+  /* 2 · vertical rail */
+  .spec-rail-body { display: flex; min-height: 248px; }
+  .spec-rail { flex: none; width: 196px; padding: var(--spacing-200); border-right: 1px solid var(--color-border); display: flex; flex-direction: column; gap: 1px; overflow-y: auto; }
+  .spec-rail__item { display: flex; align-items: center; gap: var(--spacing-200); width: 100%; padding: var(--spacing-150) var(--spacing-250); border-radius: var(--radius-200); background: transparent; color: var(--color-text-secondary); font-size: var(--type-size-150); text-align: left; }
+  .spec-rail__item:hover { background: var(--color-surface-sunken); color: var(--color-text-primary); }
+  .spec-rail__item.is-active { background: var(--color-primary-subtle); color: var(--color-primary); font-weight: var(--font-weight-semibold); }
+  .spec-rail__label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .spec-rail__c { font-size: 11px; opacity: 0.8; font-variant-numeric: tabular-nums; }
+  .spec-results--rail { flex: 1; min-width: 0; border-bottom: 0; }
+
+  /* 3 · condensed icon chips */
+  .spec-ichips { display: flex; gap: var(--spacing-150); overflow-x: auto; scrollbar-width: none; }
+  .spec-ichips::-webkit-scrollbar { display: none; }
+  .spec-ichip { display: inline-flex; align-items: center; gap: 5px; flex: none; padding: 5px var(--spacing-250); border: 1px solid var(--color-border); border-radius: var(--radius-full); background: var(--color-surface); color: var(--color-text-secondary); font-size: var(--type-size-150); }
+  .spec-ichip.is-active { background: var(--color-primary); border-color: var(--color-primary); color: var(--color-text-inverse); }
+  .spec-ichip__label { font-weight: var(--font-weight-medium); }
+  .spec-ichip__c { font-size: 11px; opacity: 0.75; font-variant-numeric: tabular-nums; }
+
+  /* 4 · dropdown */
+  .spec-dropdown { display: flex; align-items: center; justify-content: space-between; }
+  .spec-dd { display: inline-flex; align-items: center; gap: var(--spacing-200); padding: var(--spacing-200) var(--spacing-300); border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface); color: var(--color-text-primary); font-size: var(--type-size-200); }
+  .spec-dd__dot { display: inline-flex; width: 16px; height: 16px; color: var(--color-text-tertiary); }
+  .spec-dd__dot :global(svg), .spec-dd :global(svg) { width: 16px; height: 16px; }
+  .spec-dd__chev { color: var(--color-text-tertiary); }
+  .spec-dd__count { font-size: var(--type-size-150); color: var(--color-text-tertiary); }
+
+  /* 5 · underlined tabs */
+  .spec-tabs { display: flex; gap: var(--spacing-400); padding: 0 var(--spacing-400); overflow-x: auto; scrollbar-width: none; }
+  .spec-tabs::-webkit-scrollbar { display: none; }
+  .spec-tab { display: inline-flex; align-items: center; gap: 6px; flex: none; padding: var(--spacing-300) 2px; border-bottom: 2px solid transparent; background: transparent; color: var(--color-text-secondary); font-size: var(--type-size-200); white-space: nowrap; }
+  .spec-tab.is-active { color: var(--color-primary); border-bottom-color: var(--color-primary); font-weight: var(--font-weight-semibold); }
+  .spec-tab__c { font-size: 11px; color: var(--color-text-tertiary); font-variant-numeric: tabular-nums; }
+  .spec-tab.is-active .spec-tab__c { color: var(--color-primary); }
+</style>
