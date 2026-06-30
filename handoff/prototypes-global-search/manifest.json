@@ -1,0 +1,644 @@
+{
+  "name": "global-search",
+  "url": "http://localhost:4399/beacon-design/prototypes/global-search/",
+  "theme": "beacon",
+  "generatedFrom": "spec",
+  "sections": [
+    {
+      "label": "Topbar search trigger",
+      "tag": "button",
+      "selector": ".bcn-search-trigger",
+      "html": "<button\n  class=\"bcn-search-trigger\"\n  type=\"button\"\n  data-omni-trigger=\"\"\n  aria-label=\"Search\"\n  aria-keyshortcuts=\"/\"\n>\n  <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n    <svg\n      width=\"16\"\n      height=\"16\"\n      viewBox=\"0 0 24 24\"\n      fill=\"none\"\n      stroke=\"currentColor\"\n      stroke-width=\"2\"\n      stroke-linecap=\"round\"\n      stroke-linejoin=\"round\"\n      focusable=\"false\"\n    >\n      <circle cx=\"11\" cy=\"11\" r=\"8\"></circle>\n      <path d=\"m21 21-4.3-4.3\"></path>\n    </svg>\n  </span>\n  <span class=\"bcn-search-trigger__placeholder\">Search…</span>\n  <span class=\"bcn-search-trigger__kbd\" aria-hidden=\"true\"> <kbd>/</kbd> </span>\n</button>",
+      "css": ".bcn-search-trigger {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-200);\n  width: 100%;\n  max-width: 520px;\n  margin: 0 auto;\n  padding: var(--spacing-150) var(--spacing-300);\n  background: var(--color-surface);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-200);\n  cursor: text;\n  transition:\n    border-color 0.15s ease,\n    background 0.15s ease;\n}\n.bcn-search-trigger .esa-icon {\n  flex: none;\n  color: var(--color-text-tertiary);\n}\n.bcn-search-trigger__placeholder {\n  flex: 1;\n  min-width: 0;\n  text-align: left;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  font-size: var(--type-size-200);\n  color: var(--color-text-tertiary);\n}\n.bcn-search-trigger__kbd {\n  display: inline-flex;\n  gap: 2px;\n  flex: none;\n}\n.bcn-search-trigger__kbd kbd {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  min-width: 18px;\n  height: 18px;\n  padding: 0 4px;\n  font-family: inherit;\n  font-size: 11px;\n  font-weight: var(--font-weight-medium);\n  color: var(--color-text-tertiary);\n  background: var(--color-surface-sunken);\n  border: 1px solid var(--color-border);\n  border-radius: 4px;\n}\n.topbar__right .esa-icon-button {\n  color: var(--color-text-secondary);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  flex-shrink: 0;\n  color: var(--bcn-gray-500);\n}\n.nav-section__header > .esa-icon:first-child {\n  flex-shrink: 0;\n  color: var(--bcn-gray-950);\n  transition: color 0.15s ease;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  transition:\n    transform 0.15s ease,\n    opacity 0.2s ease-in-out;\n  flex-shrink: 0;\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.page-layout__title h1 .esa-icon {\n  color: var(--bcn-gray-1000);\n  flex-shrink: 0;\n}\n.esa-icon-button {\n  --_ib-size: var(--form-height-md, 40px);\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: var(--_ib-size);\n  height: var(--_ib-size);\n  padding: 0;\n  border: 0;\n  border-radius: var(--radius-200, 8px);\n  background: transparent;\n  color: inherit;\n  cursor: pointer;\n  transition: background var(--transition-fast, 0.15s ease);\n  -webkit-appearance: none;\n  appearance: none;\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  line-height: 1;\n  color: inherit;\n}\n.esa-icon--xs {\n  --_icon-size: var(--icon-size-xs, 14px);\n}\n.esa-icon svg {\n  display: block;\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));\n}\n.esa-icon--md {\n  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));\n}",
+      "guide": {
+        "intent": "The global-search affordance in the app bar: a button STYLED as a search input — leading magnifier, muted \"Search…\" placeholder, and a \"/\" keyboard-shortcut hint — centered in the topbar. It is a trigger, not a real field: clicking it (or pressing \"/\") opens the command palette.",
+        "decisions": [
+          "It is a <button>, not an <input> — it submits nothing and owns no query; it only opens the overlay. Carry the semantics with aria-keyshortcuts=\"/\".",
+          "The open shortcut is \"/\" (a deliberate Beacon choice — NOT ⌘K). The single <kbd>/</kbd> hint advertises it.",
+          "Centered in the topbar's center zone, max-width ~520px, so it reads like cb-fish's omnibox entry point rather than a utility icon."
+        ],
+        "gotchas": [
+          "Do not wire it as a real text field — it is purely an affordance; the actual input lives in the palette.",
+          "On a tight app bar the placeholder text collapses to icon + \"/\" hint only (it must not push the bar wide).",
+          "No esa-* lego is an omnibox trigger field (esa-text-field is a real bordered/labelled input; esa-icon-button is icon-only) — this is the bcn-search-trigger component."
+        ],
+        "acceptance": [
+          "Clicking the field or pressing \"/\" opens the palette; the trigger shows magnifier + \"Search…\" + a \"/\" hint and never submits a form."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--bcn-gray-1000",
+          "value": "#000000",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-400",
+          "value": "#989898",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-500",
+          "value": "#7c7c7c",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-950",
+          "value": "#292929",
+          "tier": "component"
+        },
+        {
+          "name": "--color-border",
+          "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-surface",
+          "value": "#ffffff",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-surface-sunken",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-secondary",
+          "value": "#525252",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-tertiary",
+          "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--font-weight-medium",
+          "value": "450",
+          "tier": "primitive"
+        },
+        {
+          "name": "--form-height-md",
+          "value": "36px",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-size-md",
+          "value": "20px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-medium",
+          "value": "20px",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-size-sm",
+          "value": "16px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-small",
+          "value": "16px",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-size-xs",
+          "value": "14px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-150",
+          "value": ".375rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-300",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--transition-fast",
+          "value": ".15s ease",
+          "tier": "primitive"
+        },
+        {
+          "name": "--type-size-200",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "primitive"
+        }
+      ],
+      "claudePath": "claude/topbar-search-trigger.md",
+      "repoPath": "public/handoff/prototypes-global-search/claude/topbar-search-trigger.md"
+    },
+    {
+      "label": "Command palette (omnibox)",
+      "tag": "div",
+      "selector": ".bcn-omni__panel",
+      "apply": [
+        {
+          "click": ".bcn-search-trigger"
+        },
+        {
+          "fill": [
+            "[data-omni-input]",
+            "biologist"
+          ]
+        }
+      ],
+      "html": "<div class=\"bcn-omni__panel\" role=\"dialog\" aria-modal=\"true\" aria-label=\"Global search\">\n  <div class=\"bcn-omni__searchrow\">\n    <span class=\"bcn-omni__searchicon\" aria-hidden=\"true\">\n      <svg\n        viewBox=\"0 0 24 24\"\n        fill=\"none\"\n        stroke=\"currentColor\"\n        stroke-width=\"2\"\n        stroke-linecap=\"round\"\n        stroke-linejoin=\"round\"\n      >\n        <circle cx=\"11\" cy=\"11\" r=\"8\"></circle>\n        <path d=\"m21 21-4.3-4.3\"></path>\n      </svg>\n    </span>\n    <span class=\"bcn-omni__inputwrap\">\n      <span\n        class=\"bcn-omni__ghost\"\n        data-omni-ghost=\"\"\n        aria-hidden=\"true\"\n        data-suffix=\"\"\n      ></span>\n      <input\n        class=\"bcn-omni__input\"\n        data-omni-input=\"\"\n        type=\"text\"\n        placeholder=\"Search…\"\n        autocomplete=\"off\"\n        autocapitalize=\"off\"\n        spellcheck=\"false\"\n        aria-label=\"Search\"\n      />\n    </span>\n    <button\n      class=\"bcn-omni__clear\"\n      data-omni-clear=\"\"\n      type=\"button\"\n      aria-label=\"Clear search\"\n    >\n      <svg\n        viewBox=\"0 0 24 24\"\n        width=\"15\"\n        height=\"15\"\n        fill=\"none\"\n        stroke=\"currentColor\"\n        stroke-width=\"2.2\"\n        stroke-linecap=\"round\"\n        stroke-linejoin=\"round\"\n      >\n        <path d=\"M18 6 6 18\"></path>\n        <path d=\"m6 6 12 12\"></path>\n      </svg>\n    </button>\n    <kbd>Esc</kbd>\n  </div>\n  <div class=\"bcn-omni__split\">\n    <nav\n      class=\"bcn-omni__rail\"\n      data-omni-scopes=\"\"\n      role=\"tablist\"\n      aria-label=\"Filter by type\"\n    >\n      <button\n        type=\"button\"\n        role=\"tab\"\n        class=\"bcn-omni-rail__item is-active\"\n        data-scope=\"\"\n      >\n        <span class=\"bcn-omni-rail__label\">All</span\n        ><span class=\"bcn-omni-rail__c\">6</span></button\n      ><button\n        type=\"button\"\n        role=\"tab\"\n        class=\"bcn-omni-rail__item\"\n        data-scope=\"source-documents\"\n      >\n        <span class=\"bcn-omni-rail__label\">Source Documents</span\n        ><span class=\"bcn-omni-rail__c\">0</span></button\n      ><button\n        type=\"button\"\n        role=\"tab\"\n        class=\"bcn-omni-rail__item\"\n        data-scope=\"commitments\"\n      >\n        <span class=\"bcn-omni-rail__label\">Commitments</span\n        ><span class=\"bcn-omni-rail__c\">2</span></button\n      ><button\n        type=\"button\"\n        role=\"tab\"\n        class=\"bcn-omni-rail__item\"\n        data-scope=\"requirements\"\n      >\n        <span class=\"bcn-omni-rail__label\">Requirements</span\n        ><span class=\"bcn-omni-rail__c\">1</span></button\n      ><button type=\"button\" role=\"tab\" class=\"bcn-omni-rail__item\" data-scope=\"actions\">\n        <span class=\"bcn-omni-rail__label\">Actions</span\n        ><span class=\"bcn-omni-rail__c\">2</span></button\n      ><button\n        type=\"button\"\n        role=\"tab\"\n        class=\"bcn-omni-rail__item\"\n        data-scope=\"components\"\n      >\n        <span class=\"bcn-omni-rail__label\">Components</span\n        ><span class=\"bcn-omni-rail__c\">0</span></button\n      ><button type=\"button\" role=\"tab\" class=\"bcn-omni-rail__item\" data-scope=\"evidence\">\n        <span class=\"bcn-omni-rail__label\">Evidence of Compliance</span\n        ><span class=\"bcn-omni-rail__c\">1</span></button\n      ><button\n        type=\"button\"\n        role=\"tab\"\n        class=\"bcn-omni-rail__item\"\n        data-scope=\"work-areas\"\n      >\n        <span class=\"bcn-omni-rail__label\">Work Areas</span\n        ><span class=\"bcn-omni-rail__c\">0</span></button\n      ><button\n        type=\"button\"\n        role=\"tab\"\n        class=\"bcn-omni-rail__item\"\n        data-scope=\"observations\"\n      >\n        <span class=\"bcn-omni-rail__label\">Observations</span\n        ><span class=\"bcn-omni-rail__c\">0</span>\n      </button>\n    </nav>\n    <div class=\"bcn-omni__body\" data-omni-body=\"\" role=\"listbox\">\n      <section class=\"bcn-omni-group\">\n        <div class=\"bcn-omni-group__head\">\n          <span class=\"bcn-omni-group__label\">Commitments</span\n          ><span class=\"bcn-omni-group__count\">2</span>\n        </div>\n        <button\n          type=\"button\"\n          class=\"bcn-omni-row is-active\"\n          role=\"option\"\n          data-id=\"cm-mmbio1\"\n        >\n          <span class=\"bcn-omni-row__text\">\n            <span class=\"bcn-omni-row__titlerow\"\n              ><span class=\"bcn-omni-row__code\">MM-BIO-1</span\n              ><span class=\"bcn-omni-row__title\"\n                >Worker Environmental Awareness Program (WEAP) Training</span\n              ></span\n            >\n            <span class=\"bcn-omni-row__snippet\"\n              >… mplement a Worker Environmental Awareness Program (WEAP). A qualified\n              <mark>biologist</mark> will train all construction personnel on the\n              special-status species w … ny incidental take or sensitive-species\n              observation to the designated <mark>biologist</mark>.</span\n            >\n          </span></button\n        ><button type=\"button\" class=\"bcn-omni-row\" role=\"option\" data-id=\"cm-mmbio2\">\n          <span class=\"bcn-omni-row__text\">\n            <span class=\"bcn-omni-row__titlerow\"\n              ><span class=\"bcn-omni-row__code\">MM-BIO-2</span\n              ><span class=\"bcn-omni-row__title\"\n                >Nesting Bird Buffers and Avoidance</span\n              ></span\n            >\n            <span class=\"bcn-omni-row__snippet\"\n              >… ve bird nests are found during preconstruction surveys, the qualified\n              <mark>biologist</mark> will establish no-disturbance buffer zones around\n              each nest. Buffers remain in effect until a\n              <mark>biologist</mark> determines the young have fledged or the nest is no\n              longer active. No …</span\n            >\n          </span>\n        </button>\n      </section>\n      <section class=\"bcn-omni-group\">\n        <div class=\"bcn-omni-group__head\">\n          <span class=\"bcn-omni-group__label\">Requirements</span\n          ><span class=\"bcn-omni-group__count\">1</span>\n        </div>\n        <button type=\"button\" class=\"bcn-omni-row\" role=\"option\" data-id=\"rq-buffer\">\n          <span class=\"bcn-omni-row__text\">\n            <span class=\"bcn-omni-row__titlerow\"\n              ><span class=\"bcn-omni-row__code\">MM-BIO-2</span\n              ><span class=\"bcn-omni-row__title\"\n                >If bird nests are found, establish no-disturbance buffer zones</span\n              ></span\n            >\n            <span class=\"bcn-omni-row__snippet\"\n              >… establish and flag no-disturbance buffer zones sized by the qualified\n              <mark>biologist</mark>; restrict ground-disturbing activities, demolition,\n              and vegetation re …</span\n            >\n          </span>\n        </button>\n      </section>\n      <section class=\"bcn-omni-group\">\n        <div class=\"bcn-omni-group__head\">\n          <span class=\"bcn-omni-group__label\">Actions</span\n          ><span class=\"bcn-omni-group__count\">2</span>\n        </div>\n        <button\n          type=\"button\"\n          class=\"bcn-omni-row\"\n          role=\"option\"\n          data-id=\"ac-weap-schedule\"\n        >\n          <span class=\"bcn-omni-row__text\">\n            <span class=\"bcn-omni-row__titlerow\"\n              ><span class=\"bcn-omni-row__title\"\n                >Schedule WEAP training session with qualified\n                <mark>biologist</mark></span\n              ></span\n            >\n          </span></button\n        ><button type=\"button\" class=\"bcn-omni-row\" role=\"option\" data-id=\"ac-retain-bio\">\n          <span class=\"bcn-omni-row__text\">\n            <span class=\"bcn-omni-row__titlerow\"\n              ><span class=\"bcn-omni-row__title\"\n                >Retain qualified <mark>biologist</mark> for nesting surveys</span\n              ></span\n            >\n          </span>\n        </button>\n      </section>\n      <section class=\"bcn-omni-group\">\n        <div class=\"bcn-omni-group__head\">\n          <span class=\"bcn-omni-group__label\">Evidence of Compliance</span\n          ><span class=\"bcn-omni-group__count\">1</span>\n        </div>\n        <button type=\"button\" class=\"bcn-omni-row\" role=\"option\" data-id=\"ev-daily-log\">\n          <span class=\"bcn-omni-row__text\">\n            <span class=\"bcn-omni-row__titlerow\"\n              ><span class=\"bcn-omni-row__title\"\n                ><mark>Biologist</mark> Daily Monitoring Log — Week 14</span\n              ></span\n            >\n          </span>\n        </button>\n      </section>\n    </div>\n  </div>\n  <button class=\"bcn-omni__showall\" data-omni-showall=\"\" type=\"button\">\n    <span data-omni-showall-label=\"\">See all 6 results for “biologist”</span>\n    <svg\n      viewBox=\"0 0 24 24\"\n      width=\"18\"\n      height=\"18\"\n      fill=\"none\"\n      stroke=\"currentColor\"\n      stroke-width=\"2\"\n      stroke-linecap=\"round\"\n      stroke-linejoin=\"round\"\n    >\n      <path d=\"m9 18 6-6-6-6\"></path>\n    </svg>\n  </button>\n  <div class=\"bcn-omni__footer\">\n    <span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span> <span><kbd>↵</kbd> Select</span>\n    <span><kbd>Tab</kbd> Complete</span> <span><kbd>Esc</kbd> Close</span>\n  </div>\n</div>",
+      "css": ".bcn-omni__panel {\n  position: relative;\n  z-index: 1;\n  width: 860px;\n  max-width: 100%;\n  height: min(680px, 84vh);\n  display: flex;\n  flex-direction: column;\n  background: var(--color-surface);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-400, 12px);\n  overflow: hidden;\n  box-shadow: 0 24px 64px #141e2852;\n  animation: bcn-omni-enter 0.14s ease-out;\n}\n.bcn-omni__searchrow {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-300);\n  flex: none;\n  padding: var(--spacing-300) var(--spacing-500);\n  border-bottom: 1px solid var(--color-border);\n}\n.bcn-omni__searchicon {\n  display: inline-flex;\n  flex: none;\n  color: var(--color-text-tertiary);\n}\n.bcn-omni__searchicon svg {\n  width: 22px;\n  height: 22px;\n}\n.bcn-omni__inputwrap {\n  position: relative;\n  flex: 1;\n  min-width: 0;\n  display: flex;\n  align-items: center;\n}\n.bcn-omni__ghost {\n  position: absolute;\n  inset: 0;\n  z-index: 0;\n  display: flex;\n  align-items: center;\n  font-family: inherit;\n  font-size: var(--type-size-400, 1.25rem);\n  line-height: 1.4;\n  color: var(--color-text-tertiary);\n  white-space: pre;\n  overflow: hidden;\n  pointer-events: none;\n}\n.bcn-omni__input {\n  position: relative;\n  z-index: 1;\n  width: 100%;\n  min-width: 0;\n  margin: 0;\n  padding: 0;\n  border: 0;\n  outline: 0;\n  background: transparent;\n  font-family: inherit;\n  font-size: var(--type-size-400, 1.25rem);\n  line-height: 1.4;\n  color: var(--color-text-primary);\n}\n.bcn-omni__input::placeholder {\n  color: var(--color-text-tertiary);\n}\n.bcn-omni__clear {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 26px;\n  height: 26px;\n  flex: none;\n  border: 0;\n  border-radius: var(--radius-full);\n  background: var(--color-surface-sunken);\n  color: var(--color-text-secondary);\n  cursor: pointer;\n}\n.bcn-omni__clear[hidden] {\n  display: none;\n}\n.bcn-omni__split {\n  display: flex;\n  flex: 1 1 auto;\n  min-height: 0;\n}\n.bcn-omni__rail {\n  box-sizing: border-box;\n  flex: none;\n  width: 208px;\n  display: flex;\n  flex-direction: column;\n  gap: 1px;\n  padding: var(--spacing-200);\n  border-right: 1px solid var(--color-border);\n  overflow-y: auto;\n  scrollbar-width: none;\n}\n.bcn-omni-rail__item {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-200);\n  width: 100%;\n  padding: var(--spacing-150) var(--spacing-250);\n  border: 0;\n  border-radius: var(--radius-200);\n  background: transparent;\n  color: var(--color-text-secondary);\n  font-family: inherit;\n  font-size: var(--type-size-150);\n  text-align: left;\n  cursor: pointer;\n  transition:\n    background 0.1s,\n    color 0.1s;\n}\n.bcn-omni-rail__item:disabled {\n  color: var(--color-text-tertiary);\n  cursor: default;\n}\n.bcn-omni-rail__label {\n  flex: 1;\n  min-width: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.bcn-omni__body {\n  flex: 1 1 auto;\n  min-width: 0;\n  overflow-y: auto;\n  padding: var(--spacing-200) 0;\n}\n.bcn-omni__body.is-landing {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  padding: var(--spacing-400);\n}\n.bcn-omni__showall {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  gap: var(--spacing-200);\n  flex: none;\n  width: 100%;\n  padding: var(--spacing-300);\n  border: 0;\n  background: var(--color-primary);\n  color: var(--color-text-inverse);\n  font-family: inherit;\n  font-size: var(--type-size-200);\n  font-weight: var(--font-weight-semibold);\n  cursor: pointer;\n}\n.bcn-omni__showall[hidden] {\n  display: none;\n}\n.bcn-omni__footer {\n  display: flex;\n  flex-wrap: wrap;\n  gap: var(--spacing-400);\n  flex: none;\n  padding: var(--spacing-250) var(--spacing-500);\n  border-top: 1px solid var(--color-border);\n  font-size: var(--type-size-150);\n  color: var(--color-text-tertiary);\n}\n.bcn-omni__footer span {\n  display: inline-flex;\n  align-items: center;\n  gap: 6px;\n}\n.bcn-omni-rail__item.is-active {\n  background: var(--color-primary);\n  color: var(--color-text-inverse);\n  font-weight: var(--font-weight-semibold);\n}\n.bcn-omni-rail__c {\n  flex: none;\n  font-size: 11px;\n  font-variant-numeric: tabular-nums;\n  opacity: 0.8;\n}\n.bcn-omni-group__head {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-200);\n  padding: var(--spacing-200) var(--spacing-400) var(--spacing-100);\n}\n.bcn-omni-group__label {\n  font-size: var(--type-size-150);\n  font-weight: var(--font-weight-semibold);\n  color: var(--color-text-primary);\n}\n.bcn-omni-group__count {\n  font-size: var(--type-size-100);\n  font-variant-numeric: tabular-nums;\n  color: var(--color-text-secondary);\n  background: transparent;\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-100);\n  padding: 0 6px;\n  line-height: 1.5;\n}\n.bcn-omni-row {\n  display: flex;\n  align-items: center;\n  width: 100%;\n  padding: var(--spacing-150) var(--spacing-400);\n  border: 0;\n  background: transparent;\n  color: var(--color-text-primary);\n  font-family: inherit;\n  text-align: left;\n  cursor: pointer;\n}\n.bcn-omni-row.is-active {\n  background: var(--color-surface-sunken);\n}\n.bcn-omni-row__text {\n  flex: 1;\n  min-width: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 1px;\n}\n.bcn-omni-row__titlerow {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-150);\n  min-width: 0;\n}\n.bcn-omni-row__code {\n  flex: none;\n  padding: 1px 6px;\n  border-radius: var(--radius-100);\n  font-size: var(--type-size-100);\n  font-weight: var(--font-weight-semibold);\n  line-height: 1.4;\n  white-space: nowrap;\n  color: var(--color-commitment);\n  background: color-mix(in srgb, var(--color-commitment) 12%, white);\n}\n.bcn-omni-row__title {\n  flex: 0 1 auto;\n  min-width: 0;\n  font-size: var(--type-size-150);\n  font-weight: var(--font-weight-medium);\n  color: var(--color-text-primary);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.bcn-omni-row__snippet {\n  margin-top: 2px;\n  font-family: var(--font-decorative);\n  font-size: var(--type-size-150);\n  color: var(--color-text-primary);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.bcn-omni-row mark,\n.bcn-omni-empty mark {\n  background: #fde047;\n  color: var(--color-text-primary);\n  border-radius: 2px;\n  padding: 0 1px;\n}",
+      "guide": {
+        "intent": "The global-search command palette — a fixed overlay centered both vertically and horizontally. It searches all 8 scopes FULL-TEXT (titles + commitment/requirement body), with a left scope-facet rail, results grouped by scope with per-scope counts, highlighted hits, and an inline ghost-text typeahead in the input. ⌘/Ctrl+Enter forks to the full results page carrying the query + active scope.",
+        "decisions": [
+          "NULL STATE shows a centered \"Search Beacon\" landing only (no recents); the scope rail is PRESENT but DISABLED with no counts until a query is typed, at which point its facets enable, show counts, and the active scope highlights.",
+          "Scope facets are a left VERTICAL RAIL (not tabs); the active facet is solid --color-primary with white text.",
+          "Inline ghost-text typeahead: a grey predicted completion sits after the caret (a transparent pad span occupies the typed text so the grey suffix lands exactly at the caret); Tab or → accepts it.",
+          "Hit highlighting is highlighter-yellow (#fde047), dark text — louder than a tinted-primary mark.",
+          "Result rows carry NO leading scope icon and NO subtitle. Commitments + requirements show a purple commitment-ID badge (--color-commitment) before the title; the body match renders as a one-line serif (--font-decorative) snippet of the matched document text.",
+          "Keys: ↑/↓ navigate, ↵ select (navigates to the record), ⌘/Ctrl+↵ \"see all\" (→ results page), Tab complete (accept ghost), Esc close. Opens via [data-omni-trigger] or \"/\"."
+        ],
+        "gotchas": [
+          "This is a BESPOKE bcn- palette, NOT the esa-entity-search lego: that lego is overlay-only, hardcodes top:12% in shadow DOM with no centering hook, sizes by max-height, and matches/renders title+subtitle only (no full-text body match or snippet). Re-implement as a centered, fixed-size, full-text palette.",
+          "The rail + rows are JS-injected (innerHTML), so their CSS cannot carry Astro's scope hash — it lives in a global <style is:global> block under .bcn-omni-*. In Angular this is component CSS, but keep the same contained prefix discipline.",
+          "Every user-query path is HTML-escaped before innerHTML; the <mark> wrappers are the ONLY injected markup. Preserve that — never interpolate a raw query into innerHTML.",
+          "The commitment ID is a structured `code` field on the record (folded into the searchable text), NOT parsed out of the title at render — the title is the clean name."
+        ],
+        "acceptance": [
+          "\"/\" opens it centered; empty query shows the landing + a disabled rail; typing enables the rail with counts and shows grouped, highlighted results; Tab completes the ghost; ⌘↵ opens the results page with the query + scope."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--color-border",
+          "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-commitment",
+          "value": "#58508d",
+          "tier": "component"
+        },
+        {
+          "name": "--color-primary",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-surface",
+          "value": "#ffffff",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-surface-sunken",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-inverse",
+          "value": "#ffffff",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-primary",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-secondary",
+          "value": "#525252",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-tertiary",
+          "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--font-decorative",
+          "value": "\"Besley\", serif",
+          "tier": "component"
+        },
+        {
+          "name": "--font-weight-medium",
+          "value": "450",
+          "tier": "primitive"
+        },
+        {
+          "name": "--font-weight-semibold",
+          "value": "550",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-100",
+          "value": ".25rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-400",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-full",
+          "value": "9999px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-100",
+          "value": ".25rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-150",
+          "value": ".375rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-250",
+          "value": ".625rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-300",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-400",
+          "value": "1rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-500",
+          "value": "1.5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--type-size-100",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--type-size-150",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--type-size-200",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--type-size-400",
+          "value": "clamp(1rem, .88rem + .6vw, 1.25rem)",
+          "tier": "primitive"
+        }
+      ],
+      "claudePath": "claude/command-palette-omnibox.md",
+      "repoPath": "public/handoff/prototypes-global-search/claude/command-palette-omnibox.md"
+    },
+    {
+      "label": "Search results page",
+      "tag": "section",
+      "selector": ".bcn-sr",
+      "apply": [
+        {
+          "fill": [
+            "#results-query",
+            "biologist"
+          ]
+        }
+      ],
+      "html": "<section class=\"bcn-sr\">\n  <!-- 1 · Search field — mirrors the omnibox's own leading-icon + bare input -->\n  <div class=\"bcn-sr__search\">\n    <span class=\"bcn-sr__search-icon\" aria-hidden=\"true\">\n      <svg\n        viewBox=\"0 0 24 24\"\n        fill=\"none\"\n        stroke=\"currentColor\"\n        stroke-width=\"2\"\n        stroke-linecap=\"round\"\n        stroke-linejoin=\"round\"\n      >\n        <circle cx=\"11\" cy=\"11\" r=\"8\"></circle>\n        <path d=\"m21 21-4.3-4.3\"></path>\n      </svg>\n    </span>\n    <input\n      id=\"results-query\"\n      class=\"bcn-sr__input\"\n      type=\"search\"\n      placeholder=\"Search…\"\n      autocomplete=\"off\"\n      aria-label=\"Search all records\"\n    />\n  </div>\n  <!-- 2 · [ scope-facet rail | results ] split -->\n  <div class=\"bcn-sr__split\">\n    <nav class=\"bcn-sr__rail\" role=\"tablist\" aria-label=\"Filter results by type\">\n      <button\n        type=\"button\"\n        class=\"bcn-sr__scope bcn-sr__scope--active\"\n        data-scope=\"\"\n        role=\"tab\"\n        aria-selected=\"true\"\n      >\n        <span class=\"bcn-sr__scope-label\">All</span>\n        <span class=\"bcn-sr__scope-count\" data-scope-count=\"\">6</span>\n      </button>\n      <button\n        type=\"button\"\n        class=\"bcn-sr__scope\"\n        data-scope=\"source-documents\"\n        role=\"tab\"\n        aria-selected=\"false\"\n      >\n        <span class=\"bcn-sr__scope-label\">Source Documents</span>\n        <span class=\"bcn-sr__scope-count\" data-scope-count=\"\">0</span></button\n      ><button\n        type=\"button\"\n        class=\"bcn-sr__scope\"\n        data-scope=\"commitments\"\n        role=\"tab\"\n        aria-selected=\"false\"\n      >\n        <span class=\"bcn-sr__scope-label\">Commitments</span>\n        <span class=\"bcn-sr__scope-count\" data-scope-count=\"\">2</span></button\n      ><button\n        type=\"button\"\n        class=\"bcn-sr__scope\"\n        data-scope=\"requirements\"\n        role=\"tab\"\n        aria-selected=\"false\"\n      >\n        <span class=\"bcn-sr__scope-label\">Requirements</span>\n        <span class=\"bcn-sr__scope-count\" data-scope-count=\"\">1</span></button\n      ><button\n        type=\"button\"\n        class=\"bcn-sr__scope\"\n        data-scope=\"actions\"\n        role=\"tab\"\n        aria-selected=\"false\"\n      >\n        <span class=\"bcn-sr__scope-label\">Actions</span>\n        <span class=\"bcn-sr__scope-count\" data-scope-count=\"\">2</span></button\n      ><button\n        type=\"button\"\n        class=\"bcn-sr__scope\"\n        data-scope=\"components\"\n        role=\"tab\"\n        aria-selected=\"false\"\n      >\n        <span class=\"bcn-sr__scope-label\">Components</span>\n        <span class=\"bcn-sr__scope-count\" data-scope-count=\"\">0</span></button\n      ><button\n        type=\"button\"\n        class=\"bcn-sr__scope\"\n        data-scope=\"evidence\"\n        role=\"tab\"\n        aria-selected=\"false\"\n      >\n        <span class=\"bcn-sr__scope-label\">Evidence of Compliance</span>\n        <span class=\"bcn-sr__scope-count\" data-scope-count=\"\">1</span></button\n      ><button\n        type=\"button\"\n        class=\"bcn-sr__scope\"\n        data-scope=\"work-areas\"\n        role=\"tab\"\n        aria-selected=\"false\"\n      >\n        <span class=\"bcn-sr__scope-label\">Work Areas</span>\n        <span class=\"bcn-sr__scope-count\" data-scope-count=\"\">0</span></button\n      ><button\n        type=\"button\"\n        class=\"bcn-sr__scope\"\n        data-scope=\"observations\"\n        role=\"tab\"\n        aria-selected=\"false\"\n      >\n        <span class=\"bcn-sr__scope-label\">Observations</span>\n        <span class=\"bcn-sr__scope-count\" data-scope-count=\"\">0</span>\n      </button>\n    </nav>\n    <div class=\"bcn-sr__main\">\n      <!-- Result count line (client-updated) -->\n      <p class=\"bcn-sr__count\" id=\"results-count\">6 results for “biologist”</p>\n      <!-- Null state: shown when the query is empty — no results listed, rail disabled -->\n      <div class=\"bcn-sr__landing\" id=\"results-landing\" hidden=\"\">\n        <div class=\"esa-empty-state esa-empty-state--md\">\n          <div class=\"esa-empty-state__icon\">\n            <svg\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n            >\n              <circle cx=\"11\" cy=\"11\" r=\"8\"></circle>\n              <path d=\"m21 21-4.3-4.3\"></path>\n            </svg>\n          </div>\n          <h3 class=\"esa-empty-state__title\">Search the project</h3>\n          <p class=\"esa-empty-state__description\">\n            Source documents, commitments, requirements, actions, components, evidence,\n            work areas, and observations — search titles and full document text.\n          </p>\n          <div class=\"esa-empty-state__actions\"></div>\n        </div>\n      </div>\n      <!-- Grouped results -->\n      <div class=\"bcn-sr__results\">\n        <section class=\"bcn-sr__group\" data-group=\"source-documents\" hidden=\"\">\n          <header class=\"bcn-sr__group-head\">\n            <span class=\"bcn-sr__group-label\">Source Documents</span>\n            <span class=\"bcn-sr__group-count\" data-group-count=\"\">0</span>\n          </header>\n          <div class=\"bcn-sr__rows\">\n            <a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-source-document\"\n              data-id=\"sd-feir-3600\"\n              data-scope=\"source-documents\"\n              data-entity=\"3600 alameda avenue project feir final environmental impact report · 130 requirements\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\">3600 Alameda Avenue Project FEIR</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-source-document\"\n              data-id=\"sd-dcp-eir\"\n              data-scope=\"source-documents\"\n              data-entity=\"delta conveyance project eir environmental impact report\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\">Delta Conveyance Project EIR</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-source-document\"\n              data-id=\"sd-itp\"\n              data-scope=\"source-documents\"\n              data-entity=\"incidental take permit (itp) 2081 cdfw 2081(b) permit · 36 studies\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\">Incidental Take Permit (ITP) 2081</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-source-document\"\n              data-id=\"sd-biop\"\n              data-scope=\"source-documents\"\n              data-entity=\"biological opinion — delta smelt usfws biological opinion\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\">Biological Opinion — Delta Smelt</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-source-document\"\n              data-id=\"sd-nbmp\"\n              data-scope=\"source-documents\"\n              data-entity=\"nesting bird management plan construction management plan\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\">Nesting Bird Management Plan</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-source-document\"\n              data-id=\"sd-swppp\"\n              data-scope=\"source-documents\"\n              data-entity=\"stormwater pollution prevention plan (swppp) construction stormwater plan\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\"\n                    >Stormwater Pollution Prevention Plan (SWPPP)</span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div>\n            </a>\n          </div>\n        </section>\n        <section class=\"bcn-sr__group\" data-group=\"commitments\">\n          <header class=\"bcn-sr__group-head\">\n            <span class=\"bcn-sr__group-label\">Commitments</span>\n            <span class=\"bcn-sr__group-count\" data-group-count=\"\">2</span>\n          </header>\n          <div class=\"bcn-sr__rows\">\n            <a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-commitment\"\n              data-id=\"cm-mmbio1\"\n              data-scope=\"commitments\"\n              data-entity=\"worker environmental awareness program (weap) training 3600 alameda feir · biological resources\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-code\">MM-BIO-1</span>\n                  <span class=\"bcn-sr__row-title\"\n                    >Worker Environmental Awareness Program (WEAP) Training</span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\">\n                DWR will develop and implement a Worker Environmental Awareness Program\n                (WEAP). A qualified <mark>biologist</mark> will train all construction\n                personnel on the special-status species with potential to occur in the\n                work area, the no-disturbance buffers and avoidance measures in effect,\n                and the procedure for reporting any incidental take or sensitive-species\n                observation to the designated <mark>biologist</mark>.\n              </div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-commitment\"\n              data-id=\"cm-mmbio2\"\n              data-scope=\"commitments\"\n              data-entity=\"nesting bird buffers and avoidance 3600 alameda feir · biological resources\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-code\">MM-BIO-2</span>\n                  <span class=\"bcn-sr__row-title\"\n                    >Nesting Bird Buffers and Avoidance</span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\">\n                If active bird nests are found during preconstruction surveys, the\n                qualified <mark>biologist</mark> will establish no-disturbance buffer\n                zones around each nest. Buffers remain in effect until a\n                <mark>biologist</mark> determines the young have fledged or the nest is no\n                longer active. No construction, grading, or vegetation removal will occur\n                within a buffer without biological monitoring and concurrence.\n              </div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-commitment\"\n              data-id=\"cm-aes4a\"\n              data-scope=\"commitments\"\n              data-entity=\"limit construction outside of daylight hours near residents dcp eir · aesthetics\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-code\">AES-4a</span>\n                  <span class=\"bcn-sr__row-title\"\n                    >Limit Construction Outside of Daylight Hours near Residents</span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-commitment\"\n              data-id=\"cm-aes4b\"\n              data-scope=\"commitments\"\n              data-entity=\"minimize fugitive light from portable sources dcp eir · aesthetics\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-code\">AES-4b</span>\n                  <span class=\"bcn-sr__row-title\"\n                    >Minimize Fugitive Light from Portable Sources</span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-commitment\"\n              data-id=\"cm-ag1\"\n              data-scope=\"commitments\"\n              data-entity=\"preserve agricultural land dcp eir · agriculture\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-code\">AG-1</span>\n                  <span class=\"bcn-sr__row-title\">Preserve Agricultural Land</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-commitment\"\n              data-id=\"cm-ag3\"\n              data-scope=\"commitments\"\n              data-entity=\"replacement or relocation of affected infrastructure dcp eir · agriculture\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-code\">AG-3</span>\n                  <span class=\"bcn-sr__row-title\"\n                    >Replacement or Relocation of Affected Infrastructure</span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div>\n            </a>\n          </div>\n        </section>\n        <section class=\"bcn-sr__group\" data-group=\"requirements\">\n          <header class=\"bcn-sr__group-head\">\n            <span class=\"bcn-sr__group-label\">Requirements</span>\n            <span class=\"bcn-sr__group-count\" data-group-count=\"\">1</span>\n          </header>\n          <div class=\"bcn-sr__rows\">\n            <a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-requirement\"\n              data-id=\"rq-weap-dev\"\n              data-scope=\"requirements\"\n              data-entity=\"develop weap training training &amp; education\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-code\">MM-BIO-1</span>\n                  <span class=\"bcn-sr__row-title\">Develop WEAP Training</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-requirement\"\n              data-id=\"rq-weap-provide\"\n              data-scope=\"requirements\"\n              data-entity=\"provide weap training to all project personnel training &amp; education\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-code\">MM-BIO-1</span>\n                  <span class=\"bcn-sr__row-title\"\n                    >Provide WEAP Training to all Project personnel</span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-requirement\"\n              data-id=\"rq-buffer\"\n              data-scope=\"requirements\"\n              data-entity=\"if bird nests are found, establish no-disturbance buffer zones biological resources\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-code\">MM-BIO-2</span>\n                  <span class=\"bcn-sr__row-title\"\n                    >If bird nests are found, establish no-disturbance buffer zones</span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\">\n                Where active nests are identified, establish and flag no-disturbance\n                buffer zones sized by the qualified <mark>biologist</mark>; restrict\n                ground-disturbing activities, demolition, and vegetation removal within\n                the buffer until the nest is no longer active.\n              </div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-requirement\"\n              data-id=\"rq-raptor-survey\"\n              data-scope=\"requirements\"\n              data-entity=\"pre-construction survey for nesting raptors and migratory birds biological resources\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-code\">MM-BIO-2</span>\n                  <span class=\"bcn-sr__row-title\"\n                    >Pre-construction survey for nesting raptors and migratory birds</span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-requirement\"\n              data-id=\"rq-bat-assess\"\n              data-scope=\"requirements\"\n              data-entity=\"pre-construction habitat assessment for bat roost sites biological resources\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-code\">MM-BIO-2</span>\n                  <span class=\"bcn-sr__row-title\"\n                    >Pre-construction habitat assessment for bat roost sites</span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-requirement\"\n              data-id=\"rq-dust-erosion\"\n              data-scope=\"requirements\"\n              data-entity=\"dust control measures — erosion air quality\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-code\">AQ-1</span>\n                  <span class=\"bcn-sr__row-title\">Dust control measures — erosion</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div>\n            </a>\n          </div>\n        </section>\n        <section class=\"bcn-sr__group\" data-group=\"actions\">\n          <header class=\"bcn-sr__group-head\">\n            <span class=\"bcn-sr__group-label\">Actions</span>\n            <span class=\"bcn-sr__group-count\" data-group-count=\"\">2</span>\n          </header>\n          <div class=\"bcn-sr__rows\">\n            <a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-action\"\n              data-id=\"ac-weap-schedule\"\n              data-scope=\"actions\"\n              data-entity=\"schedule weap training session with qualified biologist mm-bio-1\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\"\n                    >Schedule WEAP training session with qualified\n                    <mark>biologist</mark></span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-action\"\n              data-id=\"ac-retain-bio\"\n              data-scope=\"actions\"\n              data-entity=\"retain qualified biologist for nesting surveys mm-bio-2\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\"\n                    >Retain qualified <mark>biologist</mark> for nesting surveys</span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-action\"\n              data-id=\"ac-fencing\"\n              data-scope=\"actions\"\n              data-entity=\"install no-disturbance buffer fencing at active nests mm-bio-2\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\"\n                    >Install no-disturbance buffer fencing at active nests</span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-action\"\n              data-id=\"ac-monthly-report\"\n              data-scope=\"actions\"\n              data-entity=\"file monthly nesting-bird monitoring report mm-bio-2\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\"\n                    >File monthly nesting-bird monitoring report</span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-action\"\n              data-id=\"ac-dust-watering\"\n              data-scope=\"actions\"\n              data-entity=\"apply dust-control watering on graded surfaces air quality\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\"\n                    >Apply dust-control watering on graded surfaces</span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-action\"\n              data-id=\"ac-ag-easement\"\n              data-scope=\"actions\"\n              data-entity=\"coordinate agricultural easement acquisition ag-1\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\"\n                    >Coordinate agricultural easement acquisition</span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div>\n            </a>\n          </div>\n        </section>\n        <section class=\"bcn-sr__group\" data-group=\"components\" hidden=\"\">\n          <header class=\"bcn-sr__group-head\">\n            <span class=\"bcn-sr__group-label\">Components</span>\n            <span class=\"bcn-sr__group-count\" data-group-count=\"\">0</span>\n          </header>\n          <div class=\"bcn-sr__rows\">\n            <a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-commitment\"\n              data-id=\"co-north-grading\"\n              data-scope=\"components\"\n              data-entity=\"north grading area work component · 3600 alameda\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\">North Grading Area</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-commitment\"\n              data-id=\"co-south-grading\"\n              data-scope=\"components\"\n              data-entity=\"south grading area work component · 3600 alameda\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\">South Grading Area</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-commitment\"\n              data-id=\"co-intake\"\n              data-scope=\"components\"\n              data-entity=\"intake facilities work component · dcp\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\">Intake Facilities</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-commitment\"\n              data-id=\"co-tunnel-shafts\"\n              data-scope=\"components\"\n              data-entity=\"tunnel shaft sites work component · dcp\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\">Tunnel Shaft Sites</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-commitment\"\n              data-id=\"co-bouldin\"\n              data-scope=\"components\"\n              data-entity=\"bouldin island complex work component · dcp\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\">Bouldin Island Complex</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-commitment\"\n              data-id=\"co-twin-cities\"\n              data-scope=\"components\"\n              data-entity=\"twin cities road corridor work component · dcp\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\">Twin Cities Road Corridor</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div>\n            </a>\n          </div>\n        </section>\n        <section class=\"bcn-sr__group\" data-group=\"evidence\">\n          <header class=\"bcn-sr__group-head\">\n            <span class=\"bcn-sr__group-label\">Evidence of Compliance</span>\n            <span class=\"bcn-sr__group-count\" data-group-count=\"\">1</span>\n          </header>\n          <div class=\"bcn-sr__rows\">\n            <a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-action\"\n              data-id=\"ev-weap-signin\"\n              data-scope=\"evidence\"\n              data-entity=\"weap training sign-in sheet — 2026-04-12.pdf mm-bio-1 · document\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\"\n                    >WEAP Training Sign-in Sheet — 2026-04-12.pdf</span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-action\"\n              data-id=\"ev-nest-survey\"\n              data-scope=\"evidence\"\n              data-entity=\"preconstruction nesting bird survey report.pdf mm-bio-2 · report\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\"\n                    >Preconstruction Nesting Bird Survey Report.pdf</span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-action\"\n              data-id=\"ev-fence-photos\"\n              data-scope=\"evidence\"\n              data-entity=\"buffer fencing photo log — dctr2-dh-010 mm-bio-2 · photos\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\"\n                    >Buffer Fencing Photo Log — DCTR2-DH-010</span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-action\"\n              data-id=\"ev-daily-log\"\n              data-scope=\"evidence\"\n              data-entity=\"biologist daily monitoring log — week 14 mm-bio-2 · log\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\"\n                    ><mark>Biologist</mark> Daily Monitoring Log — Week 14</span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-action\"\n              data-id=\"ev-dust-record\"\n              data-scope=\"evidence\"\n              data-entity=\"dust control watering record — june.xlsx air quality · record\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\"\n                    >Dust Control Watering Record — June.xlsx</span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/data-catalog-action\"\n              data-id=\"ev-ag-deed\"\n              data-scope=\"evidence\"\n              data-entity=\"agricultural land easement — recorded deed.pdf ag-1 · legal\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\"\n                    >Agricultural Land Easement — Recorded Deed.pdf</span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div>\n            </a>\n          </div>\n        </section>\n        <section class=\"bcn-sr__group\" data-group=\"work-areas\" hidden=\"\">\n          <header class=\"bcn-sr__group-head\">\n            <span class=\"bcn-sr__group-label\">Work Areas</span>\n            <span class=\"bcn-sr__group-count\" data-group-count=\"\">0</span>\n          </header>\n          <div class=\"bcn-sr__rows\">\n            <a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/site-clearance\"\n              data-id=\"wa-dctr2-010\"\n              data-scope=\"work-areas\"\n              data-entity=\"dctr2-dh-010 twin cities road · geotech bore\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\">DCTR2-DH-010</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/site-clearance\"\n              data-id=\"wa-dcrai-009\"\n              data-scope=\"work-areas\"\n              data-entity=\"dcrai-dh-009 rail crossing · geotech bore\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\">DCRAI-DH-009</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/site-clearance\"\n              data-id=\"wa-dcrai-006\"\n              data-scope=\"work-areas\"\n              data-entity=\"dcrai-dh-006 rail crossing · geotech bore\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\">DCRAI-DH-006</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/site-clearance\"\n              data-id=\"wa-dctr2-100\"\n              data-scope=\"work-areas\"\n              data-entity=\"dctr2-dh-100 twin cities road · geotech bore\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\">DCTR2-DH-100</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/site-clearance\"\n              data-id=\"wa-dcrds-294\"\n              data-scope=\"work-areas\"\n              data-entity=\"dcrds-dh-294 roadway · geotech bore\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\">DCRDS-DH-294</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/site-clearance\"\n              data-id=\"wa-dcbpp-066\"\n              data-scope=\"work-areas\"\n              data-entity=\"dcbpp-dh-066 bouldin island · geotech bore\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\">DCBPP-DH-066</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div>\n            </a>\n          </div>\n        </section>\n        <section class=\"bcn-sr__group\" data-group=\"observations\" hidden=\"\">\n          <header class=\"bcn-sr__group-head\">\n            <span class=\"bcn-sr__group-label\">Observations</span>\n            <span class=\"bcn-sr__group-count\" data-group-count=\"\">0</span>\n          </header>\n          <div class=\"bcn-sr__rows\">\n            <a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/monitoring/dashboard\"\n              data-id=\"ob-swha-010\"\n              data-scope=\"observations\"\n              data-entity=\"swainson's hawk nest — dctr2-dh-010 nesting bird · active\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\"\n                    >Swainson's Hawk nest — DCTR2-DH-010</span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/monitoring/dashboard\"\n              data-id=\"ob-cora-009\"\n              data-scope=\"observations\"\n              data-entity=\"common raven nest — dcrai-dh-009 nesting bird · active\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\">Common Raven nest — DCRAI-DH-009</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/monitoring/dashboard\"\n              data-id=\"ob-kild-100\"\n              data-scope=\"observations\"\n              data-entity=\"killdeer nest — dctr2-dh-100 nesting bird · active\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\">Killdeer nest — DCTR2-DH-100</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/monitoring/dashboard\"\n              data-id=\"ob-mall-294\"\n              data-scope=\"observations\"\n              data-entity=\"mallard nest — dcrds-dh-294 nesting bird · active\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\">Mallard nest — DCRDS-DH-294</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/monitoring/dashboard\"\n              data-id=\"ob-rodent-066\"\n              data-scope=\"observations\"\n              data-entity=\"rodent burrows — dcbpp-dh-066 biological resource · tracking\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\">Rodent burrows — DCBPP-DH-066</span>\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div> </a\n            ><a\n              class=\"bcn-sr__row\"\n              href=\"/beacon-design/prototypes/monitoring/dashboard\"\n              data-id=\"ob-swha-006\"\n              data-scope=\"observations\"\n              data-entity=\"swainson's hawk foraging — dcrai-dh-006 biological resource · tracking\"\n              hidden=\"\"\n            >\n              <span class=\"bcn-sr__row-head\">\n                <span class=\"bcn-sr__row-titlerow\">\n                  <span class=\"bcn-sr__row-title\"\n                    >Swainson's Hawk foraging — DCRAI-DH-006</span\n                  >\n                </span>\n              </span>\n              <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div>\n            </a>\n          </div>\n        </section>\n        <!-- 5 · Empty state (the lego) — hidden until the client finds zero matches -->\n        <div class=\"bcn-sr__empty\" id=\"results-empty\" hidden=\"\">\n          <div class=\"esa-empty-state esa-empty-state--md\">\n            <div class=\"esa-empty-state__icon\">\n              <svg\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n              >\n                <path d=\"m13.5 8.5-5 5\"></path>\n                <path d=\"m8.5 8.5 5 5\"></path>\n                <circle cx=\"11\" cy=\"11\" r=\"8\"></circle>\n                <path d=\"m21 21-4.3-4.3\"></path>\n              </svg>\n            </div>\n            <h3 class=\"esa-empty-state__title\">No matches</h3>\n            <p class=\"esa-empty-state__description\">\n              No records match your search. Try a different term or clear the active type\n              filter.\n            </p>\n            <div class=\"esa-empty-state__actions\"></div>\n          </div>\n        </div>\n      </div>\n      <!-- /main -->\n    </div>\n    <!-- /split -->\n  </div>\n</section>",
+      "css": ".bcn-sr {\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-400);\n}\n.bcn-sr__search {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-300);\n  padding: var(--spacing-300) var(--spacing-400);\n  background: var(--color-surface);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-300);\n}\n.bcn-sr__search-icon {\n  display: inline-flex;\n  flex-shrink: 0;\n  color: var(--color-text-tertiary);\n}\n.bcn-sr__search-icon svg {\n  width: 20px;\n  height: 20px;\n}\n.bcn-sr__input {\n  flex: 1;\n  min-width: 0;\n  border: none;\n  outline: none;\n  background: transparent;\n  font-family: inherit;\n  font-size: var(--type-size-300);\n  color: var(--color-text-primary);\n}\n.bcn-sr__input::placeholder {\n  color: var(--color-text-tertiary);\n}\n.bcn-sr__split {\n  display: flex;\n  align-items: flex-start;\n  gap: var(--spacing-500);\n}\n.bcn-sr__rail {\n  flex: none;\n  width: 220px;\n  position: sticky;\n  top: var(--spacing-400);\n  display: flex;\n  flex-direction: column;\n  gap: 1px;\n}\n.bcn-sr__scope {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-200);\n  width: 100%;\n  padding: var(--spacing-200) var(--spacing-250);\n  border: 0;\n  border-radius: var(--radius-200);\n  background: transparent;\n  color: var(--color-text-secondary);\n  font-family: inherit;\n  font-size: var(--type-size-150);\n  text-align: left;\n  cursor: pointer;\n  transition:\n    background 0.12s ease,\n    color 0.12s ease;\n}\n.bcn-sr__scope--active {\n  background: var(--color-primary);\n  color: var(--color-text-inverse);\n  font-weight: var(--font-weight-semibold);\n}\n.bcn-sr__scope-label {\n  flex: 1;\n  min-width: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n.bcn-sr__scope-count {\n  flex: none;\n  font-size: 11px;\n  font-variant-numeric: tabular-nums;\n  opacity: 0.8;\n}\n.bcn-sr__main {\n  flex: 1 1 auto;\n  min-width: 0;\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-400);\n  border-left: 1px solid var(--color-border);\n  padding-left: var(--spacing-500);\n}\n.bcn-sr__count {\n  margin: 0;\n  font-size: var(--type-size-150);\n  color: var(--color-text-secondary);\n}\n.bcn-sr__landing {\n  padding: var(--spacing-700) 0;\n}\n.bcn-sr__landing[hidden],\n.bcn-sr__results[hidden] {\n  display: none;\n}\n.bcn-sr__results {\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-500);\n}\n.bcn-sr__group {\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-150);\n}\n.bcn-sr__group-head {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-200);\n  padding: 0 var(--spacing-200) var(--spacing-150);\n  border-bottom: 1px solid var(--color-border-light);\n}\n.bcn-sr__group-label {\n  font-size: var(--type-size-200);\n  font-weight: var(--font-weight-semibold);\n  color: var(--color-text-primary);\n}\n.bcn-sr__group-count {\n  font-size: var(--type-size-100);\n  font-variant-numeric: tabular-nums;\n  color: var(--color-text-secondary);\n  background: transparent;\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-100);\n  padding: 0 6px;\n  line-height: 1.5;\n}\n.bcn-sr__rows {\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n}\n.bcn-sr__row {\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-150);\n  padding: var(--spacing-200) var(--spacing-300);\n  border-radius: var(--radius-200);\n  background: transparent;\n  color: var(--color-text-primary);\n  text-decoration: none;\n  transition: background 0.12s ease;\n}\n.bcn-sr__row-head {\n  display: flex;\n  align-items: center;\n  min-width: 0;\n}\n.bcn-sr__row-titlerow {\n  flex: 1;\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-200);\n  min-width: 0;\n}\n.bcn-sr__row-title {\n  flex: 0 1 auto;\n  min-width: 0;\n  font-size: var(--type-size-200);\n  font-weight: var(--font-weight-semibold);\n  color: var(--color-text-primary);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.bcn-sr__row-snippet {\n  margin-top: var(--spacing-100);\n  padding: var(--spacing-250) var(--spacing-300);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-100);\n  background: var(--color-surface);\n  font-family: var(--font-decorative);\n  font-size: var(--type-size-150);\n  line-height: 1.6;\n  color: var(--color-text-primary);\n}\n.bcn-sr__row-snippet[hidden] {\n  display: none;\n}\n.bcn-sr__row-code {\n  flex: none;\n  padding: 1px 6px;\n  border-radius: var(--radius-100);\n  font-size: var(--type-size-100);\n  font-weight: var(--font-weight-semibold);\n  line-height: 1.4;\n  white-space: nowrap;\n  color: var(--color-commitment);\n  background: color-mix(in srgb, var(--color-commitment) 12%, white);\n}\n.bcn-sr__empty[hidden] {\n  display: none;\n}\n.bcn-sr--idle .bcn-sr__scope {\n  color: var(--color-text-tertiary);\n  cursor: default;\n}\n.bcn-sr--idle .bcn-sr__scope-count {\n  display: none;\n}\n.bcn-sr__search:focus-within {\n  border-color: var(--color-primary);\n  box-shadow: 0 0 0 3px var(--color-primary-subtle);\n}\n.bcn-sr__group[hidden] {\n  display: none;\n}\n.bcn-sr__row-title mark,\n.bcn-sr__row-snippet mark {\n  background: #fde047;\n  color: var(--color-text-primary);\n  border-radius: 2px;\n  padding: 0 1px;\n}\n.bcn-sr__row[hidden] {\n  display: none;\n}\n.esa-empty-state {\n  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);\n  --_empty-title-size: 16px;\n  --_empty-desc-size: 14px;\n  --_empty-gap: var(--empty-state-gap, var(--spacing-200, 0.5rem));\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  text-align: center;\n  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);\n  gap: var(--_empty-gap);\n}\n.esa-empty-state__icon {\n  color: var(--empty-state-icon-color, var(--color-text-muted, #737373));\n  margin-bottom: var(--spacing-100, 0.25rem);\n  display: inline-flex;\n}\n.esa-empty-state__icon svg {\n  width: var(--_empty-icon-size);\n  height: var(--_empty-icon-size);\n}\n.esa-empty-state__title {\n  margin: 0;\n  font-size: var(--_empty-title-size);\n  font-weight: 600;\n  color: var(--empty-state-title-color, var(--color-text-primary, #171717));\n}\n.esa-empty-state__description {\n  margin: 0;\n  font-size: var(--_empty-desc-size);\n  color: var(--empty-state-description-color, var(--color-text-secondary, #525252));\n  max-width: 360px;\n}\n.esa-empty-state__actions {\n  margin-top: var(--spacing-200, 0.5rem);\n}",
+      "guide": {
+        "intent": "The full-page results surface — the destination of the palette's ⌘+Enter \"see all\". Same index, two surfaces, so a record reads identically in the palette and here. A search field on top, then a [ scope-facet rail | results ] split with a vertical divider between them; results are grouped by scope with bordered count badges, and the URL's ?q / ?scope round-trip the state.",
+        "decisions": [
+          "NULL STATE (empty query): no results are listed, the count line is hidden, the rail is present but DISABLED (muted, no counts), and an esa-empty-state \"Search the project\" landing fills the content column — it deliberately does NOT dump all records.",
+          "A vertical divider (the main column's left border + padding) separates the rail from the results list.",
+          "Rows echo the palette (purple commitment-ID badge + SEMIBOLD title, no icon, no subtitle) but DIVERGE on the body: a body-only hit shows the FULL matching document text (multi-line, serif, in a bordered card), echoing Beacon's Document Review commitment-search text block — not the palette's one-line snippet.",
+          "Per-scope rail counts show query REACH (they ignore the active scope); the active scope only narrows which rows render.",
+          "Server-renders every record grouped, then the client filters the DOM to ?q/?scope, highlights matches, and keeps counts + URL in sync."
+        ],
+        "gotchas": [
+          "On entering the idle (empty-query) state the rail's active highlight is cleared; it must be RESTORED from activeScope when a query resumes, or the re-enabled rail shows nothing selected.",
+          "Count badges update from the filter pass (query reach), not from the active-scope narrowing — keep the two concerns separate.",
+          "No esa-* lego renders a server-rendered, on-page grouped result list with scope facets; esa-empty-state owns only the no-matches / landing states. This is the bcn-search-results component."
+        ],
+        "acceptance": [
+          "No query → \"Search the project\" landing + disabled rail, no results; typing filters + highlights and re-enables the rail with counts; a body match shows the full serif text card; ?q/?scope round-trip in the URL."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--color-border",
+          "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-light",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-commitment",
+          "value": "#58508d",
+          "tier": "component"
+        },
+        {
+          "name": "--color-primary",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-primary-subtle",
+          "value": "#effefb",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-surface",
+          "value": "#ffffff",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-inverse",
+          "value": "#ffffff",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-muted",
+          "value": "#7c7c7c",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-primary",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-secondary",
+          "value": "#525252",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-tertiary",
+          "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--empty-state-description-color",
+          "value": "#525252",
+          "tier": "component"
+        },
+        {
+          "name": "--empty-state-gap",
+          "value": ".5rem",
+          "tier": "component"
+        },
+        {
+          "name": "--empty-state-icon-color",
+          "value": "#7c7c7c",
+          "tier": "component"
+        },
+        {
+          "name": "--empty-state-icon-size-md",
+          "value": "48px",
+          "tier": "component"
+        },
+        {
+          "name": "--empty-state-title-color",
+          "value": "#3d3d3d",
+          "tier": "component"
+        },
+        {
+          "name": "--font-decorative",
+          "value": "\"Besley\", serif",
+          "tier": "component"
+        },
+        {
+          "name": "--font-weight-semibold",
+          "value": "550",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-100",
+          "value": ".25rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-300",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-100",
+          "value": ".25rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-150",
+          "value": ".375rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-250",
+          "value": ".625rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-300",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-400",
+          "value": "1rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-500",
+          "value": "1.5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-600",
+          "value": "2rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-700",
+          "value": "3rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--type-size-100",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--type-size-150",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--type-size-200",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--type-size-300",
+          "value": "clamp(.875rem, .77rem + .52vw, 1.125rem)",
+          "tier": "primitive"
+        }
+      ],
+      "claudePath": "claude/search-results-page.md",
+      "repoPath": "public/handoff/prototypes-global-search/claude/search-results-page.md"
+    },
+    {
+      "label": "Result row — ID badge, title & document-text card",
+      "tag": "a",
+      "selector": ".bcn-sr__row",
+      "apply": [
+        {
+          "fill": [
+            "#results-query",
+            "biologist"
+          ]
+        }
+      ],
+      "html": "<a\n  class=\"bcn-sr__row\"\n  href=\"/beacon-design/prototypes/data-catalog-source-document\"\n  data-id=\"sd-feir-3600\"\n  data-scope=\"source-documents\"\n  data-entity=\"3600 alameda avenue project feir final environmental impact report · 130 requirements\"\n  hidden=\"\"\n>\n  <span class=\"bcn-sr__row-head\">\n    <span class=\"bcn-sr__row-titlerow\">\n      <span class=\"bcn-sr__row-title\">3600 Alameda Avenue Project FEIR</span>\n    </span>\n  </span>\n  <div class=\"bcn-sr__row-snippet\" hidden=\"\"></div>\n</a>",
+      "css": ".bcn-sr__rows {\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n}\n.bcn-sr__row {\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-150);\n  padding: var(--spacing-200) var(--spacing-300);\n  border-radius: var(--radius-200);\n  background: transparent;\n  color: var(--color-text-primary);\n  text-decoration: none;\n  transition: background 0.12s ease;\n}\n.bcn-sr__row-head {\n  display: flex;\n  align-items: center;\n  min-width: 0;\n}\n.bcn-sr__row-titlerow {\n  flex: 1;\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-200);\n  min-width: 0;\n}\n.bcn-sr__row-code {\n  flex: none;\n  padding: 1px 6px;\n  border-radius: var(--radius-100);\n  font-size: var(--type-size-100);\n  font-weight: var(--font-weight-semibold);\n  line-height: 1.4;\n  white-space: nowrap;\n  color: var(--color-commitment);\n  background: color-mix(in srgb, var(--color-commitment) 12%, white);\n}\n.bcn-sr__row-title {\n  flex: 0 1 auto;\n  min-width: 0;\n  font-size: var(--type-size-200);\n  font-weight: var(--font-weight-semibold);\n  color: var(--color-text-primary);\n  white-space: nowrap;\n  overflow: hidden;\n  text-overflow: ellipsis;\n}\n.bcn-sr__row-snippet {\n  margin-top: var(--spacing-100);\n  padding: var(--spacing-250) var(--spacing-300);\n  border: 1px solid var(--color-border);\n  border-radius: var(--radius-100);\n  background: var(--color-surface);\n  font-family: var(--font-decorative);\n  font-size: var(--type-size-150);\n  line-height: 1.6;\n  color: var(--color-text-primary);\n}\n.bcn-sr__row-title mark,\n.bcn-sr__row-snippet mark {\n  background: #fde047;\n  color: var(--color-text-primary);\n  border-radius: 2px;\n  padding: 0 1px;\n}\n.bcn-sr__row[hidden] {\n  display: none;\n}\n.bcn-sr__row-snippet[hidden] {\n  display: none;\n}",
+      "guide": {
+        "intent": "One result row: a head line of a purple commitment-ID badge + a semibold title, and — for a body-only hit — the FULL matching document text in a bordered serif card beneath it, with the search term highlighted. This is the unit that makes the results read like Beacon's commitment-text-card.",
+        "decisions": [
+          "The commitment ID is a structured `code` field rendered as a purple badge (--color-commitment text on a 12% tint, 4px radius) — faithful to Beacon's commitment-id identity badge — NOT parsed from the title.",
+          "Document text (a commitment/requirement body) is typeset in the serif --font-decorative (Besley); the text card is bordered, multi-line, and shows the WHOLE matched body.",
+          "No leading scope icon; no subtitle line — the badge + title carry identity, the text card carries the match."
+        ],
+        "gotchas": [
+          "Show the text card ONLY for body-ONLY matches (term hit the body, not the title/code) — otherwise the row is a plain title match and the card would be noise.",
+          "Beacon's commitment-search hides only NON-matching paragraphs behind a \"show N more\" expander; our fixture bodies are single paragraphs, so the whole body shows. If real bodies are multi-paragraph, port the block-level collapse.",
+          "The <mark> highlight is JS-injected, so its rule is authored :global (un-scoped); the highlight color is the same #fde047 as the palette."
+        ],
+        "acceptance": [
+          "Commitments/requirements show the purple ID badge + semibold title; a body match renders the full serif text card with the term highlighted; title-only matches show no card."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--color-border",
+          "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-commitment",
+          "value": "#58508d",
+          "tier": "component"
+        },
+        {
+          "name": "--color-surface",
+          "value": "#ffffff",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-primary",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--font-decorative",
+          "value": "\"Besley\", serif",
+          "tier": "component"
+        },
+        {
+          "name": "--font-weight-semibold",
+          "value": "550",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-100",
+          "value": ".25rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-100",
+          "value": ".25rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-150",
+          "value": ".375rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-250",
+          "value": ".625rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-300",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--type-size-100",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--type-size-150",
+          "value": "clamp(.6875rem, .61rem + .38vw, .875rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--type-size-200",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "primitive"
+        }
+      ],
+      "claudePath": "claude/result-row-id-badge-title-document-text-card.md",
+      "repoPath": "public/handoff/prototypes-global-search/claude/result-row-id-badge-title-document-text-card.md"
+    }
+  ]
+}

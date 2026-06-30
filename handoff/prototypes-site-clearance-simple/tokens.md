@@ -1,6 +1,6 @@
 # Token contract — prototypes-site-clearance-simple
 
-The 48 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 49 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -42,6 +42,7 @@ The 48 design tokens this page actually uses, resolved to their final values for
 |---|---|
 | `--font-sans` | `"DM Sans", sans-serif` |
 | `--font-weight-bold` | `650` |
+| `--font-weight-medium` | `450` |
 | `--font-weight-regular` | `350` |
 | `--font-weight-semibold` | `550` |
 | `--icon-size-md` | `20px` |

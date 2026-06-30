@@ -1,6 +1,6 @@
 # Token contract — prototypes-data-catalog-requirement-streamlined
 
-The 76 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 77 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -91,6 +91,7 @@ The 76 design tokens this page actually uses, resolved to their final values for
 | `--transition-fast` | `.15s ease` |
 | `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
+| `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
 | `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
 
 ## Component-scoped
