@@ -57,8 +57,35 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         </span>
       </button>
     </div>
-    <!-- Center: spacer (1fr) -->
-    <div class="topbar__center"></div>
+    <!-- Center: global-search trigger field (opens BcnOmniSearch) -->
+    <div class="topbar__center">
+      <button
+        class="bcn-search-trigger"
+        type="button"
+        data-omni-trigger=""
+        aria-label="Search"
+        aria-keyshortcuts="/"
+      >
+        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
+        </span>
+        <span class="bcn-search-trigger__placeholder">Search…</span>
+        <span class="bcn-search-trigger__kbd" aria-hidden="true"> <kbd>/</kbd> </span>
+      </button>
+    </div>
     <!-- Right: QA badge, search, config/admin icon-buttons, user menu -->
     <div class="topbar__right">
       <span class="qa-warning">
@@ -83,29 +110,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         </span>
         QA
       </span>
-      <button
-        class="esa-icon-button esa-icon-button--md"
-        type="button"
-        aria-label="Search"
-        title="Search"
-      >
-        <span class="esa-icon esa-icon--md" aria-hidden="true">
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.3-4.3"></path>
-          </svg>
-        </span>
-      </button>
       <a href="#esa-config" class="icon-button" aria-label="ESA-Config">
         <span class="esa-icon esa-icon--md" aria-hidden="true">
           <svg
@@ -1528,76 +1532,100 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       </script>
     </div>
   </div>
+  <!-- Global ⌘K search palette (bespoke bcn-omni-search). Sits at the modern-layout
+         root so its fixed, centered overlay clears the z-1100 topbar; app-wide. -->
+  <div class="bcn-omni" data-omni="" hidden="">
+    <div class="bcn-omni__scrim" data-omni-close=""></div>
+    <div class="bcn-omni__panel" role="dialog" aria-modal="true" aria-label="Global search">
+      <div class="bcn-omni__searchrow">
+        <span class="bcn-omni__searchicon" aria-hidden="true">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
+        </span>
+        <span class="bcn-omni__inputwrap">
+          <span class="bcn-omni__ghost" data-omni-ghost="" aria-hidden="true"></span>
+          <input
+            class="bcn-omni__input"
+            data-omni-input=""
+            type="text"
+            placeholder="Search…"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+            aria-label="Search"
+          />
+        </span>
+        <button
+          class="bcn-omni__clear"
+          data-omni-clear=""
+          type="button"
+          aria-label="Clear search"
+          hidden=""
+        >
+          <svg
+            viewBox="0 0 24 24"
+            width="15"
+            height="15"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+        <kbd>Esc</kbd>
+      </div>
+      <div class="bcn-omni__split">
+        <nav
+          class="bcn-omni__rail"
+          data-omni-scopes=""
+          role="tablist"
+          aria-label="Filter by type"
+        ></nav>
+        <div class="bcn-omni__body" data-omni-body="" role="listbox"></div>
+      </div>
+      <button class="bcn-omni__showall" data-omni-showall="" type="button" hidden="">
+        <span data-omni-showall-label="">See all results</span>
+        <svg
+          viewBox="0 0 24 24"
+          width="18"
+          height="18"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </button>
+      <div class="bcn-omni__footer">
+        <span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span> <span><kbd>↵</kbd> Select</span>
+        <span><kbd>Tab</kbd> Complete</span> <span><kbd>Esc</kbd> Close</span>
+      </div>
+    </div>
+  </div>
+  <script
+    type="module"
+    src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.mVi9_IDL.js"
+  ></script>
 </div>
 ```
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
-.esa-button {
-  --_btn-height: var(--form-height-md, 40px);
-  --_btn-padding-x: var(--form-padding-x-md, 16px);
-  --_btn-font-size: var(--form-font-size-md, 14px);
-  --_btn-radius: var(--form-radius-md, 6px);
-  --_accent: var(--color-primary, #43608a);
-  --_accent-hover: var(--color-primary-hover, #39506f);
-  --_on: var(--color-text-inverse, #ffffff);
-  display: inline-block;
-}
-.esa-button__native {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  height: var(--_btn-height);
-  padding-inline: var(--_btn-padding-x);
-  border: 1px solid transparent;
-  border-radius: var(--_btn-radius);
-  font-size: var(--_btn-font-size);
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: transparent;
-}
-.esa-button__label {
-  white-space: nowrap;
-}
-.esa-button--sm {
-  --_btn-height: var(--form-height-sm, 32px);
-  --_btn-padding-x: var(--form-padding-x-sm, 12px);
-  --_btn-font-size: var(--form-font-size-sm, 12px);
-  --_btn-radius: var(--form-radius-sm, 4px);
-}
-.esa-button--sm .esa-button__native {
-  height: auto;
-  padding-block: var(--spacing-150, 6px);
-}
-.esa-button--color-ghost .esa-button__native {
-  background: transparent;
-  color: var(--color-text-primary, #171717);
-  border-color: transparent;
-}
-.esa-button--appearance-outline .esa-button__native,
-.esa-button--appearance-dashed .esa-button__native {
-  background: transparent;
-  color: var(--_accent);
-  border-color: var(--_accent);
-}
-.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border, #e5e5e5);
-}
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
   display: inline-flex;
@@ -1615,146 +1643,44 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   -webkit-appearance: none;
   appearance: none;
 }
-.page-layout {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
+.esa-collapsible {
+  border: 1px solid var(--collapsible-border-color, var(--color-border, #e5e5e5));
+  border-radius: var(--collapsible-radius, var(--radius-300, 0.5rem));
+  background: var(--collapsible-bg, var(--color-surface, #fff));
 }
-.page-layout__container {
-  display: flex;
-  flex-direction: column;
-}
-.page-layout section {
-  width: 100%;
-}
-.breadcrumbs {
-  padding: var(--spacing-400) 0;
-}
-.breadcrumbs__items {
-  display: flex;
-  gap: var(--spacing-100);
-  align-items: center;
-  flex-wrap: wrap;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.breadcrumb-item {
-  color: var(--bcn-gray-600);
-  text-transform: capitalize;
-  font-size: 0.875rem;
-}
-a.breadcrumb-item {
-  text-decoration: none;
-}
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
+.esa-collapsible__summary {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
+  gap: var(--spacing-200, 0.5rem);
+  padding: var(--spacing-300, 0.75rem) var(--collapsible-padding-x, var(--spacing-400, 1rem));
+  font-size: var(--type-size-150, 0.9375rem);
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--collapsible-title-color, var(--color-text-primary, #171717));
+  cursor: pointer;
+  list-style: none;
 }
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
-  position: relative;
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.bcn-reqref {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-  padding: var(--spacing-500);
-  background: var(--color-background);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-300);
-}
-.bcn-reqref__text {
-  margin: 0;
-  font-family: var(--font-decorative);
-  font-size: 1rem;
-  line-height: 1.6;
-  color: var(--color-text-primary);
-}
-.bcn-reqref__meta {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 var(--spacing-600);
-  margin: 0;
-  padding-top: var(--spacing-200);
-  border-top: 1px solid var(--color-border);
-}
-.bcn-reqref__row {
-  display: grid;
-  grid-template-columns: 178px 1fr;
-  align-items: start;
-  gap: var(--spacing-300);
-  padding: var(--spacing-250) 0;
-  border-bottom: 1px solid var(--color-border-light);
-}
-.bcn-reqref__key {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-  margin: 0;
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
-}
-.bcn-reqref__key .esa-icon {
-  --_icon-size: 11px;
-  color: var(--color-text-tertiary);
+.esa-collapsible__summary .esa-icon {
   flex-shrink: 0;
+  color: var(--color-text-secondary, #404040);
 }
-.bcn-reqref__val {
-  margin: 0;
-  font-size: var(--type-size-100);
-  color: var(--color-text-primary);
-  line-height: 1.5;
+.esa-collapsible__summary:after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--color-text-tertiary, #737373);
+  border-bottom: 2px solid var(--color-text-tertiary, #737373);
+  transform: rotate(-45deg);
+  transition: transform 0.15s ease;
+  margin-left: auto;
 }
-.bcn-reqref__footer {
+.esa-collapsible[open] > .esa-collapsible__summary:after {
+  transform: rotate(45deg);
+}
+.esa-collapsible__body {
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: var(--spacing-100);
-  flex-wrap: wrap;
-  padding-top: var(--spacing-200);
-}
-.bcn-reqref__action {
-  display: inline-flex;
-}
-.bcn-reqref__footer .esa-button--color-ghost .esa-button__native {
-  color: var(--color-secondary);
-}
-.bcn-reqref__footer .esa-icon {
-  --_icon-size: 13px;
+  flex-direction: column;
+  gap: var(--spacing-400, 1rem);
+  padding: 0 var(--collapsible-padding-x, var(--spacing-400, 1rem)) var(--spacing-400, 1rem);
 }
 .modern-layout {
   display: flex;
@@ -1819,8 +1745,60 @@ a.breadcrumb-item {
 .topbar__center {
   display: flex;
   align-items: center;
+  justify-content: center;
+  min-width: 0;
   gap: var(--spacing-400);
   padding: 0 var(--spacing-400);
+}
+.bcn-search-trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: var(--spacing-150) var(--spacing-300);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+  cursor: text;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.bcn-search-trigger__placeholder {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--type-size-200);
+  color: var(--color-text-tertiary);
+}
+.bcn-search-trigger__kbd {
+  display: inline-flex;
+  gap: 2px;
+  flex: none;
+}
+.bcn-search-trigger__kbd kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-tertiary);
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
 }
 .topbar__right {
   display: flex;
@@ -1840,9 +1818,6 @@ a.breadcrumb-item {
   border-radius: var(--spacing-100);
   white-space: nowrap;
 }
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
-}
 .icon-button {
   display: flex;
   align-items: center;
@@ -1859,6 +1834,9 @@ a.breadcrumb-item {
   transition:
     background 0.15s ease,
     color 0.15s ease;
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
 }
 .user-menu {
   position: relative;
@@ -2073,6 +2051,243 @@ a.breadcrumb-item {
   overflow-y: auto;
   min-width: 0;
 }
+.bcn-omni {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-500);
+}
+.bcn-omni[hidden] {
+  display: none;
+}
+.esa-button {
+  --_btn-height: var(--form-height-md, 40px);
+  --_btn-padding-x: var(--form-padding-x-md, 16px);
+  --_btn-font-size: var(--form-font-size-md, 14px);
+  --_btn-radius: var(--form-radius-md, 6px);
+  --_accent: var(--color-primary, #43608a);
+  --_accent-hover: var(--color-primary-hover, #39506f);
+  --_on: var(--color-text-inverse, #ffffff);
+  display: inline-block;
+}
+.esa-button__native {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  height: var(--_btn-height);
+  padding-inline: var(--_btn-padding-x);
+  border: 1px solid transparent;
+  border-radius: var(--_btn-radius);
+  font-size: var(--_btn-font-size);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: transparent;
+}
+.esa-button__label {
+  white-space: nowrap;
+}
+.esa-button--sm {
+  --_btn-height: var(--form-height-sm, 32px);
+  --_btn-padding-x: var(--form-padding-x-sm, 12px);
+  --_btn-font-size: var(--form-font-size-sm, 12px);
+  --_btn-radius: var(--form-radius-sm, 4px);
+}
+.esa-button--sm .esa-button__native {
+  height: auto;
+  padding-block: var(--spacing-150, 6px);
+}
+.esa-button--color-ghost .esa-button__native {
+  background: transparent;
+  color: var(--color-text-primary, #171717);
+  border-color: transparent;
+}
+.esa-button--appearance-outline .esa-button__native,
+.esa-button--appearance-dashed .esa-button__native {
+  background: transparent;
+  color: var(--_accent);
+  border-color: var(--_accent);
+}
+.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border, #e5e5e5);
+}
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
+  box-sizing: border-box;
+}
+.page-layout__container {
+  display: flex;
+  flex-direction: column;
+}
+.page-layout section {
+  width: 100%;
+}
+.breadcrumbs {
+  padding: var(--spacing-400) 0;
+}
+.breadcrumbs__items {
+  display: flex;
+  gap: var(--spacing-100);
+  align-items: center;
+  flex-wrap: wrap;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.breadcrumb-item {
+  color: var(--bcn-gray-600);
+  text-transform: capitalize;
+  font-size: 0.875rem;
+}
+a.breadcrumb-item {
+  text-decoration: none;
+}
+.page-layout__title {
+  border-bottom: 1px solid var(--bcn-gray-200);
+  padding: var(--spacing-500) 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
+  position: relative;
+}
+.bcn-key-value {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.bcn-key-value__key {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--form-label-color);
+}
+.bcn-key-value__val {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-key-value__hint {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.bcn-reqref {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+  padding: var(--spacing-500);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+}
+.bcn-reqref__text {
+  margin: 0;
+  font-family: var(--font-decorative);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+}
+.bcn-reqref__meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 var(--spacing-600);
+  margin: 0;
+  padding-top: var(--spacing-200);
+  border-top: 1px solid var(--color-border);
+}
+.bcn-reqref__row {
+  display: grid;
+  grid-template-columns: 178px 1fr;
+  align-items: start;
+  gap: var(--spacing-300);
+  padding: var(--spacing-250) 0;
+  border-bottom: 1px solid var(--color-border-light);
+}
+.bcn-reqref__key {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  margin: 0;
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+.bcn-reqref__key .esa-icon {
+  --_icon-size: 11px;
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+}
+.bcn-reqref__val {
+  margin: 0;
+  font-size: var(--type-size-100);
+  color: var(--color-text-primary);
+  line-height: 1.5;
+}
+.bcn-reqref__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-100);
+  flex-wrap: wrap;
+  padding-top: var(--spacing-200);
+}
+.bcn-reqref__action {
+  display: inline-flex;
+}
+.bcn-reqref__footer .esa-button--color-ghost .esa-button__native {
+  color: var(--color-secondary);
+}
+.bcn-reqref__footer .esa-icon {
+  --_icon-size: 13px;
+}
 .page-layout__title {
   display: none !important;
 }
@@ -2218,64 +2433,6 @@ a.breadcrumb-item {
   color: var(--color-text-secondary);
   text-align: right;
 }
-.esa-collapsible {
-  border: 1px solid var(--collapsible-border-color, var(--color-border, #e5e5e5));
-  border-radius: var(--collapsible-radius, var(--radius-300, 0.5rem));
-  background: var(--collapsible-bg, var(--color-surface, #fff));
-}
-.esa-collapsible__summary {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200, 0.5rem);
-  padding: var(--spacing-300, 0.75rem) var(--collapsible-padding-x, var(--spacing-400, 1rem));
-  font-size: var(--type-size-150, 0.9375rem);
-  font-weight: var(--font-weight-semibold, 600);
-  color: var(--collapsible-title-color, var(--color-text-primary, #171717));
-  cursor: pointer;
-  list-style: none;
-}
-.esa-collapsible__summary .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary, #404040);
-}
-.esa-collapsible__summary:after {
-  content: "";
-  width: 8px;
-  height: 8px;
-  border-right: 2px solid var(--color-text-tertiary, #737373);
-  border-bottom: 2px solid var(--color-text-tertiary, #737373);
-  transform: rotate(-45deg);
-  transition: transform 0.15s ease;
-  margin-left: auto;
-}
-.esa-collapsible[open] > .esa-collapsible__summary:after {
-  transform: rotate(45deg);
-}
-.esa-collapsible__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400, 1rem);
-  padding: 0 var(--collapsible-padding-x, var(--spacing-400, 1rem)) var(--spacing-400, 1rem);
-}
-.bcn-key-value {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.bcn-key-value__key {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  color: var(--form-label-color);
-}
-.bcn-key-value__val {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-key-value__hint {
-  font-size: 0.75rem;
-  color: var(--color-text-tertiary);
-}
 ```
 
 ## Tokens
@@ -2343,6 +2500,7 @@ a.breadcrumb-item {
 | `--transition-fast` | `.15s ease` | primitive |
 | `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | primitive |
 | `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | primitive |
 | `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
 
 ---

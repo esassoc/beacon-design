@@ -50,9 +50,41 @@ A rail action module: a full-width "Download Source Coversheet" button (prod sou
 
 ## Styles
 ```css
-.esa-collapsible__summary .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary, #404040);
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.bcn-btn-ico {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+}
+.bcn-lineage__icon .esa-icon {
+  --_icon-size: 14px;
+}
+#download-coversheet .esa-button {
+  width: 100%;
+  justify-content: center;
+}
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
 }
 .topbar__right .esa-icon-button {
   color: var(--color-text-secondary);
@@ -102,20 +134,9 @@ A rail action module: a full-width "Download Source Coversheet" button (prod sou
 .esa-icon--md {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
 }
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.bcn-btn-ico {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-}
-.bcn-lineage__icon .esa-icon {
-  --_icon-size: 14px;
-}
-#download-coversheet .esa-button {
-  width: 100%;
-  justify-content: center;
+.esa-collapsible__summary .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary, #404040);
 }
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
@@ -195,23 +216,6 @@ A rail action module: a full-width "Download Source Coversheet" button (prod sou
   color: var(--_accent);
   border-color: var(--color-border-strong, #d4d4d4);
 }
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
 ```
 
 ## Tokens
@@ -228,6 +232,7 @@ A rail action module: a full-width "Download Source Coversheet" button (prod sou
 - `--color-text-inverse`: #ffffff _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
+- `--color-text-tertiary`: #656565 _(semantic)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
 - `--font-weight-medium`: 450 _(primitive)_
 - `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_

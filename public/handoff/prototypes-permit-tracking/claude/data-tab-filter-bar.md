@@ -134,13 +134,6 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
 .esa-icon--md {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
 }
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
-}
 .esa-filter-container {
   display: flex;
   flex-wrap: wrap;
@@ -180,6 +173,34 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
 }
 .esa-filter-clear-button__label {
   white-space: nowrap;
+}
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
 }
 .pd__section-head .esa-icon {
   flex-shrink: 0;
@@ -230,30 +251,6 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
 .bcn-filterbar__clear {
   margin-left: auto;
 }
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
-}
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
-}
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
   display: inline-flex;
@@ -270,6 +267,13 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
   transition: background var(--transition-fast, 0.15s ease);
   -webkit-appearance: none;
   appearance: none;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
 }
 ```
 
