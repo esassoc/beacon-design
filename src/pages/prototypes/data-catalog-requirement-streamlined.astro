@@ -11,9 +11,8 @@
 //   · the collapsed action's config (Responsible Party, Default Assignee, Expected
 //     Evidence, Reference Files, Notifications)
 // NO tracking / ActionImplementation leakage: the Data Catalog is setup/config/CRUD of
-// the building blocks — tracking data + presentation belong to the Tracking area. The
-// header's "Track this Requirement" deep-links to the Tracker (?track=<row>) and pops
-// ITS dialog; this page renders no status/due/assignee anywhere.
+// the building blocks — tracking data + presentation belong to the Tracking area. This
+// page renders no status/due/assignee anywhere.
 // Prologis config: Action Text is HIDDEN (no Jira story yet — flagged as a quick one in
 // a later epic), Timing is one-time only (no frequency control), scope is fixed Project,
 // and Action Lists are dropped entirely.
@@ -36,11 +35,14 @@ import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
 import EsaIconLink from '@esa/ecology/esa-icon-link.astro';
 import BcnKeyValue from '../../components/bcn/BcnKeyValue.astro';
 import BcnRequirementReference from '../../components/bcn/BcnRequirementReference.astro';
-import { actions } from '../../data/tracker-fixture';
+import { actions, PROJECT_NAME } from '../../data/tracker-fixture';
 import { toRequirement } from '../../data/requirement-enrich';
 import { withBase } from '../../lib/base';
 
-const SQUARE_CHECK = "<rect width='18' height='18' x='3' y='3' rx='2'/><path d='m9 12 2 2 4-4'/>";
+const GIT_BRANCH = "<line x1='6' x2='6' y1='3' y2='15'/><circle cx='18' cy='6' r='3'/><circle cx='6' cy='18' r='3'/><path d='M18 9a9 9 0 0 1-9 9'/>";
+const FOLDER = "<path d='M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z'/>";
+const SCROLL_TEXT = "<path d='M15 12h-5'/><path d='M15 8h-5'/><path d='M19 17V5a2 2 0 0 0-2-2H4'/><path d='M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3'/>";
+const CLIPBOARD_CHECK = "<rect width='8' height='4' x='8' y='2' rx='1' ry='1'/><path d='M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2'/><path d='m9 14 2 2 4-4'/>";
 const CLOCK = "<circle cx='12' cy='12' r='10'/><polyline points='12 6 12 12 16 14'/>";
 const INBOX = "<polyline points='22 12 16 12 14 15 10 15 8 12 2 12'/><path d='M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z'/>";
 const CALENDAR = "<path d='M8 2v4'/><path d='M16 2v4'/><rect width='18' height='18' x='3' y='4' rx='2'/><path d='M3 10h18'/>";
@@ -66,7 +68,7 @@ const dataCatalogNav = [
 
 // ── The merged Requirement (read model): the MM-BIO-2 nesting-bird survey — it
 //    carries the FULL conditional trio (Species / Season / Construction Activities). ──
-const ROW_INDEX = 4; // also the ?track= deep-link target on the Tracker
+const ROW_INDEX = 4;
 const row = actions[ROW_INDEX];
 const requirement = toRequirement(row);
 const reqName = row.name.trim();
@@ -75,9 +77,6 @@ const reqType = row.type; // Survey
 const defaultAssignee = 'Sarah Kim';
 const deadlineRule = '14 days before milestone';
 const referenceFiles = ['nesting-bird-survey-protocol.pdf', 'no-disturbance-buffer-guidance.pdf'];
-
-// "Track this Requirement" → the Tracker, auto-opening ITS dialog for this row.
-const trackHref = `${withBase('/prototypes/requirement-tracker')}?track=${ROW_INDEX}`;
 
 // Notifications (read) — RULE phrasing only (config), never any one implementation's
 // dates: that would be tracking leakage.
@@ -92,6 +91,20 @@ const TRIGGER_PATHS: Record<string, string | undefined> = { inbox: INBOX, calend
 const sourcePdf = withBase('/source-docs/feir-sample.pdf');
 const sourceDocTitle = '3600 Alameda Avenue Project FEIR';
 const sourceDocHref = '#data-catalog/source-documents/3600-alameda-feir';
+
+// Parent commitment (for the lineage rail — same record as the standard twin).
+const commitmentTitle = 'Nesting Birds and Raptors';
+const commitmentHref = withBase('/prototypes/data-catalog-commitment');
+
+// Lineage — the entity chain this requirement descends from: Project → Source Document
+// → Commitment → this Requirement. Same connected-rail treatment as the standard
+// requirement page (leads the rail); last node = here.
+const lineage = [
+  { kind: 'Project', name: PROJECT_NAME, href: '#data-catalog/projects/3600-alameda', icon: 'folder', paths: FOLDER, current: false },
+  { kind: 'Source Document', name: sourceDocTitle, href: sourceDocHref, icon: 'file-text', paths: undefined, current: false },
+  { kind: 'Commitment', name: `${commitmentId} — ${commitmentTitle}`, href: commitmentHref, icon: 'scroll-text', paths: SCROLL_TEXT, current: false },
+  { kind: 'Requirement', name: reqName, href: undefined, icon: 'clipboard-check', paths: CLIPBOARD_CHECK, current: true },
+];
 
 const requirementsHref = withBase('/prototypes/data-catalog-requirements-streamlined');
 const editPayload = {
@@ -109,6 +122,19 @@ const editPayload = {
   dueParts: { y: 2026, m: 5, d: 18 },
 };
 ---
+
+<!-- manifest:
+  layout: stack(2xl)                          # page spine; identity header (commitment badge + name + type badge + Edit) is composition glue
+  sections:
+    - requirement          -> bcn-requirement-reference   # source text + metadata grid (category / type / phase / species / season / activity / party / evidence); "View in Source Document" opens the drawer
+    - reference files      -> esa-file-list               # read list of the requirement's reference PDFs
+    - lineage rail         -> esa-collapsible             # one spine: project -> source document -> commitment -> requirement (current = secondary ring); leads the rail
+    - details rail         -> bcn-key-value               # default assignee + fixed project scope
+    - timing rail          -> bcn-key-value               # one-time deadline rule (no frequency — BCN-1163)
+    - notifications rail   -> esa-collapsible             # rule-phrasing trigger rows (coming up / due / past due); no per-implementation dates
+    - edit requirement     -> esa-dialog                  # two-pane: read source context | esa-tab-layout config (Details/Timing/Evidence/Notifications)
+    - source viewer        -> esa-side-dialog             # the source PDF in the family side drawer
+-->
 
 <AppShell title={`${reqName} — Data Catalog`} tenantName="Prologis" projectName="Select a Project" navSections={dataCatalogNav}>
   <PageLayout
@@ -151,13 +177,26 @@ const editPayload = {
           </section>
         </div>
 
-        <!-- Rail — conforms to the regular Action detail page (Details / Timing /
-             Notifications), minus Lists (dropped for Prologis). NO Tracking module:
-             zero status/due/assignee/ActionImplementation leakage on this page. The
-             "Track this Requirement" jump-off (→ the Tracker's own dialog via ?track=)
-             leads the rail. -->
+        <!-- Rail — Lineage leads, then Details / Timing / Notifications (conforming to
+             the regular Action detail page, minus Lists — dropped for Prologis). NO
+             Tracking module: zero status/due/assignee/ActionImplementation leakage on
+             this page. -->
         <aside class="bcn-action__rail">
-          <a href={trackHref} class="bcn-track-link"><EsaButton color="ghost" appearance="outline"><span class="bcn-btn-ico"><EsaIcon name="square-check" size="xs" paths={SQUARE_CHECK} />Track this Requirement</span></EsaButton></a>
+          <!-- Lineage — Project → Source Document → Commitment → this Requirement, on a
+               connecting rail (the BcnChangeLog spine treatment). Leads the rail. -->
+          <EsaCollapsible icon="git-branch" iconPaths={GIT_BRANCH} title="Lineage" open>
+            <ol class="bcn-lineage">
+              {lineage.map((n) => (
+                <li class={`bcn-lineage__node${n.current ? ' bcn-lineage__node--current' : ''}`}>
+                  <span class="bcn-lineage__icon"><EsaIcon name={n.icon} size="sm" paths={n.paths} /></span>
+                  <span class="bcn-lineage__body">
+                    <span class="bcn-lineage__kind">{n.kind}</span>
+                    {n.href ? <a class="bcn-lineage__name" href={n.href}>{n.name}</a> : <span class="bcn-lineage__name bcn-lineage__name--current">{n.name}</span>}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </EsaCollapsible>
 
           <!-- Details — Default Assignee + fixed scope: Responsible Party/Type live in
                the reference block; Action Text is hidden for Prologis (no Jira story
@@ -536,10 +575,28 @@ const editPayload = {
   .bcn-action__main :global(.bcn-reqref) { background: var(--color-surface); }
 
   .bcn-btn-ico { display: inline-flex; align-items: center; gap: var(--spacing-150); }
-  /* Rail-leading jump-off: full-width so it reads as the sidebar's primary affordance. */
-  .bcn-track-link { text-decoration: none; display: block; }
-  .bcn-track-link :global(.esa-button),
-  .bcn-track-link :global(.esa-button__native) { width: 100%; justify-content: center; }
+
+  /* Lineage — entity chain on a connecting rail (BcnChangeLog spine treatment). The
+     current node (this requirement) gets the secondary-ring accent. Ported from the
+     standard twin, data-catalog-requirement.astro. */
+  .bcn-lineage { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+  .bcn-lineage__node { position: relative; display: flex; align-items: flex-start; gap: var(--spacing-300); padding-bottom: var(--spacing-400); }
+  .bcn-lineage__node::before { content: ''; position: absolute; left: 13px; top: 30px; bottom: 2px; width: 2px; background: var(--color-border); }
+  .bcn-lineage__node:last-child { padding-bottom: 0; }
+  .bcn-lineage__node:last-child::before { display: none; }
+  .bcn-lineage__icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; flex-shrink: 0;
+    border-radius: 50%; background: var(--color-surface);
+    border: 1px solid var(--color-border); color: var(--color-text-secondary);
+  }
+  .bcn-lineage__icon :global(.esa-icon) { --_icon-size: 14px; }
+  .bcn-lineage__node--current .bcn-lineage__icon { border-color: var(--color-secondary); color: var(--color-secondary); }
+  .bcn-lineage__body { display: flex; flex-direction: column; gap: 1px; min-width: 0; padding-top: 2px; }
+  .bcn-lineage__kind { font-size: 0.75rem; color: var(--color-text-tertiary); }
+  .bcn-lineage__name { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); line-height: 1.35; color: var(--color-primary); text-decoration: none; }
+  a.bcn-lineage__name:hover { text-decoration: underline; }
+  .bcn-lineage__name--current { color: var(--color-text-primary); font-weight: var(--font-weight-semibold); }
 
   /* Rail Notifications — rules-only trigger rows (per-trigger icon | name | rule),
      ported from the regular Action detail page. */
