@@ -42,6 +42,19 @@ A contextual action bar that appears above the Permits grid when one or more row
 
 ## Styles
 ```css
+.bulk-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  margin-bottom: var(--spacing-300);
+  padding: var(--spacing-200) var(--spacing-400);
+  background: color-mix(in srgb, var(--color-primary) 5%, var(--color-surface));
+  border: 1px solid color-mix(in srgb, var(--color-primary) 25%, var(--color-border));
+  border-radius: var(--radius-200);
+}
+.bulk-bar[hidden] {
+  display: none;
+}
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
   --_btn-padding-x: var(--form-padding-x-md, 16px);
@@ -102,18 +115,10 @@ A contextual action bar that appears above the Permits grid when one or more row
 .esa-button__label {
   white-space: nowrap;
 }
-.bulk-bar {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  margin-bottom: var(--spacing-300);
-  padding: var(--spacing-200) var(--spacing-400);
-  background: color-mix(in srgb, var(--color-primary) 5%, var(--color-surface));
-  border: 1px solid color-mix(in srgb, var(--color-primary) 25%, var(--color-border));
-  border-radius: var(--radius-200);
-}
-.bulk-bar[hidden] {
-  display: none;
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: transparent;
 }
 ```
 

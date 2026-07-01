@@ -1,22 +1,21 @@
-# Data tab — table footer
+# Data tab — table footer & CSV
 
-The grid footer (Beacon's standard pattern): "Download as CSV" on the left, a live "Total Records: {n}" on the right with a separate filtered-count when a filter is narrowing the set.
+The footer under the grids: a "Download as CSV" action on the left and a live "Total Records / filtered" count on the right — the standard beacon table chrome, so the tabular view feels like the production data grids.
 
 ## Key decisions
-- Download CSV (esa-button ghost/outline, download icon) exports the ACTIVE grid (permits or segments) honoring the current filter — what you see is what you export.
-- Total vs filtered are two distinct counts: total is the full set, the filtered count appears only when filters are active (the Beacon convention).
+- Total shows the full count; a separate filtered count appears only while a filter/search narrows the set — the two numbers make the active filter honest without a banner.
+- Download as CSV (esa-button, ghost/outline, download icon) exports the ACTIVE grid's current (filtered) rows — the pivot + filters define what you get, so the export always matches what is on screen.
 
 ## Gotchas
-- The filtered count must hide when no filter is active (#pt-filtered[hidden]) — showing "N of N" always reads as a bug.
-- CSV export follows the active pivot + filters; do not always export permits.
+- The count is of the active pivot pane; switching Work Areas ↔ Observations changes both the total and what CSV would export.
 
 ## Done when
-- Footer shows total records, adds a filtered count only when filtering, and "Download as CSV" exports the active, filtered grid.
+- Total reflects the active grid; a filtered count appears only when narrowed; CSV exports exactly the rows currently shown.
 
 ## Markup
 ```html
 <div class="table-footer">
-  <span id="pt-download"
+  <span id="gc-download"
     ><span
       class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
     >
@@ -43,90 +42,14 @@ The grid footer (Beacon's standard pattern): "Download as CSV" on the left, a li
     </span>
   </span>
   <div class="row-count-data">
-    Total Records: <span id="pt-total">15</span>
-    <span id="pt-filtered" class="filtered-rows-count" hidden=""></span>
+    Total Records: <span id="gc-total">231</span>
+    <span id="gc-filtered" class="filtered-rows-count" hidden=""></span>
   </div>
 </div>
 ```
 
 ## Styles
 ```css
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
-}
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
-}
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
   --_btn-padding-x: var(--form-padding-x-md, 16px);
@@ -192,9 +115,80 @@ The grid footer (Beacon's standard pattern): "Download as CSV" on the left, a li
   color: var(--_on);
   border-color: transparent;
 }
-.pd__section-head .esa-icon {
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-collapsible__summary .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary, #404040);
+}
+.wa__section .esa-icon {
   flex-shrink: 0;
   color: var(--color-text-secondary);
+}
+.wa__footer-start .esa-button__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
 }
 .table-footer {
   display: flex;
@@ -220,6 +214,23 @@ The grid footer (Beacon's standard pattern): "Download as CSV" on the left, a li
 }
 .filtered-rows-count[hidden] {
   display: none;
+}
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
 }
 ```
 

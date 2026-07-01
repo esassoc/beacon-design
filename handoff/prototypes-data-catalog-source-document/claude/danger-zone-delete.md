@@ -47,6 +47,10 @@ The destructive action lives in a bottom danger zone (BcnDangerZone — GitHub l
 
 ## Styles
 ```css
+#download-coversheet .esa-button {
+  width: 100%;
+  justify-content: center;
+}
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
   --_btn-padding-x: var(--form-padding-x-md, 16px);
@@ -124,10 +128,6 @@ The destructive action lives in a bottom danger zone (BcnDangerZone — GitHub l
   );
   color: var(--_accent);
   border-color: var(--color-border-strong, #d4d4d4);
-}
-#download-coversheet .esa-button {
-  width: 100%;
-  justify-content: center;
 }
 .bcn-danger-zone {
   display: flex;

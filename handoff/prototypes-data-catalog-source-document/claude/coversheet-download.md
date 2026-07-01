@@ -78,26 +78,6 @@ A rail action module: a full-width "Download Source Coversheet" button (prod sou
     opacity 0.2s ease-in-out;
   flex-shrink: 0;
 }
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
   --_btn-padding-x: var(--form-padding-x-md, 16px);
@@ -188,6 +168,9 @@ A rail action module: a full-width "Download Source Coversheet" button (prod sou
   width: 100%;
   justify-content: center;
 }
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
@@ -215,6 +198,23 @@ A rail action module: a full-width "Download Source Coversheet" button (prod sou
 .esa-collapsible__summary .esa-icon {
   flex-shrink: 0;
   color: var(--color-text-secondary, #404040);
+}
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
 }
 ```
 

@@ -1,19 +1,19 @@
-# Data tab — filter bar
+# Data tab — filter bar, grid toggle & search
 
-The Data tab's filter bar, ported from the requirement-tracker idiom: a View toggle that PIVOTS the grid between Permits and Segments, a keyword search, and Status + Level filter dropdowns in an esa-filter-container, with a clear-all. It drives whichever grid is active.
+The Data tab is the tabular workspace: the requirement-tracker filter bar over two beacon AG Grids — Work Areas and Observations — pivoted by a single toggle. The bar carries the pivot toggle (which grid), a full-text search, and a Status facet. A work-area row opens the write drawer; an observation row opens the read-only observation drawer.
 
 ## Key decisions
-- View is an esa-button-toggle pivot (Permits | Segments) that swaps the visible grid pane, not two separate screens — same filter bar serves both.
-- Filters are esa-filter-dropdown (multiple) inside esa-filter-container with an esa-filter-clear-button — the shared Beacon filter-bar composition, not bespoke selects.
-- Search has its own inline clear (esa-icon-button x), shown only when there is a query.
-- The Level dropdown is wrapped (#flt-level-wrap) so it can be hidden in the Segments pivot where agency level is not a column.
+- ONE esa-button-toggle pivots between "Work Areas" and "Observations" — two panes (#pane-was / #pane-obs), one shown at a time — rather than two always-on tables, so the tab stays a single focused surface.
+- Search is an esa-text-field with a clear affordance; the Status facet is the same esa-filter-dropdown lego as the Map/Activity bars — the filter grammar is deliberately identical across the three tabs.
+- The grids use the shared beaconTheme + makeStatusRenderer (src/lib/beacon-grid) so the status cell renders the SAME chip/derived color as the map and drawer — the grid is another projection of the one store, not its own styling.
 
 ## Gotchas
-- This whole tab is LAZY: the AG Grids are created only when the Data tab is first activated (ensureGrids). The filter bar is light-DOM markup so it exists earlier, but the grids it controls do not — capture/recipes must activate the tab first.
-- The pivot must re-point the filter bar at the active grid (status/level options differ between permits and segments); do not keep two stale filter states.
+- The AG Grids are LAZY — ensureGrids runs only on Data-tab activation (requestAnimationFrame(ensureGrids)). Any capture/automation of this tab must switch to it first; a boot-time read finds empty grid containers.
+- The pivot toggle swaps which pane is hidden — the search and Status facet apply to whichever grid is active, so re-implementing must re-run the filter against the active pane's row set.
+- Status is the derived value in the grid too; do not add a stored status column — the renderer must compute it the same way the map does.
 
 ## Done when
-- View toggles the grid between Permits and Segments; Status/Level dropdowns and search filter the active grid; clear resets all; search-clear shows only with a query.
+- The pivot toggle swaps Work Areas ↔ Observations; search + Status filter the active grid; a work-area row opens the write drawer and an observation row opens the read-only observation drawer; grid status chips match the map colors.
 
 ## Markup
 ```html
@@ -21,15 +21,19 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
   <div class="bcn-filterbar__top">
     <div class="bcn-filterbar__group">
       <span class="bcn-filterbar__label">View</span>
-      <esa-button-toggle id="pivot-toggle" value="permits" size="md"></esa-button-toggle>
+      <esa-button-toggle
+        id="pivot-toggle"
+        value="workareas"
+        size="md"
+      ></esa-button-toggle>
     </div>
     <div class="bcn-filterbar__search">
       <esa-text-field
-        id="pt-search"
-        placeholder="Search permits…"
+        id="gc-search"
+        placeholder="Search work areas…"
         size="md"
       ></esa-text-field>
-      <span id="pt-search-clear" hidden=""
+      <span id="gc-search-clear" hidden=""
         ><button
           class="esa-icon-button esa-icon-button--sm"
           type="button"
@@ -71,16 +75,8 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
         multiple=""
         size="sm"
       ></esa-filter-dropdown>
-      <span id="flt-level-wrap"
-        ><esa-filter-dropdown
-          id="flt-level"
-          label="Level"
-          multiple=""
-          size="sm"
-        ></esa-filter-dropdown
-      ></span>
     </div>
-    <span id="pt-clear-filters" class="bcn-filterbar__clear"
+    <span id="gc-clear-filters" class="bcn-filterbar__clear"
       ><button
         class="esa-filter-clear-button"
         type="button"
@@ -110,57 +106,54 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
 
 ## Styles
 ```css
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.topbar__right .esa-icon-button {
+.wa__section .esa-icon {
+  flex-shrink: 0;
   color: var(--color-text-secondary);
 }
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
+.bcn-filterbar {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+  margin-bottom: var(--spacing-400);
 }
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
+.bcn-filterbar__top {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-400);
+  padding: var(--spacing-300) var(--spacing-400);
+  flex-wrap: wrap;
 }
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
-}
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
+.bcn-filterbar__group {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
+  gap: var(--spacing-300);
 }
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
+.bcn-filterbar__label {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
 }
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
+.bcn-filterbar__search {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  min-width: 300px;
+}
+.bcn-filterbar__search esa-text-field {
+  flex: 1;
+}
+.bcn-filterbar__bottom {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-400);
+  border-top: 1px solid var(--color-border);
+  flex-wrap: wrap;
+}
+.bcn-filterbar__clear {
+  margin-left: auto;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
@@ -226,54 +219,64 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
 .esa-filter-clear-button__label {
   white-space: nowrap;
 }
-.pd__section-head .esa-icon {
+.esa-collapsible__summary .esa-icon {
   flex-shrink: 0;
+  color: var(--color-text-secondary, #404040);
+}
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.topbar__right .esa-icon-button {
   color: var(--color-text-secondary);
 }
-.bcn-filterbar {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-  margin-bottom: var(--spacing-400);
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
 }
-.bcn-filterbar__top {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-400);
-  padding: var(--spacing-300) var(--spacing-400);
-  flex-wrap: wrap;
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
 }
-.bcn-filterbar__group {
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-300);
-}
-.bcn-filterbar__label {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-tertiary);
-  white-space: nowrap;
-}
-.bcn-filterbar__search {
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-  min-width: 300px;
-}
-.bcn-filterbar__search esa-text-field {
-  flex: 1;
-}
-.bcn-filterbar__bottom {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300) var(--spacing-400);
-  border-top: 1px solid var(--color-border);
-  flex-wrap: wrap;
-}
-.bcn-filterbar__clear {
-  margin-left: auto;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
 }
 ```
 
