@@ -1744,7 +1744,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.mVi9_IDL.js"
+    src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.DH-DZQi7.js"
   ></script>
 </div>
 ```

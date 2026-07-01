@@ -1,6 +1,6 @@
 # Token contract — prototypes-site-clearance
 
-The 79 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 94 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -9,6 +9,8 @@ The 79 design tokens this page actually uses, resolved to their final values for
 | `--color-accent` | `#f9a134` |
 | `--color-background` | `#fafafa` |
 | `--color-border` | `#dcdcdc` |
+| `--color-border-light` | `#efefef` |
+| `--color-border-strong` | `#bdbdbd` |
 | `--color-primary` | `#005862` |
 | `--color-primary-hover` | `#00474f` |
 | `--color-primary-subtle` | `#effefb` |
@@ -24,6 +26,11 @@ The 79 design tokens this page actually uses, resolved to their final values for
 
 | Token | Value |
 |---|---|
+| `--badge-bg` | `#005862` |
+| `--badge-height-md` | `20px` |
+| `--badge-height-sm` | `16px` |
+| `--badge-radius` | `.25rem` |
+| `--badge-text-color` | `#ffffff` |
 | `--bcn-gray-100` | `#efefef` |
 | `--bcn-gray-1000` | `#000000` |
 | `--bcn-gray-200` | `#dcdcdc` |
@@ -34,6 +41,11 @@ The 79 design tokens this page actually uses, resolved to their final values for
 | `--bcn-gray-600` | `#656565` |
 | `--bcn-gray-900` | `#3d3d3d` |
 | `--bcn-gray-950` | `#292929` |
+| `--collapsible-bg` | `#ffffff` |
+| `--collapsible-border-color` | `#dcdcdc` |
+| `--collapsible-padding-x` | `1rem` |
+| `--collapsible-radius` | `.5rem` |
+| `--collapsible-title-color` | `#3d3d3d` |
 | `--filter-clear-color` | `#7c7c7c` |
 | `--filter-clear-color-hover` | `#ef4444` |
 | `--font-decorative` | `"Besley", serif` |
@@ -44,6 +56,7 @@ The 79 design tokens this page actually uses, resolved to their final values for
 | `--form-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--form-height-md` | `36px` |
 | `--form-height-sm` | `28px` |
+| `--form-label-color` | `#525252` |
 | `--form-padding-x-md` | `.75rem` |
 | `--form-padding-x-sm` | `.625rem` |
 | `--form-padding-y-md` | `.5rem` |
@@ -92,7 +105,9 @@ The 79 design tokens this page actually uses, resolved to their final values for
 | `--spacing-600` | `2rem` |
 | `--spacing-700` | `3rem` |
 | `--transition-fast` | `.15s ease` |
+| `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
 | `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
 | `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
 

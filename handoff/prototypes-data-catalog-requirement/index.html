@@ -575,6 +575,18 @@
       .bcn-omni[hidden] {
         display: none;
       }
+      :host {
+        --_dialog-bg: var(--dialog-bg, var(--color-surface-elevated, #ffffff));
+        --_dialog-border-radius: var(--dialog-radius, var(--radius-400, 0.75rem));
+        --_dialog-padding: var(--spacing-500, 1.5rem);
+        --_dialog-header-border: var(--dialog-border-color, var(--color-border-light, #efefef));
+        --_dialog-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
+        --_dialog-width: var(--dialog-width, 480px);
+        --_dialog-max-height: 85vh;
+      }
+      :host([size="lg"]) {
+        --_dialog-width: var(--dialog-width-lg, 640px);
+      }
       .page-layout__title {
         display: none !important;
       }
@@ -1435,18 +1447,6 @@
       }
       .claude svg {
         flex: none;
-      }
-      :host {
-        --_dialog-bg: var(--dialog-bg, var(--color-surface-elevated, #ffffff));
-        --_dialog-border-radius: var(--dialog-radius, var(--radius-400, 0.75rem));
-        --_dialog-padding: var(--spacing-500, 1.5rem);
-        --_dialog-header-border: var(--dialog-border-color, var(--color-border-light, #efefef));
-        --_dialog-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
-        --_dialog-width: var(--dialog-width, 480px);
-        --_dialog-max-height: 85vh;
-      }
-      :host([size="lg"]) {
-        --_dialog-width: var(--dialog-width-lg, 640px);
       }
     </style>
   </head>
@@ -2832,7 +2832,7 @@
       </div>
       <script
         type="module"
-        src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.mVi9_IDL.js"
+        src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.DH-DZQi7.js"
       ></script>
     </div>
   </body>

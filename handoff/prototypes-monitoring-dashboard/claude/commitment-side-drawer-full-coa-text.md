@@ -191,52 +191,6 @@ The esa-side-dialog that shows a commitment's full Condition-of-Approval text, o
 
 ## Styles
 ```css
-.cmt-head {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.cmt-head__code {
-  width: max-content;
-  font-family: var(--font-mono);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-  padding: 1px var(--spacing-200);
-  border-radius: var(--radius-100);
-}
-.cmt-head__title {
-  font-family: var(--font-decorative);
-  font-size: var(--type-size-400);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-primary);
-  line-height: 1.25;
-}
-.cmt-body {
-  display: block;
-  white-space: pre-wrap;
-  font-family: var(--font-decorative);
-  font-size: var(--type-size-200);
-  line-height: 1.6;
-  color: var(--color-text-primary);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-  padding: var(--spacing-400);
-  background: var(--color-surface);
-}
-.cmt-foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  gap: var(--spacing-300);
-}
-.cmt-foot__src {
-  font-size: var(--type-size-100);
-  color: var(--color-text-tertiary);
-}
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
   --_btn-padding-x: var(--form-padding-x-md, 16px);
@@ -296,6 +250,52 @@ The esa-side-dialog that shows a commitment's full Condition-of-Approval text, o
 }
 .esa-button__label {
   white-space: nowrap;
+}
+.cmt-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+.cmt-head__code {
+  width: max-content;
+  font-family: var(--font-mono);
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 12%, white);
+  padding: 1px var(--spacing-200);
+  border-radius: var(--radius-100);
+}
+.cmt-head__title {
+  font-family: var(--font-decorative);
+  font-size: var(--type-size-400);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  line-height: 1.25;
+}
+.cmt-body {
+  display: block;
+  white-space: pre-wrap;
+  font-family: var(--font-decorative);
+  font-size: var(--type-size-200);
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+  padding: var(--spacing-400);
+  background: var(--color-surface);
+}
+.cmt-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: var(--spacing-300);
+}
+.cmt-foot__src {
+  font-size: var(--type-size-100);
+  color: var(--color-text-tertiary);
 }
 ```
 

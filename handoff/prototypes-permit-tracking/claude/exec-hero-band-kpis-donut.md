@@ -167,12 +167,69 @@ The leadership rollup hero: a headline "% of the route cleared to construct" wit
   -webkit-appearance: none;
   appearance: none;
 }
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
 }
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-stat {
+  --_stat-value-color: var(--stat-value-color, var(--color-text-primary, #171717));
+  --_stat-value-font: var(
+    --stat-value-font,
+    var(--font-display, var(--font-sans, "DM Sans", sans-serif))
+  );
+  --_stat-value-size: var(--stat-value-size, var(--type-size-700, 2.25rem));
+  --_stat-value-weight: var(--stat-value-weight, var(--font-weight-bold, 650));
+  --_stat-label-color: var(--stat-label-color, var(--color-text-secondary, #525252));
+  --_stat-label-size: var(--stat-label-size, var(--type-size-200, 0.9375rem));
+  --_stat-label-weight: var(--stat-label-weight, var(--font-weight-medium, 450));
+  --_stat-sub-color: var(--stat-sub-color, var(--color-text-muted, #737373));
+  --_stat-sub-size: var(--stat-sub-size, var(--type-size-150, 0.875rem));
+  --_stat-accent-color: var(--stat-accent-color, var(--color-secondary, #5787b9));
+  --_stat-gap: var(--stat-gap, var(--spacing-050, 0.125rem));
+  display: flex;
+  flex-direction: column;
+  gap: var(--_stat-gap);
+  background: transparent;
+}
+.esa-stat__value {
+  font-family: var(--_stat-value-font);
+  font-size: var(--_stat-value-size);
+  font-weight: var(--_stat-value-weight);
+  line-height: var(--line-height-tight, 1.3);
+  letter-spacing: var(--letter-spacing-tight, -0.01em);
+  color: var(--_stat-value-color);
+}
+.esa-stat__label {
+  font-size: var(--_stat-label-size);
+  font-weight: var(--_stat-label-weight);
+  line-height: var(--line-height-normal, 1.6);
+  color: var(--_stat-label-color);
+}
+.esa-stat__sub {
+  font-size: var(--_stat-sub-size);
+  font-weight: var(--font-weight-regular, 350);
+  line-height: var(--line-height-normal, 1.6);
+  color: var(--_stat-sub-color);
 }
 .bcn-search-trigger .esa-icon {
   flex: none;
@@ -201,6 +258,13 @@ The leadership rollup hero: a headline "% of the route cleared to construct" wit
 .nav-section--active .nav-section__header,
 .nav-section--active .nav-section__header .esa-icon {
   color: var(--color-primary);
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
 }
 .exec__hero {
   display: grid;
@@ -294,6 +358,10 @@ The leadership rollup hero: a headline "% of the route cleared to construct" wit
   gap: var(--spacing-150);
   min-width: 0;
 }
+.pd__section-head .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+}
 .exec-legend__item {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto auto;
@@ -323,70 +391,6 @@ The leadership rollup hero: a headline "% of the route cleared to construct" wit
   font-variant-numeric: tabular-nums;
   min-width: 34px;
   text-align: right;
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.esa-stat {
-  --_stat-value-color: var(--stat-value-color, var(--color-text-primary, #171717));
-  --_stat-value-font: var(
-    --stat-value-font,
-    var(--font-display, var(--font-sans, "DM Sans", sans-serif))
-  );
-  --_stat-value-size: var(--stat-value-size, var(--type-size-700, 2.25rem));
-  --_stat-value-weight: var(--stat-value-weight, var(--font-weight-bold, 650));
-  --_stat-label-color: var(--stat-label-color, var(--color-text-secondary, #525252));
-  --_stat-label-size: var(--stat-label-size, var(--type-size-200, 0.9375rem));
-  --_stat-label-weight: var(--stat-label-weight, var(--font-weight-medium, 450));
-  --_stat-sub-color: var(--stat-sub-color, var(--color-text-muted, #737373));
-  --_stat-sub-size: var(--stat-sub-size, var(--type-size-150, 0.875rem));
-  --_stat-accent-color: var(--stat-accent-color, var(--color-secondary, #5787b9));
-  --_stat-gap: var(--stat-gap, var(--spacing-050, 0.125rem));
-  display: flex;
-  flex-direction: column;
-  gap: var(--_stat-gap);
-  background: transparent;
-}
-.esa-stat__value {
-  font-family: var(--_stat-value-font);
-  font-size: var(--_stat-value-size);
-  font-weight: var(--_stat-value-weight);
-  line-height: var(--line-height-tight, 1.3);
-  letter-spacing: var(--letter-spacing-tight, -0.01em);
-  color: var(--_stat-value-color);
-}
-.esa-stat__label {
-  font-size: var(--_stat-label-size);
-  font-weight: var(--_stat-label-weight);
-  line-height: var(--line-height-normal, 1.6);
-  color: var(--_stat-label-color);
-}
-.esa-stat__sub {
-  font-size: var(--_stat-sub-size);
-  font-weight: var(--font-weight-regular, 350);
-  line-height: var(--line-height-normal, 1.6);
-  color: var(--_stat-sub-color);
 }
 ```
 

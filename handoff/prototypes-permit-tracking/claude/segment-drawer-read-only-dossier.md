@@ -263,33 +263,76 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
 
 ## Styles
 ```css
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
 }
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
 }
-.project-switcher__trigger > .esa-icon:first-child {
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.bcn-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  padding: 2px var(--spacing-250);
+  border-radius: var(--radius-full);
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--_chip) 16%, transparent);
+  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+}
+.bcn-status-chip__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--_chip);
   flex-shrink: 0;
-  color: var(--bcn-gray-500);
 }
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
+  --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));
+  --_badge-height: var(--badge-height-md, 20px);
+  --_badge-font-size: 11px;
+  --_badge-padding-x: 6px;
+  --_badge-min-width: var(--badge-height-md, 20px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--_badge-height);
+  min-width: var(--_badge-min-width);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--badge-radius, var(--radius-100, 4px));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  font-size: var(--_badge-font-size);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  box-sizing: border-box;
 }
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
+.esa-badge--sm {
+  --_badge-height: var(--badge-height-sm, 16px);
+  --_badge-font-size: 10px;
+  --_badge-padding-x: 4px;
+  --_badge-min-width: var(--badge-height-sm, 16px);
 }
 .sd__header {
   flex: 1;
@@ -419,76 +462,33 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
   color: var(--color-text-tertiary);
   flex-shrink: 0;
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
 }
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
 }
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
 }
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.bcn-status-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-  padding: 2px var(--spacing-250);
-  border-radius: var(--radius-full);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  white-space: nowrap;
-  background: color-mix(in srgb, var(--_chip) 16%, transparent);
-  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
-}
-.bcn-status-chip__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: var(--radius-full);
-  background: var(--_chip);
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
   flex-shrink: 0;
 }
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
-  --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));
-  --_badge-height: var(--badge-height-md, 20px);
-  --_badge-font-size: 11px;
-  --_badge-padding-x: 6px;
-  --_badge-min-width: var(--badge-height-md, 20px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: var(--_badge-height);
-  min-width: var(--_badge-min-width);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--badge-radius, var(--radius-100, 4px));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  font-size: var(--_badge-font-size);
-  font-weight: 600;
-  line-height: 1;
-  white-space: nowrap;
-  box-sizing: border-box;
-}
-.esa-badge--sm {
-  --_badge-height: var(--badge-height-sm, 16px);
-  --_badge-font-size: 10px;
-  --_badge-padding-x: 4px;
-  --_badge-min-width: var(--badge-height-sm, 16px);
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
 }
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);

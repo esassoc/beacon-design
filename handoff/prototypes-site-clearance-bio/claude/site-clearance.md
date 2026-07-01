@@ -1,11 +1,11 @@
-# Full page
+# Site Clearance
 
 Re-implement this UI section faithfully on your stack. Keep the CSS custom-property
 names (`var(--…)`) so it stays themeable — the values below are the resolved
-`beacon` theme of the **prototypes-site-clearance** design system (an ESA Ecology spoke).
+`beacon` theme of the **prototypes-site-clearance-bio** design system (an ESA Ecology spoke).
 
-- **Source prototype:** http://localhost:4399/beacon-design/prototypes/site-clearance/
-- **Section element:** `<page>`
+- **Source prototype:** http://localhost:4399/beacon-design/prototypes/site-clearance-bio/
+- **Section element:** `<div>`
 - **Components:** esa-badge (hub), esa-button (hub), esa-collapsible (hub), esa-empty-state (hub), esa-filter-clear-button (hub), esa-filter-container (hub), esa-icon (hub), esa-icon-button (hub), esa-pill (hub)
 
 ## Markup (de-scoped, framework-free)
@@ -2061,7 +2061,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-width="1"
                               stroke-linecap="round"
                               stroke-linejoin="round"
-                              fill="#74add1"
+                              fill="#1a9850"
                               fill-opacity="0.95"
                               fill-rule="evenodd"
                               d="M514,333a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0 "
@@ -4272,7 +4272,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <div class="readiness__head">
                     <span class="readiness__title">Work areas by clearance status</span>
                     <span class="readiness__summary">
-                      Ready to drill <strong id="rs-ready">7</strong>
+                      Ready to drill <strong id="rs-ready">8</strong>
                       <span id="rs-total">of 231 work areas</span>
                     </span>
                   </div>
@@ -4280,7 +4280,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     class="readiness__bar"
                     id="rs-bar"
                     role="img"
-                    aria-label="7 of 231 work areas ready"
+                    aria-label="8 of 231 work areas ready"
                   >
                     <div
                       title="Blocked: 3"
@@ -4307,14 +4307,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       style="height: 100%; flex: 0 0 86.5801%; background: var(--st-not-surveyed)"
                     ></div>
                     <div
-                      title="Survey Scheduled: 1"
-                      style="
-                        height: 100%;
-                        flex: 0 0 0.4329%;
-                        background: var(--st-survey-scheduled);
-                      "
-                    ></div>
-                    <div
                       title="Cleared w/ Stipulations: 2"
                       style="
                         height: 100%;
@@ -4323,8 +4315,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       "
                     ></div>
                     <div
-                      title="Cleared: 5"
-                      style="height: 100%; flex: 0 0 2.1645%; background: var(--st-cleared)"
+                      title="Cleared: 6"
+                      style="height: 100%; flex: 0 0 2.5974%; background: var(--st-cleared)"
                     ></div>
                   </div>
                   <ul class="readiness__legend">
@@ -4378,7 +4370,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <li
                       class="readiness__legend-item"
                       data-rs-item="survey-scheduled"
-                      data-empty="false"
+                      data-empty="true"
                     >
                       <span
                         class="readiness__swatch"
@@ -4386,7 +4378,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       ></span>
                       <span class="readiness__legend-label">Survey Scheduled</span>
                       <span class="readiness__legend-count" data-rs-count="survey-scheduled"
-                        >1</span
+                        >0</span
                       >
                     </li>
                     <li
@@ -4406,7 +4398,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <li class="readiness__legend-item" data-rs-item="cleared" data-empty="false">
                       <span class="readiness__swatch" style="background: var(--st-cleared)"></span>
                       <span class="readiness__legend-label">Cleared</span>
-                      <span class="readiness__legend-count" data-rs-count="cleared">5</span>
+                      <span class="readiness__legend-count" data-rs-count="cleared">6</span>
                     </li>
                   </ul>
                 </section>
@@ -4578,7 +4570,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <span class="tl-today-line" style="left: calc(8.19672% + 177.967px)"></span>
                     <section class="tl-lane">
                       <h4 class="tl-lane__label">
-                        Work starts<span class="tl-lane__count">8 work areas</span>
+                        Work starts<span class="tl-lane__count">9 work areas</span>
                       </h4>
                       <ul class="tl-lane__rows">
                         <li
@@ -4664,6 +4656,21 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           class="tl-row"
                           tabindex="0"
                           role="button"
+                          title="DCRAI-DH-014 · Cleared · Jun 17, 2026"
+                        >
+                          <span class="tl-row__name"
+                            >DCRAI-DH-014<span class="tl-row__sub">Rail Alignment</span></span
+                          ><span class="tl-row__track"
+                            ><span
+                              class="tl-dot"
+                              style="left: 13.1148%; background: var(--st-cleared)"
+                            ></span></span
+                          ><span class="tl-row__meta">Jun 17, 2026</span>
+                        </li>
+                        <li
+                          class="tl-row"
+                          tabindex="0"
+                          role="button"
                           title="DCRDS-DH-294 · Cleared w/ Stipulations · Jun 17, 2026"
                         >
                           <span class="tl-row__name"
@@ -4709,7 +4716,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     </section>
                     <section class="tl-lane">
                       <h4 class="tl-lane__label">
-                        Clearance visits<span class="tl-lane__count">4 work areas</span>
+                        Clearance visits<span class="tl-lane__count">3 work areas</span>
                       </h4>
                       <ul class="tl-lane__rows">
                         <li
@@ -4741,21 +4748,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               style="left: 12.2951%"
                             ></span></span
                           ><span class="tl-row__meta">Jun 16, 2026</span>
-                        </li>
-                        <li
-                          class="tl-row"
-                          tabindex="0"
-                          role="button"
-                          title="DCRAI-DH-014 · Survey Scheduled · Jun 18, 2026"
-                        >
-                          <span class="tl-row__name"
-                            >DCRAI-DH-014<span class="tl-row__sub">Rail Alignment</span></span
-                          ><span class="tl-row__track"
-                            ><span
-                              class="tl-dot"
-                              style="left: 13.9344%; background: var(--st-survey-scheduled)"
-                            ></span></span
-                          ><span class="tl-row__meta">Jun 18, 2026</span>
                         </li>
                         <li
                           class="tl-row"
@@ -5851,28 +5843,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                         <span class="entry__meta">in 6 days</span>
                       </li>
-                      <li class="entry entry--up" data-wa="DCRAI-DH-014" tabindex="0" role="button">
-                        <span class="entry__badge entry__badge--wa">DCRAI-DH-014</span>
-                        <div class="entry__body">
-                          <p class="entry__line">
-                            <span class="entry__type">Review</span
-                            ><span class="entry__sep"> · </span
-                            ><span class="entry__primary">Geology · Jun 18</span>
-                          </p>
-                        </div>
-                        <span class="entry__meta">in 7 days</span>
-                      </li>
-                      <li class="entry entry--up" data-wa="DCRAI-DH-014" tabindex="0" role="button">
-                        <span class="entry__badge entry__badge--wa">DCRAI-DH-014</span>
-                        <div class="entry__body">
-                          <p class="entry__line">
-                            <span class="entry__type">Review</span
-                            ><span class="entry__sep"> · </span
-                            ><span class="entry__primary">Noise · Jun 20</span>
-                          </p>
-                        </div>
-                        <span class="entry__meta">in 9 days</span>
-                      </li>
                       <li class="entry entry--up" data-wa="DCTR2-DH-010" tabindex="0" role="button">
                         <span class="entry__badge entry__badge--wa">DCTR2-DH-010</span>
                         <div class="entry__body">
@@ -5939,64 +5909,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               </div>
             </span>
           </div>
-          <!-- Decision block — reads in ~2 seconds. Variants (data-variant, filled
-           by JS): prov = [obs ID badge] fact line + right-aligned danger
-           Confirm block (the manager's call); blocked = statement line;
-           pending = awaiting-review line (+ start-conflict warn row with
-           inline Edit start); cleared/neutral = one quiet line. -->
-          <div class="decide" id="wa-decide" hidden="">
-            <p class="decide__line decide__line--fact" id="wa-decide-fact"></p>
-            <div class="decide__row decide__row--warn" id="wa-decide-warn" hidden="">
-              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path
-                    d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
-                  ></path>
-                  <path d="M12 9v4"></path>
-                  <path d="M12 17h.01"></path>
-                </svg>
-              </span>
-              <span class="decide__warntext" id="wa-decide-warntext"></span>
-              <span id="wa-edit-start"
-                ><span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button">
-                    <span class="esa-button__label"> Edit start </span>
-                  </button>
-                </span>
-              </span>
-            </div>
-            <!-- Confirm block rides esa-button's native danger color, re-pointed to
-             the status red (--st-provisional-block) by the prov variant's CSS
-             so it sits in the same red family as the block's tint/border/ink. -->
-            <div class="decide__actions" id="wa-decide-actions" hidden="">
-              <span id="wa-confirm-block"
-                ><span
-                  class="esa-button esa-button--color-danger esa-button--appearance-fill esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button">
-                    <span class="esa-button__label"> Confirm block </span>
-                  </button>
-                </span>
-              </span>
-            </div>
-          </div>
-          <!-- Disciplines board — one button cell per dimension: name, current
-           status chip (hollow "Not reviewed" when nothing is recorded), key
-           date line, review-count badge when >1. Click opens the discipline's
-           stacked child drawer. -->
-          <section>
+          <!-- Biological clearance — the gate's full review history (newest first;
+           the latest completed review sets the status) + the inline Add/Edit
+           review form. With biology the only gate, this lives directly in the
+           work-area drawer — no 2×2 board, no stacked child drawer. -->
+          <section class="bioclear">
             <h3 class="wa__section">
               <span class="esa-icon esa-icon--sm" aria-hidden="true">
                 <svg
@@ -6016,162 +5933,121 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <path d="m9 12 2 2 4-4"></path>
                 </svg>
               </span>
-              Disciplines
+              Biological clearance
+              <span class="bioclear__add">
+                <span class="dd__count" id="dd-count">0 reviews</span>
+                <span id="dd-add"
+                  ><span
+                    class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                  >
+                    <button class="esa-button__native" type="button">
+                      <span class="esa-button__label"> Add review </span>
+                    </button>
+                  </span>
+                </span>
+              </span>
             </h3>
-            <div class="board" id="wa-board">
-              <button type="button" class="board__cell" data-dim="biological">
-                <span class="board__cellhead">
-                  <span class="board__dim">Biological</span>
-                  <span class="board__count" hidden="">
-                    <span class="esa-badge esa-badge--secondary esa-badge--sm">
-                      <span class="esa-badge__text">0</span>
-                    </span>
-                  </span>
-                  <span class="board__chev">
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path d="m9 18 6-6-6-6"></path>
-                      </svg>
-                    </span>
-                  </span>
-                </span>
-                <span class="board__chipwrap">
-                  <span
-                    class="bcn-status-chip"
-                    data-status="cleared"
-                    style="--_chip: var(--st-cleared, #1a9850)"
+            <!-- Add/Edit review form — inline above the history when adding; swapped
+             into a history node when editing (the pencil affordance). The
+             "Scheduled — no outcome yet" choice saves an outcome-less review. -->
+            <div class="dd__form" id="dd-form" hidden="">
+              <esa-select id="dd-kind" label="Kind" size="sm"></esa-select>
+              <div class="we__row">
+                <esa-date-picker id="dd-date" label="Date" size="sm"></esa-date-picker>
+                <esa-select id="dd-outcome" label="Outcome" size="sm"></esa-select>
+              </div>
+              <span id="dd-until-wrap" hidden="">
+                <esa-date-picker id="dd-until" label="Blocked until" size="sm"></esa-date-picker>
+              </span>
+              <esa-text-field
+                id="dd-reviewer"
+                label="Reviewer"
+                placeholder="Name (org)"
+                size="sm"
+              ></esa-text-field>
+              <esa-textarea
+                id="dd-note"
+                label="Note"
+                rows="2"
+                auto-resize=""
+                size="sm"
+              ></esa-textarea>
+              <esa-input-tag
+                id="dd-stips"
+                label="Stipulations"
+                placeholder="Add stipulation…"
+                tags-below="true"
+                size="sm"
+              ></esa-input-tag>
+              <div class="dd__formactions">
+                <span id="dd-cancel"
+                  ><span
+                    class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
                   >
-                    <span class="bcn-status-chip__dot"></span>
-                    <span class="bcn-status-chip__label">—</span>
+                    <button class="esa-button__native" type="button">
+                      <span class="esa-button__label"> Cancel </span>
+                    </button>
                   </span>
                 </span>
-                <span class="board__unreviewed gate__unreviewed" hidden=""> Not reviewed </span>
-                <span class="board__meta">—</span></button
-              ><button type="button" class="board__cell" data-dim="cultural">
-                <span class="board__cellhead">
-                  <span class="board__dim">Cultural Resources</span>
-                  <span class="board__count" hidden="">
-                    <span class="esa-badge esa-badge--secondary esa-badge--sm">
-                      <span class="esa-badge__text">0</span>
-                    </span>
-                  </span>
-                  <span class="board__chev">
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path d="m9 18 6-6-6-6"></path>
-                      </svg>
-                    </span>
-                  </span>
-                </span>
-                <span class="board__chipwrap">
-                  <span
-                    class="bcn-status-chip"
-                    data-status="cleared"
-                    style="--_chip: var(--st-cleared, #1a9850)"
+                <span id="dd-save"
+                  ><span
+                    class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--sm"
                   >
-                    <span class="bcn-status-chip__dot"></span>
-                    <span class="bcn-status-chip__label">—</span>
+                    <button class="esa-button__native" type="button">
+                      <span class="esa-button__label"> Save review </span>
+                    </button>
                   </span>
                 </span>
-                <span class="board__unreviewed gate__unreviewed" hidden=""> Not reviewed </span>
-                <span class="board__meta">—</span></button
-              ><button type="button" class="board__cell" data-dim="noise">
-                <span class="board__cellhead">
-                  <span class="board__dim">Noise</span>
-                  <span class="board__count" hidden="">
-                    <span class="esa-badge esa-badge--secondary esa-badge--sm">
-                      <span class="esa-badge__text">0</span>
-                    </span>
-                  </span>
-                  <span class="board__chev">
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path d="m9 18 6-6-6-6"></path>
-                      </svg>
-                    </span>
-                  </span>
-                </span>
-                <span class="board__chipwrap">
-                  <span
-                    class="bcn-status-chip"
-                    data-status="cleared"
-                    style="--_chip: var(--st-cleared, #1a9850)"
+              </div>
+            </div>
+            <!-- Review history — reverse-chron node rail (JS-injected) -->
+            <ol class="revs" id="dd-history"></ol>
+          </section>
+          <!-- Comments — a per-work-area collaboration thread (ported from permit
+           tracking, BCN-1364), DISTINCT from the read-only Activity log below.
+           @-mention project users (would feed notifications). -->
+          <section class="wa-comments">
+            <h3 class="wa__section">
+              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+              </span>
+              Comments <span id="wa-comment-count"></span>
+            </h3>
+            <ul class="wa__comments" id="wa-comments"></ul>
+            <div class="wa__compose">
+              <div class="wa__compose-field">
+                <esa-textarea
+                  id="wa-comment-input"
+                  rows="2"
+                  placeholder="Write a comment…  type @ to mention a teammate"
+                  size="md"
+                ></esa-textarea>
+                <ul class="wa__mention-menu" id="wa-mention-menu" hidden=""></ul>
+              </div>
+              <div class="wa__compose-foot">
+                <span class="wa__compose-hint">Posting as Andy Lovseth</span>
+                <span id="wa-comment-post"
+                  ><span
+                    class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--sm"
                   >
-                    <span class="bcn-status-chip__dot"></span>
-                    <span class="bcn-status-chip__label">—</span>
+                    <button class="esa-button__native" type="button">
+                      <span class="esa-button__label"> Post comment </span>
+                    </button>
                   </span>
                 </span>
-                <span class="board__unreviewed gate__unreviewed" hidden=""> Not reviewed </span>
-                <span class="board__meta">—</span></button
-              ><button type="button" class="board__cell" data-dim="geology">
-                <span class="board__cellhead">
-                  <span class="board__dim">Geology</span>
-                  <span class="board__count" hidden="">
-                    <span class="esa-badge esa-badge--secondary esa-badge--sm">
-                      <span class="esa-badge__text">0</span>
-                    </span>
-                  </span>
-                  <span class="board__chev">
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path d="m9 18 6-6-6-6"></path>
-                      </svg>
-                    </span>
-                  </span>
-                </span>
-                <span class="board__chipwrap">
-                  <span
-                    class="bcn-status-chip"
-                    data-status="cleared"
-                    style="--_chip: var(--st-cleared, #1a9850)"
-                  >
-                    <span class="bcn-status-chip__dot"></span>
-                    <span class="bcn-status-chip__label">—</span>
-                  </span>
-                </span>
-                <span class="board__unreviewed gate__unreviewed" hidden=""> Not reviewed </span>
-                <span class="board__meta">—</span>
-              </button>
+              </div>
             </div>
           </section>
           <!-- Collapsible summary rows — the v2 demotions: ambient detail folds
@@ -6410,110 +6286,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         </div>
       </esa-side-dialog>
       <esa-side-dialog
-        id="disc-dialog"
-        size="md"
-        style="--_width: 560px; --z-modal: 1340; --z-modal-backdrop: 1310"
-        position="right"
-      >
-        <div slot="header" class="wa__header">
-          <div class="wa__headmain">
-            <h2 class="wa__title" id="dd-title">Review</h2>
-            <span id="dd-chip"
-              ><span
-                class="bcn-status-chip"
-                data-status="cleared"
-                style="--_chip: var(--st-cleared, #1a9850)"
-              >
-                <span class="bcn-status-chip__dot"></span>
-                <span class="bcn-status-chip__label">—</span>
-              </span>
-            </span>
-            <span class="gate__unreviewed" id="dd-unreviewed" hidden="">Not reviewed</span>
-          </div>
-          <p class="wa__subtitle" id="dd-sub">—</p>
-        </div>
-        <div class="wa">
-          <div class="dd__bar">
-            <span class="dd__count" id="dd-count">0 reviews</span>
-            <span id="dd-add"
-              ><span
-                class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
-              >
-                <button class="esa-button__native" type="button">
-                  <span class="esa-button__label"> Add review </span>
-                </button>
-              </span>
-            </span>
-          </div>
-          <!-- Add/Edit review form — inline at the top when adding; swapped into a
-           history node when editing (the pencil affordance). The "Scheduled —
-           no outcome yet" outcome choice saves an outcome-less review. -->
-          <div class="dd__form" id="dd-form" hidden="">
-            <esa-select id="dd-kind" label="Kind" size="sm"></esa-select>
-            <div class="we__row">
-              <esa-date-picker id="dd-date" label="Date" size="sm"></esa-date-picker>
-              <esa-select id="dd-outcome" label="Outcome" size="sm"></esa-select>
-            </div>
-            <span id="dd-until-wrap" hidden="">
-              <esa-date-picker id="dd-until" label="Blocked until" size="sm"></esa-date-picker>
-            </span>
-            <esa-text-field
-              id="dd-reviewer"
-              label="Reviewer"
-              placeholder="Name (org)"
-              size="sm"
-            ></esa-text-field>
-            <esa-textarea
-              id="dd-note"
-              label="Note"
-              rows="2"
-              auto-resize=""
-              size="sm"
-            ></esa-textarea>
-            <esa-input-tag
-              id="dd-stips"
-              label="Stipulations"
-              placeholder="Add stipulation…"
-              tags-below="true"
-              size="sm"
-            ></esa-input-tag>
-            <div class="dd__formactions">
-              <span id="dd-cancel"
-                ><span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button">
-                    <span class="esa-button__label"> Cancel </span>
-                  </button>
-                </span>
-              </span>
-              <span id="dd-save"
-                ><span
-                  class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button">
-                    <span class="esa-button__label"> Save review </span>
-                  </button>
-                </span>
-              </span>
-            </div>
-          </div>
-          <!-- Review history — reverse-chron node rail (JS-injected) -->
-          <ol class="revs" id="dd-history"></ol>
-        </div>
-        <div slot="footer" class="wa__footer">
-          <span id="dd-close"
-            ><span
-              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
-            >
-              <button class="esa-button__native" type="button">
-                <span class="esa-button__label"> Close </span>
-              </button>
-            </span>
-          </span>
-        </div>
-      </esa-side-dialog>
-      <esa-side-dialog
         id="obs-dialog"
         size="md"
         style="--_width: 520px; --z-modal: 1300; --z-modal-backdrop: 1250"
@@ -6651,7 +6423,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         </div>
       </esa-side-dialog>
       <template id="gc-chip-tpl">
-        <span class="gate__chipwrap" data-astro-cid-2csxtc3p=""
+        <span class="gate__chipwrap" data-astro-cid-uspbcnkm=""
           ><span
             class="bcn-status-chip"
             data-status="cleared"
@@ -6669,7 +6441,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         </span>
       </template>
       <template id="dd-edit-tpl">
-        <span class="rev__edit" data-astro-cid-2csxtc3p=""
+        <span class="rev__edit" data-astro-cid-uspbcnkm=""
           ><button
             class="esa-icon-button esa-icon-button--sm"
             type="button"
@@ -6795,780 +6567,73 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
-:root,
-[data-theme="beacon"] {
-  --badge-bg: #005862;
-  --badge-height-md: 20px;
-  --badge-height-sm: 16px;
-  --badge-radius: 0.25rem;
-  --badge-text-color: #ffffff;
-  --bcn-gray-100: #efefef;
-  --bcn-gray-1000: #000000;
-  --bcn-gray-200: #dcdcdc;
-  --bcn-gray-300: #bdbdbd;
-  --bcn-gray-400: #989898;
-  --bcn-gray-50: #fafafa;
-  --bcn-gray-500: #7c7c7c;
-  --bcn-gray-600: #656565;
-  --bcn-gray-900: #3d3d3d;
-  --bcn-gray-950: #292929;
-  --collapsible-bg: #ffffff;
-  --collapsible-border-color: #dcdcdc;
-  --collapsible-padding-x: 1rem;
-  --collapsible-radius: 0.5rem;
-  --collapsible-title-color: #3d3d3d;
-  --color-accent: #f9a134;
-  --color-background: #fafafa;
-  --color-border: #dcdcdc;
-  --color-border-light: #efefef;
-  --color-border-strong: #bdbdbd;
-  --color-primary: #005862;
-  --color-primary-hover: #00474f;
-  --color-primary-subtle: #effefb;
-  --color-surface: #ffffff;
-  --color-surface-sunken: #efefef;
-  --color-text-inverse: #ffffff;
-  --color-text-link: #005862;
-  --color-text-primary: #3d3d3d;
-  --color-text-secondary: #525252;
-  --color-text-tertiary: #656565;
-  --filter-clear-color: #7c7c7c;
-  --filter-clear-color-hover: #ef4444;
-  --font-decorative: "Besley", serif;
-  --font-sans: "DM Sans", sans-serif;
-  --font-weight-bold: 650;
-  --font-weight-medium: 450;
-  --font-weight-regular: 350;
-  --font-weight-semibold: 550;
-  --form-bg: #ffffff;
-  --form-border-color: #dcdcdc;
-  --form-border-width: 1px;
-  --form-font-size-md: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
-  --form-font-size-sm: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
-  --form-height-md: 36px;
-  --form-height-sm: 28px;
-  --form-label-color: #525252;
-  --form-padding-x-md: 0.75rem;
-  --form-padding-x-sm: 0.625rem;
-  --form-padding-y-md: 0.5rem;
-  --form-padding-y-sm: 0.375rem;
-  --form-placeholder-color: #7c7c7c;
-  --form-radius-md: 0.25rem;
-  --form-radius-sm: 0.25rem;
-  --form-text-color: #3d3d3d;
-  --icon-size-md: 20px;
-  --icon-size-medium: 20px;
-  --icon-size-sm: 16px;
-  --icon-size-small: 16px;
-  --icon-size-xs: 14px;
-  --obs-color: #7b5ea7;
-  --radius-050: 0.125rem;
-  --radius-100: 0.25rem;
-  --radius-200: 0.5rem;
-  --radius-300: 0.5rem;
-  --radius-full: 9999px;
-  --shadow-400: 0 8px 32px -8px rgba(0, 0, 0, 0.08);
-  --side-dialog-width: 400px;
-  --spacing-050: 0.125rem;
-  --spacing-100: 0.25rem;
-  --spacing-150: 0.375rem;
-  --spacing-200: 0.5rem;
-  --spacing-250: 0.625rem;
-  --spacing-300: 0.75rem;
-  --spacing-400: 1rem;
-  --spacing-500: 1.5rem;
-  --spacing-600: 2rem;
-  --spacing-700: 3rem;
-  --st-cleared: #1a9850;
-  --tab-layout-border-color: #dcdcdc;
-  --tab-layout-color: #525252;
-  --tab-layout-color-active: #005862;
-  --tab-layout-height-md: 44px;
-  --tab-layout-indicator-color: #005862;
-  --transition-fast: 0.15s ease;
-  --type-size-100: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
-  --type-size-150: clamp(0.6875rem, 0.61rem + 0.38vw, 0.875rem);
-  --type-size-200: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
-  --type-size-400: clamp(1rem, 0.88rem + 0.6vw, 1.25rem);
-  --type-size-500: clamp(1.125rem, 0.98rem + 0.72vw, 1.5rem);
-}
-
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-:host {
-  display: block;
-  --_field-padding-y: var(--form-padding-y-md, 8px);
-  --_field-padding-x: var(--form-padding-x-md, 12px);
-  --_field-font-size: var(--form-font-size-md, 14px);
-  --_field-height: var(--form-height-md, 40px);
-  --_field-radius: var(--form-radius-md, 8px);
-  --_field-border-color: var(--form-border-color, #d4d4d4);
-}
-:host([size="sm"]) {
-  --_field-padding-y: var(--form-padding-y-sm, 4px);
-  --_field-padding-x: var(--form-padding-x-sm, 8px);
-  --_field-font-size: var(--form-font-size-sm, 12px);
-  --_field-height: var(--form-height-sm, 32px);
-  --_field-radius: var(--form-radius-sm, 6px);
-}
-.field {
+.page-layout {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-100, 4px);
-}
-.container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100, 4px);
-}
-.input-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-.input {
-  width: 100%;
-  height: var(--_field-height);
-  padding: var(--_field-padding-y) var(--_field-padding-x);
-  padding-inline-end: calc(var(--_field-padding-x) + 24px);
-  font-family: var(--font-sans, sans-serif);
-  font-size: var(--_field-font-size);
-  color: var(--form-text-color, #171717);
-  background: var(--form-bg, #fff);
-  border: var(--form-border-width, 1px) solid var(--_field-border-color);
-  border-radius: var(--_field-radius);
-  outline: none;
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
   box-sizing: border-box;
-  transition:
-    border-color var(--transition-fast, 150ms ease),
-    box-shadow var(--transition-fast, 150ms ease);
 }
-.input::placeholder {
-  color: var(--form-placeholder-color, #737373);
-}
-.leaflet-container {
-  overflow: hidden;
-}
-.leaflet-container {
-  -webkit-tap-highlight-color: transparent;
-}
-.leaflet-container {
-  background: #ddd;
-  outline-offset: 1px;
-}
-.leaflet-container {
-  font-family:
-    Helvetica Neue,
-    Arial,
-    Helvetica,
-    sans-serif;
-  font-size: 12px;
-  font-size: 0.75rem;
-  line-height: 1.5;
-}
-.leaflet-grab {
-  cursor: -webkit-grab;
-  cursor: -moz-grab;
-  cursor: grab;
-}
-.leaflet-container.leaflet-touch-zoom {
-  -ms-touch-action: pan-x pan-y;
-  touch-action: pan-x pan-y;
-}
-.leaflet-container.leaflet-touch-drag {
-  -ms-touch-action: pinch-zoom;
-  touch-action: none;
-  touch-action: pinch-zoom;
-}
-.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {
-  -ms-touch-action: none;
-  touch-action: none;
-}
-.leaflet-pane,
-.leaflet-tile,
-.leaflet-marker-icon,
-.leaflet-marker-shadow,
-.leaflet-tile-container,
-.leaflet-pane > svg,
-.leaflet-pane > canvas,
-.leaflet-zoom-box,
-.leaflet-image-layer,
-.leaflet-layer {
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-.leaflet-pane {
-  z-index: 400;
-}
-.leaflet-tile-pane {
-  z-index: 200;
-}
-.leaflet-overlay-pane {
-  z-index: 400;
-}
-.leaflet-shadow-pane {
-  z-index: 500;
-}
-.leaflet-marker-pane {
-  z-index: 600;
-}
-.leaflet-tooltip-pane {
-  z-index: 650;
-}
-.leaflet-popup-pane {
-  z-index: 700;
-}
-.leaflet-popup-pane,
-.leaflet-control {
-  cursor: auto;
-}
-.leaflet-zoom-animated {
-  -webkit-transform-origin: 0 0;
-  -ms-transform-origin: 0 0;
-  transform-origin: 0 0;
-}
-.leaflet-top,
-.leaflet-bottom {
-  position: absolute;
-  z-index: 1000;
-  pointer-events: none;
-}
-.leaflet-top {
-  top: 0;
-}
-.leaflet-left {
-  left: 0;
-}
-.leaflet-control {
-  position: relative;
-  z-index: 800;
-  pointer-events: visiblePainted;
-  pointer-events: auto;
-}
-.leaflet-control {
-  float: left;
-  clear: both;
-}
-.leaflet-bar {
-  box-shadow: 0 1px 5px #000000a6;
-  border-radius: 4px;
-}
-.leaflet-top .leaflet-control {
-  margin-top: 10px;
-}
-.leaflet-left .leaflet-control {
-  margin-left: 10px;
-}
-.leaflet-touch .leaflet-control-attribution,
-.leaflet-touch .leaflet-control-layers,
-.leaflet-touch .leaflet-bar {
-  box-shadow: none;
-}
-.leaflet-touch .leaflet-control-layers,
-.leaflet-touch .leaflet-bar {
-  border: 2px solid rgba(0, 0, 0, 0.2);
-  background-clip: padding-box;
-}
-.leaflet-control-zoom-in,
-.leaflet-control-zoom-out {
-  font:
-    700 18px Lucida Console,
-    Monaco,
-    monospace;
-  text-indent: 1px;
-}
-.leaflet-container a {
-  -webkit-tap-highlight-color: rgba(51, 181, 229, 0.4);
-}
-.leaflet-container a {
-  color: #0078a8;
-}
-.leaflet-bar a {
-  background-color: #fff;
-  border-bottom: 1px solid #ccc;
-  width: 26px;
-  height: 26px;
-  line-height: 26px;
-  display: block;
-  text-align: center;
-  text-decoration: none;
-  color: #000;
-}
-.leaflet-bar a,
-.leaflet-control-layers-toggle {
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  display: block;
-}
-.leaflet-touch .leaflet-control-zoom-in,
-.leaflet-touch .leaflet-control-zoom-out {
-  font-size: 22px;
-}
-.leaflet-bar a:first-child {
-  border-top-left-radius: 4px;
-  border-top-right-radius: 4px;
-}
-.leaflet-touch .leaflet-bar a {
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
-}
-.leaflet-touch .leaflet-bar a:first-child {
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
-}
-.leaflet-bar a:last-child {
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-  border-bottom: none;
-}
-.leaflet-touch .leaflet-bar a:last-child {
-  border-bottom-left-radius: 2px;
-  border-bottom-right-radius: 2px;
-}
-.leaflet-right {
-  right: 0;
-}
-.leaflet-bottom {
-  bottom: 0;
-}
-.leaflet-control-attribution,
-.leaflet-control-scale-line {
-  padding: 0 5px;
-  color: #333;
-  line-height: 1.4;
-}
-.leaflet-right .leaflet-control {
-  float: right;
-}
-.leaflet-bottom .leaflet-control {
-  margin-bottom: 10px;
-}
-.leaflet-right .leaflet-control {
-  margin-right: 10px;
-}
-.leaflet-container .leaflet-control-attribution {
-  background: #fff;
-  background: #fffc;
-  margin: 0;
-}
-.leaflet-control-attribution a {
-  text-decoration: none;
-}
-.leaflet-attribution-flag {
-  display: inline !important;
-  vertical-align: baseline !important;
-  width: 1em;
-  height: 0.6669em;
-}
-.leaflet-marker-icon,
-.leaflet-marker-shadow,
-.leaflet-image-layer,
-.leaflet-pane > svg path,
-.leaflet-tile-container {
-  pointer-events: none;
-}
-.leaflet-tile,
-.leaflet-marker-icon,
-.leaflet-marker-shadow {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-  -webkit-user-drag: none;
-}
-.leaflet-tile {
-  filter: inherit;
-  visibility: hidden;
-}
-.leaflet-container .leaflet-marker-pane img,
-.leaflet-container .leaflet-shadow-pane img,
-.leaflet-container .leaflet-tile-pane img,
-.leaflet-container img.leaflet-image-layer,
-.leaflet-container .leaflet-tile {
-  max-width: none !important;
-  max-height: none !important;
-  width: auto;
-  padding: 0;
-}
-.leaflet-container img.leaflet-tile {
-  mix-blend-mode: plus-lighter;
-}
-.leaflet-tile::selection {
-  background: transparent;
-}
-.leaflet-overlay-pane svg {
-  -moz-user-select: none;
-}
-.leaflet-map-pane svg {
-  z-index: 200;
-}
-svg.leaflet-zoom-animated {
-  will-change: transform;
-}
-.leaflet-container .leaflet-overlay-pane svg {
-  max-width: none !important;
-  max-height: none !important;
-}
-.leaflet-interactive {
-  cursor: pointer;
-}
-.leaflet-marker-icon.leaflet-interactive,
-.leaflet-image-layer.leaflet-interactive,
-.leaflet-pane > svg path.leaflet-interactive,
-svg.leaflet-image-layer.leaflet-interactive path {
-  pointer-events: visiblePainted;
-  pointer-events: auto;
-}
-.leaflet-tile-loaded {
-  visibility: inherit;
-}
-:host {
-  --_tab-height: var(--tab-layout-height-md, 44px);
-  --_tab-font-size: var(--type-size-200, 0.875rem);
-  --_tab-color: var(--tab-layout-color, var(--color-text-secondary, #525252));
-  --_tab-color-active: var(--tab-layout-color-active, var(--color-primary, #43608a));
-  --_tab-color-hover: var(--color-text-primary, #171717);
-  --_tab-indicator-color: var(--tab-layout-indicator-color, var(--color-primary, #43608a));
-  --_tab-indicator-height: 2px;
-  --_tab-bg-hover: var(--color-surface-sunken, #efefef);
-  --_tab-gap: var(--spacing-100, 4px);
-  --_tab-padding-x: var(--spacing-400, 16px);
-  --_tab-border: var(--tab-layout-border-color, var(--color-border, #e5e5e5));
-  --_tab-badge-bg: var(--color-primary, #43608a);
-  --_tab-badge-color: var(--color-text-inverse, #ffffff);
-
-  display: block;
-}
-.tabs {
-  display: flex;
-  border-bottom: 1px solid var(--_tab-border);
-  gap: var(--_tab-gap);
-}
-.tab {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-200, 8px);
-  height: var(--_tab-height);
-  padding-inline: var(--_tab-padding-x);
-  font-family: inherit;
-  font-size: var(--_tab-font-size);
-  color: var(--_tab-color);
-  background: none;
-  border: none;
-  cursor: pointer;
-  position: relative;
-  text-decoration: none;
-  white-space: nowrap;
-  transition:
-    color 150ms ease,
-    background-color 150ms ease;
-}
-.tab--active {
-  color: var(--_tab-color-active);
-  font-weight: var(--font-weight-medium, 500);
-}
-.icon {
-  display: inline-flex;
-}
-.tab--active::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: var(--_tab-indicator-height);
-  background: var(--_tab-indicator-color);
-  border-radius: var(--_tab-indicator-height);
-}
-.panel {
-  padding-top: var(--spacing-400, 16px);
-}
-:host {
-  all: initial;
-}
-.host-root {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2147483000;
-  font-family: system-ui, sans-serif;
-}
-.host-root > * {
-  pointer-events: auto;
-}
-.launch {
-  position: fixed;
-  bottom: 22px;
-  left: 22px;
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 13px 19px;
-  border-radius: 999px;
-  color: #fff;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  border: 1px solid #3d6fd6;
-  background: linear-gradient(180deg, #1f6feb, #1551c4);
-  box-shadow:
-    0 10px 28px -8px rgba(31, 111, 235, 0.65),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18);
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease,
-    filter 0.15s ease;
-}
-.launch svg {
-  flex: none;
-}
-.panel {
-  position: fixed;
-  top: 18px;
-  right: 18px;
-  bottom: 18px;
-  width: min(720px, 94vw);
+.page-layout__container {
   display: flex;
   flex-direction: column;
-  color: #ffffff;
-  border-radius: 16px;
-  background: linear-gradient(155deg, rgba(26, 31, 40, 0.74), rgba(11, 15, 21, 0.86));
-  backdrop-filter: blur(26px) saturate(150%);
-  -webkit-backdrop-filter: blur(26px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow:
-    0 28px 70px -18px rgba(0, 0, 0, 0.62),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  font-size: 12.5px;
-  overflow: hidden;
-  /* slide in from the right */
-  transform: translateX(calc(100% + 32px));
-  opacity: 0;
-  visibility: hidden;
-  transition:
-    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.22s ease,
-    visibility 0s linear 0.3s;
 }
-.head {
+.page-layout section {
+  width: 100%;
+}
+.breadcrumbs {
+  padding: var(--spacing-400) 0;
+}
+.breadcrumbs__items {
   display: flex;
+  gap: var(--spacing-100);
   align-items: center;
-  gap: 8px;
-  padding: 13px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-}
-.head strong {
-  font-size: 14px;
-}
-.head .sub {
-  flex: 1;
-  color: #ccd5e0;
-  font-size: 12px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.x {
-  border: 0;
-  background: none;
-  color: #c4cdd8;
-  font-size: 20px;
-  line-height: 1;
-  cursor: pointer;
-}
-.picker {
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-}
-.chips {
-  display: flex;
   flex-wrap: wrap;
-  gap: 6px;
 }
-.chip {
-  padding: 5px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.04);
-  color: #eef2f6;
-  font: inherit;
-  font-size: 12.5px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition:
-    border-color 0.12s ease,
-    background 0.12s ease,
-    color 0.12s ease;
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
 }
-.chip.on {
-  background: rgba(31, 111, 235, 0.28);
-  border-color: #4493f8;
-  color: #fff;
-  font-weight: 600;
+.breadcrumb-item {
+  color: var(--bcn-gray-600);
+  text-transform: capitalize;
+  font-size: 0.875rem;
 }
-.tabs {
+a.breadcrumb-item {
+  text-decoration: none;
+}
+.page-layout__title {
+  border-bottom: 1px solid var(--bcn-gray-200);
+  padding: var(--spacing-500) 0;
   display: flex;
-  gap: 4px;
-  padding: 9px 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
 }
-.tabs button {
-  padding: 5px 12px;
-  border: 0;
-  border-radius: 6px;
-  background: none;
-  color: #ccd5e0;
-  font: inherit;
-  font-size: 12.5px;
-  cursor: pointer;
+.page-layout__title-main {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  min-width: 0;
 }
-.tabs button.on {
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-}
-.body {
-  overflow: auto;
-  padding: 13px 16px;
-  flex: 1;
-}
-.hint {
+.page-layout__title h1 {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  font-family: var(--font-decorative);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--type-size-500);
   margin: 0;
-  color: #c4cdd8;
-  line-height: 1.6;
+  color: var(--bcn-gray-1000);
 }
-.footer {
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
   position: relative;
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  padding: 11px 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(0, 0, 0, 0.18);
-}
-[hidden] {
-  display: none !important;
-}
-.cpreview {
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: calc(100% + 8px);
-  background: rgba(13, 17, 23, 0.96);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 12px;
-  box-shadow: 0 18px 50px -14px rgba(0, 0, 0, 0.7);
-  padding: 12px 14px;
-  max-height: 50vh;
-  overflow: auto;
-}
-.copy {
-  color: #eef2f6;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.05);
-}
-.footer button {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font: inherit;
-  font-size: 12.5px;
-  font-weight: 600;
-  cursor: pointer;
-}
-.claude {
-  color: #fff;
-  border: 1px solid #d97757;
-  background: linear-gradient(180deg, #e0805f, #c25e3c);
-  box-shadow:
-    0 6px 18px -6px rgba(217, 119, 87, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-.claude svg {
-  flex: none;
-}
-:host {
-  display: inline-block;
-
-  --_filter-height: 40px;
-  --_filter-padding-x: var(--spacing-400, 1rem);
-  --_filter-font-size: var(--type-size-200, 0.9375rem);
-  --_filter-radius: var(--radius-200, 0.5rem);
-  --_filter-bg: var(--color-surface, #fff);
-  --_filter-bg-active: var(--color-primary-subtle, #f3f8fb);
-  --_filter-text: var(--color-text-primary, #171717);
-  --_filter-text-active: var(--color-primary, #43608a);
-  --_filter-border: var(--color-border, #e5e5e5);
-  --_filter-border-active: var(--color-primary, #43608a);
-}
-:host([size="sm"]) {
-  --_filter-height: 32px;
-  --_filter-padding-x: var(--spacing-300, 0.75rem);
-  --_filter-font-size: var(--type-size-150, 0.875rem);
-  --_filter-radius: var(--radius-100, 0.25rem);
-}
-.esa-filter-dropdown {
-  position: relative;
-  display: inline-flex;
-}
-.esa-filter-dropdown__trigger {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-100, 0.25rem);
-  height: var(--_filter-height);
-  padding-inline: var(--_filter-padding-x);
-  border: 1px solid var(--_filter-border);
-  border-radius: var(--_filter-radius);
-  background: var(--_filter-bg);
-  color: var(--_filter-text);
-  font-family: var(--font-sans, inherit);
-  font-size: var(--_filter-font-size);
-  font-weight: var(--font-weight-medium, 450);
-  line-height: 1;
-  cursor: pointer;
-  white-space: nowrap;
-  transition:
-    background var(--transition-fast, 150ms ease),
-    border-color var(--transition-fast, 150ms ease),
-    color var(--transition-fast, 150ms ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-filter-dropdown__label {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 200px;
-}
-.esa-filter-dropdown__arrow {
-  display: inline-flex;
-  width: 20px;
-  height: 20px;
-  transition: transform var(--transition-fast, 150ms ease);
-}
-.esa-filter-dropdown__arrow svg {
-  width: 20px;
-  height: 20px;
 }
 .modern-layout {
   display: flex;
@@ -7975,184 +7040,407 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .bcn-omni[hidden] {
   display: none;
 }
-.page-layout {
+.print-header {
+  display: none;
+}
+.map-filterbar {
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
+  margin-bottom: var(--spacing-300);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
 }
-.page-layout__container {
+.map-filterbar__row {
   display: flex;
-  flex-direction: column;
-}
-.page-layout section {
-  width: 100%;
-}
-.breadcrumbs {
-  padding: var(--spacing-400) 0;
-}
-.breadcrumbs__items {
-  display: flex;
-  gap: var(--spacing-100);
   align-items: center;
+  gap: var(--spacing-300);
+  flex-wrap: wrap;
+  padding: var(--spacing-250) var(--spacing-400);
+}
+.map-filterbar__label {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+}
+.map-filterbar__goto {
+  margin-left: auto;
+  display: flex;
+  gap: var(--spacing-200);
+}
+.map-filterbar__goto esa-combobox {
+  --form-height-sm: 32px;
+  --form-font-size-sm: var(--type-size-150);
+}
+.map-filterbar__row + .map-filterbar__row {
+  border-top: 1px solid var(--color-border);
+}
+.map-wrap {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  min-height: 480px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+  overflow: hidden;
+}
+.map {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+.map-legend {
+  position: absolute;
+  bottom: var(--spacing-400);
+  left: var(--spacing-400);
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  padding: var(--spacing-300) var(--spacing-400);
+  background: color-mix(in srgb, var(--color-surface) 94%, transparent);
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+  box-shadow: var(--shadow-400);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+.map-legend__title {
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.map-legend__row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+}
+.map-legend__dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--color-surface);
+  flex-shrink: 0;
+}
+.map-legend__ring {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px dashed var(--obs-color);
+  background: color-mix(in srgb, var(--obs-color) 12%, transparent);
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+.map-legend__hollow {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid var(--obs-color);
+  background: var(--color-surface);
+  box-sizing: border-box;
+  flex-shrink: 0;
+  margin-inline: 2px;
+}
+.readiness {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  margin-top: var(--spacing-400);
+  padding: var(--spacing-300) var(--spacing-400);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+}
+.readiness__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-300);
   flex-wrap: wrap;
 }
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.breadcrumb-item {
-  color: var(--bcn-gray-600);
-  text-transform: capitalize;
+.readiness__title {
   font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
 }
-a.breadcrumb-item {
-  text-decoration: none;
+.readiness__summary {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
 }
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
+.readiness__summary strong {
+  color: var(--st-cleared);
+  font-weight: var(--font-weight-bold);
+}
+.readiness__bar {
+  display: flex;
+  height: 10px;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  background: var(--color-background);
+}
+.readiness__bar > div + div {
+  border-left: 1px solid var(--color-surface);
+}
+.readiness__legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-200) var(--spacing-500);
+}
+.readiness__legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+.readiness__swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-050);
+  flex-shrink: 0;
+}
+.readiness__legend-label {
+  color: var(--color-text-primary);
+}
+.readiness__legend-count {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+.readiness__legend-item[data-empty="true"] {
+  opacity: 0.4;
+}
+.wa__header {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.wa__headmain {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+}
+.wa__title {
+  margin: 0;
+  font-size: var(--type-size-400);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.wa__subtitle {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+.wa {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+}
+.band {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-200) var(--spacing-300);
+  margin: calc(-1 * var(--spacing-500, 1.5rem)) calc(-1 * var(--spacing-500, 1.5rem)) 0;
+  padding: var(--spacing-250) var(--spacing-500, 1.5rem);
+  background: var(--color-background);
+  border-bottom: 1px solid var(--color-border);
+}
+.wa__kv-val {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.band__cell[hidden] {
+  display: none;
+}
+#wa-read > .bioclear {
+  padding-top: var(--spacing-500);
+}
+.wa__section {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  margin: 0 0 var(--spacing-300);
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.wa__section .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+}
+.bioclear__add {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-200);
+}
+.dd__count {
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.dd__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-400);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+}
+.dd__form[hidden],
+#dd-until-wrap[hidden] {
+  display: none;
+}
+.revs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+#wa-read > .wa-comments,
+#wa-read > .wa__more {
+  margin-top: var(--spacing-500);
+  padding-top: var(--spacing-500);
+  border-top: 1px solid var(--color-border);
+}
+.wa__comments {
+  list-style: none;
+  margin: 0 0 var(--spacing-400);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+}
+.wa__comments:empty {
+  display: none;
+}
+.wa__compose {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+.wa__compose-field {
+  position: relative;
+}
+.wa__compose-field esa-textarea {
+  width: 100%;
+}
+.wa__mention-menu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 4px);
+  z-index: 5;
+  list-style: none;
+  margin: 0;
+  padding: var(--spacing-100);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+  box-shadow: var(--shadow-400);
+  max-height: 208px;
+  overflow-y: auto;
+}
+.wa__mention-menu[hidden] {
+  display: none;
+}
+.wa__compose-foot {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-sizing: border-box;
+  gap: var(--spacing-300);
 }
-.page-layout__title-main {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
+.wa__compose-hint {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
 }
-.page-layout__title h1 {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  font-family: var(--font-decorative);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--type-size-500);
-  margin: 0;
-  color: var(--bcn-gray-1000);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
-}
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
-  position: relative;
-}
-:host {
+.wa__more {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-100, 4px);
-  --_height: var(--form-height-md, 40px);
-  --_padding-x: var(--form-padding-x-md, 12px);
-  --_font-size: var(--form-font-size-md, 14px);
-  --_radius: var(--form-radius-md, 8px);
-  --_border-width: var(--form-border-width, 1px);
-  --_border-color: var(--form-border-color, #d4d4d4);
-  --_icon-size: 18px;
 }
-.group {
-  display: inline-flex;
-  width: fit-content;
-  max-width: 100%;
-  gap: 2px;
-  padding: 2px;
-  background: var(--color-surface-sunken, #efefef);
-  border: var(--_border-width) solid var(--_border-color);
-  border-radius: var(--_radius);
+.wa__more-item {
+  display: block;
 }
-.option {
-  appearance: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-150, 6px);
-  height: calc(var(--_height) - 4px);
-  padding: 0 var(--_padding-x);
-  font-family: var(--font-sans, sans-serif);
-  font-size: var(--_font-size);
-  font-weight: var(--font-weight-medium, 450);
-  color: var(--color-text-secondary, #525252);
-  background: transparent;
-  border: 0;
-  border-radius: calc(var(--_radius) - 2px);
-  cursor: pointer;
-  user-select: none;
-  white-space: nowrap;
-  transition:
-    background-color var(--transition-fast, 150ms ease),
-    color var(--transition-fast, 150ms ease),
-    box-shadow var(--transition-fast, 150ms ease);
+.wa__more-item[hidden] {
+  display: none;
 }
-.option--selected {
-  background: var(--form-bg, #fff);
-  color: var(--color-primary, #43608a);
-  font-weight: var(--font-weight-semibold, 550);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+.wa__more-item + .wa__more-item {
+  border-top: 1px solid var(--color-border-light);
 }
-.esa-button {
-  --_btn-height: var(--form-height-md, 40px);
-  --_btn-padding-x: var(--form-padding-x-md, 16px);
-  --_btn-font-size: var(--form-font-size-md, 14px);
-  --_btn-radius: var(--form-radius-md, 6px);
-  --_accent: var(--color-primary, #43608a);
-  --_accent-hover: var(--color-primary-hover, #39506f);
-  --_on: var(--color-text-inverse, #ffffff);
-  display: inline-block;
+.wa__more-item[hidden] + .wa__more-item {
+  border-top: none;
 }
-.esa-button__native {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-200, 8px);
+.wa[hidden] {
+  display: none;
+}
+.wa__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-200);
   width: 100%;
-  height: var(--_btn-height);
-  padding-inline: var(--_btn-padding-x);
-  border: 1px solid transparent;
-  border-radius: var(--_btn-radius);
-  font-size: var(--_btn-font-size);
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
-  text-decoration: none;
+}
+.wa__footer-start {
+  margin-right: auto;
+}
+.wa__footer-start .esa-button__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+}
+.wa__footer [hidden] {
+  display: none;
+}
+.od__meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-300) var(--spacing-400);
+  margin: 0;
+  padding: var(--spacing-400);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+}
+.wa__section .esa-badge {
+  vertical-align: middle;
+}
+.wa__conflicts,
+.od__impact {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+.leaflet-pane,
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 400;
+}
+#gc-map .leaflet-interactive {
   cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
 }
-.esa-button--appearance-outline .esa-button__native,
-.esa-button--appearance-dashed .esa-button__native {
-  background: transparent;
-  color: var(--_accent);
-  border-color: var(--_accent);
+.gc-reset__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.esa-button--color-ghost .esa-button__native {
-  background: transparent;
-  color: var(--color-text-primary, #171717);
-  border-color: transparent;
-}
-.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border, #e5e5e5);
-}
-.esa-button__label {
-  white-space: nowrap;
-}
-.esa-button--sm {
-  --_btn-height: var(--form-height-sm, 32px);
-  --_btn-padding-x: var(--form-padding-x-sm, 12px);
-  --_btn-font-size: var(--form-font-size-sm, 12px);
-  --_btn-radius: var(--form-radius-sm, 4px);
-}
-.esa-button--sm .esa-button__native {
-  height: auto;
-  padding-block: var(--spacing-150, 6px);
+.gc-reset__btn svg {
+  width: 16px;
+  height: 16px;
+  display: block;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
@@ -8311,464 +7599,364 @@ a.breadcrumb-item {
   --_badge-padding-x: 4px;
   --_badge-min-width: var(--badge-height-sm, 16px);
 }
-:host {
-  --_width: var(--side-dialog-width, 400px);
+.esa-button {
+  --_btn-height: var(--form-height-md, 40px);
+  --_btn-padding-x: var(--form-padding-x-md, 16px);
+  --_btn-font-size: var(--form-font-size-md, 14px);
+  --_btn-radius: var(--form-radius-md, 6px);
+  --_accent: var(--color-primary, #43608a);
+  --_accent-hover: var(--color-primary-hover, #39506f);
+  --_on: var(--color-text-inverse, #ffffff);
+  display: inline-block;
 }
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
+.esa-button--sm {
+  --_btn-height: var(--form-height-sm, 32px);
+  --_btn-padding-x: var(--form-padding-x-sm, 12px);
+  --_btn-font-size: var(--form-font-size-sm, 12px);
+  --_btn-radius: var(--form-radius-sm, 4px);
 }
-body {
-  margin: 0;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-regular, 350);
-  color: var(--color-text-primary, #3d3d3d);
-  background: var(--color-surface, #fff);
-  -webkit-font-smoothing: antialiased;
-}
-button {
-  font-family: inherit;
-  cursor: pointer;
-  background: none;
-  border: 0;
-}
-a {
-  color: var(--color-text-link, #005862);
-  text-decoration: none;
-}
-img {
-  display: block;
-  max-width: 100%;
-}
-:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
-  margin: 0;
-}
-.print-header {
-  display: none;
-}
-.map-filterbar {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: var(--spacing-300);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-}
-.map-filterbar__row {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  flex-wrap: wrap;
-  padding: var(--spacing-250) var(--spacing-400);
-}
-.map-filterbar__label {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-tertiary);
-  white-space: nowrap;
-}
-.map-filterbar__goto {
-  margin-left: auto;
-  display: flex;
-  gap: var(--spacing-200);
-}
-.map-filterbar__goto esa-combobox {
-  --form-height-sm: 32px;
-  --form-font-size-sm: var(--type-size-150);
-}
-#goto-wa {
-  width: 200px;
-}
-#goto-obs {
-  width: 260px;
-}
-.map-filterbar__row + .map-filterbar__row {
-  border-top: 1px solid var(--color-border);
-}
-.map-wrap {
-  position: relative;
-  width: 100%;
-  height: 70vh;
-  min-height: 480px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-300);
-  overflow: hidden;
-}
-.map {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
-.map-legend {
-  position: absolute;
-  bottom: var(--spacing-400);
-  left: var(--spacing-400);
-  z-index: 500;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150);
-  padding: var(--spacing-300) var(--spacing-400);
-  background: color-mix(in srgb, var(--color-surface) 94%, transparent);
-  backdrop-filter: blur(4px);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-300);
-  box-shadow: var(--shadow-400);
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-}
-.map-legend__title {
-  font-size: 0.875rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.map-legend__row {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-}
-.map-legend__dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  box-shadow: 0 0 0 2px var(--color-surface);
-  flex-shrink: 0;
-}
-.map-legend__ring {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 1.5px dashed var(--obs-color);
-  background: color-mix(in srgb, var(--obs-color) 12%, transparent);
-  box-sizing: border-box;
-  flex-shrink: 0;
-}
-.map-legend__hollow {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: 1.5px solid var(--obs-color);
-  background: var(--color-surface);
-  box-sizing: border-box;
-  flex-shrink: 0;
-  margin-inline: 2px;
-}
-.readiness {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
-  margin-top: var(--spacing-400);
-  padding: var(--spacing-300) var(--spacing-400);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-300);
-}
-.readiness__head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--spacing-300);
-  flex-wrap: wrap;
-}
-.readiness__title {
-  font-size: 0.875rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.readiness__summary {
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-}
-.readiness__summary strong {
-  color: var(--st-cleared);
-  font-weight: var(--font-weight-bold);
-}
-.readiness__bar {
-  display: flex;
-  height: 10px;
-  border-radius: var(--radius-full);
-  overflow: hidden;
-  background: var(--color-background);
-}
-.readiness__bar > div + div {
-  border-left: 1px solid var(--color-surface);
-}
-.readiness__legend {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-200) var(--spacing-500);
-}
-.readiness__legend-item {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-150);
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-}
-.readiness__swatch {
-  width: 12px;
-  height: 12px;
-  border-radius: var(--radius-050);
-  flex-shrink: 0;
-}
-.readiness__legend-label {
-  color: var(--color-text-primary);
-}
-.readiness__legend-count {
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-  font-variant-numeric: tabular-nums;
-}
-esa-tab-layout:not(:defined) [slot="panel-1"],
-esa-tab-layout:not(:defined) [slot="panel-2"],
-esa-tab-layout:not(:defined) [slot="panel-3"] {
-  display: none;
-}
-.wa__header {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.wa__headmain {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-}
-.wa__title {
-  margin: 0;
-  font-size: var(--type-size-400);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.wa__subtitle {
-  margin: 0;
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-}
-.wa {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-}
-.band {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing-200) var(--spacing-300);
-  margin: calc(-1 * var(--spacing-500, 1.5rem)) calc(-1 * var(--spacing-500, 1.5rem)) 0;
-  padding: var(--spacing-250) var(--spacing-500, 1.5rem);
-  background: var(--color-background);
-  border-bottom: 1px solid var(--color-border);
-}
-.wa__kv-val {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.band__cell[hidden] {
-  display: none;
-}
-.decide {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
-  padding: var(--spacing-250) var(--spacing-300);
-  border-radius: var(--radius-200);
-  background: var(--color-background);
-  border: 1px solid var(--color-border);
-}
-.decide[hidden] {
-  display: none;
-}
-.wa__section {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  margin: 0 0 var(--spacing-300);
-  font-size: 0.9375rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.wa__section .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary);
-}
-.board {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-200);
-}
-.board__cell {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--spacing-150);
-  padding: var(--spacing-250) var(--spacing-300);
-  border: 1px solid var(--color-border-light);
-  border-radius: var(--radius-200);
-  background: var(--color-surface);
-  font-family: inherit;
-  text-align: left;
-  cursor: pointer;
-  transition:
-    border-color 0.12s ease,
-    background 0.12s ease;
-}
-.board__cellhead {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-150);
-  width: 100%;
-}
-.board__dim {
-  flex: 1;
-  min-width: 0;
-  font-size: 0.875rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.board__count[hidden],
-.board__chipwrap[hidden],
-.board__unreviewed[hidden] {
-  display: none;
-}
-.board__chev {
+.esa-button__native {
   display: inline-flex;
-  color: var(--color-text-tertiary);
-}
-.gate__unreviewed {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px var(--spacing-250);
-  border: 1px dashed var(--color-border-strong);
-  border-radius: var(--radius-full);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-tertiary);
-  white-space: nowrap;
-}
-.gate__unreviewed[hidden] {
-  display: none;
-}
-.board__meta {
-  font-size: 0.8125rem;
-  color: var(--color-text-tertiary);
-}
-.wa__more {
-  display: flex;
-  flex-direction: column;
-}
-.wa__more-item {
-  display: block;
-}
-.wa__more-item[hidden] {
-  display: none;
-}
-.wa__more-item + .wa__more-item {
-  border-top: 1px solid var(--color-border-light);
-}
-.wa__more-item[hidden] + .wa__more-item {
-  border-top: none;
-}
-.wa[hidden] {
-  display: none;
-}
-.wa__footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--spacing-200);
-  width: 100%;
-}
-.wa__footer-start {
-  margin-right: auto;
-}
-.wa__footer-start .esa-button__label {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-}
-.wa__footer [hidden] {
-  display: none;
-}
-.dd__bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-300);
-}
-.dd__count {
-  font-size: 0.9375rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.dd__form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300) var(--spacing-400);
-  background: var(--color-background);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-300);
-}
-.dd__form[hidden],
-#dd-until-wrap[hidden] {
-  display: none;
-}
-.revs {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
-.od__meta {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-300) var(--spacing-400);
-  margin: 0;
-  padding: var(--spacing-400);
-  background: var(--color-background);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-300);
-}
-section[hidden] {
-  display: none;
-}
-.wa__section .esa-badge {
-  vertical-align: middle;
-}
-.wa__conflicts,
-.od__impact {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
-}
-.leaflet-pane,
-.leaflet-top,
-.leaflet-bottom {
-  z-index: 400;
-}
-#gc-map .leaflet-interactive {
-  cursor: pointer;
-}
-.gc-reset__btn {
-  display: flex;
   align-items: center;
   justify-content: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  height: var(--_btn-height);
+  padding-inline: var(--_btn-padding-x);
+  border: 1px solid transparent;
+  border-radius: var(--_btn-radius);
+  font-size: var(--_btn-font-size);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
 }
-.gc-reset__btn svg {
-  width: 16px;
-  height: 16px;
+.esa-button--sm .esa-button__native {
+  height: auto;
+  padding-block: var(--spacing-150, 6px);
+}
+.esa-button--appearance-outline .esa-button__native,
+.esa-button--appearance-dashed .esa-button__native {
+  background: transparent;
+  color: var(--_accent);
+  border-color: var(--_accent);
+}
+.esa-button--color-ghost .esa-button__native {
+  background: transparent;
+  color: var(--color-text-primary, #171717);
+  border-color: transparent;
+}
+.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border, #e5e5e5);
+}
+.esa-button__label {
+  white-space: nowrap;
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: transparent;
+}
+.leaflet-container {
+  overflow: hidden;
+}
+.leaflet-container {
+  -webkit-tap-highlight-color: transparent;
+}
+.leaflet-container {
+  background: #ddd;
+  outline-offset: 1px;
+}
+.leaflet-container {
+  font-family:
+    Helvetica Neue,
+    Arial,
+    Helvetica,
+    sans-serif;
+  font-size: 12px;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+.leaflet-grab {
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+  cursor: grab;
+}
+.leaflet-container.leaflet-touch-zoom {
+  -ms-touch-action: pan-x pan-y;
+  touch-action: pan-x pan-y;
+}
+.leaflet-container.leaflet-touch-drag {
+  -ms-touch-action: pinch-zoom;
+  touch-action: none;
+  touch-action: pinch-zoom;
+}
+.leaflet-container.leaflet-touch-drag.leaflet-touch-zoom {
+  -ms-touch-action: none;
+  touch-action: none;
+}
+.leaflet-pane,
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-tile-container,
+.leaflet-pane > svg,
+.leaflet-pane > canvas,
+.leaflet-zoom-box,
+.leaflet-image-layer,
+.leaflet-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.leaflet-pane {
+  z-index: 400;
+}
+.leaflet-tile-pane {
+  z-index: 200;
+}
+.leaflet-overlay-pane {
+  z-index: 400;
+}
+.leaflet-shadow-pane {
+  z-index: 500;
+}
+.leaflet-marker-pane {
+  z-index: 600;
+}
+.leaflet-tooltip-pane {
+  z-index: 650;
+}
+.leaflet-popup-pane {
+  z-index: 700;
+}
+.leaflet-popup-pane,
+.leaflet-control {
+  cursor: auto;
+}
+.leaflet-zoom-animated {
+  -webkit-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  transform-origin: 0 0;
+}
+.leaflet-top,
+.leaflet-bottom {
+  position: absolute;
+  z-index: 1000;
+  pointer-events: none;
+}
+.leaflet-top {
+  top: 0;
+}
+.leaflet-left {
+  left: 0;
+}
+.leaflet-control {
+  position: relative;
+  z-index: 800;
+  pointer-events: visiblePainted;
+  pointer-events: auto;
+}
+.leaflet-control {
+  float: left;
+  clear: both;
+}
+.leaflet-bar {
+  box-shadow: 0 1px 5px #000000a6;
+  border-radius: 4px;
+}
+.leaflet-top .leaflet-control {
+  margin-top: 10px;
+}
+.leaflet-left .leaflet-control {
+  margin-left: 10px;
+}
+.leaflet-touch .leaflet-control-attribution,
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+  box-shadow: none;
+}
+.leaflet-touch .leaflet-control-layers,
+.leaflet-touch .leaflet-bar {
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  background-clip: padding-box;
+}
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  font:
+    700 18px Lucida Console,
+    Monaco,
+    monospace;
+  text-indent: 1px;
+}
+.leaflet-container a {
+  -webkit-tap-highlight-color: rgba(51, 181, 229, 0.4);
+}
+.leaflet-container a {
+  color: #0078a8;
+}
+.leaflet-bar a {
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+  width: 26px;
+  height: 26px;
+  line-height: 26px;
   display: block;
+  text-align: center;
+  text-decoration: none;
+  color: #000;
+}
+.leaflet-bar a,
+.leaflet-control-layers-toggle {
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  display: block;
+}
+.leaflet-touch .leaflet-control-zoom-in,
+.leaflet-touch .leaflet-control-zoom-out {
+  font-size: 22px;
+}
+.leaflet-bar a:first-child {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+.leaflet-touch .leaflet-bar a {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+}
+.leaflet-touch .leaflet-bar a:first-child {
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+.leaflet-bar a:last-child {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-bottom: none;
+}
+.leaflet-touch .leaflet-bar a:last-child {
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+.leaflet-right {
+  right: 0;
+}
+.leaflet-bottom {
+  bottom: 0;
+}
+.leaflet-control-attribution,
+.leaflet-control-scale-line {
+  padding: 0 5px;
+  color: #333;
+  line-height: 1.4;
+}
+.leaflet-right .leaflet-control {
+  float: right;
+}
+.leaflet-bottom .leaflet-control {
+  margin-bottom: 10px;
+}
+.leaflet-right .leaflet-control {
+  margin-right: 10px;
+}
+.leaflet-container .leaflet-control-attribution {
+  background: #fff;
+  background: #fffc;
+  margin: 0;
+}
+.leaflet-control-attribution a {
+  text-decoration: none;
+}
+.leaflet-attribution-flag {
+  display: inline !important;
+  vertical-align: baseline !important;
+  width: 1em;
+  height: 0.6669em;
+}
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-image-layer,
+.leaflet-pane > svg path,
+.leaflet-tile-container {
+  pointer-events: none;
+}
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.leaflet-tile {
+  filter: inherit;
+  visibility: hidden;
+}
+.leaflet-container .leaflet-marker-pane img,
+.leaflet-container .leaflet-shadow-pane img,
+.leaflet-container .leaflet-tile-pane img,
+.leaflet-container img.leaflet-image-layer,
+.leaflet-container .leaflet-tile {
+  max-width: none !important;
+  max-height: none !important;
+  width: auto;
+  padding: 0;
+}
+.leaflet-container img.leaflet-tile {
+  mix-blend-mode: plus-lighter;
+}
+.leaflet-tile::selection {
+  background: transparent;
+}
+.leaflet-overlay-pane svg {
+  -moz-user-select: none;
+}
+.leaflet-map-pane svg {
+  z-index: 200;
+}
+svg.leaflet-zoom-animated {
+  will-change: transform;
+}
+.leaflet-container .leaflet-overlay-pane svg {
+  max-width: none !important;
+  max-height: none !important;
+}
+.leaflet-interactive {
+  cursor: pointer;
+}
+.leaflet-marker-icon.leaflet-interactive,
+.leaflet-image-layer.leaflet-interactive,
+.leaflet-pane > svg path.leaflet-interactive,
+svg.leaflet-image-layer.leaflet-interactive path {
+  pointer-events: visiblePainted;
+  pointer-events: auto;
+}
+.leaflet-tile-loaded {
+  visibility: inherit;
+}
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
 }
 ```
 
@@ -8799,14 +7987,11 @@ section[hidden] {
 | `--color-background` | `#fafafa` | semantic |
 | `--color-border` | `#dcdcdc` | semantic |
 | `--color-border-light` | `#efefef` | semantic |
-| `--color-border-strong` | `#bdbdbd` | semantic |
 | `--color-primary` | `#005862` | semantic |
 | `--color-primary-hover` | `#00474f` | semantic |
-| `--color-primary-subtle` | `#effefb` | semantic |
 | `--color-surface` | `#ffffff` | semantic |
 | `--color-surface-sunken` | `#efefef` | semantic |
 | `--color-text-inverse` | `#ffffff` | semantic |
-| `--color-text-link` | `#005862` | semantic |
 | `--color-text-primary` | `#3d3d3d` | semantic |
 | `--color-text-secondary` | `#525252` | semantic |
 | `--color-text-tertiary` | `#656565` | semantic |
@@ -8816,11 +8001,7 @@ section[hidden] {
 | `--font-sans` | `"DM Sans", sans-serif` | primitive |
 | `--font-weight-bold` | `650` | primitive |
 | `--font-weight-medium` | `450` | primitive |
-| `--font-weight-regular` | `350` | primitive |
 | `--font-weight-semibold` | `550` | primitive |
-| `--form-bg` | `#ffffff` | component |
-| `--form-border-color` | `#dcdcdc` | component |
-| `--form-border-width` | `1px` | component |
 | `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | component |
 | `--form-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` | component |
 | `--form-height-md` | `36px` | component |
@@ -8828,12 +8009,8 @@ section[hidden] {
 | `--form-label-color` | `#525252` | component |
 | `--form-padding-x-md` | `.75rem` | component |
 | `--form-padding-x-sm` | `.625rem` | component |
-| `--form-padding-y-md` | `.5rem` | component |
-| `--form-padding-y-sm` | `.375rem` | component |
-| `--form-placeholder-color` | `#7c7c7c` | component |
 | `--form-radius-md` | `.25rem` | component |
 | `--form-radius-sm` | `.25rem` | component |
-| `--form-text-color` | `#3d3d3d` | component |
 | `--icon-size-md` | `20px` | primitive |
 | `--icon-size-medium` | `20px` | component |
 | `--icon-size-sm` | `16px` | primitive |
@@ -8846,7 +8023,6 @@ section[hidden] {
 | `--radius-300` | `.5rem` | primitive |
 | `--radius-full` | `9999px` | primitive |
 | `--shadow-400` | `0 8px 32px -8px rgba(0, 0, 0, .08)` | primitive |
-| `--side-dialog-width` | `400px` | component |
 | `--spacing-050` | `.125rem` | primitive |
 | `--spacing-100` | `.25rem` | primitive |
 | `--spacing-150` | `.375rem` | primitive |
@@ -8858,11 +8034,6 @@ section[hidden] {
 | `--spacing-600` | `2rem` | primitive |
 | `--spacing-700` | `3rem` | primitive |
 | `--st-cleared` | `#1a9850` | component |
-| `--tab-layout-border-color` | `#dcdcdc` | component |
-| `--tab-layout-color` | `#525252` | component |
-| `--tab-layout-color-active` | `#005862` | component |
-| `--tab-layout-height-md` | `44px` | component |
-| `--tab-layout-indicator-color` | `#005862` | component |
 | `--transition-fast` | `.15s ease` | primitive |
 | `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | primitive |
 | `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
