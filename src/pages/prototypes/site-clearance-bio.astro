@@ -1,0 +1,4147 @@
+---
+// Site Clearance — map-first go/no-go decision support for geotechnical
+// drill-hole work areas (the Beacon WorkArea entity).
+//
+//   Map  (default) — 231 real work areas (client KMZ) as circle markers colored
+//                    by DERIVED clearance status (clearance-survey gates × live
+//                    wildlife observation buffers), zoom-adaptive marker sizing
+//                    (program extent → street zoom), opinionated view presets
+//                    (All/Cleared/Blocked/Scheduled/Unscheduled) driving the
+//                    Status facets, Status + Planned-start dropdown filters,
+//                    "Go to work area" / "Go to observation" combobox jumps in
+//                    the View row (type-ahead → pan + pulse; the same machinery
+//                    backs the drawers' "Show on map"), a reset-view backout
+//                    under the zoom control, and a readiness strip.
+//   Data           — Work Areas × Observations AG Grids (beacon-grid kit)
+//                    behind the requirement-tracker filter bar; rows open the
+//                    same drawers as the map.
+//   Timeline       — "when does work become available, and in what status?":
+//                    three swimlanes (Work starts / Clearance visits / Blocks
+//                    expected to lift) of date-positioned status dots on one
+//                    shared auto-ranged axis with a TODAY marker (fixture
+//                    clock); rows open the work-area drawer. Adapted from
+//                    permit-tracking's clear-to-build timeline.
+//   Activity       — date-grouped card feed derived from the fixture (sightings,
+//                    dated log updates, gate determinations, notifications)
+//                    + live drawer saves, scoped by Type/Component filter
+//                    dropdowns, with a sticky Upcoming sidebar on the right;
+//                    entries open the relevant drawer.
+//
+// Status is never stored — deriveStatus(workArea, observations) is PURE, so
+// every save re-derives everything (marker fills, readiness strip, both
+// grids, the timeline, the open drawers) from the in-memory store. A live
+// buffer conflict derives PROVISIONAL BLOCK (hollow red — the system detects)
+// until a manager records a blocking management determination (then solid red).
+//
+// The work-area drawer: header → always-visible dates band → INLINE biological
+// review history (with biology the only gate there is no 2×2 board and no
+// stacked child drawer — the gate's full history lives directly here: clearance
+// surveys, re-surveys, management determinations, newest first; the latest
+// completed review sets the status, outcome-less reviews ride as scheduled, and
+// add/edit happens inline) → Comments (a per-work-area collaboration thread with
+// @-mention, ported from permit tracking) → Buffer conflicts / Notes / Activity
+// collapsibles. "Edit site details" is site-level only (the three dates +
+// append-only notes — Beacon as the system of record for what the field
+// biologists send by email).
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import '../../styles/beacon-map.css'; // shared Leaflet chrome (.leaflet-tooltip restyle for all map pages)
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaPill from '@esa/ecology/esa-pill.astro';
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import FilterContainer from '@esa/ecology/esa-filter-container.astro';
+import FilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
+import BcnKeyValue from '../../components/bcn/BcnKeyValue.astro';
+import BcnStatusChip from '../../components/bcn/BcnStatusChip.astro';
+import {
+  workAreas,
+  observations,
+  STATUS_ORDER,
+  STATUS_META,
+  statusCounts,
+} from '../../data/geotech-fixture-bio';
+
+// ── Precompute (build-time mirror of what the client re-derives after edits) ──
+const initialCounts = statusCounts(observations);
+const countFor = (s: string) => initialCounts.find((c) => c.status === s)?.count ?? 0;
+const totalWas = workAreas.length;
+const readyCount = countFor('cleared') + countFor('cleared-stipulations');
+
+// SSR :root defaults — STATUS_META's hexes ARE the committed field-map palette
+// (the fixture's single source; iterated in full so the off-ladder
+// --st-not-required gate ink is included), plus the page's two inks:
+// --st-neutral for the observation-drawer chip, and the observation violet
+// (--obs-color / --obs-color-strong) for buffers + dots — page glue,
+// deliberately NOT a status color so facts can never be confused with
+// judgments.
+const rootVars =
+  `:root{` +
+  Object.values(STATUS_META)
+    .map((m) => `${m.colorVar}:${m.hex};`)
+    .join('') +
+  `--st-neutral:#8a9099;--obs-color:#7b5ea7;--obs-color-strong:#5b3f87;}`;
+
+// Shared Lucide paths for the drawer chrome (the same glyphs the approved
+// drawer specimen uses).
+const ICON_SHIELD =
+  "<path d='M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z'/><path d='m9 12 2 2 4-4'/>";
+const ICON_ALERT =
+  "<path d='m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3'/><path d='M12 9v4'/><path d='M12 17h.01'/>";
+const ICON_QUOTE =
+  "<path d='M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z'/><path d='M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z'/>";
+const ICON_HISTORY =
+  "<path d='M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8'/><path d='M3 3v5h5'/><path d='M12 7v5l4 2'/>";
+const ICON_MSG =
+  "<path d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'/>";
+const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
+---
+
+<!-- manifest:
+  layout: stack(lg)
+  sections:
+    - clearance tabs (Map / Data / Timeline / Activity) -> esa-tab-layout
+    - work-area drawer (dates band, decision block, inline biological review history + add/edit) -> esa-side-dialog
+    - observation drawer -> esa-side-dialog
+-->
+
+<!-- BIO-ONLY variant of site-clearance.astro: the same Map / Data / Timeline /
+     Activity prototype narrowed to the BIOLOGICAL gate (geotech-fixture-bio).
+     The 2×2 discipline board and its STACKED child drawer are GONE — with one
+     gate the extra click is redundant, so the biological review history + the
+     add/edit-review form are INLINED directly in the work-area drawer (the
+     dd-* machinery, bound to 'biological'). -->
+<!-- bcn-lego-checked: composed from esa-tab-layout, esa-side-dialog ×2 (work-area
+     parent + the observation drawer — no stacked discipline child anymore; the
+     bio review history lives inline in the parent), esa-filter-dropdown ×5 in esa-filter-container ×3 +
+     esa-filter-clear-button ×3 (the map bar and the Activity feed reuse the Data tab's
+     own filter legos; the Status dropdowns use the lego's per-option `color` dot, fed
+     var(--st-*) so they stay in lockstep with the map/legend/chips), esa-combobox ×2
+     (the View-row "Go to work area"/"Go to observation" jumps — autocomplete mode
+     type-aheads over all 231 work-area IDs client-side; checked esa-entity-search, but
+     it is an async search-service shell and these options are static in-page lists),
+     esa-select ×2 (the discipline drawer's review form: kind + outcome — checked
+     BcnStatusSelect, typed/baked to the three tracking statuses, wrong shape for the
+     clearance ladder), esa-date-picker, esa-textarea, esa-input-tag (free-entry
+     stipulations), esa-text-field, esa-button-toggle ×2 (grid pivot + the map's view
+     presets, both size="md"; counts ride the option labels as plain text — the lego
+     renders label strings only), esa-collapsible ×3 (flush — the v2 drawer's Buffer
+     conflicts / Notes / Activity summary rows; JS updates the SSR title span for live
+     counts), esa-button (incl. the decision block's "Confirm block" on the lego's
+     NATIVE color="danger" variant with --color-danger re-pointed to
+     --st-provisional-block so the button sits in the same red family as the block's
+     tint/border/ink, + both drawers' "Show on map" — its map-pin EsaIcon rides the
+     label slot; the registry has no map glyph), esa-icon-button (search clear + the
+     review-history pencil edit affordance), esa-icon, esa-badge (board-cell review
+     counts >1), esa-pill (template-cloned stipulations), esa-empty-state
+     (filtered-empty Activity feed) + BcnStatusChip, BcnKeyValue (the always-visible
+     dates band is a BcnKeyValue grid) + the shared beacon-grid AG Grid kit
+     (src/lib/beacon-grid.ts). The old Survey-records section is GONE — the discipline
+     review history IS the record (the approved v2 specimen's move).
+     Remaining CSS is composition glue: Leaflet map chrome (status legend overlay,
+     observation-buffer ring styling, the status-flip pulse, and the reset-view control —
+     a custom L.Control styled to match Leaflet's own zoom buttons, injected into
+     Leaflet's control corner where no esa- lego can reach; the shared .leaflet-tooltip
+     restyle lives in src/styles/beacon-map.css; checked Beacon, prod has no map UI),
+     the readiness strip (no esa- lego models a proportional census bar), the go-to
+     comboboxes' form-token re-point so they sit on the filter legos' 32px control line,
+     the v2 drawer structures from the approved specimen — the dates band (full-bleed
+     against the lego body padding), the decision block + its variants, the 2×2
+     disciplines board (button cells), and the review-history node rail (checked
+     Ecology + Beacon: no timeline/history lego exists — same precedent as the
+     Timeline tab) — the provisional-block hollow treatment (white-fill/red-stroke
+     markers + the outlined BcnStatusChip/.bcn-grid-chip variant — same mechanics as
+     the page's hollow "Not reviewed" chip idiom), the Timeline tab (swimlane rows +
+     shared axis + TODAY line — same page-glue chart as permit-tracking's
+     clear-to-build timeline; ONE dot per work area per lane, the earliest upcoming
+     date), the Activity-tab feed (two-column grid: date-grouped rows JS-injected from
+     the fixture + the in-session change log on the left, a sticky Upcoming rail on the
+     right), the deterministic .entry row system (ONE renderer for every
+     event/reference row on the Activity tab and in the drawers — leading
+     work-area/observation ID badge mirroring the Data Catalog commitment-ID badge
+     idiom (observation IDs in the page's --obs-color violet, work-area IDs in a
+     primary-teal tint), a fixed enumerated event-type label, structured primary,
+     quoted verbatim secondary, right-aligned meta; chips clone the BcnStatusChip
+     template; JS-injected → :global), the print stylesheet, the filter-bar card shell
+     + grid footer (faithful copies of requirement-tracker's page glue), and the global
+     .bcn-grid-chip / entry / rev classes that JS injects outside Astro's scope. -->
+<AppShell
+  title="Site Clearance"
+  activeNavId="site-clearance"
+  expandedSections={['monitoring']}
+  tenantName="Delta Conveyance"
+  projectName="Delta Conveyance Project"
+>
+  <!-- SSR :root status colors — exact fixture values (the field-map palette), so
+       the legend/readiness strip are correct before any JS runs. Inside the body
+       on purpose: rendering it before <AppShell> would precede the doctype. -->
+  <style is:inline set:html={rootVars}></style>
+  <PageLayout
+    title="Site Clearance"
+    icon="map"
+    breadcrumbs={[
+      { label: 'Monitoring', href: '#monitoring' },
+      { label: 'Monitoring Portal', href: '#monitoring-portal' },
+      { label: 'Site Clearance' },
+    ]}
+  >
+    <esa-tab-layout id="gc-tabs" appearance="underline">
+      <!-- ═══ TAB 1 — MAP (the hero: can we start work at this site on its date?) ═══ -->
+      <section slot="panel-0" class="map-panel" aria-label="Clearance status map">
+        <!-- Print-only header (filled on beforeprint) -->
+        <div class="print-header" aria-hidden="true">
+          <span class="print-header__title">Site Clearance</span>
+          <span class="print-header__meta" id="print-meta"></span>
+        </div>
+
+        <!-- View presets + map filters. The presets band is an opinionated shortcut
+             over the SAME facet state the Status dropdown edits (one source of
+             truth): pressing a preset sets the facets; a preset reads as selected
+             only while the facets exactly equal its set, so hand-editing the
+             dropdown drops back to no-preset. Counts ride the labels as plain
+             text (the lego renders label strings — an esa-badge inside a segment
+             would fight it). The filter row scopes markers AND the readiness
+             strip. The go-to comboboxes on the View row's right (round-5 ch2)
+             are jumps, not filters: type-ahead or pick any of the 231 work-area
+             IDs / any observation → pan/zoom + pulse (no drawer), then reset to
+             the placeholder. -->
+        <div class="map-filterbar">
+          <div class="map-filterbar__row">
+            <span class="map-filterbar__label">View</span>
+            <!-- size="md" (round-5 ch1): the View presets one type-size step up
+                 (sm 12px/28px → md 14px/36px) — the lego's own size prop, no
+                 override; matches the Data tab's pivot toggle. -->
+            <esa-button-toggle id="view-presets" value="all" size="md"></esa-button-toggle>
+            <div class="map-filterbar__goto">
+              <esa-combobox id="goto-wa" mode="autocomplete" size="sm" placeholder="Go to work area…"></esa-combobox>
+              <esa-combobox id="goto-obs" mode="autocomplete" size="sm" placeholder="Go to observation…"></esa-combobox>
+            </div>
+          </div>
+          <div class="map-filterbar__row">
+            <span class="map-filterbar__label">Filters</span>
+            <FilterContainer>
+              <esa-filter-dropdown id="map-flt-status" label="Status" multiple size="sm"></esa-filter-dropdown>
+              <esa-filter-dropdown id="map-flt-start" label="Planned start" multiple size="sm"></esa-filter-dropdown>
+            </FilterContainer>
+            <span id="map-clear-filters"><FilterClearButton /></span>
+          </div>
+        </div>
+
+        <div class="map-wrap">
+          <div id="gc-map" class="map"></div>
+
+          <div class="map-legend" aria-label="Clearance status legend">
+            <span class="map-legend__title">Work area status</span>
+            {
+              // Provisional Block is the hollow swatch — white fill, red stroke:
+              // "blocked, but not solidified" (the map markers render the same way).
+              STATUS_ORDER.map((status) => (
+                <span class="map-legend__row">
+                  <span
+                    class="map-legend__dot"
+                    style={
+                      status === 'provisional-block'
+                        ? `background:var(--color-surface); border: 2px solid var(${STATUS_META[status].colorVar}); box-sizing: border-box;`
+                        : `background:var(${STATUS_META[status].colorVar});`
+                    }
+                  />
+                  {STATUS_META[status].label}
+                </span>
+              ))
+            }
+            <span class="map-legend__row">
+              <span class="map-legend__ring"></span>
+              Observation buffer
+            </span>
+            <span class="map-legend__row">
+              <span class="map-legend__hollow"></span>
+              Tracking-only sighting
+            </span>
+          </div>
+        </div>
+
+        <!-- Readiness strip — the census figure below the map -->
+        <section class="readiness" aria-label="Work areas by clearance status">
+          <div class="readiness__head">
+            <span class="readiness__title">Work areas by clearance status</span>
+            <span class="readiness__summary">
+              Ready to drill <strong id="rs-ready">{readyCount}</strong>
+              <span id="rs-total">of {totalWas} work areas</span>
+            </span>
+          </div>
+          <div class="readiness__bar" id="rs-bar" role="img" aria-label={`${readyCount} of ${totalWas} work areas ready`}>
+            {
+              // Provisional Block gets a red/white stripe — "not solidified", same
+              // story as the hollow markers (a solid segment would read as Blocked).
+              STATUS_ORDER.filter((s) => countFor(s) > 0).map((s) => (
+                <div
+                  style={`height:100%; flex: 0 0 ${(countFor(s) / totalWas) * 100}%; background:${
+                    s === 'provisional-block'
+                      ? `repeating-linear-gradient(135deg, var(--st-provisional-block) 0 4px, var(--color-surface) 4px 7px)`
+                      : `var(${STATUS_META[s].colorVar})`
+                  };`}
+                  title={`${STATUS_META[s].label}: ${countFor(s)}`}
+                />
+              ))
+            }
+          </div>
+          <ul class="readiness__legend">
+            {
+              STATUS_ORDER.map((status) => (
+                <li class="readiness__legend-item" data-rs-item={status} data-empty={countFor(status) === 0 ? 'true' : 'false'}>
+                  <span
+                    class="readiness__swatch"
+                    style={
+                      status === 'provisional-block'
+                        ? `background:var(--color-surface); border: 2px solid var(${STATUS_META[status].colorVar}); box-sizing: border-box;`
+                        : `background:var(${STATUS_META[status].colorVar});`
+                    }
+                  />
+                  <span class="readiness__legend-label">{STATUS_META[status].label}</span>
+                  <span class="readiness__legend-count" data-rs-count={status}>{countFor(status)}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+      </section>
+
+      <!-- ═══ TAB 2 — DATA (requirement-tracker filter bar + beacon AG Grids) ═══ -->
+      <section slot="panel-1" class="data-panel" aria-label="Clearance data workspace">
+        <div class="bcn-filterbar">
+          <div class="bcn-filterbar__top">
+            <div class="bcn-filterbar__group">
+              <span class="bcn-filterbar__label">View</span>
+              <esa-button-toggle id="pivot-toggle" value="workareas" size="md"></esa-button-toggle>
+            </div>
+            <div class="bcn-filterbar__search">
+              <esa-text-field id="gc-search" placeholder="Search work areas…" size="md"></esa-text-field>
+              <span id="gc-search-clear" hidden><EsaIconButton icon="x" label="Clear search" size="sm" /></span>
+            </div>
+          </div>
+          <div class="bcn-filterbar__bottom">
+            <span class="bcn-filterbar__label">Filters</span>
+            <FilterContainer>
+              <esa-filter-dropdown id="flt-status" label="Status" multiple size="sm"></esa-filter-dropdown>
+            </FilterContainer>
+            <span id="gc-clear-filters" class="bcn-filterbar__clear"><FilterClearButton /></span>
+          </div>
+        </div>
+
+        <div class="bcn-view-pane" id="pane-was">
+          <div id="grid-was" class="gc-grid"></div>
+        </div>
+        <div class="bcn-view-pane" id="pane-obs" hidden>
+          <div id="grid-obs" class="gc-grid"></div>
+        </div>
+
+        <div class="table-footer">
+          <span id="gc-download"><EsaButton color="ghost" appearance="outline" size="sm" icon="download">Download as CSV</EsaButton></span>
+          <div class="row-count-data">
+            Total Records: <span id="gc-total">0</span>
+            <span id="gc-filtered" class="filtered-rows-count" hidden></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ TAB 3 — TIMELINE ("when does work become available, and in what
+           status?"). Adapted from permit-tracking's clear-to-build timeline:
+           one shared auto-ranged time axis + a TODAY marker line (fixture
+           clock), three swimlanes of one-row-per-site date-positioned status
+           dots (the permit-tracking stagger — rows never collide):
+             Work starts            cleared / cleared-stipulations /
+                                    notification-pipeline sites @ plannedStartDate
+             Clearance visits       sites with survey-scheduled gates @ ONE dot
+                                    per work area — the earliest upcoming
+                                    visit/review date (round-5 ch4)
+             Blocks expected to lift  blocked + provisional-block sites @
+                                    blockedUntil (indefinite GGS blocks counted
+                                    in the side note, not plotted)
+           Everything is JS-derived from the store (lanes re-derive after every
+           save / Confirm block); rows open the work-area drawer. ═══ -->
+      <section slot="panel-2" class="tl-panel" aria-label="Clearance timeline">
+        <section class="tl" aria-label="Work availability timeline">
+          <div class="tl__head">
+            <h3 class="tl__title">When does work become available?</h3>
+            <p class="tl__sub">Work areas by milestone date — colored by current derived status</p>
+          </div>
+          <div class="tl__axisrow" aria-hidden="true">
+            <span></span>
+            <div class="tl__axis" id="tl-axis"></div>
+            <span></span>
+          </div>
+          <div class="tl__chart" id="tl-chart"></div>
+          <p class="tl__excluded" id="tl-excluded"></p>
+        </section>
+      </section>
+
+      <!-- ═══ TAB 4 — ACTIVITY (the week-at-a-glance feed: what changed, what's
+           coming). Feed left (date-grouped card entries, scoped by the Type/
+           Component filters), Upcoming right (sticky rail — NOT scoped by the
+           filters). Everything inside is JS-derived from the fixture + the live
+           in-session change log — one drawer save lands in BOTH the drawer's
+           Activity list and this feed. Entries jump to the relevant drawer. ═══ -->
+      <section slot="panel-3" class="feed-panel" aria-label="Activity feed">
+        <div class="feed">
+          <div class="feed-main">
+            <!-- Filter row — the same filter legos as the map/Data bars. Scopes
+                 the feed only; Type has no dots on purpose (colors belong to
+                 status, not event type). -->
+            <div class="map-filterbar feed-filterbar">
+              <div class="map-filterbar__row">
+                <span class="map-filterbar__label">Filters</span>
+                <FilterContainer>
+                  <esa-filter-dropdown id="act-flt-type" label="Type" multiple size="sm"></esa-filter-dropdown>
+                  <esa-filter-dropdown id="act-flt-component" label="Component" multiple size="sm"></esa-filter-dropdown>
+                </FilterContainer>
+                <span id="act-clear-filters"><FilterClearButton /></span>
+              </div>
+            </div>
+            <div id="feed-groups"></div>
+            <div id="feed-empty" hidden>
+              <EsaEmptyState
+                title="No activity matches the filters"
+                description="Clear the Type / Component filters to see the full feed."
+                size="sm"
+              />
+            </div>
+          </div>
+          <aside class="feed-upcoming" aria-label="Upcoming">
+            <h3 class="feed-heading">Upcoming</h3>
+            <ul class="feed-upcoming__list" id="feed-upcoming"></ul>
+          </aside>
+        </div>
+      </section>
+    </esa-tab-layout>
+  </PageLayout>
+
+  <!-- ═══ Work-area drawer — the approved Decision-first v2 structure (the
+       drawer specimen, productionized): header → always-visible dates band →
+       decision block → Disciplines board (cells open the stacked discipline
+       drawer) → Buffer conflicts / Notes / Activity collapsibles → footer
+       "Edit site details" (site-level only) + Show on map. esa-side-dialog
+       lego, from BOTH tabs. ═══ -->
+  <esa-side-dialog id="wa-dialog" size="md" style="--_width: 640px; --z-modal: 1300; --z-modal-backdrop: 1250;">
+    <div slot="header" class="wa__header">
+      <div class="wa__headmain">
+        <h2 class="wa__title" id="wa-title">Work area</h2>
+        <span id="wa-chip"><BcnStatusChip status="cleared" label="—" hex={STATUS_META.cleared.hex} /></span>
+      </div>
+      <p class="wa__subtitle" id="wa-sub">—</p>
+    </div>
+
+    <!-- READ mode (default) -->
+    <div class="wa" id="wa-read">
+      <!-- Dates band — always-visible decision inputs directly under the header
+           (full-bleed against the lego's body padding); the red Blocked-until
+           cell appears only while a block horizon exists. -->
+      <div class="band" id="wa-band">
+        <BcnKeyValue label="Notification"><span class="wa__kv-val" id="wa-d-notif">—</span></BcnKeyValue>
+        <BcnKeyValue label="Clearance visit"><span class="wa__kv-val" id="wa-d-visit">—</span></BcnKeyValue>
+        <BcnKeyValue label="Planned start"><span class="wa__kv-val" id="wa-d-start">—</span></BcnKeyValue>
+        <span class="band__cell" id="wa-d-until-wrap" hidden>
+          <BcnKeyValue label="Blocked until"><span class="band__alert" id="wa-d-until">—</span></BcnKeyValue>
+        </span>
+      </div>
+
+      <!-- Biological clearance — the gate's full review history (newest first;
+           the latest completed review sets the status) + the inline Add/Edit
+           review form. With biology the only gate, this lives directly in the
+           work-area drawer — no 2×2 board, no stacked child drawer. -->
+      <section class="bioclear">
+        <h3 class="wa__section">
+          <EsaIcon name="shield-check" size="sm" paths={ICON_SHIELD} />
+          Biological clearance
+          <span class="bioclear__add">
+            <span class="dd__count" id="dd-count">0 reviews</span>
+            <span id="dd-add"><EsaButton color="ghost" appearance="outline" size="sm">Add review</EsaButton></span>
+          </span>
+        </h3>
+
+        <!-- Add/Edit review form — inline above the history when adding; swapped
+             into a history node when editing (the pencil affordance). The
+             "Scheduled — no outcome yet" choice saves an outcome-less review. -->
+        <div class="dd__form" id="dd-form" hidden>
+          <esa-select id="dd-kind" label="Kind" size="sm"></esa-select>
+          <div class="we__row">
+            <esa-date-picker id="dd-date" label="Date" size="sm"></esa-date-picker>
+            <esa-select id="dd-outcome" label="Outcome" size="sm"></esa-select>
+          </div>
+          <span id="dd-until-wrap" hidden>
+            <esa-date-picker id="dd-until" label="Blocked until" size="sm"></esa-date-picker>
+          </span>
+          <esa-text-field id="dd-reviewer" label="Reviewer" placeholder="Name (org)" size="sm"></esa-text-field>
+          <esa-textarea id="dd-note" label="Note" rows="2" auto-resize size="sm"></esa-textarea>
+          <esa-input-tag id="dd-stips" label="Stipulations" placeholder="Add stipulation…" tags-below size="sm"></esa-input-tag>
+          <div class="dd__formactions">
+            <span id="dd-cancel"><EsaButton color="ghost" appearance="outline" size="sm">Cancel</EsaButton></span>
+            <span id="dd-save"><EsaButton color="primary" size="sm">Save review</EsaButton></span>
+          </div>
+        </div>
+
+        <!-- Review history — reverse-chron node rail (JS-injected) -->
+        <ol class="revs" id="dd-history"></ol>
+      </section>
+
+      <!-- Comments — a per-work-area collaboration thread (ported from permit
+           tracking, BCN-1364), DISTINCT from the read-only Activity log below.
+           @-mention project users (would feed notifications). -->
+      <section class="wa-comments">
+        <h3 class="wa__section">
+          <EsaIcon name="message-square" size="sm" paths={ICON_MSG} />
+          Comments <span id="wa-comment-count"></span>
+        </h3>
+        <ul class="wa__comments" id="wa-comments"></ul>
+        <div class="wa__compose">
+          <div class="wa__compose-field">
+            <esa-textarea id="wa-comment-input" rows="2" placeholder="Write a comment…  type @ to mention a teammate"></esa-textarea>
+            <ul class="wa__mention-menu" id="wa-mention-menu" hidden></ul>
+          </div>
+          <div class="wa__compose-foot">
+            <span class="wa__compose-hint">Posting as Andy Lovseth</span>
+            <span id="wa-comment-post"><EsaButton color="primary" size="sm">Post comment</EsaButton></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Collapsible summary rows — the v2 demotions: ambient detail folds
+           until asked for. Titles carry live counts (JS updates the lego's
+           title span). -->
+      <div class="wa__more">
+        <span class="wa__more-item" id="wa-conflicts-col" hidden>
+          <EsaCollapsible title="Buffer conflicts" flush icon="alert-triangle" iconPaths={ICON_ALERT}>
+            <ul class="wa__conflicts" id="wa-conflicts"></ul>
+          </EsaCollapsible>
+        </span>
+        <span class="wa__more-item" id="wa-notes-col" hidden>
+          <EsaCollapsible title="Notes" flush icon="quote" iconPaths={ICON_QUOTE}>
+            <!-- The verbatim field-biologist note is the SEED entry — never
+                 editable. Notes added in the editor render dated below it. -->
+            <blockquote class="wa__note" id="wa-note"></blockquote>
+            <ul class="wa__notes-added" id="wa-notes-added"></ul>
+          </EsaCollapsible>
+        </span>
+        <span class="wa__more-item">
+          <EsaCollapsible title="Activity" flush icon="history" iconPaths={ICON_HISTORY}>
+            <ul class="wa__activity" id="wa-activity"></ul>
+          </EsaCollapsible>
+        </span>
+      </div>
+    </div>
+
+    <!-- EDIT mode — SITE-LEVEL only (the v2 split): the three dates + the
+         append-only note (Leah's paste-the-email flow). Discipline reviews are
+         edited in the child drawer, never here. -->
+    <div class="wa" id="wa-edit" hidden>
+      <section>
+        <h3 class="wa__section">
+          <EsaIcon name="clock" size="sm" paths="<circle cx='12' cy='12' r='10'/><polyline points='12 6 12 12 16 14'/>" />
+          Dates
+        </h3>
+        <div class="we__dates">
+          <esa-date-picker id="we-notif" label="Notification" size="sm"></esa-date-picker>
+          <esa-date-picker id="we-visit" label="Clearance visit" size="sm"></esa-date-picker>
+          <esa-date-picker id="we-start" label="Planned start" size="sm"></esa-date-picker>
+        </div>
+      </section>
+
+      <section>
+        <h3 class="wa__section">
+          <EsaIcon name="quote" size="sm" paths={ICON_QUOTE} />
+          Notes
+        </h3>
+        <!-- Append-only: the verbatim seed note is the field record (read-only even
+             here); "Add note" is the paste-the-biologist-email affordance. -->
+        <blockquote class="wa__note" id="we-seed-note"></blockquote>
+        <ul class="wa__notes-added" id="we-notes-added"></ul>
+        <div class="we__addnote">
+          <span class="we__addnote-title">Add note</span>
+          <div class="we__row">
+            <esa-date-picker id="we-note-date" label="Date" size="sm"></esa-date-picker>
+            <esa-text-field id="we-note-author" label="Author" placeholder="Who sent it" size="sm"></esa-text-field>
+          </div>
+          <esa-textarea
+            id="we-note-text"
+            label="Note"
+            rows="3"
+            auto-resize
+            placeholder="Paste the biologist's email note…"
+            size="sm"></esa-textarea>
+        </div>
+      </section>
+    </div>
+
+    <div slot="footer" class="wa__footer">
+      <!-- "Show on map" (round-5 ch5) — closes the drawer, switches to the Map
+           tab, pans/zooms + pulses the marker (the ch2 go-to machinery). Hidden
+           while editing — a mid-edit jump would discard the form. -->
+      <span id="wa-showmap" class="wa__footer-start">
+        <EsaButton color="ghost" appearance="outline" size="md">
+          <EsaIcon
+            name="map-pin"
+            size="sm"
+            paths="<path d='M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0'/><circle cx='12' cy='10' r='3'/>"
+          />
+          Show on map
+        </EsaButton>
+      </span>
+      <span id="wa-edit-btn"><EsaButton color="ghost" appearance="outline" size="md">Edit site details</EsaButton></span>
+      <span id="wa-cancel" hidden><EsaButton color="ghost" appearance="outline" size="md">Cancel</EsaButton></span>
+      <span id="wa-save" hidden><EsaButton color="primary" size="md">Save</EsaButton></span>
+    </div>
+  </esa-side-dialog>
+
+  <!-- ═══ Observation drawer (read-only, compact) — esa-side-dialog lego ═══ -->
+  <esa-side-dialog id="obs-dialog" size="md" style="--_width: 520px; --z-modal: 1300; --z-modal-backdrop: 1250;">
+    <div slot="header" class="wa__header">
+      <div class="wa__headmain">
+        <h2 class="wa__title" id="obs-title">Observation</h2>
+        <span id="obs-chip"><BcnStatusChip status="neutral" label="—" hex="#3b4754" /></span>
+      </div>
+      <p class="wa__subtitle" id="obs-sub">—</p>
+    </div>
+    <div class="wa">
+      <div class="od__meta">
+        <BcnKeyValue label="Species code"><span class="wa__kv-val" id="obs-code">—</span></BcnKeyValue>
+        <BcnKeyValue label="Kind"><span class="wa__kv-val" id="obs-kind">—</span></BcnKeyValue>
+        <BcnKeyValue label="Buffer"><span class="wa__kv-val" id="obs-buffer">—</span></BcnKeyValue>
+        <BcnKeyValue label="First observed"><span class="wa__kv-val" id="obs-first">—</span></BcnKeyValue>
+        <BcnKeyValue label="Est. end"><span class="wa__kv-val" id="obs-end">—</span></BcnKeyValue>
+      </div>
+
+      <section id="obs-log-wrap" hidden>
+        <h3 class="wa__section">
+          <EsaIcon
+            name="notebook-pen"
+            size="sm"
+            paths="<path d='M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4'/><path d='M2 6h4'/><path d='M2 10h4'/><path d='M2 14h4'/><path d='M2 18h4'/><path d='M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z'/>"
+          />
+          Latest log
+        </h3>
+        <blockquote class="wa__note wa__note--log" id="obs-log"></blockquote>
+      </section>
+
+      <section>
+        <h3 class="wa__section">
+          <EsaIcon
+            name="crosshair"
+            size="sm"
+            paths="<circle cx='12' cy='12' r='10'/><line x1='22' x2='18' y1='12' y2='12'/><line x1='6' x2='2' y1='12' y2='12'/><line x1='12' x2='12' y1='6' y2='2'/><line x1='12' x2='12' y1='22' y2='18'/>"
+          />
+          Work areas within buffer
+          <span id="obs-impact-count"><EsaBadge value="0" size="sm" /></span>
+        </h3>
+        <ul class="od__impact" id="obs-impact"></ul>
+      </section>
+    </div>
+    <div slot="footer" class="wa__footer">
+      <!-- "Show on map" (round-5 ch5) — same jump as the work-area drawer's. -->
+      <span id="obs-showmap" class="wa__footer-start">
+        <EsaButton color="ghost" appearance="outline" size="md">
+          <EsaIcon
+            name="map-pin"
+            size="sm"
+            paths="<path d='M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0'/><circle cx='12' cy='10' r='3'/>"
+          />
+          Show on map
+        </EsaButton>
+      </span>
+    </div>
+  </esa-side-dialog>
+
+  <!-- Cloneable legos for JS-rendered rows: cloning SSR nodes (not innerHTML
+       strings) keeps the components' scoped styles + markup as the single source. -->
+  <template id="gc-chip-tpl">
+    <span class="gate__chipwrap"><BcnStatusChip status="cleared" label="—" hex={STATUS_META.cleared.hex} /></span>
+  </template>
+  <template id="gc-pill-tpl">
+    <EsaPill label="—" removable={false} size="sm" />
+  </template>
+  <template id="dd-edit-tpl">
+    <span class="rev__edit"><EsaIconButton icon="pencil" label="Edit review" size="sm" /></span>
+  </template>
+
+  <!-- (Round-5 ch3: the per-kind feed icons are gone — the deterministic entry
+       rows carry the kind as an enumerated event-type label + ID badge.) -->
+</AppShell>
+
+<script>
+  import L from 'leaflet';
+  import 'leaflet/dist/leaflet.css';
+  import { createGrid, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
+  import type { GridApi, GridOptions, ColDef, IRowNode, ICellRendererParams } from 'ag-grid-community';
+  import { beaconTheme, makeStatusRenderer } from '../../lib/beacon-grid';
+  import '@esa/ecology/esa-tab-layout';
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-combobox';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-date-picker';
+  import '@esa/ecology/esa-input-tag';
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-filter-dropdown';
+  import {
+    workAreas,
+    observations,
+    TODAY,
+    STATUS_ORDER,
+    STATUS_META,
+    GATE_DIMENSIONS,
+    GATE_DIMENSION_LABEL,
+    distanceFt,
+    disciplineReviews,
+    currentReview,
+    disciplineStatus,
+    bufferConflicts,
+    deriveStatus,
+    blockedUntil,
+    statusCounts,
+    formatDate,
+    daysUntil,
+    BIO,
+  } from '../../data/geotech-fixture-bio';
+  import type {
+    WorkArea,
+    Observation,
+    ClearanceStatus,
+    DisciplineReview,
+    ReviewKind,
+    GateDimension,
+  } from '../../data/geotech-fixture-bio';
+
+  ModuleRegistry.registerModules([AllCommunityModule]);
+
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+  const waById = new Map(workAreas.map((w) => [w.id, w]));
+
+  // ── THE client store — deriveStatus/blockedUntil/bufferConflicts are pure and
+  //    take this list, so every drawer save re-derives everything from it. ──────
+  const activeObservations: Observation[] = [...observations];
+
+  const statusOf = (wa: WorkArea): ClearanceStatus => deriveStatus(wa, activeObservations);
+  const stLabel = (s: ClearanceStatus | string) => STATUS_META[s as ClearanceStatus]?.label ?? s;
+  const fmtDistance = (ft: number) =>
+    ft >= 5280 ? `${(ft / 5280).toFixed(1)} mi` : `${Math.round(ft).toLocaleString()} ft`;
+  const KIND_LABEL: Record<string, string> = { 'nesting-bird': 'Nesting bird', resource: 'Resource' };
+  const OBS_STATUS_LABEL: Record<string, string> = { active: 'Active', tracking: 'Tracking' };
+  const REVIEW_KIND_LABEL: Record<ReviewKind, string> = {
+    'clearance-survey': 'Clearance survey',
+    're-survey': 'Re-survey',
+    'management-determination': 'Management determination',
+  };
+  /** Outcome-less BIOLOGICAL reviews for a WA, earliest first — the "what's
+      still pending" feed for the decision block / timeline (bio gate only). */
+  const pendingReviews = (wa: WorkArea) =>
+    wa.reviews
+      .filter((r) => r.dimension === BIO && !r.outcome)
+      .sort((a, b) => a.date.localeCompare(b.date));
+
+  // Lego element shapes (esa-* form controls expose plain value/options props)
+  type Field = HTMLElement & { value: string; options?: { value: string; label: string }[] };
+  type SelectEl = HTMLElement & { value: string | string[] | null; options: { value: string; label: string }[] };
+  type TagEl = HTMLElement & { value: string[]; options: { value: string; label: string }[] };
+  type FilterDropdownEl = HTMLElement & {
+    options: { label: string; value: string; color?: string }[];
+    _selected: string[];
+  };
+  type ToggleEl = HTMLElement & { options: { value: string; label: string }[]; value: string };
+  type SideDialog = HTMLElement & { open: boolean; heading: string; show(): void; close(): void };
+
+  // ── In-session stores: appended notes (keyed by work-area id — the fixture's
+  //    verbatim biologistNote is never touched) + the change feed. ──────────────
+  interface AddedNote {
+    date: string;
+    author: string;
+    text: string;
+  }
+  const notesByWa = new Map<string, AddedNote[]>();
+  const notesFor = (id: string) => notesByWa.get(id) ?? [];
+
+  /** In-session change entries are STRUCTURED at the source (round-5 ch3): a
+      fixed event kind + one structured primary value (+ optional verbatim
+      secondary / status chip) — never an assembled sentence. Both renderers
+      (the drawer Activity list and the feed) pass these straight to entryRow. */
+  type ChangeKind = 'block-confirmed' | 'note' | 'gate-edit';
+  interface ChangeEntry {
+    ts: string; // full ISO datetime (live edits only — no seeds)
+    waId: string;
+    kind: ChangeKind;
+    primary: string;
+    secondary?: string;
+    chip?: ClearanceStatus;
+    user: string;
+  }
+  const changeLog: ChangeEntry[] = [];
+  const logChange = (
+    waId: string,
+    kind: ChangeKind,
+    primary: string,
+    extra: { secondary?: string; chip?: ClearanceStatus } = {}
+  ) => changeLog.push({ ts: new Date().toISOString(), waId, kind, primary, ...extra, user: 'Andy Lovseth' });
+  const fmtTime = (ts: string) => new Date(ts).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  const fmtTs = (ts: string) => `Today · ${fmtTime(ts)}`;
+  const entriesFor = (waId: string) =>
+    changeLog.filter((c) => c.waId === waId).sort((a, b) => b.ts.localeCompare(a.ts));
+
+  // ── Filter state (both multi-select; empty = all) — scopes markers + the
+  //    readiness strip. ─────────────────────────────────────────────────────────
+  let statusFilters: string[] = [];
+  let startFilters: string[] = [];
+
+  const startMatchOne = (wa: WorkArea, v: string) => {
+    const d = wa.plannedStartDate;
+    if (v === 'none') return !d;
+    if (v === 'jun-29-30') return d === '2026-06-29' || d === '2026-06-30';
+    return d === v;
+  };
+  const startMatch = (wa: WorkArea) => !startFilters.length || startFilters.some((v) => startMatchOne(wa, v));
+  const waShown = (wa: WorkArea) =>
+    (!statusFilters.length || statusFilters.includes(statusOf(wa))) && startMatch(wa);
+  const visibleWas = () => workAreas.filter(waShown);
+
+  /** Planned-start buckets are DERIVED from the current data (so an edited date
+      re-buckets the options): one bucket per distinct date, the adjacent Jun
+      29/30 pair kept as one combined bucket, plus "No date". */
+  const shortDate = (iso: string) => formatDate(iso).replace(/, \d{4}$/, '');
+  function startBuckets(): { value: string; label: string }[] {
+    const dates = [...new Set(workAreas.map((w) => w.plannedStartDate).filter((d): d is string => !!d))];
+    const grouped = dates.filter((d) => d === '2026-06-29' || d === '2026-06-30');
+    const opts = dates
+      .filter((d) => !grouped.includes(d))
+      .map((d) => ({ value: d, label: shortDate(d), sort: d }));
+    if (grouped.length) opts.push({ value: 'jun-29-30', label: 'Jun 29–30', sort: '2026-06-29' });
+    opts.sort((a, b) => a.sort.localeCompare(b.sort));
+    return [...opts.map(({ value, label }) => ({ value, label })), { value: 'none', label: 'No date' }];
+  }
+
+  // ── Runtime colors — markers resolve the static :root vars (set SSR-side from
+  //    the fixture's field-map palette); CSS surfaces read them directly. ───────
+  const cssVar = (name: string, fallback: string) =>
+    getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
+  const colorFor = (status: string) =>
+    cssVar(`--st-${status}`, STATUS_META[status as ClearanceStatus]?.hex ?? '#8a9099');
+  const obsColor = () => cssVar('--obs-color', '#7b5ea7');
+  const obsStroke = () => cssVar('--obs-color-strong', '#5b3f87');
+
+  // ── Chip / pill cloning (BcnStatusChip + esa-pill SSR templates) ────────────
+  const chipTpl = $('gc-chip-tpl') as unknown as HTMLTemplateElement;
+  const pillTpl = $('gc-pill-tpl') as unknown as HTMLTemplateElement;
+
+  function applyChip(wrapper: Element, statusKey: string, label: string) {
+    const chip = wrapper.querySelector<HTMLElement>('.bcn-status-chip');
+    if (!chip) return;
+    chip.style.setProperty('--_chip', `var(--st-${statusKey})`);
+    chip.dataset.status = statusKey;
+    const text = chip.querySelector('.bcn-status-chip__label');
+    if (text) text.textContent = label;
+  }
+  function cloneChip(statusKey: string, label: string): HTMLElement {
+    const wrap = (chipTpl.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
+    applyChip(wrap, statusKey, label);
+    return wrap;
+  }
+  function clonePill(label: string): HTMLElement {
+    const pill = (pillTpl.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
+    const text = pill.querySelector('.esa-pill__label');
+    if (text) text.textContent = label;
+    return pill;
+  }
+
+  // ── Deterministic entry rows (round-5 ch3) — ONE renderer for every event /
+  //    reference row on the Activity tab and in both drawers. The anatomy is
+  //    slots, never assembled sentences, so prose can't creep back in:
+  //      [ID badge] EventType · primary (+ status chip) — meta (right)
+  //                 "secondary" (verbatim field text, quoted)
+  //    Badge idiom mirrors the Data Catalog commitment-ID badge (compact mono/
+  //    semibold tinted token): observation IDs in the page's --obs-color violet,
+  //    work-area IDs in a primary-teal tint (two violets read as one entity —
+  //    teal keeps the WA/observation distinction the whole page draws). ──────
+  type EntryKind =
+    | 'observation'
+    | 'log'
+    | 'review'
+    | 'notification'
+    | 'block-confirmed'
+    | 'note'
+    | 'gate-edit'
+    | 'work-area'
+    | 'visit'
+    | 'work-start';
+
+  // The fixed event-type vocabulary — normal case, rendered semibold ≥14px.
+  const ENTRY_TYPE_LABEL: Record<EntryKind, string> = {
+    observation: 'Observation',
+    log: 'Log update',
+    review: 'Review',
+    notification: 'Notification',
+    'block-confirmed': 'Block confirmed',
+    note: 'Note',
+    'gate-edit': 'Gate edit',
+    'work-area': 'Work area',
+    visit: 'Clearance visit',
+    'work-start': 'Work start',
+  };
+
+  interface EntrySpec {
+    badgeId: string;
+    badgeKind: 'wa' | 'obs';
+    eventType: EntryKind;
+    /** Structured value(s) only — species / discipline / distance / date,
+        '·'-joined. Never a sentence. */
+    primary?: string;
+    /** Verbatim field text (log excerpt, note text) — rendered quoted. */
+    secondary?: string;
+    chip?: ClearanceStatus;
+    meta?: string; // right-aligned: date/time · actor · distance
+  }
+
+  function entryRow(spec: EntrySpec): HTMLLIElement {
+    const li = document.createElement('li');
+    li.className = 'entry';
+
+    const badge = document.createElement('span');
+    badge.className = `entry__badge entry__badge--${spec.badgeKind}`;
+    badge.textContent = spec.badgeId;
+
+    const body = document.createElement('div');
+    body.className = 'entry__body';
+    const line = document.createElement('p');
+    line.className = 'entry__line';
+    const type = document.createElement('span');
+    type.className = 'entry__type';
+    type.textContent = ENTRY_TYPE_LABEL[spec.eventType];
+    line.appendChild(type);
+    if (spec.primary) {
+      // Plain-text separators keep the line in natural inline flow, so narrow
+      // containers wrap between values — never a dangling flex item.
+      const sep = document.createElement('span');
+      sep.className = 'entry__sep';
+      sep.textContent = ' · ';
+      const primary = document.createElement('span');
+      primary.className = 'entry__primary';
+      primary.textContent = spec.primary;
+      line.append(sep, primary);
+    }
+    if (spec.chip) {
+      line.append(' ');
+      line.appendChild(cloneChip(spec.chip, stLabel(spec.chip)));
+    }
+    body.appendChild(line);
+    if (spec.secondary) {
+      const secondary = document.createElement('p');
+      secondary.className = 'entry__secondary';
+      secondary.textContent = `“${spec.secondary}”`;
+      body.appendChild(secondary);
+    }
+    li.append(badge, body);
+
+    if (spec.meta) {
+      const meta = document.createElement('span');
+      meta.className = 'entry__meta';
+      meta.textContent = spec.meta;
+      li.appendChild(meta);
+    }
+    return li;
+  }
+
+  /** Card-dressed, clickable entry row that jumps to a drawer (the feed /
+      conflict / impact treatment). */
+  function entryCard(spec: EntrySpec, jump: { wa?: string; obs?: string }): HTMLLIElement {
+    const li = entryRow(spec);
+    li.classList.add('entry--card');
+    if (jump.wa) li.dataset.wa = jump.wa;
+    else if (jump.obs) li.dataset.obs = jump.obs;
+    li.tabIndex = 0;
+    li.setAttribute('role', 'button');
+    return li;
+  }
+
+  // ── Map (Leaflet, lazy-built so a #data deep link doesn't init at 0×0) ──────
+  let map: L.Map | null = null;
+  const waMarkers = new Map<string, L.CircleMarker>();
+  const obsDots = new Map<string, L.CircleMarker>(); // center/tracking dots, for the go-to highlight
+  const lastStatus = new Map<string, ClearanceStatus>();
+  let initialBounds: L.LatLngBounds | null = null; // the boot fit — what the reset-view control restores
+  let activeWaId: string | null = null;
+  let activeObsId: string | null = null;
+
+  // ── Zoom-adaptive marker sizing (ch2): at the program-wide boot extent
+  //    (zoom ~10) 231 radius-9 markers smear into a blob — radii follow the
+  //    zoom so dots resolve individually along the alignment. ≥13 keeps the
+  //    original street-zoom sizes (and the legend keeps the ≥13 sizes).
+  //    Observation buffers are geographic circles (L.circle) — they scale with
+  //    the map on their own and are deliberately untouched. ──────────────────
+  function waRadiusForZoom(z: number): number {
+    if (z <= 10) return 4;
+    if (z <= 11) return 4 + (z - 10) * 1.5; // 10→11: 4→5.5
+    if (z <= 12) return 5.5 + (z - 11) * 1.5; // 11→12: 5.5→7
+    if (z <= 13) return 7 + (z - 12) * 2; // 12→13: 7→9
+    return 9;
+  }
+  let waR = 9; // current base work-area radius — set from zoom on build + zoomend
+  const zoomScale = () => waR / 9;
+  /** Observation dots ride ~55% of the WA radius (the round-1 5-vs-9 hierarchy). */
+  const obsRadius = () => Math.max(2.5, waR * 0.55);
+  const obsWeight = (o: Observation) => Math.max(0.75, (o.bufferFt > 0 ? 1.25 : 1.5) * zoomScale());
+
+  /** Full marker style: solid status fill with white stroke — except
+      provisional-block, which renders HOLLOW (white fill, bold red stroke):
+      the system flagged it, no manager has solidified it. Radius and stroke
+      follow the current zoom; the active (open-drawer) marker is enlarged —
+      hover uses the same +2 via the mouseover handlers. */
+  function markerStyle(st: ClearanceStatus, active = false): L.CircleMarkerOptions {
+    const radius = active ? waR + 2 : waR;
+    if (st === 'provisional-block') {
+      const w = Math.max(1.5, 2.5 * zoomScale());
+      return { radius, color: colorFor(st), weight: active ? w + 1 : w, opacity: 1, fillColor: '#ffffff', fillOpacity: 0.92 };
+    }
+    const w = Math.max(1, 2 * zoomScale());
+    return { radius, color: '#ffffff', weight: active ? w + 1 : w, opacity: 1, fillColor: colorFor(st), fillOpacity: 0.95 };
+  }
+
+  /** Brief white-halo pulse so a save-induced status flip is unmissable. */
+  function pulseMarker(m: L.CircleMarker) {
+    const el = m.getElement() as SVGElement | null;
+    if (!el) return;
+    el.classList.remove('gc-pulse');
+    void (el as unknown as HTMLElement).getBoundingClientRect();
+    el.classList.add('gc-pulse');
+    window.setTimeout(() => el.classList.remove('gc-pulse'), 2800);
+  }
+
+  /** Buffer circle (bufferFt > 0) + center dot, or a hollow dot for tracking-only
+      sightings. All in the observation violet — a hue deliberately outside the
+      status palette, because buffers are FACTS; the status colors are reserved
+      for judgments. Dots run HALF the work-area radius (5 vs 9–11): work areas
+      are the subject, observations are context — a violet dot must never read
+      as a site. */
+  function addObsLayers(o: Observation): L.Layer[] {
+    if (!map) return [];
+    const violet = obsColor();
+    const layers: L.Layer[] = [];
+    if (o.bufferFt > 0) {
+      const circle = L.circle([o.lat, o.lng], {
+        radius: o.bufferFt * 0.3048,
+        color: violet,
+        weight: 1.5,
+        dashArray: '6 4',
+        fillColor: violet,
+        fillOpacity: 0.11,
+      });
+      circle.on('click', () => openObservation(o.id));
+      circle.bindTooltip(`${o.species} · ${(o.bufferFt / 5280).toFixed(2).replace(/\.?0+$/, '')}-mi buffer`, {
+        sticky: true,
+        direction: 'top',
+      });
+      circle.addTo(map);
+      layers.push(circle);
+      const dot = L.circleMarker([o.lat, o.lng], {
+        radius: obsRadius(),
+        color: obsStroke(),
+        weight: obsWeight(o),
+        fillColor: violet,
+        fillOpacity: 1,
+      });
+      dot.on('click', () => openObservation(o.id));
+      dot.addTo(map);
+      obsDots.set(o.id, dot);
+      layers.push(dot);
+    } else {
+      const dot = L.circleMarker([o.lat, o.lng], {
+        radius: obsRadius(),
+        color: violet,
+        weight: obsWeight(o),
+        fillColor: '#ffffff',
+        fillOpacity: 0.9,
+      });
+      dot.on('click', () => openObservation(o.id));
+      dot.bindTooltip(`${o.species} · tracking only`, { sticky: true, direction: 'top' });
+      dot.addTo(map);
+      obsDots.set(o.id, dot);
+      layers.push(dot);
+    }
+    return layers;
+  }
+
+  function buildMap() {
+    map = L.map('gc-map', { zoomControl: true, attributionControl: true, zoomSnap: 0.25 });
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap &copy; CARTO',
+      subdomains: 'abcd',
+      maxZoom: 20,
+    }).addTo(map);
+
+    // Fit FIRST so every marker is born at the right zoom-adaptive size — the
+    // boot view IS the full program extent (the blob case ch2 fixes).
+    initialBounds = L.latLngBounds(workAreas.map((w) => [w.lat, w.lng] as L.LatLngTuple));
+    map.fitBounds(initialBounds, { padding: [40, 40] });
+    waR = waRadiusForZoom(map.getZoom());
+
+    // Buffers under the work-area markers: facts first, judgments on top.
+    for (const o of activeObservations) addObsLayers(o);
+
+    for (const wa of workAreas) {
+      const st = statusOf(wa);
+      const m = L.circleMarker([wa.lat, wa.lng], markerStyle(st));
+      m.on('click', () => openWorkArea(wa.id));
+      // Hover-enlarge adapts to the CURRENT zoom-adaptive base (+2).
+      m.on('mouseover', () => m.setStyle({ radius: waR + 2 }));
+      m.on('mouseout', () => m.setStyle({ radius: activeWaId === wa.id ? waR + 2 : waR }));
+      m.bindTooltip(`${wa.id} · ${stLabel(st)}`, { sticky: true, direction: 'top', offset: [0, -8] });
+      waMarkers.set(wa.id, m);
+      lastStatus.set(wa.id, st);
+      if (waShown(wa)) m.addTo(map);
+    }
+
+    // Zoom changed → recompute the base radius, restyle markers + observation
+    // dots (buffers are geographic and scale on their own).
+    map.on('zoomend', () => {
+      if (!map) return;
+      waR = waRadiusForZoom(map.getZoom());
+      refreshMarkers();
+      for (const [oid, dot] of obsDots) {
+        const o = activeObservations.find((x) => x.id === oid);
+        if (o) dot.setStyle({ radius: obsRadius(), weight: obsWeight(o) });
+      }
+    });
+
+    // Reset-view backout — a custom L.Control directly under the zoom control,
+    // dressed in Leaflet's own .leaflet-bar chrome (composition glue: this lives
+    // inside Leaflet's control corner, out of reach of any esa- lego). Restores
+    // the boot fit-bounds of all work areas after go-to jumps / manual panning.
+    const ResetViewControl = L.Control.extend({
+      options: { position: 'topleft' },
+      onAdd() {
+        const bar = L.DomUtil.create('div', 'leaflet-bar gc-reset');
+        const btn = L.DomUtil.create('a', 'gc-reset__btn', bar) as HTMLAnchorElement;
+        btn.href = '#';
+        btn.title = 'Reset view to all work areas';
+        btn.setAttribute('role', 'button');
+        btn.setAttribute('aria-label', 'Reset view to all work areas');
+        btn.innerHTML = ICON(
+          '<path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/>'
+        );
+        L.DomEvent.on(btn, 'click', (e) => {
+          L.DomEvent.preventDefault(e);
+          L.DomEvent.stopPropagation(e);
+          if (map && initialBounds) map.fitBounds(initialBounds, { padding: [40, 40] });
+        });
+        return bar;
+      },
+    });
+    map.addControl(new ResetViewControl());
+  }
+  const ensureMap = () => (map ? map.invalidateSize() : buildMap());
+
+  function refreshMarkers(pulseChanged = false) {
+    if (!map) return;
+    for (const wa of workAreas) {
+      const st = statusOf(wa);
+      const m = waMarkers.get(wa.id);
+      if (!m) continue;
+      // Full restyle, not just fill: a status flip can swap solid ↔ hollow
+      // (provisional-block), and the radius/stroke follow the current zoom.
+      m.setStyle(markerStyle(st, activeWaId === wa.id));
+      m.setTooltipContent(`${wa.id} · ${stLabel(st)}`);
+      if (pulseChanged && lastStatus.get(wa.id) !== st) pulseMarker(m);
+      lastStatus.set(wa.id, st);
+    }
+  }
+
+  /** Status is DERIVED, so a save can move a work area in/out of an active
+      status filter — re-sync marker visibility (without refitting). */
+  function syncMarkerVisibility() {
+    if (!map) return;
+    for (const wa of workAreas) {
+      const m = waMarkers.get(wa.id);
+      if (!m) continue;
+      if (waShown(wa)) m.addTo(map);
+      else m.removeFrom(map);
+    }
+  }
+
+  /** Every interactive surface recomputes here: marker fills, readiness strip,
+      both grids, the Timeline lanes, the Activity feed, the preset counts, and
+      any open drawer (parent board AND the stacked discipline history). */
+  function refreshAll(pulse = false) {
+    refreshMarkers(pulse);
+    syncMarkerVisibility();
+    refreshReadiness();
+    refreshGrids();
+    renderTimeline();
+    renderFeed();
+    presets.options = presetOptions(); // label counts follow the derived statuses
+    if (activeWaId) fillWaDialog(activeWaId); // repaints the inline bio review section too
+    if (activeObsId) fillObsDialog(activeObsId);
+  }
+
+  // ── Readiness strip (census of the VISIBLE work areas) ──────────────────────
+  function refreshReadiness() {
+    const scoped = visibleWas();
+    const counts = statusCounts(activeObservations, scoped);
+    const countOf = (s: string) => counts.find((c) => c.status === s)?.count ?? 0;
+    const total = scoped.length;
+    const ready = countOf('cleared') + countOf('cleared-stipulations');
+    $('rs-ready').textContent = String(ready);
+    $('rs-total').textContent = `of ${total} work area${total === 1 ? '' : 's'}`;
+
+    const bar = $('rs-bar');
+    bar.innerHTML = '';
+    for (const status of STATUS_ORDER) {
+      const n = countOf(status);
+      if (!n || !total) continue;
+      const div = document.createElement('div');
+      // Provisional Block stripes red/white — "not solidified", matching the
+      // hollow markers (a solid segment would read as Blocked).
+      const fill =
+        status === 'provisional-block'
+          ? 'repeating-linear-gradient(135deg, var(--st-provisional-block) 0 4px, var(--color-surface) 4px 7px)'
+          : `var(--st-${status})`;
+      div.style.cssText = `height:100%; flex: 0 0 ${(n / total) * 100}%; background:${fill};`;
+      div.title = `${stLabel(status)}: ${n}`;
+      bar.appendChild(div);
+    }
+    for (const status of STATUS_ORDER) {
+      const n = countOf(status);
+      const countEl = document.querySelector(`[data-rs-count="${status}"]`);
+      if (countEl) countEl.textContent = String(n);
+      const item = document.querySelector<HTMLElement>(`[data-rs-item="${status}"]`);
+      if (item) item.dataset.empty = n ? 'false' : 'true';
+    }
+  }
+
+  // ── AG Grids (beacon-grid kit; lazy-built when the Data tab first shows) ────
+  const affectedWas = (o: Observation) =>
+    o.bufferFt > 0 ? workAreas.filter((wa) => distanceFt(wa.lat, wa.lng, o.lat, o.lng) <= o.bufferFt) : [];
+
+  // Field stays `segment` (the fixture's data contract); the USER-FACING label
+  // is "Component" — the Beacon platform's term (round-3 rename).
+  interface WaRow {
+    id: string;
+    status: ClearanceStatus;
+    plannedStart: string;
+    segment: string;
+    blockedUntilText: string;
+  }
+  interface ObsRow {
+    id: string;
+    species: string;
+    kind: string;
+    statusKey: string;
+    status: string;
+    buffer: string;
+    firstObserved: string;
+    estEnd: string;
+    affected: number;
+  }
+
+  const buildWaRows = (): WaRow[] =>
+    workAreas.map((wa) => {
+      const st = statusOf(wa);
+      const blocking = st === 'blocked' || st === 'provisional-block';
+      const until = blocking ? blockedUntil(wa, activeObservations) : null;
+      return {
+        id: wa.id,
+        status: st,
+        plannedStart: formatDate(wa.plannedStartDate),
+        segment: wa.segment,
+        blockedUntilText: blocking ? (until ? formatDate(until) : 'Until further notice') : '—',
+      };
+    });
+
+  const buildObsRows = (): ObsRow[] =>
+    activeObservations.map((o) => ({
+      id: o.id,
+      species: o.species,
+      kind: KIND_LABEL[o.kind] ?? o.kind,
+      statusKey: o.status,
+      status: OBS_STATUS_LABEL[o.status] ?? o.status,
+      buffer: o.bufferFt > 0 ? o.bufferFt.toLocaleString() : '—',
+      firstObserved: formatDate(o.firstObserved),
+      estEnd: o.estEndDate ? formatDate(o.estEndDate) : '—',
+      affected: affectedWas(o).length,
+    }));
+
+  // Chip renderer reads the runtime --st-* vars (the committed field-map palette).
+  // Wrapped to tag the status on the element: the shared kit renderer only sets
+  // the color var, and provisional-block needs the page's outlined-chip CSS hook.
+  const waChipBase = makeStatusRenderer(
+    Object.fromEntries(STATUS_ORDER.map((s) => [s, { label: stLabel(s), hex: `var(--st-${s})` }]))
+  );
+  const waChip = (p: ICellRendererParams) => {
+    const el = waChipBase(p);
+    if (el instanceof HTMLElement) el.dataset.status = String(p.value);
+    return el;
+  };
+
+  let statusFacet: string[] = [];
+  let wasApi: GridApi<WaRow> | null = null;
+  let obsApi: GridApi<ObsRow> | null = null;
+  let pivotValue = 'workareas';
+  const activeApi = (): GridApi<WaRow> | GridApi<ObsRow> | null => (pivotValue === 'workareas' ? wasApi : obsApi);
+
+  function updateCounts() {
+    const api = activeApi();
+    if (!api) return;
+    const total = pivotValue === 'workareas' ? workAreas.length : activeObservations.length;
+    const displayed = api.getDisplayedRowCount();
+    $('gc-total').textContent = String(total);
+    const filteredEl = $('gc-filtered');
+    if (displayed < total) {
+      filteredEl.hidden = false;
+      filteredEl.textContent = `Filtered Records: ${displayed}`;
+    } else {
+      filteredEl.hidden = true;
+    }
+  }
+
+  function ensureGrids() {
+    if (wasApi) return;
+
+    // Five columns, every one flex-sized (no fixed widths) so they fill the
+    // grid edge-to-edge at any viewport. minWidth only guards squish.
+    const waCols: ColDef<WaRow>[] = [
+      { field: 'id', headerName: 'ID', flex: 1, minWidth: 130 },
+      {
+        field: 'status',
+        headerName: 'Status',
+        flex: 1.4,
+        minWidth: 190,
+        cellRenderer: waChip,
+        cellClass: 'bcn-grid-status-cell',
+        filterValueGetter: (p) => stLabel(p.data!.status),
+      },
+      { field: 'plannedStart', headerName: 'Planned Start', flex: 1, minWidth: 140 },
+      { field: 'blockedUntilText', headerName: 'Blocked Until', flex: 1, minWidth: 150 },
+      { field: 'segment', headerName: 'Component', flex: 1.2, minWidth: 160 },
+    ];
+
+    const obsCols: ColDef<ObsRow>[] = [
+      { field: 'id', headerName: 'ID', flex: 0.8, minWidth: 110 },
+      { field: 'species', headerName: 'Species', flex: 1.6, minWidth: 180 },
+      { field: 'kind', headerName: 'Kind', flex: 1, minWidth: 120 },
+      { field: 'status', headerName: 'Status', flex: 0.9, minWidth: 110 },
+      { field: 'buffer', headerName: 'Buffer (ft)', flex: 0.9, minWidth: 110, type: 'numericColumn' },
+      { field: 'firstObserved', headerName: 'First Observed', flex: 1, minWidth: 140 },
+      { field: 'estEnd', headerName: 'Est. End', flex: 1, minWidth: 120 },
+      { field: 'affected', headerName: 'Work Areas Affected', flex: 1.1, minWidth: 170, type: 'numericColumn' },
+    ];
+
+    const shared = {
+      theme: beaconTheme,
+      defaultColDef: {
+        sortable: true,
+        resizable: true,
+        filter: true,
+        floatingFilter: false,
+        suppressHeaderMenuButton: true,
+      },
+      onFilterChanged: updateCounts,
+      onFirstDataRendered: updateCounts,
+    };
+
+    const waOptions: GridOptions<WaRow> = {
+      ...shared,
+      rowData: buildWaRows(),
+      columnDefs: waCols,
+      isExternalFilterPresent: () => statusFacet.length > 0,
+      doesExternalFilterPass: (node: IRowNode<WaRow>) =>
+        !node.data || !statusFacet.length || statusFacet.includes(node.data.status),
+      onRowClicked: (e) => e.data && openWorkArea(e.data.id),
+    };
+
+    const obsOptions: GridOptions<ObsRow> = {
+      ...shared,
+      rowData: buildObsRows(),
+      columnDefs: obsCols,
+      isExternalFilterPresent: () => statusFacet.length > 0,
+      doesExternalFilterPass: (node: IRowNode<ObsRow>) =>
+        !node.data || !statusFacet.length || statusFacet.includes(node.data.statusKey),
+      onRowClicked: (e) => e.data && openObservation(e.data.id),
+    };
+
+    wasApi = createGrid($('grid-was'), waOptions);
+    obsApi = createGrid($('grid-obs'), obsOptions);
+  }
+
+  function refreshGrids() {
+    wasApi?.setGridOption('rowData', buildWaRows());
+    obsApi?.setGridOption('rowData', buildObsRows());
+    updateCounts();
+  }
+
+  // ── Filter bar wiring (Data tab) ─────────────────────────────────────────────
+  // Clearance-status options carry the lego's per-option color dot, fed the SAME
+  // runtime --st-* vars the markers/legend/chips read — always in lockstep. The
+  // observation pivot's active/tracking values are not clearance statuses and
+  // have no --st-* color, so they stay dotless.
+  const statusFilterOptions = () =>
+    STATUS_ORDER.map((s) => ({ value: s, label: stLabel(s), color: `var(--st-${s})` }));
+  const fltStatus = $('flt-status') as FilterDropdownEl;
+  const statusOptionsFor = (pivot: string) =>
+    pivot === 'workareas'
+      ? statusFilterOptions()
+      : Object.entries(OBS_STATUS_LABEL).map(([value, label]) => ({ value, label }));
+  fltStatus.options = statusOptionsFor('workareas');
+
+  fltStatus.addEventListener('selection-change', (e) => {
+    statusFacet = ((e as CustomEvent).detail?.value as string[]) ?? [];
+    activeApi()?.onFilterChanged();
+  });
+
+  $('gc-clear-filters').addEventListener('esa-filter-clear', () => {
+    statusFacet = [];
+    fltStatus._selected = [];
+    wasApi?.setFilterModel(null);
+    obsApi?.setFilterModel(null);
+    wasApi?.onFilterChanged();
+    obsApi?.onFilterChanged();
+  });
+
+  // Keyword search → quick filter on both grids.
+  const search = $('gc-search') as HTMLElement & { value: string; placeholder: string };
+  const searchClear = $('gc-search-clear');
+  search.addEventListener('change', (e) => {
+    const v = (e as CustomEvent).detail?.value ?? search.value ?? '';
+    wasApi?.setGridOption('quickFilterText', v);
+    obsApi?.setGridOption('quickFilterText', v);
+    searchClear.hidden = !v;
+  });
+  searchClear.addEventListener('click', () => {
+    search.value = '';
+    wasApi?.setGridOption('quickFilterText', '');
+    obsApi?.setGridOption('quickFilterText', '');
+    searchClear.hidden = true;
+  });
+
+  // Pivot toggle (esa-button-toggle lego)
+  const pivot = $('pivot-toggle') as ToggleEl;
+  pivot.options = [
+    { value: 'workareas', label: 'Work Areas' },
+    { value: 'observations', label: 'Observations' },
+  ];
+  pivot.addEventListener('change', (e) => {
+    pivotValue = ((e as CustomEvent).detail?.value as string) ?? pivot.value;
+    const isWas = pivotValue === 'workareas';
+    $('pane-was').hidden = !isWas;
+    $('pane-obs').hidden = isWas;
+    search.placeholder = isWas ? 'Search work areas…' : 'Search observations…';
+    // Status values differ per pivot (clearance ladder vs active/tracking) — swap + reset.
+    statusFacet = [];
+    fltStatus._selected = [];
+    fltStatus.options = statusOptionsFor(pivotValue);
+    wasApi?.onFilterChanged();
+    obsApi?.onFilterChanged();
+    updateCounts();
+  });
+
+  $('gc-download').addEventListener('click', () =>
+    activeApi()?.exportDataAsCsv({ fileName: `site-clearance-${pivotValue}.csv` })
+  );
+
+  // ── Work-area drawer (read mode — the Decision-first v2 surface) ────────────
+  const waDialog = $('wa-dialog') as SideDialog;
+  const obsDialog = $('obs-dialog') as SideDialog;
+  // Biological is the only gate — the inline review section is always bound to it.
+  const activeDim: GateDimension = BIO;
+
+  /** Lowercased discipline name for sentence positions ("the biological review"). */
+  const dimLower = (dim: GateDimension) => GATE_DIMENSION_LABEL[dim].toLowerCase();
+
+  /** Update an EsaCollapsible's SSR title text (live counts on the v2
+      summary rows). */
+  function setCollapsibleTitle(wrapId: string, title: string) {
+    const el = document.querySelector(`#${wrapId} .esa-collapsible__title`);
+    if (el) el.textContent = title;
+  }
+
+  /** Appended notes (in-session, append-only) — a dated list under the seed note. */
+  function renderAddedNotes(list: HTMLElement, waId: string) {
+    list.innerHTML = '';
+    for (const n of notesFor(waId)) {
+      const li = document.createElement('li');
+      li.className = 'wnote';
+      const meta = document.createElement('span');
+      meta.className = 'wnote__meta';
+      meta.textContent = `${formatDate(n.date)} · ${n.author}`;
+      const text = document.createElement('p');
+      text.className = 'wnote__text';
+      text.textContent = n.text;
+      li.append(meta, text);
+      list.appendChild(li);
+    }
+  }
+
+  function renderActivity(waId: string) {
+    const act = $('wa-activity');
+    act.innerHTML = '';
+    const entries = entriesFor(waId).slice(0, 10);
+    if (!entries.length) {
+      const li = document.createElement('li');
+      li.className = 'entry entry--empty';
+      li.textContent = 'No changes yet — edits made here are logged.';
+      act.appendChild(li);
+      return;
+    }
+    // Same deterministic anatomy as the feed (one renderer — ch3): the badge is
+    // this work area's own ID, so the rows read identically everywhere.
+    for (const c of entries) {
+      act.appendChild(
+        entryRow({
+          badgeId: waId,
+          badgeKind: 'wa',
+          eventType: c.kind,
+          primary: c.primary,
+          secondary: c.secondary,
+          chip: c.chip,
+          meta: `${fmtTs(c.ts)} · ${c.user}`,
+        })
+      );
+    }
+  }
+
+  function fillWaDialog(id: string) {
+    const wa = waById.get(id);
+    if (!wa) return;
+    const st = statusOf(wa);
+    waDialog.heading = wa.id; // aria-label; the visible header is the slot
+    $('wa-title').textContent = wa.id;
+    $('wa-sub').textContent = `${wa.segment} · ${wa.constructionPackage}`;
+    applyChip($('wa-chip'), st, stLabel(st));
+
+    const conflicts = bufferConflicts(wa, activeObservations);
+
+    // Dates band — the always-visible decision inputs; the red Blocked-until
+    // cell joins (4-up) only while a block horizon exists.
+    $('wa-d-notif').textContent = formatDate(wa.notificationDate);
+    $('wa-d-visit').textContent = formatDate(wa.clearanceVisitDate);
+    $('wa-d-start').textContent = formatDate(wa.plannedStartDate);
+    const until = blockedUntil(wa, activeObservations);
+    const showUntil = (st === 'blocked' || st === 'provisional-block') && !!until;
+    $('wa-d-until-wrap').hidden = !showUntil;
+    $('wa-band').classList.toggle('band--4', showUntil);
+    if (showUntil) $('wa-d-until').textContent = formatDate(until);
+
+    // The inline biological review history (the v2 core)
+    fillDiscDialog(wa, BIO);
+
+    // Buffer conflicts collapsible — hidden entirely when none (the specimen's
+    // move); the title carries the live count.
+    $('wa-conflicts-col').hidden = conflicts.length === 0;
+    setCollapsibleTitle('wa-conflicts-col', `Buffer conflicts (${conflicts.length})`);
+    const list = $('wa-conflicts');
+    list.innerHTML = '';
+    for (const o of conflicts) {
+      const d = distanceFt(wa.lat, wa.lng, o.lat, o.lng);
+      list.appendChild(
+        entryCard(
+          {
+            badgeId: o.id,
+            badgeKind: 'obs',
+            eventType: 'observation',
+            primary: `${o.species} · ${o.bufferFt.toLocaleString()} ft buffer`,
+            meta: `${fmtDistance(d)} away · ${o.estEndDate ? `est. end ${shortDate(o.estEndDate)}` : 'no est. end'}`,
+          },
+          { obs: o.id }
+        )
+      );
+    }
+
+    // Notes collapsible — the verbatim seed note + any appended (in-session)
+    // notes; hidden when there is nothing to read.
+    const added = notesFor(wa.id);
+    const noteCount = (wa.biologistNote ? 1 : 0) + added.length;
+    $('wa-notes-col').hidden = noteCount === 0;
+    setCollapsibleTitle('wa-notes-col', `Notes (${noteCount})`);
+    const seedEl = $('wa-note');
+    seedEl.hidden = !wa.biologistNote;
+    seedEl.textContent = wa.biologistNote ?? '';
+    renderAddedNotes($('wa-notes-added'), wa.id);
+
+    // Change feed
+    renderActivity(wa.id);
+
+    // Comments thread (per work area)
+    renderComments(wa.id);
+  }
+
+  function openWorkArea(id: string) {
+    if (obsDialog.open) obsDialog.close();
+    activeWaId = id;
+    editing = false;
+    hideReviewForm(); // reset the inline review form on a fresh open
+    syncMode();
+    fillWaDialog(id);
+    waDialog.show();
+    refreshMarkers(); // re-applies full styles — the active marker enlarges at the current zoom base
+  }
+  waDialog.addEventListener('close', () => {
+    activeWaId = null;
+    editing = false;
+    syncMode();
+    refreshMarkers();
+  });
+
+  // Conflict / nearby rows in the work-area drawer jump to the observation drawer.
+  $('wa-dialog').addEventListener('click', (e) => {
+    const li = (e.target as HTMLElement).closest<HTMLElement>('[data-obs]');
+    if (li) openObservation(li.dataset.obs!);
+  });
+
+  // ── Work-area comments + @-mention (ported from permit tracking, BCN-1364) ──
+  //    A per-work-area collaboration thread, distinct from the read-only
+  //    Activity log. @-mentions of project users render highlighted (and would
+  //    feed email notifications). Rendered live (per-work-area, postable), so it
+  //    can't be the static BcnDiscussion SSR component.
+  const CURRENT_USER = 'Andy Lovseth';
+  const PROJECT_USERS = ['Leah McNearney', 'C. Anderson', 'H. Barbare', 'Andy Lovseth', 'Marco Reyes'];
+  const AVATAR_TOKENS = ['--color-source', '--color-commitment', '--color-requirement', '--color-action'];
+  interface WaComment {
+    author: string;
+    ts: string;
+    text: string;
+  }
+  // Seed the two SWHA-adjacent work areas so the thread reads populated.
+  const commentsByWa: Record<string, WaComment[]> = {
+    'DCTR2-DH-010': [
+      { author: 'C. Anderson', ts: '2026-05-18T15:10:00', text: 'Active SWHA nest confirmed within the 0.5-mi buffer on the clearance visit. @Leah McNearney flagging — this blocks the DH until the est. fledge date.' },
+      { author: 'Leah McNearney', ts: '2026-05-19T08:42:00', text: 'Thanks. Holding work here until the post-fledge re-survey clears it. @Andy Lovseth keep this one on the watch list.' },
+    ],
+    'DCTR2-DH-012': [
+      { author: 'H. Barbare', ts: '2026-05-27T11:20:00', text: 'Closest DH to the nest after DH-010 — 30-day notification went out 5/15 for a 6/16 clearance visit. @Leah McNearney heads up on the buffer overlap.' },
+    ],
+  };
+
+  const cInitials = (name: string): string =>
+    name.split(/\s+/).map((w) => w[0]).slice(0, 2).join('').toUpperCase();
+  const cToken = (name: string): string => {
+    const i = PROJECT_USERS.indexOf(name);
+    return `var(${AVATAR_TOKENS[(i < 0 ? 0 : i) % AVATAR_TOKENS.length]})`;
+  };
+  const cEscape = (s: string): string =>
+    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const cTime = (ts: string): string =>
+    new Date(ts).toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+  // Wrap "@Name" tokens (known users) in a highlight; the current user stands out.
+  function cMentions(text: string): string {
+    let html = cEscape(text);
+    for (const u of [...PROJECT_USERS].sort((a, b) => b.length - a.length)) {
+      const cls = u === CURRENT_USER ? 'wc-mention wc-mention--me' : 'wc-mention';
+      html = html.split('@' + u).join(`<span class="${cls}">@${u}</span>`);
+    }
+    return html;
+  }
+
+  function renderComments(waId: string) {
+    const list = $('wa-comments');
+    const arr = commentsByWa[waId] ?? [];
+    $('wa-comment-count').innerHTML = arr.length ? `<span class="wc-badge">${arr.length}</span>` : '';
+    list.innerHTML = '';
+    if (!arr.length) {
+      list.innerHTML = `<li class="wc-comment wc-comment--empty">No comments yet. Start the discussion.</li>`;
+    }
+    for (const c of arr) {
+      const li = document.createElement('li');
+      li.className = 'wc-comment';
+      li.innerHTML = `
+        <span class="wc-comment__avatar" style="--_c:${cToken(c.author)}">${cInitials(c.author)}</span>
+        <div class="wc-comment__body">
+          <div class="wc-comment__meta"><span class="wc-comment__author">${cEscape(c.author)}</span><span class="wc-comment__time">${cTime(c.ts)}</span></div>
+          <p class="wc-comment__text">${cMentions(c.text)}</p>
+        </div>`;
+      list.appendChild(li);
+    }
+    // Clear via the esa-textarea HOST property (it re-syncs its own value onto
+    // the inner <textarea>, so clearing only the inner node doesn't stick).
+    const host = $('wa-comment-input') as HTMLElement & { value?: string };
+    host.value = '';
+    const ta = getCommentTA();
+    if (ta) ta.value = '';
+    hideMentionMenu();
+  }
+
+  // The esa-textarea wraps a native <textarea> in shadow DOM; operating on that
+  // inner element gives reliable value + caret access for the @-mention typeahead.
+  let _commentTA: HTMLTextAreaElement | null = null;
+  function getCommentTA(): HTMLTextAreaElement | null {
+    if (_commentTA && _commentTA.isConnected) return _commentTA;
+    const host = $('wa-comment-input');
+    _commentTA = (host.shadowRoot?.querySelector('textarea') ?? host.querySelector('textarea')) as HTMLTextAreaElement | null;
+    return _commentTA;
+  }
+
+  const mentionMenu = $('wa-mention-menu');
+  let mentionAt = -1; // index of the '@' that opened the menu
+  const hideMentionMenu = () => {
+    mentionMenu.hidden = true;
+    mentionAt = -1;
+  };
+  function updateMentionMenu() {
+    const ta = getCommentTA();
+    if (!ta) return;
+    const upto = ta.value.slice(0, ta.selectionStart ?? ta.value.length);
+    const m = upto.match(/@([A-Za-z]*)$/);
+    if (!m) return hideMentionMenu();
+    const partial = m[1].toLowerCase();
+    const matches = PROJECT_USERS.filter((u) => u !== CURRENT_USER && u.toLowerCase().startsWith(partial));
+    if (!matches.length) return hideMentionMenu();
+    mentionAt = m.index ?? 0;
+    mentionMenu.innerHTML = matches
+      .map(
+        (u) =>
+          `<li class="wc-mention-opt" role="option" data-user="${u}"><span class="wc-comment__avatar wc-comment__avatar--xs" style="--_c:${cToken(u)}">${cInitials(u)}</span>${u}</li>`
+      )
+      .join('');
+    mentionMenu.hidden = false;
+  }
+  function insertMention(user: string) {
+    const ta = getCommentTA();
+    if (!ta || mentionAt < 0) return;
+    const caret = ta.selectionStart ?? ta.value.length;
+    ta.value = ta.value.slice(0, mentionAt) + '@' + user + ' ' + ta.value.slice(caret);
+    const pos = mentionAt + user.length + 2;
+    ta.focus();
+    ta.setSelectionRange(pos, pos);
+    hideMentionMenu();
+  }
+  function bindCommentEvents() {
+    const ta = getCommentTA();
+    if (!ta || ta.dataset.bound) return;
+    ta.dataset.bound = '1';
+    ta.addEventListener('input', updateMentionMenu);
+    ta.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Escape' && !mentionMenu.hidden) {
+        e.stopPropagation();
+        hideMentionMenu();
+      }
+    });
+    ta.addEventListener('blur', () => setTimeout(hideMentionMenu, 150));
+  }
+  $('wa-comment-input').addEventListener('focusin', bindCommentEvents);
+  mentionMenu.addEventListener('mousedown', (e) => {
+    const opt = (e.target as HTMLElement).closest<HTMLElement>('[data-user]');
+    if (opt) {
+      e.preventDefault();
+      insertMention(opt.dataset.user!);
+    }
+  });
+  $('wa-comment-post').addEventListener('click', () => {
+    const ta = getCommentTA();
+    if (!ta || !activeWaId) return;
+    const text = ta.value.trim();
+    if (!text) return;
+    (commentsByWa[activeWaId] ??= []).push({ author: CURRENT_USER, ts: new Date().toISOString(), text });
+    renderComments(activeWaId);
+  });
+
+  // ── Inline biological review history + write surface. Formerly the stacked
+  //    discipline CHILD drawer; with biology the only gate it now lives directly
+  //    in the work-area drawer (#dd-* ids, always bound to the biological gate).
+  //    No board, no stacking. ──────────────────────────────────────────────────
+  let editingReview: DisciplineReview | null = null; // null = the form is adding
+
+  /** Paint the inline biological review section — the review count + the
+      reverse-chron history rail (the latest completed review sets the status,
+      shown on the drawer header chip). Always the biological gate. */
+  function fillDiscDialog(wa: WorkArea, dim: GateDimension) {
+    const revs = disciplineReviews(wa, dim);
+    $('dd-count').textContent = `${revs.length} review${revs.length === 1 ? '' : 's'}`;
+    renderHistory(wa, dim);
+  }
+
+  /** One review-history node: kind + when + pencil, outcome chip (scheduled
+      chip for outcome-less reviews), until-date, the teal "Sets current
+      status" tag on the current one, note, stipulation pills. */
+  function reviewNode(r: DisciplineReview, isCurrent: boolean): HTMLLIElement {
+    const li = document.createElement('li');
+    li.className = 'rev';
+    const dot = document.createElement('span');
+    dot.className = 'rev__dot';
+    if (r.outcome) {
+      dot.style.background = `var(--st-${r.outcome})`;
+      dot.style.borderColor = `var(--st-${r.outcome})`;
+    } else {
+      dot.classList.add('rev__dot--scheduled');
+    }
+
+    const main = document.createElement('div');
+    main.className = 'rev__main';
+
+    const head = document.createElement('p');
+    head.className = 'rev__head';
+    head.append(REVIEW_KIND_LABEL[r.kind]);
+    const when = document.createElement('span');
+    when.className = 'rev__when';
+    when.textContent = r.outcome
+      ? `${formatDate(r.date)}${r.reviewer ? ` · ${r.reviewer}` : ''}`
+      : `scheduled ${formatDate(r.date)}`;
+    head.appendChild(when);
+    const edit = (
+      document.querySelector<HTMLTemplateElement>('#dd-edit-tpl')!.content.firstElementChild as HTMLElement
+    ).cloneNode(true) as HTMLElement;
+    head.appendChild(edit);
+    main.appendChild(head);
+
+    const chiprow = document.createElement('div');
+    chiprow.className = 'rev__chiprow';
+    const chipStatus = r.outcome ?? 'survey-scheduled';
+    chiprow.appendChild(cloneChip(chipStatus, stLabel(chipStatus)));
+    if (r.outcome === 'blocked') {
+      const untilEl = document.createElement('span');
+      untilEl.className = 'rev__until';
+      untilEl.textContent = r.blockedUntil ? `until ${formatDate(r.blockedUntil)}` : 'until further notice';
+      chiprow.appendChild(untilEl);
+    }
+    if (isCurrent) {
+      const cur = document.createElement('span');
+      cur.className = 'rev__current';
+      cur.textContent = 'Sets current status';
+      chiprow.appendChild(cur);
+    }
+    main.appendChild(chiprow);
+
+    if (r.note) {
+      const note = document.createElement('p');
+      note.className = 'rev__note';
+      note.textContent = r.note;
+      main.appendChild(note);
+    }
+    if (r.stipulations?.length) {
+      const stips = document.createElement('ul');
+      stips.className = 'gate__stips';
+      for (const s of r.stipulations) {
+        const item = document.createElement('li');
+        item.appendChild(clonePill(s));
+        stips.appendChild(item);
+      }
+      main.appendChild(stips);
+    }
+
+    li.append(dot, main);
+    return li;
+  }
+
+  function renderHistory(wa: WorkArea, dim: GateDimension) {
+    const listEl = $('dd-history');
+    listEl.innerHTML = '';
+    const revs = disciplineReviews(wa, dim);
+    const cur = currentReview(wa, dim);
+    if (!revs.length) {
+      const li = document.createElement('li');
+      li.className = 'entry entry--empty';
+      li.textContent = 'No reviews on record — add the first one.';
+      listEl.appendChild(li);
+    }
+    for (const r of revs) {
+      const li = reviewNode(r, r === cur);
+      li.querySelector('.rev__edit')!.addEventListener('click', () => beginEditReview(r, li));
+      listEl.appendChild(li);
+    }
+  }
+
+  // ── The Add/Edit review form ────────────────────────────────────────────────
+  const ddForm = $('dd-form');
+  const ddKind = $('dd-kind') as SelectEl;
+  ddKind.options = (Object.keys(REVIEW_KIND_LABEL) as ReviewKind[]).map((k) => ({
+    value: k,
+    label: REVIEW_KIND_LABEL[k],
+  }));
+  // Recordable OUTCOMES only: scheduled is the absence of an outcome (the
+  // sentinel saves outcome-less), not-surveyed is the absence of reviews, and
+  // provisional-block stays derived-only — none of the three is recordable.
+  const ddOutcome = $('dd-outcome') as SelectEl;
+  ddOutcome.options = [
+    { value: 'scheduled', label: 'Scheduled — no outcome yet' },
+    ...(['blocked', 'inaccessible', 'cleared-stipulations', 'cleared'] as ClearanceStatus[]).map((s) => ({
+      value: s,
+      label: stLabel(s),
+    })),
+    { value: 'not-required', label: stLabel('not-required') },
+  ];
+  ddOutcome.addEventListener('change', () => {
+    $('dd-until-wrap').hidden = (ddOutcome.value as string) !== 'blocked';
+  });
+
+  function setReviewForm(r: Partial<DisciplineReview>) {
+    ddKind.value = r.kind ?? 'clearance-survey';
+    ($('dd-date') as Field).value = r.date ?? TODAY;
+    ddOutcome.value = r.outcome ?? 'scheduled';
+    ($('dd-until') as Field).value = r.blockedUntil ?? '';
+    $('dd-until-wrap').hidden = r.outcome !== 'blocked';
+    ($('dd-reviewer') as Field).value = r.reviewer ?? '';
+    ($('dd-note') as Field).value = r.note ?? '';
+    ($('dd-stips') as TagEl).value = [...(r.stipulations ?? [])];
+  }
+
+  /** The form lives in ONE place at a time: its home above the history (add),
+      or swapped into the node being edited (the pencil affordance). */
+  function showFormAtTop() {
+    $('dd-history').before(ddForm);
+    ddForm.hidden = false;
+  }
+  function hideReviewForm() {
+    $('dd-history').before(ddForm); // return to the home slot
+    ddForm.hidden = true;
+    editingReview = null;
+  }
+
+  $('dd-add').addEventListener('click', () => {
+    const wa = activeWaId ? waById.get(activeWaId) : null;
+    if (!wa || !activeDim) return;
+    editingReview = null;
+    // Sensible default: a discipline with history is usually getting a
+    // re-survey; a first review is a clearance survey.
+    setReviewForm({ kind: disciplineReviews(wa, activeDim).length ? 're-survey' : 'clearance-survey' });
+    renderHistory(wa, activeDim); // restore any node the form was swapped into
+    showFormAtTop();
+  });
+
+  function beginEditReview(r: DisciplineReview, node: HTMLLIElement) {
+    const wa = activeWaId ? waById.get(activeWaId) : null;
+    if (!wa || !activeDim) return;
+    renderHistory(wa, activeDim); // collapse any other open edit first
+    const freshNode = [...$('dd-history').children][[...disciplineReviews(wa, activeDim)].indexOf(r)] ?? node;
+    editingReview = r;
+    setReviewForm(r);
+    // Swap the node's content for the form — the history line literally
+    // becomes the editor (the moved element keeps its lego state/listeners).
+    (freshNode as HTMLElement).replaceChildren(ddForm);
+    (freshNode as HTMLElement).classList.add('rev--editing');
+    ddForm.hidden = false;
+  }
+
+  $('dd-cancel').addEventListener('click', () => {
+    const wa = activeWaId ? waById.get(activeWaId) : null;
+    hideReviewForm();
+    if (wa && activeDim) renderHistory(wa, activeDim);
+  });
+
+  function collectReview(dim: GateDimension): DisciplineReview {
+    const kind = ((ddKind.value as string) || 'clearance-survey') as ReviewKind;
+    const r: DisciplineReview = { dimension: dim, kind, date: ($('dd-date') as Field).value || TODAY };
+    const outcome = (ddOutcome.value as string) || 'scheduled';
+    if (outcome !== 'scheduled') r.outcome = outcome as ClearanceStatus;
+    const reviewer = (($('dd-reviewer') as Field).value ?? '').trim();
+    if (reviewer) r.reviewer = reviewer;
+    const note = (($('dd-note') as Field).value ?? '').trim();
+    if (note) r.note = note;
+    const stips = [...(($('dd-stips') as TagEl).value ?? [])];
+    if (stips.length) r.stipulations = stips;
+    if (r.outcome === 'blocked') r.blockedUntil = ($('dd-until') as Field).value || null; // null = until further notice
+    if (kind === 'management-determination') r.managerDetermination = true;
+    return r;
+  }
+
+  $('dd-save').addEventListener('click', () => {
+    const wa = activeWaId ? waById.get(activeWaId) : null;
+    if (!wa || !activeDim) return;
+    const next = collectReview(activeDim);
+    const label = GATE_DIMENSION_LABEL[activeDim];
+    if (editingReview) {
+      const idx = wa.reviews.indexOf(editingReview);
+      if (idx >= 0) wa.reviews[idx] = next;
+      else wa.reviews.push(next);
+      logChange(
+        wa.id,
+        'gate-edit',
+        `${label} · ${REVIEW_KIND_LABEL[next.kind]} updated`,
+        next.outcome ? { chip: next.outcome } : {}
+      );
+    } else {
+      wa.reviews.push(next);
+      logChange(
+        wa.id,
+        'gate-edit',
+        next.outcome
+          ? `${label} · ${REVIEW_KIND_LABEL[next.kind]} added`
+          : `${label} · ${REVIEW_KIND_LABEL[next.kind]} scheduled ${shortDate(next.date)}`,
+        next.outcome ? { chip: next.outcome } : {}
+      );
+    }
+    hideReviewForm();
+    refreshAll(true); // re-derives + repaints everything incl. the parent board and this drawer
+  });
+
+  // ── Work-area drawer (EDIT mode — SITE-LEVEL only: the three dates + the
+  //    append-only note). Same esa-side-dialog, two stacked bodies: #wa-read ↔
+  //    #wa-edit, footer swaps "Edit site details" for Cancel/Save
+  //    (permit-tracking's affordance placement). Discipline reviews are edited
+  //    in the stacked child drawer, never here. ──────────────────────────────
+  let editing = false;
+  function syncMode() {
+    $('wa-read').hidden = editing;
+    $('wa-edit').hidden = !editing;
+    $('wa-edit-btn').hidden = editing;
+    $('wa-showmap').hidden = editing; // a mid-edit map jump would discard the form
+    $('wa-cancel').hidden = !editing;
+    $('wa-save').hidden = !editing;
+  }
+
+  function enterEdit() {
+    const wa = activeWaId ? waById.get(activeWaId) : null;
+    if (!wa) return;
+    editing = true;
+    ($('we-notif') as Field).value = wa.notificationDate ?? '';
+    ($('we-visit') as Field).value = wa.clearanceVisitDate ?? '';
+    ($('we-start') as Field).value = wa.plannedStartDate ?? '';
+    // Notes — seed stays read-only; the add-note form starts fresh, dated TODAY.
+    const seed = $('we-seed-note');
+    seed.hidden = !wa.biologistNote;
+    seed.textContent = wa.biologistNote ?? '';
+    renderAddedNotes($('we-notes-added'), wa.id);
+    ($('we-note-date') as Field).value = TODAY;
+    ($('we-note-author') as Field).value = '';
+    ($('we-note-text') as Field).value = '';
+    syncMode();
+  }
+  $('wa-edit-btn').addEventListener('click', enterEdit);
+  $('wa-cancel').addEventListener('click', () => {
+    editing = false;
+    syncMode();
+  });
+
+  function saveWa() {
+    const wa = activeWaId ? waById.get(activeWaId) : null;
+    if (!wa) return;
+
+    // Dates — empty picker = no date.
+    const dateFields: ['notificationDate' | 'clearanceVisitDate' | 'plannedStartDate', string, string][] = [
+      ['notificationDate', 'we-notif', 'Notification'],
+      ['clearanceVisitDate', 'we-visit', 'Clearance visit'],
+      ['plannedStartDate', 'we-start', 'Planned start'],
+    ];
+    for (const [field, id, label] of dateFields) {
+      const next = ($(id) as Field).value || undefined;
+      if (wa[field] !== next) {
+        logChange(wa.id, 'gate-edit', `${label} · ${formatDate(wa[field])} → ${formatDate(next)}`);
+        wa[field] = next;
+      }
+    }
+
+    // Append-only note (the paste-from-email affordance).
+    const text = (($('we-note-text') as Field).value ?? '').trim();
+    if (text) {
+      const date = ($('we-note-date') as Field).value || TODAY;
+      const author = (($('we-note-author') as Field).value ?? '').trim() || 'Unknown';
+      const list = notesByWa.get(wa.id) ?? [];
+      list.push({ date, author, text });
+      notesByWa.set(wa.id, list);
+      logChange(wa.id, 'note', `${formatDate(date)} · ${author}`, { secondary: text });
+    }
+
+    // Planned-start edits re-bucket the filter options.
+    refreshStartOptions();
+
+    editing = false;
+    refreshAll(true); // re-derive + repaint: marker fills (pulse on flips), strip, grids, drawer read mode
+    syncMode();
+  }
+  $('wa-save').addEventListener('click', saveWa);
+
+  // ── Observation drawer (read-only, compact) ─────────────────────────────────
+  function fillObsDialog(id: string) {
+    const o = activeObservations.find((x) => x.id === id);
+    if (!o) return;
+    obsDialog.heading = o.species;
+    $('obs-title').textContent = o.species;
+    $('obs-sub').textContent = o.id;
+    applyChip($('obs-chip'), 'neutral', o.status === 'active' ? 'Active' : 'Tracking only');
+    $('obs-code').textContent = o.speciesCode;
+    $('obs-kind').textContent = KIND_LABEL[o.kind] ?? o.kind;
+    $('obs-buffer').textContent = o.bufferFt > 0 ? `${o.bufferFt.toLocaleString()} ft` : 'None (tracking only)';
+    $('obs-first').textContent = formatDate(o.firstObserved);
+    $('obs-end').textContent = o.estEndDate
+      ? `${formatDate(o.estEndDate)} · ${daysUntil(o.estEndDate)} day${daysUntil(o.estEndDate) === 1 ? '' : 's'} left`
+      : 'Until further notice';
+
+    const logWrap = $('obs-log-wrap');
+    logWrap.hidden = !o.latestLog;
+    $('obs-log').textContent = o.latestLog ?? '';
+
+    // Work areas within buffer — the cross-site impact view
+    const within = affectedWas(o)
+      .map((wa) => ({ wa, d: distanceFt(wa.lat, wa.lng, o.lat, o.lng) }))
+      .sort((a, b) => a.d - b.d);
+    const badge = $('obs-impact-count').querySelector('.esa-badge__text');
+    if (badge) badge.textContent = String(within.length);
+    const list = $('obs-impact');
+    list.innerHTML = '';
+    if (!within.length) {
+      const li = document.createElement('li');
+      li.className = 'entry entry--empty';
+      li.textContent = o.bufferFt > 0 ? 'No work areas inside this buffer.' : 'Tracking-only sighting — no buffer.';
+      list.appendChild(li);
+    }
+    for (const { wa, d } of within) {
+      list.appendChild(
+        entryCard(
+          {
+            badgeId: wa.id,
+            badgeKind: 'wa',
+            eventType: 'work-area',
+            primary: wa.segment,
+            chip: statusOf(wa),
+            meta: fmtDistance(d),
+          },
+          { wa: wa.id }
+        )
+      );
+    }
+  }
+
+  function openObservation(id: string) {
+    if (waDialog.open) waDialog.close();
+    activeObsId = id;
+    fillObsDialog(id);
+    obsDialog.show();
+  }
+  obsDialog.addEventListener('close', () => {
+    activeObsId = null;
+  });
+
+  // Impact rows jump from the observation drawer to the work-area drawer.
+  $('obs-impact').addEventListener('click', (e) => {
+    const li = (e.target as HTMLElement).closest<HTMLElement>('[data-wa]');
+    if (li) openWorkArea(li.dataset.wa!);
+  });
+
+  // ── Map filters (above the map) — the SAME filter legos as the Data tab,
+  //    multi-select; empty = all. They scope markers + the readiness strip. ─────
+  const mapFltStatus = $('map-flt-status') as FilterDropdownEl;
+  mapFltStatus.options = statusFilterOptions();
+  mapFltStatus.addEventListener('selection-change', (e) => {
+    statusFilters = ((e as CustomEvent).detail?.value as string[]) ?? [];
+    syncPresetSelection(); // hand-edited facets deselect to no-preset unless they match a set
+    applyMapFilters();
+  });
+
+  const mapFltStart = $('map-flt-start') as FilterDropdownEl;
+  mapFltStart.options = startBuckets();
+  mapFltStart.addEventListener('selection-change', (e) => {
+    startFilters = ((e as CustomEvent).detail?.value as string[]) ?? [];
+    applyMapFilters();
+  });
+
+  $('map-clear-filters').addEventListener('esa-filter-clear', () => {
+    statusFilters = [];
+    startFilters = [];
+    mapFltStatus._selected = [];
+    mapFltStart._selected = [];
+    syncPresetSelection(); // empty facets = the All preset
+    applyMapFilters();
+  });
+
+  // ── View presets (ch3) — opinionated shortcuts over the SAME facet state the
+  //    Status dropdown edits (one source of truth: statusFilters). Pressing a
+  //    preset SETS the facets; the toggle reads as selected only while the
+  //    facets EXACTLY equal a preset's set. Counts ride the labels as plain
+  //    text (refreshed by refreshAll as statuses re-derive). ─────────────────
+  const PRESET_SETS: Record<string, ClearanceStatus[]> = {
+    all: [],
+    cleared: ['cleared', 'cleared-stipulations'],
+    blocked: ['blocked', 'provisional-block', 'inaccessible'],
+    scheduled: ['survey-scheduled'],
+    unscheduled: ['not-surveyed'],
+  };
+  const PRESET_LABELS: Record<string, string> = {
+    all: 'All',
+    cleared: 'Cleared',
+    blocked: 'Blocked',
+    scheduled: 'Scheduled',
+    unscheduled: 'Unscheduled',
+  };
+  const presets = $('view-presets') as ToggleEl;
+  function presetOptions(): { value: string; label: string }[] {
+    const counts = statusCounts(activeObservations);
+    const countOf = (s: ClearanceStatus) => counts.find((c) => c.status === s)?.count ?? 0;
+    return Object.keys(PRESET_SETS).map((key) => {
+      const set = PRESET_SETS[key];
+      const n = set.length ? set.reduce((sum, s) => sum + countOf(s), 0) : workAreas.length;
+      return { value: key, label: `${PRESET_LABELS[key]} (${n})` };
+    });
+  }
+  /** Selected preset = the one whose set EXACTLY equals the current facets
+      (order-insensitive); anything else deselects the whole group. */
+  function syncPresetSelection() {
+    const cur = [...statusFilters].sort().join('|');
+    const match = Object.keys(PRESET_SETS).find((key) =>
+      key === 'all' ? statusFilters.length === 0 : [...PRESET_SETS[key]].sort().join('|') === cur
+    );
+    presets.value = match ?? '';
+  }
+  presets.options = presetOptions();
+  presets.addEventListener('change', (e) => {
+    const key = ((e as CustomEvent).detail?.value as string) ?? presets.value;
+    statusFilters = [...(PRESET_SETS[key] ?? [])];
+    mapFltStatus._selected = [...statusFilters]; // drive the dropdown — one source of truth
+    applyMapFilters();
+  });
+
+  /** Re-derive the planned-start buckets after a save (an edited date may add a
+      bucket, empty one out, or move a work area between buckets). */
+  function refreshStartOptions() {
+    const opts = startBuckets();
+    mapFltStart.options = opts;
+    const valid = new Set(opts.map((o) => o.value));
+    startFilters = startFilters.filter((v) => valid.has(v));
+    mapFltStart._selected = [...startFilters];
+  }
+
+  function applyMapFilters() {
+    syncMarkerVisibility();
+    refreshReadiness();
+  }
+
+  // ── "Go to …" jumps (round-5 ch2) + "Show on map" (ch5) — ONE machinery:
+  //    switch to the Map tab if needed, pan/zoom to the point (~street zoom),
+  //    pulse the marker/dot (the same status-flip pulse). Never opens a drawer
+  //    — click the marker for that. The marker is resolved INSIDE the deferred
+  //    frame: a Data-tab deep link means the map (and its markers) may not
+  //    exist until ensureMap() builds them. ────────────────────────────────────
+  function showOnMap(kind: 'wa' | 'obs', id: string) {
+    const pt = kind === 'wa' ? waById.get(id) : activeObservations.find((o) => o.id === id);
+    if (!pt) return;
+    if (tabs.activeIndex !== 0) {
+      tabs.activeIndex = 0; // programmatic — the lego fires tabchange only on user input
+      history.replaceState(null, '', '#map');
+    }
+    requestAnimationFrame(() => {
+      ensureMap();
+      map?.setView([pt.lat, pt.lng], 15);
+      const m = kind === 'wa' ? waMarkers.get(id) : obsDots.get(id);
+      if (m) pulseMarker(m);
+    });
+  }
+
+  // The two go-to comboboxes (esa-combobox, autocomplete mode — its dropdown
+  // filters the full option list client-side, so all 231 work-area IDs ride
+  // one type-ahead control). Both reset to the placeholder after the jump:
+  // a "go to" is an action, not a state.
+  type ComboboxEl = HTMLElement & {
+    value: string | string[] | null;
+    options: { value: string; label: string }[];
+  };
+  const gotoWa = $('goto-wa') as ComboboxEl;
+  gotoWa.options = [...workAreas].sort((a, b) => a.id.localeCompare(b.id)).map((w) => ({ value: w.id, label: w.id }));
+  gotoWa.addEventListener('change', (e) => {
+    const id = ((e as CustomEvent).detail?.value as string) ?? '';
+    if (!id) return;
+    showOnMap('wa', id);
+    gotoWa.value = null;
+  });
+
+  // Observation options run newest-first by firstObserved, date first (the sort key).
+  const gotoObs = $('goto-obs') as ComboboxEl;
+  gotoObs.options = [...activeObservations]
+    .sort((a, b) => b.firstObserved.localeCompare(a.firstObserved))
+    .map((o) => ({ value: o.id, label: `${formatDate(o.firstObserved)} · ${o.species} · ${o.id}` }));
+  gotoObs.addEventListener('change', (e) => {
+    const id = ((e as CustomEvent).detail?.value as string) ?? '';
+    if (!id) return;
+    showOnMap('obs', id);
+    gotoObs.value = null;
+  });
+
+  // "Show on map" from the drawers (ch5): capture the id, close the drawer
+  // (its close handler nulls the active id), then run the shared jump.
+  $('wa-showmap').addEventListener('click', () => {
+    const id = activeWaId;
+    if (!id) return;
+    waDialog.close();
+    showOnMap('wa', id);
+  });
+  $('obs-showmap').addEventListener('click', () => {
+    const id = activeObsId;
+    if (!id) return;
+    obsDialog.close();
+    showOnMap('obs', id);
+  });
+
+  // ── Activity feed (Tab 4) — events DERIVED from the fixture (sightings, dated
+  //    log updates, gate determinations, 30-day notifications) + the live
+  //    in-session change log (the same entries the drawer's Activity list shows:
+  //    one save → one set of entries in both places). Grouped per calendar date
+  //    against the fixture's frozen TODAY — never Date.now(). Every event IS an
+  //    EntrySpec (ch3): builders fill slots, the renderer is the only thing that
+  //    touches the DOM — no event ever carries an assembled sentence. ──────────
+  interface FeedEvent {
+    date: string; // ISO day — drives the date group (the group heading carries the date)
+    sort: string; // descending sort key within a group
+    entry: EntrySpec; // the deterministic row — meta is attribution (time/actor), never the date
+    component?: string; // the work area's component label (wa.segment) — drives the Component filter
+    waId?: string;
+    obsId?: string;
+  }
+
+  const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  /** Parse a fixture latestLog's leading date ("Jun 4, 2026, 2:23 PM: …") —
+      undated logs (the tracking-only sightings) return null. */
+  function parseLog(log: string | undefined): { iso: string; time?: string; text: string } | null {
+    if (!log) return null;
+    const m = log.match(/^([A-Z][a-z]{2}) (\d{1,2}), (\d{4})(?:, (\d{1,2}:\d{2} [AP]M))?:\s*([\s\S]*)$/);
+    if (!m) return null;
+    const month = MONTHS_SHORT.indexOf(m[1]);
+    if (month < 0) return null;
+    return {
+      iso: `${m[3]}-${String(month + 1).padStart(2, '0')}-${m[2].padStart(2, '0')}`,
+      time: m[4],
+      text: m[5],
+    };
+  }
+
+  // The date now lives on the group heading, so per-event meta carries only the
+  // attribution that ISN'T the date: time of day and/or the person.
+  const componentOf = (waId: string | undefined) => (waId ? waById.get(waId)?.segment : undefined);
+
+  function buildFeedEvents(): FeedEvent[] {
+    const events: FeedEvent[] = [];
+    for (const o of activeObservations) {
+      // First-observed: the sighting — primary carries the structured buffer
+      // consequence as '·'-joined values (never a sentence)
+      if (o.firstObserved <= TODAY) {
+        const affected = affectedWas(o).length;
+        const facts =
+          o.bufferFt > 0
+            ? `${o.bufferFt.toLocaleString()} ft buffer` + (affected ? ` · ${affected} work area${affected === 1 ? '' : 's'} affected` : '')
+            : 'tracking only';
+        events.push({
+          date: o.firstObserved,
+          sort: `${o.firstObserved}T08`,
+          entry: { badgeId: o.id, badgeKind: 'obs', eventType: 'observation', primary: `${o.species} · ${facts}` },
+          component: componentOf(o.workAreaId),
+          obsId: o.id,
+        });
+      }
+      // Dated log updates — skipped when the log IS the first-observed event;
+      // the verbatim log text rides the quoted secondary line
+      const log = parseLog(o.latestLog);
+      if (log && log.iso !== o.firstObserved && log.iso <= TODAY) {
+        events.push({
+          date: log.iso,
+          sort: `${log.iso}T09`,
+          entry: {
+            badgeId: o.id,
+            badgeKind: 'obs',
+            eventType: 'log',
+            primary: o.species,
+            secondary: log.text,
+            meta: log.time ?? '',
+          },
+          component: componentOf(o.workAreaId),
+          obsId: o.id,
+        });
+      }
+    }
+    for (const wa of workAreas) {
+      // Completed (outcome-bearing) BIOLOGICAL reviews — the review's KIND rides
+      // the primary slot; outcome-less (scheduled) reviews live in Upcoming instead
+      for (const r of wa.reviews) {
+        if (r.dimension !== BIO || !r.outcome || r.date > TODAY) continue;
+        events.push({
+          date: r.date,
+          sort: `${r.date}T10`,
+          entry: {
+            badgeId: wa.id,
+            badgeKind: 'wa',
+            eventType: 'review',
+            primary: `${GATE_DIMENSION_LABEL[r.dimension]} · ${REVIEW_KIND_LABEL[r.kind]}`,
+            chip: r.outcome,
+            meta: r.reviewer ?? '',
+          },
+          component: wa.segment,
+          waId: wa.id,
+        });
+      }
+      // 30-day landowner notifications
+      if (wa.notificationDate && wa.notificationDate <= TODAY) {
+        events.push({
+          date: wa.notificationDate,
+          sort: `${wa.notificationDate}T07`,
+          entry: { badgeId: wa.id, badgeKind: 'wa', eventType: 'notification', primary: '30-day landowner' },
+          component: wa.segment,
+          waId: wa.id,
+        });
+      }
+    }
+    // Live in-session edits → the TODAY date group, sorted above the fixture's
+    // dated events (the ChangeEntry already IS structured — pass it through)
+    for (const c of changeLog) {
+      events.push({
+        date: TODAY,
+        sort: `${TODAY}T99-${c.ts}`,
+        entry: {
+          badgeId: c.waId,
+          badgeKind: 'wa',
+          eventType: c.kind,
+          primary: c.primary,
+          secondary: c.secondary,
+          chip: c.chip,
+          meta: `${fmtTime(c.ts)} · ${c.user}`,
+        },
+        component: componentOf(c.waId),
+        waId: c.waId,
+      });
+    }
+    return events.sort((a, b) => b.sort.localeCompare(a.sort));
+  }
+
+  /** Future-dated look-ahead: scheduled clearance visits/reviews + planned
+      starts within 14 days — the block Leah plans the week around. Items carry
+      a fixed kind (→ the entry renderer's enumerated label) + an optional
+      structured detail (the review's discipline), never a prose string (ch3). */
+  interface UpcomingItem {
+    date: string;
+    waId: string;
+    kind: 'visit' | 'review' | 'work-start';
+    detail?: string;
+  }
+  function buildUpcoming(): UpcomingItem[] {
+    const items: UpcomingItem[] = [];
+    for (const wa of workAreas) {
+      if (wa.clearanceVisitDate && wa.clearanceVisitDate > TODAY)
+        items.push({ date: wa.clearanceVisitDate, waId: wa.id, kind: 'visit' });
+      for (const r of wa.reviews) {
+        // Scheduled (outcome-less) BIOLOGICAL reviews; the WA-level visit already covers its own date
+        if (r.dimension === BIO && !r.outcome && r.date > TODAY && r.date !== wa.clearanceVisitDate)
+          items.push({ date: r.date, waId: wa.id, kind: 'review', detail: GATE_DIMENSION_LABEL[r.dimension] });
+      }
+      if (wa.plannedStartDate && wa.plannedStartDate > TODAY && daysUntil(wa.plannedStartDate) <= 14)
+        items.push({ date: wa.plannedStartDate, waId: wa.id, kind: 'work-start' });
+    }
+    return items.sort((a, b) => a.date.localeCompare(b.date));
+  }
+
+  // ── Feed filters (Type / Component) — esa-filter-dropdown legos; multi-
+  //    select, empty = all. They scope the FEED only, never the Upcoming rail.
+  //    Type carries no color dots on purpose: colors belong to status, not
+  //    event type. ──────────────────────────────────────────────────────────
+  const FEED_TYPE_OF: Partial<Record<EntryKind, string>> = {
+    observation: 'observations',
+    log: 'observations',
+    review: 'reviews',
+    notification: 'notifications',
+    'block-confirmed': 'edits',
+    note: 'edits',
+    'gate-edit': 'edits',
+  };
+  let feedTypeFilters: string[] = [];
+  let feedComponentFilters: string[] = [];
+  // An event without a component (e.g. an observation not tied to a work area)
+  // matches only the empty Component filter.
+  const feedShown = (ev: FeedEvent) =>
+    (!feedTypeFilters.length || feedTypeFilters.includes(FEED_TYPE_OF[ev.entry.eventType] ?? '')) &&
+    (!feedComponentFilters.length || (!!ev.component && feedComponentFilters.includes(ev.component)));
+
+  const actFltType = $('act-flt-type') as FilterDropdownEl;
+  actFltType.options = [
+    { value: 'observations', label: 'Observations' },
+    { value: 'reviews', label: 'Clearance reviews' },
+    { value: 'notifications', label: 'Notifications' },
+    { value: 'edits', label: 'Edits' },
+  ];
+  actFltType.addEventListener('selection-change', (e) => {
+    feedTypeFilters = ((e as CustomEvent).detail?.value as string[]) ?? [];
+    renderFeed();
+  });
+
+  const actFltComponent = $('act-flt-component') as FilterDropdownEl;
+  actFltComponent.options = [...new Set(workAreas.map((w) => w.segment))]
+    .sort()
+    .map((c) => ({ value: c, label: c }));
+  actFltComponent.addEventListener('selection-change', (e) => {
+    feedComponentFilters = ((e as CustomEvent).detail?.value as string[]) ?? [];
+    renderFeed();
+  });
+
+  $('act-clear-filters').addEventListener('esa-filter-clear', () => {
+    feedTypeFilters = [];
+    feedComponentFilters = [];
+    actFltType._selected = [];
+    actFltComponent._selected = [];
+    renderFeed();
+  });
+
+  function renderFeed() {
+    // Upcoming rail (soonest first) — NOT scoped by the feed filters. Same
+    // entryRow anatomy as the feed (ch3): badge + enumerated kind + the date
+    // as the structured primary, "in N days" as meta.
+    const upList = $('feed-upcoming');
+    const items = buildUpcoming();
+    (upList.closest('.feed-upcoming') as HTMLElement).hidden = items.length === 0;
+    upList.innerHTML = '';
+    for (const item of items) {
+      const days = daysUntil(item.date);
+      const li = entryRow({
+        badgeId: item.waId,
+        badgeKind: 'wa',
+        eventType: item.kind,
+        primary: item.detail ? `${item.detail} · ${shortDate(item.date)}` : shortDate(item.date),
+        meta: days === 1 ? 'tomorrow' : `in ${days} days`,
+      });
+      li.classList.add('entry--up');
+      li.dataset.wa = item.waId;
+      li.tabIndex = 0;
+      li.setAttribute('role', 'button');
+      upList.appendChild(li);
+    }
+
+    // Feed — one group per calendar date, newest first. buildFeedEvents() sorts
+    // descending, so Map insertion order IS the date order; live edits land in
+    // the fixture-TODAY group ("… · Today"). Every row is the ch3 entry card.
+    const groupsEl = $('feed-groups');
+    groupsEl.innerHTML = '';
+    const groups = new Map<string, FeedEvent[]>();
+    for (const ev of buildFeedEvents()) {
+      if (!feedShown(ev)) continue;
+      if (!groups.has(ev.date)) groups.set(ev.date, []);
+      groups.get(ev.date)!.push(ev);
+    }
+    $('feed-empty').hidden = groups.size > 0;
+    for (const [iso, evs] of groups) {
+      const sec = document.createElement('section');
+      sec.className = 'feed-day';
+      const h = document.createElement('h3');
+      h.className = 'feed-heading';
+      h.textContent = iso === TODAY ? `${formatDate(iso)} · Today` : formatDate(iso);
+      const ul = document.createElement('ul');
+      ul.className = 'feed-day__list';
+      for (const ev of evs) ul.appendChild(entryCard(ev.entry, { wa: ev.waId, obs: ev.obsId }));
+      sec.append(h, ul);
+      groupsEl.appendChild(sec);
+    }
+  }
+
+  // ── Timeline (Tab 3) — "when does work become available, and in what
+  //    status?" Three swimlanes of one-row-per-site date-positioned dots on a
+  //    shared auto-ranged axis with the fixture-TODAY marker. Adapted from
+  //    permit-tracking's clear-to-build chart; the permit-tracking stagger
+  //    (one row per item) is the collision strategy — 18 provisional blocks
+  //    lifting on the same date read as one aligned column of hollow dots.
+  //    Everything derives from the store; refreshAll re-renders it. ──────────
+  interface TlItem {
+    waId: string;
+    sub: string;
+    st: ClearanceStatus;
+    date: string; // ONE dot per work area per lane (round-5 ch4) — the earliest relevant upcoming date
+  }
+
+  function buildLanes(): { lanes: { label: string; items: TlItem[] }[]; notes: string[] } {
+    const starts: TlItem[] = [];
+    const visits: TlItem[] = [];
+    const lifts: TlItem[] = [];
+    let notSurveyed = 0;
+    let indefiniteBlocks = 0;
+    let clearedNoStart = 0;
+    for (const wa of workAreas) {
+      const st = statusOf(wa);
+      if (st === 'not-surveyed') {
+        notSurveyed++;
+        continue;
+      }
+      // Lane 1 — Work starts: cleared / cleared-with-stipulations sites at
+      // their planned start, plus the notification-pipeline sites (30-day
+      // landowner notification sent toward a planned start).
+      const cleared = st === 'cleared' || st === 'cleared-stipulations';
+      if (wa.plannedStartDate && (cleared || wa.notificationDate)) {
+        starts.push({ waId: wa.id, sub: wa.segment, st, date: wa.plannedStartDate });
+      } else if (cleared && !wa.plannedStartDate) {
+        clearedNoStart++;
+      }
+      // Lane 2 — Clearance visits: scheduled (outcome-less) reviews. Review-
+      // level on purpose: a provisionally blocked site's visit is still on the
+      // books and still happens. ONE dot per work area (ch4): a multi-review
+      // site collapses to its earliest upcoming pending date (earliest overall
+      // if none upcoming) — multiplicity is never plotted or labeled.
+      const reviewDates = [...new Set(wa.reviews.filter((r) => r.dimension === BIO && !r.outcome).map((r) => r.date))].sort();
+      if (reviewDates.length) {
+        const date = reviewDates.find((d) => d >= TODAY) ?? reviewDates[0];
+        visits.push({ waId: wa.id, sub: wa.segment, st, date });
+      }
+      // Lane 3 — Blocks expected to lift: blocked + provisional-block sites at
+      // blockedUntil. Indefinite blocks (null — the GGS compliance cases) have
+      // no date to plot; they live in the side note instead.
+      if (st === 'blocked' || st === 'provisional-block') {
+        const until = blockedUntil(wa, activeObservations);
+        if (until) lifts.push({ waId: wa.id, sub: wa.segment, st, date: until });
+        else indefiniteBlocks++;
+      }
+    }
+    const byDate = (a: TlItem, b: TlItem) => a.date.localeCompare(b.date) || a.waId.localeCompare(b.waId);
+    starts.sort(byDate);
+    visits.sort(byDate);
+    lifts.sort(byDate);
+    const notes: string[] = [];
+    if (notSurveyed) notes.push(`${notSurveyed} work areas not yet surveyed — no dates to plot`);
+    if (indefiniteBlocks) notes.push(`${indefiniteBlocks} blocked indefinitely (GGS)`);
+    if (clearedNoStart) notes.push(`${clearedNoStart} cleared without a planned start date`);
+    return {
+      lanes: [
+        { label: 'Work starts', items: starts },
+        { label: 'Clearance visits', items: visits },
+        { label: 'Blocks expected to lift', items: lifts },
+      ],
+      notes,
+    };
+  }
+
+  // Shared chart geometry: the axis row, every lane row, and the TODAY line all
+  // use the same [label | track | meta] grid, so a track percentage converts to
+  // a chart-relative offset with one calc. Gap = --spacing-400 = 16px.
+  const TL_LABEL_W = 190;
+  const TL_META_W = 120;
+  const TL_GAP = 16;
+  const tlTrackLeft = (p: number) =>
+    `calc(${TL_LABEL_W + TL_GAP}px + (100% - ${TL_LABEL_W + TL_META_W + 2 * TL_GAP}px) * ${p / 100})`;
+
+  function renderTimeline() {
+    const axisEl = $('tl-axis');
+    const chartEl = $('tl-chart');
+    const { lanes, notes } = buildLanes();
+    $('tl-excluded').textContent = notes.join(' · ');
+
+    axisEl.innerHTML = '';
+    chartEl.innerHTML = '';
+    const allDates = lanes.flatMap((l) => l.items.map((i) => i.date));
+    if (!allDates.length) return;
+
+    // Auto-range: the month containing min(TODAY, earliest) → the month after
+    // the latest plotted date. All UTC day math off the fixture clock.
+    const isoUtc = (iso: string) => {
+      const [y, m, d] = iso.split('-').map(Number);
+      return Date.UTC(y, m - 1, d);
+    };
+    const minIso = allDates.reduce((a, b) => (a < b ? a : b), TODAY);
+    const maxIso = allDates.reduce((a, b) => (a > b ? a : b), TODAY);
+    const [minY, minM] = minIso.split('-').map(Number);
+    const [maxY, maxM] = maxIso.split('-').map(Number);
+    const start = Date.UTC(minY, minM - 1, 1);
+    const end = Date.UTC(maxY, maxM, 1);
+    const span = end - start;
+    const pct = (iso: string) => Math.min(100, Math.max(0, ((isoUtc(iso) - start) / span) * 100));
+
+    // Month ticks + the TODAY tick (fixture clock — never Date.now()).
+    for (const t = new Date(start); t.getTime() < end; t.setUTCMonth(t.getUTCMonth() + 1)) {
+      const tick = document.createElement('span');
+      tick.className = 'tl-tick';
+      tick.style.left = `${((t.getTime() - start) / span) * 100}%`;
+      tick.textContent = `${MONTHS_SHORT[t.getUTCMonth()]} ${t.getUTCFullYear()}`;
+      axisEl.appendChild(tick);
+    }
+    const todayTick = document.createElement('span');
+    todayTick.className = 'tl-tick tl-tick--today';
+    todayTick.style.left = `${pct(TODAY)}%`;
+    todayTick.textContent = 'Today';
+    axisEl.appendChild(todayTick);
+
+    // TODAY marker line — spans the full chart height inside the track column.
+    const todayLine = document.createElement('span');
+    todayLine.className = 'tl-today-line';
+    todayLine.style.left = tlTrackLeft(pct(TODAY));
+    chartEl.appendChild(todayLine);
+
+    for (const lane of lanes) {
+      const sec = document.createElement('section');
+      sec.className = 'tl-lane';
+      const h = document.createElement('h4');
+      h.className = 'tl-lane__label';
+      h.textContent = lane.label;
+      const count = document.createElement('span');
+      count.className = 'tl-lane__count';
+      count.textContent = `${lane.items.length} work area${lane.items.length === 1 ? '' : 's'}`;
+      h.appendChild(count);
+      sec.appendChild(h);
+      const ul = document.createElement('ul');
+      ul.className = 'tl-lane__rows';
+      if (!lane.items.length) {
+        const li = document.createElement('li');
+        li.className = 'tl-row tl-row--empty';
+        li.textContent = 'Nothing to plot in this lane.';
+        ul.appendChild(li);
+      }
+      for (const item of lane.items) {
+        const li = document.createElement('li');
+        li.className = 'tl-row';
+        li.tabIndex = 0;
+        li.setAttribute('role', 'button');
+        // The shared tooltip idiom for this non-Leaflet surface: a plain title.
+        li.title = `${item.waId} · ${stLabel(item.st)} · ${formatDate(item.date)}`;
+        const name = document.createElement('span');
+        name.className = 'tl-row__name';
+        name.innerHTML = `${item.waId}<span class="tl-row__sub">${item.sub}</span>`;
+        const track = document.createElement('span');
+        track.className = 'tl-row__track';
+        // ONE dot per row (ch4); provisional = hollow, same grammar as the map.
+        const dot = document.createElement('span');
+        dot.className = item.st === 'provisional-block' ? 'tl-dot tl-dot--hollow' : 'tl-dot';
+        dot.style.left = `${pct(item.date)}%`;
+        if (item.st !== 'provisional-block') dot.style.background = `var(--st-${item.st})`;
+        track.appendChild(dot);
+        const meta = document.createElement('span');
+        meta.className = 'tl-row__meta';
+        meta.textContent = formatDate(item.date);
+        li.append(name, track, meta);
+        li.addEventListener('click', () => openWorkArea(item.waId));
+        ul.appendChild(li);
+      }
+      sec.appendChild(ul);
+      chartEl.appendChild(sec);
+    }
+  }
+
+  // Feed rows jump to the relevant drawer, opened OVER the Activity tab — the
+  // drawers are viewport-fixed side dialogs, so no tab switch is needed (the
+  // most natural fit for the existing openWorkArea/openObservation wiring).
+  document.querySelector('.feed-panel')!.addEventListener('click', (e) => {
+    const li = (e.target as HTMLElement).closest<HTMLElement>('[data-wa], [data-obs]');
+    if (!li) return;
+    if (li.dataset.wa) openWorkArea(li.dataset.wa);
+    else if (li.dataset.obs) openObservation(li.dataset.obs);
+  });
+
+  // ── Tabs (Map default; #data / #activity deep-link) ─────────────────────────
+  const tabs = $('gc-tabs') as HTMLElement & { tabs: { label: string; icon?: string }[]; activeIndex: number };
+  const ICON = (paths: string) =>
+    `<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths}</svg>`;
+  tabs.tabs = [
+    {
+      label: 'Map',
+      icon: ICON(
+        '<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/>'
+      ),
+    },
+    {
+      label: 'Data',
+      icon: ICON('<path d="M12 3v18"/><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/>'),
+    },
+    {
+      label: 'Timeline',
+      icon: ICON('<path d="M10 6h8"/><path d="M12 16h6"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M8 11h7"/>'),
+    },
+    {
+      label: 'Activity',
+      icon: ICON('<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/>'),
+    },
+  ];
+  const TAB_HASHES = ['#map', '#data', '#timeline', '#activity'];
+  const deepLinkIdx = TAB_HASHES.indexOf(location.hash);
+  if (deepLinkIdx > 0) tabs.activeIndex = deepLinkIdx;
+  tabs.addEventListener('tabchange', (e) => {
+    const idx = (e as CustomEvent).detail.index;
+    history.replaceState(null, '', TAB_HASHES[idx] ?? '#map');
+    if (idx === 0) requestAnimationFrame(ensureMap);
+    else if (idx === 1) requestAnimationFrame(ensureGrids);
+    else if (idx === 2) renderTimeline();
+    else renderFeed();
+  });
+
+  // ── Print — pin the map's on-screen size so Leaflet's loaded tiles are reused ─
+  window.addEventListener('beforeprint', () => {
+    const startLabels = new Map(startBuckets().map((o) => [o.value, o.label]));
+    $('print-meta').textContent =
+      `Printed ${new Date().toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}` +
+      ` · Status: ${statusFilters.length ? statusFilters.map((s) => stLabel(s)).join(', ') : 'All'}` +
+      ` · Start: ${startFilters.length ? startFilters.map((v) => startLabels.get(v) ?? v).join(', ') : 'All'}` +
+      ` · ${visibleWas().length} work areas`;
+    const wrap = document.querySelector<HTMLElement>('.map-wrap')!;
+    wrap.style.width = `${wrap.offsetWidth}px`;
+    wrap.style.height = `${wrap.offsetHeight}px`;
+  });
+  window.addEventListener('afterprint', () => {
+    const wrap = document.querySelector<HTMLElement>('.map-wrap')!;
+    wrap.style.width = '';
+    wrap.style.height = '';
+    map?.invalidateSize();
+  });
+
+  // ── Boot ─────────────────────────────────────────────────────────────────────
+  refreshReadiness();
+  renderTimeline();
+  renderFeed();
+  if (tabs.activeIndex === 0) requestAnimationFrame(ensureMap);
+  else if (tabs.activeIndex === 1) requestAnimationFrame(ensureGrids);
+</script>
+
+<style>
+  /* Runtime status colors live on :root via the SSR-inlined style above — the
+     exact fixture hexes (the committed field-map palette). Markers, chips,
+     readiness bar, legend and grid chips all read them. */
+
+  /* Pre-upgrade FOUC guard: only the default (Map) panel shows until the lego defines */
+  esa-tab-layout:not(:defined) [slot='panel-1'],
+  esa-tab-layout:not(:defined) [slot='panel-2'],
+  esa-tab-layout:not(:defined) [slot='panel-3'] {
+    display: none;
+  }
+
+  /* ═══ Map + overlays (the hero) ═══ */
+  .map-wrap {
+    position: relative;
+    width: 100%;
+    height: 70vh;
+    min-height: 480px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+    overflow: hidden;
+  }
+  .map {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+  /* Leaflet panes stay below the topbar (z 1100) and the side-dialogs */
+  :global(.leaflet-pane),
+  :global(.leaflet-top),
+  :global(.leaflet-bottom) {
+    z-index: 400;
+  }
+  :global(#gc-map .leaflet-interactive) {
+    cursor: pointer;
+  }
+
+  /* Status-flip pulse — white-halo stroke pulse on markers whose derived status
+     changed after a drawer save. (Astro leaves @keyframes unscoped; the class
+     lands on Leaflet SVG paths.) */
+  :global(.gc-pulse) {
+    animation: gc-pulse 0.9s ease-out 3;
+  }
+  @keyframes gc-pulse {
+    0% {
+      stroke-width: 2;
+      stroke-opacity: 1;
+    }
+    50% {
+      stroke-width: 14;
+      stroke-opacity: 0.25;
+    }
+    100% {
+      stroke-width: 2;
+      stroke-opacity: 1;
+    }
+  }
+
+  /* Reset-view control — rides Leaflet's own .leaflet-bar chrome (border, radius,
+     hover) so it reads as a sibling of the zoom buttons; this only centers the
+     glyph inside the anchor. JS-injected into Leaflet's corner → :global. */
+  :global(.gc-reset__btn) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  :global(.gc-reset__btn svg) {
+    width: 16px;
+    height: 16px;
+    display: block;
+  }
+
+  /* Map filter bar — two bands: View presets on top, filters + go-to below
+     (the requirement-tracker two-band idiom). The feed reuses it one-banded. */
+  .map-filterbar {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--spacing-300);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+  }
+  .map-filterbar__row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    flex-wrap: wrap;
+    padding: var(--spacing-250) var(--spacing-400);
+  }
+  .map-filterbar__row + .map-filterbar__row {
+    border-top: 1px solid var(--color-border);
+  }
+  .map-filterbar__label {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+  }
+  /* Go-to jumps (ch2) — right-aligned in the View row, beside the presets.
+     The size="md" presets run a taller 36px line (the round-5 step up); the
+     comboboxes deliberately stay on the page's quiet 32px control line (same
+     as the filter dropdowns below), vertically centered against the toggle —
+     subordinate jumps, not peers of the presets. Widths sized so the row
+     holds one line beside the md toggle at desktop widths. */
+  .map-filterbar__goto {
+    margin-left: auto;
+    display: flex;
+    gap: var(--spacing-200);
+  }
+  .map-filterbar__goto :global(esa-combobox) {
+    /* esa-combobox sm reads the Beacon form tokens (28px / 12px) — re-point
+       them to the filter legos' 32px / --type-size-150 line, scoped here. */
+    --form-height-sm: 32px;
+    --form-font-size-sm: var(--type-size-150);
+  }
+  #goto-wa {
+    width: 200px;
+  }
+  #goto-obs {
+    width: 260px;
+  }
+
+  /* Legend overlay — statuses + the two observation symbols (the violet is a
+     deliberate non-status hue: facts, not judgments) */
+  .map-legend {
+    position: absolute;
+    bottom: var(--spacing-400);
+    left: var(--spacing-400);
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    padding: var(--spacing-300) var(--spacing-400);
+    background: color-mix(in srgb, var(--color-surface) 94%, transparent);
+    backdrop-filter: blur(4px);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+    box-shadow: var(--shadow-400);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+  .map-legend__title {
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .map-legend__row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+  }
+  .map-legend__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px var(--color-surface);
+    flex-shrink: 0;
+  }
+  .map-legend__ring {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1.5px dashed var(--obs-color);
+    background: color-mix(in srgb, var(--obs-color) 12%, transparent);
+    box-sizing: border-box;
+    flex-shrink: 0;
+  }
+  /* Smaller than the 12px status dot on purpose — mirrors the map's hierarchy
+     (observation dots run half the work-area marker size). */
+  .map-legend__hollow {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1.5px solid var(--obs-color);
+    background: var(--color-surface);
+    box-sizing: border-box;
+    flex-shrink: 0;
+    margin-inline: 2px;
+  }
+
+  /* ═══ Readiness strip — census figure below the map ═══ */
+  .readiness {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    margin-top: var(--spacing-400);
+    padding: var(--spacing-300) var(--spacing-400);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+  }
+  .readiness__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+    flex-wrap: wrap;
+  }
+  .readiness__title {
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .readiness__summary {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+  .readiness__summary strong {
+    color: var(--st-cleared);
+    font-weight: var(--font-weight-bold);
+  }
+  .readiness__bar {
+    display: flex;
+    height: 10px;
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    background: var(--color-background);
+  }
+  .readiness__bar > :global(div + div) {
+    border-left: 1px solid var(--color-surface);
+  }
+  .readiness__legend {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-200) var(--spacing-500);
+  }
+  .readiness__legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+  .readiness__legend-item[data-empty='true'] {
+    opacity: 0.4;
+  }
+  .readiness__swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: var(--radius-050);
+    flex-shrink: 0;
+  }
+  .readiness__legend-label {
+    color: var(--color-text-primary);
+  }
+  .readiness__legend-count {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ═══ Timeline (Tab 3) — swimlane rows on a shared axis (permit-tracking's
+     clear-to-build chart adapted). Lanes/rows/dots are JS-injected → tl-*
+     classes are :global. Geometry contract: the axis row, every lane row, and
+     the TODAY line share the same [190px | 1fr | 120px] grid with 16px
+     (--spacing-400) gaps — the JS converts track percentages with that calc. ═══ */
+  .tl {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    padding: var(--spacing-400);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+  }
+  .tl__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+    flex-wrap: wrap;
+  }
+  .tl__title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .tl__sub {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+  .tl__axisrow {
+    display: grid;
+    grid-template-columns: 190px 1fr 120px;
+    gap: var(--spacing-400);
+  }
+  .tl__axis {
+    position: relative;
+    height: 18px;
+  }
+  :global(.tl-tick) {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    font-size: 0.8125rem;
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+  }
+  :global(.tl-tick--today) {
+    color: var(--color-primary);
+    font-weight: var(--font-weight-semibold);
+  }
+  .tl__chart {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-500);
+  }
+  /* TODAY marker line — a chart rule spanning all lanes (not a status border) */
+  :global(.tl-today-line) {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    margin-left: -1px;
+    background: color-mix(in srgb, var(--color-primary) 45%, transparent);
+    pointer-events: none;
+    z-index: 1;
+  }
+  :global(.tl-lane) {
+    display: flex;
+    flex-direction: column;
+  }
+  /* Lane labels — readable words: ≥14px, normal case, semibold */
+  :global(.tl-lane__label) {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-200);
+    margin: 0 0 var(--spacing-100);
+    font-size: 0.9375rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  :global(.tl-lane__count) {
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-regular);
+    color: var(--color-text-tertiary);
+    font-variant-numeric: tabular-nums;
+  }
+  :global(.tl-lane__rows) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  :global(.tl-row) {
+    display: grid;
+    grid-template-columns: 190px 1fr 120px;
+    gap: var(--spacing-400);
+    align-items: center;
+    padding: var(--spacing-150) 0;
+    border-top: 1px solid var(--color-border-light);
+    cursor: pointer;
+  }
+  :global(.tl-row:hover) {
+    background: var(--grid-row-bg-hover);
+  }
+  :global(.tl-row__name) {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  :global(.tl-row__sub) {
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-regular);
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  :global(.tl-row__track) {
+    position: relative;
+    height: 14px;
+    border-radius: var(--radius-full);
+    background: var(--color-background);
+  }
+  :global(.tl-dot) {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--color-surface);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
+  }
+  /* Provisional = hollow dot — the same visual grammar as the map markers */
+  :global(.tl-dot--hollow) {
+    background: var(--color-surface);
+    border: 2.5px solid var(--st-provisional-block);
+    box-shadow: none;
+  }
+  :global(.tl-row__meta) {
+    text-align: right;
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  :global(.tl-row--empty) {
+    display: block;
+    padding: var(--spacing-200) 0;
+    font-size: 0.875rem;
+    color: var(--color-text-tertiary);
+    cursor: default;
+  }
+  .tl__excluded {
+    margin: 0;
+    padding-top: var(--spacing-200);
+    border-top: 1px solid var(--color-border-light);
+    font-size: 0.875rem;
+    color: var(--color-text-tertiary);
+  }
+
+  /* ═══ Activity feed (Tab 4) — two-column grid: date-grouped card feed left
+     (flexes to the FULL content width — the round-4 client ask removed the old
+     760px cap), sticky ~300px Upcoming rail right (stacks ABOVE the feed on
+     narrow viewports). Type at 0.875rem throughout — an EXPLICIT client
+     override of the usual 16px floor, scoped to this tab only (metas drop one
+     step but never below 0.8125rem). Date groups + rows are JS-injected →
+     :global. Type is the kind icon + status chip, never a colored border. ═══ */
+  .feed {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    grid-template-areas: 'main side';
+    align-items: start;
+    gap: var(--spacing-500);
+  }
+  .feed-main {
+    grid-area: main;
+    min-width: 0;
+  }
+  .feed-upcoming {
+    grid-area: side;
+    /* Sticks while the feed scrolls. The scroll container (.modern-layout__content)
+       already sits below the fixed 52px topbar, so only a breathing gap is needed —
+       sticky `top` is measured against that scrollport, not the viewport. */
+    position: sticky;
+    top: var(--spacing-400);
+    padding: var(--spacing-300) var(--spacing-400);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+  }
+  @media (max-width: 1100px) {
+    .feed {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: 'side' 'main';
+    }
+    .feed-upcoming {
+      position: static;
+    }
+  }
+  .feed-upcoming[hidden] {
+    display: none;
+  }
+  .feed-upcoming__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  #feed-groups {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-500);
+  }
+  #feed-empty[hidden] {
+    display: none;
+  }
+  :global(.feed-heading) {
+    margin: 0 0 var(--spacing-200);
+    font-size: 1rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  :global(.feed-day__list) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200); /* ~8px between cards */
+  }
+
+  /* ═══ Deterministic entry rows (round-5 ch3) — ONE anatomy everywhere the
+     page lists events/references (Activity feed + Upcoming rail, drawer
+     activity / conflicts / nearby / impact lists). JS-injected → :global.
+     [ID badge] EventType · primary (+ chip) — meta / "secondary".
+     Badges mirror the Data Catalog commitment-ID badge idiom (compact mono/
+     semibold tinted token): observation IDs = the page's --obs-color violet,
+     work-area IDs = primary-teal tint (deliberately NOT a second violet — the
+     page's whole grammar keeps work areas and observations distinct). ═══ */
+  :global(.entry) {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-300);
+    padding: var(--spacing-250) var(--spacing-300);
+  }
+  :global(.entry__badge) {
+    flex-shrink: 0;
+    margin-top: 1px;
+    padding: 0.125rem 0.375rem;
+    border-radius: var(--radius-100);
+    font-family: var(--font-mono, monospace);
+    font-size: var(--type-size-100); /* ID token — meta-scale, like the catalog badges */
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.4;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  :global(.entry__badge--obs) {
+    color: var(--obs-color-strong);
+    background: color-mix(in srgb, var(--obs-color) 12%, white);
+  }
+  :global(.entry__badge--wa) {
+    color: var(--color-primary);
+    background: color-mix(in srgb, var(--color-primary) 10%, white);
+  }
+  :global(.entry__body) {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  /* Inline flow on purpose (not flex): the ' · ' separators are text, so the
+     line wraps naturally between values in narrow containers. */
+  :global(.entry__line) {
+    margin: 0;
+    font-size: 0.875rem; /* the Activity 0.875rem base — event type stays ≥14px */
+    line-height: 1.45;
+  }
+  :global(.entry__type) {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  :global(.entry__sep) {
+    color: var(--color-text-tertiary);
+  }
+  :global(.entry__primary) {
+    color: var(--color-text-primary);
+  }
+  :global(.entry__line .gate__chipwrap) {
+    vertical-align: text-bottom;
+  }
+  /* Verbatim field text (log excerpt / note) — quoted secondary copy */
+  :global(.entry__secondary) {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: var(--color-text-secondary);
+  }
+  :global(.entry__meta) {
+    flex-shrink: 0;
+    font-size: 0.8125rem; /* one step below the 0.875rem base — the ch1 floor */
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+    text-align: right;
+  }
+  :global(.entry--empty) {
+    padding: var(--spacing-200) 0;
+    font-size: 0.875rem;
+    color: var(--color-text-tertiary);
+  }
+  /* Card dress (feed rows + drawer conflict/impact rows) — clickable jump-offs */
+  :global(.entry--card) {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+    cursor: pointer;
+    transition:
+      background 120ms ease,
+      border-color 120ms ease;
+  }
+  :global(.entry--card:hover) {
+    background: var(--grid-row-bg-hover);
+    border-color: var(--color-border-strong);
+  }
+  /* Upcoming-rail dress — flush separated rows in the narrow sticky rail; the
+     meta drops under the line instead of fighting for the right edge. */
+  :global(.entry--up) {
+    padding: var(--spacing-200) 0;
+    cursor: pointer;
+    flex-wrap: wrap;
+  }
+  :global(.entry--up + .entry--up) {
+    border-top: 1px solid var(--color-border-light);
+  }
+  :global(.entry--up .entry__meta) {
+    flex-basis: 100%;
+    text-align: left;
+  }
+
+  /* ═══ Print — clean landscape snapshot of the map tab ═══ */
+  /* The Activity tab needs no print rules for the same reason the Data tab has
+     none: esa-tab-layout only renders the ACTIVE panel's slot, and this sheet
+     is map-oriented — the feed never prints unless it is the open tab. */
+  .print-header {
+    display: none;
+  }
+  @media print {
+    @page {
+      size: letter landscape;
+      margin: 10mm;
+    }
+    :global(.topbar),
+    :global(.side-nav),
+    :global(.page-layout__breadcrumbs),
+    :global(.page-layout__title) {
+      display: none !important;
+    }
+    :global(esa-tab-layout)::part(tabs) {
+      display: none;
+    }
+    .map-filterbar {
+      display: none;
+    }
+    .print-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: var(--spacing-400);
+      margin-bottom: var(--spacing-300);
+    }
+    .print-header__title {
+      font-size: 16pt;
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-primary);
+    }
+    .print-header__meta {
+      font-size: 9pt;
+      color: var(--color-text-secondary);
+    }
+    .map-wrap {
+      height: 380pt;
+      min-height: 0;
+      break-inside: avoid;
+    }
+    .readiness {
+      break-inside: avoid;
+      border-color: var(--color-border, #ccc);
+    }
+  }
+
+  /* ═══ Filter bar — carded two-band, faithful copy of requirement-tracker's
+     page glue. Every control inside is a lego. ═══ */
+  .bcn-filterbar {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    margin-bottom: var(--spacing-400);
+  }
+  .bcn-filterbar__top {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-400);
+    padding: var(--spacing-300) var(--spacing-400);
+    flex-wrap: wrap;
+  }
+  .bcn-filterbar__bottom {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding: var(--spacing-300) var(--spacing-400);
+    border-top: 1px solid var(--color-border);
+    flex-wrap: wrap;
+  }
+  .bcn-filterbar__group {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+  .bcn-filterbar__label {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+  }
+  .bcn-filterbar__search {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    min-width: 300px;
+  }
+  .bcn-filterbar__search :global(esa-text-field) {
+    flex: 1;
+  }
+  .bcn-filterbar__clear {
+    margin-left: auto;
+  }
+
+  /* ═══ Grid panes + beacon grid footer ═══ */
+  .bcn-view-pane[hidden] {
+    display: none;
+  }
+  .gc-grid {
+    width: 100%;
+    height: calc(100vh - 430px);
+    min-height: 520px;
+  }
+  :global(#grid-was .ag-row),
+  :global(#grid-obs .ag-row) {
+    cursor: pointer;
+  }
+  .table-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    padding: var(--spacing-200) var(--spacing-400);
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-top: 0;
+    border-radius: 0 0 var(--radius-100) var(--radius-100);
+  }
+  .row-count-data {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-400);
+    font-size: var(--type-size-100);
+    color: var(--color-text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+  .filtered-rows-count {
+    color: var(--color-text-tertiary);
+  }
+  .filtered-rows-count[hidden] {
+    display: none;
+  }
+
+  /* AG Grid cell renderers (global — AG Grid injects cells outside Astro's scope).
+     Chip color comes through --_chip → var(--st-*). */
+  :global(.ag-cell.bcn-grid-status-cell) {
+    display: flex;
+    align-items: center;
+  }
+  :global(.bcn-grid-chip) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    padding: 1px var(--spacing-200);
+    border-radius: var(--radius-100);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    font-weight: var(--font-weight-semibold);
+    white-space: nowrap;
+    background: color-mix(in srgb, var(--_chip) 16%, transparent);
+    color: color-mix(in srgb, var(--_chip) 70%, #1a1a1a);
+  }
+  :global(.bcn-grid-chip__dot) {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--_chip);
+    flex-shrink: 0;
+  }
+
+  /* Provisional Block chips — the OUTLINED-red variant: white fill + red ring
+     + hollow dot ("blocked, but not solidified"). Same mechanics as the page's
+     hollow "Not reviewed" chip idiom, applied to both the BcnStatusChip clones
+     and the AG Grid chips (the renderers tag data-status). Inset box-shadow,
+     not border, so the chip metrics don't shift against its solid siblings. */
+  :global(.bcn-status-chip[data-status='provisional-block']),
+  :global(.bcn-grid-chip[data-status='provisional-block']) {
+    background: var(--color-surface);
+    box-shadow: inset 0 0 0 1.5px var(--st-provisional-block);
+  }
+  :global(.bcn-status-chip[data-status='provisional-block'] .bcn-status-chip__dot),
+  :global(.bcn-grid-chip[data-status='provisional-block'] .bcn-grid-chip__dot) {
+    background: var(--color-surface);
+    box-shadow: inset 0 0 0 1.5px var(--st-provisional-block);
+  }
+
+  /* ═══ Drawer bodies (esa-side-dialog slotted composition; rows injected by
+     JS → gate / conflict / nearby / impact / note / activity classes are
+     :global) ═══ */
+  .wa {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+  /* .wa sets display:flex, which beats the UA [hidden] rule — restore it for
+     the read ↔ edit mode swap. */
+  .wa[hidden] {
+    display: none;
+  }
+  .wa__header {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .wa__headmain {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+  .wa__title {
+    margin: 0;
+    font-size: var(--type-size-400);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .wa__subtitle {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+  /* ═══ Dates band (v2) — always-visible decision inputs directly under the
+     header. Full-bleed: negative margins eat the lego body's --spacing-500
+     padding so the band reads as drawer chrome, not body content. ═══ */
+  .band {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-200) var(--spacing-300);
+    margin: calc(-1 * var(--spacing-500, 1.5rem)) calc(-1 * var(--spacing-500, 1.5rem)) 0;
+    padding: var(--spacing-250) var(--spacing-500, 1.5rem);
+    background: var(--color-background);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .band.band--4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .band__cell[hidden] {
+    display: none;
+  }
+  .band__alert {
+    font-size: var(--form-font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
+  }
+
+  /* ═══ Read-mode section rhythm — balanced breaks between the dates band, the
+     biological review history, comments, and the demoted folds, so the drawer
+     reads as distinct stacked sections (equal spacing above/below a hairline).
+     Scoped to #wa-read so the edit-mode body keeps its own gap. ═══ */
+  #wa-read {
+    gap: 0;
+  }
+  #wa-read > .bioclear {
+    /* The dates band's own border-bottom is the divider above this section. */
+    padding-top: var(--spacing-500);
+  }
+  #wa-read > .wa-comments,
+  #wa-read > .wa__more {
+    margin-top: var(--spacing-500);
+    padding-top: var(--spacing-500);
+    border-top: 1px solid var(--color-border);
+  }
+
+  /* ═══ Comments thread (per work area) — ported from permit tracking
+     (BCN-1364): initials-avatar nodes, @-mention highlight, compose + typeahead.
+     JS-injected nodes are :global. ═══ */
+  .wa__comments {
+    list-style: none;
+    margin: 0 0 var(--spacing-400);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+  .wa__comments:empty {
+    display: none;
+  }
+  :global(.wc-comment) {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--spacing-300);
+    align-items: start;
+  }
+  :global(.wc-comment--empty) {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--color-text-tertiary);
+  }
+  :global(.wc-comment__avatar) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--_c, var(--color-secondary));
+    color: #fff;
+    font-size: 0.6875rem;
+    font-weight: var(--font-weight-bold);
+    flex-shrink: 0;
+    letter-spacing: 0.02em;
+  }
+  :global(.wc-comment__avatar--xs) {
+    width: 22px;
+    height: 22px;
+    font-size: 0.625rem;
+  }
+  :global(.wc-comment__body) {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  :global(.wc-comment__meta) {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-200);
+    flex-wrap: wrap;
+  }
+  :global(.wc-comment__author) {
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  :global(.wc-comment__time) {
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+  }
+  :global(.wc-comment__text) {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-text-primary);
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  :global(.wc-mention) {
+    color: var(--color-primary);
+    font-weight: var(--font-weight-semibold);
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    border-radius: var(--radius-050);
+    padding: 0 2px;
+  }
+  :global(.wc-mention--me) {
+    color: var(--st-cleared);
+    background: color-mix(in srgb, var(--st-cleared) 14%, transparent);
+  }
+  :global(.wc-badge) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: var(--radius-full);
+    background: var(--color-surface-sunken);
+    color: var(--color-text-secondary);
+    font-size: 0.6875rem;
+    font-weight: var(--font-weight-bold);
+    vertical-align: middle;
+    margin-left: var(--spacing-100);
+  }
+  .wa__compose {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .wa__compose-field {
+    position: relative;
+  }
+  .wa__compose-field :global(esa-textarea) {
+    width: 100%;
+  }
+  .wa__mention-menu {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + 4px);
+    z-index: 5;
+    list-style: none;
+    margin: 0;
+    padding: var(--spacing-100);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    box-shadow: var(--shadow-400);
+    max-height: 208px;
+    overflow-y: auto;
+  }
+  .wa__mention-menu[hidden] {
+    display: none;
+  }
+  :global(.wc-mention-opt) {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-200);
+    border-radius: var(--radius-100);
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+    cursor: pointer;
+  }
+  :global(.wc-mention-opt:hover) {
+    background: var(--grid-row-bg-hover);
+  }
+  .wa__compose-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+  }
+  .wa__compose-hint {
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+
+  /* ═══ Inline biological-clearance section — the gate's review history lives
+     directly in the work-area drawer (no board, no stacked child). The count +
+     "Add review" ride the section heading's right edge. ═══ */
+  .bioclear__add {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200);
+  }
+
+  /* Collapsible summary rows — the v2 demotions, divider-stacked */
+  .wa__more {
+    display: flex;
+    flex-direction: column;
+  }
+  .wa__more-item {
+    display: block;
+  }
+  .wa__more-item[hidden] {
+    display: none;
+  }
+  .wa__more-item + .wa__more-item {
+    border-top: 1px solid var(--color-border-light);
+  }
+  .wa__more-item[hidden] + .wa__more-item {
+    border-top: none;
+  }
+  .wa__section {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin: 0 0 var(--spacing-300);
+    font-size: 0.9375rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .wa__section :global(.esa-icon) {
+    flex-shrink: 0;
+    color: var(--color-text-secondary);
+  }
+  .wa__section :global(.esa-badge) {
+    vertical-align: middle;
+  }
+  section[hidden] {
+    display: none;
+  }
+  /* Drawer footer — Show on map (left) · Edit clearance ↔ Cancel/Save (right) */
+  .wa__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-200);
+    width: 100%;
+  }
+  .wa__footer [hidden] {
+    display: none;
+  }
+  .wa__footer-start {
+    margin-right: auto;
+  }
+  /* The map-pin EsaIcon rides the button's label slot (the lego's icon registry
+     has no map glyph) — give the slotted label the same icon/text gap. */
+  .wa__footer-start :global(.esa-button__label) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+  }
+
+  /* "Not reviewed" — a hollow, quieter chip: an unknown, visually distinct
+     from the tinted status-determination chips (board cells + child header). */
+  :global(.gate__unreviewed) {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px var(--spacing-250);
+    border: 1px dashed var(--color-border-strong);
+    border-radius: var(--radius-full);
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+  }
+  /* display:inline-flex beats the UA [hidden] rule — re-assert it. */
+  :global(.gate__unreviewed[hidden]) {
+    display: none;
+  }
+  /* Stipulation pill lists (review-history nodes; JS-injected) */
+  :global(.gate__stips) {
+    list-style: none;
+    margin: var(--spacing-100) 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-150);
+  }
+
+  /* ═══ Inline review section — count/add bar, review form, history rail ═══ */
+  .dd__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+  }
+  .dd__count {
+    font-size: 0.9375rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .dd__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    padding: var(--spacing-300) var(--spacing-400);
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+  }
+  .dd__form[hidden] {
+    display: none;
+  }
+  /* "Blocked until" only exists while outcome=blocked — span wrapper so the
+     UA [hidden] rule wins over the lego's :host display. */
+  #dd-until-wrap[hidden] {
+    display: none;
+  }
+  .dd__formactions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-200);
+  }
+
+  /* Review history — reverse-chron node rail (the specimen's vocabulary; a
+     progression rail, not a status border). JS-injected → :global. */
+  .revs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  :global(.rev) {
+    position: relative;
+    display: grid;
+    grid-template-columns: 16px 1fr;
+    column-gap: var(--spacing-250);
+    padding-bottom: var(--spacing-400);
+  }
+  :global(.rev:last-child) {
+    padding-bottom: 0;
+  }
+  :global(.rev:not(:last-child)::before) {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 20px;
+    bottom: 2px;
+    width: 2px;
+    background: var(--color-border);
+  }
+  :global(.rev__dot) {
+    width: 16px;
+    height: 16px;
+    border-radius: var(--radius-full);
+    margin-top: 2px;
+    z-index: 1;
+    background: var(--color-surface);
+    border: 2px solid var(--color-border-strong);
+    box-sizing: border-box;
+  }
+  /* Scheduled (outcome-less) review — hollow node in the schedule blue */
+  :global(.rev__dot--scheduled) {
+    background: var(--color-surface);
+    border-color: var(--st-survey-scheduled);
+  }
+  :global(.rev__main) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+    min-width: 0;
+  }
+  :global(.rev__head) {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-200);
+    margin: 0;
+    font-size: 1rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  :global(.rev__when) {
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+  }
+  :global(.rev__edit) {
+    margin-left: auto;
+  }
+  :global(.rev__chiprow) {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-200);
+  }
+  :global(.rev__until) {
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+  }
+  :global(.rev__current) {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px var(--spacing-200);
+    border-radius: var(--radius-full);
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+    white-space: nowrap;
+  }
+  :global(.rev__note) {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--color-text-secondary);
+  }
+  /* A node being edited becomes the form (the pencil swap) — drop the rail
+     grid so the form spans the full width. */
+  :global(.rev--editing) {
+    display: block;
+  }
+  :global(.rev--editing::before) {
+    display: none;
+  }
+
+  /* Edit mode: dates grid + the add-note block */
+  .we__dates {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-300);
+  }
+  .we__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-300);
+  }
+  .we__addnote {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    margin-top: var(--spacing-300);
+    padding: var(--spacing-300) var(--spacing-400);
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+  }
+  .we__addnote-title {
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+
+  /* Buffer-conflict / impact lists — the ch3 entry rows (cards, set by the
+     renderer caller). */
+  .wa__conflicts,
+  .od__impact {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  /* In the drawers' narrower cards the meta (distance · est. end) may wrap —
+     better than forcing the primary onto a second line. */
+  .wa__conflicts :global(.entry__meta),
+  .od__impact :global(.entry__meta) {
+    white-space: normal;
+    max-width: 36%;
+  }
+
+  /* Biologist note / latest log — verbatim prose in a quiet quote block */
+  .wa__note {
+    margin: 0;
+    padding: var(--spacing-300) var(--spacing-400);
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    white-space: pre-line;
+  }
+  .wa__note--log {
+    font-size: 0.9375rem;
+  }
+  .wa__note[hidden] {
+    display: none;
+  }
+
+  /* Appended notes — dated list under the seed note (JS-injected rows) */
+  .wa__notes-added {
+    list-style: none;
+    margin: var(--spacing-300) 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  :global(.wnote) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+    padding: var(--spacing-300) var(--spacing-400);
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+  }
+  :global(.wnote__meta) {
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-tertiary);
+  }
+  :global(.wnote__text) {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    white-space: pre-line;
+  }
+
+  /* Change feed — the ch3 entry rows, flush + separated inside the drawer */
+  .wa__activity {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .wa__activity :global(.entry:not(.entry--empty)) {
+    padding: var(--spacing-200) 0;
+  }
+  .wa__activity :global(.entry + .entry) {
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  /* Observation meta grid */
+  .od__meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-300) var(--spacing-400);
+    margin: 0;
+    padding: var(--spacing-400);
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+  }
+  .wa__kv-val {
+    font-size: var(--form-font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+</style>

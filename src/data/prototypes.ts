@@ -185,6 +185,15 @@ export const prototypeGroups: PrototypeGroup[] = [
         createdAt: '2026-06-17',
         status: 'in-progress',
       },
+      {
+        slug: 'site-clearance-bio',
+        title: 'Site Clearance — Biological',
+        description:
+          'The full Site Clearance prototype (Map / Data / Timeline / Activity tabs, the Decision-first review-history model) narrowed to the BIOLOGICAL gate only — for Leah/DWR’s bio team, since the broader DCA team isn’t ready to converge on Beacon as the cross-discipline (Bio/Cultural/Noise/Geology) surface. No 2×2 discipline board and no stacked child drawer: a work area’s status IS its biological clearance status, and the bio review history (clearance surveys, re-surveys, management determinations; the latest completed review sets the status, scheduled reviews ride the history) is inlined directly in the work-area drawer with add/edit review forms that re-derive and repaint everywhere on save. Same 231 KMZ sites, SWHA buffer / provisional-block model, palette, and blocked-until math.',
+        route: '/prototypes/site-clearance-bio',
+        createdAt: '2026-06-30',
+        status: 'in-progress',
+      },
     ],
   },
   {
