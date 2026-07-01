@@ -89,6 +89,39 @@ A burn-up chart: cumulative route-miles cleared to date (the actual trail from f
 .exec__burnup-chart {
   width: 100%;
 }
+.exec__burnup-legend {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-200) var(--spacing-500);
+  font-size: var(--type-size-150);
+  color: var(--color-text-secondary);
+}
+.exec__burnup-legend li {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+}
+.exec__burnup-key {
+  width: 18px;
+  height: 0;
+  border-top-width: 2.5px;
+  border-top-style: solid;
+  flex-shrink: 0;
+}
+.exec__burnup-key--actual {
+  border-top-color: var(--st-cleared);
+}
+.exec__burnup-key--proj {
+  border-top-color: var(--st-cleared);
+  border-top-style: dashed;
+}
+.exec__burnup-key--target {
+  border-top-color: var(--color-text-tertiary);
+  border-top-style: dotted;
+}
 .bu-svg {
   width: 100%;
   height: auto;
@@ -156,39 +189,6 @@ A burn-up chart: cumulative route-miles cleared to date (the actual trail from f
   font-size: 13.5px;
   font-weight: 700;
   text-anchor: middle;
-}
-.exec__burnup-legend {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-200) var(--spacing-500);
-  font-size: var(--type-size-150);
-  color: var(--color-text-secondary);
-}
-.exec__burnup-legend li {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-}
-.exec__burnup-key {
-  width: 18px;
-  height: 0;
-  border-top-width: 2.5px;
-  border-top-style: solid;
-  flex-shrink: 0;
-}
-.exec__burnup-key--actual {
-  border-top-color: var(--st-cleared);
-}
-.exec__burnup-key--proj {
-  border-top-color: var(--st-cleared);
-  border-top-style: dashed;
-}
-.exec__burnup-key--target {
-  border-top-color: var(--color-text-tertiary);
-  border-top-style: dotted;
 }
 ```
 
