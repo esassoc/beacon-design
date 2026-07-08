@@ -1,48 +1,50 @@
 ---
 // Site Clearance — map-first go/no-go decision support for geotechnical
-// drill-hole work areas (the Beacon WorkArea entity).
+// drill-hole work areas (the Beacon WorkArea entity). Scoped to a single
+// COMPONENT via the inline picker beside the page title (the selection
+// persists in browser storage); all 231 sites live under 2024-2029
+// Geotechnical Activities — the other components render the empty state.
 //
-//   Map  (default) — 231 real work areas (client KMZ) as circle markers colored
-//                    by DERIVED clearance status (clearance-survey gates × live
-//                    wildlife observation buffers), zoom-adaptive marker sizing
-//                    (program extent → street zoom), opinionated view presets
-//                    (All/Cleared/Blocked/Scheduled/Unscheduled) driving the
-//                    Status facets, Status + Planned-start dropdown filters,
-//                    "Go to work area" / "Go to observation" combobox jumps in
-//                    the View row (type-ahead → pan + pulse; the same machinery
-//                    backs the drawers' "Show on map"), a reset-view backout
-//                    under the zoom control, and a readiness strip.
+//   Map  (default) — the component's work areas (client KMZ) as circle markers
+//                    colored by DERIVED clearance status (latest review ×
+//                    live observation buffers), zoom-adaptive marker sizing
+//                    (program extent → street zoom), the View segmented bar
+//                    (All + one pill per display status, live counts) driving
+//                    the Status facets, a Status dropdown filter, "Go to work
+//                    area" / "Go to observation" combobox jumps in the View
+//                    row (type-ahead → pan + pulse; the same machinery backs
+//                    the drawers' "Show on map"), a reset-view backout under
+//                    the zoom control, a Map/Satellite base-layer control, the
+//                    optional COMPONENT BUFFER overlay (a user-defined
+//                    distance ring around every work area — feet + label,
+//                    edited in a minimal dialog), and a readiness strip.
 //   Data           — Work Areas × Observations AG Grids (beacon-grid kit)
 //                    behind the requirement-tracker filter bar; rows open the
-//                    same drawers as the map.
-//   Timeline       — "when does work become available, and in what status?":
-//                    three swimlanes (Work starts / Clearance visits / Blocks
-//                    expected to lift) of date-positioned status dots on one
-//                    shared auto-ranged axis with a TODAY marker (fixture
-//                    clock); rows open the work-area drawer. Adapted from
-//                    permit-tracking's clear-to-build timeline.
-//   Activity       — date-grouped card feed derived from the fixture (sightings,
-//                    dated log updates, gate determinations, notifications)
-//                    + live drawer saves, scoped by Type/Component filter
-//                    dropdowns, with a sticky Upcoming sidebar on the right;
-//                    entries open the relevant drawer.
+//                    same drawers as the map. No forecasting columns.
+//   Activity       — date-grouped card feed of CLEARANCE changes (recorded
+//                    reviews, monitor notes, live drawer saves), scoped by a
+//                    Type filter; entries open the work-area drawer. History
+//                    only — there is no Upcoming rail and no Timeline tab:
+//                    Beacon records what happened, it never forecasts.
 //
 // Status is never stored — deriveStatus(workArea, observations) is PURE, so
 // every save re-derives everything (marker fills, readiness strip, both
-// grids, the timeline, the open drawers) from the in-memory store. A live
-// buffer conflict derives PROVISIONAL BLOCK (hollow red — the system detects)
-// until a manager records a blocking management determination (then solid red).
+// grids, the open drawers) from the in-memory store. A work area with NO
+// recorded review that an active observation buffer covers renders a
+// PROVISIONAL BLOCK (hollow red — the system detects, humans decide); ANY
+// recorded review status overrules the provisional display.
 //
-// The work-area drawer: header → always-visible dates band → INLINE biological
-// review history (with biology the only gate there is no 2×2 board and no
-// stacked child drawer — the gate's full history lives directly here: clearance
-// surveys, re-surveys, management determinations, newest first; the latest
-// completed review sets the status, outcome-less reviews ride as scheduled, and
-// add/edit happens inline) → Comments (a per-work-area collaboration thread with
-// @-mention, ported from permit tracking) → Buffer conflicts / Notes / Activity
-// collapsibles. "Edit site details" is site-level only (the three dates +
-// append-only notes — Beacon as the system of record for what the field
-// biologists send by email).
+// The work-area drawer: header → clearance-visit band (the one date the
+// clearance carries; the Work Area custom fields live on the Data grid, not
+// in the drawer) → INLINE review history (dated determinations —
+// Kind from the tenant's configurable list, Date, required Outcome, Reviewer,
+// Note — newest first; the latest review sets the status and adding one
+// updates the clearance-visit date) → Comments (a per-work-area collaboration
+// thread with @-mention, ported from permit tracking) → Notes / Activity
+// collapsibles. Notes are append-only monitor records (date, author, verbatim
+// text — create + delete, never edit; Beacon as the system of record for what
+// the field biologists send by email). "Edit site details" is site-level only
+// (the clearance-visit date + the add-note flow).
 import AppShell from '../../layouts/AppShell.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import '../../styles/beacon-map.css'; // shared Leaflet chrome (.leaflet-tooltip restyle for all map pages)
@@ -50,7 +52,6 @@ import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
-import EsaPill from '@esa/ecology/esa-pill.astro';
 import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import FilterContainer from '@esa/ecology/esa-filter-container.astro';
@@ -63,110 +64,106 @@ import {
   STATUS_ORDER,
   STATUS_META,
   statusCounts,
+  GEOTECH_COMPONENT,
 } from '../../data/geotech-fixture-bio';
 
-// ── Precompute (build-time mirror of what the client re-derives after edits) ──
+// ── Precompute (build-time mirror of what the client re-derives after edits;
+//    the SSR default component is the geotech program — all 231 sites) ────────
 const initialCounts = statusCounts(observations);
 const countFor = (s: string) => initialCounts.find((c) => c.status === s)?.count ?? 0;
 const totalWas = workAreas.length;
-const readyCount = countFor('cleared') + countFor('cleared-stipulations');
+const readyCount = countFor('cleared');
 
 // SSR :root defaults — STATUS_META's hexes ARE the committed field-map palette
-// (the fixture's single source; iterated in full so the off-ladder
-// --st-not-required gate ink is included), plus the page's two inks:
-// --st-neutral for the observation-drawer chip, and the observation violet
-// (--obs-color / --obs-color-strong) for buffers + dots — page glue,
-// deliberately NOT a status color so facts can never be confused with
-// judgments.
+// (the fixture's single source), plus the page's inks: --st-neutral for the
+// observation-drawer chip, the observation violet (--obs-color /
+// --obs-color-strong) for buffers + dots, and the component-buffer blue
+// (--cbuf-color) for the analysis overlay — page glue, deliberately NOT status
+// colors so facts can never be confused with judgments.
 const rootVars =
   `:root{` +
   Object.values(STATUS_META)
     .map((m) => `${m.colorVar}:${m.hex};`)
     .join('') +
-  `--st-neutral:#8a9099;--obs-color:#7b5ea7;--obs-color-strong:#5b3f87;}`;
+  `--st-neutral:#8a9099;--obs-color:#7b5ea7;--obs-color-strong:#5b3f87;--cbuf-color:#4575b4;}`;
 
 // Shared Lucide paths for the drawer chrome (the same glyphs the approved
 // drawer specimen uses).
 const ICON_SHIELD =
   "<path d='M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z'/><path d='m9 12 2 2 4-4'/>";
-const ICON_ALERT =
-  "<path d='m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3'/><path d='M12 9v4'/><path d='M12 17h.01'/>";
 const ICON_QUOTE =
   "<path d='M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z'/><path d='M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z'/>";
 const ICON_HISTORY =
   "<path d='M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8'/><path d='M3 3v5h5'/><path d='M12 7v5l4 2'/>";
 const ICON_MSG =
   "<path d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'/>";
-const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
+const ICON_CHEVRON_DOWN = "<path d='m6 9 6 6 6-6'/>";
 ---
 
 <!-- manifest:
   layout: stack(lg)
   sections:
-    - clearance tabs (Map / Data / Timeline / Activity) -> esa-tab-layout
-    - work-area drawer (dates band, decision block, inline biological review history + add/edit) -> esa-side-dialog
+    - component picker (inline beside the page title) -> esa-dropdown-menu
+    - clearance tabs (Map / Data / Activity) -> esa-tab-layout
+    - work-area drawer (site-details band, inline review history + add/edit, notes, comments) -> esa-side-dialog
     - observation drawer -> esa-side-dialog
+    - component-buffer edit dialog -> esa-dialog
 -->
 
-<!-- BIO-ONLY variant of site-clearance.astro: the same Map / Data / Timeline /
-     Activity prototype narrowed to the BIOLOGICAL gate (geotech-fixture-bio).
-     The 2×2 discipline board and its STACKED child drawer are GONE — with one
-     gate the extra click is redundant, so the biological review history + the
-     add/edit-review form are INLINED directly in the work-area drawer (the
-     dd-* machinery, bound to 'biological'). -->
+<!-- The BCN-1337 build spec: the BIOLOGICAL clearance surface (geotech-fixture-bio).
+     One clearance per work area, carried through dated reviews with REQUIRED
+     outcomes; the review history + add/edit form are INLINED directly in the
+     work-area drawer (the dd-* machinery). No Timeline tab, no forecasting
+     dates, no stipulations — see the fixture header for the model contract. -->
 <!-- bcn-lego-checked: composed from esa-tab-layout, esa-side-dialog ×2 (work-area
-     parent + the observation drawer — no stacked discipline child anymore; the
-     bio review history lives inline in the parent), esa-filter-dropdown ×5 in esa-filter-container ×3 +
-     esa-filter-clear-button ×3 (the map bar and the Activity feed reuse the Data tab's
-     own filter legos; the Status dropdowns use the lego's per-option `color` dot, fed
-     var(--st-*) so they stay in lockstep with the map/legend/chips), esa-combobox ×2
-     (the View-row "Go to work area"/"Go to observation" jumps — autocomplete mode
-     type-aheads over all 231 work-area IDs client-side; checked esa-entity-search, but
-     it is an async search-service shell and these options are static in-page lists),
-     esa-select ×2 (the discipline drawer's review form: kind + outcome — checked
-     BcnStatusSelect, typed/baked to the three tracking statuses, wrong shape for the
-     clearance ladder), esa-date-picker, esa-textarea, esa-input-tag (free-entry
-     stipulations), esa-text-field, esa-button-toggle ×2 (grid pivot + the map's view
-     presets, both size="md"; counts ride the option labels as plain text — the lego
-     renders label strings only), esa-collapsible ×3 (flush — the v2 drawer's Buffer
-     conflicts / Notes / Activity summary rows; JS updates the SSR title span for live
-     counts), esa-button (incl. the decision block's "Confirm block" on the lego's
-     NATIVE color="danger" variant with --color-danger re-pointed to
-     --st-provisional-block so the button sits in the same red family as the block's
-     tint/border/ink, + both drawers' "Show on map" — its map-pin EsaIcon rides the
-     label slot; the registry has no map glyph), esa-icon-button (search clear + the
-     review-history pencil edit affordance), esa-icon, esa-badge (board-cell review
-     counts >1), esa-pill (template-cloned stipulations), esa-empty-state
-     (filtered-empty Activity feed) + BcnStatusChip, BcnKeyValue (the always-visible
-     dates band is a BcnKeyValue grid) + the shared beacon-grid AG Grid kit
-     (src/lib/beacon-grid.ts). The old Survey-records section is GONE — the discipline
-     review history IS the record (the approved v2 specimen's move).
+     parent + the observation drawer; the review history lives inline in the parent),
+     esa-dropdown-menu (the inline component picker beside the H1 — slotted text+chevron
+     trigger, menu-action selection; checked esa-select/esa-combobox, both render as
+     form fields, wrong chrome for a title-adjacent switcher), esa-dialog (the minimal
+     component-buffer edit form), esa-switch-toggle (the Component Buffer layer on/off),
+     esa-filter-dropdown ×3 in esa-filter-container ×3 + esa-filter-clear-button ×3
+     (map Status, Data Status, Activity Type; the Status dropdowns use the lego's
+     per-option `color` dot, fed var(--st-*) so they stay in lockstep with the
+     map/legend/chips), esa-combobox ×2 (the View-row "Go to work area"/"Go to
+     observation" jumps — autocomplete mode type-aheads over the component's work-area
+     IDs client-side; checked esa-entity-search, but it is an async search-service
+     shell and these options are static in-page lists), esa-select ×2 (the review
+     form's kind + outcome — checked BcnStatusSelect, typed/baked to the three
+     tracking statuses, wrong shape for the clearance ladder), esa-date-picker,
+     esa-textarea, esa-text-field, esa-button-toggle ×2 (grid pivot + the map's View
+     segmented bar, both size="md"; counts ride the option labels as plain text — the
+     lego renders label strings only), esa-collapsible ×2 (flush — the drawer's Notes /
+     Activity summary rows; JS updates the SSR title span for live counts), esa-button
+     (both drawers' "Show on map" — its map-pin EsaIcon rides the label slot; the
+     registry has no map glyph), esa-icon-button (search clear, the review-history
+     pencil edit affordance, the note delete, the buffer edit pencil), esa-icon,
+     esa-badge (observation impact count), esa-empty-state (filtered-empty Activity
+     feed + the empty-component map state) + BcnStatusChip, BcnKeyValue (the
+     site-details band is a BcnKeyValue grid) + the shared beacon-grid AG Grid kit
+     (src/lib/beacon-grid.ts). The review history IS the record.
      Remaining CSS is composition glue: Leaflet map chrome (status legend overlay,
-     observation-buffer ring styling, the status-flip pulse, and the reset-view control —
-     a custom L.Control styled to match Leaflet's own zoom buttons, injected into
-     Leaflet's control corner where no esa- lego can reach; the shared .leaflet-tooltip
-     restyle lives in src/styles/beacon-map.css; checked Beacon, prod has no map UI),
-     the readiness strip (no esa- lego models a proportional census bar), the go-to
-     comboboxes' form-token re-point so they sit on the filter legos' 32px control line,
-     the v2 drawer structures from the approved specimen — the dates band (full-bleed
-     against the lego body padding), the decision block + its variants, the 2×2
-     disciplines board (button cells), and the review-history node rail (checked
-     Ecology + Beacon: no timeline/history lego exists — same precedent as the
-     Timeline tab) — the provisional-block hollow treatment (white-fill/red-stroke
-     markers + the outlined BcnStatusChip/.bcn-grid-chip variant — same mechanics as
-     the page's hollow "Not reviewed" chip idiom), the Timeline tab (swimlane rows +
-     shared axis + TODAY line — same page-glue chart as permit-tracking's
-     clear-to-build timeline; ONE dot per work area per lane, the earliest upcoming
-     date), the Activity-tab feed (two-column grid: date-grouped rows JS-injected from
-     the fixture + the in-session change log on the left, a sticky Upcoming rail on the
-     right), the deterministic .entry row system (ONE renderer for every
-     event/reference row on the Activity tab and in the drawers — leading
-     work-area/observation ID badge mirroring the Data Catalog commitment-ID badge
-     idiom (observation IDs in the page's --obs-color violet, work-area IDs in a
-     primary-teal tint), a fixed enumerated event-type label, structured primary,
-     quoted verbatim secondary, right-aligned meta; chips clone the BcnStatusChip
-     template; JS-injected → :global), the print stylesheet, the filter-bar card shell
-     + grid footer (faithful copies of requirement-tracker's page glue), and the global
+     observation-buffer + component-buffer ring styling, the status-flip pulse, and
+     the reset-view control — a custom L.Control styled to match Leaflet's own zoom
+     buttons, injected into Leaflet's control corner where no esa- lego can reach;
+     the shared .leaflet-tooltip restyle lives in src/styles/beacon-map.css; checked
+     Beacon, prod has no map UI), the readiness strip (no esa- lego models a
+     proportional census bar), the go-to comboboxes' form-token re-point so they sit
+     on the filter legos' 32px control line, the component-picker trigger (a
+     borderless text+chevron button slotted into the dropdown-menu lego — trigger
+     chrome is the consumer's by design), the drawer structures from the approved
+     specimen — the site-details band (full-bleed against the lego body padding) and
+     the review-history node rail (checked Ecology + Beacon: no timeline/history lego
+     exists) — the provisional-block hollow treatment (white-fill/red-stroke markers +
+     the outlined BcnStatusChip/.bcn-grid-chip variant), the Activity-tab feed
+     (date-grouped rows JS-injected from the fixture + the in-session change log),
+     the deterministic .entry row system (ONE renderer for every event/reference row
+     on the Activity tab and in the drawers — leading work-area/observation ID badge
+     mirroring the Data Catalog commitment-ID badge idiom (observation IDs in the
+     page's --obs-color violet, work-area IDs in a primary-teal tint), a fixed
+     enumerated event-type label, structured primary, quoted verbatim secondary,
+     right-aligned meta; chips clone the BcnStatusChip template; JS-injected →
+     :global), the print stylesheet, the filter-bar card shell + grid footer
+     (faithful copies of requirement-tracker's page glue), and the global
      .bcn-grid-chip / entry / rev classes that JS injects outside Astro's scope. -->
 <AppShell
   title="Site Clearance"
@@ -188,6 +185,19 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       { label: 'Site Clearance' },
     ]}
   >
+    <!-- Component picker — inline beside the H1 (the title-badge slot), a
+         quiet text+chevron trigger on the esa-dropdown-menu lego. The picker
+         scopes EVERYTHING below it (map, grids, activity); the selection
+         persists in browser storage so returning reopens the last component. -->
+    <span slot="title-badge" class="comp-picker">
+      <!-- The lego takes its trigger via the DEFAULT slot. -->
+      <esa-dropdown-menu id="comp-menu" position="below-start">
+        <button type="button" class="comp-picker__trigger" aria-label="Switch component">
+          <span class="comp-picker__label" id="comp-label">{GEOTECH_COMPONENT}</span>
+          <EsaIcon name="chevron-down" size="sm" paths={ICON_CHEVRON_DOWN} />
+        </button>
+      </esa-dropdown-menu>
+    </span>
     <esa-tab-layout id="gc-tabs" appearance="underline">
       <!-- ═══ TAB 1 — MAP (the hero: can we start work at this site on its date?) ═══ -->
       <section slot="panel-0" class="map-panel" aria-label="Clearance status map">
@@ -197,41 +207,60 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
           <span class="print-header__meta" id="print-meta"></span>
         </div>
 
-        <!-- View presets + map filters. The presets band is an opinionated shortcut
-             over the SAME facet state the Status dropdown edits (one source of
-             truth): pressing a preset sets the facets; a preset reads as selected
-             only while the facets exactly equal its set, so hand-editing the
-             dropdown drops back to no-preset. Counts ride the labels as plain
+        <!-- View segmented bar + map filters. The View bar is the primary status
+             scoping (All + one pill per display status, live counts) over the
+             SAME facet state the Status dropdown edits (one source of truth):
+             pressing a pill sets the facets; a pill reads as selected only
+             while the facets exactly equal its set, so hand-editing the
+             dropdown drops back to no-pill. Counts ride the labels as plain
              text (the lego renders label strings — an esa-badge inside a segment
-             would fight it). The filter row scopes markers AND the readiness
-             strip. The go-to comboboxes on the View row's right (round-5 ch2)
-             are jumps, not filters: type-ahead or pick any of the 231 work-area
-             IDs / any observation → pan/zoom + pulse (no drawer), then reset to
-             the placeholder. -->
+             would fight it). Both scope markers AND the readiness strip. The
+             go-to comboboxes on the View row's right are jumps, not filters:
+             type-ahead or pick any of the component's work-area IDs / any
+             observation → pan/zoom + pulse (no drawer), then reset to the
+             placeholder. The Filters row also hosts the WORK AREA BUFFER layer
+             control (BCN-1454's Component Buffer): an on/off switch + a pencil
+             opening the minimal edit dialog (label + distance live there). -->
         <div class="map-filterbar">
           <div class="map-filterbar__row">
             <span class="map-filterbar__label">View</span>
-            <!-- size="md" (round-5 ch1): the View presets one type-size step up
-                 (sm 12px/28px → md 14px/36px) — the lego's own size prop, no
-                 override; matches the Data tab's pivot toggle. -->
+            <!-- size="md": the View pills one type-size step up (sm 12px/28px →
+                 md 14px/36px) — the lego's own size prop, no override; matches
+                 the Data tab's pivot toggle. -->
             <esa-button-toggle id="view-presets" value="all" size="md"></esa-button-toggle>
+            <!-- mode="select" (not autocomplete): the button trigger carries the
+                 standard chevron, and type-ahead survives via the panel's own
+                 search input. -->
             <div class="map-filterbar__goto">
-              <esa-combobox id="goto-wa" mode="autocomplete" size="sm" placeholder="Go to work area…"></esa-combobox>
-              <esa-combobox id="goto-obs" mode="autocomplete" size="sm" placeholder="Go to observation…"></esa-combobox>
+              <esa-combobox id="goto-wa" mode="select" size="sm" placeholder="Go to work area…"></esa-combobox>
+              <esa-combobox id="goto-obs" mode="select" size="sm" placeholder="Go to observation…"></esa-combobox>
             </div>
           </div>
           <div class="map-filterbar__row">
             <span class="map-filterbar__label">Filters</span>
             <FilterContainer>
               <esa-filter-dropdown id="map-flt-status" label="Status" multiple size="sm"></esa-filter-dropdown>
-              <esa-filter-dropdown id="map-flt-start" label="Planned start" multiple size="sm"></esa-filter-dropdown>
             </FilterContainer>
             <span id="map-clear-filters"><FilterClearButton /></span>
+            <div class="map-filterbar__buffer">
+              <esa-switch-toggle id="buffer-toggle" label="Work Area Buffer" size="sm"></esa-switch-toggle>
+              <span id="buffer-edit"><EsaIconButton icon="pencil" label="Edit work area buffer" size="sm" /></span>
+            </div>
           </div>
         </div>
 
         <div class="map-wrap">
           <div id="gc-map" class="map"></div>
+
+          <!-- Empty-component state — shown when the selected component has no
+               geo-located work areas (every component but the geotech program). -->
+          <div class="map-empty" id="map-empty" hidden>
+            <EsaEmptyState
+              title="No geo-located work areas"
+              description="This component has no work areas with geometry. Work areas load through the Work Area shapefile import."
+              size="sm"
+            />
+          </div>
 
           <div class="map-legend" aria-label="Clearance status legend">
             <span class="map-legend__title">Work area status</span>
@@ -268,7 +297,7 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
           <div class="readiness__head">
             <span class="readiness__title">Work areas by clearance status</span>
             <span class="readiness__summary">
-              Ready to drill <strong id="rs-ready">{readyCount}</strong>
+              Ready to work <strong id="rs-ready">{readyCount}</strong>
               <span id="rs-total">of {totalWas} work areas</span>
             </span>
           </div>
@@ -347,55 +376,22 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
         </div>
       </section>
 
-      <!-- ═══ TAB 3 — TIMELINE ("when does work become available, and in what
-           status?"). Adapted from permit-tracking's clear-to-build timeline:
-           one shared auto-ranged time axis + a TODAY marker line (fixture
-           clock), three swimlanes of one-row-per-site date-positioned status
-           dots (the permit-tracking stagger — rows never collide):
-             Work starts            cleared / cleared-stipulations /
-                                    notification-pipeline sites @ plannedStartDate
-             Clearance visits       sites with survey-scheduled gates @ ONE dot
-                                    per work area — the earliest upcoming
-                                    visit/review date (round-5 ch4)
-             Blocks expected to lift  blocked + provisional-block sites @
-                                    blockedUntil (indefinite GGS blocks counted
-                                    in the side note, not plotted)
-           Everything is JS-derived from the store (lanes re-derive after every
-           save / Confirm block); rows open the work-area drawer. ═══ -->
-      <section slot="panel-2" class="tl-panel" aria-label="Clearance timeline">
-        <section class="tl" aria-label="Work availability timeline">
-          <div class="tl__head">
-            <h3 class="tl__title">When does work become available?</h3>
-            <p class="tl__sub">Work areas by milestone date — colored by current derived status</p>
-          </div>
-          <div class="tl__axisrow" aria-hidden="true">
-            <span></span>
-            <div class="tl__axis" id="tl-axis"></div>
-            <span></span>
-          </div>
-          <div class="tl__chart" id="tl-chart"></div>
-          <p class="tl__excluded" id="tl-excluded"></p>
-        </section>
-      </section>
-
-      <!-- ═══ TAB 4 — ACTIVITY (the week-at-a-glance feed: what changed, what's
-           coming). Feed left (date-grouped card entries, scoped by the Type/
-           Component filters), Upcoming right (sticky rail — NOT scoped by the
-           filters). Everything inside is JS-derived from the fixture + the live
-           in-session change log — one drawer save lands in BOTH the drawer's
-           Activity list and this feed. Entries jump to the relevant drawer. ═══ -->
-      <section slot="panel-3" class="feed-panel" aria-label="Activity feed">
+      <!-- ═══ TAB 3 — ACTIVITY (what changed): a date-grouped card feed of the
+           component's CLEARANCE history — recorded reviews, monitor notes, and
+           the live in-session change log (one drawer save lands in BOTH the
+           drawer's Activity list and this feed). History only — no Upcoming
+           rail, no forecasting. Entries jump to the work-area drawer. ═══ -->
+      <section slot="panel-2" class="feed-panel" aria-label="Activity feed">
         <div class="feed">
           <div class="feed-main">
-            <!-- Filter row — the same filter legos as the map/Data bars. Scopes
-                 the feed only; Type has no dots on purpose (colors belong to
-                 status, not event type). -->
+            <!-- Filter row — the same filter legos as the map/Data bars. Type
+                 has no dots on purpose (colors belong to status, not event
+                 type); the page's Component picker already scopes the feed. -->
             <div class="map-filterbar feed-filterbar">
               <div class="map-filterbar__row">
                 <span class="map-filterbar__label">Filters</span>
                 <FilterContainer>
                   <esa-filter-dropdown id="act-flt-type" label="Type" multiple size="sm"></esa-filter-dropdown>
-                  <esa-filter-dropdown id="act-flt-component" label="Component" multiple size="sm"></esa-filter-dropdown>
                 </FilterContainer>
                 <span id="act-clear-filters"><FilterClearButton /></span>
               </div>
@@ -404,24 +400,18 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
             <div id="feed-empty" hidden>
               <EsaEmptyState
                 title="No activity matches the filters"
-                description="Clear the Type / Component filters to see the full feed."
+                description="Clear the Type filter to see the full feed."
                 size="sm"
               />
             </div>
           </div>
-          <aside class="feed-upcoming" aria-label="Upcoming">
-            <h3 class="feed-heading">Upcoming</h3>
-            <ul class="feed-upcoming__list" id="feed-upcoming"></ul>
-          </aside>
         </div>
       </section>
     </esa-tab-layout>
   </PageLayout>
 
-  <!-- ═══ Work-area drawer — the approved Decision-first v2 structure (the
-       drawer specimen, productionized): header → always-visible dates band →
-       decision block → Disciplines board (cells open the stacked discipline
-       drawer) → Buffer conflicts / Notes / Activity collapsibles → footer
+  <!-- ═══ Work-area drawer — header → clearance-visit band → inline review
+       history (add/edit) → Comments → Notes / Activity collapsibles → footer
        "Edit site details" (site-level only) + Show on map. esa-side-dialog
        lego, from BOTH tabs. ═══ -->
   <esa-side-dialog id="wa-dialog" size="md" style="--_width: 640px; --z-modal: 1300; --z-modal-backdrop: 1250;">
@@ -435,22 +425,16 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
 
     <!-- READ mode (default) -->
     <div class="wa" id="wa-read">
-      <!-- Dates band — always-visible decision inputs directly under the header
-           (full-bleed against the lego's body padding); the red Blocked-until
-           cell appears only while a block horizon exists. -->
+      <!-- Clearance-visit band — the one date the clearance carries, directly
+           under the header (full-bleed against the lego's body padding). The
+           Work Area custom fields live on the Data grid, not here — the drawer
+           stays a decision surface, not a record dump. -->
       <div class="band" id="wa-band">
-        <BcnKeyValue label="Notification"><span class="wa__kv-val" id="wa-d-notif">—</span></BcnKeyValue>
         <BcnKeyValue label="Clearance visit"><span class="wa__kv-val" id="wa-d-visit">—</span></BcnKeyValue>
-        <BcnKeyValue label="Planned start"><span class="wa__kv-val" id="wa-d-start">—</span></BcnKeyValue>
-        <span class="band__cell" id="wa-d-until-wrap" hidden>
-          <BcnKeyValue label="Blocked until"><span class="band__alert" id="wa-d-until">—</span></BcnKeyValue>
-        </span>
       </div>
 
-      <!-- Biological clearance — the gate's full review history (newest first;
-           the latest completed review sets the status) + the inline Add/Edit
-           review form. With biology the only gate, this lives directly in the
-           work-area drawer — no 2×2 board, no stacked child drawer. -->
+      <!-- Biological clearance — the full review history (newest first; the
+           latest review sets the status) + the inline Add/Edit review form. -->
       <section class="bioclear">
         <h3 class="wa__section">
           <EsaIcon name="shield-check" size="sm" paths={ICON_SHIELD} />
@@ -462,20 +446,17 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
         </h3>
 
         <!-- Add/Edit review form — inline above the history when adding; swapped
-             into a history node when editing (the pencil affordance). The
-             "Scheduled — no outcome yet" choice saves an outcome-less review. -->
+             into a history node when editing (the pencil affordance). Outcome is
+             REQUIRED — a review IS a determination; any stipulation language
+             belongs in the note (the epic cut the stipulations field). -->
         <div class="dd__form" id="dd-form" hidden>
           <esa-select id="dd-kind" label="Kind" size="sm"></esa-select>
           <div class="we__row">
             <esa-date-picker id="dd-date" label="Date" size="sm"></esa-date-picker>
             <esa-select id="dd-outcome" label="Outcome" size="sm"></esa-select>
           </div>
-          <span id="dd-until-wrap" hidden>
-            <esa-date-picker id="dd-until" label="Blocked until" size="sm"></esa-date-picker>
-          </span>
           <esa-text-field id="dd-reviewer" label="Reviewer" placeholder="Name (org)" size="sm"></esa-text-field>
           <esa-textarea id="dd-note" label="Note" rows="2" auto-resize size="sm"></esa-textarea>
-          <esa-input-tag id="dd-stips" label="Stipulations" placeholder="Add stipulation…" tags-below size="sm"></esa-input-tag>
           <div class="dd__formactions">
             <span id="dd-cancel"><EsaButton color="ghost" appearance="outline" size="sm">Cancel</EsaButton></span>
             <span id="dd-save"><EsaButton color="primary" size="sm">Save review</EsaButton></span>
@@ -507,20 +488,13 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
         </div>
       </section>
 
-      <!-- Collapsible summary rows — the v2 demotions: ambient detail folds
-           until asked for. Titles carry live counts (JS updates the lego's
-           title span). -->
+      <!-- Collapsible summary rows — ambient detail folds until asked for.
+           Titles carry live counts (JS updates the lego's title span). -->
       <div class="wa__more">
-        <span class="wa__more-item" id="wa-conflicts-col" hidden>
-          <EsaCollapsible title="Buffer conflicts" flush icon="alert-triangle" iconPaths={ICON_ALERT}>
-            <ul class="wa__conflicts" id="wa-conflicts"></ul>
-          </EsaCollapsible>
-        </span>
         <span class="wa__more-item" id="wa-notes-col" hidden>
           <EsaCollapsible title="Notes" flush icon="quote" iconPaths={ICON_QUOTE}>
-            <!-- The verbatim field-biologist note is the SEED entry — never
-                 editable. Notes added in the editor render dated below it. -->
-            <blockquote class="wa__note" id="wa-note"></blockquote>
+            <!-- Append-only monitor notes (date · author · verbatim text) — a
+                 note can be DELETED but never edited. -->
             <ul class="wa__notes-added" id="wa-notes-added"></ul>
           </EsaCollapsible>
         </span>
@@ -532,9 +506,9 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       </div>
     </div>
 
-    <!-- EDIT mode — SITE-LEVEL only (the v2 split): the three dates + the
-         append-only note (Leah's paste-the-email flow). Discipline reviews are
-         edited in the child drawer, never here. -->
+    <!-- EDIT mode — SITE-LEVEL only: the clearance-visit date + the append-only
+         note (Leah's paste-the-email flow). Reviews are edited inline in the
+         read mode's review section, never here. -->
     <div class="wa" id="wa-edit" hidden>
       <section>
         <h3 class="wa__section">
@@ -542,9 +516,7 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
           Dates
         </h3>
         <div class="we__dates">
-          <esa-date-picker id="we-notif" label="Notification" size="sm"></esa-date-picker>
           <esa-date-picker id="we-visit" label="Clearance visit" size="sm"></esa-date-picker>
-          <esa-date-picker id="we-start" label="Planned start" size="sm"></esa-date-picker>
         </div>
       </section>
 
@@ -553,9 +525,9 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
           <EsaIcon name="quote" size="sm" paths={ICON_QUOTE} />
           Notes
         </h3>
-        <!-- Append-only: the verbatim seed note is the field record (read-only even
-             here); "Add note" is the paste-the-biologist-email affordance. -->
-        <blockquote class="wa__note" id="we-seed-note"></blockquote>
+        <!-- Append-only: existing notes are read-only even here (delete lives
+             on the read-mode list); "Add note" is the paste-the-biologist-email
+             affordance. -->
         <ul class="wa__notes-added" id="we-notes-added"></ul>
         <div class="we__addnote">
           <span class="we__addnote-title">Add note</span>
@@ -609,7 +581,6 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
         <BcnKeyValue label="Kind"><span class="wa__kv-val" id="obs-kind">—</span></BcnKeyValue>
         <BcnKeyValue label="Buffer"><span class="wa__kv-val" id="obs-buffer">—</span></BcnKeyValue>
         <BcnKeyValue label="First observed"><span class="wa__kv-val" id="obs-first">—</span></BcnKeyValue>
-        <BcnKeyValue label="Est. end"><span class="wa__kv-val" id="obs-end">—</span></BcnKeyValue>
       </div>
 
       <section id="obs-log-wrap" hidden>
@@ -652,20 +623,37 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     </div>
   </esa-side-dialog>
 
+  <!-- ═══ Component Buffer edit dialog (BCN-1454) — a minimal esa-dialog:
+       distance (feet) + label. The overlay itself is a toggleable map layer
+       drawing the ring around EVERY work-area geometry. ═══ -->
+  <esa-dialog id="buffer-dialog" heading="Work Area Buffer" size="sm">
+    <div class="bufform">
+      <p class="bufform__hint">
+        Draws a ring at the given distance around every work area — a satellite-mode analysis overlay
+        (e.g. a Noise buffer near residences). One buffer per component.
+      </p>
+      <div class="we__row">
+        <esa-text-field id="buf-label" label="Label" placeholder="e.g. Noise" size="sm"></esa-text-field>
+        <esa-text-field id="buf-distance" label="Distance (ft)" type="number" size="sm"></esa-text-field>
+      </div>
+    </div>
+    <div slot="footer" class="wa__footer">
+      <span id="buf-cancel"><EsaButton color="ghost" appearance="outline" size="md">Cancel</EsaButton></span>
+      <span id="buf-save"><EsaButton color="primary" size="md">Save</EsaButton></span>
+    </div>
+  </esa-dialog>
+
   <!-- Cloneable legos for JS-rendered rows: cloning SSR nodes (not innerHTML
        strings) keeps the components' scoped styles + markup as the single source. -->
   <template id="gc-chip-tpl">
     <span class="gate__chipwrap"><BcnStatusChip status="cleared" label="—" hex={STATUS_META.cleared.hex} /></span>
   </template>
-  <template id="gc-pill-tpl">
-    <EsaPill label="—" removable={false} size="sm" />
-  </template>
   <template id="dd-edit-tpl">
     <span class="rev__edit"><EsaIconButton icon="pencil" label="Edit review" size="sm" /></span>
   </template>
-
-  <!-- (Round-5 ch3: the per-kind feed icons are gone — the deterministic entry
-       rows carry the kind as an enumerated event-type label + ID badge.) -->
+  <template id="note-del-tpl">
+    <span class="wnote__del"><EsaIconButton icon="trash-2" label="Delete note" size="sm" /></span>
+  </template>
 </AppShell>
 
 <script>
@@ -676,12 +664,14 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
   import { beaconTheme, makeStatusRenderer } from '../../lib/beacon-grid';
   import '@esa/ecology/esa-tab-layout';
   import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-dropdown-menu';
+  import '@esa/ecology/esa-switch-toggle';
   import '@esa/ecology/esa-select';
   import '@esa/ecology/esa-combobox';
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-textarea';
   import '@esa/ecology/esa-date-picker';
-  import '@esa/ecology/esa-input-tag';
   import '@esa/ecology/esa-button-toggle';
   import '@esa/ecology/esa-filter-dropdown';
   import {
@@ -690,27 +680,26 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     TODAY,
     STATUS_ORDER,
     STATUS_META,
-    GATE_DIMENSIONS,
-    GATE_DIMENSION_LABEL,
+    COMPONENTS,
+    GEOTECH_COMPONENT,
+    REVIEW_KINDS,
+    REVIEW_KIND_LABEL,
+    OUTCOMES,
     distanceFt,
-    disciplineReviews,
+    clearanceReviews,
     currentReview,
-    disciplineStatus,
     bufferConflicts,
     deriveStatus,
-    blockedUntil,
     statusCounts,
     formatDate,
-    daysUntil,
-    BIO,
   } from '../../data/geotech-fixture-bio';
   import type {
     WorkArea,
     Observation,
     ClearanceStatus,
-    DisciplineReview,
+    ClearanceReview,
+    ClearanceNote,
     ReviewKind,
-    GateDimension,
   } from '../../data/geotech-fixture-bio';
 
   ModuleRegistry.registerModules([AllCommunityModule]);
@@ -718,8 +707,8 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
   const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
   const waById = new Map(workAreas.map((w) => [w.id, w]));
 
-  // ── THE client store — deriveStatus/blockedUntil/bufferConflicts are pure and
-  //    take this list, so every drawer save re-derives everything from it. ──────
+  // ── THE client store — deriveStatus/bufferConflicts are pure and take this
+  //    list, so every drawer save re-derives everything from it. ────────────────
   const activeObservations: Observation[] = [...observations];
 
   const statusOf = (wa: WorkArea): ClearanceStatus => deriveStatus(wa, activeObservations);
@@ -728,44 +717,57 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     ft >= 5280 ? `${(ft / 5280).toFixed(1)} mi` : `${Math.round(ft).toLocaleString()} ft`;
   const KIND_LABEL: Record<string, string> = { 'nesting-bird': 'Nesting bird', resource: 'Resource' };
   const OBS_STATUS_LABEL: Record<string, string> = { active: 'Active', tracking: 'Tracking' };
-  const REVIEW_KIND_LABEL: Record<ReviewKind, string> = {
-    'clearance-survey': 'Clearance survey',
-    're-survey': 'Re-survey',
-    'management-determination': 'Management determination',
-  };
-  /** Outcome-less BIOLOGICAL reviews for a WA, earliest first — the "what's
-      still pending" feed for the decision block / timeline (bio gate only). */
-  const pendingReviews = (wa: WorkArea) =>
-    wa.reviews
-      .filter((r) => r.dimension === BIO && !r.outcome)
-      .sort((a, b) => a.date.localeCompare(b.date));
 
   // Lego element shapes (esa-* form controls expose plain value/options props)
   type Field = HTMLElement & { value: string; options?: { value: string; label: string }[] };
   type SelectEl = HTMLElement & { value: string | string[] | null; options: { value: string; label: string }[] };
-  type TagEl = HTMLElement & { value: string[]; options: { value: string; label: string }[] };
   type FilterDropdownEl = HTMLElement & {
     options: { label: string; value: string; color?: string }[];
     _selected: string[];
   };
   type ToggleEl = HTMLElement & { options: { value: string; label: string }[]; value: string };
   type SideDialog = HTMLElement & { open: boolean; heading: string; show(): void; close(): void };
+  type DialogEl = HTMLElement & { open: boolean; heading: string };
+  type SwitchEl = HTMLElement & { checked: boolean };
+  type MenuEl = HTMLElement & {
+    items: { label: string; action?: string; icon?: string }[];
+    close(): void;
+  };
 
-  // ── In-session stores: appended notes (keyed by work-area id — the fixture's
-  //    verbatim biologistNote is never touched) + the change feed. ──────────────
-  interface AddedNote {
-    date: string;
-    author: string;
-    text: string;
+  // ── Component scope — the picker beside the H1 drives EVERYTHING below it;
+  //    the selection persists in browser storage. All fixture work areas (and
+  //    the observations tied to them) belong to the geotech program component;
+  //    the other components render the empty state. ────────────────────────────
+  const COMPONENT_KEY = 'site-clearance-bio.component';
+  let activeComponent: string = (() => {
+    try {
+      const saved = localStorage.getItem(COMPONENT_KEY);
+      if (saved && (COMPONENTS as readonly string[]).includes(saved)) return saved;
+    } catch {
+      /* storage unavailable (private mode) — fall through to the default */
+    }
+    return GEOTECH_COMPONENT;
+  })();
+  const componentWas = () => workAreas.filter((w) => w.component === activeComponent);
+
+  // ── Component Buffer (BCN-1454) — one user-defined ring per component
+  //    (label + distance in feet), drawn around EVERY work-area geometry as a
+  //    toggleable satellite-analysis layer. Off by default. ─────────────────────
+  interface ComponentBuffer {
+    label: string;
+    distanceFt: number;
   }
-  const notesByWa = new Map<string, AddedNote[]>();
-  const notesFor = (id: string) => notesByWa.get(id) ?? [];
+  const bufferByComponent = new Map<string, ComponentBuffer>([
+    [GEOTECH_COMPONENT, { label: 'Noise', distanceFt: 500 }],
+  ]);
+  const activeBuffer = () => bufferByComponent.get(activeComponent) ?? { label: 'Buffer', distanceFt: 500 };
+  let bufferOn = false;
 
-  /** In-session change entries are STRUCTURED at the source (round-5 ch3): a
-      fixed event kind + one structured primary value (+ optional verbatim
-      secondary / status chip) — never an assembled sentence. Both renderers
-      (the drawer Activity list and the feed) pass these straight to entryRow. */
-  type ChangeKind = 'block-confirmed' | 'note' | 'gate-edit';
+  /** In-session change entries are STRUCTURED at the source: a fixed event
+      kind + one structured primary value (+ optional verbatim secondary /
+      status chip) — never an assembled sentence. Both renderers (the drawer
+      Activity list and the feed) pass these straight to entryRow. */
+  type ChangeKind = 'note' | 'edit';
   interface ChangeEntry {
     ts: string; // full ISO datetime (live edits only — no seeds)
     waId: string;
@@ -787,36 +789,13 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
   const entriesFor = (waId: string) =>
     changeLog.filter((c) => c.waId === waId).sort((a, b) => b.ts.localeCompare(a.ts));
 
-  // ── Filter state (both multi-select; empty = all) — scopes markers + the
-  //    readiness strip. ─────────────────────────────────────────────────────────
+  // ── Filter state (multi-select; empty = all) — scopes markers + the
+  //    readiness strip, always inside the active component. ─────────────────────
   let statusFilters: string[] = [];
-  let startFilters: string[] = [];
 
-  const startMatchOne = (wa: WorkArea, v: string) => {
-    const d = wa.plannedStartDate;
-    if (v === 'none') return !d;
-    if (v === 'jun-29-30') return d === '2026-06-29' || d === '2026-06-30';
-    return d === v;
-  };
-  const startMatch = (wa: WorkArea) => !startFilters.length || startFilters.some((v) => startMatchOne(wa, v));
   const waShown = (wa: WorkArea) =>
-    (!statusFilters.length || statusFilters.includes(statusOf(wa))) && startMatch(wa);
+    wa.component === activeComponent && (!statusFilters.length || statusFilters.includes(statusOf(wa)));
   const visibleWas = () => workAreas.filter(waShown);
-
-  /** Planned-start buckets are DERIVED from the current data (so an edited date
-      re-buckets the options): one bucket per distinct date, the adjacent Jun
-      29/30 pair kept as one combined bucket, plus "No date". */
-  const shortDate = (iso: string) => formatDate(iso).replace(/, \d{4}$/, '');
-  function startBuckets(): { value: string; label: string }[] {
-    const dates = [...new Set(workAreas.map((w) => w.plannedStartDate).filter((d): d is string => !!d))];
-    const grouped = dates.filter((d) => d === '2026-06-29' || d === '2026-06-30');
-    const opts = dates
-      .filter((d) => !grouped.includes(d))
-      .map((d) => ({ value: d, label: shortDate(d), sort: d }));
-    if (grouped.length) opts.push({ value: 'jun-29-30', label: 'Jun 29–30', sort: '2026-06-29' });
-    opts.sort((a, b) => a.sort.localeCompare(b.sort));
-    return [...opts.map(({ value, label }) => ({ value, label })), { value: 'none', label: 'No date' }];
-  }
 
   // ── Runtime colors — markers resolve the static :root vars (set SSR-side from
   //    the fixture's field-map palette); CSS surfaces read them directly. ───────
@@ -827,9 +806,8 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
   const obsColor = () => cssVar('--obs-color', '#7b5ea7');
   const obsStroke = () => cssVar('--obs-color-strong', '#5b3f87');
 
-  // ── Chip / pill cloning (BcnStatusChip + esa-pill SSR templates) ────────────
+  // ── Chip cloning (BcnStatusChip SSR template) ───────────────────────────────
   const chipTpl = $('gc-chip-tpl') as unknown as HTMLTemplateElement;
-  const pillTpl = $('gc-pill-tpl') as unknown as HTMLTemplateElement;
 
   function applyChip(wrapper: Element, statusKey: string, label: string) {
     const chip = wrapper.querySelector<HTMLElement>('.bcn-status-chip');
@@ -844,12 +822,6 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     applyChip(wrap, statusKey, label);
     return wrap;
   }
-  function clonePill(label: string): HTMLElement {
-    const pill = (pillTpl.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
-    const text = pill.querySelector('.esa-pill__label');
-    if (text) text.textContent = label;
-    return pill;
-  }
 
   // ── Deterministic entry rows (round-5 ch3) — ONE renderer for every event /
   //    reference row on the Activity tab and in both drawers. The anatomy is
@@ -860,30 +832,14 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
   //    semibold tinted token): observation IDs in the page's --obs-color violet,
   //    work-area IDs in a primary-teal tint (two violets read as one entity —
   //    teal keeps the WA/observation distinction the whole page draws). ──────
-  type EntryKind =
-    | 'observation'
-    | 'log'
-    | 'review'
-    | 'notification'
-    | 'block-confirmed'
-    | 'note'
-    | 'gate-edit'
-    | 'work-area'
-    | 'visit'
-    | 'work-start';
+  type EntryKind = 'review' | 'note' | 'edit' | 'work-area';
 
   // The fixed event-type vocabulary — normal case, rendered semibold ≥14px.
   const ENTRY_TYPE_LABEL: Record<EntryKind, string> = {
-    observation: 'Observation',
-    log: 'Log update',
     review: 'Review',
-    notification: 'Notification',
-    'block-confirmed': 'Block confirmed',
     note: 'Note',
-    'gate-edit': 'Gate edit',
+    edit: 'Edit',
     'work-area': 'Work area',
-    visit: 'Clearance visit',
-    'work-start': 'Work start',
   };
 
   interface EntrySpec {
@@ -964,7 +920,9 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
   let map: L.Map | null = null;
   const waMarkers = new Map<string, L.CircleMarker>();
   const obsDots = new Map<string, L.CircleMarker>(); // center/tracking dots, for the go-to highlight
+  const obsLayers: L.Layer[] = []; // every observation layer (rings + dots) — hidden with the component
   const lastStatus = new Map<string, ClearanceStatus>();
+  let bufferRings: L.Circle[] = []; // the Component Buffer overlay (rebuilt on toggle/edit/component)
   let initialBounds: L.LatLngBounds | null = null; // the boot fit — what the reset-view control restores
   let activeWaId: string | null = null;
   let activeObsId: string | null = null;
@@ -1069,20 +1027,30 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
 
   function buildMap() {
     map = L.map('gc-map', { zoomControl: true, attributionControl: true, zoomSnap: 0.25 });
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    // Map/Satellite base layers — the Component Buffer overlay is a
+    // satellite-mode analysis tool (BCN-1454), so the imagery base ships too.
+    const baseMap = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; OpenStreetMap &copy; CARTO',
       subdomains: 'abcd',
       maxZoom: 20,
     }).addTo(map);
+    const baseSat = L.tileLayer(
+      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+      { attribution: '&copy; Esri', maxZoom: 19 }
+    );
+    L.control.layers({ Map: baseMap, Satellite: baseSat }, undefined, { position: 'topright' }).addTo(map);
 
     // Fit FIRST so every marker is born at the right zoom-adaptive size — the
-    // boot view IS the full program extent (the blob case ch2 fixes).
+    // boot view IS the full program extent (all sites carry geometry today;
+    // an empty component keeps the program extent behind its empty state).
     initialBounds = L.latLngBounds(workAreas.map((w) => [w.lat, w.lng] as L.LatLngTuple));
     map.fitBounds(initialBounds, { padding: [40, 40] });
     waR = waRadiusForZoom(map.getZoom());
 
     // Buffers under the work-area markers: facts first, judgments on top.
-    for (const o of activeObservations) addObsLayers(o);
+    for (const o of activeObservations) obsLayers.push(...addObsLayers(o));
+    syncObsVisibility();
+    rebuildBufferRings();
 
     for (const wa of workAreas) {
       const st = statusOf(wa);
@@ -1153,7 +1121,8 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
   }
 
   /** Status is DERIVED, so a save can move a work area in/out of an active
-      status filter — re-sync marker visibility (without refitting). */
+      status filter — re-sync marker visibility (without refitting). The
+      component scope rides waShown, so a component switch re-syncs here too. */
   function syncMarkerVisibility() {
     if (!map) return;
     for (const wa of workAreas) {
@@ -1164,18 +1133,61 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     }
   }
 
+  /** Observation layers (rings + dots) belong to the geotech program's sites —
+      they hide with the component like the markers do. */
+  function syncObsVisibility() {
+    if (!map) return;
+    const show = activeComponent === GEOTECH_COMPONENT;
+    for (const layer of obsLayers) {
+      if (show) layer.addTo(map);
+      else layer.remove();
+    }
+  }
+
+  /** The Component Buffer overlay (BCN-1454): one ring per work-area geometry
+      at the buffer's distance, in the dedicated non-status blue. Rebuilt whole
+      on toggle / edit / component switch — geometry never changes mid-session. */
+  function rebuildBufferRings() {
+    for (const ring of bufferRings) ring.remove();
+    bufferRings = [];
+    if (!map || !bufferOn) return;
+    const buf = activeBuffer();
+    const blue = cssVar('--cbuf-color', '#4575b4');
+    for (const wa of componentWas()) {
+      const ring = L.circle([wa.lat, wa.lng], {
+        radius: buf.distanceFt * 0.3048,
+        color: blue,
+        weight: 1.25,
+        dashArray: '2 4',
+        fill: false,
+        interactive: false,
+      });
+      ring.addTo(map);
+      bufferRings.push(ring);
+    }
+  }
+
+  /** The empty-component surfaces: the map's empty state replaces the marker
+      story, and the readiness strip hides (a census of nothing reads wrong). */
+  function syncComponentSurfaces() {
+    const has = componentWas().length > 0;
+    $('map-empty').hidden = has;
+    const strip = document.querySelector<HTMLElement>('.readiness');
+    if (strip) strip.hidden = !has;
+  }
+
   /** Every interactive surface recomputes here: marker fills, readiness strip,
-      both grids, the Timeline lanes, the Activity feed, the preset counts, and
-      any open drawer (parent board AND the stacked discipline history). */
+      both grids, the Activity feed, the View-bar counts, and any open drawer
+      (including the inline review history). */
   function refreshAll(pulse = false) {
     refreshMarkers(pulse);
     syncMarkerVisibility();
+    syncComponentSurfaces();
     refreshReadiness();
     refreshGrids();
-    renderTimeline();
     renderFeed();
     presets.options = presetOptions(); // label counts follow the derived statuses
-    if (activeWaId) fillWaDialog(activeWaId); // repaints the inline bio review section too
+    if (activeWaId) fillWaDialog(activeWaId); // repaints the inline review section too
     if (activeObsId) fillObsDialog(activeObsId);
   }
 
@@ -1185,7 +1197,7 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     const counts = statusCounts(activeObservations, scoped);
     const countOf = (s: string) => counts.find((c) => c.status === s)?.count ?? 0;
     const total = scoped.length;
-    const ready = countOf('cleared') + countOf('cleared-stipulations');
+    const ready = countOf('cleared');
     $('rs-ready').textContent = String(ready);
     $('rs-total').textContent = `of ${total} work area${total === 1 ? '' : 's'}`;
 
@@ -1218,14 +1230,19 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
   const affectedWas = (o: Observation) =>
     o.bufferFt > 0 ? workAreas.filter((wa) => distanceFt(wa.lat, wa.lng, o.lat, o.lng) <= o.bufferFt) : [];
 
-  // Field stays `segment` (the fixture's data contract); the USER-FACING label
-  // is "Component" — the Beacon platform's term (round-3 rename).
+  // Work Areas view: identifier, derived status, clearance-visit date, and the
+  // Work Area CUSTOM FIELDS as columns (the custom-fields-as-columns pattern) —
+  // no forecasting columns (notification / planned-start / blocked-until are
+  // out of scope for the epic).
   interface WaRow {
     id: string;
     status: ClearanceStatus;
-    plannedStart: string;
-    segment: string;
-    blockedUntilText: string;
+    visitDate: string;
+    method: string;
+    depthFt: number | null;
+    parcel: string;
+    county: string;
+    entryAgreement: string;
   }
   interface ObsRow {
     id: string;
@@ -1235,26 +1252,23 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     status: string;
     buffer: string;
     firstObserved: string;
-    estEnd: string;
     affected: number;
   }
 
   const buildWaRows = (): WaRow[] =>
-    workAreas.map((wa) => {
-      const st = statusOf(wa);
-      const blocking = st === 'blocked' || st === 'provisional-block';
-      const until = blocking ? blockedUntil(wa, activeObservations) : null;
-      return {
-        id: wa.id,
-        status: st,
-        plannedStart: formatDate(wa.plannedStartDate),
-        segment: wa.segment,
-        blockedUntilText: blocking ? (until ? formatDate(until) : 'Until further notice') : '—',
-      };
-    });
+    componentWas().map((wa) => ({
+      id: wa.id,
+      status: statusOf(wa),
+      visitDate: formatDate(wa.clearanceVisitDate),
+      method: wa.method ?? '—',
+      depthFt: wa.depthFt ?? null,
+      parcel: [wa.parcelApn, wa.dcpn].filter(Boolean).join(' · ') || '—',
+      county: wa.county ?? '—',
+      entryAgreement: wa.entryAgreement ?? '—',
+    }));
 
   const buildObsRows = (): ObsRow[] =>
-    activeObservations.map((o) => ({
+    (activeComponent === GEOTECH_COMPONENT ? activeObservations : []).map((o) => ({
       id: o.id,
       species: o.species,
       kind: KIND_LABEL[o.kind] ?? o.kind,
@@ -1262,7 +1276,6 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       status: OBS_STATUS_LABEL[o.status] ?? o.status,
       buffer: o.bufferFt > 0 ? o.bufferFt.toLocaleString() : '—',
       firstObserved: formatDate(o.firstObserved),
-      estEnd: o.estEndDate ? formatDate(o.estEndDate) : '—',
       affected: affectedWas(o).length,
     }));
 
@@ -1287,7 +1300,12 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
   function updateCounts() {
     const api = activeApi();
     if (!api) return;
-    const total = pivotValue === 'workareas' ? workAreas.length : activeObservations.length;
+    const total =
+      pivotValue === 'workareas'
+        ? componentWas().length
+        : activeComponent === GEOTECH_COMPONENT
+          ? activeObservations.length
+          : 0;
     const displayed = api.getDisplayedRowCount();
     $('gc-total').textContent = String(total);
     const filteredEl = $('gc-filtered');
@@ -1302,22 +1320,25 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
   function ensureGrids() {
     if (wasApi) return;
 
-    // Five columns, every one flex-sized (no fixed widths) so they fill the
-    // grid edge-to-edge at any viewport. minWidth only guards squish.
+    // Every column flex-sized (no fixed widths) so they fill the grid
+    // edge-to-edge at any viewport. minWidth only guards squish.
     const waCols: ColDef<WaRow>[] = [
       { field: 'id', headerName: 'ID', flex: 1, minWidth: 130 },
       {
         field: 'status',
         headerName: 'Status',
-        flex: 1.4,
-        minWidth: 190,
+        flex: 1.3,
+        minWidth: 170,
         cellRenderer: waChip,
         cellClass: 'bcn-grid-status-cell',
         filterValueGetter: (p) => stLabel(p.data!.status),
       },
-      { field: 'plannedStart', headerName: 'Planned Start', flex: 1, minWidth: 140 },
-      { field: 'blockedUntilText', headerName: 'Blocked Until', flex: 1, minWidth: 150 },
-      { field: 'segment', headerName: 'Component', flex: 1.2, minWidth: 160 },
+      { field: 'visitDate', headerName: 'Visit Date', flex: 1, minWidth: 120 },
+      { field: 'method', headerName: 'Method', flex: 0.8, minWidth: 100 },
+      { field: 'depthFt', headerName: 'Depth (ft)', flex: 0.8, minWidth: 100, type: 'numericColumn' },
+      { field: 'parcel', headerName: 'Parcel / DCPN', flex: 1.4, minWidth: 180 },
+      { field: 'county', headerName: 'County', flex: 0.9, minWidth: 110 },
+      { field: 'entryAgreement', headerName: 'Entry Agreement', flex: 1, minWidth: 140 },
     ];
 
     const obsCols: ColDef<ObsRow>[] = [
@@ -1327,7 +1348,6 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       { field: 'status', headerName: 'Status', flex: 0.9, minWidth: 110 },
       { field: 'buffer', headerName: 'Buffer (ft)', flex: 0.9, minWidth: 110, type: 'numericColumn' },
       { field: 'firstObserved', headerName: 'First Observed', flex: 1, minWidth: 140 },
-      { field: 'estEnd', headerName: 'Est. End', flex: 1, minWidth: 120 },
       { field: 'affected', headerName: 'Work Areas Affected', flex: 1.1, minWidth: 170, type: 'numericColumn' },
     ];
 
@@ -1443,35 +1463,50 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     activeApi()?.exportDataAsCsv({ fileName: `site-clearance-${pivotValue}.csv` })
   );
 
-  // ── Work-area drawer (read mode — the Decision-first v2 surface) ────────────
+  // ── Work-area drawer (read mode) ────────────────────────────────────────────
   const waDialog = $('wa-dialog') as SideDialog;
   const obsDialog = $('obs-dialog') as SideDialog;
-  // Biological is the only gate — the inline review section is always bound to it.
-  const activeDim: GateDimension = BIO;
 
-  /** Lowercased discipline name for sentence positions ("the biological review"). */
-  const dimLower = (dim: GateDimension) => GATE_DIMENSION_LABEL[dim].toLowerCase();
-
-  /** Update an EsaCollapsible's SSR title text (live counts on the v2
-      summary rows). */
+  /** Update an EsaCollapsible's SSR title text (live counts on the summary rows). */
   function setCollapsibleTitle(wrapId: string, title: string) {
     const el = document.querySelector(`#${wrapId} .esa-collapsible__title`);
     if (el) el.textContent = title;
   }
 
-  /** Appended notes (in-session, append-only) — a dated list under the seed note. */
-  function renderAddedNotes(list: HTMLElement, waId: string) {
+  /** The work area's notes, newest first (append-only monitor records). */
+  const sortedNotes = (wa: WorkArea): ClearanceNote[] =>
+    [...wa.notes].sort((a, b) => b.date.localeCompare(a.date));
+
+  /** The append-only notes list — date · author meta over the verbatim text.
+      `deletable` adds the trash affordance (a note can be deleted but never
+      edited); delete is read-mode only, so the edit form stays an add surface. */
+  function renderNotes(list: HTMLElement, wa: WorkArea, deletable: boolean) {
     list.innerHTML = '';
-    for (const n of notesFor(waId)) {
+    for (const n of sortedNotes(wa)) {
       const li = document.createElement('li');
       li.className = 'wnote';
+      const head = document.createElement('div');
+      head.className = 'wnote__head';
       const meta = document.createElement('span');
       meta.className = 'wnote__meta';
       meta.textContent = `${formatDate(n.date)} · ${n.author}`;
+      head.appendChild(meta);
+      if (deletable) {
+        const del = (
+          document.querySelector<HTMLTemplateElement>('#note-del-tpl')!.content.firstElementChild as HTMLElement
+        ).cloneNode(true) as HTMLElement;
+        del.addEventListener('click', () => {
+          const idx = wa.notes.indexOf(n);
+          if (idx >= 0) wa.notes.splice(idx, 1);
+          logChange(wa.id, 'note', `Deleted · ${formatDate(n.date)} · ${n.author}`);
+          refreshAll();
+        });
+        head.appendChild(del);
+      }
       const text = document.createElement('p');
       text.className = 'wnote__text';
       text.textContent = n.text;
-      li.append(meta, text);
+      li.append(head, text);
       list.appendChild(li);
     }
   }
@@ -1510,57 +1545,19 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     const st = statusOf(wa);
     waDialog.heading = wa.id; // aria-label; the visible header is the slot
     $('wa-title').textContent = wa.id;
-    $('wa-sub').textContent = `${wa.segment} · ${wa.constructionPackage}`;
+    $('wa-sub').textContent = wa.component;
     applyChip($('wa-chip'), st, stLabel(st));
 
-    const conflicts = bufferConflicts(wa, activeObservations);
-
-    // Dates band — the always-visible decision inputs; the red Blocked-until
-    // cell joins (4-up) only while a block horizon exists.
-    $('wa-d-notif').textContent = formatDate(wa.notificationDate);
+    // Clearance-visit band — the one date the clearance carries.
     $('wa-d-visit').textContent = formatDate(wa.clearanceVisitDate);
-    $('wa-d-start').textContent = formatDate(wa.plannedStartDate);
-    const until = blockedUntil(wa, activeObservations);
-    const showUntil = (st === 'blocked' || st === 'provisional-block') && !!until;
-    $('wa-d-until-wrap').hidden = !showUntil;
-    $('wa-band').classList.toggle('band--4', showUntil);
-    if (showUntil) $('wa-d-until').textContent = formatDate(until);
 
-    // The inline biological review history (the v2 core)
-    fillDiscDialog(wa, BIO);
+    // The inline review history
+    fillReviews(wa);
 
-    // Buffer conflicts collapsible — hidden entirely when none (the specimen's
-    // move); the title carries the live count.
-    $('wa-conflicts-col').hidden = conflicts.length === 0;
-    setCollapsibleTitle('wa-conflicts-col', `Buffer conflicts (${conflicts.length})`);
-    const list = $('wa-conflicts');
-    list.innerHTML = '';
-    for (const o of conflicts) {
-      const d = distanceFt(wa.lat, wa.lng, o.lat, o.lng);
-      list.appendChild(
-        entryCard(
-          {
-            badgeId: o.id,
-            badgeKind: 'obs',
-            eventType: 'observation',
-            primary: `${o.species} · ${o.bufferFt.toLocaleString()} ft buffer`,
-            meta: `${fmtDistance(d)} away · ${o.estEndDate ? `est. end ${shortDate(o.estEndDate)}` : 'no est. end'}`,
-          },
-          { obs: o.id }
-        )
-      );
-    }
-
-    // Notes collapsible — the verbatim seed note + any appended (in-session)
-    // notes; hidden when there is nothing to read.
-    const added = notesFor(wa.id);
-    const noteCount = (wa.biologistNote ? 1 : 0) + added.length;
-    $('wa-notes-col').hidden = noteCount === 0;
-    setCollapsibleTitle('wa-notes-col', `Notes (${noteCount})`);
-    const seedEl = $('wa-note');
-    seedEl.hidden = !wa.biologistNote;
-    seedEl.textContent = wa.biologistNote ?? '';
-    renderAddedNotes($('wa-notes-added'), wa.id);
+    // Notes collapsible — append-only monitor records; hidden when empty.
+    $('wa-notes-col').hidden = wa.notes.length === 0;
+    setCollapsibleTitle('wa-notes-col', `Notes (${wa.notes.length})`);
+    renderNotes($('wa-notes-added'), wa, true);
 
     // Change feed
     renderActivity(wa.id);
@@ -1584,12 +1581,6 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     editing = false;
     syncMode();
     refreshMarkers();
-  });
-
-  // Conflict / nearby rows in the work-area drawer jump to the observation drawer.
-  $('wa-dialog').addEventListener('click', (e) => {
-    const li = (e.target as HTMLElement).closest<HTMLElement>('[data-obs]');
-    if (li) openObservation(li.dataset.obs!);
   });
 
   // ── Work-area comments + @-mention (ported from permit tracking, BCN-1364) ──
@@ -1738,35 +1729,29 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     renderComments(activeWaId);
   });
 
-  // ── Inline biological review history + write surface. Formerly the stacked
-  //    discipline CHILD drawer; with biology the only gate it now lives directly
-  //    in the work-area drawer (#dd-* ids, always bound to the biological gate).
-  //    No board, no stacking. ──────────────────────────────────────────────────
-  let editingReview: DisciplineReview | null = null; // null = the form is adding
+  // ── Inline review history + write surface (#dd-* ids). The review is the
+  //    write path: a dated determination with a REQUIRED outcome — there is no
+  //    scheduled review, no stipulations field, no blocked-until horizon. ───────
+  let editingReview: ClearanceReview | null = null; // null = the form is adding
 
-  /** Paint the inline biological review section — the review count + the
-      reverse-chron history rail (the latest completed review sets the status,
-      shown on the drawer header chip). Always the biological gate. */
-  function fillDiscDialog(wa: WorkArea, dim: GateDimension) {
-    const revs = disciplineReviews(wa, dim);
+  /** Paint the inline review section — the review count + the reverse-chron
+      history rail (the latest review sets the status, shown on the drawer
+      header chip). */
+  function fillReviews(wa: WorkArea) {
+    const revs = clearanceReviews(wa);
     $('dd-count').textContent = `${revs.length} review${revs.length === 1 ? '' : 's'}`;
-    renderHistory(wa, dim);
+    renderHistory(wa);
   }
 
-  /** One review-history node: kind + when + pencil, outcome chip (scheduled
-      chip for outcome-less reviews), until-date, the teal "Sets current
-      status" tag on the current one, note, stipulation pills. */
-  function reviewNode(r: DisciplineReview, isCurrent: boolean): HTMLLIElement {
+  /** One review-history node: kind + when + pencil, outcome chip, the teal
+      "Sets current status" tag on the latest, note. */
+  function reviewNode(r: ClearanceReview, isCurrent: boolean): HTMLLIElement {
     const li = document.createElement('li');
     li.className = 'rev';
     const dot = document.createElement('span');
     dot.className = 'rev__dot';
-    if (r.outcome) {
-      dot.style.background = `var(--st-${r.outcome})`;
-      dot.style.borderColor = `var(--st-${r.outcome})`;
-    } else {
-      dot.classList.add('rev__dot--scheduled');
-    }
+    dot.style.background = `var(--st-${r.outcome})`;
+    dot.style.borderColor = `var(--st-${r.outcome})`;
 
     const main = document.createElement('div');
     main.className = 'rev__main';
@@ -1776,9 +1761,7 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     head.append(REVIEW_KIND_LABEL[r.kind]);
     const when = document.createElement('span');
     when.className = 'rev__when';
-    when.textContent = r.outcome
-      ? `${formatDate(r.date)}${r.reviewer ? ` · ${r.reviewer}` : ''}`
-      : `scheduled ${formatDate(r.date)}`;
+    when.textContent = `${formatDate(r.date)}${r.reviewer ? ` · ${r.reviewer}` : ''}`;
     head.appendChild(when);
     const edit = (
       document.querySelector<HTMLTemplateElement>('#dd-edit-tpl')!.content.firstElementChild as HTMLElement
@@ -1788,14 +1771,7 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
 
     const chiprow = document.createElement('div');
     chiprow.className = 'rev__chiprow';
-    const chipStatus = r.outcome ?? 'survey-scheduled';
-    chiprow.appendChild(cloneChip(chipStatus, stLabel(chipStatus)));
-    if (r.outcome === 'blocked') {
-      const untilEl = document.createElement('span');
-      untilEl.className = 'rev__until';
-      untilEl.textContent = r.blockedUntil ? `until ${formatDate(r.blockedUntil)}` : 'until further notice';
-      chiprow.appendChild(untilEl);
-    }
+    chiprow.appendChild(cloneChip(r.outcome, stLabel(r.outcome)));
     if (isCurrent) {
       const cur = document.createElement('span');
       cur.className = 'rev__current';
@@ -1810,26 +1786,16 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       note.textContent = r.note;
       main.appendChild(note);
     }
-    if (r.stipulations?.length) {
-      const stips = document.createElement('ul');
-      stips.className = 'gate__stips';
-      for (const s of r.stipulations) {
-        const item = document.createElement('li');
-        item.appendChild(clonePill(s));
-        stips.appendChild(item);
-      }
-      main.appendChild(stips);
-    }
 
     li.append(dot, main);
     return li;
   }
 
-  function renderHistory(wa: WorkArea, dim: GateDimension) {
+  function renderHistory(wa: WorkArea) {
     const listEl = $('dd-history');
     listEl.innerHTML = '';
-    const revs = disciplineReviews(wa, dim);
-    const cur = currentReview(wa, dim);
+    const revs = clearanceReviews(wa);
+    const cur = currentReview(wa);
     if (!revs.length) {
       const li = document.createElement('li');
       li.className = 'entry entry--empty';
@@ -1845,36 +1811,22 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
 
   // ── The Add/Edit review form ────────────────────────────────────────────────
   const ddForm = $('dd-form');
+  // Kind reads the tenant's configurable clearance-review-kind list (DCP seed:
+  // 14-day clearance, 72-hour clearance, Management determination).
   const ddKind = $('dd-kind') as SelectEl;
-  ddKind.options = (Object.keys(REVIEW_KIND_LABEL) as ReviewKind[]).map((k) => ({
-    value: k,
-    label: REVIEW_KIND_LABEL[k],
-  }));
-  // Recordable OUTCOMES only: scheduled is the absence of an outcome (the
-  // sentinel saves outcome-less), not-surveyed is the absence of reviews, and
-  // provisional-block stays derived-only — none of the three is recordable.
+  ddKind.options = REVIEW_KINDS.map((k) => ({ value: k, label: REVIEW_KIND_LABEL[k] }));
+  // Outcome is the FIXED recordable set — Cleared, Inaccessible, Blocked.
+  // Not-surveyed is the absence of reviews and provisional-block stays
+  // derived-only; neither is recordable.
   const ddOutcome = $('dd-outcome') as SelectEl;
-  ddOutcome.options = [
-    { value: 'scheduled', label: 'Scheduled — no outcome yet' },
-    ...(['blocked', 'inaccessible', 'cleared-stipulations', 'cleared'] as ClearanceStatus[]).map((s) => ({
-      value: s,
-      label: stLabel(s),
-    })),
-    { value: 'not-required', label: stLabel('not-required') },
-  ];
-  ddOutcome.addEventListener('change', () => {
-    $('dd-until-wrap').hidden = (ddOutcome.value as string) !== 'blocked';
-  });
+  ddOutcome.options = OUTCOMES.map((s) => ({ value: s, label: stLabel(s) }));
 
-  function setReviewForm(r: Partial<DisciplineReview>) {
-    ddKind.value = r.kind ?? 'clearance-survey';
+  function setReviewForm(r: Partial<ClearanceReview>) {
+    ddKind.value = r.kind ?? '14-day-clearance';
     ($('dd-date') as Field).value = r.date ?? TODAY;
-    ddOutcome.value = r.outcome ?? 'scheduled';
-    ($('dd-until') as Field).value = r.blockedUntil ?? '';
-    $('dd-until-wrap').hidden = r.outcome !== 'blocked';
+    ddOutcome.value = r.outcome ?? 'cleared';
     ($('dd-reviewer') as Field).value = r.reviewer ?? '';
     ($('dd-note') as Field).value = r.note ?? '';
-    ($('dd-stips') as TagEl).value = [...(r.stipulations ?? [])];
   }
 
   /** The form lives in ONE place at a time: its home above the history (add),
@@ -1891,20 +1843,20 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
 
   $('dd-add').addEventListener('click', () => {
     const wa = activeWaId ? waById.get(activeWaId) : null;
-    if (!wa || !activeDim) return;
+    if (!wa) return;
     editingReview = null;
-    // Sensible default: a discipline with history is usually getting a
-    // re-survey; a first review is a clearance survey.
-    setReviewForm({ kind: disciplineReviews(wa, activeDim).length ? 're-survey' : 'clearance-survey' });
-    renderHistory(wa, activeDim); // restore any node the form was swapped into
+    // Sensible default: the first visit is the 14-day clearance; later visits
+    // are usually the 72-hour pre-work check.
+    setReviewForm({ kind: clearanceReviews(wa).length ? '72-hour-clearance' : '14-day-clearance' });
+    renderHistory(wa); // restore any node the form was swapped into
     showFormAtTop();
   });
 
-  function beginEditReview(r: DisciplineReview, node: HTMLLIElement) {
+  function beginEditReview(r: ClearanceReview, node: HTMLLIElement) {
     const wa = activeWaId ? waById.get(activeWaId) : null;
-    if (!wa || !activeDim) return;
-    renderHistory(wa, activeDim); // collapse any other open edit first
-    const freshNode = [...$('dd-history').children][[...disciplineReviews(wa, activeDim)].indexOf(r)] ?? node;
+    if (!wa) return;
+    renderHistory(wa); // collapse any other open edit first
+    const freshNode = [...$('dd-history').children][[...clearanceReviews(wa)].indexOf(r)] ?? node;
     editingReview = r;
     setReviewForm(r);
     // Swap the node's content for the form — the history line literally
@@ -1917,60 +1869,46 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
   $('dd-cancel').addEventListener('click', () => {
     const wa = activeWaId ? waById.get(activeWaId) : null;
     hideReviewForm();
-    if (wa && activeDim) renderHistory(wa, activeDim);
+    if (wa) renderHistory(wa);
   });
 
-  function collectReview(dim: GateDimension): DisciplineReview {
-    const kind = ((ddKind.value as string) || 'clearance-survey') as ReviewKind;
-    const r: DisciplineReview = { dimension: dim, kind, date: ($('dd-date') as Field).value || TODAY };
-    const outcome = (ddOutcome.value as string) || 'scheduled';
-    if (outcome !== 'scheduled') r.outcome = outcome as ClearanceStatus;
+  function collectReview(): ClearanceReview {
+    const kind = ((ddKind.value as string) || '14-day-clearance') as ReviewKind;
+    const outcome = ((ddOutcome.value as string) || 'cleared') as ClearanceReview['outcome'];
+    const r: ClearanceReview = { kind, date: ($('dd-date') as Field).value || TODAY, outcome };
     const reviewer = (($('dd-reviewer') as Field).value ?? '').trim();
     if (reviewer) r.reviewer = reviewer;
     const note = (($('dd-note') as Field).value ?? '').trim();
     if (note) r.note = note;
-    const stips = [...(($('dd-stips') as TagEl).value ?? [])];
-    if (stips.length) r.stipulations = stips;
-    if (r.outcome === 'blocked') r.blockedUntil = ($('dd-until') as Field).value || null; // null = until further notice
-    if (kind === 'management-determination') r.managerDetermination = true;
     return r;
   }
 
   $('dd-save').addEventListener('click', () => {
     const wa = activeWaId ? waById.get(activeWaId) : null;
-    if (!wa || !activeDim) return;
-    const next = collectReview(activeDim);
-    const label = GATE_DIMENSION_LABEL[activeDim];
+    if (!wa) return;
+    const next = collectReview();
     if (editingReview) {
       const idx = wa.reviews.indexOf(editingReview);
       if (idx >= 0) wa.reviews[idx] = next;
       else wa.reviews.push(next);
-      logChange(
-        wa.id,
-        'gate-edit',
-        `${label} · ${REVIEW_KIND_LABEL[next.kind]} updated`,
-        next.outcome ? { chip: next.outcome } : {}
-      );
+      logChange(wa.id, 'edit', `${REVIEW_KIND_LABEL[next.kind]} updated`, { chip: next.outcome });
     } else {
       wa.reviews.push(next);
-      logChange(
-        wa.id,
-        'gate-edit',
-        next.outcome
-          ? `${label} · ${REVIEW_KIND_LABEL[next.kind]} added`
-          : `${label} · ${REVIEW_KIND_LABEL[next.kind]} scheduled ${shortDate(next.date)}`,
-        next.outcome ? { chip: next.outcome } : {}
-      );
+      // Adding a review auto-updates the clearance-visit date (the epic's rule).
+      if (wa.clearanceVisitDate !== next.date) {
+        wa.clearanceVisitDate = next.date;
+      }
+      logChange(wa.id, 'edit', `${REVIEW_KIND_LABEL[next.kind]} added`, { chip: next.outcome });
     }
     hideReviewForm();
-    refreshAll(true); // re-derives + repaints everything incl. the parent board and this drawer
+    refreshAll(true); // re-derives + repaints everything incl. this drawer
   });
 
-  // ── Work-area drawer (EDIT mode — SITE-LEVEL only: the three dates + the
-  //    append-only note). Same esa-side-dialog, two stacked bodies: #wa-read ↔
-  //    #wa-edit, footer swaps "Edit site details" for Cancel/Save
-  //    (permit-tracking's affordance placement). Discipline reviews are edited
-  //    in the stacked child drawer, never here. ──────────────────────────────
+  // ── Work-area drawer (EDIT mode — SITE-LEVEL only: the clearance-visit date
+  //    + the append-only note). Same esa-side-dialog, two stacked bodies:
+  //    #wa-read ↔ #wa-edit, footer swaps "Edit site details" for Cancel/Save
+  //    (permit-tracking's affordance placement). Reviews are edited inline in
+  //    read mode, never here. ──────────────────────────────────────────────────
   let editing = false;
   function syncMode() {
     $('wa-read').hidden = editing;
@@ -1985,14 +1923,10 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     const wa = activeWaId ? waById.get(activeWaId) : null;
     if (!wa) return;
     editing = true;
-    ($('we-notif') as Field).value = wa.notificationDate ?? '';
     ($('we-visit') as Field).value = wa.clearanceVisitDate ?? '';
-    ($('we-start') as Field).value = wa.plannedStartDate ?? '';
-    // Notes — seed stays read-only; the add-note form starts fresh, dated TODAY.
-    const seed = $('we-seed-note');
-    seed.hidden = !wa.biologistNote;
-    seed.textContent = wa.biologistNote ?? '';
-    renderAddedNotes($('we-notes-added'), wa.id);
+    // Notes — existing notes stay read-only here (delete lives on the read
+    // list); the add-note form starts fresh, dated TODAY.
+    renderNotes($('we-notes-added'), wa, false);
     ($('we-note-date') as Field).value = TODAY;
     ($('we-note-author') as Field).value = '';
     ($('we-note-text') as Field).value = '';
@@ -2008,18 +1942,11 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     const wa = activeWaId ? waById.get(activeWaId) : null;
     if (!wa) return;
 
-    // Dates — empty picker = no date.
-    const dateFields: ['notificationDate' | 'clearanceVisitDate' | 'plannedStartDate', string, string][] = [
-      ['notificationDate', 'we-notif', 'Notification'],
-      ['clearanceVisitDate', 'we-visit', 'Clearance visit'],
-      ['plannedStartDate', 'we-start', 'Planned start'],
-    ];
-    for (const [field, id, label] of dateFields) {
-      const next = ($(id) as Field).value || undefined;
-      if (wa[field] !== next) {
-        logChange(wa.id, 'gate-edit', `${label} · ${formatDate(wa[field])} → ${formatDate(next)}`);
-        wa[field] = next;
-      }
+    // The clearance-visit date — directly editable; empty picker = no date.
+    const nextVisit = ($('we-visit') as Field).value || undefined;
+    if (wa.clearanceVisitDate !== nextVisit) {
+      logChange(wa.id, 'edit', `Clearance visit · ${formatDate(wa.clearanceVisitDate)} → ${formatDate(nextVisit)}`);
+      wa.clearanceVisitDate = nextVisit;
     }
 
     // Append-only note (the paste-from-email affordance).
@@ -2027,14 +1954,9 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     if (text) {
       const date = ($('we-note-date') as Field).value || TODAY;
       const author = (($('we-note-author') as Field).value ?? '').trim() || 'Unknown';
-      const list = notesByWa.get(wa.id) ?? [];
-      list.push({ date, author, text });
-      notesByWa.set(wa.id, list);
+      wa.notes.push({ date, author, text });
       logChange(wa.id, 'note', `${formatDate(date)} · ${author}`, { secondary: text });
     }
-
-    // Planned-start edits re-bucket the filter options.
-    refreshStartOptions();
 
     editing = false;
     refreshAll(true); // re-derive + repaint: marker fills (pulse on flips), strip, grids, drawer read mode
@@ -2054,9 +1976,6 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     $('obs-kind').textContent = KIND_LABEL[o.kind] ?? o.kind;
     $('obs-buffer').textContent = o.bufferFt > 0 ? `${o.bufferFt.toLocaleString()} ft` : 'None (tracking only)';
     $('obs-first').textContent = formatDate(o.firstObserved);
-    $('obs-end').textContent = o.estEndDate
-      ? `${formatDate(o.estEndDate)} · ${daysUntil(o.estEndDate)} day${daysUntil(o.estEndDate) === 1 ? '' : 's'} left`
-      : 'Until further notice';
 
     const logWrap = $('obs-log-wrap');
     logWrap.hidden = !o.latestLog;
@@ -2083,7 +2002,7 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
             badgeId: wa.id,
             badgeKind: 'wa',
             eventType: 'work-area',
-            primary: wa.segment,
+            primary: wa.method ?? '',
             chip: statusOf(wa),
             meta: fmtDistance(d),
           },
@@ -2109,62 +2028,56 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     if (li) openWorkArea(li.dataset.wa!);
   });
 
-  // ── Map filters (above the map) — the SAME filter legos as the Data tab,
-  //    multi-select; empty = all. They scope markers + the readiness strip. ─────
+  // ── Map Status filter (above the map) — the SAME filter lego as the Data
+  //    tab, multi-select; empty = all. Scopes markers + the readiness strip. ────
   const mapFltStatus = $('map-flt-status') as FilterDropdownEl;
   mapFltStatus.options = statusFilterOptions();
   mapFltStatus.addEventListener('selection-change', (e) => {
     statusFilters = ((e as CustomEvent).detail?.value as string[]) ?? [];
-    syncPresetSelection(); // hand-edited facets deselect to no-preset unless they match a set
-    applyMapFilters();
-  });
-
-  const mapFltStart = $('map-flt-start') as FilterDropdownEl;
-  mapFltStart.options = startBuckets();
-  mapFltStart.addEventListener('selection-change', (e) => {
-    startFilters = ((e as CustomEvent).detail?.value as string[]) ?? [];
+    syncPresetSelection(); // hand-edited facets deselect to no-pill unless they match a set
     applyMapFilters();
   });
 
   $('map-clear-filters').addEventListener('esa-filter-clear', () => {
     statusFilters = [];
-    startFilters = [];
     mapFltStatus._selected = [];
-    mapFltStart._selected = [];
-    syncPresetSelection(); // empty facets = the All preset
+    syncPresetSelection(); // empty facets = the All pill
     applyMapFilters();
   });
 
-  // ── View presets (ch3) — opinionated shortcuts over the SAME facet state the
-  //    Status dropdown edits (one source of truth: statusFilters). Pressing a
-  //    preset SETS the facets; the toggle reads as selected only while the
-  //    facets EXACTLY equal a preset's set. Counts ride the labels as plain
-  //    text (refreshed by refreshAll as statuses re-derive). ─────────────────
+  // ── View segmented bar — All + one pill per display status (live counts),
+  //    over the SAME facet state the Status dropdown edits (one source of
+  //    truth: statusFilters). Pressing a pill SETS the facets; the toggle reads
+  //    as selected only while the facets EXACTLY equal a pill's set. Counts
+  //    ride the labels as plain text (refreshed by refreshAll as statuses
+  //    re-derive). Provisional blocks count under Blocked — on a go/no-go
+  //    surface "Blocked" means everything red, solid or hollow. ────────────────
   const PRESET_SETS: Record<string, ClearanceStatus[]> = {
     all: [],
-    cleared: ['cleared', 'cleared-stipulations'],
-    blocked: ['blocked', 'provisional-block', 'inaccessible'],
-    scheduled: ['survey-scheduled'],
-    unscheduled: ['not-surveyed'],
+    cleared: ['cleared'],
+    blocked: ['blocked', 'provisional-block'],
+    inaccessible: ['inaccessible'],
+    'not-surveyed': ['not-surveyed'],
   };
   const PRESET_LABELS: Record<string, string> = {
     all: 'All',
     cleared: 'Cleared',
     blocked: 'Blocked',
-    scheduled: 'Scheduled',
-    unscheduled: 'Unscheduled',
+    inaccessible: 'Inaccessible',
+    'not-surveyed': 'Not Surveyed',
   };
   const presets = $('view-presets') as ToggleEl;
   function presetOptions(): { value: string; label: string }[] {
-    const counts = statusCounts(activeObservations);
+    const scoped = componentWas();
+    const counts = statusCounts(activeObservations, scoped);
     const countOf = (s: ClearanceStatus) => counts.find((c) => c.status === s)?.count ?? 0;
     return Object.keys(PRESET_SETS).map((key) => {
       const set = PRESET_SETS[key];
-      const n = set.length ? set.reduce((sum, s) => sum + countOf(s), 0) : workAreas.length;
+      const n = set.length ? set.reduce((sum, s) => sum + countOf(s), 0) : scoped.length;
       return { value: key, label: `${PRESET_LABELS[key]} (${n})` };
     });
   }
-  /** Selected preset = the one whose set EXACTLY equals the current facets
+  /** Selected pill = the one whose set EXACTLY equals the current facets
       (order-insensitive); anything else deselects the whole group. */
   function syncPresetSelection() {
     const cur = [...statusFilters].sort().join('|');
@@ -2181,20 +2094,79 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     applyMapFilters();
   });
 
-  /** Re-derive the planned-start buckets after a save (an edited date may add a
-      bucket, empty one out, or move a work area between buckets). */
-  function refreshStartOptions() {
-    const opts = startBuckets();
-    mapFltStart.options = opts;
-    const valid = new Set(opts.map((o) => o.value));
-    startFilters = startFilters.filter((v) => valid.has(v));
-    mapFltStart._selected = [...startFilters];
-  }
-
   function applyMapFilters() {
     syncMarkerVisibility();
     refreshReadiness();
   }
+
+  // ── Component picker (beside the H1) — esa-dropdown-menu over the real DCP
+  //    component register, rendered as a plain option list (the standard
+  //    select-panel look; the trigger label already names the active one).
+  //    Selecting re-scopes every surface; the choice persists in browser
+  //    storage. ────────────────────────────────────────────────────────────
+  const compMenu = $('comp-menu') as MenuEl;
+  const compMenuItems = () => COMPONENTS.map((c) => ({ label: c, action: c }));
+  compMenu.items = compMenuItems();
+  $('comp-label').textContent = activeComponent;
+
+  function setComponent(next: string) {
+    if (next === activeComponent) return;
+    activeComponent = next;
+    try {
+      localStorage.setItem(COMPONENT_KEY, next);
+    } catch {
+      /* storage unavailable — selection just won't persist */
+    }
+    $('comp-label').textContent = next;
+    compMenu.items = compMenuItems();
+    // Close any open drawer — it belongs to the previous component's scope.
+    if (waDialog.open) waDialog.close();
+    if (obsDialog.open) obsDialog.close();
+    statusFilters = [];
+    mapFltStatus._selected = [];
+    syncPresetSelection();
+    refreshGotoOptions();
+    syncObsVisibility();
+    rebuildBufferRings();
+    refreshAll();
+    // Refit the map to the component's sites (the full program extent stays
+    // behind the empty state when there are none).
+    if (map && componentWas().length) {
+      map.fitBounds(L.latLngBounds(componentWas().map((w) => [w.lat, w.lng] as L.LatLngTuple)), {
+        padding: [40, 40],
+      });
+    }
+  }
+  compMenu.addEventListener('menu-action', (e) => {
+    const action = (e as CustomEvent).detail?.action as string | undefined;
+    if (action) setComponent(action);
+  });
+
+  // ── Component Buffer wiring (BCN-1454): the layer switch, the label·distance
+  //    readout, and the minimal edit dialog. ──────────────────────────────────
+  const bufferToggle = $('buffer-toggle') as SwitchEl;
+  const bufferDialog = $('buffer-dialog') as DialogEl;
+  bufferToggle.addEventListener('change', (e) => {
+    bufferOn = !!(e as CustomEvent).detail?.checked;
+    ensureMap();
+    rebuildBufferRings();
+  });
+  $('buffer-edit').addEventListener('click', () => {
+    const buf = activeBuffer();
+    ($('buf-label') as Field).value = buf.label;
+    ($('buf-distance') as Field).value = String(buf.distanceFt);
+    bufferDialog.open = true;
+  });
+  $('buf-cancel').addEventListener('click', () => {
+    bufferDialog.open = false;
+  });
+  $('buf-save').addEventListener('click', () => {
+    const label = (($('buf-label') as Field).value ?? '').trim() || 'Buffer';
+    const distanceFt = Math.max(0, Number(($('buf-distance') as Field).value) || 0);
+    bufferByComponent.set(activeComponent, { label, distanceFt });
+    bufferDialog.open = false;
+    rebuildBufferRings();
+  });
 
   // ── "Go to …" jumps (round-5 ch2) + "Show on map" (ch5) — ONE machinery:
   //    switch to the Map tab if needed, pan/zoom to the point (~street zoom),
@@ -2226,19 +2198,24 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     options: { value: string; label: string }[];
   };
   const gotoWa = $('goto-wa') as ComboboxEl;
-  gotoWa.options = [...workAreas].sort((a, b) => a.id.localeCompare(b.id)).map((w) => ({ value: w.id, label: w.id }));
+  const gotoObs = $('goto-obs') as ComboboxEl;
+  /** Both jump lists follow the active component. Observation options run
+      newest-first by firstObserved, date first (the sort key). */
+  function refreshGotoOptions() {
+    gotoWa.options = componentWas()
+      .sort((a, b) => a.id.localeCompare(b.id))
+      .map((w) => ({ value: w.id, label: w.id }));
+    gotoObs.options = (activeComponent === GEOTECH_COMPONENT ? [...activeObservations] : [])
+      .sort((a, b) => b.firstObserved.localeCompare(a.firstObserved))
+      .map((o) => ({ value: o.id, label: `${formatDate(o.firstObserved)} · ${o.species} · ${o.id}` }));
+  }
+  refreshGotoOptions();
   gotoWa.addEventListener('change', (e) => {
     const id = ((e as CustomEvent).detail?.value as string) ?? '';
     if (!id) return;
     showOnMap('wa', id);
     gotoWa.value = null;
   });
-
-  // Observation options run newest-first by firstObserved, date first (the sort key).
-  const gotoObs = $('goto-obs') as ComboboxEl;
-  gotoObs.options = [...activeObservations]
-    .sort((a, b) => b.firstObserved.localeCompare(a.firstObserved))
-    .map((o) => ({ value: o.id, label: `${formatDate(o.firstObserved)} · ${o.species} · ${o.id}` }));
   gotoObs.addEventListener('change', (e) => {
     const id = ((e as CustomEvent).detail?.value as string) ?? '';
     if (!id) return;
@@ -2261,86 +2238,28 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     showOnMap('obs', id);
   });
 
-  // ── Activity feed (Tab 4) — events DERIVED from the fixture (sightings, dated
-  //    log updates, gate determinations, 30-day notifications) + the live
-  //    in-session change log (the same entries the drawer's Activity list shows:
-  //    one save → one set of entries in both places). Grouped per calendar date
-  //    against the fixture's frozen TODAY — never Date.now(). Every event IS an
-  //    EntrySpec (ch3): builders fill slots, the renderer is the only thing that
-  //    touches the DOM — no event ever carries an assembled sentence. ──────────
+  // ── Activity feed (Tab 3) — the component's CLEARANCE history: recorded
+  //    reviews and monitor notes from the fixture + the live in-session change
+  //    log (the same entries the drawer's Activity list shows: one save → one
+  //    set of entries in both places). Grouped per calendar date against the
+  //    fixture's frozen TODAY — never Date.now(). Every event IS an EntrySpec:
+  //    builders fill slots, the renderer is the only thing that touches the
+  //    DOM — no event ever carries an assembled sentence. History only. ────────
   interface FeedEvent {
     date: string; // ISO day — drives the date group (the group heading carries the date)
     sort: string; // descending sort key within a group
     entry: EntrySpec; // the deterministic row — meta is attribution (time/actor), never the date
-    component?: string; // the work area's component label (wa.segment) — drives the Component filter
     waId?: string;
     obsId?: string;
   }
 
-  const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  /** Parse a fixture latestLog's leading date ("Jun 4, 2026, 2:23 PM: …") —
-      undated logs (the tracking-only sightings) return null. */
-  function parseLog(log: string | undefined): { iso: string; time?: string; text: string } | null {
-    if (!log) return null;
-    const m = log.match(/^([A-Z][a-z]{2}) (\d{1,2}), (\d{4})(?:, (\d{1,2}:\d{2} [AP]M))?:\s*([\s\S]*)$/);
-    if (!m) return null;
-    const month = MONTHS_SHORT.indexOf(m[1]);
-    if (month < 0) return null;
-    return {
-      iso: `${m[3]}-${String(month + 1).padStart(2, '0')}-${m[2].padStart(2, '0')}`,
-      time: m[4],
-      text: m[5],
-    };
-  }
-
-  // The date now lives on the group heading, so per-event meta carries only the
-  // attribution that ISN'T the date: time of day and/or the person.
-  const componentOf = (waId: string | undefined) => (waId ? waById.get(waId)?.segment : undefined);
-
   function buildFeedEvents(): FeedEvent[] {
     const events: FeedEvent[] = [];
-    for (const o of activeObservations) {
-      // First-observed: the sighting — primary carries the structured buffer
-      // consequence as '·'-joined values (never a sentence)
-      if (o.firstObserved <= TODAY) {
-        const affected = affectedWas(o).length;
-        const facts =
-          o.bufferFt > 0
-            ? `${o.bufferFt.toLocaleString()} ft buffer` + (affected ? ` · ${affected} work area${affected === 1 ? '' : 's'} affected` : '')
-            : 'tracking only';
-        events.push({
-          date: o.firstObserved,
-          sort: `${o.firstObserved}T08`,
-          entry: { badgeId: o.id, badgeKind: 'obs', eventType: 'observation', primary: `${o.species} · ${facts}` },
-          component: componentOf(o.workAreaId),
-          obsId: o.id,
-        });
-      }
-      // Dated log updates — skipped when the log IS the first-observed event;
-      // the verbatim log text rides the quoted secondary line
-      const log = parseLog(o.latestLog);
-      if (log && log.iso !== o.firstObserved && log.iso <= TODAY) {
-        events.push({
-          date: log.iso,
-          sort: `${log.iso}T09`,
-          entry: {
-            badgeId: o.id,
-            badgeKind: 'obs',
-            eventType: 'log',
-            primary: o.species,
-            secondary: log.text,
-            meta: log.time ?? '',
-          },
-          component: componentOf(o.workAreaId),
-          obsId: o.id,
-        });
-      }
-    }
-    for (const wa of workAreas) {
-      // Completed (outcome-bearing) BIOLOGICAL reviews — the review's KIND rides
-      // the primary slot; outcome-less (scheduled) reviews live in Upcoming instead
+    for (const wa of componentWas()) {
+      // Recorded reviews — the review's KIND rides the primary slot, the
+      // outcome rides the chip, the reviewer rides the meta.
       for (const r of wa.reviews) {
-        if (r.dimension !== BIO || !r.outcome || r.date > TODAY) continue;
+        if (r.date > TODAY) continue;
         events.push({
           date: r.date,
           sort: `${r.date}T10`,
@@ -2348,21 +2267,21 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
             badgeId: wa.id,
             badgeKind: 'wa',
             eventType: 'review',
-            primary: `${GATE_DIMENSION_LABEL[r.dimension]} · ${REVIEW_KIND_LABEL[r.kind]}`,
+            primary: REVIEW_KIND_LABEL[r.kind],
             chip: r.outcome,
             meta: r.reviewer ?? '',
           },
-          component: wa.segment,
           waId: wa.id,
         });
       }
-      // 30-day landowner notifications
-      if (wa.notificationDate && wa.notificationDate <= TODAY) {
+      // Monitor notes — author as the structured primary, the verbatim text
+      // as the quoted secondary.
+      for (const n of wa.notes) {
+        if (n.date > TODAY) continue;
         events.push({
-          date: wa.notificationDate,
-          sort: `${wa.notificationDate}T07`,
-          entry: { badgeId: wa.id, badgeKind: 'wa', eventType: 'notification', primary: '30-day landowner' },
-          component: wa.segment,
+          date: n.date,
+          sort: `${n.date}T08`,
+          entry: { badgeId: wa.id, badgeKind: 'wa', eventType: 'note', primary: n.author, secondary: n.text },
           waId: wa.id,
         });
       }
@@ -2370,6 +2289,7 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     // Live in-session edits → the TODAY date group, sorted above the fixture's
     // dated events (the ChangeEntry already IS structured — pass it through)
     for (const c of changeLog) {
+      if (waById.get(c.waId)?.component !== activeComponent) continue;
       events.push({
         date: TODAY,
         sort: `${TODAY}T99-${c.ts}`,
@@ -2382,65 +2302,28 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
           chip: c.chip,
           meta: `${fmtTime(c.ts)} · ${c.user}`,
         },
-        component: componentOf(c.waId),
         waId: c.waId,
       });
     }
     return events.sort((a, b) => b.sort.localeCompare(a.sort));
   }
 
-  /** Future-dated look-ahead: scheduled clearance visits/reviews + planned
-      starts within 14 days — the block Leah plans the week around. Items carry
-      a fixed kind (→ the entry renderer's enumerated label) + an optional
-      structured detail (the review's discipline), never a prose string (ch3). */
-  interface UpcomingItem {
-    date: string;
-    waId: string;
-    kind: 'visit' | 'review' | 'work-start';
-    detail?: string;
-  }
-  function buildUpcoming(): UpcomingItem[] {
-    const items: UpcomingItem[] = [];
-    for (const wa of workAreas) {
-      if (wa.clearanceVisitDate && wa.clearanceVisitDate > TODAY)
-        items.push({ date: wa.clearanceVisitDate, waId: wa.id, kind: 'visit' });
-      for (const r of wa.reviews) {
-        // Scheduled (outcome-less) BIOLOGICAL reviews; the WA-level visit already covers its own date
-        if (r.dimension === BIO && !r.outcome && r.date > TODAY && r.date !== wa.clearanceVisitDate)
-          items.push({ date: r.date, waId: wa.id, kind: 'review', detail: GATE_DIMENSION_LABEL[r.dimension] });
-      }
-      if (wa.plannedStartDate && wa.plannedStartDate > TODAY && daysUntil(wa.plannedStartDate) <= 14)
-        items.push({ date: wa.plannedStartDate, waId: wa.id, kind: 'work-start' });
-    }
-    return items.sort((a, b) => a.date.localeCompare(b.date));
-  }
-
-  // ── Feed filters (Type / Component) — esa-filter-dropdown legos; multi-
-  //    select, empty = all. They scope the FEED only, never the Upcoming rail.
-  //    Type carries no color dots on purpose: colors belong to status, not
-  //    event type. ──────────────────────────────────────────────────────────
+  // ── Feed Type filter — esa-filter-dropdown lego; multi-select, empty = all.
+  //    No color dots on purpose: colors belong to status, not event type. The
+  //    page's Component picker already scopes the feed. ───────────────────────
   const FEED_TYPE_OF: Partial<Record<EntryKind, string>> = {
-    observation: 'observations',
-    log: 'observations',
     review: 'reviews',
-    notification: 'notifications',
-    'block-confirmed': 'edits',
-    note: 'edits',
-    'gate-edit': 'edits',
+    note: 'notes',
+    edit: 'edits',
   };
   let feedTypeFilters: string[] = [];
-  let feedComponentFilters: string[] = [];
-  // An event without a component (e.g. an observation not tied to a work area)
-  // matches only the empty Component filter.
   const feedShown = (ev: FeedEvent) =>
-    (!feedTypeFilters.length || feedTypeFilters.includes(FEED_TYPE_OF[ev.entry.eventType] ?? '')) &&
-    (!feedComponentFilters.length || (!!ev.component && feedComponentFilters.includes(ev.component)));
+    !feedTypeFilters.length || feedTypeFilters.includes(FEED_TYPE_OF[ev.entry.eventType] ?? '');
 
   const actFltType = $('act-flt-type') as FilterDropdownEl;
   actFltType.options = [
-    { value: 'observations', label: 'Observations' },
     { value: 'reviews', label: 'Clearance reviews' },
-    { value: 'notifications', label: 'Notifications' },
+    { value: 'notes', label: 'Notes' },
     { value: 'edits', label: 'Edits' },
   ];
   actFltType.addEventListener('selection-change', (e) => {
@@ -2448,50 +2331,16 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     renderFeed();
   });
 
-  const actFltComponent = $('act-flt-component') as FilterDropdownEl;
-  actFltComponent.options = [...new Set(workAreas.map((w) => w.segment))]
-    .sort()
-    .map((c) => ({ value: c, label: c }));
-  actFltComponent.addEventListener('selection-change', (e) => {
-    feedComponentFilters = ((e as CustomEvent).detail?.value as string[]) ?? [];
-    renderFeed();
-  });
-
   $('act-clear-filters').addEventListener('esa-filter-clear', () => {
     feedTypeFilters = [];
-    feedComponentFilters = [];
     actFltType._selected = [];
-    actFltComponent._selected = [];
     renderFeed();
   });
 
   function renderFeed() {
-    // Upcoming rail (soonest first) — NOT scoped by the feed filters. Same
-    // entryRow anatomy as the feed (ch3): badge + enumerated kind + the date
-    // as the structured primary, "in N days" as meta.
-    const upList = $('feed-upcoming');
-    const items = buildUpcoming();
-    (upList.closest('.feed-upcoming') as HTMLElement).hidden = items.length === 0;
-    upList.innerHTML = '';
-    for (const item of items) {
-      const days = daysUntil(item.date);
-      const li = entryRow({
-        badgeId: item.waId,
-        badgeKind: 'wa',
-        eventType: item.kind,
-        primary: item.detail ? `${item.detail} · ${shortDate(item.date)}` : shortDate(item.date),
-        meta: days === 1 ? 'tomorrow' : `in ${days} days`,
-      });
-      li.classList.add('entry--up');
-      li.dataset.wa = item.waId;
-      li.tabIndex = 0;
-      li.setAttribute('role', 'button');
-      upList.appendChild(li);
-    }
-
     // Feed — one group per calendar date, newest first. buildFeedEvents() sorts
     // descending, so Map insertion order IS the date order; live edits land in
-    // the fixture-TODAY group ("… · Today"). Every row is the ch3 entry card.
+    // the fixture-TODAY group ("… · Today"). Every row is an entry card.
     const groupsEl = $('feed-groups');
     groupsEl.innerHTML = '';
     const groups = new Map<string, FeedEvent[]>();
@@ -2512,183 +2361,6 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       for (const ev of evs) ul.appendChild(entryCard(ev.entry, { wa: ev.waId, obs: ev.obsId }));
       sec.append(h, ul);
       groupsEl.appendChild(sec);
-    }
-  }
-
-  // ── Timeline (Tab 3) — "when does work become available, and in what
-  //    status?" Three swimlanes of one-row-per-site date-positioned dots on a
-  //    shared auto-ranged axis with the fixture-TODAY marker. Adapted from
-  //    permit-tracking's clear-to-build chart; the permit-tracking stagger
-  //    (one row per item) is the collision strategy — 18 provisional blocks
-  //    lifting on the same date read as one aligned column of hollow dots.
-  //    Everything derives from the store; refreshAll re-renders it. ──────────
-  interface TlItem {
-    waId: string;
-    sub: string;
-    st: ClearanceStatus;
-    date: string; // ONE dot per work area per lane (round-5 ch4) — the earliest relevant upcoming date
-  }
-
-  function buildLanes(): { lanes: { label: string; items: TlItem[] }[]; notes: string[] } {
-    const starts: TlItem[] = [];
-    const visits: TlItem[] = [];
-    const lifts: TlItem[] = [];
-    let notSurveyed = 0;
-    let indefiniteBlocks = 0;
-    let clearedNoStart = 0;
-    for (const wa of workAreas) {
-      const st = statusOf(wa);
-      if (st === 'not-surveyed') {
-        notSurveyed++;
-        continue;
-      }
-      // Lane 1 — Work starts: cleared / cleared-with-stipulations sites at
-      // their planned start, plus the notification-pipeline sites (30-day
-      // landowner notification sent toward a planned start).
-      const cleared = st === 'cleared' || st === 'cleared-stipulations';
-      if (wa.plannedStartDate && (cleared || wa.notificationDate)) {
-        starts.push({ waId: wa.id, sub: wa.segment, st, date: wa.plannedStartDate });
-      } else if (cleared && !wa.plannedStartDate) {
-        clearedNoStart++;
-      }
-      // Lane 2 — Clearance visits: scheduled (outcome-less) reviews. Review-
-      // level on purpose: a provisionally blocked site's visit is still on the
-      // books and still happens. ONE dot per work area (ch4): a multi-review
-      // site collapses to its earliest upcoming pending date (earliest overall
-      // if none upcoming) — multiplicity is never plotted or labeled.
-      const reviewDates = [...new Set(wa.reviews.filter((r) => r.dimension === BIO && !r.outcome).map((r) => r.date))].sort();
-      if (reviewDates.length) {
-        const date = reviewDates.find((d) => d >= TODAY) ?? reviewDates[0];
-        visits.push({ waId: wa.id, sub: wa.segment, st, date });
-      }
-      // Lane 3 — Blocks expected to lift: blocked + provisional-block sites at
-      // blockedUntil. Indefinite blocks (null — the GGS compliance cases) have
-      // no date to plot; they live in the side note instead.
-      if (st === 'blocked' || st === 'provisional-block') {
-        const until = blockedUntil(wa, activeObservations);
-        if (until) lifts.push({ waId: wa.id, sub: wa.segment, st, date: until });
-        else indefiniteBlocks++;
-      }
-    }
-    const byDate = (a: TlItem, b: TlItem) => a.date.localeCompare(b.date) || a.waId.localeCompare(b.waId);
-    starts.sort(byDate);
-    visits.sort(byDate);
-    lifts.sort(byDate);
-    const notes: string[] = [];
-    if (notSurveyed) notes.push(`${notSurveyed} work areas not yet surveyed — no dates to plot`);
-    if (indefiniteBlocks) notes.push(`${indefiniteBlocks} blocked indefinitely (GGS)`);
-    if (clearedNoStart) notes.push(`${clearedNoStart} cleared without a planned start date`);
-    return {
-      lanes: [
-        { label: 'Work starts', items: starts },
-        { label: 'Clearance visits', items: visits },
-        { label: 'Blocks expected to lift', items: lifts },
-      ],
-      notes,
-    };
-  }
-
-  // Shared chart geometry: the axis row, every lane row, and the TODAY line all
-  // use the same [label | track | meta] grid, so a track percentage converts to
-  // a chart-relative offset with one calc. Gap = --spacing-400 = 16px.
-  const TL_LABEL_W = 190;
-  const TL_META_W = 120;
-  const TL_GAP = 16;
-  const tlTrackLeft = (p: number) =>
-    `calc(${TL_LABEL_W + TL_GAP}px + (100% - ${TL_LABEL_W + TL_META_W + 2 * TL_GAP}px) * ${p / 100})`;
-
-  function renderTimeline() {
-    const axisEl = $('tl-axis');
-    const chartEl = $('tl-chart');
-    const { lanes, notes } = buildLanes();
-    $('tl-excluded').textContent = notes.join(' · ');
-
-    axisEl.innerHTML = '';
-    chartEl.innerHTML = '';
-    const allDates = lanes.flatMap((l) => l.items.map((i) => i.date));
-    if (!allDates.length) return;
-
-    // Auto-range: the month containing min(TODAY, earliest) → the month after
-    // the latest plotted date. All UTC day math off the fixture clock.
-    const isoUtc = (iso: string) => {
-      const [y, m, d] = iso.split('-').map(Number);
-      return Date.UTC(y, m - 1, d);
-    };
-    const minIso = allDates.reduce((a, b) => (a < b ? a : b), TODAY);
-    const maxIso = allDates.reduce((a, b) => (a > b ? a : b), TODAY);
-    const [minY, minM] = minIso.split('-').map(Number);
-    const [maxY, maxM] = maxIso.split('-').map(Number);
-    const start = Date.UTC(minY, minM - 1, 1);
-    const end = Date.UTC(maxY, maxM, 1);
-    const span = end - start;
-    const pct = (iso: string) => Math.min(100, Math.max(0, ((isoUtc(iso) - start) / span) * 100));
-
-    // Month ticks + the TODAY tick (fixture clock — never Date.now()).
-    for (const t = new Date(start); t.getTime() < end; t.setUTCMonth(t.getUTCMonth() + 1)) {
-      const tick = document.createElement('span');
-      tick.className = 'tl-tick';
-      tick.style.left = `${((t.getTime() - start) / span) * 100}%`;
-      tick.textContent = `${MONTHS_SHORT[t.getUTCMonth()]} ${t.getUTCFullYear()}`;
-      axisEl.appendChild(tick);
-    }
-    const todayTick = document.createElement('span');
-    todayTick.className = 'tl-tick tl-tick--today';
-    todayTick.style.left = `${pct(TODAY)}%`;
-    todayTick.textContent = 'Today';
-    axisEl.appendChild(todayTick);
-
-    // TODAY marker line — spans the full chart height inside the track column.
-    const todayLine = document.createElement('span');
-    todayLine.className = 'tl-today-line';
-    todayLine.style.left = tlTrackLeft(pct(TODAY));
-    chartEl.appendChild(todayLine);
-
-    for (const lane of lanes) {
-      const sec = document.createElement('section');
-      sec.className = 'tl-lane';
-      const h = document.createElement('h4');
-      h.className = 'tl-lane__label';
-      h.textContent = lane.label;
-      const count = document.createElement('span');
-      count.className = 'tl-lane__count';
-      count.textContent = `${lane.items.length} work area${lane.items.length === 1 ? '' : 's'}`;
-      h.appendChild(count);
-      sec.appendChild(h);
-      const ul = document.createElement('ul');
-      ul.className = 'tl-lane__rows';
-      if (!lane.items.length) {
-        const li = document.createElement('li');
-        li.className = 'tl-row tl-row--empty';
-        li.textContent = 'Nothing to plot in this lane.';
-        ul.appendChild(li);
-      }
-      for (const item of lane.items) {
-        const li = document.createElement('li');
-        li.className = 'tl-row';
-        li.tabIndex = 0;
-        li.setAttribute('role', 'button');
-        // The shared tooltip idiom for this non-Leaflet surface: a plain title.
-        li.title = `${item.waId} · ${stLabel(item.st)} · ${formatDate(item.date)}`;
-        const name = document.createElement('span');
-        name.className = 'tl-row__name';
-        name.innerHTML = `${item.waId}<span class="tl-row__sub">${item.sub}</span>`;
-        const track = document.createElement('span');
-        track.className = 'tl-row__track';
-        // ONE dot per row (ch4); provisional = hollow, same grammar as the map.
-        const dot = document.createElement('span');
-        dot.className = item.st === 'provisional-block' ? 'tl-dot tl-dot--hollow' : 'tl-dot';
-        dot.style.left = `${pct(item.date)}%`;
-        if (item.st !== 'provisional-block') dot.style.background = `var(--st-${item.st})`;
-        track.appendChild(dot);
-        const meta = document.createElement('span');
-        meta.className = 'tl-row__meta';
-        meta.textContent = formatDate(item.date);
-        li.append(name, track, meta);
-        li.addEventListener('click', () => openWorkArea(item.waId));
-        ul.appendChild(li);
-      }
-      sec.appendChild(ul);
-      chartEl.appendChild(sec);
     }
   }
 
@@ -2718,15 +2390,11 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
       icon: ICON('<path d="M12 3v18"/><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/>'),
     },
     {
-      label: 'Timeline',
-      icon: ICON('<path d="M10 6h8"/><path d="M12 16h6"/><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M8 11h7"/>'),
-    },
-    {
       label: 'Activity',
       icon: ICON('<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/>'),
     },
   ];
-  const TAB_HASHES = ['#map', '#data', '#timeline', '#activity'];
+  const TAB_HASHES = ['#map', '#data', '#activity'];
   const deepLinkIdx = TAB_HASHES.indexOf(location.hash);
   if (deepLinkIdx > 0) tabs.activeIndex = deepLinkIdx;
   tabs.addEventListener('tabchange', (e) => {
@@ -2734,17 +2402,15 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     history.replaceState(null, '', TAB_HASHES[idx] ?? '#map');
     if (idx === 0) requestAnimationFrame(ensureMap);
     else if (idx === 1) requestAnimationFrame(ensureGrids);
-    else if (idx === 2) renderTimeline();
     else renderFeed();
   });
 
   // ── Print — pin the map's on-screen size so Leaflet's loaded tiles are reused ─
   window.addEventListener('beforeprint', () => {
-    const startLabels = new Map(startBuckets().map((o) => [o.value, o.label]));
     $('print-meta').textContent =
       `Printed ${new Date().toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}` +
+      ` · ${activeComponent}` +
       ` · Status: ${statusFilters.length ? statusFilters.map((s) => stLabel(s)).join(', ') : 'All'}` +
-      ` · Start: ${startFilters.length ? startFilters.map((v) => startLabels.get(v) ?? v).join(', ') : 'All'}` +
       ` · ${visibleWas().length} work areas`;
     const wrap = document.querySelector<HTMLElement>('.map-wrap')!;
     wrap.style.width = `${wrap.offsetWidth}px`;
@@ -2758,9 +2424,10 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
   });
 
   // ── Boot ─────────────────────────────────────────────────────────────────────
+  syncComponentSurfaces();
   refreshReadiness();
-  renderTimeline();
   renderFeed();
+  presets.options = presetOptions(); // SSR counts assume the geotech component — re-derive for the persisted one
   if (tabs.activeIndex === 0) requestAnimationFrame(ensureMap);
   else if (tabs.activeIndex === 1) requestAnimationFrame(ensureGrids);
 </script>
@@ -2772,8 +2439,7 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
 
   /* Pre-upgrade FOUC guard: only the default (Map) panel shows until the lego defines */
   esa-tab-layout:not(:defined) [slot='panel-1'],
-  esa-tab-layout:not(:defined) [slot='panel-2'],
-  esa-tab-layout:not(:defined) [slot='panel-3'] {
+  esa-tab-layout:not(:defined) [slot='panel-2'] {
     display: none;
   }
 
@@ -2887,6 +2553,91 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
   }
   #goto-obs {
     width: 260px;
+  }
+
+  /* Work Area Buffer control — right-aligned in the Filters row: the layer
+     switch and the edit pencil (the label/distance live in the edit dialog). */
+  .map-filterbar__buffer {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+  }
+  /* The Filters row's clear button sits mid-row once the buffer group takes
+     the right edge — keep a breath between it and the dropdowns. */
+  #map-clear-filters {
+    margin-left: var(--spacing-100);
+  }
+
+  /* Empty-component state — centered over the map, above the Leaflet panes,
+     on the page's surface so the basemap reads as background. */
+  .map-empty {
+    position: absolute;
+    inset: 0;
+    z-index: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in srgb, var(--color-surface) 78%, transparent);
+    backdrop-filter: blur(2px);
+  }
+  .map-empty[hidden] {
+    display: none;
+  }
+
+  /* ═══ Component picker — the quiet text+chevron trigger beside the H1
+     (slotted into the esa-dropdown-menu lego; trigger chrome is the
+     consumer's by design). Flex-centered against the H1's cap height. ═══ */
+  .comp-picker {
+    display: inline-flex;
+    align-items: center;
+    align-self: center;
+    min-width: 0;
+  }
+  .comp-picker esa-dropdown-menu {
+    display: inline-flex;
+    align-items: center;
+    /* The panel items read --type-size-200 — step it down one notch here so
+       the open list matches the trigger's quieter scale. */
+    --type-size-200: 0.875rem;
+  }
+  .comp-picker__trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    margin: 0;
+    padding: var(--spacing-100) var(--spacing-200);
+    border: 0;
+    border-radius: var(--radius-200);
+    background: transparent;
+    font: inherit;
+    font-size: 0.875rem;
+    line-height: 1.3;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .comp-picker__trigger:hover {
+    background: var(--color-surface-sunken, var(--color-background));
+    color: var(--color-text-primary);
+  }
+  .comp-picker__trigger :global(.esa-icon) {
+    color: var(--color-text-tertiary);
+    flex-shrink: 0;
+  }
+
+  /* Component-buffer edit dialog body */
+  .bufform {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bufform__hint {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
   }
 
   /* Legend overlay — statuses + the two observation symbols (the violet is a
@@ -3021,222 +2772,18 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     font-variant-numeric: tabular-nums;
   }
 
-  /* ═══ Timeline (Tab 3) — swimlane rows on a shared axis (permit-tracking's
-     clear-to-build chart adapted). Lanes/rows/dots are JS-injected → tl-*
-     classes are :global. Geometry contract: the axis row, every lane row, and
-     the TODAY line share the same [190px | 1fr | 120px] grid with 16px
-     (--spacing-400) gaps — the JS converts track percentages with that calc. ═══ */
-  .tl {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-300);
-    padding: var(--spacing-400);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-300);
-  }
-  .tl__head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--spacing-300);
-    flex-wrap: wrap;
-  }
-  .tl__title {
-    margin: 0;
-    font-size: 1rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
-  }
-  .tl__sub {
-    margin: 0;
-    font-size: 0.875rem;
-    color: var(--color-text-secondary);
-  }
-  .tl__axisrow {
-    display: grid;
-    grid-template-columns: 190px 1fr 120px;
-    gap: var(--spacing-400);
-  }
-  .tl__axis {
-    position: relative;
-    height: 18px;
-  }
-  :global(.tl-tick) {
-    position: absolute;
-    top: 0;
-    transform: translateX(-50%);
-    font-size: 0.8125rem;
-    color: var(--color-text-tertiary);
-    white-space: nowrap;
-  }
-  :global(.tl-tick--today) {
-    color: var(--color-primary);
-    font-weight: var(--font-weight-semibold);
-  }
-  .tl__chart {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-500);
-  }
-  /* TODAY marker line — a chart rule spanning all lanes (not a status border) */
-  :global(.tl-today-line) {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    margin-left: -1px;
-    background: color-mix(in srgb, var(--color-primary) 45%, transparent);
-    pointer-events: none;
-    z-index: 1;
-  }
-  :global(.tl-lane) {
-    display: flex;
-    flex-direction: column;
-  }
-  /* Lane labels — readable words: ≥14px, normal case, semibold */
-  :global(.tl-lane__label) {
-    display: flex;
-    align-items: baseline;
-    gap: var(--spacing-200);
-    margin: 0 0 var(--spacing-100);
-    font-size: 0.9375rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
-  }
-  :global(.tl-lane__count) {
-    font-size: 0.875rem;
-    font-weight: var(--font-weight-regular);
-    color: var(--color-text-tertiary);
-    font-variant-numeric: tabular-nums;
-  }
-  :global(.tl-lane__rows) {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  :global(.tl-row) {
-    display: grid;
-    grid-template-columns: 190px 1fr 120px;
-    gap: var(--spacing-400);
-    align-items: center;
-    padding: var(--spacing-150) 0;
-    border-top: 1px solid var(--color-border-light);
-    cursor: pointer;
-  }
-  :global(.tl-row:hover) {
-    background: var(--grid-row-bg-hover);
-  }
-  :global(.tl-row__name) {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    font-size: 0.875rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
-  }
-  :global(.tl-row__sub) {
-    font-size: 0.8125rem;
-    font-weight: var(--font-weight-regular);
-    color: var(--color-text-tertiary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  :global(.tl-row__track) {
-    position: relative;
-    height: 14px;
-    border-radius: var(--radius-full);
-    background: var(--color-background);
-  }
-  :global(.tl-dot) {
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: 2px solid var(--color-surface);
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
-  }
-  /* Provisional = hollow dot — the same visual grammar as the map markers */
-  :global(.tl-dot--hollow) {
-    background: var(--color-surface);
-    border: 2.5px solid var(--st-provisional-block);
-    box-shadow: none;
-  }
-  :global(.tl-row__meta) {
-    text-align: right;
-    font-size: 0.875rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-  }
-  :global(.tl-row--empty) {
-    display: block;
-    padding: var(--spacing-200) 0;
-    font-size: 0.875rem;
-    color: var(--color-text-tertiary);
-    cursor: default;
-  }
-  .tl__excluded {
-    margin: 0;
-    padding-top: var(--spacing-200);
-    border-top: 1px solid var(--color-border-light);
-    font-size: 0.875rem;
-    color: var(--color-text-tertiary);
-  }
-
-  /* ═══ Activity feed (Tab 4) — two-column grid: date-grouped card feed left
-     (flexes to the FULL content width — the round-4 client ask removed the old
-     760px cap), sticky ~300px Upcoming rail right (stacks ABOVE the feed on
-     narrow viewports). Type at 0.875rem throughout — an EXPLICIT client
-     override of the usual 16px floor, scoped to this tab only (metas drop one
-     step but never below 0.8125rem). Date groups + rows are JS-injected →
-     :global. Type is the kind icon + status chip, never a colored border. ═══ */
+  /* ═══ Activity feed (Tab 3) — a single-column, date-grouped card feed
+     (history only; the Upcoming rail is gone with the rest of forecasting).
+     Type at 0.875rem throughout — an EXPLICIT client override of the usual
+     16px floor, scoped to this tab only (metas drop one step but never below
+     0.8125rem). Date groups + rows are JS-injected → :global. Type is the
+     enumerated event label + status chip, never a colored border. ═══ */
   .feed {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 300px;
-    grid-template-areas: 'main side';
-    align-items: start;
-    gap: var(--spacing-500);
+    display: flex;
+    flex-direction: column;
   }
   .feed-main {
-    grid-area: main;
     min-width: 0;
-  }
-  .feed-upcoming {
-    grid-area: side;
-    /* Sticks while the feed scrolls. The scroll container (.modern-layout__content)
-       already sits below the fixed 52px topbar, so only a breathing gap is needed —
-       sticky `top` is measured against that scrollport, not the viewport. */
-    position: sticky;
-    top: var(--spacing-400);
-    padding: var(--spacing-300) var(--spacing-400);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-300);
-  }
-  @media (max-width: 1100px) {
-    .feed {
-      grid-template-columns: minmax(0, 1fr);
-      grid-template-areas: 'side' 'main';
-    }
-    .feed-upcoming {
-      position: static;
-    }
-  }
-  .feed-upcoming[hidden] {
-    display: none;
-  }
-  .feed-upcoming__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
   }
   #feed-groups {
     display: flex;
@@ -3356,21 +2903,6 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     background: var(--grid-row-bg-hover);
     border-color: var(--color-border-strong);
   }
-  /* Upcoming-rail dress — flush separated rows in the narrow sticky rail; the
-     meta drops under the line instead of fighting for the right edge. */
-  :global(.entry--up) {
-    padding: var(--spacing-200) 0;
-    cursor: pointer;
-    flex-wrap: wrap;
-  }
-  :global(.entry--up + .entry--up) {
-    border-top: 1px solid var(--color-border-light);
-  }
-  :global(.entry--up .entry__meta) {
-    flex-basis: 100%;
-    text-align: left;
-  }
-
   /* ═══ Print — clean landscape snapshot of the map tab ═══ */
   /* The Activity tab needs no print rules for the same reason the Data tab has
      none: esa-tab-layout only renders the ACTIVE panel's slot, and this sheet
@@ -3599,17 +3131,6 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     padding: var(--spacing-250) var(--spacing-500, 1.5rem);
     background: var(--color-background);
     border-bottom: 1px solid var(--color-border);
-  }
-  .band.band--4 {
-    grid-template-columns: repeat(4, 1fr);
-  }
-  .band__cell[hidden] {
-    display: none;
-  }
-  .band__alert {
-    font-size: var(--form-font-size-md);
-    font-weight: var(--font-weight-semibold);
-    color: color-mix(in srgb, var(--st-blocked) 72%, #1a1a1a);
   }
 
   /* ═══ Read-mode section rhythm — balanced breaks between the dates band, the
@@ -3850,33 +3371,6 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     gap: var(--spacing-150);
   }
 
-  /* "Not reviewed" — a hollow, quieter chip: an unknown, visually distinct
-     from the tinted status-determination chips (board cells + child header). */
-  :global(.gate__unreviewed) {
-    display: inline-flex;
-    align-items: center;
-    padding: 2px var(--spacing-250);
-    border: 1px dashed var(--color-border-strong);
-    border-radius: var(--radius-full);
-    font-size: var(--type-size-100);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-tertiary);
-    white-space: nowrap;
-  }
-  /* display:inline-flex beats the UA [hidden] rule — re-assert it. */
-  :global(.gate__unreviewed[hidden]) {
-    display: none;
-  }
-  /* Stipulation pill lists (review-history nodes; JS-injected) */
-  :global(.gate__stips) {
-    list-style: none;
-    margin: var(--spacing-100) 0 0;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-150);
-  }
-
   /* ═══ Inline review section — count/add bar, review form, history rail ═══ */
   .dd__bar {
     display: flex;
@@ -3899,11 +3393,6 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     border-radius: var(--radius-300);
   }
   .dd__form[hidden] {
-    display: none;
-  }
-  /* "Blocked until" only exists while outcome=blocked — span wrapper so the
-     UA [hidden] rule wins over the lego's :host display. */
-  #dd-until-wrap[hidden] {
     display: none;
   }
   .dd__formactions {
@@ -3949,11 +3438,6 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     background: var(--color-surface);
     border: 2px solid var(--color-border-strong);
     box-sizing: border-box;
-  }
-  /* Scheduled (outcome-less) review — hollow node in the schedule blue */
-  :global(.rev__dot--scheduled) {
-    background: var(--color-surface);
-    border-color: var(--st-survey-scheduled);
   }
   :global(.rev__main) {
     display: flex;
@@ -4044,9 +3528,7 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     color: var(--color-text-primary);
   }
 
-  /* Buffer-conflict / impact lists — the ch3 entry rows (cards, set by the
-     renderer caller). */
-  .wa__conflicts,
+  /* Observation impact list — entry-row cards (set by the renderer caller). */
   .od__impact {
     list-style: none;
     margin: 0;
@@ -4055,15 +3537,14 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     flex-direction: column;
     gap: var(--spacing-200);
   }
-  /* In the drawers' narrower cards the meta (distance · est. end) may wrap —
-     better than forcing the primary onto a second line. */
-  .wa__conflicts :global(.entry__meta),
+  /* In the drawer's narrower cards the meta (distance) may wrap — better than
+     forcing the primary onto a second line. */
   .od__impact :global(.entry__meta) {
     white-space: normal;
     max-width: 36%;
   }
 
-  /* Biologist note / latest log — verbatim prose in a quiet quote block */
+  /* Latest log — verbatim prose in a quiet quote block */
   .wa__note {
     margin: 0;
     padding: var(--spacing-300) var(--spacing-400);
@@ -4082,10 +3563,12 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     display: none;
   }
 
-  /* Appended notes — dated list under the seed note (JS-injected rows) */
+  /* Append-only monitor notes — dated verbatim records (JS-injected rows).
+     The head row carries the date · author meta and, in read mode, the
+     delete affordance (a note can be deleted but never edited). */
   .wa__notes-added {
     list-style: none;
-    margin: var(--spacing-300) 0 0;
+    margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
@@ -4100,10 +3583,19 @@ const ICON_CHEVRON = "<path d='m9 18 6-6-6-6'/>";
     border: 1px solid var(--color-border);
     border-radius: var(--radius-300);
   }
+  :global(.wnote__head) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+  }
   :global(.wnote__meta) {
     font-size: 0.8125rem;
     font-weight: var(--font-weight-semibold);
     color: var(--color-text-tertiary);
+  }
+  :global(.wnote__del) {
+    flex-shrink: 0;
   }
   :global(.wnote__text) {
     margin: 0;

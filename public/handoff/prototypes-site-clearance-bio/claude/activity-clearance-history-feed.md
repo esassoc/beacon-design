@@ -1,27 +1,28 @@
-# Activity — feed & upcoming rail
+# Activity — clearance history feed
 
-The week-at-a-glance: a date-grouped feed of what changed (completed reviews, new observations/log updates, notifications, edits) on the left, and a sticky Upcoming rail (soonest first) on the right. It is scoped by a Type/Component filter row; every entry jumps to the relevant drawer. One drawer save lands in BOTH the drawer's Activity fold and this feed.
+The component-level clearance history: a single-column, date-grouped feed of recorded reviews, monitor notes, and live in-session edits. History ONLY — there is no Upcoming rail and no forward-looking entry of any kind; Beacon records what happened, it never forecasts. A Type filter scopes the feed; every entry jumps to its work-area drawer. One drawer save lands in BOTH the drawer's Activity fold and this feed.
 
 ## Key decisions
-- Feed entries are the ch3 entry card: an ID badge + an ENUMERATED event-type label + the structured fact as the primary line (never a prose sentence) — deterministic, scannable rows, not free text.
-- The Type filter has NO color dots on purpose — color belongs to STATUS, not event type; only status surfaces (map, chips, timeline) are colored.
-- The Upcoming rail is NOT scoped by the feed filters (it is a forward-looking to-do, not a log slice); the feed filters scope only the dated groups. An empty filtered feed shows an esa-empty-state.
+- Feed entries are the deterministic entry card: a work-area ID badge + an ENUMERATED event-type label (Review / Note / Edit) + the structured fact as the primary line (never a prose sentence). A review entry carries its kind as the primary, its outcome as the status chip, and its reviewer as the meta; a note entry quotes the verbatim text.
+- The Type filter has NO color dots on purpose — color belongs to STATUS, not event type.
+- There is no Component filter here — the page's Component picker already scopes the feed (a second component control would fight it).
+- Live edits land in the fixture-TODAY group ("… · Today"), sorted above the dated fixture events.
 
 ## Gotchas
-- Feed + Upcoming render at BOOT (init + refreshAll) but are only visible once the Activity tab is active — capture/automation must switch tabs first.
-- Entry jump target: a review/notification/edit entry carries data-wa (opens the work-area drawer); an observation entry carries data-obs (opens the observation drawer). jump.wa wins if both are present.
-- This feed is the live change log, so a new review posted in the drawer must append here in the fixture-TODAY group — the feed is derived from the store + session edits, not a static list.
+- The feed renders at BOOT but is only visible once the Activity tab is active — capture/automation must switch tabs first.
+- Every feed entry carries data-wa (the observation feed entries are gone with the forecasting cut) — the observation drawer is reached from the map or the Data tab, not from here.
+- A new review posted in the drawer must append here in the TODAY group — the feed derives from the store + session edits, not a static list.
 
 ## Done when
-- Entries group by date (newest first) with the TODAY group labeled; the Type/Component filters scope only the feed (not Upcoming); a review entry opens the work-area drawer and an observation entry opens the observation drawer; a drawer save appears in the TODAY group.
+- Entries group by date (newest first) with the TODAY group labeled; the Type filter scopes Reviews/Notes/Edits; an entry opens its work-area drawer; a drawer save appears in the TODAY group; nothing future-dated ever renders.
 
 ## Markup
 ```html
 <div class="feed">
   <div class="feed-main">
-    <!-- Filter row — the same filter legos as the map/Data bars. Scopes
-                 the feed only; Type has no dots on purpose (colors belong to
-                 status, not event type). -->
+    <!-- Filter row — the same filter legos as the map/Data bars. Type
+                 has no dots on purpose (colors belong to status, not event
+                 type); the page's Component picker already scopes the feed. -->
     <div class="map-filterbar feed-filterbar">
       <div class="map-filterbar__row">
         <span class="map-filterbar__label">Filters</span>
@@ -38,12 +39,6 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
           <esa-filter-dropdown
             id="act-flt-type"
             label="Type"
-            multiple=""
-            size="sm"
-          ></esa-filter-dropdown>
-          <esa-filter-dropdown
-            id="act-flt-component"
-            label="Component"
             multiple=""
             size="sm"
           ></esa-filter-dropdown>
@@ -76,28 +71,6 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
     </div>
     <div id="feed-groups">
       <section class="feed-day">
-        <h3 class="feed-heading">Jun 9, 2026</h3>
-        <ul class="feed-day__list">
-          <li
-            class="entry entry--card"
-            data-obs="Species-Swainson's Hawk-06092026"
-            tabindex="0"
-            role="button"
-          >
-            <span class="entry__badge entry__badge--obs"
-              >Species-Swainson's Hawk-06092026</span
-            >
-            <div class="entry__body">
-              <p class="entry__line">
-                <span class="entry__type">Observation</span
-                ><span class="entry__sep"> · </span
-                ><span class="entry__primary">Swainson's Hawk · tracking only</span>
-              </p>
-            </div>
-          </li>
-        </ul>
-      </section>
-      <section class="feed-day">
         <h3 class="feed-heading">Jun 4, 2026</h3>
         <ul class="feed-day__list">
           <li class="entry entry--card" data-wa="DCRAI-DH-009" tabindex="0" role="button">
@@ -105,106 +78,20 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
             <div class="entry__body">
               <p class="entry__line">
                 <span class="entry__type">Review</span><span class="entry__sep"> · </span
-                ><span class="entry__primary">Biological · Clearance survey</span>
+                ><span class="entry__primary">14-day clearance</span>
                 <span class="gate__chipwrap"
                   ><span
                     class="bcn-status-chip"
-                    data-status="cleared-stipulations"
-                    style="--_chip: var(--st-cleared-stipulations)"
+                    data-status="cleared"
+                    style="--_chip: var(--st-cleared)"
                   >
                     <span class="bcn-status-chip__dot"></span>
-                    <span class="bcn-status-chip__label">Cleared w/ Stipulations</span>
+                    <span class="bcn-status-chip__label">Cleared</span>
                   </span>
                 </span>
               </p>
             </div>
             <span class="entry__meta">C. Anderson (ESA)</span>
-          </li>
-          <li
-            class="entry entry--card"
-            data-obs="KILL-7655-06032026"
-            tabindex="0"
-            role="button"
-          >
-            <span class="entry__badge entry__badge--obs">KILL-7655-06032026</span>
-            <div class="entry__body">
-              <p class="entry__line">
-                <span class="entry__type">Log update</span
-                ><span class="entry__sep"> · </span
-                ><span class="entry__primary">Killdeer</span>
-              </p>
-              <p class="entry__secondary">“1 bird on nest, tried to lead us away.”</p>
-            </div>
-            <span class="entry__meta">2:23 PM</span>
-          </li>
-          <li
-            class="entry entry--card"
-            data-obs="Unknown-5895-06032026"
-            tabindex="0"
-            role="button"
-          >
-            <span class="entry__badge entry__badge--obs">Unknown-5895-06032026</span>
-            <div class="entry__body">
-              <p class="entry__line">
-                <span class="entry__type">Log update</span
-                ><span class="entry__sep"> · </span
-                ><span class="entry__primary">Unknown Raptor</span>
-              </p>
-              <p class="entry__secondary">
-                “Large stick nest with raptor observed; too distant to identify (likely
-                RTHA or SWHA).”
-              </p>
-            </div>
-            <span class="entry__meta">2:20 PM</span>
-          </li>
-          <li
-            class="entry entry--card"
-            data-obs="MALL-1520-06022026"
-            tabindex="0"
-            role="button"
-          >
-            <span class="entry__badge entry__badge--obs">MALL-1520-06022026</span>
-            <div class="entry__body">
-              <p class="entry__line">
-                <span class="entry__type">Log update</span
-                ><span class="entry__sep"> · </span
-                ><span class="entry__primary">Mallard</span>
-              </p>
-              <p class="entry__secondary">“A pair observed. Female stayed with nest.”</p>
-            </div>
-            <span class="entry__meta">2:14 PM</span>
-          </li>
-          <li
-            class="entry entry--card"
-            data-obs="CORA-2695-06042026"
-            tabindex="0"
-            role="button"
-          >
-            <span class="entry__badge entry__badge--obs">CORA-2695-06042026</span>
-            <div class="entry__body">
-              <p class="entry__line">
-                <span class="entry__type">Observation</span
-                ><span class="entry__sep"> · </span
-                ><span class="entry__primary">Common Raven · 250 ft buffer</span>
-              </p>
-            </div>
-          </li>
-          <li
-            class="entry entry--card"
-            data-obs="Species-Swainson's Hawk-06042026"
-            tabindex="0"
-            role="button"
-          >
-            <span class="entry__badge entry__badge--obs"
-              >Species-Swainson's Hawk-06042026</span
-            >
-            <div class="entry__body">
-              <p class="entry__line">
-                <span class="entry__type">Observation</span
-                ><span class="entry__sep"> · </span
-                ><span class="entry__primary">Swainson's Hawk · tracking only</span>
-              </p>
-            </div>
           </li>
         </ul>
       </section>
@@ -216,7 +103,7 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
             <div class="entry__body">
               <p class="entry__line">
                 <span class="entry__type">Review</span><span class="entry__sep"> · </span
-                ><span class="entry__primary">Biological · Clearance survey</span>
+                ><span class="entry__primary">14-day clearance</span>
                 <span class="gate__chipwrap"
                   ><span
                     class="bcn-status-chip"
@@ -236,15 +123,15 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
             <div class="entry__body">
               <p class="entry__line">
                 <span class="entry__type">Review</span><span class="entry__sep"> · </span
-                ><span class="entry__primary">Biological · Clearance survey</span>
+                ><span class="entry__primary">14-day clearance</span>
                 <span class="gate__chipwrap"
                   ><span
                     class="bcn-status-chip"
-                    data-status="cleared-stipulations"
-                    style="--_chip: var(--st-cleared-stipulations)"
+                    data-status="cleared"
+                    style="--_chip: var(--st-cleared)"
                   >
                     <span class="bcn-status-chip__dot"></span>
-                    <span class="bcn-status-chip__label">Cleared w/ Stipulations</span>
+                    <span class="bcn-status-chip__label">Cleared</span>
                   </span>
                 </span>
               </p>
@@ -256,7 +143,7 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
             <div class="entry__body">
               <p class="entry__line">
                 <span class="entry__type">Review</span><span class="entry__sep"> · </span
-                ><span class="entry__primary">Biological · Clearance survey</span>
+                ><span class="entry__primary">14-day clearance</span>
                 <span class="gate__chipwrap"
                   ><span
                     class="bcn-status-chip"
@@ -276,7 +163,7 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
             <div class="entry__body">
               <p class="entry__line">
                 <span class="entry__type">Review</span><span class="entry__sep"> · </span
-                ><span class="entry__primary">Biological · Clearance survey</span>
+                ><span class="entry__primary">14-day clearance</span>
                 <span class="gate__chipwrap"
                   ><span
                     class="bcn-status-chip"
@@ -291,53 +178,86 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
             </div>
             <span class="entry__meta">C. Anderson (ESA)</span>
           </li>
-          <li
-            class="entry entry--card"
-            data-obs="KILL-7655-06032026"
-            tabindex="0"
-            role="button"
-          >
-            <span class="entry__badge entry__badge--obs">KILL-7655-06032026</span>
+          <li class="entry entry--card" data-wa="DCRAI-DH-014" tabindex="0" role="button">
+            <span class="entry__badge entry__badge--wa">DCRAI-DH-014</span>
             <div class="entry__body">
               <p class="entry__line">
-                <span class="entry__type">Observation</span
-                ><span class="entry__sep"> · </span
-                ><span class="entry__primary">Killdeer · 100 ft buffer</span>
+                <span class="entry__type">Note</span><span class="entry__sep"> · </span
+                ><span class="entry__primary">C. Anderson (ESA)</span>
+              </p>
+              <p class="entry__secondary">
+                “This DH is located in a gravel work pad. It was moved slightly to be
+                placed outside of a dry roadside ditch and to be situated further from the
+                railroad tracks. There are several large trees, and waterways nearby, but
+                the site is situated in an area that is highly disturbed. A few elderberry
+                shrubs are near the entrance to the road, but they are greater than 165'
+                away.”
               </p>
             </div>
           </li>
-          <li
-            class="entry entry--card"
-            data-obs="Unknown-5895-06032026"
-            tabindex="0"
-            role="button"
-          >
-            <span class="entry__badge entry__badge--obs">Unknown-5895-06032026</span>
+          <li class="entry entry--card" data-wa="DCRDS-DH-294" tabindex="0" role="button">
+            <span class="entry__badge entry__badge--wa">DCRDS-DH-294</span>
             <div class="entry__body">
               <p class="entry__line">
-                <span class="entry__type">Observation</span
-                ><span class="entry__sep"> · </span
-                ><span class="entry__primary">Unknown Raptor · 500 ft buffer</span>
+                <span class="entry__type">Note</span><span class="entry__sep"> · </span
+                ><span class="entry__primary">C. Anderson (ESA)</span>
+              </p>
+              <p class="entry__secondary">
+                “DH located in recently cut alfalfa field. Irrigation ditches surround the
+                field and one access road to the site was available. The irrigation
+                ditches had water and would be considered GGS aquatic habitat. The field
+                had multiple burrows but is being actively farmed, making it unlikely
+                upland habitat for GGS. The only entrance road tot eh field was approx.
+                25' and had burrows in it but was actively used based on recent farming
+                activities. The burrows were situated on either side of the road and down
+                the middle. An established path was obvious where vehicles regularly drive
+                that had no burrows. After discussing with Leah, it was determined that
+                the DH could be safely accessed if the burrows were flagged and the
+                vehicles crossed into the field within the established tire tracks and
+                under the supervision of a biologist. A mallard nest was located near the
+                entrance to the alfalfa field. If it is still present during the drilling
+                a 50' buffer will be established from drilling activities.”
               </p>
             </div>
           </li>
-        </ul>
-      </section>
-      <section class="feed-day">
-        <h3 class="feed-heading">Jun 2, 2026</h3>
-        <ul class="feed-day__list">
-          <li
-            class="entry entry--card"
-            data-obs="MALL-1520-06022026"
-            tabindex="0"
-            role="button"
-          >
-            <span class="entry__badge entry__badge--obs">MALL-1520-06022026</span>
+          <li class="entry entry--card" data-wa="DCTR1-DH-008" tabindex="0" role="button">
+            <span class="entry__badge entry__badge--wa">DCTR1-DH-008</span>
             <div class="entry__body">
               <p class="entry__line">
-                <span class="entry__type">Observation</span
-                ><span class="entry__sep"> · </span
-                ><span class="entry__primary">Mallard · 50 ft buffer</span>
+                <span class="entry__type">Note</span><span class="entry__sep"> · </span
+                ><span class="entry__primary">C. Anderson (ESA)</span>
+              </p>
+              <p class="entry__secondary">
+                “This DH was located on the edge of an almond orchard. Some trimming of
+                fruit and or almond trees may be required at the entrance to the row to
+                access the DH. There were no biological concerns at this site, outside of
+                the potential for nesting birds and Crotch's bumblebee (CBB) foraging
+                habitat which were not observed on 6/2. Mowing is not recommended, but is
+                also not required, just preferred.”
+              </p>
+            </div>
+          </li>
+          <li class="entry entry--card" data-wa="DCTR2-DH-100" tabindex="0" role="button">
+            <span class="entry__badge entry__badge--wa">DCTR2-DH-100</span>
+            <div class="entry__body">
+              <p class="entry__line">
+                <span class="entry__type">Note</span><span class="entry__sep"> · </span
+                ><span class="entry__primary">C. Anderson (ESA)</span>
+              </p>
+              <p class="entry__secondary">
+                “This site is located along an unused dirt road on state lands in a
+                wildlife preserve. The road would require mowing to access the DH. There
+                is an irrigation canal with water and tulles along the border of the road.
+                Several birds were observed to be nesting or were believed to be nesting
+                along the road, in the slough, and in the adjacent field including
+                red-winged blackbirds (based on behavior, did not observe nest), killdeer
+                (observed one nest, two likely), and possibly a gold finch nest. One
+                raptor nest was identified on the west side of the parcel approx. 2,500'
+                to the west of the access road. The distance was too far to identify the
+                raptor, but it was likely a red-tailed or Swainson's hawk nest. Due to the
+                burrows in the road within 200' of aquatic habitat and the multiple nests
+                it was determined by the group that the road can't be mowed, and the DH is
+                not accessible.”
               </p>
             </div>
           </li>
@@ -351,7 +271,7 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
             <div class="entry__body">
               <p class="entry__line">
                 <span class="entry__type">Review</span><span class="entry__sep"> · </span
-                ><span class="entry__primary">Biological · Clearance survey</span>
+                ><span class="entry__primary">14-day clearance</span>
                 <span class="gate__chipwrap"
                   ><span
                     class="bcn-status-chip"
@@ -371,7 +291,7 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
             <div class="entry__body">
               <p class="entry__line">
                 <span class="entry__type">Review</span><span class="entry__sep"> · </span
-                ><span class="entry__primary">Biological · Clearance survey</span>
+                ><span class="entry__primary">14-day clearance</span>
                 <span class="gate__chipwrap"
                   ><span
                     class="bcn-status-chip"
@@ -391,7 +311,7 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
             <div class="entry__body">
               <p class="entry__line">
                 <span class="entry__type">Review</span><span class="entry__sep"> · </span
-                ><span class="entry__primary">Biological · Clearance survey</span>
+                ><span class="entry__primary">14-day clearance</span>
                 <span class="gate__chipwrap"
                   ><span
                     class="bcn-status-chip"
@@ -411,7 +331,7 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
             <div class="entry__body">
               <p class="entry__line">
                 <span class="entry__type">Review</span><span class="entry__sep"> · </span
-                ><span class="entry__primary">Biological · Clearance survey</span>
+                ><span class="entry__primary">14-day clearance</span>
                 <span class="gate__chipwrap"
                   ><span
                     class="bcn-status-chip"
@@ -431,7 +351,7 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
             <div class="entry__body">
               <p class="entry__line">
                 <span class="entry__type">Review</span><span class="entry__sep"> · </span
-                ><span class="entry__primary">Biological · Clearance survey</span>
+                ><span class="entry__primary">14-day clearance</span>
                 <span class="gate__chipwrap"
                   ><span
                     class="bcn-status-chip"
@@ -451,7 +371,7 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
             <div class="entry__body">
               <p class="entry__line">
                 <span class="entry__type">Review</span><span class="entry__sep"> · </span
-                ><span class="entry__primary">Biological · Clearance survey</span>
+                ><span class="entry__primary">14-day clearance</span>
                 <span class="gate__chipwrap"
                   ><span
                     class="bcn-status-chip"
@@ -471,7 +391,7 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
             <div class="entry__body">
               <p class="entry__line">
                 <span class="entry__type">Review</span><span class="entry__sep"> · </span
-                ><span class="entry__primary">Biological · Clearance survey</span>
+                ><span class="entry__primary">14-day clearance</span>
                 <span class="gate__chipwrap"
                   ><span
                     class="bcn-status-chip"
@@ -486,23 +406,151 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
             </div>
             <span class="entry__meta">C. Anderson (ESA)</span>
           </li>
+          <li class="entry entry--card" data-wa="DCBPP-DH-034" tabindex="0" role="button">
+            <span class="entry__badge entry__badge--wa">DCBPP-DH-034</span>
+            <div class="entry__body">
+              <p class="entry__line">
+                <span class="entry__type">Note</span><span class="entry__sep"> · </span
+                ><span class="entry__primary">C. Anderson (ESA)</span>
+              </p>
+              <p class="entry__secondary">
+                “This site is in an active hayfield. The field has been hayed/baled but
+                the bales have not yet been collected. The soil surface was cultivated
+                prior to planting and there are no burrows. A stick nest large enough to
+                be a raptor was observed on a hi-voltage electric tower 1,500 feet to the
+                north, but no activity was seen around the nest. There are no wetlands or
+                waters nearby.”
+              </p>
+            </div>
+          </li>
+          <li class="entry entry--card" data-wa="DCBPP-DH-066" tabindex="0" role="button">
+            <span class="entry__badge entry__badge--wa">DCBPP-DH-066</span>
+            <div class="entry__body">
+              <p class="entry__line">
+                <span class="entry__type">Note</span><span class="entry__sep"> · </span
+                ><span class="entry__primary">C. Anderson (ESA)</span>
+              </p>
+              <p class="entry__secondary">
+                “This site is in an active hayfield. The field has been hayed/baled but
+                the bales have not yet been collected. The soil surface was cultivated
+                prior to planting and there are no burrows. A stick nest, probably not
+                large enough to be a raptor was observed on a hi-voltage electric tower
+                1,785 feet to the southeast, but no activity was seen around the nest.
+                There are no wetlands or waters nearby.”
+              </p>
+            </div>
+          </li>
+          <li class="entry entry--card" data-wa="DCRAI-DH-010" tabindex="0" role="button">
+            <span class="entry__badge entry__badge--wa">DCRAI-DH-010</span>
+            <div class="entry__body">
+              <p class="entry__line">
+                <span class="entry__type">Note</span><span class="entry__sep"> · </span
+                ><span class="entry__primary">C. Anderson (ESA)</span>
+              </p>
+              <p class="entry__secondary">
+                “The site is entirely in a dirt road. There is an agricultural ditch with
+                water nearby. There are no burrows in the work site, but there are burrows
+                in the road outside the work site that would need to be driven over for
+                access. We were instructed that project vehicles may not drive over
+                burrows in roads. Site is currently not in compliance for the GGS measure
+                due to the need to drive over burrows.”
+              </p>
+            </div>
+          </li>
+          <li class="entry entry--card" data-wa="DCRAI-DH-011" tabindex="0" role="button">
+            <span class="entry__badge entry__badge--wa">DCRAI-DH-011</span>
+            <div class="entry__body">
+              <p class="entry__line">
+                <span class="entry__type">Note</span><span class="entry__sep"> · </span
+                ><span class="entry__primary">C. Anderson (ESA)</span>
+              </p>
+              <p class="entry__secondary">
+                “This site was not surveyed. It was determined to be inaccessible
+                currently due to thickness of milkweed (corrected to milk thistle)
+                surrounding it.”
+              </p>
+            </div>
+          </li>
+          <li class="entry entry--card" data-wa="DCRAI-DH-013" tabindex="0" role="button">
+            <span class="entry__badge entry__badge--wa">DCRAI-DH-013</span>
+            <div class="entry__body">
+              <p class="entry__line">
+                <span class="entry__type">Note</span><span class="entry__sep"> · </span
+                ><span class="entry__primary">C. Anderson (ESA)</span>
+              </p>
+              <p class="entry__secondary">
+                “The site is entirely in a dirt road. It is about 190 feet from the San
+                Joaquin River. There are riparian trees and Himalayan blackberry adjacent
+                on one side that will be avoided. The other side is a row crop (tomato).
+                There are no burrows in the work site, but there are burrows in the road
+                outside the work site that would need to be driven over for access. We
+                were instructed that project vehicles may not drive over burrows in roads.
+                Site is currently not in compliance for the GGS measure due to the need to
+                drive over burrows.”
+              </p>
+            </div>
+          </li>
+          <li class="entry entry--card" data-wa="DCRDS-DH-292" tabindex="0" role="button">
+            <span class="entry__badge entry__badge--wa">DCRDS-DH-292</span>
+            <div class="entry__body">
+              <p class="entry__line">
+                <span class="entry__type">Note</span><span class="entry__sep"> · </span
+                ><span class="entry__primary">C. Anderson (ESA)</span>
+              </p>
+              <p class="entry__secondary">
+                “The site is entirely in a hard-packed gravel road, with annual grassland
+                and ruderal vegetation on either side. There is an agricultural ditch with
+                water nearby. There are no burrows in the road, nor any burrows in the
+                road outside the site necessary for access.”
+              </p>
+            </div>
+          </li>
+          <li class="entry entry--card" data-wa="DCSHF-DH-144" tabindex="0" role="button">
+            <span class="entry__badge entry__badge--wa">DCSHF-DH-144</span>
+            <div class="entry__body">
+              <p class="entry__line">
+                <span class="entry__type">Note</span><span class="entry__sep"> · </span
+                ><span class="entry__primary">C. Anderson (ESA)</span>
+              </p>
+              <p class="entry__secondary">
+                “This site is in an active hayfield. The field has been hayed/baled but
+                the bales have not yet been collected. The soil surface was cultivated
+                prior to planting and there are no burrows. A stick nest large enough to
+                be a raptor was observed on a hi-voltage electric tower 1,325 feet to the
+                north, but no activity was seen around the nest. There are no wetlands or
+                waters nearby.”
+              </p>
+            </div>
+          </li>
         </ul>
       </section>
       <section class="feed-day">
-        <h3 class="feed-heading">May 29, 2026</h3>
+        <h3 class="feed-heading">May 27, 2026</h3>
         <ul class="feed-day__list">
-          <li
-            class="entry entry--card"
-            data-obs="CORA-5830-06052026"
-            tabindex="0"
-            role="button"
-          >
-            <span class="entry__badge entry__badge--obs">CORA-5830-06052026</span>
+          <li class="entry entry--card" data-wa="DCRDS-DH-184" tabindex="0" role="button">
+            <span class="entry__badge entry__badge--wa">DCRDS-DH-184</span>
             <div class="entry__body">
               <p class="entry__line">
-                <span class="entry__type">Observation</span
-                ><span class="entry__sep"> · </span
-                ><span class="entry__primary">Common Raven · 250 ft buffer</span>
+                <span class="entry__type">Note</span><span class="entry__sep"> · </span
+                ><span class="entry__primary">H. Barbare (DWR)</span>
+              </p>
+              <p class="entry__secondary">
+                “30-day Notification was scheduled to be sent 5/15/2026 for 6/15/2026 site
+                clearance visit and 6/29/2026 work. This location is the closest to the
+                nest.”
+              </p>
+            </div>
+          </li>
+          <li class="entry entry--card" data-wa="DCTR2-DH-012" tabindex="0" role="button">
+            <span class="entry__badge entry__badge--wa">DCTR2-DH-012</span>
+            <div class="entry__body">
+              <p class="entry__line">
+                <span class="entry__type">Note</span><span class="entry__sep"> · </span
+                ><span class="entry__primary">H. Barbare (DWR)</span>
+              </p>
+              <p class="entry__secondary">
+                “30-day Notification was scheduled to be sent 5/15/2026 for 6/16/2026 site
+                clearance visit and 6/30/2026 start of work.”
               </p>
             </div>
           </li>
@@ -516,7 +564,7 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
             <div class="entry__body">
               <p class="entry__line">
                 <span class="entry__type">Review</span><span class="entry__sep"> · </span
-                ><span class="entry__primary">Biological · Clearance survey</span>
+                ><span class="entry__primary">14-day clearance</span>
                 <span class="gate__chipwrap"
                   ><span
                     class="bcn-status-chip"
@@ -531,45 +579,15 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
             </div>
             <span class="entry__meta">C. Anderson (ESA)</span>
           </li>
-          <li
-            class="entry entry--card"
-            data-obs="SWHA-2289-05182026"
-            tabindex="0"
-            role="button"
-          >
-            <span class="entry__badge entry__badge--obs">SWHA-2289-05182026</span>
+          <li class="entry entry--card" data-wa="DCTR2-DH-010" tabindex="0" role="button">
+            <span class="entry__badge entry__badge--wa">DCTR2-DH-010</span>
             <div class="entry__body">
               <p class="entry__line">
-                <span class="entry__type">Observation</span
-                ><span class="entry__sep"> · </span
-                ><span class="entry__primary"
-                  >Swainson's Hawk · 2,640 ft buffer · 19 work areas affected</span
-                >
+                <span class="entry__type">Note</span><span class="entry__sep"> · </span
+                ><span class="entry__primary">C. Anderson (ESA)</span>
               </p>
-            </div>
-          </li>
-        </ul>
-      </section>
-      <section class="feed-day">
-        <h3 class="feed-heading">May 15, 2026</h3>
-        <ul class="feed-day__list">
-          <li class="entry entry--card" data-wa="DCRDS-DH-184" tabindex="0" role="button">
-            <span class="entry__badge entry__badge--wa">DCRDS-DH-184</span>
-            <div class="entry__body">
-              <p class="entry__line">
-                <span class="entry__type">Notification</span
-                ><span class="entry__sep"> · </span
-                ><span class="entry__primary">30-day landowner</span>
-              </p>
-            </div>
-          </li>
-          <li class="entry entry--card" data-wa="DCTR2-DH-012" tabindex="0" role="button">
-            <span class="entry__badge entry__badge--wa">DCTR2-DH-012</span>
-            <div class="entry__body">
-              <p class="entry__line">
-                <span class="entry__type">Notification</span
-                ><span class="entry__sep"> · </span
-                ><span class="entry__primary">30-day landowner</span>
+              <p class="entry__secondary">
+                “This was the site clearance visit that identified the SWHA nest on 5/18.”
               </p>
             </div>
           </li>
@@ -580,117 +598,12 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
       <div class="esa-empty-state esa-empty-state--sm">
         <h3 class="esa-empty-state__title">No activity matches the filters</h3>
         <p class="esa-empty-state__description">
-          Clear the Type / Component filters to see the full feed.
+          Clear the Type filter to see the full feed.
         </p>
         <div class="esa-empty-state__actions"></div>
       </div>
     </div>
   </div>
-  <aside class="feed-upcoming" aria-label="Upcoming">
-    <h3 class="feed-heading">Upcoming</h3>
-    <ul class="feed-upcoming__list" id="feed-upcoming">
-      <li class="entry entry--up" data-wa="DCSHF-DH-144" tabindex="0" role="button">
-        <span class="entry__badge entry__badge--wa">DCSHF-DH-144</span>
-        <div class="entry__body">
-          <p class="entry__line">
-            <span class="entry__type">Work start</span><span class="entry__sep"> · </span
-            ><span class="entry__primary">Jun 12</span>
-          </p>
-        </div>
-        <span class="entry__meta">tomorrow</span>
-      </li>
-      <li class="entry entry--up" data-wa="DCBPP-DH-066" tabindex="0" role="button">
-        <span class="entry__badge entry__badge--wa">DCBPP-DH-066</span>
-        <div class="entry__body">
-          <p class="entry__line">
-            <span class="entry__type">Work start</span><span class="entry__sep"> · </span
-            ><span class="entry__primary">Jun 15</span>
-          </p>
-        </div>
-        <span class="entry__meta">in 4 days</span>
-      </li>
-      <li class="entry entry--up" data-wa="DCRDS-DH-184" tabindex="0" role="button">
-        <span class="entry__badge entry__badge--wa">DCRDS-DH-184</span>
-        <div class="entry__body">
-          <p class="entry__line">
-            <span class="entry__type">Clearance visit</span
-            ><span class="entry__sep"> · </span><span class="entry__primary">Jun 15</span>
-          </p>
-        </div>
-        <span class="entry__meta">in 4 days</span>
-      </li>
-      <li class="entry entry--up" data-wa="DCRDS-DH-292" tabindex="0" role="button">
-        <span class="entry__badge entry__badge--wa">DCRDS-DH-292</span>
-        <div class="entry__body">
-          <p class="entry__line">
-            <span class="entry__type">Work start</span><span class="entry__sep"> · </span
-            ><span class="entry__primary">Jun 15</span>
-          </p>
-        </div>
-        <span class="entry__meta">in 4 days</span>
-      </li>
-      <li class="entry entry--up" data-wa="DCBPP-DH-034" tabindex="0" role="button">
-        <span class="entry__badge entry__badge--wa">DCBPP-DH-034</span>
-        <div class="entry__body">
-          <p class="entry__line">
-            <span class="entry__type">Work start</span><span class="entry__sep"> · </span
-            ><span class="entry__primary">Jun 16</span>
-          </p>
-        </div>
-        <span class="entry__meta">in 5 days</span>
-      </li>
-      <li class="entry entry--up" data-wa="DCTR1-DH-008" tabindex="0" role="button">
-        <span class="entry__badge entry__badge--wa">DCTR1-DH-008</span>
-        <div class="entry__body">
-          <p class="entry__line">
-            <span class="entry__type">Work start</span><span class="entry__sep"> · </span
-            ><span class="entry__primary">Jun 16</span>
-          </p>
-        </div>
-        <span class="entry__meta">in 5 days</span>
-      </li>
-      <li class="entry entry--up" data-wa="DCTR2-DH-012" tabindex="0" role="button">
-        <span class="entry__badge entry__badge--wa">DCTR2-DH-012</span>
-        <div class="entry__body">
-          <p class="entry__line">
-            <span class="entry__type">Clearance visit</span
-            ><span class="entry__sep"> · </span><span class="entry__primary">Jun 16</span>
-          </p>
-        </div>
-        <span class="entry__meta">in 5 days</span>
-      </li>
-      <li class="entry entry--up" data-wa="DCRAI-DH-014" tabindex="0" role="button">
-        <span class="entry__badge entry__badge--wa">DCRAI-DH-014</span>
-        <div class="entry__body">
-          <p class="entry__line">
-            <span class="entry__type">Work start</span><span class="entry__sep"> · </span
-            ><span class="entry__primary">Jun 17</span>
-          </p>
-        </div>
-        <span class="entry__meta">in 6 days</span>
-      </li>
-      <li class="entry entry--up" data-wa="DCRDS-DH-294" tabindex="0" role="button">
-        <span class="entry__badge entry__badge--wa">DCRDS-DH-294</span>
-        <div class="entry__body">
-          <p class="entry__line">
-            <span class="entry__type">Work start</span><span class="entry__sep"> · </span
-            ><span class="entry__primary">Jun 17</span>
-          </p>
-        </div>
-        <span class="entry__meta">in 6 days</span>
-      </li>
-      <li class="entry entry--up" data-wa="DCTR2-DH-010" tabindex="0" role="button">
-        <span class="entry__badge entry__badge--wa">DCTR2-DH-010</span>
-        <div class="entry__body">
-          <p class="entry__line">
-            <span class="entry__type">Review</span><span class="entry__sep"> · </span
-            ><span class="entry__primary">Biological · Sep 2</span>
-          </p>
-        </div>
-        <span class="entry__meta">in 83 days</span>
-      </li>
-    </ul>
-  </aside>
 </div>
 ```
 
@@ -729,15 +642,17 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
 .map-filterbar__row + .map-filterbar__row {
   border-top: 1px solid var(--color-border);
 }
+.map-filterbar__buffer {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+}
 .feed {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px;
-  grid-template-areas: "main side";
-  align-items: start;
-  gap: var(--spacing-500);
+  display: flex;
+  flex-direction: column;
 }
 .feed-main {
-  grid-area: main;
   min-width: 0;
 }
 .feed-heading {
@@ -782,9 +697,9 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
   text-transform: uppercase;
   white-space: nowrap;
 }
-.entry__badge--obs {
-  color: var(--obs-color-strong);
-  background: color-mix(in srgb, var(--obs-color) 12%, white);
+.entry__badge--wa {
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 10%, white);
 }
 .entry__body {
   flex: 1;
@@ -808,10 +723,6 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
 .entry__primary {
   color: var(--color-text-primary);
 }
-.entry__badge--wa {
-  color: var(--color-primary);
-  background: color-mix(in srgb, var(--color-primary) 10%, white);
-}
 .entry__line .gate__chipwrap {
   vertical-align: text-bottom;
 }
@@ -828,34 +739,6 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
   line-height: 1.45;
   color: var(--color-text-secondary);
 }
-.feed-upcoming {
-  grid-area: side;
-  position: sticky;
-  top: var(--spacing-400);
-  padding: var(--spacing-300) var(--spacing-400);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-300);
-}
-.feed-upcoming__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
-.entry--up {
-  padding: var(--spacing-200) 0;
-  cursor: pointer;
-  flex-wrap: wrap;
-}
-.entry--up .entry__meta {
-  flex-basis: 100%;
-  text-align: left;
-}
-.entry--up + .entry--up {
-  border-top: 1px solid var(--color-border-light);
-}
 .esa-filter-container {
   display: flex;
   flex-wrap: wrap;
@@ -863,10 +746,10 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
   gap: var(--_filter-container-row-gap, 0.5rem) var(--_filter-container-gap, 0.75rem);
 }
 .esa-filter-clear-button {
-  --_clear-text: var(--filter-clear-color, var(--color-primary, #43608a));
+  --_clear-text: var(--filter-clear-color, var(--color-primary-strong, #3a7c59));
   --_clear-text-hover: var(
     --filter-clear-color-hover,
-    var(--color-primary-hover, #39506f)
+    var(--color-primary-strong, #3a7c59)
   );
   --_clear-font-size: var(--type-size-150, 0.875rem);
   --_clear-icon-size: 18px;
@@ -919,21 +802,18 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
 
 ## Tokens
 - `--color-border`: #dcdcdc _(semantic)_
-- `--color-border-light`: #efefef _(semantic)_
 - `--color-primary`: #005862 _(semantic)_
-- `--color-primary-hover`: #00474f _(semantic)_
-- `--color-surface`: #ffffff _(semantic)_
+- `--color-primary-strong`: #2a7e3b _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
 - `--filter-clear-color`: #7c7c7c _(component)_
-- `--filter-clear-color-hover`: #ef4444 _(component)_
+- `--filter-clear-color-hover`: #ce2c31 _(component)_
 - `--font-mono`: "Roboto Mono", ui-monospace, monospace _(primitive)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
 - `--font-weight-medium`: 450 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
-- `--obs-color`: #7b5ea7 _(component)_
-- `--obs-color-strong`: #5b3f87 _(component)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
 - `--radius-300`: .5rem _(primitive)_
@@ -944,7 +824,6 @@ The week-at-a-glance: a date-grouped feed of what changed (completed reviews, ne
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
-- `--spacing-500`: 1.5rem _(primitive)_
 - `--transition-fast`: .15s ease _(primitive)_
 - `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
 - `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
