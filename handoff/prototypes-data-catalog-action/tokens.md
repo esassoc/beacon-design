@@ -1,22 +1,24 @@
 # Token contract — prototypes-data-catalog-action
 
-The 80 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 83 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
 | Token | Value |
 |---|---|
-| `--color-accent` | `#f9a134` |
+| `--color-accent` | `#f76b15` |
 | `--color-background` | `#fafafa` |
 | `--color-border` | `#dcdcdc` |
 | `--color-border-light` | `#efefef` |
 | `--color-primary` | `#005862` |
 | `--color-primary-hover` | `#00474f` |
+| `--color-primary-strong` | `#2a7e3b` |
 | `--color-secondary` | `#00918b` |
-| `--color-surface` | `#ffffff` |
-| `--color-surface-elevated` | `#ffffff` |
+| `--color-secondary-on-fill` | `#203c25` |
+| `--color-surface` | `#fcfcfc` |
+| `--color-surface-elevated` | `#fcfcfc` |
 | `--color-surface-sunken` | `#efefef` |
-| `--color-text-inverse` | `#ffffff` |
+| `--color-text-inverse` | `#fcfcfc` |
 | `--color-text-link` | `#005862` |
 | `--color-text-muted` | `#7c7c7c` |
 | `--color-text-primary` | `#3d3d3d` |
@@ -30,10 +32,10 @@ The 80 design tokens this page actually uses, resolved to their final values for
 | `--ag-internal-hover-color` | `rgba(0, 0, 0, 0)` |
 | `--ag-internal-moving-color` | `rgba(0, 0, 0, 0)` |
 | `--badge-bg` | `#005862` |
-| `--badge-height-md` | `20px` |
-| `--badge-height-sm` | `16px` |
+| `--badge-height-md` | `28px` |
+| `--badge-height-sm` | `22px` |
 | `--badge-radius` | `.25rem` |
-| `--badge-text-color` | `#ffffff` |
+| `--badge-text-color` | `#fcfcfc` |
 | `--bcn-gray-100` | `#efefef` |
 | `--bcn-gray-200` | `#dcdcdc` |
 | `--bcn-gray-300` | `#bdbdbd` |
@@ -43,13 +45,13 @@ The 80 design tokens this page actually uses, resolved to their final values for
 | `--bcn-gray-600` | `#656565` |
 | `--bcn-gray-900` | `#3d3d3d` |
 | `--bcn-gray-950` | `#292929` |
-| `--collapsible-bg` | `#ffffff` |
+| `--collapsible-bg` | `#fcfcfc` |
 | `--collapsible-border-color` | `#dcdcdc` |
 | `--collapsible-padding-x` | `1rem` |
 | `--collapsible-radius` | `.5rem` |
 | `--collapsible-title-color` | `#3d3d3d` |
 | `--color-commitment` | `#58508d` |
-| `--dialog-bg` | `#ffffff` |
+| `--dialog-bg` | `#fcfcfc` |
 | `--dialog-border-color` | `#efefef` |
 | `--dialog-radius` | `.75rem` |
 | `--dialog-width` | `480px` |
@@ -62,6 +64,7 @@ The 80 design tokens this page actually uses, resolved to their final values for
 | `--form-label-color` | `#525252` |
 | `--form-padding-x-md` | `.75rem` |
 | `--form-radius-md` | `.25rem` |
+| `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` |
 | `--icon-size-medium` | `20px` |
 | `--icon-size-small` | `16px` |
 
@@ -708,5 +711,7 @@ Defined per-component (not at `:root`); see the component's own rule in `styles.
 - `--ag-wrapper-background-color`
 - `--ag-wrapper-border`
 - `--ag-wrapper-border-radius`
+- `--dialog-footer-bg`
+- `--dialog-header-bg`
 - `--file-list-row-padding-x`
 - `--file-list-row-padding-y`

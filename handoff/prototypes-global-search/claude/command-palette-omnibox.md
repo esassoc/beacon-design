@@ -2678,9 +2678,9 @@ The global-search command palette — a fixed overlay centered both vertically a
 - `--color-border`: #dcdcdc _(semantic)_
 - `--color-commitment`: #58508d _(component)_
 - `--color-primary`: #005862 _(semantic)_
-- `--color-surface`: #ffffff _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
 - `--color-surface-sunken`: #efefef _(semantic)_
-- `--color-text-inverse`: #ffffff _(semantic)_
+- `--color-text-inverse`: #fcfcfc _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_

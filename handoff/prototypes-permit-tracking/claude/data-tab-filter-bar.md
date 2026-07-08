@@ -110,36 +110,12 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
 
 ## Styles
 ```css
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
-}
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
-}
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(
+    --icon-button-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -154,13 +130,6 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
   transition: background var(--transition-fast, 0.15s ease);
   -webkit-appearance: none;
   appearance: none;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
@@ -193,10 +162,10 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
   gap: var(--_filter-container-row-gap, 0.5rem) var(--_filter-container-gap, 0.75rem);
 }
 .esa-filter-clear-button {
-  --_clear-text: var(--filter-clear-color, var(--color-primary, #43608a));
+  --_clear-text: var(--filter-clear-color, var(--color-primary-strong, #3a7c59));
   --_clear-text-hover: var(
     --filter-clear-color-hover,
-    var(--color-primary-hover, #39506f)
+    var(--color-primary-strong, #3a7c59)
   );
   --_clear-font-size: var(--type-size-150, 0.875rem);
   --_clear-icon-size: 18px;
@@ -225,6 +194,41 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
 }
 .esa-filter-clear-button__label {
   white-space: nowrap;
+}
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
 }
 .pd__section-head .esa-icon {
   flex-shrink: 0;
@@ -284,16 +288,17 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
 - `--bcn-gray-950`: #292929 _(component)_
 - `--color-border`: #dcdcdc _(semantic)_
 - `--color-primary`: #005862 _(semantic)_
-- `--color-primary-hover`: #00474f _(semantic)_
-- `--color-surface`: #ffffff _(semantic)_
+- `--color-primary-strong`: #2a7e3b _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
 - `--filter-clear-color`: #7c7c7c _(component)_
-- `--filter-clear-color-hover`: #ef4444 _(component)_
+- `--filter-clear-color-hover`: #ce2c31 _(component)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
 - `--font-weight-medium`: 450 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
 - `--form-height-md`: 36px _(component)_
+- `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_

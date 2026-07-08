@@ -60,9 +60,12 @@ A contextual action bar that appears above the Permits grid when one or more row
   --_btn-padding-x: var(--form-padding-x-md, 16px);
   --_btn-font-size: var(--form-font-size-md, 14px);
   --_btn-radius: var(--form-radius-md, 6px);
-  --_accent: var(--color-primary, #43608a);
-  --_accent-hover: var(--color-primary-hover, #39506f);
+  --_accent: var(--color-primary, #46a758);
+  --_accent-hover: var(--color-primary-hover, #3e9b4f);
   --_on: var(--color-text-inverse, #ffffff);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
 .esa-button--sm {
@@ -100,7 +103,7 @@ A contextual action bar that appears above the Permits grid when one or more row
 .esa-button--appearance-outline .esa-button__native,
 .esa-button--appearance-dashed .esa-button__native {
   background: transparent;
-  color: var(--_accent);
+  color: var(--_accent-text);
   border-color: var(--_accent);
 }
 .esa-button--color-ghost .esa-button__native {
@@ -115,6 +118,9 @@ A contextual action bar that appears above the Permits grid when one or more row
 .esa-button__label {
   white-space: nowrap;
 }
+.esa-button--color-primary {
+  --_accent-text: var(--color-primary-strong);
+}
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
   color: var(--_on);
@@ -126,8 +132,9 @@ A contextual action bar that appears above the Permits grid when one or more row
 - `--color-border`: #dcdcdc _(semantic)_
 - `--color-primary`: #005862 _(semantic)_
 - `--color-primary-hover`: #00474f _(semantic)_
-- `--color-surface`: #ffffff _(semantic)_
-- `--color-text-inverse`: #ffffff _(semantic)_
+- `--color-primary-strong`: #2a7e3b _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
+- `--color-text-inverse`: #fcfcfc _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
 - `--font-weight-medium`: 450 _(primitive)_

@@ -166,9 +166,12 @@ A GLOBAL, per-user preferences dialog (esa-dialog) opened from the page utilitie
   --_btn-padding-x: var(--form-padding-x-md, 16px);
   --_btn-font-size: var(--form-font-size-md, 14px);
   --_btn-radius: var(--form-radius-md, 6px);
-  --_accent: var(--color-primary, #43608a);
-  --_accent-hover: var(--color-primary-hover, #39506f);
+  --_accent: var(--color-primary, #46a758);
+  --_accent-hover: var(--color-primary-hover, #3e9b4f);
   --_on: var(--color-text-inverse, #ffffff);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
 .esa-button--sm {
@@ -206,7 +209,7 @@ A GLOBAL, per-user preferences dialog (esa-dialog) opened from the page utilitie
 .esa-button--appearance-outline .esa-button__native,
 .esa-button--appearance-dashed .esa-button__native {
   background: transparent;
-  color: var(--_accent);
+  color: var(--_accent-text);
   border-color: var(--_accent);
 }
 .esa-button--color-ghost .esa-button__native {
@@ -221,6 +224,9 @@ A GLOBAL, per-user preferences dialog (esa-dialog) opened from the page utilitie
 .esa-button__label {
   white-space: nowrap;
 }
+.esa-button--color-primary {
+  --_accent-text: var(--color-primary-strong);
+}
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
   color: var(--_on);
@@ -228,7 +234,7 @@ A GLOBAL, per-user preferences dialog (esa-dialog) opened from the page utilitie
 }
 .esa-button--appearance-outline .esa-button__native:hover:not(:disabled),
 .esa-button--appearance-dashed .esa-button__native:hover:not(:disabled) {
-  background: color-mix(in srgb, var(--_accent) 8%, transparent);
+  background: var(--_btn-tint-hover);
 }
 .esa-button--color-ghost .esa-button__native:hover:not(:disabled),
 .esa-button--color-ghost.esa-button--active .esa-button__native {
@@ -241,8 +247,9 @@ A GLOBAL, per-user preferences dialog (esa-dialog) opened from the page utilitie
 - `--color-border-light`: #efefef _(semantic)_
 - `--color-primary`: #005862 _(semantic)_
 - `--color-primary-hover`: #00474f _(semantic)_
+- `--color-primary-strong`: #2a7e3b _(semantic)_
 - `--color-surface-sunken`: #efefef _(semantic)_
-- `--color-text-inverse`: #ffffff _(semantic)_
+- `--color-text-inverse`: #fcfcfc _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_

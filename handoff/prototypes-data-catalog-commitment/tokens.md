@@ -1,23 +1,26 @@
 # Token contract — prototypes-data-catalog-commitment
 
-The 101 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 105 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
 | Token | Value |
 |---|---|
-| `--color-accent` | `#f9a134` |
+| `--color-accent` | `#f76b15` |
 | `--color-border` | `#dcdcdc` |
 | `--color-border-light` | `#efefef` |
 | `--color-border-strong` | `#bdbdbd` |
-| `--color-danger` | `#ef4444` |
+| `--color-danger` | `#e5484d` |
+| `--color-danger-hover` | `#dc3e42` |
+| `--color-danger-strong` | `#ce2c31` |
 | `--color-primary` | `#005862` |
 | `--color-primary-hover` | `#00474f` |
+| `--color-primary-strong` | `#2a7e3b` |
 | `--color-primary-subtle` | `#effefb` |
-| `--color-surface` | `#ffffff` |
-| `--color-surface-elevated` | `#ffffff` |
+| `--color-surface` | `#fcfcfc` |
+| `--color-surface-elevated` | `#fcfcfc` |
 | `--color-surface-sunken` | `#efefef` |
-| `--color-text-inverse` | `#ffffff` |
+| `--color-text-inverse` | `#fcfcfc` |
 | `--color-text-link` | `#005862` |
 | `--color-text-muted` | `#7c7c7c` |
 | `--color-text-primary` | `#3d3d3d` |
@@ -29,10 +32,10 @@ The 101 design tokens this page actually uses, resolved to their final values fo
 | Token | Value |
 |---|---|
 | `--badge-bg` | `#005862` |
-| `--badge-height-md` | `20px` |
-| `--badge-height-sm` | `16px` |
+| `--badge-height-md` | `28px` |
+| `--badge-height-sm` | `22px` |
 | `--badge-radius` | `.25rem` |
-| `--badge-text-color` | `#ffffff` |
+| `--badge-text-color` | `#fcfcfc` |
 | `--bcn-gray-100` | `#efefef` |
 | `--bcn-gray-200` | `#dcdcdc` |
 | `--bcn-gray-300` | `#bdbdbd` |
@@ -42,21 +45,21 @@ The 101 design tokens this page actually uses, resolved to their final values fo
 | `--bcn-gray-600` | `#656565` |
 | `--bcn-gray-900` | `#3d3d3d` |
 | `--bcn-gray-950` | `#292929` |
-| `--collapsible-bg` | `#ffffff` |
+| `--collapsible-bg` | `#fcfcfc` |
 | `--collapsible-border-color` | `#dcdcdc` |
 | `--collapsible-padding-x` | `1rem` |
 | `--collapsible-radius` | `.5rem` |
 | `--collapsible-title-color` | `#3d3d3d` |
 | `--color-commitment` | `#58508d` |
-| `--color-link` | `#005862` |
-| `--dialog-bg` | `#ffffff` |
+| `--color-link` | `#2a7e3b` |
+| `--dialog-bg` | `#fcfcfc` |
 | `--dialog-border-color` | `#efefef` |
 | `--dialog-radius` | `.75rem` |
 | `--dialog-width` | `480px` |
 | `--filter-clear-color` | `#7c7c7c` |
-| `--filter-clear-color-hover` | `#ef4444` |
+| `--filter-clear-color-hover` | `#ce2c31` |
 | `--font-decorative` | `"Besley", serif` |
-| `--form-bg` | `#ffffff` |
+| `--form-bg` | `#fcfcfc` |
 | `--form-border-color` | `#dcdcdc` |
 | `--form-border-width` | `1px` |
 | `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
@@ -71,6 +74,7 @@ The 101 design tokens this page actually uses, resolved to their final values fo
 | `--form-radius-md` | `.25rem` |
 | `--form-radius-sm` | `.25rem` |
 | `--form-text-color` | `#3d3d3d` |
+| `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` |
 | `--icon-link-font-size-md` | `1rem` |
 | `--icon-link-font-size-sm` | `.875rem` |
 | `--icon-link-gap` | `.375rem` |
@@ -80,7 +84,7 @@ The 101 design tokens this page actually uses, resolved to their final values fo
 | `--pill-border-color` | `#efefef` |
 | `--pill-height-md` | `28px` |
 | `--pill-height-sm` | `22px` |
-| `--pill-radius` | `9999px` |
+| `--pill-radius` | `.25rem` |
 | `--pill-text-color` | `#3d3d3d` |
 | `--side-dialog-width` | `400px` |
 | `--side-dialog-width-lg` | `520px` |
@@ -122,5 +126,7 @@ The 101 design tokens this page actually uses, resolved to their final values fo
 
 Defined per-component (not at `:root`); see the component's own rule in `styles.css`.
 
+- `--dialog-footer-bg`
+- `--dialog-header-bg`
 - `--file-list-row-padding-x`
 - `--file-list-row-padding-y`

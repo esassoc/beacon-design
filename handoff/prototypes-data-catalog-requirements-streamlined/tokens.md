@@ -1,19 +1,19 @@
 # Token contract — prototypes-data-catalog-requirements-streamlined
 
-The 66 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 67 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
 | Token | Value |
 |---|---|
-| `--color-accent` | `#f9a134` |
+| `--color-accent` | `#f76b15` |
 | `--color-background` | `#fafafa` |
 | `--color-border` | `#dcdcdc` |
 | `--color-primary` | `#005862` |
 | `--color-primary-hover` | `#00474f` |
-| `--color-surface` | `#ffffff` |
+| `--color-surface` | `#fcfcfc` |
 | `--color-surface-sunken` | `#efefef` |
-| `--color-text-inverse` | `#ffffff` |
+| `--color-text-inverse` | `#fcfcfc` |
 | `--color-text-link` | `#005862` |
 | `--color-text-primary` | `#3d3d3d` |
 | `--color-text-secondary` | `#525252` |
@@ -36,7 +36,7 @@ The 66 design tokens this page actually uses, resolved to their final values for
 | `--bcn-gray-900` | `#3d3d3d` |
 | `--bcn-gray-950` | `#292929` |
 | `--font-decorative` | `"Besley", serif` |
-| `--form-bg` | `#ffffff` |
+| `--form-bg` | `#fcfcfc` |
 | `--form-border-color` | `#dcdcdc` |
 | `--form-border-width` | `1px` |
 | `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
@@ -51,6 +51,7 @@ The 66 design tokens this page actually uses, resolved to their final values for
 | `--form-radius-md` | `.25rem` |
 | `--form-radius-sm` | `.25rem` |
 | `--form-text-color` | `#3d3d3d` |
+| `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` |
 | `--icon-size-medium` | `20px` |
 | `--icon-size-small` | `16px` |
 

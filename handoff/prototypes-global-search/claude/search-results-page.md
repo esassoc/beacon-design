@@ -11506,8 +11506,8 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
 - `--color-commitment`: #58508d _(component)_
 - `--color-primary`: #005862 _(semantic)_
 - `--color-primary-subtle`: #effefb _(semantic)_
-- `--color-surface`: #ffffff _(semantic)_
-- `--color-text-inverse`: #ffffff _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
+- `--color-text-inverse`: #fcfcfc _(semantic)_
 - `--color-text-muted`: #7c7c7c _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_

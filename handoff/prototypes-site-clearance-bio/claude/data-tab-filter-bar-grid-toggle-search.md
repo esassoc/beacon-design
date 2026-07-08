@@ -1,19 +1,20 @@
 # Data tab — filter bar, grid toggle & search
 
-The Data tab is the tabular workspace: the requirement-tracker filter bar over two beacon AG Grids — Work Areas and Observations — pivoted by a single toggle. The bar carries the pivot toggle (which grid), a full-text search, and a Status facet. A work-area row opens the write drawer; an observation row opens the read-only observation drawer.
+The Data tab is the tabular workspace: the requirement-tracker filter bar over two beacon AG Grids — Work Areas and Observations — pivoted by a single toggle. The bar carries the pivot toggle, a global search (AG Grid quick filter), and a Status facet; Clear all resets the search, the facet, and every AG Grid column filter at once. A work-area row opens the write drawer; an observation row opens the read-only observation drawer.
 
 ## Key decisions
-- ONE esa-button-toggle pivots between "Work Areas" and "Observations" — two panes (#pane-was / #pane-obs), one shown at a time — rather than two always-on tables, so the tab stays a single focused surface.
-- Search is an esa-text-field with a clear affordance; the Status facet is the same esa-filter-dropdown lego as the Map/Activity bars — the filter grammar is deliberately identical across the three tabs.
-- The grids use the shared beaconTheme + makeStatusRenderer (src/lib/beacon-grid) so the status cell renders the SAME chip/derived color as the map and drawer — the grid is another projection of the one store, not its own styling.
+- Work Areas columns are the epic's exact set: ID, derived Status chip, Visit Date (the clearance-visit date), and the Work Area CUSTOM FIELDS as columns — Method, Depth (ft), Parcel/DCPN, County, Entry Agreement (the custom-fields-as-columns pattern). NO notification / planned-start / blocked-until columns: forecasting is out of scope.
+- Observations columns: ID, Species, Kind, Status, Buffer (ft), First Observed, and Work Areas Affected — the count of work areas the observation's active buffer covers, reusing the provisional-block intersection. NO Est. End column: the observation carries no estimated-end date.
+- The search box drives AG Grid's global (quick) search on the active grid; the Status facet is the same esa-filter-dropdown lego as the Map bar.
+- The grids use the shared beaconTheme + makeStatusRenderer so the status cell renders the SAME chip/derived color as the map and drawer.
 
 ## Gotchas
-- The AG Grids are LAZY — ensureGrids runs only on Data-tab activation (requestAnimationFrame(ensureGrids)). Any capture/automation of this tab must switch to it first; a boot-time read finds empty grid containers.
-- The pivot toggle swaps which pane is hidden — the search and Status facet apply to whichever grid is active, so re-implementing must re-run the filter against the active pane's row set.
-- Status is the derived value in the grid too; do not add a stored status column — the renderer must compute it the same way the map does.
+- The AG Grids are LAZY — ensureGrids runs only on Data-tab activation. Any capture/automation must switch to the tab first.
+- Clear all must reset three things at once: the quick search, the Status facet, and the per-column AG Grid filter models on BOTH grids.
+- Status is the derived value in the grid too; do not add a stored status column.
 
 ## Done when
-- The pivot toggle swaps Work Areas ↔ Observations; search + Status filter the active grid; a work-area row opens the write drawer and an observation row opens the read-only observation drawer; grid status chips match the map colors.
+- The pivot toggle swaps Work Areas ↔ Observations; the Work Areas grid shows ID/Status/Visit Date + the five custom-field columns and nothing date-forecasted; the Observations grid has no Est. End; search + Status + Clear all behave as one reset; rows open the correct drawers.
 
 ## Markup
 ```html
@@ -106,6 +107,140 @@ The Data tab is the tabular workspace: the requirement-tracker filter bar over t
 
 ## Styles
 ```css
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(
+    --icon-button-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-icon-button--sm {
+  --_ib-size: var(--form-height-sm, 32px);
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--_filter-container-row-gap, 0.5rem) var(--_filter-container-gap, 0.75rem);
+}
+.esa-filter-clear-button {
+  --_clear-text: var(--filter-clear-color, var(--color-primary-strong, #3a7c59));
+  --_clear-text-hover: var(
+    --filter-clear-color-hover,
+    var(--color-primary-strong, #3a7c59)
+  );
+  --_clear-font-size: var(--type-size-150, 0.875rem);
+  --_clear-icon-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-100, 0.25rem);
+  padding: var(--spacing-100, 0.25rem) var(--spacing-200, 0.5rem);
+  border: none;
+  border-radius: var(--radius-100, 0.25rem);
+  background: transparent;
+  color: var(--_clear-text);
+  font-family: var(--font-sans, inherit);
+  font-size: var(--_clear-font-size);
+  font-weight: var(--font-weight-medium, 450);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition:
+    color var(--transition-fast, 0.15s ease),
+    background var(--transition-fast, 0.15s ease);
+}
+.esa-filter-clear-button__icon {
+  width: var(--_clear-icon-size);
+  height: var(--_clear-icon-size);
+  flex: none;
+}
+.esa-filter-clear-button__label {
+  white-space: nowrap;
+}
+.esa-collapsible__summary .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary, #404040);
+}
+.comp-picker__trigger .esa-icon {
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+}
 .wa__section .esa-icon {
   flex-shrink: 0;
   color: var(--color-text-secondary);
@@ -155,129 +290,6 @@ The Data tab is the tabular workspace: the requirement-tracker filter bar over t
 .bcn-filterbar__clear {
   margin-left: auto;
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.esa-filter-container {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--_filter-container-row-gap, 0.5rem) var(--_filter-container-gap, 0.75rem);
-}
-.esa-filter-clear-button {
-  --_clear-text: var(--filter-clear-color, var(--color-primary, #43608a));
-  --_clear-text-hover: var(
-    --filter-clear-color-hover,
-    var(--color-primary-hover, #39506f)
-  );
-  --_clear-font-size: var(--type-size-150, 0.875rem);
-  --_clear-icon-size: 18px;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-100, 0.25rem);
-  padding: var(--spacing-100, 0.25rem) var(--spacing-200, 0.5rem);
-  border: none;
-  border-radius: var(--radius-100, 0.25rem);
-  background: transparent;
-  color: var(--_clear-text);
-  font-family: var(--font-sans, inherit);
-  font-size: var(--_clear-font-size);
-  font-weight: var(--font-weight-medium, 450);
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  transition:
-    color var(--transition-fast, 0.15s ease),
-    background var(--transition-fast, 0.15s ease);
-}
-.esa-filter-clear-button__icon {
-  width: var(--_clear-icon-size);
-  height: var(--_clear-icon-size);
-  flex: none;
-}
-.esa-filter-clear-button__label {
-  white-space: nowrap;
-}
-.esa-collapsible__summary .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary, #404040);
-}
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
-}
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
-}
-.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
-  transform: rotate(-90deg);
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
-}
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
 ```
 
 ## Tokens
@@ -287,16 +299,18 @@ The Data tab is the tabular workspace: the requirement-tracker filter bar over t
 - `--bcn-gray-950`: #292929 _(component)_
 - `--color-border`: #dcdcdc _(semantic)_
 - `--color-primary`: #005862 _(semantic)_
-- `--color-primary-hover`: #00474f _(semantic)_
-- `--color-surface`: #ffffff _(semantic)_
+- `--color-primary-strong`: #2a7e3b _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
 - `--filter-clear-color`: #7c7c7c _(component)_
-- `--filter-clear-color-hover`: #ef4444 _(component)_
+- `--filter-clear-color-hover`: #ce2c31 _(component)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
 - `--font-weight-medium`: 450 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
 - `--form-height-md`: 36px _(component)_
+- `--form-height-sm`: 28px _(component)_
+- `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_

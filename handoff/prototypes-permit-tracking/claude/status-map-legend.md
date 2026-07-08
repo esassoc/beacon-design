@@ -78,7 +78,7 @@ The Leaflet map of the four real Phase-1 paths (geometry from src/data/aws-route
 
 ## Tokens
 - `--color-border`: #dcdcdc _(semantic)_
-- `--color-surface`: #ffffff _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--font-weight-semibold`: 550 _(primitive)_

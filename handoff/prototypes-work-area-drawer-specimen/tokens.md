@@ -1,6 +1,6 @@
 # Token contract — prototypes-work-area-drawer-specimen
 
-The 66 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 71 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -10,13 +10,17 @@ The 66 design tokens this page actually uses, resolved to their final values for
 | `--color-border` | `#dcdcdc` |
 | `--color-border-light` | `#efefef` |
 | `--color-border-strong` | `#bdbdbd` |
-| `--color-danger` | `#ef4444` |
+| `--color-danger` | `#e5484d` |
+| `--color-danger-hover` | `#dc3e42` |
+| `--color-danger-strong` | `#ce2c31` |
 | `--color-primary` | `#005862` |
 | `--color-primary-hover` | `#00474f` |
+| `--color-primary-strong` | `#2a7e3b` |
 | `--color-primary-subtle` | `#effefb` |
 | `--color-secondary` | `#00918b` |
-| `--color-surface` | `#ffffff` |
-| `--color-text-inverse` | `#ffffff` |
+| `--color-secondary-on-fill` | `#203c25` |
+| `--color-surface` | `#fcfcfc` |
+| `--color-text-inverse` | `#fcfcfc` |
 | `--color-text-link` | `#005862` |
 | `--color-text-primary` | `#3d3d3d` |
 | `--color-text-secondary` | `#525252` |
@@ -27,11 +31,11 @@ The 66 design tokens this page actually uses, resolved to their final values for
 | Token | Value |
 |---|---|
 | `--badge-bg` | `#005862` |
-| `--badge-height-md` | `20px` |
-| `--badge-height-sm` | `16px` |
+| `--badge-height-md` | `28px` |
+| `--badge-height-sm` | `22px` |
 | `--badge-radius` | `.25rem` |
-| `--badge-text-color` | `#ffffff` |
-| `--collapsible-bg` | `#ffffff` |
+| `--badge-text-color` | `#fcfcfc` |
+| `--collapsible-bg` | `#fcfcfc` |
 | `--collapsible-border-color` | `#dcdcdc` |
 | `--collapsible-padding-x` | `1rem` |
 | `--collapsible-radius` | `.5rem` |
@@ -46,6 +50,7 @@ The 66 design tokens this page actually uses, resolved to their final values for
 | `--form-padding-x-sm` | `.625rem` |
 | `--form-radius-md` | `.25rem` |
 | `--form-radius-sm` | `.25rem` |
+| `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` |
 | `--icon-size-medium` | `20px` |
 | `--icon-size-small` | `16px` |
 | `--st-blocked` | `#d73027` |

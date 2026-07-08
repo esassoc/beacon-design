@@ -1,28 +1,29 @@
 # Token contract — prototypes-fish-study-10.19.1
 
-The 89 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 91 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
 | Token | Value |
 |---|---|
-| `--color-accent` | `#f9a134` |
+| `--color-accent` | `#f76b15` |
 | `--color-border` | `#dcdcdc` |
 | `--color-border-light` | `#efefef` |
 | `--color-info` | `#228be6` |
 | `--color-primary` | `#005862` |
 | `--color-primary-hover` | `#00474f` |
+| `--color-primary-strong` | `#2a7e3b` |
 | `--color-secondary` | `#00918b` |
-| `--color-success` | `#2e7571` |
-| `--color-surface` | `#ffffff` |
+| `--color-secondary-on-fill` | `#203c25` |
+| `--color-surface` | `#fcfcfc` |
 | `--color-surface-sunken` | `#efefef` |
-| `--color-text-inverse` | `#ffffff` |
+| `--color-text-inverse` | `#fcfcfc` |
 | `--color-text-link` | `#005862` |
 | `--color-text-muted` | `#7c7c7c` |
 | `--color-text-primary` | `#3d3d3d` |
 | `--color-text-secondary` | `#525252` |
 | `--color-text-tertiary` | `#656565` |
-| `--color-warning` | `#f2770e` |
+| `--color-warning-on-fill` | `#4f3422` |
 
 ## Component
 
@@ -32,12 +33,12 @@ The 89 design tokens this page actually uses, resolved to their final values for
 | `--avatar-radius` | `9999px` |
 | `--avatar-size-md` | `40px` |
 | `--avatar-size-sm` | `28px` |
-| `--avatar-text-color` | `#ffffff` |
+| `--avatar-text-color` | `#fcfcfc` |
 | `--badge-bg` | `#005862` |
-| `--badge-height-md` | `20px` |
-| `--badge-height-sm` | `16px` |
+| `--badge-height-md` | `28px` |
+| `--badge-height-sm` | `22px` |
 | `--badge-radius` | `.25rem` |
-| `--badge-text-color` | `#ffffff` |
+| `--badge-text-color` | `#fcfcfc` |
 | `--bcn-gray-100` | `#efefef` |
 | `--bcn-gray-1000` | `#000000` |
 | `--bcn-gray-200` | `#dcdcdc` |
@@ -48,7 +49,7 @@ The 89 design tokens this page actually uses, resolved to their final values for
 | `--bcn-gray-600` | `#656565` |
 | `--bcn-gray-900` | `#3d3d3d` |
 | `--bcn-gray-950` | `#292929` |
-| `--collapsible-bg` | `#ffffff` |
+| `--collapsible-bg` | `#fcfcfc` |
 | `--collapsible-border-color` | `#dcdcdc` |
 | `--collapsible-padding-x` | `1rem` |
 | `--collapsible-radius` | `.5rem` |
@@ -63,13 +64,14 @@ The 89 design tokens this page actually uses, resolved to their final values for
 | `--form-padding-x-sm` | `.625rem` |
 | `--form-radius-md` | `.25rem` |
 | `--form-radius-sm` | `.25rem` |
+| `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` |
 | `--icon-size-medium` | `20px` |
 | `--icon-size-small` | `16px` |
 | `--pill-bg` | `#efefef` |
 | `--pill-border-color` | `#efefef` |
 | `--pill-height-md` | `28px` |
 | `--pill-height-sm` | `22px` |
-| `--pill-radius` | `9999px` |
+| `--pill-radius` | `.25rem` |
 | `--pill-text-color` | `#3d3d3d` |
 
 ## Primitive
@@ -106,3 +108,9 @@ The 89 design tokens this page actually uses, resolved to their final values for
 | `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
 | `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
 
+## Component-scoped
+
+Defined per-component (not at `:root`); see the component's own rule in `styles.css`.
+
+- `--color-success`
+- `--color-warning`

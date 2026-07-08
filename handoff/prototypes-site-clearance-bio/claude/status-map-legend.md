@@ -1,20 +1,20 @@
 # Status map & legend
 
-The Leaflet map of the 231 real work areas (geometry from the client KMZ), each marker colored by its DERIVED biological-clearance status, plus observation buffer rings. The legend (captured here) is the key; the map answers the field question: which sites are cleared to work, and which are blocked by a nesting buffer? Clicking a marker opens the work-area drawer; clicking an observation ring/dot opens the observation drawer.
+The Leaflet map of the component's work areas (geometry from the client KMZ shapefile import), each marker colored by its DERIVED biological status, plus observation buffer rings and a Map/Satellite base-layer control. The legend (captured here) is the key; the map answers the field question: which sites are cleared to work, and which sit inside an active nesting buffer? Clicking a marker opens the work-area drawer; clicking an observation ring/dot opens the observation drawer.
 
 ## Key decisions
-- Marker color = derived status, never a stored field. Status is the latest COMPLETED biological review's outcome, escalated to "provisional-block" when a live observation buffer overlaps the site. The map, legend, timeline, and readiness strip all read the same derived value.
-- Provisional-block is the HOLLOW swatch — white fill, colored (red) stroke: "blocked, but not solidified" — the exact grammar the map markers use, so a hollow marker and a hollow legend dot tell the same story. A solid segment would read as a confirmed Blocked.
-- The legend also documents the two observation glyphs: a buffer RING (an active nesting buffer that can block) and a HOLLOW sighting (tracking-only, buffer 0 — informational, never blocks).
-- The map div is third-party Leaflet; only the legend is design-system DOM, which is why this section captures the legend and documents the map in prose.
+- Marker color = derived status, never a stored field. The LATEST review's outcome is the status; no reviews = Not Surveyed (grey). A work area with NO recorded review that an active observation buffer covers renders PROVISIONAL BLOCK — hollow red. Any recorded review status overrules the provisional display: a reviewed-Cleared site inside a buffer stays green.
+- Provisional-block is the HOLLOW swatch — white fill, red stroke: "blocked, but not solidified" — the exact grammar the map markers use, so a hollow marker and a hollow legend dot tell the same story.
+- The legend also documents the two observation glyphs: a buffer RING (an active observation's own BufferDistanceFt) and a HOLLOW sighting (tracking-only, buffer 0 — informational, never blocks).
+- A Leaflet layers control offers Map / Satellite base tiles — the Component Buffer overlay is a satellite-mode analysis tool, so the imagery base ships with it.
 
 ## Gotchas
 - Do NOT persist work-area status. Re-deriving it from the review history + live buffers is the whole architecture — a stored status would drift the moment a review is added or an observation is logged.
-- Leaflet needs invalidateSize() when its tab/container first becomes visible (the map builds at boot only because Map is the default tab); on a framework that hides panels, call invalidateSize on reveal or the map renders at 0×0.
-- "Tracking-only" sightings (bufferFt 0) must render as the hollow glyph and must NEVER escalate a work area — only a positive buffer that overlaps a site produces a provisional-block.
+- The provisional check is review-PRESENCE, not review-outcome: one recorded review of ANY outcome removes the site from provisional-block eligibility forever after (until reviews are deleted).
+- Leaflet needs invalidateSize() when its container first becomes visible; "tracking-only" sightings (bufferFt 0) must never escalate a work area.
 
 ## Done when
-- Each work-area marker is colored by derived status; provisional-block renders hollow (white fill, colored stroke) on both marker and legend; observation buffers render as rings, tracking-only sightings as hollow dots; clicking a marker opens its drawer.
+- Each work-area marker is colored by derived status; a no-review site inside an active buffer renders hollow red and the legend counts it; a reviewed site inside the same buffer keeps its review color; observation buffers render as rings; the base-layer control swaps Map/Satellite.
 
 ## Markup
 ```html
@@ -39,15 +39,6 @@ The Leaflet map of the 231 real work areas (geometry from the client KMZ), each 
   ><span class="map-legend__row">
     <span class="map-legend__dot" style="background: var(--st-not-surveyed)"></span> Not
     Surveyed </span
-  ><span class="map-legend__row">
-    <span class="map-legend__dot" style="background: var(--st-survey-scheduled)"></span>
-    Survey Scheduled </span
-  ><span class="map-legend__row">
-    <span
-      class="map-legend__dot"
-      style="background: var(--st-cleared-stipulations)"
-    ></span>
-    Cleared w/ Stipulations </span
   ><span class="map-legend__row">
     <span class="map-legend__dot" style="background: var(--st-cleared)"></span> Cleared
   </span>
@@ -121,7 +112,7 @@ The Leaflet map of the 231 real work areas (geometry from the client KMZ), each 
 
 ## Tokens
 - `--color-border`: #dcdcdc _(semantic)_
-- `--color-surface`: #ffffff _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--font-weight-semibold`: 550 _(primitive)_

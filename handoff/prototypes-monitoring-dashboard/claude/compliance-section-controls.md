@@ -2570,6 +2570,10 @@ The Commitment Compliance workspace: a titled section over the observation list,
 ```css
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(
+    --icon-button-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2584,6 +2588,37 @@ The Commitment Compliance workspace: a titled section over the observation list,
   transition: background var(--transition-fast, 0.15s ease);
   -webkit-appearance: none;
   appearance: none;
+}
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
 }
 .bcn-status-chip {
   display: inline-flex;
@@ -2627,37 +2662,6 @@ The Commitment Compliance workspace: a titled section over the observation list,
 }
 .esa-icon--md {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
-}
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
-}
-.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
-  transform: rotate(-90deg);
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
@@ -2811,10 +2815,10 @@ The Commitment Compliance workspace: a titled section over the observation list,
 - `--bcn-gray-500`: #7c7c7c _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
 - `--color-border`: #dcdcdc _(semantic)_
-- `--color-danger`: #ef4444 _(semantic)_
+- `--color-danger`: #e5484d _(semantic)_
 - `--color-primary`: #005862 _(semantic)_
 - `--color-secondary`: #00918b _(semantic)_
-- `--color-surface`: #ffffff _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
@@ -2823,6 +2827,7 @@ The Commitment Compliance workspace: a titled section over the observation list,
 - `--font-weight-bold`: 650 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
 - `--form-height-md`: 36px _(component)_
+- `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_

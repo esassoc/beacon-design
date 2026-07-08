@@ -1,18 +1,19 @@
 # Readiness strip
 
-The census figure below the map: a single stacked bar of all work areas by derived status with a "Ready to drill N of M" summary and a per-status legend with live counts. It answers "how close is the program to clear?" at a glance and is scoped by the same Map filter bar as the markers.
+The census figure below the map (Map tab ONLY — never repeated on Data or Activity): the "Ready to work N of M work areas" headline over a single stacked "Work areas by clearance status" bar, with a per-status legend carrying live counts. It answers "how close is the program to clear?" at a glance and is scoped by the same Map filters as the markers.
 
 ## Key decisions
-- One horizontal stacked bar, segments in STATUS_ORDER (the readiness ramp), each sized by its share of the total — the bar reads as a progression toward "ready", not an arbitrary pie.
-- Provisional-block gets a red/white DIAGONAL STRIPE (repeating-linear-gradient), not a solid fill — same "not solidified" story as the hollow markers; a solid segment would read as confirmed Blocked and overstate the risk.
-- Counts (bar segments, summary, legend) all derive from statusCounts() over the filtered set — one computation feeds every number so they can never disagree.
+- One horizontal stacked bar, segments in STATUS_ORDER (worst → best), each sized by its share of the total — the bar reads as a progression toward "ready".
+- "Ready to work" counts Cleared only — Inaccessible and every flavor of red are not workable.
+- Provisional-block gets a red/white DIAGONAL STRIPE (repeating-linear-gradient), not a solid fill — same "not solidified" story as the hollow markers.
+- Counts (bar segments, headline, legend) all derive from statusCounts() over the filtered set — one computation feeds every number so they can never disagree.
 
 ## Gotchas
-- The strip is scoped by the Map facets, so its numbers are of the FILTERED set, not the whole program — label/tooltip must make the denominator honest when a filter is active.
-- Zero-count statuses are dropped from the bar (flex 0) but kept in the legend marked empty, so the ramp stays legible without empty slivers.
+- The strip is scoped by the Map facets, so its numbers are of the FILTERED set, not the whole component — the denominator must stay honest when a filter is active.
+- The strip hides entirely for an empty component (a census of nothing reads wrong); the map's empty state carries that story instead.
 
 ## Done when
-- The bar sums to the (filtered) total; provisional-block renders as a diagonal stripe; the "Ready to drill N of M" summary and every legend count agree with the bar and update when a Map facet changes.
+- The bar sums to the (filtered) total; provisional-block renders as a diagonal stripe; the "Ready to work N of M" headline counts Cleared only; every legend count agrees with the bar and updates when a Map facet changes.
 
 ## Markup
 ```html
@@ -20,7 +21,7 @@ The census figure below the map: a single stacked bar of all work areas by deriv
   <div class="readiness__head">
     <span class="readiness__title">Work areas by clearance status</span>
     <span class="readiness__summary">
-      Ready to drill <strong id="rs-ready">8</strong>
+      Ready to work <strong id="rs-ready">8</strong>
       <span id="rs-total">of 231 work areas</span>
     </span>
   </div>
@@ -55,16 +56,8 @@ The census figure below the map: a single stacked bar of all work areas by deriv
       style="height: 100%; flex: 0 0 86.5801%; background: var(--st-not-surveyed)"
     ></div>
     <div
-      title="Cleared w/ Stipulations: 2"
-      style="
-        height: 100%;
-        flex: 0 0 0.865801%;
-        background: var(--st-cleared-stipulations);
-      "
-    ></div>
-    <div
-      title="Cleared: 6"
-      style="height: 100%; flex: 0 0 2.5974%; background: var(--st-cleared)"
+      title="Cleared: 8"
+      style="height: 100%; flex: 0 0 3.4632%; background: var(--st-cleared)"
     ></div>
   </div>
   <ul class="readiness__legend">
@@ -99,30 +92,10 @@ The census figure below the map: a single stacked bar of all work areas by deriv
       <span class="readiness__legend-label">Not Surveyed</span>
       <span class="readiness__legend-count" data-rs-count="not-surveyed">200</span>
     </li>
-    <li class="readiness__legend-item" data-rs-item="survey-scheduled" data-empty="true">
-      <span
-        class="readiness__swatch"
-        style="background: var(--st-survey-scheduled)"
-      ></span>
-      <span class="readiness__legend-label">Survey Scheduled</span>
-      <span class="readiness__legend-count" data-rs-count="survey-scheduled">0</span>
-    </li>
-    <li
-      class="readiness__legend-item"
-      data-rs-item="cleared-stipulations"
-      data-empty="false"
-    >
-      <span
-        class="readiness__swatch"
-        style="background: var(--st-cleared-stipulations)"
-      ></span>
-      <span class="readiness__legend-label">Cleared w/ Stipulations</span>
-      <span class="readiness__legend-count" data-rs-count="cleared-stipulations">2</span>
-    </li>
     <li class="readiness__legend-item" data-rs-item="cleared" data-empty="false">
       <span class="readiness__swatch" style="background: var(--st-cleared)"></span>
       <span class="readiness__legend-label">Cleared</span>
-      <span class="readiness__legend-count" data-rs-count="cleared">6</span>
+      <span class="readiness__legend-count" data-rs-count="cleared">8</span>
     </li>
   </ul>
 </section>
@@ -199,15 +172,12 @@ The census figure below the map: a single stacked bar of all work areas by deriv
   color: var(--color-text-primary);
   font-variant-numeric: tabular-nums;
 }
-.readiness__legend-item[data-empty="true"] {
-  opacity: 0.4;
-}
 ```
 
 ## Tokens
 - `--color-background`: #fafafa _(semantic)_
 - `--color-border`: #dcdcdc _(semantic)_
-- `--color-surface`: #ffffff _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--font-weight-bold`: 650 _(primitive)_

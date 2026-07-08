@@ -187,7 +187,7 @@ The leadership rollup hero: a headline "% of the route cleared to construct" wit
   --_stat-label-weight: var(--stat-label-weight, var(--font-weight-medium, 450));
   --_stat-sub-color: var(--stat-sub-color, var(--color-text-muted, #737373));
   --_stat-sub-size: var(--stat-sub-size, var(--type-size-150, 0.875rem));
-  --_stat-accent-color: var(--stat-accent-color, var(--color-secondary, #5787b9));
+  --_stat-accent-color: var(--stat-accent-color, var(--color-secondary-strong, #3a7c59));
   --_stat-gap: var(--stat-gap, var(--spacing-050, 0.125rem));
   display: flex;
   flex-direction: column;
@@ -214,33 +214,26 @@ The leadership rollup hero: a headline "% of the route cleared to construct" wit
   line-height: var(--line-height-normal, 1.6);
   color: var(--_stat-sub-color);
 }
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
-}
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(
+    --icon-button-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
 }
 .exec__hero {
   display: grid;
@@ -368,29 +361,40 @@ The leadership rollup hero: a headline "% of the route cleared to construct" wit
   min-width: 34px;
   text-align: right;
 }
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
 .page-layout__title h1 .esa-icon {
   color: var(--bcn-gray-1000);
   flex-shrink: 0;
-}
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
 }
 ```
 
@@ -401,8 +405,8 @@ The leadership rollup hero: a headline "% of the route cleared to construct" wit
 - `--bcn-gray-500`: #7c7c7c _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
 - `--color-primary`: #005862 _(semantic)_
-- `--color-secondary`: #00918b _(semantic)_
-- `--color-surface`: #ffffff _(semantic)_
+- `--color-secondary-strong`: #2a7e3b _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
 - `--color-surface-sunken`: #efefef _(semantic)_
 - `--color-text-muted`: #7c7c7c _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
@@ -415,6 +419,7 @@ The leadership rollup hero: a headline "% of the route cleared to construct" wit
 - `--font-weight-regular`: 350 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
 - `--form-height-md`: 36px _(component)_
+- `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_

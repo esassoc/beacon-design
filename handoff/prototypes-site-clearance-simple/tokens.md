@@ -1,20 +1,22 @@
 # Token contract — prototypes-site-clearance-simple
 
-The 66 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 69 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
 | Token | Value |
 |---|---|
-| `--color-accent` | `#f9a134` |
+| `--color-accent` | `#f76b15` |
 | `--color-border` | `#dcdcdc` |
 | `--color-border-strong` | `#bdbdbd` |
 | `--color-primary` | `#005862` |
 | `--color-primary-hover` | `#00474f` |
+| `--color-primary-strong` | `#2a7e3b` |
 | `--color-secondary` | `#00918b` |
-| `--color-surface` | `#ffffff` |
+| `--color-secondary-on-fill` | `#203c25` |
+| `--color-surface` | `#fcfcfc` |
 | `--color-surface-sunken` | `#efefef` |
-| `--color-text-inverse` | `#ffffff` |
+| `--color-text-inverse` | `#fcfcfc` |
 | `--color-text-link` | `#005862` |
 | `--color-text-primary` | `#3d3d3d` |
 | `--color-text-secondary` | `#525252` |
@@ -25,10 +27,10 @@ The 66 design tokens this page actually uses, resolved to their final values for
 | Token | Value |
 |---|---|
 | `--badge-bg` | `#005862` |
-| `--badge-height-md` | `20px` |
-| `--badge-height-sm` | `16px` |
+| `--badge-height-md` | `28px` |
+| `--badge-height-sm` | `22px` |
 | `--badge-radius` | `.25rem` |
-| `--badge-text-color` | `#ffffff` |
+| `--badge-text-color` | `#fcfcfc` |
 | `--bcn-gray-100` | `#efefef` |
 | `--bcn-gray-1000` | `#000000` |
 | `--bcn-gray-200` | `#dcdcdc` |
@@ -46,6 +48,7 @@ The 66 design tokens this page actually uses, resolved to their final values for
 | `--form-label-color` | `#525252` |
 | `--form-padding-x-md` | `.75rem` |
 | `--form-radius-md` | `.25rem` |
+| `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` |
 | `--icon-size-medium` | `20px` |
 | `--icon-size-small` | `16px` |
 | `--side-dialog-width` | `400px` |

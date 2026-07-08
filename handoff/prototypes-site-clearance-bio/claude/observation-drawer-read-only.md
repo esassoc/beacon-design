@@ -1,18 +1,18 @@
 # Observation drawer (read-only)
 
-The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): an observation's facts (species code, kind, buffer, first-observed, est. end), its latest field log, and — the reason it matters — the list of "Work areas within buffer" (each opening that site's write drawer). It is the other half of the buffer story: from a site you see its conflicts; from an observation you see everything it blocks.
+The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): an observation's facts (species code, kind, buffer distance, first observed), its latest field log, and — the reason it matters — the counted list of "Work areas within buffer" (each opening that site's write drawer). From a site you see its status; from an observation you see everything its buffer covers.
 
 ## Key decisions
-- Read-only by design: an observation is a field FACT (a sighting), not a decision — you clear the work area, you do not "edit" the bird. So this drawer has no form, only facts + the impact list.
-- The "Work areas within buffer" list (with a count badge) is the inverse of the work-area drawer's Buffer-conflicts fold — same relationship, opposite direction — so a reviewer can pivot between the observation and every site it affects.
-- Latest log is shown as a quoted blockquote (the verbatim field note), only when present (#obs-log-wrap hidden otherwise) — the record, not a paraphrase.
+- Read-only by design: an observation is a field FACT (a sighting), not a decision — you review the work area, you do not "edit" the bird.
+- There is NO estimated-end date and no countdown — the observation carries no projection of when it stops mattering; it is active until the Monitoring Portal says otherwise. First observed is the only date, because it happened.
+- The "Work areas within buffer" list reuses the same intersection that powers provisional-block detection and the grid's Work Areas Affected column — one computation, three surfaces.
 
 ## Gotchas
-- A tracking-only sighting (buffer 0) still opens this drawer but its impact list is empty and it must never appear as a conflict on any work area — buffer 0 = informational.
-- Est. end is a projection (nesting window), used to reason about when a block will lift — it is derived context, not a committed date.
+- A tracking-only sighting (buffer 0) still opens this drawer but its impact list is empty and it must never appear as affecting any work area.
+- Impact rows show each covered site's DERIVED status chip — a reviewed site inside the buffer keeps its review color here too (the precedence rule is visible in this list).
 
 ## Done when
-- Shows the observation facts + latest log (when present) + a counted "Work areas within buffer" list; each impacted-site row opens that work area's write drawer; a tracking-only sighting shows an empty impact list.
+- Shows species/kind/buffer/first-observed + latest log (when present) + a counted "Work areas within buffer" list with derived-status chips; each row opens that work area's write drawer; no estimated-end or countdown renders anywhere.
 
 ## Markup
 ```html
@@ -33,11 +33,11 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
           style="--_chip: var(--st-neutral)"
         >
           <span class="bcn-status-chip__dot"></span>
-          <span class="bcn-status-chip__label">Tracking only</span>
+          <span class="bcn-status-chip__label">Active</span>
         </span>
       </span>
     </div>
-    <p class="wa__subtitle" id="obs-sub">Species-Swainson's Hawk-06092026</p>
+    <p class="wa__subtitle" id="obs-sub">SWHA-2289-05182026</p>
   </div>
   <div class="wa">
     <div class="od__meta">
@@ -47,19 +47,15 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
       </div>
       <div class="bcn-key-value">
         <span class="bcn-key-value__key">Kind</span>
-        <span class="wa__kv-val" id="obs-kind">Resource</span>
+        <span class="wa__kv-val" id="obs-kind">Nesting bird</span>
       </div>
       <div class="bcn-key-value">
         <span class="bcn-key-value__key">Buffer</span>
-        <span class="wa__kv-val" id="obs-buffer">None (tracking only)</span>
+        <span class="wa__kv-val" id="obs-buffer">2,640 ft</span>
       </div>
       <div class="bcn-key-value">
         <span class="bcn-key-value__key">First observed</span>
-        <span class="wa__kv-val" id="obs-first">Jun 9, 2026</span>
-      </div>
-      <div class="bcn-key-value">
-        <span class="bcn-key-value__key">Est. end</span>
-        <span class="wa__kv-val" id="obs-end">Until further notice</span>
+        <span class="wa__kv-val" id="obs-first">May 18, 2026</span>
       </div>
     </div>
     <section id="obs-log-wrap">
@@ -91,7 +87,8 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
         Latest log
       </h3>
       <blockquote class="wa__note wa__note--log" id="obs-log">
-        Swainson's hawk observed soaring overhead to the west.
+        May 18, 2026, 1:31 PM: Active SWHA nest observed in tree during site clearance
+        visit.
       </blockquote>
     </section>
     <section>
@@ -118,12 +115,391 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
         Work areas within buffer
         <span id="obs-impact-count"
           ><span class="esa-badge esa-badge--primary esa-badge--sm">
-            <span class="esa-badge__text">0</span>
+            <span class="esa-badge__text">19</span>
           </span>
         </span>
       </h3>
       <ul class="od__impact" id="obs-impact">
-        <li class="entry entry--empty">Tracking-only sighting — no buffer.</li>
+        <li class="entry entry--card" data-wa="DCRDS-DH-184" tabindex="0" role="button">
+          <span class="entry__badge entry__badge--wa">DCRDS-DH-184</span>
+          <div class="entry__body">
+            <p class="entry__line">
+              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
+              ><span class="entry__primary">Boring</span>
+              <span class="gate__chipwrap"
+                ><span
+                  class="bcn-status-chip"
+                  data-status="provisional-block"
+                  style="--_chip: var(--st-provisional-block)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Provisional Block</span>
+                </span>
+              </span>
+            </p>
+          </div>
+          <span class="entry__meta">146 ft</span>
+        </li>
+        <li class="entry entry--card" data-wa="DCRDS-DH-183" tabindex="0" role="button">
+          <span class="entry__badge entry__badge--wa">DCRDS-DH-183</span>
+          <div class="entry__body">
+            <p class="entry__line">
+              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
+              ><span class="entry__primary">Boring</span>
+              <span class="gate__chipwrap"
+                ><span
+                  class="bcn-status-chip"
+                  data-status="provisional-block"
+                  style="--_chip: var(--st-provisional-block)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Provisional Block</span>
+                </span>
+              </span>
+            </p>
+          </div>
+          <span class="entry__meta">702 ft</span>
+        </li>
+        <li class="entry entry--card" data-wa="DCTR2-DH-010" tabindex="0" role="button">
+          <span class="entry__badge entry__badge--wa">DCTR2-DH-010</span>
+          <div class="entry__body">
+            <p class="entry__line">
+              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
+              ><span class="entry__primary">Water Quality Test/Boring</span>
+              <span class="gate__chipwrap"
+                ><span
+                  class="bcn-status-chip"
+                  data-status="blocked"
+                  style="--_chip: var(--st-blocked)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Blocked</span>
+                </span>
+              </span>
+            </p>
+          </div>
+          <span class="entry__meta">878 ft</span>
+        </li>
+        <li class="entry entry--card" data-wa="DCTR2-CPT-007" tabindex="0" role="button">
+          <span class="entry__badge entry__badge--wa">DCTR2-CPT-007</span>
+          <div class="entry__body">
+            <p class="entry__line">
+              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
+              ><span class="entry__primary">CPT</span>
+              <span class="gate__chipwrap"
+                ><span
+                  class="bcn-status-chip"
+                  data-status="provisional-block"
+                  style="--_chip: var(--st-provisional-block)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Provisional Block</span>
+                </span>
+              </span>
+            </p>
+          </div>
+          <span class="entry__meta">907 ft</span>
+        </li>
+        <li class="entry entry--card" data-wa="DCTR2-DH-006" tabindex="0" role="button">
+          <span class="entry__badge entry__badge--wa">DCTR2-DH-006</span>
+          <div class="entry__body">
+            <p class="entry__line">
+              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
+              ><span class="entry__primary">Boring</span>
+              <span class="gate__chipwrap"
+                ><span
+                  class="bcn-status-chip"
+                  data-status="provisional-block"
+                  style="--_chip: var(--st-provisional-block)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Provisional Block</span>
+                </span>
+              </span>
+            </p>
+          </div>
+          <span class="entry__meta">925 ft</span>
+        </li>
+        <li class="entry entry--card" data-wa="DCLEV-DH-034" tabindex="0" role="button">
+          <span class="entry__badge entry__badge--wa">DCLEV-DH-034</span>
+          <div class="entry__body">
+            <p class="entry__line">
+              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
+              ><span class="entry__primary">Boring</span>
+              <span class="gate__chipwrap"
+                ><span
+                  class="bcn-status-chip"
+                  data-status="provisional-block"
+                  style="--_chip: var(--st-provisional-block)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Provisional Block</span>
+                </span>
+              </span>
+            </p>
+          </div>
+          <span class="entry__meta">1,006 ft</span>
+        </li>
+        <li class="entry entry--card" data-wa="DCLEV-DH-035" tabindex="0" role="button">
+          <span class="entry__badge entry__badge--wa">DCLEV-DH-035</span>
+          <div class="entry__body">
+            <p class="entry__line">
+              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
+              ><span class="entry__primary">Boring</span>
+              <span class="gate__chipwrap"
+                ><span
+                  class="bcn-status-chip"
+                  data-status="provisional-block"
+                  style="--_chip: var(--st-provisional-block)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Provisional Block</span>
+                </span>
+              </span>
+            </p>
+          </div>
+          <span class="entry__meta">1,067 ft</span>
+        </li>
+        <li class="entry entry--card" data-wa="DCLEV-DH-036" tabindex="0" role="button">
+          <span class="entry__badge entry__badge--wa">DCLEV-DH-036</span>
+          <div class="entry__body">
+            <p class="entry__line">
+              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
+              ><span class="entry__primary">Boring</span>
+              <span class="gate__chipwrap"
+                ><span
+                  class="bcn-status-chip"
+                  data-status="provisional-block"
+                  style="--_chip: var(--st-provisional-block)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Provisional Block</span>
+                </span>
+              </span>
+            </p>
+          </div>
+          <span class="entry__meta">1,197 ft</span>
+        </li>
+        <li class="entry entry--card" data-wa="DCLEV-DH-033" tabindex="0" role="button">
+          <span class="entry__badge entry__badge--wa">DCLEV-DH-033</span>
+          <div class="entry__body">
+            <p class="entry__line">
+              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
+              ><span class="entry__primary">Boring</span>
+              <span class="gate__chipwrap"
+                ><span
+                  class="bcn-status-chip"
+                  data-status="provisional-block"
+                  style="--_chip: var(--st-provisional-block)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Provisional Block</span>
+                </span>
+              </span>
+            </p>
+          </div>
+          <span class="entry__meta">1,199 ft</span>
+        </li>
+        <li class="entry entry--card" data-wa="DCRDS-DH-182" tabindex="0" role="button">
+          <span class="entry__badge entry__badge--wa">DCRDS-DH-182</span>
+          <div class="entry__body">
+            <p class="entry__line">
+              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
+              ><span class="entry__primary">Boring</span>
+              <span class="gate__chipwrap"
+                ><span
+                  class="bcn-status-chip"
+                  data-status="provisional-block"
+                  style="--_chip: var(--st-provisional-block)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Provisional Block</span>
+                </span>
+              </span>
+            </p>
+          </div>
+          <span class="entry__meta">1,445 ft</span>
+        </li>
+        <li class="entry entry--card" data-wa="DCLEV-DH-037" tabindex="0" role="button">
+          <span class="entry__badge entry__badge--wa">DCLEV-DH-037</span>
+          <div class="entry__body">
+            <p class="entry__line">
+              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
+              ><span class="entry__primary">Boring</span>
+              <span class="gate__chipwrap"
+                ><span
+                  class="bcn-status-chip"
+                  data-status="provisional-block"
+                  style="--_chip: var(--st-provisional-block)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Provisional Block</span>
+                </span>
+              </span>
+            </p>
+          </div>
+          <span class="entry__meta">1,531 ft</span>
+        </li>
+        <li class="entry entry--card" data-wa="DCLEV-DH-027" tabindex="0" role="button">
+          <span class="entry__badge entry__badge--wa">DCLEV-DH-027</span>
+          <div class="entry__body">
+            <p class="entry__line">
+              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
+              ><span class="entry__primary">Boring</span>
+              <span class="gate__chipwrap"
+                ><span
+                  class="bcn-status-chip"
+                  data-status="provisional-block"
+                  style="--_chip: var(--st-provisional-block)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Provisional Block</span>
+                </span>
+              </span>
+            </p>
+          </div>
+          <span class="entry__meta">1,657 ft</span>
+        </li>
+        <li class="entry entry--card" data-wa="DCTR2-DH-012" tabindex="0" role="button">
+          <span class="entry__badge entry__badge--wa">DCTR2-DH-012</span>
+          <div class="entry__body">
+            <p class="entry__line">
+              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
+              ><span class="entry__primary">Boring</span>
+              <span class="gate__chipwrap"
+                ><span
+                  class="bcn-status-chip"
+                  data-status="provisional-block"
+                  style="--_chip: var(--st-provisional-block)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Provisional Block</span>
+                </span>
+              </span>
+            </p>
+          </div>
+          <span class="entry__meta">1,875 ft</span>
+        </li>
+        <li class="entry entry--card" data-wa="DCLEV-DH-032" tabindex="0" role="button">
+          <span class="entry__badge entry__badge--wa">DCLEV-DH-032</span>
+          <div class="entry__body">
+            <p class="entry__line">
+              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
+              ><span class="entry__primary">Boring</span>
+              <span class="gate__chipwrap"
+                ><span
+                  class="bcn-status-chip"
+                  data-status="provisional-block"
+                  style="--_chip: var(--st-provisional-block)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Provisional Block</span>
+                </span>
+              </span>
+            </p>
+          </div>
+          <span class="entry__meta">2,026 ft</span>
+        </li>
+        <li class="entry entry--card" data-wa="DCLEV-DH-025" tabindex="0" role="button">
+          <span class="entry__badge entry__badge--wa">DCLEV-DH-025</span>
+          <div class="entry__body">
+            <p class="entry__line">
+              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
+              ><span class="entry__primary">Boring</span>
+              <span class="gate__chipwrap"
+                ><span
+                  class="bcn-status-chip"
+                  data-status="provisional-block"
+                  style="--_chip: var(--st-provisional-block)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Provisional Block</span>
+                </span>
+              </span>
+            </p>
+          </div>
+          <span class="entry__meta">2,120 ft</span>
+        </li>
+        <li class="entry entry--card" data-wa="DCRDS-DH-181" tabindex="0" role="button">
+          <span class="entry__badge entry__badge--wa">DCRDS-DH-181</span>
+          <div class="entry__body">
+            <p class="entry__line">
+              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
+              ><span class="entry__primary">Boring</span>
+              <span class="gate__chipwrap"
+                ><span
+                  class="bcn-status-chip"
+                  data-status="provisional-block"
+                  style="--_chip: var(--st-provisional-block)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Provisional Block</span>
+                </span>
+              </span>
+            </p>
+          </div>
+          <span class="entry__meta">2,189 ft</span>
+        </li>
+        <li class="entry entry--card" data-wa="DCLEV-DH-029" tabindex="0" role="button">
+          <span class="entry__badge entry__badge--wa">DCLEV-DH-029</span>
+          <div class="entry__body">
+            <p class="entry__line">
+              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
+              ><span class="entry__primary">Boring</span>
+              <span class="gate__chipwrap"
+                ><span
+                  class="bcn-status-chip"
+                  data-status="provisional-block"
+                  style="--_chip: var(--st-provisional-block)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Provisional Block</span>
+                </span>
+              </span>
+            </p>
+          </div>
+          <span class="entry__meta">2,482 ft</span>
+        </li>
+        <li class="entry entry--card" data-wa="DCLEV-DH-023" tabindex="0" role="button">
+          <span class="entry__badge entry__badge--wa">DCLEV-DH-023</span>
+          <div class="entry__body">
+            <p class="entry__line">
+              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
+              ><span class="entry__primary">Boring</span>
+              <span class="gate__chipwrap"
+                ><span
+                  class="bcn-status-chip"
+                  data-status="provisional-block"
+                  style="--_chip: var(--st-provisional-block)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Provisional Block</span>
+                </span>
+              </span>
+            </p>
+          </div>
+          <span class="entry__meta">2,598 ft</span>
+        </li>
+        <li class="entry entry--card" data-wa="DCTR2-DH-003" tabindex="0" role="button">
+          <span class="entry__badge entry__badge--wa">DCTR2-DH-003</span>
+          <div class="entry__body">
+            <p class="entry__line">
+              <span class="entry__type">Work area</span><span class="entry__sep"> · </span
+              ><span class="entry__primary">Boring</span>
+              <span class="gate__chipwrap"
+                ><span
+                  class="bcn-status-chip"
+                  data-status="provisional-block"
+                  style="--_chip: var(--st-provisional-block)"
+                >
+                  <span class="bcn-status-chip__dot"></span>
+                  <span class="bcn-status-chip__label">Provisional Block</span>
+                </span>
+              </span>
+            </p>
+          </div>
+          <span class="entry__meta">2,621 ft</span>
+        </li>
       </ul>
     </section>
   </div>
@@ -170,6 +546,37 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
 .page-layout__title h1 .esa-icon {
   color: var(--bcn-gray-1000);
   flex-shrink: 0;
+}
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
@@ -231,10 +638,10 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
 .esa-badge {
   --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
   --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));
-  --_badge-height: var(--badge-height-md, 20px);
-  --_badge-font-size: 11px;
-  --_badge-padding-x: 6px;
-  --_badge-min-width: var(--badge-height-md, 20px);
+  --_badge-height: var(--badge-height-md, 28px);
+  --_badge-font-size: 13px;
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  --_badge-min-width: var(--badge-height-md, 28px);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -251,10 +658,14 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
   box-sizing: border-box;
 }
 .esa-badge--sm {
-  --_badge-height: var(--badge-height-sm, 16px);
-  --_badge-font-size: 10px;
-  --_badge-padding-x: 4px;
-  --_badge-min-width: var(--badge-height-sm, 16px);
+  --_badge-height: var(--badge-height-sm, 22px);
+  --_badge-font-size: 11px;
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
+  --_badge-min-width: var(--badge-height-sm, 22px);
+}
+.comp-picker__trigger .esa-icon {
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
 }
 .wa__header {
   flex: 1;
@@ -408,7 +819,6 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
 .wa__section .esa-badge {
   vertical-align: middle;
 }
-.wa__conflicts,
 .od__impact {
   list-style: none;
   margin: 0;
@@ -416,6 +826,20 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
   display: flex;
   flex-direction: column;
   gap: var(--spacing-200);
+}
+.wa__note {
+  margin: 0;
+  padding: var(--spacing-300) var(--spacing-400);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  white-space: pre-line;
+}
+.wa__note--log {
+  font-size: 0.9375rem;
 }
 .entry {
   display: flex;
@@ -445,9 +869,9 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
   text-transform: uppercase;
   white-space: nowrap;
 }
-.entry__badge--obs {
-  color: var(--obs-color-strong);
-  background: color-mix(in srgb, var(--obs-color) 12%, white);
+.entry__badge--wa {
+  color: var(--color-primary);
+  background: color-mix(in srgb, var(--color-primary) 10%, white);
 }
 .entry__body {
   flex: 1;
@@ -471,12 +895,15 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
 .entry__primary {
   color: var(--color-text-primary);
 }
-.entry__badge--wa {
-  color: var(--color-primary);
-  background: color-mix(in srgb, var(--color-primary) 10%, white);
-}
 .entry__line .gate__chipwrap {
   vertical-align: text-bottom;
+}
+.bcn-status-chip[data-status="provisional-block"],
+.bcn-grid-chip[data-status="provisional-block"],
+.bcn-status-chip[data-status="provisional-block"] .bcn-status-chip__dot,
+.bcn-grid-chip[data-status="provisional-block"] .bcn-grid-chip__dot {
+  background: var(--color-surface);
+  box-shadow: inset 0 0 0 1.5px var(--st-provisional-block);
 }
 .entry__meta {
   flex-shrink: 0;
@@ -485,80 +912,16 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
   white-space: nowrap;
   text-align: right;
 }
-.entry__secondary {
-  margin: 0;
-  font-size: 0.875rem;
-  line-height: 1.45;
-  color: var(--color-text-secondary);
-}
-.entry--up {
-  padding: var(--spacing-200) 0;
-  cursor: pointer;
-  flex-wrap: wrap;
-}
-.entry--up .entry__meta {
-  flex-basis: 100%;
-  text-align: left;
-}
-.entry--up + .entry--up {
-  border-top: 1px solid var(--color-border-light);
-}
-.entry--card:hover {
-  background: var(--grid-row-bg-hover);
-  border-color: var(--color-border-strong);
-}
-.wa__note {
-  margin: 0;
-  padding: var(--spacing-300) var(--spacing-400);
-  background: var(--color-background);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-300);
-  font-size: 1rem;
-  line-height: 1.6;
-  color: var(--color-text-secondary);
-  white-space: pre-line;
-}
-.wa__note--log {
-  font-size: 0.9375rem;
-}
-.entry--empty {
-  padding: var(--spacing-200) 0;
-  font-size: 0.875rem;
-  color: var(--color-text-tertiary);
-}
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
-}
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
-}
-.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
-  transform: rotate(-90deg);
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
+.od__impact .entry__meta {
+  white-space: normal;
+  max-width: 36%;
 }
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(
+    --icon-button-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -574,14 +937,20 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
   -webkit-appearance: none;
   appearance: none;
 }
+.esa-icon-button--sm {
+  --_ib-size: var(--form-height-sm, 32px);
+}
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
   --_btn-padding-x: var(--form-padding-x-md, 16px);
   --_btn-font-size: var(--form-font-size-md, 14px);
   --_btn-radius: var(--form-radius-md, 6px);
-  --_accent: var(--color-primary, #43608a);
-  --_accent-hover: var(--color-primary-hover, #39506f);
+  --_accent: var(--color-primary, #46a758);
+  --_accent-hover: var(--color-primary-hover, #3e9b4f);
   --_on: var(--color-text-inverse, #ffffff);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
 .esa-button--sm {
@@ -619,7 +988,7 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
 .esa-button--appearance-outline .esa-button__native,
 .esa-button--appearance-dashed .esa-button__native {
   background: transparent;
-  color: var(--_accent);
+  color: var(--_accent-text);
   border-color: var(--_accent);
 }
 .esa-button--color-ghost .esa-button__native {
@@ -634,6 +1003,9 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
 .esa-button__label {
   white-space: nowrap;
 }
+.esa-button--color-primary {
+  --_accent-text: var(--color-primary-strong);
+}
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
   color: var(--_on);
@@ -643,10 +1015,10 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
 
 ## Tokens
 - `--badge-bg`: #005862 _(component)_
-- `--badge-height-md`: 20px _(component)_
-- `--badge-height-sm`: 16px _(component)_
+- `--badge-height-md`: 28px _(component)_
+- `--badge-height-sm`: 22px _(component)_
 - `--badge-radius`: .25rem _(component)_
-- `--badge-text-color`: #ffffff _(component)_
+- `--badge-text-color`: #fcfcfc _(component)_
 - `--bcn-gray-1000`: #000000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
@@ -654,11 +1026,11 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
 - `--color-background`: #fafafa _(semantic)_
 - `--color-border`: #dcdcdc _(semantic)_
 - `--color-border-light`: #efefef _(semantic)_
-- `--color-border-strong`: #bdbdbd _(semantic)_
 - `--color-primary`: #005862 _(semantic)_
 - `--color-primary-hover`: #00474f _(semantic)_
-- `--color-surface`: #ffffff _(semantic)_
-- `--color-text-inverse`: #ffffff _(semantic)_
+- `--color-primary-strong`: #2a7e3b _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
+- `--color-text-inverse`: #fcfcfc _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
@@ -675,14 +1047,12 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
 - `--form-padding-x-sm`: .625rem _(component)_
 - `--form-radius-md`: .25rem _(component)_
 - `--form-radius-sm`: .25rem _(component)_
-- `--grid-row-bg-hover`: #efefef _(component)_
+- `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_
 - `--icon-size-small`: 16px _(component)_
 - `--icon-size-xs`: 14px _(primitive)_
-- `--obs-color`: #7b5ea7 _(component)_
-- `--obs-color-strong`: #5b3f87 _(component)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
 - `--radius-300`: .5rem _(primitive)_
@@ -695,6 +1065,7 @@ The compact read-only counterpart to the write drawer (esa-side-dialog, 520px): 
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
+- `--st-provisional-block`: #d73027 _(component)_
 - `--transition-fast`: .15s ease _(primitive)_
 - `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
 - `--type-size-400`: clamp(1rem, .88rem + .6vw, 1.25rem) _(primitive)_

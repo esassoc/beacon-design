@@ -126,11 +126,23 @@ BcnObservationCard — the heart of the reframe. Each card's parent is ONE obser
 
 ## Styles
 ```css
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
+.bcn-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  padding: 2px var(--spacing-250);
+  border-radius: var(--radius-full);
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--_chip) 16%, transparent);
+  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
 }
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
+.bcn-status-chip__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--_chip);
   flex-shrink: 0;
 }
 .bcn-search-trigger .esa-icon {
@@ -166,6 +178,10 @@ BcnObservationCard — the heart of the reframe. Each card's parent is ONE obser
 }
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(
+    --icon-button-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -180,30 +196,6 @@ BcnObservationCard — the heart of the reframe. Each card's parent is ONE obser
   transition: background var(--transition-fast, 0.15s ease);
   -webkit-appearance: none;
   appearance: none;
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
 }
 .bcn-obs {
   border: 1px solid var(--color-border);
@@ -346,24 +338,36 @@ BcnObservationCard — the heart of the reframe. Each card's parent is ONE obser
   display: inline-flex;
   color: var(--color-text-tertiary);
 }
-.bcn-status-chip {
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-150);
-  padding: 2px var(--spacing-250);
-  border-radius: var(--radius-full);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  white-space: nowrap;
-  background: color-mix(in srgb, var(--_chip) 16%, transparent);
-  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
 }
-.bcn-status-chip__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: var(--radius-full);
-  background: var(--_chip);
-  flex-shrink: 0;
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
 }
 ```
 
@@ -375,10 +379,10 @@ BcnObservationCard — the heart of the reframe. Each card's parent is ONE obser
 - `--color-border`: #dcdcdc _(semantic)_
 - `--color-border-light`: #efefef _(semantic)_
 - `--color-commitment`: #58508d _(component)_
-- `--color-danger`: #ef4444 _(semantic)_
+- `--color-danger`: #e5484d _(semantic)_
 - `--color-primary`: #005862 _(semantic)_
 - `--color-secondary`: #00918b _(semantic)_
-- `--color-surface`: #ffffff _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
 - `--color-surface-sunken`: #efefef _(semantic)_
 - `--color-text-link`: #005862 _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
@@ -388,6 +392,7 @@ BcnObservationCard — the heart of the reframe. Each card's parent is ONE obser
 - `--font-weight-medium`: 450 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
 - `--form-height-md`: 36px _(component)_
+- `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_

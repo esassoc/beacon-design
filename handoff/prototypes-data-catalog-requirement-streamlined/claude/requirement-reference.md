@@ -447,8 +447,40 @@ The full requirement reference block (BcnRequirementReference): the source requi
 .bcn-reqref__footer .esa-icon {
   --_icon-size: 13px;
 }
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(
+    --icon-button-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -489,15 +521,24 @@ The full requirement reference block (BcnRequirementReference): the source requi
 .bcn-ntoggle__title .esa-icon {
   color: var(--color-text-primary);
 }
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
   --_btn-padding-x: var(--form-padding-x-md, 16px);
   --_btn-font-size: var(--form-font-size-md, 14px);
   --_btn-radius: var(--form-radius-md, 6px);
-  --_accent: var(--color-primary, #43608a);
-  --_accent-hover: var(--color-primary-hover, #39506f);
+  --_accent: var(--color-primary, #46a758);
+  --_accent-hover: var(--color-primary-hover, #3e9b4f);
   --_on: var(--color-text-inverse, #ffffff);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
+}
+.esa-button--color-primary {
+  --_accent-text: var(--color-primary-strong);
 }
 .esa-button__native {
   display: inline-flex;
@@ -547,43 +588,12 @@ The full requirement reference block (BcnRequirementReference): the source requi
 .esa-button--appearance-outline .esa-button__native,
 .esa-button--appearance-dashed .esa-button__native {
   background: transparent;
-  color: var(--_accent);
+  color: var(--_accent-text);
   border-color: var(--_accent);
 }
 .esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,
 .esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
   border-color: var(--color-border, #e5e5e5);
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
-}
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
 }
 .esa-icon-link {
   --_il-font: var(--icon-link-font-size-md, 1rem);
@@ -623,9 +633,10 @@ The full requirement reference block (BcnRequirementReference): the source requi
 - `--color-border-light`: #efefef _(semantic)_
 - `--color-primary`: #005862 _(semantic)_
 - `--color-primary-hover`: #00474f _(semantic)_
+- `--color-primary-strong`: #2a7e3b _(semantic)_
 - `--color-secondary`: #00918b _(semantic)_
-- `--color-surface`: #ffffff _(semantic)_
-- `--color-text-inverse`: #ffffff _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
+- `--color-text-inverse`: #fcfcfc _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
@@ -640,6 +651,7 @@ The full requirement reference block (BcnRequirementReference): the source requi
 - `--form-padding-x-sm`: .625rem _(component)_
 - `--form-radius-md`: .25rem _(component)_
 - `--form-radius-sm`: .25rem _(component)_
+- `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
 - `--icon-link-font-size-md`: 1rem _(component)_
 - `--icon-link-font-size-sm`: .875rem _(component)_
 - `--icon-link-gap`: .375rem _(component)_
