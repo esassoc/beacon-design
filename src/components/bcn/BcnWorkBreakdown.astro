@@ -20,7 +20,7 @@
 //   5. Clicking a row opens its side panel (host wires the drawer via wb-node-select).
 // Water-year axis, phase bands, and milestones are honored exactly as fish-schedule.ts.
 import type { HierNode } from '../../data/fish-model';
-import { computeRollUp, flattenForest, formatUSD, TASK_STATUS_META } from '../../data/fish-model';
+import { computeRollUp, flattenForest, TASK_STATUS_META } from '../../data/fish-model';
 import {
   DCP_PHASES,
   MILESTONES,
@@ -161,12 +161,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
                   <button type="button" class="bcn-wb__name-btn" title={`${node.id} — ${node.name}`} aria-label={`Open ${node.id} ${node.name}`}>
                     <span class="bcn-wb__id">{node.id}</span>
                     <span class="bcn-wb__name">{node.name}</span>
-                    {node.coaRef && <span class="bcn-wb__coa">{node.coaRef}</span>}
                   </button>
-                  <span class="bcn-wb__rollup" title={`${formatUSD(r.totalFunding)} planned · ${r.taskCount} ${r.taskCount === 1 ? 'task' : 'tasks'}`}>
-                    {formatUSD(r.totalFunding)}
-                    {hasChildren && <span class="bcn-wb__rollup-count">· {r.taskCount}</span>}
-                  </span>
                   <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                     <button type="button" class="bcn-wb__kebab" aria-label={`Actions for ${node.name}`}>⋯</button>
                   </esa-dropdown-menu>
@@ -213,7 +208,6 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
           <span class="bcn-wb__id"></span>
           <span class="bcn-wb__name"></span>
         </button>
-        <span class="bcn-wb__rollup">—</span>
         <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
           <button type="button" class="bcn-wb__kebab" aria-label="Row actions">⋯</button>
         </esa-dropdown-menu>
@@ -519,7 +513,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
     gap: var(--spacing-300);
     --_label-w: 420px;
     --_plot-w: 1900px;
-    --_row-h: 32px;
+    --_row-h: 28px;
   }
 
   /* ── Toolbar + legend ── */
@@ -583,14 +577,16 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   .bcn-wb__name-btn:hover .bcn-wb__name { color: var(--color-primary); text-decoration: underline; }
   .bcn-wb__name-btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; border-radius: var(--radius-100); }
   .bcn-wb__id { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.6875rem; font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 1px 5px; border-radius: var(--radius-100); }
-  .bcn-wb__name { font-size: var(--type-size-200); color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* Tier ramp — one hue, dark to light down the tree */
+  .bcn-wb__row.is-program .bcn-wb__id { background: color-mix(in srgb, var(--color-commitment) 30%, white); color: color-mix(in srgb, var(--color-commitment) 85%, black); }
+  .bcn-wb__row.is-study .bcn-wb__id { background: color-mix(in srgb, var(--color-commitment) 20%, white); }
+  .bcn-wb__row.is-substudy .bcn-wb__id { background: color-mix(in srgb, var(--color-commitment) 12%, white); }
+  .bcn-wb__row.is-task .bcn-wb__id { background: color-mix(in srgb, var(--color-commitment) 6%, white); }
+  .bcn-wb__name { font-size: var(--type-size-150); color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .bcn-wb__name.is-editing { white-space: normal; outline: 2px solid var(--color-primary); outline-offset: 1px; border-radius: var(--radius-100); background: var(--color-surface); padding: 0 3px; }
   .bcn-wb__row.is-program .bcn-wb__name, .bcn-wb__row.is-study .bcn-wb__name { font-weight: var(--font-weight-semibold); }
-  .bcn-wb__coa { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--color-text-muted); }
-  .bcn-wb__rollup { flex-shrink: 0; margin-left: auto; font-size: 0.75rem; font-variant-numeric: tabular-nums; font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); white-space: nowrap; }
-  .bcn-wb__rollup-count { color: var(--color-text-muted); font-weight: var(--font-weight-regular); }
 
-  .bcn-wb__menu { flex-shrink: 0; }
+  .bcn-wb__menu { flex-shrink: 0; margin-left: auto; }
   .bcn-wb__kebab { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; border: 0; background: transparent; color: var(--color-text-tertiary); border-radius: var(--radius-100); cursor: pointer; font-size: 1rem; line-height: 1; }
   .bcn-wb__kebab:hover { background: var(--color-surface-sunken); color: var(--color-text-primary); }
 
