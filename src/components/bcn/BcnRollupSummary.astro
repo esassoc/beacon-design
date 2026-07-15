@@ -65,7 +65,7 @@ const total = Math.max(rollup.taskCount, 1);
 
   .bcn-rollup__bar { display: flex; height: 12px; border-radius: var(--radius-full); overflow: hidden; background: var(--color-surface-sunken); border: 1px solid var(--color-border-light); }
   .bcn-rollup__seg { display: block; height: 100%; background: var(--_c); }
-  .bcn-rollup__seg + .bcn-rollup__seg { border-left: 1px solid var(--color-surface); }
+  .bcn-rollup__seg + .bcn-rollup__seg { box-shadow: -1px 0 0 var(--color-surface); }
 
   .bcn-rollup__counts { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-100) var(--spacing-400); font-size: var(--type-size-100); color: var(--color-text-secondary); }
   .bcn-rollup__total { font-weight: var(--font-weight-semibold); color: var(--color-text-primary); font-variant-numeric: tabular-nums; }
