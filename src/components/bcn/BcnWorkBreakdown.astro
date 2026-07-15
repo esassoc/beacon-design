@@ -8,7 +8,8 @@
 // scheduling lives in exported spreadsheets). The disclosure caret + inline row bar are
 // gantt affordances (esa-icon-button is too heavy for a 12px twisty). Everything that
 // HAS a lego uses it: the row-action menu is esa-dropdown-menu, delete is esa-confirm-
-// dialog, reparent is esa-dialog + esa-select. bcn-work-breakdown is the reusable home.
+// dialog, reparent is esa-dialog + esa-select, add-child is esa-icon-button.
+// bcn-work-breakdown is the reusable home.
 //
 // vs. the prior prototype (Andy's five locked decisions):
 //   1. FOUR named tiers (Program → Study → Sub-study → Task), CRUD at every tier.
@@ -19,9 +20,17 @@
 //      neutral roll-up bracket spanning their tasks' min-start → max-end.
 //   5. Clicking a row opens its side panel (host wires the drawer via wb-node-select).
 // Water-year axis, phase bands, and milestones are honored exactly as fish-schedule.ts.
+//
+// FUNCTIONAL CRUD LAYER (client model): the SSR fixture is serialized into the page
+// and hydrated into a mutable tree. Task bars drag (edge hotzones resize by month,
+// body drag moves the whole bar); the drawer's Timing/Funding legos write through
+// `wbApi` on this element; every mutation funnels into ONE recompute() that patches
+// bars, roll-up brackets, data-start/data-end, and emits `wb-model-change` for the
+// page (header KPIs) and panel components. In-memory only — reload resets.
 import type { HierNode } from '../../data/fish-model';
-import { computeRollUp, flattenForest, TASK_STATUS_META } from '../../data/fish-model';
+import { computeRollUp, flattenForest, TASK_STATUS_META, TIER_META } from '../../data/fish-model';
 import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
 import {
   DCP_PHASES,
   MILESTONES,
@@ -41,6 +50,9 @@ const { programs, today } = Astro.props;
 
 const flat = flattenForest(programs);
 const rollups = new Map(flat.map((f) => [f.node.id, computeRollUp(f.node)]));
+
+// The client-side model: the same fixture the SSR rendered, hydrated mutable.
+const modelJson = JSON.stringify(programs).replace(/</g, '\\u003c');
 
 const years = axisYears();
 const span = SCHEDULE_END_YEAR - SCHEDULE_START_YEAR;
@@ -69,6 +81,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
 ---
 
 <div class="bcn-wb">
+  <script is:inline type="application/json" data-wb-model set:html={modelJson}></script>
   <!-- ── Filter bar (permit-tracking pattern): controls on top, legend below ── -->
   <div class="bcn-wb__filterbar">
     <div class="bcn-wb__fb-top">
@@ -105,6 +118,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
         <span class="bcn-wb__legend-summary" />
         Roll-up span
       </span>
+      <span class="bcn-wb__legend-item bcn-wb__legend-hint">Drag a bar to reschedule — edges resize, middle moves</span>
     </div>
   </div>
 
@@ -182,6 +196,11 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
                     <span class="bcn-wb__id">{node.id}</span>
                     <span class="bcn-wb__name">{node.name}</span>
                   </button>
+                  {node.tier !== 'task' && (
+                    <span class="bcn-wb__add">
+                      <EsaIconButton icon="plus" size="xs" label={`Add ${TIER_META[node.tier].childLabel.toLowerCase()}`} />
+                    </span>
+                  )}
                   <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                     <button type="button" class="bcn-wb__kebab" aria-label={`Actions for ${node.name}`}>⋯</button>
                   </esa-dropdown-menu>
@@ -228,6 +247,9 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
           <span class="bcn-wb__id"></span>
           <span class="bcn-wb__name"></span>
         </button>
+        <span class="bcn-wb__add">
+          <EsaIconButton icon="plus" size="xs" label="Add child" />
+        </span>
         <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
           <button type="button" class="bcn-wb__kebab" aria-label="Row actions">⋯</button>
         </esa-dropdown-menu>
@@ -267,6 +289,9 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   import '@esa/ecology/esa-select';
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-button-toggle';
+  import { computeRollUp, TASK_STATUS_META } from '../../data/fish-model';
+  import type { HierNode, NodeRollUp, TaskStatus } from '../../data/fish-model';
+  import { axisFraction, SCHEDULE_START_YEAR, SCHEDULE_END_YEAR } from '../../data/fish-schedule';
 
   type Tier = 'program' | 'study' | 'substudy' | 'task';
   const CHILD_TIER: Partial<Record<Tier, Tier>> = { program: 'study', study: 'substudy', substudy: 'task' };
@@ -275,6 +300,24 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   const TIER_PREFIX: Record<Tier, string> = { program: 'PRG', study: 'STY', substudy: 'SUB', task: 'TSK' };
   const TIER_CLASS: Record<Tier, string> = { program: 'is-program', study: 'is-study', substudy: 'is-substudy', task: 'is-task' };
 
+  // ── Month math. Mirrors the SSR axis EXACTLY (axisFraction is Date-based, so
+  //    month widths are uneven) — BOUNDS[i] is the axis fraction of month i's start.
+  const TOTAL_MONTHS = (SCHEDULE_END_YEAR - SCHEDULE_START_YEAR) * 12;
+  const monthISO = (idx: number) => `${SCHEDULE_START_YEAR + Math.floor(idx / 12)}-${String((idx % 12) + 1).padStart(2, '0')}`;
+  const monthIdxOf = (iso: string) => {
+    const [y, m] = iso.split('-').map(Number);
+    return Math.max(0, Math.min(TOTAL_MONTHS - 1, (y - SCHEDULE_START_YEAR) * 12 + (m - 1)));
+  };
+  const BOUNDS: number[] = [];
+  for (let i = 0; i <= TOTAL_MONTHS; i++) BOUNDS.push(i === TOTAL_MONTHS ? 1 : axisFraction(`${monthISO(i)}-01`));
+  const nearestBoundary = (f: number) => {
+    let i = Math.max(0, Math.min(TOTAL_MONTHS, Math.round(f * TOTAL_MONTHS)));
+    while (i > 0 && Math.abs(BOUNDS[i - 1] - f) < Math.abs(BOUNDS[i] - f)) i--;
+    while (i < TOTAL_MONTHS && Math.abs(BOUNDS[i + 1] - f) < Math.abs(BOUNDS[i] - f)) i++;
+    return i;
+  };
+  const pct = (n: number) => `${(n * 100).toFixed(2)}%`;
+
   document.querySelectorAll<HTMLElement>('.bcn-wb').forEach((wb) => {
     const body = wb.querySelector<HTMLElement>('.bcn-wb__body')!;
     const tpl = wb.querySelector<HTMLTemplateElement>('#bcn-wb-row-tpl')!;
@@ -282,6 +325,23 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
     const reparentDialog = wb.querySelector('#bcn-wb-reparent') as HTMLElement & { show(): void; close(): void };
     const reparentSelect = wb.querySelector('#bcn-wb-reparent-select') as HTMLElement & { options: { label: string; value: string }[]; value: string };
     const collapsed = new Set<string>();
+
+    // ── The client model: SSR fixture hydrated into a mutable tree + indexes. ──
+    const model: HierNode[] = JSON.parse(wb.querySelector('[data-wb-model]')?.textContent ?? '[]');
+    const byId = new Map<string, HierNode>();
+    const parentNode = new Map<string, HierNode | null>();
+    function reindex() {
+      byId.clear();
+      parentNode.clear();
+      const walk = (n: HierNode, p: HierNode | null) => {
+        byId.set(n.id, n);
+        parentNode.set(n.id, p);
+        n.children.forEach((c) => walk(c, n));
+      };
+      model.forEach((n) => walk(n, null));
+    }
+    reindex();
+    let rollups = new Map<string, NodeRollUp>();
 
     const rows = () => [...body.querySelectorAll<HTMLElement>('.bcn-wb__row')];
     const rowById = (id: string) => body.querySelector<HTMLElement>(`.bcn-wb__row[data-id="${id}"]`);
@@ -310,6 +370,113 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       }
       return true;
     }
+
+    // ── recompute(): THE single entry point after any model mutation. Rebuilds
+    //    every roll-up, patches every row (data attrs + bar/bracket geometry +
+    //    status color + unscheduled note), then notifies the page + panels.
+    function barGeoOf(node: HierNode): { left: number; width: number } | null {
+      const r = rollups.get(node.id);
+      const startISO = node.tier === 'task' ? node.startMonth : r?.startMonth;
+      const endISO = node.tier === 'task' ? node.endMonth : r?.endMonth;
+      if (!startISO || !endISO) return null;
+      const left = axisFraction(`${startISO}-01`);
+      const right = axisFraction(`${endISO}-28`);
+      return { left, width: Math.max(right - left, 0.005) };
+    }
+
+    function patchRow(row: HTMLElement) {
+      const node = byId.get(row.dataset.id ?? '');
+      if (!node) return;
+      const r = rollups.get(node.id);
+      const start = node.tier === 'task' ? node.startMonth : r?.startMonth;
+      const end = node.tier === 'task' ? node.endMonth : r?.endMonth;
+      row.dataset.start = start ?? '';
+      row.dataset.end = end ?? '';
+      const plot = row.querySelector<HTMLElement>('.bcn-wb__plot')!;
+      let mark = plot.querySelector<HTMLElement>('.bcn-wb__bar, .bcn-wb__summary');
+      const geo = barGeoOf(node);
+      if (!geo) {
+        mark?.remove();
+        if (!plot.querySelector('.bcn-wb__unscheduled')) {
+          const note = document.createElement('span');
+          note.className = 'bcn-wb__unscheduled';
+          note.textContent = 'Unscheduled — open the panel to set a start & end month';
+          plot.append(note);
+        }
+        return;
+      }
+      plot.querySelector('.bcn-wb__unscheduled')?.remove();
+      const isTask = node.tier === 'task';
+      if (mark && mark.classList.contains('bcn-wb__bar') !== isTask) {
+        mark.remove();
+        mark = null;
+      }
+      if (!mark) {
+        if (isTask) {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'bcn-wb__bar';
+          mark = b;
+        } else {
+          const s = document.createElement('span');
+          s.className = 'bcn-wb__summary';
+          s.setAttribute('aria-hidden', 'true');
+          mark = s;
+        }
+        plot.append(mark);
+      }
+      mark.style.left = pct(geo.left);
+      mark.style.width = pct(geo.width);
+      if (isTask) {
+        const st = TASK_STATUS_META[(node.status ?? 'not-started') as TaskStatus];
+        mark.style.setProperty('--_c', st.hex);
+        mark.title = `${node.id} — ${node.name} · ${st.label}`;
+        mark.setAttribute('aria-label', `Open ${node.id} ${node.name}`);
+      }
+    }
+
+    function recompute(reason: string) {
+      rollups = new Map();
+      const walk = (n: HierNode) => {
+        rollups.set(n.id, computeRollUp(n));
+        n.children.forEach(walk);
+      };
+      model.forEach(walk);
+      rows().forEach(patchRow);
+      wb.dispatchEvent(new CustomEvent('wb-model-change', { detail: { reason }, bubbles: true }));
+    }
+
+    // ── Public write-through API for the drawer panels + page header KPIs. ──
+    (wb as HTMLElement & { wbApi?: unknown }).wbApi = {
+      getNode: (id: string) => byId.get(id),
+      parentOf: (id: string) => parentNode.get(id) ?? null,
+      rollupOf: (id: string) => rollups.get(id),
+      allNodes: () => [...byId.values()],
+      planRollup: () => computeRollUp({ id: 'PLAN', tier: 'program', name: 'plan', funding: [], children: model } as HierNode),
+      tierCounts: () => ({ programs: model.length, studies: [...byId.values()].filter((n) => n.tier === 'study').length }),
+      setTaskSchedule(id: string, startMonth: string, endMonth: string) {
+        const n = byId.get(id);
+        if (!n || n.tier !== 'task') return;
+        n.startMonth = startMonth;
+        n.endMonth = endMonth;
+        recompute('schedule');
+      },
+      setFunding(id: string, waterYear: number, amount: number) {
+        const n = byId.get(id);
+        if (!n || !Number.isFinite(waterYear)) return;
+        const entry = n.funding.find((f) => f.waterYear === waterYear);
+        if (amount > 0) {
+          if (entry) entry.amount = amount;
+          else {
+            n.funding.push({ waterYear, amount });
+            n.funding.sort((a, b) => a.waterYear - b.waterYear);
+          }
+        } else if (entry) {
+          n.funding.splice(n.funding.indexOf(entry), 1);
+        }
+        recompute('funding');
+      },
+    };
 
     // ── Tier filter + search. Matches keep their children (whole block) and
     //    their ancestors for context; an active filter overrides collapse state.
@@ -462,7 +629,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
     }
     rows().forEach(setMenu);
 
-    // ── Rename (inline contenteditable) ──
+    // ── Rename (inline contenteditable) — writes through to the model. ──
     function startRename(row: HTMLElement) {
       const name = row.querySelector<HTMLElement>('.bcn-wb__name')!;
       name.contentEditable = 'true';
@@ -479,6 +646,11 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
         name.textContent = (name.textContent ?? '').trim() || 'Untitled';
         name.removeEventListener('blur', finish);
         name.removeEventListener('keydown', onKey);
+        const node = byId.get(row.dataset.id ?? '');
+        if (node && node.name !== name.textContent) {
+          node.name = name.textContent ?? node.name;
+          recompute('rename');
+        }
       };
       const onKey = (e: KeyboardEvent) => {
         if (e.key === 'Enter') { e.preventDefault(); name.blur(); }
@@ -488,14 +660,30 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       name.addEventListener('keydown', onKey);
     }
 
-    // ── Add a child (unscheduled row cloned from the template) ──
+    // Cloned rows: fix the "+" affordance for the new row's tier (tasks are
+    // leaves — no add) and keep its accessible name specific.
+    function fixAddButton(row: HTMLElement, tier: Tier) {
+      const child = CHILD_TIER[tier];
+      if (!child) {
+        row.querySelector('.bcn-wb__add')?.remove();
+        return;
+      }
+      const btn = row.querySelector('.bcn-wb__add .esa-icon-button');
+      const lbl = `Add ${TIER_LABEL[child].toLowerCase()}`;
+      btn?.setAttribute('aria-label', lbl);
+      btn?.setAttribute('title', lbl);
+    }
+
+    // ── Add a child (unscheduled row cloned from the template + model node) ──
     function addChild(parentRow: HTMLElement) {
       const parentTier = tierOf(parentRow);
       const tier = CHILD_TIER[parentTier];
-      if (!tier) return;
+      const parent = byId.get(parentRow.dataset.id ?? '');
+      if (!tier || !parent) return;
       const row = tpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
       const id = nextId(tier);
       const depth = depthOf(parentRow) + 1;
+      const name = `New ${TIER_LABEL[tier].toLowerCase()}`;
       row.className = `bcn-wb__row ${TIER_CLASS[tier]} is-leaf`;
       row.dataset.id = id;
       row.dataset.tier = tier;
@@ -504,7 +692,8 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       row.dataset.hasChildren = '0';
       row.querySelector<HTMLElement>('.bcn-wb__label')!.style.setProperty('--_indent', String(depth));
       row.querySelector<HTMLElement>('.bcn-wb__id')!.textContent = id;
-      row.querySelector<HTMLElement>('.bcn-wb__name')!.textContent = `New ${TIER_LABEL[tier].toLowerCase()}`;
+      row.querySelector<HTMLElement>('.bcn-wb__name')!.textContent = name;
+      fixAddButton(row, tier);
       // Insert at the end of the parent's existing subtree.
       const block = blockOf(parentRow);
       block[block.length - 1].after(row);
@@ -515,12 +704,19 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       parentRow.querySelector('.bcn-wb__caret')?.setAttribute('aria-expanded', 'true');
       parentRow.querySelector('.bcn-wb__caret')?.classList.remove('is-collapsed');
       applyVisibility();
+      // Model: a new leaf under the parent (tasks start unscheduled).
+      const node: HierNode = { id, tier, name, funding: [], children: [] };
+      if (tier === 'task') node.status = 'not-started';
+      parent.children.push(node);
+      reindex();
+      recompute('structure');
       startRename(row);
     }
 
     function addProgram() {
       const row = tpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
       const id = nextId('program');
+      const name = 'New program';
       row.className = 'bcn-wb__row is-program is-leaf';
       row.dataset.id = id;
       row.dataset.tier = 'program';
@@ -528,13 +724,18 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       row.dataset.parent = '';
       row.querySelector<HTMLElement>('.bcn-wb__label')!.style.setProperty('--_indent', '0');
       row.querySelector<HTMLElement>('.bcn-wb__id')!.textContent = id;
-      row.querySelector<HTMLElement>('.bcn-wb__name')!.textContent = 'New program';
+      row.querySelector<HTMLElement>('.bcn-wb__name')!.textContent = name;
+      fixAddButton(row, 'program');
       body.appendChild(row);
       setMenu(row);
+      const node: HierNode = { id, tier: 'program', name, funding: [], children: [] };
+      model.push(node);
+      reindex();
+      recompute('structure');
       startRename(row);
     }
 
-    // ── Delete (esa-confirm-dialog) ──
+    // ── Delete (esa-confirm-dialog) — removes the subtree from DOM AND model ──
     let pendingDelete: HTMLElement | null = null;
     function askDelete(row: HTMLElement) {
       const tier = tierOf(row);
@@ -548,9 +749,19 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
     }
     confirm.addEventListener('confirm', () => {
       if (pendingDelete) {
+        const id = pendingDelete.dataset.id ?? '';
         const parentId = pendingDelete.dataset.parent ?? '';
         blockOf(pendingDelete).forEach((r) => r.remove());
         if (parentId) { const p = rowById(parentId); if (p) refreshCaret(p); }
+        const node = byId.get(id);
+        if (node) {
+          const parent = parentNode.get(id);
+          const list = parent ? parent.children : model;
+          const i = list.indexOf(node);
+          if (i >= 0) list.splice(i, 1);
+          reindex();
+          recompute('structure');
+        }
         pendingDelete = null;
         applyVisibility();
       }
@@ -587,6 +798,18 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
           pendingReparent.dataset.parent = targetId;
           refreshCaret(target);
           applyVisibility();
+          // Model: move the node between parents' children arrays.
+          const node = byId.get(pendingReparent.dataset.id ?? '');
+          const newParent = byId.get(targetId);
+          if (node && newParent) {
+            const oldParent = parentNode.get(node.id);
+            const list = oldParent ? oldParent.children : model;
+            const i = list.indexOf(node);
+            if (i >= 0) list.splice(i, 1);
+            newParent.children.push(node);
+            reindex();
+            recompute('structure');
+          }
         }
       }
       pendingReparent = null;
@@ -606,10 +829,109 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       else if (action === 'delete') askDelete(row);
     });
 
-    // ── Collapse / expand + row select ──
+    // ── Bar drag: ~7px edge hotzones resize by month, body drag moves the bar.
+    //    Snaps to the SAME month boundaries the SSR geometry uses. recompute()
+    //    runs rAF-throttled during the drag so parent brackets re-derive live.
+    const EDGE = 7;
+    let drag: {
+      node: HierNode;
+      mode: 'left' | 'right' | 'move';
+      rect: DOMRect;
+      f0: number;
+      startIdx0: number;
+      endIdx0: number;
+      moved: boolean;
+    } | null = null;
+    let dragEndAt = 0;
+    let dragRaf = 0;
+
+    const zoneAt = (bar: HTMLElement, clientX: number): 'left' | 'right' | 'move' => {
+      const r = bar.getBoundingClientRect();
+      const x = clientX - r.left;
+      return x <= EDGE ? 'left' : x >= r.width - EDGE ? 'right' : 'move';
+    };
+
+    body.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return;
+      const bar = (e.target as HTMLElement).closest?.('.bcn-wb__bar') as HTMLElement | null;
+      if (!bar) return;
+      const row = bar.closest('.bcn-wb__row') as HTMLElement;
+      const node = byId.get(row.dataset.id ?? '');
+      if (!node?.startMonth || !node.endMonth) return;
+      const plot = bar.parentElement as HTMLElement;
+      const rect = plot.getBoundingClientRect();
+      drag = {
+        node,
+        mode: zoneAt(bar, e.clientX),
+        rect,
+        f0: (e.clientX - rect.left) / rect.width,
+        startIdx0: monthIdxOf(node.startMonth),
+        endIdx0: monthIdxOf(node.endMonth),
+        moved: false,
+      };
+      bar.setPointerCapture(e.pointerId);
+      wb.classList.add('is-dragging');
+      e.preventDefault();
+    });
+
+    body.addEventListener('pointermove', (e) => {
+      if (!drag) {
+        // Hover affordance: resize cursor on the edge hotzones, grab on the body.
+        const bar = (e.target as HTMLElement).closest?.('.bcn-wb__bar') as HTMLElement | null;
+        if (bar) bar.style.cursor = zoneAt(bar, e.clientX) === 'move' ? 'grab' : 'ew-resize';
+        return;
+      }
+      const f = Math.max(0, Math.min(1, (e.clientX - drag.rect.left) / drag.rect.width));
+      const n = drag.node;
+      let start = monthIdxOf(n.startMonth!);
+      let end = monthIdxOf(n.endMonth!);
+      if (drag.mode === 'left') {
+        start = Math.min(nearestBoundary(f), end);
+      } else if (drag.mode === 'right') {
+        end = Math.min(Math.max(nearestBoundary(f) - 1, start), TOTAL_MONTHS - 1);
+      } else {
+        const delta = Math.round((f - drag.f0) * TOTAL_MONTHS);
+        const dur = drag.endIdx0 - drag.startIdx0;
+        start = Math.max(0, Math.min(TOTAL_MONTHS - 1 - dur, drag.startIdx0 + delta));
+        end = start + dur;
+      }
+      const s = monthISO(start);
+      const en = monthISO(end);
+      if (s !== n.startMonth || en !== n.endMonth) {
+        n.startMonth = s;
+        n.endMonth = en;
+        drag.moved = true;
+        if (!dragRaf) {
+          dragRaf = requestAnimationFrame(() => {
+            dragRaf = 0;
+            recompute('drag');
+          });
+        }
+      }
+    });
+
+    const endDrag = () => {
+      if (!drag) return;
+      if (drag.moved) {
+        dragEndAt = performance.now();
+        recompute('schedule');
+      }
+      drag = null;
+      wb.classList.remove('is-dragging');
+    };
+    body.addEventListener('pointerup', endDrag);
+    body.addEventListener('pointercancel', endDrag);
+
+    // ── Collapse / expand + row select + visible add-child ──
     wb.querySelector('#bcn-wb-add-program')?.addEventListener('click', addProgram);
     body.addEventListener('click', (e) => {
       const target = e.target as HTMLElement;
+      const add = target.closest('.bcn-wb__add') as HTMLElement | null;
+      if (add) {
+        const row = add.closest('.bcn-wb__row') as HTMLElement;
+        addChild(row);
+        return;
+      }
       const caret = target.closest('.bcn-wb__caret') as HTMLElement | null;
       if (caret) {
         const row = caret.closest('.bcn-wb__row') as HTMLElement;
@@ -623,6 +945,8 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       }
       const trigger = target.closest('.bcn-wb__name-btn, .bcn-wb__bar') as HTMLElement | null;
       if (trigger) {
+        // A completed bar drag ends with a click on the bar — don't open the panel.
+        if (trigger.classList.contains('bcn-wb__bar') && performance.now() - dragEndAt < 350) return;
         const name = trigger.querySelector<HTMLElement>('.bcn-wb__name');
         if (name?.isContentEditable) return; // don't select while renaming
         const row = trigger.closest('.bcn-wb__row') as HTMLElement;
@@ -630,10 +954,17 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
         wb.dispatchEvent(new CustomEvent('wb-node-select', { detail: { id: row.dataset.id }, bubbles: true }));
       }
     });
+
+    // Initial pass: builds the roll-up cache the API serves (SSR geometry is
+    // already correct, so this is a no-op visually).
+    recompute('init');
   });
 </script>
 
-<style>
+<style is:global>
+  /* Global (not Astro-scoped) ON PURPOSE: the CRUD layer creates rows, bars,
+     brackets, and carets AFTER hydration — scoped attribute selectors would miss
+     those client-built elements. Every class is bcn-wb__-namespaced. */
   .bcn-wb {
     display: flex;
     flex-direction: column;
@@ -642,8 +973,9 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
     --_plot-w: 1900px;
     --_row-h: 28px;
   }
+  .bcn-wb.is-dragging { user-select: none; }
+  .bcn-wb.is-dragging .bcn-wb__bar { transition: none; }
 
-  /* ── Toolbar + legend ── */
   /* ── Filter bar (permit-tracking pattern; ecology legos, layout-only CSS) ── */
   .bcn-wb__filterbar { border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface); margin-bottom: var(--spacing-300); }
   .bcn-wb__fb-top { display: flex; align-items: center; gap: var(--spacing-300); flex-wrap: wrap; padding: var(--spacing-250) var(--spacing-400); }
@@ -658,6 +990,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   .bcn-wb__legend-item { display: inline-flex; align-items: center; gap: var(--spacing-150); }
   .bcn-wb__legend-dot { width: 9px; height: 9px; border-radius: var(--radius-full); background: var(--_c); }
   .bcn-wb__legend-summary { width: 20px; height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--color-text-primary) 10%, transparent); border: 1px solid var(--color-border-strong); }
+  .bcn-wb__legend-hint { margin-left: auto; color: var(--color-text-tertiary); }
 
   /* ── Scroll + canvas ── */
   .bcn-wb__scroll { overflow-x: auto; border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface); }
@@ -695,7 +1028,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   .bcn-wb__row:hover .bcn-wb__plot { background: color-mix(in srgb, var(--color-secondary) 4%, transparent); }
   .bcn-wb__row.is-selected .bcn-wb__label { background: var(--color-primary-subtle); }
 
-  /* label cell: indent by depth, disclosure caret, name button, roll-up total, menu */
+  /* label cell: indent by depth, disclosure caret, name button, add-child, menu */
   .bcn-wb__label { display: flex; align-items: center; gap: var(--spacing-150); min-height: var(--_row-h); padding: 0 var(--spacing-200) 0 calc(var(--spacing-200) + var(--_indent) * 18px); border-right: 1px solid var(--color-border); background: var(--color-surface); position: sticky; left: 0; z-index: 3; overflow: hidden; }
   .bcn-wb__row.is-program .bcn-wb__label { background: color-mix(in srgb, var(--color-text-primary) 3%, var(--color-surface)); }
   .bcn-wb__caret { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; padding: 0; border: 0; background: transparent; color: var(--color-text-tertiary); cursor: pointer; flex-shrink: 0; border-radius: var(--radius-100); }
@@ -718,6 +1051,14 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   .bcn-wb__name.is-editing { white-space: normal; outline: 2px solid var(--color-primary); outline-offset: 1px; border-radius: var(--radius-100); background: var(--color-surface); padding: 0 3px; }
   .bcn-wb__row.is-program .bcn-wb__name, .bcn-wb__row.is-study .bcn-wb__name { font-weight: var(--font-weight-semibold); }
 
+  /* Visible add-child affordance: revealed on row hover / keyboard focus.
+     The ⋯ menu keeps rename / reparent / delete. */
+  .bcn-wb__add { flex-shrink: 0; margin-left: auto; display: inline-flex; opacity: 0; transition: opacity 120ms ease; }
+  .bcn-wb__row:hover .bcn-wb__add, .bcn-wb__add:focus-within { opacity: 1; }
+  .bcn-wb__add .esa-icon-button { width: 24px; height: 24px; color: var(--color-text-tertiary); border-radius: var(--radius-100); }
+  .bcn-wb__add .esa-icon-button:hover { color: var(--color-text-primary); background: var(--color-surface-sunken); }
+  .bcn-wb__add + .bcn-wb__menu { margin-left: 0; }
+
   .bcn-wb__menu { flex-shrink: 0; margin-left: auto; }
   .bcn-wb__kebab { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; border: 0; background: transparent; color: var(--color-text-tertiary); border-radius: var(--radius-100); cursor: pointer; font-size: 1rem; line-height: 1; }
   .bcn-wb__kebab:hover { background: var(--color-surface-sunken); color: var(--color-text-primary); }
@@ -739,6 +1080,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
     border-radius: var(--radius-100);
     background: var(--_c);
     padding: 0; cursor: pointer; z-index: 1;
+    touch-action: none;
     transition: filter 120ms ease, box-shadow 120ms ease;
   }
   .bcn-wb__bar:hover { filter: brightness(1.05); box-shadow: 0 0 0 2px color-mix(in srgb, var(--_c) 35%, transparent); }

@@ -57,7 +57,11 @@ const total = Math.max(rollup.taskCount, 1);
   </div>
 </div>
 
-<style>
+<style is:global>
+  /* Global (not Astro-scoped) ON PURPOSE: the node-detail panel re-derives this
+     meter after model edits and rebuilds the segments/count line — scoped
+     attribute selectors would miss those client-built elements. Every class is
+     bcn-rollup__-namespaced. */
   .bcn-rollup { display: flex; flex-direction: column; gap: var(--spacing-300); }
 
   .bcn-rollup__head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); flex-wrap: wrap; }
