@@ -73,6 +73,17 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
     <button type="button" class="bcn-wb__add" id="bcn-wb-add-program">
       <span class="bcn-wb__add-glyph" aria-hidden="true">+</span> Add program
     </button>
+    <div class="bcn-wb__filters">
+      <input type="search" class="bcn-wb__search" id="bcn-wb-search" placeholder="Search name or ID" aria-label="Search rows by name or ID" />
+      <div class="bcn-wb__tier-filter" role="group" aria-label="Filter by tier">
+        <button type="button" class="bcn-wb__tier-btn is-active" data-tier-filter="all">All</button>
+        <button type="button" class="bcn-wb__tier-btn" data-tier-filter="program">Programs</button>
+        <button type="button" class="bcn-wb__tier-btn" data-tier-filter="study">Studies</button>
+        <button type="button" class="bcn-wb__tier-btn" data-tier-filter="substudy">Sub-studies</button>
+        <button type="button" class="bcn-wb__tier-btn" data-tier-filter="task">Tasks</button>
+      </div>
+      <span class="bcn-wb__filter-count" id="bcn-wb-filter-count" hidden></span>
+    </div>
     <div class="bcn-wb__legend">
       {
         LEGEND_STATUSES.map((s) => (
@@ -288,9 +299,66 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       }
       return true;
     }
-    function applyVisibility() {
-      rows().forEach((r) => (r.hidden = !isVisible(r)));
+
+    // ── Tier filter + search. Matches keep their children (whole block) and
+    //    their ancestors for context; an active filter overrides collapse state.
+    const searchInput = wb.querySelector<HTMLInputElement>('#bcn-wb-search');
+    const tierBtns = [...wb.querySelectorAll<HTMLElement>('[data-tier-filter]')];
+    const filterCount = wb.querySelector<HTMLElement>('#bcn-wb-filter-count');
+    let filterTier = 'all';
+    let filterQuery = '';
+
+    function filterSet(): Set<HTMLElement> | null {
+      if (filterTier === 'all' && !filterQuery) return null;
+      const q = filterQuery.toLowerCase();
+      const matches = rows().filter((r) => {
+        if (filterTier !== 'all' && r.dataset.tier !== filterTier) return false;
+        if (!q) return true;
+        const name = r.querySelector('.bcn-wb__name')?.textContent?.toLowerCase() ?? '';
+        return name.includes(q) || (r.dataset.id ?? '').toLowerCase().includes(q);
+      });
+      // Search keeps the matches' children; a bare tier filter acts as an
+      // outline level (that grain and above), else it would show everything.
+      const visible = new Set<HTMLElement>();
+      for (const m of matches) {
+        if (q) blockOf(m).forEach((r) => visible.add(r));
+        else visible.add(m);
+        let p = m.dataset.parent ?? '';
+        while (p) {
+          const pr = rowById(p);
+          if (!pr) break;
+          visible.add(pr);
+          p = pr.dataset.parent ?? '';
+        }
+      }
+      if (filterCount) {
+        filterCount.hidden = false;
+        filterCount.textContent = `${matches.length} ${matches.length === 1 ? 'match' : 'matches'}`;
+      }
+      return visible;
     }
+
+    function applyVisibility() {
+      const set = filterSet();
+      if (set) {
+        rows().forEach((r) => (r.hidden = !set.has(r)));
+      } else {
+        if (filterCount) filterCount.hidden = true;
+        rows().forEach((r) => (r.hidden = !isVisible(r)));
+      }
+    }
+
+    searchInput?.addEventListener('input', () => {
+      filterQuery = searchInput.value.trim();
+      applyVisibility();
+    });
+    tierBtns.forEach((btn) =>
+      btn.addEventListener('click', () => {
+        filterTier = btn.dataset.tierFilter ?? 'all';
+        tierBtns.forEach((b) => b.classList.toggle('is-active', b === btn));
+        applyVisibility();
+      })
+    );
 
     function nextId(tier: Tier): string {
       const prefix = TIER_PREFIX[tier];
@@ -518,6 +586,18 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
 
   /* ── Toolbar + legend ── */
   .bcn-wb__toolbar { display: flex; align-items: center; gap: var(--spacing-400); flex-wrap: wrap; }
+
+  /* ── Search + tier filter ── */
+  .bcn-wb__filters { display: flex; align-items: center; gap: var(--spacing-200); }
+  .bcn-wb__search { width: 220px; padding: var(--spacing-100) var(--spacing-250); font: inherit; font-size: var(--type-size-150); color: var(--color-text-primary); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-200); }
+  .bcn-wb__search::placeholder { color: var(--color-text-tertiary); }
+  .bcn-wb__search:focus-visible { outline: 2px solid var(--color-primary); outline-offset: -1px; }
+  .bcn-wb__tier-filter { display: inline-flex; border: 1px solid var(--color-border); border-radius: var(--radius-200); overflow: hidden; }
+  .bcn-wb__tier-btn { padding: var(--spacing-100) var(--spacing-250); border: 0; background: transparent; font: inherit; font-size: var(--type-size-150); color: var(--color-text-secondary); cursor: pointer; white-space: nowrap; }
+  .bcn-wb__tier-btn + .bcn-wb__tier-btn { border-left: 1px solid var(--color-border-light); }
+  .bcn-wb__tier-btn:hover { background: var(--color-surface-sunken); color: var(--color-text-primary); }
+  .bcn-wb__tier-btn.is-active { background: var(--color-primary-subtle); color: var(--color-primary); font-weight: var(--font-weight-semibold); }
+  .bcn-wb__filter-count { font-size: var(--type-size-150); color: var(--color-text-secondary); font-variant-numeric: tabular-nums; white-space: nowrap; }
   .bcn-wb__add { display: inline-flex; align-items: center; gap: var(--spacing-150); padding: var(--spacing-150) var(--spacing-300); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-primary); background: var(--color-primary-subtle); border: 1px solid var(--color-primary-border); border-radius: var(--radius-200); cursor: pointer; }
   .bcn-wb__add:hover { background: color-mix(in srgb, var(--color-primary) 12%, transparent); }
   .bcn-wb__add-glyph { font-size: 1rem; line-height: 1; }

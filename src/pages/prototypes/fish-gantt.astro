@@ -88,12 +88,6 @@ const fishNav = [
       <EsaStat value={horizon} label="Schedule horizon" sub="water-year anchored" />
     </div>
 
-    <p class="bcn-gantt-note">
-      Four named tiers — <strong>Program → Study → Sub-study → Task</strong> — with the Task as the schedulable month unit.
-      Status, funding, and schedule span roll <strong>up</strong> the tree; open any row to see its identity, timing, funding
-      plan, and status roll-up. Every tier is editable via the ⋯ row menu. Figures are illustrative planning data.
-    </p>
-
     <!-- ═══ The four-tier tasking gantt ═══ -->
     <BcnWorkBreakdown programs={PROGRAMS} today={TODAY} />
   </PageLayout>
@@ -151,7 +145,6 @@ const fishNav = [
   .bcn-gantt-utils a { text-decoration: none; }
 
   .bcn-gantt-stats { display: flex; flex-wrap: wrap; gap: var(--spacing-700); padding: var(--spacing-400) 0 var(--spacing-500); border-bottom: 1px solid var(--color-border); margin-bottom: var(--spacing-400); }
-  .bcn-gantt-note { margin: 0 0 var(--spacing-400); font-size: var(--type-size-400); color: var(--color-text-secondary); line-height: 1.55; max-width: 100ch; }
 
   .bcn-node-head { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; min-width: 0; }
   .bcn-node-head__id { flex-shrink: 0; font-family: var(--font-mono); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 1px var(--spacing-200); border-radius: var(--radius-100); }
