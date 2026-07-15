@@ -21,6 +21,7 @@
 // Water-year axis, phase bands, and milestones are honored exactly as fish-schedule.ts.
 import type { HierNode } from '../../data/fish-model';
 import { computeRollUp, flattenForest, TASK_STATUS_META } from '../../data/fish-model';
+import EsaButton from '@esa/ecology/esa-button.astro';
 import {
   DCP_PHASES,
   MILESTONES,
@@ -68,14 +69,27 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
 ---
 
 <div class="bcn-wb">
-  <!-- ── Toolbar + legend ── -->
-  <div class="bcn-wb__toolbar">
-    <button type="button" class="bcn-wb__add" id="bcn-wb-add-program">
-      <span class="bcn-wb__add-glyph" aria-hidden="true">+</span> Add program
-    </button>
-    <div class="bcn-wb__filters">
-      <esa-text-field id="bcn-wb-search" placeholder="Search name or ID" size="md"></esa-text-field>
-      <esa-button-toggle id="bcn-wb-tier-filter" value="all" size="md"></esa-button-toggle>
+  <!-- ── Filter bar (permit-tracking pattern): controls on top, legend below ── -->
+  <div class="bcn-wb__filterbar">
+    <div class="bcn-wb__fb-top">
+      <span id="bcn-wb-add-program"><EsaButton color="primary" appearance="outline" size="md" icon="plus">Add program</EsaButton></span>
+      <span class="bcn-wb__fb-divider"></span>
+      <div class="bcn-wb__fb-group">
+        <span class="bcn-wb__fb-label">Search</span>
+        <esa-text-field id="bcn-wb-search" placeholder="Search name or ID" size="md"></esa-text-field>
+      </div>
+      <span class="bcn-wb__fb-divider"></span>
+      <div class="bcn-wb__fb-group">
+        <span class="bcn-wb__fb-label">Tier</span>
+        <esa-button-toggle id="bcn-wb-tier-filter" value="all" size="md"></esa-button-toggle>
+      </div>
+      <span class="bcn-wb__fb-divider"></span>
+      <div class="bcn-wb__fb-group">
+        <span class="bcn-wb__fb-label">Years</span>
+        <esa-select id="bcn-wb-year-from" size="md"></esa-select>
+        <span class="bcn-wb__fb-to">to</span>
+        <esa-select id="bcn-wb-year-to" size="md"></esa-select>
+      </div>
       <span class="bcn-wb__filter-count" id="bcn-wb-filter-count" hidden></span>
     </div>
     <div class="bcn-wb__legend">
@@ -91,7 +105,6 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
         <span class="bcn-wb__legend-summary" />
         Roll-up span
       </span>
-      <span class="bcn-wb__legend-hint">Click a row to open its panel · use the ⋯ menu to add, rename, reparent, or delete</span>
     </div>
   </div>
 
@@ -150,6 +163,8 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
               <div
                 class:list={['bcn-wb__row', TIER_CLASS[node.tier], { 'is-leaf': !hasChildren }]}
                 data-id={node.id}
+                data-start={(node.tier === 'task' ? node.startMonth : r.startMonth) ?? ''}
+                data-end={(node.tier === 'task' ? node.endMonth : r.endMonth) ?? ''}
                 data-tier={node.tier}
                 data-depth={depth}
                 data-parent={parentId ?? ''}
@@ -316,11 +331,34 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       ];
     }
 
+    // Year-range filter: bounds derived from the rows' actual spans.
+    const yearFrom = wb.querySelector('#bcn-wb-year-from') as HTMLElement & { options: { value: string; label: string }[]; value: string };
+    const yearTo = wb.querySelector('#bcn-wb-year-to') as HTMLElement & { options: { value: string; label: string }[]; value: string };
+    const spanYears = rows()
+      .flatMap((row) => [row.dataset.start, row.dataset.end])
+      .filter(Boolean)
+      .map((m) => Number((m as string).slice(0, 4)));
+    const minYear = spanYears.length ? Math.min(...spanYears) : 2026;
+    const maxYear = spanYears.length ? Math.max(...spanYears) : 2035;
+    let filterYearFrom = minYear;
+    let filterYearTo = maxYear;
+    const yearOpts = [];
+    for (let y = minYear; y <= maxYear; y++) yearOpts.push({ value: String(y), label: String(y) });
+    if (yearFrom) { yearFrom.options = yearOpts; yearFrom.value = String(minYear); }
+    if (yearTo) { yearTo.options = yearOpts; yearTo.value = String(maxYear); }
+
     function filterSet(): Set<HTMLElement> | null {
-      if (filterTier === 'all' && !filterQuery) return null;
+      const yearNarrowed = filterYearFrom > minYear || filterYearTo < maxYear;
+      if (filterTier === 'all' && !filterQuery && !yearNarrowed) return null;
       const q = filterQuery.toLowerCase();
       const matches = rows().filter((r) => {
         if (filterTier !== 'all' && r.dataset.tier !== filterTier) return false;
+        if (yearNarrowed) {
+          const ds = r.dataset.start;
+          const de = r.dataset.end;
+          if (!ds || !de) return false; // unscheduled rows drop out of a narrowed range
+          if (Number(ds.slice(0, 4)) > filterYearTo || Number(de.slice(0, 4)) < filterYearFrom) return false;
+        }
         if (!q) return true;
         const name = r.querySelector('.bcn-wb__name')?.textContent?.toLowerCase() ?? '';
         return name.includes(q) || (r.dataset.id ?? '').toLowerCase().includes(q);
@@ -362,6 +400,22 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
     });
     tierToggle?.addEventListener('change', (e) => {
       filterTier = ((e as CustomEvent).detail?.value as string) ?? tierToggle.value ?? 'all';
+      applyVisibility();
+    });
+    yearFrom?.addEventListener('change', (e) => {
+      filterYearFrom = Number(((e as CustomEvent).detail?.value as string) ?? yearFrom.value ?? minYear);
+      if (filterYearFrom > filterYearTo) {
+        filterYearTo = filterYearFrom;
+        if (yearTo) yearTo.value = String(filterYearTo);
+      }
+      applyVisibility();
+    });
+    yearTo?.addEventListener('change', (e) => {
+      filterYearTo = Number(((e as CustomEvent).detail?.value as string) ?? yearTo.value ?? maxYear);
+      if (filterYearTo < filterYearFrom) {
+        filterYearFrom = filterYearTo;
+        if (yearFrom) yearFrom.value = String(filterYearFrom);
+      }
       applyVisibility();
     });
 
@@ -590,21 +644,20 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   }
 
   /* ── Toolbar + legend ── */
-  .bcn-wb__toolbar { display: flex; align-items: center; gap: var(--spacing-400); flex-wrap: wrap; }
-
-  /* ── Search + tier filter (ecology legos; layout only here) ── */
-  .bcn-wb__filters { display: flex; align-items: center; gap: var(--spacing-200); }
-  .bcn-wb__filters esa-text-field { width: 220px; }
+  /* ── Filter bar (permit-tracking pattern; ecology legos, layout-only CSS) ── */
+  .bcn-wb__filterbar { border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface); margin-bottom: var(--spacing-300); }
+  .bcn-wb__fb-top { display: flex; align-items: center; gap: var(--spacing-300); flex-wrap: wrap; padding: var(--spacing-250) var(--spacing-400); }
+  .bcn-wb__fb-group { display: inline-flex; align-items: center; gap: var(--spacing-300); }
+  .bcn-wb__fb-group esa-text-field { width: 220px; }
+  .bcn-wb__fb-label { font-size: var(--type-size-150); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); white-space: nowrap; }
+  .bcn-wb__fb-divider { width: 1px; align-self: stretch; background: var(--color-border); margin: 0 var(--spacing-100); }
+  .bcn-wb__fb-to { font-size: var(--type-size-150); color: var(--color-text-tertiary); }
   .bcn-wb__filter-count { font-size: var(--type-size-150); color: var(--color-text-secondary); font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .bcn-wb__add { display: inline-flex; align-items: center; gap: var(--spacing-150); padding: var(--spacing-150) var(--spacing-300); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-primary); background: var(--color-primary-subtle); border: 1px solid var(--color-primary-border); border-radius: var(--radius-200); cursor: pointer; }
-  .bcn-wb__add:hover { background: color-mix(in srgb, var(--color-primary) 12%, transparent); }
-  .bcn-wb__add-glyph { font-size: 1rem; line-height: 1; }
 
-  .bcn-wb__legend { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-300); font-size: var(--type-size-100); color: var(--color-text-secondary); flex: 1; }
+  .bcn-wb__legend { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-300); padding: var(--spacing-200) var(--spacing-400); box-shadow: inset 0 1px 0 var(--color-border-light); font-size: var(--type-size-150); color: var(--color-text-secondary); }
   .bcn-wb__legend-item { display: inline-flex; align-items: center; gap: var(--spacing-150); }
   .bcn-wb__legend-dot { width: 9px; height: 9px; border-radius: var(--radius-full); background: var(--_c); }
   .bcn-wb__legend-summary { width: 20px; height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--color-text-primary) 10%, transparent); border: 1px solid var(--color-border-strong); }
-  .bcn-wb__legend-hint { margin-left: auto; color: var(--color-text-muted); font-style: italic; }
 
   /* ── Scroll + canvas ── */
   .bcn-wb__scroll { overflow-x: auto; border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface); }
@@ -654,7 +707,8 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   .bcn-wb__name-btn { display: flex; align-items: center; gap: var(--spacing-150); min-width: 0; flex: 1; padding: 2px 0; border: 0; background: transparent; cursor: pointer; text-align: left; font: inherit; overflow: hidden; }
   .bcn-wb__name-btn:hover .bcn-wb__name { color: var(--color-primary); text-decoration: underline; }
   .bcn-wb__name-btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; border-radius: var(--radius-100); }
-  .bcn-wb__id { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.8125rem; font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 1px 5px; border-radius: var(--radius-100); }
+  /* 0.8125rem is the adherence hard floor (13px) — visual weight trimmed via padding/weight instead */
+  .bcn-wb__id { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.8125rem; font-weight: var(--font-weight-medium); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 0 4px; border-radius: var(--radius-100); }
   /* Tier ramp — one hue, dark to light down the tree */
   .bcn-wb__row.is-program .bcn-wb__id { background: color-mix(in srgb, var(--color-commitment) 30%, white); color: color-mix(in srgb, var(--color-commitment) 85%, black); }
   .bcn-wb__row.is-study .bcn-wb__id { background: color-mix(in srgb, var(--color-commitment) 20%, white); }
@@ -683,7 +737,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
     height: 16px; min-width: 5px;
     border: 1px solid color-mix(in srgb, var(--_c) 72%, black);
     border-radius: var(--radius-100);
-    background: linear-gradient(90deg, var(--_c) 0%, color-mix(in srgb, var(--_c) 62%, white) 100%);
+    background: var(--_c);
     padding: 0; cursor: pointer; z-index: 1;
     transition: filter 120ms ease, box-shadow 120ms ease;
   }
@@ -691,17 +745,18 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   .bcn-wb__bar:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 1px; }
   .bcn-wb__row.is-selected .bcn-wb__bar { box-shadow: 0 0 0 2px color-mix(in srgb, var(--_c) 45%, transparent); }
 
-  /* parent roll-up bracket — distinct from a status bar */
+  /* parent roll-up brackets — weight steps down the tree so tier reads in the plot */
   .bcn-wb__summary {
     position: absolute; top: 50%; transform: translateY(-50%);
-    height: 8px; min-width: 5px; z-index: 1;
-    background: color-mix(in srgb, var(--color-text-primary) 10%, transparent);
-    border: 1px solid var(--color-border-strong);
-    border-radius: 2px;
+    min-width: 5px; z-index: 1; border-radius: 2px;
   }
+  .bcn-wb__row.is-program .bcn-wb__summary { height: 10px; background: color-mix(in srgb, var(--color-text-primary) 24%, transparent); border: 1px solid var(--color-text-tertiary); }
+  .bcn-wb__row.is-study .bcn-wb__summary { height: 7px; background: color-mix(in srgb, var(--color-text-primary) 15%, transparent); border: 1px solid var(--color-border-strong); }
+  .bcn-wb__row.is-substudy .bcn-wb__summary { height: 4px; background: color-mix(in srgb, var(--color-text-primary) 10%, transparent); border: 0; }
   .bcn-wb__summary::before, .bcn-wb__summary::after { content: ''; position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--color-text-tertiary); }
   .bcn-wb__summary::before { left: 0; }
   .bcn-wb__summary::after { right: 0; }
+  .bcn-wb__row.is-substudy .bcn-wb__summary::before, .bcn-wb__row.is-substudy .bcn-wb__summary::after { display: none; }
 
   /* reparent dialog footer */
   .bcn-wb__dialog-foot { display: flex; justify-content: flex-end; gap: var(--spacing-200); width: 100%; }

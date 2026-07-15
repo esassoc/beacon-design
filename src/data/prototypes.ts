@@ -250,7 +250,7 @@ export const prototypeGroups: PrototypeGroup[] = [
       },
       {
         slug: 'fish-gantt',
-        title: 'Tasking Gantt (work breakdown)',
+        title: 'Study Planning (work breakdown)',
         description:
           'The four-tier work breakdown — Program → Study → Sub-study → Task — that socializes the recursive data model. Stable type-prefixed IDs (PRG/STY/SUB/TSK) are identity, the COA dot-number a secondary reference; the Task is the schedulable month unit whose status, funding, and span roll up to the parents. Add / rename / reparent / delete at every tier; a row side panel reads Identity → Timing → Funding → Roll-up → notes on the water-year axis.',
         route: '/prototypes/fish-gantt',

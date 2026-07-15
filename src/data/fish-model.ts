@@ -383,12 +383,15 @@ export type HealthBucket = 'on-track' | 'at-risk' | 'blocked';
 
 // Health hexes reuse the platform RdYlGn readiness ramp (red = trouble → green =
 // healthy), kept in sync BY VALUE with the fish-studies grid + timeline chips.
+// Bar hexes follow the science-plan prototype's RdYlGn ramp (fish-studies /
+// PLAN_STATUS_META): red = blocked, orange = at risk, light green = moving,
+// deep green = done. Neutral gray for not-started (the ramp carries no neutral).
 export const TASK_STATUS_META: Record<TaskStatus, { label: string; hex: string; bucket: HealthBucket }> = {
   'not-started': { label: 'Not started', hex: '#9aa0a6', bucket: 'on-track' },
-  'on-track': { label: 'On track', hex: '#1a9850', bucket: 'on-track' },
-  'at-risk': { label: 'At risk', hex: '#e8973a', bucket: 'at-risk' },
+  'on-track': { label: 'On track', hex: '#91cf60', bucket: 'on-track' },
+  'at-risk': { label: 'At risk', hex: '#fc8d59', bucket: 'at-risk' },
   blocked: { label: 'Blocked', hex: '#d73027', bucket: 'blocked' },
-  complete: { label: 'Complete', hex: '#2e7571', bucket: 'on-track' },
+  complete: { label: 'Complete', hex: '#1a9850', bucket: 'on-track' },
 };
 
 export const HEALTH_META: Record<HealthBucket, { label: string; hex: string }> = {
