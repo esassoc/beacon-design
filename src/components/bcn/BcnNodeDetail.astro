@@ -127,22 +127,29 @@ const hasNotes = Boolean(node.notes) || Boolean(node.constraints?.length);
 
 <style>
   .bcn-detail { display: flex; flex-direction: column; gap: var(--spacing-500); }
+  /* Panel labels + values are primary reading content — hold the ≥16px floor. The
+     shared bcn-key-value / bcn-status-chip default smaller for dense grids/tables, so
+     scope the bump to this panel rather than enlarging every other consumer. Hints
+     stay a readable ≥14px footnote tier. */
+  .bcn-detail :global(.bcn-key-value__key), .bcn-detail :global(.bcn-key-value__val) { font-size: var(--type-size-400); }
+  .bcn-detail :global(.bcn-key-value__hint) { font-size: var(--type-size-300); }
+  .bcn-detail :global(.bcn-status-chip__label) { font-size: var(--type-size-400); }
   .bcn-detail__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
   .bcn-detail__section--flush { border-top: 1px solid var(--color-border-light); padding-top: var(--spacing-200); }
 
-  .bcn-detail__title { margin: 0; font-size: var(--form-font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); }
+  .bcn-detail__title { margin: 0; font-size: var(--type-size-400); font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); }
 
   .bcn-detail__identity { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; }
-  .bcn-detail__id { font-family: var(--font-mono); font-size: var(--type-size-200); font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 2px var(--spacing-250); border-radius: var(--radius-100); }
-  .bcn-detail__tier { font-size: var(--type-size-100); font-weight: var(--font-weight-medium); color: var(--color-text-tertiary); }
+  .bcn-detail__id { font-family: var(--font-mono); font-size: var(--type-size-400); font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 2px var(--spacing-250); border-radius: var(--radius-100); }
+  .bcn-detail__tier { font-size: var(--type-size-300); font-weight: var(--font-weight-medium); color: var(--color-text-tertiary); }
 
   .bcn-detail__rows { display: flex; flex-direction: column; gap: var(--spacing-300); }
 
   .bcn-detail__status { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; }
-  .bcn-detail__status-lbl { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); color: var(--form-label-color); }
+  .bcn-detail__status-lbl { font-size: var(--type-size-400); font-weight: var(--font-weight-medium); color: var(--form-label-color); }
 
   .bcn-detail__notes { display: flex; flex-direction: column; gap: var(--spacing-200); }
-  .bcn-detail__constraints { margin: 0; padding-left: var(--spacing-400); display: flex; flex-direction: column; gap: var(--spacing-100); font-size: var(--type-size-100); color: var(--color-text-secondary); }
-  .bcn-detail__note { margin: 0; font-size: var(--type-size-100); color: var(--color-text-secondary); line-height: 1.55; }
+  .bcn-detail__constraints { margin: 0; padding-left: var(--spacing-400); display: flex; flex-direction: column; gap: var(--spacing-100); font-size: var(--type-size-400); color: var(--color-text-secondary); }
+  .bcn-detail__note { margin: 0; font-size: var(--type-size-400); color: var(--color-text-secondary); line-height: 1.55; }
   .bcn-detail__note--empty { color: var(--color-text-tertiary); font-style: italic; }
 </style>

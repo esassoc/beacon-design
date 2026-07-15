@@ -61,13 +61,16 @@ const total = Math.max(rollup.taskCount, 1);
   .bcn-rollup { display: flex; flex-direction: column; gap: var(--spacing-300); }
 
   .bcn-rollup__head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); flex-wrap: wrap; }
-  .bcn-rollup__from { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); color: var(--form-label-color); }
+  .bcn-rollup__from { font-size: var(--type-size-400); font-weight: var(--font-weight-medium); color: var(--form-label-color); }
+  /* Status-chip label is key content here — hold the ≥16px reading floor (shared
+     BcnStatusChip defaults smaller for dense tables; scope the bump to this panel). */
+  .bcn-rollup :global(.bcn-status-chip__label) { font-size: var(--type-size-400); }
 
   .bcn-rollup__bar { display: flex; height: 12px; border-radius: var(--radius-full); overflow: hidden; background: var(--color-surface-sunken); border: 1px solid var(--color-border-light); }
   .bcn-rollup__seg { display: block; height: 100%; background: var(--_c); }
   .bcn-rollup__seg + .bcn-rollup__seg { border-left: 1px solid var(--color-surface); }
 
-  .bcn-rollup__counts { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-100) var(--spacing-400); font-size: var(--type-size-100); color: var(--color-text-secondary); }
+  .bcn-rollup__counts { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-100) var(--spacing-400); font-size: var(--type-size-400); color: var(--color-text-secondary); }
   .bcn-rollup__total { font-weight: var(--font-weight-semibold); color: var(--color-text-primary); font-variant-numeric: tabular-nums; }
   .bcn-rollup__count { display: inline-flex; align-items: center; gap: var(--spacing-150); font-variant-numeric: tabular-nums; }
   .bcn-rollup__dot { width: 9px; height: 9px; border-radius: var(--radius-full); background: var(--_c); flex-shrink: 0; }
