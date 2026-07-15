@@ -1,0 +1,99 @@
+---
+// <BcnFundingPlan> — CDFW's dollars-per-water-year funding plan for one node.
+// Funding is enterable at ANY tier; a Task's dollars sum upward, so a parent's
+// plan splits what was entered AT this node ("Own") from what rolled UP from its
+// descendants ("Rolled up"), with the per-water-year total.
+//
+// bcn-lego-checked: no esa-* lego renders a multi-column money-by-period plan
+// table (esa-stat is a single metric; there is no data-table lego — AG Grid is the
+// page-level table kit, overkill for a ≤8-row funding schedule in a detail panel).
+// Checked Beacon (funding lives in exported spreadsheets, no component). bcn-funding-
+// plan is the reusable home; only the money table is bespoke.
+import { formatUSD, type FundingEntry, type NodeRollUp } from '../../data/fish-model';
+
+interface Props {
+  rollup: NodeRollUp;
+  /** Funding entered AT this node (the "Own" column). */
+  ownFunding: FundingEntry[];
+}
+const { rollup, ownFunding } = Astro.props;
+
+const ownByYear = new Map(ownFunding.map((f) => [f.waterYear, f.amount]));
+const rows = rollup.fundingByYear.map((f) => ({
+  wy: f.waterYear,
+  own: ownByYear.get(f.waterYear) ?? 0,
+  sub: f.amount - (ownByYear.get(f.waterYear) ?? 0),
+  total: f.amount,
+}));
+const hasSub = rollup.totalFunding !== rollup.ownFunding;
+const firstYear = rows.at(0)?.wy;
+const lastYear = rows.at(-1)?.wy;
+---
+
+<div class="bcn-funding">
+  <div class="bcn-funding__summary">
+    <span class="bcn-funding__total-val">{formatUSD(rollup.totalFunding)}</span>
+    <span class="bcn-funding__total-lbl">planned{firstYear ? `, WY${firstYear}–${lastYear}` : ''}</span>
+  </div>
+
+  {hasSub && (
+    <div class="bcn-funding__split">
+      <span>{formatUSD(rollup.ownFunding)} at this node</span>
+      <span class="bcn-funding__split-sep">+</span>
+      <span>{formatUSD(rollup.totalFunding - rollup.ownFunding)} rolled up from {rollup.taskCount} tasks</span>
+    </div>
+  )}
+
+  {rows.length > 0 ? (
+    <table class="bcn-funding__table">
+      <thead>
+        <tr>
+          <th scope="col">Water year</th>
+          {hasSub && <th scope="col" class="bcn-funding__num">Own</th>}
+          {hasSub && <th scope="col" class="bcn-funding__num">Rolled up</th>}
+          <th scope="col" class="bcn-funding__num">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr>
+            <th scope="row" class="bcn-funding__year">WY{r.wy}</th>
+            {hasSub && <td class="bcn-funding__num bcn-funding__muted">{r.own ? formatUSD(r.own) : '—'}</td>}
+            {hasSub && <td class="bcn-funding__num bcn-funding__muted">{r.sub ? formatUSD(r.sub) : '—'}</td>}
+            <td class="bcn-funding__num bcn-funding__strong">{formatUSD(r.total)}</td>
+          </tr>
+        ))}
+      </tbody>
+      <tfoot>
+        <tr>
+          <th scope="row">Total</th>
+          {hasSub && <td class="bcn-funding__num bcn-funding__muted">{formatUSD(rollup.ownFunding)}</td>}
+          {hasSub && <td class="bcn-funding__num bcn-funding__muted">{formatUSD(rollup.totalFunding - rollup.ownFunding)}</td>}
+          <td class="bcn-funding__num bcn-funding__strong">{formatUSD(rollup.totalFunding)}</td>
+        </tr>
+      </tfoot>
+    </table>
+  ) : (
+    <p class="bcn-funding__empty">No funding plan entered at this node.</p>
+  )}
+</div>
+
+<style>
+  .bcn-funding { display: flex; flex-direction: column; gap: var(--spacing-300); }
+
+  .bcn-funding__summary { display: flex; align-items: baseline; gap: var(--spacing-200); flex-wrap: wrap; }
+  .bcn-funding__total-val { font-family: var(--font-decorative); font-size: var(--type-size-500); font-weight: var(--font-weight-bold); color: var(--color-text-primary); line-height: 1.1; }
+  .bcn-funding__total-lbl { font-size: var(--type-size-100); color: var(--color-text-secondary); }
+  .bcn-funding__split { display: flex; align-items: center; gap: var(--spacing-150); flex-wrap: wrap; font-size: var(--type-size-100); color: var(--color-text-secondary); }
+  .bcn-funding__split-sep { color: var(--color-text-muted); font-weight: var(--font-weight-semibold); }
+
+  .bcn-funding__table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  .bcn-funding__table th, .bcn-funding__table td { padding: var(--spacing-150) var(--spacing-200); font-size: var(--type-size-100); text-align: left; border-bottom: 1px solid var(--color-border-light); }
+  .bcn-funding__table thead th { font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); border-bottom: 1px solid var(--color-border); }
+  .bcn-funding__num { text-align: right; }
+  .bcn-funding__year { font-family: var(--font-mono); font-weight: var(--font-weight-medium); color: var(--color-text-secondary); }
+  .bcn-funding__muted { color: var(--color-text-secondary); }
+  .bcn-funding__strong { font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-funding__table tfoot th, .bcn-funding__table tfoot td { border-top: 1px solid var(--color-border-strong); border-bottom: 0; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-funding__empty { margin: 0; font-size: var(--type-size-100); color: var(--color-text-tertiary); font-style: italic; }
+</style>

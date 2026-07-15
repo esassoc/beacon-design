@@ -1,0 +1,74 @@
+---
+// <BcnRollupSummary> — the AT-A-GLANCE status roll-up for a PARENT node
+// (Program / Study / Sub-study). Andy's note on the prior prototype was that the
+// rolled-up status was "not legible"; this makes the aggregate obvious:
+//   • a prominent aggregate chip (worst-case: blocked > at-risk > complete > on-track),
+//   • a proportional health bar across the subtree's tasks,
+//   • an explicit "X of N on track · Y at risk · Z blocked" count line.
+//
+// bcn-lego-checked: no esa-* lego renders a multi-bucket status meter — esa-progress-bar
+// is a SINGLE value/one variant, esa-badge/esa-pill are fixed-variant. Checked Beacon
+// (roll-up status lives in exported spreadsheets, no component). The aggregate CHIP
+// reuses bcn-status-chip; only the segmented bar + count line are bespoke. bcn-rollup-
+// summary is the reusable home for the legible parent roll-up.
+import BcnStatusChip from './BcnStatusChip.astro';
+import { TASK_STATUS_META, HEALTH_META, type NodeRollUp } from '../../data/fish-model';
+
+interface Props {
+  rollup: NodeRollUp;
+  /** Direct child count + label, e.g. 3 "studies" / 2 "sub-studies" / 4 "tasks". */
+  childCount: number;
+  childLabel: string;
+}
+const { rollup, childCount, childLabel } = Astro.props;
+
+const agg = TASK_STATUS_META[rollup.aggregate];
+// Segments in worst→best reading order so trouble reads left. `complete` uses its
+// own teal; the healthy remainder is green.
+const segments = [
+  { key: 'blocked', count: rollup.blocked, hex: HEALTH_META.blocked.hex, label: 'blocked' },
+  { key: 'at-risk', count: rollup.atRisk, hex: HEALTH_META['at-risk'].hex, label: 'at risk' },
+  { key: 'on-track', count: rollup.onTrack, hex: HEALTH_META['on-track'].hex, label: 'on track' },
+  { key: 'complete', count: rollup.complete, hex: TASK_STATUS_META.complete.hex, label: 'complete' },
+].filter((s) => s.count > 0);
+const total = Math.max(rollup.taskCount, 1);
+---
+
+<div class="bcn-rollup">
+  <div class="bcn-rollup__head">
+    <span class="bcn-rollup__from">Rolled up from {childCount} {childLabel}</span>
+    <BcnStatusChip status={rollup.aggregate} label={agg.label} hex={agg.hex} />
+  </div>
+
+  <div class="bcn-rollup__bar" role="img" aria-label={`${rollup.taskCount} tasks: ${rollup.onTrack} on track, ${rollup.atRisk} at risk, ${rollup.blocked} blocked, ${rollup.complete} complete`}>
+    {segments.map((s) => (
+      <span class="bcn-rollup__seg" style={`width: ${(s.count / total) * 100}%; --_c: ${s.hex};`} title={`${s.count} ${s.label}`}></span>
+    ))}
+  </div>
+
+  <div class="bcn-rollup__counts">
+    <span class="bcn-rollup__total">{rollup.taskCount} {rollup.taskCount === 1 ? 'task' : 'tasks'}</span>
+    <span class="bcn-rollup__count"><span class="bcn-rollup__dot" style={`--_c: ${HEALTH_META['on-track'].hex};`}></span>{rollup.onTrack} on track</span>
+    <span class="bcn-rollup__count"><span class="bcn-rollup__dot" style={`--_c: ${HEALTH_META['at-risk'].hex};`}></span>{rollup.atRisk} at risk</span>
+    <span class="bcn-rollup__count"><span class="bcn-rollup__dot" style={`--_c: ${HEALTH_META.blocked.hex};`}></span>{rollup.blocked} blocked</span>
+    {rollup.complete > 0 && (
+      <span class="bcn-rollup__count"><span class="bcn-rollup__dot" style={`--_c: ${TASK_STATUS_META.complete.hex};`}></span>{rollup.complete} complete</span>
+    )}
+  </div>
+</div>
+
+<style>
+  .bcn-rollup { display: flex; flex-direction: column; gap: var(--spacing-300); }
+
+  .bcn-rollup__head { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); flex-wrap: wrap; }
+  .bcn-rollup__from { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); color: var(--form-label-color); }
+
+  .bcn-rollup__bar { display: flex; height: 12px; border-radius: var(--radius-full); overflow: hidden; background: var(--color-surface-sunken); border: 1px solid var(--color-border-light); }
+  .bcn-rollup__seg { display: block; height: 100%; background: var(--_c); }
+  .bcn-rollup__seg + .bcn-rollup__seg { border-left: 1px solid var(--color-surface); }
+
+  .bcn-rollup__counts { display: flex; flex-wrap: wrap; align-items: center; gap: var(--spacing-100) var(--spacing-400); font-size: var(--type-size-100); color: var(--color-text-secondary); }
+  .bcn-rollup__total { font-weight: var(--font-weight-semibold); color: var(--color-text-primary); font-variant-numeric: tabular-nums; }
+  .bcn-rollup__count { display: inline-flex; align-items: center; gap: var(--spacing-150); font-variant-numeric: tabular-nums; }
+  .bcn-rollup__dot { width: 9px; height: 9px; border-radius: var(--radius-full); background: var(--_c); flex-shrink: 0; }
+</style>

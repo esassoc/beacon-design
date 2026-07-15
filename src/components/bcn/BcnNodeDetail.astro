@@ -1,0 +1,148 @@
+---
+// <BcnNodeDetail> — the row side-panel body for one work-breakdown node. Reads
+// top-to-bottom in the locked order (Andy, decision 5):
+//   Identity → Timing → Funding → Roll-up (parents only) → constraints/notes (collapsed).
+//
+// bcn-lego-checked: this is a COMPOSITION of legos — bcn-key-value (identity/timing
+// rows), bcn-status-chip (task status), bcn-funding-plan (dollars/water-year),
+// bcn-rollup-summary (the legible parent roll-up), and the esa-collapsible lego for
+// the collapsed constraints/notes. No reinvented primitive; the only page-side CSS is
+// section-stacking glue. bcn-node-detail is the reusable home for the panel body.
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import BcnKeyValue from './BcnKeyValue.astro';
+import BcnStatusChip from './BcnStatusChip.astro';
+import BcnFundingPlan from './BcnFundingPlan.astro';
+import BcnRollupSummary from './BcnRollupSummary.astro';
+import {
+  TIER_META,
+  TASK_STATUS_META,
+  FIELD_SEASON_META,
+  monthLabel,
+  waterYearOf,
+  fieldSeasonOf,
+  type HierNode,
+  type NodeRollUp,
+} from '../../data/fish-model';
+
+interface Props {
+  node: HierNode;
+  rollup: NodeRollUp;
+  parentName?: string;
+}
+const { node, rollup, parentName } = Astro.props;
+
+const tier = TIER_META[node.tier];
+const isTask = node.tier === 'task';
+const isParent = node.children.length > 0;
+
+// Timing values: a Task uses its own months; a parent shows its rolled-up span.
+const startMonth = isTask ? node.startMonth : rollup.startMonth;
+const endMonth = isTask ? node.endMonth : rollup.endMonth;
+const wyStart = startMonth ? waterYearOf(startMonth) : undefined;
+const wyEnd = endMonth ? waterYearOf(endMonth) : undefined;
+const wyLabel = wyStart ? (wyStart === wyEnd ? `WY${wyStart}` : `WY${wyStart}–WY${wyEnd}`) : '—';
+const startSeason = startMonth ? FIELD_SEASON_META[fieldSeasonOf(startMonth)] : undefined;
+const endSeason = endMonth ? FIELD_SEASON_META[fieldSeasonOf(endMonth)] : undefined;
+
+// Roll-up child label (plural of the child tier: studies / sub-studies / tasks).
+const childTier = node.children[0]?.tier;
+const pluralize = (w: string) => (w.endsWith('y') ? `${w.slice(0, -1)}ies` : `${w}s`);
+const childLabel = childTier ? pluralize(TIER_META[childTier].label.toLowerCase()) : '';
+
+const st = node.status ? TASK_STATUS_META[node.status] : undefined;
+const hasNotes = Boolean(node.notes) || Boolean(node.constraints?.length);
+---
+
+<div class="bcn-detail">
+  <!-- ── 1 · Identity ── -->
+  <section class="bcn-detail__section">
+    <h3 class="bcn-detail__title">Identity</h3>
+    <div class="bcn-detail__identity">
+      <span class="bcn-detail__id">{node.id}</span>
+      <span class="bcn-detail__tier">{tier.label}</span>
+    </div>
+    <div class="bcn-detail__rows">
+      <BcnKeyValue label="Name" value={node.name} />
+      <BcnKeyValue label="COA reference" value={node.coaRef ?? '—'} hint="ITP Condition of Approval — reference label, not the record id" />
+      {parentName && <BcnKeyValue label="Parent" value={parentName} />}
+    </div>
+  </section>
+
+  <!-- ── 2 · Timing (fish-study calendar: water years + field seasons) ── -->
+  <section class="bcn-detail__section">
+    <h3 class="bcn-detail__title">Timing</h3>
+    {isTask ? (
+      <div class="bcn-detail__rows">
+        <BcnKeyValue label="Start" value={monthLabel(startMonth)} hint={startSeason ? startSeason.label : undefined} />
+        <BcnKeyValue label="End" value={monthLabel(endMonth)} hint={endSeason ? endSeason.label : undefined} />
+        <BcnKeyValue label="Water years" value={wyLabel} />
+        <BcnKeyValue label="Owner" value={node.owner ?? '—'} />
+        {st && (
+          <div class="bcn-detail__status">
+            <span class="bcn-detail__status-lbl">Status</span>
+            <BcnStatusChip status={node.status!} label={st.label} hex={st.hex} />
+          </div>
+        )}
+      </div>
+    ) : (
+      <div class="bcn-detail__rows">
+        <BcnKeyValue label="Rolled-up span" value={`${monthLabel(startMonth)} – ${monthLabel(endMonth)}`} hint="min start → max end across all tasks in this branch" />
+        <BcnKeyValue label="Water years" value={wyLabel} />
+      </div>
+    )}
+  </section>
+
+  <!-- ── 3 · Funding (CDFW dollars per water year; tasks sum upward) ── -->
+  <section class="bcn-detail__section">
+    <h3 class="bcn-detail__title">Funding plan</h3>
+    <BcnFundingPlan rollup={rollup} ownFunding={node.funding} />
+  </section>
+
+  <!-- ── 4 · Roll-up (PARENT nodes only) ── -->
+  {isParent && (
+    <section class="bcn-detail__section">
+      <h3 class="bcn-detail__title">Status roll-up</h3>
+      <BcnRollupSummary rollup={rollup} childCount={node.children.length} childLabel={childLabel} />
+    </section>
+  )}
+
+  <!-- ── 5 · Constraints / notes (collapsed by default) ── -->
+  <section class="bcn-detail__section bcn-detail__section--flush">
+    <EsaCollapsible title="Constraints & notes" flush open={false}>
+      {hasNotes ? (
+        <div class="bcn-detail__notes">
+          {node.constraints && node.constraints.length > 0 && (
+            <ul class="bcn-detail__constraints">
+              {node.constraints.map((c) => <li>{c}</li>)}
+            </ul>
+          )}
+          {node.notes && <p class="bcn-detail__note">{node.notes}</p>}
+        </div>
+      ) : (
+        <p class="bcn-detail__note bcn-detail__note--empty">None recorded.</p>
+      )}
+    </EsaCollapsible>
+  </section>
+</div>
+
+<style>
+  .bcn-detail { display: flex; flex-direction: column; gap: var(--spacing-500); }
+  .bcn-detail__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-detail__section--flush { border-top: 1px solid var(--color-border-light); padding-top: var(--spacing-200); }
+
+  .bcn-detail__title { margin: 0; font-size: var(--form-font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); }
+
+  .bcn-detail__identity { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; }
+  .bcn-detail__id { font-family: var(--font-mono); font-size: var(--type-size-200); font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 2px var(--spacing-250); border-radius: var(--radius-100); }
+  .bcn-detail__tier { font-size: var(--type-size-100); font-weight: var(--font-weight-medium); color: var(--color-text-tertiary); }
+
+  .bcn-detail__rows { display: flex; flex-direction: column; gap: var(--spacing-300); }
+
+  .bcn-detail__status { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; }
+  .bcn-detail__status-lbl { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); color: var(--form-label-color); }
+
+  .bcn-detail__notes { display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-detail__constraints { margin: 0; padding-left: var(--spacing-400); display: flex; flex-direction: column; gap: var(--spacing-100); font-size: var(--type-size-100); color: var(--color-text-secondary); }
+  .bcn-detail__note { margin: 0; font-size: var(--type-size-100); color: var(--color-text-secondary); line-height: 1.55; }
+  .bcn-detail__note--empty { color: var(--color-text-tertiary); font-style: italic; }
+</style>

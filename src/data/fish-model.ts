@@ -337,3 +337,244 @@ export const SPECIES_CATALOG: FocalSpecies[] = [
 
 export const PROJECT_NAME = 'Covered Fish Species Monitoring & Science Plan';
 export const PROJECT_SUBTITLE = 'Delta Conveyance Project — CESA Incidental Take Permit';
+
+// ═════════════════════════════════════════════════════════════════════════════
+// FOUR-TIER WORK-BREAKDOWN MODEL — the Tasking Gantt's data contract.
+//
+// The 7/8 data-model decision gave fish-study compliance a recursive hierarchy.
+// The second prototype socializes THAT model as a work breakdown with named tiers:
+//
+//     Program → Study → Sub-study → Task
+//
+// Design decisions locked by Andy (this contract implements all five):
+//   1. FOUR named tiers (was three), CRUD at every tier (UI-level in the component).
+//   2. NO dependency dimension — informs/informed-by is dropped from this view.
+//   3. IDENTITY is a stable, type-prefixed id (PRG-###/STY-###/SUB-###/TSK-###).
+//      The ITP COA dot-number ("10.19.1") is a secondary REFERENCE label only.
+//   4. The TASK (4th tier) is the schedulable, month-by-month unit — it owns the
+//      start/end months, the owner, and the status. Everything ROLLS UP from
+//      tasks: Task → Sub-study → Study → Program (status + funding + span).
+//   5. The row side panel reads Identity → Timing → Funding → Roll-up → notes.
+//
+// The month-scale schedule still honors the fish-study calendar (water-year
+// deadlines, half-year field seasons) from ./fish-schedule.ts — the axis, phase
+// bands, and milestones are shared with the flat timeline. Dollar figures are
+// ILLUSTRATIVE planning magnitudes, not CDFW/DWR contract values.
+// ═════════════════════════════════════════════════════════════════════════════
+
+export type NodeTier = 'program' | 'study' | 'substudy' | 'task';
+export type TierPrefix = 'PRG' | 'STY' | 'SUB' | 'TSK';
+
+/** Per-tier display + the type prefix that stamps a node's stable id. */
+export const TIER_META: Record<NodeTier, { label: string; prefix: TierPrefix; childLabel: string }> = {
+  program: { label: 'Program', prefix: 'PRG', childLabel: 'Study' },
+  study: { label: 'Study', prefix: 'STY', childLabel: 'Sub-study' },
+  substudy: { label: 'Sub-study', prefix: 'SUB', childLabel: 'Task' },
+  task: { label: 'Task', prefix: 'TSK', childLabel: '' },
+};
+
+export const TIER_ORDER: NodeTier[] = ['program', 'study', 'substudy', 'task'];
+
+/** Leaf-task execution status (richer than the 3-bucket roll-up health). */
+export type TaskStatus = 'not-started' | 'on-track' | 'at-risk' | 'blocked' | 'complete';
+
+/** The 3-bucket health the roll-up breakdown reports ("X on track · Y at risk · Z blocked"). */
+export type HealthBucket = 'on-track' | 'at-risk' | 'blocked';
+
+// Health hexes reuse the platform RdYlGn readiness ramp (red = trouble → green =
+// healthy), kept in sync BY VALUE with the fish-studies grid + timeline chips.
+export const TASK_STATUS_META: Record<TaskStatus, { label: string; hex: string; bucket: HealthBucket }> = {
+  'not-started': { label: 'Not started', hex: '#9aa0a6', bucket: 'on-track' },
+  'on-track': { label: 'On track', hex: '#1a9850', bucket: 'on-track' },
+  'at-risk': { label: 'At risk', hex: '#e8973a', bucket: 'at-risk' },
+  blocked: { label: 'Blocked', hex: '#d73027', bucket: 'blocked' },
+  complete: { label: 'Complete', hex: '#2e7571', bucket: 'on-track' },
+};
+
+export const HEALTH_META: Record<HealthBucket, { label: string; hex: string }> = {
+  'on-track': { label: 'On track', hex: '#1a9850' },
+  'at-risk': { label: 'At risk', hex: '#e8973a' },
+  blocked: { label: 'Blocked', hex: '#d73027' },
+};
+
+/** One water year of planned dollars entered AT a node. */
+export interface FundingEntry {
+  /** Water year (WY): Oct 1 of the prior calendar year — see fish-schedule.ts. */
+  waterYear: number;
+  amount: number;
+}
+
+/** A node in the 4-tier work breakdown. Recursive; leaves (Tasks) carry the schedule. */
+export interface HierNode {
+  /** STABLE, type-prefixed identity — PRG-###/STY-###/SUB-###/TSK-###. THE identity (not the COA). */
+  id: string;
+  tier: NodeTier;
+  name: string;
+  /** Secondary REFERENCE label only: the ITP Condition-of-Approval dot-number ("10.19.1"). NOT identity. */
+  coaRef?: string;
+  /** Leaf (Task) schedule — the schedulable month-by-month unit. ISO 'YYYY-MM'. Parents derive span from descendants. */
+  startMonth?: string;
+  endMonth?: string;
+  /** Leaf (Task) owner (org or org — person). */
+  owner?: string;
+  /** Leaf (Task) execution status; parents roll it up. */
+  status?: TaskStatus;
+  /** Per-water-year funding entered AT this node (dollars). Task funding sums upward. */
+  funding: FundingEntry[];
+  /** Free-text note shown (collapsed) in the panel's constraints/notes block. */
+  notes?: string;
+  /** Schedule/scope constraints shown (collapsed) in the panel's constraints/notes block. */
+  constraints?: string[];
+  children: HierNode[];
+}
+
+/** The aggregate computed for a node from its subtree — the roll-up. */
+export interface NodeRollUp {
+  /** Leaf tasks in this subtree (1 for a Task itself). */
+  taskCount: number;
+  /** Healthy, not-yet-complete leaves (on-track + not-started). */
+  onTrack: number;
+  atRisk: number;
+  blocked: number;
+  complete: number;
+  /** Worst-case aggregate for the chip: blocked > at-risk > (complete iff all done) > on-track. */
+  aggregate: TaskStatus;
+  startMonth?: string;
+  endMonth?: string;
+  /** Funding entered AT this node (own). */
+  ownFunding: number;
+  /** own + all descendants. */
+  totalFunding: number;
+  /** Subtree funding (own + descendants) summed by water year, ascending. */
+  fundingByYear: FundingEntry[];
+}
+
+/** One flattened render row: the node plus its depth + lineage. */
+export interface FlatRow {
+  node: HierNode;
+  depth: number;
+  parentId?: string;
+  ancestors: HierNode[];
+}
+
+/** Compact USD label: $4.3M / $560k / $900. */
+export const formatUSD = (n: number): string =>
+  n >= 1_000_000
+    ? `$${(n / 1_000_000).toFixed(n % 1_000_000 === 0 ? 0 : 1)}M`
+    : n >= 1_000
+      ? `$${Math.round(n / 1_000)}k`
+      : `$${n}`;
+
+const MONTH_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+/** 'YYYY-MM' → "Apr 2029". */
+export function monthLabel(iso?: string): string {
+  if (!iso) return '—';
+  const [y, m] = iso.split('-').map(Number);
+  return `${MONTH_ABBR[(m || 1) - 1]} ${y}`;
+}
+
+/** Water year of a month: Oct–Dec roll into the NEXT water year (freshet anchoring). */
+export function waterYearOf(iso: string): number {
+  const [y, m] = iso.split('-').map(Number);
+  return m >= 10 ? y + 1 : y;
+}
+
+/** Field-season half a month falls in: freshet (Oct–Mar deploy/tag) vs dry (Apr–Sep install/analyze/report). */
+export function fieldSeasonOf(iso: string): 'freshet' | 'dry' {
+  const m = Number(iso.split('-')[1]);
+  return m >= 4 && m <= 9 ? 'dry' : 'freshet';
+}
+
+export const FIELD_SEASON_META = {
+  freshet: { label: 'Winter freshet (Oct–Mar)', short: 'Freshet' },
+  dry: { label: 'Dry season (Apr–Sep)', short: 'Dry' },
+} as const;
+
+const sumFunding = (entries: FundingEntry[]): number => entries.reduce((a, e) => a + e.amount, 0);
+
+function mergeByYear(...lists: FundingEntry[][]): FundingEntry[] {
+  const acc = new Map<number, number>();
+  for (const list of lists) for (const e of list) acc.set(e.waterYear, (acc.get(e.waterYear) ?? 0) + e.amount);
+  return [...acc.entries()].sort((a, b) => a[0] - b[0]).map(([waterYear, amount]) => ({ waterYear, amount }));
+}
+
+const minMonth = (a?: string, b?: string): string | undefined => (!a ? b : !b ? a : a < b ? a : b);
+const maxMonth = (a?: string, b?: string): string | undefined => (!a ? b : !b ? a : a > b ? a : b);
+
+/**
+ * Roll a node up from its subtree: status health, schedule span, and funding all
+ * aggregate Task → Sub-study → Study → Program. A leaf returns its own values.
+ */
+export function computeRollUp(node: HierNode): NodeRollUp {
+  const ownFunding = sumFunding(node.funding);
+
+  if (node.children.length === 0) {
+    const status = node.status ?? 'on-track';
+    const bucket = TASK_STATUS_META[status].bucket;
+    const isTask = node.tier === 'task';
+    return {
+      taskCount: isTask ? 1 : 0,
+      onTrack: isTask && bucket === 'on-track' && status !== 'complete' ? 1 : 0,
+      atRisk: isTask && bucket === 'at-risk' ? 1 : 0,
+      blocked: isTask && bucket === 'blocked' ? 1 : 0,
+      complete: isTask && status === 'complete' ? 1 : 0,
+      aggregate: status,
+      startMonth: node.startMonth,
+      endMonth: node.endMonth,
+      ownFunding,
+      totalFunding: ownFunding,
+      fundingByYear: mergeByYear(node.funding),
+    };
+  }
+
+  const childRolls = node.children.map(computeRollUp);
+  let taskCount = 0,
+    onTrack = 0,
+    atRisk = 0,
+    blocked = 0,
+    complete = 0;
+  let startMonth: string | undefined;
+  let endMonth: string | undefined;
+  for (const c of childRolls) {
+    taskCount += c.taskCount;
+    onTrack += c.onTrack;
+    atRisk += c.atRisk;
+    blocked += c.blocked;
+    complete += c.complete;
+    startMonth = minMonth(startMonth, c.startMonth);
+    endMonth = maxMonth(endMonth, c.endMonth);
+  }
+  const aggregate: TaskStatus =
+    blocked > 0 ? 'blocked' : atRisk > 0 ? 'at-risk' : taskCount > 0 && complete === taskCount ? 'complete' : 'on-track';
+
+  return {
+    taskCount,
+    onTrack,
+    atRisk,
+    blocked,
+    complete,
+    aggregate,
+    startMonth,
+    endMonth,
+    ownFunding,
+    totalFunding: ownFunding + childRolls.reduce((a, c) => a + c.totalFunding, 0),
+    fundingByYear: mergeByYear(node.funding, ...childRolls.map((c) => c.fundingByYear)),
+  };
+}
+
+/** Depth-first flatten of a forest (top-level = Programs at depth 0). */
+export function flattenForest(nodes: HierNode[]): FlatRow[] {
+  const out: FlatRow[] = [];
+  const walk = (node: HierNode, depth: number, ancestors: HierNode[]) => {
+    out.push({ node, depth, parentId: ancestors.at(-1)?.id, ancestors });
+    for (const child of node.children) walk(child, depth + 1, [...ancestors, node]);
+  };
+  for (const node of nodes) walk(node, 0, []);
+  return out;
+}
+
+/** Whole-plan roll-up across a forest of Programs (for the header KPIs). */
+export function forestRollUp(nodes: HierNode[]): NodeRollUp {
+  return computeRollUp({ id: 'PLAN', tier: 'program', name: 'plan', funding: [], children: nodes });
+}

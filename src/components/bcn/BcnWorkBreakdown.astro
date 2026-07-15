@@ -1,0 +1,637 @@
+---
+// <BcnWorkBreakdown> — the four-tier tasking gantt / work breakdown.
+//
+// bcn-lego-checked: no esa-* lego renders a recursive, collapsible work-breakdown
+// gantt with month-scale bars and roll-up spans — esa-progress-bar is a single bar,
+// esa-stat/esa-card are static, and the flat BcnScheduleTimeline is single-level with
+// no tree nesting or roll-up brackets. Checked Beacon prod (no gantt component;
+// scheduling lives in exported spreadsheets). The disclosure caret + inline row bar are
+// gantt affordances (esa-icon-button is too heavy for a 12px twisty). Everything that
+// HAS a lego uses it: the row-action menu is esa-dropdown-menu, delete is esa-confirm-
+// dialog, reparent is esa-dialog + esa-select. bcn-work-breakdown is the reusable home.
+//
+// vs. the prior prototype (Andy's five locked decisions):
+//   1. FOUR named tiers (Program → Study → Sub-study → Task), CRUD at every tier.
+//   2. NO dependency arrows — that dimension is dropped from this view.
+//   3. Stable type-prefixed IDS are identity; the COA dot-number rides as a muted
+//      secondary reference label next to the id.
+//   4. The TASK is the schedulable month unit (status-colored bar); parents draw a
+//      neutral roll-up bracket spanning their tasks' min-start → max-end.
+//   5. Clicking a row opens its side panel (host wires the drawer via wb-node-select).
+// Water-year axis, phase bands, and milestones are honored exactly as fish-schedule.ts.
+import type { HierNode } from '../../data/fish-model';
+import { computeRollUp, flattenForest, formatUSD, TASK_STATUS_META } from '../../data/fish-model';
+import {
+  DCP_PHASES,
+  MILESTONES,
+  PHASE_META,
+  axisFraction,
+  axisYears,
+  SCHEDULE_START_YEAR,
+  SCHEDULE_END_YEAR,
+} from '../../data/fish-schedule';
+
+interface Props {
+  programs: HierNode[];
+  /** ISO date for the TODAY marker; omit to hide it. */
+  today?: string;
+}
+const { programs, today } = Astro.props;
+
+const flat = flattenForest(programs);
+const rollups = new Map(flat.map((f) => [f.node.id, computeRollUp(f.node)]));
+
+const years = axisYears();
+const span = SCHEDULE_END_YEAR - SCHEDULE_START_YEAR;
+const pct = (n: number) => `${(n * 100).toFixed(2)}%`;
+const yearFrac = (y: number) => (y - SCHEDULE_START_YEAR) / span;
+
+// Bar geometry: a Task uses its own months; a parent uses its rolled-up span.
+function barGeo(node: HierNode): { left: string; width: string } | null {
+  const r = rollups.get(node.id)!;
+  const startISO = node.tier === 'task' ? node.startMonth : r.startMonth;
+  const endISO = node.tier === 'task' ? node.endMonth : r.endMonth;
+  if (!startISO || !endISO) return null;
+  const left = axisFraction(`${startISO}-01`);
+  const right = axisFraction(`${endISO}-28`);
+  return { left: pct(left), width: pct(Math.max(right - left, 0.005)) };
+}
+
+// Legend statuses (leaf-task health ramp) + the roll-up bracket swatch.
+const LEGEND_STATUSES = ['complete', 'on-track', 'at-risk', 'blocked', 'not-started'] as const;
+const TIER_CLASS: Record<HierNode['tier'], string> = {
+  program: 'is-program',
+  study: 'is-study',
+  substudy: 'is-substudy',
+  task: 'is-task',
+};
+---
+
+<div class="bcn-wb">
+  <!-- ── Toolbar + legend ── -->
+  <div class="bcn-wb__toolbar">
+    <button type="button" class="bcn-wb__add" id="bcn-wb-add-program">
+      <span class="bcn-wb__add-glyph" aria-hidden="true">+</span> Add program
+    </button>
+    <div class="bcn-wb__legend">
+      {
+        LEGEND_STATUSES.map((s) => (
+          <span class="bcn-wb__legend-item">
+            <span class="bcn-wb__legend-dot" style={`--_c: ${TASK_STATUS_META[s].hex};`} />
+            {TASK_STATUS_META[s].label}
+          </span>
+        ))
+      }
+      <span class="bcn-wb__legend-item">
+        <span class="bcn-wb__legend-summary" />
+        Roll-up span
+      </span>
+      <span class="bcn-wb__legend-hint">Click a row to open its panel · use the ⋯ menu to add, rename, reparent, or delete</span>
+    </div>
+  </div>
+
+  <div class="bcn-wb__scroll">
+    <div class="bcn-wb__canvas">
+      <!-- ── Axis header: phases / years / milestones (water-year aware) ── -->
+      <header class="bcn-wb__axis">
+        <div class="bcn-wb__corner">Program / study / sub-study / task</div>
+        <div class="bcn-wb__head-plot">
+          <div class="bcn-wb__head-bands">
+            {
+              DCP_PHASES.map((p) => (
+                <span class="bcn-wb__band" data-phase={p.id} style={`left: ${pct(yearFrac(p.startYear))}; width: ${pct(yearFrac(p.endYear) - yearFrac(p.startYear))};`} />
+              ))
+            }
+          </div>
+          <div class="bcn-wb__head-phases">
+            {
+              DCP_PHASES.map((p) => (
+                <span class="bcn-wb__phase-tag" style={`left: ${pct(yearFrac(p.startYear))}; width: ${pct(yearFrac(p.endYear) - yearFrac(p.startYear))};`}>
+                  {PHASE_META[p.id].short}
+                </span>
+              ))
+            }
+          </div>
+          <div class="bcn-wb__head-years">
+            {
+              years.slice(0, -1).map((y) => (
+                <span class="bcn-wb__yr" class:list={[{ 'is-five': y % 5 === 0 }]} style={`left: ${pct(yearFrac(y))}; width: ${pct(1 / span)};`}>
+                  <span class="bcn-wb__yr-label">{`’${String(y).slice(2)}`}</span>
+                </span>
+              ))
+            }
+          </div>
+          <div class="bcn-wb__head-ms">
+            {
+              MILESTONES.map((m, i) => (
+                <span class="bcn-wb__ms-tag" class:list={[{ 'is-alt': i % 2 === 1 }]} style={`left: ${pct(axisFraction(m.date))};`} title={`${m.label} (WY${m.waterYear})`}>
+                  {m.tag}
+                </span>
+              ))
+            }
+          </div>
+        </div>
+      </header>
+
+      <!-- ── Body: recursive rows (no dependency overlay) ── -->
+      <div class="bcn-wb__body">
+        {
+          flat.map(({ node, depth, parentId }) => {
+            const r = rollups.get(node.id)!;
+            const geo = barGeo(node);
+            const hasChildren = node.children.length > 0;
+            const st = node.status ? TASK_STATUS_META[node.status] : undefined;
+            return (
+              <div
+                class:list={['bcn-wb__row', TIER_CLASS[node.tier], { 'is-leaf': !hasChildren }]}
+                data-id={node.id}
+                data-tier={node.tier}
+                data-depth={depth}
+                data-parent={parentId ?? ''}
+                data-has-children={hasChildren ? '1' : '0'}
+              >
+                <div class="bcn-wb__label" style={`--_indent: ${depth};`}>
+                  {hasChildren ? (
+                    <button type="button" class="bcn-wb__caret" aria-expanded="true" aria-label={`Collapse ${node.name}`}>
+                      <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                    </button>
+                  ) : (
+                    <span class="bcn-wb__caret-spacer" />
+                  )}
+                  <button type="button" class="bcn-wb__name-btn" title={`${node.id} — ${node.name}`} aria-label={`Open ${node.id} ${node.name}`}>
+                    <span class="bcn-wb__id">{node.id}</span>
+                    <span class="bcn-wb__name">{node.name}</span>
+                    {node.coaRef && <span class="bcn-wb__coa">{node.coaRef}</span>}
+                  </button>
+                  <span class="bcn-wb__rollup" title={`${formatUSD(r.totalFunding)} planned · ${r.taskCount} ${r.taskCount === 1 ? 'task' : 'tasks'}`}>
+                    {formatUSD(r.totalFunding)}
+                    {hasChildren && <span class="bcn-wb__rollup-count">· {r.taskCount}</span>}
+                  </span>
+                  <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
+                    <button type="button" class="bcn-wb__kebab" aria-label={`Actions for ${node.name}`}>⋯</button>
+                  </esa-dropdown-menu>
+                </div>
+
+                <div class="bcn-wb__plot">
+                  {DCP_PHASES.map((p) => (
+                    <span class="bcn-wb__band" data-phase={p.id} style={`left: ${pct(yearFrac(p.startYear))}; width: ${pct(yearFrac(p.endYear) - yearFrac(p.startYear))};`} />
+                  ))}
+                  {years.slice(1, -1).map((y) => (
+                    <span class="bcn-wb__grid" class:list={[{ 'is-five': y % 5 === 0 }]} style={`left: ${pct(yearFrac(y))};`} />
+                  ))}
+                  {MILESTONES.map((m) => (
+                    <span class="bcn-wb__ms-line" style={`left: ${pct(axisFraction(m.date))};`} />
+                  ))}
+                  {today && <span class="bcn-wb__today" style={`left: ${pct(axisFraction(today))};`} />}
+                  {geo && node.tier === 'task' && (
+                    <button
+                      type="button"
+                      class="bcn-wb__bar"
+                      style={`left: ${geo.left}; width: ${geo.width}; --_c: ${st!.hex};`}
+                      title={`${node.id} — ${node.name} · ${st!.label}`}
+                      aria-label={`Open ${node.id} ${node.name}`}
+                    />
+                  )}
+                  {geo && node.tier !== 'task' && (
+                    <span class="bcn-wb__summary" style={`left: ${geo.left}; width: ${geo.width};`} aria-hidden="true" />
+                  )}
+                </div>
+              </div>
+            );
+          })
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Row template cloned by the CRUD script for newly added nodes (unscheduled). -->
+  <template id="bcn-wb-row-tpl">
+    <div class="bcn-wb__row is-leaf" data-id="" data-tier="" data-depth="0" data-parent="" data-has-children="0">
+      <div class="bcn-wb__label" style="--_indent: 0;">
+        <span class="bcn-wb__caret-spacer"></span>
+        <button type="button" class="bcn-wb__name-btn">
+          <span class="bcn-wb__id"></span>
+          <span class="bcn-wb__name"></span>
+        </button>
+        <span class="bcn-wb__rollup">—</span>
+        <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
+          <button type="button" class="bcn-wb__kebab" aria-label="Row actions">⋯</button>
+        </esa-dropdown-menu>
+      </div>
+      <div class="bcn-wb__plot">
+        {DCP_PHASES.map((p) => (
+          <span class="bcn-wb__band" data-phase={p.id} style={`left: ${pct(yearFrac(p.startYear))}; width: ${pct(yearFrac(p.endYear) - yearFrac(p.startYear))};`} />
+        ))}
+        {years.slice(1, -1).map((y) => (
+          <span class="bcn-wb__grid" class:list={[{ 'is-five': y % 5 === 0 }]} style={`left: ${pct(yearFrac(y))};`} />
+        ))}
+        {MILESTONES.map((m) => (
+          <span class="bcn-wb__ms-line" style={`left: ${pct(axisFraction(m.date))};`} />
+        ))}
+        <span class="bcn-wb__unscheduled">Unscheduled — open the panel to set a start &amp; end month</span>
+      </div>
+    </div>
+  </template>
+
+  <!-- Delete confirmation (esa-confirm-dialog lego). -->
+  <esa-confirm-dialog id="bcn-wb-confirm" heading="Delete node" variant="danger" confirm-label="Delete" cancel-label="Keep"></esa-confirm-dialog>
+
+  <!-- Reparent chooser (esa-dialog + esa-select legos). -->
+  <esa-dialog id="bcn-wb-reparent" heading="Move to a different parent" size="sm">
+    <esa-select id="bcn-wb-reparent-select" label="New parent" placeholder="Choose a parent…"></esa-select>
+    <span slot="footer" class="bcn-wb__dialog-foot">
+      <button type="button" class="bcn-wb__dialog-cancel" id="bcn-wb-reparent-cancel">Cancel</button>
+      <button type="button" class="bcn-wb__dialog-move" id="bcn-wb-reparent-move">Move</button>
+    </span>
+  </esa-dialog>
+</div>
+
+<script>
+  import '@esa/ecology/esa-dropdown-menu';
+  import '@esa/ecology/esa-confirm-dialog';
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-select';
+
+  type Tier = 'program' | 'study' | 'substudy' | 'task';
+  const CHILD_TIER: Partial<Record<Tier, Tier>> = { program: 'study', study: 'substudy', substudy: 'task' };
+  const PARENT_TIER: Partial<Record<Tier, Tier>> = { study: 'program', substudy: 'study', task: 'substudy' };
+  const TIER_LABEL: Record<Tier, string> = { program: 'Program', study: 'Study', substudy: 'Sub-study', task: 'Task' };
+  const TIER_PREFIX: Record<Tier, string> = { program: 'PRG', study: 'STY', substudy: 'SUB', task: 'TSK' };
+  const TIER_CLASS: Record<Tier, string> = { program: 'is-program', study: 'is-study', substudy: 'is-substudy', task: 'is-task' };
+
+  document.querySelectorAll<HTMLElement>('.bcn-wb').forEach((wb) => {
+    const body = wb.querySelector<HTMLElement>('.bcn-wb__body')!;
+    const tpl = wb.querySelector<HTMLTemplateElement>('#bcn-wb-row-tpl')!;
+    const confirm = wb.querySelector('#bcn-wb-confirm') as HTMLElement & { open: boolean; heading: string; message: string };
+    const reparentDialog = wb.querySelector('#bcn-wb-reparent') as HTMLElement & { show(): void; close(): void };
+    const reparentSelect = wb.querySelector('#bcn-wb-reparent-select') as HTMLElement & { options: { label: string; value: string }[]; value: string };
+    const collapsed = new Set<string>();
+
+    const rows = () => [...body.querySelectorAll<HTMLElement>('.bcn-wb__row')];
+    const rowById = (id: string) => body.querySelector<HTMLElement>(`.bcn-wb__row[data-id="${id}"]`);
+    const depthOf = (row: HTMLElement) => Number(row.dataset.depth ?? '0');
+    const tierOf = (row: HTMLElement) => (row.dataset.tier ?? 'task') as Tier;
+
+    // The contiguous block of a row = the row + following rows deeper than it.
+    function blockOf(row: HTMLElement): HTMLElement[] {
+      const all = rows();
+      const i = all.indexOf(row);
+      const d = depthOf(row);
+      const block = [row];
+      for (let j = i + 1; j < all.length; j++) {
+        if (depthOf(all[j]) > d) block.push(all[j]);
+        else break;
+      }
+      return block;
+    }
+
+    // A row is visible iff no ancestor (by data-parent chain) is collapsed.
+    function isVisible(row: HTMLElement): boolean {
+      let p = row.dataset.parent ?? '';
+      while (p) {
+        if (collapsed.has(p)) return false;
+        p = rowById(p)?.dataset.parent ?? '';
+      }
+      return true;
+    }
+    function applyVisibility() {
+      rows().forEach((r) => (r.hidden = !isVisible(r)));
+    }
+
+    function nextId(tier: Tier): string {
+      const prefix = TIER_PREFIX[tier];
+      let max = 0;
+      rows().forEach((r) => {
+        const m = (r.dataset.id ?? '').match(new RegExp(`^${prefix}-(\\d+)$`));
+        if (m) max = Math.max(max, Number(m[1]));
+      });
+      return `${prefix}-${String(max + 1).padStart(3, '0')}`;
+    }
+
+    function refreshCaret(row: HTMLElement) {
+      const has = blockOf(row).length > 1;
+      row.dataset.hasChildren = has ? '1' : '0';
+      row.classList.toggle('is-leaf', !has);
+      const label = row.querySelector<HTMLElement>('.bcn-wb__label')!;
+      const existing = label.querySelector<HTMLElement>('.bcn-wb__caret, .bcn-wb__caret-spacer')!;
+      if (has && existing.classList.contains('bcn-wb__caret-spacer')) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'bcn-wb__caret';
+        btn.setAttribute('aria-expanded', 'true');
+        btn.innerHTML = '<svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        existing.replaceWith(btn);
+      } else if (!has && existing.classList.contains('bcn-wb__caret')) {
+        const spacer = document.createElement('span');
+        spacer.className = 'bcn-wb__caret-spacer';
+        existing.replaceWith(spacer);
+      }
+    }
+
+    function setMenu(row: HTMLElement) {
+      const menu = row.querySelector('.bcn-wb__menu') as HTMLElement & { items: unknown[] };
+      if (!menu) return;
+      const tier = tierOf(row);
+      const items: Record<string, unknown>[] = [{ label: 'Rename', action: 'rename' }];
+      const child = CHILD_TIER[tier];
+      if (child) items.push({ label: `Add ${TIER_LABEL[child].toLowerCase()}`, action: 'add-child' });
+      if (PARENT_TIER[tier]) items.push({ label: 'Reparent…', action: 'reparent' });
+      items.push({ divider: true }, { label: `Delete ${TIER_LABEL[tier].toLowerCase()}`, action: 'delete', variant: 'danger' });
+      menu.items = items;
+    }
+    rows().forEach(setMenu);
+
+    // ── Rename (inline contenteditable) ──
+    function startRename(row: HTMLElement) {
+      const name = row.querySelector<HTMLElement>('.bcn-wb__name')!;
+      name.contentEditable = 'true';
+      name.classList.add('is-editing');
+      name.focus();
+      const range = document.createRange();
+      range.selectNodeContents(name);
+      const sel = window.getSelection();
+      sel?.removeAllRanges();
+      sel?.addRange(range);
+      const finish = () => {
+        name.contentEditable = 'false';
+        name.classList.remove('is-editing');
+        name.textContent = (name.textContent ?? '').trim() || 'Untitled';
+        name.removeEventListener('blur', finish);
+        name.removeEventListener('keydown', onKey);
+      };
+      const onKey = (e: KeyboardEvent) => {
+        if (e.key === 'Enter') { e.preventDefault(); name.blur(); }
+        if (e.key === 'Escape') { name.blur(); }
+      };
+      name.addEventListener('blur', finish);
+      name.addEventListener('keydown', onKey);
+    }
+
+    // ── Add a child (unscheduled row cloned from the template) ──
+    function addChild(parentRow: HTMLElement) {
+      const parentTier = tierOf(parentRow);
+      const tier = CHILD_TIER[parentTier];
+      if (!tier) return;
+      const row = tpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
+      const id = nextId(tier);
+      const depth = depthOf(parentRow) + 1;
+      row.className = `bcn-wb__row ${TIER_CLASS[tier]} is-leaf`;
+      row.dataset.id = id;
+      row.dataset.tier = tier;
+      row.dataset.depth = String(depth);
+      row.dataset.parent = parentRow.dataset.id ?? '';
+      row.dataset.hasChildren = '0';
+      row.querySelector<HTMLElement>('.bcn-wb__label')!.style.setProperty('--_indent', String(depth));
+      row.querySelector<HTMLElement>('.bcn-wb__id')!.textContent = id;
+      row.querySelector<HTMLElement>('.bcn-wb__name')!.textContent = `New ${TIER_LABEL[tier].toLowerCase()}`;
+      // Insert at the end of the parent's existing subtree.
+      const block = blockOf(parentRow);
+      block[block.length - 1].after(row);
+      setMenu(row);
+      refreshCaret(parentRow);
+      // Expand the parent so the new child shows.
+      collapsed.delete(parentRow.dataset.id ?? '');
+      parentRow.querySelector('.bcn-wb__caret')?.setAttribute('aria-expanded', 'true');
+      parentRow.querySelector('.bcn-wb__caret')?.classList.remove('is-collapsed');
+      applyVisibility();
+      startRename(row);
+    }
+
+    function addProgram() {
+      const row = tpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
+      const id = nextId('program');
+      row.className = 'bcn-wb__row is-program is-leaf';
+      row.dataset.id = id;
+      row.dataset.tier = 'program';
+      row.dataset.depth = '0';
+      row.dataset.parent = '';
+      row.querySelector<HTMLElement>('.bcn-wb__label')!.style.setProperty('--_indent', '0');
+      row.querySelector<HTMLElement>('.bcn-wb__id')!.textContent = id;
+      row.querySelector<HTMLElement>('.bcn-wb__name')!.textContent = 'New program';
+      body.appendChild(row);
+      setMenu(row);
+      startRename(row);
+    }
+
+    // ── Delete (esa-confirm-dialog) ──
+    let pendingDelete: HTMLElement | null = null;
+    function askDelete(row: HTMLElement) {
+      const tier = tierOf(row);
+      const kids = blockOf(row).length - 1;
+      pendingDelete = row;
+      confirm.heading = `Delete ${TIER_LABEL[tier].toLowerCase()}?`;
+      confirm.message = kids > 0
+        ? `“${row.querySelector('.bcn-wb__name')?.textContent}” and its ${kids} descendant ${kids === 1 ? 'node' : 'nodes'} will be removed.`
+        : `“${row.querySelector('.bcn-wb__name')?.textContent}” will be removed.`;
+      confirm.open = true;
+    }
+    confirm.addEventListener('confirm', () => {
+      if (pendingDelete) {
+        const parentId = pendingDelete.dataset.parent ?? '';
+        blockOf(pendingDelete).forEach((r) => r.remove());
+        if (parentId) { const p = rowById(parentId); if (p) refreshCaret(p); }
+        pendingDelete = null;
+        applyVisibility();
+      }
+      confirm.open = false;
+    });
+    confirm.addEventListener('cancel', () => { pendingDelete = null; confirm.open = false; });
+
+    // ── Reparent (esa-dialog + esa-select), same-tier move ──
+    let pendingReparent: HTMLElement | null = null;
+    function askReparent(row: HTMLElement) {
+      const tier = tierOf(row);
+      const parentTier = PARENT_TIER[tier];
+      if (!parentTier) return;
+      const currentParent = row.dataset.parent ?? '';
+      const options = rows()
+        .filter((r) => tierOf(r) === parentTier && r.dataset.id !== currentParent)
+        .map((r) => ({ label: `${r.dataset.id} — ${r.querySelector('.bcn-wb__name')?.textContent ?? ''}`, value: r.dataset.id ?? '' }));
+      if (options.length === 0) return;
+      pendingReparent = row;
+      reparentSelect.options = options;
+      reparentSelect.value = '';
+      reparentDialog.show();
+    }
+    function doReparent() {
+      const targetId = reparentSelect.value;
+      if (pendingReparent && targetId) {
+        const target = rowById(targetId);
+        if (target && tierOf(target) === PARENT_TIER[tierOf(pendingReparent)]) {
+          const moving = blockOf(pendingReparent);
+          const targetBlock = blockOf(target);
+          const anchor = targetBlock[targetBlock.length - 1];
+          let after = anchor;
+          moving.forEach((r) => { after.after(r); after = r; });
+          pendingReparent.dataset.parent = targetId;
+          refreshCaret(target);
+          applyVisibility();
+        }
+      }
+      pendingReparent = null;
+      reparentDialog.close();
+    }
+    wb.querySelector('#bcn-wb-reparent-move')?.addEventListener('click', doReparent);
+    wb.querySelector('#bcn-wb-reparent-cancel')?.addEventListener('click', () => { pendingReparent = null; reparentDialog.close(); });
+
+    // ── Menu action routing ──
+    body.addEventListener('menu-action', (e) => {
+      const action = (e as CustomEvent).detail as string;
+      const row = (e.target as HTMLElement).closest('.bcn-wb__row') as HTMLElement | null;
+      if (!row) return;
+      if (action === 'rename') startRename(row);
+      else if (action === 'add-child') addChild(row);
+      else if (action === 'reparent') askReparent(row);
+      else if (action === 'delete') askDelete(row);
+    });
+
+    // ── Collapse / expand + row select ──
+    wb.querySelector('#bcn-wb-add-program')?.addEventListener('click', addProgram);
+    body.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      const caret = target.closest('.bcn-wb__caret') as HTMLElement | null;
+      if (caret) {
+        const row = caret.closest('.bcn-wb__row') as HTMLElement;
+        const id = row.dataset.id ?? '';
+        const nowCollapsed = !collapsed.has(id);
+        if (nowCollapsed) collapsed.add(id); else collapsed.delete(id);
+        caret.setAttribute('aria-expanded', String(!nowCollapsed));
+        caret.classList.toggle('is-collapsed', nowCollapsed);
+        applyVisibility();
+        return;
+      }
+      const trigger = target.closest('.bcn-wb__name-btn, .bcn-wb__bar') as HTMLElement | null;
+      if (trigger) {
+        const name = trigger.querySelector<HTMLElement>('.bcn-wb__name');
+        if (name?.isContentEditable) return; // don't select while renaming
+        const row = trigger.closest('.bcn-wb__row') as HTMLElement;
+        rows().forEach((r) => r.classList.toggle('is-selected', r === row));
+        wb.dispatchEvent(new CustomEvent('wb-node-select', { detail: { id: row.dataset.id }, bubbles: true }));
+      }
+    });
+  });
+</script>
+
+<style>
+  .bcn-wb {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    --_label-w: 420px;
+    --_plot-w: 1900px;
+    --_row-h: 32px;
+  }
+
+  /* ── Toolbar + legend ── */
+  .bcn-wb__toolbar { display: flex; align-items: center; gap: var(--spacing-400); flex-wrap: wrap; }
+  .bcn-wb__add { display: inline-flex; align-items: center; gap: var(--spacing-150); padding: var(--spacing-150) var(--spacing-300); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-primary); background: var(--color-primary-subtle); border: 1px solid var(--color-primary-border); border-radius: var(--radius-200); cursor: pointer; }
+  .bcn-wb__add:hover { background: color-mix(in srgb, var(--color-primary) 12%, transparent); }
+  .bcn-wb__add-glyph { font-size: 1rem; line-height: 1; }
+
+  .bcn-wb__legend { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-300); font-size: var(--type-size-100); color: var(--color-text-secondary); flex: 1; }
+  .bcn-wb__legend-item { display: inline-flex; align-items: center; gap: var(--spacing-150); }
+  .bcn-wb__legend-dot { width: 9px; height: 9px; border-radius: var(--radius-full); background: var(--_c); }
+  .bcn-wb__legend-summary { width: 20px; height: 6px; border-radius: 3px; background: color-mix(in srgb, var(--color-text-primary) 10%, transparent); border: 1px solid var(--color-border-strong); }
+  .bcn-wb__legend-hint { margin-left: auto; color: var(--color-text-muted); font-style: italic; }
+
+  /* ── Scroll + canvas ── */
+  .bcn-wb__scroll { overflow-x: auto; border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface); }
+  .bcn-wb__canvas { min-width: calc(var(--_label-w) + var(--_plot-w)); }
+
+  /* ── Axis header ── */
+  .bcn-wb__axis { display: grid; grid-template-columns: var(--_label-w) 1fr; position: sticky; top: 0; z-index: 5; background: var(--color-surface); border-bottom: 1px solid var(--color-border); }
+  .bcn-wb__corner { display: flex; align-items: flex-end; padding: var(--spacing-200) var(--spacing-300); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); border-right: 1px solid var(--color-border); }
+  .bcn-wb__head-plot { position: relative; }
+  .bcn-wb__head-bands { position: absolute; inset: 0; z-index: 0; }
+  .bcn-wb__head-phases { position: relative; z-index: 1; height: 18px; }
+  .bcn-wb__head-years { position: relative; z-index: 1; height: 20px; }
+  .bcn-wb__head-ms { position: relative; z-index: 1; height: 22px; }
+
+  .bcn-wb__phase-tag { position: absolute; top: 0; bottom: 0; display: inline-flex; align-items: center; padding: 0 var(--spacing-150); font-size: 0.6875rem; font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); white-space: nowrap; overflow: hidden; }
+  .bcn-wb__yr { position: absolute; top: 0; bottom: 0; border-left: 1px solid var(--color-border-light); display: flex; align-items: center; }
+  .bcn-wb__yr.is-five { border-left-color: var(--color-border-strong); }
+  .bcn-wb__yr-label { font-size: 0.75rem; color: var(--color-text-muted); padding-left: 4px; font-variant-numeric: tabular-nums; }
+  .bcn-wb__yr.is-five .bcn-wb__yr-label { color: var(--color-text-secondary); font-weight: var(--font-weight-semibold); }
+  .bcn-wb__ms-tag { position: absolute; top: 2px; transform: translateX(-50%); font-size: 0.6875rem; font-weight: var(--font-weight-semibold); color: var(--color-primary); white-space: nowrap; background: var(--color-surface); padding: 0 3px; border: 1px solid var(--color-primary-border); border-radius: var(--radius-100); }
+  .bcn-wb__ms-tag.is-alt { top: 11px; }
+
+  /* Neutral phase bands (value, not hue) */
+  .bcn-wb__band[data-phase='baseline'] { background: color-mix(in srgb, var(--color-text-primary) 7%, transparent); }
+  .bcn-wb__band[data-phase='in-water-construction'] { background: color-mix(in srgb, var(--color-text-primary) 3%, transparent); }
+  .bcn-wb__band[data-phase='phase1-ops'] { background: color-mix(in srgb, var(--color-text-primary) 7%, transparent); }
+  .bcn-wb__band[data-phase='phase2-ops'] { background: color-mix(in srgb, var(--color-text-primary) 3%, transparent); }
+
+  /* ── Body / rows ── */
+  .bcn-wb__body { position: relative; }
+  .bcn-wb__row { display: grid; grid-template-columns: var(--_label-w) 1fr; border-bottom: 1px solid var(--color-border-light); }
+  .bcn-wb__row[hidden] { display: none; }
+  .bcn-wb__row.is-program { background: color-mix(in srgb, var(--color-text-primary) 3%, transparent); }
+  .bcn-wb__row.is-study { background: color-mix(in srgb, var(--color-text-primary) 1.5%, transparent); }
+  .bcn-wb__row:hover .bcn-wb__plot { background: color-mix(in srgb, var(--color-secondary) 4%, transparent); }
+  .bcn-wb__row.is-selected .bcn-wb__label { background: var(--color-primary-subtle); }
+
+  /* label cell: indent by depth, disclosure caret, name button, roll-up total, menu */
+  .bcn-wb__label { display: flex; align-items: center; gap: var(--spacing-150); min-height: var(--_row-h); padding: 0 var(--spacing-200) 0 calc(var(--spacing-200) + var(--_indent) * 18px); border-right: 1px solid var(--color-border); background: var(--color-surface); position: sticky; left: 0; z-index: 3; overflow: hidden; }
+  .bcn-wb__row.is-program .bcn-wb__label { background: color-mix(in srgb, var(--color-text-primary) 3%, var(--color-surface)); }
+  .bcn-wb__caret { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; padding: 0; border: 0; background: transparent; color: var(--color-text-tertiary); cursor: pointer; flex-shrink: 0; border-radius: var(--radius-100); }
+  .bcn-wb__caret:hover { background: var(--color-surface-sunken); color: var(--color-text-primary); }
+  .bcn-wb__caret svg { transition: transform 120ms ease; }
+  .bcn-wb__caret.is-collapsed svg { transform: rotate(-90deg); }
+  .bcn-wb__caret-spacer { width: 18px; flex-shrink: 0; }
+
+  .bcn-wb__name-btn { display: flex; align-items: center; gap: var(--spacing-150); min-width: 0; flex: 1; padding: 2px 0; border: 0; background: transparent; cursor: pointer; text-align: left; font: inherit; overflow: hidden; }
+  .bcn-wb__name-btn:hover .bcn-wb__name { color: var(--color-primary); text-decoration: underline; }
+  .bcn-wb__name-btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; border-radius: var(--radius-100); }
+  .bcn-wb__id { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.6875rem; font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 1px 5px; border-radius: var(--radius-100); }
+  .bcn-wb__name { font-size: var(--type-size-100); color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bcn-wb__name.is-editing { white-space: normal; outline: 2px solid var(--color-primary); outline-offset: 1px; border-radius: var(--radius-100); background: var(--color-surface); padding: 0 3px; }
+  .bcn-wb__row.is-program .bcn-wb__name, .bcn-wb__row.is-study .bcn-wb__name { font-weight: var(--font-weight-semibold); }
+  .bcn-wb__coa { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.6875rem; color: var(--color-text-muted); }
+  .bcn-wb__rollup { flex-shrink: 0; margin-left: auto; font-size: 0.75rem; font-variant-numeric: tabular-nums; font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); white-space: nowrap; }
+  .bcn-wb__rollup-count { color: var(--color-text-muted); font-weight: var(--font-weight-regular); }
+
+  .bcn-wb__menu { flex-shrink: 0; }
+  .bcn-wb__kebab { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; border: 0; background: transparent; color: var(--color-text-tertiary); border-radius: var(--radius-100); cursor: pointer; font-size: 1rem; line-height: 1; }
+  .bcn-wb__kebab:hover { background: var(--color-surface-sunken); color: var(--color-text-primary); }
+
+  /* plot cell */
+  .bcn-wb__plot { position: relative; min-height: var(--_row-h); }
+  .bcn-wb__band { position: absolute; top: 0; bottom: 0; }
+  .bcn-wb__grid { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px solid var(--color-border-light); }
+  .bcn-wb__grid.is-five { border-left-color: var(--color-border); }
+  .bcn-wb__ms-line { position: absolute; top: 0; bottom: 0; width: 0; border-left: 1px dashed color-mix(in srgb, var(--color-primary) 35%, transparent); }
+  .bcn-wb__today { position: absolute; top: 0; bottom: 0; width: 0; border-left: 2px solid var(--color-warning); z-index: 2; }
+  .bcn-wb__unscheduled { position: absolute; left: var(--spacing-300); top: 50%; transform: translateY(-50%); font-size: 0.75rem; color: var(--color-text-tertiary); font-style: italic; }
+
+  /* task bar (status color) */
+  .bcn-wb__bar {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    height: 16px; min-width: 5px;
+    border: 1px solid color-mix(in srgb, var(--_c) 72%, black);
+    border-radius: var(--radius-100);
+    background: linear-gradient(90deg, var(--_c) 0%, color-mix(in srgb, var(--_c) 62%, white) 100%);
+    padding: 0; cursor: pointer; z-index: 1;
+    transition: filter 120ms ease, box-shadow 120ms ease;
+  }
+  .bcn-wb__bar:hover { filter: brightness(1.05); box-shadow: 0 0 0 2px color-mix(in srgb, var(--_c) 35%, transparent); }
+  .bcn-wb__bar:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 1px; }
+  .bcn-wb__row.is-selected .bcn-wb__bar { box-shadow: 0 0 0 2px color-mix(in srgb, var(--_c) 45%, transparent); }
+
+  /* parent roll-up bracket — distinct from a status bar */
+  .bcn-wb__summary {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    height: 8px; min-width: 5px; z-index: 1;
+    background: color-mix(in srgb, var(--color-text-primary) 10%, transparent);
+    border: 1px solid var(--color-border-strong);
+    border-radius: 2px;
+  }
+  .bcn-wb__summary::before, .bcn-wb__summary::after { content: ''; position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--color-text-tertiary); }
+  .bcn-wb__summary::before { left: 0; }
+  .bcn-wb__summary::after { right: 0; }
+
+  /* reparent dialog footer */
+  .bcn-wb__dialog-foot { display: flex; justify-content: flex-end; gap: var(--spacing-200); width: 100%; }
+  .bcn-wb__dialog-cancel, .bcn-wb__dialog-move { padding: var(--spacing-200) var(--spacing-400); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); border-radius: var(--radius-200); cursor: pointer; border: 1px solid var(--color-border); }
+  .bcn-wb__dialog-cancel { background: var(--color-surface); color: var(--color-text-secondary); }
+  .bcn-wb__dialog-move { background: var(--color-primary); color: var(--color-on-primary, #fff); border-color: var(--color-primary); }
+</style>

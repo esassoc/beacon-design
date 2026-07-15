@@ -1,0 +1,165 @@
+---
+// Fish Studies — the MULTI-LEVEL TASKING GANTT (second fish-study prototype).
+//
+// The 7/8 data-model decision gave fish-study compliance its own module built on a
+// recursive hierarchy. This page socializes that model (for Gardner + Chris Geech)
+// as a four-tier WORK BREAKDOWN — Program → Study → Sub-study → Task — where:
+//   • the TASK is the schedulable month-by-month unit (a status-colored bar on the
+//     water-year axis), and status / funding / span roll UP to the parents;
+//   • every node is editable (add / rename / reparent / delete at all four tiers);
+//   • stable type-prefixed IDs (PRG/STY/SUB/TSK) are identity, the COA dot-number a
+//     secondary reference; there is NO dependency dimension in this view;
+//   • clicking a row opens its side panel: Identity → Timing → Funding → Roll-up →
+//     constraints/notes.
+// The same fish-schedule.ts calendar rules (water-year deadlines, half-year field
+// seasons) drive the axis. Dollar/status content is illustrative fixture data.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaStat from '@esa/ecology/esa-stat.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnWorkBreakdown from '../../components/bcn/BcnWorkBreakdown.astro';
+import BcnNodeDetail from '../../components/bcn/BcnNodeDetail.astro';
+import { PROGRAMS, PLAN_ROOT } from '../../data/fish-hierarchy';
+import { computeRollUp, flattenForest, formatUSD, waterYearOf, TIER_META, PROJECT_NAME } from '../../data/fish-model';
+import { withBase } from '../../lib/base';
+
+const TODAY = '2029-06-15';
+
+const flat = flattenForest(PROGRAMS);
+const planRollup = computeRollUp(PLAN_ROOT);
+const studyCount = flat.filter((f) => f.node.tier === 'study').length;
+const horizon =
+  planRollup.startMonth && planRollup.endMonth
+    ? `WY${waterYearOf(planRollup.startMonth)}–WY${waterYearOf(planRollup.endMonth)}`
+    : '—';
+
+// One SSR detail panel per node — toggled into the drawer on wb-node-select.
+const nodePanels = flat.map(({ node, ancestors }) => ({
+  node,
+  rollup: computeRollUp(node),
+  parentName: ancestors.at(-1)?.name,
+}));
+
+const FLASK =
+  '<path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/>';
+
+const fishNav = [
+  { id: 'project', title: 'Project', icon: 'layout-dashboard', iconPaths: '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>', expanded: false, items: [{ id: 'dashboard', label: 'Dashboard' }] },
+  {
+    id: 'studies', title: 'Studies', icon: 'flask-conical', iconPaths: FLASK, expanded: true, active: true, dividerAfter: true,
+    items: [
+      { id: 'science-plan', label: 'Science Plan', href: withBase('/prototypes/fish-studies') },
+      { id: 'tasking-gantt', label: 'Tasking Gantt', active: true },
+    ],
+  },
+  { id: 'tracking', title: 'Tracking', icon: 'radar', expanded: false, items: [{ id: 'project-tracking', label: 'Project Tracking' }] },
+];
+---
+
+<!-- manifest:
+  layout: stack
+  sections:
+    - page chrome          -> app-shell            # AppShell + PageLayout (breadcrumbs / title / utilities)
+    - program roll-up KPIs   -> esa-stat             # whole-plan aggregate: funding / tasks / on-track / horizon
+    - work-breakdown gantt    -> bcn-work-breakdown    # recursive 4-tier tree + month timeline + roll-up bars + CRUD
+    - node detail panel       -> esa-side-dialog        # row side-panel container
+    - node detail body        -> bcn-node-detail        # Identity → Timing → Funding → Roll-up → notes
+-->
+
+<AppShell title={`${PROJECT_NAME} — Tasking Gantt`} tenantName="DWR" projectName="Delta Conveyance" navSections={fishNav}>
+  <PageLayout
+    title="Tasking Gantt"
+    icon="flask-conical"
+    breadcrumbs={[{ label: 'Delta Conveyance', href: '#project' }, { label: 'Studies', href: '#studies' }, { label: 'Tasking Gantt' }]}
+  >
+    <div slot="utilities" class="bcn-gantt-utils">
+      <a href={withBase('/prototypes/fish-studies')}><EsaButton color="ghost" appearance="outline" size="md" icon="table">Science Plan crosswalk</EsaButton></a>
+    </div>
+
+    <!-- ═══ Program roll-up — the whole-plan aggregate ═══
+         bcn-lego-checked: PAGE-COMPOSITION GLUE ONLY. The KPI row wraps esa-stat legos;
+         the tree is bcn-work-breakdown; the drawer body is bcn-node-detail. Every section
+         resolves to a component (see manifest). Checked esa-* (no 4-tier gantt lego, no
+         node-panel lego) and Beacon. Page CSS is stat-row + note + drawer-chrome glue. -->
+    <div class="bcn-gantt-stats">
+      <EsaStat value={formatUSD(planRollup.totalFunding)} label="Planned funding (illustrative)" sub={horizon} accent />
+      <EsaStat value={planRollup.taskCount} label="Tasks tracked" sub={`${studyCount} studies · ${PROGRAMS.length} programs`} />
+      <EsaStat value={`${planRollup.onTrack + planRollup.complete}/${planRollup.taskCount}`} label="Tasks on track or done" sub={`${planRollup.atRisk} at risk · ${planRollup.blocked} blocked`} />
+      <EsaStat value={horizon} label="Schedule horizon" sub="water-year anchored" />
+    </div>
+
+    <p class="bcn-gantt-note">
+      Four named tiers — <strong>Program → Study → Sub-study → Task</strong> — with the Task as the schedulable month unit.
+      Status, funding, and schedule span roll <strong>up</strong> the tree; open any row to see its identity, timing, funding
+      plan, and status roll-up. Every tier is editable via the ⋯ row menu. Figures are illustrative planning data.
+    </p>
+
+    <!-- ═══ The four-tier tasking gantt ═══ -->
+    <BcnWorkBreakdown programs={PROGRAMS} today={TODAY} />
+  </PageLayout>
+
+  <!-- ═══ Node-detail drawer — Identity → Timing → Funding → Roll-up → notes ═══ -->
+  <esa-side-dialog id="node-drawer" size="md" style="--z-modal: 1300; --z-modal-backdrop: 1250;">
+    <div slot="header" class="bcn-node-head">
+      <span class="bcn-node-head__id" id="node-id">—</span>
+      <span class="bcn-node-head__title" id="node-title">Select a node</span>
+    </div>
+
+    <div class="bcn-node-body">
+      {
+        nodePanels.map(({ node, rollup, parentName }) => (
+          <section data-node-panel={node.id} data-node-name={node.name} data-node-tier={TIER_META[node.tier].label} hidden>
+            <BcnNodeDetail node={node} rollup={rollup} parentName={parentName} />
+          </section>
+        ))
+      }
+    </div>
+
+    <span slot="footer" class="bcn-node-foot">
+      <span id="node-close"><EsaButton color="primary">Close</EsaButton></span>
+    </span>
+  </esa-side-dialog>
+</AppShell>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+
+  const drawer = document.getElementById('node-drawer') as HTMLElement & { show(): void; close(): void };
+  const idEl = document.getElementById('node-id')!;
+  const titleEl = document.getElementById('node-title')!;
+  const panels = [...document.querySelectorAll<HTMLElement>('[data-node-panel]')];
+
+  document.addEventListener('wb-node-select', (e) => {
+    const id = (e as CustomEvent).detail?.id as string;
+    const panel = panels.find((p) => p.dataset.nodePanel === id);
+    if (!panel) return;
+    panels.forEach((p) => (p.hidden = p !== panel));
+    idEl.textContent = id;
+    titleEl.textContent = panel.dataset.nodeName ?? id;
+    drawer.show();
+  });
+
+  document.getElementById('node-close')!.addEventListener('click', () => drawer.close());
+</script>
+
+<style>
+  /* bcn-lego-checked: PAGE-COMPOSITION GLUE ONLY. The stat row wraps esa-stat legos;
+     the tree is bcn-work-breakdown; the drawer body is bcn-node-detail. Every section
+     resolves to a component (see manifest). Checked esa-* (no 4-tier gantt lego, no
+     node-panel lego) and Beacon. No reinvented primitive; no raw form control. */
+
+  .bcn-gantt-utils a { text-decoration: none; }
+
+  .bcn-gantt-stats { display: flex; flex-wrap: wrap; gap: var(--spacing-700); padding: var(--spacing-400) 0 var(--spacing-500); border-bottom: 1px solid var(--color-border); margin-bottom: var(--spacing-400); }
+  .bcn-gantt-note { margin: 0 0 var(--spacing-400); font-size: var(--type-size-100); color: var(--color-text-secondary); line-height: 1.55; max-width: 100ch; }
+
+  .bcn-node-head { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; min-width: 0; }
+  .bcn-node-head__id { flex-shrink: 0; font-family: var(--font-mono); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 1px var(--spacing-200); border-radius: var(--radius-100); }
+  .bcn-node-head__title { font-family: var(--font-decorative); font-size: 1.125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); line-height: 1.25; min-width: 0; }
+
+  .bcn-node-body { display: flex; flex-direction: column; }
+  .bcn-node-body [data-node-panel][hidden] { display: none; }
+
+  .bcn-node-foot { display: flex; align-items: center; justify-content: flex-end; width: 100%; }
+  .bcn-node-foot a { text-decoration: none; }
+</style>
