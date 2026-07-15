@@ -74,14 +74,8 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       <span class="bcn-wb__add-glyph" aria-hidden="true">+</span> Add program
     </button>
     <div class="bcn-wb__filters">
-      <input type="search" class="bcn-wb__search" id="bcn-wb-search" placeholder="Search name or ID" aria-label="Search rows by name or ID" />
-      <div class="bcn-wb__tier-filter" role="group" aria-label="Filter by tier">
-        <button type="button" class="bcn-wb__tier-btn is-active" data-tier-filter="all">All</button>
-        <button type="button" class="bcn-wb__tier-btn" data-tier-filter="program">Programs</button>
-        <button type="button" class="bcn-wb__tier-btn" data-tier-filter="study">Studies</button>
-        <button type="button" class="bcn-wb__tier-btn" data-tier-filter="substudy">Sub-studies</button>
-        <button type="button" class="bcn-wb__tier-btn" data-tier-filter="task">Tasks</button>
-      </div>
+      <esa-text-field id="bcn-wb-search" placeholder="Search name or ID" size="md"></esa-text-field>
+      <esa-button-toggle id="bcn-wb-tier-filter" value="all" size="md"></esa-button-toggle>
       <span class="bcn-wb__filter-count" id="bcn-wb-filter-count" hidden></span>
     </div>
     <div class="bcn-wb__legend">
@@ -256,6 +250,8 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   import '@esa/ecology/esa-confirm-dialog';
   import '@esa/ecology/esa-dialog';
   import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-button-toggle';
 
   type Tier = 'program' | 'study' | 'substudy' | 'task';
   const CHILD_TIER: Partial<Record<Tier, Tier>> = { program: 'study', study: 'substudy', substudy: 'task' };
@@ -302,11 +298,23 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
 
     // ── Tier filter + search. Matches keep their children (whole block) and
     //    their ancestors for context; an active filter overrides collapse state.
-    const searchInput = wb.querySelector<HTMLInputElement>('#bcn-wb-search');
-    const tierBtns = [...wb.querySelectorAll<HTMLElement>('[data-tier-filter]')];
+    const searchInput = wb.querySelector('#bcn-wb-search') as HTMLElement & { value: string };
+    const tierToggle = wb.querySelector('#bcn-wb-tier-filter') as HTMLElement & {
+      options: { value: string; label: string }[];
+      value: string;
+    };
     const filterCount = wb.querySelector<HTMLElement>('#bcn-wb-filter-count');
     let filterTier = 'all';
     let filterQuery = '';
+    if (tierToggle) {
+      tierToggle.options = [
+        { value: 'all', label: 'All' },
+        { value: 'program', label: 'Programs' },
+        { value: 'study', label: 'Studies' },
+        { value: 'substudy', label: 'Sub-studies' },
+        { value: 'task', label: 'Tasks' },
+      ];
+    }
 
     function filterSet(): Set<HTMLElement> | null {
       if (filterTier === 'all' && !filterQuery) return null;
@@ -348,17 +356,14 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       }
     }
 
-    searchInput?.addEventListener('input', () => {
-      filterQuery = searchInput.value.trim();
+    searchInput?.addEventListener('change', (e) => {
+      filterQuery = (((e as CustomEvent).detail?.value as string) ?? searchInput.value ?? '').trim();
       applyVisibility();
     });
-    tierBtns.forEach((btn) =>
-      btn.addEventListener('click', () => {
-        filterTier = btn.dataset.tierFilter ?? 'all';
-        tierBtns.forEach((b) => b.classList.toggle('is-active', b === btn));
-        applyVisibility();
-      })
-    );
+    tierToggle?.addEventListener('change', (e) => {
+      filterTier = ((e as CustomEvent).detail?.value as string) ?? tierToggle.value ?? 'all';
+      applyVisibility();
+    });
 
     function nextId(tier: Tier): string {
       const prefix = TIER_PREFIX[tier];
@@ -587,16 +592,9 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   /* ── Toolbar + legend ── */
   .bcn-wb__toolbar { display: flex; align-items: center; gap: var(--spacing-400); flex-wrap: wrap; }
 
-  /* ── Search + tier filter ── */
+  /* ── Search + tier filter (ecology legos; layout only here) ── */
   .bcn-wb__filters { display: flex; align-items: center; gap: var(--spacing-200); }
-  .bcn-wb__search { width: 220px; padding: var(--spacing-100) var(--spacing-250); font: inherit; font-size: var(--type-size-150); color: var(--color-text-primary); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-200); }
-  .bcn-wb__search::placeholder { color: var(--color-text-tertiary); }
-  .bcn-wb__search:focus-visible { outline: 2px solid var(--color-primary); outline-offset: -1px; }
-  .bcn-wb__tier-filter { display: inline-flex; border: 1px solid var(--color-border); border-radius: var(--radius-200); overflow: hidden; }
-  .bcn-wb__tier-btn { padding: var(--spacing-100) var(--spacing-250); border: 0; background: transparent; font: inherit; font-size: var(--type-size-150); color: var(--color-text-secondary); cursor: pointer; white-space: nowrap; }
-  .bcn-wb__tier-btn + .bcn-wb__tier-btn { border-left: 1px solid var(--color-border-light); }
-  .bcn-wb__tier-btn:hover { background: var(--color-surface-sunken); color: var(--color-text-primary); }
-  .bcn-wb__tier-btn.is-active { background: var(--color-primary-subtle); color: var(--color-primary); font-weight: var(--font-weight-semibold); }
+  .bcn-wb__filters esa-text-field { width: 220px; }
   .bcn-wb__filter-count { font-size: var(--type-size-150); color: var(--color-text-secondary); font-variant-numeric: tabular-nums; white-space: nowrap; }
   .bcn-wb__add { display: inline-flex; align-items: center; gap: var(--spacing-150); padding: var(--spacing-150) var(--spacing-300); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-primary); background: var(--color-primary-subtle); border: 1px solid var(--color-primary-border); border-radius: var(--radius-200); cursor: pointer; }
   .bcn-wb__add:hover { background: color-mix(in srgb, var(--color-primary) 12%, transparent); }
