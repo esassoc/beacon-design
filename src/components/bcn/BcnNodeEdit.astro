@@ -1,27 +1,29 @@
 ---
 // <BcnNodeEdit> — the SLIM per-node EDIT surface for the work-breakdown drawer.
-// Holds ONLY what Andy asked the drawer to hold: Name, ID, Date range, Budget —
-// plus the structure actions (Add <child tier> / Delete <tier>) and the
-// "View full details" link. Everything else that used to live in the drawer
-// (COA reference, parent, owner, status chip, water years, field-season hints,
-// the roll-up meter, constraints/notes) moved to the node DETAILS page
-// (/prototypes/fish-node?id=…), which reuses BcnNodeDetail unchanged.
+// Holds ONLY what Andy asked the drawer to hold: Date range, Budget, and (tasks
+// only) Status — plus the structure actions (Add <child tier> / Delete <tier>)
+// and the "View full details" link. Name + ID editing moved to the node DETAILS
+// page (/prototypes/fish-node?id=…) — the drawer header already shows badge+name.
+// Everything else that used to live in the drawer (COA reference, parent, owner,
+// water years, field-season hints, the roll-up meter, constraints/notes) also
+// lives on the details page (BcnNodeDetail).
 //
-// EDITABLE at EVERY tier: Name (esa-text-field, live), ID (esa-text-field, mono,
-// applied on blur/Enter — re-keys the client model, the row badge, and children's
-// parent references via wbApi.setId), Start/End month+year (esa-select pairs via
+// EDITABLE at EVERY tier: Start/End month+year (esa-select pairs via
 // wbApi.setSchedule — any node may carry its own dates; the gantt keeps showing
-// the DERIVED roll-up span while the node has children), and the per-water-year
-// Budget table (BcnFundingPlan → wbApi.setFunding).
+// the DERIVED roll-up span while the node has children) and the per-water-year
+// Budget table (BcnFundingPlan slim variant → wbApi.setFunding). TASKS also get
+// Status (BcnStatusSelect, option-driven from TASK_STATUS_META → wbApi.setStatus
+// — bar color, roll-ups, and the header KPI re-derive through recompute).
 //
-// bcn-lego-checked: this is a COMPOSITION of legos — esa-text-field (name + id),
-// esa-select (month/year pickers), bcn-funding-plan (dollars/water-year), and
-// esa-button (add child / delete / view details; delete confirms through the
-// gantt's esa-confirm-dialog). No reinvented primitive; the only CSS is section-
-// stacking glue. bcn-node-edit is the reusable home for the drawer body.
+// bcn-lego-checked: this is a COMPOSITION of legos — esa-select (month/year
+// pickers), bcn-status-select (task status), bcn-funding-plan (dollars/water-
+// year), and esa-button (add child / delete / view details; delete confirms
+// through the gantt's esa-confirm-dialog). No reinvented primitive; the only CSS
+// is section-stacking glue. bcn-node-edit is the reusable home for the drawer body.
 import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnFundingPlan from './BcnFundingPlan.astro';
-import { TIER_META, waterYearOf, type HierNode, type NodeRollUp } from '../../data/fish-model';
+import BcnStatusSelect from './BcnStatusSelect.astro';
+import { TASK_STATUS_META, TIER_META, waterYearOf, type HierNode, type NodeRollUp } from '../../data/fish-model';
 import { SCHEDULE_START_YEAR, SCHEDULE_END_YEAR } from '../../data/fish-schedule';
 import { withBase } from '../../lib/base';
 
@@ -53,23 +55,16 @@ const schedHint = hasChildren
   ? 'The gantt shows the derived span of this node’s children; own dates apply when it has none.'
   : 'These dates place this node’s bar on the gantt.';
 
+// Colored, legend-consistent status options — the same TASK_STATUS_META hexes
+// the gantt bars + legend dots use.
+const statusOpts = (Object.entries(TASK_STATUS_META) as [string, { label: string; hex: string }][]).map(
+  ([value, m]) => ({ value, label: m.label, color: m.hex }),
+);
+
 const detailsHref = withBase(`/prototypes/fish-node?id=${node.id}`);
 ---
 
 <div class="bcn-edit">
-  <!-- ── Name + ID ── -->
-  <section class="bcn-edit__section">
-    <esa-text-field label="Name" size="sm" value={node.name} data-wb-name></esa-text-field>
-    <esa-text-field
-      class="bcn-edit__idfield"
-      label="ID"
-      size="sm"
-      value={node.id}
-      help-text="Stable identity — children re-key to it automatically"
-      data-wb-id
-    ></esa-text-field>
-  </section>
-
   <!-- ── Date range (EVERY tier — own dates; parents keep the derived bar) ── -->
   <section class="bcn-edit__section">
     <h3 class="bcn-edit__title">Date range</h3>
@@ -82,11 +77,19 @@ const detailsHref = withBase(`/prototypes/fish-node?id=${node.id}`);
     <span class="bcn-edit__hint" data-live="sched-hint">{schedHint}</span>
   </section>
 
-  <!-- ── Budget (per-water-year dollars; tasks sum upward) ── -->
+  <!-- ── Budget (per-water-year dollars; tasks sum upward). Slim variant: no
+       summary line — the water-year rows + Total read as an addition equation. ── -->
   <section class="bcn-edit__section">
     <h3 class="bcn-edit__title">Budget</h3>
-    <BcnFundingPlan rollup={rollup} ownFunding={node.funding} spanYears={spanYears} />
+    <BcnFundingPlan rollup={rollup} ownFunding={node.funding} spanYears={spanYears} variant="slim" />
   </section>
+
+  <!-- ── Status (TASKS only — the one tier carrying execution status) ── -->
+  {node.tier === 'task' && (
+    <section class="bcn-edit__section">
+      <BcnStatusSelect label="Status" value={node.status ?? 'not-started'} options={statusOpts} />
+    </section>
+  )}
 
   <!-- ── Actions: add child / delete / full details ── -->
   <section class="bcn-edit__section bcn-edit__actions">
@@ -105,8 +108,8 @@ const detailsHref = withBase(`/prototypes/fish-node?id=${node.id}`);
 </div>
 
 <script>
-  import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-select';
+  import { setupStatusSelect, type StatusSelectController } from './status-select';
   import { TIER_META } from '../../data/fish-model';
   import type { HierNode, NodeRollUp } from '../../data/fish-model';
 
@@ -114,8 +117,7 @@ const detailsHref = withBase(`/prototypes/fish-node?id=${node.id}`);
     getNode(id: string): HierNode | undefined;
     rollupOf(id: string): NodeRollUp | undefined;
     setSchedule(id: string, startMonth: string, endMonth: string): void;
-    setName(id: string, name: string): void;
-    setId(oldId: string, newId: string): boolean;
+    setStatus(id: string, status: string): void;
     addChildTo(id: string): void;
     requestDelete(id: string): void;
   };
@@ -129,6 +131,20 @@ const detailsHref = withBase(`/prototypes/fish-node?id=${node.id}`);
     if (el) el.textContent = text;
   };
 
+  // ── Status select controllers: BcnStatusSelect renders SSR markup; each panel's
+  //    root is wired lazily (first sync) so cloned template panels work too. ──
+  const statusCtls = new WeakMap<HTMLElement, StatusSelectController>();
+  function statusCtlOf(panel: HTMLElement): StatusSelectController | undefined {
+    const root = panel.querySelector<HTMLElement>('.bcn-status-select');
+    if (!root) return undefined;
+    let ctl = statusCtls.get(root);
+    if (!ctl) {
+      ctl = setupStatusSelect(root);
+      statusCtls.set(root, ctl);
+    }
+    return ctl;
+  }
+
   // ── syncPanel: (re)fill a panel's controls from the model. Skips any field
   //    that currently has focus so typing never loses the caret. ──
   function syncPanel(panel: HTMLElement) {
@@ -137,11 +153,8 @@ const detailsHref = withBase(`/prototypes/fish-node?id=${node.id}`);
     const id = panel.dataset.nodePanel ?? '';
     const node = api.getNode(id);
     if (!node) return;
-    const active = document.activeElement;
-    const nameField = panel.querySelector<Field>('esa-text-field[data-wb-name]');
-    if (nameField && nameField !== active) nameField.value = node.name;
-    const idField = panel.querySelector<Field>('esa-text-field[data-wb-id]');
-    if (idField && idField !== active) idField.value = node.id;
+    const statusCtl = statusCtlOf(panel);
+    if (statusCtl && node.status && statusCtl.value !== node.status) statusCtl.setValue(node.status);
     const sel = (field: string, part: string) =>
       panel.querySelector<Field>(`esa-select[data-wb-field="${field}"][data-part="${part}"]`);
     const start = node.startMonth ?? '';
@@ -172,37 +185,16 @@ const detailsHref = withBase(`/prototypes/fish-node?id=${node.id}`);
     }
   }
 
-  // ── Name: live write-through (esa-text-field emits change per keystroke). ──
+  // ── Status: BcnStatusSelect's bubbling 'change' → wbApi.setStatus. Bar color,
+  //    parent roll-ups, and the header KPI all re-derive through recompute. ──
   document.addEventListener('change', (e) => {
-    const el = e.target as HTMLElement & { value?: string };
-    if (!(el instanceof HTMLElement) || el.tagName !== 'ESA-TEXT-FIELD' || !('wbName' in el.dataset)) return;
-    const panel = el.closest('[data-node-panel]') as HTMLElement | null;
+    const root = (e.target as HTMLElement).closest?.('.bcn-status-select');
+    if (!root) return;
+    const panel = root.closest('[data-node-panel]') as HTMLElement | null;
     const api = getApi();
     if (!panel || !api) return;
-    const value = String((e as CustomEvent).detail?.value ?? el.value ?? '');
-    if (value.trim()) api.setName(panel.dataset.nodePanel ?? '', value);
-  });
-
-  // ── ID: applied on blur/Enter (not per keystroke — the id is the model KEY;
-  //    intermediate values would churn the key and children's references). ──
-  function applyId(field: Field) {
-    const panel = field.closest('[data-node-panel]') as HTMLElement | null;
-    const api = getApi();
-    if (!panel || !api) return;
-    const oldId = panel.dataset.nodePanel ?? '';
-    const next = String(field.value ?? '').trim();
-    if (!next || next === oldId || !api.setId(oldId, next)) {
-      field.value = oldId; // rejected (empty / duplicate) — restore the real id
-    }
-  }
-  document.addEventListener('focusout', (e) => {
-    const el = e.target as HTMLElement;
-    if (el instanceof HTMLElement && el.tagName === 'ESA-TEXT-FIELD' && 'wbId' in el.dataset) applyId(el as Field);
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key !== 'Enter') return;
-    const el = e.target as HTMLElement;
-    if (el instanceof HTMLElement && el.tagName === 'ESA-TEXT-FIELD' && 'wbId' in el.dataset) applyId(el as Field);
+    const value = String((e as CustomEvent).detail?.value ?? '');
+    if (value) api.setStatus(panel.dataset.nodePanel ?? '', value);
   });
 
   // ── Date range: resolve the month/year pair into 'YYYY-MM', keep start ≤ end,
@@ -272,9 +264,6 @@ const detailsHref = withBase(`/prototypes/fish-node?id=${node.id}`);
   .bcn-edit__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
 
   .bcn-edit__title { margin: 0; font-size: var(--form-font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); }
-
-  /* The lego reads its face font from --font-sans — point the ID field at mono. */
-  .bcn-edit__idfield { --font-sans: var(--font-mono, monospace); }
 
   .bcn-edit__sched-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-200) var(--spacing-300); }
   .bcn-edit__hint { font-size: var(--type-size-150); color: var(--color-text-tertiary); }

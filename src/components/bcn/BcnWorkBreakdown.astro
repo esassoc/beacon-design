@@ -23,9 +23,9 @@
 //
 // FUNCTIONAL CRUD LAYER (client model): the SSR fixture is serialized into the page
 // and hydrated into a mutable tree. Task bars drag (edge hotzones resize by month,
-// body drag moves the whole bar); the node-edit drawer's Name/ID/date/budget legos
-// write through `wbApi` on this element (setName / setId / setSchedule / setFunding
-// / addChildTo / requestDelete); every mutation funnels into ONE recompute() that
+// body drag moves the whole bar); the node-edit drawer's date/budget/status legos
+// write through `wbApi` on this element (setName / setId / setSchedule / setStatus
+// / setFunding / addChildTo / requestDelete); every mutation funnels into ONE recompute() that
 // patches bars, roll-up brackets, badges, data-start/data-end, and emits
 // `wb-model-change` for the page (header KPIs) and panel components. Re-keying an
 // id additionally emits `wb-node-id-change` so panels can follow. In-memory only —
@@ -107,7 +107,6 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
         <span class="bcn-wb__fb-to">to</span>
         <esa-select id="bcn-wb-year-to" class="bcn-wb__fb-year" size="sm"></esa-select>
       </div>
-      <span class="bcn-wb__filter-count" id="bcn-wb-filter-count" hidden></span>
     </div>
     <div class="bcn-wb__legend">
       {
@@ -329,6 +328,17 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   };
   const pct = (n: number) => `${(n * 100).toFixed(2)}%`;
 
+  // Escape, then wrap case-insensitive query matches in <mark> — the exact
+  // pattern BcnSearchResults uses. Names are user-editable, so ALWAYS escape.
+  const ENT: Record<string, string> = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+  const escapeHtml = (s: string): string => s.replace(/[&<>"']/g, (c) => ENT[c]);
+  const highlight = (text: string, q: string): string => {
+    const escaped = escapeHtml(text);
+    if (!q) return escaped;
+    const qEsc = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return escaped.replace(new RegExp(`(${qEsc})`, 'ig'), '<mark>$1</mark>');
+  };
+
   document.querySelectorAll<HTMLElement>('.bcn-wb').forEach((wb) => {
     const body = wb.querySelector<HTMLElement>('.bcn-wb__body')!;
     const tpl = wb.querySelector<HTMLTemplateElement>('#bcn-wb-row-tpl')!;
@@ -396,6 +406,22 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       return { left, width: Math.max(right - left, 0.005) };
     }
 
+    // Row NAME + ID badge text, model-derived. With an active search query the
+    // matches wrap in <mark> (BcnSearchResults' escape+replace pattern above);
+    // clearing the query restores plain text. Skips a name mid-inline-rename.
+    function syncRowText(row: HTMLElement, node: HierNode) {
+      const badge = row.querySelector<HTMLElement>('.bcn-wb__id');
+      if (badge) {
+        if (filterQuery) badge.innerHTML = highlight(node.id, filterQuery);
+        else if (badge.firstElementChild || badge.textContent !== node.id) badge.textContent = node.id;
+      }
+      const nameEl = row.querySelector<HTMLElement>('.bcn-wb__name');
+      if (nameEl && !nameEl.isContentEditable) {
+        if (filterQuery) nameEl.innerHTML = highlight(node.name, filterQuery);
+        else if (nameEl.firstElementChild || nameEl.textContent !== node.name) nameEl.textContent = node.name;
+      }
+    }
+
     function patchRow(row: HTMLElement) {
       const node = byId.get(row.dataset.id ?? '');
       if (!node) return;
@@ -407,11 +433,11 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       const end = node.children.length ? r?.endMonth : (node.endMonth ?? r?.endMonth);
       row.dataset.start = start ?? '';
       row.dataset.end = end ?? '';
-      // Keep the label cell in sync with drawer edits (name + ID write-through).
-      const badge = row.querySelector<HTMLElement>('.bcn-wb__id');
-      if (badge && badge.textContent !== node.id) badge.textContent = node.id;
-      const nameEl = row.querySelector<HTMLElement>('.bcn-wb__name');
-      if (nameEl && !nameEl.isContentEditable && nameEl.textContent !== node.name) nameEl.textContent = node.name;
+      // Keep the label cell in sync with model edits (rename / ID re-key), and
+      // with the search highlight — ALWAYS re-derived from the MODEL, never from
+      // the marked-up DOM, so renaming while highlighted can't bake <mark>
+      // fragments into the name.
+      syncRowText(row, node);
       const plot = row.querySelector<HTMLElement>('.bcn-wb__plot')!;
       let mark = plot.querySelector<HTMLElement>('.bcn-wb__bar, .bcn-wb__summary');
       const geo = barGeoOf(node);
@@ -498,6 +524,15 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
         n.name = clean;
         recompute('rename');
       },
+      // Task-only (the only tier carrying status): drives the bar color, the
+      // parent roll-up aggregation, and the header KPIs — all through the one
+      // recompute path.
+      setStatus(id: string, status: TaskStatus) {
+        const n = byId.get(id);
+        if (!n || n.tier !== 'task' || n.status === status) return;
+        n.status = status;
+        recompute('status');
+      },
       // Re-key a node: the id IS the client-model key, so this updates the model
       // node, the row's data-id + badge, children's data-parent references, and
       // the collapse set — then announces the re-key (wb-node-id-change) so the
@@ -555,7 +590,6 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       options: { value: string; label: string }[];
       value: string;
     };
-    const filterCount = wb.querySelector<HTMLElement>('#bcn-wb-filter-count');
     let filterTier = 'all';
     let filterQuery = '';
     if (tierToggle) {
@@ -611,10 +645,6 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
           p = pr.dataset.parent ?? '';
         }
       }
-      if (filterCount) {
-        filterCount.hidden = false;
-        filterCount.textContent = `${matches.length} ${matches.length === 1 ? 'match' : 'matches'}`;
-      }
       return visible;
     }
 
@@ -623,9 +653,14 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       if (set) {
         rows().forEach((r) => (r.hidden = !set.has(r)));
       } else {
-        if (filterCount) filterCount.hidden = true;
         rows().forEach((r) => (r.hidden = !isVisible(r)));
       }
+      // Query changes don't go through recompute — refresh the <mark> wrapping
+      // (or its removal) on every row here.
+      rows().forEach((r) => {
+        const node = byId.get(r.dataset.id ?? '');
+        if (node) syncRowText(r, node);
+      });
     }
 
     searchInput?.addEventListener('change', (e) => {
@@ -1060,7 +1095,6 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   .bcn-wb__fb-label { font-size: var(--type-size-150); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); white-space: nowrap; }
   .bcn-wb__fb-divider { width: 1px; align-self: stretch; background: var(--color-border); margin: 0 var(--spacing-100); }
   .bcn-wb__fb-to { font-size: var(--type-size-150); color: var(--color-text-tertiary); }
-  .bcn-wb__filter-count { font-size: var(--type-size-150); color: var(--color-text-secondary); font-variant-numeric: tabular-nums; white-space: nowrap; }
 
   .bcn-wb__legend { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-300); padding: var(--spacing-200) var(--spacing-400); box-shadow: inset 0 1px 0 var(--color-border-light); font-size: var(--type-size-150); color: var(--color-text-secondary); }
   .bcn-wb__legend-item { display: inline-flex; align-items: center; gap: var(--spacing-150); }
@@ -1128,6 +1162,15 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   .bcn-wb__row.is-substudy .bcn-wb__id { background: color-mix(in srgb, var(--color-commitment) 12%, white); }
   .bcn-wb__row.is-task .bcn-wb__id { background: color-mix(in srgb, var(--color-commitment) 6%, white); }
   .bcn-wb__name { font-size: var(--type-size-150); color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* Search-match highlight — <mark> is JS-injected by the filter script; same
+     highlighter-yellow treatment as BcnSearchResults' marked titles. */
+  .bcn-wb__name mark,
+  .bcn-wb__id mark {
+    background: #fde047; /* highlighter yellow */
+    color: var(--color-text-primary);
+    border-radius: 2px;
+    padding: 0 1px;
+  }
   .bcn-wb__name.is-editing { white-space: normal; outline: 2px solid var(--color-primary); outline-offset: 1px; border-radius: var(--radius-100); background: var(--color-surface); padding: 0 3px; }
   .bcn-wb__row.is-program .bcn-wb__name, .bcn-wb__row.is-study .bcn-wb__name { font-weight: var(--font-weight-semibold); }
 

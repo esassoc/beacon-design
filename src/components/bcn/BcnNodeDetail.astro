@@ -5,8 +5,11 @@
 // decision 5):
 //   Identity → Timing → Funding → Roll-up (parents only) → constraints/notes (collapsed).
 //
-// EDITABLE: a Task's Timing section is esa-select month/year pairs that write
-// through the gantt's wbApi (bars + roll-up brackets re-derive live); the Funding
+// EDITABLE: the Identity section's Name + ID are esa-text-field legos (moved out
+// of the drawer 2026-07-16 — the HOST PAGE wires them: on fish-node they drive
+// the page's own header/title/labels); a Task's Timing section is esa-select
+// month/year pairs that write through the gantt's wbApi (bars + roll-up brackets
+// re-derive live); the Funding
 // section's dollar cells are esa-text-field legos (see BcnFundingPlan). The client
 // script below keeps every panel's derived text (spans, water years, roll-up
 // counts) in sync after any model change — elements it patches carry data-live
@@ -86,7 +89,8 @@ const hasNotes = Boolean(node.notes) || Boolean(node.constraints?.length);
 ---
 
 <div class="bcn-detail">
-  <!-- ── 1 · Identity ── -->
+  <!-- ── 1 · Identity — Name + ID are EDITABLE here (the drawer no longer holds
+       them). The host page wires these fields to its own header/title/labels. ── -->
   <section class="bcn-detail__section">
     <h3 class="bcn-detail__title">Identity</h3>
     <div class="bcn-detail__identity">
@@ -94,7 +98,15 @@ const hasNotes = Boolean(node.notes) || Boolean(node.constraints?.length);
       <span class="bcn-detail__tier">{tier.label}</span>
     </div>
     <div class="bcn-detail__rows">
-      <div data-live="name"><BcnKeyValue label="Name" value={node.name || '—'} /></div>
+      <esa-text-field label="Name" size="sm" value={node.name} data-detail-name></esa-text-field>
+      <esa-text-field
+        class="bcn-detail__idfield"
+        label="ID"
+        size="sm"
+        value={node.id}
+        help-text="Stable identity — applying a new ID re-keys this record and everything referencing it"
+        data-detail-id
+      ></esa-text-field>
       <BcnKeyValue label="COA reference" value={node.coaRef ?? '—'} hint="ITP Condition of Approval — reference label, not the record id" />
       {node.tier !== 'program' && <div data-live="parent"><BcnKeyValue label="Parent" value={parentName ?? '—'} /></div>}
     </div>
@@ -166,6 +178,7 @@ const hasNotes = Boolean(node.notes) || Boolean(node.constraints?.length);
 
 <script>
   import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-text-field';
   import {
     TASK_STATUS_META,
     HEALTH_META,
@@ -305,7 +318,11 @@ const hasNotes = Boolean(node.notes) || Boolean(node.constraints?.length);
     if (!node || !r) return;
     setText(panel, '.bcn-detail__id', node.id);
     setText(panel, '.bcn-detail__tier', TIER_META[node.tier].label);
-    setText(panel, '[data-live="name"] .bcn-key-value__val', node.name || '—');
+    const active = document.activeElement;
+    const nameField = panel.querySelector<HTMLElement & { value: string }>('esa-text-field[data-detail-name]');
+    if (nameField && nameField !== active) nameField.value = node.name;
+    const idField = panel.querySelector<HTMLElement & { value: string }>('esa-text-field[data-detail-id]');
+    if (idField && idField !== active) idField.value = node.id;
     const parentVal = panel.querySelector<HTMLElement>('[data-live="parent"] .bcn-key-value__val');
     if (parentVal) parentVal.textContent = api.parentOf(id)?.name ?? '—';
     syncTiming(panel, node, r);
@@ -366,6 +383,9 @@ const hasNotes = Boolean(node.notes) || Boolean(node.constraints?.length);
   .bcn-detail__identity { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; }
   .bcn-detail__id { font-family: var(--font-mono); font-size: var(--type-size-200); font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 2px var(--spacing-250); border-radius: var(--radius-100); }
   .bcn-detail__tier { font-size: var(--type-size-100); font-weight: var(--font-weight-medium); color: var(--color-text-tertiary); }
+
+  /* The lego reads its face font from --font-sans — point the ID field at mono. */
+  .bcn-detail__idfield { --font-sans: var(--font-mono, monospace); }
 
   .bcn-detail__rows { display: flex; flex-direction: column; gap: var(--spacing-300); }
 

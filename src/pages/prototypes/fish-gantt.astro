@@ -9,11 +9,11 @@
 //   • every node is editable (add / rename / reparent / delete at all four tiers);
 //   • stable type-prefixed IDs (PRG/STY/SUB/TSK) are identity, the COA dot-number a
 //     secondary reference; there is NO dependency dimension in this view;
-//   • clicking a row opens its EDIT drawer — Name, ID, Date range, Budget plus
-//     Add-child / Delete — the slim write surface. The full record (COA reference,
-//     parent, owner, status, water years, roll-up meter, constraints/notes) lives
-//     on the node DETAILS page (/prototypes/fish-node?id=…) behind the drawer's
-//     "View full details" link.
+//   • clicking a row opens its EDIT drawer — Date range, Budget, Status (tasks)
+//     plus Add-child / Delete — the slim write surface. Name + ID editing and the
+//     full record (COA reference, parent, owner, water years, roll-up meter,
+//     constraints/notes) live on the node DETAILS page (/prototypes/fish-node?id=…)
+//     behind the drawer's "View full details" link.
 // The same fish-schedule.ts calendar rules (water-year deadlines, half-year field
 // seasons) drive the axis. Dollar/status content is illustrative fixture data.
 import AppShell from '../../layouts/AppShell.astro';
@@ -72,7 +72,7 @@ const fishNav = [
     - program roll-up KPIs   -> esa-stat             # whole-plan aggregate: funding / tasks / on-track / horizon
     - work-breakdown gantt    -> bcn-work-breakdown    # recursive 4-tier tree + month timeline + roll-up bars + CRUD
     - node edit drawer        -> esa-side-dialog        # row side-panel container
-    - node edit body          -> bcn-node-edit          # Name / ID / date range / budget + add-child / delete / details link
+    - node edit body          -> bcn-node-edit          # date range / budget / status (tasks) + add-child / delete / details link
 -->
 
 <AppShell title={`${PROJECT_NAME} — Study Planning`} tenantName="DWR" projectName="Delta Conveyance" navSections={fishNav}>
@@ -101,7 +101,7 @@ const fishNav = [
     <BcnWorkBreakdown programs={PROGRAMS} today={TODAY} />
   </PageLayout>
 
-  <!-- ═══ Node-edit drawer — Name / ID / Date range / Budget + actions ═══ -->
+  <!-- ═══ Node-edit drawer — Date range / Budget / Status (tasks) + actions ═══ -->
   <esa-side-dialog id="node-drawer" size="md" style="--z-modal: 1300; --z-modal-backdrop: 1250;">
     <div slot="header" class="bcn-node-head">
       <span class="bcn-node-head__id" id="node-id">—</span>
@@ -164,7 +164,8 @@ const fishNav = [
     drawer.show();
   });
 
-  // The drawer's ID field re-keys the model — move the node's panel to the new
+  // wbApi.setId re-keys the model (ID editing now lives on the details page;
+  // the machinery stays for any caller) — move the node's panel to the new
   // key BEFORE the recompute broadcast so reconciliation keeps (not replaces) it.
   document.addEventListener('wb-node-id-change', (e) => {
     const { oldId, newId } = ((e as CustomEvent).detail ?? {}) as { oldId?: string; newId?: string };

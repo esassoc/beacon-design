@@ -2,7 +2,9 @@
 // <BcnFundingPlan> — CDFW's dollars-per-water-year funding plan for one node.
 // Funding is enterable at ANY tier; a Task's dollars sum upward, so a parent's
 // plan splits what was entered AT this node ("Own") from what rolled UP from its
-// descendants ("Rolled up"), with the per-water-year total.
+// descendants ("Rolled up"), with the per-water-year total. Two variants: 'full'
+// (details page — $ summary + split sentence + table) and 'slim' (drawer — the
+// table only, reading as an addition equation with a bold live Total).
 //
 // EDITABLE: the per-water-year "Own"/"Amount" cells are esa-text-field legos that
 // write through the gantt's wbApi (see BcnWorkBreakdown). The client script below
@@ -24,8 +26,16 @@ interface Props {
   ownFunding: FundingEntry[];
   /** Extra water years to offer empty rows for (a task's scheduled span). */
   spanYears?: number[];
+  /**
+   * 'slim' (the drawer) drops the big $ summary line and the own/rolled-up split
+   * sentence — the table alone reads as an addition equation: water-year rows with
+   * right-aligned $ inputs, a sum rule (border-top), and a bold live Total. Parent
+   * nodes keep the Own/Rolled-up/Total columns. 'full' (details page) keeps both.
+   */
+  variant?: 'full' | 'slim';
 }
-const { rollup, ownFunding, spanYears = [] } = Astro.props;
+const { rollup, ownFunding, spanYears = [], variant = 'full' } = Astro.props;
+const slim = variant === 'slim';
 
 const ownByYear = new Map(ownFunding.map((f) => [f.waterYear, f.amount]));
 const totalByYear = new Map(rollup.fundingByYear.map((f) => [f.waterYear, f.amount]));
@@ -40,13 +50,15 @@ const firstYear = rows.at(0)?.wy;
 const lastYear = rows.at(-1)?.wy;
 ---
 
-<div class="bcn-funding">
-  <div class="bcn-funding__summary">
-    <span class="bcn-funding__total-val">{formatUSD(rollup.totalFunding)}</span>
-    <span class="bcn-funding__total-lbl">planned{firstYear ? `, WY${firstYear}–${lastYear}` : ''}</span>
-  </div>
+<div class:list={['bcn-funding', { 'bcn-funding--slim': slim }]}>
+  {!slim && (
+    <div class="bcn-funding__summary">
+      <span class="bcn-funding__total-val">{formatUSD(rollup.totalFunding)}</span>
+      <span class="bcn-funding__total-lbl">planned{firstYear ? `, WY${firstYear}–${lastYear}` : ''}</span>
+    </div>
+  )}
 
-  {hasSub && (
+  {!slim && hasSub && (
     <div class="bcn-funding__split">
       <span data-cell="split-own">{formatUSD(rollup.ownFunding)} at this node</span>
       <span class="bcn-funding__split-sep">+</span>
@@ -134,18 +146,25 @@ const lastYear = rows.at(-1)?.wy;
   const money = (n: number) => (n ? formatUSD(n) : '—');
 
   // Full re-render: rebuilds the same markup the SSR emits (classes must match).
+  // The slim (drawer) variant is read off the block's own class — no summary line,
+  // no own/rolled-up split sentence; the table alone is the addition equation.
   function render(block: HTMLElement, node: HierNode, r: NodeRollUp) {
     const rows = rowsFor(node, r);
     const hasSub = r.totalFunding !== r.ownFunding;
+    const slim = block.classList.contains('bcn-funding--slim');
     const field = (row: FundingRow) =>
       `<esa-text-field class="bcn-funding__field" size="sm" type="text" prefix="$" placeholder="0" value="${row.own || ''}" data-wb-funding data-wy="${row.wy}"></esa-text-field>`;
     block.innerHTML = `
-      <div class="bcn-funding__summary">
-        <span class="bcn-funding__total-val">${formatUSD(r.totalFunding)}</span>
-        <span class="bcn-funding__total-lbl">planned${rows.length ? `, WY${rows[0].wy}–${rows[rows.length - 1].wy}` : ''}</span>
-      </div>
       ${
-        hasSub
+        slim
+          ? ''
+          : `<div class="bcn-funding__summary">
+              <span class="bcn-funding__total-val">${formatUSD(r.totalFunding)}</span>
+              <span class="bcn-funding__total-lbl">planned${rows.length ? `, WY${rows[0].wy}–${rows[rows.length - 1].wy}` : ''}</span>
+            </div>`
+      }
+      ${
+        !slim && hasSub
           ? `<div class="bcn-funding__split">
               <span data-cell="split-own">${formatUSD(r.ownFunding)} at this node</span>
               <span class="bcn-funding__split-sep">+</span>

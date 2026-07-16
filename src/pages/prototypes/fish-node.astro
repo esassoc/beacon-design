@@ -1,15 +1,17 @@
 ---
 // Fish Node — the per-node DETAILS page behind the Study Planning gantt.
 //
-// The gantt row drawer is the slim EDIT surface (Name / ID / Date range /
-// Budget); THIS page is where the full record reads: Identity with the COA
-// reference + parent, Timing with water years + field seasons, the Funding
-// plan, the Status roll-up meter, and constraints/notes — the unchanged
-// BcnNodeDetail composition, one hidden SSR panel per node with `?id=`
-// selecting which one shows (same data-node-panel pattern the drawer uses).
+// The gantt row drawer is the slim EDIT surface (Date range / Budget / Status);
+// THIS page is where the full record reads AND where Name + ID edit: Identity
+// with editable Name/ID fields + the COA reference + parent, Timing with water
+// years + field seasons, the Funding plan, the Status roll-up meter, and
+// constraints/notes — the BcnNodeDetail composition, one hidden SSR panel per
+// node with `?id=` selecting which one shows (same data-node-panel pattern the
+// drawer uses).
 //
 // SSR'd from the fixture: in-memory edits made on the gantt do NOT carry over
-// here — acceptable for the prototype; a real build reads one store.
+// here — acceptable for the prototype; a real build reads one store. Name/ID
+// edits made HERE are likewise page-local (see the script's cross-page note).
 import AppShell from '../../layouts/AppShell.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
@@ -110,16 +112,67 @@ const fishNav = [
 
   if (panel) {
     panel.hidden = false;
-    const name = panel.dataset.nodeName || id;
-    document.title = `${name} — ${document.title}`;
-    // Title = the node name (the H1's last child is the SSR text node).
+
+    // ── Page chrome (tab title / H1 / badge / identity chip) re-derives from the
+    //    CURRENT name+id so the Identity fields below update it live. ──
+    const baseTitle = document.title;
     const h1 = document.querySelector<HTMLElement>('.page-layout__title h1');
-    if (h1?.lastChild) h1.lastChild.textContent = ` ${name}`;
     const badge = document.getElementById('bcn-node-badge');
-    if (badge) {
-      badge.hidden = false;
-      badge.textContent = `${id} · ${panel.dataset.nodeTier ?? ''}`;
-    }
+    const tierLabel = panel.dataset.nodeTier ?? '';
+    let nodeId = id;
+    let nodeName = panel.dataset.nodeName || id;
+    const paintHeader = () => {
+      document.title = `${nodeName} — ${baseTitle}`;
+      // Title = the node name (the H1's last child is the SSR text node).
+      if (h1?.lastChild) h1.lastChild.textContent = ` ${nodeName}`;
+      if (badge) {
+        badge.hidden = false;
+        badge.textContent = `${nodeId} · ${tierLabel}`;
+      }
+      const chip = panel.querySelector<HTMLElement>('.bcn-detail__id');
+      if (chip) chip.textContent = nodeId;
+    };
+    paintHeader();
+
+    // ── Identity editing: Name writes live (per keystroke); ID applies on
+    //    blur/Enter (same semantics the drawer's ID field had — intermediate
+    //    values must not churn the key), rejecting empty/duplicate ids.
+    //    CROSS-PAGE SYNC LIMITATION: this page has NO shared model with the
+    //    gantt — edits update THIS page's in-memory state and chrome only and
+    //    are lost on reload; they do NOT write back to the fish-gantt client
+    //    model. A real build reads/writes one store. ──
+    type Field = HTMLElement & { value: string };
+    const nameField = panel.querySelector<Field>('esa-text-field[data-detail-name]');
+    nameField?.addEventListener('change', (e) => {
+      const v = String((e as CustomEvent).detail?.value ?? nameField.value ?? '').trim();
+      if (!v) return;
+      nodeName = v;
+      panel.dataset.nodeName = v;
+      paintHeader();
+    });
+
+    const idField = panel.querySelector<Field>('esa-text-field[data-detail-id]');
+    const applyId = () => {
+      if (!idField) return;
+      const next = String(idField.value ?? '').trim();
+      const taken = panels.some((p) => p !== panel && p.dataset.nodePanel === next);
+      if (!next || next === nodeId || taken) {
+        idField.value = nodeId; // rejected (empty / duplicate) — restore the real id
+        return;
+      }
+      nodeId = next;
+      panel.dataset.nodePanel = next;
+      // Keep the page addressable under the new key.
+      const url = new URL(location.href);
+      url.searchParams.set('id', next);
+      history.replaceState(null, '', url);
+      paintHeader();
+    };
+    idField?.addEventListener('focusout', applyId);
+    idField?.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Enter') applyId();
+    });
+
     // A task panel's month/year pickers SSR without values (the gantt drawer
     // fills them through wbApi, which doesn't exist here) — fill them from the
     // panel's own data attrs once the lego upgrades.
