@@ -2236,6 +2236,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
 .bcn-status-chip {
   display: inline-flex;
   align-items: center;
@@ -3466,12 +3472,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .check__act {
   grid-row: 1;
   grid-column: 3;
-}
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
 }
 ```
 

@@ -2163,6 +2163,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --_badge-bg: var(--color-secondary, #65ba74);
   --_badge-text: var(--color-secondary-on-fill, #203c25);
 }
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-weight: var(--font-weight-regular, 350);
+  color: var(--color-text-primary, #3d3d3d);
+  background: var(--color-surface, #fff);
+  -webkit-font-smoothing: antialiased;
+}
+button {
+  font-family: inherit;
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+a {
+  color: var(--color-text-link, #005862);
+  text-decoration: none;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
+  margin: 0;
+}
 :host {
   all: initial;
 }
@@ -2370,39 +2400,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 }
 .claude svg {
   flex: none;
-}
-:host {
-  --_width: var(--side-dialog-width, 400px);
-}
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-regular, 350);
-  color: var(--color-text-primary, #3d3d3d);
-  background: var(--color-surface, #fff);
-  -webkit-font-smoothing: antialiased;
-}
-button {
-  font-family: inherit;
-  cursor: pointer;
-  background: none;
-  border: 0;
-}
-a {
-  color: var(--color-text-link, #005862);
-  text-decoration: none;
-}
-img {
-  display: block;
-  max-width: 100%;
-}
-:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
-  margin: 0;
 }
 .page-layout {
   display: flex;
@@ -2648,6 +2645,9 @@ a.breadcrumb-item {
 }
 .bcn-status-select__menu[hidden] {
   display: none;
+}
+:host {
+  --_width: var(--side-dialog-width, 400px);
 }
 .cmp-note {
   display: flex;

@@ -131,13 +131,6 @@ The Data tab is the tabular workspace: the requirement-tracker filter bar over t
 .esa-icon-button--sm {
   --_ib-size: var(--form-height-sm, 32px);
 }
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
-}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -289,6 +282,13 @@ The Data tab is the tabular workspace: the requirement-tracker filter bar over t
 }
 .bcn-filterbar__clear {
   margin-left: auto;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
 }
 ```
 

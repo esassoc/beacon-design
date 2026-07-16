@@ -1,0 +1,3256 @@
+# Full page
+
+Re-implement this UI section faithfully on your stack. Keep the CSS custom-property
+names (`var(--…)`) so it stays themeable — the values below are the resolved
+`beacon` theme of the **prototypes-project-dashboard** design system (an ESA Ecology spoke).
+
+- **Source prototype:** http://localhost:4399/beacon-design/prototypes/project-dashboard/
+- **Section element:** `<page>`
+- **Components:** esa-button (hub), esa-card (hub), esa-icon (hub), esa-icon-button (hub), esa-stat (hub)
+
+## Markup (de-scoped, framework-free)
+```html
+<div class="modern-layout">
+  <!-- ═══ TOPBAR (header-nav-modern) ═══ -->
+  <header class="topbar">
+    <!-- Left: sidebar toggle + tenant trigger -->
+    <div class="topbar__left">
+      <button
+        type="button"
+        class="sidebar-toggle"
+        id="sidebar-toggle"
+        aria-label="Collapse sidebar"
+        aria-expanded="true"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="sidebar-toggle__icon"
+        >
+          <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+          <path d="M9 3v18"></path>
+        </svg>
+      </button>
+      <button type="button" class="tenant-trigger">
+        <span>DWR</span>
+        <span class="esa-icon esa-icon--xs" aria-hidden="true">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+          >
+            <path d="m6 9 6 6 6-6"></path>
+          </svg>
+        </span>
+      </button>
+    </div>
+    <!-- Center: global-search trigger field (opens BcnOmniSearch) -->
+    <div class="topbar__center">
+      <button
+        class="bcn-search-trigger"
+        type="button"
+        data-omni-trigger=""
+        aria-label="Search"
+        aria-keyshortcuts="/"
+      >
+        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
+        </span>
+        <span class="bcn-search-trigger__placeholder">Search…</span>
+        <span class="bcn-search-trigger__kbd" aria-hidden="true"> <kbd>/</kbd> </span>
+      </button>
+    </div>
+    <!-- Right: QA badge, search, config/admin icon-buttons, user menu -->
+    <div class="topbar__right">
+      <span class="qa-warning">
+        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+          >
+            <path
+              d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+            ></path>
+            <path d="M12 9v4"></path>
+            <path d="M12 17h.01"></path>
+          </svg>
+        </span>
+        QA
+      </span>
+      <a href="#esa-config" class="icon-button" aria-label="ESA-Config">
+        <span class="esa-icon esa-icon--md" aria-hidden="true">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+          >
+            <line x1="21" x2="14" y1="4" y2="4"></line>
+            <line x1="10" x2="3" y1="4" y2="4"></line>
+            <line x1="21" x2="12" y1="12" y2="12"></line>
+            <line x1="8" x2="3" y1="12" y2="12"></line>
+            <line x1="21" x2="16" y1="20" y2="20"></line>
+            <line x1="12" x2="3" y1="20" y2="20"></line>
+            <line x1="14" x2="14" y1="2" y2="6"></line>
+            <line x1="8" x2="8" y1="10" y2="14"></line>
+            <line x1="16" x2="16" y1="18" y2="22"></line>
+          </svg>
+        </span>
+      </a>
+      <a
+        class="esa-icon-button esa-icon-button--md"
+        href="#admin"
+        aria-label="Admin settings"
+        title="Admin settings"
+      >
+        <span class="esa-icon esa-icon--md" aria-hidden="true">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+          >
+            <path
+              d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+            ></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+        </span>
+      </a>
+      <div class="user-menu" id="user-menu">
+        <button
+          type="button"
+          class="user-menu-trigger"
+          id="user-menu-trigger"
+          aria-label="User menu"
+          aria-expanded="false"
+        >
+          <span class="user-menu-trigger__avatar user-menu-trigger__avatar--fallback">
+            <span class="esa-icon esa-icon--md" aria-hidden="true">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="M18 20a6 6 0 0 0-12 0"></path>
+                <circle cx="12" cy="10" r="4"></circle>
+                <circle cx="12" cy="12" r="10"></circle>
+              </svg>
+            </span>
+          </span>
+        </button>
+        <div class="user-panel" id="user-panel" hidden="">
+          <div class="user-panel__header">
+            <div class="user-panel__avatar-wrapper">
+              <span class="user-panel__avatar user-panel__avatar--fallback">
+                <span class="esa-icon esa-icon--lg" aria-hidden="true">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path d="M18 20a6 6 0 0 0-12 0"></path>
+                    <circle cx="12" cy="10" r="4"></circle>
+                    <circle cx="12" cy="12" r="10"></circle>
+                  </svg>
+                </span>
+              </span>
+            </div>
+            <div class="user-panel__info">
+              <span class="user-panel__name">Andy Lovseth</span>
+              <span class="user-panel__email">andy.lovseth@esassoc.com</span>
+            </div>
+          </div>
+          <div class="user-panel__menu">
+            <button type="button" class="user-panel__item">
+              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path
+                    d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
+                  ></path>
+                  <path d="m15 5 4 4"></path>
+                </svg>
+              </span>
+              <span>Edit Profile</span>
+            </button>
+            <a class="user-panel__item" href="#help">
+              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                  <path d="M12 17h.01"></path>
+                </svg>
+              </span>
+              <span>Get Help</span>
+            </a>
+            <button type="button" class="user-panel__item user-panel__item--danger">
+              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                  <polyline points="16 17 21 12 16 7"></polyline>
+                  <line x1="21" x2="9" y1="12" y2="12"></line>
+                </svg>
+              </span>
+              <span>Sign Out</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- ═══ BODY (sidenav + content) ═══ -->
+  <div class="modern-layout__body">
+    <!-- ─── side-nav-modern ─── -->
+    <nav class="side-nav" id="side-nav">
+      <div class="sidebar-header">
+        <a href="#home" class="site-logo" aria-label="Beacon home">
+          <img src="/beacon-design/beacon-icon.svg" alt="Beacon" class="site-logo__img" />
+        </a>
+      </div>
+      <!-- project-switcher (ported from project-switcher.component) -->
+      <div class="project-switcher-container">
+        <button type="button" class="project-switcher__trigger">
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m15 12-8.373 8.373a1 1 0 1 1-3-3L12 9"></path>
+              <path d="m18 15 4-4"></path>
+              <path
+                d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172V7l-2.26-2.26a6 6 0 0 0-4.202-1.756L9 2.96l.92.82A6.18 6.18 0 0 1 12 8.4V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"
+              ></path>
+            </svg>
+          </span>
+          <span class="project-switcher__name">Delta Conveyance</span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m6 9 6 6 6-6"></path>
+            </svg>
+          </span>
+        </button>
+      </div>
+      <div class="main-nav">
+        <div class="nav-section">
+          <a href="#setup-wizard" class="nav-section__header nav-section__header--link">
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path
+                  d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+                ></path>
+                <circle cx="12" cy="12" r="10"></circle>
+              </svg>
+            </span>
+            <span class="nav-section__title">Setup Wizard</span>
+          </a>
+        </div>
+        <div class="nav-section nav-section--active">
+          <button type="button" class="nav-section__header" aria-expanded="true">
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <rect width="7" height="9" x="3" y="3" rx="1"></rect>
+                <rect width="7" height="5" x="14" y="3" rx="1"></rect>
+                <rect width="7" height="9" x="14" y="12" rx="1"></rect>
+                <rect width="7" height="5" x="3" y="16" rx="1"></rect>
+              </svg>
+            </span>
+            <span class="nav-section__title">Project</span>
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </span>
+          </button>
+          <ul class="nav-section__items">
+            <li class="nav-item">
+              <a href="#dashboard" class="nav-sublink active"> Dashboard </a>
+            </li>
+            <li class="nav-item">
+              <a href="#source-documents" class="nav-sublink"> Source Documents </a>
+            </li>
+            <li class="nav-item"><a href="#commitments" class="nav-sublink"> Commitments </a></li>
+            <li class="nav-item"><a href="#requirements" class="nav-sublink"> Requirements </a></li>
+            <li class="nav-item">
+              <a href="#organize-actions" class="nav-sublink"> Organize Actions </a>
+            </li>
+            <li class="nav-item"><a href="#action-lists" class="nav-sublink"> Action Lists </a></li>
+            <li class="nav-item">
+              <a href="#document-reviews" class="nav-sublink"> Document Reviews </a>
+            </li>
+            <li class="nav-item">
+              <a href="#spatial-library-layers" class="nav-sublink"> Spatial Library Layers </a>
+            </li>
+          </ul>
+        </div>
+        <hr class="nav-divider" aria-hidden="true" />
+        <div class="nav-section">
+          <button type="button" class="nav-section__header" aria-expanded="true">
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                <path d="M4 6h.01"></path>
+                <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                <path d="M12 18h.01"></path>
+                <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                <circle cx="12" cy="12" r="2"></circle>
+                <path d="m13.41 10.59 5.66-5.66"></path>
+              </svg>
+            </span>
+            <span class="nav-section__title">Tracking</span>
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </span>
+          </button>
+          <ul class="nav-section__items">
+            <li class="nav-item">
+              <a href="#tracking-summary" class="nav-sublink"> Tracking Summary </a>
+            </li>
+            <li class="nav-item">
+              <a href="#project-tracking" class="nav-sublink"> Project Tracking </a>
+            </li>
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/permit-tracking" class="nav-sublink">
+                Permit Tracking
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#all-components" class="nav-sublink"> All Components </a>
+            </li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <button type="button" class="nav-section__header" aria-expanded="true">
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path
+                  d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"
+                ></path>
+                <circle cx="12" cy="8" r="2"></circle>
+                <path
+                  d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"
+                ></path>
+              </svg>
+            </span>
+            <span class="nav-section__title">Monitoring</span>
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </span>
+          </button>
+          <ul class="nav-section__items">
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/monitoring/dashboard" class="nav-sublink">
+                Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/beacon-design/prototypes/monitoring/compliance-concerns"
+                class="nav-sublink"
+              >
+                Compliance Concerns
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/monitoring/nesting-birds" class="nav-sublink">
+                Nesting Birds
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/beacon-design/prototypes/monitoring/biological-resources"
+                class="nav-sublink"
+              >
+                Biological Resources
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/beacon-design/prototypes/monitoring/daily-monitoring-reports"
+                class="nav-sublink"
+              >
+                Daily Monitoring Reports
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/monitoring/surveys" class="nav-sublink">
+                Surveys
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/monitoring/all-observations" class="nav-sublink">
+                All Observations
+              </a>
+            </li>
+            <li class="nav-subdivider" aria-hidden="true"></li>
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/site-clearance" class="nav-sublink">
+                Site Clearance
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <button type="button" class="nav-section__header" aria-expanded="true">
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
+                <path
+                  d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+                ></path>
+                <path d="M12 11h4"></path>
+                <path d="M12 16h4"></path>
+                <path d="M8 11h.01"></path>
+                <path d="M8 16h.01"></path>
+              </svg>
+            </span>
+            <span class="nav-section__title">Reporting</span>
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </span>
+          </button>
+          <ul class="nav-section__items">
+            <li class="nav-item">
+              <a href="#progress-report" class="nav-sublink"> Progress Report </a>
+            </li>
+            <li class="nav-item">
+              <a href="#report-center" class="nav-sublink"> Report Center </a>
+            </li>
+          </ul>
+        </div>
+        <hr class="nav-divider" aria-hidden="true" />
+        <div class="nav-section">
+          <button type="button" class="nav-section__header" aria-expanded="true">
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
+                <path d="M3 12A9 3 0 0 0 21 12"></path>
+              </svg>
+            </span>
+            <span class="nav-section__title">Data Catalog</span>
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </span>
+          </button>
+          <ul class="nav-section__items">
+            <li class="nav-item">
+              <a href="#dc-source-documents" class="nav-sublink"> Source Documents </a>
+            </li>
+            <li class="nav-item">
+              <a href="#dc-commitments" class="nav-sublink"> Commitments </a>
+            </li>
+            <li class="nav-item">
+              <a href="#dc-requirements" class="nav-sublink"> Requirements </a>
+            </li>
+            <li class="nav-item"><a href="#dc-actions" class="nav-sublink"> Actions </a></li>
+            <li class="nav-item"><a href="#dc-all-data" class="nav-sublink"> All Data </a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- content -->
+    <div class="modern-layout__content">
+      <div class="page-layout page-layout--bleed">
+        <div class="page-layout__bleed">
+          <section class="bcn-phome" aria-label="Delta Conveyance Project — project home">
+            <div class="bcn-phome__cover">
+              <img
+                class="bcn-phome__hero"
+                src="/beacon-design/images/dcp/hero.jpeg"
+                alt=""
+                aria-hidden="true"
+              />
+            </div>
+            <div class="bcn-phome__body">
+              <img
+                class="bcn-phome__seal"
+                src="/beacon-design/images/dcp/dwr-logo.png"
+                alt="DWR seal"
+              />
+              <div class="bcn-phome__id">
+                <div class="bcn-phome__idtop">
+                  <h1 class="bcn-phome__name">Delta Conveyance Project</h1>
+                  <span
+                    class="bcn-status-chip"
+                    data-status="phase"
+                    style="--_chip: var(--st-phase, var(--color-primary))"
+                  >
+                    <span class="bcn-status-chip__dot"></span>
+                    <span class="bcn-status-chip__label">Pre-Construction</span>
+                  </span>
+                </div>
+                <p class="bcn-phome__eyebrow">Department of Water Resources</p>
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="page-layout__container">
+          <section class="page-layout__content">
+            <div
+              class="sidebar"
+              data-side="end"
+              data-gap="xl"
+              style="--sidebar-width: 16rem; --sidebar-content-min: 64%"
+            >
+              <div class="stack" data-gap="lg">
+                <div class="esa-card">
+                  <div class="esa-card__header">
+                    <div class="esa-card__header-content">
+                      <div class="esa-card__titles">
+                        <h3 class="esa-card__title">Project data</h3>
+                      </div>
+                    </div>
+                    <div class="esa-card__actions"></div>
+                  </div>
+                  <div class="esa-card__body">
+                    <ul class="bcn-lrc">
+                      <li>
+                        <a class="bcn-lrc__row" href="#project-info">
+                          <span class="bcn-lrc__label">Project Info</span>
+                          <span class="bcn-lrc__right">
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path d="m9 18 6-6-6-6"></path>
+                              </svg>
+                            </span>
+                          </span>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="bcn-lrc__row" href="#species">
+                          <span class="bcn-lrc__label">Species</span>
+                          <span class="bcn-lrc__right">
+                            <span class="bcn-lrc__meta">38</span>
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path d="m9 18 6-6-6-6"></path>
+                              </svg>
+                            </span>
+                          </span>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="bcn-lrc__row" href="#milestones">
+                          <span class="bcn-lrc__label">Milestones</span>
+                          <span class="bcn-lrc__right">
+                            <span class="bcn-lrc__meta">12</span>
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path d="m9 18 6-6-6-6"></path>
+                              </svg>
+                            </span>
+                          </span>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="bcn-lrc__row" href="#construction-activities">
+                          <span class="bcn-lrc__label">Construction Activities</span>
+                          <span class="bcn-lrc__right">
+                            <span class="bcn-lrc__meta">27</span>
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path d="m9 18 6-6-6-6"></path>
+                              </svg>
+                            </span>
+                          </span>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="bcn-lrc__row" href="#seasons">
+                          <span class="bcn-lrc__label">Seasons</span>
+                          <span class="bcn-lrc__right">
+                            <span class="bcn-lrc__meta">4</span>
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path d="m9 18 6-6-6-6"></path>
+                              </svg>
+                            </span>
+                          </span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="esa-card">
+                  <div class="esa-card__header">
+                    <div class="esa-card__header-content">
+                      <div class="esa-card__titles">
+                        <h3 class="esa-card__title">Project details</h3>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="esa-card__body">
+                    <p class="bcn-pf__desc">
+                      A new State Water Project conveyance facility — twin tunnels carrying water
+                      beneath the Delta from new North Delta intakes to the southern export
+                      facilities. Beacon is the system of record for every environmental commitment,
+                      monitoring observation, and compliance report across the project’s components.
+                    </p>
+                    <dl class="bcn-pf">
+                      <div class="bcn-pf__fact">
+                        <dt class="bcn-pf__label">Lead agency</dt>
+                        <dd class="bcn-pf__value">Department of Water Resources</dd>
+                      </div>
+                      <div class="bcn-pf__fact">
+                        <dt class="bcn-pf__label">Region</dt>
+                        <dd class="bcn-pf__value">Sacramento–San Joaquin Delta</dd>
+                      </div>
+                      <div class="bcn-pf__fact">
+                        <dt class="bcn-pf__label">Components</dt>
+                        <dd class="bcn-pf__value">24 tracked · 4 starred</dd>
+                      </div>
+                      <div class="bcn-pf__fact">
+                        <dt class="bcn-pf__label">Tracking since</dt>
+                        <dd class="bcn-pf__value">January 2024</dd>
+                      </div>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+              <div class="stack" data-gap="xl">
+                <div class="esa-card">
+                  <div class="esa-card__header">
+                    <div class="esa-card__header-content">
+                      <div class="esa-card__titles">
+                        <h3 class="esa-card__title">Most critical right now</h3>
+                      </div>
+                    </div>
+                    <div class="esa-card__actions">
+                      <span class="bcn-count" aria-label="3 critical items">3</span>
+                    </div>
+                  </div>
+                  <div class="esa-card__body">
+                    <div class="bcn-crit">
+                      <ul class="bcn-crit__list">
+                        <li>
+                          <a
+                            class="bcn-crit__card"
+                            href="/beacon-design/prototypes/component-dashboard"
+                          >
+                            <span class="bcn-crit__icon" aria-hidden="true">
+                              <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                <svg
+                                  width="20"
+                                  height="20"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                  ></path>
+                                  <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                              </span>
+                            </span>
+                            <span class="bcn-crit__body">
+                              <span class="bcn-crit__type">Observation</span>
+                              <span class="bcn-crit__title">
+                                Nesting-bird resurvey lapsed — ground disturbance not cleared
+                              </span>
+                              <span class="bcn-crit__where">Bouldin Island Launch Shaft</span>
+                            </span>
+                            <span class="bcn-crit__right">
+                              <span class="bcn-crit__sev">
+                                <span
+                                  class="bcn-crit__sev-dot"
+                                  style="--_s: var(--color-danger)"
+                                  aria-hidden="true"
+                                ></span>
+                                Critical
+                              </span>
+                              <span class="bcn-crit__timing bcn-crit__timing--late">
+                                Survey expired Mar 24
+                              </span>
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="m9 18 6-6-6-6"></path>
+                                </svg>
+                              </span>
+                            </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="bcn-crit__card" href="#reporting">
+                            <span class="bcn-crit__icon" aria-hidden="true">
+                              <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                <svg
+                                  width="20"
+                                  height="20"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
+                                  <path
+                                    d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+                                  ></path>
+                                  <path d="M12 11h4"></path>
+                                  <path d="M12 16h4"></path>
+                                  <path d="M8 11h.01"></path>
+                                  <path d="M8 16h.01"></path>
+                                </svg>
+                              </span>
+                            </span>
+                            <span class="bcn-crit__body">
+                              <span class="bcn-crit__type">Report</span>
+                              <span class="bcn-crit__title">
+                                Q1 ITP compliance report to CDFW — 2 sections still incomplete
+                              </span>
+                              <span class="bcn-crit__where">Project-wide</span>
+                            </span>
+                            <span class="bcn-crit__right">
+                              <span class="bcn-crit__sev">
+                                <span
+                                  class="bcn-crit__sev-dot"
+                                  style="--_s: var(--color-danger)"
+                                  aria-hidden="true"
+                                ></span>
+                                Critical
+                              </span>
+                              <span class="bcn-crit__timing"> Due in 2 days · Apr 1 </span>
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="m9 18 6-6-6-6"></path>
+                                </svg>
+                              </span>
+                            </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            class="bcn-crit__card"
+                            href="/beacon-design/prototypes/component-dashboard"
+                          >
+                            <span class="bcn-crit__icon" aria-hidden="true">
+                              <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                <svg
+                                  width="20"
+                                  height="20"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                                  <path d="M4 6h.01"></path>
+                                  <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                                  <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                                  <path d="M12 18h.01"></path>
+                                  <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                                  <circle cx="12" cy="12" r="2"></circle>
+                                  <path d="m13.41 10.59 5.66-5.66"></path>
+                                </svg>
+                              </span>
+                            </span>
+                            <span class="bcn-crit__body">
+                              <span class="bcn-crit__type">Action</span>
+                              <span class="bcn-crit__title">
+                                <span class="bcn-crit__code">BIO-14</span> Exclusion-fencing
+                                inspection overdue
+                              </span>
+                              <span class="bcn-crit__where">Intake B — North Delta</span>
+                            </span>
+                            <span class="bcn-crit__right">
+                              <span class="bcn-crit__sev">
+                                <span
+                                  class="bcn-crit__sev-dot"
+                                  style="--_s: var(--color-warning)"
+                                  aria-hidden="true"
+                                ></span>
+                                Urgent
+                              </span>
+                              <span class="bcn-crit__timing bcn-crit__timing--late">
+                                4 days overdue
+                              </span>
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="m9 18 6-6-6-6"></path>
+                                </svg>
+                              </span>
+                            </span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <section class="bcn-stc" aria-label="Components">
+                  <header class="bcn-stc__head">
+                    <div class="bcn-stc__headings">
+                      <h2 class="bcn-stc__title type-section-title">Components</h2>
+                      <p class="bcn-stc__lede type-body-small">
+                        The components you've starred, with current Tracking, Monitoring, and
+                        Reporting status for each.
+                      </p>
+                    </div>
+                    <a class="bcn-stc__all" href="/beacon-design/prototypes/component-dashboard"
+                      >All 24 components
+                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path d="m9 18 6-6-6-6"></path>
+                        </svg>
+                      </span>
+                    </a>
+                  </header>
+                  <div class="bcn-stc__list">
+                    <a class="bcn-stc__card" href="/beacon-design/prototypes/component-dashboard">
+                      <div class="bcn-stc__main">
+                        <div class="bcn-stc__card-head">
+                          <span class="bcn-stc__glyph"
+                            ><span class="esa-icon esa-icon--md" aria-hidden="true">
+                              <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"
+                                ></path>
+                                <path d="M3.29 7 12 12l8.71-5"></path>
+                                <path d="M12 22V12"></path>
+                              </svg>
+                            </span>
+                          </span>
+                          <span class="bcn-stc__ident">
+                            <span class="bcn-stc__name">Bouldin Island Launch Shaft</span>
+                            <span class="bcn-stc__type"
+                              >Tunnel launch shaft · Bouldin Island · Pre-Construction</span
+                            >
+                          </span>
+                        </div>
+                        <div class="bcn-stc__headline">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-danger)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__headline-text"
+                            >Resurvey lapsed — ground disturbance work blocked</span
+                          >
+                        </div>
+                      </div>
+                      <ul class="bcn-stc__pulse">
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-warning)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Tracking</span>
+                          <span class="bcn-stc__pulse-note">3 overdue actions</span>
+                        </li>
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-danger)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Monitoring</span>
+                          <span class="bcn-stc__pulse-note">Resurvey required</span>
+                        </li>
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-success)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Reporting</span>
+                          <span class="bcn-stc__pulse-note">Reports current</span>
+                        </li>
+                      </ul> </a
+                    ><a class="bcn-stc__card" href="/beacon-design/prototypes/component-dashboard">
+                      <div class="bcn-stc__main">
+                        <div class="bcn-stc__card-head">
+                          <span class="bcn-stc__glyph"
+                            ><span class="esa-icon esa-icon--md" aria-hidden="true">
+                              <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"
+                                ></path>
+                                <path d="M3.29 7 12 12l8.71-5"></path>
+                                <path d="M12 22V12"></path>
+                              </svg>
+                            </span>
+                          </span>
+                          <span class="bcn-stc__ident">
+                            <span class="bcn-stc__name">Intake B — North Delta</span>
+                            <span class="bcn-stc__type"
+                              >Screened intake · Sacramento River · Pre-Construction</span
+                            >
+                          </span>
+                        </div>
+                        <div class="bcn-stc__headline">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-warning)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__headline-text"
+                            >Fencing inspection overdue — otherwise tracking well</span
+                          >
+                        </div>
+                      </div>
+                      <ul class="bcn-stc__pulse">
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-warning)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Tracking</span>
+                          <span class="bcn-stc__pulse-note">1 inspection overdue</span>
+                        </li>
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-success)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Monitoring</span>
+                          <span class="bcn-stc__pulse-note">6 obs · 30d</span>
+                        </li>
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-success)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Reporting</span>
+                          <span class="bcn-stc__pulse-note">Reports current</span>
+                        </li>
+                      </ul> </a
+                    ><a class="bcn-stc__card" href="/beacon-design/prototypes/component-dashboard">
+                      <div class="bcn-stc__main">
+                        <div class="bcn-stc__card-head">
+                          <span class="bcn-stc__glyph"
+                            ><span class="esa-icon esa-icon--md" aria-hidden="true">
+                              <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"
+                                ></path>
+                                <path d="M3.29 7 12 12l8.71-5"></path>
+                                <path d="M12 22V12"></path>
+                              </svg>
+                            </span>
+                          </span>
+                          <span class="bcn-stc__ident">
+                            <span class="bcn-stc__name">Southern Forebay &amp; Pumping Plant</span>
+                            <span class="bcn-stc__type"
+                              >Forebay · Byron Tract · Pre-Construction</span
+                            >
+                          </span>
+                        </div>
+                        <div class="bcn-stc__headline">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-success)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__headline-text">On schedule across all areas</span>
+                        </div>
+                      </div>
+                      <ul class="bcn-stc__pulse">
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-success)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Tracking</span>
+                          <span class="bcn-stc__pulse-note">22 / 30 actions</span>
+                        </li>
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-success)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Monitoring</span>
+                          <span class="bcn-stc__pulse-note">11 obs · 30d</span>
+                        </li>
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-warning)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Reporting</span>
+                          <span class="bcn-stc__pulse-note">Q1 section due</span>
+                        </li>
+                      </ul> </a
+                    ><a class="bcn-stc__card" href="/beacon-design/prototypes/component-dashboard">
+                      <div class="bcn-stc__main">
+                        <div class="bcn-stc__card-head">
+                          <span class="bcn-stc__glyph"
+                            ><span class="esa-icon esa-icon--md" aria-hidden="true">
+                              <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"
+                                ></path>
+                                <path d="M3.29 7 12 12l8.71-5"></path>
+                                <path d="M12 22V12"></path>
+                              </svg>
+                            </span>
+                          </span>
+                          <span class="bcn-stc__ident">
+                            <span class="bcn-stc__name">Twin Cities Complex</span>
+                            <span class="bcn-stc__type">Tunnel shaft · Staging · On hold</span>
+                          </span>
+                        </div>
+                        <div class="bcn-stc__headline">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--bcn-status-not-started)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__headline-text"
+                            >Paused — revised haul-route agreement pending</span
+                          >
+                        </div>
+                      </div>
+                      <ul class="bcn-stc__pulse">
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--bcn-status-not-started)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Tracking</span>
+                          <span class="bcn-stc__pulse-note">Work paused</span>
+                        </li>
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--bcn-status-not-started)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Monitoring</span>
+                          <span class="bcn-stc__pulse-note">2 obs · 30d</span>
+                        </li>
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--bcn-status-not-started)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Reporting</span>
+                          <span class="bcn-stc__pulse-note">Nothing due</span>
+                        </li>
+                      </ul>
+                    </a>
+                  </div>
+                </section>
+                <section class="bcn-tz" aria-label="Tracking">
+                  <header class="bcn-tz__head">
+                    <div class="bcn-tz__headings">
+                      <h2 class="bcn-tz__title type-section-title">Tracking</h2>
+                      <p class="bcn-tz__summary type-body">
+                        Every commitment and action tracked across the project.
+                      </p>
+                    </div>
+                    <span
+                      class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md"
+                    >
+                      <a
+                        class="esa-button__native"
+                        href="/beacon-design/prototypes/requirement-tracker"
+                        role="button"
+                      >
+                        <span class="esa-button__label"> Open Tracking </span>
+                      </a>
+                    </span>
+                  </header>
+                  <div class="bcn-tz__cols">
+                    <div class="bcn-tz__rollup">
+                      <span class="bcn-tz__label">Across the project</span>
+                      <div class="bcn-tz__stats">
+                        <div class="esa-stat">
+                          <div class="esa-stat__value">31</div>
+                          <div class="esa-stat__label">Not started</div>
+                        </div>
+                        <div class="esa-stat">
+                          <div class="esa-stat__value">24</div>
+                          <div class="esa-stat__label">In progress</div>
+                        </div>
+                        <div class="esa-stat">
+                          <div class="esa-stat__value">87</div>
+                          <div class="esa-stat__label">Complete</div>
+                        </div>
+                      </div>
+                      <p class="bcn-tz__scope">across 24 components</p>
+                      <nav class="bcn-tz__sublinks" aria-label="Tracking views">
+                        <a
+                          class="bcn-tz__sublink"
+                          href="/beacon-design/prototypes/requirement-tracker"
+                        >
+                          Project Tracking
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path d="m9 18 6-6-6-6"></path>
+                            </svg>
+                          </span>
+                        </a>
+                      </nav>
+                    </div>
+                    <div class="esa-card">
+                      <div class="esa-card__header">
+                        <div class="esa-card__header-content">
+                          <div class="esa-card__titles"><h3 class="esa-card__title">Lists</h3></div>
+                        </div>
+                        <div class="esa-card__actions">
+                          <span class="bcn-count" aria-label="3 lists">3</span>
+                        </div>
+                      </div>
+                      <div class="esa-card__body">
+                        <ul class="bcn-lrc">
+                          <li>
+                            <a class="bcn-lrc__row" href="#list-bio-mitigations">
+                              <span class="bcn-lrc__label">Active BIO mitigations</span>
+                              <span class="bcn-lrc__right">
+                                <span class="bcn-lrc__meta">12 actions</span>
+                              </span>
+                            </a>
+                          </li>
+                          <li>
+                            <a class="bcn-lrc__row" href="#list-q2-reporting">
+                              <span class="bcn-lrc__label">Q2 reporting deadlines</span>
+                              <span class="bcn-lrc__right">
+                                <span class="bcn-lrc__meta">8 actions</span>
+                              </span>
+                            </a>
+                          </li>
+                          <li>
+                            <a class="bcn-lrc__row" href="#list-permit-conditions">
+                              <span class="bcn-lrc__label">North Delta permit conditions</span>
+                              <span class="bcn-lrc__right">
+                                <span class="bcn-lrc__meta">23 commitments</span>
+                              </span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <section class="bcn-sd" aria-label="Other areas of the project">
+                  <h2 class="bcn-sd__title type-section-title">Explore the rest of Beacon</h2>
+                  <div class="bcn-sd__grid">
+                    <a class="bcn-sd__card" href="/beacon-design/prototypes/monitoring/dashboard">
+                      <div class="bcn-sd__head">
+                        <span class="bcn-sd__glyph">
+                          <span class="esa-icon esa-icon--md" aria-hidden="true">
+                            <svg
+                              width="20"
+                              height="20"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"
+                              ></path>
+                              <circle cx="12" cy="8" r="2"></circle>
+                              <path
+                                d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"
+                              ></path>
+                            </svg>
+                          </span>
+                        </span>
+                        <span class="bcn-sd__name">Monitoring</span>
+                      </div>
+                      <p class="bcn-sd__summary">
+                        Field observations, surveys, and site clearance across every component.
+                      </p>
+                      <div class="bcn-sd__rollup">
+                        <div class="esa-stat">
+                          <div class="esa-stat__value">34</div>
+                          <div class="esa-stat__label">Active observations</div>
+                        </div>
+                        <div class="esa-stat">
+                          <div class="esa-stat__value">58</div>
+                          <div class="esa-stat__label">Logged in 30 days</div>
+                        </div>
+                      </div>
+                      <span class="bcn-sd__flag">
+                        <span
+                          class="bcn-sd__dot"
+                          style="--_c: var(--color-danger)"
+                          aria-hidden="true"
+                        ></span>
+                        2 critical observations
+                      </span>
+                      <span class="bcn-sd__open"
+                        >Open Monitoring
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="m9 18 6-6-6-6"></path>
+                          </svg>
+                        </span>
+                      </span> </a
+                    ><a class="bcn-sd__card" href="#reporting">
+                      <div class="bcn-sd__head">
+                        <span class="bcn-sd__glyph">
+                          <span class="esa-icon esa-icon--md" aria-hidden="true">
+                            <svg
+                              width="20"
+                              height="20"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
+                              <path
+                                d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+                              ></path>
+                              <path d="M12 11h4"></path>
+                              <path d="M12 16h4"></path>
+                              <path d="M8 11h.01"></path>
+                              <path d="M8 16h.01"></path>
+                            </svg>
+                          </span>
+                        </span>
+                        <span class="bcn-sd__name">Reporting</span>
+                      </div>
+                      <p class="bcn-sd__summary">
+                        Compliance reports and agency submissions generated from tracked data.
+                      </p>
+                      <div class="bcn-sd__rollup">
+                        <div class="esa-stat">
+                          <div class="esa-stat__value">4</div>
+                          <div class="esa-stat__label">Reports in progress</div>
+                        </div>
+                        <div class="esa-stat">
+                          <div class="esa-stat__value">9</div>
+                          <div class="esa-stat__label">Submitted this quarter</div>
+                        </div>
+                      </div>
+                      <span class="bcn-sd__flag">
+                        <span
+                          class="bcn-sd__dot"
+                          style="--_c: var(--color-danger)"
+                          aria-hidden="true"
+                        ></span>
+                        1 report due in 2 days
+                      </span>
+                      <span class="bcn-sd__open"
+                        >Open Reporting
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="m9 18 6-6-6-6"></path>
+                          </svg>
+                        </span>
+                      </span> </a
+                    ><a class="bcn-sd__card" href="#setup-wizard">
+                      <div class="bcn-sd__head">
+                        <span class="bcn-sd__glyph bcn-sd__glyph--wizard">
+                          <span class="esa-icon esa-icon--md" aria-hidden="true">
+                            <svg
+                              width="20"
+                              height="20"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+                              ></path>
+                              <circle cx="12" cy="12" r="10"></circle>
+                            </svg>
+                          </span>
+                        </span>
+                        <span class="bcn-sd__name bcn-sd__name--serif">Setup Wizard</span>
+                      </div>
+                      <p class="bcn-sd__summary">From source documents to trackable actions.</p>
+                      <div class="bcn-sd__rollup">
+                        <div class="esa-stat">
+                          <div class="esa-stat__value">12</div>
+                          <div class="esa-stat__label">Requirements not part of an action</div>
+                        </div>
+                        <div class="esa-stat">
+                          <div class="esa-stat__value">3</div>
+                          <div class="esa-stat__label">Commitments without requirements</div>
+                        </div>
+                      </div>
+                      <span class="bcn-sd__flag">
+                        <span
+                          class="bcn-sd__dot"
+                          style="--_c: var(--color-warning)"
+                          aria-hidden="true"
+                        ></span>
+                        15 items need triage in the wizard
+                      </span>
+                      <span class="bcn-sd__open"
+                        >Open Setup Wizard
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="m9 18 6-6-6-6"></path>
+                          </svg>
+                        </span>
+                      </span>
+                    </a>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Global ⌘K search palette (bespoke bcn-omni-search). Sits at the modern-layout
+         root so its fixed, centered overlay clears the z-1100 topbar; app-wide. -->
+  <div class="bcn-omni" data-omni="" hidden="">
+    <div class="bcn-omni__scrim" data-omni-close=""></div>
+    <div class="bcn-omni__panel" role="dialog" aria-modal="true" aria-label="Global search">
+      <div class="bcn-omni__searchrow">
+        <span class="bcn-omni__searchicon" aria-hidden="true">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
+        </span>
+        <span class="bcn-omni__inputwrap">
+          <span class="bcn-omni__ghost" data-omni-ghost="" aria-hidden="true"></span>
+          <input
+            class="bcn-omni__input"
+            data-omni-input=""
+            type="text"
+            placeholder="Search…"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+            aria-label="Search"
+          />
+        </span>
+        <button
+          class="bcn-omni__clear"
+          data-omni-clear=""
+          type="button"
+          aria-label="Clear search"
+          hidden=""
+        >
+          <svg
+            viewBox="0 0 24 24"
+            width="15"
+            height="15"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+        <kbd>Esc</kbd>
+      </div>
+      <div class="bcn-omni__split">
+        <nav
+          class="bcn-omni__rail"
+          data-omni-scopes=""
+          role="tablist"
+          aria-label="Filter by type"
+        ></nav>
+        <div class="bcn-omni__body" data-omni-body="" role="listbox"></div>
+      </div>
+      <button class="bcn-omni__showall" data-omni-showall="" type="button" hidden="">
+        <span data-omni-showall-label="">See all results</span>
+        <svg
+          viewBox="0 0 24 24"
+          width="18"
+          height="18"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m9 18 6-6-6-6"></path>
+        </svg>
+      </button>
+      <div class="bcn-omni__footer">
+        <span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span> <span><kbd>↵</kbd> Select</span>
+        <span><kbd>Tab</kbd> Complete</span> <span><kbd>Esc</kbd> Close</span>
+      </div>
+    </div>
+  </div>
+  <script
+    type="module"
+    src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.DH-DZQi7.js"
+  ></script>
+</div>
+```
+
+## Styles (only what this section uses; tokens resolved for the theme)
+```css
+:root,
+[data-theme="beacon"] {
+  --bcn-gray-100: #efefef;
+  --bcn-gray-1000: #000000;
+  --bcn-gray-200: #dcdcdc;
+  --bcn-gray-300: #bdbdbd;
+  --bcn-gray-400: #989898;
+  --bcn-gray-50: #fafafa;
+  --bcn-gray-500: #7c7c7c;
+  --bcn-gray-600: #656565;
+  --bcn-gray-900: #3d3d3d;
+  --bcn-gray-950: #292929;
+  --bcn-teal-600: #0e807b;
+  --card-bg: #fcfcfc;
+  --card-border-color: #dcdcdc;
+  --card-header-bg: transparent;
+  --card-header-border-color: #efefef;
+  --card-header-color: #3d3d3d;
+  --card-padding: 1.5rem;
+  --card-radius: 0.5rem;
+  --color-accent: #f76b15;
+  --color-border: #dcdcdc;
+  --color-border-light: #efefef;
+  --color-commitment: #58508d;
+  --color-danger: #e5484d;
+  --color-primary: #005862;
+  --color-primary-hover: #00474f;
+  --color-primary-strong: #2a7e3b;
+  --color-secondary: #00918b;
+  --color-secondary-strong: #2a7e3b;
+  --color-surface: #fcfcfc;
+  --color-surface-sunken: #efefef;
+  --color-text-inverse: #fcfcfc;
+  --color-text-link: #005862;
+  --color-text-muted: #7c7c7c;
+  --color-text-primary: #3d3d3d;
+  --color-text-secondary: #525252;
+  --color-text-tertiary: #656565;
+  --font-decorative: "Besley", serif;
+  --font-display: "DM Sans", sans-serif;
+  --font-mono: "Roboto Mono", ui-monospace, monospace;
+  --font-sans: "DM Sans", sans-serif;
+  --font-weight-bold: 650;
+  --font-weight-medium: 450;
+  --font-weight-regular: 350;
+  --font-weight-semibold: 550;
+  --form-font-size-md: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
+  --form-height-md: 36px;
+  --form-padding-x-md: 0.75rem;
+  --form-radius-md: 0.25rem;
+  --icon-button-bg-hover: color-mix(in srgb, currentColor 14%, transparent);
+  --icon-size-md: 20px;
+  --icon-size-medium: 20px;
+  --icon-size-sm: 16px;
+  --icon-size-small: 16px;
+  --icon-size-xs: 14px;
+  --letter-spacing-normal: 0.01em;
+  --letter-spacing-tight: -0.01em;
+  --line-height-normal: 1.6;
+  --line-height-relaxed: 1.8;
+  --line-height-tight: 1.3;
+  --radius-100: 0.25rem;
+  --radius-200: 0.5rem;
+  --radius-300: 0.5rem;
+  --radius-400: 0.75rem;
+  --radius-full: 9999px;
+  --shadow-100: 0 2px 12px 0 rgba(0, 0, 0, 0.04);
+  --sidebar-width: 280px;
+  --spacing-050: 0.125rem;
+  --spacing-100: 0.25rem;
+  --spacing-150: 0.375rem;
+  --spacing-200: 0.5rem;
+  --spacing-250: 0.625rem;
+  --spacing-300: 0.75rem;
+  --spacing-400: 1rem;
+  --spacing-500: 1.5rem;
+  --spacing-600: 2rem;
+  --spacing-700: 3rem;
+  --transition-fast: 0.15s ease;
+  --type-size-100: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
+  --type-size-150: clamp(0.6875rem, 0.61rem + 0.38vw, 0.875rem);
+  --type-size-200: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
+  --type-size-250: clamp(0.8125rem, 0.71rem + 0.5vw, 1.0625rem);
+  --type-size-300: clamp(0.875rem, 0.77rem + 0.52vw, 1.125rem);
+  --type-size-400: clamp(1rem, 0.88rem + 0.6vw, 1.25rem);
+  --type-size-500: clamp(1.125rem, 0.98rem + 0.72vw, 1.5rem);
+  --type-size-600: clamp(1.375rem, 1.2rem + 0.88vw, 1.875rem);
+  --type-size-700: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem);
+}
+
+.esa-stat {
+  --_stat-value-color: var(--stat-value-color, var(--color-text-primary, #171717));
+  --_stat-value-font: var(
+    --stat-value-font,
+    var(--font-display, var(--font-sans, "DM Sans", sans-serif))
+  );
+  --_stat-value-size: var(--stat-value-size, var(--type-size-700, 2.25rem));
+  --_stat-value-weight: var(--stat-value-weight, var(--font-weight-bold, 650));
+  --_stat-label-color: var(--stat-label-color, var(--color-text-secondary, #525252));
+  --_stat-label-size: var(--stat-label-size, var(--type-size-200, 0.9375rem));
+  --_stat-label-weight: var(--stat-label-weight, var(--font-weight-medium, 450));
+  --_stat-sub-color: var(--stat-sub-color, var(--color-text-muted, #737373));
+  --_stat-sub-size: var(--stat-sub-size, var(--type-size-150, 0.875rem));
+  --_stat-accent-color: var(--stat-accent-color, var(--color-secondary-strong, #3a7c59));
+  --_stat-gap: var(--stat-gap, var(--spacing-050, 0.125rem));
+  display: flex;
+  flex-direction: column;
+  gap: var(--_stat-gap);
+  background: transparent;
+}
+.esa-stat__value {
+  font-family: var(--_stat-value-font);
+  font-size: var(--_stat-value-size);
+  font-weight: var(--_stat-value-weight);
+  line-height: var(--line-height-tight, 1.3);
+  letter-spacing: var(--letter-spacing-tight, -0.01em);
+  color: var(--_stat-value-color);
+}
+.esa-stat__label {
+  font-size: var(--_stat-label-size);
+  font-weight: var(--_stat-label-weight);
+  line-height: var(--line-height-normal, 1.6);
+  color: var(--_stat-label-color);
+}
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
+  box-sizing: border-box;
+}
+.page-layout--bleed {
+  padding: 0;
+}
+.page-layout__bleed {
+  width: 100%;
+}
+.page-layout__container {
+  display: flex;
+  flex-direction: column;
+}
+.page-layout--bleed .page-layout__container {
+  padding: 0 var(--spacing-600) var(--spacing-600);
+}
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
+  position: relative;
+}
+.page-layout section {
+  width: 100%;
+}
+.modern-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 52px;
+  background: var(--bcn-gray-100);
+  border-bottom: 1px solid var(--bcn-gray-300);
+  z-index: 1100;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  padding: 0 var(--spacing-200);
+}
+.topbar {
+  padding: 0 var(--spacing-400);
+}
+.topbar__left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+}
+.sidebar-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: var(--spacing-050);
+  background: transparent;
+  color: var(--bcn-gray-600);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+.sidebar-toggle__icon {
+  transition: transform 0.15s ease;
+}
+.tenant-trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  padding: var(--spacing-100) var(--spacing-200);
+  background: transparent;
+  border: none;
+  border-radius: var(--spacing-050);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--bcn-gray-900);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.topbar__center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  gap: var(--spacing-400);
+  padding: 0 var(--spacing-400);
+}
+.bcn-search-trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: var(--spacing-150) var(--spacing-300);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+  cursor: text;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.bcn-search-trigger__placeholder {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--type-size-200);
+  color: var(--color-text-tertiary);
+}
+.bcn-search-trigger__kbd {
+  display: inline-flex;
+  gap: 2px;
+  flex: none;
+}
+.bcn-search-trigger__kbd kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-tertiary);
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+}
+.topbar__right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-100);
+}
+.qa-warning {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  padding: var(--spacing-050) var(--spacing-200);
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: var(--color-accent);
+  color: var(--color-surface);
+  border-radius: var(--spacing-100);
+  white-space: nowrap;
+}
+.icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: var(--spacing-050);
+  background: transparent;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.user-menu {
+  position: relative;
+}
+.user-menu-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 9999px;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.user-menu-trigger__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  object-fit: cover;
+  border: 2px solid var(--bcn-gray-200);
+  transition: border-color 0.15s ease;
+}
+.user-menu-trigger__avatar--fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bcn-gray-200);
+  color: var(--bcn-gray-500);
+}
+.user-panel {
+  position: absolute;
+  top: calc(100% + var(--spacing-200));
+  right: 0;
+  min-width: 280px;
+  background: var(--color-surface);
+  border-radius: var(--spacing-200);
+  border: 1px solid var(--bcn-gray-200);
+  box-shadow: 0 4px 24px #0000001f;
+  z-index: 1200;
+}
+.user-panel[hidden] {
+  display: none;
+}
+.modern-layout__body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  padding-top: 52px;
+}
+.side-nav {
+  width: 280px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bcn-gray-50);
+  font-size: 0.875rem;
+  overflow: visible;
+  transition: width 0.2s ease-in-out;
+  border-right: 1px solid var(--bcn-gray-200);
+  flex-shrink: 0;
+}
+.sidebar-header {
+  flex-shrink: 0;
+  padding: var(--spacing-300) var(--spacing-400);
+  transition: padding 0.2s ease-in-out;
+}
+.site-logo {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-200);
+  border-radius: var(--spacing-050);
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+.site-logo__img {
+  width: var(--spacing-700);
+  height: 3.75rem;
+  object-fit: contain;
+  object-position: left center;
+  transition: all 0.2s ease-in-out;
+}
+.project-switcher-container {
+  flex-shrink: 0;
+  padding: 0 var(--spacing-400) var(--spacing-300);
+  transition: padding 0.2s ease-in-out;
+  min-width: 0;
+}
+.project-switcher__trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: var(--spacing-200) var(--spacing-300);
+  background: var(--color-surface);
+  border: 1px solid var(--bcn-gray-200);
+  border-radius: var(--spacing-200);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  color: var(--bcn-gray-950);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.project-switcher__name {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.main-nav {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: visible;
+  padding: 0 var(--spacing-400);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050);
+  transition: padding 0.2s ease-in-out;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.nav-section {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.nav-section__header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-250) var(--spacing-200);
+  color: var(--bcn-gray-950);
+  font-size: 0.9375rem;
+  font-weight: 550;
+  border: none;
+  background: transparent;
+  border-radius: var(--spacing-050);
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  text-decoration: none;
+}
+.nav-section__header--link {
+  text-decoration: none;
+  color: var(--bcn-gray-950);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__title {
+  flex: 1;
+  overflow: hidden;
+  transition: opacity 0.2s ease-in-out;
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+.nav-section__items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: 500px;
+  opacity: 1;
+  transition:
+    max-height 0.2s ease-in-out,
+    opacity 0.2s ease-in-out;
+}
+.nav-item {
+  padding: 0 0 0 2.5rem;
+}
+.nav-sublink {
+  display: block;
+  padding: var(--spacing-200);
+  color: var(--bcn-gray-950);
+  text-decoration: none;
+  border-radius: var(--spacing-050);
+  font-size: 0.8125rem;
+  transition: all 0.15s ease;
+  line-height: 1.2;
+}
+.nav-sublink.active {
+  background: #0000000a;
+  color: var(--color-primary);
+}
+.nav-item + .nav-item {
+  margin-top: var(--spacing-050);
+}
+.nav-divider {
+  flex-shrink: 0;
+  height: 1px;
+  margin: var(--spacing-200) 0;
+  border: 0;
+  background: var(--bcn-gray-200);
+}
+.nav-subdivider {
+  list-style: none;
+  height: 1px;
+  margin: var(--spacing-150) 0 var(--spacing-150) 2.5rem;
+  background: var(--bcn-gray-200);
+}
+.modern-layout__content {
+  flex: 1;
+  overflow-y: auto;
+  min-width: 0;
+}
+.bcn-omni {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-500);
+}
+.bcn-omni[hidden] {
+  display: none;
+}
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.bcn-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  padding: 2px var(--spacing-250);
+  border-radius: var(--radius-full);
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--_chip) 16%, transparent);
+  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+}
+.bcn-status-chip__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--_chip);
+  flex-shrink: 0;
+}
+.esa-card {
+  --_card-bg: var(--card-bg, var(--color-surface, #ffffff));
+  --_card-border: var(--card-border-color, var(--color-border, #e5e5e5));
+  --_card-radius: var(--card-radius, var(--radius-300, 0.5rem));
+  --_card-padding: var(--card-padding, var(--spacing-500, 1.5rem));
+  --_card-header-bg: var(--card-header-bg, transparent);
+  --_card-header-color: var(--card-header-color, var(--color-text-primary, #171717));
+  --_card-header-border: var(--card-header-border-color, var(--color-border-light, #efefef));
+  display: block;
+  background: var(--_card-bg);
+  border: 1px solid var(--_card-border);
+  border-radius: var(--_card-radius);
+  overflow: hidden;
+}
+.esa-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-400, 1rem) var(--_card-padding);
+  background: var(--_card-header-bg);
+  color: var(--_card-header-color);
+  border-bottom: 1px solid var(--_card-header-border);
+  min-height: 56px;
+}
+.esa-card__header-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300, 0.75rem);
+}
+.esa-card__titles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050, 0.125rem);
+}
+.esa-card__title {
+  font-size: var(--type-size-250, 1.0625rem);
+  font-weight: 600;
+  margin: 0;
+  color: inherit;
+  font-family: var(--font-sans, "DM Sans", sans-serif);
+}
+.esa-card__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200, 0.5rem);
+}
+.esa-card__body {
+  padding: var(--_card-padding);
+}
+.bcn-phome {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+.bcn-phome__cover {
+  height: 132px;
+  overflow: hidden;
+  background: var(--color-surface-sunken);
+}
+.bcn-phome__hero {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.bcn-phome__body {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-500);
+  padding: 0 var(--spacing-600) var(--spacing-500);
+}
+.bcn-phome__seal {
+  flex-shrink: 0;
+  width: 92px;
+  height: 92px;
+  margin-top: -46px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  border: 3px solid var(--color-surface);
+  object-fit: contain;
+  box-shadow: var(--shadow-100, 0 2px 12px 0 rgba(0, 0, 0, 0.08));
+}
+.bcn-phome__id {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  padding-top: var(--spacing-400);
+  min-width: 0;
+  flex: 1;
+}
+.bcn-phome__idtop {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  flex-wrap: wrap;
+}
+.bcn-phome__name {
+  margin: 0;
+  font-family: var(--font-decorative, var(--font-display, var(--font-sans)));
+  font-weight: var(--font-weight-bold);
+  font-size: var(--type-size-600);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--bcn-gray-1000, var(--color-text-primary));
+}
+.bcn-phome__eyebrow {
+  margin: 0 0 var(--spacing-200);
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-tertiary);
+}
+.bcn-lrc {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.bcn-lrc__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-300);
+  padding: var(--spacing-250) 0;
+  text-decoration: none;
+  color: inherit;
+}
+.bcn-lrc__label {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  min-width: 0;
+}
+.bcn-lrc__right {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  flex-shrink: 0;
+}
+.bcn-lrc li + li .bcn-lrc__row {
+  border-top: 1px solid var(--color-border-light);
+}
+.bcn-lrc__meta {
+  font-size: var(--type-size-150);
+  color: var(--color-text-tertiary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.bcn-pf__desc {
+  margin: 0 0 var(--spacing-300);
+  font-size: var(--type-size-150);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-secondary);
+}
+.bcn-pf {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+.bcn-pf__fact {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--spacing-250) 0;
+}
+.bcn-pf__label {
+  font-size: var(--type-size-150);
+  color: var(--color-text-tertiary);
+}
+.bcn-pf__value {
+  margin: 0;
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-pf__fact + .bcn-pf__fact {
+  border-top: 1px solid var(--color-border-light);
+}
+.bcn-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 var(--spacing-100);
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-100);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.bcn-crit {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+}
+.bcn-crit__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+}
+.bcn-crit__card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--spacing-400);
+  padding: var(--spacing-300) var(--spacing-400);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+.bcn-crit__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: var(--radius-200);
+  background: var(--color-surface-sunken);
+  color: var(--color-text-secondary);
+}
+.bcn-crit__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.bcn-crit__type {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+}
+.bcn-crit__title {
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-crit__where {
+  font-size: var(--type-size-150);
+  color: var(--color-text-tertiary);
+}
+.bcn-crit__right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--spacing-100);
+  flex-shrink: 0;
+  text-align: right;
+}
+.bcn-crit__sev {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+}
+.bcn-crit__sev-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: var(--radius-full);
+  background: var(--_s);
+  flex-shrink: 0;
+}
+.bcn-crit__timing {
+  font-size: var(--type-size-150);
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+}
+.bcn-crit__timing--late {
+  color: var(--color-danger);
+  font-weight: var(--font-weight-semibold);
+}
+.bcn-crit__code {
+  display: inline-block;
+  margin-right: var(--spacing-200);
+  padding: 1px var(--spacing-150);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 12%, white);
+  border-radius: var(--radius-100);
+  vertical-align: 1px;
+}
+.bcn-stc {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+}
+.bcn-stc__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--spacing-400);
+  flex-wrap: wrap;
+}
+.bcn-stc__headings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  min-width: 0;
+}
+.bcn-stc__title {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+.bcn-stc__lede {
+  margin: 0;
+  color: var(--color-text-secondary);
+  max-width: 68ch;
+}
+.bcn-stc__all {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+.bcn-stc__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+}
+.bcn-stc__card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--spacing-500);
+  padding: var(--spacing-400) var(--spacing-500);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+.bcn-stc__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  min-width: 0;
+  padding-right: var(--spacing-500);
+  border-right: 1px solid var(--color-border-light);
+}
+.bcn-stc__card-head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-300);
+}
+.bcn-stc__glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: var(--radius-200);
+  background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface));
+  color: var(--color-primary);
+}
+.bcn-stc__ident {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.bcn-stc__name {
+  font-size: var(--type-size-250, 1.0625rem);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+}
+.bcn-stc__type {
+  font-size: var(--type-size-150);
+  color: var(--color-text-tertiary);
+}
+.bcn-stc__headline {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+}
+.bcn-stc__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: var(--radius-full);
+  background: var(--_c);
+  flex-shrink: 0;
+}
+.bcn-stc__headline-text {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+.bcn-stc__pulse {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+.bcn-stc__pulse-row {
+  display: grid;
+  grid-template-columns: auto 6rem 1fr;
+  align-items: center;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+.bcn-stc__pulse-area {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-stc__pulse-note {
+  font-size: var(--type-size-150);
+  color: var(--color-text-tertiary);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bcn-tz {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-500);
+  padding: var(--spacing-500) var(--spacing-500) var(--spacing-600);
+  background: color-mix(in srgb, var(--color-primary) 6%, var(--color-surface));
+  border: 1px solid color-mix(in srgb, var(--color-primary) 18%, var(--color-surface));
+  border-radius: var(--radius-400, var(--radius-300));
+}
+.bcn-tz__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-400);
+  flex-wrap: wrap;
+}
+.bcn-tz__headings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  min-width: 0;
+}
+.bcn-tz__title {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+.bcn-tz__summary {
+  margin: 0;
+  color: var(--color-text-secondary);
+  max-width: 62ch;
+}
+.bcn-tz__cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: var(--spacing-500);
+  align-items: start;
+}
+.bcn-tz__rollup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  padding: var(--spacing-500);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+}
+.bcn-tz__label {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+}
+.bcn-tz__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-500) var(--spacing-600);
+}
+.bcn-tz__scope {
+  margin: 0;
+  font-size: var(--type-size-150);
+  color: var(--color-text-tertiary);
+}
+.bcn-tz__sublinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-300) var(--spacing-500);
+  padding-top: var(--spacing-400);
+  border-top: 1px solid var(--color-border-light);
+}
+.bcn-tz__sublink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+}
+.bcn-tz__sublink .esa-icon {
+  color: var(--color-text-muted);
+}
+.bcn-sd {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+}
+.bcn-sd__title {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+.bcn-sd__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--spacing-400);
+}
+.bcn-sd__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  padding: var(--spacing-400);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.bcn-sd__head {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+}
+.bcn-sd__glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: var(--radius-200);
+  background: var(--color-surface-sunken);
+  color: var(--color-text-secondary);
+}
+.bcn-sd__name {
+  font-size: var(--type-size-300);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-sd__summary {
+  margin: 0;
+  font-size: var(--type-size-150);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-normal);
+}
+.bcn-sd__rollup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-300) var(--spacing-500);
+  margin: 0;
+  padding: var(--spacing-300) 0;
+  border-top: 1px solid var(--color-border-light);
+  border-bottom: 1px solid var(--color-border-light);
+  --stat-value-size: var(--type-size-400);
+  --stat-label-size: var(--type-size-150);
+  --stat-label-color: var(--color-text-tertiary);
+}
+.bcn-sd__flag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+.bcn-sd__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: var(--radius-full);
+  background: var(--_c);
+  flex-shrink: 0;
+}
+.bcn-sd__open {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  margin-top: auto;
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+}
+.bcn-sd__glyph--wizard {
+  border-radius: var(--radius-full);
+  background: var(--bcn-teal-600, var(--color-secondary));
+  color: var(--color-text-inverse);
+}
+.bcn-sd__name--serif {
+  font-family: var(--font-decorative, var(--font-sans));
+  font-weight: var(--font-weight-bold);
+}
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-weight: var(--font-weight-regular, 350);
+  color: var(--color-text-primary, #3d3d3d);
+  background: var(--color-surface, #fff);
+  -webkit-font-smoothing: antialiased;
+}
+button {
+  font-family: inherit;
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+a {
+  color: var(--color-text-link, #005862);
+  text-decoration: none;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
+  margin: 0;
+}
+.sidebar {
+  --gap: var(--spacing-500, 1.5rem);
+  --sidebar-width: 18rem;
+  --sidebar-content-min: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+}
+[data-gap="xl"] {
+  --gap: var(--spacing-600, 2rem);
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+[data-gap="lg"] {
+  --gap: var(--spacing-500, 1.5rem);
+}
+.sidebar > :first-child {
+  flex-basis: var(--sidebar-width);
+  flex-grow: 1;
+}
+.sidebar[data-side="end"] > :first-child {
+  order: 2;
+}
+.sidebar > :last-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: var(--sidebar-content-min);
+}
+.type-section-title {
+  font-family: var(--font-display, var(--font-sans));
+  font-size: var(--type-size-500);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+}
+.type-body-small {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-body {
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-relaxed);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.esa-button {
+  --_btn-height: var(--form-height-md, 40px);
+  --_btn-padding-x: var(--form-padding-x-md, 16px);
+  --_btn-font-size: var(--form-font-size-md, 14px);
+  --_btn-radius: var(--form-radius-md, 6px);
+  --_accent: var(--color-primary, #46a758);
+  --_accent-hover: var(--color-primary-hover, #3e9b4f);
+  --_on: var(--color-text-inverse, #ffffff);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button--color-primary {
+  --_accent-text: var(--color-primary-strong);
+}
+.esa-button__native {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  height: var(--_btn-height);
+  padding-inline: var(--_btn-padding-x);
+  border: 1px solid transparent;
+  border-radius: var(--_btn-radius);
+  font-size: var(--_btn-font-size);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: transparent;
+}
+.esa-button__label {
+  white-space: nowrap;
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+```
+
+## Tokens
+| Token | Value | Tier |
+|---|---|---|
+| `--bcn-gray-100` | `#efefef` | component |
+| `--bcn-gray-1000` | `#000000` | component |
+| `--bcn-gray-200` | `#dcdcdc` | component |
+| `--bcn-gray-300` | `#bdbdbd` | component |
+| `--bcn-gray-400` | `#989898` | component |
+| `--bcn-gray-50` | `#fafafa` | component |
+| `--bcn-gray-500` | `#7c7c7c` | component |
+| `--bcn-gray-600` | `#656565` | component |
+| `--bcn-gray-900` | `#3d3d3d` | component |
+| `--bcn-gray-950` | `#292929` | component |
+| `--bcn-teal-600` | `#0e807b` | component |
+| `--card-bg` | `#fcfcfc` | component |
+| `--card-border-color` | `#dcdcdc` | component |
+| `--card-header-bg` | `transparent` | component |
+| `--card-header-border-color` | `#efefef` | component |
+| `--card-header-color` | `#3d3d3d` | component |
+| `--card-padding` | `1.5rem` | component |
+| `--card-radius` | `.5rem` | component |
+| `--color-accent` | `#f76b15` | semantic |
+| `--color-border` | `#dcdcdc` | semantic |
+| `--color-border-light` | `#efefef` | semantic |
+| `--color-commitment` | `#58508d` | component |
+| `--color-danger` | `#e5484d` | semantic |
+| `--color-primary` | `#005862` | semantic |
+| `--color-primary-hover` | `#00474f` | semantic |
+| `--color-primary-strong` | `#2a7e3b` | semantic |
+| `--color-secondary` | `#00918b` | semantic |
+| `--color-secondary-strong` | `#2a7e3b` | semantic |
+| `--color-surface` | `#fcfcfc` | semantic |
+| `--color-surface-sunken` | `#efefef` | semantic |
+| `--color-text-inverse` | `#fcfcfc` | semantic |
+| `--color-text-link` | `#005862` | semantic |
+| `--color-text-muted` | `#7c7c7c` | semantic |
+| `--color-text-primary` | `#3d3d3d` | semantic |
+| `--color-text-secondary` | `#525252` | semantic |
+| `--color-text-tertiary` | `#656565` | semantic |
+| `--font-decorative` | `"Besley", serif` | component |
+| `--font-display` | `"DM Sans", sans-serif` | primitive |
+| `--font-mono` | `"Roboto Mono", ui-monospace, monospace` | primitive |
+| `--font-sans` | `"DM Sans", sans-serif` | primitive |
+| `--font-weight-bold` | `650` | primitive |
+| `--font-weight-medium` | `450` | primitive |
+| `--font-weight-regular` | `350` | primitive |
+| `--font-weight-semibold` | `550` | primitive |
+| `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | component |
+| `--form-height-md` | `36px` | component |
+| `--form-padding-x-md` | `.75rem` | component |
+| `--form-radius-md` | `.25rem` | component |
+| `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
+| `--icon-size-md` | `20px` | primitive |
+| `--icon-size-medium` | `20px` | component |
+| `--icon-size-sm` | `16px` | primitive |
+| `--icon-size-small` | `16px` | component |
+| `--icon-size-xs` | `14px` | primitive |
+| `--letter-spacing-normal` | `.01em` | primitive |
+| `--letter-spacing-tight` | `-.01em` | primitive |
+| `--line-height-normal` | `1.6` | primitive |
+| `--line-height-relaxed` | `1.8` | primitive |
+| `--line-height-tight` | `1.3` | primitive |
+| `--radius-100` | `.25rem` | primitive |
+| `--radius-200` | `.5rem` | primitive |
+| `--radius-300` | `.5rem` | primitive |
+| `--radius-400` | `.75rem` | primitive |
+| `--radius-full` | `9999px` | primitive |
+| `--shadow-100` | `0 2px 12px 0 rgba(0, 0, 0, .04)` | primitive |
+| `--sidebar-width` | `280px` | semantic |
+| `--spacing-050` | `.125rem` | primitive |
+| `--spacing-100` | `.25rem` | primitive |
+| `--spacing-150` | `.375rem` | primitive |
+| `--spacing-200` | `.5rem` | primitive |
+| `--spacing-250` | `.625rem` | primitive |
+| `--spacing-300` | `.75rem` | primitive |
+| `--spacing-400` | `1rem` | primitive |
+| `--spacing-500` | `1.5rem` | primitive |
+| `--spacing-600` | `2rem` | primitive |
+| `--spacing-700` | `3rem` | primitive |
+| `--transition-fast` | `.15s ease` | primitive |
+| `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | primitive |
+| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
+| `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | primitive |
+| `--type-size-250` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` | primitive |
+| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
+| `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
+| `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` | primitive |
+| `--type-size-600` | `clamp(1.375rem, 1.2rem + .88vw, 1.875rem)` | primitive |
+| `--type-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | primitive |
+
+---
+_Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._

@@ -1,6 +1,6 @@
 # Token contract — prototypes-fish-studies
 
-The 89 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 90 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -25,6 +25,7 @@ The 89 design tokens this page actually uses, resolved to their final values for
 | `--color-text-primary` | `#3d3d3d` |
 | `--color-text-secondary` | `#525252` |
 | `--color-text-tertiary` | `#656565` |
+| `--color-warning` | `#f2770e` |
 
 ## Component
 
@@ -712,6 +713,5 @@ Defined per-component (not at `:root`); see the component's own rule in `styles.
 - `--ag-wrapper-background-color`
 - `--ag-wrapper-border`
 - `--ag-wrapper-border-radius`
-- `--color-warning`
 - `--dialog-footer-bg`
 - `--dialog-header-bg`

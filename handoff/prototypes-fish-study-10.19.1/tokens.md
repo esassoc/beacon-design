@@ -1,6 +1,6 @@
 # Token contract — prototypes-fish-study-10.19.1
 
-The 91 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 93 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -15,6 +15,7 @@ The 91 design tokens this page actually uses, resolved to their final values for
 | `--color-primary-strong` | `#2a7e3b` |
 | `--color-secondary` | `#00918b` |
 | `--color-secondary-on-fill` | `#203c25` |
+| `--color-success` | `#2e7571` |
 | `--color-surface` | `#fcfcfc` |
 | `--color-surface-sunken` | `#efefef` |
 | `--color-text-inverse` | `#fcfcfc` |
@@ -23,6 +24,7 @@ The 91 design tokens this page actually uses, resolved to their final values for
 | `--color-text-primary` | `#3d3d3d` |
 | `--color-text-secondary` | `#525252` |
 | `--color-text-tertiary` | `#656565` |
+| `--color-warning` | `#f2770e` |
 | `--color-warning-on-fill` | `#4f3422` |
 
 ## Component
@@ -108,9 +110,3 @@ The 91 design tokens this page actually uses, resolved to their final values for
 | `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
 | `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
 
-## Component-scoped
-
-Defined per-component (not at `:root`); see the component's own rule in `styles.css`.
-
-- `--color-success`
-- `--color-warning`

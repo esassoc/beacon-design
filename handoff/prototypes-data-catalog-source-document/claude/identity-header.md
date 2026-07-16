@@ -56,27 +56,6 @@ The document identity row: an H1 of the source-document name (the FEIR) with a S
 
 ## Styles
 ```css
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(
-    --icon-button-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -104,6 +83,27 @@ The document identity row: an H1 of the source-document name (the FEIR) with a S
     transform 0.15s ease,
     opacity 0.2s ease-in-out;
   flex-shrink: 0;
+}
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(
+    --icon-button-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
 }
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
@@ -190,6 +190,9 @@ The document identity row: an H1 of the source-document name (the FEIR) with a S
   color: var(--_accent-text);
   border-color: var(--color-border-strong, #d4d4d4);
 }
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
 .bcn-doc__head {
   display: flex;
   align-items: flex-start;
@@ -224,9 +227,6 @@ The document identity row: an H1 of the source-document name (the FEIR) with a S
 #download-coversheet .esa-button {
   width: 100%;
   justify-content: center;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
