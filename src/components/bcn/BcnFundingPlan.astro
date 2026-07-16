@@ -287,6 +287,19 @@ const lastYear = rows.at(-1)?.wy;
   .bcn-funding__table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
   .bcn-funding__table th, .bcn-funding__table td { padding: var(--spacing-150) var(--spacing-200); font-size: var(--type-size-200); text-align: left; border-bottom: 1px solid var(--color-border-light); }
   .bcn-funding__table thead th { font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); border-bottom: 1px solid var(--color-border); }
+  /* Drawer (slim): one label scale with the esa field labels — same tokens the
+     legos' .field__label uses (form-label-*, sm field-size fallback). */
+  .bcn-funding--slim .bcn-funding__table thead th {
+    font-size: var(--form-label-font-size, var(--form-font-size-sm, 12px));
+    font-weight: var(--form-label-font-weight, var(--font-weight-medium));
+    color: var(--form-label-color);
+  }
+  /* Water-year row headers: sans (not mono), body-coherent size. */
+  .bcn-funding--slim .bcn-funding__year { font-family: var(--font-sans); font-weight: var(--font-weight-regular); color: var(--color-text-primary); }
+  /* The amount input fills its column (two-column task tables only — parents
+     keep Own/Rolled-up/Total widths). */
+  .bcn-funding--slim .bcn-funding__table:not(:has([data-cell='sub'])) .bcn-funding__edit { width: 60%; }
+  .bcn-funding--slim .bcn-funding__field { width: 100%; }
   .bcn-funding__num { text-align: right; }
   .bcn-funding__year { font-family: var(--font-mono); font-weight: var(--font-weight-medium); color: var(--color-text-secondary); }
   .bcn-funding__muted { color: var(--color-text-secondary); }

@@ -45,7 +45,7 @@ const selected = opts.find((o) => o.value === current) ?? opts[0];
 ---
 
 <div class="bcn-status-select" id={id} data-value={current}>
-  <span class="bcn-status-select__label">{label}</span>
+  {label && <span class="bcn-status-select__label">{label}</span>}
   <div class="bcn-status-select__dd">
     <button type="button" class="bcn-status-select__trigger" aria-haspopup="listbox" aria-expanded="false">
       <span

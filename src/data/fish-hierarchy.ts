@@ -84,9 +84,7 @@ const branch = (
   children,
 });
 
-const fy = (waterYear: number, amount: number): FundingEntry => ({ waterYear, amount });
-
-// ── The forest: two Programs of the science plan ──────────────────────────────
+// ── The forest: the Programs of the science plan ──────────────────────────────
 
 export const PROGRAMS: HierNode[] = [
   branch(
@@ -181,9 +179,9 @@ export const PROGRAMS: HierNode[] = [
       ),
     ],
     {
-      // Program-management line entered AT the program node — it rolls up alongside
-      // the child tasks, demonstrating funding is enterable at any tier.
-      funding: [fy(2028, 130_000), fy(2029, 130_000)],
+      // No node-level dollars in the fixture: every parent's number is EXACTLY the
+      // sum of its descendants' entries, so the money column reads as clean sums.
+      // (Funding stays enterable at any tier via the drawer's Own column.)
       constraints: ['Funding ceiling $12.0M (illustrative)', 'ICF-primed DWR contract — separate from the ESA on-call'],
     },
   ),
@@ -245,8 +243,65 @@ export const PROGRAMS: HierNode[] = [
       ),
     ],
     {
-      funding: [fy(2028, 90_000), fy(2029, 90_000)],
       constraints: ['Funding ceiling $6.0M (illustrative)', 'Infrastructure back-scheduled from 30% design (WY2031)'],
+    },
+  ),
+  branch(
+    'program',
+    'PRG-013',
+    '10.21',
+    'Operations-Phase Effectiveness Monitoring',
+    [
+      branch(
+        'study',
+        'STY-019',
+        '10.21.1',
+        'Long-term Salmonid Response Monitoring',
+        [
+          branch(
+            'substudy',
+            'SUB-029',
+            '10.21.1a',
+            'Post-construction survival verification',
+            [
+              task('TSK-023', '10.21.1a.1', 'Ops-phase acoustic telemetry seasons', '2034-10', '2038-03', 'ESA Fisheries', 'not-started', 2_400_000),
+              task('TSK-024', '10.21.1a.2', 'Five-year survival trend synthesis', '2038-04', '2039-03', 'ESA Fisheries', 'not-started', 420_000),
+            ],
+          ),
+          branch(
+            'substudy',
+            'SUB-030',
+            '10.21.1b',
+            'Adaptive-management triggers & response',
+            [
+              task('TSK-025', '10.21.1b.1', 'Trigger framework & thresholds', '2033-04', '2033-12', 'ESA / CDFW liaison', 'not-started', 260_000),
+              task('TSK-026', '10.21.1b.2', 'Annual trigger evaluations', '2034-04', '2041-09', 'DWR-DCO', 'not-started', 1_120_000),
+            ],
+            { constraints: ['Begins at Phase 1 operations (WY2034)'] },
+          ),
+        ],
+      ),
+      branch(
+        'study',
+        'STY-020',
+        '10.21.2',
+        'Decadal Ecosystem Trend Reporting',
+        [
+          branch(
+            'substudy',
+            'SUB-031',
+            '10.21.2a',
+            'Integrated monitoring synthesis',
+            [
+              task('TSK-027', '10.21.2a.1', 'Mid-operations synthesis report', '2037-10', '2038-09', 'ESA', 'not-started', 380_000),
+              task('TSK-028', '10.21.2a.2', 'Decadal science-plan review & CDFW report-out', '2041-10', '2042-09', 'ESA / DWR-DCO', 'not-started', 460_000),
+            ],
+          ),
+        ],
+      ),
+    ],
+    {
+      constraints: ['Funding ceiling $8.0M (illustrative)', 'Runs Phase 1 operations (WY2034) through the decadal review (WY2042)'],
     },
   ),
 ];

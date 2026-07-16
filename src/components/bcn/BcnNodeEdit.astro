@@ -51,9 +51,11 @@ if (node.startMonth && node.endMonth) {
   for (let wy = a; wy <= b; wy++) spanYears.push(wy);
 }
 
+// Parents get the one load-bearing hint (why editing dates doesn't move the bar);
+// childless nodes get none.
 const schedHint = hasChildren
   ? 'The gantt shows the derived span of this node’s children; own dates apply when it has none.'
-  : 'These dates place this node’s bar on the gantt.';
+  : '';
 
 // Colored, legend-consistent status options — the same TASK_STATUS_META hexes
 // the gantt bars + legend dots use.
@@ -65,6 +67,16 @@ const detailsHref = withBase(`/prototypes/fish-node?id=${node.id}`);
 ---
 
 <div class="bcn-edit">
+  <!-- ── Status (TASKS only — the one tier carrying execution status).
+       Section title carries the label; the select itself is label-less so the
+       three sections share one typographic hierarchy. ── -->
+  {node.tier === 'task' && (
+    <section class="bcn-edit__section">
+      <h3 class="bcn-edit__title">Status</h3>
+      <BcnStatusSelect label="" value={node.status ?? 'not-started'} options={statusOpts} />
+    </section>
+  )}
+
   <!-- ── Date range (EVERY tier — own dates; parents keep the derived bar) ── -->
   <section class="bcn-edit__section">
     <h3 class="bcn-edit__title">Date range</h3>
@@ -83,13 +95,6 @@ const detailsHref = withBase(`/prototypes/fish-node?id=${node.id}`);
     <h3 class="bcn-edit__title">Budget</h3>
     <BcnFundingPlan rollup={rollup} ownFunding={node.funding} spanYears={spanYears} variant="slim" />
   </section>
-
-  <!-- ── Status (TASKS only — the one tier carrying execution status) ── -->
-  {node.tier === 'task' && (
-    <section class="bcn-edit__section">
-      <BcnStatusSelect label="Status" value={node.status ?? 'not-started'} options={statusOpts} />
-    </section>
-  )}
 
   <!-- ── Actions: add child / delete / full details ── -->
   <section class="bcn-edit__section bcn-edit__actions">
@@ -157,8 +162,12 @@ const detailsHref = withBase(`/prototypes/fish-node?id=${node.id}`);
     if (statusCtl && node.status && statusCtl.value !== node.status) statusCtl.setValue(node.status);
     const sel = (field: string, part: string) =>
       panel.querySelector<Field>(`esa-select[data-wb-field="${field}"][data-part="${part}"]`);
-    const start = node.startMonth ?? '';
-    const end = node.endMonth ?? '';
+    // Pre-fill from the node's own dates, falling back to the DERIVED roll-up
+    // span — parents open with their effective dates, never blank pickers.
+    // Editing writes own dates through setSchedule as usual.
+    const r = api.rollupOf(id);
+    const start = node.startMonth ?? r?.startMonth ?? '';
+    const end = node.endMonth ?? r?.endMonth ?? '';
     const sm = sel('start', 'month');
     if (sm) sm.value = start ? start.slice(5) : '';
     const sy = sel('start', 'year');
@@ -172,7 +181,7 @@ const detailsHref = withBase(`/prototypes/fish-node?id=${node.id}`);
       '[data-live="sched-hint"]',
       node.children.length
         ? 'The gantt shows the derived span of this node’s children; own dates apply when it has none.'
-        : 'These dates place this node’s bar on the gantt.',
+        : '',
     );
     // Action labels + details link follow the node (cloned panels are generic).
     const meta = TIER_META[node.tier];
@@ -211,12 +220,17 @@ const detailsHref = withBase(`/prototypes/fish-node?id=${node.id}`);
     const value = String((e as CustomEvent).detail?.value ?? el.value ?? '');
     if (!value) return;
     const edge = el.dataset.wbField; // 'start' | 'end'
-    const base = (edge === 'start' ? node.startMonth : node.endMonth) ?? node.startMonth ?? node.endMonth ?? '2029-04';
+    // Anchor to the EFFECTIVE dates (own, else derived roll-up) — the same values
+    // the pickers display — so editing one part writes what the user sees.
+    const roll = api.rollupOf(id);
+    const effStart = node.startMonth ?? roll?.startMonth;
+    const effEnd = node.endMonth ?? roll?.endMonth;
+    const base = (edge === 'start' ? effStart : effEnd) ?? effStart ?? effEnd ?? '2029-04';
     let [y, m] = base.split('-');
     if (el.dataset.part === 'month') m = value;
     else y = value;
-    let start = node.startMonth;
-    let end = node.endMonth;
+    let start = effStart;
+    let end = effEnd;
     if (edge === 'start') start = `${y}-${m}`;
     else end = `${y}-${m}`;
     if (!start) start = end;
@@ -260,15 +274,16 @@ const detailsHref = withBase(`/prototypes/fish-node?id=${node.id}`);
 </script>
 
 <style>
-  .bcn-edit { display: flex; flex-direction: column; gap: var(--spacing-500); }
+  .bcn-edit { display: flex; flex-direction: column; gap: var(--spacing-500); flex: 1; }
   .bcn-edit__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
 
   .bcn-edit__title { margin: 0; font-size: var(--form-font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); }
 
   .bcn-edit__sched-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-200) var(--spacing-300); }
   .bcn-edit__hint { font-size: var(--type-size-150); color: var(--color-text-tertiary); }
+  .bcn-edit__hint:empty { display: none; }
 
-  .bcn-edit__actions { flex-direction: row; flex-wrap: wrap; align-items: center; gap: var(--spacing-200); border-top: 1px solid var(--color-border-light); padding-top: var(--spacing-400); }
+  .bcn-edit__actions { flex-direction: row; flex-wrap: wrap; align-items: center; gap: var(--spacing-200); border-top: 1px solid var(--color-border-light); padding-top: var(--spacing-400); margin-top: auto; }
   .bcn-edit__actions :global(.bcn-edit__details) { margin-left: auto; }
   .bcn-edit__actions :global(.bcn-edit__details a) { text-decoration: none; }
 </style>

@@ -31,7 +31,7 @@
 // id additionally emits `wb-node-id-change` so panels can follow. In-memory only —
 // reload resets.
 import type { HierNode } from '../../data/fish-model';
-import { computeRollUp, flattenForest, TASK_STATUS_META, TIER_META } from '../../data/fish-model';
+import { computeRollUp, flattenForest, formatUSD, TASK_STATUS_META, TIER_META } from '../../data/fish-model';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
 import {
@@ -129,6 +129,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       <!-- ── Axis header: phases / years / milestones (water-year aware) ── -->
       <header class="bcn-wb__axis">
         <div class="bcn-wb__corner">Program / study / sub-study / task</div>
+        <div class="bcn-wb__money-head">Planned $</div>
         <div class="bcn-wb__head-plot">
           <div class="bcn-wb__head-bands">
             {
@@ -208,6 +209,8 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
                   </esa-dropdown-menu>
                 </div>
 
+                <span class="bcn-wb__money">{r.totalFunding ? formatUSD(r.totalFunding) : '—'}</span>
+
                 <div class="bcn-wb__plot">
                   {DCP_PHASES.map((p) => (
                     <span class="bcn-wb__band" data-phase={p.id} style={`left: ${pct(yearFrac(p.startYear))}; width: ${pct(yearFrac(p.endYear) - yearFrac(p.startYear))};`} />
@@ -243,6 +246,14 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
            the plot scrolls. Same #bcn-wb-add-program hook as before. ── -->
       <div class="bcn-wb__addrow">
         <span id="bcn-wb-add-program"><EsaButton color="ghost" appearance="dashed" size="sm" icon="plus">Add program</EsaButton></span>
+        <span class="bcn-wb__money" aria-hidden="true"></span>
+      </div>
+
+      <!-- ── Sum line: the money column totals at the bottom, spreadsheet-style. ── -->
+      <div class="bcn-wb__row bcn-wb__row--total">
+        <div class="bcn-wb__label bcn-wb__label--total" style="--_indent: 0;">Total</div>
+        <span class="bcn-wb__money bcn-wb__money--total" data-wb-money-total>{formatUSD(programs.reduce((s: number, p) => s + computeRollUp(p).totalFunding, 0))}</span>
+        <div class="bcn-wb__plot"></div>
       </div>
     </div>
   </div>
@@ -263,6 +274,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
           <button type="button" class="bcn-wb__kebab" aria-label="Row actions">⋯</button>
         </esa-dropdown-menu>
       </div>
+      <span class="bcn-wb__money">—</span>
       <div class="bcn-wb__plot">
         {DCP_PHASES.map((p) => (
           <span class="bcn-wb__band" data-phase={p.id} style={`left: ${pct(yearFrac(p.startYear))}; width: ${pct(yearFrac(p.endYear) - yearFrac(p.startYear))};`} />
@@ -299,7 +311,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   import '@esa/ecology/esa-select';
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-button-toggle';
-  import { computeRollUp, TASK_STATUS_META } from '../../data/fish-model';
+  import { computeRollUp, formatUSD, TASK_STATUS_META } from '../../data/fish-model';
   import type { HierNode, NodeRollUp, TaskStatus } from '../../data/fish-model';
   import { axisFraction, SCHEDULE_START_YEAR, SCHEDULE_END_YEAR } from '../../data/fish-schedule';
 
@@ -364,7 +376,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
     reindex();
     let rollups = new Map<string, NodeRollUp>();
 
-    const rows = () => [...body.querySelectorAll<HTMLElement>('.bcn-wb__row')];
+    const rows = () => [...body.querySelectorAll<HTMLElement>('.bcn-wb__row:not(.bcn-wb__row--total)')];
     const rowById = (id: string) => body.querySelector<HTMLElement>(`.bcn-wb__row[data-id="${id}"]`);
     const depthOf = (row: HTMLElement) => Number(row.dataset.depth ?? '0');
     const tierOf = (row: HTMLElement) => (row.dataset.tier ?? 'task') as Tier;
@@ -438,6 +450,8 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       // the marked-up DOM, so renaming while highlighted can't bake <mark>
       // fragments into the name.
       syncRowText(row, node);
+      const money = row.querySelector<HTMLElement>('.bcn-wb__money');
+      if (money) money.textContent = r?.totalFunding ? formatUSD(r.totalFunding) : '—';
       const plot = row.querySelector<HTMLElement>('.bcn-wb__plot')!;
       let mark = plot.querySelector<HTMLElement>('.bcn-wb__bar, .bcn-wb__summary');
       const geo = barGeoOf(node);
@@ -489,6 +503,14 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       };
       model.forEach(walk);
       rows().forEach(patchRow);
+      // Sum line: total the top-level programs' rolled-up funding.
+      const totalEl = wb.querySelector<HTMLElement>('[data-wb-money-total]');
+      if (totalEl) {
+        const grand = rows()
+          .filter((row) => row.dataset.depth === '0' && row.dataset.id)
+          .reduce((s, row) => s + (rollups.get(row.dataset.id!)?.totalFunding ?? 0), 0);
+        totalEl.textContent = formatUSD(grand);
+      }
       wb.dispatchEvent(new CustomEvent('wb-model-change', { detail: { reason }, bubbles: true }));
     }
 
@@ -1079,6 +1101,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
     flex-direction: column;
     gap: var(--spacing-300);
     --_label-w: 420px;
+    --_money-w: 96px;
     --_plot-w: 1900px;
     --_row-h: 28px;
   }
@@ -1107,7 +1130,8 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   .bcn-wb__canvas { min-width: calc(var(--_label-w) + var(--_plot-w)); }
 
   /* ── Axis header ── */
-  .bcn-wb__axis { display: grid; grid-template-columns: var(--_label-w) 1fr; position: sticky; top: 0; z-index: 5; background: var(--color-surface); border-bottom: 1px solid var(--color-border); }
+  .bcn-wb__axis { display: grid; grid-template-columns: var(--_label-w) var(--_money-w) 1fr; position: sticky; top: 0; z-index: 5; background: var(--color-surface); border-bottom: 1px solid var(--color-border); }
+  .bcn-wb__money-head { display: flex; align-items: flex-end; justify-content: flex-end; position: sticky; left: var(--_label-w); z-index: 3; padding: var(--spacing-200) var(--spacing-300); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); background: var(--color-surface); border-right: 1px solid var(--color-border); }
   .bcn-wb__corner { display: flex; align-items: flex-end; padding: var(--spacing-200) var(--spacing-300); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); border-right: 1px solid var(--color-border); }
   .bcn-wb__head-plot { position: relative; }
   .bcn-wb__head-bands { position: absolute; inset: 0; z-index: 0; }
@@ -1131,7 +1155,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
 
   /* ── Body / rows ── */
   .bcn-wb__body { position: relative; }
-  .bcn-wb__row { display: grid; grid-template-columns: var(--_label-w) 1fr; border-bottom: 1px solid var(--color-border-light); }
+  .bcn-wb__row { display: grid; grid-template-columns: var(--_label-w) var(--_money-w) 1fr; border-bottom: 1px solid var(--color-border-light); }
   .bcn-wb__row[hidden] { display: none; }
   .bcn-wb__row.is-program { background: color-mix(in srgb, var(--color-text-primary) 3%, transparent); }
   .bcn-wb__row.is-study { background: color-mix(in srgb, var(--color-text-primary) 1.5%, transparent); }
@@ -1177,6 +1201,19 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   /* Visible add-child affordance: revealed on row hover / keyboard focus.
      The ⋯ menu keeps rename / reparent / delete. */
   /* Always visible (was hover-reveal — Andy couldn't find the CRUD affordances) */
+  /* The money column: its own sticky grid track between the tree and the plot,
+     so values read in one straight line down the chart. */
+  .bcn-wb__money { display: flex; align-items: center; justify-content: flex-end; position: sticky; left: var(--_label-w); z-index: 3; padding: 0 var(--spacing-300); min-height: var(--_row-h); font-size: var(--type-size-150); font-variant-numeric: tabular-nums; color: var(--color-text-secondary); background: var(--color-surface); border-right: 1px solid var(--color-border); }
+  /* Derived vs entered: parents' dollars are roll-ups (quiet, muted) so the eye
+     doesn't sum the column across tiers; tasks are the real entries (solid);
+     the Total row is the one honest sum (bold). */
+  .bcn-wb__row.is-program .bcn-wb__money, .bcn-wb__row.is-study .bcn-wb__money, .bcn-wb__row.is-substudy .bcn-wb__money { color: var(--color-text-muted); }
+  .bcn-wb__row.is-program .bcn-wb__money { background: color-mix(in srgb, var(--color-text-primary) 3%, var(--color-surface)); }
+  .bcn-wb__row.is-study .bcn-wb__money { background: color-mix(in srgb, var(--color-text-primary) 1.5%, var(--color-surface)); }
+  .bcn-wb__row.is-selected .bcn-wb__money { background: var(--color-primary-subtle); }
+  .bcn-wb__row--total { border-top: 2px solid var(--color-border-strong); border-bottom: 0; }
+  .bcn-wb__label--total { display: flex; align-items: center; font-size: var(--type-size-150); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-wb__money--total { font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
   .bcn-wb__add { flex-shrink: 0; margin-left: auto; display: inline-flex; opacity: 0.55; transition: opacity 120ms ease; }
   .bcn-wb__row:hover .bcn-wb__add, .bcn-wb__add:focus-within { opacity: 1; }
   .bcn-wb__add .esa-icon-button { width: 24px; height: 24px; color: var(--color-text-tertiary); border-radius: var(--radius-100); }
@@ -1226,8 +1263,8 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
 
   /* Ghost add-row at the bottom of the tree body — the button rides the sticky
      label column so it stays visible while the plot scrolls. */
-  .bcn-wb__addrow { display: grid; grid-template-columns: var(--_label-w) 1fr; border-top: 1px solid var(--color-border-light); }
-  .bcn-wb__addrow > span { display: block; position: sticky; left: 0; padding: var(--spacing-150) var(--spacing-200); background: var(--color-surface); border-right: 1px solid var(--color-border); }
+  .bcn-wb__addrow { display: grid; grid-template-columns: var(--_label-w) var(--_money-w) 1fr; border-top: 1px solid var(--color-border-light); }
+  .bcn-wb__addrow > span:first-child { display: block; position: sticky; left: 0; padding: var(--spacing-150) var(--spacing-200); background: var(--color-surface); border-right: 1px solid var(--color-border); }
   .bcn-wb__addrow .esa-button { display: block; width: 100%; }
   .bcn-wb__addrow .esa-button .esa-button__native { width: 100%; justify-content: center; }
 

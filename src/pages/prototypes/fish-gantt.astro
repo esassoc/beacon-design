@@ -18,23 +18,16 @@
 // seasons) drive the axis. Dollar/status content is illustrative fixture data.
 import AppShell from '../../layouts/AppShell.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
-import EsaStat from '@esa/ecology/esa-stat.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnWorkBreakdown from '../../components/bcn/BcnWorkBreakdown.astro';
 import BcnNodeEdit from '../../components/bcn/BcnNodeEdit.astro';
-import { PROGRAMS, PLAN_ROOT } from '../../data/fish-hierarchy';
-import { computeRollUp, flattenForest, formatUSD, waterYearOf, TIER_META, PROJECT_NAME, type HierNode } from '../../data/fish-model';
+import { PROGRAMS } from '../../data/fish-hierarchy';
+import { computeRollUp, flattenForest, TIER_META, PROJECT_NAME, type HierNode } from '../../data/fish-model';
 import { withBase } from '../../lib/base';
 
 const TODAY = '2029-06-15';
 
 const flat = flattenForest(PROGRAMS);
-const planRollup = computeRollUp(PLAN_ROOT);
-const studyCount = flat.filter((f) => f.node.tier === 'study').length;
-const horizon =
-  planRollup.startMonth && planRollup.endMonth
-    ? `WY${waterYearOf(planRollup.startMonth)}–WY${waterYearOf(planRollup.endMonth)}`
-    : '—';
 
 // One SSR edit panel per node — toggled into the drawer on wb-node-select.
 const nodePanels = flat.map(({ node }) => ({
@@ -69,7 +62,6 @@ const fishNav = [
   layout: stack
   sections:
     - header utilities       -> esa-button            # Science Plan crosswalk link in the PageLayout utilities slot
-    - program roll-up KPIs   -> esa-stat             # whole-plan aggregate: funding / tasks / on-track / horizon
     - work-breakdown gantt    -> bcn-work-breakdown    # recursive 4-tier tree + month timeline + roll-up bars + CRUD
     - node edit drawer        -> esa-side-dialog        # row side-panel container
     - node edit body          -> bcn-node-edit          # date range / budget / status (tasks) + add-child / delete / details link
@@ -85,19 +77,11 @@ const fishNav = [
       <EsaButton href={withBase('/prototypes/fish-studies')} color="ghost" appearance="outline" size="md" icon="table">Science Plan crosswalk</EsaButton>
     </div>
 
-    <!-- ═══ Program roll-up — the whole-plan aggregate ═══
-         bcn-lego-checked: PAGE-COMPOSITION GLUE ONLY. The KPI row wraps esa-stat legos;
-         the tree is bcn-work-breakdown; the drawer body is bcn-node-edit. Every section
-         resolves to a component (see manifest). Checked esa-* (no 4-tier gantt lego, no
-         node-panel lego) and Beacon. Page CSS is stat-row + note + drawer-chrome glue. -->
-    <div class="bcn-gantt-stats">
-      <EsaStat value={formatUSD(planRollup.totalFunding)} label="Planned funding (illustrative)" sub={horizon} accent />
-      <EsaStat value={planRollup.taskCount} label="Tasks tracked" sub={`${studyCount} studies · ${PROGRAMS.length} programs`} />
-      <EsaStat value={`${planRollup.onTrack + planRollup.complete}/${planRollup.taskCount}`} label="Tasks on track or done" sub={`${planRollup.atRisk} at risk · ${planRollup.blocked} blocked`} />
-      <EsaStat value={horizon} label="Schedule horizon" sub="water-year anchored" />
-    </div>
-
-    <!-- ═══ The four-tier tasking gantt ═══ -->
+    <!-- ═══ The four-tier tasking gantt ═══
+         bcn-lego-checked: PAGE-COMPOSITION GLUE ONLY. The tree is bcn-work-breakdown;
+         the drawer body is bcn-node-edit. Every section resolves to a component (see
+         manifest). Checked esa-* (no 4-tier gantt lego, no node-panel lego) and Beacon.
+         Page CSS is drawer-chrome glue. -->
     <BcnWorkBreakdown programs={PROGRAMS} today={TODAY} />
   </PageLayout>
 
@@ -136,7 +120,6 @@ const fishNav = [
 
 <script>
   import '@esa/ecology/esa-side-dialog';
-  import { formatUSD, waterYearOf } from '../../data/fish-model';
   import type { HierNode, NodeRollUp } from '../../data/fish-model';
 
   type WbApi = {
@@ -183,28 +166,6 @@ const fishNav = [
     if (e.key === 'Escape') drawer.close();
   });
 
-  // ── Live header KPIs: re-derive the whole-plan roll-up on every model change ──
-  const stats = [...document.querySelectorAll<HTMLElement>('.bcn-gantt-stats .esa-stat')];
-  const setStat = (i: number, value: string, sub?: string) => {
-    const v = stats[i]?.querySelector<HTMLElement>('.esa-stat__value');
-    if (v) v.textContent = value;
-    if (sub !== undefined) {
-      const s = stats[i]?.querySelector<HTMLElement>('.esa-stat__sub');
-      if (s) s.textContent = sub;
-    }
-  };
-  function patchStats() {
-    const api = getApi();
-    if (!api) return;
-    const plan = api.planRollup();
-    const { programs, studies } = api.tierCounts();
-    const horizon = plan.startMonth && plan.endMonth ? `WY${waterYearOf(plan.startMonth)}–WY${waterYearOf(plan.endMonth)}` : '—';
-    setStat(0, formatUSD(plan.totalFunding), horizon);
-    setStat(1, String(plan.taskCount), `${studies} studies · ${programs} programs`);
-    setStat(2, `${plan.onTrack + plan.complete}/${plan.taskCount}`, `${plan.atRisk} at risk · ${plan.blocked} blocked`);
-    setStat(3, horizon);
-  }
-
   // ── Panel reconciliation: nodes added by the CRUD layer get a cloned blank
   //    panel; panels for deleted nodes are removed (closing the drawer if open).
   const tplTask = document.getElementById('bcn-panel-tpl-task') as HTMLTemplateElement;
@@ -240,7 +201,6 @@ const fishNav = [
   }
 
   document.addEventListener('wb-model-change', () => {
-    patchStats();
     reconcilePanels();
   });
 </script>
@@ -252,20 +212,15 @@ const fishNav = [
      node-panel lego) and Beacon. No reinvented primitive; no raw form control. */
 
 
-  .bcn-gantt-stats { display: flex; flex-wrap: wrap; border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface); margin-bottom: var(--spacing-400); overflow: hidden; }
-  .bcn-gantt-stats > :global(.esa-stat) { flex: 1; min-width: 170px; padding: var(--spacing-250) var(--spacing-400); }
-  .bcn-gantt-stats > :global(.esa-stat + .esa-stat) { box-shadow: inset 1px 0 0 var(--color-border-light); }
-  /* esa-stat ships no size variant (ledgered — propose size="sm" on the lego); compact the strip here. */
-  .bcn-gantt-stats :global(.esa-stat__value) { font-size: var(--type-size-500); }
-  .bcn-gantt-stats :global(.esa-stat__label) { font-size: var(--type-size-150); }
-  .bcn-gantt-stats :global(.esa-stat__sub) { font-size: 0.8125rem; }
 
   .bcn-node-head { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; min-width: 0; }
   .bcn-node-head__id { flex-shrink: 0; font-family: var(--font-mono); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 1px var(--spacing-200); border-radius: var(--radius-100); }
   .bcn-node-head__title { font-family: var(--font-decorative); font-size: 1.125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); line-height: 1.25; min-width: 0; }
 
-  .bcn-node-body { display: flex; flex-direction: column; }
+  /* The edit form fills the drawer body so the actions row sits at the bottom. */
+  .bcn-node-body { display: flex; flex-direction: column; min-height: 100%; }
   .bcn-node-body [data-node-panel][hidden] { display: none; }
+  .bcn-node-body [data-node-panel]:not([hidden]) { display: flex; flex-direction: column; flex: 1; }
 
   .bcn-node-foot { display: flex; align-items: center; justify-content: flex-end; width: 100%; }
   .bcn-node-foot a { text-decoration: none; }
