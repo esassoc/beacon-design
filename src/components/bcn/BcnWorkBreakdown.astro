@@ -23,10 +23,13 @@
 //
 // FUNCTIONAL CRUD LAYER (client model): the SSR fixture is serialized into the page
 // and hydrated into a mutable tree. Task bars drag (edge hotzones resize by month,
-// body drag moves the whole bar); the drawer's Timing/Funding legos write through
-// `wbApi` on this element; every mutation funnels into ONE recompute() that patches
-// bars, roll-up brackets, data-start/data-end, and emits `wb-model-change` for the
-// page (header KPIs) and panel components. In-memory only — reload resets.
+// body drag moves the whole bar); the node-edit drawer's Name/ID/date/budget legos
+// write through `wbApi` on this element (setName / setId / setSchedule / setFunding
+// / addChildTo / requestDelete); every mutation funnels into ONE recompute() that
+// patches bars, roll-up brackets, badges, data-start/data-end, and emits
+// `wb-model-change` for the page (header KPIs) and panel components. Re-keying an
+// id additionally emits `wb-node-id-change` so panels can follow. In-memory only —
+// reload resets.
 import type { HierNode } from '../../data/fish-model';
 import { computeRollUp, flattenForest, TASK_STATUS_META, TIER_META } from '../../data/fish-model';
 import EsaButton from '@esa/ecology/esa-button.astro';
@@ -59,11 +62,12 @@ const span = SCHEDULE_END_YEAR - SCHEDULE_START_YEAR;
 const pct = (n: number) => `${(n * 100).toFixed(2)}%`;
 const yearFrac = (y: number) => (y - SCHEDULE_START_YEAR) / span;
 
-// Bar geometry: a Task uses its own months; a parent uses its rolled-up span.
+// Bar geometry: a node WITH children uses its DERIVED roll-up span; a node with
+// none (a Task, or a childless parent) uses its own months.
 function barGeo(node: HierNode): { left: string; width: string } | null {
   const r = rollups.get(node.id)!;
-  const startISO = node.tier === 'task' ? node.startMonth : r.startMonth;
-  const endISO = node.tier === 'task' ? node.endMonth : r.endMonth;
+  const startISO = node.children.length ? r.startMonth : (node.startMonth ?? r.startMonth);
+  const endISO = node.children.length ? r.endMonth : (node.endMonth ?? r.endMonth);
   if (!startISO || !endISO) return null;
   const left = axisFraction(`${startISO}-01`);
   const right = axisFraction(`${endISO}-28`);
@@ -82,26 +86,26 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
 
 <div class="bcn-wb">
   <script is:inline type="application/json" data-wb-model set:html={modelJson}></script>
-  <!-- ── Filter bar (permit-tracking pattern): controls on top, legend below ── -->
+  <!-- ── Filter bar (permit-tracking pattern): controls on top, legend below.
+       Every lego rides the sm size variant; Add program lives at the BOTTOM of
+       the tree body (the ghost add-row), so the bar starts with Search. ── -->
   <div class="bcn-wb__filterbar">
     <div class="bcn-wb__fb-top">
-      <span id="bcn-wb-add-program"><EsaButton color="primary" appearance="outline" size="md" icon="plus">Add program</EsaButton></span>
-      <span class="bcn-wb__fb-divider"></span>
       <div class="bcn-wb__fb-group">
         <span class="bcn-wb__fb-label">Search</span>
-        <esa-text-field id="bcn-wb-search" placeholder="Search name or ID" size="md"></esa-text-field>
+        <esa-text-field id="bcn-wb-search" placeholder="Search name or ID" size="sm"></esa-text-field>
       </div>
       <span class="bcn-wb__fb-divider"></span>
       <div class="bcn-wb__fb-group">
         <span class="bcn-wb__fb-label">Tier</span>
-        <esa-button-toggle id="bcn-wb-tier-filter" value="all" size="md"></esa-button-toggle>
+        <esa-button-toggle id="bcn-wb-tier-filter" value="all" size="sm"></esa-button-toggle>
       </div>
       <span class="bcn-wb__fb-divider"></span>
       <div class="bcn-wb__fb-group">
         <span class="bcn-wb__fb-label">Years</span>
-        <esa-select id="bcn-wb-year-from" size="md"></esa-select>
+        <esa-select id="bcn-wb-year-from" class="bcn-wb__fb-year" size="sm"></esa-select>
         <span class="bcn-wb__fb-to">to</span>
-        <esa-select id="bcn-wb-year-to" size="md"></esa-select>
+        <esa-select id="bcn-wb-year-to" class="bcn-wb__fb-year" size="sm"></esa-select>
       </div>
       <span class="bcn-wb__filter-count" id="bcn-wb-filter-count" hidden></span>
     </div>
@@ -118,7 +122,6 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
         <span class="bcn-wb__legend-summary" />
         Roll-up span
       </span>
-      <span class="bcn-wb__legend-item bcn-wb__legend-hint">Drag a bar to reschedule — edges resize, middle moves</span>
     </div>
   </div>
 
@@ -177,8 +180,8 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
               <div
                 class:list={['bcn-wb__row', TIER_CLASS[node.tier], { 'is-leaf': !hasChildren }]}
                 data-id={node.id}
-                data-start={(node.tier === 'task' ? node.startMonth : r.startMonth) ?? ''}
-                data-end={(node.tier === 'task' ? node.endMonth : r.endMonth) ?? ''}
+                data-start={(node.children.length ? r.startMonth : (node.startMonth ?? r.startMonth)) ?? ''}
+                data-end={(node.children.length ? r.endMonth : (node.endMonth ?? r.endMonth)) ?? ''}
                 data-tier={node.tier}
                 data-depth={depth}
                 data-parent={parentId ?? ''}
@@ -235,6 +238,13 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
           })
         }
       </div>
+
+      <!-- ── Ghost add-row: Add program lives at the bottom of the tree body.
+           The button rides the sticky label column so it stays visible while
+           the plot scrolls. Same #bcn-wb-add-program hook as before. ── -->
+      <div class="bcn-wb__addrow">
+        <span id="bcn-wb-add-program"><EsaButton color="ghost" appearance="dashed" size="sm" icon="plus">Add program</EsaButton></span>
+      </div>
     </div>
   </div>
 
@@ -269,8 +279,9 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
     </div>
   </template>
 
-  <!-- Delete confirmation (esa-confirm-dialog lego). -->
-  <esa-confirm-dialog id="bcn-wb-confirm" heading="Delete node" variant="danger" confirm-label="Delete" cancel-label="Keep"></esa-confirm-dialog>
+  <!-- Delete confirmation (esa-confirm-dialog lego). Delete is reachable from the
+       node-edit drawer too, so this must stack ABOVE the drawer's --z-modal:1300. -->
+  <esa-confirm-dialog id="bcn-wb-confirm" heading="Delete node" variant="danger" confirm-label="Delete" cancel-label="Keep" style="--z-modal: 1400; --z-modal-backdrop: 1350;"></esa-confirm-dialog>
 
   <!-- Reparent chooser (esa-dialog + esa-select legos). -->
   <esa-dialog id="bcn-wb-reparent" heading="Move to a different parent" size="sm">
@@ -376,8 +387,9 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
     //    status color + unscheduled note), then notifies the page + panels.
     function barGeoOf(node: HierNode): { left: number; width: number } | null {
       const r = rollups.get(node.id);
-      const startISO = node.tier === 'task' ? node.startMonth : r?.startMonth;
-      const endISO = node.tier === 'task' ? node.endMonth : r?.endMonth;
+      // Derived span for parents WITH children; own dates when the node has none.
+      const startISO = node.children.length ? r?.startMonth : (node.startMonth ?? r?.startMonth);
+      const endISO = node.children.length ? r?.endMonth : (node.endMonth ?? r?.endMonth);
       if (!startISO || !endISO) return null;
       const left = axisFraction(`${startISO}-01`);
       const right = axisFraction(`${endISO}-28`);
@@ -388,10 +400,18 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       const node = byId.get(row.dataset.id ?? '');
       if (!node) return;
       const r = rollups.get(node.id);
-      const start = node.tier === 'task' ? node.startMonth : r?.startMonth;
-      const end = node.tier === 'task' ? node.endMonth : r?.endMonth;
+      // Span semantics: a node WITH children shows the DERIVED roll-up span; a
+      // node with none (task, or a childless parent) uses its own dates. The
+      // roll-up of a childless node already returns its own months.
+      const start = node.children.length ? r?.startMonth : (node.startMonth ?? r?.startMonth);
+      const end = node.children.length ? r?.endMonth : (node.endMonth ?? r?.endMonth);
       row.dataset.start = start ?? '';
       row.dataset.end = end ?? '';
+      // Keep the label cell in sync with drawer edits (name + ID write-through).
+      const badge = row.querySelector<HTMLElement>('.bcn-wb__id');
+      if (badge && badge.textContent !== node.id) badge.textContent = node.id;
+      const nameEl = row.querySelector<HTMLElement>('.bcn-wb__name');
+      if (nameEl && !nameEl.isContentEditable && nameEl.textContent !== node.name) nameEl.textContent = node.name;
       const plot = row.querySelector<HTMLElement>('.bcn-wb__plot')!;
       let mark = plot.querySelector<HTMLElement>('.bcn-wb__bar, .bcn-wb__summary');
       const geo = barGeoOf(node);
@@ -454,12 +474,62 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       allNodes: () => [...byId.values()],
       planRollup: () => computeRollUp({ id: 'PLAN', tier: 'program', name: 'plan', funding: [], children: model } as HierNode),
       tierCounts: () => ({ programs: model.length, studies: [...byId.values()].filter((n) => n.tier === 'study').length }),
+      // ANY tier may carry its own start/end months (drawer edit surface). Parents
+      // with children keep showing the derived roll-up span on the gantt.
+      setSchedule(id: string, startMonth: string, endMonth: string) {
+        const n = byId.get(id);
+        if (!n) return;
+        n.startMonth = startMonth;
+        n.endMonth = endMonth;
+        recompute('schedule');
+      },
       setTaskSchedule(id: string, startMonth: string, endMonth: string) {
         const n = byId.get(id);
         if (!n || n.tier !== 'task') return;
         n.startMonth = startMonth;
         n.endMonth = endMonth;
         recompute('schedule');
+      },
+      setName(id: string, name: string) {
+        const n = byId.get(id);
+        if (!n) return;
+        const clean = name.trim() || 'Untitled';
+        if (n.name === clean) return;
+        n.name = clean;
+        recompute('rename');
+      },
+      // Re-key a node: the id IS the client-model key, so this updates the model
+      // node, the row's data-id + badge, children's data-parent references, and
+      // the collapse set — then announces the re-key (wb-node-id-change) so the
+      // page can move its panel before the recompute broadcast syncs everything.
+      setId(oldId: string, newId: string): boolean {
+        const n = byId.get(oldId);
+        const clean = newId.trim();
+        if (!n || !clean || clean === oldId || byId.has(clean)) return false;
+        n.id = clean;
+        const row = rowById(oldId);
+        if (row) row.dataset.id = clean;
+        rows().forEach((r) => {
+          if (r.dataset.parent === oldId) r.dataset.parent = clean;
+        });
+        if (collapsed.has(oldId)) {
+          collapsed.delete(oldId);
+          collapsed.add(clean);
+        }
+        reindex();
+        wb.dispatchEvent(new CustomEvent('wb-node-id-change', { detail: { oldId, newId: clean }, bubbles: true }));
+        recompute('id');
+        return true;
+      },
+      // Drawer-reachable structure ops: add a child of the node's child tier
+      // (selecting it so the drawer follows), and delete via the confirm dialog.
+      addChildTo(id: string) {
+        const row = rowById(id);
+        if (row) addChild(row, { select: true });
+      },
+      requestDelete(id: string) {
+        const row = rowById(id);
+        if (row) askDelete(row);
       },
       setFunding(id: string, waterYear: number, amount: number) {
         const n = byId.get(id);
@@ -671,8 +741,10 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       btn?.setAttribute('title', lbl);
     }
 
-    // ── Add a child (unscheduled row cloned from the template + model node) ──
-    function addChild(parentRow: HTMLElement) {
+    // ── Add a child (unscheduled row cloned from the template + model node).
+    //    Row-affordance adds start the inline rename; drawer adds (opts.select)
+    //    select the new node instead so the open drawer follows it. ──
+    function addChild(parentRow: HTMLElement, opts: { select?: boolean } = {}) {
       const parentTier = tierOf(parentRow);
       const tier = CHILD_TIER[parentTier];
       const parent = byId.get(parentRow.dataset.id ?? '');
@@ -707,7 +779,12 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       parent.children.push(node);
       reindex();
       recompute('structure');
-      startRename(row);
+      if (opts.select) {
+        rows().forEach((r) => r.classList.toggle('is-selected', r === row));
+        wb.dispatchEvent(new CustomEvent('wb-node-select', { detail: { id }, bubbles: true }));
+      } else {
+        startRename(row);
+      }
     }
 
     function addProgram() {
@@ -978,6 +1055,8 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   .bcn-wb__fb-top { display: flex; align-items: center; gap: var(--spacing-300); flex-wrap: wrap; padding: var(--spacing-250) var(--spacing-400); }
   .bcn-wb__fb-group { display: inline-flex; align-items: center; gap: var(--spacing-300); }
   .bcn-wb__fb-group esa-text-field { width: 220px; }
+  /* Year pickers hold a 4-digit year — no need for the default select width. */
+  .bcn-wb__fb-year { display: inline-block; width: 5.5em; }
   .bcn-wb__fb-label { font-size: var(--type-size-150); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); white-space: nowrap; }
   .bcn-wb__fb-divider { width: 1px; align-self: stretch; background: var(--color-border); margin: 0 var(--spacing-100); }
   .bcn-wb__fb-to { font-size: var(--type-size-150); color: var(--color-text-tertiary); }
@@ -1026,7 +1105,12 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   .bcn-wb__row.is-selected .bcn-wb__label { background: var(--color-primary-subtle); }
 
   /* label cell: indent by depth, disclosure caret, name button, add-child, menu */
-  .bcn-wb__label { display: flex; align-items: center; gap: var(--spacing-150); min-height: var(--_row-h); padding: 0 var(--spacing-200) 0 calc(var(--spacing-200) + var(--_indent) * 18px); border-right: 1px solid var(--color-border); background: var(--color-surface); position: sticky; left: 0; z-index: 3; overflow: hidden; }
+  /* NO overflow:hidden here — the esa-dropdown-menu panel renders inside this
+     cell and would be clipped invisible; truncation lives on .bcn-wb__name. */
+  .bcn-wb__label { display: flex; align-items: center; gap: var(--spacing-150); min-height: var(--_row-h); padding: 0 var(--spacing-200) 0 calc(var(--spacing-200) + var(--_indent) * 18px); border-right: 1px solid var(--color-border); background: var(--color-surface); position: sticky; left: 0; z-index: 3; }
+  /* An open row menu must paint above the LATER rows' sticky labels (same z-index
+     siblings paint in DOM order) — raise the open row, but stay under the axis (5). */
+  .bcn-wb__row:has(.bcn-wb__menu[open]) .bcn-wb__label { z-index: 4; }
   .bcn-wb__row.is-program .bcn-wb__label { background: color-mix(in srgb, var(--color-text-primary) 3%, var(--color-surface)); }
   .bcn-wb__caret { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; padding: 0; border: 0; background: transparent; color: var(--color-text-tertiary); cursor: pointer; flex-shrink: 0; border-radius: var(--radius-100); }
   .bcn-wb__caret:hover { background: var(--color-surface-sunken); color: var(--color-text-primary); }
@@ -1096,6 +1180,13 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   .bcn-wb__summary::before { left: 0; }
   .bcn-wb__summary::after { right: 0; }
   .bcn-wb__row.is-substudy .bcn-wb__summary::before, .bcn-wb__row.is-substudy .bcn-wb__summary::after { display: none; }
+
+  /* Ghost add-row at the bottom of the tree body — the button rides the sticky
+     label column so it stays visible while the plot scrolls. */
+  .bcn-wb__addrow { display: grid; grid-template-columns: var(--_label-w) 1fr; border-top: 1px solid var(--color-border-light); }
+  .bcn-wb__addrow > span { display: block; position: sticky; left: 0; padding: var(--spacing-150) var(--spacing-200); background: var(--color-surface); border-right: 1px solid var(--color-border); }
+  .bcn-wb__addrow .esa-button { display: block; width: 100%; }
+  .bcn-wb__addrow .esa-button .esa-button__native { width: 100%; justify-content: center; }
 
   /* reparent dialog footer */
   .bcn-wb__dialog-foot { display: flex; justify-content: flex-end; gap: var(--spacing-200); width: 100%; }

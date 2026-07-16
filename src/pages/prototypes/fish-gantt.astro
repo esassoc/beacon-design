@@ -9,8 +9,11 @@
 //   • every node is editable (add / rename / reparent / delete at all four tiers);
 //   • stable type-prefixed IDs (PRG/STY/SUB/TSK) are identity, the COA dot-number a
 //     secondary reference; there is NO dependency dimension in this view;
-//   • clicking a row opens its side panel: Identity → Timing → Funding → Roll-up →
-//     constraints/notes.
+//   • clicking a row opens its EDIT drawer — Name, ID, Date range, Budget plus
+//     Add-child / Delete — the slim write surface. The full record (COA reference,
+//     parent, owner, status, water years, roll-up meter, constraints/notes) lives
+//     on the node DETAILS page (/prototypes/fish-node?id=…) behind the drawer's
+//     "View full details" link.
 // The same fish-schedule.ts calendar rules (water-year deadlines, half-year field
 // seasons) drive the axis. Dollar/status content is illustrative fixture data.
 import AppShell from '../../layouts/AppShell.astro';
@@ -18,7 +21,7 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import EsaStat from '@esa/ecology/esa-stat.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnWorkBreakdown from '../../components/bcn/BcnWorkBreakdown.astro';
-import BcnNodeDetail from '../../components/bcn/BcnNodeDetail.astro';
+import BcnNodeEdit from '../../components/bcn/BcnNodeEdit.astro';
 import { PROGRAMS, PLAN_ROOT } from '../../data/fish-hierarchy';
 import { computeRollUp, flattenForest, formatUSD, waterYearOf, TIER_META, PROJECT_NAME, type HierNode } from '../../data/fish-model';
 import { withBase } from '../../lib/base';
@@ -33,16 +36,16 @@ const horizon =
     ? `WY${waterYearOf(planRollup.startMonth)}–WY${waterYearOf(planRollup.endMonth)}`
     : '—';
 
-// One SSR detail panel per node — toggled into the drawer on wb-node-select.
-const nodePanels = flat.map(({ node, ancestors }) => ({
+// One SSR edit panel per node — toggled into the drawer on wb-node-select.
+const nodePanels = flat.map(({ node }) => ({
   node,
   rollup: computeRollUp(node),
-  parentName: ancestors.at(-1)?.name,
 }));
 
 // Blank panel templates cloned client-side for nodes ADDED after load (the CRUD
-// layer). The branch template carries one pseudo-child so the Roll-up section
-// renders; the sync script re-derives every value once the panel is bound.
+// layer). The branch template carries one pseudo-child so the funding table's
+// Own/Rolled-up split renders; the sync script re-derives every value (labels,
+// fields, details link) once the panel is bound.
 const TPL_TASK: HierNode = { id: '', tier: 'task', name: '', status: 'not-started', funding: [], children: [] };
 const TPL_BRANCH: HierNode = { id: '', tier: 'study', name: '', funding: [], children: [TPL_TASK] };
 
@@ -68,8 +71,8 @@ const fishNav = [
     - header utilities       -> esa-button            # Science Plan crosswalk link in the PageLayout utilities slot
     - program roll-up KPIs   -> esa-stat             # whole-plan aggregate: funding / tasks / on-track / horizon
     - work-breakdown gantt    -> bcn-work-breakdown    # recursive 4-tier tree + month timeline + roll-up bars + CRUD
-    - node detail panel       -> esa-side-dialog        # row side-panel container
-    - node detail body        -> bcn-node-detail        # Identity → Timing → Funding → Roll-up → notes
+    - node edit drawer        -> esa-side-dialog        # row side-panel container
+    - node edit body          -> bcn-node-edit          # Name / ID / date range / budget + add-child / delete / details link
 -->
 
 <AppShell title={`${PROJECT_NAME} — Study Planning`} tenantName="DWR" projectName="Delta Conveyance" navSections={fishNav}>
@@ -84,7 +87,7 @@ const fishNav = [
 
     <!-- ═══ Program roll-up — the whole-plan aggregate ═══
          bcn-lego-checked: PAGE-COMPOSITION GLUE ONLY. The KPI row wraps esa-stat legos;
-         the tree is bcn-work-breakdown; the drawer body is bcn-node-detail. Every section
+         the tree is bcn-work-breakdown; the drawer body is bcn-node-edit. Every section
          resolves to a component (see manifest). Checked esa-* (no 4-tier gantt lego, no
          node-panel lego) and Beacon. Page CSS is stat-row + note + drawer-chrome glue. -->
     <div class="bcn-gantt-stats">
@@ -98,7 +101,7 @@ const fishNav = [
     <BcnWorkBreakdown programs={PROGRAMS} today={TODAY} />
   </PageLayout>
 
-  <!-- ═══ Node-detail drawer — Identity → Timing → Funding → Roll-up → notes ═══ -->
+  <!-- ═══ Node-edit drawer — Name / ID / Date range / Budget + actions ═══ -->
   <esa-side-dialog id="node-drawer" size="md" style="--z-modal: 1300; --z-modal-backdrop: 1250;">
     <div slot="header" class="bcn-node-head">
       <span class="bcn-node-head__id" id="node-id">—</span>
@@ -107,20 +110,20 @@ const fishNav = [
 
     <div class="bcn-node-body">
       {
-        nodePanels.map(({ node, rollup, parentName }) => (
+        nodePanels.map(({ node, rollup }) => (
           <section data-node-panel={node.id} data-node-name={node.name} data-node-tier={TIER_META[node.tier].label} hidden>
-            <BcnNodeDetail node={node} rollup={rollup} parentName={parentName} />
+            <BcnNodeEdit node={node} rollup={rollup} />
           </section>
         ))
       }
       <template id="bcn-panel-tpl-task">
         <section data-node-panel="" data-node-name="" hidden>
-          <BcnNodeDetail node={TPL_TASK} rollup={computeRollUp(TPL_TASK)} parentName="—" />
+          <BcnNodeEdit node={TPL_TASK} rollup={computeRollUp(TPL_TASK)} />
         </section>
       </template>
       <template id="bcn-panel-tpl-branch">
         <section data-node-panel="" data-node-name="" hidden>
-          <BcnNodeDetail node={TPL_BRANCH} rollup={computeRollUp(TPL_BRANCH)} parentName="—" />
+          <BcnNodeEdit node={TPL_BRANCH} rollup={computeRollUp(TPL_BRANCH)} />
         </section>
       </template>
     </div>
@@ -159,6 +162,17 @@ const fishNav = [
     idEl.textContent = id;
     titleEl.textContent = panel.dataset.nodeName ?? id;
     drawer.show();
+  });
+
+  // The drawer's ID field re-keys the model — move the node's panel to the new
+  // key BEFORE the recompute broadcast so reconciliation keeps (not replaces) it.
+  document.addEventListener('wb-node-id-change', (e) => {
+    const { oldId, newId } = ((e as CustomEvent).detail ?? {}) as { oldId?: string; newId?: string };
+    if (!oldId || !newId) return;
+    const panel = panels().find((p) => p.dataset.nodePanel === oldId);
+    if (!panel) return;
+    panel.dataset.nodePanel = newId;
+    if (!panel.hidden) idEl.textContent = newId;
   });
 
   document.getElementById('node-close')!.addEventListener('click', () => drawer.close());
@@ -232,7 +246,7 @@ const fishNav = [
 
 <style>
   /* bcn-lego-checked: PAGE-COMPOSITION GLUE ONLY. The stat row wraps esa-stat legos;
-     the tree is bcn-work-breakdown; the drawer body is bcn-node-detail. Every section
+     the tree is bcn-work-breakdown; the drawer body is bcn-node-edit. Every section
      resolves to a component (see manifest). Checked esa-* (no 4-tier gantt lego, no
      node-panel lego) and Beacon. No reinvented primitive; no raw form control. */
 

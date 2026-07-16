@@ -1,0 +1,153 @@
+---
+// Fish Node — the per-node DETAILS page behind the Study Planning gantt.
+//
+// The gantt row drawer is the slim EDIT surface (Name / ID / Date range /
+// Budget); THIS page is where the full record reads: Identity with the COA
+// reference + parent, Timing with water years + field seasons, the Funding
+// plan, the Status roll-up meter, and constraints/notes — the unchanged
+// BcnNodeDetail composition, one hidden SSR panel per node with `?id=`
+// selecting which one shows (same data-node-panel pattern the drawer uses).
+//
+// SSR'd from the fixture: in-memory edits made on the gantt do NOT carry over
+// here — acceptable for the prototype; a real build reads one store.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import BcnNodeDetail from '../../components/bcn/BcnNodeDetail.astro';
+import { PROGRAMS } from '../../data/fish-hierarchy';
+import { computeRollUp, flattenForest, TIER_META, PROJECT_NAME } from '../../data/fish-model';
+import { withBase } from '../../lib/base';
+
+const flat = flattenForest(PROGRAMS);
+const nodePanels = flat.map(({ node, ancestors }) => ({
+  node,
+  rollup: computeRollUp(node),
+  parentName: ancestors.at(-1)?.name,
+}));
+
+const ganttHref = withBase('/prototypes/fish-gantt');
+
+const FLASK =
+  '<path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/>';
+
+const fishNav = [
+  { id: 'project', title: 'Project', icon: 'layout-dashboard', iconPaths: '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>', expanded: false, items: [{ id: 'dashboard', label: 'Dashboard' }] },
+  {
+    id: 'studies', title: 'Studies', icon: 'flask-conical', iconPaths: FLASK, expanded: true, active: true, dividerAfter: true,
+    items: [
+      { id: 'science-plan', label: 'Science Plan', href: withBase('/prototypes/fish-studies') },
+      { id: 'tasking-gantt', label: 'Study Planning', href: ganttHref, active: true },
+    ],
+  },
+  { id: 'tracking', title: 'Tracking', icon: 'radar', expanded: false, items: [{ id: 'project-tracking', label: 'Project Tracking' }] },
+];
+---
+
+<!-- manifest:
+  layout: stack
+  sections:
+    - header utilities        -> esa-button         # back-to-Study-Planning link in the PageLayout utilities slot
+    - pick-a-node empty state -> esa-empty-state    # default when ?id= is missing or unknown
+    - node detail body        -> bcn-node-detail    # Identity → Timing → Funding → Roll-up → notes (one hidden panel per node; ?id= selects)
+-->
+
+<AppShell title={`${PROJECT_NAME} — Node details`} tenantName="DWR" projectName="Delta Conveyance" navSections={fishNav}>
+  <PageLayout
+    title="Node details"
+    icon="flask-conical"
+    breadcrumbs={[
+      { label: 'Delta Conveyance', href: '#project' },
+      { label: 'Studies', href: '#studies' },
+      { label: 'Study Planning', href: ganttHref },
+      { label: 'Node details' },
+    ]}
+  >
+    <span slot="title-badge" class="bcn-node-page__badge" id="bcn-node-badge" hidden>—</span>
+    <div slot="utilities" class="bcn-node-page__utils">
+      <EsaButton href={ganttHref} color="ghost" appearance="outline" size="sm" icon="arrow-left">Back to Study Planning</EsaButton>
+    </div>
+
+    <!-- bcn-lego-checked: PAGE-COMPOSITION GLUE ONLY. The body is the unchanged
+         bcn-node-detail composition (bcn-key-value / bcn-status-chip / bcn-funding-
+         plan / bcn-rollup-summary / esa-collapsible); the empty state is the
+         esa-empty-state lego. Page CSS is panel show/hide + badge glue. -->
+    <div class="bcn-node-page">
+      <section class="bcn-node-page__empty" data-node-empty hidden>
+        <EsaEmptyState
+          title="Pick a node"
+          description="Open a node from the Study Planning gantt (View full details in the row drawer), or pass ?id= with a PRG / STY / SUB / TSK id."
+        >
+          <EsaButton href={ganttHref} color="primary" size="sm" icon="arrow-left">Open Study Planning</EsaButton>
+        </EsaEmptyState>
+      </section>
+      {
+        nodePanels.map(({ node, rollup, parentName }) => (
+          <section
+            class="bcn-node-page__panel"
+            data-node-panel={node.id}
+            data-node-name={node.name}
+            data-node-tier={TIER_META[node.tier].label}
+            data-start={node.startMonth ?? ''}
+            data-end={node.endMonth ?? ''}
+            hidden
+          >
+            <BcnNodeDetail node={node} rollup={rollup} parentName={parentName} />
+          </section>
+        ))
+      }
+    </div>
+  </PageLayout>
+</AppShell>
+
+<script>
+  // Show the panel matching ?id=; anything else gets the pick-a-node state.
+  const params = new URLSearchParams(location.search);
+  const id = params.get('id') ?? '';
+  const panels = [...document.querySelectorAll<HTMLElement>('.bcn-node-page [data-node-panel]')];
+  const panel = id ? panels.find((p) => p.dataset.nodePanel === id) : undefined;
+  const empty = document.querySelector<HTMLElement>('[data-node-empty]');
+
+  if (panel) {
+    panel.hidden = false;
+    const name = panel.dataset.nodeName || id;
+    document.title = `${name} — ${document.title}`;
+    // Title = the node name (the H1's last child is the SSR text node).
+    const h1 = document.querySelector<HTMLElement>('.page-layout__title h1');
+    if (h1?.lastChild) h1.lastChild.textContent = ` ${name}`;
+    const badge = document.getElementById('bcn-node-badge');
+    if (badge) {
+      badge.hidden = false;
+      badge.textContent = `${id} · ${panel.dataset.nodeTier ?? ''}`;
+    }
+    // A task panel's month/year pickers SSR without values (the gantt drawer
+    // fills them through wbApi, which doesn't exist here) — fill them from the
+    // panel's own data attrs once the lego upgrades.
+    customElements.whenDefined('esa-select').then(() => {
+      const set = (field: string, part: string, val: string) => {
+        const el = panel.querySelector(`esa-select[data-wb-field="${field}"][data-part="${part}"]`) as
+          | (HTMLElement & { value: string })
+          | null;
+        if (el) el.value = val;
+      };
+      const s = panel.dataset.start ?? '';
+      const e = panel.dataset.end ?? '';
+      set('start', 'month', s ? s.slice(5) : '');
+      set('start', 'year', s ? s.slice(0, 4) : '');
+      set('end', 'month', e ? e.slice(5) : '');
+      set('end', 'year', e ? e.slice(0, 4) : '');
+    });
+  } else if (empty) {
+    empty.hidden = false;
+  }
+</script>
+
+<style>
+  .bcn-node-page { max-width: 720px; }
+  .bcn-node-page [data-node-panel][hidden] { display: none; }
+  .bcn-node-page__empty[hidden] { display: none; }
+
+  .bcn-node-page__badge { font-family: var(--font-mono); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 2px var(--spacing-250); border-radius: var(--radius-100); white-space: nowrap; }
+
+  .bcn-node-page__utils :global(a) { text-decoration: none; }
+</style>

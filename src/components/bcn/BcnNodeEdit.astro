@@ -1,0 +1,285 @@
+---
+// <BcnNodeEdit> — the SLIM per-node EDIT surface for the work-breakdown drawer.
+// Holds ONLY what Andy asked the drawer to hold: Name, ID, Date range, Budget —
+// plus the structure actions (Add <child tier> / Delete <tier>) and the
+// "View full details" link. Everything else that used to live in the drawer
+// (COA reference, parent, owner, status chip, water years, field-season hints,
+// the roll-up meter, constraints/notes) moved to the node DETAILS page
+// (/prototypes/fish-node?id=…), which reuses BcnNodeDetail unchanged.
+//
+// EDITABLE at EVERY tier: Name (esa-text-field, live), ID (esa-text-field, mono,
+// applied on blur/Enter — re-keys the client model, the row badge, and children's
+// parent references via wbApi.setId), Start/End month+year (esa-select pairs via
+// wbApi.setSchedule — any node may carry its own dates; the gantt keeps showing
+// the DERIVED roll-up span while the node has children), and the per-water-year
+// Budget table (BcnFundingPlan → wbApi.setFunding).
+//
+// bcn-lego-checked: this is a COMPOSITION of legos — esa-text-field (name + id),
+// esa-select (month/year pickers), bcn-funding-plan (dollars/water-year), and
+// esa-button (add child / delete / view details; delete confirms through the
+// gantt's esa-confirm-dialog). No reinvented primitive; the only CSS is section-
+// stacking glue. bcn-node-edit is the reusable home for the drawer body.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnFundingPlan from './BcnFundingPlan.astro';
+import { TIER_META, waterYearOf, type HierNode, type NodeRollUp } from '../../data/fish-model';
+import { SCHEDULE_START_YEAR, SCHEDULE_END_YEAR } from '../../data/fish-schedule';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  node: HierNode;
+  rollup: NodeRollUp;
+}
+const { node, rollup } = Astro.props;
+
+const tier = TIER_META[node.tier];
+const hasChildren = node.children.length > 0;
+
+// Month/year picker options (esa-select hydrates the JSON attribute).
+const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const monthOptsJson = JSON.stringify(MONTH_NAMES.map((label, i) => ({ value: String(i + 1).padStart(2, '0'), label })));
+const yearOptsList = [];
+for (let y = SCHEDULE_START_YEAR; y < SCHEDULE_END_YEAR; y++) yearOptsList.push({ value: String(y), label: String(y) });
+const yearOptsJson = JSON.stringify(yearOptsList);
+
+// The node's own scheduled span, as water years — empty budget rows to fill in.
+const spanYears: number[] = [];
+if (node.startMonth && node.endMonth) {
+  const a = waterYearOf(node.startMonth);
+  const b = Math.max(a, waterYearOf(node.endMonth));
+  for (let wy = a; wy <= b; wy++) spanYears.push(wy);
+}
+
+const schedHint = hasChildren
+  ? 'The gantt shows the derived span of this node’s children; own dates apply when it has none.'
+  : 'These dates place this node’s bar on the gantt.';
+
+const detailsHref = withBase(`/prototypes/fish-node?id=${node.id}`);
+---
+
+<div class="bcn-edit">
+  <!-- ── Name + ID ── -->
+  <section class="bcn-edit__section">
+    <esa-text-field label="Name" size="sm" value={node.name} data-wb-name></esa-text-field>
+    <esa-text-field
+      class="bcn-edit__idfield"
+      label="ID"
+      size="sm"
+      value={node.id}
+      help-text="Stable identity — children re-key to it automatically"
+      data-wb-id
+    ></esa-text-field>
+  </section>
+
+  <!-- ── Date range (EVERY tier — own dates; parents keep the derived bar) ── -->
+  <section class="bcn-edit__section">
+    <h3 class="bcn-edit__title">Date range</h3>
+    <div class="bcn-edit__sched-grid" role="group" aria-label="Node schedule">
+      <esa-select label="Start month" size="sm" placeholder="Month" options={monthOptsJson} data-wb-field="start" data-part="month"></esa-select>
+      <esa-select label="Start year" size="sm" placeholder="Year" options={yearOptsJson} data-wb-field="start" data-part="year"></esa-select>
+      <esa-select label="End month" size="sm" placeholder="Month" options={monthOptsJson} data-wb-field="end" data-part="month"></esa-select>
+      <esa-select label="End year" size="sm" placeholder="Year" options={yearOptsJson} data-wb-field="end" data-part="year"></esa-select>
+    </div>
+    <span class="bcn-edit__hint" data-live="sched-hint">{schedHint}</span>
+  </section>
+
+  <!-- ── Budget (per-water-year dollars; tasks sum upward) ── -->
+  <section class="bcn-edit__section">
+    <h3 class="bcn-edit__title">Budget</h3>
+    <BcnFundingPlan rollup={rollup} ownFunding={node.funding} spanYears={spanYears} />
+  </section>
+
+  <!-- ── Actions: add child / delete / full details ── -->
+  <section class="bcn-edit__section bcn-edit__actions">
+    {tier.childLabel && (
+      <EsaButton color="secondary" appearance="outline" size="sm" icon="plus" data-wb-add>
+        Add {tier.childLabel.toLowerCase()}
+      </EsaButton>
+    )}
+    <EsaButton color="danger" appearance="soft" size="sm" icon="trash-2" data-wb-delete>
+      Delete {tier.label.toLowerCase()}
+    </EsaButton>
+    <EsaButton class="bcn-edit__details" href={detailsHref} color="ghost" appearance="outline" size="sm" icon="external-link" data-wb-details>
+      View full details
+    </EsaButton>
+  </section>
+</div>
+
+<script>
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-select';
+  import { TIER_META } from '../../data/fish-model';
+  import type { HierNode, NodeRollUp } from '../../data/fish-model';
+
+  type WbApi = {
+    getNode(id: string): HierNode | undefined;
+    rollupOf(id: string): NodeRollUp | undefined;
+    setSchedule(id: string, startMonth: string, endMonth: string): void;
+    setName(id: string, name: string): void;
+    setId(oldId: string, newId: string): boolean;
+    addChildTo(id: string): void;
+    requestDelete(id: string): void;
+  };
+  const getApi = (): WbApi | undefined =>
+    (document.querySelector('.bcn-wb') as (HTMLElement & { wbApi?: WbApi }) | null)?.wbApi;
+
+  type Field = HTMLElement & { value: string };
+
+  const setText = (root: ParentNode, sel: string, text: string) => {
+    const el = root.querySelector<HTMLElement>(sel);
+    if (el) el.textContent = text;
+  };
+
+  // ── syncPanel: (re)fill a panel's controls from the model. Skips any field
+  //    that currently has focus so typing never loses the caret. ──
+  function syncPanel(panel: HTMLElement) {
+    const api = getApi();
+    if (!api) return;
+    const id = panel.dataset.nodePanel ?? '';
+    const node = api.getNode(id);
+    if (!node) return;
+    const active = document.activeElement;
+    const nameField = panel.querySelector<Field>('esa-text-field[data-wb-name]');
+    if (nameField && nameField !== active) nameField.value = node.name;
+    const idField = panel.querySelector<Field>('esa-text-field[data-wb-id]');
+    if (idField && idField !== active) idField.value = node.id;
+    const sel = (field: string, part: string) =>
+      panel.querySelector<Field>(`esa-select[data-wb-field="${field}"][data-part="${part}"]`);
+    const start = node.startMonth ?? '';
+    const end = node.endMonth ?? '';
+    const sm = sel('start', 'month');
+    if (sm) sm.value = start ? start.slice(5) : '';
+    const sy = sel('start', 'year');
+    if (sy) sy.value = start ? start.slice(0, 4) : '';
+    const em = sel('end', 'month');
+    if (em) em.value = end ? end.slice(5) : '';
+    const ey = sel('end', 'year');
+    if (ey) ey.value = end ? end.slice(0, 4) : '';
+    setText(
+      panel,
+      '[data-live="sched-hint"]',
+      node.children.length
+        ? 'The gantt shows the derived span of this node’s children; own dates apply when it has none.'
+        : 'These dates place this node’s bar on the gantt.',
+    );
+    // Action labels + details link follow the node (cloned panels are generic).
+    const meta = TIER_META[node.tier];
+    setText(panel, '[data-wb-add] .esa-button__label', `Add ${meta.childLabel.toLowerCase()}`);
+    setText(panel, '[data-wb-delete] .esa-button__label', `Delete ${meta.label.toLowerCase()}`);
+    const details = panel.querySelector<HTMLAnchorElement>('a[data-wb-details]');
+    if (details) {
+      const base = (details.getAttribute('href') ?? '').split('?')[0];
+      details.setAttribute('href', `${base}?id=${encodeURIComponent(id)}`);
+    }
+  }
+
+  // ── Name: live write-through (esa-text-field emits change per keystroke). ──
+  document.addEventListener('change', (e) => {
+    const el = e.target as HTMLElement & { value?: string };
+    if (!(el instanceof HTMLElement) || el.tagName !== 'ESA-TEXT-FIELD' || !('wbName' in el.dataset)) return;
+    const panel = el.closest('[data-node-panel]') as HTMLElement | null;
+    const api = getApi();
+    if (!panel || !api) return;
+    const value = String((e as CustomEvent).detail?.value ?? el.value ?? '');
+    if (value.trim()) api.setName(panel.dataset.nodePanel ?? '', value);
+  });
+
+  // ── ID: applied on blur/Enter (not per keystroke — the id is the model KEY;
+  //    intermediate values would churn the key and children's references). ──
+  function applyId(field: Field) {
+    const panel = field.closest('[data-node-panel]') as HTMLElement | null;
+    const api = getApi();
+    if (!panel || !api) return;
+    const oldId = panel.dataset.nodePanel ?? '';
+    const next = String(field.value ?? '').trim();
+    if (!next || next === oldId || !api.setId(oldId, next)) {
+      field.value = oldId; // rejected (empty / duplicate) — restore the real id
+    }
+  }
+  document.addEventListener('focusout', (e) => {
+    const el = e.target as HTMLElement;
+    if (el instanceof HTMLElement && el.tagName === 'ESA-TEXT-FIELD' && 'wbId' in el.dataset) applyId(el as Field);
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter') return;
+    const el = e.target as HTMLElement;
+    if (el instanceof HTMLElement && el.tagName === 'ESA-TEXT-FIELD' && 'wbId' in el.dataset) applyId(el as Field);
+  });
+
+  // ── Date range: resolve the month/year pair into 'YYYY-MM', keep start ≤ end,
+  //    write through wbApi.setSchedule (ANY tier). ──
+  document.addEventListener('change', (e) => {
+    const el = e.target as HTMLElement & { value?: string | string[] };
+    if (!(el instanceof HTMLElement) || el.tagName !== 'ESA-SELECT' || !el.dataset.wbField) return;
+    const panel = el.closest('[data-node-panel]') as HTMLElement | null;
+    const api = getApi();
+    if (!panel || !api) return;
+    const id = panel.dataset.nodePanel ?? '';
+    const node = api.getNode(id);
+    if (!node) return;
+    const value = String((e as CustomEvent).detail?.value ?? el.value ?? '');
+    if (!value) return;
+    const edge = el.dataset.wbField; // 'start' | 'end'
+    const base = (edge === 'start' ? node.startMonth : node.endMonth) ?? node.startMonth ?? node.endMonth ?? '2029-04';
+    let [y, m] = base.split('-');
+    if (el.dataset.part === 'month') m = value;
+    else y = value;
+    let start = node.startMonth;
+    let end = node.endMonth;
+    if (edge === 'start') start = `${y}-${m}`;
+    else end = `${y}-${m}`;
+    if (!start) start = end;
+    if (!end) end = start;
+    if (start! > end!) {
+      if (edge === 'start') end = start;
+      else start = end;
+    }
+    api.setSchedule(id, start!, end!);
+  });
+
+  // ── Structure actions: add child (drawer follows the new node) / delete. ──
+  document.addEventListener('click', (e) => {
+    const t = e.target as HTMLElement;
+    const add = t.closest?.('[data-wb-add]');
+    if (add) {
+      const panel = add.closest('[data-node-panel]') as HTMLElement | null;
+      const api = getApi();
+      if (panel && api) api.addChildTo(panel.dataset.nodePanel ?? '');
+      return;
+    }
+    const del = t.closest?.('[data-wb-delete]');
+    if (del) {
+      const panel = del.closest('[data-node-panel]') as HTMLElement | null;
+      const api = getApi();
+      if (panel && api) api.requestDelete(panel.dataset.nodePanel ?? '');
+    }
+  });
+
+  // Keep the visible panel in sync with every model change; fill a panel's
+  // controls whenever it is opened.
+  document.addEventListener('wb-model-change', () => {
+    const panel = document.querySelector<HTMLElement>('[data-node-panel]:not([hidden])');
+    if (panel) syncPanel(panel);
+  });
+  document.addEventListener('wb-node-select', (e) => {
+    const id = (e as CustomEvent).detail?.id as string;
+    const panel = document.querySelector<HTMLElement>(`[data-node-panel="${id}"]`);
+    if (panel) syncPanel(panel);
+  });
+</script>
+
+<style>
+  .bcn-edit { display: flex; flex-direction: column; gap: var(--spacing-500); }
+  .bcn-edit__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
+
+  .bcn-edit__title { margin: 0; font-size: var(--form-font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); }
+
+  /* The lego reads its face font from --font-sans — point the ID field at mono. */
+  .bcn-edit__idfield { --font-sans: var(--font-mono, monospace); }
+
+  .bcn-edit__sched-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-200) var(--spacing-300); }
+  .bcn-edit__hint { font-size: var(--type-size-150); color: var(--color-text-tertiary); }
+
+  .bcn-edit__actions { flex-direction: row; flex-wrap: wrap; align-items: center; gap: var(--spacing-200); border-top: 1px solid var(--color-border-light); padding-top: var(--spacing-400); }
+  .bcn-edit__actions :global(.bcn-edit__details) { margin-left: auto; }
+  .bcn-edit__actions :global(.bcn-edit__details a) { text-decoration: none; }
+</style>

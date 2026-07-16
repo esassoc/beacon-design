@@ -252,9 +252,18 @@ export const prototypeGroups: PrototypeGroup[] = [
         slug: 'fish-gantt',
         title: 'Study Planning (work breakdown)',
         description:
-          'The four-tier work breakdown — Program → Study → Sub-study → Task — that socializes the recursive data model. Stable type-prefixed IDs (PRG/STY/SUB/TSK) are identity, the COA dot-number a secondary reference; the Task is the schedulable month unit whose status, funding, and span roll up to the parents. Add / rename / reparent / delete at every tier; a row side panel reads Identity → Timing → Funding → Roll-up → notes on the water-year axis.',
+          'The four-tier work breakdown — Program → Study → Sub-study → Task — that socializes the recursive data model. Stable type-prefixed IDs (PRG/STY/SUB/TSK) are identity, the COA dot-number a secondary reference; the Task is the schedulable month unit whose status, funding, and span roll up to the parents. Add / rename / reparent / delete at every tier; the row drawer is the per-node EDIT surface (Name, ID, date range, per-water-year budget, add-child / delete), with the full record on the node details page.',
         route: '/prototypes/fish-gantt',
         createdAt: '2026-07-15',
+        status: 'in-progress',
+      },
+      {
+        slug: 'fish-node',
+        title: 'Node details (work breakdown)',
+        description:
+          'The per-node details page behind the Study Planning drawer — the full record for any ?id= (PRG/STY/SUB/TSK): identity with COA reference + parent, timing with water years + field seasons, the funding plan, the status roll-up meter, and constraints/notes. The drawer keeps only the slim edit surface.',
+        route: '/prototypes/fish-node',
+        createdAt: '2026-07-16',
         status: 'in-progress',
       },
     ],

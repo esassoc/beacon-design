@@ -110,14 +110,14 @@ const lastYear = rows.at(-1)?.wy;
     total: number;
   }
 
-  // Rows = union of entered years, rolled-up years, and (for tasks) the water
-  // years the task's schedule spans — so a freshly scheduled task gets empty
-  // dollar rows to fill in. Mirrors the SSR frontmatter exactly.
+  // Rows = union of entered years, rolled-up years, and the water years the
+  // node's OWN schedule spans (any tier may carry dates now) — so a freshly
+  // scheduled node gets empty dollar rows to fill in.
   function rowsFor(node: HierNode, r: NodeRollUp): FundingRow[] {
     const ownBy = new Map(node.funding.map((f: FundingEntry) => [f.waterYear, f.amount]));
     const totalBy = new Map(r.fundingByYear.map((f) => [f.waterYear, f.amount]));
     const years = new Set<number>([...ownBy.keys(), ...totalBy.keys()]);
-    if (node.tier === 'task' && node.startMonth && node.endMonth) {
+    if (node.startMonth && node.endMonth) {
       const a = waterYearOf(node.startMonth);
       const b = Math.max(a, waterYearOf(node.endMonth));
       for (let wy = a; wy <= b; wy++) years.add(wy);
