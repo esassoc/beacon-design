@@ -1,0 +1,221 @@
+---
+// <BcnStarredComponents> — the "Components" section. A DCP-scale project can carry
+// dozens of components, so this surfaces only the starred (active / top-of-mind)
+// ones as full-width portal cards into their component dashboards. Each card
+// carries a HIGH-high-level Tracking / Monitoring / Reporting pulse (a dot + a
+// terse note per area) so the whole component's health reads at a glance. The card
+// itself IS the portal — the whole card is the link (Andy, round 2: 1-col, and the
+// explicit "Open component dashboard" link removed).
+//
+// Composes the legos: EsaIcon (component glyph + header chevron). The card, its
+// two-column identity/pulse split, and the pulse rows are composition inside this
+// component; pulse dot colors are VALUE-driven from PULSE_META (the `--_c` idiom).
+//
+// bcn-lego-checked: no esa-* lego is a "component portal card with a 3-area pulse"
+// — esa-card is a static shell with no pulse/rollup structure. Checked Beacon (the
+// component list is a bare AG Grid). bcn-starred-components is the reusable home;
+// the glyphs are esa-icon and pulse color follows the theme via --_c.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { withBase } from '../../lib/base';
+import { PULSE_META, type StarredComponent } from '../../data/project-dashboard';
+
+interface Props {
+  components: StarredComponent[];
+}
+const { components } = Astro.props;
+
+const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href);
+const ALL_COMPONENTS_HREF = withBase('/prototypes/component-dashboard');
+
+const PACKAGE =
+  '<path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M3.29 7 12 12l8.71-5"/><path d="M12 22V12"/>';
+---
+
+<section class="bcn-stc" aria-label="Components">
+  <header class="bcn-stc__head">
+    <div class="bcn-stc__headings">
+      <h2 class="bcn-stc__title type-section-title">Components</h2>
+      <p class="bcn-stc__lede type-body-small">
+        The components you've starred, with current Tracking, Monitoring, and
+        Reporting status for each.
+      </p>
+    </div>
+    <a class="bcn-stc__all" href={ALL_COMPONENTS_HREF}>All 24 components <EsaIcon name="chevron-right" size="sm" /></a>
+  </header>
+
+  <div class="bcn-stc__list">
+    {
+      components.map((c) => (
+        <a class="bcn-stc__card" href={linkHref(c.href)}>
+          <div class="bcn-stc__main">
+            <div class="bcn-stc__card-head">
+              <span class="bcn-stc__glyph"><EsaIcon name="package" size="md" paths={PACKAGE} /></span>
+              <span class="bcn-stc__ident">
+                <span class="bcn-stc__name">{c.name}</span>
+                <span class="bcn-stc__type">{c.type} · {c.phaseLabel}</span>
+              </span>
+            </div>
+
+            <div class="bcn-stc__headline">
+              <span class="bcn-stc__dot" style={`--_c: ${PULSE_META[c.headlineStatus].hex};`} aria-hidden="true" />
+              <span class="bcn-stc__headline-text">{c.headline}</span>
+            </div>
+          </div>
+
+          <ul class="bcn-stc__pulse">
+            {c.pulse.map((p) => (
+              <li class="bcn-stc__pulse-row">
+                <span class="bcn-stc__dot" style={`--_c: ${PULSE_META[p.status].hex};`} aria-hidden="true" />
+                <span class="bcn-stc__pulse-area">{p.label}</span>
+                <span class="bcn-stc__pulse-note">{p.note}</span>
+              </li>
+            ))}
+          </ul>
+        </a>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .bcn-stc { display: flex; flex-direction: column; gap: var(--spacing-400); }
+
+  .bcn-stc__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    flex-wrap: wrap;
+  }
+  .bcn-stc__headings { display: flex; flex-direction: column; gap: var(--spacing-100); min-width: 0; }
+  .bcn-stc__title { margin: 0; color: var(--color-text-primary); }
+  .bcn-stc__lede { margin: 0; color: var(--color-text-secondary); max-width: 68ch; }
+  .bcn-stc__all {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+    white-space: nowrap;
+  }
+  .bcn-stc__all:hover { color: var(--color-primary-hover); }
+
+  /* 1-col stacked (Andy, round 2). */
+  .bcn-stc__list { display: flex; flex-direction: column; gap: var(--spacing-300); }
+
+  /* Full-width portal card: identity on the left, the T/M/R pulse on the right. */
+  .bcn-stc__card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--spacing-500);
+    padding: var(--spacing-400) var(--spacing-500);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+  }
+  .bcn-stc__card:hover {
+    border-color: var(--color-border-strong);
+    box-shadow: var(--shadow-100, 0 2px 12px 0 rgba(0, 0, 0, 0.06));
+    transform: translateY(-1px);
+  }
+  @media (max-width: 720px) {
+    .bcn-stc__card { grid-template-columns: 1fr; gap: var(--spacing-300); }
+  }
+
+  .bcn-stc__main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    min-width: 0;
+    padding-right: var(--spacing-500);
+    border-right: 1px solid var(--color-border-light);
+  }
+
+  .bcn-stc__card-head { display: flex; align-items: flex-start; gap: var(--spacing-300); }
+  .bcn-stc__glyph {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: var(--radius-200);
+    /* The brand accent at low strength — 10% primary into the surface (Andy,
+       round 4), matching the Tracking zone's wash family. */
+    background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface));
+    color: var(--color-primary);
+  }
+  .bcn-stc__ident { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 2px; }
+  .bcn-stc__name {
+    font-size: var(--type-size-250, 1.0625rem);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    line-height: var(--line-height-tight);
+  }
+  .bcn-stc__type { font-size: var(--type-size-150); color: var(--color-text-tertiary); }
+
+  .bcn-stc__headline {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+  }
+  .bcn-stc__headline-text {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+  }
+
+  .bcn-stc__dot {
+    width: 9px;
+    height: 9px;
+    border-radius: var(--radius-full);
+    background: var(--_c);
+    flex-shrink: 0;
+  }
+
+  /* Pulse — three aligned rows (dot · area · note), divided from the identity
+     by the hairline on the identity column's right edge. */
+  .bcn-stc__pulse {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  @media (max-width: 720px) {
+    .bcn-stc__main {
+      padding-right: 0;
+      border-right: 0;
+    }
+    .bcn-stc__pulse {
+      padding: var(--spacing-300) 0 0;
+      border-top: 1px solid var(--color-border-light);
+    }
+  }
+  .bcn-stc__pulse-row {
+    display: grid;
+    grid-template-columns: auto 6rem 1fr;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-width: 0;
+  }
+  .bcn-stc__pulse-area {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .bcn-stc__pulse-note {
+    font-size: var(--type-size-150);
+    color: var(--color-text-tertiary);
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+</style>

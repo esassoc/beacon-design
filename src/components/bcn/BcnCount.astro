@@ -1,0 +1,50 @@
+---
+// <BcnCount> — the quiet, neutral count badge: a 4px-radius pill with a light-gray
+// border, surface background, and mid-gray tabular-numeral text. This is the
+// design-principles "chips and badges are compact and quiet — light-gray or no
+// background, mid-gray border and text" standard, extracted into its reusable home
+// (it had been copy-pasted as a bespoke `.bcn-*__count` in BcnComponentBoard,
+// BcnComponentSummary, and others). Use it for at-a-glance counts instead of a
+// saturated esa-badge fill.
+//
+// bcn-lego-checked: esa-badge has NO neutral variant — its six variants
+// (primary/secondary/success/warning/danger/info) are all SATURATED FILLS with no
+// border, so it cannot render the sanctioned light-gray-border neutral count (and
+// tokening --badge-bg still can't add a border the CSS doesn't have). Checked
+// Beacon (prod count chips are bespoke too). This is the design-principles neutral
+// badge; bcn-count is its reusable home.
+//
+// A neutral gray-border variant on the hub `esa-badge` is tracked separately
+// (thr-mrmjb7v7-1f211c7b); this component ANTICIPATES that default, so once it
+// lands the swap here is mechanical.
+
+interface Props {
+  value: string | number;
+  /** Accessible label prefix, e.g. "3 lists". Defaults to just the value. */
+  label?: string;
+}
+const { value, label } = Astro.props;
+---
+
+<span class="bcn-count" aria-label={label}>{value}</span>
+
+<style>
+  .bcn-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 var(--spacing-100);
+    /* 13px — the design-principles meta floor; no token exists at this step
+       (150 = 14px read too big beside card titles — Andy, round 3). */
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-100);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+</style>

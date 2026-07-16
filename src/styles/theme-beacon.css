@@ -41,15 +41,17 @@
   --color-secondary-hover: var(--bcn-teal-800);   /* teal-800 #0a6562 */
 
   /* ===== FEEDBACK + AI — match Beacon's ui-button palette =====
-     Beacon's green/blue/orange ramps are identical to the hub's, but the hub's
-     SEMANTIC feedback tokens default to generic brights. Re-point to the exact
-     colors Beacon's <ui-button> renders ($button-colors map in ui-button.scss).
-     Hub primitives already carry these values — re-point onto them. */
-  --color-success: var(--color-green-700);  /* Beacon success = $green-700 #2e7571 (was #22c55e) */
-  --color-warning: var(--color-orange-500); /* Beacon warning = $orange-500 #f2770e (was #f59e0b) */
+     Re-point the hub's semantic feedback tokens to the exact colors Beacon's
+     <ui-button> renders ($button-colors map in ui-button.scss). VALUES INLINED
+     (2026-07-15): the served sheet (@esa/tokens → dist/tokens.css) does NOT ship
+     the legacy named ramps (--color-green-700 etc.) these re-points targeted, so
+     they resolved to nothing at runtime — success/warning dots rendered
+     transparent. Hub gap ledgered (docs/system-improvement-ledger.md). */
+  --color-success: #2e7571;                 /* Beacon success = $green-700 (was #22c55e) */
+  --color-warning: #f2770e;                 /* Beacon warning = $orange-500 (was #f59e0b) */
   --color-info:    #228be6;                 /* Beacon $info (standalone azure, not on the blue ramp) */
-  --color-ai:       var(--color-blue-500);  /* Beacon ai = $blue-500 #699cc6 (hub default is copper) */
-  --color-ai-hover: var(--color-blue-700);  /* Beacon ai hover = $blue-700 #4c75a9 */
+  --color-ai:       #699cc6;                /* Beacon ai = $blue-500 (hub default is copper) */
+  --color-ai-hover: #4c75a9;                /* Beacon ai hover = $blue-700 */
 
   /* ===== NEUTRAL CHAIN — Beacon's warmer grays =====
      Re-point the whole neutral chain to Beacon's --bcn-gray-* ramp (raw material

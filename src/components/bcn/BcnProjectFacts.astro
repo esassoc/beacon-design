@@ -1,0 +1,71 @@
+---
+// <BcnProjectFacts> — the sidebar "Project details" card: the orienting facts
+// (Lead agency, Region, Components, Tracking since) that lived in the profile
+// header until round 3, when Andy moved them to the right rail below Project data.
+// A quiet stack of label → value pairs.
+//
+// Composes the legos: EsaCard (shell). The fact rows are the only composition
+// inside this component.
+//
+// bcn-lego-checked: the shell IS esa-card — checked Ecology (no key/value card
+// lego; bcn-key-value is the form-toned dialog tier, wrong voice for these) and
+// Beacon (prod shows these on scattered tabs). bcn-project-facts is the reusable
+// home; it reinvents no primitive.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import type { ProjectFact } from '../../data/project-dashboard';
+
+interface Props {
+  facts: ProjectFact[];
+  /** The project description — moved here from the header (Andy, round 4), small type. */
+  description?: string;
+  title?: string;
+}
+const { facts, description, title = 'Project details' } = Astro.props;
+---
+
+<EsaCard title={title}>
+  {description && <p class="bcn-pf__desc">{description}</p>}
+  <dl class="bcn-pf">
+    {
+      facts.map((f) => (
+        <div class="bcn-pf__fact">
+          <dt class="bcn-pf__label">{f.label}</dt>
+          <dd class="bcn-pf__value">{f.value}</dd>
+        </div>
+      ))
+    }
+  </dl>
+</EsaCard>
+
+<style>
+  .bcn-pf__desc {
+    margin: 0 0 var(--spacing-300);
+    font-size: var(--type-size-150);
+    line-height: var(--line-height-normal);
+    color: var(--color-text-secondary);
+  }
+  .bcn-pf {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-pf__fact {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--spacing-250) 0;
+  }
+  .bcn-pf__fact + .bcn-pf__fact {
+    border-top: 1px solid var(--color-border-light);
+  }
+  .bcn-pf__label {
+    font-size: var(--type-size-150);
+    color: var(--color-text-tertiary);
+  }
+  .bcn-pf__value {
+    margin: 0;
+    font-size: var(--type-size-200);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+</style>

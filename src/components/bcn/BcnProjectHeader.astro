@@ -1,0 +1,125 @@
+---
+// <BcnProjectHeader> — the project homepage's anchoring identity header, styled
+// like a profile: a full-bleed hero cover image, the DWR org seal overlapping it,
+// the project name as the page's sole H1, a full-width description, and the
+// current phase worn lightly as a chip. This is the "where am I?" answer — the
+// fixed, recognizable place you return to. (The orienting facts moved to the
+// sidebar "Project details" card — Andy, round 3.)
+//
+// Rendered into PageLayout's `bleed` slot so it spans edge-to-edge and sits snug
+// under the topbar (a sanctioned per-page anomaly). The hero fills a fixed band via
+// object-fit: cover; the identity block below is padded to the page gutter.
+//
+// Composes: BcnStatusChip (the phase chip) + type roles. The cover band, seal tile,
+// and fact list are presentational composition inside this component.
+//
+// bcn-lego-checked: no esa-* lego is a profile/identity header — esa-page-header is
+// a title+lede+actions row with no cover/logo/facts treatment. Checked Beacon (prod
+// has a plain page title — this is the redesign). bcn-project-header is the reusable
+// home; the phase chip is BcnStatusChip and the type is all type-roles.
+import BcnStatusChip from './BcnStatusChip.astro';
+import { withBase } from '../../lib/base';
+import type { Project } from '../../data/project-dashboard';
+
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+---
+
+<section class="bcn-phome" aria-label={`${project.name} — project home`}>
+  <div class="bcn-phome__cover">
+    <img class="bcn-phome__hero" src={withBase(project.hero)} alt="" aria-hidden="true" />
+  </div>
+
+  <div class="bcn-phome__body">
+    <img class="bcn-phome__seal" src={withBase(project.logo)} alt={`${project.tenant} seal`} />
+
+    <div class="bcn-phome__id">
+      <div class="bcn-phome__idtop">
+        <h1 class="bcn-phome__name">{project.name}</h1>
+        <BcnStatusChip status="phase" label={project.phase.label} hex={project.phase.hex} />
+      </div>
+      <p class="bcn-phome__eyebrow">{project.org}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Full-bleed header band: white surface, hairline base to part it from the gray
+     canvas below. No outer radius/border — it runs edge-to-edge, snug to the topbar. */
+  .bcn-phome {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* Cover — the aerial hero, fixed band height, object-fit cover (Andy: keep height).
+     overflow:hidden hard-clips the photo to the band so it can never grow past it
+     (belt-and-suspenders against a missing/late hero rule overflowing onto the body). */
+  .bcn-phome__cover {
+    height: 132px;
+    overflow: hidden;
+    background: var(--color-surface-sunken);
+  }
+  .bcn-phome__hero {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Identity block — padded to the page gutter so text aligns with the body below. */
+  .bcn-phome__body {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-500);
+    padding: 0 var(--spacing-600) var(--spacing-500);
+  }
+  @media (max-width: 640px) {
+    .bcn-phome__body { flex-direction: column; gap: var(--spacing-400); }
+  }
+
+  /* DWR seal — circular org mark overlapping the hero's lower edge (avatar idiom). */
+  .bcn-phome__seal {
+    flex-shrink: 0;
+    width: 92px;
+    height: 92px;
+    margin-top: -46px;
+    border-radius: var(--radius-full);
+    background: var(--color-surface);
+    border: 3px solid var(--color-surface);
+    object-fit: contain;
+    box-shadow: var(--shadow-100, 0 2px 12px 0 rgba(0, 0, 0, 0.08));
+  }
+
+  .bcn-phome__id {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding-top: var(--spacing-400);
+    min-width: 0;
+    flex: 1;
+  }
+
+  .bcn-phome__idtop {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    flex-wrap: wrap;
+  }
+  .bcn-phome__name {
+    margin: 0;
+    font-family: var(--font-decorative, var(--font-display, var(--font-sans)));
+    font-weight: var(--font-weight-bold);
+    font-size: var(--type-size-600);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tight);
+    color: var(--bcn-gray-1000, var(--color-text-primary));
+  }
+  .bcn-phome__eyebrow {
+    margin: 0 0 var(--spacing-200);
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-tertiary);
+  }
+</style>

@@ -33,6 +33,23 @@ export interface PrototypeGroup {
 
 export const prototypeGroups: PrototypeGroup[] = [
   {
+    slug: 'project-dashboard',
+    title: 'Project Dashboard',
+    description:
+      'The logged-in project HOMEPAGE — a profile-style landing that answers "where am I, and what should I do next?" and acts as a front door to the app, with detail pushed down to the component dashboards.',
+    pages: [
+      {
+        slug: 'project-dashboard',
+        title: 'Project Dashboard',
+        description:
+          'The project homepage: a LinkedIn-profile-style header (cover band, logo monogram, project name as the H1, description, phase worn lightly) anchors identity; a criticality-elevated "most critical right now" surface elevates only project-wide critical items; starred components (3–5) are portal cards into their dashboards, each with a high-level Tracking · Monitoring · Reporting pulse; Tracking is the primary front door (Lists live there) with Monitoring, Reporting, and the Setup Wizard prominent but clearly secondary; a quiet utility rail carries project-data CRUD. No project-level phase filter or needs/all toggle. Composed in the beacon-design spoke from esa-* legos (app-shell, card, stat, badge, pill, icon, button) + bcn- section components.',
+        route: '/prototypes/project-dashboard',
+        createdAt: '2026-07-14',
+        status: 'in-progress',
+      },
+    ],
+  },
+  {
     slug: 'global-search',
     title: 'Global Search',
     description:
@@ -246,6 +263,15 @@ export const prototypeGroups: PrototypeGroup[] = [
           'The narrative projection: the 9-field science-plan sketch (focal species, objectives + research questions, components → methods/metrics, reporting) + the CDFW review-comment cycle pinned per field, with details / dependencies / deliverables / RACI roles / planning in the rail. One static page per COA; flagship studies (10.19.1, 10.26, 10.18.3, 10.21.10) are deep-filled.',
         route: '/prototypes/fish-study/10.19.1',
         createdAt: '2026-06-15',
+        status: 'in-progress',
+      },
+      {
+        slug: 'fish-gantt',
+        title: 'Tasking Gantt (multi-level)',
+        description:
+          'The recursive COA hierarchy projection: program → sub-program → study swimlanes on the water-year axis with roll-up bars for program spans, dependency arrows tracing each study’s informs / informed-by edges, and a node-detail drawer whose funding plan shows CDFW’s dollars-per-water-year requirement plus roll-ups up (own vs. summed) and down (inherited program ceiling / back-scheduling anchor). Illustrative mock funding.',
+        route: '/prototypes/fish-gantt',
+        createdAt: '2026-07-13',
         status: 'in-progress',
       },
     ],

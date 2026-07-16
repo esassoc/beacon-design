@@ -1,0 +1,147 @@
+---
+// <BcnTrackingZone> — the PRIMARY front door. The project-level tracking rollup —
+// actions by status (Not Started / In Progress / Complete), framed "across 24
+// components" so the figures are unambiguously project totals — plus the saved
+// Lists (commitments and actions). Per-component tracking lives on the Components
+// cards' Tracking pulses, not here. A light green wash marks it as the highlighted
+// zone (never a colored left border); it stays the most prominent block on the page.
+//
+// Composes the legos: EsaStat (status figures), EsaButton (Open Tracking), EsaIcon
+// (sub-link chevron), and BcnLinkRowCard for the Lists card.
+//
+// bcn-lego-checked: no esa-* lego is a "tracking zone with status rollup + lists"
+// — this composes esa-stat/esa-button/esa-icon + BcnLinkRowCard. Checked Beacon
+// (prod Tracking is prominent tabs, not a homepage front door). Primacy is a
+// background tint, NOT a border-left stripe. bcn-tracking-zone is the reusable home.
+import EsaStat from '@esa/ecology/esa-stat.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnLinkRowCard from './BcnLinkRowCard.astro';
+import { withBase } from '../../lib/base';
+import {
+  TRACKING_ROLLUP,
+  TRACKING_SCOPE,
+  TRACKING_HREF,
+  TRACKING_LISTS,
+} from '../../data/project-dashboard';
+
+const trackingHref = withBase(TRACKING_HREF);
+const LIST_ROWS = TRACKING_LISTS.map((l) => ({ label: l.name, meta: l.meta, href: l.href }));
+---
+
+<section class="bcn-tz" aria-label="Tracking">
+  <header class="bcn-tz__head">
+    <div class="bcn-tz__headings">
+      <h2 class="bcn-tz__title type-section-title">Tracking</h2>
+      <p class="bcn-tz__summary type-body">
+        Every commitment and action tracked across the project.
+      </p>
+    </div>
+    <EsaButton color="primary" href={trackingHref}>Open Tracking</EsaButton>
+  </header>
+
+  <div class="bcn-tz__cols">
+    <div class="bcn-tz__rollup">
+      <span class="bcn-tz__label">Across the project</span>
+      <div class="bcn-tz__stats">
+        {
+          TRACKING_ROLLUP.map((f) => (
+            <EsaStat value={f.value} label={f.label} />
+          ))
+        }
+      </div>
+      <p class="bcn-tz__scope">{TRACKING_SCOPE}</p>
+
+      <nav class="bcn-tz__sublinks" aria-label="Tracking views">
+        <a class="bcn-tz__sublink" href={trackingHref}>
+          Project Tracking
+          <EsaIcon name="chevron-right" size="sm" />
+        </a>
+      </nav>
+    </div>
+
+    <BcnLinkRowCard title="Lists" rows={LIST_ROWS} count countLabel={`${LIST_ROWS.length} lists`} />
+  </div>
+</section>
+
+<style>
+  /* Primacy signal: a WASH of the brand accent at low strength — 6% primary
+     mixed into the surface (Andy, round 4: "5% or 10% of accent color"; the
+     teal-50 and success-50 flats both read wrong). The white cards inside pop
+     against it. Never a status border. */
+  .bcn-tz {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-500);
+    padding: var(--spacing-500) var(--spacing-500) var(--spacing-600);
+    background: color-mix(in srgb, var(--color-primary) 6%, var(--color-surface));
+    border: 1px solid color-mix(in srgb, var(--color-primary) 18%, var(--color-surface));
+    border-radius: var(--radius-400, var(--radius-300));
+  }
+
+  .bcn-tz__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    flex-wrap: wrap;
+  }
+  .bcn-tz__headings { display: flex; flex-direction: column; gap: var(--spacing-150); min-width: 0; }
+  .bcn-tz__title { margin: 0; color: var(--color-text-primary); }
+  .bcn-tz__summary { margin: 0; color: var(--color-text-secondary); max-width: 62ch; }
+
+  /* Quiet altitude label — readable (14px, sentence case, semibold), not an
+     ornamental micro-overline. */
+  .bcn-tz__label {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+  }
+
+  .bcn-tz__cols {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: var(--spacing-500);
+    align-items: start;
+  }
+  @media (max-width: 880px) {
+    .bcn-tz__cols { grid-template-columns: 1fr; }
+  }
+
+  .bcn-tz__rollup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    padding: var(--spacing-500);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+  }
+  .bcn-tz__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-500) var(--spacing-600);
+  }
+  .bcn-tz__scope {
+    margin: 0;
+    font-size: var(--type-size-150);
+    color: var(--color-text-tertiary);
+  }
+  .bcn-tz__sublinks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-300) var(--spacing-500);
+    padding-top: var(--spacing-400);
+    border-top: 1px solid var(--color-border-light);
+  }
+  .bcn-tz__sublink {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+  }
+  .bcn-tz__sublink:hover { color: var(--color-primary-hover); }
+  .bcn-tz__sublink :global(.esa-icon) { color: var(--color-text-muted); }
+</style>

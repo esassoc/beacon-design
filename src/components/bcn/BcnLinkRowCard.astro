@@ -1,0 +1,93 @@
+---
+// <BcnLinkRowCard> — a card of divided label → meta link rows: the shared home of
+// the sidebar utility rail ("Project data") and the Tracking zone's "Lists" card,
+// which had grown the same row skeleton independently (decomposition review
+// 2026-07-15, merge approved by Andy). Each row is a quiet full-width link with an
+// optional right-side meta figure; an optional header count and optional row
+// chevrons cover the two consumers' differences.
+//
+// Composes the legos: EsaCard (shell), BcnCount (header count), EsaIcon (chevron).
+// The divided rows are the only composition inside this component.
+//
+// bcn-lego-checked: the shell IS esa-card, the count IS bcn-count, the chevron IS
+// esa-icon — checked Ecology (no "link row list" lego) and Beacon (prod uses tabs).
+// bcn-link-row-card is the reusable home; it reinvents no primitive.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnCount from './BcnCount.astro';
+
+export interface LinkRow {
+  label: string;
+  meta?: string;
+  href: string;
+}
+
+interface Props {
+  title: string;
+  rows: LinkRow[];
+  /** Show the row count as a quiet header badge. */
+  count?: boolean;
+  /** Accessible label for the count, e.g. "3 lists". */
+  countLabel?: string;
+  /** Trailing chevron per row (the utility-rail look). */
+  chevrons?: boolean;
+}
+const { title, rows, count = false, countLabel, chevrons = false } = Astro.props;
+---
+
+<EsaCard title={title}>
+  {count && <BcnCount slot="actions" value={rows.length} label={countLabel ?? `${rows.length} items`} />}
+  <ul class="bcn-lrc">
+    {
+      rows.map((r) => (
+        <li>
+          <a class="bcn-lrc__row" href={r.href}>
+            <span class="bcn-lrc__label">{r.label}</span>
+            <span class="bcn-lrc__right">
+              {r.meta && <span class="bcn-lrc__meta">{r.meta}</span>}
+              {chevrons && <EsaIcon name="chevron-right" size="sm" class="bcn-lrc__chev" />}
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</EsaCard>
+
+<style>
+  .bcn-lrc {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-lrc__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+    padding: var(--spacing-250) 0;
+    text-decoration: none;
+    color: inherit;
+  }
+  .bcn-lrc li + li .bcn-lrc__row {
+    border-top: 1px solid var(--color-border-light);
+  }
+  .bcn-lrc__label {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+    min-width: 0;
+  }
+  .bcn-lrc__row:hover .bcn-lrc__label { color: var(--color-primary); }
+  .bcn-lrc__right { display: inline-flex; align-items: center; gap: var(--spacing-200); flex-shrink: 0; }
+  .bcn-lrc__meta {
+    font-size: var(--type-size-150);
+    color: var(--color-text-tertiary);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .bcn-lrc__chev { color: var(--color-text-muted); }
+  .bcn-lrc__row:hover .bcn-lrc__chev { color: var(--color-primary); }
+</style>

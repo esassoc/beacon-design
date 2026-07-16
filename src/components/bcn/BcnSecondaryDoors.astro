@@ -1,0 +1,184 @@
+---
+// <BcnSecondaryDoors> — Monitoring, Reporting, and the Setup Wizard as front-door
+// cards. Prominent, but CLEARLY secondary to the Tracking zone above: plain white
+// cards in a three-up grid, each a portal into that area plus a high-level,
+// criticality-elevated rollup — not an inventory. Observations belong to
+// Monitoring, Reports to Reporting; each card's flag elevates the one thing in
+// that area that can't wait. The whole card is the link.
+//
+// Composes the legos: EsaIcon (area glyph + chevron), EsaStat (rollup figures —
+// the same metric block the Tracking zone uses, so the two zones' figures render
+// consistently; decomposition review 2026-07-15, approved). The card and the
+// criticality flag are composition inside this component; the flag dot color is
+// VALUE-driven from PULSE_META (the codebase's `--_c` idiom). The Setup Wizard
+// card wears prod's wizard identity (Andy, round 3): the teal compass mark and
+// the serif title voice; its figures are the un-triaged pipeline (round 4).
+//
+// bcn-lego-checked: no esa-* lego is an "area front-door card with rollup + flag"
+// — esa-card is a static shell with no rollup/flag structure and can't be the link
+// wrapper cleanly. Checked Beacon (prod exposes these as nav tabs, not homepage
+// doors). bcn-secondary-doors is the reusable home; glyphs are esa-icon.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaStat from '@esa/ecology/esa-stat.astro';
+import { withBase } from '../../lib/base';
+import { PULSE_META, type FrontDoor } from '../../data/project-dashboard';
+
+interface Props {
+  doors: FrontDoor[];
+}
+const { doors } = Astro.props;
+
+const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href);
+
+// Lucide inner markup (verbatim names from the app's side-nav), by semantic key.
+const ICONS: Record<FrontDoor['icon'], string> = {
+  monitoring:
+    '<path d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"/><circle cx="12" cy="8" r="2"/><path d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"/>',
+  reporting:
+    '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>',
+  setup:
+    '<path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/><circle cx="12" cy="12" r="10"/>',
+};
+---
+
+<section class="bcn-sd" aria-label="Other areas of the project">
+  <h2 class="bcn-sd__title type-section-title">Explore the rest of Beacon</h2>
+
+  <div class="bcn-sd__grid">
+    {
+      doors.map((d) => (
+        <a class="bcn-sd__card" href={linkHref(d.href)}>
+          <div class="bcn-sd__head">
+            <span class:list={['bcn-sd__glyph', { 'bcn-sd__glyph--wizard': d.id === 'setup' }]}>
+              <EsaIcon name={d.icon} size="md" paths={ICONS[d.icon]} />
+            </span>
+            <span class:list={['bcn-sd__name', { 'bcn-sd__name--serif': d.id === 'setup' }]}>{d.title}</span>
+          </div>
+
+          <p class="bcn-sd__summary">{d.summary}</p>
+
+          <div class="bcn-sd__rollup">
+            {d.rollup.map((r) => (
+              <EsaStat value={r.value} label={r.label} />
+            ))}
+          </div>
+
+          {d.flag && (
+            <span class="bcn-sd__flag">
+              <span class="bcn-sd__dot" style={`--_c: ${PULSE_META[d.flag.status].hex};`} aria-hidden="true" />
+              {d.flag.label}
+            </span>
+          )}
+
+          <span class="bcn-sd__open">{d.cta} <EsaIcon name="chevron-right" size="sm" /></span>
+        </a>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .bcn-sd { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .bcn-sd__title { margin: 0; color: var(--color-text-primary); }
+
+  .bcn-sd__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--spacing-400);
+  }
+
+  .bcn-sd__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    padding: var(--spacing-400);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+  .bcn-sd__card:hover {
+    border-color: var(--color-border-strong);
+    box-shadow: var(--shadow-50, 0 1px 4px 0 rgba(0, 0, 0, 0.05));
+  }
+
+  .bcn-sd__head { display: flex; align-items: center; gap: var(--spacing-300); }
+  .bcn-sd__glyph {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: var(--radius-200);
+    background: var(--color-surface-sunken);
+    color: var(--color-text-secondary);
+  }
+  /* Prod wizard identity: the teal circular compass mark. */
+  .bcn-sd__glyph--wizard {
+    border-radius: var(--radius-full);
+    background: var(--bcn-teal-600, var(--color-secondary));
+    color: var(--color-text-inverse);
+  }
+  .bcn-sd__name {
+    font-size: var(--type-size-300);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  /* Prod wizard identity: the serif (Besley) title voice. */
+  .bcn-sd__name--serif {
+    font-family: var(--font-decorative, var(--font-sans));
+    font-weight: var(--font-weight-bold);
+  }
+
+  .bcn-sd__summary {
+    margin: 0;
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-normal);
+  }
+
+  /* Rollup figures — esa-stat, sized down to the card scale via its public
+     --stat-* hooks (the same lego the Tracking zone composes). */
+  .bcn-sd__rollup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-300) var(--spacing-500);
+    margin: 0;
+    padding: var(--spacing-300) 0;
+    border-top: 1px solid var(--color-border-light);
+    border-bottom: 1px solid var(--color-border-light);
+    --stat-value-size: var(--type-size-400);
+    --stat-label-size: var(--type-size-150);
+    --stat-label-color: var(--color-text-tertiary);
+  }
+
+  .bcn-sd__flag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+  }
+  .bcn-sd__dot {
+    width: 9px;
+    height: 9px;
+    border-radius: var(--radius-full);
+    background: var(--_c);
+    flex-shrink: 0;
+  }
+
+  .bcn-sd__open {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    margin-top: auto;
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+  }
+  .bcn-sd__card:hover .bcn-sd__open { color: var(--color-primary-hover); }
+</style>

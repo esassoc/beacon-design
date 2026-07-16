@@ -1,0 +1,66 @@
+---
+// Project Dashboard — the logged-in PROJECT HOMEPAGE. After sign-in the app lands
+// the user on a project and shows this page, so it is built to answer "where am I,
+// and what should I do next?": a profile-style header anchors the project's
+// identity; a criticality-elevated surface elevates only the most critical items
+// project-wide; starred components are portals into the active component
+// dashboards (dozens of components exist — starring is the lens); and the four
+// macro areas of Beacon are front doors — Tracking is the primary zone (Lists live
+// there), with Monitoring, Reporting, and the Setup Wizard prominent but clearly
+// secondary. Detail (per-component stats, milestones) belongs on the component
+// dashboards, not here. No project-level phase filter or needs/all toggle — phase
+// is worn lightly in the header and per-component context.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import BcnProjectHeader from '../../components/bcn/BcnProjectHeader.astro';
+import BcnCriticalNow from '../../components/bcn/BcnCriticalNow.astro';
+import BcnStarredComponents from '../../components/bcn/BcnStarredComponents.astro';
+import BcnTrackingZone from '../../components/bcn/BcnTrackingZone.astro';
+import BcnSecondaryDoors from '../../components/bcn/BcnSecondaryDoors.astro';
+import BcnLinkRowCard from '../../components/bcn/BcnLinkRowCard.astro';
+import BcnProjectFacts from '../../components/bcn/BcnProjectFacts.astro';
+import {
+  PROJECT,
+  CRITICAL_NOW,
+  STARRED_COMPONENTS,
+  SECONDARY_DOORS,
+  PROJECT_UTILITIES,
+} from '../../data/project-dashboard';
+---
+
+<!-- manifest:
+  layout: full-bleed header (PageLayout bleed slot), then stack(xl) > sidebar   # SPINE
+  sections:
+    - profile header        -> bcn-project-header      # full-bleed identity (hero / DWR seal / name / phase)
+    - most critical now     -> bcn-critical-now         # criticality-elevated entity cards, project-wide
+    - components            -> bcn-starred-components    # starred component cards w/ Tracking·Monitoring·Reporting status
+    - tracking (primary)    -> bcn-tracking-zone         # primary front door; project-level action-status rollup + Lists
+    - secondary front doors -> bcn-secondary-doors       # Monitoring / Reporting / Setup — clearly secondary
+    - project data rail     -> bcn-link-row-card         # quiet project-data CRUD text links (shared row card)
+    - project details card  -> bcn-project-facts         # orienting facts, below Project data in the rail
+-->
+
+<AppShell
+  title={`${PROJECT.name} — Beacon`}
+  tenantName={PROJECT.tenant}
+  projectName="Delta Conveyance"
+  activeNavId="dashboard"
+>
+  <PageLayout title={PROJECT.name} hideTitleRow bleedHeader>
+    <BcnProjectHeader slot="bleed" project={PROJECT} />
+
+    <div class="sidebar" data-side="end" data-gap="xl" style="--sidebar-width: 16rem; --sidebar-content-min: 64%;">
+      <div class="stack" data-gap="lg">
+        <BcnLinkRowCard title="Project data" rows={PROJECT_UTILITIES} chevrons />
+        <BcnProjectFacts facts={PROJECT.facts} description={PROJECT.description} />
+      </div>
+
+      <div class="stack" data-gap="xl">
+        <BcnCriticalNow items={CRITICAL_NOW} />
+        <BcnStarredComponents components={STARRED_COMPONENTS} />
+        <BcnTrackingZone />
+        <BcnSecondaryDoors doors={SECONDARY_DOORS} />
+      </div>
+    </div>
+  </PageLayout>
+</AppShell>

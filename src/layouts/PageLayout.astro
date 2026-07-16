@@ -7,8 +7,8 @@
 // Renders INSIDE AppShell: a page = AppShell > PageLayout > content.
 //
 // SCSS → spoke-token translation (no hardcoded hex/px):
-//   $gray-N → var(--bcn-gray-N); $spacing-* → var(--spacing-*);
-//   font-weight 650 → var(--font-weight-bold); var(--font-decorative) kept
+//   $gray-N → the --bcn-gray ramp; $spacing-* → the --spacing ramp;
+//   font-weight 650 → the bold weight token; the decorative font token kept
 //   (Besley); $type-size-500 → var(--type-size-500).
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 
@@ -22,6 +22,19 @@ interface Props {
   title: string;
   /** Lucide icon name leading the H1 (e.g. "map"). */
   icon?: string;
+  /**
+   * Suppress the standard title row entirely — for pages whose header is a unique,
+   * self-contained hero section (e.g. the project homepage's profile header) that
+   * carries its own H1. Additive + backward-compatible: default keeps the title row.
+   */
+  hideTitleRow?: boolean;
+  /**
+   * Opt a page's header out of the padded container so it bleeds full-width and
+   * sits snug against the topbar (a sanctioned per-page anomaly — the project
+   * homepage). When true, content passed to the `bleed` slot renders flush above
+   * the normal (still-padded) content. Additive + backward-compatible.
+   */
+  bleedHeader?: boolean;
 }
 
 // Lucide glyphs not in esa-icon's registry (inner SVG markup only).
@@ -36,12 +49,18 @@ const LUCIDE: Record<string, string> = {
     '<path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/>',
 };
 
-const { breadcrumbs = [], title, icon } = Astro.props as Props;
+const { breadcrumbs = [], title, icon, hideTitleRow = false, bleedHeader = false } = Astro.props as Props;
 const iconPaths = icon ? LUCIDE[icon] : undefined;
 const hasUtilities = Astro.slots.has('utilities');
+const hasBleed = bleedHeader && Astro.slots.has('bleed');
 ---
 
-<div class="page-layout">
+<div class:list={['page-layout', { 'page-layout--bleed': hasBleed }]}>
+  {hasBleed && (
+    <div class="page-layout__bleed">
+      <slot name="bleed" />
+    </div>
+  )}
   <div class="page-layout__container">
     {
       breadcrumbs.length > 0 && (
@@ -73,22 +92,24 @@ const hasUtilities = Astro.slots.has('utilities');
       )
     }
 
-    <section class="page-layout__title">
-      <div class="page-layout__title-main">
-        <h1>
-          {icon && <EsaIcon name={icon} paths={iconPaths} />}
-          {title}
-        </h1>
-        <slot name="title-badge" />
-      </div>
-      {
-        hasUtilities && (
-          <div class="page-layout__utilities">
-            <slot name="utilities" />
+    {
+      !hideTitleRow && (
+        <section class="page-layout__title">
+          <div class="page-layout__title-main">
+            <h1>
+              {icon && <EsaIcon name={icon} paths={iconPaths} />}
+              {title}
+            </h1>
+            <slot name="title-badge" />
           </div>
-        )
-      }
-    </section>
+          {hasUtilities && (
+            <div class="page-layout__utilities">
+              <slot name="utilities" />
+            </div>
+          )}
+        </section>
+      )
+    }
 
     <section class="page-layout__content">
       <slot />
@@ -112,6 +133,13 @@ const hasUtilities = Astro.slots.has('utilities');
     display: flex;
     flex-direction: column;
   }
+
+  /* Full-bleed header opt-in: drop the outer padding, move the horizontal + bottom
+     gutter onto the container so the bleed region spans edge-to-edge and sits snug
+     under the topbar. Only pages passing `bleedHeader` + a `bleed` slot get this. */
+  .page-layout--bleed { padding: 0; }
+  .page-layout--bleed .page-layout__container { padding: 0 var(--spacing-600) var(--spacing-600); }
+  .page-layout__bleed { width: 100%; }
   .page-layout section {
     width: 100%;
   }
