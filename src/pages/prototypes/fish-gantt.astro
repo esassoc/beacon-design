@@ -162,6 +162,11 @@ const fishNav = [
   });
 
   document.getElementById('node-close')!.addEventListener('click', () => drawer.close());
+  // The lego's own Esc handler only hears keydown when focus is inside the dialog;
+  // close from anywhere so an open drawer never traps the page.
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') drawer.close();
+  });
 
   // ── Live header KPIs: re-derive the whole-plan roll-up on every model change ──
   const stats = [...document.querySelectorAll<HTMLElement>('.bcn-gantt-stats .esa-stat')];

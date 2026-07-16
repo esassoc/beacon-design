@@ -501,12 +501,9 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
     // Year-range filter: bounds derived from the rows' actual spans.
     const yearFrom = wb.querySelector('#bcn-wb-year-from') as HTMLElement & { options: { value: string; label: string }[]; value: string };
     const yearTo = wb.querySelector('#bcn-wb-year-to') as HTMLElement & { options: { value: string; label: string }[]; value: string };
-    const spanYears = rows()
-      .flatMap((row) => [row.dataset.start, row.dataset.end])
-      .filter(Boolean)
-      .map((m) => Number((m as string).slice(0, 4)));
-    const minYear = spanYears.length ? Math.min(...spanYears) : 2026;
-    const maxYear = spanYears.length ? Math.max(...spanYears) : 2035;
+    // Options cover the full schedule horizon (matches the axis), not just current data.
+    const minYear = SCHEDULE_START_YEAR;
+    const maxYear = SCHEDULE_END_YEAR - 1;
     let filterYearFrom = minYear;
     let filterYearTo = maxYear;
     const yearOpts = [];
@@ -1040,8 +1037,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   .bcn-wb__name-btn { display: flex; align-items: center; gap: var(--spacing-150); min-width: 0; flex: 1; padding: 2px 0; border: 0; background: transparent; cursor: pointer; text-align: left; font: inherit; overflow: hidden; }
   .bcn-wb__name-btn:hover .bcn-wb__name { color: var(--color-primary); text-decoration: underline; }
   .bcn-wb__name-btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; border-radius: var(--radius-100); }
-  /* 0.8125rem is the adherence hard floor (13px) — visual weight trimmed via padding/weight instead */
-  .bcn-wb__id { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.8125rem; font-weight: var(--font-weight-medium); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 0 4px; border-radius: var(--radius-100); }
+  .bcn-wb__id { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.6875rem; /* adherence-allow: font-too-small — Andy-sanctioned 11px ID badges (2026-07-15) */ font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 1px 5px; border-radius: var(--radius-100); }
   /* Tier ramp — one hue, dark to light down the tree */
   .bcn-wb__row.is-program .bcn-wb__id { background: color-mix(in srgb, var(--color-commitment) 30%, white); color: color-mix(in srgb, var(--color-commitment) 85%, black); }
   .bcn-wb__row.is-study .bcn-wb__id { background: color-mix(in srgb, var(--color-commitment) 20%, white); }
@@ -1053,7 +1049,8 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
 
   /* Visible add-child affordance: revealed on row hover / keyboard focus.
      The ⋯ menu keeps rename / reparent / delete. */
-  .bcn-wb__add { flex-shrink: 0; margin-left: auto; display: inline-flex; opacity: 0; transition: opacity 120ms ease; }
+  /* Always visible (was hover-reveal — Andy couldn't find the CRUD affordances) */
+  .bcn-wb__add { flex-shrink: 0; margin-left: auto; display: inline-flex; opacity: 0.55; transition: opacity 120ms ease; }
   .bcn-wb__row:hover .bcn-wb__add, .bcn-wb__add:focus-within { opacity: 1; }
   .bcn-wb__add .esa-icon-button { width: 24px; height: 24px; color: var(--color-text-tertiary); border-radius: var(--radius-100); }
   .bcn-wb__add .esa-icon-button:hover { color: var(--color-text-primary); background: var(--color-surface-sunken); }
