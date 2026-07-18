@@ -2,11 +2,11 @@
 
 Re-implement this UI section faithfully on your stack. Keep the CSS custom-property
 names (`var(--…)`) so it stays themeable — the values below are the resolved
-`beacon` theme of the **prototypes-data-catalog-commitment** design system (an ESA Ecology spoke).
+`beacon` theme of the **prototypes-help** design system (an ESA Ecology spoke).
 
-- **Source prototype:** http://localhost:4399/beacon-design/prototypes/data-catalog-commitment/
+- **Source prototype:** http://localhost:4399/beacon-design/prototypes/help/
 - **Section element:** `<page>`
-- **Components:** esa-badge (hub), esa-button (hub), esa-collapsible (hub), esa-empty-state (hub), esa-filter-clear-button (hub), esa-filter-container (hub), esa-icon (hub), esa-icon-button (hub), esa-icon-link (hub), esa-pill (hub)
+- **Components:** esa-badge (hub), esa-empty-state (hub), esa-icon (hub), esa-icon-button (hub)
 
 ## Markup (de-scoped, framework-free)
 ```html
@@ -314,7 +314,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               ></path>
             </svg>
           </span>
-          <span class="project-switcher__name">Select a Project</span>
+          <span class="project-switcher__name">Raul</span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
             <svg
               width="16"
@@ -333,7 +333,291 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         </button>
       </div>
       <div class="main-nav">
-        <div class="nav-section nav-section--active">
+        <div class="nav-section">
+          <a href="#setup-wizard" class="nav-section__header nav-section__header--link">
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path
+                  d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+                ></path>
+                <circle cx="12" cy="12" r="10"></circle>
+              </svg>
+            </span>
+            <span class="nav-section__title">Setup Wizard</span>
+          </a>
+        </div>
+        <div class="nav-section">
+          <button type="button" class="nav-section__header" aria-expanded="true">
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <rect width="7" height="9" x="3" y="3" rx="1"></rect>
+                <rect width="7" height="5" x="14" y="3" rx="1"></rect>
+                <rect width="7" height="9" x="14" y="12" rx="1"></rect>
+                <rect width="7" height="5" x="3" y="16" rx="1"></rect>
+              </svg>
+            </span>
+            <span class="nav-section__title">Project</span>
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </span>
+          </button>
+          <ul class="nav-section__items">
+            <li class="nav-item">
+              <a href="#dashboard" class="nav-sublink active"> Dashboard </a>
+            </li>
+            <li class="nav-item">
+              <a href="#source-documents" class="nav-sublink"> Source Documents </a>
+            </li>
+            <li class="nav-item"><a href="#commitments" class="nav-sublink"> Commitments </a></li>
+            <li class="nav-item"><a href="#requirements" class="nav-sublink"> Requirements </a></li>
+            <li class="nav-item">
+              <a href="#organize-actions" class="nav-sublink"> Organize Actions </a>
+            </li>
+            <li class="nav-item"><a href="#action-lists" class="nav-sublink"> Action Lists </a></li>
+            <li class="nav-item">
+              <a href="#document-reviews" class="nav-sublink"> Document Reviews </a>
+            </li>
+            <li class="nav-item">
+              <a href="#spatial-library-layers" class="nav-sublink"> Spatial Library Layers </a>
+            </li>
+          </ul>
+        </div>
+        <hr class="nav-divider" aria-hidden="true" />
+        <div class="nav-section">
+          <button type="button" class="nav-section__header" aria-expanded="true">
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                <path d="M4 6h.01"></path>
+                <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                <path d="M12 18h.01"></path>
+                <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                <circle cx="12" cy="12" r="2"></circle>
+                <path d="m13.41 10.59 5.66-5.66"></path>
+              </svg>
+            </span>
+            <span class="nav-section__title">Tracking</span>
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </span>
+          </button>
+          <ul class="nav-section__items">
+            <li class="nav-item">
+              <a href="#tracking-summary" class="nav-sublink"> Tracking Summary </a>
+            </li>
+            <li class="nav-item">
+              <a href="#project-tracking" class="nav-sublink"> Project Tracking </a>
+            </li>
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/permit-tracking" class="nav-sublink">
+                Permit Tracking
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#all-components" class="nav-sublink"> All Components </a>
+            </li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <button type="button" class="nav-section__header" aria-expanded="true">
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path
+                  d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"
+                ></path>
+                <circle cx="12" cy="8" r="2"></circle>
+                <path
+                  d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"
+                ></path>
+              </svg>
+            </span>
+            <span class="nav-section__title">Monitoring</span>
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </span>
+          </button>
+          <ul class="nav-section__items">
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/monitoring/dashboard" class="nav-sublink">
+                Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/beacon-design/prototypes/monitoring/compliance-concerns"
+                class="nav-sublink"
+              >
+                Compliance Concerns
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/monitoring/nesting-birds" class="nav-sublink">
+                Nesting Birds
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/beacon-design/prototypes/monitoring/biological-resources"
+                class="nav-sublink"
+              >
+                Biological Resources
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/beacon-design/prototypes/monitoring/daily-monitoring-reports"
+                class="nav-sublink"
+              >
+                Daily Monitoring Reports
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/monitoring/surveys" class="nav-sublink">
+                Surveys
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/monitoring/all-observations" class="nav-sublink">
+                All Observations
+              </a>
+            </li>
+            <li class="nav-subdivider" aria-hidden="true"></li>
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/site-clearance" class="nav-sublink">
+                Site Clearance
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <button type="button" class="nav-section__header" aria-expanded="true">
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
+                <path
+                  d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+                ></path>
+                <path d="M12 11h4"></path>
+                <path d="M12 16h4"></path>
+                <path d="M8 11h.01"></path>
+                <path d="M8 16h.01"></path>
+              </svg>
+            </span>
+            <span class="nav-section__title">Reporting</span>
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </span>
+          </button>
+          <ul class="nav-section__items">
+            <li class="nav-item">
+              <a href="#progress-report" class="nav-sublink"> Progress Report </a>
+            </li>
+            <li class="nav-item">
+              <a href="#report-center" class="nav-sublink"> Report Center </a>
+            </li>
+          </ul>
+        </div>
+        <hr class="nav-divider" aria-hidden="true" />
+        <div class="nav-section">
           <button type="button" class="nav-section__header" aria-expanded="true">
             <span class="esa-icon esa-icon--sm" aria-hidden="true">
               <svg
@@ -370,21 +654,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             </span>
           </button>
           <ul class="nav-section__items">
-            <li class="nav-item"><a href="#dc-projects" class="nav-sublink"> Projects </a></li>
             <li class="nav-item">
               <a href="#dc-source-documents" class="nav-sublink"> Source Documents </a>
             </li>
             <li class="nav-item">
-              <a href="#dc-commitments" class="nav-sublink active"> Commitments </a>
+              <a href="#dc-commitments" class="nav-sublink"> Commitments </a>
             </li>
             <li class="nav-item">
               <a href="#dc-requirements" class="nav-sublink"> Requirements </a>
             </li>
             <li class="nav-item"><a href="#dc-actions" class="nav-sublink"> Actions </a></li>
-            <li class="nav-item"><a href="#dc-components" class="nav-sublink"> Components </a></li>
-            <li class="nav-item">
-              <a href="#dc-evidence" class="nav-sublink"> Evidence of Compliance </a>
-            </li>
+            <li class="nav-item"><a href="#dc-all-data" class="nav-sublink"> All Data </a></li>
           </ul>
         </div>
       </div>
@@ -393,194 +673,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
     <div class="modern-layout__content">
       <div class="page-layout">
         <div class="page-layout__container">
-          <section class="page-layout__breadcrumbs">
-            <nav class="breadcrumbs" aria-label="Breadcrumb">
-              <div class="breadcrumbs__items">
-                <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
-                    <path
-                      d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
-                    ></path>
-                  </svg>
-                </span>
-                <a class="breadcrumb-item" href="#data-catalog"> Data Catalog </a
-                ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path d="m9 18 6-6-6-6"></path>
-                  </svg>
-                </span>
-                <a class="breadcrumb-item" href="#data-catalog/commitments"> Commitments </a
-                ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path d="m9 18 6-6-6-6"></path>
-                  </svg>
-                </span>
-                <span class="breadcrumb-item" aria-current="page"> MM-BIO-2 </span>
-              </div>
-            </nav>
-          </section>
-          <section class="page-layout__title">
-            <div class="page-layout__title-main"><h1>Nesting Birds and Raptors</h1></div>
-          </section>
           <section class="page-layout__content">
-            <div class="bcn-cmt">
-              <!-- Identity header — ID badge on top, serif title, type badge + version chip. -->
-              <header class="bcn-cmt__head">
-                <div class="bcn-cmt__identity">
-                  <span class="bcn-cmt__badge bcn-cmt__badge--commitment">MM-BIO-2</span>
-                  <div class="bcn-cmt__title-row">
-                    <h1 class="bcn-cmt__title">Nesting Birds and Raptors</h1>
-                    <span class="bcn-cmt__badge bcn-cmt__badge--type">Mitigation Measure</span>
-                    <span class="bcn-cmt__badge bcn-cmt__badge--type">v.2</span>
-                  </div>
-                </div>
-                <div class="bcn-cmt__head-actions">
-                  <span id="edit-cmt"
-                    ><span
-                      class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--sm"
-                    >
-                      <button class="esa-button__native" type="button">
-                        <span class="esa-button__label">
-                          <span class="bcn-btn-ico"
-                            ><span class="esa-icon esa-icon--xs" aria-hidden="true">
-                              <svg
-                                width="14"
-                                height="14"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
-                                ></path>
-                                <path d="m15 5 4 4"></path>
-                              </svg>
-                            </span>
-                            Edit commitment</span
-                          >
-                        </span>
-                      </button>
-                    </span>
-                  </span>
-                </div>
-              </header>
-              <div class="bcn-cmt__body">
-                <div class="bcn-cmt__main">
-                  <!-- Full commitment text — serif regulatory voice, bulleted as parsed. -->
-                  <section class="bcn-cmt__section">
-                    <h2 class="bcn-section-title">Full Commitment Text</h2>
-                    <article class="bcn-cmttext">
-                      <ul class="bcn-cmttext__list">
-                        <li class="bcn-cmttext__item">
-                          <strong>Pre-Construction Survey:</strong> If construction,
-                          ground-disturbing, or vegetation-removal activities would occur during the
-                          nesting season (February 1 – August 31), a qualified biologist shall
-                          conduct a pre-construction survey for nesting raptors and other migratory
-                          birds within 14 days prior to the start of those activities.
-                        </li>
-                        <li class="bcn-cmttext__item">
-                          <strong>No-Disturbance Buffers:</strong> If active nests are found, the
-                          biologist shall establish appropriate no-disturbance buffer zones around
-                          each nest, to remain in place until young have fledged.
-                        </li>
-                        <li class="bcn-cmttext__item">
-                          <strong>Work Within Buffer Zones:</strong> If work must occur within an
-                          established buffer zone, it shall proceed only under biological monitoring
-                          by the qualified biologist.
-                        </li>
-                        <li class="bcn-cmttext__item">
-                          <strong>Reporting:</strong> A report of findings documenting any
-                          construction conducted within a no-disturbance buffer zone shall be
-                          submitted to the City.
-                        </li>
-                      </ul>
-                      <footer class="bcn-cmttext__footer">
-                        <span data-bcn-source=""
-                          ><span
-                            class="esa-button esa-button--color-ghost esa-button--appearance-fill esa-button--sm"
-                          >
-                            <button class="esa-button__native" type="button">
-                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path
-                                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                                  ></path>
-                                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                                  <path d="M10 9H8"></path>
-                                  <path d="M16 13H8"></path>
-                                  <path d="M16 17H8"></path>
-                                </svg>
-                              </span>
-                              <span class="esa-button__label"> View in Source Document </span>
-                            </button>
-                          </span>
-                        </span>
-                      </footer>
-                    </article>
-                  </section>
-                  <!-- Requirements — one flat list, single Add, keyword + Phase + Type filters. -->
-                  <section class="bcn-cmt__section">
-                    <header class="bcn-cmt__section-head">
-                      <h2 class="bcn-section-title">
-                        Requirements
-                        <span class="bcn-count-neutral"
-                          ><span class="esa-badge esa-badge--primary esa-badge--sm">
-                            <span class="esa-badge__text">4</span>
-                          </span>
-                        </span>
-                      </h2>
-                      <a
-                        class="esa-icon-link esa-icon-link--sm esa-icon-link--medium"
-                        href="#add-requirement"
-                        ><span class="esa-icon esa-icon--xs" aria-hidden="true">
+            <div class="stack" data-gap="2xl">
+              <section class="bcn-kb-hero" aria-label="Help &amp; Guidance">
+                <div class="center bcn-kb-hero__col">
+                  <div class="stack bcn-kb-hero__stack">
+                    <span class="bcn-aldo-mark" data-size="lg" data-animated="" aria-hidden="true">
+                      <span class="bcn-aldo-mark__glyph">
+                        <span class="esa-icon esa-icon--xl" aria-hidden="true">
                           <svg
-                            width="14"
-                            height="14"
+                            width="28"
+                            height="28"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
@@ -589,487 +692,44 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             stroke-linejoin="round"
                             focusable="false"
                           >
-                            <path d="M5 12h14"></path>
-                            <path d="M12 5v14"></path>
+                            <path
+                              d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+                            ></path>
+                            <circle cx="12" cy="12" r="10"></circle>
                           </svg>
                         </span>
-                        <span class="esa-icon-link__label">Add requirement</span>
-                      </a>
-                    </header>
-                    <div class="bcn-reqfilters">
-                      <esa-text-field
-                        id="req-search"
-                        placeholder="Search requirements…"
-                        size="md"
-                      ></esa-text-field>
-                      <div class="bcn-reqfilters__row">
-                        <div
-                          class="esa-filter-container"
-                          style="
-                            --_filter-container-gap: var(
-                              --filter-container-gap,
-                              var(--spacing-300, 0.75rem)
-                            );
-                            --_filter-container-row-gap: var(--spacing-200, 0.5rem);
-                          "
-                        >
-                          <esa-filter-dropdown
-                            id="flt-phase"
-                            label="Phase"
-                            size="sm"
-                          ></esa-filter-dropdown>
-                          <esa-filter-dropdown
-                            id="flt-type"
-                            label="Type"
-                            size="sm"
-                          ></esa-filter-dropdown>
-                        </div>
-                        <span id="req-clear-filters"
-                          ><button
-                            class="esa-filter-clear-button"
-                            type="button"
-                            data-esa-filter-clear=""
-                            aria-label="Clear all filters"
-                          >
-                            <svg
-                              class="esa-filter-clear-button__icon"
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              aria-hidden="true"
-                            >
-                              <path d="M13.013 3H2l8 9.46V19l4 2v-8.54l.9-1.055"></path>
-                              <path d="m22 3-5 5"></path>
-                              <path d="m17 3 5 5"></path></svg
-                            ><span class="esa-filter-clear-button__label">Clear all</span>
-                          </button>
-                          <script type="module">
-                            document.querySelectorAll("[data-esa-filter-clear]").forEach((e) => {
-                              e.addEventListener("click", () => {
-                                e.dispatchEvent(
-                                  new CustomEvent("esa-filter-clear", {
-                                    bubbles: !0,
-                                    composed: !0,
-                                  }),
-                                );
-                              });
-                            });
-                          </script></span
-                        >
-                      </div>
-                    </div>
-                    <ul class="bcn-row-list" id="req-list">
-                      <li
-                        class="bcn-row-li"
-                        data-name="pre-construction survey for nesting raptors and other migratory birds during nesting season"
-                        data-phase="Pre-Construction"
-                        data-type="Survey"
-                      >
-                        <a
-                          class="bcn-row"
-                          href="/beacon-design/prototypes/data-catalog-requirement"
-                        >
-                          <span class="bcn-cmt__badge bcn-cmt__badge--commitment">MM-BIO-2</span>
-                          <span class="bcn-row__name"
-                            >Pre-construction survey for nesting raptors and other migratory birds
-                            during nesting season</span
-                          >
-                          <span class="bcn-cmt__badge bcn-cmt__badge--type">Survey</span>
-                          <span class="bcn-cmt__badge bcn-cmt__badge--phase">Pre-Construction</span>
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="m9 18 6-6-6-6"></path>
-                            </svg>
-                          </span>
-                        </a>
-                      </li>
-                      <li
-                        class="bcn-row-li"
-                        data-name="if bird nests are found, establish no-disturbance buffer zones"
-                        data-phase="Construction"
-                        data-type="Other"
-                      >
-                        <a class="bcn-row" href="#data-catalog/requirements/mm-bio-2-buffers">
-                          <span class="bcn-cmt__badge bcn-cmt__badge--commitment">MM-BIO-2</span>
-                          <span class="bcn-row__name"
-                            >If bird nests are found, establish no-disturbance buffer zones</span
-                          >
-                          <span class="bcn-cmt__badge bcn-cmt__badge--type">Other</span>
-                          <span class="bcn-cmt__badge bcn-cmt__badge--phase">Construction</span>
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="m9 18 6-6-6-6"></path>
-                            </svg>
-                          </span>
-                        </a>
-                      </li>
-                      <li
-                        class="bcn-row-li"
-                        data-name="if work must occur within established no-disturbance buffer zones"
-                        data-phase="Construction"
-                        data-type="Other"
-                      >
-                        <a class="bcn-row" href="#data-catalog/requirements/mm-bio-2-work-within">
-                          <span class="bcn-cmt__badge bcn-cmt__badge--commitment">MM-BIO-2</span>
-                          <span class="bcn-row__name"
-                            >If work must occur within established no-disturbance buffer zones</span
-                          >
-                          <span class="bcn-cmt__badge bcn-cmt__badge--type">Other</span>
-                          <span class="bcn-cmt__badge bcn-cmt__badge--phase">Construction</span>
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="m9 18 6-6-6-6"></path>
-                            </svg>
-                          </span>
-                        </a>
-                      </li>
-                      <li
-                        class="bcn-row-li"
-                        data-name="report of findings for construction within any no-disturbance buffer zone"
-                        data-phase="Post-Construction"
-                        data-type="Reporting"
-                      >
-                        <a class="bcn-row" href="#data-catalog/requirements/mm-bio-2-report">
-                          <span class="bcn-cmt__badge bcn-cmt__badge--commitment">MM-BIO-2</span>
-                          <span class="bcn-row__name"
-                            >Report of findings for construction within any no-disturbance buffer
-                            zone</span
-                          >
-                          <span class="bcn-cmt__badge bcn-cmt__badge--type">Reporting</span>
-                          <span class="bcn-cmt__badge bcn-cmt__badge--phase"
-                            >Post-Construction</span
-                          >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="m9 18 6-6-6-6"></path>
-                            </svg>
-                          </span>
-                        </a>
-                      </li>
-                    </ul>
-                    <div class="bcn-reqs__empty" id="req-empty" hidden="">
-                      <div class="esa-empty-state esa-empty-state--sm">
-                        <h3 class="esa-empty-state__title">No requirements match your filters</h3>
-                        <div class="esa-empty-state__actions"></div>
-                      </div>
-                    </div>
-                  </section>
-                  <section class="bcn-cmt__section">
-                    <h2 class="bcn-section-title">
-                      Files
-                      <span id="cmt-files-count" class="bcn-count-neutral"
-                        ><span class="esa-badge esa-badge--primary esa-badge--sm">
-                          <span class="esa-badge__text">2</span>
-                        </span>
                       </span>
-                    </h2>
-                    <esa-file-list
-                      id="cmt-files"
-                      removable=""
-                      data-src="/beacon-design/source-docs/feir-sample.pdf"
-                      downloadable=""
-                    ></esa-file-list>
-                  </section>
+                    </span>
+                    <h1 class="type-page-title bcn-kb-hero__title">Help &amp; Guidance</h1>
+                    <p class="type-body bcn-kb-hero__lede">
+                      Plain answers about how Beacon works — on every page, and all in one place.
+                    </p>
+                    <esa-text-field
+                      class="bcn-kb-hero__search"
+                      data-kb-search="true"
+                      size="lg"
+                      type="text"
+                      placeholder="Search help articles…"
+                      aria-label="Search help articles"
+                    ></esa-text-field>
+                  </div>
                 </div>
-                <aside class="bcn-cmt__rail">
-                  <!-- Lineage leads the rail — one spine: ancestry (Project → Source Document →
-               this Commitment, the current filled node) then child rollups. -->
-                  <details class="esa-collapsible" open="">
-                    <summary class="esa-collapsible__summary">
-                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              </section>
+              <script
+                type="module"
+                src="/beacon-design/_astro/BcnKbHero.astro_astro_type_script_index_0_lang.Bh9QjbpR.js"
+              ></script>
+              <section class="bcn-kbc" aria-labelledby="bcn-kbc-title">
+                <h2 id="bcn-kbc-title" class="bcn-kbc__title type-section-title">
+                  Browse by category
+                </h2>
+                <div class="grid" data-gap="md" style="--grid-min: 13.75rem">
+                  <a class="bcn-kbc__tile" href="#category-getting-started">
+                    <span class="bcn-kbc__icon" aria-hidden="true">
+                      <span class="esa-icon esa-icon--lg" aria-hidden="true">
                         <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          focusable="false"
-                        >
-                          <line x1="6" x2="6" y1="3" y2="15"></line>
-                          <circle cx="18" cy="6" r="3"></circle>
-                          <circle cx="6" cy="18" r="3"></circle>
-                          <path d="M18 9a9 9 0 0 1-9 9"></path>
-                        </svg>
-                      </span>
-                      <span class="esa-collapsible__title">Lineage</span>
-                    </summary>
-                    <div class="esa-collapsible__body">
-                      <ol class="bcn-lineage">
-                        <li class="bcn-lineage__node">
-                          <span class="bcn-lineage__icon"
-                            ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
-                                ></path>
-                              </svg>
-                            </span>
-                          </span>
-                          <span class="bcn-lineage__body">
-                            <a class="bcn-lineage__kind" href="#data-catalog/projects">Project</a>
-                            <a class="bcn-lineage__name" href="#data-catalog/projects/3600-alameda"
-                              >3600 Alameda Avenue Project</a
-                            >
-                          </span>
-                        </li>
-                        <li class="bcn-lineage__node">
-                          <span class="bcn-lineage__icon"
-                            ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                                ></path>
-                                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                                <path d="M10 9H8"></path>
-                                <path d="M16 13H8"></path>
-                                <path d="M16 17H8"></path>
-                              </svg>
-                            </span>
-                          </span>
-                          <span class="bcn-lineage__body">
-                            <a class="bcn-lineage__kind" href="#data-catalog/source-documents"
-                              >Source Document</a
-                            >
-                            <a
-                              class="bcn-lineage__name"
-                              href="/beacon-design/prototypes/data-catalog-source-document"
-                              >3600 Alameda Avenue Project FEIR</a
-                            >
-                          </span>
-                        </li>
-                        <li class="bcn-lineage__node bcn-lineage__node--current">
-                          <span class="bcn-lineage__icon"
-                            ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path d="M15 12h-5"></path>
-                                <path d="M15 8h-5"></path>
-                                <path d="M19 17V5a2 2 0 0 0-2-2H4"></path>
-                                <path
-                                  d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"
-                                ></path>
-                              </svg>
-                            </span>
-                          </span>
-                          <span class="bcn-lineage__body">
-                            <a class="bcn-lineage__kind" href="#data-catalog/commitments"
-                              >Commitment</a
-                            >
-                            <span class="bcn-lineage__name bcn-lineage__name--current"
-                              >MM-BIO-2 — Nesting Birds and Raptors</span
-                            >
-                          </span>
-                        </li>
-                        <li class="bcn-lineage__node bcn-lineage__node--child">
-                          <span class="bcn-lineage__icon"
-                            ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <rect x="3" y="5" width="6" height="6" rx="1"></rect>
-                                <path d="m3 17 2 2 4-4"></path>
-                                <path d="M13 6h8"></path>
-                                <path d="M13 12h8"></path>
-                                <path d="M13 18h8"></path>
-                              </svg>
-                            </span>
-                          </span>
-                          <span class="bcn-lineage__body">
-                            <a
-                              class="bcn-lineage__name"
-                              href="/beacon-design/prototypes/data-catalog-requirement"
-                              >Requirements</a
-                            >
-                          </span>
-                          <span class="bcn-count-neutral"
-                            ><span class="esa-badge esa-badge--primary esa-badge--sm">
-                              <span class="esa-badge__text">4</span>
-                            </span>
-                          </span>
-                        </li>
-                        <li class="bcn-lineage__node bcn-lineage__node--child">
-                          <span class="bcn-lineage__icon"
-                            ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
-                                <path d="M4 6h.01"></path>
-                                <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
-                                <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
-                                <path d="M12 18h.01"></path>
-                                <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
-                                <circle cx="12" cy="12" r="2"></circle>
-                                <path d="m13.41 10.59 5.66-5.66"></path>
-                              </svg>
-                            </span>
-                          </span>
-                          <span class="bcn-lineage__body">
-                            <a
-                              class="bcn-lineage__name"
-                              href="/beacon-design/prototypes/data-catalog-actions"
-                              >Actions</a
-                            >
-                          </span>
-                          <span class="bcn-count-neutral"
-                            ><span class="esa-badge esa-badge--primary esa-badge--sm">
-                              <span class="esa-badge__text">3</span>
-                            </span>
-                          </span>
-                        </li>
-                      </ol>
-                    </div>
-                  </details>
-                  <details class="esa-collapsible" open="">
-                    <summary class="esa-collapsible__summary">
-                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          focusable="false"
-                        >
-                          <circle cx="12" cy="12" r="10"></circle>
-                          <path d="M12 16v-4"></path>
-                          <path d="M12 8h.01"></path>
-                        </svg>
-                      </span>
-                      <span class="esa-collapsible__title">Details</span>
-                    </summary>
-                    <div class="esa-collapsible__body">
-                      <div class="bcn-key-value">
-                        <span class="bcn-key-value__key">Type</span>
-                        <span class="bcn-key-value__val">Mitigation Measure</span>
-                      </div>
-                      <div class="bcn-key-value">
-                        <span class="bcn-key-value__key">Resource Category</span>
-                        <span class="bcn-key-value__val">Biological Resources</span>
-                      </div>
-                      <div class="bcn-key-value">
-                        <span class="bcn-key-value__key">General Guidance</span>
-                        <span class="bcn-key-value__val"
-                          >Include the nesting-season survey and buffer requirements in contractor
-                          bid documents. Coordinate any buffer-zone reduction with CDFW before work
-                          proceeds inside an established buffer.</span
-                        >
-                      </div>
-                      <div class="bcn-key-value">
-                        <span class="bcn-key-value__key">Tags</span>
-                        <span class="bcn-tagrow">
-                          <span class="esa-pill esa-pill--default esa-pill--sm">
-                            <span class="esa-pill__label">CDFW</span>
-                          </span>
-                          <span class="esa-pill esa-pill--default esa-pill--sm">
-                            <span class="esa-pill__label">Wildlife</span>
-                          </span>
-                        </span>
-                      </div>
-                      <p class="bcn-rail-meta">Created Jan 8, 2026 · Updated Jun 3, 2026</p>
-                    </div>
-                  </details>
-                  <details class="esa-collapsible" open="">
-                    <summary class="esa-collapsible__summary">
-                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                        <svg
-                          width="16"
-                          height="16"
+                          width="24"
+                          height="24"
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
@@ -1079,37 +739,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           focusable="false"
                         >
                           <path
-                            d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"
+                            d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
                           ></path>
-                          <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path>
-                          <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path>
+                          <circle cx="12" cy="12" r="10"></circle>
                         </svg>
                       </span>
-                      <span class="esa-collapsible__title">Related Data</span>
-                    </summary>
-                    <div class="esa-collapsible__body">
-                      <div class="bcn-key-value">
-                        <span class="bcn-key-value__key">Species</span>
-                        <span class="bcn-key-value__val">Nesting raptors, Migratory birds</span>
-                      </div>
-                      <div class="bcn-key-value">
-                        <span class="bcn-key-value__key">Seasons</span>
-                        <span class="bcn-key-value__val">Nesting Bird Season (Feb 1 – Aug 31)</span>
-                      </div>
-                      <div class="bcn-key-value">
-                        <span class="bcn-key-value__key">Construction Activities</span>
-                        <span class="bcn-key-value__val"
-                          >Ground disturbance, Vegetation removal</span
-                        >
-                      </div>
-                    </div>
-                  </details>
-                  <details class="esa-collapsible" open="">
-                    <summary class="esa-collapsible__summary">
-                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    </span>
+                    <span class="bcn-kbc__tile-title type-card-title">Getting started</span>
+                    <span class="bcn-kbc__desc type-body"
+                      >Orientation, navigation, and search — the first day in Beacon.</span
+                    >
+                    <span class="bcn-kbc__count">
+                      <span class="bcn-count">2 articles</span>
+                    </span> </a
+                  ><a class="bcn-kbc__tile" href="#category-data-catalog">
+                    <span class="bcn-kbc__icon" aria-hidden="true">
+                      <span class="esa-icon esa-icon--lg" aria-hidden="true">
                         <svg
-                          width="16"
-                          height="16"
+                          width="24"
+                          height="24"
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
@@ -1118,37 +766,26 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           stroke-linejoin="round"
                           focusable="false"
                         >
-                          <rect width="7" height="7" x="3" y="3" rx="1"></rect>
-                          <rect width="7" height="7" x="14" y="3" rx="1"></rect>
-                          <rect width="7" height="7" x="14" y="14" rx="1"></rect>
-                          <rect width="7" height="7" x="3" y="14" rx="1"></rect>
+                          <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                          <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
+                          <path d="M3 12A9 3 0 0 0 21 12"></path>
                         </svg>
                       </span>
-                      <span class="esa-collapsible__title">Associated Components</span>
-                    </summary>
-                    <div class="esa-collapsible__body">
-                      <ul class="bcn-lists">
-                        <li>
-                          <a class="bcn-list-link" href="#data-catalog/components"
-                            >North Grading Area</a
-                          >
-                        </li>
-                        <li>
-                          <a class="bcn-list-link" href="#data-catalog/components"
-                            >South Grading Area</a
-                          >
-                        </li>
-                      </ul>
-                    </div>
-                  </details>
-                  <!-- Revisions — the prod Revision History version chain. Add New Version +
-               per-version Edit (current only); no delete/revert/diff (faithful to prod). -->
-                  <details class="esa-collapsible" open="">
-                    <summary class="esa-collapsible__summary">
-                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    </span>
+                    <span class="bcn-kbc__tile-title type-card-title">Data Catalog</span>
+                    <span class="bcn-kbc__desc type-body"
+                      >Sources, commitments, and requirements — how obligations are
+                      documented.</span
+                    >
+                    <span class="bcn-kbc__count">
+                      <span class="bcn-count">5 articles</span>
+                    </span> </a
+                  ><a class="bcn-kbc__tile" href="#category-tracking">
+                    <span class="bcn-kbc__icon" aria-hidden="true">
+                      <span class="esa-icon esa-icon--lg" aria-hidden="true">
                         <svg
-                          width="16"
-                          height="16"
+                          width="24"
+                          height="24"
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
@@ -1157,379 +794,1741 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           stroke-linejoin="round"
                           focusable="false"
                         >
-                          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-                          <path d="M3 3v5h5"></path>
-                          <path d="M12 7v5l4 2"></path>
+                          <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                          <path d="M4 6h.01"></path>
+                          <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                          <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                          <path d="M12 18h.01"></path>
+                          <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                          <circle cx="12" cy="12" r="2"></circle>
+                          <path d="m13.41 10.59 5.66-5.66"></path>
                         </svg>
                       </span>
-                      <span class="esa-collapsible__title">Revisions</span>
-                    </summary>
-                    <div class="esa-collapsible__body">
-                      <ol class="bcn-lineage bcn-revs">
-                        <li class="bcn-lineage__node bcn-lineage__node--current">
-                          <span class="bcn-lineage__icon"
-                            ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-                                <path d="M3 3v5h5"></path>
-                                <path d="M12 7v5l4 2"></path>
-                              </svg>
-                            </span>
-                          </span>
-                          <span class="bcn-lineage__body">
-                            <span class="bcn-revs__head">
-                              <span class="bcn-lineage__kind">Version 2 · Current</span>
-                              <button
-                                type="button"
-                                class="bcn-revs__edit"
-                                data-edit-rev=""
-                                data-originator="DWR Office of General Counsel"
-                                data-effective="2026-06-01"
-                                data-summary="DWR OGC review of Vol. 1, Submittal 1"
-                              >
-                                Edit
-                              </button>
-                            </span>
-                            <span class="bcn-revs__summary"
-                              >DWR OGC review of Vol. 1, Submittal 1</span
-                            >
-                            <span class="bcn-revs__meta"
-                              >Originator: DWR Office of General Counsel</span
-                            >
-                            <span class="bcn-revs__meta">Effective Jun 1, 2026</span>
-                            <span class="bcn-revs__by"
-                              >Created by Leah McNearney on Jun 1, 2026</span
-                            >
-                          </span>
-                        </li>
-                        <li class="bcn-lineage__node">
-                          <span class="bcn-lineage__icon"
-                            ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-                                <path d="M3 3v5h5"></path>
-                                <path d="M12 7v5l4 2"></path>
-                              </svg>
-                            </span>
-                          </span>
-                          <span class="bcn-lineage__body">
-                            <span class="bcn-revs__head">
-                              <span class="bcn-lineage__kind">Version 1</span>
-                            </span>
-                            <span class="bcn-revs__summary">Original FEIR language</span>
-                            <span class="bcn-revs__meta">Originator: Original FEIR adoption</span>
-                            <span class="bcn-revs__meta">Effective Mar 6, 2026</span>
-                            <span class="bcn-revs__by"
-                              >Created by Mikey Knowles on Mar 6, 2026</span
-                            >
-                          </span>
-                        </li>
-                      </ol>
-                      <div class="bcn-revs__add">
-                        <span id="add-rev"
-                          ><span
-                            class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
-                          >
-                            <button class="esa-button__native" type="button">
-                              <span class="esa-button__label">
-                                <span class="bcn-btn-ico"
-                                  ><span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                    <svg
-                                      width="14"
-                                      height="14"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M5 12h14"></path>
-                                      <path d="M12 5v14"></path>
-                                    </svg>
-                                  </span>
-                                  Add New Version</span
-                                >
-                              </span>
-                            </button>
-                          </span>
-                        </span>
-                      </div>
-                    </div>
-                  </details>
-                </aside>
-              </div>
-              <!-- Danger zone — GitHub layout; opens a simple confirm, matching prod. -->
-              <section class="bcn-danger-zone" aria-labelledby="bcn-danger-zone-1">
-                <h2 class="bcn-danger-zone__heading" id="bcn-danger-zone-1">Danger Zone</h2>
-                <div class="bcn-danger-zone__box">
-                  <div class="bcn-danger-zone__item">
-                    <div class="bcn-danger-zone__text">
-                      <h3 class="bcn-danger-zone__title">Delete this commitment</h3>
-                      <p class="bcn-danger-zone__desc">
-                        Deleting this commitment also deletes all requirements and actions defined
-                        under it. This action cannot be undone.
-                      </p>
-                    </div>
-                    <div class="bcn-danger-zone__action">
-                      <span id="delete-cmt"
-                        ><span
-                          class="esa-button esa-button--color-danger esa-button--appearance-soft esa-button--md"
+                    </span>
+                    <span class="bcn-kbc__tile-title type-card-title">Tracking &amp; actions</span>
+                    <span class="bcn-kbc__desc type-body"
+                      >Actions, implementations, components, and scope — how work gets done.</span
+                    >
+                    <span class="bcn-kbc__count">
+                      <span class="bcn-count">6 articles</span>
+                    </span> </a
+                  ><a class="bcn-kbc__tile" href="#category-monitoring">
+                    <span class="bcn-kbc__icon" aria-hidden="true">
+                      <span class="esa-icon esa-icon--lg" aria-hidden="true">
+                        <svg
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
                         >
-                          <button class="esa-button__native" type="button">
-                            <span class="esa-button__label"> Delete commitment </span>
-                          </button>
-                        </span>
+                          <path
+                            d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"
+                          ></path>
+                          <circle cx="12" cy="8" r="2"></circle>
+                          <path
+                            d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"
+                          ></path>
+                        </svg>
                       </span>
-                    </div>
-                  </div>
+                    </span>
+                    <span class="bcn-kbc__tile-title type-card-title"
+                      >Monitoring &amp; field work</span
+                    >
+                    <span class="bcn-kbc__desc type-body"
+                      >Daily reports, observations, surveys, and site clearance.</span
+                    >
+                    <span class="bcn-kbc__count">
+                      <span class="bcn-count">4 articles</span>
+                    </span> </a
+                  ><a class="bcn-kbc__tile" href="#category-reporting">
+                    <span class="bcn-kbc__icon" aria-hidden="true">
+                      <span class="esa-icon esa-icon--lg" aria-hidden="true">
+                        <svg
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
+                          <path
+                            d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+                          ></path>
+                          <path d="M12 11h4"></path>
+                          <path d="M12 16h4"></path>
+                          <path d="M8 11h.01"></path>
+                          <path d="M8 16h.01"></path>
+                        </svg>
+                      </span>
+                    </span>
+                    <span class="bcn-kbc__tile-title type-card-title"
+                      >Reporting &amp; evidence</span
+                    >
+                    <span class="bcn-kbc__desc type-body"
+                      >Evidence of compliance and the reports built from it.</span
+                    >
+                    <span class="bcn-kbc__count"> <span class="bcn-count">1 article</span> </span>
+                  </a>
                 </div>
               </section>
+              <section class="bcn-kb sidebar" data-kb-browser="">
+                <nav class="bcn-kb__rail" aria-label="Help articles">
+                  <ul class="bcn-kb__groups" role="list">
+                    <li
+                      class="bcn-kb__group"
+                      id="category-getting-started"
+                      data-kb-group="getting-started"
+                    >
+                      <h2 class="bcn-kb__group-title">Getting started</h2>
+                      <ul class="bcn-kb__items" role="list">
+                        <li class="bcn-kb__item">
+                          <a
+                            class="bcn-kb__link"
+                            href="#article-five-minute-tour"
+                            data-article-link="five-minute-tour"
+                            data-title="A five-minute tour of Beacon"
+                            data-summary="The four zones of the app and how a compliance obligation flows through them."
+                          >
+                            <span class="bcn-kb__link-title">A five-minute tour of Beacon</span>
+                            <span class="bcn-kb__link-kind">How-to</span>
+                          </a>
+                        </li>
+                        <li class="bcn-kb__item">
+                          <a
+                            class="bcn-kb__link"
+                            href="#article-global-search-tips"
+                            data-article-link="global-search-tips"
+                            data-title="Finding anything with search"
+                            data-summary="Press / anywhere to search commitments, requirements, actions, and documents."
+                          >
+                            <span class="bcn-kb__link-title">Finding anything with search</span>
+                            <span class="bcn-kb__link-kind">How-to</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li
+                      class="bcn-kb__group"
+                      id="category-data-catalog"
+                      data-kb-group="data-catalog"
+                    >
+                      <h2 class="bcn-kb__group-title">Data Catalog</h2>
+                      <ul class="bcn-kb__items" role="list">
+                        <li class="bcn-kb__item">
+                          <a
+                            class="bcn-kb__link"
+                            href="#article-what-is-a-source"
+                            data-article-link="what-is-a-source"
+                            data-title="What is a Source Document?"
+                            data-summary="The regulatory document — permit, EIR, agreement — obligations are extracted from."
+                          >
+                            <span class="bcn-kb__link-title">What is a Source Document?</span>
+                            <span class="bcn-kb__link-kind">Glossary</span>
+                          </a>
+                        </li>
+                        <li class="bcn-kb__item">
+                          <a
+                            class="bcn-kb__link"
+                            href="#article-what-is-a-commitment"
+                            data-article-link="what-is-a-commitment"
+                            data-title="What is a Commitment?"
+                            data-summary="One discrete obligation, in the document’s own words."
+                          >
+                            <span class="bcn-kb__link-title">What is a Commitment?</span>
+                            <span class="bcn-kb__link-kind">Glossary</span>
+                          </a>
+                        </li>
+                        <li class="bcn-kb__item">
+                          <a
+                            class="bcn-kb__link"
+                            href="#article-what-is-a-requirement"
+                            data-article-link="what-is-a-requirement"
+                            data-title="What is a Requirement?"
+                            data-summary="A specific, actionable sub-obligation broken out of a commitment."
+                          >
+                            <span class="bcn-kb__link-title">What is a Requirement?</span>
+                            <span class="bcn-kb__link-kind">Glossary</span>
+                          </a>
+                        </li>
+                        <li class="bcn-kb__item">
+                          <a
+                            class="bcn-kb__link"
+                            href="#article-what-is-an-action"
+                            data-article-link="what-is-an-action"
+                            data-title="What is an Action?"
+                            data-summary="One trackable deliverable consolidating requirements that describe the same work."
+                          >
+                            <span class="bcn-kb__link-title">What is an Action?</span>
+                            <span class="bcn-kb__link-kind">Glossary</span>
+                          </a>
+                        </li>
+                        <li class="bcn-kb__item">
+                          <a
+                            class="bcn-kb__link"
+                            href="#article-tracing-lineage"
+                            data-article-link="tracing-lineage"
+                            data-title="Tracing a requirement back to its source"
+                            data-summary="Follow the lineage from any requirement up to the exact document language."
+                          >
+                            <span class="bcn-kb__link-title"
+                              >Tracing a requirement back to its source</span
+                            >
+                            <span class="bcn-kb__link-kind">How-to</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="bcn-kb__group" id="category-tracking" data-kb-group="tracking">
+                      <h2 class="bcn-kb__group-title">Tracking &amp; actions</h2>
+                      <ul class="bcn-kb__items" role="list">
+                        <li class="bcn-kb__item">
+                          <a
+                            class="bcn-kb__link"
+                            href="#article-actions-vs-implementations"
+                            data-article-link="actions-vs-implementations"
+                            data-title="Actions vs. implementations"
+                            data-summary="The action is the plan; implementations are the work you actually do."
+                          >
+                            <span class="bcn-kb__link-title">Actions vs. implementations</span>
+                            <span class="bcn-kb__link-kind">Glossary</span>
+                          </a>
+                        </li>
+                        <li class="bcn-kb__item">
+                          <a
+                            class="bcn-kb__link"
+                            href="#article-what-is-a-component"
+                            data-article-link="what-is-a-component"
+                            data-title="What is a Component?"
+                            data-summary="A physical or logical subdivision of the project with its own compliance tracking."
+                          >
+                            <span class="bcn-kb__link-title">What is a Component?</span>
+                            <span class="bcn-kb__link-kind">Glossary</span>
+                          </a>
+                        </li>
+                        <li class="bcn-kb__item">
+                          <a
+                            class="bcn-kb__link"
+                            href="#article-project-vs-component-scope"
+                            data-article-link="project-vs-component-scope"
+                            data-title="Project scope vs. component scope"
+                            data-summary="Scope decides whether work is tracked once, or once per location."
+                          >
+                            <span class="bcn-kb__link-title"
+                              >Project scope vs. component scope</span
+                            >
+                            <span class="bcn-kb__link-kind">Glossary</span>
+                          </a>
+                        </li>
+                        <li class="bcn-kb__item">
+                          <a
+                            class="bcn-kb__link"
+                            href="#article-reading-permit-tracking"
+                            data-article-link="reading-permit-tracking"
+                            data-title="Reading the Permit Tracking board"
+                            data-summary="Where each permit stands, what is blocking it, and what is due next."
+                          >
+                            <span class="bcn-kb__link-title"
+                              >Reading the Permit Tracking board</span
+                            >
+                            <span class="bcn-kb__link-kind">How-to</span>
+                          </a>
+                        </li>
+                        <li class="bcn-kb__item">
+                          <a
+                            class="bcn-kb__link"
+                            href="#article-starring-components"
+                            data-article-link="starring-components"
+                            data-title="Starring components on your dashboard"
+                            data-summary="Pin the three-to-five components you actually work in."
+                          >
+                            <span class="bcn-kb__link-title"
+                              >Starring components on your dashboard</span
+                            >
+                            <span class="bcn-kb__link-kind">How-to</span>
+                          </a>
+                        </li>
+                        <li class="bcn-kb__item">
+                          <a
+                            class="bcn-kb__link"
+                            href="#article-reading-critical-now"
+                            data-article-link="reading-critical-now"
+                            data-title="How “Most critical right now” is chosen"
+                            data-summary="Why an item earns a spot at the top of your dashboard."
+                          >
+                            <span class="bcn-kb__link-title"
+                              >How “Most critical right now” is chosen</span
+                            >
+                            <span class="bcn-kb__link-kind">How-to</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="bcn-kb__group" id="category-monitoring" data-kb-group="monitoring">
+                      <h2 class="bcn-kb__group-title">Monitoring &amp; field work</h2>
+                      <ul class="bcn-kb__items" role="list">
+                        <li class="bcn-kb__item">
+                          <a
+                            class="bcn-kb__link"
+                            href="#article-what-is-a-dmr"
+                            data-article-link="what-is-a-dmr"
+                            data-title="What is a Daily Monitoring Report?"
+                            data-summary="The structured field report of a day on site — and a direct source of evidence."
+                          >
+                            <span class="bcn-kb__link-title"
+                              >What is a Daily Monitoring Report?</span
+                            >
+                            <span class="bcn-kb__link-kind">Glossary</span>
+                          </a>
+                        </li>
+                        <li class="bcn-kb__item">
+                          <a
+                            class="bcn-kb__link"
+                            href="#article-what-is-an-observation"
+                            data-article-link="what-is-an-observation"
+                            data-title="What is an Observation?"
+                            data-summary="One recorded field event — a species sighting, habitat condition, weather event, or BMP check."
+                          >
+                            <span class="bcn-kb__link-title">What is an Observation?</span>
+                            <span class="bcn-kb__link-kind">Glossary</span>
+                          </a>
+                        </li>
+                        <li class="bcn-kb__item">
+                          <a
+                            class="bcn-kb__link"
+                            href="#article-qc-field-surveys"
+                            data-article-link="qc-field-surveys"
+                            data-title="Reviewing field surveys before they count"
+                            data-summary="Surveys sync from field apps, but only QC-approved records drive compliance."
+                          >
+                            <span class="bcn-kb__link-title"
+                              >Reviewing field surveys before they count</span
+                            >
+                            <span class="bcn-kb__link-kind">How-to</span>
+                          </a>
+                        </li>
+                        <li class="bcn-kb__item">
+                          <a
+                            class="bcn-kb__link"
+                            href="#article-site-clearance-go-no-go"
+                            data-article-link="site-clearance-go-no-go"
+                            data-title="Using Site Clearance go/no-go"
+                            data-summary="Check whether a work site is clear for ground disturbance — and what is blocking it."
+                          >
+                            <span class="bcn-kb__link-title">Using Site Clearance go/no-go</span>
+                            <span class="bcn-kb__link-kind">How-to</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="bcn-kb__group" id="category-reporting" data-kb-group="reporting">
+                      <h2 class="bcn-kb__group-title">Reporting &amp; evidence</h2>
+                      <ul class="bcn-kb__items" role="list">
+                        <li class="bcn-kb__item">
+                          <a
+                            class="bcn-kb__link"
+                            href="#article-what-is-evidence"
+                            data-article-link="what-is-evidence"
+                            data-title="What counts as Evidence of Compliance?"
+                            data-summary="The documented proof an obligation was met — the artifact an auditor sees."
+                          >
+                            <span class="bcn-kb__link-title"
+                              >What counts as Evidence of Compliance?</span
+                            >
+                            <span class="bcn-kb__link-kind">Glossary</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </nav>
+                <div class="bcn-kb__pane" data-kb-pane="">
+                  <div class="bcn-kb__welcome" data-kb-welcome="">
+                    <div class="esa-empty-state esa-empty-state--lg">
+                      <div class="esa-empty-state__icon">
+                        <span
+                          class="bcn-aldo-mark"
+                          data-size="lg"
+                          data-animated=""
+                          aria-hidden="true"
+                        >
+                          <span class="bcn-aldo-mark__glyph">
+                            <span class="esa-icon esa-icon--xl" aria-hidden="true">
+                              <svg
+                                width="28"
+                                height="28"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+                                ></path>
+                                <circle cx="12" cy="12" r="10"></circle>
+                              </svg>
+                            </span>
+                          </span>
+                        </span>
+                      </div>
+                      <h3 class="esa-empty-state__title">Pick an article</h3>
+                      <p class="esa-empty-state__description">
+                        Choose a topic from the list, or search above. Every term and how-to in
+                        Beacon lives here.
+                      </p>
+                      <div class="esa-empty-state__actions"></div>
+                    </div>
+                  </div>
+                  <article class="bcn-kb__article" data-article-id="five-minute-tour" hidden="">
+                    <article id="article-five-minute-tour" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          A five-minute tour of Beacon
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">How-to</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          Beacon turns a shelf of regulatory documents into a working compliance
+                          program. Everything in the app follows one flow: documents are cataloged,
+                          obligations are planned into actions, and completed work is proven with
+                          evidence.
+                        </p>
+                        <figure class="bcn-help-article__video">
+                          <div class="bcn-help-article__video-frame">
+                            <span class="bcn-help-article__video-play"
+                              ><span class="esa-icon esa-icon--md" aria-hidden="true">
+                                <svg
+                                  width="20"
+                                  height="20"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                                </svg>
+                              </span>
+                            </span>
+                            <span class="bcn-help-article__video-duration"
+                              ><span class="esa-badge esa-badge--primary esa-badge--sm">
+                                <span class="esa-badge__text">4:32</span>
+                              </span>
+                            </span>
+                          </div>
+                          <figcaption class="bcn-help-article__caption type-caption">
+                            Watch: a quick tour of Beacon
+                          </figcaption>
+                        </figure>
+                        <ol class="bcn-help-article__steps">
+                          <li class="bcn-help-article__step type-body">
+                            The Data Catalog holds your source documents and the commitments and
+                            requirements extracted from them.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Tracking is where planned actions become day-to-day work, tracked per
+                            project or per component.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Monitoring captures what happens in the field — daily reports,
+                            observations, and surveys.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Reporting assembles evidence of compliance into the reports your
+                            agencies expect.
+                          </li>
+                        </ol>
+                        <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
+                          <span class="bcn-help-article__callout-icon">
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+                                ></path>
+                                <path d="M9 18h6"></path>
+                                <path d="M10 22h4"></path>
+                              </svg>
+                            </span>
+                          </span>
+                          <div class="bcn-help-article__callout-body">
+                            <span class="bcn-help-article__callout-label">Tip</span>
+                            <p class="bcn-help-article__callout-text type-body">
+                              The side navigation mirrors these four zones. If you are ever lost,
+                              start from your project dashboard — it links into each zone.
+                            </p>
+                          </div>
+                        </aside>
+                      </div>
+                      <nav class="bcn-help-article__related" aria-label="Related articles">
+                        <span class="bcn-help-article__related-label">Related</span>
+                        <ul class="bcn-help-article__related-list">
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-global-search-tips"
+                              >Finding anything with search</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-what-is-an-action"
+                              >What is an Action?</a
+                            >
+                          </li>
+                        </ul>
+                      </nav>
+                    </article>
+                  </article>
+                  <article class="bcn-kb__article" data-article-id="global-search-tips" hidden="">
+                    <article id="article-global-search-tips" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          Finding anything with search
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">How-to</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          Search reads the full text of everything in your project — including the
+                          body text of commitments and uploaded documents, not just titles.
+                        </p>
+                        <ol class="bcn-help-article__steps">
+                          <li class="bcn-help-article__step type-body">
+                            Press / on any page, or click the search field in the top bar.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Type a few words — results group by type (commitments, requirements,
+                            actions, documents) with matching snippets highlighted.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Press Enter on a result to jump straight to it, or choose “See all
+                            results” for the full page with filters.
+                          </li>
+                        </ol>
+                        <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
+                          <span class="bcn-help-article__callout-icon">
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+                                ></path>
+                                <path d="M9 18h6"></path>
+                                <path d="M10 22h4"></path>
+                              </svg>
+                            </span>
+                          </span>
+                          <div class="bcn-help-article__callout-body">
+                            <span class="bcn-help-article__callout-label">Tip</span>
+                            <p class="bcn-help-article__callout-text type-body">
+                              Searching a permit number or an agency name is often the fastest way
+                              to find every obligation tied to it.
+                            </p>
+                          </div>
+                        </aside>
+                      </div>
+                      <nav class="bcn-help-article__related" aria-label="Related articles">
+                        <span class="bcn-help-article__related-label">Related</span>
+                        <ul class="bcn-help-article__related-list">
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-five-minute-tour"
+                              >A five-minute tour of Beacon</a
+                            >
+                          </li>
+                        </ul>
+                      </nav>
+                    </article>
+                  </article>
+                  <article class="bcn-kb__article" data-article-id="what-is-a-source" hidden="">
+                    <article id="article-what-is-a-source" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          What is a Source Document?
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">Glossary</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          A Source Document is a regulatory document attached to your project: a
+                          permit, an environmental impact report, an incidental take permit, a
+                          contract, or an agency agreement. It is where every obligation in Beacon
+                          originally comes from.
+                        </p>
+                        <p class="bcn-help-article__p type-body">
+                          A project may carry dozens of sources from different agencies, and each
+                          source may contain anywhere from a handful to hundreds of discrete
+                          obligations. Uploading the original PDF lets Beacon extract its text for
+                          search and assisted commitment extraction.
+                        </p>
+                      </div>
+                      <nav class="bcn-help-article__related" aria-label="Related articles">
+                        <span class="bcn-help-article__related-label">Related</span>
+                        <ul class="bcn-help-article__related-list">
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-what-is-a-commitment"
+                              >What is a Commitment?</a
+                            >
+                          </li>
+                        </ul>
+                      </nav>
+                    </article>
+                  </article>
+                  <article class="bcn-kb__article" data-article-id="what-is-a-commitment" hidden="">
+                    <article id="article-what-is-a-commitment" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          What is a Commitment?
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">Glossary</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          A Commitment is a single “thing the project must do,” captured in the
+                          original regulatory language of its source document. Commitments carry
+                          structured details — type, resource category, phases, species, seasons —
+                          so they can be filtered and planned.
+                        </p>
+                        <p class="bcn-help-article__p type-body">
+                          The same real-world obligation often appears in several documents. Each
+                          appearance is kept as its own commitment; the overlap is resolved later,
+                          when requirements are consolidated into actions.
+                        </p>
+                        <aside class="bcn-help-article__callout bcn-help-article__callout--note">
+                          <span class="bcn-help-article__callout-icon">
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 16v-4"></path>
+                                <path d="M12 8h.01"></path>
+                              </svg>
+                            </span>
+                          </span>
+                          <div class="bcn-help-article__callout-body">
+                            <span class="bcn-help-article__callout-label">Note</span>
+                            <p class="bcn-help-article__callout-text type-body">
+                              When an agency amends a document, commitments are revised rather than
+                              replaced — the original and updated language coexist with clear
+                              lineage.
+                            </p>
+                          </div>
+                        </aside>
+                      </div>
+                      <nav class="bcn-help-article__related" aria-label="Related articles">
+                        <span class="bcn-help-article__related-label">Related</span>
+                        <ul class="bcn-help-article__related-list">
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-what-is-a-source"
+                              >What is a Source Document?</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-what-is-a-requirement"
+                              >What is a Requirement?</a
+                            >
+                          </li>
+                        </ul>
+                      </nav>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="what-is-a-requirement"
+                    hidden=""
+                  >
+                    <article id="article-what-is-a-requirement" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          What is a Requirement?
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">Glossary</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          A Requirement is one specific piece of work inside a commitment. A
+                          commitment stating “prior to grading, conduct protocol-level surveys for
+                          burrowing owl and submit results within 30 days” contains two
+                          requirements: conduct the survey, and submit the results.
+                        </p>
+                        <p class="bcn-help-article__p type-body">
+                          Requirements carry their own type, scope, and frequency, and are the unit
+                          that gets consolidated into trackable actions.
+                        </p>
+                      </div>
+                      <nav class="bcn-help-article__related" aria-label="Related articles">
+                        <span class="bcn-help-article__related-label">Related</span>
+                        <ul class="bcn-help-article__related-list">
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-what-is-a-commitment"
+                              >What is a Commitment?</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-what-is-an-action"
+                              >What is an Action?</a
+                            >
+                          </li>
+                        </ul>
+                      </nav>
+                    </article>
+                  </article>
+                  <article class="bcn-kb__article" data-article-id="what-is-an-action" hidden="">
+                    <article id="article-what-is-an-action" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">What is an Action?</h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">Glossary</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          An Action is a planned unit of compliance work. It consolidates
+                          requirements — often from many commitments — that describe the same
+                          underlying task. If “submit the stormwater plan” appears in 44 different
+                          commitments, it becomes one action.
+                        </p>
+                        <figure class="bcn-help-article__figure">
+                          <div class="bcn-help-article__figure-frame">
+                            <span class="bcn-help-article__figure-icon"
+                              ><span class="esa-icon esa-icon--lg" aria-hidden="true">
+                                <svg
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
+                                  <circle cx="9" cy="9" r="2"></circle>
+                                  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
+                                </svg>
+                              </span>
+                            </span>
+                            <span class="bcn-help-article__figure-label"
+                              >From documents to work</span
+                            >
+                          </div>
+                          <figcaption class="bcn-help-article__caption type-caption">
+                            Thousands of requirements across dozens of documents collapse into a few
+                            hundred actions — the minimum set of real work.
+                          </figcaption>
+                        </figure>
+                        <p class="bcn-help-article__p type-body">
+                          Each action defines the work, the evidence expected, the schedule, and the
+                          responsible party. Actions start as drafts and must be published before
+                          they generate trackable implementations.
+                        </p>
+                      </div>
+                      <nav class="bcn-help-article__related" aria-label="Related articles">
+                        <span class="bcn-help-article__related-label">Related</span>
+                        <ul class="bcn-help-article__related-list">
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-what-is-a-requirement"
+                              >What is a Requirement?</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-actions-vs-implementations"
+                              >Actions vs. implementations</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-project-vs-component-scope"
+                              >Project scope vs. component scope</a
+                            >
+                          </li>
+                        </ul>
+                      </nav>
+                    </article>
+                  </article>
+                  <article class="bcn-kb__article" data-article-id="tracing-lineage" hidden="">
+                    <article id="article-tracing-lineage" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          Tracing a requirement back to its source
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">How-to</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          Every requirement keeps its full ancestry: the commitment it came from,
+                          and the source document that commitment was extracted from. This is how
+                          you answer “why do we have to do this?” with the exact regulatory
+                          language.
+                        </p>
+                        <ol class="bcn-help-article__steps">
+                          <li class="bcn-help-article__step type-body">
+                            Open the requirement — the lineage strip at the top shows Source →
+                            Commitment → Requirement.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Click the commitment to read the obligation in the document’s original
+                            words.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Click the source to see the document’s details, agency, and attached PDF
+                            — with the cited passage highlighted.
+                          </li>
+                        </ol>
+                      </div>
+                      <nav class="bcn-help-article__related" aria-label="Related articles">
+                        <span class="bcn-help-article__related-label">Related</span>
+                        <ul class="bcn-help-article__related-list">
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-what-is-a-requirement"
+                              >What is a Requirement?</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-what-is-a-source"
+                              >What is a Source Document?</a
+                            >
+                          </li>
+                        </ul>
+                      </nav>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="actions-vs-implementations"
+                    hidden=""
+                  >
+                    <article id="article-actions-vs-implementations" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          Actions vs. implementations
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">Glossary</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          An action defines what must be done. An implementation tracks actually
+                          doing it — status, assignee, tasks, comments, and evidence. Most teams
+                          simply call implementations “the actions,” and that is fine: they are the
+                          thing you interact with daily.
+                        </p>
+                        <p class="bcn-help-article__p type-body">
+                          How many implementations an action produces depends on its scope and
+                          frequency. A one-time, project-wide plan submission produces one. A
+                          recurring, component-scoped inspection produces one per component, per
+                          occurrence.
+                        </p>
+                      </div>
+                      <nav class="bcn-help-article__related" aria-label="Related articles">
+                        <span class="bcn-help-article__related-label">Related</span>
+                        <ul class="bcn-help-article__related-list">
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-what-is-an-action"
+                              >What is an Action?</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-project-vs-component-scope"
+                              >Project scope vs. component scope</a
+                            >
+                          </li>
+                        </ul>
+                      </nav>
+                    </article>
+                  </article>
+                  <article class="bcn-kb__article" data-article-id="what-is-a-component" hidden="">
+                    <article id="article-what-is-a-component" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          What is a Component?
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">Glossary</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          A Component is a distinct place or package of work within your project — a
+                          launch shaft, an intake site, a construction segment. Components matter
+                          because the same obligation often plays out independently at each
+                          location.
+                        </p>
+                        <p class="bcn-help-article__p type-body">
+                          Components map to the commitments that apply to them, can carry their own
+                          milestone dates, and receive their own implementations of component-scoped
+                          actions. Work Areas subdivide a component further when field tracking
+                          needs finer grain.
+                        </p>
+                      </div>
+                      <nav class="bcn-help-article__related" aria-label="Related articles">
+                        <span class="bcn-help-article__related-label">Related</span>
+                        <ul class="bcn-help-article__related-list">
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-project-vs-component-scope"
+                              >Project scope vs. component scope</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-starring-components"
+                              >Starring components on your dashboard</a
+                            >
+                          </li>
+                        </ul>
+                      </nav>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="project-vs-component-scope"
+                    hidden=""
+                  >
+                    <article id="article-project-vs-component-scope" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          Project scope vs. component scope
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">Glossary</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          Scope is one of Beacon’s most important switches. A project-scoped action
+                          is done once, centrally — “submit the project-wide stormwater plan.” A
+                          component-scoped action is done independently at every applicable
+                          component — “install exclusion fencing” at each of 20 construction areas.
+                        </p>
+                        <figure class="bcn-help-article__figure">
+                          <div class="bcn-help-article__figure-frame">
+                            <span class="bcn-help-article__figure-icon"
+                              ><span class="esa-icon esa-icon--lg" aria-hidden="true">
+                                <svg
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
+                                  <circle cx="9" cy="9" r="2"></circle>
+                                  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
+                                </svg>
+                              </span>
+                            </span>
+                            <span class="bcn-help-article__figure-label">The scope multiplier</span>
+                          </div>
+                          <figcaption class="bcn-help-article__caption type-caption">
+                            One component-scoped action across 20 components produces 20
+                            independently tracked implementations.
+                          </figcaption>
+                        </figure>
+                        <aside class="bcn-help-article__callout bcn-help-article__callout--note">
+                          <span class="bcn-help-article__callout-icon">
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 16v-4"></path>
+                                <path d="M12 8h.01"></path>
+                              </svg>
+                            </span>
+                          </span>
+                          <div class="bcn-help-article__callout-body">
+                            <span class="bcn-help-article__callout-label">Note</span>
+                            <p class="bcn-help-article__callout-text type-body">
+                              Each implementation is tracked on its own: different assignees,
+                              different timelines, different evidence.
+                            </p>
+                          </div>
+                        </aside>
+                      </div>
+                      <nav class="bcn-help-article__related" aria-label="Related articles">
+                        <span class="bcn-help-article__related-label">Related</span>
+                        <ul class="bcn-help-article__related-list">
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-what-is-a-component"
+                              >What is a Component?</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-actions-vs-implementations"
+                              >Actions vs. implementations</a
+                            >
+                          </li>
+                        </ul>
+                      </nav>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="reading-permit-tracking"
+                    hidden=""
+                  >
+                    <article id="article-reading-permit-tracking" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          Reading the Permit Tracking board
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">How-to</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          Permit Tracking shows every permit and approval your project needs, each
+                          with its current status in the acquisition pipeline — from “not yet
+                          applied” through agency review to “issued.”
+                        </p>
+                        <ol class="bcn-help-article__steps">
+                          <li class="bcn-help-article__step type-body">
+                            Each row is one permit; the status lozenge shows where it sits in the
+                            pipeline right now.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            The date column shows the next deadline — a submittal window, an agency
+                            response due, or an expiration to renew.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Open a permit to see its conditions, responsible contacts, and the
+                            source document it will arrive as once issued.
+                          </li>
+                        </ol>
+                        <figure class="bcn-help-article__video">
+                          <div class="bcn-help-article__video-frame">
+                            <span class="bcn-help-article__video-play"
+                              ><span class="esa-icon esa-icon--md" aria-hidden="true">
+                                <svg
+                                  width="20"
+                                  height="20"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                                </svg>
+                              </span>
+                            </span>
+                            <span class="bcn-help-article__video-duration"
+                              ><span class="esa-badge esa-badge--primary esa-badge--sm">
+                                <span class="esa-badge__text">2:47</span>
+                              </span>
+                            </span>
+                          </div>
+                          <figcaption class="bcn-help-article__caption type-caption">
+                            Watch: a permit’s life in Beacon
+                          </figcaption>
+                        </figure>
+                        <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
+                          <span class="bcn-help-article__callout-icon">
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+                                ></path>
+                                <path d="M9 18h6"></path>
+                                <path d="M10 22h4"></path>
+                              </svg>
+                            </span>
+                          </span>
+                          <div class="bcn-help-article__callout-body">
+                            <span class="bcn-help-article__callout-label">Tip</span>
+                            <p class="bcn-help-article__callout-text type-body">
+                              An issued permit usually becomes a new source document — its
+                              conditions are extracted as commitments and join the catalog like any
+                              other obligation.
+                            </p>
+                          </div>
+                        </aside>
+                      </div>
+                      <nav class="bcn-help-article__related" aria-label="Related articles">
+                        <span class="bcn-help-article__related-label">Related</span>
+                        <ul class="bcn-help-article__related-list">
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-what-is-a-source"
+                              >What is a Source Document?</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-what-is-a-commitment"
+                              >What is a Commitment?</a
+                            >
+                          </li>
+                        </ul>
+                      </nav>
+                    </article>
+                  </article>
+                  <article class="bcn-kb__article" data-article-id="starring-components" hidden="">
+                    <article id="article-starring-components" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          Starring components on your dashboard
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">How-to</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          Large projects can have dozens of components, but most people work in a
+                          few. Starring pins a component to your project dashboard as a card with
+                          its Tracking, Monitoring, and Reporting pulse — your portal into that
+                          component’s own dashboard.
+                        </p>
+                        <ol class="bcn-help-article__steps">
+                          <li class="bcn-help-article__step type-body">
+                            Open any component and click the star in its header.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Starred components appear on your project dashboard in the Components
+                            section.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Un-star from either place; the component itself is unaffected.
+                          </li>
+                        </ol>
+                      </div>
+                      <nav class="bcn-help-article__related" aria-label="Related articles">
+                        <span class="bcn-help-article__related-label">Related</span>
+                        <ul class="bcn-help-article__related-list">
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-what-is-a-component"
+                              >What is a Component?</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-reading-critical-now"
+                              >How “Most critical right now” is chosen</a
+                            >
+                          </li>
+                        </ul>
+                      </nav>
+                    </article>
+                  </article>
+                  <article class="bcn-kb__article" data-article-id="reading-critical-now" hidden="">
+                    <article id="article-reading-critical-now" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          How “Most critical right now” is chosen
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">How-to</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          The dashboard’s critical surface is deliberately small: it elevates only
+                          items that are project-critical today — an overdue action on a
+                          critical-path component, a lapsed survey blocking ground disturbance, a
+                          report due to an agency this week.
+                        </p>
+                        <p class="bcn-help-article__p type-body">
+                          Items leave the surface when the underlying condition clears — completing
+                          the work, filing the report, or a review resolving the block. There is
+                          nothing to configure; it reads the same signals shown in each zone.
+                        </p>
+                      </div>
+                      <nav class="bcn-help-article__related" aria-label="Related articles">
+                        <span class="bcn-help-article__related-label">Related</span>
+                        <ul class="bcn-help-article__related-list">
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-starring-components"
+                              >Starring components on your dashboard</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-site-clearance-go-no-go"
+                              >Using Site Clearance go/no-go</a
+                            >
+                          </li>
+                        </ul>
+                      </nav>
+                    </article>
+                  </article>
+                  <article class="bcn-kb__article" data-article-id="what-is-a-dmr" hidden="">
+                    <article id="article-what-is-a-dmr" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          What is a Daily Monitoring Report?
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">Glossary</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          A Daily Monitoring Report (DMR) captures one day of field monitoring: who
+                          observed, site and weather conditions, construction activities underway,
+                          observations recorded, photos, and narrative notes.
+                        </p>
+                        <p class="bcn-help-article__p type-body">
+                          DMRs are a bridge to compliance: when an obligation says “conduct daily
+                          biological monitoring during construction,” the DMRs documenting that
+                          monitoring are the evidence the obligation was met.
+                        </p>
+                      </div>
+                      <nav class="bcn-help-article__related" aria-label="Related articles">
+                        <span class="bcn-help-article__related-label">Related</span>
+                        <ul class="bcn-help-article__related-list">
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-what-is-an-observation"
+                              >What is an Observation?</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-what-is-evidence"
+                              >What counts as Evidence of Compliance?</a
+                            >
+                          </li>
+                        </ul>
+                      </nav>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="what-is-an-observation"
+                    hidden=""
+                  >
+                    <article id="article-what-is-an-observation" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          What is an Observation?
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">Glossary</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          An Observation is a single recorded event from the field: “two burrowing
+                          owls at the north staging area,” “silt fence along the eastern boundary
+                          intact,” “wind exceeded 25 mph, dust control activated.” Observations
+                          usually belong to a DMR and carry species data, location, time, and
+                          photos.
+                        </p>
+                        <aside class="bcn-help-article__callout bcn-help-article__callout--note">
+                          <span class="bcn-help-article__callout-icon">
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 16v-4"></path>
+                                <path d="M12 8h.01"></path>
+                              </svg>
+                            </span>
+                          </span>
+                          <div class="bcn-help-article__callout-body">
+                            <span class="bcn-help-article__callout-label">Note</span>
+                            <p class="bcn-help-article__callout-text type-body">
+                              Observations with compliance consequences — an active nest inside a
+                              buffer, a failed BMP — surface in Monitoring as items needing action,
+                              and can trigger review before work proceeds.
+                            </p>
+                          </div>
+                        </aside>
+                      </div>
+                      <nav class="bcn-help-article__related" aria-label="Related articles">
+                        <span class="bcn-help-article__related-label">Related</span>
+                        <ul class="bcn-help-article__related-list">
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-what-is-a-dmr"
+                              >What is a Daily Monitoring Report?</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-site-clearance-go-no-go"
+                              >Using Site Clearance go/no-go</a
+                            >
+                          </li>
+                        </ul>
+                      </nav>
+                    </article>
+                  </article>
+                  <article class="bcn-kb__article" data-article-id="qc-field-surveys" hidden="">
+                    <article id="article-qc-field-surveys" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          Reviewing field surveys before they count
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">How-to</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          Survey records flow in from field collection tools (Fulcrum, Survey123).
+                          Before a record affects compliance — clearances, countdowns, evidence — it
+                          passes a quality-control review.
+                        </p>
+                        <ol class="bcn-help-article__steps">
+                          <li class="bcn-help-article__step type-body">
+                            New records land with a “pending QC” status in the Surveys grid.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            A reviewer checks species identification, coordinates, and required
+                            fields, then approves or returns the record.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Views default to QC-approved records only; toggle the filter to see
+                            pending ones.
+                          </li>
+                        </ol>
+                      </div>
+                      <nav class="bcn-help-article__related" aria-label="Related articles">
+                        <span class="bcn-help-article__related-label">Related</span>
+                        <ul class="bcn-help-article__related-list">
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-what-is-an-observation"
+                              >What is an Observation?</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-what-is-a-dmr"
+                              >What is a Daily Monitoring Report?</a
+                            >
+                          </li>
+                        </ul>
+                      </nav>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="site-clearance-go-no-go"
+                    hidden=""
+                  >
+                    <article id="article-site-clearance-go-no-go" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          Using Site Clearance go/no-go
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">How-to</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          Site Clearance answers one question per site: is it clear to disturb
+                          ground today? The system detects potential blocks — a lapsed nesting
+                          survey, an unclosed wildlife buffer — and marks the site provisionally
+                          blocked until a qualified reviewer decides.
+                        </p>
+                        <ol class="bcn-help-article__steps">
+                          <li class="bcn-help-article__step type-body">
+                            Green sites are clear; amber sites carry a provisional block awaiting
+                            review; red sites are blocked by a recorded decision.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Open a site to see each discipline’s reviews, the detections behind
+                            them, and the required outcome.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Reviews overrule detections: the system detects, humans decide.
+                          </li>
+                        </ol>
+                        <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
+                          <span class="bcn-help-article__callout-icon">
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+                                ></path>
+                                <path d="M9 18h6"></path>
+                                <path d="M10 22h4"></path>
+                              </svg>
+                            </span>
+                          </span>
+                          <div class="bcn-help-article__callout-body">
+                            <span class="bcn-help-article__callout-label">Tip</span>
+                            <p class="bcn-help-article__callout-text type-body">
+                              The map and the review list are the same data — pick whichever view
+                              fits how you work.
+                            </p>
+                          </div>
+                        </aside>
+                      </div>
+                      <nav class="bcn-help-article__related" aria-label="Related articles">
+                        <span class="bcn-help-article__related-label">Related</span>
+                        <ul class="bcn-help-article__related-list">
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-what-is-an-observation"
+                              >What is an Observation?</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-reading-critical-now"
+                              >How “Most critical right now” is chosen</a
+                            >
+                          </li>
+                        </ul>
+                      </nav>
+                    </article>
+                  </article>
+                  <article class="bcn-kb__article" data-article-id="what-is-evidence" hidden="">
+                    <article id="article-what-is-evidence" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          What counts as Evidence of Compliance?
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">Glossary</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          Evidence of Compliance is the end of the whole flow: the report, photo,
+                          receipt, signed form, or monitoring record that proves an obligation was
+                          met. It is what you present to a regulatory agency during an audit.
+                        </p>
+                        <p class="bcn-help-article__p type-body">
+                          Evidence attaches to action implementations, and can also link to
+                          checklist items to satisfy specific requirements per component.
+                          Field-sourced evidence can come straight from Daily Monitoring Reports.
+                        </p>
+                        <aside class="bcn-help-article__callout bcn-help-article__callout--note">
+                          <span class="bcn-help-article__callout-icon">
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 16v-4"></path>
+                                <path d="M12 8h.01"></path>
+                              </svg>
+                            </span>
+                          </span>
+                          <div class="bcn-help-article__callout-body">
+                            <span class="bcn-help-article__callout-label">Note</span>
+                            <p class="bcn-help-article__callout-text type-body">
+                              Every evidence record keeps its files, metadata, and timestamps — an
+                              auditable trail from source document to proof.
+                            </p>
+                          </div>
+                        </aside>
+                      </div>
+                      <nav class="bcn-help-article__related" aria-label="Related articles">
+                        <span class="bcn-help-article__related-label">Related</span>
+                        <ul class="bcn-help-article__related-list">
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-what-is-a-dmr"
+                              >What is a Daily Monitoring Report?</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-actions-vs-implementations"
+                              >Actions vs. implementations</a
+                            >
+                          </li>
+                        </ul>
+                      </nav>
+                    </article>
+                  </article>
+                </div>
+              </section>
+              <script type="module">
+                const d = (n) =>
+                  n.replace(
+                    /[&<>"']/g,
+                    (o) =>
+                      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[o],
+                  );
+                function v(n, o) {
+                  const f = n.toLowerCase(),
+                    u = o.toLowerCase();
+                  let l = "",
+                    c = 0;
+                  for (; c < n.length; ) {
+                    const i = f.indexOf(u, c);
+                    if (i === -1) {
+                      l += d(n.slice(c));
+                      break;
+                    }
+                    ((l += d(n.slice(c, i))),
+                      (l += `<mark>${d(n.slice(i, i + o.length))}</mark>`),
+                      (c = i + o.length));
+                  }
+                  return l;
+                }
+                function y(n) {
+                  const o = n;
+                  return o
+                    ? o.matches?.("[data-kb-search]")
+                      ? o
+                      : (o.closest?.("[data-kb-search]") ?? null)
+                    : null;
+                }
+                function A() {
+                  const n = document.querySelector("[data-kb-browser]");
+                  if (!n) return;
+                  const o = n.querySelector(".bcn-kb__rail"),
+                    f = n.querySelector("[data-kb-pane]"),
+                    u = n.querySelector("[data-kb-welcome]"),
+                    l = [...f.querySelectorAll(".bcn-kb__article")],
+                    c = [...o.querySelectorAll(".bcn-kb__link")],
+                    i = [...o.querySelectorAll(".bcn-kb__item")],
+                    b = [...o.querySelectorAll(".bcn-kb__group")],
+                    g = (e) => e.querySelector(".bcn-kb__link-title");
+                  function p() {
+                    const e = n.getBoundingClientRect().top + window.scrollY - 80;
+                    window.scrollTo({ top: Math.max(0, e), behavior: "auto" });
+                  }
+                  function h() {
+                    u.hidden = !1;
+                    for (const e of l) e.hidden = !0;
+                    for (const e of c) e.classList.remove("is-active");
+                  }
+                  function _(e) {
+                    const t = l.find((r) => r.dataset.articleId === e);
+                    if (!t) return !1;
+                    u.hidden = !0;
+                    for (const r of l) r.hidden = r !== t;
+                    for (const r of c) r.classList.toggle("is-active", r.dataset.articleLink === e);
+                    return (
+                      c
+                        .find((r) => r.dataset.articleLink === e)
+                        ?.scrollIntoView({ block: "nearest" }),
+                      p(),
+                      !0
+                    );
+                  }
+                  function S(e) {
+                    const t = o.querySelector(`[data-kb-group="${e}"]`);
+                    if (!t) {
+                      h();
+                      return;
+                    }
+                    t.scrollIntoView({ block: "nearest" });
+                    const r = t.querySelector(".bcn-kb__link")?.dataset.articleLink;
+                    r && _(r);
+                  }
+                  function m() {
+                    const e = location.hash;
+                    e.startsWith("#article-")
+                      ? _(e.slice(9)) || h()
+                      : e.startsWith("#category-")
+                        ? S(e.slice(10))
+                        : h();
+                  }
+                  function q() {
+                    for (const e of i) e.hidden = !1;
+                    for (const e of b) e.hidden = !1;
+                    for (const e of c) g(e).textContent = e.dataset.title ?? "";
+                  }
+                  function L(e) {
+                    const t = e.trim();
+                    if (t.length < 2) {
+                      q();
+                      return;
+                    }
+                    const r = t.toLowerCase();
+                    for (const s of i) {
+                      const a = s.querySelector(".bcn-kb__link"),
+                        k = a.dataset.title ?? "",
+                        w = `${k} ${a.dataset.summary ?? ""}`.toLowerCase().includes(r);
+                      ((s.hidden = !w), (g(a).innerHTML = w ? v(k, t) : d(k)));
+                    }
+                    for (const s of b)
+                      s.hidden = ![...s.querySelectorAll(".bcn-kb__item")].some((a) => !a.hidden);
+                  }
+                  function E() {
+                    return (
+                      i.find((e) => !e.hidden)?.querySelector(".bcn-kb__link")?.dataset
+                        .articleLink ?? null
+                    );
+                  }
+                  (window.addEventListener("hashchange", m),
+                    document.addEventListener("input", (e) => {
+                      const t = y(e.target);
+                      t && L(t.value ?? "");
+                    }),
+                    document.addEventListener("keydown", (e) => {
+                      if (e.key !== "Enter" || !y(e.target)) return;
+                      e.preventDefault();
+                      const t = E();
+                      t && (location.hash = `#article-${t}`);
+                    }),
+                    m());
+                }
+                A();
+              </script>
             </div>
           </section>
         </div>
       </div>
-      <esa-dialog
-        id="edit-dialog"
-        heading="Edit Commitment"
-        style="
-          --_dialog-width: 760px;
-          --_dialog-max-height: 92vh;
-          --_dialog-bg: var(--color-surface, #fff);
-          --z-modal-backdrop: 1150;
-          --z-modal: 1200;
-        "
-        size="md"
-      >
-        <div class="bcn-form bcn-form--dialog">
-          <esa-text-field id="c-title" label="Title" required="" size="md"></esa-text-field>
-          <div class="bcn-grid-2">
-            <esa-text-field id="c-id" label="Commitment ID" required="" size="md"></esa-text-field>
-            <esa-select id="c-doc" label="Source Document" required="true" size="md"></esa-select>
-          </div>
-          <div class="bcn-grid-2">
-            <esa-select id="c-type" label="Commitment Type" required="true" size="md"></esa-select>
-            <esa-select id="c-cat" label="Resource Category" size="md"></esa-select>
-          </div>
-          <esa-textarea id="c-guidance" label="General Guidance" rows="3" size="md"></esa-textarea>
-          <esa-input-tag id="c-tags" label="Tags" size="md"></esa-input-tag>
-          <esa-textarea id="c-text" label="Full Commitment Text" rows="10" size="md"></esa-textarea>
-        </div>
-        <div slot="footer" class="bcn-editor__foot">
-          <span id="ec-cancel"
-            ><span
-              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
-            >
-              <button class="esa-button__native" type="button">
-                <span class="esa-button__label"> Cancel </span>
-              </button>
-            </span>
-          </span>
-          <span id="ec-save"
-            ><span
-              class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md"
-            >
-              <button class="esa-button__native" type="button">
-                <span class="esa-button__label"> Save </span>
-              </button>
-            </span>
-          </span>
-        </div>
-      </esa-dialog>
-      <esa-dialog
-        id="rev-add-dialog"
-        heading="Add New Version"
-        style="
-          --_dialog-width: 640px;
-          --_dialog-max-height: 92vh;
-          --_dialog-bg: var(--color-surface, #fff);
-          --z-modal-backdrop: 1150;
-          --z-modal: 1200;
-        "
-        size="md"
-      >
-        <div class="bcn-form bcn-form--dialog">
-          <esa-text-field
-            id="rv-originator"
-            label="Originator of Change"
-            required=""
-            size="md"
-          ></esa-text-field>
-          <esa-date-picker id="rv-effective" label="Effective Date" size="md"></esa-date-picker>
-          <esa-textarea
-            id="rv-summary"
-            label="Summary of Change"
-            rows="4"
-            required=""
-            size="md"
-          ></esa-textarea>
-          <div class="bcn-field">
-            <span class="bcn-field__label">Files</span>
-            <esa-file-upload
-              label="Drag &amp; drop files, or browse"
-              multiple="true"
-              accept=".pdf,.csv,.xlsx"
-            ></esa-file-upload>
-          </div>
-        </div>
-        <div slot="footer" class="bcn-editor__foot">
-          <span id="rv-cancel"
-            ><span
-              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
-            >
-              <button class="esa-button__native" type="button">
-                <span class="esa-button__label"> Cancel </span>
-              </button>
-            </span>
-          </span>
-          <span id="rv-save"
-            ><span
-              class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md"
-            >
-              <button class="esa-button__native" type="button">
-                <span class="esa-button__label"> Add version </span>
-              </button>
-            </span>
-          </span>
-        </div>
-      </esa-dialog>
-      <esa-dialog
-        id="rev-edit-dialog"
-        heading="Edit Version Metadata"
-        style="
-          --_dialog-width: 640px;
-          --_dialog-max-height: 92vh;
-          --_dialog-bg: var(--color-surface, #fff);
-          --z-modal-backdrop: 1150;
-          --z-modal: 1200;
-        "
-        size="md"
-      >
-        <div class="bcn-form bcn-form--dialog">
-          <esa-text-field
-            id="re-originator"
-            label="Originator of Change"
-            required=""
-            size="md"
-          ></esa-text-field>
-          <esa-date-picker id="re-effective" label="Effective Date" size="md"></esa-date-picker>
-          <esa-textarea
-            id="re-summary"
-            label="Summary of Change"
-            rows="4"
-            required=""
-            size="md"
-          ></esa-textarea>
-        </div>
-        <div slot="footer" class="bcn-editor__foot">
-          <span id="re-cancel"
-            ><span
-              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
-            >
-              <button class="esa-button__native" type="button">
-                <span class="esa-button__label"> Cancel </span>
-              </button>
-            </span>
-          </span>
-          <span id="re-save"
-            ><span
-              class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md"
-            >
-              <button class="esa-button__native" type="button">
-                <span class="esa-button__label"> Save </span>
-              </button>
-            </span>
-          </span>
-        </div>
-      </esa-dialog>
-      <esa-side-dialog
-        id="source-drawer"
-        heading="3600 Alameda Avenue Project FEIR"
-        size="lg"
-        style="
-          --_width: 66vw;
-          --z-modal: 1300;
-          --z-modal-backdrop: 1250;
-          --backdrop-filter: blur(4px);
-        "
-        position="right"
-      >
-        <div class="bcn-source-pdf">
-          <iframe
-            class="bcn-source-pdf__frame"
-            src="/beacon-design/source-docs/feir-sample.pdf#view=FitH&amp;navpanes=0&amp;pagemode=none"
-            title="Source document — 3600 Alameda Avenue Project FEIR (sample)"
-          ></iframe>
-        </div>
-        <span slot="footer" class="bcn-source-foot">
-          <a
-            class="esa-icon-link esa-icon-link--sm esa-icon-link--medium"
-            href="/beacon-design/prototypes/data-catalog-source-document"
-            ><span class="esa-icon-link__label">Open Source Document</span>
-            <span class="esa-icon esa-icon--xs" aria-hidden="true">
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                focusable="false"
-              >
-                <path d="M5 12h14"></path>
-                <path d="m12 5 7 7-7 7"></path>
-              </svg>
-            </span>
-          </a>
-        </span>
-      </esa-side-dialog>
-      <esa-confirm-dialog
-        id="delete-confirm"
-        variant="danger"
-        heading="Delete Commitment"
-        message="Are you sure you want to delete this commitment? Doing so will also delete all requirements and actions defined under it. This action cannot be undone."
-        confirm-label="Delete"
-        cancel-label="Cancel"
-        style="--z-modal: 1400; --z-modal-backdrop: 1350"
-      ></esa-confirm-dialog>
-      <script type="application/json" id="edit-meta">
-        {
-          "commitmentTitle": "Nesting Birds and Raptors",
-          "commitmentId": "MM-BIO-2",
-          "sourceDoc": "3600 Alameda Avenue Project FEIR",
-          "commitmentType": "Mitigation Measure",
-          "resourceCategory": "Biological Resources",
-          "generalGuidance": "Include the nesting-season survey and buffer requirements in contractor bid documents. Coordinate any buffer-zone reduction with CDFW before work proceeds inside an established buffer.",
-          "tags": ["CDFW", "Wildlife"],
-          "fullText": "Pre-Construction Survey: If construction, ground-disturbing, or vegetation-removal activities would occur during the nesting season (February 1 – August 31), a qualified biologist shall conduct a pre-construction survey for nesting raptors and other migratory birds within 14 days prior to the start of those activities.\n\nNo-Disturbance Buffers: If active nests are found, the biologist shall establish appropriate no-disturbance buffer zones around each nest, to remain in place until young have fledged.\n\nWork Within Buffer Zones: If work must occur within an established buffer zone, it shall proceed only under biological monitoring by the qualified biologist.\n\nReporting: A report of findings documenting any construction conducted within a no-disturbance buffer zone shall be submitted to the City."
-        }
-      </script>
-      <script type="application/json" id="cmt-files-data">
-        ["feir-ch3.4_biological-resources.pdf", "mmrp_mm-bio-2_excerpt.pdf"]
-      </script>
     </div>
   </div>
   <!-- Global ⌘K search palette (bespoke bcn-omni-search). Sits at the modern-layout
@@ -1925,10 +2924,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               You are here
             </h2>
             <div class="bcn-gd__here">
-              <span class="bcn-gd__here-page" data-gd-page="">Commitment</span>
+              <span class="bcn-gd__here-page" data-gd-page="">Beacon</span>
               <span class="bcn-gd__here-purpose" data-gd-purpose=""
-                >One obligation in the document’s own words, with its structured details,
-                applicability, and revision history.</span
+                >Beacon turns a shelf of regulatory documents into a working compliance program —
+                cataloged, planned, executed, and proven.</span
               >
             </div>
           </section>
@@ -1960,16 +2959,46 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <button
                 type="button"
                 class="bcn-gd-row"
-                data-article-id="tracing-lineage"
+                data-article-id="five-minute-tour"
                 data-kind="howto"
-                data-title="Tracing a requirement back to its source"
-                data-summary="Follow the lineage from any requirement up to the exact document language."
+                data-title="A five-minute tour of Beacon"
+                data-summary="The four zones of the app and how a compliance obligation flows through them."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">Tracing a requirement back to its source</span>
+                  <span class="bcn-gd-row__title">A five-minute tour of Beacon</span>
                   <span class="bcn-gd-row__sub"
-                    >Follow the lineage from any requirement up to the exact document
-                    language.</span
+                    >The four zones of the app and how a compliance obligation flows through
+                    them.</span
+                  >
+                </span>
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path d="m9 18 6-6-6-6"></path>
+                  </svg>
+                </span></button
+              ><button
+                type="button"
+                class="bcn-gd-row"
+                data-article-id="global-search-tips"
+                data-kind="howto"
+                data-title="Finding anything with search"
+                data-summary="Press / anywhere to search commitments, requirements, actions, and documents."
+              >
+                <span class="bcn-gd-row__text">
+                  <span class="bcn-gd-row__title">Finding anything with search</span>
+                  <span class="bcn-gd-row__sub"
+                    >Press / anywhere to search commitments, requirements, actions, and
+                    documents.</span
                   >
                 </span>
                 <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -2015,6 +3044,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <button
                 type="button"
                 class="bcn-gd-row"
+                data-article-id="what-is-an-action"
+                data-kind="glossary"
+                data-title="What is an Action?"
+                data-summary="One trackable deliverable consolidating requirements that describe the same work."
+              >
+                <span class="bcn-gd-row__text">
+                  <span class="bcn-gd-row__title">What is an Action?</span>
+                  <span class="bcn-gd-row__sub"
+                    >One trackable deliverable consolidating requirements that describe the same
+                    work.</span
+                  >
+                </span>
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path d="m9 18 6-6-6-6"></path>
+                  </svg>
+                </span></button
+              ><button
+                type="button"
+                class="bcn-gd-row"
                 data-article-id="what-is-a-commitment"
                 data-kind="glossary"
                 data-title="What is a Commitment?"
@@ -2044,15 +3103,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               ><button
                 type="button"
                 class="bcn-gd-row"
-                data-article-id="what-is-a-requirement"
+                data-article-id="what-is-a-component"
                 data-kind="glossary"
-                data-title="What is a Requirement?"
-                data-summary="A specific, actionable sub-obligation broken out of a commitment."
+                data-title="What is a Component?"
+                data-summary="A physical or logical subdivision of the project with its own compliance tracking."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">What is a Requirement?</span>
+                  <span class="bcn-gd-row__title">What is a Component?</span>
                   <span class="bcn-gd-row__sub"
-                    >A specific, actionable sub-obligation broken out of a commitment.</span
+                    >A physical or logical subdivision of the project with its own compliance
+                    tracking.</span
                   >
                 </span>
                 <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -2081,64 +3141,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
          rows into the two sections above; the rest stay here (hidden). -->
       <div class="bcn-gd__pool" data-gd-pool="" hidden="">
         <button
-          type="button"
-          class="bcn-gd-row"
-          data-article-id="five-minute-tour"
-          data-kind="howto"
-          data-title="A five-minute tour of Beacon"
-          data-summary="The four zones of the app and how a compliance obligation flows through them."
-        >
-          <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">A five-minute tour of Beacon</span>
-            <span class="bcn-gd-row__sub"
-              >The four zones of the app and how a compliance obligation flows through them.</span
-            >
-          </span>
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m9 18 6-6-6-6"></path>
-            </svg>
-          </span></button
-        ><button
-          type="button"
-          class="bcn-gd-row"
-          data-article-id="global-search-tips"
-          data-kind="howto"
-          data-title="Finding anything with search"
-          data-summary="Press / anywhere to search commitments, requirements, actions, and documents."
-        >
-          <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Finding anything with search</span>
-            <span class="bcn-gd-row__sub"
-              >Press / anywhere to search commitments, requirements, actions, and documents.</span
-            >
-          </span>
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m9 18 6-6-6-6"></path>
-            </svg>
-          </span></button
-        ><button
           type="button"
           class="bcn-gd-row"
           data-article-id="what-is-a-source"
@@ -2171,16 +3173,44 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         ><button
           type="button"
           class="bcn-gd-row"
-          data-article-id="what-is-an-action"
+          data-article-id="what-is-a-requirement"
           data-kind="glossary"
-          data-title="What is an Action?"
-          data-summary="One trackable deliverable consolidating requirements that describe the same work."
+          data-title="What is a Requirement?"
+          data-summary="A specific, actionable sub-obligation broken out of a commitment."
         >
           <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">What is an Action?</span>
+            <span class="bcn-gd-row__title">What is a Requirement?</span>
             <span class="bcn-gd-row__sub"
-              >One trackable deliverable consolidating requirements that describe the same
-              work.</span
+              >A specific, actionable sub-obligation broken out of a commitment.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="tracing-lineage"
+          data-kind="howto"
+          data-title="Tracing a requirement back to its source"
+          data-summary="Follow the lineage from any requirement up to the exact document language."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Tracing a requirement back to its source</span>
+            <span class="bcn-gd-row__sub"
+              >Follow the lineage from any requirement up to the exact document language.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -2210,36 +3240,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <span class="bcn-gd-row__title">Actions vs. implementations</span>
             <span class="bcn-gd-row__sub"
               >The action is the plan; implementations are the work you actually do.</span
-            >
-          </span>
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m9 18 6-6-6-6"></path>
-            </svg>
-          </span></button
-        ><button
-          type="button"
-          class="bcn-gd-row"
-          data-article-id="what-is-a-component"
-          data-kind="glossary"
-          data-title="What is a Component?"
-          data-summary="A physical or logical subdivision of the project with its own compliance tracking."
-        >
-          <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">What is a Component?</span>
-            <span class="bcn-gd-row__sub"
-              >A physical or logical subdivision of the project with its own compliance
-              tracking.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -3778,11 +4778,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 ```css
 :root,
 [data-theme="beacon"] {
-  --badge-bg: #005862;
-  --badge-height-md: 28px;
-  --badge-height-sm: 22px;
-  --badge-radius: 0.25rem;
-  --badge-text-color: #fcfcfc;
   --bcn-aldo: #08908b;
   --bcn-aldo-100: #cfeceb;
   --bcn-aldo-50: #e8f6f5;
@@ -3802,26 +4797,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --bcn-helpbar-fg: rgba(255, 255, 255, 0.92);
   --bcn-helpbar-fg-muted: rgba(255, 255, 255, 0.72);
   --bcn-helpbar-hover-bg: rgba(255, 255, 255, 0.1);
-  --collapsible-bg: #fcfcfc;
-  --collapsible-border-color: #dcdcdc;
-  --collapsible-padding-x: 1rem;
-  --collapsible-radius: 0.5rem;
-  --collapsible-title-color: #3d3d3d;
   --color-accent: #f76b15;
   --color-border: #dcdcdc;
-  --color-border-light: #efefef;
-  --color-border-strong: #bdbdbd;
-  --color-commitment: #58508d;
-  --color-danger: #e5484d;
-  --color-danger-hover: #dc3e42;
-  --color-danger-strong: #ce2c31;
-  --color-link: #2a7e3b;
   --color-primary: #005862;
-  --color-primary-hover: #00474f;
-  --color-primary-strong: #2a7e3b;
-  --color-primary-subtle: #effefb;
   --color-surface: #fcfcfc;
-  --color-surface-elevated: #fcfcfc;
   --color-surface-sunken: #efefef;
   --color-text-inverse: #fcfcfc;
   --color-text-link: #005862;
@@ -3829,13 +4808,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --color-text-primary: #3d3d3d;
   --color-text-secondary: #525252;
   --color-text-tertiary: #656565;
-  --dialog-bg: #fcfcfc;
-  --dialog-border-color: #efefef;
-  --dialog-radius: 0.75rem;
-  --dialog-width: 480px;
-  --filter-clear-color: #7c7c7c;
-  --filter-clear-color-hover: #ce2c31;
+  --empty-state-description-color: #525252;
+  --empty-state-gap: 0.5rem;
+  --empty-state-icon-color: #7c7c7c;
+  --empty-state-icon-size-lg: 64px;
+  --empty-state-icon-size-md: 48px;
+  --empty-state-title-color: #3d3d3d;
   --font-decorative: "Besley", serif;
+  --font-display: "DM Sans", sans-serif;
   --font-sans: "DM Sans", sans-serif;
   --font-weight-bold: 650;
   --font-weight-medium: 450;
@@ -3844,33 +4824,32 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --form-bg: #fcfcfc;
   --form-border-color: #dcdcdc;
   --form-border-width: 1px;
+  --form-font-size-lg: clamp(0.875rem, 0.77rem + 0.52vw, 1.125rem);
   --form-font-size-md: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
-  --form-font-size-sm: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
+  --form-height-lg: 44px;
   --form-height-md: 36px;
-  --form-height-sm: 28px;
-  --form-label-color: #525252;
+  --form-padding-x-lg: 1rem;
   --form-padding-x-md: 0.75rem;
-  --form-padding-x-sm: 0.625rem;
+  --form-padding-y-lg: 0.75rem;
   --form-padding-y-md: 0.5rem;
   --form-placeholder-color: #7c7c7c;
+  --form-radius-lg: 0.25rem;
   --form-radius-md: 0.25rem;
-  --form-radius-sm: 0.25rem;
   --form-text-color: #3d3d3d;
   --icon-button-bg-hover: color-mix(in srgb, currentColor 14%, transparent);
-  --icon-link-font-size-md: 1rem;
-  --icon-link-font-size-sm: 0.875rem;
-  --icon-link-gap: 0.375rem;
+  --icon-size-large: 24px;
+  --icon-size-lg: 24px;
   --icon-size-md: 20px;
   --icon-size-medium: 20px;
   --icon-size-sm: 16px;
   --icon-size-small: 16px;
+  --icon-size-xl: 28px;
   --icon-size-xs: 14px;
-  --pill-bg: #efefef;
-  --pill-border-color: #efefef;
-  --pill-height-md: 28px;
-  --pill-height-sm: 22px;
-  --pill-radius: 0.25rem;
-  --pill-text-color: #3d3d3d;
+  --letter-spacing-normal: 0.01em;
+  --letter-spacing-tight: -0.01em;
+  --line-height-normal: 1.6;
+  --line-height-relaxed: 1.8;
+  --line-height-tight: 1.3;
   --popover-bg: #fcfcfc;
   --popover-border-color: #dcdcdc;
   --popover-color: #3d3d3d;
@@ -3882,7 +4861,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --radius-full: 9999px;
   --shadow-300: 0 6px 24px -6px rgba(0, 0, 0, 0.07);
   --side-dialog-width: 400px;
-  --side-dialog-width-lg: 520px;
+  --sidebar-width: 280px;
   --spacing-050: 0.125rem;
   --spacing-100: 0.25rem;
   --spacing-150: 0.375rem;
@@ -3893,6 +4872,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --spacing-500: 1.5rem;
   --spacing-600: 2rem;
   --spacing-700: 3rem;
+  --spacing-800: 4rem;
   --transition-fast: 0.15s ease;
   --type-size-100: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
   --type-size-150: clamp(0.6875rem, 0.61rem + 0.38vw, 0.875rem);
@@ -3900,113 +4880,106 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --type-size-250: clamp(0.8125rem, 0.71rem + 0.5vw, 1.0625rem);
   --type-size-300: clamp(0.875rem, 0.77rem + 0.52vw, 1.125rem);
   --type-size-400: clamp(1rem, 0.88rem + 0.6vw, 1.25rem);
+  --type-size-500: clamp(1.125rem, 0.98rem + 0.72vw, 1.5rem);
+  --type-size-600: clamp(1.375rem, 1.2rem + 0.88vw, 1.875rem);
 }
 
-:host {
-  --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
-  --_popover-border: var(--popover-border-color, var(--color-border, #e5e5e5));
-  --_popover-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
-  --_popover-radius: var(--popover-radius, var(--radius-200, 0.5rem));
-  --_popover-padding: var(--spacing-300, 0.75rem);
-  --_popover-arrow-size: 8px;
-  --_popover-color: var(--popover-color, var(--color-text-primary, #171717));
-  display: inline-block;
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
 }
-.esa-popover-anchor {
-  position: relative;
-  display: inline-block;
-}
-.esa-button {
-  --_btn-height: var(--form-height-md, 40px);
-  --_btn-padding-x: var(--form-padding-x-md, 16px);
-  --_btn-font-size: var(--form-font-size-md, 14px);
-  --_btn-radius: var(--form-radius-md, 6px);
-  --_accent: var(--color-primary, #46a758);
-  --_accent-hover: var(--color-primary-hover, #3e9b4f);
-  --_on: var(--color-text-inverse, #ffffff);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button--sm {
-  --_btn-height: var(--form-height-sm, 32px);
-  --_btn-padding-x: var(--form-padding-x-sm, 12px);
-  --_btn-font-size: var(--form-font-size-sm, 12px);
-  --_btn-radius: var(--form-radius-sm, 4px);
-}
-.esa-button--color-primary {
-  --_accent-text: var(--color-primary-strong);
-}
-.esa-button__native {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  height: var(--_btn-height);
-  padding-inline: var(--_btn-padding-x);
-  border: 1px solid transparent;
-  border-radius: var(--_btn-radius);
-  font-size: var(--_btn-font-size);
+body {
+  margin: 0;
   font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
-  text-decoration: none;
+  font-weight: var(--font-weight-regular, 350);
+  color: var(--color-text-primary, #3d3d3d);
+  background: var(--color-surface, #fff);
+  -webkit-font-smoothing: antialiased;
+}
+button {
+  font-family: inherit;
   cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
+  background: none;
+  border: 0;
 }
-.esa-button--sm .esa-button__native {
-  height: auto;
-  padding-block: var(--spacing-150, 6px);
+a {
+  color: var(--color-text-link, #005862);
+  text-decoration: none;
 }
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: transparent;
+img {
+  display: block;
+  max-width: 100%;
 }
-.esa-button__label {
-  white-space: nowrap;
+:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
+  margin: 0;
 }
-.esa-button--color-ghost .esa-button__native {
-  background: transparent;
-  color: var(--color-text-primary, #171717);
-  border-color: transparent;
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
 }
-.esa-button--appearance-outline .esa-button__native,
-.esa-button--appearance-dashed .esa-button__native {
-  background: transparent;
-  color: var(--_accent-text);
-  border-color: var(--_accent);
+[data-gap="2xl"] {
+  --gap: var(--spacing-700, 3rem);
 }
-.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border, #e5e5e5);
+.center {
+  --center-max: 72rem;
+  max-inline-size: var(--center-max);
+  margin-inline: auto;
 }
-.esa-button--color-danger {
-  --_accent: var(--color-danger);
-  --_accent-hover: var(--color-danger-hover);
-  --_accent-text: var(--color-danger-strong);
+.type-page-title {
+  font-family: var(--font-display, var(--font-sans));
+  font-size: var(--type-size-600);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
 }
-.esa-button--appearance-soft .esa-button__native {
-  background: color-mix(
-    in srgb,
-    var(--color-surface-sunken, #efefef) 45%,
-    var(--color-surface, #fff)
-  );
-  color: var(--_accent-text);
-  border-color: var(--color-border-strong, #d4d4d4);
+.type-body {
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-relaxed);
+  letter-spacing: var(--letter-spacing-normal);
 }
-:host {
-  display: inline-block;
+.type-section-title {
+  font-family: var(--font-display, var(--font-sans));
+  font-size: var(--type-size-500);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
 }
-.esa-tooltip-anchor {
-  position: relative;
-  display: inline-flex;
+.grid {
+  --gap: var(--spacing-400, 1rem);
+  --grid-min: 16rem;
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min), 100%), 1fr));
+}
+[data-gap="md"] {
+  --gap: var(--spacing-400, 1rem);
+}
+.type-card-title {
+  font-size: var(--type-size-400);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.sidebar {
+  --gap: var(--spacing-500, 1.5rem);
+  --sidebar-width: 18rem;
+  --sidebar-content-min: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+}
+.sidebar > :first-child {
+  flex-basis: var(--sidebar-width);
+  flex-grow: 1;
+}
+.sidebar > :last-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: var(--sidebar-content-min);
 }
 .page-layout {
   display: flex;
@@ -4020,41 +4993,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   display: flex;
   flex-direction: column;
 }
-.page-layout section {
-  width: 100%;
-}
-.breadcrumbs {
-  padding: var(--spacing-400) 0;
-}
-.breadcrumbs__items {
-  display: flex;
-  gap: var(--spacing-100);
-  align-items: center;
-  flex-wrap: wrap;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.breadcrumb-item {
-  color: var(--bcn-gray-600);
-  text-transform: capitalize;
-  font-size: 0.875rem;
-}
-a.breadcrumb-item {
-  text-decoration: none;
-}
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
 .page-layout__content {
   padding: var(--spacing-500) 0;
   min-height: 70vh;
   position: relative;
+}
+.page-layout section {
+  width: 100%;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
@@ -4098,224 +5043,11 @@ a.breadcrumb-item {
   -webkit-appearance: none;
   appearance: none;
 }
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
-  --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));
-  --_badge-height: var(--badge-height-md, 28px);
-  --_badge-font-size: 13px;
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  --_badge-min-width: var(--badge-height-md, 28px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: var(--_badge-height);
-  min-width: var(--_badge-min-width);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--badge-radius, var(--radius-100, 4px));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  font-size: var(--_badge-font-size);
-  font-weight: 600;
-  line-height: 1;
-  white-space: nowrap;
-  box-sizing: border-box;
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
 }
-.esa-badge--sm {
-  --_badge-height: var(--badge-height-sm, 22px);
-  --_badge-font-size: 11px;
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
-  --_badge-min-width: var(--badge-height-sm, 22px);
-}
-.esa-icon-link {
-  --_il-font: var(--icon-link-font-size-md, 1rem);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--icon-link-gap, var(--spacing-150, 6px));
-  padding: 0;
-  margin: 0;
-  border: 0;
-  background: none;
-  color: inherit;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: var(--_il-font);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
-  text-decoration: none;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.esa-icon-link--sm {
-  --_il-font: var(--icon-link-font-size-sm, 0.875rem);
-}
-.esa-icon-link--medium {
-  font-weight: var(--font-weight-medium, 500);
-}
-.esa-icon-link__label {
-  display: inline-block;
-}
-.esa-filter-container {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--_filter-container-row-gap, 0.5rem) var(--_filter-container-gap, 0.75rem);
-}
-.esa-filter-clear-button {
-  --_clear-text: var(--filter-clear-color, var(--color-primary-strong, #3a7c59));
-  --_clear-text-hover: var(--filter-clear-color-hover, var(--color-primary-strong, #3a7c59));
-  --_clear-font-size: var(--type-size-150, 0.875rem);
-  --_clear-icon-size: 18px;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-100, 0.25rem);
-  padding: var(--spacing-100, 0.25rem) var(--spacing-200, 0.5rem);
-  border: none;
-  border-radius: var(--radius-100, 0.25rem);
-  background: transparent;
-  color: var(--_clear-text);
-  font-family: var(--font-sans, inherit);
-  font-size: var(--_clear-font-size);
-  font-weight: var(--font-weight-medium, 450);
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  transition:
-    color var(--transition-fast, 0.15s ease),
-    background var(--transition-fast, 0.15s ease);
-}
-.esa-filter-clear-button__icon {
-  width: var(--_clear-icon-size);
-  height: var(--_clear-icon-size);
-  flex: none;
-}
-.esa-filter-clear-button__label {
-  white-space: nowrap;
-}
-.esa-collapsible {
-  border: 1px solid var(--collapsible-border-color, var(--color-border, #e5e5e5));
-  border-radius: var(--collapsible-radius, var(--radius-300, 0.5rem));
-  background: var(--collapsible-bg, var(--color-surface, #fff));
-}
-.esa-collapsible__summary {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200, 0.5rem);
-  padding: var(--spacing-300, 0.75rem) var(--collapsible-padding-x, var(--spacing-400, 1rem));
-  font-size: var(--type-size-150, 0.9375rem);
-  font-weight: var(--font-weight-semibold, 600);
-  color: var(--collapsible-title-color, var(--color-text-primary, #171717));
-  cursor: pointer;
-  list-style: none;
-}
-.esa-collapsible__summary .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary, #404040);
-}
-.esa-collapsible__summary:after {
-  content: "";
-  width: 8px;
-  height: 8px;
-  border-right: 2px solid var(--color-text-tertiary, #737373);
-  border-bottom: 2px solid var(--color-text-tertiary, #737373);
-  transform: rotate(-45deg);
-  transition: transform 0.15s ease;
-  margin-left: auto;
-}
-.esa-collapsible[open] > .esa-collapsible__summary:after {
-  transform: rotate(45deg);
-}
-.esa-collapsible__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400, 1rem);
-  padding: 0 var(--collapsible-padding-x, var(--spacing-400, 1rem)) var(--spacing-400, 1rem);
-}
-.bcn-key-value {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.bcn-key-value__key {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  color: var(--form-label-color);
-}
-.bcn-key-value__val {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.esa-pill {
-  --_pill-bg: var(--pill-bg, var(--color-surface-sunken, #efefef));
-  --_pill-text: var(--pill-text-color, var(--color-text-primary, #171717));
-  --_pill-border: var(--pill-border-color, var(--color-border-light, #efefef));
-  --_pill-height: var(--pill-height-md, 28px);
-  --_pill-font-size: 13px;
-  --_pill-padding-x: var(--spacing-200, 0.5rem);
-  --_pill-gap: var(--spacing-100, 0.25rem);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--_pill-gap);
-  height: var(--_pill-height);
-  padding-inline: var(--_pill-padding-x);
-  border: 1px solid var(--_pill-border);
-  border-radius: var(--pill-radius, var(--radius-full, 9999px));
-  background: var(--_pill-bg);
-  color: var(--_pill-text);
-  font-size: var(--_pill-font-size);
-  line-height: 1;
-  white-space: nowrap;
-  box-sizing: border-box;
-}
-.esa-pill--sm {
-  --_pill-height: var(--pill-height-sm, 22px);
-  --_pill-font-size: 11px;
-  --_pill-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-pill__label {
-  font-weight: 500;
-}
-.bcn-danger-zone {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-}
-.bcn-danger-zone__heading {
-  margin: 0;
-  font-size: var(--type-size-250);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-danger-zone__box {
-  padding: var(--spacing-500);
-  border: 1px solid var(--color-danger);
-  border-radius: var(--radius-200);
-  background: var(--color-surface);
-}
-.bcn-danger-zone__item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-400);
-}
-.bcn-danger-zone__text {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100);
-  min-width: 0;
-}
-.bcn-danger-zone__title {
-  margin: 0;
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-danger-zone__desc {
-  margin: 0;
-  font-size: var(--form-font-size-md);
-  color: var(--color-text-secondary);
-}
-.bcn-danger-zone__action {
-  flex-shrink: 0;
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
 }
 .bcn-count {
   display: inline-flex;
@@ -4332,871 +5064,6 @@ a.breadcrumb-item {
   border-radius: var(--radius-100);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
-}
-:host {
-  display: block;
-}
-.list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150, 6px);
-}
-.file {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: var(--spacing-200, 8px);
-  /* hub-edit-approved: Andrew (front-end architect) approved in-session — add a
-         backward-compatible density knob so consumers can give file rows more breathing
-         room without restyling the shadow DOM. Defaults reproduce the original tight row. */
-  padding: var(--file-list-row-padding-y, 2px)
-    var(--file-list-row-padding-x, var(--spacing-300, 12px));
-  border: var(--form-border-width, 1px) solid var(--color-border, #e5e5e5);
-  border-radius: var(--radius-100, 4px);
-  background: var(--color-surface, #fff);
-  font-family: var(--font-sans, sans-serif);
-  font-size: var(--type-size-150, 12px);
-}
-.file__icon {
-  display: inline-flex;
-  color: var(--color-text-muted, #737373);
-}
-.file__icon svg {
-  width: 16px;
-  height: 16px;
-}
-.file__name {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: var(--color-text-primary, #171717);
-  text-decoration: none;
-}
-a.file__name {
-  color: var(--color-link, var(--color-primary, #43608a));
-}
-.file__actions {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-050, 2px);
-}
-.file__btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--color-text-muted, #737373);
-  border-radius: var(--radius-100, 4px);
-  cursor: pointer;
-  flex-shrink: 0;
-  transition:
-    background var(--transition-fast, 150ms ease),
-    color var(--transition-fast, 150ms ease);
-}
-.file__btn svg {
-  width: 15px;
-  height: 15px;
-}
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-regular, 350);
-  color: var(--color-text-primary, #3d3d3d);
-  background: var(--color-surface, #fff);
-  -webkit-font-smoothing: antialiased;
-}
-button {
-  font-family: inherit;
-  cursor: pointer;
-  background: none;
-  border: 0;
-}
-a {
-  color: var(--color-text-link, #005862);
-  text-decoration: none;
-}
-img {
-  display: block;
-  max-width: 100%;
-}
-:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
-  margin: 0;
-}
-:host {
-  --_field-padding-y: var(--form-padding-y-md, 0.5rem);
-  --_field-padding-x: var(--form-padding-x-md, 0.75rem);
-  --_field-font-size: var(--form-font-size-md, 0.9375rem);
-  --_field-height: var(--form-height-md, 40px);
-  --_field-radius: var(--form-radius-md, 0.5rem);
-  --_field-border-color: var(--form-border-color, #e5e5e5);
-  --_label-font-size: var(--type-size-200, 0.9375rem);
-  display: block;
-  font-family: var(--font-sans, sans-serif);
-}
-.field {
-  display: flex;
-  flex-direction: column;
-}
-.control {
-  display: flex;
-  align-items: stretch;
-  height: var(--_field-height);
-  background: var(--form-bg, #fff);
-  border: var(--form-border-width, 1px) solid var(--_field-border-color);
-  border-radius: var(--_field-radius);
-  box-sizing: border-box;
-  overflow: hidden;
-  transition:
-    border-color var(--transition-fast, 150ms ease),
-    box-shadow var(--transition-fast, 150ms ease);
-}
-.input {
-  flex: 1 1 auto;
-  min-width: 0;
-  width: 100%;
-  height: 100%;
-  padding: var(--_field-padding-y) var(--_field-padding-x);
-  font-family: inherit;
-  font-size: var(--_field-font-size);
-  color: var(--form-text-color, #171717);
-  background: transparent;
-  border: none;
-  outline: none;
-  box-sizing: border-box;
-}
-.input::placeholder {
-  color: var(--form-placeholder-color, #737373);
-}
-:host {
-  display: inline-block;
-
-  --_filter-height: 40px;
-  --_filter-padding-x: var(--spacing-400, 1rem);
-  --_filter-font-size: var(--type-size-200, 0.9375rem);
-  --_filter-radius: var(--radius-200, 0.5rem);
-  --_filter-bg: var(--color-surface, #fff);
-  --_filter-bg-active: var(--color-primary-subtle, #f3f8fb);
-  --_filter-text: var(--color-text-primary, #171717);
-  --_filter-text-active: var(--color-primary, #43608a);
-  --_filter-border: var(--color-border, #e5e5e5);
-  --_filter-border-active: var(--color-primary, #43608a);
-}
-:host([size="sm"]) {
-  --_filter-height: 32px;
-  --_filter-padding-x: var(--spacing-300, 0.75rem);
-  --_filter-font-size: var(--type-size-150, 0.875rem);
-  --_filter-radius: var(--radius-100, 0.25rem);
-}
-.esa-filter-dropdown {
-  position: relative;
-  display: inline-flex;
-}
-.esa-filter-dropdown__trigger {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-100, 0.25rem);
-  height: var(--_filter-height);
-  padding-inline: var(--_filter-padding-x);
-  border: 1px solid var(--_filter-border);
-  border-radius: var(--_filter-radius);
-  background: var(--_filter-bg);
-  color: var(--_filter-text);
-  font-family: var(--font-sans, inherit);
-  font-size: var(--_filter-font-size);
-  font-weight: var(--font-weight-medium, 450);
-  line-height: 1;
-  cursor: pointer;
-  white-space: nowrap;
-  transition:
-    background var(--transition-fast, 150ms ease),
-    border-color var(--transition-fast, 150ms ease),
-    color var(--transition-fast, 150ms ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-filter-dropdown__label {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 200px;
-}
-.esa-filter-dropdown__arrow {
-  display: inline-flex;
-  width: 20px;
-  height: 20px;
-  transition: transform var(--transition-fast, 150ms ease);
-}
-.esa-filter-dropdown__arrow svg {
-  width: 20px;
-  height: 20px;
-}
-.page-layout__title {
-  display: none !important;
-}
-.bcn-cmt {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-600);
-}
-.bcn-cmt__head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--spacing-400);
-  padding-bottom: var(--spacing-400);
-  border-bottom: 1px solid var(--color-border);
-}
-.bcn-cmt__identity {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--spacing-100);
-  min-width: 0;
-}
-.bcn-cmt__badge {
-  flex-shrink: 0;
-  padding: 0.125rem 0.375rem;
-  border-radius: var(--radius-100);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.4;
-  white-space: nowrap;
-}
-.bcn-cmt__badge--commitment {
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-}
-.bcn-cmt__title-row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.bcn-cmt__title {
-  margin: 0;
-  font-family: var(--font-decorative);
-  font-size: 1.5rem;
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.2;
-  color: var(--color-text-primary);
-}
-.bcn-cmt__badge--type {
-  color: var(--color-text-secondary);
-  background: var(--color-surface-sunken);
-  transform: translateY(2px);
-}
-.bcn-cmt__head-actions {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  flex-shrink: 0;
-}
-.bcn-btn-ico {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-}
-.bcn-cmt__body {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px;
-  gap: var(--spacing-600);
-  align-items: start;
-}
-.bcn-cmt__main {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-600);
-}
-.bcn-cmt__section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-}
-.bcn-section-title {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  margin: 0;
-  font-size: var(--type-size-300);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-cmttext {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-  padding: var(--spacing-500);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-300);
-}
-.bcn-cmttext__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-}
-.bcn-cmttext__item {
-  font-family: var(--font-decorative);
-  font-size: 1.0625rem;
-  line-height: 1.65;
-  color: var(--color-text-primary);
-}
-.bcn-cmttext__footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--spacing-100);
-  padding-top: var(--spacing-200);
-  border-top: 1px solid var(--color-border-light);
-}
-.bcn-cmttext__footer .esa-button--color-ghost .esa-button__native {
-  color: var(--color-primary);
-}
-.bcn-cmt__section-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-300);
-}
-.bcn-count-neutral {
-  display: inline-flex;
-  align-items: center;
-  --badge-bg: var(--color-surface-sunken);
-  --badge-text-color: var(--color-text-secondary);
-}
-.bcn-reqfilters {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-250);
-}
-.bcn-reqfilters esa-text-field {
-  max-width: 360px;
-}
-.bcn-reqfilters__row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-300);
-}
-.bcn-row-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
-}
-.bcn-row {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300) var(--spacing-400);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-  background: var(--color-surface);
-  text-decoration: none;
-  transition: background-color 0.12s ease;
-}
-.bcn-row__name {
-  flex: 1;
-  min-width: 0;
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-row .bcn-cmt__badge--type,
-.bcn-row .bcn-cmt__badge--phase {
-  transform: none;
-}
-.bcn-cmt__badge--phase {
-  color: var(--color-text-secondary);
-  background: transparent;
-  border: 1px solid var(--color-border);
-}
-.bcn-row > .esa-icon:last-child {
-  color: var(--color-text-tertiary);
-  flex-shrink: 0;
-  transition:
-    transform 0.12s ease,
-    color 0.12s ease;
-}
-.bcn-reqs__empty {
-  border: 1px dashed var(--color-border);
-  border-radius: var(--radius-200);
-  padding: var(--spacing-400);
-}
-#cmt-files {
-  --file-list-row-padding-y: var(--spacing-200);
-}
-.bcn-cmt__rail {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-500);
-}
-.bcn-cmt__rail .esa-collapsible__title {
-  font-size: var(--type-size-250);
-  font-weight: var(--font-weight-semibold);
-}
-.bcn-lineage {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
-.bcn-lineage__node {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  gap: var(--spacing-300);
-  padding-bottom: var(--spacing-400);
-}
-.bcn-lineage__node:before {
-  content: "";
-  position: absolute;
-  left: 13px;
-  top: 30px;
-  bottom: 2px;
-  width: 2px;
-  background: var(--color-border);
-}
-.bcn-lineage__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
-}
-.bcn-lineage__icon .esa-icon {
-  --_icon-size: 14px;
-}
-.bcn-lineage__body {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  min-width: 0;
-  padding-top: 2px;
-}
-.bcn-lineage__kind {
-  font-size: 0.75rem;
-  color: var(--color-primary);
-  text-decoration: none;
-  width: fit-content;
-}
-.bcn-lineage__name {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  line-height: 1.35;
-  color: var(--color-primary);
-  text-decoration: none;
-}
-.bcn-lineage__node--current .bcn-lineage__icon {
-  border-color: var(--color-primary);
-  background: var(--color-primary);
-  color: var(--color-text-inverse);
-}
-.bcn-lineage__name--current {
-  color: var(--color-text-primary);
-  font-weight: var(--font-weight-semibold);
-}
-.bcn-lineage__node.bcn-lineage__node--child {
-  align-items: center;
-}
-.bcn-lineage__node--child .bcn-lineage__body {
-  flex: 1;
-  padding-top: 0;
-}
-.bcn-lineage__node--child .bcn-lineage__name {
-  font-size: 0.75rem;
-}
-.bcn-lineage__node--child .bcn-count-neutral {
-  flex-shrink: 0;
-}
-.bcn-lineage__node:last-child {
-  padding-bottom: 0;
-}
-.bcn-lineage__node:last-child:before {
-  display: none;
-}
-.bcn-tagrow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-150);
-  margin-top: var(--spacing-100);
-}
-.bcn-tagrow .esa-pill {
-  border-radius: var(--radius-100);
-  background: var(--color-surface-sunken);
-  border: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
-}
-.bcn-rail-meta {
-  margin: var(--spacing-300) 0 0;
-  padding-top: var(--spacing-300);
-  border-top: 1px solid var(--color-border-light);
-  font-size: 0.75rem;
-  color: var(--color-text-secondary);
-}
-.bcn-lists {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--spacing-150);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.bcn-list-link {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-primary);
-  text-decoration: none;
-}
-.bcn-revs .bcn-lineage__body {
-  gap: 2px;
-}
-.bcn-revs__head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--spacing-200);
-}
-.bcn-revs .bcn-lineage__kind {
-  color: var(--color-text-tertiary);
-}
-.bcn-revs__edit {
-  border: 0;
-  background: none;
-  padding: 0;
-  cursor: pointer;
-  font-size: 0.75rem;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-primary);
-}
-.bcn-revs__summary {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  line-height: 1.35;
-  color: var(--color-text-primary);
-}
-.bcn-revs__meta {
-  font-size: 0.75rem;
-  color: var(--color-text-secondary);
-}
-.bcn-revs__by {
-  font-size: 0.75rem;
-  color: var(--color-text-tertiary);
-  margin-top: 1px;
-}
-.bcn-revs__add {
-  padding-top: var(--spacing-300);
-}
-#add-rev {
-  display: block;
-}
-#add-rev .esa-button {
-  width: 100%;
-  justify-content: center;
-}
-.bcn-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-}
-.bcn-form--dialog {
-  padding: var(--spacing-100) 0;
-}
-.bcn-grid-2 {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--spacing-300);
-}
-.bcn-form esa-input-tag {
-  --_chip-bg: var(--color-surface-sunken);
-  --_chip-color: var(--color-text-primary);
-  --_chip-radius: var(--radius-100);
-}
-.bcn-editor__foot {
-  display: flex;
-  gap: var(--spacing-300);
-  justify-content: flex-end;
-  width: 100%;
-}
-.bcn-field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150);
-}
-.bcn-field__label {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-primary);
-}
-.bcn-source-pdf {
-  height: 100%;
-  min-height: 60vh;
-}
-.bcn-source-pdf__frame {
-  width: 100%;
-  height: 100%;
-  min-height: 60vh;
-  border: 0;
-  border-radius: var(--radius-200);
-  background: var(--color-surface-sunken);
-}
-.bcn-source-foot {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-}
-:host {
-  --_dialog-bg: var(--dialog-bg, var(--color-surface-elevated, #ffffff));
-  --_dialog-border-radius: var(--dialog-radius, var(--radius-400, 0.75rem));
-  --_dialog-padding: var(--spacing-500, 1.5rem);
-  --_dialog-header-border: var(--dialog-border-color, var(--color-border-light, #efefef));
-  /* Optional header/footer surface tints — a spoke fills these to frame the
-         body; default transparent leaves existing consumers unchanged. */
-  --_dialog-header-bg: var(--dialog-header-bg, transparent);
-  --_dialog-footer-bg: var(--dialog-footer-bg, transparent);
-  --_dialog-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
-  --_dialog-width: var(--dialog-width, 480px);
-  --_dialog-max-height: 85vh;
-}
-:host {
-  --_width: var(--side-dialog-width, 400px);
-}
-:host([size="lg"]) {
-  --_width: var(--side-dialog-width-lg, 520px);
-}
-:host {
-  all: initial;
-}
-.host-root {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2147483000;
-  font-family: system-ui, sans-serif;
-}
-.host-root > * {
-  pointer-events: auto;
-}
-.launch {
-  position: fixed;
-  bottom: 22px;
-  left: 22px;
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 13px 19px;
-  border-radius: 999px;
-  color: #fff;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  border: 1px solid #3d6fd6;
-  background: linear-gradient(180deg, #1f6feb, #1551c4);
-  box-shadow:
-    0 10px 28px -8px rgba(31, 111, 235, 0.65),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18);
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease,
-    filter 0.15s ease;
-}
-.launch svg {
-  flex: none;
-}
-.panel {
-  position: fixed;
-  top: 18px;
-  right: 18px;
-  bottom: 18px;
-  width: min(720px, 94vw);
-  display: flex;
-  flex-direction: column;
-  color: #ffffff;
-  border-radius: 16px;
-  background: linear-gradient(155deg, rgba(26, 31, 40, 0.74), rgba(11, 15, 21, 0.86));
-  backdrop-filter: blur(26px) saturate(150%);
-  -webkit-backdrop-filter: blur(26px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow:
-    0 28px 70px -18px rgba(0, 0, 0, 0.62),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  font-size: 12.5px;
-  overflow: hidden;
-  /* slide in from the right */
-  transform: translateX(calc(100% + 32px));
-  opacity: 0;
-  visibility: hidden;
-  transition:
-    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.22s ease,
-    visibility 0s linear 0.3s;
-}
-.head {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 13px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-}
-.head strong {
-  font-size: 14px;
-}
-.head .sub {
-  flex: 1;
-  color: #ccd5e0;
-  font-size: 12px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.x {
-  border: 0;
-  background: none;
-  color: #c4cdd8;
-  font-size: 20px;
-  line-height: 1;
-  cursor: pointer;
-}
-.picker {
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-}
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.chip {
-  padding: 5px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.04);
-  color: #eef2f6;
-  font: inherit;
-  font-size: 12.5px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition:
-    border-color 0.12s ease,
-    background 0.12s ease,
-    color 0.12s ease;
-}
-.chip.on {
-  background: rgba(31, 111, 235, 0.28);
-  border-color: #4493f8;
-  color: #fff;
-  font-weight: 600;
-}
-.tabs {
-  display: flex;
-  gap: 4px;
-  padding: 9px 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-}
-.tabs button {
-  padding: 5px 12px;
-  border: 0;
-  border-radius: 6px;
-  background: none;
-  color: #ccd5e0;
-  font: inherit;
-  font-size: 12.5px;
-  cursor: pointer;
-}
-.tabs button.on {
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-}
-.body {
-  overflow: auto;
-  padding: 13px 16px;
-  flex: 1;
-}
-.hint {
-  margin: 0;
-  color: #c4cdd8;
-  line-height: 1.6;
-}
-.footer {
-  position: relative;
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  padding: 11px 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(0, 0, 0, 0.18);
-}
-[hidden] {
-  display: none !important;
-}
-.cpreview {
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: calc(100% + 8px);
-  background: rgba(13, 17, 23, 0.96);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 12px;
-  box-shadow: 0 18px 50px -14px rgba(0, 0, 0, 0.7);
-  padding: 12px 14px;
-  max-height: 50vh;
-  overflow: auto;
-}
-.copy {
-  color: #eef2f6;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.05);
-}
-.footer button {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font: inherit;
-  font-size: 12.5px;
-  font-weight: 600;
-  cursor: pointer;
-}
-.claude {
-  color: #fff;
-  border: 1px solid #d97757;
-  background: linear-gradient(180deg, #e0805f, #c25e3c);
-  box-shadow:
-    0 6px 18px -6px rgba(217, 119, 87, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-.claude svg {
-  flex: none;
 }
 .modern-layout {
   display: flex;
@@ -5507,10 +5374,9 @@ img {
   cursor: pointer;
   text-decoration: none;
 }
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
+.nav-section__header--link {
+  text-decoration: none;
+  color: var(--bcn-gray-950);
 }
 .nav-section__header > .esa-icon:first-child {
   flex-shrink: 0;
@@ -5555,17 +5421,56 @@ img {
   transition: all 0.15s ease;
   line-height: 1.2;
 }
-.nav-item + .nav-item {
-  margin-top: var(--spacing-050);
-}
 .nav-sublink.active {
   background: #0000000a;
   color: var(--color-primary);
+}
+.nav-item + .nav-item {
+  margin-top: var(--spacing-050);
+}
+.nav-divider {
+  flex-shrink: 0;
+  height: 1px;
+  margin: var(--spacing-200) 0;
+  border: 0;
+  background: var(--bcn-gray-200);
+}
+.nav-subdivider {
+  list-style: none;
+  height: 1px;
+  margin: var(--spacing-150) 0 var(--spacing-150) 2.5rem;
+  background: var(--bcn-gray-200);
 }
 .modern-layout__content {
   flex: 1;
   overflow-y: auto;
   min-width: 0;
+}
+.bcn-aldo-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: var(--radius-full);
+  background: var(--bcn-aldo);
+  color: var(--color-text-inverse);
+  line-height: 0;
+}
+.bcn-aldo-mark[data-size="lg"] {
+  width: 64px;
+  height: 64px;
+}
+.bcn-aldo-mark[data-animated] {
+  animation: bcn-aldo-pulse 2s ease-in-out infinite;
+}
+.bcn-aldo-mark__glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+.bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
+  animation: bcn-aldo-spin 8s linear infinite;
 }
 .bcn-omni {
   position: fixed;
@@ -5614,26 +5519,10 @@ img {
   cursor: pointer;
   transition: background var(--transition-fast, 0.15s ease);
 }
-.bcn-aldo-mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  border-radius: var(--radius-full);
-  background: var(--bcn-aldo);
-  color: var(--color-text-inverse);
-  line-height: 0;
-}
 .bcn-aldo-mark[data-size="sm"] {
   width: 20px;
   height: 20px;
   --icon-size-xs: 12px;
-}
-.bcn-aldo-mark__glyph {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 0;
 }
 .bcn-help-bar__guidance-label {
   white-space: nowrap;
@@ -5960,18 +5849,278 @@ img {
   display: none;
 }
 :host {
-  display: contents;
+  display: inline-block;
+}
+.esa-tooltip-anchor {
+  position: relative;
+  display: inline-flex;
+}
+:host {
+  --_width: var(--side-dialog-width, 400px);
+}
+:host {
+  --_field-padding-y: var(--form-padding-y-md, 0.5rem);
+  --_field-padding-x: var(--form-padding-x-md, 0.75rem);
+  --_field-font-size: var(--form-font-size-md, 0.9375rem);
+  --_field-height: var(--form-height-md, 40px);
+  --_field-radius: var(--form-radius-md, 0.5rem);
+  --_field-border-color: var(--form-border-color, #e5e5e5);
+  --_label-font-size: var(--type-size-200, 0.9375rem);
+  display: block;
+  font-family: var(--font-sans, sans-serif);
+}
+:host([size="lg"]) {
+  --_field-padding-y: var(--form-padding-y-lg, 0.75rem);
+  --_field-padding-x: var(--form-padding-x-lg, 1rem);
+  --_field-font-size: var(--form-font-size-lg, 1.125rem);
+  --_field-height: var(--form-height-lg, 48px);
+  --_field-radius: var(--form-radius-lg, 0.5rem);
+  --_label-font-size: var(--type-size-300, 1.125rem);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+}
+.control {
+  display: flex;
+  align-items: stretch;
+  height: var(--_field-height);
+  background: var(--form-bg, #fff);
+  border: var(--form-border-width, 1px) solid var(--_field-border-color);
+  border-radius: var(--_field-radius);
+  box-sizing: border-box;
+  overflow: hidden;
+  transition:
+    border-color var(--transition-fast, 150ms ease),
+    box-shadow var(--transition-fast, 150ms ease);
+}
+.input {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  padding: var(--_field-padding-y) var(--_field-padding-x);
+  font-family: inherit;
+  font-size: var(--_field-font-size);
+  color: var(--form-text-color, #171717);
+  background: transparent;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+.input::placeholder {
+  color: var(--form-placeholder-color, #737373);
+}
+:host {
+  --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
+  --_popover-border: var(--popover-border-color, var(--color-border, #e5e5e5));
+  --_popover-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+  --_popover-radius: var(--popover-radius, var(--radius-200, 0.5rem));
+  --_popover-padding: var(--spacing-300, 0.75rem);
+  --_popover-arrow-size: 8px;
+  --_popover-color: var(--popover-color, var(--color-text-primary, #171717));
+  display: inline-block;
+}
+.esa-popover-anchor {
+  position: relative;
+  display: inline-block;
+}
+.esa-empty-state {
+  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
+  --_empty-title-size: 16px;
+  --_empty-desc-size: 14px;
+  --_empty-gap: var(--empty-state-gap, var(--spacing-200, 0.5rem));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
+  gap: var(--_empty-gap);
+}
+.esa-empty-state--lg {
+  --_empty-icon-size: var(--empty-state-icon-size-lg, 64px);
+  --_empty-title-size: 20px;
+  --_empty-desc-size: 16px;
+  padding: var(--spacing-800, 4rem) var(--spacing-400, 1rem);
+}
+.esa-empty-state__icon {
+  color: var(--empty-state-icon-color, var(--color-text-muted, #737373));
+  margin-bottom: var(--spacing-100, 0.25rem);
+  display: inline-flex;
+}
+.esa-empty-state__icon svg {
+  width: var(--_empty-icon-size);
+  height: var(--_empty-icon-size);
+}
+.esa-empty-state__title {
+  margin: 0;
+  font-size: var(--_empty-title-size);
+  font-weight: 600;
+  color: var(--empty-state-title-color, var(--color-text-primary, #171717));
+}
+.esa-empty-state__description {
+  margin: 0;
+  font-size: var(--_empty-desc-size);
+  color: var(--empty-state-description-color, var(--color-text-secondary, #525252));
+  max-width: 360px;
+}
+.esa-empty-state__actions {
+  margin-top: var(--spacing-200, 0.5rem);
+}
+.bcn-kb-hero {
+  padding-block: var(--spacing-700) var(--spacing-600);
+}
+.bcn-kb-hero__col {
+  --center-max: 44rem;
+  text-align: center;
+}
+.bcn-kb-hero__stack {
+  --gap: var(--spacing-400);
+  align-items: center;
+}
+.bcn-kb-hero__title {
+  color: var(--color-text-primary);
+}
+.bcn-kb-hero__lede {
+  max-inline-size: 34rem;
+  color: var(--color-text-secondary);
+}
+.bcn-kb-hero__search {
+  inline-size: 100%;
+  max-inline-size: 35rem;
+  margin-block-start: var(--spacing-200);
+  text-align: start;
+}
+.bcn-kbc {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+}
+.bcn-kbc__title {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+.bcn-kbc__tile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  height: 100%;
+  box-sizing: border-box;
+  padding: var(--spacing-400);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    border-color 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.bcn-kbc__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-200, var(--radius-100));
+  background: var(--color-surface-sunken);
+  color: var(--color-text-secondary);
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+.bcn-kbc__tile-title {
+  color: var(--color-text-primary);
+  transition: color 0.15s ease;
+}
+.bcn-kbc__desc {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+.bcn-kbc__count {
+  display: inline-flex;
+  margin-top: auto;
+  padding-top: var(--spacing-100);
+}
+.bcn-kb {
+  --sidebar-width: 260px;
+  --sidebar-content-min: 60%;
+  --gap: var(--spacing-600, 2rem);
+}
+.bcn-kb__rail {
+  position: sticky;
+  top: var(--spacing-500, 1.5rem);
+  align-self: start;
+  max-block-size: calc(100vh - var(--spacing-700, 3rem));
+  overflow-y: auto;
+}
+.bcn-kb__groups {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-500, 1.5rem);
+}
+.bcn-kb__group-title {
+  margin: 0 0 var(--spacing-200, 0.5rem);
+  padding-inline: var(--spacing-300, 0.75rem);
+  font-size: var(--type-size-300, 1rem);
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-text-primary);
+  line-height: 1.3;
+}
+.bcn-kb__items {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.bcn-kb__link {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--spacing-200, 0.5rem) var(--spacing-300, 0.75rem);
+  border-radius: var(--radius-200, 8px);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition:
+    background 0.1s ease,
+    color 0.1s ease;
+}
+.bcn-kb__link-title {
+  font-size: var(--type-size-200, 0.875rem);
+  font-weight: var(--font-weight-medium, 500);
+  color: inherit;
+  line-height: 1.35;
+}
+.bcn-kb__link-kind {
+  font-size: 13px;
+  color: var(--color-text-tertiary);
+}
+.bcn-kb__pane {
+  min-block-size: 60vh;
+}
+.bcn-kb__welcome {
+  display: grid;
+  place-items: center;
+  min-block-size: 60vh;
+}
+.bcn-kb__article {
+  max-inline-size: 70ch;
+}
+.bcn-kb__article[hidden] {
+  display: none;
 }
 ```
 
 ## Tokens
 | Token | Value | Tier |
 |---|---|---|
-| `--badge-bg` | `#005862` | component |
-| `--badge-height-md` | `28px` | component |
-| `--badge-height-sm` | `22px` | component |
-| `--badge-radius` | `.25rem` | component |
-| `--badge-text-color` | `#fcfcfc` | component |
 | `--bcn-aldo` | `#08908b` | component |
 | `--bcn-aldo-100` | `#cfeceb` | component |
 | `--bcn-aldo-50` | `#e8f6f5` | component |
@@ -5991,26 +6140,10 @@ img {
 | `--bcn-helpbar-fg` | `rgba(255, 255, 255, .92)` | component |
 | `--bcn-helpbar-fg-muted` | `rgba(255, 255, 255, .72)` | component |
 | `--bcn-helpbar-hover-bg` | `rgba(255, 255, 255, .1)` | component |
-| `--collapsible-bg` | `#fcfcfc` | component |
-| `--collapsible-border-color` | `#dcdcdc` | component |
-| `--collapsible-padding-x` | `1rem` | component |
-| `--collapsible-radius` | `.5rem` | component |
-| `--collapsible-title-color` | `#3d3d3d` | component |
 | `--color-accent` | `#f76b15` | semantic |
 | `--color-border` | `#dcdcdc` | semantic |
-| `--color-border-light` | `#efefef` | semantic |
-| `--color-border-strong` | `#bdbdbd` | semantic |
-| `--color-commitment` | `#58508d` | component |
-| `--color-danger` | `#e5484d` | semantic |
-| `--color-danger-hover` | `#dc3e42` | semantic |
-| `--color-danger-strong` | `#ce2c31` | semantic |
-| `--color-link` | `#2a7e3b` | component |
 | `--color-primary` | `#005862` | semantic |
-| `--color-primary-hover` | `#00474f` | semantic |
-| `--color-primary-strong` | `#2a7e3b` | semantic |
-| `--color-primary-subtle` | `#effefb` | semantic |
 | `--color-surface` | `#fcfcfc` | semantic |
-| `--color-surface-elevated` | `#fcfcfc` | semantic |
 | `--color-surface-sunken` | `#efefef` | semantic |
 | `--color-text-inverse` | `#fcfcfc` | semantic |
 | `--color-text-link` | `#005862` | semantic |
@@ -6018,13 +6151,14 @@ img {
 | `--color-text-primary` | `#3d3d3d` | semantic |
 | `--color-text-secondary` | `#525252` | semantic |
 | `--color-text-tertiary` | `#656565` | semantic |
-| `--dialog-bg` | `#fcfcfc` | component |
-| `--dialog-border-color` | `#efefef` | component |
-| `--dialog-radius` | `.75rem` | component |
-| `--dialog-width` | `480px` | component |
-| `--filter-clear-color` | `#7c7c7c` | component |
-| `--filter-clear-color-hover` | `#ce2c31` | component |
+| `--empty-state-description-color` | `#525252` | component |
+| `--empty-state-gap` | `.5rem` | component |
+| `--empty-state-icon-color` | `#7c7c7c` | component |
+| `--empty-state-icon-size-lg` | `64px` | component |
+| `--empty-state-icon-size-md` | `48px` | component |
+| `--empty-state-title-color` | `#3d3d3d` | component |
 | `--font-decorative` | `"Besley", serif` | component |
+| `--font-display` | `"DM Sans", sans-serif` | primitive |
 | `--font-sans` | `"DM Sans", sans-serif` | primitive |
 | `--font-weight-bold` | `650` | primitive |
 | `--font-weight-medium` | `450` | primitive |
@@ -6033,33 +6167,32 @@ img {
 | `--form-bg` | `#fcfcfc` | component |
 | `--form-border-color` | `#dcdcdc` | component |
 | `--form-border-width` | `1px` | component |
+| `--form-font-size-lg` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | component |
 | `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | component |
-| `--form-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` | component |
+| `--form-height-lg` | `44px` | component |
 | `--form-height-md` | `36px` | component |
-| `--form-height-sm` | `28px` | component |
-| `--form-label-color` | `#525252` | component |
+| `--form-padding-x-lg` | `1rem` | component |
 | `--form-padding-x-md` | `.75rem` | component |
-| `--form-padding-x-sm` | `.625rem` | component |
+| `--form-padding-y-lg` | `.75rem` | component |
 | `--form-padding-y-md` | `.5rem` | component |
 | `--form-placeholder-color` | `#7c7c7c` | component |
+| `--form-radius-lg` | `.25rem` | component |
 | `--form-radius-md` | `.25rem` | component |
-| `--form-radius-sm` | `.25rem` | component |
 | `--form-text-color` | `#3d3d3d` | component |
 | `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
-| `--icon-link-font-size-md` | `1rem` | component |
-| `--icon-link-font-size-sm` | `.875rem` | component |
-| `--icon-link-gap` | `.375rem` | component |
+| `--icon-size-large` | `24px` | component |
+| `--icon-size-lg` | `24px` | primitive |
 | `--icon-size-md` | `20px` | primitive |
 | `--icon-size-medium` | `20px` | component |
 | `--icon-size-sm` | `16px` | primitive |
 | `--icon-size-small` | `16px` | component |
+| `--icon-size-xl` | `28px` | primitive |
 | `--icon-size-xs` | `14px` | primitive |
-| `--pill-bg` | `#efefef` | component |
-| `--pill-border-color` | `#efefef` | component |
-| `--pill-height-md` | `28px` | component |
-| `--pill-height-sm` | `22px` | component |
-| `--pill-radius` | `.25rem` | component |
-| `--pill-text-color` | `#3d3d3d` | component |
+| `--letter-spacing-normal` | `.01em` | primitive |
+| `--letter-spacing-tight` | `-.01em` | primitive |
+| `--line-height-normal` | `1.6` | primitive |
+| `--line-height-relaxed` | `1.8` | primitive |
+| `--line-height-tight` | `1.3` | primitive |
 | `--popover-bg` | `#fcfcfc` | component |
 | `--popover-border-color` | `#dcdcdc` | component |
 | `--popover-color` | `#3d3d3d` | component |
@@ -6071,7 +6204,7 @@ img {
 | `--radius-full` | `9999px` | primitive |
 | `--shadow-300` | `0 6px 24px -6px rgba(0, 0, 0, .07)` | primitive |
 | `--side-dialog-width` | `400px` | component |
-| `--side-dialog-width-lg` | `520px` | component |
+| `--sidebar-width` | `280px` | semantic |
 | `--spacing-050` | `.125rem` | primitive |
 | `--spacing-100` | `.25rem` | primitive |
 | `--spacing-150` | `.375rem` | primitive |
@@ -6082,6 +6215,7 @@ img {
 | `--spacing-500` | `1.5rem` | primitive |
 | `--spacing-600` | `2rem` | primitive |
 | `--spacing-700` | `3rem` | primitive |
+| `--spacing-800` | `4rem` | primitive |
 | `--transition-fast` | `.15s ease` | primitive |
 | `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | primitive |
 | `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
@@ -6089,6 +6223,8 @@ img {
 | `--type-size-250` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` | primitive |
 | `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
 | `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
+| `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` | primitive |
+| `--type-size-600` | `clamp(1.375rem, 1.2rem + .88vw, 1.875rem)` | primitive |
 
 ---
 _Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._

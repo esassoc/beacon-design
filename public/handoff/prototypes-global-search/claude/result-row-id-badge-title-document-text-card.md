@@ -39,7 +39,7 @@ One result row: a head line of a purple commitment-ID badge + a semibold title, 
 .bcn-sr__rows {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--spacing-300);
 }
 .bcn-sr__row {
   display: flex;
@@ -64,17 +64,6 @@ One result row: a head line of a purple commitment-ID badge + a semibold title, 
   gap: var(--spacing-200);
   min-width: 0;
 }
-.bcn-sr__row-code {
-  flex: none;
-  padding: 1px 6px;
-  border-radius: var(--radius-100);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.4;
-  white-space: nowrap;
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-}
 .bcn-sr__row-title {
   flex: 0 1 auto;
   min-width: 0;
@@ -86,15 +75,33 @@ One result row: a head line of a purple commitment-ID badge + a semibold title, 
   text-overflow: ellipsis;
 }
 .bcn-sr__row-snippet {
-  margin-top: var(--spacing-100);
-  padding: var(--spacing-250) var(--spacing-300);
+  margin-top: var(--spacing-150);
+  padding: var(--spacing-300) var(--spacing-350, 1.25rem);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-100);
+  border-radius: var(--radius-200);
   background: var(--color-surface);
   font-family: var(--font-decorative);
   font-size: var(--type-size-150);
-  line-height: 1.6;
+  line-height: 1.7;
   color: var(--color-text-primary);
+  text-align: left;
+}
+.bcn-sr__row-snippet[hidden] {
+  display: none;
+}
+.bcn-sr__row-code {
+  flex: none;
+  padding: 1px 6px;
+  border-radius: var(--radius-100);
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+  white-space: nowrap;
+  color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 12%, white);
+}
+.bcn-sr__row-snippet p {
+  margin: 0;
 }
 .bcn-sr__row-title mark,
 .bcn-sr__row-snippet mark {
@@ -106,24 +113,33 @@ One result row: a head line of a purple commitment-ID badge + a semibold title, 
 .bcn-sr__row[hidden] {
   display: none;
 }
-.bcn-sr__row-snippet[hidden] {
-  display: none;
+.bcn-sr__row-snippet p + p {
+  margin-top: 0.85em;
+}
+.bcn-sr__row-snippet .bcn-sr__row-more {
+  margin-top: 1em;
+  padding-top: 0.7em;
+  border-top: 1px solid var(--color-border);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: var(--type-size-100);
+  font-style: normal;
+  color: var(--color-text-tertiary);
 }
 ```
 
 ## Tokens
 - `--color-border`: #dcdcdc _(semantic)_
 - `--color-commitment`: #58508d _(component)_
-- `--color-surface`: #ffffff _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
+- `--color-text-tertiary`: #656565 _(semantic)_
 - `--font-decorative`: "Besley", serif _(component)_
+- `--font-sans`: "DM Sans", sans-serif _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
-- `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
-- `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
 - `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_

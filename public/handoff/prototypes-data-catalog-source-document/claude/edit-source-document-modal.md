@@ -104,9 +104,12 @@ The single-pane upsert — a single-column esa-dialog carrying the prod Edit Sou
   --_btn-padding-x: var(--form-padding-x-md, 16px);
   --_btn-font-size: var(--form-font-size-md, 14px);
   --_btn-radius: var(--form-radius-md, 6px);
-  --_accent: var(--color-primary, #43608a);
-  --_accent-hover: var(--color-primary-hover, #39506f);
+  --_accent: var(--color-primary, #46a758);
+  --_accent-hover: var(--color-primary-hover, #3e9b4f);
   --_on: var(--color-text-inverse, #ffffff);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
 .esa-button--sm {
@@ -114,6 +117,9 @@ The single-pane upsert — a single-column esa-dialog carrying the prod Edit Sou
   --_btn-padding-x: var(--form-padding-x-sm, 12px);
   --_btn-font-size: var(--form-font-size-sm, 12px);
   --_btn-radius: var(--form-radius-sm, 4px);
+}
+.esa-button--color-primary {
+  --_accent-text: var(--color-primary-strong);
 }
 .esa-button__native {
   display: inline-flex;
@@ -152,7 +158,7 @@ The single-pane upsert — a single-column esa-dialog carrying the prod Edit Sou
 .esa-button--appearance-outline .esa-button__native,
 .esa-button--appearance-dashed .esa-button__native {
   background: transparent;
-  color: var(--_accent);
+  color: var(--_accent-text);
   border-color: var(--_accent);
 }
 .esa-button--color-ghost .esa-button__native {
@@ -165,8 +171,9 @@ The single-pane upsert — a single-column esa-dialog carrying the prod Edit Sou
   border-color: var(--color-border, #e5e5e5);
 }
 .esa-button--color-danger {
-  --_accent: var(--color-danger, #ef4444);
-  --_accent-hover: color-mix(in srgb, var(--color-danger, #ef4444) 85%, #000);
+  --_accent: var(--color-danger);
+  --_accent-hover: var(--color-danger-hover);
+  --_accent-text: var(--color-danger-strong);
 }
 .esa-button--appearance-soft .esa-button__native {
   background: color-mix(
@@ -174,7 +181,7 @@ The single-pane upsert — a single-column esa-dialog carrying the prod Edit Sou
     var(--color-surface-sunken, #efefef) 45%,
     var(--color-surface, #fff)
   );
-  color: var(--_accent);
+  color: var(--_accent-text);
   border-color: var(--color-border-strong, #d4d4d4);
 }
 .esa-button--appearance-fill .esa-button__native:hover:not(:disabled) {
@@ -185,12 +192,15 @@ The single-pane upsert — a single-column esa-dialog carrying the prod Edit Sou
 ## Tokens
 - `--color-border`: #dcdcdc _(semantic)_
 - `--color-border-strong`: #bdbdbd _(semantic)_
-- `--color-danger`: #ef4444 _(semantic)_
+- `--color-danger`: #e5484d _(semantic)_
+- `--color-danger-hover`: #dc3e42 _(semantic)_
+- `--color-danger-strong`: #ce2c31 _(semantic)_
 - `--color-primary`: #005862 _(semantic)_
 - `--color-primary-hover`: #00474f _(semantic)_
-- `--color-surface`: #ffffff _(semantic)_
+- `--color-primary-strong`: #2a7e3b _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
 - `--color-surface-sunken`: #efefef _(semantic)_
-- `--color-text-inverse`: #ffffff _(semantic)_
+- `--color-text-inverse`: #fcfcfc _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
 - `--font-weight-medium`: 450 _(primitive)_

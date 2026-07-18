@@ -291,6 +291,10 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
 .nav-section--active .nav-section__header .esa-icon {
   color: var(--color-primary);
 }
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
 .sd__header {
   flex: 1;
   min-width: 0;
@@ -347,10 +351,6 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
   display: flex;
   flex-direction: column;
   gap: var(--spacing-200);
-}
-.pd__section-head .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary);
 }
 .sd-permit__btn {
   display: flex;
@@ -443,6 +443,27 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
 .esa-icon--md {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
 }
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(
+    --icon-button-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
 .bcn-status-chip {
   display: inline-flex;
   align-items: center;
@@ -465,10 +486,10 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
 .esa-badge {
   --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
   --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));
-  --_badge-height: var(--badge-height-md, 20px);
-  --_badge-font-size: 11px;
-  --_badge-padding-x: 6px;
-  --_badge-min-width: var(--badge-height-md, 20px);
+  --_badge-height: var(--badge-height-md, 28px);
+  --_badge-font-size: 13px;
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  --_badge-min-width: var(--badge-height-md, 28px);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -485,27 +506,10 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
   box-sizing: border-box;
 }
 .esa-badge--sm {
-  --_badge-height: var(--badge-height-sm, 16px);
-  --_badge-font-size: 10px;
-  --_badge-padding-x: 4px;
-  --_badge-min-width: var(--badge-height-sm, 16px);
-}
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
+  --_badge-height: var(--badge-height-sm, 22px);
+  --_badge-font-size: 11px;
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
+  --_badge-min-width: var(--badge-height-sm, 22px);
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
@@ -518,19 +522,21 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
 
 ## Tokens
 - `--badge-bg`: #005862 _(component)_
-- `--badge-height-md`: 20px _(component)_
-- `--badge-height-sm`: 16px _(component)_
+- `--badge-height-md`: 28px _(component)_
+- `--badge-height-sm`: 22px _(component)_
 - `--badge-radius`: .25rem _(component)_
-- `--badge-text-color`: #ffffff _(component)_
+- `--badge-text-color`: #fcfcfc _(component)_
 - `--bcn-gray-1000`: #000000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
+- `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
+- `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
 - `--color-background`: #fafafa _(semantic)_
 - `--color-border`: #dcdcdc _(semantic)_
 - `--color-primary`: #005862 _(semantic)_
-- `--color-surface`: #ffffff _(semantic)_
-- `--color-text-inverse`: #ffffff _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
+- `--color-text-inverse`: #fcfcfc _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
@@ -538,6 +544,7 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
 - `--font-weight-semibold`: 550 _(primitive)_
 - `--form-height-md`: 36px _(component)_
 - `--form-label-color`: #525252 _(component)_
+- `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_

@@ -1,12 +1,12 @@
-# Full page
+# Delta Conveyance Project
 
 Re-implement this UI section faithfully on your stack. Keep the CSS custom-property
 names (`var(--…)`) so it stays themeable — the values below are the resolved
-`beacon` theme of the **prototypes-data-catalog-commitment** design system (an ESA Ecology spoke).
+`beacon` theme of the **prototypes-project-dashboard** design system (an ESA Ecology spoke).
 
-- **Source prototype:** http://localhost:4399/beacon-design/prototypes/data-catalog-commitment/
-- **Section element:** `<page>`
-- **Components:** esa-badge (hub), esa-button (hub), esa-collapsible (hub), esa-empty-state (hub), esa-filter-clear-button (hub), esa-filter-container (hub), esa-icon (hub), esa-icon-button (hub), esa-icon-link (hub), esa-pill (hub)
+- **Source prototype:** http://localhost:4399/beacon-design/prototypes/project-dashboard/
+- **Section element:** `<div>`
+- **Components:** esa-badge (hub), esa-button (hub), esa-card (hub), esa-icon (hub), esa-icon-button (hub), esa-stat (hub)
 
 ## Markup (de-scoped, framework-free)
 ```html
@@ -39,7 +39,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         </svg>
       </button>
       <button type="button" class="tenant-trigger">
-        <span>AWS</span>
+        <span>DWR</span>
         <span class="esa-icon esa-icon--xs" aria-hidden="true">
           <svg
             width="14"
@@ -314,7 +314,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               ></path>
             </svg>
           </span>
-          <span class="project-switcher__name">Select a Project</span>
+          <span class="project-switcher__name">Delta Conveyance</span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
             <svg
               width="16"
@@ -333,7 +333,291 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         </button>
       </div>
       <div class="main-nav">
+        <div class="nav-section">
+          <a href="#setup-wizard" class="nav-section__header nav-section__header--link">
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path
+                  d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+                ></path>
+                <circle cx="12" cy="12" r="10"></circle>
+              </svg>
+            </span>
+            <span class="nav-section__title">Setup Wizard</span>
+          </a>
+        </div>
         <div class="nav-section nav-section--active">
+          <button type="button" class="nav-section__header" aria-expanded="true">
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <rect width="7" height="9" x="3" y="3" rx="1"></rect>
+                <rect width="7" height="5" x="14" y="3" rx="1"></rect>
+                <rect width="7" height="9" x="14" y="12" rx="1"></rect>
+                <rect width="7" height="5" x="3" y="16" rx="1"></rect>
+              </svg>
+            </span>
+            <span class="nav-section__title">Project</span>
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </span>
+          </button>
+          <ul class="nav-section__items">
+            <li class="nav-item">
+              <a href="#dashboard" class="nav-sublink active"> Dashboard </a>
+            </li>
+            <li class="nav-item">
+              <a href="#source-documents" class="nav-sublink"> Source Documents </a>
+            </li>
+            <li class="nav-item"><a href="#commitments" class="nav-sublink"> Commitments </a></li>
+            <li class="nav-item"><a href="#requirements" class="nav-sublink"> Requirements </a></li>
+            <li class="nav-item">
+              <a href="#organize-actions" class="nav-sublink"> Organize Actions </a>
+            </li>
+            <li class="nav-item"><a href="#action-lists" class="nav-sublink"> Action Lists </a></li>
+            <li class="nav-item">
+              <a href="#document-reviews" class="nav-sublink"> Document Reviews </a>
+            </li>
+            <li class="nav-item">
+              <a href="#spatial-library-layers" class="nav-sublink"> Spatial Library Layers </a>
+            </li>
+          </ul>
+        </div>
+        <hr class="nav-divider" aria-hidden="true" />
+        <div class="nav-section">
+          <button type="button" class="nav-section__header" aria-expanded="true">
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                <path d="M4 6h.01"></path>
+                <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                <path d="M12 18h.01"></path>
+                <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                <circle cx="12" cy="12" r="2"></circle>
+                <path d="m13.41 10.59 5.66-5.66"></path>
+              </svg>
+            </span>
+            <span class="nav-section__title">Tracking</span>
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </span>
+          </button>
+          <ul class="nav-section__items">
+            <li class="nav-item">
+              <a href="#tracking-summary" class="nav-sublink"> Tracking Summary </a>
+            </li>
+            <li class="nav-item">
+              <a href="#project-tracking" class="nav-sublink"> Project Tracking </a>
+            </li>
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/permit-tracking" class="nav-sublink">
+                Permit Tracking
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#all-components" class="nav-sublink"> All Components </a>
+            </li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <button type="button" class="nav-section__header" aria-expanded="true">
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path
+                  d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"
+                ></path>
+                <circle cx="12" cy="8" r="2"></circle>
+                <path
+                  d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"
+                ></path>
+              </svg>
+            </span>
+            <span class="nav-section__title">Monitoring</span>
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </span>
+          </button>
+          <ul class="nav-section__items">
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/monitoring/dashboard" class="nav-sublink">
+                Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/beacon-design/prototypes/monitoring/compliance-concerns"
+                class="nav-sublink"
+              >
+                Compliance Concerns
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/monitoring/nesting-birds" class="nav-sublink">
+                Nesting Birds
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/beacon-design/prototypes/monitoring/biological-resources"
+                class="nav-sublink"
+              >
+                Biological Resources
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/beacon-design/prototypes/monitoring/daily-monitoring-reports"
+                class="nav-sublink"
+              >
+                Daily Monitoring Reports
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/monitoring/surveys" class="nav-sublink">
+                Surveys
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/monitoring/all-observations" class="nav-sublink">
+                All Observations
+              </a>
+            </li>
+            <li class="nav-subdivider" aria-hidden="true"></li>
+            <li class="nav-item">
+              <a href="/beacon-design/prototypes/site-clearance" class="nav-sublink">
+                Site Clearance
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="nav-section">
+          <button type="button" class="nav-section__header" aria-expanded="true">
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
+                <path
+                  d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+                ></path>
+                <path d="M12 11h4"></path>
+                <path d="M12 16h4"></path>
+                <path d="M8 11h.01"></path>
+                <path d="M8 16h.01"></path>
+              </svg>
+            </span>
+            <span class="nav-section__title">Reporting</span>
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </span>
+          </button>
+          <ul class="nav-section__items">
+            <li class="nav-item">
+              <a href="#progress-report" class="nav-sublink"> Progress Report </a>
+            </li>
+            <li class="nav-item">
+              <a href="#report-center" class="nav-sublink"> Report Center </a>
+            </li>
+          </ul>
+        </div>
+        <hr class="nav-divider" aria-hidden="true" />
+        <div class="nav-section">
           <button type="button" class="nav-section__header" aria-expanded="true">
             <span class="esa-icon esa-icon--sm" aria-hidden="true">
               <svg
@@ -370,113 +654,85 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             </span>
           </button>
           <ul class="nav-section__items">
-            <li class="nav-item"><a href="#dc-projects" class="nav-sublink"> Projects </a></li>
             <li class="nav-item">
               <a href="#dc-source-documents" class="nav-sublink"> Source Documents </a>
             </li>
             <li class="nav-item">
-              <a href="#dc-commitments" class="nav-sublink active"> Commitments </a>
+              <a href="#dc-commitments" class="nav-sublink"> Commitments </a>
             </li>
             <li class="nav-item">
               <a href="#dc-requirements" class="nav-sublink"> Requirements </a>
             </li>
             <li class="nav-item"><a href="#dc-actions" class="nav-sublink"> Actions </a></li>
-            <li class="nav-item"><a href="#dc-components" class="nav-sublink"> Components </a></li>
-            <li class="nav-item">
-              <a href="#dc-evidence" class="nav-sublink"> Evidence of Compliance </a>
-            </li>
+            <li class="nav-item"><a href="#dc-all-data" class="nav-sublink"> All Data </a></li>
           </ul>
         </div>
       </div>
     </nav>
     <!-- content -->
     <div class="modern-layout__content">
-      <div class="page-layout">
-        <div class="page-layout__container">
-          <section class="page-layout__breadcrumbs">
-            <nav class="breadcrumbs" aria-label="Breadcrumb">
-              <div class="breadcrumbs__items">
-                <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
+      <div class="page-layout page-layout--bleed">
+        <div class="page-layout__bleed">
+          <section class="bcn-phome" aria-label="Delta Conveyance Project — project home">
+            <div class="bcn-phome__cover">
+              <img
+                class="bcn-phome__hero"
+                src="/beacon-design/images/dcp/hero.jpeg"
+                alt=""
+                aria-hidden="true"
+              />
+            </div>
+            <div class="bcn-phome__body">
+              <img
+                class="bcn-phome__seal"
+                src="/beacon-design/images/dcp/dwr-logo.png"
+                alt="DWR seal"
+              />
+              <div class="bcn-phome__id">
+                <div class="bcn-phome__idtop">
+                  <h1 class="bcn-phome__name">Delta Conveyance Project</h1>
+                  <span
+                    class="bcn-status-chip"
+                    data-status="phase"
+                    style="--_chip: var(--st-phase, var(--color-primary))"
                   >
-                    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
-                    <path
-                      d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
-                    ></path>
-                  </svg>
-                </span>
-                <a class="breadcrumb-item" href="#data-catalog"> Data Catalog </a
-                ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path d="m9 18 6-6-6-6"></path>
-                  </svg>
-                </span>
-                <a class="breadcrumb-item" href="#data-catalog/commitments"> Commitments </a
-                ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path d="m9 18 6-6-6-6"></path>
-                  </svg>
-                </span>
-                <span class="breadcrumb-item" aria-current="page"> MM-BIO-2 </span>
-              </div>
-            </nav>
-          </section>
-          <section class="page-layout__title">
-            <div class="page-layout__title-main"><h1>Nesting Birds and Raptors</h1></div>
-          </section>
-          <section class="page-layout__content">
-            <div class="bcn-cmt">
-              <!-- Identity header — ID badge on top, serif title, type badge + version chip. -->
-              <header class="bcn-cmt__head">
-                <div class="bcn-cmt__identity">
-                  <span class="bcn-cmt__badge bcn-cmt__badge--commitment">MM-BIO-2</span>
-                  <div class="bcn-cmt__title-row">
-                    <h1 class="bcn-cmt__title">Nesting Birds and Raptors</h1>
-                    <span class="bcn-cmt__badge bcn-cmt__badge--type">Mitigation Measure</span>
-                    <span class="bcn-cmt__badge bcn-cmt__badge--type">v.2</span>
-                  </div>
+                    <span class="bcn-status-chip__dot"></span>
+                    <span class="bcn-status-chip__label">Pre-Construction</span>
+                  </span>
                 </div>
-                <div class="bcn-cmt__head-actions">
-                  <span id="edit-cmt"
-                    ><span
-                      class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--sm"
-                    >
-                      <button class="esa-button__native" type="button">
-                        <span class="esa-button__label">
-                          <span class="bcn-btn-ico"
-                            ><span class="esa-icon esa-icon--xs" aria-hidden="true">
+                <p class="bcn-phome__eyebrow">Department of Water Resources</p>
+              </div>
+            </div>
+          </section>
+        </div>
+        <div class="page-layout__container">
+          <section class="page-layout__content">
+            <div
+              class="sidebar"
+              data-side="end"
+              data-gap="xl"
+              style="--sidebar-width: 16rem; --sidebar-content-min: 64%"
+            >
+              <div class="stack" data-gap="lg">
+                <div class="esa-card">
+                  <div class="esa-card__header">
+                    <div class="esa-card__header-content">
+                      <div class="esa-card__titles">
+                        <h3 class="esa-card__title">Project data</h3>
+                      </div>
+                    </div>
+                    <div class="esa-card__actions"></div>
+                  </div>
+                  <div class="esa-card__body">
+                    <ul class="bcn-lrc">
+                      <li>
+                        <a class="bcn-lrc__row" href="#project-info">
+                          <span class="bcn-lrc__label">Project Info</span>
+                          <span class="bcn-lrc__right">
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
-                                width="14"
-                                height="14"
+                                width="16"
+                                height="16"
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 stroke="currentColor"
@@ -485,56 +741,202 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 stroke-linejoin="round"
                                 focusable="false"
                               >
-                                <path
-                                  d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"
-                                ></path>
-                                <path d="m15 5 4 4"></path>
+                                <path d="m9 18 6-6-6-6"></path>
                               </svg>
                             </span>
-                            Edit commitment</span
-                          >
-                        </span>
-                      </button>
-                    </span>
-                  </span>
+                          </span>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="bcn-lrc__row" href="#species">
+                          <span class="bcn-lrc__label">Species</span>
+                          <span class="bcn-lrc__right">
+                            <span class="bcn-lrc__meta">38</span>
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path d="m9 18 6-6-6-6"></path>
+                              </svg>
+                            </span>
+                          </span>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="bcn-lrc__row" href="#milestones">
+                          <span class="bcn-lrc__label">Milestones</span>
+                          <span class="bcn-lrc__right">
+                            <span class="bcn-lrc__meta">12</span>
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path d="m9 18 6-6-6-6"></path>
+                              </svg>
+                            </span>
+                          </span>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="bcn-lrc__row" href="#construction-activities">
+                          <span class="bcn-lrc__label">Construction Activities</span>
+                          <span class="bcn-lrc__right">
+                            <span class="bcn-lrc__meta">27</span>
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path d="m9 18 6-6-6-6"></path>
+                              </svg>
+                            </span>
+                          </span>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="bcn-lrc__row" href="#seasons">
+                          <span class="bcn-lrc__label">Seasons</span>
+                          <span class="bcn-lrc__right">
+                            <span class="bcn-lrc__meta">4</span>
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path d="m9 18 6-6-6-6"></path>
+                              </svg>
+                            </span>
+                          </span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-              </header>
-              <div class="bcn-cmt__body">
-                <div class="bcn-cmt__main">
-                  <!-- Full commitment text — serif regulatory voice, bulleted as parsed. -->
-                  <section class="bcn-cmt__section">
-                    <h2 class="bcn-section-title">Full Commitment Text</h2>
-                    <article class="bcn-cmttext">
-                      <ul class="bcn-cmttext__list">
-                        <li class="bcn-cmttext__item">
-                          <strong>Pre-Construction Survey:</strong> If construction,
-                          ground-disturbing, or vegetation-removal activities would occur during the
-                          nesting season (February 1 – August 31), a qualified biologist shall
-                          conduct a pre-construction survey for nesting raptors and other migratory
-                          birds within 14 days prior to the start of those activities.
-                        </li>
-                        <li class="bcn-cmttext__item">
-                          <strong>No-Disturbance Buffers:</strong> If active nests are found, the
-                          biologist shall establish appropriate no-disturbance buffer zones around
-                          each nest, to remain in place until young have fledged.
-                        </li>
-                        <li class="bcn-cmttext__item">
-                          <strong>Work Within Buffer Zones:</strong> If work must occur within an
-                          established buffer zone, it shall proceed only under biological monitoring
-                          by the qualified biologist.
-                        </li>
-                        <li class="bcn-cmttext__item">
-                          <strong>Reporting:</strong> A report of findings documenting any
-                          construction conducted within a no-disturbance buffer zone shall be
-                          submitted to the City.
-                        </li>
-                      </ul>
-                      <footer class="bcn-cmttext__footer">
-                        <span data-bcn-source=""
-                          ><span
-                            class="esa-button esa-button--color-ghost esa-button--appearance-fill esa-button--sm"
+                <div class="esa-card">
+                  <div class="esa-card__header">
+                    <div class="esa-card__header-content">
+                      <div class="esa-card__titles">
+                        <h3 class="esa-card__title">Project details</h3>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="esa-card__body">
+                    <p class="bcn-pf__desc">
+                      A new State Water Project conveyance facility — twin tunnels carrying water
+                      beneath the Delta from new North Delta intakes to the southern export
+                      facilities. Beacon is the system of record for every environmental commitment,
+                      monitoring observation, and compliance report across the project’s components.
+                    </p>
+                    <dl class="bcn-pf">
+                      <div class="bcn-pf__fact">
+                        <dt class="bcn-pf__label">Lead agency</dt>
+                        <dd class="bcn-pf__value">Department of Water Resources</dd>
+                      </div>
+                      <div class="bcn-pf__fact">
+                        <dt class="bcn-pf__label">Region</dt>
+                        <dd class="bcn-pf__value">Sacramento–San Joaquin Delta</dd>
+                      </div>
+                      <div class="bcn-pf__fact">
+                        <dt class="bcn-pf__label">Components</dt>
+                        <dd class="bcn-pf__value">24 tracked · 4 starred</dd>
+                      </div>
+                      <div class="bcn-pf__fact">
+                        <dt class="bcn-pf__label">Tracking since</dt>
+                        <dd class="bcn-pf__value">January 2024</dd>
+                      </div>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+              <div class="stack" data-gap="xl">
+                <div class="esa-card">
+                  <div class="esa-card__header">
+                    <div class="esa-card__header-content">
+                      <div class="esa-card__titles">
+                        <h3 class="esa-card__title">Most critical right now</h3>
+                      </div>
+                    </div>
+                    <div class="esa-card__actions">
+                      <span class="bcn-count" aria-label="3 critical items">3</span>
+                    </div>
+                  </div>
+                  <div class="esa-card__body">
+                    <div class="bcn-crit">
+                      <ul class="bcn-crit__list">
+                        <li>
+                          <a
+                            class="bcn-crit__card"
+                            href="/beacon-design/prototypes/component-dashboard"
                           >
-                            <button class="esa-button__native" type="button">
+                            <span class="bcn-crit__icon" aria-hidden="true">
+                              <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                <svg
+                                  width="20"
+                                  height="20"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path
+                                    d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
+                                  ></path>
+                                  <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                              </span>
+                            </span>
+                            <span class="bcn-crit__body">
+                              <span class="bcn-crit__type">Observation</span>
+                              <span class="bcn-crit__title">
+                                Nesting-bird resurvey lapsed — ground disturbance not cleared
+                              </span>
+                              <span class="bcn-crit__where">Bouldin Island Launch Shaft</span>
+                            </span>
+                            <span class="bcn-crit__right">
+                              <span class="bcn-crit__sev">
+                                <span
+                                  class="bcn-crit__sev-dot"
+                                  style="--_s: var(--color-danger)"
+                                  aria-hidden="true"
+                                ></span>
+                                Critical
+                              </span>
+                              <span class="bcn-crit__timing bcn-crit__timing--late">
+                                Survey expired Mar 24
+                              </span>
                               <span class="esa-icon esa-icon--sm" aria-hidden="true">
                                 <svg
                                   width="16"
@@ -547,40 +949,615 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   stroke-linejoin="round"
                                   focusable="false"
                                 >
-                                  <path
-                                    d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                                  ></path>
-                                  <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                                  <path d="M10 9H8"></path>
-                                  <path d="M16 13H8"></path>
-                                  <path d="M16 17H8"></path>
+                                  <path d="m9 18 6-6-6-6"></path>
                                 </svg>
                               </span>
-                              <span class="esa-button__label"> View in Source Document </span>
-                            </button>
+                            </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="bcn-crit__card" href="#reporting">
+                            <span class="bcn-crit__icon" aria-hidden="true">
+                              <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                <svg
+                                  width="20"
+                                  height="20"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
+                                  <path
+                                    d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+                                  ></path>
+                                  <path d="M12 11h4"></path>
+                                  <path d="M12 16h4"></path>
+                                  <path d="M8 11h.01"></path>
+                                  <path d="M8 16h.01"></path>
+                                </svg>
+                              </span>
+                            </span>
+                            <span class="bcn-crit__body">
+                              <span class="bcn-crit__type">Report</span>
+                              <span class="bcn-crit__title">
+                                Q1 ITP compliance report to CDFW — 2 sections still incomplete
+                              </span>
+                              <span class="bcn-crit__where">Project-wide</span>
+                            </span>
+                            <span class="bcn-crit__right">
+                              <span class="bcn-crit__sev">
+                                <span
+                                  class="bcn-crit__sev-dot"
+                                  style="--_s: var(--color-danger)"
+                                  aria-hidden="true"
+                                ></span>
+                                Critical
+                              </span>
+                              <span class="bcn-crit__timing"> Due in 2 days · Apr 1 </span>
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="m9 18 6-6-6-6"></path>
+                                </svg>
+                              </span>
+                            </span>
+                          </a>
+                        </li>
+                        <li>
+                          <a
+                            class="bcn-crit__card"
+                            href="/beacon-design/prototypes/component-dashboard"
+                          >
+                            <span class="bcn-crit__icon" aria-hidden="true">
+                              <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                <svg
+                                  width="20"
+                                  height="20"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                                  <path d="M4 6h.01"></path>
+                                  <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                                  <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                                  <path d="M12 18h.01"></path>
+                                  <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                                  <circle cx="12" cy="12" r="2"></circle>
+                                  <path d="m13.41 10.59 5.66-5.66"></path>
+                                </svg>
+                              </span>
+                            </span>
+                            <span class="bcn-crit__body">
+                              <span class="bcn-crit__type">Action</span>
+                              <span class="bcn-crit__title">
+                                <span class="bcn-crit__code">BIO-14</span> Exclusion-fencing
+                                inspection overdue
+                              </span>
+                              <span class="bcn-crit__where">Intake B — North Delta</span>
+                            </span>
+                            <span class="bcn-crit__right">
+                              <span class="bcn-crit__sev">
+                                <span
+                                  class="bcn-crit__sev-dot"
+                                  style="--_s: var(--color-warning)"
+                                  aria-hidden="true"
+                                ></span>
+                                Urgent
+                              </span>
+                              <span class="bcn-crit__timing bcn-crit__timing--late">
+                                4 days overdue
+                              </span>
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <path d="m9 18 6-6-6-6"></path>
+                                </svg>
+                              </span>
+                            </span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <section class="bcn-stc" aria-label="Components">
+                  <header class="bcn-stc__head">
+                    <div class="bcn-stc__headings">
+                      <h2 class="bcn-stc__title type-section-title">Components</h2>
+                      <p class="bcn-stc__lede type-body-small">
+                        The components you've starred, with current Tracking, Monitoring, and
+                        Reporting status for each.
+                      </p>
+                    </div>
+                    <a class="bcn-stc__all" href="/beacon-design/prototypes/component-dashboard"
+                      >All 24 components
+                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path d="m9 18 6-6-6-6"></path>
+                        </svg>
+                      </span>
+                    </a>
+                  </header>
+                  <div class="bcn-stc__list">
+                    <a class="bcn-stc__card" href="/beacon-design/prototypes/component-dashboard">
+                      <div class="bcn-stc__main">
+                        <div class="bcn-stc__card-head">
+                          <span class="bcn-stc__glyph"
+                            ><span class="esa-icon esa-icon--md" aria-hidden="true">
+                              <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"
+                                ></path>
+                                <path d="M3.29 7 12 12l8.71-5"></path>
+                                <path d="M12 22V12"></path>
+                              </svg>
+                            </span>
                           </span>
-                        </span>
-                      </footer>
-                    </article>
-                  </section>
-                  <!-- Requirements — one flat list, single Add, keyword + Phase + Type filters. -->
-                  <section class="bcn-cmt__section">
-                    <header class="bcn-cmt__section-head">
-                      <h2 class="bcn-section-title">
-                        Requirements
-                        <span class="bcn-count-neutral"
-                          ><span class="esa-badge esa-badge--primary esa-badge--sm">
-                            <span class="esa-badge__text">4</span>
+                          <span class="bcn-stc__ident">
+                            <span class="bcn-stc__name">Bouldin Island Launch Shaft</span>
+                            <span class="bcn-stc__type"
+                              >Tunnel launch shaft · Bouldin Island · Pre-Construction</span
+                            >
                           </span>
-                        </span>
-                      </h2>
+                        </div>
+                        <div class="bcn-stc__headline">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-danger)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__headline-text"
+                            >Resurvey lapsed — ground disturbance work blocked</span
+                          >
+                        </div>
+                      </div>
+                      <ul class="bcn-stc__pulse">
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-warning)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Tracking</span>
+                          <span class="bcn-stc__pulse-note">3 overdue actions</span>
+                        </li>
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-danger)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Monitoring</span>
+                          <span class="bcn-stc__pulse-note">Resurvey required</span>
+                        </li>
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-success)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Reporting</span>
+                          <span class="bcn-stc__pulse-note">Reports current</span>
+                        </li>
+                      </ul> </a
+                    ><a class="bcn-stc__card" href="/beacon-design/prototypes/component-dashboard">
+                      <div class="bcn-stc__main">
+                        <div class="bcn-stc__card-head">
+                          <span class="bcn-stc__glyph"
+                            ><span class="esa-icon esa-icon--md" aria-hidden="true">
+                              <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"
+                                ></path>
+                                <path d="M3.29 7 12 12l8.71-5"></path>
+                                <path d="M12 22V12"></path>
+                              </svg>
+                            </span>
+                          </span>
+                          <span class="bcn-stc__ident">
+                            <span class="bcn-stc__name">Intake B — North Delta</span>
+                            <span class="bcn-stc__type"
+                              >Screened intake · Sacramento River · Pre-Construction</span
+                            >
+                          </span>
+                        </div>
+                        <div class="bcn-stc__headline">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-warning)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__headline-text"
+                            >Fencing inspection overdue — otherwise tracking well</span
+                          >
+                        </div>
+                      </div>
+                      <ul class="bcn-stc__pulse">
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-warning)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Tracking</span>
+                          <span class="bcn-stc__pulse-note">1 inspection overdue</span>
+                        </li>
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-success)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Monitoring</span>
+                          <span class="bcn-stc__pulse-note">6 obs · 30d</span>
+                        </li>
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-success)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Reporting</span>
+                          <span class="bcn-stc__pulse-note">Reports current</span>
+                        </li>
+                      </ul> </a
+                    ><a class="bcn-stc__card" href="/beacon-design/prototypes/component-dashboard">
+                      <div class="bcn-stc__main">
+                        <div class="bcn-stc__card-head">
+                          <span class="bcn-stc__glyph"
+                            ><span class="esa-icon esa-icon--md" aria-hidden="true">
+                              <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"
+                                ></path>
+                                <path d="M3.29 7 12 12l8.71-5"></path>
+                                <path d="M12 22V12"></path>
+                              </svg>
+                            </span>
+                          </span>
+                          <span class="bcn-stc__ident">
+                            <span class="bcn-stc__name">Southern Forebay &amp; Pumping Plant</span>
+                            <span class="bcn-stc__type"
+                              >Forebay · Byron Tract · Pre-Construction</span
+                            >
+                          </span>
+                        </div>
+                        <div class="bcn-stc__headline">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-success)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__headline-text">On schedule across all areas</span>
+                        </div>
+                      </div>
+                      <ul class="bcn-stc__pulse">
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-success)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Tracking</span>
+                          <span class="bcn-stc__pulse-note">22 / 30 actions</span>
+                        </li>
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-success)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Monitoring</span>
+                          <span class="bcn-stc__pulse-note">11 obs · 30d</span>
+                        </li>
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--color-warning)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Reporting</span>
+                          <span class="bcn-stc__pulse-note">Q1 section due</span>
+                        </li>
+                      </ul> </a
+                    ><a class="bcn-stc__card" href="/beacon-design/prototypes/component-dashboard">
+                      <div class="bcn-stc__main">
+                        <div class="bcn-stc__card-head">
+                          <span class="bcn-stc__glyph"
+                            ><span class="esa-icon esa-icon--md" aria-hidden="true">
+                              <svg
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"
+                                ></path>
+                                <path d="M3.29 7 12 12l8.71-5"></path>
+                                <path d="M12 22V12"></path>
+                              </svg>
+                            </span>
+                          </span>
+                          <span class="bcn-stc__ident">
+                            <span class="bcn-stc__name">Twin Cities Complex</span>
+                            <span class="bcn-stc__type">Tunnel shaft · Staging · On hold</span>
+                          </span>
+                        </div>
+                        <div class="bcn-stc__headline">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--bcn-status-not-started)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__headline-text"
+                            >Paused — revised haul-route agreement pending</span
+                          >
+                        </div>
+                      </div>
+                      <ul class="bcn-stc__pulse">
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--bcn-status-not-started)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Tracking</span>
+                          <span class="bcn-stc__pulse-note">Work paused</span>
+                        </li>
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--bcn-status-not-started)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Monitoring</span>
+                          <span class="bcn-stc__pulse-note">2 obs · 30d</span>
+                        </li>
+                        <li class="bcn-stc__pulse-row">
+                          <span
+                            class="bcn-stc__dot"
+                            style="--_c: var(--bcn-status-not-started)"
+                            aria-hidden="true"
+                          ></span>
+                          <span class="bcn-stc__pulse-area">Reporting</span>
+                          <span class="bcn-stc__pulse-note">Nothing due</span>
+                        </li>
+                      </ul>
+                    </a>
+                  </div>
+                </section>
+                <section class="bcn-tz" aria-label="Tracking">
+                  <header class="bcn-tz__head">
+                    <div class="bcn-tz__headings">
+                      <h2 class="bcn-tz__title type-section-title">Tracking</h2>
+                      <p class="bcn-tz__summary type-body">
+                        Every commitment and action tracked across the project.
+                      </p>
+                    </div>
+                    <span
+                      class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md"
+                    >
                       <a
-                        class="esa-icon-link esa-icon-link--sm esa-icon-link--medium"
-                        href="#add-requirement"
-                        ><span class="esa-icon esa-icon--xs" aria-hidden="true">
+                        class="esa-button__native"
+                        href="/beacon-design/prototypes/requirement-tracker"
+                        role="button"
+                      >
+                        <span class="esa-button__label"> Open Tracking </span>
+                      </a>
+                    </span>
+                  </header>
+                  <div class="bcn-tz__cols">
+                    <div class="bcn-tz__rollup">
+                      <span class="bcn-tz__label">Across the project</span>
+                      <div class="bcn-tz__stats">
+                        <div class="esa-stat">
+                          <div class="esa-stat__value">31</div>
+                          <div class="esa-stat__label">Not started</div>
+                        </div>
+                        <div class="esa-stat">
+                          <div class="esa-stat__value">24</div>
+                          <div class="esa-stat__label">In progress</div>
+                        </div>
+                        <div class="esa-stat">
+                          <div class="esa-stat__value">87</div>
+                          <div class="esa-stat__label">Complete</div>
+                        </div>
+                      </div>
+                      <p class="bcn-tz__scope">across 24 components</p>
+                      <nav class="bcn-tz__sublinks" aria-label="Tracking views">
+                        <a
+                          class="bcn-tz__sublink"
+                          href="/beacon-design/prototypes/requirement-tracker"
+                        >
+                          Project Tracking
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path d="m9 18 6-6-6-6"></path>
+                            </svg>
+                          </span>
+                        </a>
+                      </nav>
+                    </div>
+                    <div class="esa-card">
+                      <div class="esa-card__header">
+                        <div class="esa-card__header-content">
+                          <div class="esa-card__titles"><h3 class="esa-card__title">Lists</h3></div>
+                        </div>
+                        <div class="esa-card__actions">
+                          <span class="bcn-count" aria-label="3 lists">3</span>
+                        </div>
+                      </div>
+                      <div class="esa-card__body">
+                        <ul class="bcn-lrc">
+                          <li>
+                            <a class="bcn-lrc__row" href="#list-bio-mitigations">
+                              <span class="bcn-lrc__label">Active BIO mitigations</span>
+                              <span class="bcn-lrc__right">
+                                <span class="bcn-lrc__meta">12 actions</span>
+                              </span>
+                            </a>
+                          </li>
+                          <li>
+                            <a class="bcn-lrc__row" href="#list-q2-reporting">
+                              <span class="bcn-lrc__label">Q2 reporting deadlines</span>
+                              <span class="bcn-lrc__right">
+                                <span class="bcn-lrc__meta">8 actions</span>
+                              </span>
+                            </a>
+                          </li>
+                          <li>
+                            <a class="bcn-lrc__row" href="#list-permit-conditions">
+                              <span class="bcn-lrc__label">North Delta permit conditions</span>
+                              <span class="bcn-lrc__right">
+                                <span class="bcn-lrc__meta">23 commitments</span>
+                              </span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <section class="bcn-sd" aria-label="Other areas of the project">
+                  <h2 class="bcn-sd__title type-section-title">Explore the rest of Beacon</h2>
+                  <div class="bcn-sd__grid">
+                    <a class="bcn-sd__card" href="/beacon-design/prototypes/monitoring/dashboard">
+                      <div class="bcn-sd__head">
+                        <span class="bcn-sd__glyph">
+                          <span class="esa-icon esa-icon--md" aria-hidden="true">
+                            <svg
+                              width="20"
+                              height="20"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"
+                              ></path>
+                              <circle cx="12" cy="8" r="2"></circle>
+                              <path
+                                d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"
+                              ></path>
+                            </svg>
+                          </span>
+                        </span>
+                        <span class="bcn-sd__name">Monitoring</span>
+                      </div>
+                      <p class="bcn-sd__summary">
+                        Field observations, surveys, and site clearance across every component.
+                      </p>
+                      <div class="bcn-sd__rollup">
+                        <div class="esa-stat">
+                          <div class="esa-stat__value">34</div>
+                          <div class="esa-stat__label">Active observations</div>
+                        </div>
+                        <div class="esa-stat">
+                          <div class="esa-stat__value">58</div>
+                          <div class="esa-stat__label">Logged in 30 days</div>
+                        </div>
+                      </div>
+                      <span class="bcn-sd__flag">
+                        <span
+                          class="bcn-sd__dot"
+                          style="--_c: var(--color-danger)"
+                          aria-hidden="true"
+                        ></span>
+                        2 critical observations
+                      </span>
+                      <span class="bcn-sd__open"
+                        >Open Monitoring
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
                           <svg
-                            width="14"
-                            height="14"
+                            width="16"
+                            height="16"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
@@ -589,101 +1566,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             stroke-linejoin="round"
                             focusable="false"
                           >
-                            <path d="M5 12h14"></path>
-                            <path d="M12 5v14"></path>
+                            <path d="m9 18 6-6-6-6"></path>
                           </svg>
                         </span>
-                        <span class="esa-icon-link__label">Add requirement</span>
-                      </a>
-                    </header>
-                    <div class="bcn-reqfilters">
-                      <esa-text-field
-                        id="req-search"
-                        placeholder="Search requirements…"
-                        size="md"
-                      ></esa-text-field>
-                      <div class="bcn-reqfilters__row">
-                        <div
-                          class="esa-filter-container"
-                          style="
-                            --_filter-container-gap: var(
-                              --filter-container-gap,
-                              var(--spacing-300, 0.75rem)
-                            );
-                            --_filter-container-row-gap: var(--spacing-200, 0.5rem);
-                          "
-                        >
-                          <esa-filter-dropdown
-                            id="flt-phase"
-                            label="Phase"
-                            size="sm"
-                          ></esa-filter-dropdown>
-                          <esa-filter-dropdown
-                            id="flt-type"
-                            label="Type"
-                            size="sm"
-                          ></esa-filter-dropdown>
-                        </div>
-                        <span id="req-clear-filters"
-                          ><button
-                            class="esa-filter-clear-button"
-                            type="button"
-                            data-esa-filter-clear=""
-                            aria-label="Clear all filters"
-                          >
+                      </span> </a
+                    ><a class="bcn-sd__card" href="#reporting">
+                      <div class="bcn-sd__head">
+                        <span class="bcn-sd__glyph">
+                          <span class="esa-icon esa-icon--md" aria-hidden="true">
                             <svg
-                              class="esa-filter-clear-button__icon"
-                              xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              aria-hidden="true"
-                            >
-                              <path d="M13.013 3H2l8 9.46V19l4 2v-8.54l.9-1.055"></path>
-                              <path d="m22 3-5 5"></path>
-                              <path d="m17 3 5 5"></path></svg
-                            ><span class="esa-filter-clear-button__label">Clear all</span>
-                          </button>
-                          <script type="module">
-                            document.querySelectorAll("[data-esa-filter-clear]").forEach((e) => {
-                              e.addEventListener("click", () => {
-                                e.dispatchEvent(
-                                  new CustomEvent("esa-filter-clear", {
-                                    bubbles: !0,
-                                    composed: !0,
-                                  }),
-                                );
-                              });
-                            });
-                          </script></span
-                        >
-                      </div>
-                    </div>
-                    <ul class="bcn-row-list" id="req-list">
-                      <li
-                        class="bcn-row-li"
-                        data-name="pre-construction survey for nesting raptors and other migratory birds during nesting season"
-                        data-phase="Pre-Construction"
-                        data-type="Survey"
-                      >
-                        <a
-                          class="bcn-row"
-                          href="/beacon-design/prototypes/data-catalog-requirement"
-                        >
-                          <span class="bcn-cmt__badge bcn-cmt__badge--commitment">MM-BIO-2</span>
-                          <span class="bcn-row__name"
-                            >Pre-construction survey for nesting raptors and other migratory birds
-                            during nesting season</span
-                          >
-                          <span class="bcn-cmt__badge bcn-cmt__badge--type">Survey</span>
-                          <span class="bcn-cmt__badge bcn-cmt__badge--phase">Pre-Construction</span>
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
+                              width="20"
+                              height="20"
                               viewBox="0 0 24 24"
                               fill="none"
                               stroke="currentColor"
@@ -692,844 +1585,127 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linejoin="round"
                               focusable="false"
                             >
-                              <path d="m9 18 6-6-6-6"></path>
+                              <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
+                              <path
+                                d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+                              ></path>
+                              <path d="M12 11h4"></path>
+                              <path d="M12 16h4"></path>
+                              <path d="M8 11h.01"></path>
+                              <path d="M8 16h.01"></path>
                             </svg>
-                          </span>
-                        </a>
-                      </li>
-                      <li
-                        class="bcn-row-li"
-                        data-name="if bird nests are found, establish no-disturbance buffer zones"
-                        data-phase="Construction"
-                        data-type="Other"
-                      >
-                        <a class="bcn-row" href="#data-catalog/requirements/mm-bio-2-buffers">
-                          <span class="bcn-cmt__badge bcn-cmt__badge--commitment">MM-BIO-2</span>
-                          <span class="bcn-row__name"
-                            >If bird nests are found, establish no-disturbance buffer zones</span
-                          >
-                          <span class="bcn-cmt__badge bcn-cmt__badge--type">Other</span>
-                          <span class="bcn-cmt__badge bcn-cmt__badge--phase">Construction</span>
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="m9 18 6-6-6-6"></path>
-                            </svg>
-                          </span>
-                        </a>
-                      </li>
-                      <li
-                        class="bcn-row-li"
-                        data-name="if work must occur within established no-disturbance buffer zones"
-                        data-phase="Construction"
-                        data-type="Other"
-                      >
-                        <a class="bcn-row" href="#data-catalog/requirements/mm-bio-2-work-within">
-                          <span class="bcn-cmt__badge bcn-cmt__badge--commitment">MM-BIO-2</span>
-                          <span class="bcn-row__name"
-                            >If work must occur within established no-disturbance buffer zones</span
-                          >
-                          <span class="bcn-cmt__badge bcn-cmt__badge--type">Other</span>
-                          <span class="bcn-cmt__badge bcn-cmt__badge--phase">Construction</span>
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="m9 18 6-6-6-6"></path>
-                            </svg>
-                          </span>
-                        </a>
-                      </li>
-                      <li
-                        class="bcn-row-li"
-                        data-name="report of findings for construction within any no-disturbance buffer zone"
-                        data-phase="Post-Construction"
-                        data-type="Reporting"
-                      >
-                        <a class="bcn-row" href="#data-catalog/requirements/mm-bio-2-report">
-                          <span class="bcn-cmt__badge bcn-cmt__badge--commitment">MM-BIO-2</span>
-                          <span class="bcn-row__name"
-                            >Report of findings for construction within any no-disturbance buffer
-                            zone</span
-                          >
-                          <span class="bcn-cmt__badge bcn-cmt__badge--type">Reporting</span>
-                          <span class="bcn-cmt__badge bcn-cmt__badge--phase"
-                            >Post-Construction</span
-                          >
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path d="m9 18 6-6-6-6"></path>
-                            </svg>
-                          </span>
-                        </a>
-                      </li>
-                    </ul>
-                    <div class="bcn-reqs__empty" id="req-empty" hidden="">
-                      <div class="esa-empty-state esa-empty-state--sm">
-                        <h3 class="esa-empty-state__title">No requirements match your filters</h3>
-                        <div class="esa-empty-state__actions"></div>
-                      </div>
-                    </div>
-                  </section>
-                  <section class="bcn-cmt__section">
-                    <h2 class="bcn-section-title">
-                      Files
-                      <span id="cmt-files-count" class="bcn-count-neutral"
-                        ><span class="esa-badge esa-badge--primary esa-badge--sm">
-                          <span class="esa-badge__text">2</span>
-                        </span>
-                      </span>
-                    </h2>
-                    <esa-file-list
-                      id="cmt-files"
-                      removable=""
-                      data-src="/beacon-design/source-docs/feir-sample.pdf"
-                      downloadable=""
-                    ></esa-file-list>
-                  </section>
-                </div>
-                <aside class="bcn-cmt__rail">
-                  <!-- Lineage leads the rail — one spine: ancestry (Project → Source Document →
-               this Commitment, the current filled node) then child rollups. -->
-                  <details class="esa-collapsible" open="">
-                    <summary class="esa-collapsible__summary">
-                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          focusable="false"
-                        >
-                          <line x1="6" x2="6" y1="3" y2="15"></line>
-                          <circle cx="18" cy="6" r="3"></circle>
-                          <circle cx="6" cy="18" r="3"></circle>
-                          <path d="M18 9a9 9 0 0 1-9 9"></path>
-                        </svg>
-                      </span>
-                      <span class="esa-collapsible__title">Lineage</span>
-                    </summary>
-                    <div class="esa-collapsible__body">
-                      <ol class="bcn-lineage">
-                        <li class="bcn-lineage__node">
-                          <span class="bcn-lineage__icon"
-                            ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"
-                                ></path>
-                              </svg>
-                            </span>
-                          </span>
-                          <span class="bcn-lineage__body">
-                            <a class="bcn-lineage__kind" href="#data-catalog/projects">Project</a>
-                            <a class="bcn-lineage__name" href="#data-catalog/projects/3600-alameda"
-                              >3600 Alameda Avenue Project</a
-                            >
-                          </span>
-                        </li>
-                        <li class="bcn-lineage__node">
-                          <span class="bcn-lineage__icon"
-                            ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"
-                                ></path>
-                                <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                                <path d="M10 9H8"></path>
-                                <path d="M16 13H8"></path>
-                                <path d="M16 17H8"></path>
-                              </svg>
-                            </span>
-                          </span>
-                          <span class="bcn-lineage__body">
-                            <a class="bcn-lineage__kind" href="#data-catalog/source-documents"
-                              >Source Document</a
-                            >
-                            <a
-                              class="bcn-lineage__name"
-                              href="/beacon-design/prototypes/data-catalog-source-document"
-                              >3600 Alameda Avenue Project FEIR</a
-                            >
-                          </span>
-                        </li>
-                        <li class="bcn-lineage__node bcn-lineage__node--current">
-                          <span class="bcn-lineage__icon"
-                            ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path d="M15 12h-5"></path>
-                                <path d="M15 8h-5"></path>
-                                <path d="M19 17V5a2 2 0 0 0-2-2H4"></path>
-                                <path
-                                  d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"
-                                ></path>
-                              </svg>
-                            </span>
-                          </span>
-                          <span class="bcn-lineage__body">
-                            <a class="bcn-lineage__kind" href="#data-catalog/commitments"
-                              >Commitment</a
-                            >
-                            <span class="bcn-lineage__name bcn-lineage__name--current"
-                              >MM-BIO-2 — Nesting Birds and Raptors</span
-                            >
-                          </span>
-                        </li>
-                        <li class="bcn-lineage__node bcn-lineage__node--child">
-                          <span class="bcn-lineage__icon"
-                            ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <rect x="3" y="5" width="6" height="6" rx="1"></rect>
-                                <path d="m3 17 2 2 4-4"></path>
-                                <path d="M13 6h8"></path>
-                                <path d="M13 12h8"></path>
-                                <path d="M13 18h8"></path>
-                              </svg>
-                            </span>
-                          </span>
-                          <span class="bcn-lineage__body">
-                            <a
-                              class="bcn-lineage__name"
-                              href="/beacon-design/prototypes/data-catalog-requirement"
-                              >Requirements</a
-                            >
-                          </span>
-                          <span class="bcn-count-neutral"
-                            ><span class="esa-badge esa-badge--primary esa-badge--sm">
-                              <span class="esa-badge__text">4</span>
-                            </span>
-                          </span>
-                        </li>
-                        <li class="bcn-lineage__node bcn-lineage__node--child">
-                          <span class="bcn-lineage__icon"
-                            ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
-                                <path d="M4 6h.01"></path>
-                                <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
-                                <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
-                                <path d="M12 18h.01"></path>
-                                <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
-                                <circle cx="12" cy="12" r="2"></circle>
-                                <path d="m13.41 10.59 5.66-5.66"></path>
-                              </svg>
-                            </span>
-                          </span>
-                          <span class="bcn-lineage__body">
-                            <a
-                              class="bcn-lineage__name"
-                              href="/beacon-design/prototypes/data-catalog-actions"
-                              >Actions</a
-                            >
-                          </span>
-                          <span class="bcn-count-neutral"
-                            ><span class="esa-badge esa-badge--primary esa-badge--sm">
-                              <span class="esa-badge__text">3</span>
-                            </span>
-                          </span>
-                        </li>
-                      </ol>
-                    </div>
-                  </details>
-                  <details class="esa-collapsible" open="">
-                    <summary class="esa-collapsible__summary">
-                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          focusable="false"
-                        >
-                          <circle cx="12" cy="12" r="10"></circle>
-                          <path d="M12 16v-4"></path>
-                          <path d="M12 8h.01"></path>
-                        </svg>
-                      </span>
-                      <span class="esa-collapsible__title">Details</span>
-                    </summary>
-                    <div class="esa-collapsible__body">
-                      <div class="bcn-key-value">
-                        <span class="bcn-key-value__key">Type</span>
-                        <span class="bcn-key-value__val">Mitigation Measure</span>
-                      </div>
-                      <div class="bcn-key-value">
-                        <span class="bcn-key-value__key">Resource Category</span>
-                        <span class="bcn-key-value__val">Biological Resources</span>
-                      </div>
-                      <div class="bcn-key-value">
-                        <span class="bcn-key-value__key">General Guidance</span>
-                        <span class="bcn-key-value__val"
-                          >Include the nesting-season survey and buffer requirements in contractor
-                          bid documents. Coordinate any buffer-zone reduction with CDFW before work
-                          proceeds inside an established buffer.</span
-                        >
-                      </div>
-                      <div class="bcn-key-value">
-                        <span class="bcn-key-value__key">Tags</span>
-                        <span class="bcn-tagrow">
-                          <span class="esa-pill esa-pill--default esa-pill--sm">
-                            <span class="esa-pill__label">CDFW</span>
-                          </span>
-                          <span class="esa-pill esa-pill--default esa-pill--sm">
-                            <span class="esa-pill__label">Wildlife</span>
                           </span>
                         </span>
+                        <span class="bcn-sd__name">Reporting</span>
                       </div>
-                      <p class="bcn-rail-meta">Created Jan 8, 2026 · Updated Jun 3, 2026</p>
-                    </div>
-                  </details>
-                  <details class="esa-collapsible" open="">
-                    <summary class="esa-collapsible__summary">
-                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          focusable="false"
-                        >
-                          <path
-                            d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"
-                          ></path>
-                          <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"></path>
-                          <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"></path>
-                        </svg>
-                      </span>
-                      <span class="esa-collapsible__title">Related Data</span>
-                    </summary>
-                    <div class="esa-collapsible__body">
-                      <div class="bcn-key-value">
-                        <span class="bcn-key-value__key">Species</span>
-                        <span class="bcn-key-value__val">Nesting raptors, Migratory birds</span>
-                      </div>
-                      <div class="bcn-key-value">
-                        <span class="bcn-key-value__key">Seasons</span>
-                        <span class="bcn-key-value__val">Nesting Bird Season (Feb 1 – Aug 31)</span>
-                      </div>
-                      <div class="bcn-key-value">
-                        <span class="bcn-key-value__key">Construction Activities</span>
-                        <span class="bcn-key-value__val"
-                          >Ground disturbance, Vegetation removal</span
-                        >
-                      </div>
-                    </div>
-                  </details>
-                  <details class="esa-collapsible" open="">
-                    <summary class="esa-collapsible__summary">
-                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          focusable="false"
-                        >
-                          <rect width="7" height="7" x="3" y="3" rx="1"></rect>
-                          <rect width="7" height="7" x="14" y="3" rx="1"></rect>
-                          <rect width="7" height="7" x="14" y="14" rx="1"></rect>
-                          <rect width="7" height="7" x="3" y="14" rx="1"></rect>
-                        </svg>
-                      </span>
-                      <span class="esa-collapsible__title">Associated Components</span>
-                    </summary>
-                    <div class="esa-collapsible__body">
-                      <ul class="bcn-lists">
-                        <li>
-                          <a class="bcn-list-link" href="#data-catalog/components"
-                            >North Grading Area</a
-                          >
-                        </li>
-                        <li>
-                          <a class="bcn-list-link" href="#data-catalog/components"
-                            >South Grading Area</a
-                          >
-                        </li>
-                      </ul>
-                    </div>
-                  </details>
-                  <!-- Revisions — the prod Revision History version chain. Add New Version +
-               per-version Edit (current only); no delete/revert/diff (faithful to prod). -->
-                  <details class="esa-collapsible" open="">
-                    <summary class="esa-collapsible__summary">
-                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          focusable="false"
-                        >
-                          <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-                          <path d="M3 3v5h5"></path>
-                          <path d="M12 7v5l4 2"></path>
-                        </svg>
-                      </span>
-                      <span class="esa-collapsible__title">Revisions</span>
-                    </summary>
-                    <div class="esa-collapsible__body">
-                      <ol class="bcn-lineage bcn-revs">
-                        <li class="bcn-lineage__node bcn-lineage__node--current">
-                          <span class="bcn-lineage__icon"
-                            ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-                                <path d="M3 3v5h5"></path>
-                                <path d="M12 7v5l4 2"></path>
-                              </svg>
-                            </span>
-                          </span>
-                          <span class="bcn-lineage__body">
-                            <span class="bcn-revs__head">
-                              <span class="bcn-lineage__kind">Version 2 · Current</span>
-                              <button
-                                type="button"
-                                class="bcn-revs__edit"
-                                data-edit-rev=""
-                                data-originator="DWR Office of General Counsel"
-                                data-effective="2026-06-01"
-                                data-summary="DWR OGC review of Vol. 1, Submittal 1"
-                              >
-                                Edit
-                              </button>
-                            </span>
-                            <span class="bcn-revs__summary"
-                              >DWR OGC review of Vol. 1, Submittal 1</span
-                            >
-                            <span class="bcn-revs__meta"
-                              >Originator: DWR Office of General Counsel</span
-                            >
-                            <span class="bcn-revs__meta">Effective Jun 1, 2026</span>
-                            <span class="bcn-revs__by"
-                              >Created by Leah McNearney on Jun 1, 2026</span
-                            >
-                          </span>
-                        </li>
-                        <li class="bcn-lineage__node">
-                          <span class="bcn-lineage__icon"
-                            ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
-                                <path d="M3 3v5h5"></path>
-                                <path d="M12 7v5l4 2"></path>
-                              </svg>
-                            </span>
-                          </span>
-                          <span class="bcn-lineage__body">
-                            <span class="bcn-revs__head">
-                              <span class="bcn-lineage__kind">Version 1</span>
-                            </span>
-                            <span class="bcn-revs__summary">Original FEIR language</span>
-                            <span class="bcn-revs__meta">Originator: Original FEIR adoption</span>
-                            <span class="bcn-revs__meta">Effective Mar 6, 2026</span>
-                            <span class="bcn-revs__by"
-                              >Created by Mikey Knowles on Mar 6, 2026</span
-                            >
-                          </span>
-                        </li>
-                      </ol>
-                      <div class="bcn-revs__add">
-                        <span id="add-rev"
-                          ><span
-                            class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
-                          >
-                            <button class="esa-button__native" type="button">
-                              <span class="esa-button__label">
-                                <span class="bcn-btn-ico"
-                                  ><span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                    <svg
-                                      width="14"
-                                      height="14"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M5 12h14"></path>
-                                      <path d="M12 5v14"></path>
-                                    </svg>
-                                  </span>
-                                  Add New Version</span
-                                >
-                              </span>
-                            </button>
-                          </span>
-                        </span>
-                      </div>
-                    </div>
-                  </details>
-                </aside>
-              </div>
-              <!-- Danger zone — GitHub layout; opens a simple confirm, matching prod. -->
-              <section class="bcn-danger-zone" aria-labelledby="bcn-danger-zone-1">
-                <h2 class="bcn-danger-zone__heading" id="bcn-danger-zone-1">Danger Zone</h2>
-                <div class="bcn-danger-zone__box">
-                  <div class="bcn-danger-zone__item">
-                    <div class="bcn-danger-zone__text">
-                      <h3 class="bcn-danger-zone__title">Delete this commitment</h3>
-                      <p class="bcn-danger-zone__desc">
-                        Deleting this commitment also deletes all requirements and actions defined
-                        under it. This action cannot be undone.
+                      <p class="bcn-sd__summary">
+                        Compliance reports and agency submissions generated from tracked data.
                       </p>
-                    </div>
-                    <div class="bcn-danger-zone__action">
-                      <span id="delete-cmt"
-                        ><span
-                          class="esa-button esa-button--color-danger esa-button--appearance-soft esa-button--md"
-                        >
-                          <button class="esa-button__native" type="button">
-                            <span class="esa-button__label"> Delete commitment </span>
-                          </button>
+                      <div class="bcn-sd__rollup">
+                        <div class="esa-stat">
+                          <div class="esa-stat__value">4</div>
+                          <div class="esa-stat__label">Reports in progress</div>
+                        </div>
+                        <div class="esa-stat">
+                          <div class="esa-stat__value">9</div>
+                          <div class="esa-stat__label">Submitted this quarter</div>
+                        </div>
+                      </div>
+                      <span class="bcn-sd__flag">
+                        <span
+                          class="bcn-sd__dot"
+                          style="--_c: var(--color-danger)"
+                          aria-hidden="true"
+                        ></span>
+                        1 report due in 2 days
+                      </span>
+                      <span class="bcn-sd__open"
+                        >Open Reporting
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="m9 18 6-6-6-6"></path>
+                          </svg>
+                        </span>
+                      </span> </a
+                    ><a class="bcn-sd__card" href="#setup-wizard">
+                      <div class="bcn-sd__head">
+                        <span class="bcn-sd__glyph bcn-sd__glyph--wizard">
+                          <span class="esa-icon esa-icon--md" aria-hidden="true">
+                            <svg
+                              width="20"
+                              height="20"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path
+                                d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
+                              ></path>
+                              <circle cx="12" cy="12" r="10"></circle>
+                            </svg>
+                          </span>
+                        </span>
+                        <span class="bcn-sd__name bcn-sd__name--serif">Setup Wizard</span>
+                      </div>
+                      <p class="bcn-sd__summary">From source documents to trackable actions.</p>
+                      <div class="bcn-sd__rollup">
+                        <div class="esa-stat">
+                          <div class="esa-stat__value">12</div>
+                          <div class="esa-stat__label">Requirements not part of an action</div>
+                        </div>
+                        <div class="esa-stat">
+                          <div class="esa-stat__value">3</div>
+                          <div class="esa-stat__label">Commitments without requirements</div>
+                        </div>
+                      </div>
+                      <span class="bcn-sd__flag">
+                        <span
+                          class="bcn-sd__dot"
+                          style="--_c: var(--color-warning)"
+                          aria-hidden="true"
+                        ></span>
+                        15 items need triage in the wizard
+                      </span>
+                      <span class="bcn-sd__open"
+                        >Open Setup Wizard
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="m9 18 6-6-6-6"></path>
+                          </svg>
                         </span>
                       </span>
-                    </div>
+                    </a>
                   </div>
-                </div>
-              </section>
+                </section>
+              </div>
             </div>
           </section>
         </div>
       </div>
-      <esa-dialog
-        id="edit-dialog"
-        heading="Edit Commitment"
-        style="
-          --_dialog-width: 760px;
-          --_dialog-max-height: 92vh;
-          --_dialog-bg: var(--color-surface, #fff);
-          --z-modal-backdrop: 1150;
-          --z-modal: 1200;
-        "
-        size="md"
-      >
-        <div class="bcn-form bcn-form--dialog">
-          <esa-text-field id="c-title" label="Title" required="" size="md"></esa-text-field>
-          <div class="bcn-grid-2">
-            <esa-text-field id="c-id" label="Commitment ID" required="" size="md"></esa-text-field>
-            <esa-select id="c-doc" label="Source Document" required="true" size="md"></esa-select>
-          </div>
-          <div class="bcn-grid-2">
-            <esa-select id="c-type" label="Commitment Type" required="true" size="md"></esa-select>
-            <esa-select id="c-cat" label="Resource Category" size="md"></esa-select>
-          </div>
-          <esa-textarea id="c-guidance" label="General Guidance" rows="3" size="md"></esa-textarea>
-          <esa-input-tag id="c-tags" label="Tags" size="md"></esa-input-tag>
-          <esa-textarea id="c-text" label="Full Commitment Text" rows="10" size="md"></esa-textarea>
-        </div>
-        <div slot="footer" class="bcn-editor__foot">
-          <span id="ec-cancel"
-            ><span
-              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
-            >
-              <button class="esa-button__native" type="button">
-                <span class="esa-button__label"> Cancel </span>
-              </button>
-            </span>
-          </span>
-          <span id="ec-save"
-            ><span
-              class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md"
-            >
-              <button class="esa-button__native" type="button">
-                <span class="esa-button__label"> Save </span>
-              </button>
-            </span>
-          </span>
-        </div>
-      </esa-dialog>
-      <esa-dialog
-        id="rev-add-dialog"
-        heading="Add New Version"
-        style="
-          --_dialog-width: 640px;
-          --_dialog-max-height: 92vh;
-          --_dialog-bg: var(--color-surface, #fff);
-          --z-modal-backdrop: 1150;
-          --z-modal: 1200;
-        "
-        size="md"
-      >
-        <div class="bcn-form bcn-form--dialog">
-          <esa-text-field
-            id="rv-originator"
-            label="Originator of Change"
-            required=""
-            size="md"
-          ></esa-text-field>
-          <esa-date-picker id="rv-effective" label="Effective Date" size="md"></esa-date-picker>
-          <esa-textarea
-            id="rv-summary"
-            label="Summary of Change"
-            rows="4"
-            required=""
-            size="md"
-          ></esa-textarea>
-          <div class="bcn-field">
-            <span class="bcn-field__label">Files</span>
-            <esa-file-upload
-              label="Drag &amp; drop files, or browse"
-              multiple="true"
-              accept=".pdf,.csv,.xlsx"
-            ></esa-file-upload>
-          </div>
-        </div>
-        <div slot="footer" class="bcn-editor__foot">
-          <span id="rv-cancel"
-            ><span
-              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
-            >
-              <button class="esa-button__native" type="button">
-                <span class="esa-button__label"> Cancel </span>
-              </button>
-            </span>
-          </span>
-          <span id="rv-save"
-            ><span
-              class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md"
-            >
-              <button class="esa-button__native" type="button">
-                <span class="esa-button__label"> Add version </span>
-              </button>
-            </span>
-          </span>
-        </div>
-      </esa-dialog>
-      <esa-dialog
-        id="rev-edit-dialog"
-        heading="Edit Version Metadata"
-        style="
-          --_dialog-width: 640px;
-          --_dialog-max-height: 92vh;
-          --_dialog-bg: var(--color-surface, #fff);
-          --z-modal-backdrop: 1150;
-          --z-modal: 1200;
-        "
-        size="md"
-      >
-        <div class="bcn-form bcn-form--dialog">
-          <esa-text-field
-            id="re-originator"
-            label="Originator of Change"
-            required=""
-            size="md"
-          ></esa-text-field>
-          <esa-date-picker id="re-effective" label="Effective Date" size="md"></esa-date-picker>
-          <esa-textarea
-            id="re-summary"
-            label="Summary of Change"
-            rows="4"
-            required=""
-            size="md"
-          ></esa-textarea>
-        </div>
-        <div slot="footer" class="bcn-editor__foot">
-          <span id="re-cancel"
-            ><span
-              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
-            >
-              <button class="esa-button__native" type="button">
-                <span class="esa-button__label"> Cancel </span>
-              </button>
-            </span>
-          </span>
-          <span id="re-save"
-            ><span
-              class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md"
-            >
-              <button class="esa-button__native" type="button">
-                <span class="esa-button__label"> Save </span>
-              </button>
-            </span>
-          </span>
-        </div>
-      </esa-dialog>
-      <esa-side-dialog
-        id="source-drawer"
-        heading="3600 Alameda Avenue Project FEIR"
-        size="lg"
-        style="
-          --_width: 66vw;
-          --z-modal: 1300;
-          --z-modal-backdrop: 1250;
-          --backdrop-filter: blur(4px);
-        "
-        position="right"
-      >
-        <div class="bcn-source-pdf">
-          <iframe
-            class="bcn-source-pdf__frame"
-            src="/beacon-design/source-docs/feir-sample.pdf#view=FitH&amp;navpanes=0&amp;pagemode=none"
-            title="Source document — 3600 Alameda Avenue Project FEIR (sample)"
-          ></iframe>
-        </div>
-        <span slot="footer" class="bcn-source-foot">
-          <a
-            class="esa-icon-link esa-icon-link--sm esa-icon-link--medium"
-            href="/beacon-design/prototypes/data-catalog-source-document"
-            ><span class="esa-icon-link__label">Open Source Document</span>
-            <span class="esa-icon esa-icon--xs" aria-hidden="true">
-              <svg
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                focusable="false"
-              >
-                <path d="M5 12h14"></path>
-                <path d="m12 5 7 7-7 7"></path>
-              </svg>
-            </span>
-          </a>
-        </span>
-      </esa-side-dialog>
-      <esa-confirm-dialog
-        id="delete-confirm"
-        variant="danger"
-        heading="Delete Commitment"
-        message="Are you sure you want to delete this commitment? Doing so will also delete all requirements and actions defined under it. This action cannot be undone."
-        confirm-label="Delete"
-        cancel-label="Cancel"
-        style="--z-modal: 1400; --z-modal-backdrop: 1350"
-      ></esa-confirm-dialog>
-      <script type="application/json" id="edit-meta">
-        {
-          "commitmentTitle": "Nesting Birds and Raptors",
-          "commitmentId": "MM-BIO-2",
-          "sourceDoc": "3600 Alameda Avenue Project FEIR",
-          "commitmentType": "Mitigation Measure",
-          "resourceCategory": "Biological Resources",
-          "generalGuidance": "Include the nesting-season survey and buffer requirements in contractor bid documents. Coordinate any buffer-zone reduction with CDFW before work proceeds inside an established buffer.",
-          "tags": ["CDFW", "Wildlife"],
-          "fullText": "Pre-Construction Survey: If construction, ground-disturbing, or vegetation-removal activities would occur during the nesting season (February 1 – August 31), a qualified biologist shall conduct a pre-construction survey for nesting raptors and other migratory birds within 14 days prior to the start of those activities.\n\nNo-Disturbance Buffers: If active nests are found, the biologist shall establish appropriate no-disturbance buffer zones around each nest, to remain in place until young have fledged.\n\nWork Within Buffer Zones: If work must occur within an established buffer zone, it shall proceed only under biological monitoring by the qualified biologist.\n\nReporting: A report of findings documenting any construction conducted within a no-disturbance buffer zone shall be submitted to the City."
-        }
-      </script>
-      <script type="application/json" id="cmt-files-data">
-        ["feir-ch3.4_biological-resources.pdf", "mmrp_mm-bio-2_excerpt.pdf"]
-      </script>
     </div>
   </div>
   <!-- Global ⌘K search palette (bespoke bcn-omni-search). Sits at the modern-layout
@@ -1925,10 +2101,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               You are here
             </h2>
             <div class="bcn-gd__here">
-              <span class="bcn-gd__here-page" data-gd-page="">Commitment</span>
+              <span class="bcn-gd__here-page" data-gd-page="">Project Dashboard</span>
               <span class="bcn-gd__here-purpose" data-gd-purpose=""
-                >One obligation in the document’s own words, with its structured details,
-                applicability, and revision history.</span
+                >Your project homepage — what is most critical right now, your starred components,
+                and front doors into every zone of Beacon.</span
               >
             </div>
           </section>
@@ -1960,16 +2136,74 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <button
                 type="button"
                 class="bcn-gd-row"
-                data-article-id="tracing-lineage"
+                data-article-id="starring-components"
                 data-kind="howto"
-                data-title="Tracing a requirement back to its source"
-                data-summary="Follow the lineage from any requirement up to the exact document language."
+                data-title="Starring components on your dashboard"
+                data-summary="Pin the three-to-five components you actually work in."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">Tracing a requirement back to its source</span>
+                  <span class="bcn-gd-row__title">Starring components on your dashboard</span>
                   <span class="bcn-gd-row__sub"
-                    >Follow the lineage from any requirement up to the exact document
-                    language.</span
+                    >Pin the three-to-five components you actually work in.</span
+                  >
+                </span>
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path d="m9 18 6-6-6-6"></path>
+                  </svg>
+                </span></button
+              ><button
+                type="button"
+                class="bcn-gd-row"
+                data-article-id="reading-critical-now"
+                data-kind="howto"
+                data-title="How “Most critical right now” is chosen"
+                data-summary="Why an item earns a spot at the top of your dashboard."
+              >
+                <span class="bcn-gd-row__text">
+                  <span class="bcn-gd-row__title">How “Most critical right now” is chosen</span>
+                  <span class="bcn-gd-row__sub"
+                    >Why an item earns a spot at the top of your dashboard.</span
+                  >
+                </span>
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path d="m9 18 6-6-6-6"></path>
+                  </svg>
+                </span></button
+              ><button
+                type="button"
+                class="bcn-gd-row"
+                data-article-id="five-minute-tour"
+                data-kind="howto"
+                data-title="A five-minute tour of Beacon"
+                data-summary="The four zones of the app and how a compliance obligation flows through them."
+              >
+                <span class="bcn-gd-row__text">
+                  <span class="bcn-gd-row__title">A five-minute tour of Beacon</span>
+                  <span class="bcn-gd-row__sub"
+                    >The four zones of the app and how a compliance obligation flows through
+                    them.</span
                   >
                 </span>
                 <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -2015,15 +2249,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <button
                 type="button"
                 class="bcn-gd-row"
-                data-article-id="what-is-a-commitment"
+                data-article-id="what-is-a-component"
                 data-kind="glossary"
-                data-title="What is a Commitment?"
-                data-summary="One discrete obligation, in the document’s own words."
+                data-title="What is a Component?"
+                data-summary="A physical or logical subdivision of the project with its own compliance tracking."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">What is a Commitment?</span>
+                  <span class="bcn-gd-row__title">What is a Component?</span>
                   <span class="bcn-gd-row__sub"
-                    >One discrete obligation, in the document’s own words.</span
+                    >A physical or logical subdivision of the project with its own compliance
+                    tracking.</span
                   >
                 </span>
                 <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -2044,15 +2279,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               ><button
                 type="button"
                 class="bcn-gd-row"
-                data-article-id="what-is-a-requirement"
+                data-article-id="what-is-an-action"
                 data-kind="glossary"
-                data-title="What is a Requirement?"
-                data-summary="A specific, actionable sub-obligation broken out of a commitment."
+                data-title="What is an Action?"
+                data-summary="One trackable deliverable consolidating requirements that describe the same work."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">What is a Requirement?</span>
+                  <span class="bcn-gd-row__title">What is an Action?</span>
                   <span class="bcn-gd-row__sub"
-                    >A specific, actionable sub-obligation broken out of a commitment.</span
+                    >One trackable deliverable consolidating requirements that describe the same
+                    work.</span
                   >
                 </span>
                 <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -2081,35 +2317,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
          rows into the two sections above; the rest stay here (hidden). -->
       <div class="bcn-gd__pool" data-gd-pool="" hidden="">
         <button
-          type="button"
-          class="bcn-gd-row"
-          data-article-id="five-minute-tour"
-          data-kind="howto"
-          data-title="A five-minute tour of Beacon"
-          data-summary="The four zones of the app and how a compliance obligation flows through them."
-        >
-          <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">A five-minute tour of Beacon</span>
-            <span class="bcn-gd-row__sub"
-              >The four zones of the app and how a compliance obligation flows through them.</span
-            >
-          </span>
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m9 18 6-6-6-6"></path>
-            </svg>
-          </span></button
-        ><button
           type="button"
           class="bcn-gd-row"
           data-article-id="global-search-tips"
@@ -2171,16 +2378,73 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         ><button
           type="button"
           class="bcn-gd-row"
-          data-article-id="what-is-an-action"
+          data-article-id="what-is-a-commitment"
           data-kind="glossary"
-          data-title="What is an Action?"
-          data-summary="One trackable deliverable consolidating requirements that describe the same work."
+          data-title="What is a Commitment?"
+          data-summary="One discrete obligation, in the document’s own words."
         >
           <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">What is an Action?</span>
+            <span class="bcn-gd-row__title">What is a Commitment?</span>
             <span class="bcn-gd-row__sub"
-              >One trackable deliverable consolidating requirements that describe the same
-              work.</span
+              >One discrete obligation, in the document’s own words.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="what-is-a-requirement"
+          data-kind="glossary"
+          data-title="What is a Requirement?"
+          data-summary="A specific, actionable sub-obligation broken out of a commitment."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">What is a Requirement?</span>
+            <span class="bcn-gd-row__sub"
+              >A specific, actionable sub-obligation broken out of a commitment.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="tracing-lineage"
+          data-kind="howto"
+          data-title="Tracing a requirement back to its source"
+          data-summary="Follow the lineage from any requirement up to the exact document language."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Tracing a requirement back to its source</span>
+            <span class="bcn-gd-row__sub"
+              >Follow the lineage from any requirement up to the exact document language.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -2210,36 +2474,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <span class="bcn-gd-row__title">Actions vs. implementations</span>
             <span class="bcn-gd-row__sub"
               >The action is the plan; implementations are the work you actually do.</span
-            >
-          </span>
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m9 18 6-6-6-6"></path>
-            </svg>
-          </span></button
-        ><button
-          type="button"
-          class="bcn-gd-row"
-          data-article-id="what-is-a-component"
-          data-kind="glossary"
-          data-title="What is a Component?"
-          data-summary="A physical or logical subdivision of the project with its own compliance tracking."
-        >
-          <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">What is a Component?</span>
-            <span class="bcn-gd-row__sub"
-              >A physical or logical subdivision of the project with its own compliance
-              tracking.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -2298,64 +2532,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <span class="bcn-gd-row__title">Reading the Permit Tracking board</span>
             <span class="bcn-gd-row__sub"
               >Where each permit stands, what is blocking it, and what is due next.</span
-            >
-          </span>
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m9 18 6-6-6-6"></path>
-            </svg>
-          </span></button
-        ><button
-          type="button"
-          class="bcn-gd-row"
-          data-article-id="starring-components"
-          data-kind="howto"
-          data-title="Starring components on your dashboard"
-          data-summary="Pin the three-to-five components you actually work in."
-        >
-          <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Starring components on your dashboard</span>
-            <span class="bcn-gd-row__sub"
-              >Pin the three-to-five components you actually work in.</span
-            >
-          </span>
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m9 18 6-6-6-6"></path>
-            </svg>
-          </span></button
-        ><button
-          type="button"
-          class="bcn-gd-row"
-          data-article-id="reading-critical-now"
-          data-kind="howto"
-          data-title="How “Most critical right now” is chosen"
-          data-summary="Why an item earns a spot at the top of your dashboard."
-        >
-          <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">How “Most critical right now” is chosen</span>
-            <span class="bcn-gd-row__sub"
-              >Why an item earns a spot at the top of your dashboard.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -3776,238 +3952,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
-:root,
-[data-theme="beacon"] {
-  --badge-bg: #005862;
-  --badge-height-md: 28px;
-  --badge-height-sm: 22px;
-  --badge-radius: 0.25rem;
-  --badge-text-color: #fcfcfc;
-  --bcn-aldo: #08908b;
-  --bcn-aldo-100: #cfeceb;
-  --bcn-aldo-50: #e8f6f5;
-  --bcn-gray-100: #efefef;
-  --bcn-gray-200: #dcdcdc;
-  --bcn-gray-300: #bdbdbd;
-  --bcn-gray-400: #989898;
-  --bcn-gray-50: #fafafa;
-  --bcn-gray-500: #7c7c7c;
-  --bcn-gray-600: #656565;
-  --bcn-gray-900: #3d3d3d;
-  --bcn-gray-950: #292929;
-  --bcn-helpbar-bg: rgba(23, 25, 27, 0.78);
-  --bcn-helpbar-bg-solid: #1f2224;
-  --bcn-helpbar-border: rgba(255, 255, 255, 0.12);
-  --bcn-helpbar-divider: rgba(255, 255, 255, 0.16);
-  --bcn-helpbar-fg: rgba(255, 255, 255, 0.92);
-  --bcn-helpbar-fg-muted: rgba(255, 255, 255, 0.72);
-  --bcn-helpbar-hover-bg: rgba(255, 255, 255, 0.1);
-  --collapsible-bg: #fcfcfc;
-  --collapsible-border-color: #dcdcdc;
-  --collapsible-padding-x: 1rem;
-  --collapsible-radius: 0.5rem;
-  --collapsible-title-color: #3d3d3d;
-  --color-accent: #f76b15;
-  --color-border: #dcdcdc;
-  --color-border-light: #efefef;
-  --color-border-strong: #bdbdbd;
-  --color-commitment: #58508d;
-  --color-danger: #e5484d;
-  --color-danger-hover: #dc3e42;
-  --color-danger-strong: #ce2c31;
-  --color-link: #2a7e3b;
-  --color-primary: #005862;
-  --color-primary-hover: #00474f;
-  --color-primary-strong: #2a7e3b;
-  --color-primary-subtle: #effefb;
-  --color-surface: #fcfcfc;
-  --color-surface-elevated: #fcfcfc;
-  --color-surface-sunken: #efefef;
-  --color-text-inverse: #fcfcfc;
-  --color-text-link: #005862;
-  --color-text-muted: #7c7c7c;
-  --color-text-primary: #3d3d3d;
-  --color-text-secondary: #525252;
-  --color-text-tertiary: #656565;
-  --dialog-bg: #fcfcfc;
-  --dialog-border-color: #efefef;
-  --dialog-radius: 0.75rem;
-  --dialog-width: 480px;
-  --filter-clear-color: #7c7c7c;
-  --filter-clear-color-hover: #ce2c31;
-  --font-decorative: "Besley", serif;
-  --font-sans: "DM Sans", sans-serif;
-  --font-weight-bold: 650;
-  --font-weight-medium: 450;
-  --font-weight-regular: 350;
-  --font-weight-semibold: 550;
-  --form-bg: #fcfcfc;
-  --form-border-color: #dcdcdc;
-  --form-border-width: 1px;
-  --form-font-size-md: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
-  --form-font-size-sm: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
-  --form-height-md: 36px;
-  --form-height-sm: 28px;
-  --form-label-color: #525252;
-  --form-padding-x-md: 0.75rem;
-  --form-padding-x-sm: 0.625rem;
-  --form-padding-y-md: 0.5rem;
-  --form-placeholder-color: #7c7c7c;
-  --form-radius-md: 0.25rem;
-  --form-radius-sm: 0.25rem;
-  --form-text-color: #3d3d3d;
-  --icon-button-bg-hover: color-mix(in srgb, currentColor 14%, transparent);
-  --icon-link-font-size-md: 1rem;
-  --icon-link-font-size-sm: 0.875rem;
-  --icon-link-gap: 0.375rem;
-  --icon-size-md: 20px;
-  --icon-size-medium: 20px;
-  --icon-size-sm: 16px;
-  --icon-size-small: 16px;
-  --icon-size-xs: 14px;
-  --pill-bg: #efefef;
-  --pill-border-color: #efefef;
-  --pill-height-md: 28px;
-  --pill-height-sm: 22px;
-  --pill-radius: 0.25rem;
-  --pill-text-color: #3d3d3d;
-  --popover-bg: #fcfcfc;
-  --popover-border-color: #dcdcdc;
-  --popover-color: #3d3d3d;
-  --popover-radius: 0.5rem;
-  --radius-100: 0.25rem;
-  --radius-200: 0.5rem;
-  --radius-300: 0.5rem;
-  --radius-400: 0.75rem;
-  --radius-full: 9999px;
-  --shadow-300: 0 6px 24px -6px rgba(0, 0, 0, 0.07);
-  --side-dialog-width: 400px;
-  --side-dialog-width-lg: 520px;
-  --spacing-050: 0.125rem;
-  --spacing-100: 0.25rem;
-  --spacing-150: 0.375rem;
-  --spacing-200: 0.5rem;
-  --spacing-250: 0.625rem;
-  --spacing-300: 0.75rem;
-  --spacing-400: 1rem;
-  --spacing-500: 1.5rem;
-  --spacing-600: 2rem;
-  --spacing-700: 3rem;
-  --transition-fast: 0.15s ease;
-  --type-size-100: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
-  --type-size-150: clamp(0.6875rem, 0.61rem + 0.38vw, 0.875rem);
-  --type-size-200: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
-  --type-size-250: clamp(0.8125rem, 0.71rem + 0.5vw, 1.0625rem);
-  --type-size-300: clamp(0.875rem, 0.77rem + 0.52vw, 1.125rem);
-  --type-size-400: clamp(1rem, 0.88rem + 0.6vw, 1.25rem);
-}
-
-:host {
-  --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
-  --_popover-border: var(--popover-border-color, var(--color-border, #e5e5e5));
-  --_popover-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
-  --_popover-radius: var(--popover-radius, var(--radius-200, 0.5rem));
-  --_popover-padding: var(--spacing-300, 0.75rem);
-  --_popover-arrow-size: 8px;
-  --_popover-color: var(--popover-color, var(--color-text-primary, #171717));
-  display: inline-block;
-}
-.esa-popover-anchor {
-  position: relative;
-  display: inline-block;
-}
-.esa-button {
-  --_btn-height: var(--form-height-md, 40px);
-  --_btn-padding-x: var(--form-padding-x-md, 16px);
-  --_btn-font-size: var(--form-font-size-md, 14px);
-  --_btn-radius: var(--form-radius-md, 6px);
-  --_accent: var(--color-primary, #46a758);
-  --_accent-hover: var(--color-primary-hover, #3e9b4f);
-  --_on: var(--color-text-inverse, #ffffff);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button--sm {
-  --_btn-height: var(--form-height-sm, 32px);
-  --_btn-padding-x: var(--form-padding-x-sm, 12px);
-  --_btn-font-size: var(--form-font-size-sm, 12px);
-  --_btn-radius: var(--form-radius-sm, 4px);
-}
-.esa-button--color-primary {
-  --_accent-text: var(--color-primary-strong);
-}
-.esa-button__native {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  height: var(--_btn-height);
-  padding-inline: var(--_btn-padding-x);
-  border: 1px solid transparent;
-  border-radius: var(--_btn-radius);
-  font-size: var(--_btn-font-size);
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-button--sm .esa-button__native {
-  height: auto;
-  padding-block: var(--spacing-150, 6px);
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: transparent;
-}
-.esa-button__label {
-  white-space: nowrap;
-}
-.esa-button--color-ghost .esa-button__native {
-  background: transparent;
-  color: var(--color-text-primary, #171717);
-  border-color: transparent;
-}
-.esa-button--appearance-outline .esa-button__native,
-.esa-button--appearance-dashed .esa-button__native {
-  background: transparent;
-  color: var(--_accent-text);
-  border-color: var(--_accent);
-}
-.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border, #e5e5e5);
-}
-.esa-button--color-danger {
-  --_accent: var(--color-danger);
-  --_accent-hover: var(--color-danger-hover);
-  --_accent-text: var(--color-danger-strong);
-}
-.esa-button--appearance-soft .esa-button__native {
-  background: color-mix(
-    in srgb,
-    var(--color-surface-sunken, #efefef) 45%,
-    var(--color-surface, #fff)
-  );
-  color: var(--_accent-text);
-  border-color: var(--color-border-strong, #d4d4d4);
-}
-:host {
-  display: inline-block;
-}
-.esa-tooltip-anchor {
-  position: relative;
-  display: inline-flex;
-}
 .page-layout {
   display: flex;
   flex-direction: column;
@@ -4016,45 +3960,139 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   background: var(--bcn-gray-50);
   box-sizing: border-box;
 }
+.page-layout--bleed {
+  padding: 0;
+}
+.page-layout__bleed {
+  width: 100%;
+}
 .page-layout__container {
   display: flex;
   flex-direction: column;
 }
-.page-layout section {
-  width: 100%;
-}
-.breadcrumbs {
-  padding: var(--spacing-400) 0;
-}
-.breadcrumbs__items {
-  display: flex;
-  gap: var(--spacing-100);
-  align-items: center;
-  flex-wrap: wrap;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.breadcrumb-item {
-  color: var(--bcn-gray-600);
-  text-transform: capitalize;
-  font-size: 0.875rem;
-}
-a.breadcrumb-item {
-  text-decoration: none;
-}
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
+.page-layout--bleed .page-layout__container {
+  padding: 0 var(--spacing-600) var(--spacing-600);
 }
 .page-layout__content {
   padding: var(--spacing-500) 0;
   min-height: 70vh;
   position: relative;
+}
+.page-layout section {
+  width: 100%;
+}
+.sidebar {
+  --gap: var(--spacing-500, 1.5rem);
+  --sidebar-width: 18rem;
+  --sidebar-content-min: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+.sidebar > :first-child {
+  flex-basis: var(--sidebar-width);
+  flex-grow: 1;
+}
+.sidebar[data-side="end"] > :first-child {
+  order: 2;
+}
+.sidebar > :last-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: var(--sidebar-content-min);
+}
+.type-section-title {
+  font-family: var(--font-display, var(--font-sans));
+  font-size: var(--type-size-500);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+}
+.type-body-small {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-body {
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-relaxed);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.bcn-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  padding: 2px var(--spacing-250);
+  border-radius: var(--radius-full);
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--_chip) 16%, transparent);
+  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+}
+.bcn-status-chip__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--_chip);
+  flex-shrink: 0;
+}
+.esa-card {
+  --_card-bg: var(--card-bg, var(--color-surface, #ffffff));
+  --_card-border: var(--card-border-color, var(--color-border, #e5e5e5));
+  --_card-radius: var(--card-radius, var(--radius-300, 0.5rem));
+  --_card-padding: var(--card-padding, var(--spacing-500, 1.5rem));
+  --_card-header-bg: var(--card-header-bg, transparent);
+  --_card-header-color: var(--card-header-color, var(--color-text-primary, #171717));
+  --_card-header-border: var(--card-header-border-color, var(--color-border-light, #efefef));
+  display: block;
+  background: var(--_card-bg);
+  border: 1px solid var(--_card-border);
+  border-radius: var(--_card-radius);
+  overflow: hidden;
+}
+.esa-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-400, 1rem) var(--_card-padding);
+  background: var(--_card-header-bg);
+  color: var(--_card-header-color);
+  border-bottom: 1px solid var(--_card-header-border);
+  min-height: 56px;
+}
+.esa-card__header-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300, 0.75rem);
+}
+.esa-card__titles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050, 0.125rem);
+}
+.esa-card__title {
+  font-size: var(--type-size-250, 1.0625rem);
+  font-weight: 600;
+  margin: 0;
+  color: inherit;
+  font-family: var(--font-sans, "DM Sans", sans-serif);
+}
+.esa-card__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200, 0.5rem);
+}
+.esa-card__body {
+  padding: var(--_card-padding);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
@@ -4098,224 +4136,85 @@ a.breadcrumb-item {
   -webkit-appearance: none;
   appearance: none;
 }
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
-  --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));
-  --_badge-height: var(--badge-height-md, 28px);
-  --_badge-font-size: 13px;
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  --_badge-min-width: var(--badge-height-md, 28px);
+.esa-stat {
+  --_stat-value-color: var(--stat-value-color, var(--color-text-primary, #171717));
+  --_stat-value-font: var(
+    --stat-value-font,
+    var(--font-display, var(--font-sans, "DM Sans", sans-serif))
+  );
+  --_stat-value-size: var(--stat-value-size, var(--type-size-700, 2.25rem));
+  --_stat-value-weight: var(--stat-value-weight, var(--font-weight-bold, 650));
+  --_stat-label-color: var(--stat-label-color, var(--color-text-secondary, #525252));
+  --_stat-label-size: var(--stat-label-size, var(--type-size-200, 0.9375rem));
+  --_stat-label-weight: var(--stat-label-weight, var(--font-weight-medium, 450));
+  --_stat-sub-color: var(--stat-sub-color, var(--color-text-muted, #737373));
+  --_stat-sub-size: var(--stat-sub-size, var(--type-size-150, 0.875rem));
+  --_stat-accent-color: var(--stat-accent-color, var(--color-secondary-strong, #3a7c59));
+  --_stat-gap: var(--stat-gap, var(--spacing-050, 0.125rem));
+  display: flex;
+  flex-direction: column;
+  gap: var(--_stat-gap);
+  background: transparent;
+}
+.esa-stat__value {
+  font-family: var(--_stat-value-font);
+  font-size: var(--_stat-value-size);
+  font-weight: var(--_stat-value-weight);
+  line-height: var(--line-height-tight, 1.3);
+  letter-spacing: var(--letter-spacing-tight, -0.01em);
+  color: var(--_stat-value-color);
+}
+.esa-stat__label {
+  font-size: var(--_stat-label-size);
+  font-weight: var(--_stat-label-weight);
+  line-height: var(--line-height-normal, 1.6);
+  color: var(--_stat-label-color);
+}
+.esa-button {
+  --_btn-height: var(--form-height-md, 40px);
+  --_btn-padding-x: var(--form-padding-x-md, 16px);
+  --_btn-font-size: var(--form-font-size-md, 14px);
+  --_btn-radius: var(--form-radius-md, 6px);
+  --_accent: var(--color-primary, #46a758);
+  --_accent-hover: var(--color-primary-hover, #3e9b4f);
+  --_on: var(--color-text-inverse, #ffffff);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button--color-primary {
+  --_accent-text: var(--color-primary-strong);
+}
+.esa-button__native {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: var(--_badge-height);
-  min-width: var(--_badge-min-width);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--badge-radius, var(--radius-100, 4px));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  font-size: var(--_badge-font-size);
-  font-weight: 600;
-  line-height: 1;
-  white-space: nowrap;
-  box-sizing: border-box;
-}
-.esa-badge--sm {
-  --_badge-height: var(--badge-height-sm, 22px);
-  --_badge-font-size: 11px;
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
-  --_badge-min-width: var(--badge-height-sm, 22px);
-}
-.esa-icon-link {
-  --_il-font: var(--icon-link-font-size-md, 1rem);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--icon-link-gap, var(--spacing-150, 6px));
-  padding: 0;
-  margin: 0;
-  border: 0;
-  background: none;
-  color: inherit;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  height: var(--_btn-height);
+  padding-inline: var(--_btn-padding-x);
+  border: 1px solid transparent;
+  border-radius: var(--_btn-radius);
+  font-size: var(--_btn-font-size);
   font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: var(--_il-font);
   font-weight: var(--font-weight-medium, 500);
   line-height: 1;
   text-decoration: none;
   cursor: pointer;
-  white-space: nowrap;
-}
-.esa-icon-link--sm {
-  --_il-font: var(--icon-link-font-size-sm, 0.875rem);
-}
-.esa-icon-link--medium {
-  font-weight: var(--font-weight-medium, 500);
-}
-.esa-icon-link__label {
-  display: inline-block;
-}
-.esa-filter-container {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--_filter-container-row-gap, 0.5rem) var(--_filter-container-gap, 0.75rem);
-}
-.esa-filter-clear-button {
-  --_clear-text: var(--filter-clear-color, var(--color-primary-strong, #3a7c59));
-  --_clear-text-hover: var(--filter-clear-color-hover, var(--color-primary-strong, #3a7c59));
-  --_clear-font-size: var(--type-size-150, 0.875rem);
-  --_clear-icon-size: 18px;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-100, 0.25rem);
-  padding: var(--spacing-100, 0.25rem) var(--spacing-200, 0.5rem);
-  border: none;
-  border-radius: var(--radius-100, 0.25rem);
-  background: transparent;
-  color: var(--_clear-text);
-  font-family: var(--font-sans, inherit);
-  font-size: var(--_clear-font-size);
-  font-weight: var(--font-weight-medium, 450);
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 2px;
   transition:
-    color var(--transition-fast, 0.15s ease),
-    background var(--transition-fast, 0.15s ease);
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
 }
-.esa-filter-clear-button__icon {
-  width: var(--_clear-icon-size);
-  height: var(--_clear-icon-size);
-  flex: none;
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: transparent;
 }
-.esa-filter-clear-button__label {
+.esa-button__label {
   white-space: nowrap;
-}
-.esa-collapsible {
-  border: 1px solid var(--collapsible-border-color, var(--color-border, #e5e5e5));
-  border-radius: var(--collapsible-radius, var(--radius-300, 0.5rem));
-  background: var(--collapsible-bg, var(--color-surface, #fff));
-}
-.esa-collapsible__summary {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200, 0.5rem);
-  padding: var(--spacing-300, 0.75rem) var(--collapsible-padding-x, var(--spacing-400, 1rem));
-  font-size: var(--type-size-150, 0.9375rem);
-  font-weight: var(--font-weight-semibold, 600);
-  color: var(--collapsible-title-color, var(--color-text-primary, #171717));
-  cursor: pointer;
-  list-style: none;
-}
-.esa-collapsible__summary .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary, #404040);
-}
-.esa-collapsible__summary:after {
-  content: "";
-  width: 8px;
-  height: 8px;
-  border-right: 2px solid var(--color-text-tertiary, #737373);
-  border-bottom: 2px solid var(--color-text-tertiary, #737373);
-  transform: rotate(-45deg);
-  transition: transform 0.15s ease;
-  margin-left: auto;
-}
-.esa-collapsible[open] > .esa-collapsible__summary:after {
-  transform: rotate(45deg);
-}
-.esa-collapsible__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400, 1rem);
-  padding: 0 var(--collapsible-padding-x, var(--spacing-400, 1rem)) var(--spacing-400, 1rem);
-}
-.bcn-key-value {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.bcn-key-value__key {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  color: var(--form-label-color);
-}
-.bcn-key-value__val {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.esa-pill {
-  --_pill-bg: var(--pill-bg, var(--color-surface-sunken, #efefef));
-  --_pill-text: var(--pill-text-color, var(--color-text-primary, #171717));
-  --_pill-border: var(--pill-border-color, var(--color-border-light, #efefef));
-  --_pill-height: var(--pill-height-md, 28px);
-  --_pill-font-size: 13px;
-  --_pill-padding-x: var(--spacing-200, 0.5rem);
-  --_pill-gap: var(--spacing-100, 0.25rem);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--_pill-gap);
-  height: var(--_pill-height);
-  padding-inline: var(--_pill-padding-x);
-  border: 1px solid var(--_pill-border);
-  border-radius: var(--pill-radius, var(--radius-full, 9999px));
-  background: var(--_pill-bg);
-  color: var(--_pill-text);
-  font-size: var(--_pill-font-size);
-  line-height: 1;
-  white-space: nowrap;
-  box-sizing: border-box;
-}
-.esa-pill--sm {
-  --_pill-height: var(--pill-height-sm, 22px);
-  --_pill-font-size: 11px;
-  --_pill-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-pill__label {
-  font-weight: 500;
-}
-.bcn-danger-zone {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-}
-.bcn-danger-zone__heading {
-  margin: 0;
-  font-size: var(--type-size-250);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-danger-zone__box {
-  padding: var(--spacing-500);
-  border: 1px solid var(--color-danger);
-  border-radius: var(--radius-200);
-  background: var(--color-surface);
-}
-.bcn-danger-zone__item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-400);
-}
-.bcn-danger-zone__text {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100);
-  min-width: 0;
-}
-.bcn-danger-zone__title {
-  margin: 0;
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-danger-zone__desc {
-  margin: 0;
-  font-size: var(--form-font-size-md);
-  color: var(--color-text-secondary);
-}
-.bcn-danger-zone__action {
-  flex-shrink: 0;
 }
 .bcn-count {
   display: inline-flex;
@@ -4332,871 +4231,6 @@ a.breadcrumb-item {
   border-radius: var(--radius-100);
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
-}
-:host {
-  display: block;
-}
-.list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150, 6px);
-}
-.file {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: var(--spacing-200, 8px);
-  /* hub-edit-approved: Andrew (front-end architect) approved in-session — add a
-         backward-compatible density knob so consumers can give file rows more breathing
-         room without restyling the shadow DOM. Defaults reproduce the original tight row. */
-  padding: var(--file-list-row-padding-y, 2px)
-    var(--file-list-row-padding-x, var(--spacing-300, 12px));
-  border: var(--form-border-width, 1px) solid var(--color-border, #e5e5e5);
-  border-radius: var(--radius-100, 4px);
-  background: var(--color-surface, #fff);
-  font-family: var(--font-sans, sans-serif);
-  font-size: var(--type-size-150, 12px);
-}
-.file__icon {
-  display: inline-flex;
-  color: var(--color-text-muted, #737373);
-}
-.file__icon svg {
-  width: 16px;
-  height: 16px;
-}
-.file__name {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: var(--color-text-primary, #171717);
-  text-decoration: none;
-}
-a.file__name {
-  color: var(--color-link, var(--color-primary, #43608a));
-}
-.file__actions {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-050, 2px);
-}
-.file__btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--color-text-muted, #737373);
-  border-radius: var(--radius-100, 4px);
-  cursor: pointer;
-  flex-shrink: 0;
-  transition:
-    background var(--transition-fast, 150ms ease),
-    color var(--transition-fast, 150ms ease);
-}
-.file__btn svg {
-  width: 15px;
-  height: 15px;
-}
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-regular, 350);
-  color: var(--color-text-primary, #3d3d3d);
-  background: var(--color-surface, #fff);
-  -webkit-font-smoothing: antialiased;
-}
-button {
-  font-family: inherit;
-  cursor: pointer;
-  background: none;
-  border: 0;
-}
-a {
-  color: var(--color-text-link, #005862);
-  text-decoration: none;
-}
-img {
-  display: block;
-  max-width: 100%;
-}
-:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
-  margin: 0;
-}
-:host {
-  --_field-padding-y: var(--form-padding-y-md, 0.5rem);
-  --_field-padding-x: var(--form-padding-x-md, 0.75rem);
-  --_field-font-size: var(--form-font-size-md, 0.9375rem);
-  --_field-height: var(--form-height-md, 40px);
-  --_field-radius: var(--form-radius-md, 0.5rem);
-  --_field-border-color: var(--form-border-color, #e5e5e5);
-  --_label-font-size: var(--type-size-200, 0.9375rem);
-  display: block;
-  font-family: var(--font-sans, sans-serif);
-}
-.field {
-  display: flex;
-  flex-direction: column;
-}
-.control {
-  display: flex;
-  align-items: stretch;
-  height: var(--_field-height);
-  background: var(--form-bg, #fff);
-  border: var(--form-border-width, 1px) solid var(--_field-border-color);
-  border-radius: var(--_field-radius);
-  box-sizing: border-box;
-  overflow: hidden;
-  transition:
-    border-color var(--transition-fast, 150ms ease),
-    box-shadow var(--transition-fast, 150ms ease);
-}
-.input {
-  flex: 1 1 auto;
-  min-width: 0;
-  width: 100%;
-  height: 100%;
-  padding: var(--_field-padding-y) var(--_field-padding-x);
-  font-family: inherit;
-  font-size: var(--_field-font-size);
-  color: var(--form-text-color, #171717);
-  background: transparent;
-  border: none;
-  outline: none;
-  box-sizing: border-box;
-}
-.input::placeholder {
-  color: var(--form-placeholder-color, #737373);
-}
-:host {
-  display: inline-block;
-
-  --_filter-height: 40px;
-  --_filter-padding-x: var(--spacing-400, 1rem);
-  --_filter-font-size: var(--type-size-200, 0.9375rem);
-  --_filter-radius: var(--radius-200, 0.5rem);
-  --_filter-bg: var(--color-surface, #fff);
-  --_filter-bg-active: var(--color-primary-subtle, #f3f8fb);
-  --_filter-text: var(--color-text-primary, #171717);
-  --_filter-text-active: var(--color-primary, #43608a);
-  --_filter-border: var(--color-border, #e5e5e5);
-  --_filter-border-active: var(--color-primary, #43608a);
-}
-:host([size="sm"]) {
-  --_filter-height: 32px;
-  --_filter-padding-x: var(--spacing-300, 0.75rem);
-  --_filter-font-size: var(--type-size-150, 0.875rem);
-  --_filter-radius: var(--radius-100, 0.25rem);
-}
-.esa-filter-dropdown {
-  position: relative;
-  display: inline-flex;
-}
-.esa-filter-dropdown__trigger {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-100, 0.25rem);
-  height: var(--_filter-height);
-  padding-inline: var(--_filter-padding-x);
-  border: 1px solid var(--_filter-border);
-  border-radius: var(--_filter-radius);
-  background: var(--_filter-bg);
-  color: var(--_filter-text);
-  font-family: var(--font-sans, inherit);
-  font-size: var(--_filter-font-size);
-  font-weight: var(--font-weight-medium, 450);
-  line-height: 1;
-  cursor: pointer;
-  white-space: nowrap;
-  transition:
-    background var(--transition-fast, 150ms ease),
-    border-color var(--transition-fast, 150ms ease),
-    color var(--transition-fast, 150ms ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-filter-dropdown__label {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 200px;
-}
-.esa-filter-dropdown__arrow {
-  display: inline-flex;
-  width: 20px;
-  height: 20px;
-  transition: transform var(--transition-fast, 150ms ease);
-}
-.esa-filter-dropdown__arrow svg {
-  width: 20px;
-  height: 20px;
-}
-.page-layout__title {
-  display: none !important;
-}
-.bcn-cmt {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-600);
-}
-.bcn-cmt__head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--spacing-400);
-  padding-bottom: var(--spacing-400);
-  border-bottom: 1px solid var(--color-border);
-}
-.bcn-cmt__identity {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--spacing-100);
-  min-width: 0;
-}
-.bcn-cmt__badge {
-  flex-shrink: 0;
-  padding: 0.125rem 0.375rem;
-  border-radius: var(--radius-100);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.4;
-  white-space: nowrap;
-}
-.bcn-cmt__badge--commitment {
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-}
-.bcn-cmt__title-row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.bcn-cmt__title {
-  margin: 0;
-  font-family: var(--font-decorative);
-  font-size: 1.5rem;
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.2;
-  color: var(--color-text-primary);
-}
-.bcn-cmt__badge--type {
-  color: var(--color-text-secondary);
-  background: var(--color-surface-sunken);
-  transform: translateY(2px);
-}
-.bcn-cmt__head-actions {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  flex-shrink: 0;
-}
-.bcn-btn-ico {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-}
-.bcn-cmt__body {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px;
-  gap: var(--spacing-600);
-  align-items: start;
-}
-.bcn-cmt__main {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-600);
-}
-.bcn-cmt__section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-}
-.bcn-section-title {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  margin: 0;
-  font-size: var(--type-size-300);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-cmttext {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-  padding: var(--spacing-500);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-300);
-}
-.bcn-cmttext__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-}
-.bcn-cmttext__item {
-  font-family: var(--font-decorative);
-  font-size: 1.0625rem;
-  line-height: 1.65;
-  color: var(--color-text-primary);
-}
-.bcn-cmttext__footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--spacing-100);
-  padding-top: var(--spacing-200);
-  border-top: 1px solid var(--color-border-light);
-}
-.bcn-cmttext__footer .esa-button--color-ghost .esa-button__native {
-  color: var(--color-primary);
-}
-.bcn-cmt__section-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-300);
-}
-.bcn-count-neutral {
-  display: inline-flex;
-  align-items: center;
-  --badge-bg: var(--color-surface-sunken);
-  --badge-text-color: var(--color-text-secondary);
-}
-.bcn-reqfilters {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-250);
-}
-.bcn-reqfilters esa-text-field {
-  max-width: 360px;
-}
-.bcn-reqfilters__row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-300);
-}
-.bcn-row-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
-}
-.bcn-row {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300) var(--spacing-400);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-  background: var(--color-surface);
-  text-decoration: none;
-  transition: background-color 0.12s ease;
-}
-.bcn-row__name {
-  flex: 1;
-  min-width: 0;
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-row .bcn-cmt__badge--type,
-.bcn-row .bcn-cmt__badge--phase {
-  transform: none;
-}
-.bcn-cmt__badge--phase {
-  color: var(--color-text-secondary);
-  background: transparent;
-  border: 1px solid var(--color-border);
-}
-.bcn-row > .esa-icon:last-child {
-  color: var(--color-text-tertiary);
-  flex-shrink: 0;
-  transition:
-    transform 0.12s ease,
-    color 0.12s ease;
-}
-.bcn-reqs__empty {
-  border: 1px dashed var(--color-border);
-  border-radius: var(--radius-200);
-  padding: var(--spacing-400);
-}
-#cmt-files {
-  --file-list-row-padding-y: var(--spacing-200);
-}
-.bcn-cmt__rail {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-500);
-}
-.bcn-cmt__rail .esa-collapsible__title {
-  font-size: var(--type-size-250);
-  font-weight: var(--font-weight-semibold);
-}
-.bcn-lineage {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
-.bcn-lineage__node {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  gap: var(--spacing-300);
-  padding-bottom: var(--spacing-400);
-}
-.bcn-lineage__node:before {
-  content: "";
-  position: absolute;
-  left: 13px;
-  top: 30px;
-  bottom: 2px;
-  width: 2px;
-  background: var(--color-border);
-}
-.bcn-lineage__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
-}
-.bcn-lineage__icon .esa-icon {
-  --_icon-size: 14px;
-}
-.bcn-lineage__body {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  min-width: 0;
-  padding-top: 2px;
-}
-.bcn-lineage__kind {
-  font-size: 0.75rem;
-  color: var(--color-primary);
-  text-decoration: none;
-  width: fit-content;
-}
-.bcn-lineage__name {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  line-height: 1.35;
-  color: var(--color-primary);
-  text-decoration: none;
-}
-.bcn-lineage__node--current .bcn-lineage__icon {
-  border-color: var(--color-primary);
-  background: var(--color-primary);
-  color: var(--color-text-inverse);
-}
-.bcn-lineage__name--current {
-  color: var(--color-text-primary);
-  font-weight: var(--font-weight-semibold);
-}
-.bcn-lineage__node.bcn-lineage__node--child {
-  align-items: center;
-}
-.bcn-lineage__node--child .bcn-lineage__body {
-  flex: 1;
-  padding-top: 0;
-}
-.bcn-lineage__node--child .bcn-lineage__name {
-  font-size: 0.75rem;
-}
-.bcn-lineage__node--child .bcn-count-neutral {
-  flex-shrink: 0;
-}
-.bcn-lineage__node:last-child {
-  padding-bottom: 0;
-}
-.bcn-lineage__node:last-child:before {
-  display: none;
-}
-.bcn-tagrow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-150);
-  margin-top: var(--spacing-100);
-}
-.bcn-tagrow .esa-pill {
-  border-radius: var(--radius-100);
-  background: var(--color-surface-sunken);
-  border: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
-}
-.bcn-rail-meta {
-  margin: var(--spacing-300) 0 0;
-  padding-top: var(--spacing-300);
-  border-top: 1px solid var(--color-border-light);
-  font-size: 0.75rem;
-  color: var(--color-text-secondary);
-}
-.bcn-lists {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--spacing-150);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.bcn-list-link {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-primary);
-  text-decoration: none;
-}
-.bcn-revs .bcn-lineage__body {
-  gap: 2px;
-}
-.bcn-revs__head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--spacing-200);
-}
-.bcn-revs .bcn-lineage__kind {
-  color: var(--color-text-tertiary);
-}
-.bcn-revs__edit {
-  border: 0;
-  background: none;
-  padding: 0;
-  cursor: pointer;
-  font-size: 0.75rem;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-primary);
-}
-.bcn-revs__summary {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  line-height: 1.35;
-  color: var(--color-text-primary);
-}
-.bcn-revs__meta {
-  font-size: 0.75rem;
-  color: var(--color-text-secondary);
-}
-.bcn-revs__by {
-  font-size: 0.75rem;
-  color: var(--color-text-tertiary);
-  margin-top: 1px;
-}
-.bcn-revs__add {
-  padding-top: var(--spacing-300);
-}
-#add-rev {
-  display: block;
-}
-#add-rev .esa-button {
-  width: 100%;
-  justify-content: center;
-}
-.bcn-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-}
-.bcn-form--dialog {
-  padding: var(--spacing-100) 0;
-}
-.bcn-grid-2 {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--spacing-300);
-}
-.bcn-form esa-input-tag {
-  --_chip-bg: var(--color-surface-sunken);
-  --_chip-color: var(--color-text-primary);
-  --_chip-radius: var(--radius-100);
-}
-.bcn-editor__foot {
-  display: flex;
-  gap: var(--spacing-300);
-  justify-content: flex-end;
-  width: 100%;
-}
-.bcn-field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150);
-}
-.bcn-field__label {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-primary);
-}
-.bcn-source-pdf {
-  height: 100%;
-  min-height: 60vh;
-}
-.bcn-source-pdf__frame {
-  width: 100%;
-  height: 100%;
-  min-height: 60vh;
-  border: 0;
-  border-radius: var(--radius-200);
-  background: var(--color-surface-sunken);
-}
-.bcn-source-foot {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-}
-:host {
-  --_dialog-bg: var(--dialog-bg, var(--color-surface-elevated, #ffffff));
-  --_dialog-border-radius: var(--dialog-radius, var(--radius-400, 0.75rem));
-  --_dialog-padding: var(--spacing-500, 1.5rem);
-  --_dialog-header-border: var(--dialog-border-color, var(--color-border-light, #efefef));
-  /* Optional header/footer surface tints — a spoke fills these to frame the
-         body; default transparent leaves existing consumers unchanged. */
-  --_dialog-header-bg: var(--dialog-header-bg, transparent);
-  --_dialog-footer-bg: var(--dialog-footer-bg, transparent);
-  --_dialog-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
-  --_dialog-width: var(--dialog-width, 480px);
-  --_dialog-max-height: 85vh;
-}
-:host {
-  --_width: var(--side-dialog-width, 400px);
-}
-:host([size="lg"]) {
-  --_width: var(--side-dialog-width-lg, 520px);
-}
-:host {
-  all: initial;
-}
-.host-root {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2147483000;
-  font-family: system-ui, sans-serif;
-}
-.host-root > * {
-  pointer-events: auto;
-}
-.launch {
-  position: fixed;
-  bottom: 22px;
-  left: 22px;
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 13px 19px;
-  border-radius: 999px;
-  color: #fff;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  border: 1px solid #3d6fd6;
-  background: linear-gradient(180deg, #1f6feb, #1551c4);
-  box-shadow:
-    0 10px 28px -8px rgba(31, 111, 235, 0.65),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18);
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease,
-    filter 0.15s ease;
-}
-.launch svg {
-  flex: none;
-}
-.panel {
-  position: fixed;
-  top: 18px;
-  right: 18px;
-  bottom: 18px;
-  width: min(720px, 94vw);
-  display: flex;
-  flex-direction: column;
-  color: #ffffff;
-  border-radius: 16px;
-  background: linear-gradient(155deg, rgba(26, 31, 40, 0.74), rgba(11, 15, 21, 0.86));
-  backdrop-filter: blur(26px) saturate(150%);
-  -webkit-backdrop-filter: blur(26px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow:
-    0 28px 70px -18px rgba(0, 0, 0, 0.62),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  font-size: 12.5px;
-  overflow: hidden;
-  /* slide in from the right */
-  transform: translateX(calc(100% + 32px));
-  opacity: 0;
-  visibility: hidden;
-  transition:
-    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.22s ease,
-    visibility 0s linear 0.3s;
-}
-.head {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 13px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-}
-.head strong {
-  font-size: 14px;
-}
-.head .sub {
-  flex: 1;
-  color: #ccd5e0;
-  font-size: 12px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.x {
-  border: 0;
-  background: none;
-  color: #c4cdd8;
-  font-size: 20px;
-  line-height: 1;
-  cursor: pointer;
-}
-.picker {
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-}
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.chip {
-  padding: 5px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.04);
-  color: #eef2f6;
-  font: inherit;
-  font-size: 12.5px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition:
-    border-color 0.12s ease,
-    background 0.12s ease,
-    color 0.12s ease;
-}
-.chip.on {
-  background: rgba(31, 111, 235, 0.28);
-  border-color: #4493f8;
-  color: #fff;
-  font-weight: 600;
-}
-.tabs {
-  display: flex;
-  gap: 4px;
-  padding: 9px 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-}
-.tabs button {
-  padding: 5px 12px;
-  border: 0;
-  border-radius: 6px;
-  background: none;
-  color: #ccd5e0;
-  font: inherit;
-  font-size: 12.5px;
-  cursor: pointer;
-}
-.tabs button.on {
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-}
-.body {
-  overflow: auto;
-  padding: 13px 16px;
-  flex: 1;
-}
-.hint {
-  margin: 0;
-  color: #c4cdd8;
-  line-height: 1.6;
-}
-.footer {
-  position: relative;
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  padding: 11px 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(0, 0, 0, 0.18);
-}
-[hidden] {
-  display: none !important;
-}
-.cpreview {
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: calc(100% + 8px);
-  background: rgba(13, 17, 23, 0.96);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 12px;
-  box-shadow: 0 18px 50px -14px rgba(0, 0, 0, 0.7);
-  padding: 12px 14px;
-  max-height: 50vh;
-  overflow: auto;
-}
-.copy {
-  color: #eef2f6;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.05);
-}
-.footer button {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font: inherit;
-  font-size: 12.5px;
-  font-weight: 600;
-  cursor: pointer;
-}
-.claude {
-  color: #fff;
-  border: 1px solid #d97757;
-  background: linear-gradient(180deg, #e0805f, #c25e3c);
-  box-shadow:
-    0 6px 18px -6px rgba(217, 119, 87, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-.claude svg {
-  flex: none;
 }
 .modern-layout {
   display: flex;
@@ -5507,10 +4541,9 @@ img {
   cursor: pointer;
   text-decoration: none;
 }
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
+.nav-section__header--link {
+  text-decoration: none;
+  color: var(--bcn-gray-950);
 }
 .nav-section__header > .esa-icon:first-child {
   flex-shrink: 0;
@@ -5521,6 +4554,11 @@ img {
   flex: 1;
   overflow: hidden;
   transition: opacity 0.2s ease-in-out;
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
 }
 .nav-section__header > .esa-icon:last-child {
   color: var(--bcn-gray-400);
@@ -5555,12 +4593,25 @@ img {
   transition: all 0.15s ease;
   line-height: 1.2;
 }
-.nav-item + .nav-item {
-  margin-top: var(--spacing-050);
-}
 .nav-sublink.active {
   background: #0000000a;
   color: var(--color-primary);
+}
+.nav-item + .nav-item {
+  margin-top: var(--spacing-050);
+}
+.nav-divider {
+  flex-shrink: 0;
+  height: 1px;
+  margin: var(--spacing-200) 0;
+  border: 0;
+  background: var(--bcn-gray-200);
+}
+.nav-subdivider {
+  list-style: none;
+  height: 1px;
+  margin: var(--spacing-150) 0 var(--spacing-150) 2.5rem;
+  background: var(--bcn-gray-200);
 }
 .modern-layout__content {
   flex: 1;
@@ -5832,14 +4883,6 @@ img {
   display: flex;
   flex-direction: column;
 }
-[data-gd-chat] {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-}
-[data-gd-chat]:empty {
-  display: none;
-}
 .bcn-gd__foot {
   display: flex;
   flex-direction: column;
@@ -5959,23 +5002,570 @@ img {
 .bcn-gd-article__panel[hidden] {
   display: none;
 }
-:host {
-  display: contents;
+.bcn-phome {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+.bcn-phome__cover {
+  height: 132px;
+  overflow: hidden;
+  background: var(--color-surface-sunken);
+}
+.bcn-phome__hero {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.bcn-phome__body {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-500);
+  padding: 0 var(--spacing-600) var(--spacing-500);
+}
+.bcn-phome__seal {
+  flex-shrink: 0;
+  width: 92px;
+  height: 92px;
+  margin-top: -46px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  border: 3px solid var(--color-surface);
+  object-fit: contain;
+  box-shadow: var(--shadow-100, 0 2px 12px 0 rgba(0, 0, 0, 0.08));
+}
+.bcn-phome__id {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  padding-top: var(--spacing-400);
+  min-width: 0;
+  flex: 1;
+}
+.bcn-phome__idtop {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  flex-wrap: wrap;
+}
+.bcn-phome__name {
+  margin: 0;
+  font-family: var(--font-decorative, var(--font-display, var(--font-sans)));
+  font-weight: var(--font-weight-bold);
+  font-size: var(--type-size-600);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--bcn-gray-1000, var(--color-text-primary));
+}
+.bcn-phome__eyebrow {
+  margin: 0 0 var(--spacing-200);
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-tertiary);
+}
+.bcn-lrc {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.bcn-lrc__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-300);
+  padding: var(--spacing-250) 0;
+  text-decoration: none;
+  color: inherit;
+}
+.bcn-lrc__label {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  min-width: 0;
+}
+.bcn-lrc__right {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  flex-shrink: 0;
+}
+.bcn-lrc li + li .bcn-lrc__row {
+  border-top: 1px solid var(--color-border-light);
+}
+.bcn-lrc__meta {
+  font-size: var(--type-size-150);
+  color: var(--color-text-tertiary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.bcn-pf__desc {
+  margin: 0 0 var(--spacing-300);
+  font-size: var(--type-size-150);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-secondary);
+}
+.bcn-pf {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+.bcn-pf__fact {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--spacing-250) 0;
+}
+.bcn-pf__label {
+  font-size: var(--type-size-150);
+  color: var(--color-text-tertiary);
+}
+.bcn-pf__value {
+  margin: 0;
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-pf__fact + .bcn-pf__fact {
+  border-top: 1px solid var(--color-border-light);
+}
+.bcn-crit {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+}
+.bcn-crit__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+}
+.bcn-crit__card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--spacing-400);
+  padding: var(--spacing-300) var(--spacing-400);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+.bcn-crit__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: var(--radius-200);
+  background: var(--color-surface-sunken);
+  color: var(--color-text-secondary);
+}
+.bcn-crit__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.bcn-crit__type {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+}
+.bcn-crit__title {
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-crit__where {
+  font-size: var(--type-size-150);
+  color: var(--color-text-tertiary);
+}
+.bcn-crit__right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--spacing-100);
+  flex-shrink: 0;
+  text-align: right;
+}
+.bcn-crit__sev {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+}
+.bcn-crit__sev-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: var(--radius-full);
+  background: var(--_s);
+  flex-shrink: 0;
+}
+.bcn-crit__timing {
+  font-size: var(--type-size-150);
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+}
+.bcn-crit__timing--late {
+  color: var(--color-danger);
+  font-weight: var(--font-weight-semibold);
+}
+.bcn-crit__code {
+  display: inline-block;
+  margin-right: var(--spacing-200);
+  padding: 1px var(--spacing-150);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 12%, white);
+  border-radius: var(--radius-100);
+  vertical-align: 1px;
+}
+.bcn-stc {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+}
+.bcn-stc__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--spacing-400);
+  flex-wrap: wrap;
+}
+.bcn-stc__headings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  min-width: 0;
+}
+.bcn-stc__title {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+.bcn-stc__lede {
+  margin: 0;
+  color: var(--color-text-secondary);
+  max-width: 68ch;
+}
+.bcn-stc__all {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+.bcn-stc__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+}
+.bcn-stc__card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--spacing-500);
+  padding: var(--spacing-400) var(--spacing-500);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+.bcn-stc__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  min-width: 0;
+  padding-right: var(--spacing-500);
+  border-right: 1px solid var(--color-border-light);
+}
+.bcn-stc__card-head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-300);
+}
+.bcn-stc__glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: var(--radius-200);
+  background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface));
+  color: var(--color-primary);
+}
+.bcn-stc__ident {
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.bcn-stc__name {
+  font-size: var(--type-size-250, 1.0625rem);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+}
+.bcn-stc__type {
+  font-size: var(--type-size-150);
+  color: var(--color-text-tertiary);
+}
+.bcn-stc__headline {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+}
+.bcn-stc__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: var(--radius-full);
+  background: var(--_c);
+  flex-shrink: 0;
+}
+.bcn-stc__headline-text {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+.bcn-stc__pulse {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+.bcn-stc__pulse-row {
+  display: grid;
+  grid-template-columns: auto 6rem 1fr;
+  align-items: center;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+.bcn-stc__pulse-area {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-stc__pulse-note {
+  font-size: var(--type-size-150);
+  color: var(--color-text-tertiary);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bcn-tz {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-500);
+  padding: var(--spacing-500) var(--spacing-500) var(--spacing-600);
+  background: color-mix(in srgb, var(--color-primary) 6%, var(--color-surface));
+  border: 1px solid color-mix(in srgb, var(--color-primary) 18%, var(--color-surface));
+  border-radius: var(--radius-400, var(--radius-300));
+}
+.bcn-tz__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-400);
+  flex-wrap: wrap;
+}
+.bcn-tz__headings {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  min-width: 0;
+}
+.bcn-tz__title {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+.bcn-tz__summary {
+  margin: 0;
+  color: var(--color-text-secondary);
+  max-width: 62ch;
+}
+.bcn-tz__cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  gap: var(--spacing-500);
+  align-items: start;
+}
+.bcn-tz__rollup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  padding: var(--spacing-500);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+}
+.bcn-tz__label {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+}
+.bcn-tz__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-500) var(--spacing-600);
+}
+.bcn-tz__scope {
+  margin: 0;
+  font-size: var(--type-size-150);
+  color: var(--color-text-tertiary);
+}
+.bcn-tz__sublinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-300) var(--spacing-500);
+  padding-top: var(--spacing-400);
+  border-top: 1px solid var(--color-border-light);
+}
+.bcn-tz__sublink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+}
+.bcn-tz__sublink .esa-icon {
+  color: var(--color-text-muted);
+}
+.bcn-sd {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+}
+.bcn-sd__title {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+.bcn-sd__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: var(--spacing-400);
+}
+.bcn-sd__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  padding: var(--spacing-400);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.bcn-sd__head {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+}
+.bcn-sd__glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: var(--radius-200);
+  background: var(--color-surface-sunken);
+  color: var(--color-text-secondary);
+}
+.bcn-sd__name {
+  font-size: var(--type-size-300);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-sd__summary {
+  margin: 0;
+  font-size: var(--type-size-150);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-normal);
+}
+.bcn-sd__rollup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-300) var(--spacing-500);
+  margin: 0;
+  padding: var(--spacing-300) 0;
+  border-top: 1px solid var(--color-border-light);
+  border-bottom: 1px solid var(--color-border-light);
+  --stat-value-size: var(--type-size-400);
+  --stat-label-size: var(--type-size-150);
+  --stat-label-color: var(--color-text-tertiary);
+}
+.bcn-sd__flag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+.bcn-sd__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: var(--radius-full);
+  background: var(--_c);
+  flex-shrink: 0;
+}
+.bcn-sd__open {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  margin-top: auto;
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+}
+.bcn-sd__glyph--wizard {
+  border-radius: var(--radius-full);
+  background: var(--bcn-teal-600, var(--color-secondary));
+  color: var(--color-text-inverse);
+}
+.bcn-sd__name--serif {
+  font-family: var(--font-decorative, var(--font-sans));
+  font-weight: var(--font-weight-bold);
 }
 ```
 
 ## Tokens
 | Token | Value | Tier |
 |---|---|---|
-| `--badge-bg` | `#005862` | component |
-| `--badge-height-md` | `28px` | component |
-| `--badge-height-sm` | `22px` | component |
-| `--badge-radius` | `.25rem` | component |
-| `--badge-text-color` | `#fcfcfc` | component |
 | `--bcn-aldo` | `#08908b` | component |
 | `--bcn-aldo-100` | `#cfeceb` | component |
 | `--bcn-aldo-50` | `#e8f6f5` | component |
 | `--bcn-gray-100` | `#efefef` | component |
+| `--bcn-gray-1000` | `#000000` | component |
 | `--bcn-gray-200` | `#dcdcdc` | component |
 | `--bcn-gray-300` | `#bdbdbd` | component |
 | `--bcn-gray-400` | `#989898` | component |
@@ -5991,87 +5581,61 @@ img {
 | `--bcn-helpbar-fg` | `rgba(255, 255, 255, .92)` | component |
 | `--bcn-helpbar-fg-muted` | `rgba(255, 255, 255, .72)` | component |
 | `--bcn-helpbar-hover-bg` | `rgba(255, 255, 255, .1)` | component |
-| `--collapsible-bg` | `#fcfcfc` | component |
-| `--collapsible-border-color` | `#dcdcdc` | component |
-| `--collapsible-padding-x` | `1rem` | component |
-| `--collapsible-radius` | `.5rem` | component |
-| `--collapsible-title-color` | `#3d3d3d` | component |
+| `--bcn-teal-600` | `#0e807b` | component |
+| `--card-bg` | `#fcfcfc` | component |
+| `--card-border-color` | `#dcdcdc` | component |
+| `--card-header-bg` | `transparent` | component |
+| `--card-header-border-color` | `#efefef` | component |
+| `--card-header-color` | `#3d3d3d` | component |
+| `--card-padding` | `1.5rem` | component |
+| `--card-radius` | `.5rem` | component |
 | `--color-accent` | `#f76b15` | semantic |
 | `--color-border` | `#dcdcdc` | semantic |
 | `--color-border-light` | `#efefef` | semantic |
-| `--color-border-strong` | `#bdbdbd` | semantic |
 | `--color-commitment` | `#58508d` | component |
 | `--color-danger` | `#e5484d` | semantic |
-| `--color-danger-hover` | `#dc3e42` | semantic |
-| `--color-danger-strong` | `#ce2c31` | semantic |
-| `--color-link` | `#2a7e3b` | component |
 | `--color-primary` | `#005862` | semantic |
 | `--color-primary-hover` | `#00474f` | semantic |
 | `--color-primary-strong` | `#2a7e3b` | semantic |
-| `--color-primary-subtle` | `#effefb` | semantic |
+| `--color-secondary` | `#00918b` | semantic |
+| `--color-secondary-strong` | `#2a7e3b` | semantic |
 | `--color-surface` | `#fcfcfc` | semantic |
-| `--color-surface-elevated` | `#fcfcfc` | semantic |
 | `--color-surface-sunken` | `#efefef` | semantic |
 | `--color-text-inverse` | `#fcfcfc` | semantic |
-| `--color-text-link` | `#005862` | semantic |
 | `--color-text-muted` | `#7c7c7c` | semantic |
 | `--color-text-primary` | `#3d3d3d` | semantic |
 | `--color-text-secondary` | `#525252` | semantic |
 | `--color-text-tertiary` | `#656565` | semantic |
-| `--dialog-bg` | `#fcfcfc` | component |
-| `--dialog-border-color` | `#efefef` | component |
-| `--dialog-radius` | `.75rem` | component |
-| `--dialog-width` | `480px` | component |
-| `--filter-clear-color` | `#7c7c7c` | component |
-| `--filter-clear-color-hover` | `#ce2c31` | component |
 | `--font-decorative` | `"Besley", serif` | component |
+| `--font-display` | `"DM Sans", sans-serif` | primitive |
+| `--font-mono` | `"Roboto Mono", ui-monospace, monospace` | primitive |
 | `--font-sans` | `"DM Sans", sans-serif` | primitive |
 | `--font-weight-bold` | `650` | primitive |
 | `--font-weight-medium` | `450` | primitive |
 | `--font-weight-regular` | `350` | primitive |
 | `--font-weight-semibold` | `550` | primitive |
-| `--form-bg` | `#fcfcfc` | component |
-| `--form-border-color` | `#dcdcdc` | component |
-| `--form-border-width` | `1px` | component |
 | `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | component |
-| `--form-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` | component |
 | `--form-height-md` | `36px` | component |
-| `--form-height-sm` | `28px` | component |
-| `--form-label-color` | `#525252` | component |
 | `--form-padding-x-md` | `.75rem` | component |
-| `--form-padding-x-sm` | `.625rem` | component |
-| `--form-padding-y-md` | `.5rem` | component |
-| `--form-placeholder-color` | `#7c7c7c` | component |
 | `--form-radius-md` | `.25rem` | component |
-| `--form-radius-sm` | `.25rem` | component |
-| `--form-text-color` | `#3d3d3d` | component |
 | `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
-| `--icon-link-font-size-md` | `1rem` | component |
-| `--icon-link-font-size-sm` | `.875rem` | component |
-| `--icon-link-gap` | `.375rem` | component |
 | `--icon-size-md` | `20px` | primitive |
 | `--icon-size-medium` | `20px` | component |
 | `--icon-size-sm` | `16px` | primitive |
 | `--icon-size-small` | `16px` | component |
 | `--icon-size-xs` | `14px` | primitive |
-| `--pill-bg` | `#efefef` | component |
-| `--pill-border-color` | `#efefef` | component |
-| `--pill-height-md` | `28px` | component |
-| `--pill-height-sm` | `22px` | component |
-| `--pill-radius` | `.25rem` | component |
-| `--pill-text-color` | `#3d3d3d` | component |
-| `--popover-bg` | `#fcfcfc` | component |
-| `--popover-border-color` | `#dcdcdc` | component |
-| `--popover-color` | `#3d3d3d` | component |
-| `--popover-radius` | `.5rem` | component |
+| `--letter-spacing-normal` | `.01em` | primitive |
+| `--letter-spacing-tight` | `-.01em` | primitive |
+| `--line-height-normal` | `1.6` | primitive |
+| `--line-height-relaxed` | `1.8` | primitive |
+| `--line-height-tight` | `1.3` | primitive |
 | `--radius-100` | `.25rem` | primitive |
 | `--radius-200` | `.5rem` | primitive |
 | `--radius-300` | `.5rem` | primitive |
 | `--radius-400` | `.75rem` | primitive |
 | `--radius-full` | `9999px` | primitive |
-| `--shadow-300` | `0 6px 24px -6px rgba(0, 0, 0, .07)` | primitive |
-| `--side-dialog-width` | `400px` | component |
-| `--side-dialog-width-lg` | `520px` | component |
+| `--shadow-100` | `0 2px 12px 0 rgba(0, 0, 0, .04)` | primitive |
+| `--sidebar-width` | `280px` | semantic |
 | `--spacing-050` | `.125rem` | primitive |
 | `--spacing-100` | `.25rem` | primitive |
 | `--spacing-150` | `.375rem` | primitive |
@@ -6089,6 +5653,9 @@ img {
 | `--type-size-250` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` | primitive |
 | `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
 | `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
+| `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` | primitive |
+| `--type-size-600` | `clamp(1.375rem, 1.2rem + .88vw, 1.875rem)` | primitive |
+| `--type-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | primitive |
 
 ---
 _Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._

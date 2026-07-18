@@ -47,6 +47,15 @@ export const prototypeGroups: PrototypeGroup[] = [
         createdAt: '2026-07-14',
         status: 'in-progress',
       },
+      {
+        slug: 'component-dashboard',
+        title: 'Component Dashboard',
+        description:
+          'The reimagined "All Components" surface: each component read as a compliance-tracking unit with a Tracking · Monitoring · Reporting pulse per card, and project-wide component health rolled up into a summary band. Companion to the Project Dashboard.',
+        route: '/prototypes/component-dashboard',
+        createdAt: '2026-07-16',
+        status: 'in-progress',
+      },
     ],
   },
   {
@@ -265,13 +274,24 @@ export const prototypeGroups: PrototypeGroup[] = [
         createdAt: '2026-06-15',
         status: 'in-progress',
       },
+      // The Tasking Gantt was rebuilt on the `proto/fish-gantt-rebuild` branch
+      // (beacon-design--ws-fish worktree) and its page no longer exists on main —
+      // re-add the row here when that branch merges.
+    ],
+  },
+  {
+    slug: 'help-guidance',
+    title: 'Help & Guidance',
+    description:
+      'In-context help on every page — a floating utility bar (the Aldo compass mark) opens a route-aware guidance drawer, backed by one browsable knowledge base.',
+    pages: [
       {
-        slug: 'fish-gantt',
-        title: 'Tasking Gantt (multi-level)',
+        slug: 'help',
+        title: 'Help & Guidance',
         description:
-          'The recursive COA hierarchy projection: program → sub-program → study swimlanes on the water-year axis with roll-up bars for program spans, dependency arrows tracing each study’s informs / informed-by edges, and a node-detail drawer whose funding plan shows CDFW’s dollars-per-water-year requirement plus roll-ups up (own vs. summed) and down (inherited program ceiling / back-scheduling anchor). Illustrative mock funding.',
-        route: '/prototypes/fish-gantt',
-        createdAt: '2026-07-13',
+          'The knowledge base: searchable hero, browse-by-category tiles, and a hash-routed article browser (18 articles grounded in the product docs). The same dataset powers the app-wide floating help bar + guidance drawer — open ANY prototype page and the drawer shows guidance for that page.',
+        route: '/prototypes/help',
+        createdAt: '2026-07-16',
         status: 'in-progress',
       },
     ],

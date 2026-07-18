@@ -3332,10 +3332,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .esa-badge {
   --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
   --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));
-  --_badge-height: var(--badge-height-md, 20px);
-  --_badge-font-size: 11px;
-  --_badge-padding-x: 6px;
-  --_badge-min-width: var(--badge-height-md, 20px);
+  --_badge-height: var(--badge-height-md, 28px);
+  --_badge-font-size: 13px;
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  --_badge-min-width: var(--badge-height-md, 28px);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3352,16 +3352,18 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   box-sizing: border-box;
 }
 .esa-badge--sm {
-  --_badge-height: var(--badge-height-sm, 16px);
-  --_badge-font-size: 10px;
-  --_badge-padding-x: 4px;
-  --_badge-min-width: var(--badge-height-sm, 16px);
+  --_badge-height: var(--badge-height-sm, 22px);
+  --_badge-font-size: 11px;
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
+  --_badge-min-width: var(--badge-height-sm, 22px);
 }
 .esa-badge--secondary {
-  --_badge-bg: var(--color-secondary, #5787b9);
+  --_badge-bg: var(--color-secondary, #65ba74);
+  --_badge-text: var(--color-secondary-on-fill, #203c25);
 }
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3389,14 +3391,23 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   gap: var(--spacing-400, 1rem);
   padding: 0 var(--collapsible-padding-x, var(--spacing-400, 1rem)) var(--spacing-400, 1rem);
 }
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
   --_btn-padding-x: var(--form-padding-x-md, 16px);
   --_btn-font-size: var(--form-font-size-md, 14px);
   --_btn-radius: var(--form-radius-md, 6px);
-  --_accent: var(--color-primary, #43608a);
-  --_accent-hover: var(--color-primary-hover, #39506f);
+  --_accent: var(--color-primary, #46a758);
+  --_accent-hover: var(--color-primary-hover, #3e9b4f);
   --_on: var(--color-text-inverse, #ffffff);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
 .esa-button--sm {
@@ -3406,8 +3417,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --_btn-radius: var(--form-radius-sm, 4px);
 }
 .esa-button--color-danger {
-  --_accent: var(--color-danger, #ef4444);
-  --_accent-hover: color-mix(in srgb, var(--color-danger, #ef4444) 85%, #000);
+  --_accent: var(--color-danger);
+  --_accent-hover: var(--color-danger-hover);
+  --_accent-text: var(--color-danger-strong);
 }
 .esa-button__native {
   display: inline-flex;
@@ -3446,7 +3458,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .esa-button--appearance-outline .esa-button__native,
 .esa-button--appearance-dashed .esa-button__native {
   background: transparent;
-  color: var(--_accent);
+  color: var(--_accent-text);
   border-color: var(--_accent);
 }
 .esa-button--color-ghost .esa-button__native {
@@ -3458,11 +3470,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
   border-color: var(--color-border, #e5e5e5);
 }
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
+.esa-button--color-primary {
+  --_accent-text: var(--color-primary-strong);
 }
 ```
 
@@ -3470,11 +3479,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 | Token | Value | Tier |
 |---|---|---|
 | `--badge-bg` | `#005862` | component |
-| `--badge-height-md` | `20px` | component |
-| `--badge-height-sm` | `16px` | component |
+| `--badge-height-md` | `28px` | component |
+| `--badge-height-sm` | `22px` | component |
 | `--badge-radius` | `.25rem` | component |
-| `--badge-text-color` | `#ffffff` | component |
-| `--collapsible-bg` | `#ffffff` | component |
+| `--badge-text-color` | `#fcfcfc` | component |
+| `--collapsible-bg` | `#fcfcfc` | component |
 | `--collapsible-border-color` | `#dcdcdc` | component |
 | `--collapsible-padding-x` | `1rem` | component |
 | `--collapsible-radius` | `.5rem` | component |
@@ -3483,13 +3492,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 | `--color-border` | `#dcdcdc` | semantic |
 | `--color-border-light` | `#efefef` | semantic |
 | `--color-border-strong` | `#bdbdbd` | semantic |
-| `--color-danger` | `#ef4444` | semantic |
+| `--color-danger` | `#e5484d` | semantic |
+| `--color-danger-hover` | `#dc3e42` | semantic |
+| `--color-danger-strong` | `#ce2c31` | semantic |
 | `--color-primary` | `#005862` | semantic |
 | `--color-primary-hover` | `#00474f` | semantic |
+| `--color-primary-strong` | `#2a7e3b` | semantic |
 | `--color-primary-subtle` | `#effefb` | semantic |
 | `--color-secondary` | `#00918b` | semantic |
-| `--color-surface` | `#ffffff` | semantic |
-| `--color-text-inverse` | `#ffffff` | semantic |
+| `--color-secondary-on-fill` | `#203c25` | semantic |
+| `--color-surface` | `#fcfcfc` | semantic |
+| `--color-text-inverse` | `#fcfcfc` | semantic |
 | `--color-text-primary` | `#3d3d3d` | semantic |
 | `--color-text-secondary` | `#525252` | semantic |
 | `--color-text-tertiary` | `#656565` | semantic |
@@ -3508,6 +3521,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 | `--form-padding-x-sm` | `.625rem` | component |
 | `--form-radius-md` | `.25rem` | component |
 | `--form-radius-sm` | `.25rem` | component |
+| `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
 | `--icon-size-md` | `20px` | primitive |
 | `--icon-size-medium` | `20px` | component |
 | `--icon-size-sm` | `16px` | primitive |

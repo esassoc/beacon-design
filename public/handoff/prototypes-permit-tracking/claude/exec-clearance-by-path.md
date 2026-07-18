@@ -194,7 +194,7 @@ One stacked status bar per path (route-miles by derived status), stacked top-to-
 
 ## Tokens
 - `--bcn-gray-100`: #efefef _(component)_
-- `--color-surface`: #ffffff _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
