@@ -1,0 +1,317 @@
+---
+// <BcnComponentCard> — one component rendered as a compliance-tracking unit for
+// the "All Components" dashboard. Reads at a glance as: what it is (identity glyph
+// + name + type), where it stands (BcnStatusChip), how compliance is tracking
+// (two esa-progress-bar rollups + three at-a-glance metrics), and what needs
+// attention now (overdue flag + guarded inline delete).
+//
+// Composes the legos: EsaIcon (identity + metric glyphs), BcnStatusChip (status),
+// EsaProgressBar (requirements/actions progress), EsaIconButton (delete trigger).
+//
+// bcn-lego-checked: no esa-* card composes a status-chip + dual progress rollups +
+// a metric column + a guarded inline delete-confirm — esa-card is a static shell
+// with no rollup/metric structure, and esa-confirm-dialog is a MODAL (the approved
+// design is an inline, in-card confirm). Checked Beacon (the component list is a
+// bare AG Grid, no card). bcn-component-card is the reusable home; every control
+// inside it is a lego, and its own CSS is card-composition glue.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
+import BcnStatusChip from './BcnStatusChip.astro';
+import { STATUS_META, type ProjectComponent } from '../../data/component-dashboard';
+
+interface Props {
+  component: ProjectComponent;
+}
+const { component: c } = Astro.props;
+
+// Lucide inner markup for glyphs the esa-icon registry doesn't ship.
+const ICON_PACKAGE =
+  '<path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M3.29 7 12 12l8.71-5"/><path d="M12 22V12"/>';
+const ICON_CLIPBOARD =
+  '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>';
+const ICON_LAYERS =
+  '<path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/>';
+
+const meta = STATUS_META[c.status];
+const attention = c.overdueActions > 0;
+const pct = (a: number, b: number) => (b === 0 ? 0 : Math.round((a / b) * 100));
+const reqPct = pct(c.requirements.met, c.requirements.total);
+const actPct = pct(c.actions.complete, c.actions.total);
+const reqDone = c.requirements.total > 0 && c.requirements.met === c.requirements.total;
+const actDone = c.actions.total > 0 && c.actions.complete === c.actions.total;
+const overdueLabel = `${c.overdueActions} overdue action${c.overdueActions > 1 ? 's' : ''}`;
+---
+
+<article class:list={['bcn-cmp', { 'bcn-cmp--attention': attention }]} data-status={c.status}>
+  <div class="bcn-cmp__head">
+    <span class="bcn-cmp__glyph"><EsaIcon name="package" size="md" paths={ICON_PACKAGE} /></span>
+    <div class="bcn-cmp__ident">
+      <span class="bcn-cmp__name">{c.name}</span>
+      <span class="bcn-cmp__type">{c.type}</span>
+    </div>
+    <div class="bcn-cmp__head-right">
+      <BcnStatusChip status={c.status} label={meta.label} hex={meta.hex} />
+      <EsaIconButton icon="trash-2" label={`Delete ${c.name}`} size="sm" />
+    </div>
+  </div>
+
+  {attention && (
+    <div class="bcn-cmp__flags">
+      <span class="bcn-cmp__flag">
+        <EsaIcon name="triangle-alert" size="xs" />
+        {overdueLabel}
+      </span>
+    </div>
+  )}
+
+  <p class="bcn-cmp__desc">{c.desc}</p>
+
+  <div class="bcn-cmp__rollups">
+    <div class="bcn-cmp__prog">
+      <div class="bcn-cmp__prog-row">
+        <div class="bcn-cmp__prog-head">
+          <span class="bcn-cmp__prog-label">Requirements</span>
+          <span class="bcn-cmp__prog-val"><b>{c.requirements.met}</b> / {c.requirements.total} met</span>
+        </div>
+        <EsaProgressBar value={reqPct} variant={reqDone ? 'success' : 'primary'} size="sm" />
+      </div>
+      <div class="bcn-cmp__prog-row">
+        <div class="bcn-cmp__prog-head">
+          <span class="bcn-cmp__prog-label">Actions</span>
+          <span class="bcn-cmp__prog-val"><b>{c.actions.complete}</b> / {c.actions.total} complete</span>
+        </div>
+        <EsaProgressBar value={actPct} variant={actDone ? 'success' : 'primary'} size="sm" />
+      </div>
+    </div>
+
+    <div class="bcn-cmp__metrics">
+      <div class="bcn-cmp__metric">
+        <span class="bcn-cmp__metric-icon"><EsaIcon name="clipboard-check" size="sm" paths={ICON_CLIPBOARD} /></span>
+        <span class="bcn-cmp__metric-body">
+          <span class="bcn-cmp__metric-label">Open actions</span>
+          {c.openActions === 0 ? (
+            <span class="bcn-cmp__metric-val bcn-cmp__metric-val--muted">None open</span>
+          ) : (
+            <span class="bcn-cmp__metric-val">
+              {c.openActions}
+              {attention && <span class="bcn-cmp__overdue">{c.overdueActions} overdue</span>}
+            </span>
+          )}
+        </span>
+      </div>
+      <div class="bcn-cmp__metric">
+        <span class="bcn-cmp__metric-icon"><EsaIcon name="layers" size="sm" paths={ICON_LAYERS} /></span>
+        <span class="bcn-cmp__metric-body">
+          <span class="bcn-cmp__metric-label">Work areas</span>
+          <span class="bcn-cmp__metric-val">{c.workAreas}</span>
+        </span>
+      </div>
+      <div class="bcn-cmp__metric">
+        <span class="bcn-cmp__metric-icon"><EsaIcon name="activity" size="sm" /></span>
+        <span class="bcn-cmp__metric-body">
+          <span class="bcn-cmp__metric-label">Recent monitoring</span>
+          {c.lastMonitoring ? (
+            <span class="bcn-cmp__metric-val">
+              {c.lastMonitoring}
+              <span class="bcn-cmp__metric-meta">· {c.monitoring30d} in 30d</span>
+            </span>
+          ) : (
+            <span class="bcn-cmp__metric-val bcn-cmp__metric-val--muted">No activity yet</span>
+          )}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bcn-cmp__foot">
+    <a class="bcn-cmp__open" href="#component">Open component <EsaIcon name="chevron-right" size="sm" /></a>
+    <span class="bcn-cmp__updated">Updated {c.updated}</span>
+  </div>
+
+  <div class="bcn-cmp__confirm" role="alertdialog" aria-label={`Delete ${c.name}`}>
+    <span>Delete this component and its rollups?</span>
+    <span class="bcn-cmp__confirm-actions">
+      <button type="button" class="bcn-cmp__confirm-btn bcn-cmp__confirm-btn--cancel" data-action="cancel-delete">Cancel</button>
+      <button type="button" class="bcn-cmp__confirm-btn bcn-cmp__confirm-btn--delete" data-action="confirm-delete">Delete</button>
+    </span>
+  </div>
+</article>
+
+<style>
+  .bcn-cmp {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+    padding: var(--spacing-400) var(--spacing-500);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-cmp:hover {
+    border-color: var(--color-border-strong);
+    box-shadow: var(--shadow-50, 0 1px 4px 0 rgba(0, 0, 0, 0.03));
+  }
+  .bcn-cmp--attention {
+    border-color: color-mix(in srgb, var(--color-danger) 35%, var(--color-border));
+  }
+
+  /* head */
+  .bcn-cmp__head { display: flex; align-items: flex-start; gap: var(--spacing-300); }
+  .bcn-cmp__glyph {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: var(--radius-200);
+    background: var(--color-primary-subtle);
+    color: var(--color-primary);
+  }
+  .bcn-cmp__ident { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 2px; }
+  .bcn-cmp__name {
+    font-size: var(--type-size-300);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    line-height: var(--line-height-tight);
+  }
+  .bcn-cmp__type { font-size: var(--type-size-100); color: var(--color-text-tertiary); }
+  .bcn-cmp__head-right { display: flex; align-items: center; gap: var(--spacing-200); flex-shrink: 0; }
+  .bcn-cmp__head-right :global(.esa-icon-button) { color: var(--color-text-muted); }
+  .bcn-cmp__head-right :global(.esa-icon-button:hover) { color: var(--color-danger); }
+
+  /* attention flag */
+  .bcn-cmp__flags { display: flex; flex-wrap: wrap; gap: var(--spacing-150); }
+  .bcn-cmp__flag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    padding: 1px var(--spacing-200);
+    border-radius: var(--radius-100);
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-danger-strong);
+    background: color-mix(in srgb, var(--color-danger) 12%, white);
+    border: 1px solid color-mix(in srgb, var(--color-danger) 26%, white);
+  }
+
+  .bcn-cmp__desc {
+    margin: 0;
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-normal);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* rollups: progress column + metric column */
+  .bcn-cmp__rollups {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: var(--spacing-400) var(--spacing-500);
+    padding-top: var(--spacing-300);
+    border-top: 1px solid var(--color-border-light);
+  }
+  @media (max-width: 520px) {
+    .bcn-cmp__rollups { grid-template-columns: 1fr; }
+  }
+
+  .bcn-cmp__prog { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-cmp__prog-row { display: flex; flex-direction: column; gap: var(--spacing-150); }
+  .bcn-cmp__prog-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--spacing-200); }
+  .bcn-cmp__prog-label { font-size: var(--type-size-150); font-weight: var(--font-weight-medium); color: var(--color-text-secondary); }
+  .bcn-cmp__prog-val { font-size: var(--type-size-150); color: var(--color-text-tertiary); font-variant-numeric: tabular-nums; }
+  .bcn-cmp__prog-val b { color: var(--color-text-primary); font-weight: var(--font-weight-semibold); }
+
+  .bcn-cmp__metrics { display: flex; flex-direction: column; gap: var(--spacing-250); }
+  .bcn-cmp__metric { display: flex; align-items: center; gap: var(--spacing-250); }
+  .bcn-cmp__metric-icon { color: var(--color-text-muted); flex-shrink: 0; display: inline-flex; }
+  .bcn-cmp__metric-body { display: flex; flex-direction: column; min-width: 0; }
+  .bcn-cmp__metric-label { font-size: var(--type-size-100); color: var(--color-text-tertiary); }
+  .bcn-cmp__metric-val {
+    font-size: var(--type-size-200);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-150);
+  }
+  .bcn-cmp__metric-val--muted { color: var(--color-text-muted); font-weight: var(--font-weight-regular); }
+  .bcn-cmp__metric-meta { font-weight: var(--font-weight-regular); color: var(--color-text-muted); font-size: var(--type-size-050); }
+  .bcn-cmp__overdue {
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-danger-strong);
+    background: color-mix(in srgb, var(--color-danger) 12%, white);
+    border: 1px solid color-mix(in srgb, var(--color-danger) 26%, white);
+    border-radius: var(--radius-100);
+    padding: 0 var(--spacing-150);
+  }
+
+  /* foot */
+  .bcn-cmp__foot { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); padding-top: var(--spacing-200); }
+  .bcn-cmp__open {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+  }
+  .bcn-cmp__open:hover { color: var(--color-primary-hover); }
+  .bcn-cmp__updated { font-size: var(--type-size-050); color: var(--color-text-muted); }
+
+  /* inline delete confirm */
+  .bcn-cmp__confirm {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+    padding: var(--spacing-250) var(--spacing-300);
+    background: var(--color-danger-subtle);
+    border: 1px solid color-mix(in srgb, var(--color-danger) 28%, white);
+    border-radius: var(--radius-100);
+    font-size: var(--type-size-150);
+    color: var(--color-danger-strong);
+  }
+  .bcn-cmp[data-confirm='true'] .bcn-cmp__confirm { display: flex; }
+  .bcn-cmp__confirm-actions { display: flex; gap: var(--spacing-200); }
+  .bcn-cmp__confirm-btn {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    padding: var(--spacing-100) var(--spacing-300);
+    border-radius: var(--radius-100);
+  }
+  .bcn-cmp__confirm-btn--cancel { color: var(--color-text-secondary); border: 1px solid var(--color-border); background: var(--color-surface); }
+  .bcn-cmp__confirm-btn--delete { color: var(--color-text-inverse); background: var(--color-danger); }
+</style>
+
+<script>
+  // Guarded inline delete — deduped across every card instance (Astro bundles this
+  // module once). Delegation keys off the card's single esa-icon-button (the delete
+  // trigger) and the two confirm-bar buttons' data-action.
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    const card = target.closest<HTMLElement>('.bcn-cmp');
+    if (!card) return;
+
+    const actionBtn = target.closest<HTMLElement>('[data-action]');
+    if (actionBtn) {
+      const action = actionBtn.dataset.action;
+      if (action === 'cancel-delete') card.removeAttribute('data-confirm');
+      else if (action === 'confirm-delete') {
+        card.style.transition = 'opacity 180ms ease';
+        card.style.opacity = '0';
+        window.setTimeout(() => card.remove(), 190);
+      }
+      return;
+    }
+
+    // The card's only icon-button is the delete trigger.
+    if (target.closest('.esa-icon-button')) card.setAttribute('data-confirm', 'true');
+  });
+</script>

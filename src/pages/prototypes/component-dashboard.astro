@@ -1,0 +1,116 @@
+---
+// Component Dashboard — the reimagined "All Components" surface for a Beacon
+// project. Today that screen is a bare AG Grid (name · status word · description);
+// this reads each component as a compliance-tracking unit and rolls the whole
+// project's component health up into a summary band. Companion to the project
+// dashboard prototype.
+//
+// The approved HTML specimen (margot/specimens/component-dashboard) is the visual
+// truth; this is its component-composed translation into the spoke.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import BcnComponentSummary from '../../components/bcn/BcnComponentSummary.astro';
+import BcnComponentBoard from '../../components/bcn/BcnComponentBoard.astro';
+import { POPULATED, DENSE, summarize } from '../../data/component-dashboard';
+
+const populatedSummary = summarize(POPULATED);
+const denseSummary = summarize(DENSE);
+---
+
+<!-- manifest:
+  layout: stack
+  sections:
+    - utilities: state preview -> esa-button-toggle
+    - utilities: new component  -> esa-button
+    - status summary            -> bcn-component-summary
+    - components board          -> bcn-component-board
+    - empty state                -> esa-empty-state
+-->
+
+<AppShell
+  title="Components — Delta Conveyance"
+  tenantName="DWR"
+  projectName="Delta Conveyance"
+  activeNavId="all-components"
+  expandedSections={['tracking']}
+>
+  <PageLayout
+    title="Components"
+    breadcrumbs={[
+      { label: 'Delta Conveyance', href: '#project' },
+      { label: 'Tracking', href: '#tracking' },
+      { label: 'Components' },
+    ]}
+  >
+    <div slot="utilities" class="cluster" data-gap="sm">
+      <span class="type-label">Preview</span>
+      <esa-button-toggle id="state-toggle" value="populated" size="sm"></esa-button-toggle>
+      <span id="new-cmp-wrap">
+        <EsaButton color="primary" icon="plus">New component</EsaButton>
+      </span>
+    </div>
+
+    <!-- STATE A — populated project -->
+    <div class="stack" data-gap="lg" data-state-panel="populated">
+      <BcnComponentSummary summary={populatedSummary} />
+      <BcnComponentBoard components={POPULATED} />
+    </div>
+
+    <!-- STATE B — empty (first run) -->
+    <div data-state-panel="empty" hidden>
+      <EsaEmptyState
+        title="No components yet"
+        description="Components are the pieces of Delta Conveyance you track compliance against — intakes, shafts, forebays, staging areas. Add the first one to start rolling up its requirements, actions, and monitoring activity here."
+        size="lg"
+      >
+        <svg slot="icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/>
+          <path d="M3.29 7 12 12l8.71-5"/>
+          <path d="M12 22V12"/>
+        </svg>
+        <EsaButton color="primary" icon="plus">Add first component</EsaButton>
+        <EsaButton color="ghost" appearance="outline">Import from source documents</EsaButton>
+      </EsaEmptyState>
+    </div>
+
+    <!-- STATE C — dense (stress test) -->
+    <div class="stack" data-gap="lg" data-state-panel="dense" hidden>
+      <BcnComponentSummary summary={denseSummary} />
+      <BcnComponentBoard components={DENSE} />
+    </div>
+  </PageLayout>
+</AppShell>
+
+<script>
+  import '@esa/ecology/esa-button-toggle';
+
+  interface ToggleEl extends HTMLElement {
+    options: { label: string; value: string }[];
+    value: string;
+  }
+
+  const toggle = document.getElementById('state-toggle') as ToggleEl | null;
+  const panels = Array.from(document.querySelectorAll<HTMLElement>('[data-state-panel]'));
+  const newBtnWrap = document.getElementById('new-cmp-wrap');
+
+  if (toggle) {
+    toggle.options = [
+      { label: 'Populated', value: 'populated' },
+      { label: 'Empty', value: 'empty' },
+      { label: 'Dense', value: 'dense' },
+    ];
+    toggle.value = 'populated';
+
+    const show = (state: string) => {
+      panels.forEach((p) => {
+        p.hidden = p.dataset.statePanel !== state;
+      });
+      if (newBtnWrap) newBtnWrap.hidden = state === 'empty';
+    };
+
+    toggle.addEventListener('change', (e) => show((e as CustomEvent).detail.value as string));
+    show('populated');
+  }
+</script>

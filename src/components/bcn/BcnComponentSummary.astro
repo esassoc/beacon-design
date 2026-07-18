@@ -1,0 +1,176 @@
+---
+// <BcnComponentSummary> — the dashboard's summary band: a status-breakdown card
+// beside a needs-attention lane, answering "how is the whole project's component
+// work tracking, and what needs me now" before drilling into any one component.
+//
+// Composes EsaCard (both shells) + EsaStat (the big numbers). The stacked status
+// breakdown bar, its legend, and the attention list are bespoke micro-viz whose
+// colors are value-driven from the data's `hex` — the same idiom as
+// BcnMonitoringStats' donut/bars.
+//
+// bcn-lego-checked: a stacked status-breakdown bar + legend + attention lane is
+// data-driven micro-viz with NO esa-* equivalent (esa-progress-bar is a single
+// fixed-color bar; esa-badge is a fixed-variant pill). Checked Beacon (bespoke SVG/
+// CSS there too). Colors come from each datum's `hex` via an inline --_c custom
+// property, never hardcoded. bcn-component-summary is the reusable home; the card
+// shells + stat blocks are legos.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaStat from '@esa/ecology/esa-stat.astro';
+import type { ComponentSummary } from '../../data/component-dashboard';
+
+interface Props {
+  summary: ComponentSummary;
+  /** How many attention rows to name before the rest fold into the count. */
+  maxAttention?: number;
+}
+const { summary, maxAttention = 3 } = Astro.props;
+const shown = summary.attention.slice(0, maxAttention);
+const remaining = summary.attentionCount - shown.length;
+const breakdownAria = summary.breakdown
+  .filter((b) => b.count > 0)
+  .map((b) => `${b.count} ${b.label.toLowerCase()}`)
+  .join(', ');
+---
+
+<section class="bcn-summary" aria-label="Component status summary">
+  <EsaCard title="Component status">
+    <span slot="actions" class="bcn-summary__count">{summary.total} total</span>
+    <div class="bcn-summary__main">
+      <EsaStat value={summary.total} label="Components tracked" />
+
+      <div class="bcn-summary__bar" role="img" aria-label={breakdownAria}>
+        {summary.breakdown.map(
+          (b) =>
+            b.count > 0 && (
+              <span
+                class="bcn-summary__seg"
+                style={`--_c: ${b.hex}; width: ${(b.count / summary.total) * 100}%`}
+              ></span>
+            ),
+        )}
+      </div>
+
+      <ul class="bcn-summary__legend">
+        {summary.breakdown.map((b) => (
+          <li class="bcn-summary__legend-item">
+            <span class="bcn-summary__dot" style={`--_c: ${b.hex}`}></span>
+            {b.label}
+            <span class="bcn-summary__legend-count">{b.count}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </EsaCard>
+
+  <EsaCard title="Needs attention">
+    <div class="bcn-summary__attention">
+      <div style={summary.attentionCount > 0 ? '--stat-value-color: var(--color-danger-strong)' : undefined}>
+        <EsaStat value={summary.attentionCount} label="Components with overdue actions" />
+      </div>
+
+      {summary.attentionCount > 0 ? (
+        <ul class="bcn-summary__att-list">
+          {shown.map((a) => (
+            <li class="bcn-summary__att-row">
+              <span class="bcn-summary__att-name">{a.name}</span>
+              <span class="bcn-summary__att-flag">{a.overdue} overdue</span>
+            </li>
+          ))}
+          {remaining > 0 && <li class="bcn-summary__att-more">+{remaining} more</li>}
+        </ul>
+      ) : (
+        <p class="bcn-summary__att-clear">No components have overdue actions.</p>
+      )}
+    </div>
+  </EsaCard>
+</section>
+
+<style>
+  /* Two-card band: wide status card + narrower attention lane. Composition glue. */
+  .bcn-summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr);
+    gap: var(--spacing-500);
+    align-items: stretch;
+  }
+  @media (max-width: 860px) {
+    .bcn-summary { grid-template-columns: 1fr; }
+  }
+  .bcn-summary > :global(.esa-card) { height: 100%; }
+
+  /* quiet count badge (4px radius, light-gray border) */
+  .bcn-summary__count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 var(--spacing-150);
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-100);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .bcn-summary__main { display: flex; flex-direction: column; gap: var(--spacing-400); }
+
+  /* stacked status breakdown bar */
+  .bcn-summary__bar {
+    height: 14px;
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    display: flex;
+    background: var(--color-surface-sunken);
+  }
+  .bcn-summary__seg { height: 100%; background: var(--_c); }
+
+  .bcn-summary__legend { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--spacing-200) var(--spacing-500); }
+  .bcn-summary__legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+  }
+  .bcn-summary__dot { width: 10px; height: 10px; border-radius: var(--radius-full); background: var(--_c); flex-shrink: 0; }
+  .bcn-summary__legend-count { font-weight: var(--font-weight-semibold); color: var(--color-text-primary); font-variant-numeric: tabular-nums; }
+
+  /* attention lane */
+  .bcn-summary__attention { display: flex; flex-direction: column; }
+  .bcn-summary__att-list {
+    list-style: none;
+    margin: var(--spacing-400) 0 0;
+    padding: var(--spacing-400) 0 0;
+    border-top: 1px solid var(--color-border-light);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .bcn-summary__att-row { display: flex; align-items: center; gap: var(--spacing-200); justify-content: space-between; }
+  .bcn-summary__att-name { font-size: var(--type-size-150); color: var(--color-text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bcn-summary__att-flag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    padding: 1px var(--spacing-200);
+    border-radius: var(--radius-100);
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-danger-strong);
+    background: color-mix(in srgb, var(--color-danger) 12%, white);
+    border: 1px solid color-mix(in srgb, var(--color-danger) 26%, white);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .bcn-summary__att-more { font-size: var(--type-size-100); color: var(--color-text-muted); }
+  .bcn-summary__att-clear {
+    margin: var(--spacing-400) 0 0;
+    padding: var(--spacing-400) 0 0;
+    border-top: 1px solid var(--color-border-light);
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+  }
+</style>

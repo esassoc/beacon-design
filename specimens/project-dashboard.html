@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="beacon">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beacon — Project Dashboard · layout directions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Besley:wght@500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ═══════════════════════════════════════════════════════════════════
+       DESIGN TOKENS — real values from @esa/tokens (primitives + default
+       teal semantics) re-pointed by beacon-design's theme-beacon.css
+       [data-theme="beacon"] block. Inlined here so the specimen opens over
+       file:// with the real system's color / spacing / type / radius. On
+       translation these map 1:1 back to the token layer.
+       ═══════════════════════════════════════════════════════════════════ */
+    :root {
+      /* ---- Beacon neutral chain (warm grays, _colors.scss $palette) ---- */
+      --color-text-primary:   #3d3d3d;   /* bcn-gray-900 */
+      --color-text-secondary: #525252;   /* bcn-gray-700 */
+      --color-text-tertiary:  #656565;   /* bcn-gray-600 */
+      --color-text-muted:     #7c7c7c;   /* bcn-gray-500 */
+      --color-text-strong:    #292929;   /* bcn-gray-950 */
+      --color-border:         #dcdcdc;   /* bcn-gray-200 */
+      --color-border-light:   #efefef;   /* bcn-gray-100 */
+      --color-border-strong:  #bdbdbd;   /* bcn-gray-300 */
+      --color-surface:        #ffffff;
+      --color-surface-sunken: #efefef;   /* bcn-gray-100 */
+      --color-background:      #fafafa;   /* bcn-gray-50 */
+
+      /* ---- Beacon brand teal ---- */
+      --color-primary:        #005862;   /* teal-900 $primary */
+      --color-primary-hover:  #00474f;
+      --color-primary-subtle: #effefb;   /* bcn-teal-50 */
+      --color-primary-border: #b9d6d2;   /* bcn-teal-200 */
+      --color-secondary:      #00918b;   /* teal-500 */
+
+      /* ---- Status / feedback (Beacon ui-button palette) ---- */
+      --color-success:        #2e7571;   /* green-700 */
+      --color-success-subtle: #f4f9f8;   /* green-50 */
+      --color-success-border: #b9d6d2;   /* green-200 */
+      --color-warning:        #f2770e;   /* orange-500 */
+      --color-warning-subtle: #fff8eb;   /* orange-50 */
+      --color-warning-border: #fcd28b;   /* orange-200 */
+      --color-danger:         #ef4444;   /* red-500 */
+      --color-danger-subtle:  #fef2f2;   /* red-50 */
+      --color-danger-border:  #fecaca;   /* red-200 */
+      --color-info:           #228be6;   /* Beacon $info azure */
+      --color-info-subtle:    #eef6fd;
+      --color-info-border:    #cfe2ee;   /* blue-200 */
+
+      /* value-driven status ramp (BcnStatusChip --st-* idiom) */
+      --st-on-track:  var(--color-success);
+      --st-at-risk:   var(--color-warning);
+      --st-overdue:   var(--color-danger);
+      --st-critical:  var(--color-danger);
+      --st-due:       var(--color-info);
+      --st-pending:   var(--color-text-muted);
+      --st-cleared:   var(--color-primary);
+
+      /* ---- Spacing scale ---- */
+      --spacing-050: .125rem; --spacing-100: .25rem;  --spacing-150: .375rem;
+      --spacing-200: .5rem;   --spacing-250: .625rem; --spacing-300: .75rem;
+      --spacing-400: 1rem;    --spacing-500: 1.5rem;  --spacing-600: 2rem;
+      --spacing-650: 2.5rem;  --spacing-700: 3rem;    --spacing-800: 4rem;
+
+      /* ---- Radius ---- */
+      --radius-100: .25rem;   --radius-200: .5rem;  --radius-300: .5rem;
+      --radius-full: 9999px;
+
+      /* ---- Typography ---- */
+      --font-sans: "DM Sans", system-ui, sans-serif;
+      --font-mono: "Roboto Mono", ui-monospace, monospace;
+      --font-decorative: "Besley", Georgia, serif;   /* Beacon serif voice */
+
+      --type-100: clamp(.75rem, .7rem + .2vw, .8125rem);   /* ~12–13px meta */
+      --type-150: clamp(.8125rem, .78rem + .2vw, .875rem); /* ~13–14px meta */
+      --type-200: clamp(.875rem, .84rem + .2vw, .9375rem); /* ~14–15px system body */
+      --type-300: 1rem;                                     /* 16px reading floor (house rule) */
+      --type-400: clamp(1.0625rem, 1rem + .3vw, 1.25rem);  /* ~17–20px section title */
+      --type-500: clamp(1.25rem, 1.1rem + .6vw, 1.5rem);   /* ~20–24px page title */
+      --type-700: clamp(1.75rem, 1.5rem + 1vw, 2.25rem);   /* ~28–36px stat value */
+
+      --fw-regular: 400; --fw-medium: 500; --fw-semibold: 600; --fw-bold: 700;
+      --lh-tight: 1.25; --lh-normal: 1.5; --lh-relaxed: 1.6;
+
+      --shadow-100: 0 2px 12px rgba(0, 0, 0, .04);
+      --shadow-200: 0 8px 24px rgba(0, 0, 0, .10);
+    }
+
+    /* ═══ Reset ═══ */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body { margin: 0; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    h1, h2, h3, h4, p, ul, ol, figure { margin: 0; }
+    ul, ol { padding: 0; list-style: none; }
+    button { font: inherit; color: inherit; cursor: pointer; }
+    a { color: inherit; }
+    [hidden] { display: none !important; }
+
+    /* ═══ Base ═══ */
+    body {
+      font-family: var(--font-sans);
+      font-size: var(--type-300);        /* 16px reading floor */
+      line-height: var(--lh-normal);
+      color: var(--color-text-primary);
+      background: var(--color-background);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       SPECIMEN SWITCHER — the only chrome that is NOT Beacon product. A slim
+       control bar for comparing the three directions.
+       ═══════════════════════════════════════════════════════════════════ */
+    .spec-bar {
+      position: sticky; top: 0; z-index: 1200;
+      display: flex; align-items: center; gap: var(--spacing-400); flex-wrap: wrap;
+      padding: var(--spacing-250) var(--spacing-500);
+      background: var(--color-text-strong);
+      color: #fff;
+      border-bottom: 1px solid #000;
+    }
+    .spec-bar__label {
+      font-size: var(--type-150); font-weight: var(--fw-semibold);
+      color: rgba(255, 255, 255, .78);
+    }
+    .spec-switch { display: inline-flex; gap: var(--spacing-100); }
+    .spec-switch button {
+      padding: var(--spacing-150) var(--spacing-300);
+      font-size: var(--type-150); font-weight: var(--fw-semibold);
+      color: rgba(255, 255, 255, .7);
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid transparent; border-radius: var(--radius-100);
+      transition: background 120ms, color 120ms;
+    }
+    .spec-switch button:hover { background: rgba(255, 255, 255, .16); color: #fff; }
+    .spec-switch button[aria-pressed="true"] {
+      background: #fff; color: var(--color-text-strong);
+    }
+    .spec-bar__hint { margin-left: auto; font-size: var(--type-100); color: rgba(255, 255, 255, .55); }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       BEACON APP CHROME — faithful to AppShell (topbar 52px, bcn-gray-100 bg)
+       ═══════════════════════════════════════════════════════════════════ */
+    .topbar {
+      position: sticky; top: 44px; z-index: 1100;
+      height: 52px;
+      display: grid; grid-template-columns: auto 1fr auto; align-items: center;
+      gap: var(--spacing-400);
+      padding: 0 var(--spacing-400);
+      background: #efefef;                       /* bcn-gray-100 */
+      border-bottom: 1px solid #bdbdbd;          /* bcn-gray-300 */
+    }
+    .topbar__left, .topbar__right { display: flex; align-items: center; gap: var(--spacing-300); }
+    .topbar__right { justify-content: flex-end; }
+    .brand {
+      display: inline-flex; align-items: center; gap: var(--spacing-200);
+      font-family: var(--font-decorative); font-weight: var(--fw-bold);
+      font-size: var(--type-300); color: var(--color-primary);
+    }
+    .brand__mark {
+      width: 26px; height: 26px; border-radius: var(--radius-100);
+      display: grid; place-items: center;
+      background: var(--color-primary); color: #fff;
+      font-size: .8125rem; font-weight: var(--fw-bold);
+    }
+    .tenant-pill {
+      display: inline-flex; align-items: center; gap: var(--spacing-200);
+      padding: var(--spacing-100) var(--spacing-250);
+      font-size: var(--type-150); font-weight: var(--fw-medium);
+      color: var(--color-text-secondary);
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      border-radius: var(--radius-100);
+    }
+    .topbar__center { display: flex; align-items: center; justify-content: center; min-width: 0; }
+    .proj-switch {
+      display: inline-flex; align-items: center; gap: var(--spacing-200);
+      max-width: 100%;
+      padding: var(--spacing-150) var(--spacing-300);
+      font-size: var(--type-200); font-weight: var(--fw-medium);
+      color: var(--color-text-primary);
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      border-radius: var(--radius-100);
+    }
+    .icon-btn {
+      width: 32px; height: 32px; display: grid; place-items: center;
+      color: var(--color-text-tertiary);
+      background: transparent; border: none; border-radius: var(--radius-100);
+    }
+    .icon-btn:hover { background: #dcdcdc; color: var(--color-primary); }
+    .avatar {
+      width: 30px; height: 30px; border-radius: var(--radius-full);
+      display: grid; place-items: center;
+      background: var(--color-primary); color: #fff;
+      font-size: var(--type-150); font-weight: var(--fw-semibold);
+    }
+    .icon { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .icon--sm { width: 16px; height: 16px; }
+
+    /* rail + page frame */
+    .app-body { display: flex; }
+    .rail {
+      position: sticky; top: 96px; align-self: flex-start;
+      height: calc(100vh - 96px);
+      flex: 0 0 56px;
+      display: flex; flex-direction: column; align-items: center; gap: var(--spacing-100);
+      padding: var(--spacing-300) 0;
+      background: var(--color-surface); border-right: 1px solid var(--color-border);
+    }
+    .rail__item {
+      width: 40px; height: 40px; display: grid; place-items: center;
+      color: var(--color-text-tertiary); border-radius: var(--radius-100);
+    }
+    .rail__item:hover { background: var(--color-surface-sunken); color: var(--color-primary); }
+    .rail__item[aria-current="page"] { background: var(--color-primary-subtle); color: var(--color-primary); }
+
+    .page {
+      flex: 1 1 auto; min-width: 0;
+      padding: var(--spacing-500) var(--spacing-600) var(--spacing-800);
+      background: var(--color-background);
+    }
+    .page__inner { max-width: 1240px; margin: 0 auto; }
+
+    /* breadcrumbs */
+    .crumbs { display: flex; align-items: center; gap: var(--spacing-150); flex-wrap: wrap;
+      font-size: var(--type-150); color: var(--color-text-tertiary);
+      padding: var(--spacing-100) 0 var(--spacing-400); }
+    .crumbs a { text-decoration: none; }
+    .crumbs a:hover { text-decoration: underline; }
+    .crumbs .sep { color: var(--color-border-strong); }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       SHARED PRIMITIVES — esa-card / esa-stat / status-chip / phase-pill /
+       count-badge, reproduced faithfully from the real components.
+       ═══════════════════════════════════════════════════════════════════ */
+    .card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-300);         /* 8px — esa-card default */
+      overflow: hidden;
+    }
+    .card__header {
+      display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300);
+      min-height: 52px; padding: var(--spacing-300) var(--spacing-500);
+      border-bottom: 1px solid var(--color-border-light);
+    }
+    .card__title {
+      font-size: var(--type-300); font-weight: var(--fw-semibold);
+      color: var(--color-text-primary);
+    }
+    .card__body { padding: var(--spacing-500); }
+    .card__body--tight { padding: var(--spacing-400); }
+
+    /* section heading (Besley, real color, sentence case — no ornamental micro-label) */
+    .section-head {
+      display: flex; align-items: center; gap: var(--spacing-250); flex-wrap: wrap;
+      padding-bottom: var(--spacing-250); margin-bottom: var(--spacing-400);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .section-head__title {
+      font-family: var(--font-decorative); font-weight: var(--fw-bold);
+      font-size: var(--type-400); color: var(--color-text-strong);
+    }
+    .section-head__note { font-size: var(--type-150); color: var(--color-text-tertiary); }
+    .section-head__spacer { margin-left: auto; }
+
+    /* quiet count badge — 4px radius, light-gray border (monitoring precedent) */
+    .count {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 22px; height: 22px; padding: 0 var(--spacing-150);
+      font-size: var(--type-100); font-weight: var(--fw-semibold);
+      font-variant-numeric: tabular-nums;
+      color: var(--color-text-secondary);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-100);
+    }
+
+    /* value-driven status chip (BcnStatusChip) */
+    .chip {
+      display: inline-flex; align-items: center; gap: var(--spacing-150);
+      padding: 2px var(--spacing-250); border-radius: var(--radius-full);
+      font-size: var(--type-100); font-weight: var(--fw-semibold); white-space: nowrap;
+      background: color-mix(in srgb, var(--_c) 16%, transparent);
+      color: color-mix(in srgb, var(--_c) 72%, #1a1a1a);
+    }
+    .chip__dot { width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--_c); flex-shrink: 0; }
+    .chip--on-track { --_c: var(--st-on-track); }
+    .chip--at-risk  { --_c: var(--st-at-risk); }
+    .chip--overdue  { --_c: var(--st-overdue); }
+    .chip--critical { --_c: var(--st-critical); }
+    .chip--due      { --_c: var(--st-due); }
+    .chip--pending  { --_c: var(--st-pending); }
+    .chip--cleared  { --_c: var(--st-cleared); }
+
+    /* neutral phase pill (distinct from colored status chips) */
+    .phase-pill {
+      display: inline-flex; align-items: center; gap: var(--spacing-150);
+      padding: 2px var(--spacing-250); border-radius: var(--radius-full);
+      font-size: var(--type-100); font-weight: var(--fw-semibold); white-space: nowrap;
+      color: var(--color-text-secondary);
+      background: var(--color-surface-sunken);
+      border: 1px solid var(--color-border);
+    }
+    .tag {
+      display: inline-flex; align-items: center; gap: var(--spacing-100);
+      padding: 1px var(--spacing-200); border-radius: var(--radius-100);
+      font-size: var(--type-100); font-weight: var(--fw-semibold); white-space: nowrap;
+      color: var(--color-info); background: var(--color-info-subtle);
+      border: 1px solid var(--color-info-border);
+    }
+
+    /* controls: phase select + needs toggle (esa-select / esa-button-toggle idiom) */
+    .controls { display: flex; align-items: center; gap: var(--spacing-400); flex-wrap: wrap; }
+    .field { display: inline-flex; align-items: center; gap: var(--spacing-200); }
+    .field__label { font-size: var(--type-150); font-weight: var(--fw-semibold); color: var(--color-text-tertiary); white-space: nowrap; }
+    .select {
+      height: 36px; padding: 0 var(--spacing-500) 0 var(--spacing-300);
+      font: inherit; font-size: var(--type-200); color: var(--color-text-primary);
+      background: var(--color-surface); border: 1px solid var(--color-border-strong);
+      border-radius: var(--radius-100);
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23656565' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right var(--spacing-250) center;
+    }
+    .select:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 1px; }
+    .toggle { display: inline-flex; padding: 2px; background: var(--color-surface-sunken); border: 1px solid var(--color-border); border-radius: var(--radius-100); }
+    .toggle button {
+      height: 30px; padding: 0 var(--spacing-300);
+      font-size: var(--type-150); font-weight: var(--fw-semibold);
+      color: var(--color-text-tertiary); background: transparent;
+      border: none; border-radius: 3px;
+    }
+    .toggle button[aria-pressed="true"] { background: var(--color-surface); color: var(--color-text-primary); box-shadow: var(--shadow-100); }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       PROJECT HEADER (dense — marketing hero reclaimed for status)
+       ═══════════════════════════════════════════════════════════════════ */
+    .phead { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-500); flex-wrap: wrap; }
+    .phead__id { display: flex; flex-direction: column; gap: var(--spacing-200); }
+    .phead__titlerow { display: flex; align-items: center; gap: var(--spacing-300); flex-wrap: wrap; }
+    .phead__title { font-family: var(--font-decorative); font-weight: var(--fw-bold); font-size: var(--type-500); color: var(--color-text-strong); line-height: var(--lh-tight); }
+    .phead__meta { font-size: var(--type-200); color: var(--color-text-tertiary); }
+    .phead__meta code { font-family: var(--font-mono); font-size: .9em; color: var(--color-text-secondary); }
+
+    /* stat band */
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-400); margin-top: var(--spacing-500); }
+    .stat {
+      display: flex; flex-direction: column; gap: var(--spacing-100);
+      padding: var(--spacing-400) var(--spacing-500);
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      border-radius: var(--radius-300);
+    }
+    .stat__value { font-size: var(--type-700); font-weight: var(--fw-bold); line-height: 1.1; color: var(--color-text-strong); font-variant-numeric: tabular-nums; }
+    .stat__value--danger { color: var(--color-danger); }
+    .stat__value--warning { color: var(--color-warning); }
+    .stat__label { font-size: var(--type-200); font-weight: var(--fw-medium); color: var(--color-text-secondary); }
+    .stat__sub { font-size: var(--type-150); color: var(--color-text-muted); }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       NEEDS-ACTION QUEUE
+       ═══════════════════════════════════════════════════════════════════ */
+    .queue-group + .queue-group { margin-top: var(--spacing-500); }
+    .queue-group__head { display: flex; align-items: center; gap: var(--spacing-250); margin-bottom: var(--spacing-300); }
+    .queue-group__name { font-size: var(--type-300); font-weight: var(--fw-semibold); color: var(--color-text-primary); }
+    .queue-list { display: flex; flex-direction: column; gap: var(--spacing-250); }
+
+    .qrow {
+      display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--spacing-400);
+      padding: var(--spacing-300) var(--spacing-400);
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      border-radius: var(--radius-200); text-align: left; width: 100%;
+    }
+    .qrow:hover { border-color: var(--color-border-strong); background: #fcfcfc; }
+    .qrow__sev { width: 10px; height: 10px; border-radius: var(--radius-full); flex-shrink: 0; }
+    .qrow__sev--critical, .qrow__sev--overdue { background: var(--color-danger); }
+    .qrow__sev--due { background: var(--color-info); }
+    .qrow__sev--open { background: var(--color-text-muted); }
+    .qrow__main { display: flex; flex-direction: column; gap: var(--spacing-150); min-width: 0; }
+    .qrow__titleline { display: flex; align-items: center; gap: var(--spacing-250); flex-wrap: wrap; }
+    .qrow__title { font-size: var(--type-300); font-weight: var(--fw-semibold); color: var(--color-text-primary); }
+    .qrow__metaline { display: flex; align-items: center; gap: var(--spacing-250); flex-wrap: wrap; font-size: var(--type-150); color: var(--color-text-tertiary); }
+    .qrow__comp { color: var(--color-text-secondary); font-weight: var(--fw-medium); }
+    .qrow__metaline .dotsep { color: var(--color-border-strong); }
+    .qrow__due--late { color: var(--color-danger); font-weight: var(--fw-semibold); }
+    .qrow__right { display: flex; align-items: center; gap: var(--spacing-300); }
+    .qrow__act {
+      display: inline-flex; align-items: center; gap: var(--spacing-150);
+      height: 32px; padding: 0 var(--spacing-300);
+      font-size: var(--type-150); font-weight: var(--fw-semibold);
+      color: var(--color-primary); background: var(--color-surface);
+      border: 1px solid var(--color-border-strong); border-radius: var(--radius-100);
+      white-space: nowrap;
+    }
+    .qrow__act:hover { background: var(--color-primary-subtle); border-color: var(--color-primary-border); }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       COMPONENT STATUS (strip in A, primary grid in B)
+       ═══════════════════════════════════════════════════════════════════ */
+    .comp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: var(--spacing-400); }
+    .comp-strip { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: var(--spacing-300); }
+    .comp {
+      display: flex; flex-direction: column; gap: var(--spacing-300);
+      padding: var(--spacing-400);
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      border-radius: var(--radius-200); text-align: left;
+    }
+    .comp:hover { border-color: var(--color-border-strong); box-shadow: var(--shadow-100); }
+    .comp__top { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-250); }
+    .comp__name { font-size: var(--type-300); font-weight: var(--fw-semibold); color: var(--color-text-primary); }
+    .comp__meta { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; }
+    .comp__counts { display: flex; align-items: center; gap: var(--spacing-300); font-size: var(--type-150); color: var(--color-text-tertiary); padding-top: var(--spacing-250); border-top: 1px solid var(--color-border-light); }
+    .comp__counts strong { color: var(--color-text-primary); font-weight: var(--fw-semibold); font-variant-numeric: tabular-nums; }
+    .comp__flag { display: inline-flex; align-items: center; gap: var(--spacing-150); font-size: var(--type-150); font-weight: var(--fw-semibold); color: var(--color-danger); }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       MILESTONES / ALERTS / STARRED (rails + rows)
+       ═══════════════════════════════════════════════════════════════════ */
+    .mile { display: flex; align-items: center; gap: var(--spacing-300); padding: var(--spacing-300) 0; }
+    .mile + .mile { border-top: 1px solid var(--color-border-light); }
+    .mile__when { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 56px; padding: var(--spacing-150) 0; background: var(--color-surface-sunken); border-radius: var(--radius-100); }
+    .mile__days { font-size: var(--type-300); font-weight: var(--fw-bold); color: var(--color-text-strong); line-height: 1; font-variant-numeric: tabular-nums; }
+    .mile__daysunit { font-size: var(--type-100); color: var(--color-text-muted); }
+    .mile__body { display: flex; flex-direction: column; gap: var(--spacing-100); min-width: 0; }
+    .mile__name { font-size: var(--type-200); font-weight: var(--fw-semibold); color: var(--color-text-primary); }
+    .mile__meta { font-size: var(--type-150); color: var(--color-text-tertiary); }
+
+    .alert { display: flex; align-items: flex-start; gap: var(--spacing-300); padding: var(--spacing-300) 0; }
+    .alert + .alert { border-top: 1px solid var(--color-border-light); }
+    .alert__icon { flex: 0 0 auto; margin-top: 1px; }
+    .alert__icon--critical, .alert__icon--warning { color: var(--color-warning); }
+    .alert__icon--critical { color: var(--color-danger); }
+    .alert__body { display: flex; flex-direction: column; gap: var(--spacing-100); min-width: 0; }
+    .alert__msg { font-size: var(--type-200); color: var(--color-text-primary); }
+    .alert__time { font-size: var(--type-150); color: var(--color-text-muted); }
+
+    .starred { display: flex; flex-direction: column; }
+    .star-row { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); padding: var(--spacing-300) 0; text-align: left; width: 100%; }
+    .star-row + .star-row { border-top: 1px solid var(--color-border-light); }
+    .star-row__name { display: flex; align-items: center; gap: var(--spacing-200); font-size: var(--type-200); font-weight: var(--fw-medium); color: var(--color-text-primary); }
+    .star-row__meta { font-size: var(--type-150); color: var(--color-text-tertiary); }
+
+    /* empty state (esa-empty-state idiom) */
+    .empty { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--spacing-250); padding: var(--spacing-800) var(--spacing-500); }
+    .empty__icon { width: 44px; height: 44px; display: grid; place-items: center; color: var(--color-success); background: var(--color-success-subtle); border: 1px solid var(--color-success-border); border-radius: var(--radius-full); }
+    .empty__title { font-size: var(--type-400); font-weight: var(--fw-semibold); font-family: var(--font-decorative); color: var(--color-text-strong); }
+    .empty__sub { font-size: var(--type-200); color: var(--color-text-tertiary); max-width: 36ch; }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       LAYOUT SHELLS per direction
+       ═══════════════════════════════════════════════════════════════════ */
+    .dir { display: none; }
+    .dir[data-active] { display: block; }
+    .stack-lg { display: flex; flex-direction: column; gap: var(--spacing-650); }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-500); }
+    .board { display: grid; grid-template-columns: minmax(0, 1fr) 20rem; gap: var(--spacing-500); align-items: start; }
+    .rail-stack { display: flex; flex-direction: column; gap: var(--spacing-400); }
+    .timeline-cols { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: var(--spacing-500); align-items: start; }
+
+    /* Phase band (Direction C) */
+    .phaseband { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-300); margin-top: var(--spacing-500); }
+    .phasenode {
+      position: relative; display: flex; flex-direction: column; gap: var(--spacing-200);
+      padding: var(--spacing-400); text-align: left;
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      border-radius: var(--radius-200);
+    }
+    .phasenode:hover { border-color: var(--color-border-strong); }
+    .phasenode[aria-pressed="true"] { border-color: var(--color-primary); background: var(--color-primary-subtle); box-shadow: inset 0 0 0 1px var(--color-primary); }
+    .phasenode__topline { display: flex; align-items: center; gap: var(--spacing-200); font-size: var(--type-150); color: var(--color-text-muted); }
+    .phasenode__step { width: 20px; height: 20px; display: grid; place-items: center; border-radius: var(--radius-full); font-size: var(--type-100); font-weight: var(--fw-bold); color: #fff; background: var(--color-border-strong); }
+    .phasenode[data-state="done"] .phasenode__step { background: var(--color-success); }
+    .phasenode[data-state="active"] .phasenode__step { background: var(--color-primary); }
+    .phasenode__name { font-size: var(--type-300); font-weight: var(--fw-semibold); color: var(--color-text-primary); }
+    .phasenode__count { display: flex; align-items: center; gap: var(--spacing-200); font-size: var(--type-150); color: var(--color-text-tertiary); }
+    .phasenode__arrow { position: absolute; right: -18px; top: 50%; transform: translateY(-50%); z-index: 1; color: var(--color-border-strong); }
+    .phasenode:last-child .phasenode__arrow { display: none; }
+
+    .hint { font-size: var(--type-150); color: var(--color-text-tertiary); margin-top: var(--spacing-300); }
+    .hint button { color: var(--color-primary); font-weight: var(--fw-semibold); background: none; border: none; padding: 0; text-decoration: underline; text-underline-offset: 2px; }
+
+    @media (max-width: 900px) {
+      .stats, .phaseband { grid-template-columns: repeat(2, 1fr); }
+      .split, .board, .timeline-cols { grid-template-columns: 1fr; }
+      .rail { display: none; }
+      .phasenode__arrow { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ SPECIMEN SWITCHER (not Beacon product) ═══ -->
+  <div class="spec-bar">
+    <span class="spec-bar__label">Project dashboard · layout directions</span>
+    <div class="spec-switch" role="group" aria-label="Layout direction">
+      <button data-dirswitch="a" aria-pressed="true">A · Action queue first</button>
+      <button data-dirswitch="b" aria-pressed="false">B · Component board</button>
+      <button data-dirswitch="c" aria-pressed="false">C · Phase timeline</button>
+    </div>
+    <span class="spec-bar__hint">Default lens: needs action · construction phase</span>
+  </div>
+
+  <!-- ═══ BEACON TOPBAR ═══ -->
+  <header class="topbar">
+    <div class="topbar__left">
+      <button class="icon-btn" aria-label="Toggle navigation">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <span class="brand"><span class="brand__mark">B</span>Beacon</span>
+      <span class="tenant-pill">
+        <svg class="icon icon--sm" viewBox="0 0 24 24"><path d="M3 21h18M6 21V7l6-4 6 4v14M10 9h4M10 13h4M10 17h4"/></svg>
+        DWR
+      </span>
+    </div>
+    <div class="topbar__center">
+      <span class="proj-switch">
+        Delta Conveyance Project
+        <svg class="icon icon--sm" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg>
+      </span>
+    </div>
+    <div class="topbar__right">
+      <button class="icon-btn" aria-label="Search"><svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg></button>
+      <button class="icon-btn" aria-label="Notifications"><svg class="icon" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"/></svg></button>
+      <span class="avatar">AL</span>
+    </div>
+  </header>
+
+  <div class="app-body">
+    <!-- slim nav rail -->
+    <nav class="rail" aria-label="Primary">
+      <a class="rail__item" href="#" aria-current="page" aria-label="Dashboard"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg></a>
+      <a class="rail__item" href="#" aria-label="Permit tracking"><svg class="icon" viewBox="0 0 24 24"><path d="M14.1 5.5a2 2 0 0 0 1.8 0l3.6-1.8A1 1 0 0 1 21 4.6v12.8a1 1 0 0 1-.6.9l-4.5 2.3a2 2 0 0 1-1.8 0l-4.2-2.1a2 2 0 0 0-1.8 0l-3.6 1.8A1 1 0 0 1 3 19.4V6.6a1 1 0 0 1 .6-.9L8 3.4a2 2 0 0 1 1.8 0z"/><path d="M15 5.8v15M9 3.2v15"/></svg></a>
+      <a class="rail__item" href="#" aria-label="Requirements"><svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg></a>
+      <a class="rail__item" href="#" aria-label="Monitoring"><svg class="icon" viewBox="0 0 24 24"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg></a>
+      <a class="rail__item" href="#" aria-label="Reports"><svg class="icon" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></svg></a>
+    </nav>
+
+    <main class="page">
+      <div class="page__inner">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="#">Delta Conveyance</a><span class="sep">/</span><span aria-current="page">Project dashboard</span>
+        </nav>
+
+        <!-- ═══════════════════════════════════════════════════════════════
+             DIRECTION A — Action-queue-first
+             ═══════════════════════════════════════════════════════════════ -->
+        <section class="dir" data-dir="a" data-active>
+          <!-- dense project header (hero reclaimed) -->
+          <header class="phead">
+            <div class="phead__id">
+              <div class="phead__titlerow">
+                <h1 class="phead__title">Delta Conveyance Project</h1>
+                <span class="chip chip--cleared"><span class="chip__dot"></span>Construction</span>
+              </div>
+              <p class="phead__meta">DWR · Sacramento County · <code>DCP</code> · 6 components</p>
+            </div>
+            <div class="controls">
+              <label class="field">
+                <span class="field__label">Phase</span>
+                <select class="select" data-control="phase" aria-label="Filter by phase">
+                  <option value="all">All phases</option>
+                  <option value="permitting">Permitting</option>
+                  <option value="preconstruction">Pre-construction</option>
+                  <option value="construction" selected>Construction</option>
+                  <option value="restoration">Restoration monitoring</option>
+                </select>
+              </label>
+              <div class="field">
+                <span class="field__label">Show</span>
+                <div class="toggle" role="group" aria-label="Show filter">
+                  <button data-toggle="needs" aria-pressed="true">Needs action</button>
+                  <button data-toggle="all" aria-pressed="false">All</button>
+                </div>
+              </div>
+            </div>
+          </header>
+
+          <!-- stat band -->
+          <div class="stats">
+            <div class="stat"><span class="stat__value" data-stat="need">6</span><span class="stat__label">Need action now</span><span class="stat__sub">in construction phase</span></div>
+            <div class="stat"><span class="stat__value stat__value--warning">5</span><span class="stat__label">Overdue items</span><span class="stat__sub">across 2 components</span></div>
+            <div class="stat"><span class="stat__value stat__value--danger">1</span><span class="stat__label">Lapsed resurvey</span><span class="stat__sub">auto-flagged</span></div>
+            <div class="stat"><span class="stat__value">121</span><span class="stat__label">Actions tracked</span><span class="stat__sub">6 components</span></div>
+          </div>
+
+          <div class="stack-lg" style="margin-top: var(--spacing-650);">
+            <!-- LEAD: needs-action queue -->
+            <section>
+              <div class="section-head">
+                <span class="section-head__title">Needs action</span>
+                <span class="section-head__note" data-phase-label>Construction phase</span>
+              </div>
+
+              <div data-queue-scope>
+                <div class="queue-group" data-group>
+                  <div class="queue-group__head">
+                    <span class="queue-group__name">Overdue &amp; flagged</span>
+                    <span class="count" data-count>3</span>
+                  </div>
+                  <div class="queue-list">
+                    <button class="qrow" data-filterable data-kind="queue" data-phase="construction" data-needs="true">
+                      <span class="qrow__sev qrow__sev--critical"></span>
+                      <span class="qrow__main">
+                        <span class="qrow__titleline"><span class="qrow__title">Nesting bird resurvey lapsed</span><span class="tag">Auto-flagged</span></span>
+                        <span class="qrow__metaline"><span class="qrow__comp">Launch Shaft Area</span><span class="dotsep">·</span>Preconstruction survey expired Mar 24<span class="dotsep">·</span><span class="qrow__due--late">ground disturbance not cleared</span></span>
+                      </span>
+                      <span class="qrow__right"><span class="chip chip--critical"><span class="chip__dot"></span>Resurvey required</span><span class="qrow__act">Open</span></span>
+                    </button>
+                    <button class="qrow" data-filterable data-kind="queue" data-phase="construction" data-needs="true">
+                      <span class="qrow__sev qrow__sev--overdue"></span>
+                      <span class="qrow__main">
+                        <span class="qrow__titleline"><span class="qrow__title">Exclusion fencing inspection overdue</span></span>
+                        <span class="qrow__metaline"><span class="qrow__comp">South Delta Conveyance (WA-K4R2)</span><span class="dotsep">·</span>Due Mar 22<span class="dotsep">·</span><span class="qrow__due--late">4 days overdue</span></span>
+                      </span>
+                      <span class="qrow__right"><span class="chip chip--overdue"><span class="chip__dot"></span>Overdue</span><span class="qrow__act">Open</span></span>
+                    </button>
+                    <button class="qrow" data-filterable data-kind="queue" data-phase="construction" data-needs="true">
+                      <span class="qrow__sev qrow__sev--overdue"></span>
+                      <span class="qrow__main">
+                        <span class="qrow__titleline"><span class="qrow__title">BIO-22a nesting bird buffer — corrective action</span></span>
+                        <span class="qrow__metaline"><span class="qrow__comp">Launch Shaft Area</span><span class="dotsep">·</span>Due Mar 25<span class="dotsep">·</span><span class="qrow__due--late">2 days overdue</span></span>
+                      </span>
+                      <span class="qrow__right"><span class="chip chip--overdue"><span class="chip__dot"></span>Overdue</span><span class="qrow__act">Open</span></span>
+                    </button>
+                    <button class="qrow" data-filterable data-kind="queue" data-phase="restoration" data-needs="true" hidden>
+                      <span class="qrow__sev qrow__sev--overdue"></span>
+                      <span class="qrow__main">
+                        <span class="qrow__titleline"><span class="qrow__title">Annual restoration assessment overdue</span></span>
+                        <span class="qrow__metaline"><span class="qrow__comp">Bethany Complex</span><span class="dotsep">·</span>Due Mar 20<span class="dotsep">·</span><span class="qrow__due--late">5 days overdue</span></span>
+                      </span>
+                      <span class="qrow__right"><span class="chip chip--overdue"><span class="chip__dot"></span>Overdue</span><span class="qrow__act">Open</span></span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="queue-group" data-group>
+                  <div class="queue-group__head">
+                    <span class="queue-group__name">Due soon</span>
+                    <span class="count" data-count>3</span>
+                  </div>
+                  <div class="queue-list">
+                    <button class="qrow" data-filterable data-kind="queue" data-phase="construction" data-needs="true">
+                      <span class="qrow__sev qrow__sev--due"></span>
+                      <span class="qrow__main">
+                        <span class="qrow__titleline"><span class="qrow__title">Q1 Compliance Report submission</span></span>
+                        <span class="qrow__metaline"><span class="qrow__comp">Project-wide</span><span class="dotsep">·</span>Due Apr 1<span class="dotsep">·</span>2 sections incomplete</span>
+                      </span>
+                      <span class="qrow__right"><span class="chip chip--due"><span class="chip__dot"></span>7 days</span><span class="qrow__act">Open</span></span>
+                    </button>
+                    <button class="qrow" data-filterable data-kind="queue" data-phase="construction" data-needs="true">
+                      <span class="qrow__sev qrow__sev--due"></span>
+                      <span class="qrow__main">
+                        <span class="qrow__titleline"><span class="qrow__title">Weekly turbidity monitoring log</span></span>
+                        <span class="qrow__metaline"><span class="qrow__comp">Canal Conveyance</span><span class="dotsep">·</span>Due Mar 30</span>
+                      </span>
+                      <span class="qrow__right"><span class="chip chip--due"><span class="chip__dot"></span>5 days</span><span class="qrow__act">Open</span></span>
+                    </button>
+                    <button class="qrow" data-filterable data-kind="queue" data-phase="construction" data-needs="true">
+                      <span class="qrow__sev qrow__sev--due"></span>
+                      <span class="qrow__main">
+                        <span class="qrow__titleline"><span class="qrow__title">CDFW ITP amendment package</span></span>
+                        <span class="qrow__metaline"><span class="qrow__comp">Canal Conveyance</span><span class="dotsep">·</span>Due Apr 16</span>
+                      </span>
+                      <span class="qrow__right"><span class="chip chip--due"><span class="chip__dot"></span>22 days</span><span class="qrow__act">Open</span></span>
+                    </button>
+                    <button class="qrow" data-filterable data-kind="queue" data-phase="preconstruction" data-needs="true" hidden>
+                      <span class="qrow__sev qrow__sev--due"></span>
+                      <span class="qrow__main">
+                        <span class="qrow__titleline"><span class="qrow__title">Preconstruction survey window opens</span></span>
+                        <span class="qrow__metaline"><span class="qrow__comp">Southern Forebay</span><span class="dotsep">·</span>Opens Apr 8</span>
+                      </span>
+                      <span class="qrow__right"><span class="chip chip--due"><span class="chip__dot"></span>14 days</span><span class="qrow__act">Open</span></span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- empty state (shown when the filtered queue has nothing) -->
+                <div class="empty" data-empty hidden>
+                  <span class="empty__icon"><svg class="icon" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                  <span class="empty__title" data-empty-title>Nothing needs action</span>
+                  <span class="empty__sub" data-empty-sub>Every tracked item in this phase is on schedule. Switch the phase filter or show all to review the full inventory.</span>
+                </div>
+              </div>
+            </section>
+
+            <!-- SECONDARY: component status strip -->
+            <section>
+              <div class="section-head">
+                <span class="section-head__title">Components</span>
+                <span class="section-head__spacer"></span>
+                <span class="section-head__note">Status by area · click to open a component dashboard</span>
+              </div>
+              <div class="comp-strip" data-comp-scope>
+                <div class="comp" data-filterable data-phase="construction" data-needs="true">
+                  <div class="comp__top"><span class="comp__name">Launch Shaft Area</span><span class="chip chip--at-risk"><span class="chip__dot"></span>At risk</span></div>
+                  <div class="comp__meta"><span class="phase-pill">Construction</span><span class="comp__flag"><svg class="icon icon--sm" viewBox="0 0 24 24"><path d="m21.7 16.5-9-14a1.9 1.9 0 0 0-3.4 0l-9 14A2 2 0 0 0 2 19.5h20a2 2 0 0 0 1.7-3M12 9v4M12 17h0"/></svg>Resurvey lapsed</span></div>
+                  <div class="comp__counts"><span><strong>24</strong> actions</span><span><strong>3</strong> overdue</span></div>
+                </div>
+                <div class="comp" data-filterable data-phase="construction" data-needs="true">
+                  <div class="comp__top"><span class="comp__name">South Delta Conveyance</span><span class="chip chip--at-risk"><span class="chip__dot"></span>At risk</span></div>
+                  <div class="comp__meta"><span class="phase-pill">Construction</span><span class="comp__flag"><svg class="icon icon--sm" viewBox="0 0 24 24"><path d="m21.7 16.5-9-14a1.9 1.9 0 0 0-3.4 0l-9 14A2 2 0 0 0 2 19.5h20a2 2 0 0 0 1.7-3M12 9v4M12 17h0"/></svg>1 inspection overdue</span></div>
+                  <div class="comp__counts"><span><strong>27</strong> actions</span><span><strong>2</strong> overdue</span></div>
+                </div>
+                <div class="comp" data-filterable data-phase="construction" data-needs="false">
+                  <div class="comp__top"><span class="comp__name">Canal Conveyance</span><span class="chip chip--on-track"><span class="chip__dot"></span>On track</span></div>
+                  <div class="comp__meta"><span class="phase-pill">Construction</span></div>
+                  <div class="comp__counts"><span><strong>31</strong> actions</span><span><strong>0</strong> overdue</span></div>
+                </div>
+                <div class="comp" data-filterable data-phase="preconstruction" data-needs="false" hidden>
+                  <div class="comp__top"><span class="comp__name">Southern Forebay</span><span class="chip chip--on-track"><span class="chip__dot"></span>On track</span></div>
+                  <div class="comp__meta"><span class="phase-pill">Pre-construction</span></div>
+                  <div class="comp__counts"><span><strong>12</strong> actions</span><span><strong>0</strong> overdue</span></div>
+                </div>
+                <div class="comp" data-filterable data-phase="restoration" data-needs="true" hidden>
+                  <div class="comp__top"><span class="comp__name">Bethany Complex</span><span class="chip chip--at-risk"><span class="chip__dot"></span>At risk</span></div>
+                  <div class="comp__meta"><span class="phase-pill">Restoration monitoring</span></div>
+                  <div class="comp__counts"><span><strong>18</strong> actions</span><span><strong>1</strong> overdue</span></div>
+                </div>
+                <div class="comp" data-filterable data-phase="permitting" data-needs="false" hidden>
+                  <div class="comp__top"><span class="comp__name">Twin Cities Complex</span><span class="chip chip--pending"><span class="chip__dot"></span>Pending</span></div>
+                  <div class="comp__meta"><span class="phase-pill">Permitting</span></div>
+                  <div class="comp__counts"><span><strong>9</strong> actions</span><span><strong>0</strong> overdue</span></div>
+                </div>
+              </div>
+            </section>
+
+            <!-- milestones + starred -->
+            <div class="split">
+              <section class="card">
+                <div class="card__header"><span class="card__title">Upcoming milestones</span><span class="count">4</span></div>
+                <div class="card__body--tight">
+                  <div class="mile"><span class="mile__when"><span class="mile__days">7</span><span class="mile__daysunit">days</span></span><span class="mile__body"><span class="mile__name">Q1 Compliance Report submission</span><span class="mile__meta">Apr 1 · Project-wide</span></span></div>
+                  <div class="mile"><span class="mile__when"><span class="mile__days">21</span><span class="mile__daysunit">days</span></span><span class="mile__body"><span class="mile__name">Nesting season restrictions begin</span><span class="mile__meta">Apr 15 · Launch Shaft Area</span></span></div>
+                  <div class="mile"><span class="mile__when"><span class="mile__days">22</span><span class="mile__daysunit">days</span></span><span class="mile__body"><span class="mile__name">CDFW ITP amendment due</span><span class="mile__meta">Apr 16 · Canal Conveyance</span></span></div>
+                  <div class="mile"><span class="mile__when"><span class="mile__days">37</span><span class="mile__daysunit">days</span></span><span class="mile__body"><span class="mile__name">Turbidity monitoring Phase 2</span><span class="mile__meta">May 1 · South Delta Conveyance</span></span></div>
+                </div>
+              </section>
+              <section class="card">
+                <div class="card__header"><span class="card__title">Starred lists</span><span class="count">3</span></div>
+                <div class="card__body--tight">
+                  <div class="starred">
+                    <button class="star-row"><span class="star-row__name"><svg class="icon icon--sm" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="m12 2 3 6.9 7.5.6-5.7 5 1.7 7.4L12 24l-6.5-2.1 1.7-7.4-5.7-5 7.5-.6z"/></svg>Active BIO mitigations</span><span class="star-row__meta">12 actions</span></button>
+                    <button class="star-row"><span class="star-row__name"><svg class="icon icon--sm" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="m12 2 3 6.9 7.5.6-5.7 5 1.7 7.4L12 24l-6.5-2.1 1.7-7.4-5.7-5 7.5-.6z"/></svg>Q2 reporting deadlines</span><span class="star-row__meta">8 requirements</span></button>
+                    <button class="star-row"><span class="star-row__name"><svg class="icon icon--sm" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="m12 2 3 6.9 7.5.6-5.7 5 1.7 7.4L12 24l-6.5-2.1 1.7-7.4-5.7-5 7.5-.6z"/></svg>SFO permit conditions</span><span class="star-row__meta">23 commitments</span></button>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════════
+             DIRECTION B — Component-status board
+             ═══════════════════════════════════════════════════════════════ -->
+        <section class="dir" data-dir="b">
+          <header class="phead">
+            <div class="phead__id">
+              <div class="phead__titlerow">
+                <h1 class="phead__title">Delta Conveyance Project</h1>
+                <span class="chip chip--cleared"><span class="chip__dot"></span>Construction</span>
+              </div>
+              <p class="phead__meta">DWR · Sacramento County · <code>DCP</code> · 6 components</p>
+            </div>
+            <div class="controls">
+              <label class="field">
+                <span class="field__label">Phase</span>
+                <select class="select" data-control="phase" aria-label="Filter by phase">
+                  <option value="all">All phases</option>
+                  <option value="permitting">Permitting</option>
+                  <option value="preconstruction">Pre-construction</option>
+                  <option value="construction" selected>Construction</option>
+                  <option value="restoration">Restoration monitoring</option>
+                </select>
+              </label>
+              <div class="field">
+                <span class="field__label">Show</span>
+                <div class="toggle" role="group" aria-label="Show filter">
+                  <button data-toggle="needs" aria-pressed="true">Needs action</button>
+                  <button data-toggle="all" aria-pressed="false">All</button>
+                </div>
+              </div>
+            </div>
+          </header>
+
+          <div class="board" style="margin-top: var(--spacing-600);">
+            <!-- PRIMARY: component grid -->
+            <section>
+              <div class="section-head">
+                <span class="section-head__title">Components</span>
+                <span class="section-head__spacer"></span>
+                <span class="count" data-count>2</span>
+                <span class="section-head__note" data-phase-label>needing action in construction</span>
+              </div>
+              <div class="comp-grid" data-queue-scope>
+                <div class="comp" data-filterable data-kind="queue" data-phase="construction" data-needs="true">
+                  <div class="comp__top"><span class="comp__name">Launch Shaft Area</span><span class="chip chip--at-risk"><span class="chip__dot"></span>At risk</span></div>
+                  <div class="comp__meta"><span class="phase-pill">Construction</span></div>
+                  <div class="comp__flag"><svg class="icon icon--sm" viewBox="0 0 24 24"><path d="m21.7 16.5-9-14a1.9 1.9 0 0 0-3.4 0l-9 14A2 2 0 0 0 2 19.5h20a2 2 0 0 0 1.7-3M12 9v4M12 17h0"/></svg>Resurvey lapsed · 3 overdue</div>
+                  <div class="comp__counts"><span><strong>24</strong> actions</span><span><strong>3</strong> overdue</span></div>
+                </div>
+                <div class="comp" data-filterable data-kind="queue" data-phase="construction" data-needs="true">
+                  <div class="comp__top"><span class="comp__name">South Delta Conveyance</span><span class="chip chip--at-risk"><span class="chip__dot"></span>At risk</span></div>
+                  <div class="comp__meta"><span class="phase-pill">Construction</span></div>
+                  <div class="comp__flag"><svg class="icon icon--sm" viewBox="0 0 24 24"><path d="m21.7 16.5-9-14a1.9 1.9 0 0 0-3.4 0l-9 14A2 2 0 0 0 2 19.5h20a2 2 0 0 0 1.7-3M12 9v4M12 17h0"/></svg>Fencing inspection overdue</div>
+                  <div class="comp__counts"><span><strong>27</strong> actions</span><span><strong>2</strong> overdue</span></div>
+                </div>
+                <div class="comp" data-filterable data-kind="queue" data-phase="construction" data-needs="false">
+                  <div class="comp__top"><span class="comp__name">Canal Conveyance</span><span class="chip chip--on-track"><span class="chip__dot"></span>On track</span></div>
+                  <div class="comp__meta"><span class="phase-pill">Construction</span></div>
+                  <div class="comp__counts"><span><strong>31</strong> actions</span><span><strong>0</strong> overdue</span></div>
+                </div>
+                <div class="comp" data-filterable data-kind="queue" data-phase="preconstruction" data-needs="false" hidden>
+                  <div class="comp__top"><span class="comp__name">Southern Forebay</span><span class="chip chip--on-track"><span class="chip__dot"></span>On track</span></div>
+                  <div class="comp__meta"><span class="phase-pill">Pre-construction</span></div>
+                  <div class="comp__counts"><span><strong>12</strong> actions</span><span><strong>0</strong> overdue</span></div>
+                </div>
+                <div class="comp" data-filterable data-kind="queue" data-phase="restoration" data-needs="true" hidden>
+                  <div class="comp__top"><span class="comp__name">Bethany Complex</span><span class="chip chip--at-risk"><span class="chip__dot"></span>At risk</span></div>
+                  <div class="comp__meta"><span class="phase-pill">Restoration monitoring</span></div>
+                  <div class="comp__flag"><svg class="icon icon--sm" viewBox="0 0 24 24"><path d="m21.7 16.5-9-14a1.9 1.9 0 0 0-3.4 0l-9 14A2 2 0 0 0 2 19.5h20a2 2 0 0 0 1.7-3M12 9v4M12 17h0"/></svg>Assessment overdue</div>
+                  <div class="comp__counts"><span><strong>18</strong> actions</span><span><strong>1</strong> overdue</span></div>
+                </div>
+                <div class="comp" data-filterable data-kind="queue" data-phase="permitting" data-needs="false" hidden>
+                  <div class="comp__top"><span class="comp__name">Twin Cities Complex</span><span class="chip chip--pending"><span class="chip__dot"></span>Pending</span></div>
+                  <div class="comp__meta"><span class="phase-pill">Permitting</span></div>
+                  <div class="comp__counts"><span><strong>9</strong> actions</span><span><strong>0</strong> overdue</span></div>
+                </div>
+
+                <div class="empty" data-empty hidden style="grid-column: 1 / -1;">
+                  <span class="empty__icon"><svg class="icon" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                  <span class="empty__title" data-empty-title>No components need action</span>
+                  <span class="empty__sub" data-empty-sub>Every component in this phase is on schedule. Switch to "All" to see the full set.</span>
+                </div>
+              </div>
+              <p class="hint">Showing components that need attention. <button data-show-all-shortcut>Show all in phase</button> to review those on track.</p>
+            </section>
+
+            <!-- RIGHT RAIL: alerts + milestones + starred -->
+            <aside class="rail-stack">
+              <section class="card">
+                <div class="card__header"><span class="card__title">Alerts</span><span class="count">3</span></div>
+                <div class="card__body--tight">
+                  <div class="alert"><span class="alert__icon alert__icon--critical"><svg class="icon" viewBox="0 0 24 24"><path d="m21.7 16.5-9-14a1.9 1.9 0 0 0-3.4 0l-9 14A2 2 0 0 0 2 19.5h20a2 2 0 0 0 1.7-3M12 9v4M12 17h0"/></svg></span><span class="alert__body"><span class="alert__msg">Nesting bird resurvey lapsed — Launch Shaft Area. Resurvey required before ground disturbance.</span><span class="alert__time">Auto-flagged · 2 hours ago</span></span></div>
+                  <div class="alert"><span class="alert__icon alert__icon--warning"><svg class="icon" viewBox="0 0 24 24"><path d="M12 9v4M12 17h0M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></span><span class="alert__body"><span class="alert__msg">5 inspections overdue across South Delta Conveyance and Launch Shaft Area.</span><span class="alert__time">6 hours ago</span></span></div>
+                  <div class="alert"><span class="alert__icon alert__icon--warning"><svg class="icon" viewBox="0 0 24 24"><path d="M12 9v4M12 17h0M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></span><span class="alert__body"><span class="alert__msg">Q1 Compliance Report due in 7 days — 2 sections incomplete.</span><span class="alert__time">1 day ago</span></span></div>
+                </div>
+              </section>
+              <section class="card">
+                <div class="card__header"><span class="card__title">Upcoming milestones</span><span class="count">4</span></div>
+                <div class="card__body--tight">
+                  <div class="mile"><span class="mile__when"><span class="mile__days">7</span><span class="mile__daysunit">days</span></span><span class="mile__body"><span class="mile__name">Q1 Compliance Report</span><span class="mile__meta">Apr 1 · Project-wide</span></span></div>
+                  <div class="mile"><span class="mile__when"><span class="mile__days">21</span><span class="mile__daysunit">days</span></span><span class="mile__body"><span class="mile__name">Nesting season begins</span><span class="mile__meta">Apr 15 · Launch Shaft Area</span></span></div>
+                  <div class="mile"><span class="mile__when"><span class="mile__days">22</span><span class="mile__daysunit">days</span></span><span class="mile__body"><span class="mile__name">CDFW ITP amendment</span><span class="mile__meta">Apr 16 · Canal Conveyance</span></span></div>
+                </div>
+              </section>
+              <section class="card">
+                <div class="card__header"><span class="card__title">Starred lists</span><span class="count">3</span></div>
+                <div class="card__body--tight">
+                  <div class="starred">
+                    <button class="star-row"><span class="star-row__name">Active BIO mitigations</span><span class="star-row__meta">12</span></button>
+                    <button class="star-row"><span class="star-row__name">Q2 reporting deadlines</span><span class="star-row__meta">8</span></button>
+                    <button class="star-row"><span class="star-row__name">SFO permit conditions</span><span class="star-row__meta">23</span></button>
+                  </div>
+                </div>
+              </section>
+            </aside>
+          </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════════
+             DIRECTION C — Phase-timeline header
+             ═══════════════════════════════════════════════════════════════ -->
+        <section class="dir" data-dir="c">
+          <header class="phead">
+            <div class="phead__id">
+              <div class="phead__titlerow">
+                <h1 class="phead__title">Delta Conveyance Project</h1>
+              </div>
+              <p class="phead__meta">DWR · Sacramento County · <code>DCP</code> · 6 components</p>
+            </div>
+            <div class="field">
+              <span class="field__label">Show</span>
+              <div class="toggle" role="group" aria-label="Show filter">
+                <button data-toggle="needs" aria-pressed="true">Needs action</button>
+                <button data-toggle="all" aria-pressed="false">All</button>
+              </div>
+            </div>
+          </header>
+
+          <!-- phase band = the filter -->
+          <div class="phaseband" role="group" aria-label="Project phase">
+            <button class="phasenode" data-phase-node="permitting" data-state="done" aria-pressed="false">
+              <span class="phasenode__topline"><span class="phasenode__step">✓</span>Phase 1</span>
+              <span class="phasenode__name">Permitting</span>
+              <span class="phasenode__count"><span class="count">0</span>need action</span>
+              <span class="phasenode__arrow"><svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </button>
+            <button class="phasenode" data-phase-node="preconstruction" data-state="done" aria-pressed="false">
+              <span class="phasenode__topline"><span class="phasenode__step">✓</span>Phase 2</span>
+              <span class="phasenode__name">Pre-construction</span>
+              <span class="phasenode__count"><span class="count">1</span>need action</span>
+              <span class="phasenode__arrow"><svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </button>
+            <button class="phasenode" data-phase-node="construction" data-state="active" aria-pressed="true">
+              <span class="phasenode__topline"><span class="phasenode__step">3</span>Active phase</span>
+              <span class="phasenode__name">Construction</span>
+              <span class="phasenode__count"><span class="count">6</span>need action</span>
+              <span class="phasenode__arrow"><svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+            </button>
+            <button class="phasenode" data-phase-node="restoration" data-state="upcoming" aria-pressed="false">
+              <span class="phasenode__topline"><span class="phasenode__step">4</span>Phase 4</span>
+              <span class="phasenode__name">Restoration monitoring</span>
+              <span class="phasenode__count"><span class="count">1</span>need action</span>
+            </button>
+          </div>
+
+          <div class="timeline-cols" style="margin-top: var(--spacing-600);">
+            <!-- needs-action queue scoped to active phase -->
+            <section>
+              <div class="section-head">
+                <span class="section-head__title">Needs action</span>
+                <span class="section-head__note" data-phase-label>Construction phase</span>
+              </div>
+              <div data-queue-scope>
+                <div class="queue-group" data-group>
+                  <div class="queue-group__head"><span class="queue-group__name">Overdue &amp; flagged</span><span class="count" data-count>3</span></div>
+                  <div class="queue-list">
+                    <button class="qrow" data-filterable data-kind="queue" data-phase="construction" data-needs="true">
+                      <span class="qrow__sev qrow__sev--critical"></span>
+                      <span class="qrow__main"><span class="qrow__titleline"><span class="qrow__title">Nesting bird resurvey lapsed</span><span class="tag">Auto-flagged</span></span><span class="qrow__metaline"><span class="qrow__comp">Launch Shaft Area</span><span class="dotsep">·</span><span class="qrow__due--late">survey expired Mar 24</span></span></span>
+                      <span class="qrow__right"><span class="chip chip--critical"><span class="chip__dot"></span>Resurvey</span></span>
+                    </button>
+                    <button class="qrow" data-filterable data-kind="queue" data-phase="construction" data-needs="true">
+                      <span class="qrow__sev qrow__sev--overdue"></span>
+                      <span class="qrow__main"><span class="qrow__titleline"><span class="qrow__title">Exclusion fencing inspection overdue</span></span><span class="qrow__metaline"><span class="qrow__comp">South Delta Conveyance</span><span class="dotsep">·</span><span class="qrow__due--late">4 days overdue</span></span></span>
+                      <span class="qrow__right"><span class="chip chip--overdue"><span class="chip__dot"></span>Overdue</span></span>
+                    </button>
+                    <button class="qrow" data-filterable data-kind="queue" data-phase="construction" data-needs="true">
+                      <span class="qrow__sev qrow__sev--overdue"></span>
+                      <span class="qrow__main"><span class="qrow__titleline"><span class="qrow__title">BIO-22a buffer corrective action</span></span><span class="qrow__metaline"><span class="qrow__comp">Launch Shaft Area</span><span class="dotsep">·</span><span class="qrow__due--late">2 days overdue</span></span></span>
+                      <span class="qrow__right"><span class="chip chip--overdue"><span class="chip__dot"></span>Overdue</span></span>
+                    </button>
+                    <button class="qrow" data-filterable data-kind="queue" data-phase="restoration" data-needs="true" hidden>
+                      <span class="qrow__sev qrow__sev--overdue"></span>
+                      <span class="qrow__main"><span class="qrow__titleline"><span class="qrow__title">Annual restoration assessment overdue</span></span><span class="qrow__metaline"><span class="qrow__comp">Bethany Complex</span><span class="dotsep">·</span><span class="qrow__due--late">5 days overdue</span></span></span>
+                      <span class="qrow__right"><span class="chip chip--overdue"><span class="chip__dot"></span>Overdue</span></span>
+                    </button>
+                  </div>
+                </div>
+                <div class="queue-group" data-group>
+                  <div class="queue-group__head"><span class="queue-group__name">Due soon</span><span class="count" data-count>3</span></div>
+                  <div class="queue-list">
+                    <button class="qrow" data-filterable data-kind="queue" data-phase="construction" data-needs="true">
+                      <span class="qrow__sev qrow__sev--due"></span>
+                      <span class="qrow__main"><span class="qrow__titleline"><span class="qrow__title">Q1 Compliance Report submission</span></span><span class="qrow__metaline"><span class="qrow__comp">Project-wide</span><span class="dotsep">·</span>2 sections incomplete</span></span>
+                      <span class="qrow__right"><span class="chip chip--due"><span class="chip__dot"></span>7 days</span></span>
+                    </button>
+                    <button class="qrow" data-filterable data-kind="queue" data-phase="construction" data-needs="true">
+                      <span class="qrow__sev qrow__sev--due"></span>
+                      <span class="qrow__main"><span class="qrow__titleline"><span class="qrow__title">Weekly turbidity monitoring log</span></span><span class="qrow__metaline"><span class="qrow__comp">Canal Conveyance</span></span></span>
+                      <span class="qrow__right"><span class="chip chip--due"><span class="chip__dot"></span>5 days</span></span>
+                    </button>
+                    <button class="qrow" data-filterable data-kind="queue" data-phase="construction" data-needs="true">
+                      <span class="qrow__sev qrow__sev--due"></span>
+                      <span class="qrow__main"><span class="qrow__titleline"><span class="qrow__title">CDFW ITP amendment package</span></span><span class="qrow__metaline"><span class="qrow__comp">Canal Conveyance</span></span></span>
+                      <span class="qrow__right"><span class="chip chip--due"><span class="chip__dot"></span>22 days</span></span>
+                    </button>
+                    <button class="qrow" data-filterable data-kind="queue" data-phase="preconstruction" data-needs="true" hidden>
+                      <span class="qrow__sev qrow__sev--due"></span>
+                      <span class="qrow__main"><span class="qrow__titleline"><span class="qrow__title">Preconstruction survey window opens</span></span><span class="qrow__metaline"><span class="qrow__comp">Southern Forebay</span></span></span>
+                      <span class="qrow__right"><span class="chip chip--due"><span class="chip__dot"></span>14 days</span></span>
+                    </button>
+                  </div>
+                </div>
+                <div class="empty" data-empty hidden>
+                  <span class="empty__icon"><svg class="icon" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+                  <span class="empty__title" data-empty-title>Nothing needs action</span>
+                  <span class="empty__sub" data-empty-sub>Every tracked item in this phase is on schedule. Pick another phase in the band above, or show all.</span>
+                </div>
+              </div>
+            </section>
+
+            <!-- phase-scoped components + milestones -->
+            <aside class="rail-stack">
+              <section class="card">
+                <div class="card__header"><span class="card__title">Components in phase</span><span class="count" data-count>3</span></div>
+                <div class="card__body--tight">
+                  <div class="comp-strip" data-comp-scope style="grid-template-columns: 1fr;">
+                    <div class="comp" data-filterable data-phase="construction" data-needs="true">
+                      <div class="comp__top"><span class="comp__name">Launch Shaft Area</span><span class="chip chip--at-risk"><span class="chip__dot"></span>At risk</span></div>
+                      <div class="comp__counts"><span><strong>24</strong> actions</span><span><strong>3</strong> overdue</span></div>
+                    </div>
+                    <div class="comp" data-filterable data-phase="construction" data-needs="true">
+                      <div class="comp__top"><span class="comp__name">South Delta Conveyance</span><span class="chip chip--at-risk"><span class="chip__dot"></span>At risk</span></div>
+                      <div class="comp__counts"><span><strong>27</strong> actions</span><span><strong>2</strong> overdue</span></div>
+                    </div>
+                    <div class="comp" data-filterable data-phase="construction" data-needs="false">
+                      <div class="comp__top"><span class="comp__name">Canal Conveyance</span><span class="chip chip--on-track"><span class="chip__dot"></span>On track</span></div>
+                      <div class="comp__counts"><span><strong>31</strong> actions</span><span><strong>0</strong> overdue</span></div>
+                    </div>
+                    <div class="comp" data-filterable data-phase="preconstruction" data-needs="false" hidden>
+                      <div class="comp__top"><span class="comp__name">Southern Forebay</span><span class="chip chip--on-track"><span class="chip__dot"></span>On track</span></div>
+                      <div class="comp__counts"><span><strong>12</strong> actions</span><span><strong>0</strong> overdue</span></div>
+                    </div>
+                    <div class="comp" data-filterable data-phase="restoration" data-needs="true" hidden>
+                      <div class="comp__top"><span class="comp__name">Bethany Complex</span><span class="chip chip--at-risk"><span class="chip__dot"></span>At risk</span></div>
+                      <div class="comp__counts"><span><strong>18</strong> actions</span><span><strong>1</strong> overdue</span></div>
+                    </div>
+                    <div class="comp" data-filterable data-phase="permitting" data-needs="false" hidden>
+                      <div class="comp__top"><span class="comp__name">Twin Cities Complex</span><span class="chip chip--pending"><span class="chip__dot"></span>Pending</span></div>
+                      <div class="comp__counts"><span><strong>9</strong> actions</span><span><strong>0</strong> overdue</span></div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <section class="card">
+                <div class="card__header"><span class="card__title">Phase milestones</span><span class="count">3</span></div>
+                <div class="card__body--tight">
+                  <div class="mile"><span class="mile__when"><span class="mile__days">7</span><span class="mile__daysunit">days</span></span><span class="mile__body"><span class="mile__name">Q1 Compliance Report</span><span class="mile__meta">Apr 1 · Project-wide</span></span></div>
+                  <div class="mile"><span class="mile__when"><span class="mile__days">21</span><span class="mile__daysunit">days</span></span><span class="mile__body"><span class="mile__name">Nesting season begins</span><span class="mile__meta">Apr 15 · Launch Shaft Area</span></span></div>
+                  <div class="mile"><span class="mile__when"><span class="mile__days">22</span><span class="mile__daysunit">days</span></span><span class="mile__body"><span class="mile__name">CDFW ITP amendment</span><span class="mile__meta">Apr 16 · Canal Conveyance</span></span></div>
+                </div>
+              </section>
+            </aside>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var PHASE_LABEL = {
+        all: 'All phases',
+        permitting: 'Permitting phase',
+        preconstruction: 'Pre-construction phase',
+        construction: 'Construction phase',
+        restoration: 'Restoration monitoring phase'
+      };
+      var EMPTY_TITLE = {
+        permitting: 'Nothing needs action in Permitting',
+        preconstruction: 'Nothing needs action in Pre-construction',
+        construction: 'Nothing needs action in Construction',
+        restoration: 'Nothing needs action in Restoration monitoring',
+        all: 'Nothing needs action'
+      };
+
+      var state = { dir: 'a', phase: 'construction', needs: 'needs' };
+
+      function activeDir() {
+        return document.querySelector('.dir[data-dir="' + state.dir + '"]');
+      }
+
+      // Filter the visible direction's items by phase + needs; update counts + empty states.
+      function applyFilter() {
+        var dir = activeDir();
+        if (!dir) return;
+
+        dir.querySelectorAll('[data-filterable]').forEach(function (item) {
+          var okPhase = state.phase === 'all' || item.getAttribute('data-phase') === state.phase;
+          var okNeeds = state.needs === 'all' || item.getAttribute('data-needs') === 'true';
+          item.hidden = !(okPhase && okNeeds);
+        });
+
+        // group headers: recount + hide empties
+        dir.querySelectorAll('[data-group]').forEach(function (g) {
+          var vis = Array.prototype.filter.call(
+            g.querySelectorAll('[data-filterable]'),
+            function (x) { return !x.hidden; }
+          ).length;
+          var badge = g.querySelector('[data-count]');
+          if (badge) badge.textContent = vis;
+          g.hidden = vis === 0;
+        });
+
+        // primary-queue empty state (queue rows OR the component grid in B)
+        dir.querySelectorAll('[data-queue-scope]').forEach(function (scope) {
+          var rows = scope.querySelectorAll('[data-filterable][data-kind="queue"]');
+          if (!rows.length) return;
+          var vis = Array.prototype.filter.call(rows, function (x) { return !x.hidden; }).length;
+          var empty = scope.querySelector('[data-empty]');
+          if (empty) {
+            empty.hidden = vis > 0;
+            var t = empty.querySelector('[data-empty-title]');
+            if (t) t.textContent = EMPTY_TITLE[state.phase] || EMPTY_TITLE.all;
+          }
+          // header count next to a section title (B)
+          var headCount = scope.parentElement && scope.parentElement.querySelector('.section-head [data-count]');
+          if (headCount) headCount.textContent = vis;
+        });
+
+        // components-in-phase card count (C right rail)
+        dir.querySelectorAll('[data-comp-scope]').forEach(function (scope) {
+          var vis = Array.prototype.filter.call(
+            scope.querySelectorAll('[data-filterable]'),
+            function (x) { return !x.hidden; }
+          ).length;
+          var card = scope.closest('.card');
+          var badge = card && card.querySelector('.card__header [data-count]');
+          if (badge) badge.textContent = vis;
+        });
+
+        // "need action now" stat (A)
+        var stat = dir.querySelector('[data-stat="need"]');
+        if (stat) {
+          var qrows = dir.querySelectorAll('[data-filterable][data-kind="queue"]');
+          stat.textContent = Array.prototype.filter.call(qrows, function (x) { return !x.hidden; }).length;
+        }
+
+        // phase label notes
+        dir.querySelectorAll('[data-phase-label]').forEach(function (n) {
+          if (n.closest('.section-head') && n.previousElementSibling && n.previousElementSibling.hasAttribute('data-count')) {
+            n.textContent = 'needing action in ' + (PHASE_LABEL[state.phase] || 'all phases').replace(' phase', '').toLowerCase();
+          } else {
+            n.textContent = PHASE_LABEL[state.phase] || 'All phases';
+          }
+        });
+      }
+
+      // sync every control widget to state (across directions)
+      function syncControls() {
+        document.querySelectorAll('select[data-control="phase"]').forEach(function (s) { s.value = state.phase; });
+        document.querySelectorAll('[data-toggle]').forEach(function (b) {
+          b.setAttribute('aria-pressed', b.getAttribute('data-toggle') === state.needs ? 'true' : 'false');
+        });
+        document.querySelectorAll('[data-phase-node]').forEach(function (n) {
+          n.setAttribute('aria-pressed', n.getAttribute('data-phase-node') === state.phase ? 'true' : 'false');
+        });
+      }
+
+      function switchDir() {
+        document.querySelectorAll('.dir').forEach(function (d) {
+          if (d.getAttribute('data-dir') === state.dir) { d.setAttribute('data-active', ''); }
+          else { d.removeAttribute('data-active'); }
+        });
+        document.querySelectorAll('[data-dirswitch]').forEach(function (b) {
+          b.setAttribute('aria-pressed', b.getAttribute('data-dirswitch') === state.dir ? 'true' : 'false');
+        });
+        syncControls();
+        applyFilter();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // ── delegation ──
+      document.addEventListener('change', function (e) {
+        var sel = e.target.closest && e.target.closest('select[data-control="phase"]');
+        if (sel) { state.phase = sel.value; syncControls(); applyFilter(); }
+      });
+
+      document.addEventListener('click', function (e) {
+        var t = e.target.closest ? e.target.closest('[data-toggle]') : null;
+        if (t) { state.needs = t.getAttribute('data-toggle'); syncControls(); applyFilter(); return; }
+
+        var node = e.target.closest ? e.target.closest('[data-phase-node]') : null;
+        if (node) { state.phase = node.getAttribute('data-phase-node'); syncControls(); applyFilter(); return; }
+
+        var sw = e.target.closest ? e.target.closest('[data-dirswitch]') : null;
+        if (sw) { state.dir = sw.getAttribute('data-dirswitch'); switchDir(); return; }
+
+        var showAll = e.target.closest ? e.target.closest('[data-show-all-shortcut]') : null;
+        if (showAll) { state.needs = 'all'; syncControls(); applyFilter(); return; }
+      });
+
+      // init
+      syncControls();
+      applyFilter();
+    })();
+  </script>
+</body>
+</html>

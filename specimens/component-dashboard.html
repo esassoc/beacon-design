@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="beacon">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beacon — Component Dashboard specimen</title>
+
+  <!-- DM Sans (body/heading), Roboto Mono (ids), Besley (decorative titles) —
+       matching Beacon's BaseLayout font loading. CDN so the file opens standalone. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Besley:ital,wght@0,400..900;1,400..900&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Roboto+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════════════
+       Design tokens — real ecology semantic layer, resolved to Beacon's
+       theme values (theme-beacon.css re-points onto @esa/tokens primitives).
+       Token NAMES are the durable system vocabulary; VALUES are the Beacon
+       resolution of the var() chain, inlined so the file is self-contained.
+       ═══════════════════════════════════════════════════════════════════ */
+    :root {
+      /* ── type scale ──
+         The ecology clamped scale is tuned for the app's 14px base (body tops out
+         at 14px, labels at 10–12px). A standalone artifact holds a higher floor:
+         16px for body/reading text, 14px for functional labels, and sub-14px ONLY
+         for genuine meta (timestamps, footnote qualifiers). Same token names as the
+         system; values raised to clear the floor. */
+      --type-size-050: 0.75rem;    /* 12px — meta only (timestamps, "in 30d" qualifier) */
+      --type-size-100: 0.875rem;   /* 14px — functional labels, chips, counts, flags */
+      --type-size-150: 1rem;       /* 16px — body/reading + primary UI text */
+      --type-size-200: 1rem;       /* 16px — body (stat labels, metric values, empty-state text) */
+      --type-size-250: 1.0625rem;  /* 17px — card titles */
+      --type-size-300: 1.125rem;   /* 18px — component names */
+      --type-size-400: 1.25rem;    /* 20px — section titles, brand */
+      --type-size-500: 1.5rem;     /* 24px — page + empty-state titles */
+      --type-size-600: 1.875rem;   /* 30px */
+      --type-size-700: 2.25rem;    /* 36px — stat values */
+
+      --font-weight-regular: 350;
+      --font-weight-medium: 450;
+      --font-weight-semibold: 550;
+      --font-weight-bold: 650;
+      --line-height-tight: 1.3;
+      --line-height-normal: 1.6;
+      --line-height-relaxed: 1.8;
+      --letter-spacing-tight: -0.01em;
+      --letter-spacing-normal: 0.01em;
+
+      /* ── spacing ── */
+      --spacing-050: 0.125rem;
+      --spacing-100: 0.25rem;
+      --spacing-150: 0.375rem;
+      --spacing-200: 0.5rem;
+      --spacing-250: 0.625rem;
+      --spacing-300: 0.75rem;
+      --spacing-400: 1rem;
+      --spacing-500: 1.5rem;
+      --spacing-600: 2rem;
+      --spacing-700: 3rem;
+      --spacing-800: 4rem;
+
+      /* ── radius / shadow ── */
+      --radius-050: 0.125rem;
+      --radius-100: 0.25rem;
+      --radius-200: 0.5rem;
+      --radius-300: 0.5rem;
+      --radius-full: 9999px;
+      --shadow-50: 0 1px 4px 0 rgba(0, 0, 0, 0.03);
+      --shadow-100: 0 2px 12px 0 rgba(0, 0, 0, 0.04);
+      --shadow-200: 0 4px 20px -4px rgba(0, 0, 0, 0.06);
+
+      /* ── faces (Beacon) ── */
+      --font-sans: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'Roboto Mono', ui-monospace, monospace;
+      --font-decorative: 'Besley', Georgia, serif;
+      --font-display: var(--font-sans);
+
+      /* ── Beacon warm-gray ramp (raw material, feeds the semantics below) ── */
+      --bcn-gray-0: #ffffff;
+      --bcn-gray-50: #fafafa;
+      --bcn-gray-100: #efefef;
+      --bcn-gray-200: #dcdcdc;
+      --bcn-gray-300: #bdbdbd;
+      --bcn-gray-400: #989898;
+      --bcn-gray-500: #7c7c7c;
+      --bcn-gray-600: #656565;
+      --bcn-gray-700: #525252;
+      --bcn-gray-900: #3d3d3d;
+      --bcn-gray-950: #292929;
+      --bcn-gray-1000: #000000;
+
+      /* ── Beacon teal ── */
+      --bcn-teal-50: #effefb;
+      --bcn-teal-200: #b9d6d2;
+      --bcn-teal-500: #00918b;
+      --bcn-teal-900: #005862;
+
+      /* ── semantic layer (Beacon resolution) ── */
+      --color-text-primary: #3d3d3d;
+      --color-text-secondary: #525252;
+      --color-text-tertiary: #656565;
+      --color-text-muted: #7c7c7c;
+      --color-text-inverse: #ffffff;
+      --color-text-link: #005862;
+      --color-border: #dcdcdc;
+      --color-border-light: #efefef;
+      --color-border-strong: #bdbdbd;
+      --color-background: #fafafa;
+      --color-surface: #ffffff;
+      --color-surface-sunken: #efefef;
+
+      --color-primary: #005862;
+      --color-primary-hover: #00474f;
+      --color-primary-strong: #005862;
+      --color-primary-subtle: #effefb;
+      --color-primary-border: #b9d6d2;
+      --color-secondary: #00918b;
+
+      --color-success: #2e7571;
+      --color-warning: #f2770e;
+      --color-info: #228be6;
+      --color-danger: #e5484d;
+      --color-danger-subtle: #fff7f7;
+      --color-danger-strong: #ce2c31;
+      --color-accent: #f76b15;
+
+      /* ── implementation-status palette (compliance tracking) ── */
+      --bcn-status-not-started: #bdbdbd;
+      --bcn-status-in-progress: #f59e0b;
+      --bcn-status-on-hold: #656565;
+      --bcn-status-completed: #22c55e;
+      --bcn-status-overdue: #ef4444;
+
+      /* ── value-driven status-chip colors (the --st-* idiom BcnStatusChip reads) ── */
+      --st-not-started: var(--bcn-status-not-started);
+      --st-in-progress: var(--bcn-status-in-progress);
+      --st-on-hold: var(--bcn-status-on-hold);
+      --st-complete: var(--bcn-status-completed);
+    }
+
+    /* ═══ Reset ═══ */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      font-weight: var(--font-weight-regular);
+      font-size: 16px;
+      color: var(--color-text-primary);
+      background: var(--color-surface);
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, h4, p, ul, ol, dl, dd, figure { margin: 0; }
+    ul, ol { padding: 0; list-style: none; }
+    button { font-family: inherit; cursor: pointer; background: none; border: 0; color: inherit; }
+    a { color: var(--color-text-link); text-decoration: none; }
+    svg { display: block; }
+
+    /* ═══ Type roles ═══ */
+    .type-body-small { font-size: var(--type-size-150); line-height: var(--line-height-normal); }
+    .type-label { font-size: var(--type-size-100); font-weight: var(--font-weight-medium); }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       Specimen harness — scaffolding to switch the three dashboard states.
+       Not part of the product surface; the dashboard below carries no
+       process/meta content of its own.
+       ═══════════════════════════════════════════════════════════════════ */
+    .harness {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 44px;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--spacing-400);
+      padding: 0 var(--spacing-500);
+      background: var(--bcn-gray-950);
+      color: var(--bcn-gray-100);
+    }
+    .harness__label {
+      font-size: var(--type-size-150);
+      font-weight: var(--font-weight-semibold);
+      letter-spacing: var(--letter-spacing-normal);
+      white-space: nowrap;
+    }
+    .harness__label span { color: var(--bcn-gray-400); font-weight: var(--font-weight-regular); }
+    .harness__seg { display: inline-flex; gap: 2px; background: rgba(255,255,255,0.08); padding: 3px; border-radius: var(--radius-100); }
+    .harness__btn {
+      padding: var(--spacing-100) var(--spacing-300);
+      font-size: var(--type-size-100);
+      font-weight: var(--font-weight-semibold);
+      color: var(--bcn-gray-300);
+      border-radius: var(--radius-050);
+      white-space: nowrap;
+    }
+    .harness__btn[aria-pressed="true"] { background: var(--bcn-gray-0); color: var(--bcn-gray-1000); }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       AppShell — Beacon modern-layout frame (topbar + side-nav + content),
+       matching src/layouts/AppShell.astro. Fills the viewport under the
+       harness; the content region scrolls.
+       ═══════════════════════════════════════════════════════════════════ */
+    .modern-layout { height: 100vh; padding-top: 44px; display: flex; flex-direction: column; }
+
+    /* topbar */
+    .topbar {
+      height: 52px;
+      flex-shrink: 0;
+      background: var(--bcn-gray-100);
+      border-bottom: 1px solid var(--bcn-gray-300);
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      padding: 0 var(--spacing-400);
+      gap: var(--spacing-400);
+    }
+    .topbar__left { display: flex; align-items: center; gap: var(--spacing-200); }
+    .topbar__center { display: flex; justify-content: center; min-width: 0; }
+    .topbar__right { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-150); }
+
+    .icon-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 32px; height: 32px; border-radius: var(--radius-050);
+      color: var(--color-text-secondary);
+    }
+    .icon-btn:hover { background: var(--bcn-gray-200); color: var(--color-primary); }
+    .tenant-trigger {
+      display: inline-flex; align-items: center; gap: var(--spacing-100);
+      padding: var(--spacing-100) var(--spacing-200);
+      font-size: var(--type-size-150); font-weight: var(--font-weight-semibold);
+      color: var(--bcn-gray-900); border-radius: var(--radius-050);
+    }
+    .tenant-trigger:hover { background: var(--bcn-gray-200); }
+    .search-trigger {
+      display: flex; align-items: center; gap: var(--spacing-200);
+      width: min(420px, 100%); height: 34px;
+      padding: 0 var(--spacing-300);
+      background: var(--color-surface);
+      border: 1px solid var(--bcn-gray-200);
+      border-radius: var(--radius-200);
+      color: var(--color-text-muted);
+      font-size: var(--type-size-150);
+    }
+    .qa-warning {
+      display: inline-flex; align-items: center; gap: var(--spacing-100);
+      padding: var(--spacing-050) var(--spacing-200);
+      font-size: var(--type-size-100); font-weight: 600;
+      background: var(--color-accent); color: var(--color-surface);
+      border-radius: var(--radius-100); white-space: nowrap;
+    }
+    .avatar {
+      width: 32px; height: 32px; border-radius: var(--radius-full);
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--bcn-gray-200); color: var(--bcn-gray-500);
+      border: 2px solid var(--bcn-gray-200);
+    }
+
+    /* body: side-nav + content */
+    .layout-body { flex: 1; display: flex; overflow: hidden; }
+
+    .side-nav {
+      width: 260px; flex-shrink: 0;
+      background: var(--bcn-gray-50);
+      border-right: 1px solid var(--bcn-gray-200);
+      display: flex; flex-direction: column;
+      overflow-y: auto;
+      padding: var(--spacing-300) 0;
+    }
+    .side-nav__brand {
+      display: flex; align-items: center; gap: var(--spacing-200);
+      padding: var(--spacing-100) var(--spacing-400) var(--spacing-300);
+      font-family: var(--font-decorative);
+      font-weight: var(--font-weight-bold);
+      font-size: var(--type-size-400);
+      color: var(--bcn-teal-900);
+    }
+    .project-switcher {
+      margin: 0 var(--spacing-400) var(--spacing-300);
+      display: flex; align-items: center; gap: var(--spacing-200);
+      padding: var(--spacing-200) var(--spacing-300);
+      background: var(--color-surface);
+      border: 1px solid var(--bcn-gray-200);
+      border-radius: var(--radius-200);
+      font-size: var(--type-size-150); font-weight: var(--font-weight-medium);
+      color: var(--bcn-gray-950);
+    }
+    .project-switcher svg:first-child { color: var(--bcn-gray-500); flex-shrink: 0; }
+    .project-switcher span { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .project-switcher svg:last-child { color: var(--bcn-gray-400); flex-shrink: 0; }
+
+    .nav { padding: 0 var(--spacing-300); display: flex; flex-direction: column; gap: var(--spacing-050); }
+    .nav__section { display: flex; flex-direction: column; }
+    .nav__header {
+      display: flex; align-items: center; gap: var(--spacing-300);
+      padding: var(--spacing-250) var(--spacing-200);
+      color: var(--bcn-gray-950);
+      font-size: var(--type-size-200); font-weight: var(--font-weight-semibold);
+      border-radius: var(--radius-050);
+    }
+    .nav__header:hover { background: rgba(0,0,0,0.04); }
+    .nav__header > svg:first-child { color: var(--bcn-gray-950); flex-shrink: 0; }
+    .nav__header > svg:last-child { color: var(--bcn-gray-400); flex-shrink: 0; margin-left: auto; transition: transform 150ms ease; }
+    .nav__section--collapsed .nav__header > svg:last-child { transform: rotate(-90deg); }
+    .nav__section--collapsed .nav__items { display: none; }
+    .nav__title { flex: 1; }
+    .nav__items { display: flex; flex-direction: column; }
+    .nav__link {
+      display: block; padding: var(--spacing-200) var(--spacing-200) var(--spacing-200) 2.5rem;
+      color: var(--bcn-gray-950); font-size: var(--type-size-150);
+      border-radius: var(--radius-050); line-height: 1.3;
+    }
+    .nav__link:hover { background: rgba(0,0,0,0.04); }
+    .nav__link.active { background: rgba(0,0,0,0.05); color: var(--color-primary); font-weight: var(--font-weight-semibold); }
+    .nav__divider { height: 1px; margin: var(--spacing-200) var(--spacing-200); background: var(--bcn-gray-200); }
+
+    .content { flex: 1; overflow-y: auto; min-width: 0; background: var(--bcn-gray-50); }
+
+    /* ═══ PageLayout (page chrome inside the shell) ═══ */
+    .page { padding: var(--spacing-600); min-height: 100%; box-sizing: border-box; }
+    .breadcrumbs { display: flex; align-items: center; gap: var(--spacing-100); flex-wrap: wrap; padding-bottom: var(--spacing-400); }
+    .breadcrumbs svg { color: var(--bcn-gray-400); flex-shrink: 0; }
+    .breadcrumbs a, .breadcrumbs span { color: var(--bcn-gray-600); font-size: var(--type-size-150); }
+    .breadcrumbs a:hover { text-decoration: underline; }
+    .breadcrumbs [aria-current="page"] { color: var(--bcn-gray-900); }
+
+    .page__title {
+      display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-400);
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--bcn-gray-200);
+      padding: var(--spacing-300) 0 var(--spacing-500);
+    }
+    .page__title-main { display: flex; align-items: center; gap: var(--spacing-250); min-width: 0; }
+    .page__title h1 {
+      display: flex; align-items: center; gap: var(--spacing-250);
+      font-family: var(--font-decorative); font-weight: var(--font-weight-bold);
+      font-size: var(--type-size-500); color: var(--bcn-gray-1000); margin: 0;
+    }
+    .page__title h1 svg { color: var(--bcn-gray-1000); flex-shrink: 0; }
+    .page__utilities { display: flex; align-items: center; gap: var(--spacing-200); }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: var(--spacing-150);
+      height: 36px; padding: 0 var(--spacing-400);
+      border-radius: var(--radius-100);
+      font-size: var(--type-size-150); font-weight: var(--font-weight-semibold);
+      white-space: nowrap;
+    }
+    .btn--primary { background: var(--color-primary); color: var(--color-text-inverse); }
+    .btn--primary:hover { background: var(--color-primary-hover); }
+    .btn--outline { background: var(--color-surface); color: var(--color-primary); border: 1px solid var(--color-primary-border); }
+    .btn--outline:hover { background: var(--color-primary-subtle); }
+
+    .page__body { padding-top: var(--spacing-500); display: flex; flex-direction: column; gap: var(--spacing-500); }
+
+    /* ═══ Status chip (BcnStatusChip idiom — value-driven via --st-*) ═══ */
+    .status-chip {
+      display: inline-flex; align-items: center; gap: var(--spacing-150);
+      padding: 2px var(--spacing-250);
+      border-radius: var(--radius-full);
+      font-size: var(--type-size-100); font-weight: var(--font-weight-semibold);
+      white-space: nowrap;
+      background: color-mix(in srgb, var(--_chip) 16%, transparent);
+      color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+    }
+    .status-chip__dot { width: 8px; height: 8px; border-radius: var(--radius-full); background: var(--_chip); flex-shrink: 0; }
+
+    /* ═══ Quiet count badge (4px radius, light-gray border) ═══ */
+    .count {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 22px; height: 22px; padding: 0 var(--spacing-150);
+      font-size: var(--type-size-100); font-weight: var(--font-weight-semibold);
+      color: var(--color-text-secondary);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-100);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       Summary band — component counts by status + a needs-attention lane.
+       Big card (status breakdown) beside a compact attention card.
+       ═══════════════════════════════════════════════════════════════════ */
+    .summary { display: grid; grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr); gap: var(--spacing-500); align-items: stretch; }
+    @media (max-width: 860px) { .summary { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-300);
+      overflow: hidden;
+    }
+    .card__head {
+      display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300);
+      padding: var(--spacing-400) var(--spacing-500);
+      border-bottom: 1px solid var(--color-border-light);
+      min-height: 56px;
+    }
+    .card__title { font-size: var(--type-size-250); font-weight: 600; color: var(--color-text-primary); }
+    .card__body { padding: var(--spacing-500); }
+
+    .stat { display: flex; flex-direction: column; gap: var(--spacing-050); }
+    .stat__value {
+      font-family: var(--font-display); font-size: var(--type-size-700);
+      font-weight: var(--font-weight-bold); line-height: var(--line-height-tight);
+      letter-spacing: var(--letter-spacing-tight); color: var(--color-text-primary);
+      font-variant-numeric: tabular-nums;
+    }
+    .stat__value--danger { color: var(--color-danger-strong); }
+    .stat__label { font-size: var(--type-size-200); font-weight: var(--font-weight-medium); color: var(--color-text-secondary); }
+
+    .summary__main { display: flex; flex-direction: column; gap: var(--spacing-400); }
+    .summary__top { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--spacing-500); flex-wrap: wrap; }
+
+    /* stacked status breakdown bar */
+    .breakdown { height: 14px; border-radius: var(--radius-full); overflow: hidden; display: flex; background: var(--color-surface-sunken); }
+    .breakdown__seg { height: 100%; background: var(--_c); }
+    .legend { display: flex; flex-wrap: wrap; gap: var(--spacing-200) var(--spacing-500); }
+    .legend__item { display: flex; align-items: center; gap: var(--spacing-200); font-size: var(--type-size-150); color: var(--color-text-secondary); }
+    .legend__dot { width: 10px; height: 10px; border-radius: var(--radius-full); background: var(--_c); flex-shrink: 0; }
+    .legend__count { font-weight: var(--font-weight-semibold); color: var(--color-text-primary); font-variant-numeric: tabular-nums; }
+
+    /* attention lane */
+    .attention__list { display: flex; flex-direction: column; gap: var(--spacing-200); margin-top: var(--spacing-400); padding-top: var(--spacing-400); border-top: 1px solid var(--color-border-light); }
+    .attention__row { display: flex; align-items: center; gap: var(--spacing-200); justify-content: space-between; }
+    .attention__name { font-size: var(--type-size-150); color: var(--color-text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .attention__flag {
+      display: inline-flex; align-items: center; gap: var(--spacing-100);
+      padding: 1px var(--spacing-200); border-radius: var(--radius-100);
+      font-size: var(--type-size-100); font-weight: var(--font-weight-semibold);
+      color: var(--color-danger-strong);
+      background: color-mix(in srgb, var(--color-danger) 12%, white);
+      border: 1px solid color-mix(in srgb, var(--color-danger) 26%, white);
+      white-space: nowrap; flex-shrink: 0;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════
+       Section header (list toolbar) + component grid
+       ═══════════════════════════════════════════════════════════════════ */
+    .section-bar { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-400); flex-wrap: wrap; }
+    .section-bar__title { display: flex; align-items: center; gap: var(--spacing-250); }
+    .section-bar__title h2 {
+      font-family: var(--font-decorative); font-weight: var(--font-weight-bold);
+      font-size: var(--type-size-400); color: var(--color-text-primary); margin: 0;
+    }
+    .section-bar__controls { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; }
+    .filter {
+      display: inline-flex; align-items: center; gap: var(--spacing-200);
+      height: 34px; padding: 0 var(--spacing-300);
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      border-radius: var(--radius-100); font-size: var(--type-size-150);
+      color: var(--color-text-secondary);
+    }
+    .filter svg { color: var(--color-text-muted); }
+
+    .cmp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr)); gap: var(--spacing-400); }
+    @media (max-width: 700px) { .cmp-grid { grid-template-columns: 1fr; } }
+
+    /* ── component card ── */
+    .cmp {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-300);
+      padding: var(--spacing-400) var(--spacing-500);
+      display: flex; flex-direction: column; gap: var(--spacing-300);
+    }
+    .cmp:hover { border-color: var(--color-border-strong); box-shadow: var(--shadow-50); }
+    .cmp--attention { border-color: color-mix(in srgb, var(--color-danger) 35%, var(--color-border)); }
+
+    .cmp__head { display: flex; align-items: flex-start; gap: var(--spacing-300); }
+    .cmp__icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px; flex-shrink: 0;
+      border-radius: var(--radius-200);
+      background: var(--color-primary-subtle); color: var(--color-primary);
+    }
+    .cmp__ident { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 2px; }
+    .cmp__name {
+      font-size: var(--type-size-300); font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary); line-height: var(--line-height-tight);
+    }
+    .cmp__type { font-size: var(--type-size-100); color: var(--color-text-tertiary); }
+    .cmp__head-right { display: flex; align-items: center; gap: var(--spacing-200); flex-shrink: 0; }
+    .cmp__del {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 30px; height: 30px; border-radius: var(--radius-100);
+      color: var(--color-text-muted);
+    }
+    .cmp__del:hover { background: var(--color-danger-subtle); color: var(--color-danger); }
+
+    .cmp__flags { display: flex; flex-wrap: wrap; gap: var(--spacing-150); }
+    .flag-attention {
+      display: inline-flex; align-items: center; gap: var(--spacing-100);
+      padding: 1px var(--spacing-200); border-radius: var(--radius-100);
+      font-size: var(--type-size-100); font-weight: var(--font-weight-semibold);
+      color: var(--color-danger-strong);
+      background: color-mix(in srgb, var(--color-danger) 12%, white);
+      border: 1px solid color-mix(in srgb, var(--color-danger) 26%, white);
+    }
+
+    .cmp__desc {
+      font-size: var(--type-size-150); color: var(--color-text-secondary);
+      line-height: var(--line-height-normal);
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+
+    /* rollups: progress column + metric column */
+    .cmp__rollups {
+      display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: var(--spacing-400) var(--spacing-500);
+      padding-top: var(--spacing-300);
+      border-top: 1px solid var(--color-border-light);
+    }
+    @media (max-width: 520px) { .cmp__rollups { grid-template-columns: 1fr; } }
+
+    .prog { display: flex; flex-direction: column; gap: var(--spacing-300); }
+    .prog__row { display: flex; flex-direction: column; gap: var(--spacing-150); }
+    .prog__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--spacing-200); }
+    .prog__label { font-size: var(--type-size-150); font-weight: var(--font-weight-medium); color: var(--color-text-secondary); }
+    .prog__val { font-size: var(--type-size-150); color: var(--color-text-tertiary); font-variant-numeric: tabular-nums; }
+    .prog__val b { color: var(--color-text-primary); font-weight: var(--font-weight-semibold); }
+    .track { height: 8px; border-radius: var(--radius-full); background: var(--color-surface-sunken); overflow: hidden; }
+    .track__fill { height: 100%; border-radius: var(--radius-full); background: var(--color-primary); }
+    .track__fill--success { background: var(--color-success); }
+
+    .metrics { display: flex; flex-direction: column; gap: var(--spacing-250); }
+    .metric { display: flex; align-items: center; gap: var(--spacing-250); }
+    .metric__icon { color: var(--color-text-muted); flex-shrink: 0; }
+    .metric__body { display: flex; flex-direction: column; min-width: 0; }
+    .metric__label { font-size: var(--type-size-100); color: var(--color-text-tertiary); }
+    .metric__val { font-size: var(--type-size-200); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); display: flex; align-items: center; gap: var(--spacing-150); }
+    .metric__val--muted { color: var(--color-text-muted); font-weight: var(--font-weight-regular); }
+    .overdue-pill {
+      font-size: var(--type-size-100); font-weight: var(--font-weight-semibold);
+      color: var(--color-danger-strong);
+      background: color-mix(in srgb, var(--color-danger) 12%, white);
+      border: 1px solid color-mix(in srgb, var(--color-danger) 26%, white);
+      border-radius: var(--radius-100); padding: 0 var(--spacing-150);
+    }
+
+    .cmp__foot { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-300); padding-top: var(--spacing-200); }
+    .cmp__open {
+      display: inline-flex; align-items: center; gap: var(--spacing-100);
+      font-size: var(--type-size-150); font-weight: var(--font-weight-semibold);
+      color: var(--color-primary);
+    }
+    .cmp__open:hover { color: var(--color-primary-hover); }
+    .cmp__updated { font-size: var(--type-size-050); color: var(--color-text-muted); }
+
+    /* inline delete confirm */
+    .cmp__confirm {
+      display: none; align-items: center; justify-content: space-between; gap: var(--spacing-300);
+      padding: var(--spacing-250) var(--spacing-300);
+      background: var(--color-danger-subtle);
+      border: 1px solid color-mix(in srgb, var(--color-danger) 28%, white);
+      border-radius: var(--radius-100);
+      font-size: var(--type-size-150); color: var(--color-danger-strong);
+    }
+    .cmp[data-confirm="true"] .cmp__confirm { display: flex; }
+    .cmp__confirm-actions { display: flex; gap: var(--spacing-200); }
+    .cmp__confirm button { font-size: var(--type-size-150); font-weight: var(--font-weight-semibold); padding: var(--spacing-100) var(--spacing-300); border-radius: var(--radius-100); }
+    .cmp__confirm .cancel { color: var(--color-text-secondary); border: 1px solid var(--color-border); background: var(--color-surface); }
+    .cmp__confirm .delete { color: var(--color-text-inverse); background: var(--color-danger); }
+
+    /* ═══ Empty state ═══ */
+    .empty {
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      gap: var(--spacing-300);
+      padding: var(--spacing-800) var(--spacing-500);
+      background: var(--color-surface);
+      border: 1px dashed var(--color-border-strong);
+      border-radius: var(--radius-300);
+    }
+    .empty__icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 64px; height: 64px; border-radius: var(--radius-full);
+      background: var(--color-primary-subtle); color: var(--color-primary);
+    }
+    .empty__title { font-family: var(--font-decorative); font-weight: var(--font-weight-bold); font-size: var(--type-size-500); color: var(--color-text-primary); }
+    .empty__text { font-size: var(--type-size-200); color: var(--color-text-secondary); max-width: 42ch; line-height: var(--line-height-normal); }
+    .empty__actions { display: flex; gap: var(--spacing-300); margin-top: var(--spacing-200); }
+
+    [hidden] { display: none !important; }
+  </style>
+</head>
+
+<body>
+  <!-- ═══ Specimen harness (scaffolding) ═══ -->
+  <div class="harness">
+    <span class="harness__label">Component Dashboard <span>· Delta Conveyance (DWR)</span></span>
+    <div class="harness__seg" role="group" aria-label="Dashboard state">
+      <button class="harness__btn" data-state="populated" aria-pressed="true">Populated</button>
+      <button class="harness__btn" data-state="empty" aria-pressed="false">Empty (first run)</button>
+      <button class="harness__btn" data-state="dense" aria-pressed="false">Dense (stress test)</button>
+    </div>
+  </div>
+
+  <!-- ═══ AppShell ═══ -->
+  <div class="modern-layout">
+    <!-- topbar -->
+    <header class="topbar">
+      <div class="topbar__left">
+        <button class="icon-btn" aria-label="Collapse sidebar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg>
+        </button>
+        <button class="tenant-trigger">
+          <span>DWR</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+      </div>
+      <div class="topbar__center">
+        <div class="search-trigger">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <span>Search Delta Conveyance…</span>
+        </div>
+      </div>
+      <div class="topbar__right">
+        <span class="qa-warning">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+          QA
+        </span>
+        <button class="icon-btn" aria-label="Settings">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+        </button>
+        <span class="avatar" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20a6 6 0 0 0-12 0"/><circle cx="12" cy="10" r="4"/><circle cx="12" cy="12" r="10"/></svg>
+        </span>
+      </div>
+    </header>
+
+    <div class="layout-body">
+      <!-- side-nav -->
+      <nav class="side-nav" aria-label="Primary">
+        <div class="side-nav__brand">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 22c1.25-.987 2.27-1.975 3.9-2.2a5.56 5.56 0 0 1 3.8.7c1.9.9 3.9 1.4 5.8.7 1.6-.5 3-1.7 4-3.2"/><path d="M2 17c1.25-.987 2.27-1.975 3.9-2.2a5.56 5.56 0 0 1 3.8.7c1.9.9 3.9 1.4 5.8.7 1.6-.5 3-1.7 4-3.2"/><path d="M2 12c1.25-.987 2.27-1.975 3.9-2.2a5.56 5.56 0 0 1 3.8.7c1.9.9 3.9 1.4 5.8.7 1.6-.5 3-1.7 4-3.2"/></svg>
+          Beacon
+        </div>
+        <div class="project-switcher">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 12-8.373 8.373a1 1 0 1 1-3-3L12 9"/><path d="m18 15 4-4"/><path d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172V7l-2.26-2.26a6 6 0 0 0-4.202-1.756L9 2.96l.92.82A6.18 6.18 0 0 1 12 8.4V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"/></svg>
+          <span>Delta Conveyance</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+
+        <div class="nav">
+          <div class="nav__section nav__section--collapsed">
+            <a class="nav__header" href="#project">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+              <span class="nav__title">Project</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </a>
+            <div class="nav__items">
+              <a class="nav__link" href="#dashboard">Dashboard</a>
+              <a class="nav__link" href="#commitments">Commitments</a>
+              <a class="nav__link" href="#requirements">Requirements</a>
+              <a class="nav__link" href="#actions">Organize Actions</a>
+            </div>
+          </div>
+
+          <div class="nav__section">
+            <button class="nav__header" aria-expanded="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"/><path d="M4 6h.01"/><path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"/><path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"/><path d="M12 18h.01"/><path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"/><circle cx="12" cy="12" r="2"/><path d="m13.41 10.59 5.66-5.66"/></svg>
+              <span class="nav__title">Tracking</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="nav__items">
+              <a class="nav__link" href="#tracking-summary">Tracking Summary</a>
+              <a class="nav__link" href="#project-tracking">Project Tracking</a>
+              <a class="nav__link" href="#permit-tracking">Permit Tracking</a>
+              <a class="nav__link active" href="#all-components" aria-current="page">All Components</a>
+            </div>
+          </div>
+
+          <div class="nav__section nav__section--collapsed">
+            <button class="nav__header" aria-expanded="false">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"/><circle cx="12" cy="8" r="2"/><path d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"/></svg>
+              <span class="nav__title">Monitoring</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="nav__items">
+              <a class="nav__link" href="#monitoring-dashboard">Dashboard</a>
+              <a class="nav__link" href="#all-observations">All Observations</a>
+            </div>
+          </div>
+
+          <div class="nav__divider"></div>
+
+          <div class="nav__section nav__section--collapsed">
+            <button class="nav__header" aria-expanded="false">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg>
+              <span class="nav__title">Reporting</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </button>
+            <div class="nav__items">
+              <a class="nav__link" href="#progress-report">Progress Report</a>
+              <a class="nav__link" href="#report-center">Report Center</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!-- content -->
+      <main class="content">
+        <div class="page">
+          <!-- breadcrumbs -->
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            <a href="#project">Delta Conveyance</a>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            <a href="#tracking">Tracking</a>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            <span aria-current="page">All Components</span>
+          </nav>
+
+          <!-- page title -->
+          <section class="page__title">
+            <div class="page__title-main">
+              <h1>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M3.29 7 12 12l8.71-5"/><path d="M12 22V12"/></svg>
+                Components
+              </h1>
+            </div>
+            <div class="page__utilities" data-hide-when="empty">
+              <button class="btn btn--outline">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16"/><path d="M4 18h16"/><path d="M4 6h16"/></svg>
+                Table view
+              </button>
+              <button class="btn btn--primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                New component
+              </button>
+            </div>
+          </section>
+
+          <!--
+            manifest — section → framework component (Ecology → Beacon → bcn-*):
+              page frame          -> AppShell + PageLayout
+              summary band        -> esa-card + esa-stat + bespoke breakdown bar (BcnMonitoringStats idiom)
+              needs-attention lane -> esa-card + esa-stat + mini-list (Outstanding Issues idiom)
+              list toolbar        -> esa-filter-pills / esa-button-toggle (group + filter)
+              component unit       -> esa-card + BcnStatusChip + esa-progress-bar + BcnKeyValue metrics
+              delete affordance    -> esa-icon-button -> esa-confirm-dialog (BCN drafts; hosted, not respecified)
+              empty state          -> esa-empty-state
+          -->
+
+          <!-- ═══════════════════════════════════════════════════════════
+               STATE A — populated project
+               ═══════════════════════════════════════════════════════════ -->
+          <div class="page__body" data-state-panel="populated">
+
+            <!-- summary band -->
+            <section class="summary" aria-label="Component status summary">
+              <div class="card">
+                <div class="card__head"><span class="card__title">Component status</span><span class="count">7 total</span></div>
+                <div class="card__body summary__main">
+                  <div class="summary__top">
+                    <div class="stat">
+                      <span class="stat__value">7</span>
+                      <span class="stat__label">Components tracked</span>
+                    </div>
+                  </div>
+                  <div class="breakdown" role="img" aria-label="2 not started, 3 in progress, 1 on hold, 1 complete">
+                    <div class="breakdown__seg" style="--_c: var(--st-not-started); width: 28.6%"></div>
+                    <div class="breakdown__seg" style="--_c: var(--st-in-progress); width: 42.8%"></div>
+                    <div class="breakdown__seg" style="--_c: var(--st-on-hold); width: 14.3%"></div>
+                    <div class="breakdown__seg" style="--_c: var(--st-complete); width: 14.3%"></div>
+                  </div>
+                  <div class="legend">
+                    <span class="legend__item"><span class="legend__dot" style="--_c: var(--st-not-started)"></span>Not started <span class="legend__count">2</span></span>
+                    <span class="legend__item"><span class="legend__dot" style="--_c: var(--st-in-progress)"></span>In progress <span class="legend__count">3</span></span>
+                    <span class="legend__item"><span class="legend__dot" style="--_c: var(--st-on-hold)"></span>On hold <span class="legend__count">1</span></span>
+                    <span class="legend__item"><span class="legend__dot" style="--_c: var(--st-complete)"></span>Complete <span class="legend__count">1</span></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card__head"><span class="card__title">Needs attention</span></div>
+                <div class="card__body">
+                  <div class="stat">
+                    <span class="stat__value stat__value--danger">3</span>
+                    <span class="stat__label">Components with overdue actions</span>
+                  </div>
+                  <div class="attention__list">
+                    <div class="attention__row"><span class="attention__name">Southern Forebay &amp; Pumping Plant</span><span class="attention__flag">3 overdue</span></div>
+                    <div class="attention__row"><span class="attention__name">Intake B — North Delta</span><span class="attention__flag">2 overdue</span></div>
+                    <div class="attention__row"><span class="attention__name">Twin Cities Complex</span><span class="attention__flag">1 overdue</span></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- list toolbar -->
+            <div class="section-bar">
+              <div class="section-bar__title">
+                <h2>All components</h2>
+                <span class="count">7</span>
+              </div>
+              <div class="section-bar__controls">
+                <span class="filter">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                  All statuses
+                </span>
+                <span class="filter">
+                  Sort: Needs attention
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </span>
+              </div>
+            </div>
+
+            <!-- component grid -->
+            <div class="cmp-grid">
+              <!-- populated cards injected by the render script -->
+            </div>
+          </div>
+
+          <!-- ═══════════════════════════════════════════════════════════
+               STATE B — empty (first run)
+               ═══════════════════════════════════════════════════════════ -->
+          <div class="page__body" data-state-panel="empty" hidden>
+            <section class="empty">
+              <span class="empty__icon">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M3.29 7 12 12l8.71-5"/><path d="M12 22V12"/></svg>
+              </span>
+              <h2 class="empty__title">No components yet</h2>
+              <p class="empty__text">
+                Components are the pieces of Delta Conveyance you track compliance against — intakes, shafts, forebays, staging areas. Add the first one to start rolling up its requirements, actions, and monitoring activity here.
+              </p>
+              <div class="empty__actions">
+                <button class="btn btn--primary">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                  Add first component
+                </button>
+                <button class="btn btn--outline">Import from source documents</button>
+              </div>
+            </section>
+          </div>
+
+          <!-- ═══════════════════════════════════════════════════════════
+               STATE C — dense (stress test)
+               ═══════════════════════════════════════════════════════════ -->
+          <div class="page__body" data-state-panel="dense" hidden>
+
+            <section class="summary" aria-label="Component status summary">
+              <div class="card">
+                <div class="card__head"><span class="card__title">Component status</span><span class="count">16 total</span></div>
+                <div class="card__body summary__main">
+                  <div class="summary__top">
+                    <div class="stat">
+                      <span class="stat__value">16</span>
+                      <span class="stat__label">Components tracked</span>
+                    </div>
+                  </div>
+                  <div class="breakdown" role="img" aria-label="4 not started, 7 in progress, 2 on hold, 3 complete">
+                    <div class="breakdown__seg" style="--_c: var(--st-not-started); width: 25%"></div>
+                    <div class="breakdown__seg" style="--_c: var(--st-in-progress); width: 43.75%"></div>
+                    <div class="breakdown__seg" style="--_c: var(--st-on-hold); width: 12.5%"></div>
+                    <div class="breakdown__seg" style="--_c: var(--st-complete); width: 18.75%"></div>
+                  </div>
+                  <div class="legend">
+                    <span class="legend__item"><span class="legend__dot" style="--_c: var(--st-not-started)"></span>Not started <span class="legend__count">4</span></span>
+                    <span class="legend__item"><span class="legend__dot" style="--_c: var(--st-in-progress)"></span>In progress <span class="legend__count">7</span></span>
+                    <span class="legend__item"><span class="legend__dot" style="--_c: var(--st-on-hold)"></span>On hold <span class="legend__count">2</span></span>
+                    <span class="legend__item"><span class="legend__dot" style="--_c: var(--st-complete)"></span>Complete <span class="legend__count">3</span></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card__head"><span class="card__title">Needs attention</span></div>
+                <div class="card__body">
+                  <div class="stat">
+                    <span class="stat__value stat__value--danger">5</span>
+                    <span class="stat__label">Components with overdue actions</span>
+                  </div>
+                  <div class="attention__list">
+                    <div class="attention__row"><span class="attention__name">Southern Tunnel Reach — King Island to Bethany Transition</span><span class="attention__flag">6 overdue</span></div>
+                    <div class="attention__row"><span class="attention__name">Southern Forebay &amp; Pumping Plant</span><span class="attention__flag">3 overdue</span></div>
+                    <div class="attention__row"><span class="attention__name">Intake B — North Delta</span><span class="attention__flag">2 overdue</span></div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <div class="section-bar">
+              <div class="section-bar__title">
+                <h2>All components</h2>
+                <span class="count">16</span>
+              </div>
+              <div class="section-bar__controls">
+                <span class="filter">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                  All statuses
+                </span>
+                <span class="filter">
+                  Sort: Needs attention
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                </span>
+              </div>
+            </div>
+
+            <div class="cmp-grid">
+              <!-- dense cards injected by the render script -->
+            </div>
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      // ── Status vocabulary (label + --st-* key) ──
+      var STATUS = {
+        'not-started': { key: 'not-started', label: 'Not started' },
+        'in-progress': { key: 'in-progress', label: 'In progress' },
+        'on-hold':     { key: 'on-hold',     label: 'On hold' },
+        'complete':    { key: 'complete',    label: 'Complete' }
+      };
+
+      // ── Fixture: populated project (DCP-shaped components) ──
+      var POPULATED = [
+        {
+          name: 'Southern Forebay & Pumping Plant', type: 'Forebay · Byron Tract', status: 'in-progress',
+          desc: 'Regulating forebay and pumping plant at the southern terminus of the conveyance tunnel, feeding Bethany Reservoir.',
+          req: [11, 14], act: [22, 30], open: 6, overdue: 3, workAreas: 7, monLast: 'Jul 2', mon30: 11, updated: '2 days ago'
+        },
+        {
+          name: 'Intake B — North Delta', type: 'Screened intake · Sacramento River', status: 'in-progress',
+          desc: 'Two-bay cylindrical-tee screened intake on the Sacramento River near Hood, with fish-screen and sediment facilities.',
+          req: [8, 12], act: [15, 28], open: 9, overdue: 2, workAreas: 5, monLast: 'Jun 28', mon30: 6, updated: '4 days ago'
+        },
+        {
+          name: 'Twin Cities Complex', type: 'Tunnel shaft · Staging', status: 'on-hold',
+          desc: 'Maintenance shaft and reusable tunnel material staging complex; work paused pending revised haul-route agreement.',
+          req: [4, 10], act: [7, 18], open: 5, overdue: 1, workAreas: 3, monLast: 'Jun 12', mon30: 2, updated: '3 weeks ago'
+        },
+        {
+          name: 'Intake C — North Delta', type: 'Screened intake · Sacramento River', status: 'in-progress',
+          desc: 'Third North Delta diversion intake, sited downstream of Intake B; screens under fabrication.',
+          req: [6, 12], act: [10, 26], open: 12, overdue: 0, workAreas: 5, monLast: 'Jun 30', mon30: 8, updated: '5 days ago'
+        },
+        {
+          name: 'Bouldin Island Launch Shaft', type: 'Tunnel launch shaft', status: 'complete',
+          desc: 'Tunnel boring machine launch shaft on Bouldin Island; construction complete, in post-construction monitoring.',
+          req: [9, 9], act: [20, 20], open: 0, overdue: 0, workAreas: 4, monLast: 'Jul 1', mon30: 4, updated: '1 week ago'
+        },
+        {
+          name: 'Bethany Reservoir Aqueduct', type: 'Aqueduct · Alameda County', status: 'not-started',
+          desc: 'Aqueduct connecting the Southern Complex to Bethany Reservoir; requirements imported, field work not yet begun.',
+          req: [0, 9], act: [0, 14], open: 0, overdue: 0, workAreas: 2, monLast: null, mon30: 0, updated: '2 weeks ago'
+        },
+        {
+          name: 'Byron Tract Forebay', type: 'Forebay · Contra Costa County', status: 'not-started',
+          desc: 'Secondary forebay component; scoping in progress, no active requirements or monitoring yet.',
+          req: [0, 7], act: [0, 11], open: 0, overdue: 0, workAreas: 1, monLast: null, mon30: 0, updated: '1 month ago'
+        }
+      ];
+
+      // ── Fixture: dense / stress test (long names, more rows) ──
+      var DENSE = POPULATED.concat([
+        {
+          name: 'Southern Tunnel Reach — King Island to Bethany Complex Launch Shaft Transition Zone', type: 'Tunnel reach · San Joaquin County', status: 'in-progress',
+          desc: 'Long-bore tunnel reach transitioning from the King Island intermediate shaft to the Bethany Complex launch shaft, crossing multiple leveed islands and sensitive habitat corridors.',
+          req: [13, 24], act: [31, 58], open: 19, overdue: 6, workAreas: 12, monLast: 'Jul 3', mon30: 22, updated: '1 day ago'
+        },
+        {
+          name: 'Union Island Reusable Tunnel Material Storage & Rehandling Area', type: 'Staging · Reusable tunnel material', status: 'in-progress',
+          desc: 'Temporary storage and rehandling area for reusable tunnel material excavated along the southern reaches.',
+          req: [5, 11], act: [9, 21], open: 8, overdue: 0, workAreas: 6, monLast: 'Jun 26', mon30: 5, updated: '6 days ago'
+        },
+        {
+          name: 'Lower Roberts Island Maintenance Shaft & Ventilation Structure', type: 'Tunnel shaft · San Joaquin County', status: 'in-progress',
+          desc: 'Permanent maintenance and ventilation shaft on Lower Roberts Island with associated access road improvements.',
+          req: [7, 15], act: [12, 27], open: 10, overdue: 0, workAreas: 8, monLast: 'Jun 29', mon30: 9, updated: '3 days ago'
+        },
+        {
+          name: 'Rio Vista Field Office & Environmental Staging Yard', type: 'Field office · Solano County', status: 'complete',
+          desc: 'Compliance field office and environmental staging yard supporting the northern reaches.',
+          req: [6, 6], act: [14, 14], open: 0, overdue: 0, workAreas: 2, monLast: 'Jun 20', mon30: 1, updated: '2 weeks ago'
+        },
+        {
+          name: 'Central Tunnel Reach', type: 'Tunnel reach · Sacramento County', status: 'on-hold',
+          desc: 'Central segment of the main conveyance tunnel; geotechnical re-evaluation underway before mobilization.',
+          req: [3, 18], act: [4, 33], open: 4, overdue: 0, workAreas: 9, monLast: 'May 30', mon30: 0, updated: '5 weeks ago'
+        },
+        {
+          name: 'Turner Cut Barge Landing', type: 'Barge landing · Waterway access', status: 'not-started',
+          desc: 'Temporary barge landing for waterborne material delivery; permitting in early stage.',
+          req: [0, 8], act: [0, 12], open: 0, overdue: 0, workAreas: 2, monLast: null, mon30: 0, updated: '3 weeks ago'
+        },
+        {
+          name: 'King Island Intermediate Shaft', type: 'Tunnel shaft · San Joaquin County', status: 'not-started',
+          desc: 'Intermediate tunnel shaft supporting the southern reaches; requirements loaded, field work pending.',
+          req: [0, 13], act: [0, 19], open: 0, overdue: 0, workAreas: 4, monLast: null, mon30: 0, updated: '2 weeks ago'
+        },
+        {
+          name: 'Bethany Reservoir Complex — Discharge Structure', type: 'Discharge structure · Alameda County', status: 'complete',
+          desc: 'Terminal discharge structure delivering conveyed water into Bethany Reservoir; construction complete.',
+          req: [11, 11], act: [26, 26], open: 0, overdue: 0, workAreas: 5, monLast: 'Jun 24', mon30: 3, updated: '10 days ago'
+        },
+        {
+          name: 'Mandeville Island Tunnel Material Reuse Site', type: 'Reuse site · San Joaquin County', status: 'in-progress',
+          desc: 'Placement and grading site for reusable tunnel material from the central reaches, with erosion-control monitoring.',
+          req: [4, 12], act: [8, 22], open: 7, overdue: 1, workAreas: 5, monLast: 'Jun 27', mon30: 4, updated: '4 days ago'
+        }
+      ]);
+
+      var ICON_PACKAGE = '<path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M3.29 7 12 12l8.71-5"/><path d="M12 22V12"/>';
+      var ICON_ACTIONS = '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>';
+      var ICON_LAYERS = '<path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/>';
+      var ICON_ACTIVITY = '<path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/>';
+      var ICON_TRASH = '<path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/>';
+      var ICON_ALERT = '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/>';
+      var ICON_CHEVRON = '<path d="m9 18 6-6-6-6"/>';
+
+      function svg(paths, size) {
+        return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' + paths + '</svg>';
+      }
+
+      function pct(pair) { return pair[1] === 0 ? 0 : Math.round((pair[0] / pair[1]) * 100); }
+
+      function renderCard(c) {
+        var st = STATUS[c.status];
+        var attention = c.overdue > 0;
+        var reqPct = pct(c.req);
+        var actPct = pct(c.act);
+        var reqDone = c.req[0] === c.req[1] && c.req[1] > 0;
+        var actDone = c.act[0] === c.act[1] && c.act[1] > 0;
+
+        var el = document.createElement('article');
+        el.className = 'cmp' + (attention ? ' cmp--attention' : '');
+        el.setAttribute('data-status', c.status);
+
+        var openMetricVal = c.open === 0
+          ? '<span class="metric__val metric__val--muted">None open</span>'
+          : '<span class="metric__val">' + c.open + (attention ? ' <span class="overdue-pill">' + c.overdue + ' overdue</span>' : '') + '</span>';
+
+        var monVal = c.monLast
+          ? '<span class="metric__val">' + c.monLast + ' <span style="font-weight:350;color:var(--color-text-muted);font-size:var(--type-size-050)">· ' + c.mon30 + ' in 30d</span></span>'
+          : '<span class="metric__val metric__val--muted">No activity yet</span>';
+
+        el.innerHTML =
+          '<div class="cmp__head">' +
+            '<span class="cmp__icon">' + svg(ICON_PACKAGE, 20) + '</span>' +
+            '<div class="cmp__ident">' +
+              '<span class="cmp__name">' + c.name + '</span>' +
+              '<span class="cmp__type">' + c.type + '</span>' +
+            '</div>' +
+            '<div class="cmp__head-right">' +
+              '<span class="status-chip" data-status="' + st.key + '" style="--_chip: var(--st-' + st.key + ')"><span class="status-chip__dot"></span>' + st.label + '</span>' +
+              '<button class="cmp__del" type="button" aria-label="Delete ' + c.name + '" data-action="ask-delete">' + svg(ICON_TRASH, 16) + '</button>' +
+            '</div>' +
+          '</div>' +
+          (attention ? '<div class="cmp__flags"><span class="flag-attention">' + svg(ICON_ALERT, 12) + c.overdue + ' overdue action' + (c.overdue > 1 ? 's' : '') + '</span></div>' : '') +
+          '<p class="cmp__desc">' + c.desc + '</p>' +
+          '<div class="cmp__rollups">' +
+            '<div class="prog">' +
+              '<div class="prog__row">' +
+                '<div class="prog__head"><span class="prog__label">Requirements</span><span class="prog__val"><b>' + c.req[0] + '</b> / ' + c.req[1] + ' met</span></div>' +
+                '<div class="track"><div class="track__fill' + (reqDone ? ' track__fill--success' : '') + '" style="width:' + reqPct + '%"></div></div>' +
+              '</div>' +
+              '<div class="prog__row">' +
+                '<div class="prog__head"><span class="prog__label">Actions</span><span class="prog__val"><b>' + c.act[0] + '</b> / ' + c.act[1] + ' complete</span></div>' +
+                '<div class="track"><div class="track__fill' + (actDone ? ' track__fill--success' : '') + '" style="width:' + actPct + '%"></div></div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="metrics">' +
+              '<div class="metric"><span class="metric__icon">' + svg(ICON_ACTIONS, 18) + '</span><span class="metric__body"><span class="metric__label">Open actions</span>' + openMetricVal + '</span></div>' +
+              '<div class="metric"><span class="metric__icon">' + svg(ICON_LAYERS, 18) + '</span><span class="metric__body"><span class="metric__label">Work areas</span><span class="metric__val">' + c.workAreas + '</span></span></div>' +
+              '<div class="metric"><span class="metric__icon">' + svg(ICON_ACTIVITY, 18) + '</span><span class="metric__body"><span class="metric__label">Recent monitoring</span>' + monVal + '</span></div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="cmp__foot">' +
+            '<a class="cmp__open" href="#component">Open component ' + svg(ICON_CHEVRON, 15) + '</a>' +
+            '<span class="cmp__updated">Updated ' + c.updated + '</span>' +
+          '</div>' +
+          '<div class="cmp__confirm">' +
+            '<span>Delete this component and its rollups?</span>' +
+            '<span class="cmp__confirm-actions">' +
+              '<button type="button" class="cancel" data-action="cancel-delete">Cancel</button>' +
+              '<button type="button" class="delete" data-action="confirm-delete">Delete</button>' +
+            '</span>' +
+          '</div>';
+
+        return el;
+      }
+
+      function renderGrid(panelName, data) {
+        var grid = document.querySelector('[data-state-panel="' + panelName + '"] .cmp-grid');
+        if (!grid) return;
+        grid.textContent = '';
+        data.forEach(function (c) { grid.appendChild(renderCard(c)); });
+      }
+
+      renderGrid('populated', POPULATED);
+      renderGrid('dense', DENSE);
+
+      // ── State switcher (harness) ──
+      var btns = document.querySelectorAll('.harness__btn');
+      var panels = document.querySelectorAll('[data-state-panel]');
+      var utilities = document.querySelector('[data-hide-when="empty"]');
+
+      function setState(name) {
+        panels.forEach(function (p) { p.hidden = p.getAttribute('data-state-panel') !== name; });
+        btns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-state') === name)); });
+        if (utilities) utilities.style.visibility = (name === 'empty') ? 'hidden' : 'visible';
+      }
+      btns.forEach(function (b) {
+        b.addEventListener('click', function () { setState(b.getAttribute('data-state')); });
+      });
+
+      // ── Delete affordance (hosted here; guarded inline confirm) ──
+      document.addEventListener('click', function (e) {
+        var t = e.target.closest ? e.target.closest('[data-action]') : null;
+        if (!t) return;
+        var card = t.closest('.cmp');
+        if (!card) return;
+        var action = t.getAttribute('data-action');
+        if (action === 'ask-delete') { card.setAttribute('data-confirm', 'true'); }
+        else if (action === 'cancel-delete') { card.removeAttribute('data-confirm'); }
+        else if (action === 'confirm-delete') {
+          card.style.transition = 'opacity 180ms ease';
+          card.style.opacity = '0';
+          setTimeout(function () { card.remove(); }, 190);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

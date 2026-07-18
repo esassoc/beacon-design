@@ -1,0 +1,80 @@
+---
+// <BcnComponentBoard> — the components list itself: a toolbar (title + count +
+// current sort) over a responsive grid of BcnComponentCard. The board owns the
+// grid geometry so the page stays a manifest; the cards carry the compliance detail.
+//
+// bcn-lego-checked: this is a section wrapper composing bcn-component-card into a
+// responsive card grid with a lightweight toolbar — no esa-* lego is a "card grid
+// with heading + count". Checked Beacon (the list is a bare AG Grid). The count is
+// the quiet 4px badge (design-principles standard, no esa-* outline-badge variant).
+// bcn-component-board is the reusable home; the cards inside it are the lego.
+import BcnComponentCard from './BcnComponentCard.astro';
+import { byNeedsAttention, type ProjectComponent } from '../../data/component-dashboard';
+
+interface Props {
+  components: ProjectComponent[];
+  title?: string;
+}
+const { components, title = 'All components' } = Astro.props;
+const ordered = byNeedsAttention(components);
+---
+
+<section class="bcn-board" aria-label={title}>
+  <div class="bcn-board__bar">
+    <div class="bcn-board__title">
+      <h2>{title}</h2>
+      <span class="bcn-board__count">{components.length}</span>
+    </div>
+    <span class="bcn-board__sort">Sorted by: needs attention</span>
+  </div>
+
+  <div class="bcn-board__grid">
+    {ordered.map((c) => <BcnComponentCard component={c} />)}
+  </div>
+</section>
+
+<style>
+  .bcn-board { display: flex; flex-direction: column; gap: var(--spacing-400); }
+
+  .bcn-board__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    flex-wrap: wrap;
+  }
+  .bcn-board__title { display: flex; align-items: center; gap: var(--spacing-250); }
+  .bcn-board__title h2 {
+    margin: 0;
+    font-family: var(--font-decorative);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--type-size-400);
+    color: var(--color-text-primary);
+  }
+  /* quiet count badge — 4px radius, light-gray border */
+  .bcn-board__count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 var(--spacing-150);
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-100);
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-board__sort { font-size: var(--type-size-150); color: var(--color-text-tertiary); }
+
+  .bcn-board__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(30rem, 1fr));
+    gap: var(--spacing-400);
+  }
+  @media (max-width: 700px) {
+    .bcn-board__grid { grid-template-columns: 1fr; }
+  }
+</style>
