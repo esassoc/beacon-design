@@ -12,4 +12,4 @@ snapshot of one page for a developer (or an AI agent) to re-implement on any sta
 - **`manifest.json`** — per-section data powering the live dev-mode overlay.
 
 Source URL: http://localhost:4399/beacon-design/prototypes/data-catalog-requirements-streamlined/
-Rules shipped: 357 · Tokens referenced: 688
+Rules shipped: 418 · Tokens referenced: 711

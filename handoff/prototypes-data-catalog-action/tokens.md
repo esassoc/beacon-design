@@ -1,6 +1,6 @@
 # Token contract — prototypes-data-catalog-action
 
-The 83 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 102 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -36,6 +36,9 @@ The 83 design tokens this page actually uses, resolved to their final values for
 | `--badge-height-sm` | `22px` |
 | `--badge-radius` | `.25rem` |
 | `--badge-text-color` | `#fcfcfc` |
+| `--bcn-aldo` | `#08908b` |
+| `--bcn-aldo-100` | `#cfeceb` |
+| `--bcn-aldo-50` | `#e8f6f5` |
 | `--bcn-gray-100` | `#efefef` |
 | `--bcn-gray-200` | `#dcdcdc` |
 | `--bcn-gray-300` | `#bdbdbd` |
@@ -45,6 +48,13 @@ The 83 design tokens this page actually uses, resolved to their final values for
 | `--bcn-gray-600` | `#656565` |
 | `--bcn-gray-900` | `#3d3d3d` |
 | `--bcn-gray-950` | `#292929` |
+| `--bcn-helpbar-bg` | `rgba(23, 25, 27, .78)` |
+| `--bcn-helpbar-bg-solid` | `#1f2224` |
+| `--bcn-helpbar-border` | `rgba(255, 255, 255, .12)` |
+| `--bcn-helpbar-divider` | `rgba(255, 255, 255, .16)` |
+| `--bcn-helpbar-fg` | `rgba(255, 255, 255, .92)` |
+| `--bcn-helpbar-fg-muted` | `rgba(255, 255, 255, .72)` |
+| `--bcn-helpbar-hover-bg` | `rgba(255, 255, 255, .1)` |
 | `--collapsible-bg` | `#fcfcfc` |
 | `--collapsible-border-color` | `#dcdcdc` |
 | `--collapsible-padding-x` | `1rem` |
@@ -67,6 +77,11 @@ The 83 design tokens this page actually uses, resolved to their final values for
 | `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` |
 | `--icon-size-medium` | `20px` |
 | `--icon-size-small` | `16px` |
+| `--popover-bg` | `#fcfcfc` |
+| `--popover-border-color` | `#dcdcdc` |
+| `--popover-color` | `#3d3d3d` |
+| `--popover-radius` | `.5rem` |
+| `--side-dialog-width` | `400px` |
 
 ## Primitive
 
@@ -84,6 +99,8 @@ The 83 design tokens this page actually uses, resolved to their final values for
 | `--radius-200` | `.5rem` |
 | `--radius-300` | `.5rem` |
 | `--radius-400` | `.75rem` |
+| `--radius-full` | `9999px` |
+| `--shadow-300` | `0 6px 24px -6px rgba(0, 0, 0, .07)` |
 | `--spacing-050` | `.125rem` |
 | `--spacing-100` | `.25rem` |
 | `--spacing-150` | `.375rem` |
@@ -98,7 +115,9 @@ The 83 design tokens this page actually uses, resolved to their final values for
 | `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
 | `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--type-size-250` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` |
 | `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
+| `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
 
 ## Component-scoped
 
