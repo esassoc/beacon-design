@@ -1,0 +1,153 @@
+---
+// <BcnKbCategories> — "Browse by category" tile grid for the Help & Guidance page.
+// One quiet white tile per help category; each tile is an anchor that deep-links
+// the article-browser sibling to that category via a `#category-<id>` hash. This
+// section only EMITS the link — the browser component owns the hash behavior.
+// Icons mark the category headers (structure), the sanctioned icon use.
+//
+// Data-bound like BcnTrackingZone: reads HELP_CATEGORIES + articlesByCategory
+// directly, so it takes no props.
+//
+// Composes: the .grid layout primitive (tile grid), EsaIcon (leading category
+// glyph), BcnCount (quiet neutral article count). Tiles are an OWNED anchor, not
+// esa-card — see bcn-lego-checked below.
+//
+// bcn-lego-checked: esa-card does NOT fit as a linked category tile — (1) it
+// renders a <div>, not an anchor, and its header/body split (56px min-height
+// header + divider) is heavier chrome than a quiet single-surface tile; (2) its
+// `icon` prop draws a HARDCODED info glyph and ignores the name, so it cannot show
+// the category's own Lucide icon. Checked Ecology (no "link tile" lego) and Beacon
+// (prod has no equivalent surface). The count uses bcn-count (esa-badge has NO
+// neutral variant — its six variants are saturated fills, so it can't render a
+// quiet count; per BcnCount's own docs + design-principles). Icon is esa-icon,
+// layout is the .grid primitive — no primitive reinvented. bcn-kb-categories is
+// the reusable home.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnCount from './BcnCount.astro';
+import { HELP_CATEGORIES, articlesByCategory } from '../../data/help-center';
+
+// Lucide inner-SVG for category glyphs. Only `database` is in esa-icon's built-in
+// registry; the rest need `paths`. Verbatim strings copied from AppShell's LUCIDE
+// map / lucide.dev. esa-icon prefers its registry, so supplying paths for
+// `database` too is harmless and keeps the lookup uniform.
+const ICON_PATHS: Record<string, string> = {
+  compass:
+    '<path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/><circle cx="12" cy="12" r="10"/>',
+  database:
+    '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>',
+  radar:
+    '<path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"/><path d="M4 6h.01"/><path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"/><path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"/><path d="M12 18h.01"/><path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"/><circle cx="12" cy="12" r="2"/><path d="m13.41 10.59 5.66-5.66"/>',
+  'map-pinned':
+    '<path d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"/><circle cx="12" cy="8" r="2"/><path d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"/>',
+  'clipboard-list':
+    '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>',
+};
+
+const tiles = HELP_CATEGORIES.map((c) => {
+  const count = articlesByCategory(c.id).length;
+  return {
+    ...c,
+    count,
+    countText: `${count} ${count === 1 ? 'article' : 'articles'}`,
+  };
+});
+---
+
+<section class="bcn-kbc" aria-labelledby="bcn-kbc-title">
+  <h2 id="bcn-kbc-title" class="bcn-kbc__title type-section-title">Browse by category</h2>
+
+  <div class="grid" data-gap="md" style="--grid-min: 13.75rem;">
+    {
+      tiles.map((c) => (
+        <a class="bcn-kbc__tile" href={`#category-${c.id}`}>
+          <span class="bcn-kbc__icon" aria-hidden="true">
+            <EsaIcon name={c.icon} size="lg" paths={ICON_PATHS[c.icon]} />
+          </span>
+          <span class="bcn-kbc__tile-title type-card-title">{c.title}</span>
+          <span class="bcn-kbc__desc type-body">{c.description}</span>
+          <span class="bcn-kbc__count">
+            <BcnCount value={c.countText} />
+          </span>
+        </a>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .bcn-kbc {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+  .bcn-kbc__title {
+    margin: 0;
+    color: var(--color-text-primary);
+  }
+
+  /* Quiet white tile, rendered as a full-height anchor so tiles in a row align
+     their counts at the bottom (margin-top:auto on the count). Hover is a subtle
+     border-color shift + 2px lift + soft shadow — never a colored left border. */
+  .bcn-kbc__tile {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    height: 100%;
+    box-sizing: border-box;
+    padding: var(--spacing-400);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+  }
+  .bcn-kbc__tile:hover {
+    border-color: color-mix(in srgb, var(--color-primary) 40%, var(--color-border));
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-100, 0 2px 12px rgba(0, 0, 0, 0.04));
+  }
+  .bcn-kbc__tile:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  /* Neutral icon chip (gray wash, never a brand fill); tints toward primary on
+     hover to echo the tile affordance. */
+  .bcn-kbc__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-200, var(--radius-100));
+    background: var(--color-surface-sunken);
+    color: var(--color-text-secondary);
+    transition: background 150ms ease, color 150ms ease;
+  }
+  .bcn-kbc__tile:hover .bcn-kbc__icon {
+    background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface));
+    color: var(--color-primary);
+  }
+
+  .bcn-kbc__tile-title {
+    color: var(--color-text-primary);
+    transition: color 150ms ease;
+  }
+  .bcn-kbc__tile:hover .bcn-kbc__tile-title {
+    color: var(--color-primary);
+  }
+
+  .bcn-kbc__desc {
+    margin: 0;
+    color: var(--color-text-secondary);
+  }
+
+  /* Push the count to the tile floor so a row of tiles baseline-aligns their
+     counts regardless of description length. */
+  .bcn-kbc__count {
+    display: inline-flex;
+    margin-top: auto;
+    padding-top: var(--spacing-100);
+  }
+</style>

@@ -1,0 +1,100 @@
+---
+// <BcnKbHero> — the hero of the "Help & Guidance" page (/prototypes/help): the
+// Aldo mark, the page title, a one-line lede, and a large, inviting search field.
+// It is the front door to the knowledge base — the search drives the article
+// browser below, but this component owns only the input; a sibling wires the
+// filtering. It renders on the page's own neutral canvas (no card/box of its own).
+//
+// The search field is the esa-text-field lego, sized lg and centered. It carries
+// [data-kb-search] — the browser sibling attaches its listener to that attribute
+// (see SIBLING CONTRACT below), so this component adds NO filtering logic.
+//
+// Composes: BcnAldoMark (the animated mark) + type-roles (.type-page-title /
+// .type-body) + the layout primitives (.center / .stack) + esa-text-field. The
+// only CSS here is composition glue: centering the column, constraining the lede
+// and field widths, and the vertical rhythm knobs.
+//
+// SIBLING CONTRACT — the search hook the article browser listens on:
+//   Element : <esa-text-field data-kb-search> (the lego's host element)
+//   Query   : [data-kb-search]
+//   Fires   : native `input` (composed → retargets to the host; read
+//             e.target.value) AND the lego's own `change` CustomEvent on every
+//             keystroke (bubbles/composed; read e.detail.value). Either matches.
+//
+// bcn-lego-checked: no esa-* lego is a page HERO assembly (mark + title + lede +
+// search) — esa-page-header is a title/lede/actions row with no mark or search
+// field. Checked Beacon (prod has no KB hero — this is new). The search control
+// itself IS a lego (esa-text-field); bcn-kb-hero is the reusable composition home,
+// and the only CSS is layout glue over the layout primitives.
+import BcnAldoMark from './BcnAldoMark.astro';
+
+interface Props {
+  title?: string;
+  lede?: string;
+}
+const {
+  title = 'Help & Guidance',
+  lede = 'Plain answers about how Beacon works — on every page, and all in one place.',
+} = Astro.props;
+---
+
+<section class="bcn-kb-hero" aria-label="Help & Guidance">
+  <div class="center bcn-kb-hero__col">
+    <div class="stack bcn-kb-hero__stack">
+      <BcnAldoMark size="lg" animated />
+      <h1 class="type-page-title bcn-kb-hero__title">{title}</h1>
+      <p class="type-body bcn-kb-hero__lede">{lede}</p>
+      <esa-text-field
+        class="bcn-kb-hero__search"
+        data-kb-search
+        size="lg"
+        type="text"
+        placeholder="Search help articles…"
+        aria-label="Search help articles"
+      ></esa-text-field>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Register the Lit lego so <esa-text-field> upgrades on the page.
+  import '@esa/ecology/esa-text-field';
+</script>
+
+<style>
+  /* Quiet neutral surface — the page provides the canvas; the hero adds only
+     breathing room. No card, border, or fill of its own. */
+  .bcn-kb-hero {
+    padding-block: var(--spacing-700) var(--spacing-600);
+  }
+
+  /* Centered content column. .center constrains the max width and centers the
+     block; the stack owns the vertical rhythm; align/text-align center the items. */
+  .bcn-kb-hero__col {
+    --center-max: 44rem;
+    text-align: center;
+  }
+  .bcn-kb-hero__stack {
+    --gap: var(--spacing-400);
+    align-items: center;
+  }
+
+  .bcn-kb-hero__title {
+    color: var(--color-text-primary);
+  }
+
+  /* Lede: secondary weight, held to a readable measure under the title. */
+  .bcn-kb-hero__lede {
+    max-inline-size: 34rem;
+    color: var(--color-text-secondary);
+  }
+
+  /* The search field: large and inviting, centered at a comfortable max width.
+     A touch more top space sets it apart from the lede as the primary action. */
+  .bcn-kb-hero__search {
+    inline-size: 100%;
+    max-inline-size: 35rem;
+    margin-block-start: var(--spacing-200);
+    text-align: start; /* reset the hero's centered text for the input's own value */
+  }
+</style>

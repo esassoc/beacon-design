@@ -1,0 +1,31 @@
+---
+// Help & Guidance — the full browsable knowledge base behind "Aldo," Beacon's
+// in-app help affordance (compass mark, named for Aldo Leopold). The floating
+// help bar and route-aware guidance drawer are mounted app-wide in AppShell and
+// surface this same dataset per page; this page is the all-in-one-place view:
+// searchable hero, category tiles, and a hash-routed article browser the drawer
+// deep-links into (#article-<id> / #category-<id>).
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import BcnKbHero from '../../components/bcn/BcnKbHero.astro';
+import BcnKbCategories from '../../components/bcn/BcnKbCategories.astro';
+import BcnKbBrowser from '../../components/bcn/BcnKbBrowser.astro';
+---
+
+<!-- manifest:
+  layout: stack(2xl)                          # SPINE
+  sections:
+    - hero + search      -> bcn-kb-hero        # Aldo mark, title, big article search
+    - browse by category -> bcn-kb-categories  # one tile per category, count badges
+    - article browser    -> bcn-kb-browser     # rail + reading pane, hash deep-links
+-->
+
+<AppShell title="Help & Guidance — Beacon">
+  <PageLayout title="Help & Guidance" hideTitleRow>
+    <div class="stack" data-gap="2xl">
+      <BcnKbHero />
+      <BcnKbCategories />
+      <BcnKbBrowser />
+    </div>
+  </PageLayout>
+</AppShell>

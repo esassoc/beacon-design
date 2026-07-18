@@ -161,4 +161,25 @@
 
   /* Citation surface (commitment quotes). */
   --bcn-citation-bg: #f6f3ed;
+
+  /* Aldo — the help & guidance mark (compass in a circle, named for Aldo Leopold).
+     Aldo green is deliberately its own accent, NOT --color-primary (#005862): the
+     guide reads as a distinct presence, never another primary action. Copper era
+     retired 2026-04; green is the settled color. */
+  --bcn-aldo:     #08908b;
+  --bcn-aldo-50:  #e8f6f5;
+  --bcn-aldo-100: #cfeceb;
+  --bcn-aldo-600: #06736f;
+
+  /* Floating help bar — dark glass chrome, deliberately distinct from the white UI
+     (design-principles: floating tools invite expressiveness). The one dark surface
+     in the app; raw values live here per token discipline. Pair with
+     backdrop-filter blur — bg alpha is tuned for it. */
+  --bcn-helpbar-bg:        rgba(23, 25, 27, 0.78);
+  --bcn-helpbar-bg-solid:  #1f2224; /* no-backdrop-filter fallback */
+  --bcn-helpbar-border:    rgba(255, 255, 255, 0.12);
+  --bcn-helpbar-divider:   rgba(255, 255, 255, 0.16);
+  --bcn-helpbar-fg:        rgba(255, 255, 255, 0.92);
+  --bcn-helpbar-fg-muted:  rgba(255, 255, 255, 0.72);
+  --bcn-helpbar-hover-bg:  rgba(255, 255, 255, 0.10);
 }

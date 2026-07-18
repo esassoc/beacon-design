@@ -1,0 +1,242 @@
+---
+// <BcnHelpArticle> — the shared renderer for ONE Help & Guidance article. Both the
+// Aldo guidance drawer and the Help & Guidance page render articles through this
+// component so help content looks identical everywhere.
+//
+// It renders the article's title (optional — a host may own it, e.g. as a collapsible
+// summary), a quiet kind badge (How-to / Glossary), the ordered HelpBlock body
+// (paragraphs, numbered steps, tinted callouts, and calm placeholder figure/video
+// frames — no real assets), and a trailing "Related" row of deep-links into the
+// Help & Guidance page. The article root carries id="article-{id}" so those hash
+// links (and the page's own deep-links) resolve to it.
+//
+// Presentational and data-driven: the whole body comes from `article.blocks`; the
+// three flags (headingLevel / hideTitle / compact) let the drawer and the page share
+// one look with different chrome. The Aldo accent (--bcn-aldo-*) tints callouts and
+// step markers so help reads as its own distinct, quiet presence.
+//
+// bcn-lego-checked: no esa-* lego renders a rich article body (heading + ordered
+// prose/steps/callouts/placeholder media + related links) — checked Ecology (esa-card
+// is a bare container; esa-empty-state / esa-badge / esa-icon are composed INSIDE here
+// but none model article content) and Beacon (no help-article primitive). Two consumers
+// (drawer + page) → a real reusable bcn-. Every control is a lego (esa-icon / esa-badge);
+// the rest is token-driven content typography, which is legitimately bespoke rendering.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import { getArticle, type HelpArticle } from '../../data/help-center';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  article: HelpArticle;
+  /** Heading tag for the article title. Default 'h3'. */
+  headingLevel?: 'h2' | 'h3';
+  /** Suppress the title (host renders it, e.g. as a collapsible summary). Default false. */
+  hideTitle?: boolean;
+  /** Tighter spacing for the drawer context. Default false. */
+  compact?: boolean;
+}
+
+const { article, headingLevel = 'h3', hideTitle = false, compact = false } = Astro.props;
+
+// Dynamic heading tag — a capitalized const holding a tag name renders that element.
+const Title = headingLevel;
+
+const kindLabel = article.kind === 'howto' ? 'How-to' : 'Glossary';
+
+// Resolve related ids to { id, title }; silently drop ids that don't resolve.
+const related = (article.related ?? [])
+  .map((id) => {
+    const a = getArticle(id);
+    return a ? { id, title: a.title } : null;
+  })
+  .filter((r): r is { id: string; title: string } => r !== null);
+
+const helpBase = withBase('/prototypes/help');
+
+// Lucide glyphs the shared icon-registry doesn't ship — passed to esa-icon's `paths`
+// fallback (its documented extension hook) rather than forking the registry.
+const GLYPH = {
+  lightbulb:
+    '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+  image:
+    '<rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>',
+  play: '<polygon points="6 3 20 12 6 21 6 3"/>',
+};
+---
+
+<article id={`article-${article.id}`} class:list={['bcn-help-article', compact && 'bcn-help-article--compact']}>
+  {!hideTitle && (
+    <header class="bcn-help-article__head">
+      <Title class="bcn-help-article__title type-card-title">{article.title}</Title>
+      <EsaBadge value={kindLabel} size="sm" />
+    </header>
+  )}
+
+  <div class="bcn-help-article__body">
+    {article.blocks.map((block) => {
+      if (block.kind === 'p') {
+        return <p class="bcn-help-article__p type-body">{block.text}</p>;
+      }
+
+      if (block.kind === 'steps') {
+        return (
+          <ol class="bcn-help-article__steps">
+            {block.items.map((item) => (
+              <li class="bcn-help-article__step type-body">{item}</li>
+            ))}
+          </ol>
+        );
+      }
+
+      if (block.kind === 'callout') {
+        const isTip = block.tone === 'tip';
+        return (
+          <aside class:list={['bcn-help-article__callout', `bcn-help-article__callout--${block.tone}`]}>
+            <span class="bcn-help-article__callout-icon">
+              <EsaIcon name={isTip ? 'lightbulb' : 'info'} paths={isTip ? GLYPH.lightbulb : undefined} size="sm" />
+            </span>
+            <div class="bcn-help-article__callout-body">
+              <span class="bcn-help-article__callout-label">{isTip ? 'Tip' : 'Note'}</span>
+              <p class="bcn-help-article__callout-text type-body">{block.text}</p>
+            </div>
+          </aside>
+        );
+      }
+
+      if (block.kind === 'figure') {
+        return (
+          <figure class="bcn-help-article__figure">
+            <div class="bcn-help-article__figure-frame">
+              <span class="bcn-help-article__figure-icon"><EsaIcon name="image" paths={GLYPH.image} size="lg" /></span>
+              <span class="bcn-help-article__figure-label">{block.label}</span>
+            </div>
+            <figcaption class="bcn-help-article__caption type-caption">{block.caption}</figcaption>
+          </figure>
+        );
+      }
+
+      if (block.kind === 'video') {
+        return (
+          <figure class="bcn-help-article__video">
+            <div class="bcn-help-article__video-frame">
+              <span class="bcn-help-article__video-play"><EsaIcon name="play" paths={GLYPH.play} size="md" /></span>
+              <span class="bcn-help-article__video-duration"><EsaBadge value={block.duration} size="sm" /></span>
+            </div>
+            <figcaption class="bcn-help-article__caption type-caption">{block.label}</figcaption>
+          </figure>
+        );
+      }
+
+      return null;
+    })}
+  </div>
+
+  {related.length > 0 && (
+    <nav class="bcn-help-article__related" aria-label="Related articles">
+      <span class="bcn-help-article__related-label">Related</span>
+      <ul class="bcn-help-article__related-list">
+        {related.map((r) => (
+          <li><a class="bcn-help-article__related-link" href={`${helpBase}#article-${r.id}`}>{r.title}</a></li>
+        ))}
+      </ul>
+    </nav>
+  )}
+</article>
+
+<style>
+  /* Token-driven throughout; parent owns outer margin. Semantic layer + the Aldo
+     accent (--bcn-aldo-*) only — never the raw --bcn-gray-* ramp. */
+  .bcn-help-article { display: flex; flex-direction: column; gap: var(--spacing-500); }
+  .bcn-help-article--compact { gap: var(--spacing-400); }
+
+  /* Header: title + quiet kind badge on one line (badge wraps under a long title). */
+  .bcn-help-article__head { display: flex; align-items: center; gap: var(--spacing-300); flex-wrap: wrap; }
+  .bcn-help-article__title { margin: 0; color: var(--color-text-primary); }
+
+  /* Body: even rhythm between blocks; compact tightens it for the drawer. */
+  .bcn-help-article__body { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .bcn-help-article--compact .bcn-help-article__body { gap: var(--spacing-300); }
+
+  /* Paragraphs — primary text, never grayed; type-body carries the size. */
+  .bcn-help-article__p { margin: 0; color: var(--color-text-primary); }
+
+  /* Ordered steps — quiet round numbered markers (Aldo), NO colored left border. */
+  .bcn-help-article__steps {
+    list-style: none; counter-reset: bcn-step; margin: 0; padding: 0;
+    display: flex; flex-direction: column; gap: var(--spacing-300);
+  }
+  .bcn-help-article__step {
+    counter-increment: bcn-step;
+    display: grid; grid-template-columns: 1.625rem 1fr; align-items: start; gap: var(--spacing-300);
+    margin: 0; color: var(--color-text-primary);
+  }
+  .bcn-help-article__step::before {
+    content: counter(bcn-step);
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 1.625rem; height: 1.625rem; border-radius: var(--radius-full);
+    background: var(--bcn-aldo-50); color: var(--bcn-aldo-600);
+    font-size: 0.8125rem; font-weight: var(--font-weight-semibold); line-height: 1;
+  }
+
+  /* Callout — quiet tinted box. Leading icon + normal-case label + body text.
+     tip = Aldo tint; note = neutral sunken surface. No uppercase micro-label. */
+  .bcn-help-article__callout {
+    display: grid; grid-template-columns: auto 1fr; align-items: start; gap: var(--spacing-300);
+    padding: var(--spacing-400); border-radius: var(--radius-200);
+    border: 1px solid var(--color-border-light); background: var(--color-surface-sunken);
+  }
+  .bcn-help-article--compact .bcn-help-article__callout { padding: var(--spacing-300); }
+  .bcn-help-article__callout--tip { background: var(--bcn-aldo-50); border-color: var(--bcn-aldo-100); }
+  .bcn-help-article__callout-icon { display: inline-flex; margin-top: 1px; color: var(--color-text-secondary); }
+  .bcn-help-article__callout--tip .bcn-help-article__callout-icon { color: var(--bcn-aldo-600); }
+  .bcn-help-article__callout-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .bcn-help-article__callout-label {
+    font-size: 0.875rem; font-weight: var(--font-weight-semibold); color: var(--color-text-secondary);
+  }
+  .bcn-help-article__callout--tip .bcn-help-article__callout-label { color: var(--bcn-aldo-600); }
+  .bcn-help-article__callout-text { margin: 0; color: var(--color-text-primary); }
+
+  /* Figure placeholder — a quiet dashed frame with a centered glyph + label; caption
+     below. No fake image. */
+  .bcn-help-article__figure { margin: 0; display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-help-article__figure-frame {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--spacing-200);
+    min-height: 8.5rem; padding: var(--spacing-500);
+    border: 1px dashed var(--color-border-strong); border-radius: var(--radius-200);
+    background: var(--color-surface-sunken); text-align: center;
+  }
+  .bcn-help-article__figure-icon { color: var(--color-text-tertiary); }
+  .bcn-help-article__figure-label { font-size: 0.875rem; font-weight: var(--font-weight-medium); color: var(--color-text-secondary); }
+
+  /* Video placeholder — 16:9 frame, subtle dark-on-light panel, centered circular
+     play affordance, duration badge in the corner. Static; no real playback. */
+  .bcn-help-article__video { margin: 0; display: flex; flex-direction: column; gap: var(--spacing-200); }
+  .bcn-help-article__video-frame {
+    position: relative; display: flex; align-items: center; justify-content: center;
+    aspect-ratio: 16 / 9; border-radius: var(--radius-200); overflow: hidden;
+    border: 1px solid var(--color-border);
+    background: color-mix(in srgb, var(--color-text-primary) 8%, var(--color-surface-sunken));
+  }
+  .bcn-help-article__video-play {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 3rem; height: 3rem; border-radius: var(--radius-full);
+    background: var(--color-surface); color: var(--color-text-primary);
+    box-shadow: 0 1px 4px rgb(0 0 0 / 0.18); padding-left: 3px;
+  }
+  .bcn-help-article__video-duration { position: absolute; right: var(--spacing-200); bottom: var(--spacing-200); }
+  .bcn-help-article__video-label,
+  .bcn-help-article__caption {
+    /* Genuine meta — floored to 13px so type-caption never dips into micro sizes. */
+    font-size: max(0.8125rem, var(--type-size-100)); color: var(--color-text-secondary); margin: 0;
+  }
+
+  /* Related — a quiet label + a row of text links to other articles. */
+  .bcn-help-article__related {
+    display: flex; align-items: baseline; flex-wrap: wrap; gap: var(--spacing-150) var(--spacing-300);
+    padding-top: var(--spacing-300); border-top: 1px solid var(--color-border-light);
+  }
+  .bcn-help-article__related-label { font-size: 0.875rem; font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); }
+  .bcn-help-article__related-list { display: flex; flex-wrap: wrap; gap: var(--spacing-100) var(--spacing-300); margin: 0; padding: 0; list-style: none; }
+  .bcn-help-article__related-link { font-size: 0.9375rem; color: var(--color-text-link); text-decoration: none; }
+  .bcn-help-article__related-link:hover { color: var(--color-text-link-hover); text-decoration: underline; }
+</style>

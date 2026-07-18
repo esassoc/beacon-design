@@ -1,0 +1,357 @@
+---
+// <BcnHelpBar> — Aldo's home: a floating utility pill fixed to the bottom-center of the
+// viewport (Figma-toolbar energy — a dark GLASS surface, deliberately distinct from the white
+// app chrome, with an inner hairline + soft lift). The What's-new popover it opens stays a
+// white content surface. Mounted app-wide in the AppShell chrome. Left → right: the primary "Guidance"
+// affordance (the Aldo mark + label), a hairline divider, an icon-only Search button, and a
+// "What's new" icon-button with an unread dot that opens a popover of recent release notes.
+//
+// Wiring is by data-* hook, composed BLIND against siblings — this component adds NO open
+// behavior for search or the guidance drawer; it only advertises the hooks the siblings
+// already listen on, plus its own local what's-new state:
+//   • [data-help-trigger] — the route-aware guidance drawer (sibling) opens on clicks here.
+//   • [data-omni-trigger] — the existing global omni-search palette opens on clicks here.
+//   • [data-whatsnew]     — LOCAL only: the first click marks WHATS_NEW seen (localStorage
+//                           'bcn-whats-new-seen' = newest entry date) and hides the dot.
+//
+// bcn-lego-checked: the floating bottom-center utility BAR has no esa-* equivalent — esa-app-bar
+// is the fixed TOP chrome strip, not a detached toolbar (checked Beacon — none), so the pill
+// shell + its internal layout is this component's own composition glue. The "Guidance" control
+// is a BRANDED affordance (the animated BcnAldoMark + a text label); esa-button / esa-icon-button
+// only accept a Lucide `icon` NAME, not a custom SVG mark, so it is bespoke. Everything else IS a
+// lego: esa-icon-button (Search + What's-new triggers), esa-tooltip (Search hint), esa-popover
+// (the What's-new panel, anchored above the trigger), esa-icon (per-entry glyphs in a neutral
+// chip), and BcnCount (the quiet date badge). bcn-help-bar is the reusable home.
+//
+// legoGap: 'sparkles' is not in the ecology icon-registry, and esa-icon-button forwards only a
+// registry `icon` name (no custom `paths` passthrough like <EsaIcon> has), so the What's-new
+// trigger uses the registry-backed 'star' — the fallback the spec named.
+import BcnAldoMark from './BcnAldoMark.astro';
+import BcnCount from './BcnCount.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { WHATS_NEW } from '../../data/help-center';
+
+const newestDate = WHATS_NEW[0]?.date ?? '';
+
+// Verbatim Lucide inner-SVG for the What's-new entry glyphs not in esa-icon's built-in
+// registry (copied from AppShell's LUCIDE map / lucide.dev). 'search' IS in the registry,
+// so it needs no entry — esa-icon resolves it by name and paths stays undefined.
+const ICON_PATHS: Record<string, string> = {
+  'layout-dashboard':
+    '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>',
+  'map-pinned':
+    '<path d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"/><circle cx="12" cy="8" r="2"/><path d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"/>',
+};
+
+// "Jul 14" for the badge; the full "Jul 14, 2026" carries the accessible label.
+const fmtShort = (iso: string): string =>
+  new Date(`${iso}T00:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+const fmtLong = (iso: string): string =>
+  new Date(`${iso}T00:00:00`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+---
+
+<div class="bcn-help-bar" data-help-bar data-newest={newestDate} role="toolbar" aria-label="Help &amp; utilities">
+  <!-- Primary: Guidance — the Aldo mark + visible label; opens the guidance drawer via hook. -->
+  <button type="button" class="bcn-help-bar__guidance" data-help-trigger aria-haspopup="dialog">
+    <BcnAldoMark size="sm" />
+    <span class="bcn-help-bar__guidance-label">Guidance</span>
+  </button>
+
+  <span class="bcn-help-bar__divider" aria-hidden="true"></span>
+
+  <!-- Search — icon-only; the tooltip host also carries the omni-search open hook. -->
+  <esa-tooltip class="bcn-help-bar__tooltip" text="Search" position="above" data-omni-trigger>
+    <EsaIconButton icon="search" label="Search" size="md" />
+  </esa-tooltip>
+
+  <!-- What's new — icon-only trigger + unread dot; esa-popover panel opens above the bar. -->
+  <esa-popover class="bcn-help-bar__popover" position="top" trigger="click" offset={12}>
+    <span class="bcn-help-bar__whatsnew" data-whatsnew>
+      <EsaIconButton icon="star" label="What's new" size="md" />
+      {WHATS_NEW.length > 0 && (
+        <span class="bcn-help-bar__dot" data-whatsnew-dot aria-hidden="true"></span>
+      )}
+    </span>
+
+    <div slot="content" class="bcn-help-bar__panel">
+      <p class="bcn-help-bar__panel-title">What's new</p>
+      <ul class="bcn-help-bar__panel-list">
+        {WHATS_NEW.map((entry) => (
+          <li class="bcn-help-bar__panel-item">
+            <span class="bcn-help-bar__panel-icon" aria-hidden="true">
+              <EsaIcon name={entry.icon} size="sm" paths={ICON_PATHS[entry.icon]} />
+            </span>
+            <div class="bcn-help-bar__panel-text">
+              <div class="bcn-help-bar__panel-head">
+                <p class="bcn-help-bar__panel-item-title">{entry.title}</p>
+                <BcnCount value={fmtShort(entry.date)} label={`Released ${fmtLong(entry.date)}`} />
+              </div>
+              <p class="bcn-help-bar__panel-item-blurb">{entry.blurb}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <div class="bcn-help-bar__panel-footer">
+        <a class="bcn-help-bar__panel-all" href="#release-notes">
+          All release notes<span class="bcn-help-bar__panel-all-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </esa-popover>
+</div>
+
+<script>
+  // Register the Lit legos used above (idempotent — each guards its own customElements.define),
+  // then own the What's-new unread-dot lifecycle. esa-popover handles open/close, Esc, and
+  // outside-click for the panel; this script only persists the "seen" state.
+  import '@esa/ecology/esa-popover';
+  import '@esa/ecology/esa-tooltip';
+
+  const SEEN_KEY = 'bcn-whats-new-seen';
+  const bar = document.querySelector<HTMLElement>('[data-help-bar]');
+
+  if (bar) {
+    const newest = bar.dataset.newest ?? '';
+    const dot = bar.querySelector<HTMLElement>('[data-whatsnew-dot]');
+    const trigger = bar.querySelector<HTMLElement>('[data-whatsnew]');
+
+    const readSeen = (): string | null => {
+      try {
+        return localStorage.getItem(SEEN_KEY);
+      } catch {
+        return null;
+      }
+    };
+    const writeSeen = (value: string): void => {
+      try {
+        localStorage.setItem(SEEN_KEY, value);
+      } catch {
+        /* localStorage unavailable (private mode) — dot simply won't persist */
+      }
+    };
+
+    // Already caught up on the newest note → no dot.
+    if (dot && newest && readSeen() === newest) dot.hidden = true;
+
+    // First open marks the newest note seen and retires the dot for this browser.
+    trigger?.addEventListener('click', () => {
+      if (dot && !dot.hidden && newest) {
+        writeSeen(newest);
+        dot.hidden = true;
+      }
+    });
+  }
+</script>
+
+<style>
+  /* The floating pill. position:fixed with only `left` set keeps it shrink-to-fit, so the bar
+     occupies just its own box — clicks outside the pill pass through to the page. */
+  /* Dark glass — the design-principles carve-out: a floating tool reads distinct from the
+     white app chrome. Semantic dark-glass tokens; opaque fallback where blur is unsupported. */
+  .bcn-help-bar {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000; /* under the z-1100 topbar; the guidance drawer overlay sits at 1300 */
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    padding: var(--spacing-100) var(--spacing-150);
+    color: var(--bcn-helpbar-fg);
+    background: var(--bcn-helpbar-bg);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: blur(14px) saturate(1.4);
+    border: 1px solid var(--bcn-helpbar-border);
+    border-radius: var(--radius-400, 14px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28); /* dark chrome needs more lift; shadows aren't tokenized here */
+  }
+  /* No backdrop-filter support (either prefix) → opaque dark fallback. */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .bcn-help-bar {
+      background: var(--bcn-helpbar-bg-solid);
+    }
+  }
+  /* Honor a reduced-transparency preference — drop the blur, go solid. */
+  @media (prefers-reduced-transparency: reduce) {
+    .bcn-help-bar {
+      background: var(--bcn-helpbar-bg-solid);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
+
+  /* Primary: Guidance — branded affordance, quiet aldo-tinted hover. */
+  .bcn-help-bar__guidance {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    height: 40px;
+    padding: 0 var(--spacing-250, 0.625rem);
+    border: 0;
+    border-radius: var(--radius-200, 8px);
+    background: transparent;
+    color: var(--bcn-helpbar-fg);
+    font-family: inherit;
+    font-size: var(--type-size-200, 0.9375rem);
+    font-weight: var(--font-weight-medium);
+    line-height: 1;
+    cursor: pointer;
+    transition: background var(--transition-fast, 150ms ease);
+  }
+  .bcn-help-bar__guidance:hover {
+    background: var(--bcn-helpbar-hover-bg);
+  }
+  .bcn-help-bar__guidance:focus-visible {
+    outline: 2px solid var(--bcn-aldo-100); /* light aldo tint — visible on the dark shell */
+    outline-offset: 2px;
+  }
+  .bcn-help-bar__guidance-label {
+    white-space: nowrap;
+  }
+
+  .bcn-help-bar__divider {
+    flex: none;
+    width: 1px;
+    height: 22px;
+    margin: 0 var(--spacing-050, 2px);
+    background: var(--bcn-helpbar-divider);
+  }
+
+  /* Icon triggers inherit the 40px hit target + focus ring from esa-icon-button. The tooltip
+     and popover hosts are inline wrappers, so they don't disturb the flex row. */
+  .bcn-help-bar__tooltip,
+  .bcn-help-bar__popover {
+    display: inline-flex;
+  }
+  /* Theme the icon-button legos to the dark zone. esa-icon-button already exposes the hook
+     --icon-button-bg-hover and draws its focus outline from currentColor, so both adapt to the
+     zone by construction — we only point the hook at the zone token and drive the glyph tone
+     (muted at rest, full-strength on hover/focus, which also brightens the currentColor ring). */
+  .bcn-help-bar :global(.esa-icon-button) {
+    color: var(--bcn-helpbar-fg-muted);
+    --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+  }
+  .bcn-help-bar :global(.esa-icon-button:hover),
+  .bcn-help-bar :global(.esa-icon-button:focus-visible) {
+    color: var(--bcn-helpbar-fg);
+  }
+
+  /* What's-new trigger + unread dot. */
+  .bcn-help-bar__whatsnew {
+    position: relative;
+    display: inline-flex;
+  }
+  .bcn-help-bar__dot {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--bcn-aldo);
+    box-shadow: 0 0 0 2px var(--bcn-helpbar-bg-solid); /* ring matches the dark shell so the dot reads punched-out */
+    pointer-events: none;
+  }
+  .bcn-help-bar__dot[hidden] {
+    display: none;
+  }
+
+  /* What's-new panel — slotted into esa-popover's content. */
+  .bcn-help-bar__panel {
+    width: 340px;
+    max-width: 84vw;
+    /* The pill zone sets a light foreground; the popover is a white content surface, so
+       re-establish the standard dark-on-white text context for everything inside it. */
+    color: var(--color-text-primary);
+  }
+  .bcn-help-bar__panel-title {
+    margin: 0 0 var(--spacing-200);
+    font-size: var(--type-size-200, 0.9375rem);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .bcn-help-bar__panel-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-help-bar__panel-item {
+    display: flex;
+    gap: var(--spacing-200);
+  }
+  /* Neutral icon chip — gray wash, never a brand fill (echoes the KB category tiles). */
+  .bcn-help-bar__panel-icon {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-200, var(--radius-100));
+    background: var(--color-surface-sunken);
+    color: var(--color-text-secondary);
+  }
+  .bcn-help-bar__panel-text {
+    flex: 1;
+    min-width: 0;
+  }
+  .bcn-help-bar__panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-200);
+    margin: 0 0 2px;
+  }
+  /* Unmistakable weight step: bold title over a regular-weight blurb. */
+  .bcn-help-bar__panel-item-title {
+    margin: 0;
+    font-size: var(--type-size-200, 0.9375rem);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.3;
+    color: var(--color-text-primary);
+  }
+  .bcn-help-bar__panel-head :global(.bcn-count) {
+    flex: none;
+  }
+  .bcn-help-bar__panel-item-blurb {
+    margin: 0;
+    font-size: var(--type-size-150, 0.875rem);
+    font-weight: var(--font-weight-regular, 400);
+    line-height: 1.45;
+    color: var(--color-text-secondary);
+  }
+  /* Footer: hairline-topped quiet link to the (planned) release-notes page. */
+  .bcn-help-bar__panel-footer {
+    margin-top: var(--spacing-300);
+    padding-top: var(--spacing-250, 0.625rem);
+    border-top: 1px solid var(--color-border);
+  }
+  .bcn-help-bar__panel-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--type-size-150, 0.875rem);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+  .bcn-help-bar__panel-all:hover {
+    text-decoration: underline;
+  }
+  .bcn-help-bar__panel-all:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+  .bcn-help-bar__panel-all-arrow {
+    transition: transform 150ms ease;
+  }
+  .bcn-help-bar__panel-all:hover .bcn-help-bar__panel-all-arrow {
+    transform: translateX(2px);
+  }
+</style>

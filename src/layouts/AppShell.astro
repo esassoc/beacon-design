@@ -18,6 +18,8 @@ import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
 import BcnSearchTrigger from '../components/bcn/BcnSearchTrigger.astro';
 import BcnOmniSearch from '../components/bcn/BcnOmniSearch.astro';
+import BcnHelpBar from '../components/bcn/BcnHelpBar.astro';
+import BcnGuidanceDrawer from '../components/bcn/BcnGuidanceDrawer.astro';
 import { withBase } from '../lib/base';
 
 interface NavItem {
@@ -375,6 +377,12 @@ if (activeNavId) {
     <!-- Global ⌘K search palette (bespoke bcn-omni-search). Sits at the modern-layout
          root so its fixed, centered overlay clears the z-1100 topbar; app-wide. -->
     <BcnOmniSearch />
+
+    <!-- Aldo — help & guidance, app-wide like the palette above: the floating
+         bottom-center utility bar and the route-aware guidance drawer it opens.
+         Same root placement so the drawer's overlay clears the z-1100 topbar. -->
+    <BcnHelpBar />
+    <BcnGuidanceDrawer />
   </div>
 </BaseLayout>
 

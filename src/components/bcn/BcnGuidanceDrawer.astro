@@ -1,0 +1,402 @@
+---
+// <BcnGuidanceDrawer> — the "Aldo" help & guidance drawer, modeled as a CHAT-FIRST
+// conversation. The drawer body is ONE continuous scroll stream: Aldo's opening message
+// (the route's "You are here" + "On this page" + "Terms" guidance) sits at the top, and
+// every Q&A exchange appends below it, scrolling the intro up like any older message. A
+// ChatGPT-style composer is pinned in the footer; the stream scrolls behind it.
+//
+// TWO STACKED DIALOGS: the drawer (parent) and a SECOND esa-side-dialog reused as the
+// article reader (child), stacked above it. A row or reply-link opens that article in the
+// child; the parent nudges back a step to read as a card stack.
+//
+// PRE-RENDER STRATEGY (Astro is compile-time, the drawer is route-agnostic at build):
+//   - every article is pre-rendered ONCE as a compact ROW (moved into the intro's two
+//     sections) into a hidden pool.
+//   - every article BODY is pre-rendered ONCE into the child reader, hidden; toggled one
+//     per id. These bodies are ALSO the chat's text corpus (read via textContent), so
+//     article prose never enters the client bundle.
+//
+// bcn-lego-checked: both dialog FRAMES are the esa-side-dialog lego (own backdrop, focus
+// trap, Esc/backdrop close, symmetric slide-out) — layered above the z-1100 topbar and
+// sized through its exposed custom properties; the parent's --side-dialog-inset is
+// re-pointed at runtime for the card-stack (which the lego documents + transitions). Section
+// + row glyphs / the send glyph = esa-icon (off-registry names via its `paths` fallback);
+// header/intro/reply mark = BcnAldoMark; article bodies = BcnHelpArticle. TWO owned
+// primitives, both justified: (1) the article ROW — a two-line button no lego renders;
+// (2) the COMPOSER — esa-textarea was checked but renders its border/focus/background ON
+// the textarea, gives no slot for an embedded send button, and auto-resizes with
+// overflow:hidden (clips, no inner scroll) — the embedded composer needs the SHELL to own
+// the border/ring + hold the button and the textarea to inner-scroll at max, so an owned
+// <textarea> in the shell is used. Everything else is composition glue.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnAldoMark from './BcnAldoMark.astro';
+import BcnHelpArticle from './BcnHelpArticle.astro';
+import { HELP_ARTICLES, ALDO_CHAT } from '../../data/help-center';
+import { withBase } from '../../lib/base';
+
+// Section glyphs the registry doesn't ship — verbatim Lucide inner markup (24×24,
+// stroke-based), passed through esa-icon's `paths` fallback. 'map-pin' / 'arrow-up' ARE
+// in the registry.
+const ICON_LIST =
+  '<line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/>';
+const ICON_BOOK =
+  '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>';
+---
+
+<!-- ── Drawer (parent) ── -->
+<esa-side-dialog class="bcn-gd" data-gd position="right" heading="Help & Guidance">
+  <div slot="header" class="bcn-gd__header">
+    <BcnAldoMark size="md" />
+    <span class="bcn-gd__title">Help &amp; Guidance</span>
+  </div>
+
+  <!-- The scroll stream: Aldo's intro message, then appended Q&A. -->
+  <div class="bcn-gd__stream">
+    <div class="bcn-gd-msg bcn-gd-msg--aldo" data-gd-intro>
+      <div class="bcn-gd-msg__avatar"><BcnAldoMark size="sm" /></div>
+      <div class="bcn-gd-msg__group">
+        <section class="bcn-gd__section">
+          <h2 class="bcn-gd__label"><EsaIcon name="map-pin" size="sm" /> You are here</h2>
+          <div class="bcn-gd__here">
+            <span class="bcn-gd__here-page" data-gd-page>Beacon</span>
+            <span class="bcn-gd__here-purpose" data-gd-purpose></span>
+          </div>
+        </section>
+        <section class="bcn-gd__section" data-gd-section="howtos">
+          <h2 class="bcn-gd__label"><EsaIcon name="list" paths={ICON_LIST} size="sm" /> On this page</h2>
+          <div class="bcn-gd__rows" data-gd-howtos></div>
+        </section>
+        <section class="bcn-gd__section" data-gd-section="terms">
+          <h2 class="bcn-gd__label"><EsaIcon name="book" paths={ICON_BOOK} size="sm" /> Terms</h2>
+          <div class="bcn-gd__rows" data-gd-terms></div>
+        </section>
+      </div>
+    </div>
+
+    <!-- appended Q&A exchanges -->
+    <div data-gd-chat></div>
+
+    <!-- Row pool: every article as a compact row, hidden. The client moves the route's
+         rows into the two sections above; the rest stay here (hidden). -->
+    <div class="bcn-gd__pool" data-gd-pool hidden>
+      {
+        HELP_ARTICLES.map((a) => (
+          <button
+            type="button"
+            class="bcn-gd-row"
+            data-article-id={a.id}
+            data-kind={a.kind}
+            data-title={a.title}
+            data-summary={a.summary}
+          >
+            <span class="bcn-gd-row__text">
+              <span class="bcn-gd-row__title">{a.title}</span>
+              <span class="bcn-gd-row__sub">{a.summary}</span>
+            </span>
+            <EsaIcon name="chevron-right" size="sm" />
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  <!-- Pinned footer: one persistent browse affordance, then the composer. -->
+  <div slot="footer" class="bcn-gd__foot">
+    <a class="bcn-gd__browse" data-gd-browse href={withBase('/prototypes/help')}>
+      Browse all Help &amp; Guidance
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"></path></svg>
+    </a>
+    <div class="bcn-gd-composer">
+      <textarea
+        class="bcn-gd-composer__input"
+        data-gd-ask
+        rows="1"
+        placeholder={ALDO_CHAT.placeholder}
+        aria-label="Ask Aldo a question"
+      ></textarea>
+      <button type="button" class="bcn-gd-composer__send" data-gd-ask-send aria-label="Send question" disabled>
+        <EsaIcon name="arrow-up" size="sm" />
+      </button>
+    </div>
+  </div>
+</esa-side-dialog>
+
+<!-- Aldo avatar cloned into each reply message (reuses the real mark). -->
+<template data-gd-aldo-avatar><BcnAldoMark size="sm" /></template>
+
+<!-- ── Article reader (child, stacked above the drawer) ── -->
+<esa-side-dialog class="bcn-gd-article" data-gd-article position="right" heading="Guidance article">
+  <div slot="header" class="bcn-gd-article__head">
+    <button type="button" class="bcn-gd-article__back" data-gd-article-back>
+      <EsaIcon name="arrow-left" size="sm" /> All guidance
+    </button>
+    <span class="bcn-gd-article__titlerow">
+      <span class="bcn-gd-article__title" data-gd-article-title></span>
+      <span class="bcn-gd-article__kind" data-gd-article-kind></span>
+    </span>
+  </div>
+
+  <div class="bcn-gd-article__body">
+    {
+      HELP_ARTICLES.map((a) => (
+        <div class="bcn-gd-article__panel" data-article-body={a.id} data-kind={a.kind} data-title={a.title} hidden>
+          <BcnHelpArticle article={a} hideTitle compact={false} />
+        </div>
+      ))
+    }
+  </div>
+</esa-side-dialog>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import { initGuidanceDrawer } from './guidance-drawer';
+  initGuidanceDrawer();
+</script>
+
+<style>
+  /* ── dialog geometry: configure both esa-side-dialog legos through their own custom
+     properties (values cascade into shadow DOM). Parent above the z-1100 topbar; child a
+     step above. Inset/radius left at lego defaults (16px inset, rounded) — the prod-style
+     floating panel. The parent inset is re-pointed at runtime for the card-stack; it must
+     always carry a unit (a unitless 0 invalidates the lego's width: min(_, calc(100vw -
+     inset*2)) and the panel falls to width:auto). ── */
+  .bcn-gd {
+    --z-modal-backdrop: 1300;
+    --z-modal: 1301;
+    --side-dialog-width: 460px;
+    --backdrop-filter: blur(2px);
+  }
+  .bcn-gd-article {
+    --z-modal-backdrop: 1302;
+    --z-modal: 1303;
+    --side-dialog-width: 460px;
+    --backdrop-filter: blur(2px);
+  }
+
+  /* ── header (projected into the parent lego's header slot) ── */
+  .bcn-gd__header { display: flex; align-items: center; gap: var(--spacing-300); min-width: 0; }
+  .bcn-gd__title {
+    font-family: var(--font-decorative); /* Besley — the guide's own voice */
+    font-size: var(--type-size-400);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    line-height: 1.2;
+  }
+
+  /* ── the scroll stream ── */
+  .bcn-gd__stream { display: flex; flex-direction: column; gap: var(--spacing-500); }
+  /* appended Q&A turns; collapses when empty so the intro carries no trailing gap */
+  [data-gd-chat] { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  [data-gd-chat]:empty { display: none; }
+
+  /* section (inside the intro group): icon + word with authority over the regular rows */
+  .bcn-gd__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-gd__section[hidden] { display: none; }
+  .bcn-gd__label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin: 0;
+    font-size: var(--type-size-250);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+  }
+  .bcn-gd__label :global(.esa-icon) { color: var(--color-text-tertiary); flex: none; }
+
+  /* You are here — a quiet Aldo-tinted card: the guide speaking */
+  .bcn-gd__here {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--spacing-300) var(--spacing-400);
+    background: var(--bcn-aldo-50);
+    border: 1px solid var(--bcn-aldo-100);
+    border-radius: var(--radius-200);
+  }
+  .bcn-gd__here-page { font-size: var(--type-size-250); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
+  .bcn-gd__here-purpose { font-size: var(--type-size-150); color: var(--color-text-secondary); line-height: 1.5; }
+
+  .bcn-gd__rows { display: flex; flex-direction: column; }
+
+  /* ── article row (plain button → opens the child reader) ── */
+  .bcn-gd-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    width: 100%;
+    padding: var(--spacing-300) var(--spacing-100);
+    border: 0;
+    border-bottom: 1px solid var(--color-border-light);
+    background: transparent;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  .bcn-gd-row:hover { background: var(--color-surface-sunken); }
+  .bcn-gd-row__text { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+  /* semibold (550) — the medium token resolves to 450 and reads too light for row titles */
+  .bcn-gd-row__title { font-size: var(--type-size-200); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); line-height: 1.35; }
+  .bcn-gd-row__sub { font-size: var(--type-size-150); font-weight: var(--font-weight-regular); color: var(--color-text-secondary); line-height: 1.4; }
+  .bcn-gd-row :global(.esa-icon) { color: var(--color-text-tertiary); flex: none; }
+
+  /* ── pinned footer: browse row + composer ── */
+  .bcn-gd__foot { display: flex; flex-direction: column; gap: var(--spacing-250); }
+  .bcn-gd__browse {
+    align-self: flex-end;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+  .bcn-gd__browse:hover { text-decoration: underline; }
+
+  .bcn-gd-composer {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--spacing-200);
+    padding: var(--spacing-150) var(--spacing-150) var(--spacing-150) var(--spacing-300);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+  .bcn-gd-composer:focus-within {
+    border-color: var(--bcn-aldo);
+    box-shadow: 0 0 0 3px var(--bcn-aldo-50);
+  }
+  .bcn-gd-composer__input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    resize: none;
+    font-family: inherit;
+    font-size: var(--type-size-200);
+    line-height: 1.5;
+    color: var(--color-text-primary);
+    padding: 6px 0;
+    overflow-y: hidden; /* JS grows height to content, then flips to auto at max rows */
+  }
+  .bcn-gd-composer__input::placeholder { color: var(--color-text-tertiary); }
+  /* circular send: Aldo-green filled with input, muted when empty */
+  .bcn-gd-composer__send {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: var(--radius-full);
+    background: var(--bcn-aldo);
+    color: var(--color-text-inverse);
+    cursor: pointer;
+    transition: background 150ms ease, color 150ms ease;
+  }
+  .bcn-gd-composer__send:hover:not(:disabled) { background: var(--bcn-aldo-600); }
+  .bcn-gd-composer__send:disabled {
+    background: var(--color-surface-sunken);
+    color: var(--color-text-tertiary);
+    cursor: default;
+  }
+
+  /* ── article reader header (projected into the child lego's header slot) ── */
+  .bcn-gd-article__head { display: flex; flex-direction: column; gap: var(--spacing-200); min-width: 0; }
+  .bcn-gd-article__back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    align-self: flex-start;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+  }
+  .bcn-gd-article__back:hover { color: var(--color-text-primary); }
+  .bcn-gd-article__titlerow { display: flex; align-items: center; gap: var(--spacing-200); min-width: 0; }
+  .bcn-gd-article__title {
+    font-family: var(--font-decorative);
+    font-size: var(--type-size-300);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    line-height: 1.25;
+  }
+  /* quiet 4px kind badge (not a full pill) */
+  .bcn-gd-article__kind {
+    flex: none;
+    padding: 1px 6px;
+    border-radius: var(--radius-100);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+  .bcn-gd-article__kind[data-kind='glossary'] {
+    color: var(--bcn-aldo-600);
+    border-color: var(--bcn-aldo-100);
+    background: var(--bcn-aldo-50);
+  }
+  .bcn-gd-article__panel[hidden] { display: none; }
+</style>
+
+<style is:global>
+  /* Message system — shared by the pre-rendered intro AND the client-built Q&A messages,
+     so the rules are global (contained under .bcn-gd-msg*). A roomy assistant group with a
+     top-left avatar; user turns right-aligned; Aldo bubbles Aldo-50, user bubbles sunken. */
+  .bcn-gd-msg { display: flex; gap: var(--spacing-300); align-items: flex-start; }
+  .bcn-gd-msg--user { justify-content: flex-end; }
+  .bcn-gd-msg__avatar { flex: none; margin-top: 2px; }
+  .bcn-gd-msg__group { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: var(--spacing-500); }
+  .bcn-gd-msg__bubble {
+    max-width: 88%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding: var(--spacing-250) var(--spacing-300);
+    border-radius: var(--radius-300);
+    font-size: var(--type-size-150);
+    line-height: 1.5;
+  }
+  .bcn-gd-msg--user .bcn-gd-msg__bubble {
+    background: var(--color-surface-sunken);
+    color: var(--color-text-primary);
+    white-space: pre-wrap; /* preserve newlines from Shift+Enter, still textContent */
+  }
+  .bcn-gd-msg--aldo .bcn-gd-msg__bubble {
+    background: var(--bcn-aldo-50);
+    color: var(--color-text-primary);
+  }
+  .bcn-gd-msg__text { margin: 0; }
+  .bcn-gd-msg__links { display: flex; flex-direction: column; gap: var(--spacing-100); }
+  .bcn-gd-msg__link {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-primary);
+    text-align: left;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+  }
+  .bcn-gd-msg__browse {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+</style>

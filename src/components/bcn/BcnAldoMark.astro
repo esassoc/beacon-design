@@ -1,0 +1,99 @@
+---
+// <BcnAldoMark> — "Aldo", Beacon's help & guidance identity mark.
+//
+// Aldo is the friendly face of Beacon's whole help system, named after
+// conservationist Aldo Leopold. It is a white compass glyph centered in a filled
+// Aldo-green circle, and it is the ONE badge that stands for guidance everywhere
+// it appears: the floating help-bar button, the guidance drawer header, and the
+// Help & Guidance page hero. Aldo green (--bcn-aldo) is a deliberately distinct
+// accent — never --color-primary — so the guide reads as its own presence, not
+// another primary action.
+//
+// Purely decorative (aria-hidden). It carries no interactivity of its own — a host
+// wraps it in a button or link when the mark needs to be actionable.
+//
+// bcn-lego-checked: no esa-* lego is a branded identity badge. esa-avatar renders a
+// PERSON (initials/photo); esa-badge and esa-icon-button are generic chrome; none
+// carries a brand mark. Checked Beacon (no help-mark component exists). The compass
+// itself IS composed from the esa-icon lego (custom Lucide paths, since 'compass'
+// isn't in esa-icon's registry); the circle + animation are this mark's own
+// identity, so bcn-aldo-mark is its reusable home.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+
+interface Props {
+  /** sm=20px, md=40px, lg=64px container (icon ~12/20/28). Default 'md'. */
+  size?: 'sm' | 'md' | 'lg';
+  /** Gentle pulse on the circle + slow 8s linear rotation of the compass glyph. Default false. */
+  animated?: boolean;
+}
+const { size = 'md', animated = false } = Astro.props;
+
+// Lucide "compass" — not in esa-icon's built-in registry, so handed to the lego as
+// custom paths (same mechanism AppShell uses for its off-registry nav glyphs).
+const COMPASS_PATHS =
+  '<path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/><circle cx="12" cy="12" r="10"/>';
+
+// esa-icon size step per container. The exact px is pinned in scoped CSS via the
+// public --icon-size-* token the lego reads (sm nudges its 14px xs down to 12px).
+const ICON_STEP = { sm: 'xs', md: 'md', lg: 'xl' } as const;
+---
+
+<span class="bcn-aldo-mark" data-size={size} data-animated={animated ? '' : undefined} aria-hidden="true">
+  <span class="bcn-aldo-mark__glyph">
+    <EsaIcon name="compass" paths={COMPASS_PATHS} size={ICON_STEP[size]} />
+  </span>
+</span>
+
+<style>
+  .bcn-aldo-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: var(--radius-full);
+    background: var(--bcn-aldo);
+    color: var(--color-text-inverse);
+    line-height: 0;
+  }
+
+  /* Container box + pinned icon size per step. The sm case overrides esa-icon's
+     14px xs down to 12px through the public token the lego resolves
+     (var(--icon-size-xs, 14px)); md/lg already match the lego's 20/28 defaults. */
+  .bcn-aldo-mark[data-size='sm'] { width: 20px; height: 20px; --icon-size-xs: 12px; }
+  .bcn-aldo-mark[data-size='md'] { width: 40px; height: 40px; }
+  .bcn-aldo-mark[data-size='lg'] { width: 64px; height: 64px; }
+
+  .bcn-aldo-mark__glyph {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+  }
+
+  /* When animated: a soft expanding-ring pulse on the circle + a slow compass spin.
+     The ring grows outward as a box-shadow whose Aldo tint fades to transparent. */
+  .bcn-aldo-mark[data-animated] {
+    animation: bcn-aldo-pulse 2s ease-in-out infinite;
+  }
+  .bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
+    animation: bcn-aldo-spin 8s linear infinite;
+  }
+
+  @keyframes bcn-aldo-pulse {
+    0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--bcn-aldo) 40%, transparent); }
+    70%  { box-shadow: 0 0 0 10px color-mix(in srgb, var(--bcn-aldo) 0%, transparent); }
+    100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--bcn-aldo) 0%, transparent); }
+  }
+  @keyframes bcn-aldo-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  /* Respect a reduced-motion preference: no pulse, no spin. */
+  @media (prefers-reduced-motion: reduce) {
+    .bcn-aldo-mark[data-animated],
+    .bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
+      animation: none;
+    }
+  }
+</style>
