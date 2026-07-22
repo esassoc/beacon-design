@@ -1008,6 +1008,10 @@
   background: color-mix(in srgb, var(--color-commitment) 12%, white);
   border-color: transparent;
 }
+.bcn-model-diagram__fname[data-ref="commitment"],
+.bcn-model-diagram__fname[data-ref="milestone"] {
+  color: var(--color-commitment);
+}
 .bcn-model-diagram__link {
   display: flex;
   align-items: center;
@@ -1043,10 +1047,6 @@
   border-bottom: 5px solid transparent;
   border-left: 7px solid var(--color-border-strong);
 }
-.bcn-model-diagram__fname[data-ref="commitment"],
-.bcn-model-diagram__fname[data-ref="milestone"] {
-  color: var(--color-commitment);
-}
 .bcn-model-diagram__row--satellites {
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
@@ -1065,9 +1065,6 @@
 .bcn-model-diagram__card--projection {
   gap: var(--spacing-150);
   background: var(--color-surface-sunken);
-}
-:host {
-  --_width: var(--side-dialog-width, 400px);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
@@ -1128,11 +1125,7 @@
   white-space: nowrap;
 }
 :host {
-  display: inline-block;
-}
-.esa-tooltip-anchor {
-  position: relative;
-  display: inline-flex;
+  --_width: var(--side-dialog-width, 400px);
 }
 :host {
   all: initial;
@@ -1341,6 +1334,13 @@
 }
 .claude svg {
   flex: none;
+}
+:host {
+  display: inline-block;
+}
+.esa-tooltip-anchor {
+  position: relative;
+  display: inline-flex;
 }
 :host {
   --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));

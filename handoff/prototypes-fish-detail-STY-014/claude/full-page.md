@@ -539,7 +539,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </svg>
                 </span>
                 <span class="breadcrumb-item" aria-current="page">
-                  Juvenile Salmonid Migration &amp; Survival
+                  Migration &amp; Survival Study
                 </span>
               </div>
             </nav>
@@ -566,7 +566,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <path d="M8.5 2h7"></path>
                   </svg>
                 </span>
-                Juvenile Salmonid Migration &amp; Survival
+                Migration &amp; Survival Study
               </h1>
               <span class="bcn-fdetail__badges">
                 <span class="bcn-fdetail__chip" data-chip="id">STY-014</span>
@@ -665,9 +665,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="name">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Name</span>
-                          <span class="bcn-key-value__val"
-                            >Juvenile Salmonid Migration &amp; Survival</span
-                          >
+                          <span class="bcn-key-value__val">Migration &amp; Survival Study</span>
                         </div>
                       </div>
                       <div data-live="idrow">
@@ -685,9 +683,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="parent">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Parent</span>
-                          <span class="bcn-key-value__val"
-                            >Fish Migration, Survival &amp; Predation Studies</span
-                          >
+                          <span class="bcn-key-value__val">Fisheries Evaluation Studies</span>
                         </div>
                       </div>
                     </div>
@@ -822,7 +818,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     </div>
                     <script
                       type="module"
-                      src="/beacon-design/_astro/BcnFundingPlan.astro_astro_type_script_index_0_lang.hohG8McH.js"
+                      src="/beacon-design/_astro/BcnFundingPlan.astro_astro_type_script_index_0_lang.BcmJ4tNP.js"
                     ></script>
                   </section>
                   <!-- ── 4 · Roll-up (PARENT nodes only) ── -->
@@ -889,7 +885,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 </div>
                 <script
                   type="module"
-                  src="/beacon-design/_astro/BcnNodeDetail.astro_astro_type_script_index_0_lang.xFdjaozm.js"
+                  src="/beacon-design/_astro/BcnNodeDetail.astro_astro_type_script_index_0_lang.DYHGioeB.js"
                 ></script>
                 <article class="bcn-sketch">
                   <!-- Field 1 — Focal Species -->
@@ -1637,11 +1633,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           </span>
                         </span>
                         <span class="bcn-dlineage__body">
-                          <span class="bcn-dlineage__kind">Program</span>
+                          <span class="bcn-dlineage__kind">Commitment</span>
                           <a
                             class="bcn-dlineage__name"
-                            href="/beacon-design/prototypes/fish-detail/PRG-011"
-                            >Fish Migration, Survival &amp; Predation Studies</a
+                            href="/beacon-design/prototypes/fish-detail/CMT-011"
+                            >Fisheries Evaluation Studies</a
                           >
                         </span>
                       </li>
@@ -1670,7 +1666,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <span class="bcn-dlineage__body">
                           <span class="bcn-dlineage__kind">Study</span>
                           <span class="bcn-dlineage__name bcn-dlineage__name--current"
-                            >Juvenile Salmonid Migration &amp; Survival</span
+                            >Migration &amp; Survival Study</span
                           >
                         </span>
                       </li>
@@ -1782,9 +1778,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             href="/beacon-design/prototypes/fish-detail/STY-015"
                           >
                             <span class="bcn-dchildren__id">STY-015</span>
-                            <span class="bcn-dchildren__name"
-                              >Predation Risk &amp; Hotspot Characterization</span
-                            >
+                            <span class="bcn-dchildren__name">Predation Study</span>
                           </a>
                         </li>
                       </ul>
@@ -2013,7 +2007,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <li>
                         <a href="/beacon-design/prototypes/fish-science-plan#sec-3-5-1">
                           <span class="fd-plansec__num">3.5.1</span> Condition of Approval 10.19.1
-                          (Juvenile Salmonid Migration &amp; Survival)
+                          (Migration &amp; Survival Study)
                         </a>
                       </li>
                     </ul>
@@ -5232,6 +5226,80 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .bcn-review__item + .bcn-review__item {
   margin-top: var(--spacing-200);
 }
+:host {
+  --_field-padding-y: var(--form-padding-y-md, 0.5rem);
+  --_field-padding-x: var(--form-padding-x-md, 0.75rem);
+  --_field-font-size: var(--form-font-size-md, 0.9375rem);
+  --_field-height: var(--form-height-md, 40px);
+  --_field-radius: var(--form-radius-md, 0.5rem);
+  --_field-border-color: var(--form-border-color, #e5e5e5);
+  --_label-font-size: var(--type-size-200, 0.9375rem);
+  display: block;
+  font-family: var(--font-sans, sans-serif);
+}
+:host([size="sm"]) {
+  --_field-padding-y: var(--form-padding-y-sm, 0.375rem);
+  --_field-padding-x: var(--form-padding-x-sm, 0.5rem);
+  --_field-font-size: var(--form-font-size-sm, 0.875rem);
+  --_field-height: var(--form-height-sm, 32px);
+  --_field-radius: var(--form-radius-sm, 0.25rem);
+  --_label-font-size: var(--type-size-150, 0.875rem);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+}
+.label {
+  color: var(--form-label-color, #171717);
+  font-weight: var(--form-label-font-weight, var(--font-weight-medium, 450));
+  font-size: var(--form-label-font-size, var(--_label-font-size));
+  margin-block-end: var(--form-label-gap, 4px);
+}
+.control {
+  display: flex;
+  align-items: stretch;
+  height: var(--_field-height);
+  background: var(--form-bg, #fff);
+  border: var(--form-border-width, 1px) solid var(--_field-border-color);
+  border-radius: var(--_field-radius);
+  box-sizing: border-box;
+  overflow: hidden;
+  transition:
+    border-color var(--transition-fast, 150ms ease),
+    box-shadow var(--transition-fast, 150ms ease);
+}
+.input {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  padding: var(--_field-padding-y) var(--_field-padding-x);
+  font-family: inherit;
+  font-size: var(--_field-font-size);
+  color: var(--form-text-color, #171717);
+  background: transparent;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+.input::placeholder {
+  color: var(--form-placeholder-color, #737373);
+}
+.affix {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  padding-inline: var(--_field-padding-x);
+  color: var(--form-affix-color, var(--color-text-secondary, #737373));
+  font-size: var(--_field-font-size);
+  background: var(--form-affix-bg, var(--color-surface-sunken, #efefef));
+  user-select: none;
+  white-space: nowrap;
+}
+.affix--prefix {
+  border-inline-end: var(--form-border-width, 1px) solid
+    var(--form-affix-border-color, var(--form-border-color, #e5e5e5));
+}
 .modern-layout {
   display: flex;
   flex-direction: column;
@@ -6008,222 +6076,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   display: none;
 }
 :host {
-  --_width: var(--side-dialog-width, 400px);
-}
-:host {
-  all: initial;
-}
-.host-root {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2147483000;
-  font-family: system-ui, sans-serif;
-}
-.host-root > * {
-  pointer-events: auto;
-}
-.launch {
-  position: fixed;
-  bottom: 22px;
-  left: 22px;
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 13px 19px;
-  border-radius: 999px;
-  color: #fff;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  border: 1px solid #3d6fd6;
-  background: linear-gradient(180deg, #1f6feb, #1551c4);
-  box-shadow:
-    0 10px 28px -8px rgba(31, 111, 235, 0.65),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18);
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease,
-    filter 0.15s ease;
-}
-.launch svg {
-  flex: none;
-}
-.panel {
-  position: fixed;
-  top: 18px;
-  right: 18px;
-  bottom: 18px;
-  width: min(720px, 94vw);
-  display: flex;
-  flex-direction: column;
-  color: #ffffff;
-  border-radius: 16px;
-  background: linear-gradient(155deg, rgba(26, 31, 40, 0.74), rgba(11, 15, 21, 0.86));
-  backdrop-filter: blur(26px) saturate(150%);
-  -webkit-backdrop-filter: blur(26px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow:
-    0 28px 70px -18px rgba(0, 0, 0, 0.62),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  font-size: 12.5px;
-  overflow: hidden;
-  /* slide in from the right */
-  transform: translateX(calc(100% + 32px));
-  opacity: 0;
-  visibility: hidden;
-  transition:
-    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.22s ease,
-    visibility 0s linear 0.3s;
-}
-.head {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 13px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-}
-.head strong {
-  font-size: 14px;
-}
-.head .sub {
-  flex: 1;
-  color: #ccd5e0;
-  font-size: 12px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.x {
-  border: 0;
-  background: none;
-  color: #c4cdd8;
-  font-size: 20px;
-  line-height: 1;
-  cursor: pointer;
-}
-.picker {
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-}
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.chip {
-  padding: 5px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.04);
-  color: #eef2f6;
-  font: inherit;
-  font-size: 12.5px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition:
-    border-color 0.12s ease,
-    background 0.12s ease,
-    color 0.12s ease;
-}
-.chip.on {
-  background: rgba(31, 111, 235, 0.28);
-  border-color: #4493f8;
-  color: #fff;
-  font-weight: 600;
-}
-.tabs {
-  display: flex;
-  gap: 4px;
-  padding: 9px 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-}
-.tabs button {
-  padding: 5px 12px;
-  border: 0;
-  border-radius: 6px;
-  background: none;
-  color: #ccd5e0;
-  font: inherit;
-  font-size: 12.5px;
-  cursor: pointer;
-}
-.tabs button.on {
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-}
-.body {
-  overflow: auto;
-  padding: 13px 16px;
-  flex: 1;
-}
-.hint {
-  margin: 0;
-  color: #c4cdd8;
-  line-height: 1.6;
-}
-.footer {
-  position: relative;
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  padding: 11px 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(0, 0, 0, 0.18);
-}
-[hidden] {
-  display: none !important;
-}
-.cpreview {
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: calc(100% + 8px);
-  background: rgba(13, 17, 23, 0.96);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 12px;
-  box-shadow: 0 18px 50px -14px rgba(0, 0, 0, 0.7);
-  padding: 12px 14px;
-  max-height: 50vh;
-  overflow: auto;
-}
-.copy {
-  color: #eef2f6;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.05);
-}
-.footer button {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font: inherit;
-  font-size: 12.5px;
-  font-weight: 600;
-  cursor: pointer;
-}
-.claude {
-  color: #fff;
-  border: 1px solid #d97757;
-  background: linear-gradient(180deg, #e0805f, #c25e3c);
-  box-shadow:
-    0 6px 18px -6px rgba(217, 119, 87, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-.claude svg {
-  flex: none;
-}
-:host {
   display: inline-block;
 }
 .esa-tooltip-anchor {
   position: relative;
   display: inline-flex;
+}
+:host {
+  --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
+  --_popover-border: var(--popover-border-color, var(--color-border, #e5e5e5));
+  --_popover-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+  --_popover-radius: var(--popover-radius, var(--radius-200, 0.5rem));
+  --_popover-padding: var(--spacing-300, 0.75rem);
+  --_popover-arrow-size: 8px;
+  --_popover-color: var(--popover-color, var(--color-text-primary, #171717));
+  display: inline-block;
+}
+.esa-popover-anchor {
+  position: relative;
+  display: inline-block;
 }
 .page-layout {
   display: flex;
@@ -6326,20 +6197,6 @@ img {
 }
 :where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
   margin: 0;
-}
-:host {
-  --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
-  --_popover-border: var(--popover-border-color, var(--color-border, #e5e5e5));
-  --_popover-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
-  --_popover-radius: var(--popover-radius, var(--radius-200, 0.5rem));
-  --_popover-padding: var(--spacing-300, 0.75rem);
-  --_popover-arrow-size: 8px;
-  --_popover-color: var(--popover-color, var(--color-text-primary, #171717));
-  display: inline-block;
-}
-.esa-popover-anchor {
-  position: relative;
-  display: inline-block;
 }
 .bcn-fdetail__badges {
   display: inline-flex;
@@ -6772,6 +6629,9 @@ img {
   color: var(--_on);
   border-color: transparent;
 }
+:host {
+  --_width: var(--side-dialog-width, 400px);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
@@ -7087,78 +6947,212 @@ img {
   letter-spacing: 0.02em;
 }
 :host {
-  --_field-padding-y: var(--form-padding-y-md, 0.5rem);
-  --_field-padding-x: var(--form-padding-x-md, 0.75rem);
-  --_field-font-size: var(--form-font-size-md, 0.9375rem);
-  --_field-height: var(--form-height-md, 40px);
-  --_field-radius: var(--form-radius-md, 0.5rem);
-  --_field-border-color: var(--form-border-color, #e5e5e5);
-  --_label-font-size: var(--type-size-200, 0.9375rem);
-  display: block;
-  font-family: var(--font-sans, sans-serif);
+  all: initial;
 }
-:host([size="sm"]) {
-  --_field-padding-y: var(--form-padding-y-sm, 0.375rem);
-  --_field-padding-x: var(--form-padding-x-sm, 0.5rem);
-  --_field-font-size: var(--form-font-size-sm, 0.875rem);
-  --_field-height: var(--form-height-sm, 32px);
-  --_field-radius: var(--form-radius-sm, 0.25rem);
-  --_label-font-size: var(--type-size-150, 0.875rem);
+.host-root {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2147483000;
+  font-family: system-ui, sans-serif;
 }
-.field {
-  display: flex;
-  flex-direction: column;
+.host-root > * {
+  pointer-events: auto;
 }
-.label {
-  color: var(--form-label-color, #171717);
-  font-weight: var(--form-label-font-weight, var(--font-weight-medium, 450));
-  font-size: var(--form-label-font-size, var(--_label-font-size));
-  margin-block-end: var(--form-label-gap, 4px);
-}
-.control {
-  display: flex;
-  align-items: stretch;
-  height: var(--_field-height);
-  background: var(--form-bg, #fff);
-  border: var(--form-border-width, 1px) solid var(--_field-border-color);
-  border-radius: var(--_field-radius);
-  box-sizing: border-box;
-  overflow: hidden;
-  transition:
-    border-color var(--transition-fast, 150ms ease),
-    box-shadow var(--transition-fast, 150ms ease);
-}
-.input {
-  flex: 1 1 auto;
-  min-width: 0;
-  width: 100%;
-  height: 100%;
-  padding: var(--_field-padding-y) var(--_field-padding-x);
-  font-family: inherit;
-  font-size: var(--_field-font-size);
-  color: var(--form-text-color, #171717);
-  background: transparent;
-  border: none;
-  outline: none;
-  box-sizing: border-box;
-}
-.input::placeholder {
-  color: var(--form-placeholder-color, #737373);
-}
-.affix {
+.launch {
+  position: fixed;
+  bottom: 22px;
+  left: 22px;
   display: inline-flex;
   align-items: center;
+  gap: 9px;
+  padding: 13px 19px;
+  border-radius: 999px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border: 1px solid #3d6fd6;
+  background: linear-gradient(180deg, #1f6feb, #1551c4);
+  box-shadow:
+    0 10px 28px -8px rgba(31, 111, 235, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
+}
+.launch svg {
   flex: none;
-  padding-inline: var(--_field-padding-x);
-  color: var(--form-affix-color, var(--color-text-secondary, #737373));
-  font-size: var(--_field-font-size);
-  background: var(--form-affix-bg, var(--color-surface-sunken, #efefef));
-  user-select: none;
+}
+.panel {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  bottom: 18px;
+  width: min(720px, 94vw);
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  border-radius: 16px;
+  background: linear-gradient(155deg, rgba(26, 31, 40, 0.74), rgba(11, 15, 21, 0.86));
+  backdrop-filter: blur(26px) saturate(150%);
+  -webkit-backdrop-filter: blur(26px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 28px 70px -18px rgba(0, 0, 0, 0.62),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  font-size: 12.5px;
+  overflow: hidden;
+  /* slide in from the right */
+  transform: translateX(calc(100% + 32px));
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.22s ease,
+    visibility 0s linear 0.3s;
+}
+.head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+.head strong {
+  font-size: 14px;
+}
+.head .sub {
+  flex: 1;
+  color: #ccd5e0;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
-.affix--prefix {
-  border-inline-end: var(--form-border-width, 1px) solid
-    var(--form-affix-border-color, var(--form-border-color, #e5e5e5));
+.x {
+  border: 0;
+  background: none;
+  color: #c4cdd8;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+.picker {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chip {
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: #eef2f6;
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    border-color 0.12s ease,
+    background 0.12s ease,
+    color 0.12s ease;
+}
+.chip.on {
+  background: rgba(31, 111, 235, 0.28);
+  border-color: #4493f8;
+  color: #fff;
+  font-weight: 600;
+}
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 9px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+.tabs button {
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: #ccd5e0;
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.tabs button.on {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+.body {
+  overflow: auto;
+  padding: 13px 16px;
+  flex: 1;
+}
+.hint {
+  margin: 0;
+  color: #c4cdd8;
+  line-height: 1.6;
+}
+.footer {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 11px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.18);
+}
+[hidden] {
+  display: none !important;
+}
+.cpreview {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: calc(100% + 8px);
+  background: rgba(13, 17, 23, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  box-shadow: 0 18px 50px -14px rgba(0, 0, 0, 0.7);
+  padding: 12px 14px;
+  max-height: 50vh;
+  overflow: auto;
+}
+.copy {
+  color: #eef2f6;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.05);
+}
+.footer button {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.claude {
+  color: #fff;
+  border: 1px solid #d97757;
+  background: linear-gradient(180deg, #e0805f, #c25e3c);
+  box-shadow:
+    0 6px 18px -6px rgba(217, 119, 87, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+.claude svg {
+  flex: none;
 }
 ```
 

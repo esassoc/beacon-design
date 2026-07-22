@@ -153,6 +153,59 @@ The Data tab is the tabular workspace: the requirement-tracker filter bar over t
   color: var(--color-text-tertiary);
   flex: none;
 }
+.comp-picker__trigger .esa-icon {
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+}
+.wa__section .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+}
+.bcn-filterbar {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+  margin-bottom: var(--spacing-400);
+}
+.bcn-filterbar__top {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-400);
+  padding: var(--spacing-300) var(--spacing-400);
+  flex-wrap: wrap;
+}
+.bcn-filterbar__group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-300);
+}
+.bcn-filterbar__label {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+}
+.bcn-filterbar__search {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  min-width: 300px;
+}
+.bcn-filterbar__search esa-text-field {
+  flex: 1;
+}
+.bcn-filterbar__bottom {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-400);
+  border-top: 1px solid var(--color-border);
+  flex-wrap: wrap;
+}
+.bcn-filterbar__clear {
+  margin-left: auto;
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
@@ -244,59 +297,6 @@ The Data tab is the tabular workspace: the requirement-tracker filter bar over t
 .esa-collapsible__summary .esa-icon {
   flex-shrink: 0;
   color: var(--color-text-secondary, #404040);
-}
-.comp-picker__trigger .esa-icon {
-  color: var(--color-text-tertiary);
-  flex-shrink: 0;
-}
-.wa__section .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary);
-}
-.bcn-filterbar {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-  margin-bottom: var(--spacing-400);
-}
-.bcn-filterbar__top {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-400);
-  padding: var(--spacing-300) var(--spacing-400);
-  flex-wrap: wrap;
-}
-.bcn-filterbar__group {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-300);
-}
-.bcn-filterbar__label {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-tertiary);
-  white-space: nowrap;
-}
-.bcn-filterbar__search {
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-  min-width: 300px;
-}
-.bcn-filterbar__search esa-text-field {
-  flex: 1;
-}
-.bcn-filterbar__bottom {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300) var(--spacing-400);
-  border-top: 1px solid var(--color-border);
-  flex-wrap: wrap;
-}
-.bcn-filterbar__clear {
-  margin-left: auto;
 }
 ```
 

@@ -587,9 +587,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <script type="application/json" data-wb-model="">
                   [
                     {
-                      "id": "PRG-011",
+                      "id": "CMT-011",
                       "tier": "program",
-                      "name": "Fish Migration, Survival & Predation Studies",
+                      "name": "Fisheries Evaluation Studies",
                       "coaRef": "10.19",
                       "funding": [],
                       "constraints": [
@@ -600,7 +600,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         {
                           "id": "STY-014",
                           "tier": "study",
-                          "name": "Juvenile Salmonid Migration & Survival",
+                          "name": "Migration & Survival Study",
                           "coaRef": "10.19.1",
                           "funding": [],
                           "children": [
@@ -808,7 +808,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         {
                           "id": "STY-015",
                           "tier": "study",
-                          "name": "Predation Risk & Hotspot Characterization",
+                          "name": "Predation Study",
                           "coaRef": "10.19.2",
                           "funding": [],
                           "children": [
@@ -1023,9 +1023,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       ]
                     },
                     {
-                      "id": "PRG-012",
+                      "id": "CMT-012",
                       "tier": "program",
-                      "name": "Water Quality & Monitoring Infrastructure",
+                      "name": "Water Quality Evaluation Studies",
                       "coaRef": "10.20",
                       "funding": [],
                       "constraints": [
@@ -1036,7 +1036,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         {
                           "id": "STY-017",
                           "tier": "study",
-                          "name": "Continuous Water-Quality Station Network",
+                          "name": "Installation of New Real-time Monitoring Station",
                           "coaRef": "10.20.1",
                           "funding": [],
                           "children": [
@@ -1245,9 +1245,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       ]
                     },
                     {
-                      "id": "PRG-013",
+                      "id": "CMT-013",
                       "tier": "program",
-                      "name": "Operations-Phase Effectiveness Monitoring",
+                      "name": "Ecological Response Evaluation Studies",
                       "coaRef": "10.21",
                       "funding": [],
                       "constraints": [
@@ -1431,9 +1431,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       ]
                     },
                     {
-                      "id": "PRG-014",
+                      "id": "CMT-014",
                       "tier": "program",
-                      "name": "Fish Guidance System Evaluation",
+                      "name": "Incorporation of Fish Guidance System into the North Delta Intake Structures",
                       "coaRef": "10.26",
                       "funding": [],
                       "children": [
@@ -1590,7 +1590,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   ]
                 </script>
                 <!-- ── Filter bar (permit-tracking pattern): controls on top, legend below.
-       Every lego rides the sm size variant; Add program lives at the BOTTOM of
+       Every lego rides the sm size variant; Add commitment lives at the BOTTOM of
        the tree body (the ghost add-row), so the bar starts with Search. ── -->
                 <div class="bcn-wb__filterbar">
                   <div class="bcn-wb__fb-top">
@@ -1658,7 +1658,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <div class="bcn-wb__canvas">
                     <!-- ── Axis header: phases / years / milestones (water-year aware) ── -->
                     <header class="bcn-wb__axis">
-                      <div class="bcn-wb__corner">Program / study / sub-study / task</div>
+                      <div class="bcn-wb__corner">Commitment / study / sub-study / task</div>
                       <div class="bcn-wb__lead-head">Lead</div>
                       <div class="bcn-wb__money-head">Planned $</div>
                       <div class="bcn-wb__head-plot">
@@ -1775,7 +1775,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <div class="bcn-wb__body">
                       <div
                         class="bcn-wb__row is-program"
-                        data-id="PRG-011"
+                        data-id="CMT-011"
                         data-start="2026-07"
                         data-end="2032-10"
                         data-tier="program"
@@ -1789,7 +1789,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             type="button"
                             class="bcn-wb__caret"
                             aria-expanded="true"
-                            aria-label="Collapse Fish Migration, Survival &amp; Predation Studies"
+                            aria-label="Collapse Fisheries Evaluation Studies"
                           >
                             <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true">
                               <path
@@ -1805,13 +1805,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <button
                             type="button"
                             class="bcn-wb__name-btn"
-                            title="PRG-011 — Fish Migration, Survival &amp; Predation Studies"
-                            aria-label="Open PRG-011 Fish Migration, Survival &amp; Predation Studies"
+                            title="CMT-011 — Fisheries Evaluation Studies"
+                            aria-label="Open CMT-011 Fisheries Evaluation Studies"
                           >
-                            <span class="bcn-wb__id">PRG-011</span>
-                            <span class="bcn-wb__name"
-                              >Fish Migration, Survival &amp; Predation Studies</span
-                            >
+                            <span class="bcn-wb__id">CMT-011</span>
+                            <span class="bcn-wb__name">Fisheries Evaluation Studies</span>
                           </button>
                           <span class="bcn-wb__add">
                             <button
@@ -1842,7 +1840,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <button
                               type="button"
                               class="bcn-wb__kebab"
-                              aria-label="Actions for Fish Migration, Survival &amp; Predation Studies"
+                              aria-label="Actions for Fisheries Evaluation Studies"
                             >
                               ⋯
                             </button>
@@ -1909,7 +1907,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         data-end="2031-10"
                         data-tier="study"
                         data-depth="1"
-                        data-parent="PRG-011"
+                        data-parent="CMT-011"
                         data-has-children="1"
                         data-lead="DWR-DISE"
                       >
@@ -1918,7 +1916,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             type="button"
                             class="bcn-wb__caret"
                             aria-expanded="true"
-                            aria-label="Collapse Juvenile Salmonid Migration &amp; Survival"
+                            aria-label="Collapse Migration &amp; Survival Study"
                           >
                             <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true">
                               <path
@@ -1934,13 +1932,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <button
                             type="button"
                             class="bcn-wb__name-btn"
-                            title="STY-014 — Juvenile Salmonid Migration &amp; Survival"
-                            aria-label="Open STY-014 Juvenile Salmonid Migration &amp; Survival"
+                            title="STY-014 — Migration &amp; Survival Study"
+                            aria-label="Open STY-014 Migration &amp; Survival Study"
                           >
                             <span class="bcn-wb__id">STY-014</span>
-                            <span class="bcn-wb__name"
-                              >Juvenile Salmonid Migration &amp; Survival</span
-                            >
+                            <span class="bcn-wb__name">Migration &amp; Survival Study</span>
                           </button>
                           <span class="bcn-wb__add">
                             <button
@@ -1971,7 +1967,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <button
                               type="button"
                               class="bcn-wb__kebab"
-                              aria-label="Actions for Juvenile Salmonid Migration &amp; Survival"
+                              aria-label="Actions for Migration &amp; Survival Study"
                             >
                               ⋯
                             </button>
@@ -3204,7 +3200,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         data-end="2031-06"
                         data-tier="study"
                         data-depth="1"
-                        data-parent="PRG-011"
+                        data-parent="CMT-011"
                         data-has-children="1"
                         data-lead="DWR-DISE"
                       >
@@ -3213,7 +3209,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             type="button"
                             class="bcn-wb__caret"
                             aria-expanded="true"
-                            aria-label="Collapse Predation Risk &amp; Hotspot Characterization"
+                            aria-label="Collapse Predation Study"
                           >
                             <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true">
                               <path
@@ -3229,13 +3225,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <button
                             type="button"
                             class="bcn-wb__name-btn"
-                            title="STY-015 — Predation Risk &amp; Hotspot Characterization"
-                            aria-label="Open STY-015 Predation Risk &amp; Hotspot Characterization"
+                            title="STY-015 — Predation Study"
+                            aria-label="Open STY-015 Predation Study"
                           >
                             <span class="bcn-wb__id">STY-015</span>
-                            <span class="bcn-wb__name"
-                              >Predation Risk &amp; Hotspot Characterization</span
-                            >
+                            <span class="bcn-wb__name">Predation Study</span>
                           </button>
                           <span class="bcn-wb__add">
                             <button
@@ -3266,7 +3260,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <button
                               type="button"
                               class="bcn-wb__kebab"
-                              aria-label="Actions for Predation Risk &amp; Hotspot Characterization"
+                              aria-label="Actions for Predation Study"
                             >
                               ⋯
                             </button>
@@ -4043,7 +4037,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         data-end="2032-10"
                         data-tier="study"
                         data-depth="1"
-                        data-parent="PRG-011"
+                        data-parent="CMT-011"
                         data-has-children="1"
                         data-lead="DWR-DISE"
                       >
@@ -4660,7 +4654,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </div>
                       <div
                         class="bcn-wb__row is-program"
-                        data-id="PRG-012"
+                        data-id="CMT-012"
                         data-start="2026-08"
                         data-end="2030-09"
                         data-tier="program"
@@ -4674,7 +4668,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             type="button"
                             class="bcn-wb__caret"
                             aria-expanded="true"
-                            aria-label="Collapse Water Quality &amp; Monitoring Infrastructure"
+                            aria-label="Collapse Water Quality Evaluation Studies"
                           >
                             <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true">
                               <path
@@ -4690,13 +4684,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <button
                             type="button"
                             class="bcn-wb__name-btn"
-                            title="PRG-012 — Water Quality &amp; Monitoring Infrastructure"
-                            aria-label="Open PRG-012 Water Quality &amp; Monitoring Infrastructure"
+                            title="CMT-012 — Water Quality Evaluation Studies"
+                            aria-label="Open CMT-012 Water Quality Evaluation Studies"
                           >
-                            <span class="bcn-wb__id">PRG-012</span>
-                            <span class="bcn-wb__name"
-                              >Water Quality &amp; Monitoring Infrastructure</span
-                            >
+                            <span class="bcn-wb__id">CMT-012</span>
+                            <span class="bcn-wb__name">Water Quality Evaluation Studies</span>
                           </button>
                           <span class="bcn-wb__add">
                             <button
@@ -4727,7 +4719,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <button
                               type="button"
                               class="bcn-wb__kebab"
-                              aria-label="Actions for Water Quality &amp; Monitoring Infrastructure"
+                              aria-label="Actions for Water Quality Evaluation Studies"
                             >
                               ⋯
                             </button>
@@ -4796,7 +4788,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         data-end="2029-03"
                         data-tier="study"
                         data-depth="1"
-                        data-parent="PRG-012"
+                        data-parent="CMT-012"
                         data-has-children="1"
                         data-lead="DWR-DCO"
                       >
@@ -4805,7 +4797,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             type="button"
                             class="bcn-wb__caret"
                             aria-expanded="true"
-                            aria-label="Collapse Continuous Water-Quality Station Network"
+                            aria-label="Collapse Installation of New Real-time Monitoring Station"
                           >
                             <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true">
                               <path
@@ -4821,12 +4813,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <button
                             type="button"
                             class="bcn-wb__name-btn"
-                            title="STY-017 — Continuous Water-Quality Station Network"
-                            aria-label="Open STY-017 Continuous Water-Quality Station Network"
+                            title="STY-017 — Installation of New Real-time Monitoring Station"
+                            aria-label="Open STY-017 Installation of New Real-time Monitoring Station"
                           >
                             <span class="bcn-wb__id">STY-017</span>
                             <span class="bcn-wb__name"
-                              >Continuous Water-Quality Station Network</span
+                              >Installation of New Real-time Monitoring Station</span
                             >
                           </button>
                           <span class="bcn-wb__add">
@@ -4858,7 +4850,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <button
                               type="button"
                               class="bcn-wb__kebab"
-                              aria-label="Actions for Continuous Water-Quality Station Network"
+                              aria-label="Actions for Installation of New Real-time Monitoring Station"
                             >
                               ⋯
                             </button>
@@ -5729,7 +5721,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         data-end="2030-09"
                         data-tier="study"
                         data-depth="1"
-                        data-parent="PRG-012"
+                        data-parent="CMT-012"
                         data-has-children="1"
                         data-lead="DWR-DISE"
                       >
@@ -6254,7 +6246,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </div>
                       <div
                         class="bcn-wb__row is-program"
-                        data-id="PRG-013"
+                        data-id="CMT-013"
                         data-start="2033-04"
                         data-end="2042-09"
                         data-tier="program"
@@ -6268,7 +6260,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             type="button"
                             class="bcn-wb__caret"
                             aria-expanded="true"
-                            aria-label="Collapse Operations-Phase Effectiveness Monitoring"
+                            aria-label="Collapse Ecological Response Evaluation Studies"
                           >
                             <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true">
                               <path
@@ -6284,13 +6276,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <button
                             type="button"
                             class="bcn-wb__name-btn"
-                            title="PRG-013 — Operations-Phase Effectiveness Monitoring"
-                            aria-label="Open PRG-013 Operations-Phase Effectiveness Monitoring"
+                            title="CMT-013 — Ecological Response Evaluation Studies"
+                            aria-label="Open CMT-013 Ecological Response Evaluation Studies"
                           >
-                            <span class="bcn-wb__id">PRG-013</span>
-                            <span class="bcn-wb__name"
-                              >Operations-Phase Effectiveness Monitoring</span
-                            >
+                            <span class="bcn-wb__id">CMT-013</span>
+                            <span class="bcn-wb__name">Ecological Response Evaluation Studies</span>
                           </button>
                           <span class="bcn-wb__add">
                             <button
@@ -6321,7 +6311,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <button
                               type="button"
                               class="bcn-wb__kebab"
-                              aria-label="Actions for Operations-Phase Effectiveness Monitoring"
+                              aria-label="Actions for Ecological Response Evaluation Studies"
                             >
                               ⋯
                             </button>
@@ -6388,7 +6378,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         data-end="2041-09"
                         data-tier="study"
                         data-depth="1"
-                        data-parent="PRG-013"
+                        data-parent="CMT-013"
                         data-has-children="1"
                         data-lead="DCA"
                       >
@@ -7137,7 +7127,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         data-end="2042-09"
                         data-tier="study"
                         data-depth="1"
-                        data-parent="PRG-013"
+                        data-parent="CMT-013"
                         data-has-children="1"
                         data-lead="DWR-DCO"
                       >
@@ -7570,7 +7560,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </div>
                       <div
                         class="bcn-wb__row is-program"
-                        data-id="PRG-014"
+                        data-id="CMT-014"
                         data-start="2026-04"
                         data-end="2028-12"
                         data-tier="program"
@@ -7584,7 +7574,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             type="button"
                             class="bcn-wb__caret"
                             aria-expanded="true"
-                            aria-label="Collapse Fish Guidance System Evaluation"
+                            aria-label="Collapse Incorporation of Fish Guidance System into the North Delta Intake Structures"
                           >
                             <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true">
                               <path
@@ -7600,11 +7590,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <button
                             type="button"
                             class="bcn-wb__name-btn"
-                            title="PRG-014 — Fish Guidance System Evaluation"
-                            aria-label="Open PRG-014 Fish Guidance System Evaluation"
+                            title="CMT-014 — Incorporation of Fish Guidance System into the North Delta Intake Structures"
+                            aria-label="Open CMT-014 Incorporation of Fish Guidance System into the North Delta Intake Structures"
                           >
-                            <span class="bcn-wb__id">PRG-014</span>
-                            <span class="bcn-wb__name">Fish Guidance System Evaluation</span>
+                            <span class="bcn-wb__id">CMT-014</span>
+                            <span class="bcn-wb__name"
+                              >Incorporation of Fish Guidance System into the North Delta Intake
+                              Structures</span
+                            >
                           </button>
                           <span class="bcn-wb__add">
                             <button
@@ -7635,7 +7628,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <button
                               type="button"
                               class="bcn-wb__kebab"
-                              aria-label="Actions for Fish Guidance System Evaluation"
+                              aria-label="Actions for Incorporation of Fish Guidance System into the North Delta Intake Structures"
                             >
                               ⋯
                             </button>
@@ -7702,7 +7695,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         data-end="2028-12"
                         data-tier="study"
                         data-depth="1"
-                        data-parent="PRG-014"
+                        data-parent="CMT-014"
                         data-has-children="1"
                         data-lead="DWR-DISE"
                       >
@@ -8719,7 +8712,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                       </div>
                     </div>
-                    <!-- ── Ghost add-row: Add program lives at the bottom of the tree body.
+                    <!-- ── Ghost add-row: Add commitment lives at the bottom of the tree body.
            The button rides the sticky label column so it stays visible while
            the plot scrolls. Same #bcn-wb-add-program hook as before. ── -->
                     <div class="bcn-wb__addrow">
@@ -8744,7 +8737,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <path d="M12 5v14"></path>
                               </svg>
                             </span>
-                            <span class="esa-button__label"> Add program </span>
+                            <span class="esa-button__label"> Add commitment </span>
                           </button>
                         </span>
                       </span>
@@ -8897,7 +8890,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               </div>
               <script
                 type="module"
-                src="/beacon-design/_astro/BcnWorkBreakdown.astro_astro_type_script_index_0_lang.BPNHSK25.js"
+                src="/beacon-design/_astro/BcnWorkBreakdown.astro_astro_type_script_index_0_lang.8YpLF1Y0.js"
               ></script>
             </div>
             <div id="view-roles" hidden="">
@@ -8950,14 +8943,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         class="bcn-roles__row"
                         data-id="STY-014"
                         data-ref="10.19.1"
-                        data-name="juvenile salmonid migration &amp; survival"
+                        data-name="migration &amp; survival study"
                         data-lead="DWR-DISE"
                       >
                         <th class="bcn-roles__study" scope="row">
                           <span class="bcn-roles__coa">10.19.1</span>
-                          <span class="bcn-roles__name"
-                            >Juvenile Salmonid Migration &amp; Survival</span
-                          >
+                          <span class="bcn-roles__name">Migration &amp; Survival Study</span>
                         </th>
                         <td class="bcn-roles__cell">
                           <span class="bcn-roles__assign">
@@ -9048,14 +9039,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         class="bcn-roles__row"
                         data-id="STY-015"
                         data-ref="10.19.2"
-                        data-name="predation risk &amp; hotspot characterization"
+                        data-name="predation study"
                         data-lead="DWR-DISE"
                       >
                         <th class="bcn-roles__study" scope="row">
                           <span class="bcn-roles__coa">10.19.2</span>
-                          <span class="bcn-roles__name"
-                            >Predation Risk &amp; Hotspot Characterization</span
-                          >
+                          <span class="bcn-roles__name">Predation Study</span>
                         </th>
                         <td class="bcn-roles__cell">
                           <span class="bcn-roles__assign">
@@ -9196,13 +9185,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         class="bcn-roles__row"
                         data-id="STY-017"
                         data-ref="10.20.1"
-                        data-name="continuous water-quality station network"
+                        data-name="installation of new real-time monitoring station"
                         data-lead="DWR-DCO"
                       >
                         <th class="bcn-roles__study" scope="row">
                           <span class="bcn-roles__coa">10.20.1</span>
                           <span class="bcn-roles__name"
-                            >Continuous Water-Quality Station Network</span
+                            >Installation of New Real-time Monitoring Station</span
                           >
                         </th>
                         <td class="bcn-roles__cell">
@@ -9937,7 +9926,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <div
                       class="bcn-readiness__chainitem"
                       data-id="STY-017"
-                      data-name="continuous water-quality station network 10.20.1"
+                      data-name="installation of new real-time monitoring station 10.20.1"
                       data-lead="DWR-DCO"
                       data-tone="on-track"
                       data-deadline="2028-10"
@@ -9960,9 +9949,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 >
                                 <h3
                                   class="bcn-readiness__study-name"
-                                  data-raw="Continuous Water-Quality Station Network"
+                                  data-raw="Installation of New Real-time Monitoring Station"
                                 >
-                                  Continuous Water-Quality Station Network
+                                  Installation of New Real-time Monitoring Station
                                 </h3>
                                 <span class="bcn-readiness__study-lead">Lead DWR-DCO</span>
                               </div>
@@ -10112,7 +10101,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <div
                       class="bcn-readiness__chainitem"
                       data-id="STY-015"
-                      data-name="predation risk &amp; hotspot characterization 10.19.2"
+                      data-name="predation study 10.19.2"
                       data-lead="DWR-DISE"
                       data-tone="on-track"
                       data-deadline="2031-03"
@@ -10133,11 +10122,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   title="Open study detail page"
                                   >10.19.2</a
                                 >
-                                <h3
-                                  class="bcn-readiness__study-name"
-                                  data-raw="Predation Risk &amp; Hotspot Characterization"
-                                >
-                                  Predation Risk &amp; Hotspot Characterization
+                                <h3 class="bcn-readiness__study-name" data-raw="Predation Study">
+                                  Predation Study
                                 </h3>
                                 <span class="bcn-readiness__study-lead">Lead DWR-DISE</span>
                               </div>
@@ -10209,7 +10195,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <div
                       class="bcn-readiness__chainitem"
                       data-id="STY-014"
-                      data-name="juvenile salmonid migration &amp; survival 10.19.1"
+                      data-name="migration &amp; survival study 10.19.1"
                       data-lead="DWR-DISE"
                       data-tone="blocked"
                       data-deadline="2033-09"
@@ -10232,9 +10218,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 >
                                 <h3
                                   class="bcn-readiness__study-name"
-                                  data-raw="Juvenile Salmonid Migration &amp; Survival"
+                                  data-raw="Migration &amp; Survival Study"
                                 >
-                                  Juvenile Salmonid Migration &amp; Survival
+                                  Migration &amp; Survival Study
                                 </h3>
                                 <span class="bcn-readiness__study-lead">Lead DWR-DISE</span>
                               </div>
@@ -10592,7 +10578,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >10.19.1</a
                             >
                             <span class="bcn-readiness__pgroup-name"
-                              >Juvenile Salmonid Migration &amp; Survival</span
+                              >Migration &amp; Survival Study</span
                             >
                           </div>
                           <ul class="bcn-readiness__pitems">
@@ -10631,7 +10617,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >10.20.1</a
                             >
                             <span class="bcn-readiness__pgroup-name"
-                              >Continuous Water-Quality Station Network</span
+                              >Installation of New Real-time Monitoring Station</span
                             >
                           </div>
                           <ul class="bcn-readiness__pitems">
@@ -10774,7 +10760,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >10.19.1</a
                             >
                             <span class="bcn-readiness__pgroup-name"
-                              >Juvenile Salmonid Migration &amp; Survival</span
+                              >Migration &amp; Survival Study</span
                             >
                           </div>
                           <ul class="bcn-readiness__pitems">
@@ -10835,9 +10821,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               title="Open study detail page"
                               >10.19.2</a
                             >
-                            <span class="bcn-readiness__pgroup-name"
-                              >Predation Risk &amp; Hotspot Characterization</span
-                            >
+                            <span class="bcn-readiness__pgroup-name">Predation Study</span>
                           </div>
                           <ul class="bcn-readiness__pitems">
                             <li>
@@ -10875,7 +10859,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >10.20.1</a
                             >
                             <span class="bcn-readiness__pgroup-name"
-                              >Continuous Water-Quality Station Network</span
+                              >Installation of New Real-time Monitoring Station</span
                             >
                           </div>
                           <ul class="bcn-readiness__pitems">
@@ -11015,7 +10999,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >10.19.1</a
                             >
                             <span class="bcn-readiness__pgroup-name"
-                              >Juvenile Salmonid Migration &amp; Survival</span
+                              >Migration &amp; Survival Study</span
                             >
                           </div>
                           <ul class="bcn-readiness__pitems">
@@ -11076,9 +11060,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               title="Open study detail page"
                               >10.19.2</a
                             >
-                            <span class="bcn-readiness__pgroup-name"
-                              >Predation Risk &amp; Hotspot Characterization</span
-                            >
+                            <span class="bcn-readiness__pgroup-name">Predation Study</span>
                           </div>
                           <ul class="bcn-readiness__pitems">
                             <li>
@@ -11154,7 +11136,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >10.20.1</a
                             >
                             <span class="bcn-readiness__pgroup-name"
-                              >Continuous Water-Quality Station Network</span
+                              >Installation of New Real-time Monitoring Station</span
                             >
                           </div>
                           <ul class="bcn-readiness__pitems">
@@ -11249,7 +11231,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >10.19.1</a
                             >
                             <span class="bcn-readiness__pgroup-name"
-                              >Juvenile Salmonid Migration &amp; Survival</span
+                              >Migration &amp; Survival Study</span
                             >
                           </div>
                           <ul class="bcn-readiness__pitems">
@@ -11325,7 +11307,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >10.20.1</a
                             >
                             <span class="bcn-readiness__pgroup-name"
-                              >Continuous Water-Quality Station Network</span
+                              >Installation of New Real-time Monitoring Station</span
                             >
                           </div>
                           <ul class="bcn-readiness__pitems">
@@ -11443,7 +11425,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >10.19.1</a
                             >
                             <span class="bcn-readiness__pgroup-name"
-                              >Juvenile Salmonid Migration &amp; Survival</span
+                              >Migration &amp; Survival Study</span
                             >
                           </div>
                           <ul class="bcn-readiness__pitems">
@@ -11545,7 +11527,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >10.20.1</a
                             >
                             <span class="bcn-readiness__pgroup-name"
-                              >Continuous Water-Quality Station Network</span
+                              >Installation of New Real-time Monitoring Station</span
                             >
                           </div>
                           <ul class="bcn-readiness__pitems">
@@ -11711,7 +11693,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >10.19.1</a
                             >
                             <span class="bcn-readiness__pgroup-name"
-                              >Juvenile Salmonid Migration &amp; Survival</span
+                              >Migration &amp; Survival Study</span
                             >
                           </div>
                           <ul class="bcn-readiness__pitems">
@@ -11859,7 +11841,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >10.20.1</a
                             >
                             <span class="bcn-readiness__pgroup-name"
-                              >Continuous Water-Quality Station Network</span
+                              >Installation of New Real-time Monitoring Station</span
                             >
                           </div>
                           <ul class="bcn-readiness__pitems">
@@ -12076,7 +12058,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <tr>
                                 <td><span class="bcn-memo__coa">10.19.1</span></td>
                                 <th scope="row" class="bcn-memo__cell-name">
-                                  Juvenile Salmonid Migration &amp; Survival
+                                  Migration &amp; Survival Study
                                 </th>
                                 <td>DWR-DISE</td>
                                 <td class="bcn-memo__mono">Jul 2026 – Oct 2031</td>
@@ -12094,9 +12076,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               </tr>
                               <tr>
                                 <td><span class="bcn-memo__coa">10.19.2</span></td>
-                                <th scope="row" class="bcn-memo__cell-name">
-                                  Predation Risk &amp; Hotspot Characterization
-                                </th>
+                                <th scope="row" class="bcn-memo__cell-name">Predation Study</th>
                                 <td>DWR-DISE</td>
                                 <td class="bcn-memo__mono">Jan 2027 – Jun 2031</td>
                                 <td class="bcn-memo__mono bcn-memo__num">$1.3M</td>
@@ -12133,7 +12113,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <tr>
                                 <td><span class="bcn-memo__coa">10.20.1</span></td>
                                 <th scope="row" class="bcn-memo__cell-name">
-                                  Continuous Water-Quality Station Network
+                                  Installation of New Real-time Monitoring Station
                                 </th>
                                 <td>DWR-DCO</td>
                                 <td class="bcn-memo__mono">Aug 2026 – Mar 2029</td>
@@ -12232,13 +12212,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <!-- ── Per-program → per-study timeline sections ── -->
                       <section class="bcn-memo__section">
                         <h2 class="bcn-memo__h2">
-                          <span class="bcn-memo__coa bcn-memo__coa--h">10.19</span> Fish Migration,
-                          Survival &amp; Predation Studies
+                          <span class="bcn-memo__coa bcn-memo__coa--h">10.19</span> Fisheries
+                          Evaluation Studies
                         </h2>
                         <section class="bcn-memo__study">
                           <h3 class="bcn-memo__h3">
-                            <span class="bcn-memo__coa">10.19.1</span> Juvenile Salmonid Migration
-                            &amp; Survival
+                            <span class="bcn-memo__coa">10.19.1</span> Migration &amp; Survival
+                            Study
                           </h3>
                           <p class="bcn-memo__studymeta">
                             <span><span class="bcn-memo__ml">Lead</span> DWR-DISE</span>
@@ -12408,8 +12388,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </section>
                         <section class="bcn-memo__study">
                           <h3 class="bcn-memo__h3">
-                            <span class="bcn-memo__coa">10.19.2</span> Predation Risk &amp; Hotspot
-                            Characterization
+                            <span class="bcn-memo__coa">10.19.2</span> Predation Study
                           </h3>
                           <p class="bcn-memo__studymeta">
                             <span><span class="bcn-memo__ml">Lead</span> DWR-DISE</span>
@@ -12594,12 +12573,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <section class="bcn-memo__section">
                         <h2 class="bcn-memo__h2">
                           <span class="bcn-memo__coa bcn-memo__coa--h">10.20</span> Water Quality
-                          &amp; Monitoring Infrastructure
+                          Evaluation Studies
                         </h2>
                         <section class="bcn-memo__study">
                           <h3 class="bcn-memo__h3">
-                            <span class="bcn-memo__coa">10.20.1</span> Continuous Water-Quality
-                            Station Network
+                            <span class="bcn-memo__coa">10.20.1</span> Installation of New Real-time
+                            Monitoring Station
                           </h3>
                           <p class="bcn-memo__studymeta">
                             <span><span class="bcn-memo__ml">Lead</span> DWR-DCO</span>
@@ -12781,8 +12760,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </section>
                       <section class="bcn-memo__section">
                         <h2 class="bcn-memo__h2">
-                          <span class="bcn-memo__coa bcn-memo__coa--h">10.21</span> Operations-Phase
-                          Effectiveness Monitoring
+                          <span class="bcn-memo__coa bcn-memo__coa--h">10.21</span> Ecological
+                          Response Evaluation Studies
                         </h2>
                         <section class="bcn-memo__study">
                           <h3 class="bcn-memo__h3">
@@ -12933,8 +12912,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </section>
                       <section class="bcn-memo__section">
                         <h2 class="bcn-memo__h2">
-                          <span class="bcn-memo__coa bcn-memo__coa--h">10.26</span> Fish Guidance
-                          System Evaluation
+                          <span class="bcn-memo__coa bcn-memo__coa--h">10.26</span> Incorporation of
+                          Fish Guidance System into the North Delta Intake Structures
                         </h2>
                         <section class="bcn-memo__study">
                           <h3 class="bcn-memo__h3">
@@ -13120,11 +13099,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       </div>
       <script
         type="module"
-        src="/beacon-design/_astro/BcnFundingPlan.astro_astro_type_script_index_0_lang.hohG8McH.js"
+        src="/beacon-design/_astro/BcnFundingPlan.astro_astro_type_script_index_0_lang.BcmJ4tNP.js"
       ></script>
       <script
         type="module"
-        src="/beacon-design/_astro/BcnNodeEdit.astro_astro_type_script_index_0_lang.CKybfYNC.js"
+        src="/beacon-design/_astro/BcnNodeEdit.astro_astro_type_script_index_0_lang.CphlprmK.js"
       ></script>
       <esa-side-dialog
         id="node-drawer"
@@ -13138,9 +13117,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         </div>
         <div class="bcn-node-body">
           <section
-            data-node-panel="PRG-011"
-            data-node-name="Fish Migration, Survival &amp; Predation Studies"
-            data-node-tier="Program"
+            data-node-panel="CMT-011"
+            data-node-name="Fisheries Evaluation Studies"
+            data-node-tier="Commitment"
             hidden=""
           >
             <div class="bcn-edit">
@@ -13402,7 +13381,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 >
                   <a
                     class="esa-button__native"
-                    href="/beacon-design/prototypes/fish-detail/PRG-011"
+                    href="/beacon-design/prototypes/fish-detail/CMT-011"
                     role="button"
                     data-wb-details="true"
                   >
@@ -13431,7 +13410,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </section>
           <section
             data-node-panel="STY-014"
-            data-node-name="Juvenile Salmonid Migration &amp; Survival"
+            data-node-name="Migration &amp; Survival Study"
             data-node-tier="Study"
             hidden=""
           >
@@ -16448,7 +16427,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </section>
           <section
             data-node-panel="STY-015"
-            data-node-name="Predation Risk &amp; Hotspot Characterization"
+            data-node-name="Predation Study"
             data-node-tier="Study"
             hidden=""
           >
@@ -19630,9 +19609,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             </div>
           </section>
           <section
-            data-node-panel="PRG-012"
-            data-node-name="Water Quality &amp; Monitoring Infrastructure"
-            data-node-tier="Program"
+            data-node-panel="CMT-012"
+            data-node-name="Water Quality Evaluation Studies"
+            data-node-tier="Commitment"
             hidden=""
           >
             <div class="bcn-edit">
@@ -19837,7 +19816,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 >
                   <a
                     class="esa-button__native"
-                    href="/beacon-design/prototypes/fish-detail/PRG-012"
+                    href="/beacon-design/prototypes/fish-detail/CMT-012"
                     role="button"
                     data-wb-details="true"
                   >
@@ -19866,7 +19845,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </section>
           <section
             data-node-panel="STY-017"
-            data-node-name="Continuous Water-Quality Station Network"
+            data-node-name="Installation of New Real-time Monitoring Station"
             data-node-tier="Study"
             hidden=""
           >
@@ -22856,9 +22835,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             </div>
           </section>
           <section
-            data-node-panel="PRG-013"
-            data-node-name="Operations-Phase Effectiveness Monitoring"
-            data-node-tier="Program"
+            data-node-panel="CMT-013"
+            data-node-name="Ecological Response Evaluation Studies"
+            data-node-tier="Commitment"
             hidden=""
           >
             <div class="bcn-edit">
@@ -23160,7 +23139,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 >
                   <a
                     class="esa-button__native"
-                    href="/beacon-design/prototypes/fish-detail/PRG-013"
+                    href="/beacon-design/prototypes/fish-detail/CMT-013"
                     role="button"
                     data-wb-details="true"
                   >
@@ -25895,9 +25874,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             </div>
           </section>
           <section
-            data-node-panel="PRG-014"
-            data-node-name="Fish Guidance System Evaluation"
-            data-node-tier="Program"
+            data-node-panel="CMT-014"
+            data-node-name="Incorporation of Fish Guidance System into the North Delta Intake Structures"
+            data-node-tier="Commitment"
             hidden=""
           >
             <div class="bcn-edit">
@@ -26085,7 +26064,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 >
                   <a
                     class="esa-button__native"
-                    href="/beacon-design/prototypes/fish-detail/PRG-014"
+                    href="/beacon-design/prototypes/fish-detail/CMT-014"
                     role="button"
                     data-wb-details="true"
                   >
@@ -31438,6 +31417,108 @@ a.breadcrumb-item {
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-weight: var(--font-weight-regular, 350);
+  color: var(--color-text-primary, #3d3d3d);
+  background: var(--color-surface, #fff);
+  -webkit-font-smoothing: antialiased;
+}
+button {
+  font-family: inherit;
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+a {
+  color: var(--color-text-link, #005862);
+  text-decoration: none;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
+  margin: 0;
+}
+:host {
+  --_field-padding-y: var(--form-padding-y-md, 0.5rem);
+  --_field-padding-x: var(--form-padding-x-md, 0.75rem);
+  --_field-font-size: var(--form-font-size-md, 0.9375rem);
+  --_field-height: var(--form-height-md, 40px);
+  --_field-radius: var(--form-radius-md, 0.5rem);
+  --_field-border-color: var(--form-border-color, #e5e5e5);
+  --_label-font-size: var(--type-size-200, 0.9375rem);
+  display: block;
+  font-family: var(--font-sans, sans-serif);
+}
+:host([size="sm"]) {
+  --_field-padding-y: var(--form-padding-y-sm, 0.375rem);
+  --_field-padding-x: var(--form-padding-x-sm, 0.5rem);
+  --_field-font-size: var(--form-font-size-sm, 0.875rem);
+  --_field-height: var(--form-height-sm, 32px);
+  --_field-radius: var(--form-radius-sm, 0.25rem);
+  --_label-font-size: var(--type-size-150, 0.875rem);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+}
+.control {
+  display: flex;
+  align-items: stretch;
+  height: var(--_field-height);
+  background: var(--form-bg, #fff);
+  border: var(--form-border-width, 1px) solid var(--_field-border-color);
+  border-radius: var(--_field-radius);
+  box-sizing: border-box;
+  overflow: hidden;
+  transition:
+    border-color var(--transition-fast, 150ms ease),
+    box-shadow var(--transition-fast, 150ms ease);
+}
+.input {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  padding: var(--_field-padding-y) var(--_field-padding-x);
+  font-family: inherit;
+  font-size: var(--_field-font-size);
+  color: var(--form-text-color, #171717);
+  background: transparent;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+.input::placeholder {
+  color: var(--form-placeholder-color, #737373);
+}
+.label {
+  color: var(--form-label-color, #171717);
+  font-weight: var(--form-label-font-weight, var(--font-weight-medium, 450));
+  font-size: var(--form-label-font-size, var(--_label-font-size));
+  margin-block-end: var(--form-label-gap, 4px);
+}
+.required {
+  color: var(--color-danger-strong, #ce2c31);
+  margin-inline-start: 2px;
+}
+.help,
+.error {
+  margin: 0;
+  margin-block-start: var(--form-help-gap, 4px);
+  font-size: var(--type-size-100, 0.75rem);
+}
+.help {
+  color: var(--form-help-color, #737373);
+}
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
   --_btn-padding-x: var(--form-padding-x-md, 16px);
@@ -31530,78 +31611,6 @@ a.breadcrumb-item {
   opacity: 0.5;
   cursor: not-allowed;
   pointer-events: none;
-}
-:host {
-  --_field-padding-y: var(--form-padding-y-md, 0.5rem);
-  --_field-padding-x: var(--form-padding-x-md, 0.75rem);
-  --_field-font-size: var(--form-font-size-md, 0.9375rem);
-  --_field-height: var(--form-height-md, 40px);
-  --_field-radius: var(--form-radius-md, 0.5rem);
-  --_field-border-color: var(--form-border-color, #e5e5e5);
-  --_label-font-size: var(--type-size-200, 0.9375rem);
-  display: block;
-  font-family: var(--font-sans, sans-serif);
-}
-:host([size="sm"]) {
-  --_field-padding-y: var(--form-padding-y-sm, 0.375rem);
-  --_field-padding-x: var(--form-padding-x-sm, 0.5rem);
-  --_field-font-size: var(--form-font-size-sm, 0.875rem);
-  --_field-height: var(--form-height-sm, 32px);
-  --_field-radius: var(--form-radius-sm, 0.25rem);
-  --_label-font-size: var(--type-size-150, 0.875rem);
-}
-.field {
-  display: flex;
-  flex-direction: column;
-}
-.control {
-  display: flex;
-  align-items: stretch;
-  height: var(--_field-height);
-  background: var(--form-bg, #fff);
-  border: var(--form-border-width, 1px) solid var(--_field-border-color);
-  border-radius: var(--_field-radius);
-  box-sizing: border-box;
-  overflow: hidden;
-  transition:
-    border-color var(--transition-fast, 150ms ease),
-    box-shadow var(--transition-fast, 150ms ease);
-}
-.input {
-  flex: 1 1 auto;
-  min-width: 0;
-  width: 100%;
-  height: 100%;
-  padding: var(--_field-padding-y) var(--_field-padding-x);
-  font-family: inherit;
-  font-size: var(--_field-font-size);
-  color: var(--form-text-color, #171717);
-  background: transparent;
-  border: none;
-  outline: none;
-  box-sizing: border-box;
-}
-.input::placeholder {
-  color: var(--form-placeholder-color, #737373);
-}
-.label {
-  color: var(--form-label-color, #171717);
-  font-weight: var(--form-label-font-weight, var(--font-weight-medium, 450));
-  font-size: var(--form-label-font-size, var(--_label-font-size));
-  margin-block-end: var(--form-label-gap, 4px);
-}
-.required {
-  color: var(--color-danger-strong, #ce2c31);
-  margin-inline-start: 2px;
-}
-.help,
-.error {
-  margin: 0;
-  margin-block-start: var(--form-help-gap, 4px);
-  font-size: var(--type-size-100, 0.75rem);
-}
-.help {
-  color: var(--form-help-color, #737373);
 }
 .modern-layout {
   display: flex;
@@ -32379,19 +32388,6 @@ a.breadcrumb-item {
   display: none;
 }
 :host {
-  display: inline-block;
-}
-.esa-dropdown {
-  position: relative;
-  display: inline-block;
-}
-.esa-dropdown__trigger {
-  display: inline-block;
-}
-:host {
-  display: contents;
-}
-:host {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-100, 4px);
@@ -32453,9 +32449,6 @@ a.breadcrumb-item {
   width: var(--_icon-size);
   height: var(--_icon-size);
   flex-shrink: 0;
-}
-:host {
-  --_width: var(--side-dialog-width, 400px);
 }
 :host {
   display: block;
@@ -32530,6 +32523,260 @@ a.breadcrumb-item {
   font-size: var(--form-label-font-size, var(--_field-font-size));
   font-weight: var(--form-label-font-weight, var(--font-weight-medium, 450));
   color: var(--form-label-color, #171717);
+}
+:host {
+  all: initial;
+}
+.host-root {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2147483000;
+  font-family: system-ui, sans-serif;
+}
+.host-root > * {
+  pointer-events: auto;
+}
+.launch {
+  position: fixed;
+  bottom: 22px;
+  left: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 19px;
+  border-radius: 999px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border: 1px solid #3d6fd6;
+  background: linear-gradient(180deg, #1f6feb, #1551c4);
+  box-shadow:
+    0 10px 28px -8px rgba(31, 111, 235, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
+}
+.launch svg {
+  flex: none;
+}
+.panel {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  bottom: 18px;
+  width: min(720px, 94vw);
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  border-radius: 16px;
+  background: linear-gradient(155deg, rgba(26, 31, 40, 0.74), rgba(11, 15, 21, 0.86));
+  backdrop-filter: blur(26px) saturate(150%);
+  -webkit-backdrop-filter: blur(26px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 28px 70px -18px rgba(0, 0, 0, 0.62),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  font-size: 12.5px;
+  overflow: hidden;
+  /* slide in from the right */
+  transform: translateX(calc(100% + 32px));
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.22s ease,
+    visibility 0s linear 0.3s;
+}
+.head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+.head strong {
+  font-size: 14px;
+}
+.head .sub {
+  flex: 1;
+  color: #ccd5e0;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.x {
+  border: 0;
+  background: none;
+  color: #c4cdd8;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+.picker {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chip {
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: #eef2f6;
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    border-color 0.12s ease,
+    background 0.12s ease,
+    color 0.12s ease;
+}
+.chip.on {
+  background: rgba(31, 111, 235, 0.28);
+  border-color: #4493f8;
+  color: #fff;
+  font-weight: 600;
+}
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 9px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+.tabs button {
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: #ccd5e0;
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.tabs button.on {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+.body {
+  overflow: auto;
+  padding: 13px 16px;
+  flex: 1;
+}
+.hint {
+  margin: 0;
+  color: #c4cdd8;
+  line-height: 1.6;
+}
+.footer {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 11px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.18);
+}
+[hidden] {
+  display: none !important;
+}
+.cpreview {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: calc(100% + 8px);
+  background: rgba(13, 17, 23, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  box-shadow: 0 18px 50px -14px rgba(0, 0, 0, 0.7);
+  padding: 12px 14px;
+  max-height: 50vh;
+  overflow: auto;
+}
+.copy {
+  color: #eef2f6;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.05);
+}
+.footer button {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.claude {
+  color: #fff;
+  border: 1px solid #d97757;
+  background: linear-gradient(180deg, #e0805f, #c25e3c);
+  box-shadow:
+    0 6px 18px -6px rgba(217, 119, 87, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+.claude svg {
+  flex: none;
+}
+:host {
+  display: contents;
+}
+:host {
+  --_dialog-bg: var(--dialog-bg, var(--color-surface-elevated, #ffffff));
+  --_dialog-border-radius: var(--dialog-radius, var(--radius-400, 0.75rem));
+  --_dialog-padding: var(--spacing-500, 1.5rem);
+  --_dialog-header-border: var(--dialog-border-color, var(--color-border-light, #efefef));
+  /* Optional header/footer surface tints — a spoke fills these to frame the
+         body; default transparent leaves existing consumers unchanged. */
+  --_dialog-header-bg: var(--dialog-header-bg, transparent);
+  --_dialog-footer-bg: var(--dialog-footer-bg, transparent);
+  --_dialog-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
+  --_dialog-width: var(--dialog-width, 480px);
+  --_dialog-max-height: 85vh;
+}
+:host([size="sm"]) {
+  --_dialog-width: var(--dialog-width-sm, 360px);
+}
+:host {
+  --_width: var(--side-dialog-width, 400px);
+}
+:host {
+  --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
+  --_popover-border: var(--popover-border-color, var(--color-border, #e5e5e5));
+  --_popover-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+  --_popover-radius: var(--popover-radius, var(--radius-200, 0.5rem));
+  --_popover-padding: var(--spacing-300, 0.75rem);
+  --_popover-arrow-size: 8px;
+  --_popover-color: var(--popover-color, var(--color-text-primary, #171717));
+  display: inline-block;
+}
+.esa-popover-anchor {
+  position: relative;
+  display: inline-block;
+}
+:host {
+  display: inline-block;
+}
+.esa-dropdown {
+  position: relative;
+  display: inline-block;
+}
+.esa-dropdown__trigger {
+  display: inline-block;
 }
 .bcn-gantt-utils {
   display: flex;
@@ -33199,279 +33446,11 @@ a.breadcrumb-item {
   width: 100%;
 }
 :host {
-  all: initial;
-}
-.host-root {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2147483000;
-  font-family: system-ui, sans-serif;
-}
-.host-root > * {
-  pointer-events: auto;
-}
-.launch {
-  position: fixed;
-  bottom: 22px;
-  left: 22px;
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 13px 19px;
-  border-radius: 999px;
-  color: #fff;
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  border: 1px solid #3d6fd6;
-  background: linear-gradient(180deg, #1f6feb, #1551c4);
-  box-shadow:
-    0 10px 28px -8px rgba(31, 111, 235, 0.65),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18);
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.15s ease,
-    filter 0.15s ease;
-}
-.launch svg {
-  flex: none;
-}
-.panel {
-  position: fixed;
-  top: 18px;
-  right: 18px;
-  bottom: 18px;
-  width: min(720px, 94vw);
-  display: flex;
-  flex-direction: column;
-  color: #ffffff;
-  border-radius: 16px;
-  background: linear-gradient(155deg, rgba(26, 31, 40, 0.74), rgba(11, 15, 21, 0.86));
-  backdrop-filter: blur(26px) saturate(150%);
-  -webkit-backdrop-filter: blur(26px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow:
-    0 28px 70px -18px rgba(0, 0, 0, 0.62),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  font-size: 12.5px;
-  overflow: hidden;
-  /* slide in from the right */
-  transform: translateX(calc(100% + 32px));
-  opacity: 0;
-  visibility: hidden;
-  transition:
-    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.22s ease,
-    visibility 0s linear 0.3s;
-}
-.head {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 13px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-}
-.head strong {
-  font-size: 14px;
-}
-.head .sub {
-  flex: 1;
-  color: #ccd5e0;
-  font-size: 12px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.x {
-  border: 0;
-  background: none;
-  color: #c4cdd8;
-  font-size: 20px;
-  line-height: 1;
-  cursor: pointer;
-}
-.picker {
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-}
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-.chip {
-  padding: 5px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(255, 255, 255, 0.04);
-  color: #eef2f6;
-  font: inherit;
-  font-size: 12.5px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition:
-    border-color 0.12s ease,
-    background 0.12s ease,
-    color 0.12s ease;
-}
-.chip.on {
-  background: rgba(31, 111, 235, 0.28);
-  border-color: #4493f8;
-  color: #fff;
-  font-weight: 600;
-}
-.tabs {
-  display: flex;
-  gap: 4px;
-  padding: 9px 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
-}
-.tabs button {
-  padding: 5px 12px;
-  border: 0;
-  border-radius: 6px;
-  background: none;
-  color: #ccd5e0;
-  font: inherit;
-  font-size: 12.5px;
-  cursor: pointer;
-}
-.tabs button.on {
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-}
-.body {
-  overflow: auto;
-  padding: 13px 16px;
-  flex: 1;
-}
-.hint {
-  margin: 0;
-  color: #c4cdd8;
-  line-height: 1.6;
-}
-.footer {
-  position: relative;
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  padding: 11px 16px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(0, 0, 0, 0.18);
-}
-[hidden] {
-  display: none !important;
-}
-.cpreview {
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: calc(100% + 8px);
-  background: rgba(13, 17, 23, 0.96);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 12px;
-  box-shadow: 0 18px 50px -14px rgba(0, 0, 0, 0.7);
-  padding: 12px 14px;
-  max-height: 50vh;
-  overflow: auto;
-}
-.copy {
-  color: #eef2f6;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.05);
-}
-.footer button {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  padding: 8px 14px;
-  border-radius: 8px;
-  font: inherit;
-  font-size: 12.5px;
-  font-weight: 600;
-  cursor: pointer;
-}
-.claude {
-  color: #fff;
-  border: 1px solid #d97757;
-  background: linear-gradient(180deg, #e0805f, #c25e3c);
-  box-shadow:
-    0 6px 18px -6px rgba(217, 119, 87, 0.6),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-.claude svg {
-  flex: none;
-}
-:host {
-  --_dialog-bg: var(--dialog-bg, var(--color-surface-elevated, #ffffff));
-  --_dialog-border-radius: var(--dialog-radius, var(--radius-400, 0.75rem));
-  --_dialog-padding: var(--spacing-500, 1.5rem);
-  --_dialog-header-border: var(--dialog-border-color, var(--color-border-light, #efefef));
-  /* Optional header/footer surface tints — a spoke fills these to frame the
-         body; default transparent leaves existing consumers unchanged. */
-  --_dialog-header-bg: var(--dialog-header-bg, transparent);
-  --_dialog-footer-bg: var(--dialog-footer-bg, transparent);
-  --_dialog-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
-  --_dialog-width: var(--dialog-width, 480px);
-  --_dialog-max-height: 85vh;
-}
-:host([size="sm"]) {
-  --_dialog-width: var(--dialog-width-sm, 360px);
-}
-:host {
   display: inline-block;
 }
 .esa-tooltip-anchor {
   position: relative;
   display: inline-flex;
-}
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-regular, 350);
-  color: var(--color-text-primary, #3d3d3d);
-  background: var(--color-surface, #fff);
-  -webkit-font-smoothing: antialiased;
-}
-button {
-  font-family: inherit;
-  cursor: pointer;
-  background: none;
-  border: 0;
-}
-a {
-  color: var(--color-text-link, #005862);
-  text-decoration: none;
-}
-img {
-  display: block;
-  max-width: 100%;
-}
-:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
-  margin: 0;
-}
-:host {
-  --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
-  --_popover-border: var(--popover-border-color, var(--color-border, #e5e5e5));
-  --_popover-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
-  --_popover-radius: var(--popover-radius, var(--radius-200, 0.5rem));
-  --_popover-padding: var(--spacing-300, 0.75rem);
-  --_popover-arrow-size: 8px;
-  --_popover-color: var(--popover-color, var(--color-text-primary, #171717));
-  display: inline-block;
-}
-.esa-popover-anchor {
-  position: relative;
-  display: inline-block;
 }
 ```
 
