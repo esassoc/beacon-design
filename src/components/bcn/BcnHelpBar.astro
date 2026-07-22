@@ -25,7 +25,8 @@
 //
 // legoGap: 'sparkles' is not in the ecology icon-registry, and esa-icon-button forwards only a
 // registry `icon` name (no custom `paths` passthrough like <EsaIcon> has), so the What's-new
-// trigger uses the registry-backed 'star' — the fallback the spec named.
+// trigger uses the registry-backed 'circle-question-mark' — the shared help glyph (same mark
+// as the Release Notes page title and the user menu's Get Help item).
 import BcnAldoMark from './BcnAldoMark.astro';
 import BcnCount from './BcnCount.astro';
 import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
@@ -64,7 +65,7 @@ const fmtLong = (iso: string): string =>
   <!-- What's new — icon-only trigger + unread dot; esa-popover panel opens above the bar. -->
   <esa-popover class="bcn-help-bar__popover" position="top" trigger="click" offset={12}>
     <span class="bcn-help-bar__whatsnew" data-whatsnew>
-      <EsaIconButton icon="star" label="What's new" size="md" />
+      <EsaIconButton icon="circle-question-mark" label="What's new" size="md" />
       {WHATS_NEW.length > 0 && (
         <span class="bcn-help-bar__dot" data-whatsnew-dot aria-hidden="true"></span>
       )}
@@ -180,7 +181,7 @@ const fmtLong = (iso: string): string =>
     }
   }
 
-  /* Primary: Guidance — branded affordance, quiet aldo-tinted hover. */
+  /* Primary: Guidance — branded affordance, quiet neutral hover on the dark shell. */
   .bcn-help-bar__guidance {
     display: inline-flex;
     align-items: center;
@@ -202,7 +203,7 @@ const fmtLong = (iso: string): string =>
     background: var(--bcn-helpbar-hover-bg);
   }
   .bcn-help-bar__guidance:focus-visible {
-    outline: 2px solid var(--bcn-aldo-100); /* light aldo tint — visible on the dark shell */
+    outline: 2px solid var(--bcn-helpbar-fg); /* light foreground — visible on the dark shell, monochrome (no aldo tint) */
     outline-offset: 2px;
   }
   .bcn-help-bar__guidance-label {

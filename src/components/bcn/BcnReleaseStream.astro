@@ -57,11 +57,10 @@ const fmtDate = (iso: string): string =>
     >
       <header class="bcn-release__header">
         {/* Sketch pattern — a small, quiet meta line sits ABOVE the serif version:
-            the "Latest" marker (newest release only), the date, and any patch note. */}
+            the "Latest" marker (newest release only) and the date. */}
         <p class="bcn-release__meta">
           {release.latest && <span class="bcn-release__latest">Latest</span>}
           <time class="bcn-release__date" datetime={release.date}>{fmtDate(release.date)}</time>
-          {release.patchNote && <span class="bcn-release__patch">{release.patchNote}</span>}
         </p>
         <h2 class="bcn-release__version" id={`${release.anchor}-heading`}>
           {release.version}
@@ -181,8 +180,8 @@ const fmtDate = (iso: string): string =>
     gap: var(--spacing-150);
     margin-block-end: var(--spacing-600);
   }
-  /* The quiet meta line above the version: Latest · date · patch note. Small sans,
-     never bold, middot-separated. */
+  /* The quiet meta line above the version: Latest · date. Small sans, never bold,
+     middot-separated. */
   .bcn-release__meta {
     margin: 0;
     display: flex;
@@ -197,12 +196,6 @@ const fmtDate = (iso: string): string =>
     color: var(--color-text-secondary);
   }
   .bcn-release__latest::after {
-    content: '·';
-    margin-inline: var(--spacing-200);
-    color: var(--color-text-muted);
-  }
-  .bcn-release__patch { color: var(--color-text-muted); }
-  .bcn-release__patch::before {
     content: '·';
     margin-inline: var(--spacing-200);
     color: var(--color-text-muted);

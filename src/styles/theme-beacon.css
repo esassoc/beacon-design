@@ -183,3 +183,21 @@
   --bcn-helpbar-fg-muted:  rgba(255, 255, 255, 0.72);
   --bcn-helpbar-hover-bg:  rgba(255, 255, 255, 0.10);
 }
+
+/* ===== Smooth in-page scrolling — app-wide, canonical spot =====
+   Anchor jumps (the release-notes version rail, "What's new" deep-links, any
+   #hash navigation) glide instead of teleporting. The real scroll container is
+   AppShell's .modern-layout__content (flex:1; overflow-y:auto — the window
+   itself barely moves); html covers any surface that scrolls the document
+   directly. Kept OUTSIDE [data-theme] so it's a true global. */
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
+/* Respect a reduced-motion preference — jumps snap instantly. */
+@media (prefers-reduced-motion: reduce) {
+  html,
+  .modern-layout__content {
+    scroll-behavior: auto;
+  }
+}

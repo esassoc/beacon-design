@@ -1,19 +1,23 @@
 ---
-// <BcnKbBrowser> — the reading pane of the Help & Guidance page (/prototypes/help).
-// The dense index + glossary (<BcnKbCategories>) is now the browse surface, so the
-// old left-rail accordion is GONE (2026-07-22): this component is purely the pane
-// that renders ONE article at a time, hash-routed so the index, the search results,
-// the Aldo guidance drawer, and external links can all deep-link an exact article.
+// <BcnKbBrowser> — the reading pane shared by the Help & Guidance home AND each
+// category page. It renders ONE article at a time, hash-routed so the category cards,
+// the search results, the glossary, the Aldo guidance drawer, and external links can
+// all deep-link an exact article.
 //
 //   #article-<id> → show that article, scroll the pane clear of the topbar.
-//   (default)     → the first article (data-kb-default), shown WITHOUT scrolling so
-//                   the hero + index stay in view on load — no empty "pick an article"
-//                   dead space and no cards.
+//   (no hash)     → HOME: nothing shown; the pane collapses to zero (a deep-link target
+//                   only, so the home stays calm). CATEGORY: the category's first
+//                   article, shown WITHOUT scrolling so the list stays in view.
+//
+// The `articles` prop scopes the pane: the home passes every article (so any drawer /
+// external #article-<id> resolves — HARD CONTRACT); a category page passes only its
+// own articles, so the reader is scoped to that category. `defaultOnLoad` picks the
+// no-hash behavior (false = home, true = category).
 //
 // Every article body is pre-rendered <hidden> via <BcnHelpArticle> so the controller
 // toggles visibility off the light DOM and the JS bundle carries no article content.
-// Behavior lives in ./kb-browser.ts (the page controller — it also drives the hero's
-// live search + the index filter).
+// Behavior lives in ./kb-browser.ts (the shared controller — it also drives the hero's
+// live search on the home).
 //
 // bcn-lego-checked: the reading pane is owned content — it renders full help articles
 // (heading + prose/steps/callouts/placeholder media + related links) through
@@ -21,21 +25,27 @@
 // is a placeholder, not an article). Checked Ecology + Beacon. bcn-kb-browser is the
 // reusable home; its only CSS is the pane frame + the article measure.
 import BcnHelpArticle from './BcnHelpArticle.astro';
-import { HELP_ARTICLES } from '../../data/help-center';
+import { HELP_ARTICLES, type HelpArticle } from '../../data/help-center';
 
-// The pane's default article — shown when no #article-<id> deep-link is present.
-// Prefer the orientation tour, then any how-to, so the page never lands mid-glossary.
-const defaultArticle =
-  HELP_ARTICLES.find((a) => a.id === 'five-minute-tour') ??
-  HELP_ARTICLES.find((a) => a.kind === 'howto') ??
-  HELP_ARTICLES[0];
-const defaultArticleId = defaultArticle?.id ?? '';
+interface Props {
+  /** Articles the pane can render. Default: every article (the home). A category page
+      passes its own subset so the reader is scoped to that category. */
+  articles?: HelpArticle[];
+  /** Show a default article when there is no #article-<id> hash. false (home) keeps the
+      pane empty/collapsed; true (category) lands on the category's first article. */
+  defaultOnLoad?: boolean;
+}
+const { articles = HELP_ARTICLES, defaultOnLoad = false } = Astro.props;
+
+// The no-hash default — only when defaultOnLoad (category pages). The home has none, so
+// the pane stays collapsed until a deep-link routes into it.
+const defaultArticleId = defaultOnLoad ? (articles[0]?.id ?? '') : '';
 ---
 
 <section class="bcn-kb" data-kb-browser>
   <div class="bcn-kb__pane" data-kb-pane data-kb-default={defaultArticleId}>
     {
-      HELP_ARTICLES.map((a) => (
+      articles.map((a) => (
         <article class="bcn-kb__article" data-article-id={a.id} data-category={a.category} hidden>
           <BcnHelpArticle article={a} headingLevel="h2" />
         </article>
@@ -58,6 +68,14 @@ const defaultArticleId = defaultArticle?.id ?? '';
     padding-block-start: var(--spacing-600);
     border-top: 1px solid var(--color-border);
     scroll-margin-top: var(--spacing-400); /* clearance when routed into view */
+  }
+
+  /* Collapse the pane to nothing when no article is visible — the home reader before a
+     deep-link. No empty bordered dead space; the home stays calm. */
+  .bcn-kb__pane:not(:has(> .bcn-kb__article:not([hidden]))) {
+    min-block-size: 0;
+    padding-block-start: 0;
+    border-top: 0;
   }
 
   .bcn-kb__article { max-inline-size: 70ch; }

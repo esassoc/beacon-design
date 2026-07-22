@@ -53,7 +53,6 @@ function shortDate(raw: string): string {
             {r.anchor === latestAnchor && <span class="bcn-release-nav__latest">Latest</span>}
           </span>
           <span class="bcn-release-nav__date">{shortDate(r.date)}</span>
-          {r.patchNote && <span class="bcn-release-nav__note">{r.patchNote}</span>}
         </a>
       </li>
     ))}
@@ -208,13 +207,6 @@ function shortDate(raw: string): string {
   .bcn-release-nav__date {
     font-size: 0.875rem;
     color: var(--color-text-tertiary);
-    line-height: 1.35;
-  }
-
-  /* Optional short qualifier from the data ("hotfix", "security patch") — quiet. */
-  .bcn-release-nav__note {
-    font-size: 13px;
-    color: var(--color-text-muted);
     line-height: 1.35;
   }
 

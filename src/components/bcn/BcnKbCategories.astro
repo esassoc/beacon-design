@@ -1,194 +1,200 @@
 ---
-// <BcnKbCategories> — the browse surface of the Help & Guidance page: a DENSE
-// documentation index (no cards, no icon chips), then an A–Z glossary. It is the
-// page's primary way to find an article; each entry deep-links the reading-pane
-// sibling via a `#article-<id>` hash.
+// <BcnKbCategories> — the curated browse surface of the Help & Guidance home: one
+// spacious card per category (seven), laid out as a uniform 3-column grid on wide
+// viewports (Andy's call: symmetry over orphan-avoidance — the seventh card orphaning
+// on a 3 + 3 + 1 last row is fine and expected; equal widths, consistent gaps, no card
+// stretched or featured to compensate). Each card is a calm preview, not an inventory:
+// the category title, its one-line description, two-to-three FEATURED
+// articles (the most orienting per category — a curated set, not the whole list), the
+// total article count, and a "View all →" link into that category's comprehensive page.
 //
-// Layout: the seven categories (contract order: General, Getting Started, Tracking,
-// Monitoring, Reporting, Data Catalog, Settings & Configuration) flow into a
-// multi-column CSS-`columns` index — a modest normal-case heading per category over a
-// compact list of its article links (title + terse one-liner). Below, a quiet
-// "Glossary" heading over the glossary terms A–Z (`glossaryArticles()`), a flowing
-// multi-column list of bare-term links. Chrome is hairlines + whitespace only — no
-// card borders, no hover-lift, no colored left borders.
+// The dense all-articles index that used to live here is GONE (round 3): it read as
+// overwhelming as a homepage. The full per-category list now lives on the category page
+// (/prototypes/help/<id>); this surface only previews.
 //
-// Data-bound like BcnTrackingZone: reads HELP_CATEGORIES + articlesByCategory +
-// glossaryArticles directly — the category set and article counts follow the data.
+// Featured links deep-link the reading-pane sibling on the home via #article-<id> (a
+// quick inline read); "View all →" navigates to the category page (the full browse).
 //
-// Search hooks: the section is [data-kb-index]; every article row and glossary term
-// carries [data-kb-entry] + data-title/data-summary; category groups carry
-// [data-kb-cat] and id="category-<id>"; the glossary is [data-kb-glossary]. The
-// controller (kb-browser.ts) live-filters against these while a query is active.
-// Each category group keeps id="category-<id>" so #category-<id> deep-links (the Aldo
-// drawer, external links) scroll to it natively (scroll-margin clears the topbar).
+// FEATURED is an owned, curated authored record — the editorial pick of what best
+// orients someone new to each category. Every other value (title, description, count)
+// derives from HELP_CATEGORIES + articlesByCategory, so the cards follow the data.
 //
-// bcn-lego-checked: this is a bespoke documentation INDEX — a text-dense list of
-// links grouped by category plus an A–Z term list. No esa-* lego models it:
-// esa-card/esa-link-column are card/box surfaces (the card chrome Andy rejected);
-// esa-sidebar-nav renders ornamental micro-label group headings and filled-badge
-// hints, not quiet normal-case headings + terse one-liners; esa-pillbox is tag
-// chips. Checked Ecology + Beacon (prod has no KB index). Every link is a plain
-// anchor; the only chrome is token-driven type + hairlines. bcn-kb-categories is the
-// reusable home.
-import { HELP_CATEGORIES, articlesByCategory, glossaryArticles } from '../../data/help-center';
+// bcn-lego-checked: a curated category-preview card (title + description + a curated
+// link list + a footer count/action, pinned so a row of cards aligns) is not esa-card —
+// esa-card is a display:block title/body/footer shell whose body can't stretch to pin a
+// footer action, and the card is not a single link (it holds several). Checked Ecology +
+// Beacon (prod exposes categories as nav, not preview cards). Composed from token type +
+// hairlines; bcn-kb-categories is the reusable home.
+import { HELP_CATEGORIES, articlesByCategory, getArticle, type HelpCategoryId } from '../../data/help-center';
+import { withBase } from '../../lib/base';
 
-const groups = HELP_CATEGORIES.map((c) => ({ ...c, articles: articlesByCategory(c.id) }));
-const glossary = glossaryArticles();
+// Curated preview picks — the most orienting / most-used articles per category. Ordered
+// intentionally; the card shows them as-is (validated against the data below).
+const FEATURED: Record<HelpCategoryId, string[]> = {
+  general: ['project-vs-component-scope', 'tenant', 'work-area'],
+  'getting-started': ['five-minute-tour', 'global-search-tips'],
+  tracking: ['what-is-a-component', 'starring-components', 'reading-permit-tracking'],
+  monitoring: ['site-clearance-go-no-go', 'site-clearance', 'what-is-a-dmr'],
+  reporting: ['what-is-evidence', 'assembling-compliance-report'],
+  'data-catalog': ['what-is-a-source', 'what-is-a-commitment', 'what-is-an-action'],
+  'settings-config': ['managing-tenant-settings', 'managing-users-roles', 'configuring-notifications'],
+};
+
+const cards = HELP_CATEGORIES.map((cat) => {
+  const count = articlesByCategory(cat.id).length;
+  const featured = FEATURED[cat.id]
+    .map((id) => getArticle(id))
+    .filter((a): a is NonNullable<typeof a> => a != null);
+  return { ...cat, count, featured, href: withBase(`/prototypes/help/${cat.id}`) };
+});
 ---
 
-<section class="bcn-kbc" data-kb-index aria-labelledby="bcn-kbc-index-title">
-  <div class="bcn-kbc__block">
-    <h2 id="bcn-kbc-index-title" class="bcn-kbc__section-title type-section-title">Browse by category</h2>
-    <div class="bcn-kbc__index">
-      {
-        groups.map((cat) => (
-          <section class="bcn-kbc__cat" id={`category-${cat.id}`} data-kb-cat={cat.id}>
-            <h3 class="bcn-kbc__cat-title">{cat.title}</h3>
-            <ul class="bcn-kbc__list" role="list">
-              {cat.articles.map((a) => (
-                <li class="bcn-kbc__row" data-kb-entry data-title={a.title} data-summary={a.summary}>
-                  <a class="bcn-kbc__link" href={`#article-${a.id}`} data-article-link={a.id}>
-                    {a.title}
-                  </a>
-                  <span class="bcn-kbc__row-summary">{a.summary}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))
-      }
-    </div>
-  </div>
+<section class="bcn-kbc" aria-labelledby="bcn-kbc-title">
+  <h2 id="bcn-kbc-title" class="bcn-kbc__title type-section-title">Browse by category</h2>
 
-  <section class="bcn-kbc__block bcn-kbc__glossary" data-kb-glossary aria-labelledby="bcn-kbc-gloss-title">
-    <h2 id="bcn-kbc-gloss-title" class="bcn-kbc__section-title type-section-title">Glossary</h2>
-    <ul class="bcn-kbc__terms" role="list">
-      {
-        glossary.map((a) => (
-          <li class="bcn-kbc__term" data-kb-entry data-title={a.title} data-summary={a.summary}>
-            <a class="bcn-kbc__term-link" href={`#article-${a.id}`} data-article-link={a.id}>
-              {a.title}
+  <div class="bcn-kbc__grid">
+    {
+      cards.map((cat) => (
+        <article class="bcn-kbc__card" id={`category-${cat.id}`}>
+          <h3 class="bcn-kbc__card-title type-card-title">{cat.title}</h3>
+          <p class="bcn-kbc__card-desc">{cat.description}</p>
+
+          <ul class="bcn-kbc__featured" role="list">
+            {cat.featured.map((a) => (
+              <li>
+                <a class="bcn-kbc__featured-link" href={`#article-${a.id}`}>
+                  {a.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <div class="bcn-kbc__foot">
+            <span class="bcn-kbc__count">
+              {cat.count} article{cat.count === 1 ? '' : 's'}
+            </span>
+            <a class="bcn-kbc__viewall" href={cat.href}>
+              View all<span class="bcn-kbc__viewall-arrow" aria-hidden="true">→</span>
             </a>
-          </li>
-        ))
-      }
-    </ul>
-  </section>
+          </div>
+        </article>
+      ))
+    }
+  </div>
 </section>
 
 <style>
-  /* Dense documentation index — no card chrome; hairlines + whitespace only. */
+  /* Curated category-card grid — the calm browse surface. */
   .bcn-kbc {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-600);
+    gap: var(--spacing-500);
   }
-
-  .bcn-kbc__block {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-400);
-  }
-
-  /* Section heading — readable words, normal case, primary text. */
-  .bcn-kbc__section-title {
+  .bcn-kbc__title {
     margin: 0;
     color: var(--color-text-primary);
   }
 
-  /* ── category index: the seven groups flow into balanced text columns ── */
-  .bcn-kbc__index {
-    columns: 20rem 3;
-    column-gap: var(--spacing-700);
+  /* ── Symmetric 3-column grid (Andy, 2026-07-22): equal cards, always 3-up on
+        wide — the 7th card orphaning on the last row is accepted, uniformity wins.
+        1-up narrow, 2-up medium. ── */
+  .bcn-kbc__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-400);
+  }
+  @media (min-width: 40rem) {
+    .bcn-kbc__grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 68rem) {
+    .bcn-kbc__grid { grid-template-columns: repeat(3, 1fr); }
   }
 
-  /* One category group — kept whole within a column. */
-  .bcn-kbc__cat {
-    break-inside: avoid;
-    margin-block-end: var(--spacing-500);
-    scroll-margin-top: 5rem; /* #category-<id> lands clear of the app topbar */
+  /* ── Spacious calm card: white surface, hairline border, generous padding. The card
+        is a container (several links inside), never itself a link. Footer pins to the
+        bottom so a row of cards aligns regardless of link count. ── */
+  .bcn-kbc__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    padding: var(--spacing-500);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+    scroll-margin-top: 5rem; /* #category-<id> graceful-fallback anchor clears the topbar */
   }
-  .bcn-kbc__cat[hidden] { display: none; }
 
-  /* Category heading — 17px semibold, normal case (deliberate fixed size: the fluid
-     roles balloon past 17px on wide viewports; a dense index heading holds steady). */
-  .bcn-kbc__cat-title {
-    margin: 0 0 var(--spacing-200);
-    padding-block-end: var(--spacing-150);
-    border-bottom: 1px solid var(--color-border-light);
-    font-size: 1.0625rem;
-    font-weight: var(--font-weight-semibold);
-    line-height: 1.3;
+  .bcn-kbc__card-title {
+    margin: 0;
     color: var(--color-text-primary);
   }
+  .bcn-kbc__card-desc {
+    margin: 0;
+    font-size: 0.9375rem; /* 15px — supporting one-liner */
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
 
-  .bcn-kbc__list {
+  /* Featured links — the curated preview, a quiet scannable list. */
+  .bcn-kbc__featured {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-200);
+    gap: var(--spacing-150);
   }
-
-  /* One article entry: title link over a terse one-liner. Tight leading, small rhythm. */
-  .bcn-kbc__row { display: flex; flex-direction: column; gap: 1px; }
-  .bcn-kbc__row[hidden] { display: none; }
-
-  .bcn-kbc__link {
-    font-size: 0.9375rem; /* 15px — dense-index list size */
+  .bcn-kbc__featured-link {
+    font-size: 0.9375rem; /* 15px */
     font-weight: var(--font-weight-medium);
     line-height: 1.35;
     color: var(--color-text-primary);
     text-decoration: none;
     transition: color 120ms ease;
   }
-  .bcn-kbc__link:hover {
-    color: var(--bcn-aldo-600, #06736f);
+  .bcn-kbc__featured-link:hover {
+    color: var(--color-text-link);
     text-decoration: underline;
     text-underline-offset: 2px;
   }
-  .bcn-kbc__link:focus-visible {
-    outline: 2px solid var(--bcn-aldo, #08908b);
+  .bcn-kbc__featured-link:focus-visible {
+    outline: 2px solid var(--color-text-link);
     outline-offset: 2px;
     border-radius: var(--radius-100);
   }
 
-  .bcn-kbc__row-summary {
-    font-size: 0.8125rem; /* 13px terse one-liner */
-    line-height: 1.4;
-    color: var(--color-text-secondary);
+  /* Footer — count + quiet "View all" action, pinned to the card bottom by margin-top. */
+  .bcn-kbc__foot {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+    margin-top: auto;
+    padding-top: var(--spacing-300);
+    border-top: 1px solid var(--color-border-light);
   }
-
-  /* ── glossary: A–Z term links, flowing into narrow text columns ── */
-  .bcn-kbc__glossary { padding-block-start: var(--spacing-500); border-top: 1px solid var(--color-border); }
-  .bcn-kbc__glossary[hidden] { display: none; }
-
-  .bcn-kbc__terms {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    columns: 12rem;
-    column-gap: var(--spacing-600);
+  .bcn-kbc__count {
+    font-size: 0.8125rem; /* 13px meta */
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
   }
-  .bcn-kbc__term { break-inside: avoid; margin-block-end: var(--spacing-150); }
-  .bcn-kbc__term[hidden] { display: none; }
-
-  .bcn-kbc__term-link {
-    font-size: 0.9375rem; /* 15px */
-    line-height: 1.4;
-    color: var(--color-text-primary);
+  .bcn-kbc__viewall {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    font-size: 0.9375rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-link);
     text-decoration: none;
-    transition: color 120ms ease;
+    white-space: nowrap;
+    transition: color 150ms ease;
   }
-  .bcn-kbc__term-link:hover {
-    color: var(--bcn-aldo-600, #06736f);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-  .bcn-kbc__term-link:focus-visible {
-    outline: 2px solid var(--bcn-aldo, #08908b);
+  .bcn-kbc__viewall:hover { color: var(--color-text-link-hover); }
+  .bcn-kbc__viewall:focus-visible {
+    outline: 2px solid var(--color-text-link);
     outline-offset: 2px;
     border-radius: var(--radius-100);
   }
+  .bcn-kbc__viewall-arrow { transition: transform 150ms ease; }
+  .bcn-kbc__viewall:hover .bcn-kbc__viewall-arrow { transform: translateX(2px); }
 </style>

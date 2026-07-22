@@ -3,14 +3,14 @@
 // imported here — they live in the DOM, so the JS bundle carries no content):
 //
 //   1. READING-PANE ROUTING. The pane (in <BcnKbBrowser>) shows ONE article at a
-//      time; the dense category index + glossary (in <BcnKbCategories>) and the Aldo
-//      guidance drawer deep-link into it.
+//      time; the category cards + glossary, the search results, and the Aldo guidance
+//      drawer deep-link into it.
 //        #article-<id>  → show that article and scroll the pane clear of the topbar.
-//        #category-<id> → the category group in the index owns id="category-<id>"
-//                         (+ scroll-margin), so the browser scrolls there natively;
-//                         we only reset the pane to its default article.
-//        (no hash)      → the default article, WITHOUT scrolling, so the hero + index
-//                         stay in view on load.
+//        #category-<id> → ON THE HOME, redirect to that category's comprehensive page
+//                         (the home no longer holds a dense index to scroll to). On a
+//                         category page it is a no-op (falls through to the default).
+//        (no hash)      → the default article, WITHOUT scrolling (category pages); the
+//                         HOME has no default, so the pane collapses until a deep-link.
 //
 //   2. LIVE SEARCH → RESULTS. The hero (sibling) owns the [data-kb-search] field and
 //      a pre-rendered results listbox ([data-kb-results], one hidden row per article).
@@ -24,6 +24,12 @@
 //
 // Self-mounting off document-level queries (the field, results, index, and pane each
 // live in a different sibling component); missing pieces are simply skipped.
+
+import { withBase } from '../../lib/base';
+
+// True on the Help & Guidance home (…/prototypes/help), false on a category page
+// (…/prototypes/help/<id>). Base-prefix-agnostic — matches as a suffix.
+const onHome = /\/prototypes\/help\/?$/.test(location.pathname);
 
 const MIN_QUERY = 2;
 const DEBOUNCE_MS = 150;
@@ -64,17 +70,19 @@ export function setupKbBrowser(): void {
   function scrollPaneTop(): void {
     // The page scrolls inside the app-shell content area, not the window, so scroll
     // via scrollIntoView (it drives the nearest scrollable ancestor). scroll-margin-top
-    // on the pane clears the app topbar.
-    pane?.scrollIntoView({ block: 'start', behavior: 'auto' });
+    // on the pane clears the app topbar. Two frames: the home pane expands from its
+    // collapsed (:has) state as the article unhides — wait for that reflow to settle
+    // before measuring, and win over the browser's own fragment scroll.
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      pane?.scrollIntoView({ block: 'start', behavior: 'auto' });
+    }));
   }
 
   function showArticle(id: string, scroll: boolean): boolean {
     const target = articles.find((a) => a.dataset.articleId === id);
     if (!target) return false;
     for (const a of articles) a.hidden = a !== target;
-    // Defer to the next frame so this wins over the browser's own fragment scroll
-    // when the hash changes in-page (choosing a search result, an index link).
-    if (scroll) requestAnimationFrame(scrollPaneTop);
+    if (scroll) scrollPaneTop();
     return true;
   }
 
@@ -172,11 +180,17 @@ export function setupKbBrowser(): void {
     if (hash.startsWith('#article-')) {
       closeResults();
       if (!showArticle(hash.slice('#article-'.length), true)) showDefault();
-    } else {
-      // #category-<id> scrolls natively to the index group; both it and no-hash
-      // reset the pane to the default article.
-      showDefault();
+      return;
     }
+    if (hash.startsWith('#category-') && onHome) {
+      // The home no longer holds a dense index to scroll to — a category deep-link goes
+      // to that category's comprehensive page.
+      location.replace(withBase(`/prototypes/help/${hash.slice('#category-'.length)}`));
+      return;
+    }
+    // No hash (or #category- on a category page): reset the pane to its default. The
+    // home has no default → the pane collapses; a category page lands on its first article.
+    showDefault();
   }
 
   // ── events ──

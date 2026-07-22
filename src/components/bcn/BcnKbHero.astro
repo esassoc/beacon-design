@@ -175,12 +175,16 @@ const SEARCH_PATHS = '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'
   }
 
   /* The lego at size="lg", scaled up via a SCOPED re-point of its public size tokens.
-     Enlarged padding-x opens a left gutter for the search glyph. */
+     Enlarged padding-x opens a left gutter for the search glyph. The lego's focus
+     tokens default to Radix grass (an off-brand green ring) — re-point its public
+     focus border + ring color to the house link color, scoped to this one field. */
   .bcn-kb-hero__search {
     --form-height-lg: 3.5rem; /* 56px — taller than default lg (48px): primary */
     --form-font-size-lg: 1.1875rem; /* ~19px */
     --form-padding-x-lg: 3.25rem; /* opens the leading gutter for the glyph */
     --form-radius-lg: var(--radius-300);
+    --form-border-color-focus: var(--color-text-link);
+    --focus-ring-color: var(--color-text-link);
     inline-size: 100%;
     text-align: start; /* reset the hero's centered text for the input's own value */
   }
@@ -216,7 +220,8 @@ const SEARCH_PATHS = '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'
   .bcn-kb-hero__results[hidden] { display: none; }
 
   /* One result = a two-line text row (title + category, then summary). No card chrome;
-     the active/hover row gets a quiet Aldo tint (never a colored left border). */
+     the active/hover row gets a quiet neutral sunken wash (never a tint, never a
+     colored left border). */
   .bcn-kb-hero__result {
     display: flex;
     flex-direction: column;
@@ -229,7 +234,7 @@ const SEARCH_PATHS = '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'
   .bcn-kb-hero__result[hidden] { display: none; }
   .bcn-kb-hero__result:hover,
   .bcn-kb-hero__result.is-active {
-    background: var(--bcn-aldo-50, #e8f6f5);
+    background: var(--color-surface-sunken);
   }
 
   .bcn-kb-hero__result-top {
@@ -246,10 +251,12 @@ const SEARCH_PATHS = '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'
   }
   .bcn-kb-hero__result.is-active .bcn-kb-hero__result-title,
   .bcn-kb-hero__result:hover .bcn-kb-hero__result-title {
-    color: var(--bcn-aldo-600, #06736f);
+    color: var(--color-text-link);
   }
+  /* Matched substring — a neutral translucent highlight (reads on white and on the
+     sunken active row); never a tint. */
   .bcn-kb-hero__result-title :global(mark) {
-    background: var(--bcn-aldo-100, #cfeceb);
+    background: color-mix(in srgb, var(--color-text-primary) 12%, transparent);
     color: inherit;
     border-radius: 2px;
     padding: 0 1px;
@@ -274,7 +281,7 @@ const SEARCH_PATHS = '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'
     color: var(--color-text-secondary);
   }
 
-  /* Quiet "What's new" doorway — Aldo accent only on hover, resting state neutral. */
+  /* Quiet "What's new" doorway — house link color only on hover, resting state neutral. */
   .bcn-kb-hero__whatsnew {
     display: inline-flex;
     align-items: center;
@@ -285,9 +292,9 @@ const SEARCH_PATHS = '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'
     text-decoration: none;
     transition: color 150ms ease;
   }
-  .bcn-kb-hero__whatsnew:hover { color: var(--bcn-aldo-600, #06736f); }
+  .bcn-kb-hero__whatsnew:hover { color: var(--color-text-link-hover); }
   .bcn-kb-hero__whatsnew:focus-visible {
-    outline: 2px solid var(--bcn-aldo, #08908b);
+    outline: 2px solid var(--color-text-link);
     outline-offset: 2px;
     border-radius: var(--radius-100);
   }
