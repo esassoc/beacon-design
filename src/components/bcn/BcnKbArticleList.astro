@@ -21,10 +21,7 @@ const count = articles.length;
 ---
 
 <section class="bcn-kbl" aria-label={`${category.title} articles`}>
-  <div class="bcn-kbl__head">
-    <p class="bcn-kbl__desc type-body">{category.description}</p>
-    <span class="bcn-kbl__count">{count} article{count === 1 ? '' : 's'}</span>
-  </div>
+  <span class="bcn-kbl__count">{count} article{count === 1 ? '' : 's'}</span>
 
   <ul class="bcn-kbl__list" role="list">
     {
@@ -46,17 +43,7 @@ const count = articles.length;
     max-inline-size: 60rem;
   }
 
-  /* Header — the category description as a lede, with a quiet count. */
-  .bcn-kbl__head {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-150);
-  }
-  .bcn-kbl__desc {
-    margin: 0;
-    max-inline-size: 44rem;
-    color: var(--color-text-secondary);
-  }
+  /* A quiet count sits alone above the list — no lede. */
   .bcn-kbl__count {
     font-size: 0.8125rem; /* 13px meta */
     color: var(--color-text-tertiary);
@@ -75,10 +62,10 @@ const count = articles.length;
     flex-direction: column;
     gap: var(--spacing-050);
     padding-block: var(--spacing-300);
-    border-top: 1px solid var(--color-border-light);
   }
-  .bcn-kbl__row:last-child {
-    border-bottom: 1px solid var(--color-border-light);
+  /* Hairlines divide rows only — the list has no outer top/bottom border. */
+  .bcn-kbl__row + .bcn-kbl__row {
+    border-top: 1px solid var(--color-border-light);
   }
 
   .bcn-kbl__link {
