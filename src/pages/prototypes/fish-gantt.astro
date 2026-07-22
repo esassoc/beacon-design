@@ -579,7 +579,7 @@ const fishNav = [
       ]);
     } else if (kind === 'readiness') {
       const rows: XlsCell[][] = [
-        ['COA', 'Study', 'Lead', 'Driving milestone', 'Deadline', 'Must start by', 'Projected finish', 'Status'].map(h),
+        ['COA', 'Study', 'Lead', 'Driving milestone', 'Deadline', 'Planned start', 'Projected finish', 'Status'].map(h),
         ...studies.map((s) => {
           const r = api.rollupOf(s.id);
           return [

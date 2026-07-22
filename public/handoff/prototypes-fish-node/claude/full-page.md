@@ -3961,7 +3961,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-node-page__panel"
                 data-node-panel="STY-016"
-                data-node-name="Salmonid Outmigration Timing &amp; Cues"
+                data-node-name="Abundance &amp; Distribution Study"
                 data-node-tier="Study"
                 data-start=""
                 data-end=""
@@ -3975,9 +3975,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="name">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Name</span>
-                          <span class="bcn-key-value__val"
-                            >Salmonid Outmigration Timing &amp; Cues</span
-                          >
+                          <span class="bcn-key-value__val">Abundance &amp; Distribution Study</span>
                         </div>
                       </div>
                       <div data-live="idrow">
@@ -4192,7 +4190,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-node-page__panel"
                 data-node-panel="SUB-025"
-                data-node-name="Rotary screw-trap timing monitoring"
+                data-node-name="Juvenile abundance &amp; distribution monitoring"
                 data-node-tier="Sub-study"
                 data-start=""
                 data-end=""
@@ -4207,7 +4205,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Name</span>
                           <span class="bcn-key-value__val"
-                            >Rotary screw-trap timing monitoring</span
+                            >Juvenile abundance &amp; distribution monitoring</span
                           >
                         </div>
                       </div>
@@ -4226,9 +4224,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="parent">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Parent</span>
-                          <span class="bcn-key-value__val"
-                            >Salmonid Outmigration Timing &amp; Cues</span
-                          >
+                          <span class="bcn-key-value__val">Abundance &amp; Distribution Study</span>
                         </div>
                       </div>
                     </div>
@@ -4456,7 +4452,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Parent</span>
                           <span class="bcn-key-value__val"
-                            >Rotary screw-trap timing monitoring</span
+                            >Juvenile abundance &amp; distribution monitoring</span
                           >
                         </div>
                       </div>
@@ -4545,7 +4541,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-node-page__panel"
                 data-node-panel="TSK-012"
-                data-node-name="RST installation &amp; calibration"
+                data-node-name="Monitoring-array installation &amp; calibration"
                 data-node-tier="Task"
                 data-start="2028-08"
                 data-end="2028-11"
@@ -4559,7 +4555,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="name">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Name</span>
-                          <span class="bcn-key-value__val">RST installation &amp; calibration</span>
+                          <span class="bcn-key-value__val"
+                            >Monitoring-array installation &amp; calibration</span
+                          >
                         </div>
                       </div>
                       <div data-live="idrow">
@@ -4578,7 +4576,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Parent</span>
                           <span class="bcn-key-value__val"
-                            >Rotary screw-trap timing monitoring</span
+                            >Juvenile abundance &amp; distribution monitoring</span
                           >
                         </div>
                       </div>
@@ -4667,7 +4665,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-node-page__panel"
                 data-node-panel="TSK-013"
-                data-node-name="Outmigration timing field seasons"
+                data-node-name="Abundance &amp; distribution field seasons"
                 data-node-tier="Task"
                 data-start="2028-12"
                 data-end="2032-03"
@@ -4681,7 +4679,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="name">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Name</span>
-                          <span class="bcn-key-value__val">Outmigration timing field seasons</span>
+                          <span class="bcn-key-value__val"
+                            >Abundance &amp; distribution field seasons</span
+                          >
                         </div>
                       </div>
                       <div data-live="idrow">
@@ -4700,7 +4700,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Parent</span>
                           <span class="bcn-key-value__val"
-                            >Rotary screw-trap timing monitoring</span
+                            >Juvenile abundance &amp; distribution monitoring</span
                           >
                         </div>
                       </div>
@@ -4795,7 +4795,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-node-page__panel"
                 data-node-panel="TSK-014"
-                data-node-name="Migration cue &amp; timing analysis"
+                data-node-name="Abundance &amp; distribution analysis"
                 data-node-tier="Task"
                 data-start="2032-04"
                 data-end="2032-10"
@@ -4810,7 +4810,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Name</span>
                           <span class="bcn-key-value__val"
-                            >Migration cue &amp; timing analysis</span
+                            >Abundance &amp; distribution analysis</span
                           >
                         </div>
                       </div>
@@ -4830,7 +4830,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Parent</span>
                           <span class="bcn-key-value__val"
-                            >Rotary screw-trap timing monitoring</span
+                            >Juvenile abundance &amp; distribution monitoring</span
                           >
                         </div>
                       </div>
@@ -6425,7 +6425,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-node-page__panel"
                 data-node-panel="STY-018"
-                data-node-name="Harmful Algal Bloom Monitoring"
+                data-node-name="Sediment &amp; Turbidity Monitoring"
                 data-node-tier="Study"
                 data-start=""
                 data-end=""
@@ -6439,7 +6439,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="name">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Name</span>
-                          <span class="bcn-key-value__val">Harmful Algal Bloom Monitoring</span>
+                          <span class="bcn-key-value__val"
+                            >Sediment &amp; Turbidity Monitoring</span
+                          >
                         </div>
                       </div>
                       <div data-live="idrow">
@@ -6604,7 +6606,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-node-page__panel"
                 data-node-panel="SUB-028"
-                data-node-name="HAB sampling program"
+                data-node-name="Sediment &amp; turbidity sampling program"
                 data-node-tier="Sub-study"
                 data-start=""
                 data-end=""
@@ -6618,7 +6620,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="name">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Name</span>
-                          <span class="bcn-key-value__val">HAB sampling program</span>
+                          <span class="bcn-key-value__val"
+                            >Sediment &amp; turbidity sampling program</span
+                          >
                         </div>
                       </div>
                       <div data-live="idrow">
@@ -6636,7 +6640,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="parent">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Parent</span>
-                          <span class="bcn-key-value__val">Harmful Algal Bloom Monitoring</span>
+                          <span class="bcn-key-value__val"
+                            >Sediment &amp; Turbidity Monitoring</span
+                          >
                         </div>
                       </div>
                     </div>
@@ -6813,7 +6819,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="parent">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Parent</span>
-                          <span class="bcn-key-value__val">HAB sampling program</span>
+                          <span class="bcn-key-value__val"
+                            >Sediment &amp; turbidity sampling program</span
+                          >
                         </div>
                       </div>
                     </div>
@@ -6895,7 +6903,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-node-page__panel"
                 data-node-panel="TSK-021"
-                data-node-name="HAB field season 1"
+                data-node-name="Turbidity &amp; SSC field season 1"
                 data-node-tier="Task"
                 data-start="2029-09"
                 data-end="2030-03"
@@ -6909,7 +6917,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="name">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Name</span>
-                          <span class="bcn-key-value__val">HAB field season 1</span>
+                          <span class="bcn-key-value__val">Turbidity &amp; SSC field season 1</span>
                         </div>
                       </div>
                       <div data-live="idrow">
@@ -6927,7 +6935,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="parent">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Parent</span>
-                          <span class="bcn-key-value__val">HAB sampling program</span>
+                          <span class="bcn-key-value__val"
+                            >Sediment &amp; turbidity sampling program</span
+                          >
                         </div>
                       </div>
                     </div>
@@ -7015,7 +7025,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-node-page__panel"
                 data-node-panel="TSK-022"
-                data-node-name="Toxin lab analysis &amp; reporting"
+                data-node-name="Sediment-flux lab analysis &amp; reporting"
                 data-node-tier="Task"
                 data-start="2030-04"
                 data-end="2030-09"
@@ -7029,7 +7039,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="name">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Name</span>
-                          <span class="bcn-key-value__val">Toxin lab analysis &amp; reporting</span>
+                          <span class="bcn-key-value__val"
+                            >Sediment-flux lab analysis &amp; reporting</span
+                          >
                         </div>
                       </div>
                       <div data-live="idrow">
@@ -7047,7 +7059,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="parent">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Parent</span>
-                          <span class="bcn-key-value__val">HAB sampling program</span>
+                          <span class="bcn-key-value__val"
+                            >Sediment &amp; turbidity sampling program</span
+                          >
                         </div>
                       </div>
                     </div>
@@ -7387,7 +7401,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-node-page__panel"
                 data-node-panel="STY-019"
-                data-node-name="Long-term Salmonid Response Monitoring"
+                data-node-name="Hydrodynamics at Georgiana Slough Monitoring"
                 data-node-tier="Study"
                 data-start=""
                 data-end=""
@@ -7402,7 +7416,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Name</span>
                           <span class="bcn-key-value__val"
-                            >Long-term Salmonid Response Monitoring</span
+                            >Hydrodynamics at Georgiana Slough Monitoring</span
                           >
                         </div>
                       </div>
@@ -7638,7 +7652,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-node-page__panel"
                 data-node-panel="SUB-029"
-                data-node-name="Post-construction survival verification"
+                data-node-name="Continuous hydrodynamic monitoring"
                 data-node-tier="Sub-study"
                 data-start=""
                 data-end=""
@@ -7652,9 +7666,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="name">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Name</span>
-                          <span class="bcn-key-value__val"
-                            >Post-construction survival verification</span
-                          >
+                          <span class="bcn-key-value__val">Continuous hydrodynamic monitoring</span>
                         </div>
                       </div>
                       <div data-live="idrow">
@@ -7673,7 +7685,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Parent</span>
                           <span class="bcn-key-value__val"
-                            >Long-term Salmonid Response Monitoring</span
+                            >Hydrodynamics at Georgiana Slough Monitoring</span
                           >
                         </div>
                       </div>
@@ -7849,7 +7861,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-node-page__panel"
                 data-node-panel="TSK-023"
-                data-node-name="Ops-phase acoustic telemetry seasons"
+                data-node-name="ADCP array deployment &amp; data collection"
                 data-node-tier="Task"
                 data-start="2034-10"
                 data-end="2038-03"
@@ -7864,7 +7876,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Name</span>
                           <span class="bcn-key-value__val"
-                            >Ops-phase acoustic telemetry seasons</span
+                            >ADCP array deployment &amp; data collection</span
                           >
                         </div>
                       </div>
@@ -7883,9 +7895,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="parent">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Parent</span>
-                          <span class="bcn-key-value__val"
-                            >Post-construction survival verification</span
-                          >
+                          <span class="bcn-key-value__val">Continuous hydrodynamic monitoring</span>
                         </div>
                       </div>
                     </div>
@@ -7979,7 +7989,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-node-page__panel"
                 data-node-panel="TSK-024"
-                data-node-name="Five-year survival trend synthesis"
+                data-node-name="Multi-year flow-split synthesis"
                 data-node-tier="Task"
                 data-start="2038-04"
                 data-end="2039-03"
@@ -7993,7 +8003,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="name">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Name</span>
-                          <span class="bcn-key-value__val">Five-year survival trend synthesis</span>
+                          <span class="bcn-key-value__val">Multi-year flow-split synthesis</span>
                         </div>
                       </div>
                       <div data-live="idrow">
@@ -8011,9 +8021,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="parent">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Parent</span>
-                          <span class="bcn-key-value__val"
-                            >Post-construction survival verification</span
-                          >
+                          <span class="bcn-key-value__val">Continuous hydrodynamic monitoring</span>
                         </div>
                       </div>
                     </div>
@@ -8101,7 +8109,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-node-page__panel"
                 data-node-panel="SUB-030"
-                data-node-name="Adaptive-management triggers &amp; response"
+                data-node-name="Routing &amp; flow-reversal analysis"
                 data-node-tier="Sub-study"
                 data-start=""
                 data-end=""
@@ -8116,7 +8124,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Name</span>
                           <span class="bcn-key-value__val"
-                            >Adaptive-management triggers &amp; response</span
+                            >Routing &amp; flow-reversal analysis</span
                           >
                         </div>
                       </div>
@@ -8136,7 +8144,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Parent</span>
                           <span class="bcn-key-value__val"
-                            >Long-term Salmonid Response Monitoring</span
+                            >Hydrodynamics at Georgiana Slough Monitoring</span
                           >
                         </div>
                       </div>
@@ -8343,7 +8351,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div class="esa-collapsible__body">
                         <div class="bcn-detail__notes" data-live="notes">
                           <ul class="bcn-detail__constraints">
-                            <li>Begins at Phase 1 operations (WY2034)</li>
+                            <li>Continuous through operations (WY2034+)</li>
                           </ul>
                         </div>
                       </div>
@@ -8354,7 +8362,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-node-page__panel"
                 data-node-panel="TSK-025"
-                data-node-name="Trigger framework &amp; thresholds"
+                data-node-name="Hydrodynamic model calibration"
                 data-node-tier="Task"
                 data-start="2033-04"
                 data-end="2033-12"
@@ -8368,7 +8376,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="name">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Name</span>
-                          <span class="bcn-key-value__val">Trigger framework &amp; thresholds</span>
+                          <span class="bcn-key-value__val">Hydrodynamic model calibration</span>
                         </div>
                       </div>
                       <div data-live="idrow">
@@ -8387,7 +8395,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Parent</span>
                           <span class="bcn-key-value__val"
-                            >Adaptive-management triggers &amp; response</span
+                            >Routing &amp; flow-reversal analysis</span
                           >
                         </div>
                       </div>
@@ -8476,7 +8484,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-node-page__panel"
                 data-node-panel="TSK-026"
-                data-node-name="Annual trigger evaluations"
+                data-node-name="Annual hydrodynamic monitoring"
                 data-node-tier="Task"
                 data-start="2034-04"
                 data-end="2041-09"
@@ -8490,7 +8498,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="name">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Name</span>
-                          <span class="bcn-key-value__val">Annual trigger evaluations</span>
+                          <span class="bcn-key-value__val">Annual hydrodynamic monitoring</span>
                         </div>
                       </div>
                       <div data-live="idrow">
@@ -8509,7 +8517,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Parent</span>
                           <span class="bcn-key-value__val"
-                            >Adaptive-management triggers &amp; response</span
+                            >Routing &amp; flow-reversal analysis</span
                           >
                         </div>
                       </div>
@@ -8620,7 +8628,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-node-page__panel"
                 data-node-panel="STY-020"
-                data-node-name="Decadal Ecosystem Trend Reporting"
+                data-node-name="Covered Fish Species Life Cycle Models"
                 data-node-tier="Study"
                 data-start=""
                 data-end=""
@@ -8634,7 +8642,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="name">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Name</span>
-                          <span class="bcn-key-value__val">Decadal Ecosystem Trend Reporting</span>
+                          <span class="bcn-key-value__val"
+                            >Covered Fish Species Life Cycle Models</span
+                          >
                         </div>
                       </div>
                       <div data-live="idrow">
@@ -8798,8 +8808,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               </section>
               <section
                 class="bcn-node-page__panel"
-                data-node-panel="SUB-031"
-                data-node-name="Integrated monitoring synthesis"
+                data-node-panel="SUB-033"
+                data-node-name="Life-cycle model refinement"
                 data-node-tier="Sub-study"
                 data-start=""
                 data-end=""
@@ -8813,13 +8823,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="name">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Name</span>
-                          <span class="bcn-key-value__val">Integrated monitoring synthesis</span>
+                          <span class="bcn-key-value__val">Life-cycle model refinement</span>
                         </div>
                       </div>
                       <div data-live="idrow">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">ID</span>
-                          <span class="bcn-key-value__val">SUB-031</span>
+                          <span class="bcn-key-value__val">SUB-033</span>
                         </div>
                       </div>
                       <div data-live="coa">
@@ -8831,7 +8841,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="parent">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Parent</span>
-                          <span class="bcn-key-value__val">Decadal Ecosystem Trend Reporting</span>
+                          <span class="bcn-key-value__val"
+                            >Covered Fish Species Life Cycle Models</span
+                          >
                         </div>
                       </div>
                     </div>
@@ -8976,7 +8988,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-node-page__panel"
                 data-node-panel="TSK-027"
-                data-node-name="Mid-operations synthesis report"
+                data-node-name="Model refinement with monitoring data"
                 data-node-tier="Task"
                 data-start="2037-10"
                 data-end="2038-09"
@@ -8990,7 +9002,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="name">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Name</span>
-                          <span class="bcn-key-value__val">Mid-operations synthesis report</span>
+                          <span class="bcn-key-value__val"
+                            >Model refinement with monitoring data</span
+                          >
                         </div>
                       </div>
                       <div data-live="idrow">
@@ -9008,7 +9022,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="parent">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Parent</span>
-                          <span class="bcn-key-value__val">Integrated monitoring synthesis</span>
+                          <span class="bcn-key-value__val">Life-cycle model refinement</span>
                         </div>
                       </div>
                     </div>
@@ -9092,7 +9106,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <section
                 class="bcn-node-page__panel"
                 data-node-panel="TSK-028"
-                data-node-name="Decadal science-plan review &amp; CDFW report-out"
+                data-node-name="Decadal model validation &amp; CDFW report-out"
                 data-node-tier="Task"
                 data-start="2041-10"
                 data-end="2042-09"
@@ -9107,7 +9121,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Name</span>
                           <span class="bcn-key-value__val"
-                            >Decadal science-plan review &amp; CDFW report-out</span
+                            >Decadal model validation &amp; CDFW report-out</span
                           >
                         </div>
                       </div>
@@ -9126,7 +9140,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="parent">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Parent</span>
-                          <span class="bcn-key-value__val">Integrated monitoring synthesis</span>
+                          <span class="bcn-key-value__val">Life-cycle model refinement</span>
                         </div>
                       </div>
                     </div>
@@ -9618,7 +9632,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <div class="bcn-detail__notes" data-live="notes">
                           <ul class="bcn-detail__constraints">
                             <li>
-                              Recommended fish-guidance plan due to CDFW by January 2029 — one year
+                              Recommended fish-guidance plan due to CDFW by January 2030 — one year
                               before 30% design finalization
                             </li>
                             <li>
@@ -13181,6 +13195,214 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --type-size-500: clamp(1.125rem, 0.98rem + 0.72vw, 1.5rem);
 }
 
+:host {
+  all: initial;
+}
+.host-root {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2147483000;
+  font-family: system-ui, sans-serif;
+}
+.host-root > * {
+  pointer-events: auto;
+}
+.launch {
+  position: fixed;
+  bottom: 22px;
+  left: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 19px;
+  border-radius: 999px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border: 1px solid #3d6fd6;
+  background: linear-gradient(180deg, #1f6feb, #1551c4);
+  box-shadow:
+    0 10px 28px -8px rgba(31, 111, 235, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
+}
+.launch svg {
+  flex: none;
+}
+.panel {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  bottom: 18px;
+  width: min(720px, 94vw);
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  border-radius: 16px;
+  background: linear-gradient(155deg, rgba(26, 31, 40, 0.74), rgba(11, 15, 21, 0.86));
+  backdrop-filter: blur(26px) saturate(150%);
+  -webkit-backdrop-filter: blur(26px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 28px 70px -18px rgba(0, 0, 0, 0.62),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  font-size: 12.5px;
+  overflow: hidden;
+  /* slide in from the right */
+  transform: translateX(calc(100% + 32px));
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.22s ease,
+    visibility 0s linear 0.3s;
+}
+.head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+.head strong {
+  font-size: 14px;
+}
+.head .sub {
+  flex: 1;
+  color: #ccd5e0;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.x {
+  border: 0;
+  background: none;
+  color: #c4cdd8;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+.picker {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.chip {
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: #eef2f6;
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    border-color 0.12s ease,
+    background 0.12s ease,
+    color 0.12s ease;
+}
+.chip.on {
+  background: rgba(31, 111, 235, 0.28);
+  border-color: #4493f8;
+  color: #fff;
+  font-weight: 600;
+}
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 9px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+.tabs button {
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: #ccd5e0;
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.tabs button.on {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+.body {
+  overflow: auto;
+  padding: 13px 16px;
+  flex: 1;
+}
+.hint {
+  margin: 0;
+  color: #c4cdd8;
+  line-height: 1.6;
+}
+.footer {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 11px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.18);
+}
+[hidden] {
+  display: none !important;
+}
+.cpreview {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: calc(100% + 8px);
+  background: rgba(13, 17, 23, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  box-shadow: 0 18px 50px -14px rgba(0, 0, 0, 0.7);
+  padding: 12px 14px;
+  max-height: 50vh;
+  overflow: auto;
+}
+.copy {
+  color: #eef2f6;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.05);
+}
+.footer button {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.claude {
+  color: #fff;
+  border: 1px solid #d97757;
+  background: linear-gradient(180deg, #e0805f, #c25e3c);
+  box-shadow:
+    0 6px 18px -6px rgba(217, 119, 87, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+.claude svg {
+  flex: none;
+}
 :host {
   --_width: var(--side-dialog-width, 400px);
 }

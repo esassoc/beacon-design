@@ -6725,6 +6725,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
+.page-layout{display:flex;flex-direction:column;min-height:calc(100vh - 52px);padding:var(--spacing-600);background:var(--bcn-gray-50);box-sizing:border-box}
+.page-layout__container{display:flex;flex-direction:column}
+.page-layout section{width:100%}
+.breadcrumbs{padding:var(--spacing-400) 0}
+.breadcrumbs__items{display:flex;gap:var(--spacing-100);align-items:center;flex-wrap:wrap}
+.breadcrumbs__items .esa-icon{color:var(--bcn-gray-400)}
+.breadcrumb-item{color:var(--bcn-gray-600);text-transform:capitalize;font-size:.875rem}
+a.breadcrumb-item{text-decoration:none}
+.page-layout__title{border-bottom:1px solid var(--bcn-gray-200);padding:var(--spacing-500) 0;display:flex;align-items:center;justify-content:space-between;box-sizing:border-box}
+.page-layout__title-main{display:flex;align-items:center;gap:var(--spacing-200);min-width:0}
+.page-layout__title h1{display:flex;align-items:center;gap:var(--spacing-200);font-family:var(--font-decorative);font-weight:var(--font-weight-bold);font-size:var(--type-size-500);margin:0;color:var(--bcn-gray-1000)}
+.page-layout__content{padding:var(--spacing-500) 0;min-height:70vh;position:relative}
+.ag-paging-panel{align-items:center;border-top:var(--ag-footer-row-border);display:flex;flex-wrap:wrap-reverse;gap:calc(var(--ag-spacing)*4);justify-content:flex-end;min-height:var(--ag-pagination-panel-height);padding:calc(var(--ag-spacing)*.5) var(--ag-cell-horizontal-padding);row-gap:calc(var(--ag-spacing)*.5);@container (width < 600px){justify-content:center}
 .ag-overlay{inset:0;pointer-events:none;position:absolute;z-index:2}
 :where(.ag-theme-checkboxStyle-4) {
 .ag-checkbox-input-wrapper,.ag-radio-button-input-wrapper{background-color:var(--ag-checkbox-unchecked-background-color);border:solid var(--ag-checkbox-border-width) var(--ag-checkbox-unchecked-border-color);flex:none;height:var(--ag-icon-size);position:relative;width:var(--ag-icon-size);&:where(.ag-checked){background-color:var(--ag-checkbox-checked-background-color);border-color:var(--ag-checkbox-checked-border-color)}
@@ -7446,23 +7459,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 }
 :where(.ag-theme-columnDropStyle-2) {
 .ag-column-drop-vertical-empty-message{align-items:center;border:dashed var(--ag-border-width);border-color:var(--ag-border-color);display:flex;inset:0;justify-content:center;margin:calc(var(--ag-spacing)*1.5) calc(var(--ag-spacing)*2);overflow:hidden;padding:calc(var(--ag-spacing)*2);position:absolute}
-.esa-icon{--_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));display:inline-flex;align-items:center;justify-content:center;width:var(--_icon-size);height:var(--_icon-size);line-height:1;color:inherit}
-.esa-icon--xs{--_icon-size: var(--icon-size-xs, 14px)}
-.esa-icon svg{display:block;width:var(--_icon-size);height:var(--_icon-size)}
-.esa-icon--sm{--_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px))}
-.esa-icon--md{--_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px))}
-.esa-icon-button{--_ib-size: var(--form-height-md, 40px);--_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));display:inline-flex;align-items:center;justify-content:center;width:var(--_ib-size);height:var(--_ib-size);padding:0;border:0;border-radius:var(--radius-200, 8px);background:transparent;color:inherit;cursor:pointer;transition:background var(--transition-fast, .15s ease);-webkit-appearance:none;appearance:none}
-.grid-header{display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-400);margin-bottom:var(--spacing-300)}
-.grid-header__filter{display:inline-flex;align-items:center;gap:var(--spacing-150);min-width:280px}
-.grid-header__filter esa-text-field{flex:1}
-.tracker-grid{width:100%;height:calc(100vh - 360px);min-height:400px}
-.table-footer{display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-400);padding:var(--spacing-200) var(--spacing-400);background:var(--color-background);border:1px solid var(--color-border);border-top:0;border-radius:0 0 var(--radius-100) var(--radius-100)}
-.row-count-data{display:flex;align-items:center;gap:var(--spacing-400);font-size:var(--type-size-100);color:var(--color-text-secondary);font-variant-numeric:tabular-nums}
-.filtered-rows-count{color:var(--color-text-tertiary)}
-.filtered-rows-count[hidden]{display:none}
-.bcn-count{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 var(--spacing-100);font-size:.8125rem;font-weight:var(--font-weight-medium);color:var(--color-text-secondary);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-100);font-variant-numeric:tabular-nums;white-space:nowrap}
-.ag-row{cursor:pointer}
-.bcn-grid-name{color:var(--color-text-link);font-weight:var(--font-weight-regular);text-decoration:underline}
 :where(.ag-theme-inputStyle-7) {
 :where(.ag-input-field-input[type=number]:not(.ag-number-field-input-stepper)){-webkit-appearance:textfield;-moz-appearance:textfield;appearance:textfield;&::-webkit-inner-spin-button,&::-webkit-outer-spin-button{-webkit-appearance:none;appearance:none;margin:0}
 :where(.ag-ltr) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding-left:var(--ag-input-padding-start)}
@@ -7556,6 +7552,23 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 &:where(.ag-scrollbar-invisible){top:0;z-index:10}
 &:where(.ag-scrollbar-invisible){right:0}
 &:where(.ag-scrollbar-invisible){left:0;right:0}
+.esa-icon{--_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));display:inline-flex;align-items:center;justify-content:center;width:var(--_icon-size);height:var(--_icon-size);line-height:1;color:inherit}
+.esa-icon--xs{--_icon-size: var(--icon-size-xs, 14px)}
+.esa-icon svg{display:block;width:var(--_icon-size);height:var(--_icon-size)}
+.esa-icon--sm{--_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px))}
+.esa-icon--md{--_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px))}
+.esa-icon-button{--_ib-size: var(--form-height-md, 40px);--_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));display:inline-flex;align-items:center;justify-content:center;width:var(--_ib-size);height:var(--_ib-size);padding:0;border:0;border-radius:var(--radius-200, 8px);background:transparent;color:inherit;cursor:pointer;transition:background var(--transition-fast, .15s ease);-webkit-appearance:none;appearance:none}
+.grid-header{display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-400);margin-bottom:var(--spacing-300)}
+.grid-header__filter{display:inline-flex;align-items:center;gap:var(--spacing-150);min-width:280px}
+.grid-header__filter esa-text-field{flex:1}
+.tracker-grid{width:100%;height:calc(100vh - 360px);min-height:400px}
+.table-footer{display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-400);padding:var(--spacing-200) var(--spacing-400);background:var(--color-background);border:1px solid var(--color-border);border-top:0;border-radius:0 0 var(--radius-100) var(--radius-100)}
+.row-count-data{display:flex;align-items:center;gap:var(--spacing-400);font-size:var(--type-size-100);color:var(--color-text-secondary);font-variant-numeric:tabular-nums}
+.filtered-rows-count{color:var(--color-text-tertiary)}
+.filtered-rows-count[hidden]{display:none}
+.bcn-count{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 var(--spacing-100);font-size:.8125rem;font-weight:var(--font-weight-medium);color:var(--color-text-secondary);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-100);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ag-row{cursor:pointer}
+.bcn-grid-name{color:var(--color-text-link);font-weight:var(--font-weight-regular);text-decoration:underline}
 :where(.ag-theme-batchEditStyle-3) {
 .ag-cell-batch-edit{background-color:var(--ag-cell-batch-edit-background-color);color:var(--ag-cell-batch-edit-text-color);display:inherit}
 .ag-row-batch-edit{background-color:var(--ag-row-batch-edit-background-color);color:var(--ag-row-batch-edit-text-color)}
@@ -7582,19 +7595,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .ag-icon-filter::before { mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolygon%20points%3D%2222%203%202%203%2010%2012.46%2010%2019%2014%2021%2014%2012.46%2022%203%22%2F%3E%3C%2Fsvg%3E"); }
 :where(.ag-theme-buttonStyle-1) {
 :where(.ag-button){background:none;border:none;color:inherit;cursor:pointer;font-family:inherit;font-size:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;margin:0;padding:0;text-indent:inherit;text-shadow:inherit;text-transform:inherit;word-spacing:inherit;&:disabled{cursor:default}
-.ag-paging-panel{align-items:center;border-top:var(--ag-footer-row-border);display:flex;flex-wrap:wrap-reverse;gap:calc(var(--ag-spacing)*4);justify-content:flex-end;min-height:var(--ag-pagination-panel-height);padding:calc(var(--ag-spacing)*.5) var(--ag-cell-horizontal-padding);row-gap:calc(var(--ag-spacing)*.5);@container (width < 600px){justify-content:center}
-.page-layout{display:flex;flex-direction:column;min-height:calc(100vh - 52px);padding:var(--spacing-600);background:var(--bcn-gray-50);box-sizing:border-box}
-.page-layout__container{display:flex;flex-direction:column}
-.page-layout section{width:100%}
-.breadcrumbs{padding:var(--spacing-400) 0}
-.breadcrumbs__items{display:flex;gap:var(--spacing-100);align-items:center;flex-wrap:wrap}
-.breadcrumbs__items .esa-icon{color:var(--bcn-gray-400)}
-.breadcrumb-item{color:var(--bcn-gray-600);text-transform:capitalize;font-size:.875rem}
-a.breadcrumb-item{text-decoration:none}
-.page-layout__title{border-bottom:1px solid var(--bcn-gray-200);padding:var(--spacing-500) 0;display:flex;align-items:center;justify-content:space-between;box-sizing:border-box}
-.page-layout__title-main{display:flex;align-items:center;gap:var(--spacing-200);min-width:0}
-.page-layout__title h1{display:flex;align-items:center;gap:var(--spacing-200);font-family:var(--font-decorative);font-weight:var(--font-weight-bold);font-size:var(--type-size-500);margin:0;color:var(--bcn-gray-1000)}
-.page-layout__content{padding:var(--spacing-500) 0;min-height:70vh;position:relative}
 :where(.ag-theme-tabStyle-6) {
 .ag-tabs-header{background-color:var(--ag-tab-bar-background-color);border-bottom:var(--ag-tab-bar-border);display:flex;flex:1;gap:var(--ag-tab-spacing);padding:var(--ag-tab-bar-top-padding) var(--ag-tab-bar-horizontal-padding) 0}
 :where(.ag-ltr) .ag-tabs-close-button-wrapper{border-right:solid var(--ag-border-width) var(--ag-border-color)}

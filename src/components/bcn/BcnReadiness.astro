@@ -250,7 +250,7 @@ const hasCurrent = periods.some((p) => p.current);
 
                 <div class="bcn-readiness__dates" data-tone={s.statusTone}>
                   <div class="bcn-readiness__date">
-                    <span class="bcn-readiness__date-k">Must start</span>
+                    <span class="bcn-readiness__date-k">Planned start</span>
                     <span class="bcn-readiness__date-v">{s.mustStartLabel ?? '—'}</span>
                   </div>
                   <div class="bcn-readiness__date">
@@ -373,7 +373,7 @@ const hasCurrent = periods.some((p) => p.current);
     }
     if (sortSel) {
       sortSel.options = [
-        { value: 'muststart', label: 'Must start' },
+        { value: 'muststart', label: 'Planned start' },
         { value: 'finish', label: 'Projected finish' },
         { value: 'deadline', label: 'Deadline' },
       ];

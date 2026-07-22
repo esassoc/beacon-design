@@ -192,18 +192,18 @@ export const PROGRAMS: HierNode[] = [
         'study',
         'STY-016',
         '10.19.3',
-        'Salmonid Outmigration Timing & Cues',
+        'Abundance & Distribution Study',
         [
           branch(
             'substudy',
             'SUB-025',
             '10.19.3a',
-            'Rotary screw-trap timing monitoring',
+            'Juvenile abundance & distribution monitoring',
             [
               task('TSK-033', '10.19.3a.0', 'Abundance-methods pilot design', '2027-04', '2028-03', 'DWR-DISE', 'not-started', 200_000),
-              task('TSK-012', '10.19.3a.1', 'RST installation & calibration', '2028-08', '2028-11', 'DWR-DCO', 'not-started', 180_000),
-              task('TSK-013', '10.19.3a.2', 'Outmigration timing field seasons', '2028-12', '2032-03', 'DWR-DCO', 'not-started', 1_240_000),
-              task('TSK-014', '10.19.3a.3', 'Migration cue & timing analysis', '2032-04', '2032-10', 'ESA Fisheries', 'not-started', 280_000),
+              task('TSK-012', '10.19.3a.1', 'Monitoring-array installation & calibration', '2028-08', '2028-11', 'DWR-DCO', 'not-started', 180_000),
+              task('TSK-013', '10.19.3a.2', 'Abundance & distribution field seasons', '2028-12', '2032-03', 'DWR-DCO', 'not-started', 1_240_000),
+              task('TSK-014', '10.19.3a.3', 'Abundance & distribution analysis', '2032-04', '2032-10', 'ESA Fisheries', 'not-started', 280_000),
             ],
           ),
         ],
@@ -258,17 +258,17 @@ export const PROGRAMS: HierNode[] = [
         'study',
         'STY-018',
         '10.20.2',
-        'Harmful Algal Bloom Monitoring',
+        'Sediment & Turbidity Monitoring',
         [
           branch(
             'substudy',
             'SUB-028',
             '10.20.2a',
-            'HAB sampling program',
+            'Sediment & turbidity sampling program',
             [
               task('TSK-020', '10.20.2a.1', 'Sampling design & QAPP', '2029-04', '2029-08', 'ESA / DWR-DCO', 'not-started', 140_000),
-              task('TSK-021', '10.20.2a.2', 'HAB field season 1', '2029-09', '2030-03', 'DWR-DCO', 'not-started', 310_000),
-              task('TSK-022', '10.20.2a.3', 'Toxin lab analysis & reporting', '2030-04', '2030-09', 'ESA Lab (subaward)', 'not-started', 190_000),
+              task('TSK-021', '10.20.2a.2', 'Turbidity & SSC field season 1', '2029-09', '2030-03', 'DWR-DCO', 'not-started', 310_000),
+              task('TSK-022', '10.20.2a.3', 'Sediment-flux lab analysis & reporting', '2030-04', '2030-09', 'ESA Lab (subaward)', 'not-started', 190_000),
             ],
           ),
         ],
@@ -288,28 +288,28 @@ export const PROGRAMS: HierNode[] = [
         'study',
         'STY-019',
         '10.21.1',
-        'Long-term Salmonid Response Monitoring',
+        'Hydrodynamics at Georgiana Slough Monitoring',
         [
           branch(
             'substudy',
             'SUB-029',
             '10.21.1a',
-            'Post-construction survival verification',
+            'Continuous hydrodynamic monitoring',
             [
-              task('TSK-023', '10.21.1a.1', 'Ops-phase acoustic telemetry seasons', '2034-10', '2038-03', 'ESA Fisheries', 'not-started', 2_400_000),
-              task('TSK-024', '10.21.1a.2', 'Five-year survival trend synthesis', '2038-04', '2039-03', 'ESA Fisheries', 'not-started', 420_000),
+              task('TSK-023', '10.21.1a.1', 'ADCP array deployment & data collection', '2034-10', '2038-03', 'ESA Fisheries', 'not-started', 2_400_000),
+              task('TSK-024', '10.21.1a.2', 'Multi-year flow-split synthesis', '2038-04', '2039-03', 'ESA Fisheries', 'not-started', 420_000),
             ],
           ),
           branch(
             'substudy',
             'SUB-030',
             '10.21.1b',
-            'Adaptive-management triggers & response',
+            'Routing & flow-reversal analysis',
             [
-              task('TSK-025', '10.21.1b.1', 'Trigger framework & thresholds', '2033-04', '2033-12', 'ESA / CDFW liaison', 'not-started', 260_000),
-              task('TSK-026', '10.21.1b.2', 'Annual trigger evaluations', '2034-04', '2041-09', 'DWR-DCO', 'not-started', 1_120_000),
+              task('TSK-025', '10.21.1b.1', 'Hydrodynamic model calibration', '2033-04', '2033-12', 'ESA / cbec', 'not-started', 260_000),
+              task('TSK-026', '10.21.1b.2', 'Annual hydrodynamic monitoring', '2034-04', '2041-09', 'DWR-DCO', 'not-started', 1_120_000),
             ],
-            { constraints: ['Begins at Phase 1 operations (WY2034)'] },
+            { constraints: ['Continuous through operations (WY2034+)'] },
           ),
         ],
       ),
@@ -317,16 +317,16 @@ export const PROGRAMS: HierNode[] = [
         'study',
         'STY-020',
         '10.21.2',
-        'Decadal Ecosystem Trend Reporting',
+        'Covered Fish Species Life Cycle Models',
         [
           branch(
             'substudy',
-            'SUB-031',
+            'SUB-033',
             '10.21.2a',
-            'Integrated monitoring synthesis',
+            'Life-cycle model refinement',
             [
-              task('TSK-027', '10.21.2a.1', 'Mid-operations synthesis report', '2037-10', '2038-09', 'ESA', 'not-started', 380_000),
-              task('TSK-028', '10.21.2a.2', 'Decadal science-plan review & CDFW report-out', '2041-10', '2042-09', 'ESA / DWR-DCO', 'not-started', 460_000),
+              task('TSK-027', '10.21.2a.1', 'Model refinement with monitoring data', '2037-10', '2038-09', 'ESA', 'not-started', 380_000),
+              task('TSK-028', '10.21.2a.2', 'Decadal model validation & CDFW report-out', '2041-10', '2042-09', 'ESA / DWR-DCO', 'not-started', 460_000),
             ],
           ),
         ],
@@ -376,7 +376,7 @@ export const PROGRAMS: HierNode[] = [
         ],
         {
           constraints: [
-            'Recommended fish-guidance plan due to CDFW by January 2029 — one year before 30% design finalization',
+            'Recommended fish-guidance plan due to CDFW by January 2030 — one year before 30% design finalization',
             'Tightest timelines in the science plan: field work must land winters 26/27 and 27/28',
           ],
         },
@@ -391,11 +391,11 @@ export const PROGRAMS: HierNode[] = [
 const STUDY_LEAD: Record<string, LeadOrg> = {
   'STY-014': 'DWR-DISE', // 10.19.1 Migration & Survival — DWR-DISE/DCO
   'STY-015': 'DWR-DISE', // 10.19.2 Predation — DWR-DISE (Javier/Parisa)
-  'STY-016': 'DWR-DISE', // 10.19.3 Outmigration timing — DWR-DISE (Brian S.)
+  'STY-016': 'DWR-DISE', // 10.19.3 Abundance & distribution — DWR-DISE (Brian S.)
   'STY-017': 'DWR-DCO', //  10.20.1 WQ station network — DWR-DCO (DCA coordination)
-  'STY-018': 'DWR-DISE', // 10.20.2 HAB monitoring — DWR-DISE (Ellen)
-  'STY-019': 'DCA', //      10.21.1 Ops-phase effectiveness — DCA-led operations
-  'STY-020': 'DWR-DCO', //  10.21.2 Decadal trend reporting — DWR-DCO
+  'STY-018': 'DWR-DISE', // 10.20.2 Sediment & turbidity — DWR-DISE (Ellen)
+  'STY-019': 'DCA', //      10.21.1 Georgiana Slough hydrodynamics — DCA/consultant
+  'STY-020': 'DWR-DCO', //  10.21.2 Life cycle models — DWR-DCO
   'STY-021': 'DWR-DISE', // 10.26 Fish guidance — DWR-DISE w/ interagency working group
 };
 // ── Study-tier RACI assignments (Roles_Summary work-streams). The source for the
@@ -467,11 +467,11 @@ export const MILESTONES: Milestone[] = [
     id: 'ms-design-30',
     name: '30% Design',
     kind: 'design',
-    month: '2030-10',
-    windowLabel: '2030 – 2031',
+    month: '2031-10',
+    windowLabel: '2031',
     citation: 'MMRP Att. 2: study results shall be available no less than one year prior to finalization of 30% Project design.',
   },
-  { id: 'ms-design-60', name: '60% Design', kind: 'design', month: '2031-10', windowLabel: '2031 – 2032' },
+  { id: 'ms-design-60', name: '60% Design', kind: 'design', month: '2032-10', windowLabel: '2032' },
   {
     id: 'ms-construction',
     name: 'In-water construction (cofferdam & intakes)',
@@ -480,20 +480,21 @@ export const MILESTONES: Milestone[] = [
     windowLabel: '2034',
   },
   { id: 'ms-ops-1', name: 'Phase 1 Operations', kind: 'operations', month: '2043-01', windowLabel: '2043' },
+  { id: 'ms-ops-2', name: 'Phase 2 Operations', kind: 'operations', month: '2044-01', windowLabel: '2044' },
 ];
 
 // ── Study-tier deadline links: which anchor DRIVES each study, and the due month
 //    its condition text implies. Must-start-by is never stored — the projection
-//    computes it from the task schedule. STY-018 (HAB) deliberately carries no
-//    regulatory deadline (exercises the no-deadline rendering). ──
+//    computes it from the task schedule. STY-018 (Sediment & Turbidity) deliberately
+//    carries no regulatory deadline (exercises the no-deadline rendering). ──
 const STUDY_DEADLINE: Record<string, { drivenBy: string; deadline: string }> = {
   'STY-014': { drivenBy: 'ms-construction', deadline: '2033-09' }, // ≥5 water years of survival baseline before WY2034 in-water work
   'STY-015': { drivenBy: 'ms-design-30', deadline: '2031-03' }, //   hotspot characterization reported inside the 30% design window
-  'STY-016': { drivenBy: 'ms-construction', deadline: '2033-09' }, // timing & cues rides the same baseline suite as 10.19.1
+  'STY-016': { drivenBy: 'ms-construction', deadline: '2033-09' }, // abundance & distribution rides the same baseline suite as 10.19.1
   'STY-017': { drivenBy: 'ms-baseline', deadline: '2028-10' }, //    station installed BEFORE baseline monitoring commences (MMRP)
   'STY-019': { drivenBy: 'ms-ops-1', deadline: '2043-01' }, //       effectiveness monitoring running at Phase 1 operations start
   'STY-020': { drivenBy: 'ms-ops-1', deadline: '2044-09' }, //       trend baseline established ahead of the decadal review
-  'STY-021': { drivenBy: 'ms-design-30', deadline: '2029-01' }, //   recommended FGS plan due one year before 30% design finalization
+  'STY-021': { drivenBy: 'ms-design-30', deadline: '2030-01' }, //   recommended FGS plan due one year before 30% design finalization
 };
 
 // ── Plan-level ASSUMPTIONS & OPEN QUESTIONS — the memo's judgment stratum:
@@ -593,24 +594,24 @@ export const PLAN_SECTIONS: PlanSection[] = [
     excerpt: 'Hydroacoustic surveys, diet and eDNA sampling, and exposure modeling to characterize predation risk and identify hotspots near the North Delta intakes.',
   },
   {
-    id: 'sec-3-5-3', number: '3.5.3', title: 'Condition of Approval 10.19.3 (Salmonid Outmigration Timing & Cues)', level: 3, parentId: 'sec-3-5', coaRefs: ['10.19.3'],
-    excerpt: 'Rotary screw-trap monitoring and analysis of environmental cues governing juvenile outmigration timing past the intake reach.',
+    id: 'sec-3-5-3', number: '3.5.3', title: 'Condition of Approval 10.19.3 (Abundance & Distribution Study)', level: 3, parentId: 'sec-3-5', coaRefs: ['10.19.3'],
+    excerpt: 'Near-field and far-field surveys of covered-species abundance and distribution at the North Delta intakes, including a technology pilot to select the best abundance-measurement methods before baseline monitoring begins.',
   },
   {
     id: 'sec-3-5-4', number: '3.5.4', title: 'Condition of Approval 10.20.1 (Continuous Water-Quality Station Network)', level: 3, parentId: 'sec-3-5', coaRefs: ['10.20.1'],
     excerpt: 'Installation and rating of a new real-time monitoring station downstream of Intake C before initiation of preconstruction baseline monitoring.',
   },
   {
-    id: 'sec-3-5-5', number: '3.5.5', title: 'Condition of Approval 10.20.2 (Harmful Algal Bloom Monitoring)', level: 3, parentId: 'sec-3-5', coaRefs: ['10.20.2'],
-    excerpt: 'HAB observation and toxin analysis at fixed stations, coordinated with the Delta-wide cyanobacteria monitoring strategy.',
+    id: 'sec-3-5-5', number: '3.5.5', title: 'Condition of Approval 10.20.2 (Sediment & Turbidity Monitoring)', level: 3, parentId: 'sec-3-5', coaRefs: ['10.20.2'],
+    excerpt: 'Continuous sediment and turbidity monitoring at the North Delta diversions, coordinated with the real-time monitoring station, to characterize suspended-sediment and turbidity conditions.',
   },
   {
-    id: 'sec-3-5-6', number: '3.5.6', title: 'Condition of Approval 10.21.1 (Long-term Salmonid Response Monitoring)', level: 3, parentId: 'sec-3-5', coaRefs: ['10.21.1'],
-    excerpt: 'Post-construction survival and trend monitoring through Phase 1 operations, extending the baseline telemetry series.',
+    id: 'sec-3-5-6', number: '3.5.6', title: 'Condition of Approval 10.21.1 (Hydrodynamics at Georgiana Slough Monitoring)', level: 3, parentId: 'sec-3-5', coaRefs: ['10.21.1'],
+    excerpt: 'Hydrodynamic monitoring at Georgiana Slough to characterize flow split and routing, informing the flow-reversal and routing-minimization analyses under COA 10.21.7.',
   },
   {
-    id: 'sec-3-5-7', number: '3.5.7', title: 'Condition of Approval 10.21.2 (Decadal Ecosystem Trend Reporting)', level: 3, parentId: 'sec-3-5', coaRefs: ['10.21.2'],
-    excerpt: 'Synthesis of monitoring series into decadal ecosystem trend reporting supporting the ITP review cycle.',
+    id: 'sec-3-5-7', number: '3.5.7', title: 'Condition of Approval 10.21.2 (Covered Fish Species Life Cycle Models)', level: 3, parentId: 'sec-3-5', coaRefs: ['10.21.2'],
+    excerpt: 'Refinement and evaluation of covered-species life-cycle models to incorporate DCP operations, drawing on the fish and water-quality monitoring studies to identify and address data gaps.',
   },
   {
     id: 'sec-3-5-8', number: '3.5.8', title: 'Condition of Approval 10.26 (Fish Guidance System)', level: 3, parentId: 'sec-3-5', coaRefs: ['10.26'],
