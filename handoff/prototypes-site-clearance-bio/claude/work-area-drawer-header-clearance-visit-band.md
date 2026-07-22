@@ -57,7 +57,7 @@ The top of the write drawer (esa-side-dialog, 640px): a header with the work-are
 - `--color-background`: #fafafa _(semantic)_
 - `--color-border`: #dcdcdc _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
-- `--font-weight-medium`: 450 _(primitive)_
+- `--font-weight-medium`: 500 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
 - `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
 - `--form-label-color`: #525252 _(component)_

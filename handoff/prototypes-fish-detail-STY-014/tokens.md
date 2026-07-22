@@ -78,7 +78,7 @@ The 124 design tokens this page actually uses, resolved to their final values fo
 | `--form-height-md` | `36px` |
 | `--form-height-sm` | `28px` |
 | `--form-label-color` | `#525252` |
-| `--form-label-font-weight` | `450` |
+| `--form-label-font-weight` | `500` |
 | `--form-label-gap` | `.25rem` |
 | `--form-padding-x-md` | `.75rem` |
 | `--form-padding-x-sm` | `.625rem` |
@@ -110,7 +110,7 @@ The 124 design tokens this page actually uses, resolved to their final values fo
 | `--font-mono` | `"Roboto Mono", ui-monospace, monospace` |
 | `--font-sans` | `"DM Sans", sans-serif` |
 | `--font-weight-bold` | `650` |
-| `--font-weight-medium` | `450` |
+| `--font-weight-medium` | `500` |
 | `--font-weight-regular` | `350` |
 | `--font-weight-semibold` | `550` |
 | `--icon-size-md` | `20px` |

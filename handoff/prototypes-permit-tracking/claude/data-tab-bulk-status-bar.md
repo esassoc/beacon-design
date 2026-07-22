@@ -42,19 +42,6 @@ A contextual action bar that appears above the Permits grid when one or more row
 
 ## Styles
 ```css
-.bulk-bar {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  margin-bottom: var(--spacing-300);
-  padding: var(--spacing-200) var(--spacing-400);
-  background: color-mix(in srgb, var(--color-primary) 5%, var(--color-surface));
-  border: 1px solid color-mix(in srgb, var(--color-primary) 25%, var(--color-border));
-  border-radius: var(--radius-200);
-}
-.bulk-bar[hidden] {
-  display: none;
-}
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
   --_btn-padding-x: var(--form-padding-x-md, 16px);
@@ -126,6 +113,19 @@ A contextual action bar that appears above the Permits grid when one or more row
   color: var(--_on);
   border-color: transparent;
 }
+.bulk-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  margin-bottom: var(--spacing-300);
+  padding: var(--spacing-200) var(--spacing-400);
+  background: color-mix(in srgb, var(--color-primary) 5%, var(--color-surface));
+  border: 1px solid color-mix(in srgb, var(--color-primary) 25%, var(--color-border));
+  border-radius: var(--radius-200);
+}
+.bulk-bar[hidden] {
+  display: none;
+}
 ```
 
 ## Tokens
@@ -137,7 +137,7 @@ A contextual action bar that appears above the Permits grid when one or more row
 - `--color-text-inverse`: #fcfcfc _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
-- `--font-weight-medium`: 450 _(primitive)_
+- `--font-weight-medium`: 500 _(primitive)_
 - `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
 - `--form-font-size-sm`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
 - `--form-height-md`: 36px _(component)_

@@ -2236,12 +2236,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-}
 .bcn-status-chip {
   display: inline-flex;
   align-items: center;
@@ -2394,6 +2388,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   flex-direction: column;
   gap: var(--spacing-400, 1rem);
   padding: 0 var(--collapsible-padding-x, var(--spacing-400, 1rem)) var(--spacing-400, 1rem);
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
 }
 .spec {
   max-width: 1480px;
@@ -3509,7 +3509,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 | `--font-decorative` | `"Besley", serif` | component |
 | `--font-mono` | `"Roboto Mono", ui-monospace, monospace` | primitive |
 | `--font-sans` | `"DM Sans", sans-serif` | primitive |
-| `--font-weight-medium` | `450` | primitive |
+| `--font-weight-medium` | `500` | primitive |
 | `--font-weight-regular` | `350` | primitive |
 | `--font-weight-semibold` | `550` | primitive |
 | `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | component |

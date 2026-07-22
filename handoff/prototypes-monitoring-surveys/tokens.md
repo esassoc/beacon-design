@@ -79,7 +79,7 @@ The 93 design tokens this page actually uses, resolved to their final values for
 |---|---|
 | `--font-sans` | `"DM Sans", sans-serif` |
 | `--font-weight-bold` | `650` |
-| `--font-weight-medium` | `450` |
+| `--font-weight-medium` | `500` |
 | `--font-weight-regular` | `350` |
 | `--font-weight-semibold` | `550` |
 | `--icon-size-md` | `20px` |

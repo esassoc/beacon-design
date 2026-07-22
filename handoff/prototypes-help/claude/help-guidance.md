@@ -6,7 +6,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 - **Source prototype:** http://localhost:4399/beacon-design/prototypes/help/
 - **Section element:** `<div>`
-- **Components:** esa-badge (hub), esa-empty-state (hub), esa-icon (hub), esa-icon-button (hub)
+- **Components:** esa-badge (hub), esa-icon (hub), esa-icon-button (hub)
 
 ## Markup (de-scoped, framework-free)
 ```html
@@ -677,13 +677,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <div class="stack" data-gap="2xl">
               <section class="bcn-kb-hero" aria-label="Help &amp; Guidance">
                 <div class="center bcn-kb-hero__col">
-                  <div class="stack bcn-kb-hero__stack">
-                    <span class="bcn-aldo-mark" data-size="lg" data-animated="" aria-hidden="true">
+                  <div class="stack bcn-kb-hero__intro">
+                    <span class="bcn-aldo-mark" data-size="md" data-animated="" aria-hidden="true">
                       <span class="bcn-aldo-mark__glyph">
-                        <span class="esa-icon esa-icon--xl" aria-hidden="true">
+                        <span class="esa-icon esa-icon--md" aria-hidden="true">
                           <svg
-                            width="28"
-                            height="28"
+                            width="20"
+                            height="20"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
@@ -704,15 +704,653 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <p class="type-body bcn-kb-hero__lede">
                       Plain answers about how Beacon works — on every page, and all in one place.
                     </p>
-                    <esa-text-field
-                      class="bcn-kb-hero__search"
-                      data-kb-search="true"
-                      size="lg"
-                      type="text"
-                      placeholder="Search help articles…"
-                      aria-label="Search help articles"
-                    ></esa-text-field>
                   </div>
+                  <div class="bcn-kb-hero__search-wrap">
+                    <div class="bcn-kb-hero__searchbar">
+                      <span class="bcn-kb-hero__search-icon" aria-hidden="true">
+                        <span class="esa-icon esa-icon--md" aria-hidden="true">
+                          <svg
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.3-4.3"></path>
+                          </svg>
+                        </span>
+                      </span>
+                      <esa-text-field
+                        class="bcn-kb-hero__search"
+                        data-kb-search="true"
+                        size="lg"
+                        type="text"
+                        placeholder="Search help articles…"
+                        aria-label="Search help articles"
+                        role="combobox"
+                        aria-controls="bcn-kb-results"
+                        aria-expanded="false"
+                        aria-autocomplete="list"
+                      ></esa-text-field>
+                    </div>
+                    <div
+                      class="bcn-kb-hero__results"
+                      id="bcn-kb-results"
+                      data-kb-results=""
+                      role="listbox"
+                      aria-label="Search results"
+                      hidden=""
+                    >
+                      <a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-project-vs-component-scope"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-project-vs-component-scope"
+                        data-result=""
+                        data-title="Scope"
+                        data-summary="The setting that determines whether work is tracked once, or once per location."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title="">Scope</span>
+                          <span class="bcn-kb-hero__result-cat">General</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >The setting that determines whether work is tracked once, or once per
+                          location.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-tenant"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-tenant"
+                        data-result=""
+                        data-title="Tenant"
+                        data-summary="The client organization a Beacon workspace, its data, and its configuration are scoped to."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title="">Tenant</span>
+                          <span class="bcn-kb-hero__result-cat">General</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >The client organization a Beacon workspace, its data, and its
+                          configuration are scoped to.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-work-area"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-work-area"
+                        data-result=""
+                        data-title="Work Area"
+                        data-summary="The finest scope level — a subdivision of a component for field-level tracking."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >Work Area</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">General</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >The finest scope level — a subdivision of a component for field-level
+                          tracking.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-five-minute-tour"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-five-minute-tour"
+                        data-result=""
+                        data-title="A five-minute tour of Beacon"
+                        data-summary="The four zones of the app and how a compliance obligation flows through them."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >A five-minute tour of Beacon</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">Getting Started</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >The four zones of the app and how a compliance obligation flows through
+                          them.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-global-search-tips"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-global-search-tips"
+                        data-result=""
+                        data-title="Finding anything with search"
+                        data-summary="Press / anywhere to search commitments, requirements, actions, and documents."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >Finding anything with search</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">Getting Started</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >Press / anywhere to search commitments, requirements, actions, and
+                          documents.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-actions-vs-implementations"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-actions-vs-implementations"
+                        data-result=""
+                        data-title="Implementation"
+                        data-summary="A single execution of a published action — the record teams work day to day."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >Implementation</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">Tracking</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >A single execution of a published action — the record teams work day to
+                          day.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-what-is-a-component"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-what-is-a-component"
+                        data-result=""
+                        data-title="Component"
+                        data-summary="A distinct place or package of work within a project, tracked independently."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >Component</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">Tracking</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >A distinct place or package of work within a project, tracked
+                          independently.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-permit"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-permit"
+                        data-result=""
+                        data-title="Permit"
+                        data-summary="An agency authorization the project must obtain, tracked through the acquisition pipeline."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title="">Permit</span>
+                          <span class="bcn-kb-hero__result-cat">Tracking</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >An agency authorization the project must obtain, tracked through the
+                          acquisition pipeline.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-reading-permit-tracking"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-reading-permit-tracking"
+                        data-result=""
+                        data-title="Reading the Permit Tracking board"
+                        data-summary="Where each permit stands, what is blocking it, and what is due next."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >Reading the Permit Tracking board</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">Tracking</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >Where each permit stands, what is blocking it, and what is due
+                          next.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-starring-components"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-starring-components"
+                        data-result=""
+                        data-title="Starring components on your dashboard"
+                        data-summary="Pin the three-to-five components you actually work in."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >Starring components on your dashboard</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">Tracking</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >Pin the three-to-five components you actually work in.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-reading-critical-now"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-reading-critical-now"
+                        data-result=""
+                        data-title="How “Most critical right now” is chosen"
+                        data-summary="Why an item earns a spot at the top of the dashboard."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >How “Most critical right now” is chosen</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">Tracking</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >Why an item earns a spot at the top of the dashboard.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-what-is-a-dmr"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-what-is-a-dmr"
+                        data-result=""
+                        data-title="Daily Monitoring Report"
+                        data-summary="The structured field record of one day on site, and a direct source of evidence."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >Daily Monitoring Report</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">Monitoring</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >The structured field record of one day on site, and a direct source of
+                          evidence.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-what-is-an-observation"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-what-is-an-observation"
+                        data-result=""
+                        data-title="Observation"
+                        data-summary="One recorded field event — a species sighting, habitat condition, weather event, or BMP check."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >Observation</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">Monitoring</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >One recorded field event — a species sighting, habitat condition, weather
+                          event, or BMP check.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-survey"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-survey"
+                        data-result=""
+                        data-title="Survey"
+                        data-summary="A field data record synced from a collection app, effective only after quality-control approval."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title="">Survey</span>
+                          <span class="bcn-kb-hero__result-cat">Monitoring</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >A field data record synced from a collection app, effective only after
+                          quality-control approval.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-site-clearance"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-site-clearance"
+                        data-result=""
+                        data-title="Site Clearance"
+                        data-summary="The go/no-go determination of whether a site is clear for ground disturbance."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >Site Clearance</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">Monitoring</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >The go/no-go determination of whether a site is clear for ground
+                          disturbance.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-monitoring-portal"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-monitoring-portal"
+                        data-result=""
+                        data-title="Monitoring Portal"
+                        data-summary="The section that reports commitment compliance from field observations."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >Monitoring Portal</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">Monitoring</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >The section that reports commitment compliance from field
+                          observations.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-qc-field-surveys"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-qc-field-surveys"
+                        data-result=""
+                        data-title="Reviewing field surveys before they count"
+                        data-summary="Surveys sync from field apps, but only QC-approved records drive compliance."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >Reviewing field surveys before they count</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">Monitoring</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >Surveys sync from field apps, but only QC-approved records drive
+                          compliance.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-site-clearance-go-no-go"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-site-clearance-go-no-go"
+                        data-result=""
+                        data-title="Using Site Clearance go/no-go"
+                        data-summary="Check whether a work site is clear for ground disturbance — and what is blocking it."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >Using Site Clearance go/no-go</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">Monitoring</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >Check whether a work site is clear for ground disturbance — and what is
+                          blocking it.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-what-is-evidence"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-what-is-evidence"
+                        data-result=""
+                        data-title="Evidence of Compliance"
+                        data-summary="The documented proof that an obligation was met — the artifact an auditor reviews."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >Evidence of Compliance</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">Reporting</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >The documented proof that an obligation was met — the artifact an auditor
+                          reviews.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-assembling-compliance-report"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-assembling-compliance-report"
+                        data-result=""
+                        data-title="Assembling a compliance report"
+                        data-summary="Compile evidence of compliance into a report package for an agency."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >Assembling a compliance report</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">Reporting</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >Compile evidence of compliance into a report package for an agency.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-what-is-a-source"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-what-is-a-source"
+                        data-result=""
+                        data-title="Source Document"
+                        data-summary="The regulatory document — permit, EIR, or agreement — that obligations are extracted from."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >Source Document</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">Data Catalog</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >The regulatory document — permit, EIR, or agreement — that obligations
+                          are extracted from.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-what-is-a-commitment"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-what-is-a-commitment"
+                        data-result=""
+                        data-title="Commitment"
+                        data-summary="One discrete obligation, recorded in its source document’s original language."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >Commitment</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">Data Catalog</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >One discrete obligation, recorded in its source document’s original
+                          language.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-what-is-a-requirement"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-what-is-a-requirement"
+                        data-result=""
+                        data-title="Requirement"
+                        data-summary="A specific, actionable sub-obligation broken out of a commitment."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >Requirement</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">Data Catalog</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >A specific, actionable sub-obligation broken out of a commitment.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-what-is-an-action"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-what-is-an-action"
+                        data-result=""
+                        data-title="Action"
+                        data-summary="One trackable deliverable consolidating requirements that describe the same work."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title="">Action</span>
+                          <span class="bcn-kb-hero__result-cat">Data Catalog</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >One trackable deliverable consolidating requirements that describe the
+                          same work.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-tracing-lineage"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-tracing-lineage"
+                        data-result=""
+                        data-title="Tracing a requirement back to its source"
+                        data-summary="Follow the lineage from any requirement up to the exact document language."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >Tracing a requirement back to its source</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">Data Catalog</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >Follow the lineage from any requirement up to the exact document
+                          language.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-feature-flag"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-feature-flag"
+                        data-result=""
+                        data-title="Feature Flag"
+                        data-summary="A tenant-level switch that enables or disables a Beacon capability."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >Feature Flag</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">Settings &amp; Configuration</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >A tenant-level switch that enables or disables a Beacon capability.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-managing-tenant-settings"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-managing-tenant-settings"
+                        data-result=""
+                        data-title="Managing tenant settings"
+                        data-summary="Configure the display labels, defaults, and enabled features that apply across a tenant."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >Managing tenant settings</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">Settings &amp; Configuration</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >Configure the display labels, defaults, and enabled features that apply
+                          across a tenant.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-managing-users-roles"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-managing-users-roles"
+                        data-result=""
+                        data-title="Managing users and roles"
+                        data-summary="Add users to a tenant and assign the roles that govern their access."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >Managing users and roles</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">Settings &amp; Configuration</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >Add users to a tenant and assign the roles that govern their
+                          access.</span
+                        > </a
+                      ><a
+                        class="bcn-kb-hero__result"
+                        id="kb-result-configuring-notifications"
+                        role="option"
+                        aria-selected="false"
+                        href="#article-configuring-notifications"
+                        data-result=""
+                        data-title="Configuring notifications"
+                        data-summary="Set which compliance events generate notifications, and how each user receives them."
+                        hidden=""
+                      >
+                        <span class="bcn-kb-hero__result-top">
+                          <span class="bcn-kb-hero__result-title" data-result-title=""
+                            >Configuring notifications</span
+                          >
+                          <span class="bcn-kb-hero__result-cat">Settings &amp; Configuration</span>
+                        </span>
+                        <span class="bcn-kb-hero__result-summary"
+                          >Set which compliance events generate notifications, and how each user
+                          receives them.</span
+                        >
+                      </a>
+                      <p class="bcn-kb-hero__no-results" data-kb-no-results="" hidden="">
+                        No articles match “<span data-kb-query=""></span>”.
+                      </p>
+                    </div>
+                  </div>
+                  <a class="bcn-kb-hero__whatsnew" href="/beacon-design/prototypes/release-notes">
+                    What's new in Beacon<span class="bcn-kb-hero__whatsnew-arrow" aria-hidden="true"
+                      >→</span
+                    >
+                  </a>
                 </div>
               </section>
               <script
@@ -723,1066 +1361,299 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <h2 id="bcn-kbc-title" class="bcn-kbc__title type-section-title">
                   Browse by category
                 </h2>
-                <div class="grid" data-gap="md" style="--grid-min: 13.75rem">
-                  <a class="bcn-kbc__tile" href="#category-getting-started">
-                    <span class="bcn-kbc__icon" aria-hidden="true">
-                      <span class="esa-icon esa-icon--lg" aria-hidden="true">
-                        <svg
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          focusable="false"
+                <div class="bcn-kbc__grid">
+                  <article class="bcn-kbc__card" id="category-general">
+                    <h3 class="bcn-kbc__card-title type-card-title">General</h3>
+                    <p class="bcn-kbc__card-desc">
+                      App-wide structure and the vocabulary shared across every zone.
+                    </p>
+                    <ul class="bcn-kbc__featured" role="list">
+                      <li>
+                        <a
+                          class="bcn-kbc__featured-link"
+                          href="#article-project-vs-component-scope"
                         >
-                          <path
-                            d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                          ></path>
-                          <circle cx="12" cy="12" r="10"></circle>
-                        </svg>
-                      </span>
-                    </span>
-                    <span class="bcn-kbc__tile-title type-card-title">Getting started</span>
-                    <span class="bcn-kbc__desc type-body"
-                      >Orientation, navigation, and search — the first day in Beacon.</span
-                    >
-                    <span class="bcn-kbc__count">
-                      <span class="bcn-count">2 articles</span>
-                    </span> </a
-                  ><a class="bcn-kbc__tile" href="#category-data-catalog">
-                    <span class="bcn-kbc__icon" aria-hidden="true">
-                      <span class="esa-icon esa-icon--lg" aria-hidden="true">
-                        <svg
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          focusable="false"
+                          Scope
+                        </a>
+                      </li>
+                      <li><a class="bcn-kbc__featured-link" href="#article-tenant"> Tenant </a></li>
+                      <li>
+                        <a class="bcn-kbc__featured-link" href="#article-work-area"> Work Area </a>
+                      </li>
+                    </ul>
+                    <div class="bcn-kbc__foot">
+                      <span class="bcn-kbc__count"> 3 articles </span>
+                      <a class="bcn-kbc__viewall" href="/beacon-design/prototypes/help/general">
+                        View all<span class="bcn-kbc__viewall-arrow" aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </article>
+                  <article class="bcn-kbc__card" id="category-getting-started">
+                    <h3 class="bcn-kbc__card-title type-card-title">Getting Started</h3>
+                    <p class="bcn-kbc__card-desc">
+                      Orientation, navigation, and search — the first day in Beacon.
+                    </p>
+                    <ul class="bcn-kbc__featured" role="list">
+                      <li>
+                        <a class="bcn-kbc__featured-link" href="#article-five-minute-tour">
+                          A five-minute tour of Beacon
+                        </a>
+                      </li>
+                      <li>
+                        <a class="bcn-kbc__featured-link" href="#article-global-search-tips">
+                          Finding anything with search
+                        </a>
+                      </li>
+                    </ul>
+                    <div class="bcn-kbc__foot">
+                      <span class="bcn-kbc__count"> 2 articles </span>
+                      <a
+                        class="bcn-kbc__viewall"
+                        href="/beacon-design/prototypes/help/getting-started"
+                      >
+                        View all<span class="bcn-kbc__viewall-arrow" aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </article>
+                  <article class="bcn-kbc__card" id="category-tracking">
+                    <h3 class="bcn-kbc__card-title type-card-title">Tracking</h3>
+                    <p class="bcn-kbc__card-desc">
+                      Actions, implementations, components, and permits — how obligations become
+                      tracked work.
+                    </p>
+                    <ul class="bcn-kbc__featured" role="list">
+                      <li>
+                        <a class="bcn-kbc__featured-link" href="#article-what-is-a-component">
+                          Component
+                        </a>
+                      </li>
+                      <li>
+                        <a class="bcn-kbc__featured-link" href="#article-starring-components">
+                          Starring components on your dashboard
+                        </a>
+                      </li>
+                      <li>
+                        <a class="bcn-kbc__featured-link" href="#article-reading-permit-tracking">
+                          Reading the Permit Tracking board
+                        </a>
+                      </li>
+                    </ul>
+                    <div class="bcn-kbc__foot">
+                      <span class="bcn-kbc__count"> 6 articles </span>
+                      <a class="bcn-kbc__viewall" href="/beacon-design/prototypes/help/tracking">
+                        View all<span class="bcn-kbc__viewall-arrow" aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </article>
+                  <article class="bcn-kbc__card" id="category-monitoring">
+                    <h3 class="bcn-kbc__card-title type-card-title">Monitoring</h3>
+                    <p class="bcn-kbc__card-desc">
+                      Daily reports, observations, surveys, and site clearance.
+                    </p>
+                    <ul class="bcn-kbc__featured" role="list">
+                      <li>
+                        <a class="bcn-kbc__featured-link" href="#article-site-clearance-go-no-go">
+                          Using Site Clearance go/no-go
+                        </a>
+                      </li>
+                      <li>
+                        <a class="bcn-kbc__featured-link" href="#article-site-clearance">
+                          Site Clearance
+                        </a>
+                      </li>
+                      <li>
+                        <a class="bcn-kbc__featured-link" href="#article-what-is-a-dmr">
+                          Daily Monitoring Report
+                        </a>
+                      </li>
+                    </ul>
+                    <div class="bcn-kbc__foot">
+                      <span class="bcn-kbc__count"> 7 articles </span>
+                      <a class="bcn-kbc__viewall" href="/beacon-design/prototypes/help/monitoring">
+                        View all<span class="bcn-kbc__viewall-arrow" aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </article>
+                  <article class="bcn-kbc__card" id="category-reporting">
+                    <h3 class="bcn-kbc__card-title type-card-title">Reporting</h3>
+                    <p class="bcn-kbc__card-desc">
+                      Evidence of compliance and the reports assembled from it.
+                    </p>
+                    <ul class="bcn-kbc__featured" role="list">
+                      <li>
+                        <a class="bcn-kbc__featured-link" href="#article-what-is-evidence">
+                          Evidence of Compliance
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          class="bcn-kbc__featured-link"
+                          href="#article-assembling-compliance-report"
                         >
-                          <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
-                          <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
-                          <path d="M3 12A9 3 0 0 0 21 12"></path>
-                        </svg>
-                      </span>
-                    </span>
-                    <span class="bcn-kbc__tile-title type-card-title">Data Catalog</span>
-                    <span class="bcn-kbc__desc type-body"
-                      >Sources, commitments, and requirements — how obligations are
-                      documented.</span
-                    >
-                    <span class="bcn-kbc__count">
-                      <span class="bcn-count">5 articles</span>
-                    </span> </a
-                  ><a class="bcn-kbc__tile" href="#category-tracking">
-                    <span class="bcn-kbc__icon" aria-hidden="true">
-                      <span class="esa-icon esa-icon--lg" aria-hidden="true">
-                        <svg
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          focusable="false"
-                        >
-                          <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
-                          <path d="M4 6h.01"></path>
-                          <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
-                          <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
-                          <path d="M12 18h.01"></path>
-                          <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
-                          <circle cx="12" cy="12" r="2"></circle>
-                          <path d="m13.41 10.59 5.66-5.66"></path>
-                        </svg>
-                      </span>
-                    </span>
-                    <span class="bcn-kbc__tile-title type-card-title">Tracking &amp; actions</span>
-                    <span class="bcn-kbc__desc type-body"
-                      >Actions, implementations, components, and scope — how work gets done.</span
-                    >
-                    <span class="bcn-kbc__count">
-                      <span class="bcn-count">6 articles</span>
-                    </span> </a
-                  ><a class="bcn-kbc__tile" href="#category-monitoring">
-                    <span class="bcn-kbc__icon" aria-hidden="true">
-                      <span class="esa-icon esa-icon--lg" aria-hidden="true">
-                        <svg
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          focusable="false"
-                        >
-                          <path
-                            d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"
-                          ></path>
-                          <circle cx="12" cy="8" r="2"></circle>
-                          <path
-                            d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"
-                          ></path>
-                        </svg>
-                      </span>
-                    </span>
-                    <span class="bcn-kbc__tile-title type-card-title"
-                      >Monitoring &amp; field work</span
-                    >
-                    <span class="bcn-kbc__desc type-body"
-                      >Daily reports, observations, surveys, and site clearance.</span
-                    >
-                    <span class="bcn-kbc__count">
-                      <span class="bcn-count">4 articles</span>
-                    </span> </a
-                  ><a class="bcn-kbc__tile" href="#category-reporting">
-                    <span class="bcn-kbc__icon" aria-hidden="true">
-                      <span class="esa-icon esa-icon--lg" aria-hidden="true">
-                        <svg
-                          width="24"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          focusable="false"
-                        >
-                          <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
-                          <path
-                            d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
-                          ></path>
-                          <path d="M12 11h4"></path>
-                          <path d="M12 16h4"></path>
-                          <path d="M8 11h.01"></path>
-                          <path d="M8 16h.01"></path>
-                        </svg>
-                      </span>
-                    </span>
-                    <span class="bcn-kbc__tile-title type-card-title"
-                      >Reporting &amp; evidence</span
-                    >
-                    <span class="bcn-kbc__desc type-body"
-                      >Evidence of compliance and the reports built from it.</span
-                    >
-                    <span class="bcn-kbc__count"> <span class="bcn-count">1 article</span> </span>
-                  </a>
+                          Assembling a compliance report
+                        </a>
+                      </li>
+                    </ul>
+                    <div class="bcn-kbc__foot">
+                      <span class="bcn-kbc__count"> 2 articles </span>
+                      <a class="bcn-kbc__viewall" href="/beacon-design/prototypes/help/reporting">
+                        View all<span class="bcn-kbc__viewall-arrow" aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </article>
+                  <article class="bcn-kbc__card" id="category-data-catalog">
+                    <h3 class="bcn-kbc__card-title type-card-title">Data Catalog</h3>
+                    <p class="bcn-kbc__card-desc">
+                      Source documents, commitments, and requirements — how obligations are
+                      documented.
+                    </p>
+                    <ul class="bcn-kbc__featured" role="list">
+                      <li>
+                        <a class="bcn-kbc__featured-link" href="#article-what-is-a-source">
+                          Source Document
+                        </a>
+                      </li>
+                      <li>
+                        <a class="bcn-kbc__featured-link" href="#article-what-is-a-commitment">
+                          Commitment
+                        </a>
+                      </li>
+                      <li>
+                        <a class="bcn-kbc__featured-link" href="#article-what-is-an-action">
+                          Action
+                        </a>
+                      </li>
+                    </ul>
+                    <div class="bcn-kbc__foot">
+                      <span class="bcn-kbc__count"> 5 articles </span>
+                      <a
+                        class="bcn-kbc__viewall"
+                        href="/beacon-design/prototypes/help/data-catalog"
+                      >
+                        View all<span class="bcn-kbc__viewall-arrow" aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </article>
+                  <article class="bcn-kbc__card" id="category-settings-config">
+                    <h3 class="bcn-kbc__card-title type-card-title">
+                      Settings &amp; Configuration
+                    </h3>
+                    <p class="bcn-kbc__card-desc">
+                      Tenant configuration, users, notifications, and feature flags.
+                    </p>
+                    <ul class="bcn-kbc__featured" role="list">
+                      <li>
+                        <a class="bcn-kbc__featured-link" href="#article-managing-tenant-settings">
+                          Managing tenant settings
+                        </a>
+                      </li>
+                      <li>
+                        <a class="bcn-kbc__featured-link" href="#article-managing-users-roles">
+                          Managing users and roles
+                        </a>
+                      </li>
+                      <li>
+                        <a class="bcn-kbc__featured-link" href="#article-configuring-notifications">
+                          Configuring notifications
+                        </a>
+                      </li>
+                    </ul>
+                    <div class="bcn-kbc__foot">
+                      <span class="bcn-kbc__count"> 4 articles </span>
+                      <a
+                        class="bcn-kbc__viewall"
+                        href="/beacon-design/prototypes/help/settings-config"
+                      >
+                        View all<span class="bcn-kbc__viewall-arrow" aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </article>
                 </div>
               </section>
-              <section class="bcn-kb sidebar" data-kb-browser="">
-                <nav class="bcn-kb__rail" aria-label="Help articles">
-                  <ul class="bcn-kb__groups" role="list">
-                    <li
-                      class="bcn-kb__group"
-                      id="category-getting-started"
-                      data-kb-group="getting-started"
+              <section class="bcn-kbg" aria-labelledby="bcn-kbg-title">
+                <h2 id="bcn-kbg-title" class="bcn-kbg__title type-section-title">Glossary</h2>
+                <ul class="bcn-kbg__terms" role="list">
+                  <li class="bcn-kbg__term">
+                    <a class="bcn-kbg__link" href="#article-what-is-an-action">Action</a>
+                  </li>
+                  <li class="bcn-kbg__term">
+                    <a class="bcn-kbg__link" href="#article-what-is-a-commitment">Commitment</a>
+                  </li>
+                  <li class="bcn-kbg__term">
+                    <a class="bcn-kbg__link" href="#article-what-is-a-component">Component</a>
+                  </li>
+                  <li class="bcn-kbg__term">
+                    <a class="bcn-kbg__link" href="#article-what-is-a-dmr"
+                      >Daily Monitoring Report</a
                     >
-                      <h2 class="bcn-kb__group-title">Getting started</h2>
-                      <ul class="bcn-kb__items" role="list">
-                        <li class="bcn-kb__item">
-                          <a
-                            class="bcn-kb__link"
-                            href="#article-five-minute-tour"
-                            data-article-link="five-minute-tour"
-                            data-title="A five-minute tour of Beacon"
-                            data-summary="The four zones of the app and how a compliance obligation flows through them."
-                          >
-                            <span class="bcn-kb__link-title">A five-minute tour of Beacon</span>
-                            <span class="bcn-kb__link-kind">How-to</span>
-                          </a>
-                        </li>
-                        <li class="bcn-kb__item">
-                          <a
-                            class="bcn-kb__link"
-                            href="#article-global-search-tips"
-                            data-article-link="global-search-tips"
-                            data-title="Finding anything with search"
-                            data-summary="Press / anywhere to search commitments, requirements, actions, and documents."
-                          >
-                            <span class="bcn-kb__link-title">Finding anything with search</span>
-                            <span class="bcn-kb__link-kind">How-to</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li
-                      class="bcn-kb__group"
-                      id="category-data-catalog"
-                      data-kb-group="data-catalog"
+                  </li>
+                  <li class="bcn-kbg__term">
+                    <a class="bcn-kbg__link" href="#article-what-is-evidence"
+                      >Evidence of Compliance</a
                     >
-                      <h2 class="bcn-kb__group-title">Data Catalog</h2>
-                      <ul class="bcn-kb__items" role="list">
-                        <li class="bcn-kb__item">
-                          <a
-                            class="bcn-kb__link"
-                            href="#article-what-is-a-source"
-                            data-article-link="what-is-a-source"
-                            data-title="What is a Source Document?"
-                            data-summary="The regulatory document — permit, EIR, agreement — obligations are extracted from."
-                          >
-                            <span class="bcn-kb__link-title">What is a Source Document?</span>
-                            <span class="bcn-kb__link-kind">Glossary</span>
-                          </a>
-                        </li>
-                        <li class="bcn-kb__item">
-                          <a
-                            class="bcn-kb__link"
-                            href="#article-what-is-a-commitment"
-                            data-article-link="what-is-a-commitment"
-                            data-title="What is a Commitment?"
-                            data-summary="One discrete obligation, in the document’s own words."
-                          >
-                            <span class="bcn-kb__link-title">What is a Commitment?</span>
-                            <span class="bcn-kb__link-kind">Glossary</span>
-                          </a>
-                        </li>
-                        <li class="bcn-kb__item">
-                          <a
-                            class="bcn-kb__link"
-                            href="#article-what-is-a-requirement"
-                            data-article-link="what-is-a-requirement"
-                            data-title="What is a Requirement?"
-                            data-summary="A specific, actionable sub-obligation broken out of a commitment."
-                          >
-                            <span class="bcn-kb__link-title">What is a Requirement?</span>
-                            <span class="bcn-kb__link-kind">Glossary</span>
-                          </a>
-                        </li>
-                        <li class="bcn-kb__item">
-                          <a
-                            class="bcn-kb__link"
-                            href="#article-what-is-an-action"
-                            data-article-link="what-is-an-action"
-                            data-title="What is an Action?"
-                            data-summary="One trackable deliverable consolidating requirements that describe the same work."
-                          >
-                            <span class="bcn-kb__link-title">What is an Action?</span>
-                            <span class="bcn-kb__link-kind">Glossary</span>
-                          </a>
-                        </li>
-                        <li class="bcn-kb__item">
-                          <a
-                            class="bcn-kb__link"
-                            href="#article-tracing-lineage"
-                            data-article-link="tracing-lineage"
-                            data-title="Tracing a requirement back to its source"
-                            data-summary="Follow the lineage from any requirement up to the exact document language."
-                          >
-                            <span class="bcn-kb__link-title"
-                              >Tracing a requirement back to its source</span
-                            >
-                            <span class="bcn-kb__link-kind">How-to</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li class="bcn-kb__group" id="category-tracking" data-kb-group="tracking">
-                      <h2 class="bcn-kb__group-title">Tracking &amp; actions</h2>
-                      <ul class="bcn-kb__items" role="list">
-                        <li class="bcn-kb__item">
-                          <a
-                            class="bcn-kb__link"
-                            href="#article-actions-vs-implementations"
-                            data-article-link="actions-vs-implementations"
-                            data-title="Actions vs. implementations"
-                            data-summary="The action is the plan; implementations are the work you actually do."
-                          >
-                            <span class="bcn-kb__link-title">Actions vs. implementations</span>
-                            <span class="bcn-kb__link-kind">Glossary</span>
-                          </a>
-                        </li>
-                        <li class="bcn-kb__item">
-                          <a
-                            class="bcn-kb__link"
-                            href="#article-what-is-a-component"
-                            data-article-link="what-is-a-component"
-                            data-title="What is a Component?"
-                            data-summary="A physical or logical subdivision of the project with its own compliance tracking."
-                          >
-                            <span class="bcn-kb__link-title">What is a Component?</span>
-                            <span class="bcn-kb__link-kind">Glossary</span>
-                          </a>
-                        </li>
-                        <li class="bcn-kb__item">
-                          <a
-                            class="bcn-kb__link"
-                            href="#article-project-vs-component-scope"
-                            data-article-link="project-vs-component-scope"
-                            data-title="Project scope vs. component scope"
-                            data-summary="Scope decides whether work is tracked once, or once per location."
-                          >
-                            <span class="bcn-kb__link-title"
-                              >Project scope vs. component scope</span
-                            >
-                            <span class="bcn-kb__link-kind">Glossary</span>
-                          </a>
-                        </li>
-                        <li class="bcn-kb__item">
-                          <a
-                            class="bcn-kb__link"
-                            href="#article-reading-permit-tracking"
-                            data-article-link="reading-permit-tracking"
-                            data-title="Reading the Permit Tracking board"
-                            data-summary="Where each permit stands, what is blocking it, and what is due next."
-                          >
-                            <span class="bcn-kb__link-title"
-                              >Reading the Permit Tracking board</span
-                            >
-                            <span class="bcn-kb__link-kind">How-to</span>
-                          </a>
-                        </li>
-                        <li class="bcn-kb__item">
-                          <a
-                            class="bcn-kb__link"
-                            href="#article-starring-components"
-                            data-article-link="starring-components"
-                            data-title="Starring components on your dashboard"
-                            data-summary="Pin the three-to-five components you actually work in."
-                          >
-                            <span class="bcn-kb__link-title"
-                              >Starring components on your dashboard</span
-                            >
-                            <span class="bcn-kb__link-kind">How-to</span>
-                          </a>
-                        </li>
-                        <li class="bcn-kb__item">
-                          <a
-                            class="bcn-kb__link"
-                            href="#article-reading-critical-now"
-                            data-article-link="reading-critical-now"
-                            data-title="How “Most critical right now” is chosen"
-                            data-summary="Why an item earns a spot at the top of your dashboard."
-                          >
-                            <span class="bcn-kb__link-title"
-                              >How “Most critical right now” is chosen</span
-                            >
-                            <span class="bcn-kb__link-kind">How-to</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li class="bcn-kb__group" id="category-monitoring" data-kb-group="monitoring">
-                      <h2 class="bcn-kb__group-title">Monitoring &amp; field work</h2>
-                      <ul class="bcn-kb__items" role="list">
-                        <li class="bcn-kb__item">
-                          <a
-                            class="bcn-kb__link"
-                            href="#article-what-is-a-dmr"
-                            data-article-link="what-is-a-dmr"
-                            data-title="What is a Daily Monitoring Report?"
-                            data-summary="The structured field report of a day on site — and a direct source of evidence."
-                          >
-                            <span class="bcn-kb__link-title"
-                              >What is a Daily Monitoring Report?</span
-                            >
-                            <span class="bcn-kb__link-kind">Glossary</span>
-                          </a>
-                        </li>
-                        <li class="bcn-kb__item">
-                          <a
-                            class="bcn-kb__link"
-                            href="#article-what-is-an-observation"
-                            data-article-link="what-is-an-observation"
-                            data-title="What is an Observation?"
-                            data-summary="One recorded field event — a species sighting, habitat condition, weather event, or BMP check."
-                          >
-                            <span class="bcn-kb__link-title">What is an Observation?</span>
-                            <span class="bcn-kb__link-kind">Glossary</span>
-                          </a>
-                        </li>
-                        <li class="bcn-kb__item">
-                          <a
-                            class="bcn-kb__link"
-                            href="#article-qc-field-surveys"
-                            data-article-link="qc-field-surveys"
-                            data-title="Reviewing field surveys before they count"
-                            data-summary="Surveys sync from field apps, but only QC-approved records drive compliance."
-                          >
-                            <span class="bcn-kb__link-title"
-                              >Reviewing field surveys before they count</span
-                            >
-                            <span class="bcn-kb__link-kind">How-to</span>
-                          </a>
-                        </li>
-                        <li class="bcn-kb__item">
-                          <a
-                            class="bcn-kb__link"
-                            href="#article-site-clearance-go-no-go"
-                            data-article-link="site-clearance-go-no-go"
-                            data-title="Using Site Clearance go/no-go"
-                            data-summary="Check whether a work site is clear for ground disturbance — and what is blocking it."
-                          >
-                            <span class="bcn-kb__link-title">Using Site Clearance go/no-go</span>
-                            <span class="bcn-kb__link-kind">How-to</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </li>
-                    <li class="bcn-kb__group" id="category-reporting" data-kb-group="reporting">
-                      <h2 class="bcn-kb__group-title">Reporting &amp; evidence</h2>
-                      <ul class="bcn-kb__items" role="list">
-                        <li class="bcn-kb__item">
-                          <a
-                            class="bcn-kb__link"
-                            href="#article-what-is-evidence"
-                            data-article-link="what-is-evidence"
-                            data-title="What counts as Evidence of Compliance?"
-                            data-summary="The documented proof an obligation was met — the artifact an auditor sees."
-                          >
-                            <span class="bcn-kb__link-title"
-                              >What counts as Evidence of Compliance?</span
-                            >
-                            <span class="bcn-kb__link-kind">Glossary</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </nav>
-                <div class="bcn-kb__pane" data-kb-pane="">
-                  <div class="bcn-kb__welcome" data-kb-welcome="">
-                    <div class="esa-empty-state esa-empty-state--lg">
-                      <div class="esa-empty-state__icon">
-                        <span
-                          class="bcn-aldo-mark"
-                          data-size="lg"
-                          data-animated=""
-                          aria-hidden="true"
-                        >
-                          <span class="bcn-aldo-mark__glyph">
-                            <span class="esa-icon esa-icon--xl" aria-hidden="true">
-                              <svg
-                                width="28"
-                                height="28"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                                ></path>
-                                <circle cx="12" cy="12" r="10"></circle>
-                              </svg>
-                            </span>
-                          </span>
-                        </span>
-                      </div>
-                      <h3 class="esa-empty-state__title">Pick an article</h3>
-                      <p class="esa-empty-state__description">
-                        Choose a topic from the list, or search above. Every term and how-to in
-                        Beacon lives here.
-                      </p>
-                      <div class="esa-empty-state__actions"></div>
-                    </div>
-                  </div>
-                  <article class="bcn-kb__article" data-article-id="five-minute-tour" hidden="">
-                    <article id="article-five-minute-tour" class="bcn-help-article">
-                      <header class="bcn-help-article__head">
-                        <h2 class="bcn-help-article__title type-card-title">
-                          A five-minute tour of Beacon
-                        </h2>
-                        <span class="esa-badge esa-badge--primary esa-badge--sm">
-                          <span class="esa-badge__text">How-to</span>
-                        </span>
-                      </header>
-                      <div class="bcn-help-article__body">
-                        <p class="bcn-help-article__p type-body">
-                          Beacon turns a shelf of regulatory documents into a working compliance
-                          program. Everything in the app follows one flow: documents are cataloged,
-                          obligations are planned into actions, and completed work is proven with
-                          evidence.
-                        </p>
-                        <figure class="bcn-help-article__video">
-                          <div class="bcn-help-article__video-frame">
-                            <span class="bcn-help-article__video-play"
-                              ><span class="esa-icon esa-icon--md" aria-hidden="true">
-                                <svg
-                                  width="20"
-                                  height="20"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <polygon points="6 3 20 12 6 21 6 3"></polygon>
-                                </svg>
-                              </span>
-                            </span>
-                            <span class="bcn-help-article__video-duration"
-                              ><span class="esa-badge esa-badge--primary esa-badge--sm">
-                                <span class="esa-badge__text">4:32</span>
-                              </span>
-                            </span>
-                          </div>
-                          <figcaption class="bcn-help-article__caption type-caption">
-                            Watch: a quick tour of Beacon
-                          </figcaption>
-                        </figure>
-                        <ol class="bcn-help-article__steps">
-                          <li class="bcn-help-article__step type-body">
-                            The Data Catalog holds your source documents and the commitments and
-                            requirements extracted from them.
-                          </li>
-                          <li class="bcn-help-article__step type-body">
-                            Tracking is where planned actions become day-to-day work, tracked per
-                            project or per component.
-                          </li>
-                          <li class="bcn-help-article__step type-body">
-                            Monitoring captures what happens in the field — daily reports,
-                            observations, and surveys.
-                          </li>
-                          <li class="bcn-help-article__step type-body">
-                            Reporting assembles evidence of compliance into the reports your
-                            agencies expect.
-                          </li>
-                        </ol>
-                        <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
-                          <span class="bcn-help-article__callout-icon">
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
-                                ></path>
-                                <path d="M9 18h6"></path>
-                                <path d="M10 22h4"></path>
-                              </svg>
-                            </span>
-                          </span>
-                          <div class="bcn-help-article__callout-body">
-                            <span class="bcn-help-article__callout-label">Tip</span>
-                            <p class="bcn-help-article__callout-text type-body">
-                              The side navigation mirrors these four zones. If you are ever lost,
-                              start from your project dashboard — it links into each zone.
-                            </p>
-                          </div>
-                        </aside>
-                      </div>
-                      <nav class="bcn-help-article__related" aria-label="Related articles">
-                        <span class="bcn-help-article__related-label">Related</span>
-                        <ul class="bcn-help-article__related-list">
-                          <li>
-                            <a
-                              class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-global-search-tips"
-                              >Finding anything with search</a
-                            >
-                          </li>
-                          <li>
-                            <a
-                              class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-what-is-an-action"
-                              >What is an Action?</a
-                            >
-                          </li>
-                        </ul>
-                      </nav>
-                    </article>
-                  </article>
-                  <article class="bcn-kb__article" data-article-id="global-search-tips" hidden="">
-                    <article id="article-global-search-tips" class="bcn-help-article">
-                      <header class="bcn-help-article__head">
-                        <h2 class="bcn-help-article__title type-card-title">
-                          Finding anything with search
-                        </h2>
-                        <span class="esa-badge esa-badge--primary esa-badge--sm">
-                          <span class="esa-badge__text">How-to</span>
-                        </span>
-                      </header>
-                      <div class="bcn-help-article__body">
-                        <p class="bcn-help-article__p type-body">
-                          Search reads the full text of everything in your project — including the
-                          body text of commitments and uploaded documents, not just titles.
-                        </p>
-                        <ol class="bcn-help-article__steps">
-                          <li class="bcn-help-article__step type-body">
-                            Press / on any page, or click the search field in the top bar.
-                          </li>
-                          <li class="bcn-help-article__step type-body">
-                            Type a few words — results group by type (commitments, requirements,
-                            actions, documents) with matching snippets highlighted.
-                          </li>
-                          <li class="bcn-help-article__step type-body">
-                            Press Enter on a result to jump straight to it, or choose “See all
-                            results” for the full page with filters.
-                          </li>
-                        </ol>
-                        <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
-                          <span class="bcn-help-article__callout-icon">
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
-                                ></path>
-                                <path d="M9 18h6"></path>
-                                <path d="M10 22h4"></path>
-                              </svg>
-                            </span>
-                          </span>
-                          <div class="bcn-help-article__callout-body">
-                            <span class="bcn-help-article__callout-label">Tip</span>
-                            <p class="bcn-help-article__callout-text type-body">
-                              Searching a permit number or an agency name is often the fastest way
-                              to find every obligation tied to it.
-                            </p>
-                          </div>
-                        </aside>
-                      </div>
-                      <nav class="bcn-help-article__related" aria-label="Related articles">
-                        <span class="bcn-help-article__related-label">Related</span>
-                        <ul class="bcn-help-article__related-list">
-                          <li>
-                            <a
-                              class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-five-minute-tour"
-                              >A five-minute tour of Beacon</a
-                            >
-                          </li>
-                        </ul>
-                      </nav>
-                    </article>
-                  </article>
-                  <article class="bcn-kb__article" data-article-id="what-is-a-source" hidden="">
-                    <article id="article-what-is-a-source" class="bcn-help-article">
-                      <header class="bcn-help-article__head">
-                        <h2 class="bcn-help-article__title type-card-title">
-                          What is a Source Document?
-                        </h2>
-                        <span class="esa-badge esa-badge--primary esa-badge--sm">
-                          <span class="esa-badge__text">Glossary</span>
-                        </span>
-                      </header>
-                      <div class="bcn-help-article__body">
-                        <p class="bcn-help-article__p type-body">
-                          A Source Document is a regulatory document attached to your project: a
-                          permit, an environmental impact report, an incidental take permit, a
-                          contract, or an agency agreement. It is where every obligation in Beacon
-                          originally comes from.
-                        </p>
-                        <p class="bcn-help-article__p type-body">
-                          A project may carry dozens of sources from different agencies, and each
-                          source may contain anywhere from a handful to hundreds of discrete
-                          obligations. Uploading the original PDF lets Beacon extract its text for
-                          search and assisted commitment extraction.
-                        </p>
-                      </div>
-                      <nav class="bcn-help-article__related" aria-label="Related articles">
-                        <span class="bcn-help-article__related-label">Related</span>
-                        <ul class="bcn-help-article__related-list">
-                          <li>
-                            <a
-                              class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-what-is-a-commitment"
-                              >What is a Commitment?</a
-                            >
-                          </li>
-                        </ul>
-                      </nav>
-                    </article>
-                  </article>
-                  <article class="bcn-kb__article" data-article-id="what-is-a-commitment" hidden="">
-                    <article id="article-what-is-a-commitment" class="bcn-help-article">
-                      <header class="bcn-help-article__head">
-                        <h2 class="bcn-help-article__title type-card-title">
-                          What is a Commitment?
-                        </h2>
-                        <span class="esa-badge esa-badge--primary esa-badge--sm">
-                          <span class="esa-badge__text">Glossary</span>
-                        </span>
-                      </header>
-                      <div class="bcn-help-article__body">
-                        <p class="bcn-help-article__p type-body">
-                          A Commitment is a single “thing the project must do,” captured in the
-                          original regulatory language of its source document. Commitments carry
-                          structured details — type, resource category, phases, species, seasons —
-                          so they can be filtered and planned.
-                        </p>
-                        <p class="bcn-help-article__p type-body">
-                          The same real-world obligation often appears in several documents. Each
-                          appearance is kept as its own commitment; the overlap is resolved later,
-                          when requirements are consolidated into actions.
-                        </p>
-                        <aside class="bcn-help-article__callout bcn-help-article__callout--note">
-                          <span class="bcn-help-article__callout-icon">
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <path d="M12 16v-4"></path>
-                                <path d="M12 8h.01"></path>
-                              </svg>
-                            </span>
-                          </span>
-                          <div class="bcn-help-article__callout-body">
-                            <span class="bcn-help-article__callout-label">Note</span>
-                            <p class="bcn-help-article__callout-text type-body">
-                              When an agency amends a document, commitments are revised rather than
-                              replaced — the original and updated language coexist with clear
-                              lineage.
-                            </p>
-                          </div>
-                        </aside>
-                      </div>
-                      <nav class="bcn-help-article__related" aria-label="Related articles">
-                        <span class="bcn-help-article__related-label">Related</span>
-                        <ul class="bcn-help-article__related-list">
-                          <li>
-                            <a
-                              class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-what-is-a-source"
-                              >What is a Source Document?</a
-                            >
-                          </li>
-                          <li>
-                            <a
-                              class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-what-is-a-requirement"
-                              >What is a Requirement?</a
-                            >
-                          </li>
-                        </ul>
-                      </nav>
-                    </article>
-                  </article>
-                  <article
-                    class="bcn-kb__article"
-                    data-article-id="what-is-a-requirement"
-                    hidden=""
-                  >
-                    <article id="article-what-is-a-requirement" class="bcn-help-article">
-                      <header class="bcn-help-article__head">
-                        <h2 class="bcn-help-article__title type-card-title">
-                          What is a Requirement?
-                        </h2>
-                        <span class="esa-badge esa-badge--primary esa-badge--sm">
-                          <span class="esa-badge__text">Glossary</span>
-                        </span>
-                      </header>
-                      <div class="bcn-help-article__body">
-                        <p class="bcn-help-article__p type-body">
-                          A Requirement is one specific piece of work inside a commitment. A
-                          commitment stating “prior to grading, conduct protocol-level surveys for
-                          burrowing owl and submit results within 30 days” contains two
-                          requirements: conduct the survey, and submit the results.
-                        </p>
-                        <p class="bcn-help-article__p type-body">
-                          Requirements carry their own type, scope, and frequency, and are the unit
-                          that gets consolidated into trackable actions.
-                        </p>
-                      </div>
-                      <nav class="bcn-help-article__related" aria-label="Related articles">
-                        <span class="bcn-help-article__related-label">Related</span>
-                        <ul class="bcn-help-article__related-list">
-                          <li>
-                            <a
-                              class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-what-is-a-commitment"
-                              >What is a Commitment?</a
-                            >
-                          </li>
-                          <li>
-                            <a
-                              class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-what-is-an-action"
-                              >What is an Action?</a
-                            >
-                          </li>
-                        </ul>
-                      </nav>
-                    </article>
-                  </article>
-                  <article class="bcn-kb__article" data-article-id="what-is-an-action" hidden="">
-                    <article id="article-what-is-an-action" class="bcn-help-article">
-                      <header class="bcn-help-article__head">
-                        <h2 class="bcn-help-article__title type-card-title">What is an Action?</h2>
-                        <span class="esa-badge esa-badge--primary esa-badge--sm">
-                          <span class="esa-badge__text">Glossary</span>
-                        </span>
-                      </header>
-                      <div class="bcn-help-article__body">
-                        <p class="bcn-help-article__p type-body">
-                          An Action is a planned unit of compliance work. It consolidates
-                          requirements — often from many commitments — that describe the same
-                          underlying task. If “submit the stormwater plan” appears in 44 different
-                          commitments, it becomes one action.
-                        </p>
-                        <figure class="bcn-help-article__figure">
-                          <div class="bcn-help-article__figure-frame">
-                            <span class="bcn-help-article__figure-icon"
-                              ><span class="esa-icon esa-icon--lg" aria-hidden="true">
-                                <svg
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
-                                  <circle cx="9" cy="9" r="2"></circle>
-                                  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
-                                </svg>
-                              </span>
-                            </span>
-                            <span class="bcn-help-article__figure-label"
-                              >From documents to work</span
-                            >
-                          </div>
-                          <figcaption class="bcn-help-article__caption type-caption">
-                            Thousands of requirements across dozens of documents collapse into a few
-                            hundred actions — the minimum set of real work.
-                          </figcaption>
-                        </figure>
-                        <p class="bcn-help-article__p type-body">
-                          Each action defines the work, the evidence expected, the schedule, and the
-                          responsible party. Actions start as drafts and must be published before
-                          they generate trackable implementations.
-                        </p>
-                      </div>
-                      <nav class="bcn-help-article__related" aria-label="Related articles">
-                        <span class="bcn-help-article__related-label">Related</span>
-                        <ul class="bcn-help-article__related-list">
-                          <li>
-                            <a
-                              class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-what-is-a-requirement"
-                              >What is a Requirement?</a
-                            >
-                          </li>
-                          <li>
-                            <a
-                              class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-actions-vs-implementations"
-                              >Actions vs. implementations</a
-                            >
-                          </li>
-                          <li>
-                            <a
-                              class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-project-vs-component-scope"
-                              >Project scope vs. component scope</a
-                            >
-                          </li>
-                        </ul>
-                      </nav>
-                    </article>
-                  </article>
-                  <article class="bcn-kb__article" data-article-id="tracing-lineage" hidden="">
-                    <article id="article-tracing-lineage" class="bcn-help-article">
-                      <header class="bcn-help-article__head">
-                        <h2 class="bcn-help-article__title type-card-title">
-                          Tracing a requirement back to its source
-                        </h2>
-                        <span class="esa-badge esa-badge--primary esa-badge--sm">
-                          <span class="esa-badge__text">How-to</span>
-                        </span>
-                      </header>
-                      <div class="bcn-help-article__body">
-                        <p class="bcn-help-article__p type-body">
-                          Every requirement keeps its full ancestry: the commitment it came from,
-                          and the source document that commitment was extracted from. This is how
-                          you answer “why do we have to do this?” with the exact regulatory
-                          language.
-                        </p>
-                        <ol class="bcn-help-article__steps">
-                          <li class="bcn-help-article__step type-body">
-                            Open the requirement — the lineage strip at the top shows Source →
-                            Commitment → Requirement.
-                          </li>
-                          <li class="bcn-help-article__step type-body">
-                            Click the commitment to read the obligation in the document’s original
-                            words.
-                          </li>
-                          <li class="bcn-help-article__step type-body">
-                            Click the source to see the document’s details, agency, and attached PDF
-                            — with the cited passage highlighted.
-                          </li>
-                        </ol>
-                      </div>
-                      <nav class="bcn-help-article__related" aria-label="Related articles">
-                        <span class="bcn-help-article__related-label">Related</span>
-                        <ul class="bcn-help-article__related-list">
-                          <li>
-                            <a
-                              class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-what-is-a-requirement"
-                              >What is a Requirement?</a
-                            >
-                          </li>
-                          <li>
-                            <a
-                              class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-what-is-a-source"
-                              >What is a Source Document?</a
-                            >
-                          </li>
-                        </ul>
-                      </nav>
-                    </article>
-                  </article>
-                  <article
-                    class="bcn-kb__article"
-                    data-article-id="actions-vs-implementations"
-                    hidden=""
-                  >
-                    <article id="article-actions-vs-implementations" class="bcn-help-article">
-                      <header class="bcn-help-article__head">
-                        <h2 class="bcn-help-article__title type-card-title">
-                          Actions vs. implementations
-                        </h2>
-                        <span class="esa-badge esa-badge--primary esa-badge--sm">
-                          <span class="esa-badge__text">Glossary</span>
-                        </span>
-                      </header>
-                      <div class="bcn-help-article__body">
-                        <p class="bcn-help-article__p type-body">
-                          An action defines what must be done. An implementation tracks actually
-                          doing it — status, assignee, tasks, comments, and evidence. Most teams
-                          simply call implementations “the actions,” and that is fine: they are the
-                          thing you interact with daily.
-                        </p>
-                        <p class="bcn-help-article__p type-body">
-                          How many implementations an action produces depends on its scope and
-                          frequency. A one-time, project-wide plan submission produces one. A
-                          recurring, component-scoped inspection produces one per component, per
-                          occurrence.
-                        </p>
-                      </div>
-                      <nav class="bcn-help-article__related" aria-label="Related articles">
-                        <span class="bcn-help-article__related-label">Related</span>
-                        <ul class="bcn-help-article__related-list">
-                          <li>
-                            <a
-                              class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-what-is-an-action"
-                              >What is an Action?</a
-                            >
-                          </li>
-                          <li>
-                            <a
-                              class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-project-vs-component-scope"
-                              >Project scope vs. component scope</a
-                            >
-                          </li>
-                        </ul>
-                      </nav>
-                    </article>
-                  </article>
-                  <article class="bcn-kb__article" data-article-id="what-is-a-component" hidden="">
-                    <article id="article-what-is-a-component" class="bcn-help-article">
-                      <header class="bcn-help-article__head">
-                        <h2 class="bcn-help-article__title type-card-title">
-                          What is a Component?
-                        </h2>
-                        <span class="esa-badge esa-badge--primary esa-badge--sm">
-                          <span class="esa-badge__text">Glossary</span>
-                        </span>
-                      </header>
-                      <div class="bcn-help-article__body">
-                        <p class="bcn-help-article__p type-body">
-                          A Component is a distinct place or package of work within your project — a
-                          launch shaft, an intake site, a construction segment. Components matter
-                          because the same obligation often plays out independently at each
-                          location.
-                        </p>
-                        <p class="bcn-help-article__p type-body">
-                          Components map to the commitments that apply to them, can carry their own
-                          milestone dates, and receive their own implementations of component-scoped
-                          actions. Work Areas subdivide a component further when field tracking
-                          needs finer grain.
-                        </p>
-                      </div>
-                      <nav class="bcn-help-article__related" aria-label="Related articles">
-                        <span class="bcn-help-article__related-label">Related</span>
-                        <ul class="bcn-help-article__related-list">
-                          <li>
-                            <a
-                              class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-project-vs-component-scope"
-                              >Project scope vs. component scope</a
-                            >
-                          </li>
-                          <li>
-                            <a
-                              class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-starring-components"
-                              >Starring components on your dashboard</a
-                            >
-                          </li>
-                        </ul>
-                      </nav>
-                    </article>
-                  </article>
+                  </li>
+                  <li class="bcn-kbg__term">
+                    <a class="bcn-kbg__link" href="#article-feature-flag">Feature Flag</a>
+                  </li>
+                  <li class="bcn-kbg__term">
+                    <a class="bcn-kbg__link" href="#article-actions-vs-implementations"
+                      >Implementation</a
+                    >
+                  </li>
+                  <li class="bcn-kbg__term">
+                    <a class="bcn-kbg__link" href="#article-monitoring-portal">Monitoring Portal</a>
+                  </li>
+                  <li class="bcn-kbg__term">
+                    <a class="bcn-kbg__link" href="#article-what-is-an-observation">Observation</a>
+                  </li>
+                  <li class="bcn-kbg__term">
+                    <a class="bcn-kbg__link" href="#article-permit">Permit</a>
+                  </li>
+                  <li class="bcn-kbg__term">
+                    <a class="bcn-kbg__link" href="#article-what-is-a-requirement">Requirement</a>
+                  </li>
+                  <li class="bcn-kbg__term">
+                    <a class="bcn-kbg__link" href="#article-project-vs-component-scope">Scope</a>
+                  </li>
+                  <li class="bcn-kbg__term">
+                    <a class="bcn-kbg__link" href="#article-site-clearance">Site Clearance</a>
+                  </li>
+                  <li class="bcn-kbg__term">
+                    <a class="bcn-kbg__link" href="#article-what-is-a-source">Source Document</a>
+                  </li>
+                  <li class="bcn-kbg__term">
+                    <a class="bcn-kbg__link" href="#article-survey">Survey</a>
+                  </li>
+                  <li class="bcn-kbg__term">
+                    <a class="bcn-kbg__link" href="#article-tenant">Tenant</a>
+                  </li>
+                  <li class="bcn-kbg__term">
+                    <a class="bcn-kbg__link" href="#article-work-area">Work Area</a>
+                  </li>
+                </ul>
+              </section>
+              <section class="bcn-kb" data-kb-browser="">
+                <div class="bcn-kb__pane" data-kb-pane="" data-kb-default="">
                   <article
                     class="bcn-kb__article"
                     data-article-id="project-vs-component-scope"
+                    data-category="general"
                     hidden=""
                   >
                     <article id="article-project-vs-component-scope" class="bcn-help-article">
                       <header class="bcn-help-article__head">
-                        <h2 class="bcn-help-article__title type-card-title">
-                          Project scope vs. component scope
-                        </h2>
+                        <h2 class="bcn-help-article__title type-card-title">Scope</h2>
                         <span class="esa-badge esa-badge--primary esa-badge--sm">
                           <span class="esa-badge__text">Glossary</span>
                         </span>
                       </header>
                       <div class="bcn-help-article__body">
                         <p class="bcn-help-article__p type-body">
-                          Scope is one of Beacon’s most important switches. A project-scoped action
-                          is done once, centrally — “submit the project-wide stormwater plan.” A
-                          component-scoped action is done independently at every applicable
-                          component — “install exclusion fencing” at each of 20 construction areas.
+                          Scope determines how an action is distributed. A project-scoped action is
+                          performed once, centrally — for example, submitting the project-wide
+                          stormwater plan. A component-scoped action is performed independently at
+                          every applicable component — for example, installing exclusion fencing at
+                          each of 20 construction areas.
                         </p>
                         <figure class="bcn-help-article__figure">
                           <div class="bcn-help-article__figure-frame">
@@ -1835,8 +1706,165 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <div class="bcn-help-article__callout-body">
                             <span class="bcn-help-article__callout-label">Note</span>
                             <p class="bcn-help-article__callout-text type-body">
-                              Each implementation is tracked on its own: different assignees,
-                              different timelines, different evidence.
+                              Each implementation is tracked separately, with its own assignee,
+                              timeline, and evidence.
+                            </p>
+                          </div>
+                        </aside>
+                      </div>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="tenant"
+                    data-category="general"
+                    hidden=""
+                  >
+                    <article id="article-tenant" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">Tenant</h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">Glossary</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          A Tenant is the organization a Beacon workspace belongs to. Beacon is
+                          multi-tenant: each tenant’s projects, documents, users, and configuration
+                          are isolated from every other tenant’s, and a user operates within a
+                          single tenant at a time.
+                        </p>
+                        <p class="bcn-help-article__p type-body">
+                          Tenant-level settings — display labels, enabled features, notification
+                          defaults, and user roles — apply uniformly across every project the tenant
+                          owns.
+                        </p>
+                      </div>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="work-area"
+                    data-category="general"
+                    hidden=""
+                  >
+                    <article id="article-work-area" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">Work Area</h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">Glossary</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          A Work Area is a subdivision of a component, used when field tracking
+                          requires finer grain than the component itself provides. Work areas form
+                          the most granular level of the Project → Component → Work Area scope
+                          hierarchy.
+                        </p>
+                        <p class="bcn-help-article__p type-body">
+                          Evidence of Compliance and monitoring records can be scoped to a work
+                          area, isolating activity to a specific portion of a component.
+                        </p>
+                      </div>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="five-minute-tour"
+                    data-category="getting-started"
+                    hidden=""
+                  >
+                    <article id="article-five-minute-tour" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          A five-minute tour of Beacon
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">How-to</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          Beacon turns a body of regulatory documents into a working compliance
+                          program. Everything in the app follows one flow: documents are cataloged,
+                          obligations are planned into actions, and completed work is proven with
+                          evidence.
+                        </p>
+                        <figure class="bcn-help-article__video">
+                          <div class="bcn-help-article__video-frame">
+                            <span class="bcn-help-article__video-play"
+                              ><span class="esa-icon esa-icon--md" aria-hidden="true">
+                                <svg
+                                  width="20"
+                                  height="20"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                                </svg>
+                              </span>
+                            </span>
+                            <span class="bcn-help-article__video-duration"
+                              ><span class="esa-badge esa-badge--primary esa-badge--sm">
+                                <span class="esa-badge__text">4:32</span>
+                              </span>
+                            </span>
+                          </div>
+                          <figcaption class="bcn-help-article__caption type-caption">
+                            Watch: a quick tour of Beacon
+                          </figcaption>
+                        </figure>
+                        <ol class="bcn-help-article__steps">
+                          <li class="bcn-help-article__step type-body">
+                            The Data Catalog holds source documents and the commitments and
+                            requirements extracted from them.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Tracking is where planned actions become day-to-day work, tracked per
+                            project or per component.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Monitoring captures what happens in the field — daily reports,
+                            observations, and surveys.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Reporting assembles evidence of compliance into the reports agencies
+                            expect.
+                          </li>
+                        </ol>
+                        <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
+                          <span class="bcn-help-article__callout-icon">
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+                                ></path>
+                                <path d="M9 18h6"></path>
+                                <path d="M10 22h4"></path>
+                              </svg>
+                            </span>
+                          </span>
+                          <div class="bcn-help-article__callout-body">
+                            <span class="bcn-help-article__callout-label">Tip</span>
+                            <p class="bcn-help-article__callout-text type-body">
+                              The side navigation mirrors these four zones. The project dashboard
+                              links into each zone and is the shortest path back to any of them.
                             </p>
                           </div>
                         </aside>
@@ -1847,15 +1875,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <li>
                             <a
                               class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-what-is-a-component"
-                              >What is a Component?</a
+                              href="/beacon-design/prototypes/help#article-global-search-tips"
+                              >Finding anything with search</a
                             >
                           </li>
                           <li>
                             <a
                               class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-actions-vs-implementations"
-                              >Actions vs. implementations</a
+                              href="/beacon-design/prototypes/help#article-what-is-an-action"
+                              >Action</a
                             >
                           </li>
                         </ul>
@@ -1864,7 +1892,172 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </article>
                   <article
                     class="bcn-kb__article"
+                    data-article-id="global-search-tips"
+                    data-category="getting-started"
+                    hidden=""
+                  >
+                    <article id="article-global-search-tips" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          Finding anything with search
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">How-to</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          Search reads the full text of everything in a project — including the body
+                          text of commitments and uploaded documents, not just titles.
+                        </p>
+                        <ol class="bcn-help-article__steps">
+                          <li class="bcn-help-article__step type-body">
+                            Press / on any page, or click the search field in the top bar.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Type a few words. Results group by type — commitments, requirements,
+                            actions, documents — with matching snippets highlighted.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Press Enter on a result to open it, or choose “See all results” for the
+                            full page with filters.
+                          </li>
+                        </ol>
+                        <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
+                          <span class="bcn-help-article__callout-icon">
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+                                ></path>
+                                <path d="M9 18h6"></path>
+                                <path d="M10 22h4"></path>
+                              </svg>
+                            </span>
+                          </span>
+                          <div class="bcn-help-article__callout-body">
+                            <span class="bcn-help-article__callout-label">Tip</span>
+                            <p class="bcn-help-article__callout-text type-body">
+                              Searching a permit number or an agency name returns every obligation
+                              tied to it.
+                            </p>
+                          </div>
+                        </aside>
+                      </div>
+                      <nav class="bcn-help-article__related" aria-label="Related articles">
+                        <span class="bcn-help-article__related-label">Related</span>
+                        <ul class="bcn-help-article__related-list">
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-five-minute-tour"
+                              >A five-minute tour of Beacon</a
+                            >
+                          </li>
+                        </ul>
+                      </nav>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="actions-vs-implementations"
+                    data-category="tracking"
+                    hidden=""
+                  >
+                    <article id="article-actions-vs-implementations" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">Implementation</h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">Glossary</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          An Implementation is the tracked execution of an action: its status,
+                          assignee, tasks, comments, and evidence. The action defines what must be
+                          done; the implementation records doing it. In daily use, implementations
+                          are what teams refer to as the actions.
+                        </p>
+                        <p class="bcn-help-article__p type-body">
+                          The number of implementations an action generates is determined by its
+                          scope and frequency. A one-time, project-scoped submission generates one
+                          implementation. A recurring, component-scoped inspection generates one per
+                          component, per occurrence.
+                        </p>
+                      </div>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="what-is-a-component"
+                    data-category="tracking"
+                    hidden=""
+                  >
+                    <article id="article-what-is-a-component" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">Component</h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">Glossary</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          A Component is a discrete location or work package within a project — a
+                          launch shaft, an intake site, a construction segment. Components exist
+                          because the same obligation frequently applies independently at each
+                          location.
+                        </p>
+                        <p class="bcn-help-article__p type-body">
+                          A component maps to the commitments that apply to it, may carry its own
+                          milestone dates, and receives its own implementations of component-scoped
+                          actions. A Work Area subdivides a component further when field tracking
+                          requires finer grain.
+                        </p>
+                      </div>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="permit"
+                    data-category="tracking"
+                    hidden=""
+                  >
+                    <article id="article-permit" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">Permit</h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">Glossary</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          A Permit is an authorization or approval a project must secure from a
+                          regulatory agency before or during construction. Beacon tracks each permit
+                          through its acquisition pipeline — from not yet applied, through agency
+                          review, to issued.
+                        </p>
+                        <p class="bcn-help-article__p type-body">
+                          An issued permit typically becomes a source document: its conditions are
+                          extracted as commitments and enter the catalog alongside every other
+                          obligation.
+                        </p>
+                      </div>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
                     data-article-id="reading-permit-tracking"
+                    data-category="tracking"
                     hidden=""
                   >
                     <article id="article-reading-permit-tracking" class="bcn-help-article">
@@ -1878,14 +2071,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </header>
                       <div class="bcn-help-article__body">
                         <p class="bcn-help-article__p type-body">
-                          Permit Tracking shows every permit and approval your project needs, each
-                          with its current status in the acquisition pipeline — from “not yet
-                          applied” through agency review to “issued.”
+                          Permit Tracking lists every permit and approval a project needs, each with
+                          its current status in the acquisition pipeline — from not yet applied,
+                          through agency review, to issued.
                         </p>
                         <ol class="bcn-help-article__steps">
                           <li class="bcn-help-article__step type-body">
                             Each row is one permit; the status lozenge shows where it sits in the
-                            pipeline right now.
+                            pipeline.
                           </li>
                           <li class="bcn-help-article__step type-body">
                             The date column shows the next deadline — a submittal window, an agency
@@ -1893,7 +2086,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           </li>
                           <li class="bcn-help-article__step type-body">
                             Open a permit to see its conditions, responsible contacts, and the
-                            source document it will arrive as once issued.
+                            source document it will become once issued.
                           </li>
                         </ol>
                         <figure class="bcn-help-article__video">
@@ -1950,9 +2143,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <div class="bcn-help-article__callout-body">
                             <span class="bcn-help-article__callout-label">Tip</span>
                             <p class="bcn-help-article__callout-text type-body">
-                              An issued permit usually becomes a new source document — its
-                              conditions are extracted as commitments and join the catalog like any
-                              other obligation.
+                              An issued permit becomes a source document: its conditions are
+                              extracted as commitments and join the catalog like any other
+                              obligation.
                             </p>
                           </div>
                         </aside>
@@ -1963,22 +2156,34 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <li>
                             <a
                               class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-permit"
+                              >Permit</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
                               href="/beacon-design/prototypes/help#article-what-is-a-source"
-                              >What is a Source Document?</a
+                              >Source Document</a
                             >
                           </li>
                           <li>
                             <a
                               class="bcn-help-article__related-link"
                               href="/beacon-design/prototypes/help#article-what-is-a-commitment"
-                              >What is a Commitment?</a
+                              >Commitment</a
                             >
                           </li>
                         </ul>
                       </nav>
                     </article>
                   </article>
-                  <article class="bcn-kb__article" data-article-id="starring-components" hidden="">
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="starring-components"
+                    data-category="tracking"
+                    hidden=""
+                  >
                     <article id="article-starring-components" class="bcn-help-article">
                       <header class="bcn-help-article__head">
                         <h2 class="bcn-help-article__title type-card-title">
@@ -1990,9 +2195,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </header>
                       <div class="bcn-help-article__body">
                         <p class="bcn-help-article__p type-body">
-                          Large projects can have dozens of components, but most people work in a
-                          few. Starring pins a component to your project dashboard as a card with
-                          its Tracking, Monitoring, and Reporting pulse — your portal into that
+                          A project may have dozens of components, though most people work in a few.
+                          Starring pins a component to the project dashboard as a card showing its
+                          Tracking, Monitoring, and Reporting pulse — the entry point into that
                           component’s own dashboard.
                         </p>
                         <ol class="bcn-help-article__steps">
@@ -2000,7 +2205,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             Open any component and click the star in its header.
                           </li>
                           <li class="bcn-help-article__step type-body">
-                            Starred components appear on your project dashboard in the Components
+                            Starred components appear on the project dashboard in the Components
                             section.
                           </li>
                           <li class="bcn-help-article__step type-body">
@@ -2015,7 +2220,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <a
                               class="bcn-help-article__related-link"
                               href="/beacon-design/prototypes/help#article-what-is-a-component"
-                              >What is a Component?</a
+                              >Component</a
                             >
                           </li>
                           <li>
@@ -2029,7 +2234,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </nav>
                     </article>
                   </article>
-                  <article class="bcn-kb__article" data-article-id="reading-critical-now" hidden="">
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="reading-critical-now"
+                    data-category="tracking"
+                    hidden=""
+                  >
                     <article id="article-reading-critical-now" class="bcn-help-article">
                       <header class="bcn-help-article__head">
                         <h2 class="bcn-help-article__title type-card-title">
@@ -2041,15 +2251,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </header>
                       <div class="bcn-help-article__body">
                         <p class="bcn-help-article__p type-body">
-                          The dashboard’s critical surface is deliberately small: it elevates only
+                          The dashboard’s critical surface is deliberately small. It elevates only
                           items that are project-critical today — an overdue action on a
                           critical-path component, a lapsed survey blocking ground disturbance, a
                           report due to an agency this week.
                         </p>
                         <p class="bcn-help-article__p type-body">
-                          Items leave the surface when the underlying condition clears — completing
-                          the work, filing the report, or a review resolving the block. There is
-                          nothing to configure; it reads the same signals shown in each zone.
+                          An item leaves the surface when its underlying condition clears — the work
+                          is completed, the report is filed, or a review resolves the block. There
+                          is nothing to configure; the surface reads the same signals shown in each
+                          zone.
                         </p>
                       </div>
                       <nav class="bcn-help-article__related" aria-label="Related articles">
@@ -2073,11 +2284,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </nav>
                     </article>
                   </article>
-                  <article class="bcn-kb__article" data-article-id="what-is-a-dmr" hidden="">
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="what-is-a-dmr"
+                    data-category="monitoring"
+                    hidden=""
+                  >
                     <article id="article-what-is-a-dmr" class="bcn-help-article">
                       <header class="bcn-help-article__head">
                         <h2 class="bcn-help-article__title type-card-title">
-                          What is a Daily Monitoring Report?
+                          Daily Monitoring Report
                         </h2>
                         <span class="esa-badge esa-badge--primary esa-badge--sm">
                           <span class="esa-badge__text">Glossary</span>
@@ -2085,58 +2301,38 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </header>
                       <div class="bcn-help-article__body">
                         <p class="bcn-help-article__p type-body">
-                          A Daily Monitoring Report (DMR) captures one day of field monitoring: who
-                          observed, site and weather conditions, construction activities underway,
-                          observations recorded, photos, and narrative notes.
+                          A Daily Monitoring Report (DMR) documents one day of field monitoring: the
+                          observer, site and weather conditions, construction activities underway,
+                          recorded observations, photographs, and narrative notes.
                         </p>
                         <p class="bcn-help-article__p type-body">
-                          DMRs are a bridge to compliance: when an obligation says “conduct daily
-                          biological monitoring during construction,” the DMRs documenting that
-                          monitoring are the evidence the obligation was met.
+                          DMRs connect field activity to compliance. When an obligation requires
+                          daily biological monitoring during construction, the DMRs documenting that
+                          monitoring constitute the evidence the obligation was met.
                         </p>
                       </div>
-                      <nav class="bcn-help-article__related" aria-label="Related articles">
-                        <span class="bcn-help-article__related-label">Related</span>
-                        <ul class="bcn-help-article__related-list">
-                          <li>
-                            <a
-                              class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-what-is-an-observation"
-                              >What is an Observation?</a
-                            >
-                          </li>
-                          <li>
-                            <a
-                              class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-what-is-evidence"
-                              >What counts as Evidence of Compliance?</a
-                            >
-                          </li>
-                        </ul>
-                      </nav>
                     </article>
                   </article>
                   <article
                     class="bcn-kb__article"
                     data-article-id="what-is-an-observation"
+                    data-category="monitoring"
                     hidden=""
                   >
                     <article id="article-what-is-an-observation" class="bcn-help-article">
                       <header class="bcn-help-article__head">
-                        <h2 class="bcn-help-article__title type-card-title">
-                          What is an Observation?
-                        </h2>
+                        <h2 class="bcn-help-article__title type-card-title">Observation</h2>
                         <span class="esa-badge esa-badge--primary esa-badge--sm">
                           <span class="esa-badge__text">Glossary</span>
                         </span>
                       </header>
                       <div class="bcn-help-article__body">
                         <p class="bcn-help-article__p type-body">
-                          An Observation is a single recorded event from the field: “two burrowing
-                          owls at the north staging area,” “silt fence along the eastern boundary
-                          intact,” “wind exceeded 25 mph, dust control activated.” Observations
-                          usually belong to a DMR and carry species data, location, time, and
-                          photos.
+                          An Observation is a single recorded field event: two burrowing owls at the
+                          north staging area, an intact silt fence along the eastern boundary, or
+                          wind exceeding 25 mph with dust control activated. An observation
+                          typically belongs to a DMR and carries species data, location, time, and
+                          photographs.
                         </p>
                         <aside class="bcn-help-article__callout bcn-help-article__callout--note">
                           <span class="bcn-help-article__callout-icon">
@@ -2162,34 +2358,103 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <span class="bcn-help-article__callout-label">Note</span>
                             <p class="bcn-help-article__callout-text type-body">
                               Observations with compliance consequences — an active nest inside a
-                              buffer, a failed BMP — surface in Monitoring as items needing action,
-                              and can trigger review before work proceeds.
+                              buffer, a failed BMP — surface in Monitoring as items requiring
+                              action, and may trigger review before work proceeds.
                             </p>
                           </div>
                         </aside>
                       </div>
-                      <nav class="bcn-help-article__related" aria-label="Related articles">
-                        <span class="bcn-help-article__related-label">Related</span>
-                        <ul class="bcn-help-article__related-list">
-                          <li>
-                            <a
-                              class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-what-is-a-dmr"
-                              >What is a Daily Monitoring Report?</a
-                            >
-                          </li>
-                          <li>
-                            <a
-                              class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-site-clearance-go-no-go"
-                              >Using Site Clearance go/no-go</a
-                            >
-                          </li>
-                        </ul>
-                      </nav>
                     </article>
                   </article>
-                  <article class="bcn-kb__article" data-article-id="qc-field-surveys" hidden="">
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="survey"
+                    data-category="monitoring"
+                    hidden=""
+                  >
+                    <article id="article-survey" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">Survey</h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">Glossary</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          A Survey is a structured field record — typically a species or habitat
+                          survey — collected in a field application such as Fulcrum or Survey123 and
+                          synced into Beacon. Surveys supply the dated evidence behind clearances
+                          and compliance countdowns.
+                        </p>
+                        <p class="bcn-help-article__p type-body">
+                          A survey record does not affect compliance until it passes quality-control
+                          review. Pending records are excluded from clearance and evidence
+                          calculations by default.
+                        </p>
+                      </div>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="site-clearance"
+                    data-category="monitoring"
+                    hidden=""
+                  >
+                    <article id="article-site-clearance" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">Site Clearance</h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">Glossary</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          Site Clearance is the determination of whether a specific site is clear to
+                          disturb ground on a given day. Beacon detects potential blocks — a lapsed
+                          nesting survey, an open wildlife buffer — and marks the site provisionally
+                          blocked until a qualified reviewer records a decision.
+                        </p>
+                        <p class="bcn-help-article__p type-body">
+                          Detections are advisory; reviews are authoritative. A site is clear only
+                          when no unresolved block remains and the governing reviews permit
+                          disturbance.
+                        </p>
+                      </div>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="monitoring-portal"
+                    data-category="monitoring"
+                    hidden=""
+                  >
+                    <article id="article-monitoring-portal" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">Monitoring Portal</h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">Glossary</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          The Monitoring Portal is the area of Beacon that reports commitment-level
+                          compliance against field activity. It identifies commitments that are out
+                          of compliance and the observations driving each result, matched by species
+                          and condition.
+                        </p>
+                        <p class="bcn-help-article__p type-body">
+                          The portal reads the same observation and survey records captured
+                          elsewhere in Monitoring; it holds no separate data of its own.
+                        </p>
+                      </div>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="qc-field-surveys"
+                    data-category="monitoring"
+                    hidden=""
+                  >
                     <article id="article-qc-field-surveys" class="bcn-help-article">
                       <header class="bcn-help-article__head">
                         <h2 class="bcn-help-article__title type-card-title">
@@ -2201,21 +2466,21 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </header>
                       <div class="bcn-help-article__body">
                         <p class="bcn-help-article__p type-body">
-                          Survey records flow in from field collection tools (Fulcrum, Survey123).
-                          Before a record affects compliance — clearances, countdowns, evidence — it
-                          passes a quality-control review.
+                          Survey records flow in from field collection tools such as Fulcrum and
+                          Survey123. Before a record affects compliance — clearances, countdowns,
+                          evidence — it passes a quality-control review.
                         </p>
                         <ol class="bcn-help-article__steps">
                           <li class="bcn-help-article__step type-body">
-                            New records land with a “pending QC” status in the Surveys grid.
+                            New records arrive with a pending-QC status in the Surveys grid.
                           </li>
                           <li class="bcn-help-article__step type-body">
                             A reviewer checks species identification, coordinates, and required
                             fields, then approves or returns the record.
                           </li>
                           <li class="bcn-help-article__step type-body">
-                            Views default to QC-approved records only; toggle the filter to see
-                            pending ones.
+                            Views default to QC-approved records; toggle the filter to see pending
+                            ones.
                           </li>
                         </ol>
                       </div>
@@ -2225,15 +2490,22 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <li>
                             <a
                               class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-survey"
+                              >Survey</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
                               href="/beacon-design/prototypes/help#article-what-is-an-observation"
-                              >What is an Observation?</a
+                              >Observation</a
                             >
                           </li>
                           <li>
                             <a
                               class="bcn-help-article__related-link"
                               href="/beacon-design/prototypes/help#article-what-is-a-dmr"
-                              >What is a Daily Monitoring Report?</a
+                              >Daily Monitoring Report</a
                             >
                           </li>
                         </ul>
@@ -2243,6 +2515,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <article
                     class="bcn-kb__article"
                     data-article-id="site-clearance-go-no-go"
+                    data-category="monitoring"
                     hidden=""
                   >
                     <article id="article-site-clearance-go-no-go" class="bcn-help-article">
@@ -2258,8 +2531,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <p class="bcn-help-article__p type-body">
                           Site Clearance answers one question per site: is it clear to disturb
                           ground today? The system detects potential blocks — a lapsed nesting
-                          survey, an unclosed wildlife buffer — and marks the site provisionally
-                          blocked until a qualified reviewer decides.
+                          survey, an open wildlife buffer — and marks the site provisionally blocked
+                          until a qualified reviewer decides.
                         </p>
                         <ol class="bcn-help-article__steps">
                           <li class="bcn-help-article__step type-body">
@@ -2271,7 +2544,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             them, and the required outcome.
                           </li>
                           <li class="bcn-help-article__step type-body">
-                            Reviews overrule detections: the system detects, humans decide.
+                            Reviews overrule detections: the system detects, a reviewer decides.
                           </li>
                         </ol>
                         <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
@@ -2299,8 +2572,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <div class="bcn-help-article__callout-body">
                             <span class="bcn-help-article__callout-label">Tip</span>
                             <p class="bcn-help-article__callout-text type-body">
-                              The map and the review list are the same data — pick whichever view
-                              fits how you work.
+                              The map and the review list present the same data in two views.
                             </p>
                           </div>
                         </aside>
@@ -2311,8 +2583,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <li>
                             <a
                               class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-site-clearance"
+                              >Site Clearance</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
                               href="/beacon-design/prototypes/help#article-what-is-an-observation"
-                              >What is an Observation?</a
+                              >Observation</a
                             >
                           </li>
                           <li>
@@ -2326,11 +2605,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </nav>
                     </article>
                   </article>
-                  <article class="bcn-kb__article" data-article-id="what-is-evidence" hidden="">
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="what-is-evidence"
+                    data-category="reporting"
+                    hidden=""
+                  >
                     <article id="article-what-is-evidence" class="bcn-help-article">
                       <header class="bcn-help-article__head">
                         <h2 class="bcn-help-article__title type-card-title">
-                          What counts as Evidence of Compliance?
+                          Evidence of Compliance
                         </h2>
                         <span class="esa-badge esa-badge--primary esa-badge--sm">
                           <span class="esa-badge__text">Glossary</span>
@@ -2338,14 +2622,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </header>
                       <div class="bcn-help-article__body">
                         <p class="bcn-help-article__p type-body">
-                          Evidence of Compliance is the end of the whole flow: the report, photo,
-                          receipt, signed form, or monitoring record that proves an obligation was
-                          met. It is what you present to a regulatory agency during an audit.
+                          Evidence of Compliance is the terminal output of the compliance flow: the
+                          report, photograph, receipt, signed form, or monitoring record that proves
+                          an obligation was satisfied. It is the material presented to a regulatory
+                          agency during an audit.
                         </p>
                         <p class="bcn-help-article__p type-body">
-                          Evidence attaches to action implementations, and can also link to
-                          checklist items to satisfy specific requirements per component.
-                          Field-sourced evidence can come straight from Daily Monitoring Reports.
+                          Evidence attaches to action implementations and may also link to checklist
+                          items that satisfy specific requirements per component. Field-sourced
+                          evidence can derive directly from Daily Monitoring Reports.
                         </p>
                         <aside class="bcn-help-article__callout bcn-help-article__callout--note">
                           <span class="bcn-help-article__callout-icon">
@@ -2370,8 +2655,80 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <div class="bcn-help-article__callout-body">
                             <span class="bcn-help-article__callout-label">Note</span>
                             <p class="bcn-help-article__callout-text type-body">
-                              Every evidence record keeps its files, metadata, and timestamps — an
+                              Every evidence record retains its files, metadata, and timestamps — an
                               auditable trail from source document to proof.
+                            </p>
+                          </div>
+                        </aside>
+                      </div>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="assembling-compliance-report"
+                    data-category="reporting"
+                    hidden=""
+                  >
+                    <article id="article-assembling-compliance-report" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          Assembling a compliance report
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">How-to</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          A compliance report presents the evidence behind a set of obligations in
+                          the format an agency expects. Reports are assembled from existing Evidence
+                          of Compliance records; they create no new evidence.
+                        </p>
+                        <ol class="bcn-help-article__steps">
+                          <li class="bcn-help-article__step type-body">
+                            Open Reporting and choose the report template that matches the agency’s
+                            required format.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Select the scope — project, component, or work area — and the reporting
+                            period.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Beacon gathers the evidence records in scope; review the set and exclude
+                            any records that do not apply.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Generate the package. The output lists each obligation, its status, and
+                            the linked evidence.
+                          </li>
+                        </ol>
+                        <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
+                          <span class="bcn-help-article__callout-icon">
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+                                ></path>
+                                <path d="M9 18h6"></path>
+                                <path d="M10 22h4"></path>
+                              </svg>
+                            </span>
+                          </span>
+                          <div class="bcn-help-article__callout-body">
+                            <span class="bcn-help-article__callout-label">Tip</span>
+                            <p class="bcn-help-article__callout-text type-body">
+                              A report reflects the evidence present at generation time. Regenerate
+                              after new evidence is attached to capture the current state.
                             </p>
                           </div>
                         </aside>
@@ -2382,15 +2739,536 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <li>
                             <a
                               class="bcn-help-article__related-link"
-                              href="/beacon-design/prototypes/help#article-what-is-a-dmr"
-                              >What is a Daily Monitoring Report?</a
+                              href="/beacon-design/prototypes/help#article-what-is-evidence"
+                              >Evidence of Compliance</a
                             >
                           </li>
                           <li>
                             <a
                               class="bcn-help-article__related-link"
                               href="/beacon-design/prototypes/help#article-actions-vs-implementations"
-                              >Actions vs. implementations</a
+                              >Implementation</a
+                            >
+                          </li>
+                        </ul>
+                      </nav>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="what-is-a-source"
+                    data-category="data-catalog"
+                    hidden=""
+                  >
+                    <article id="article-what-is-a-source" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">Source Document</h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">Glossary</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          A Source Document is a regulatory record attached to a project: a permit,
+                          an environmental impact report, an incidental take permit, a contract, or
+                          an agency agreement. Every obligation in Beacon originates from a source
+                          document.
+                        </p>
+                        <p class="bcn-help-article__p type-body">
+                          A project may carry dozens of source documents from multiple agencies, and
+                          a single source may contain anywhere from a few to several hundred
+                          discrete obligations. Uploading the original file makes its text available
+                          for search and assisted commitment extraction.
+                        </p>
+                      </div>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="what-is-a-commitment"
+                    data-category="data-catalog"
+                    hidden=""
+                  >
+                    <article id="article-what-is-a-commitment" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">Commitment</h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">Glossary</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          A Commitment is a single obligation a project must satisfy, captured in
+                          the regulatory language of its source document. Each commitment carries
+                          structured attributes — type, resource category, phase, species, and
+                          season — that support filtering and planning.
+                        </p>
+                        <p class="bcn-help-article__p type-body">
+                          The same real-world obligation frequently appears across multiple
+                          documents. Each appearance is retained as a separate commitment; the
+                          overlap is resolved downstream, when requirements are consolidated into
+                          actions.
+                        </p>
+                        <aside class="bcn-help-article__callout bcn-help-article__callout--note">
+                          <span class="bcn-help-article__callout-icon">
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 16v-4"></path>
+                                <path d="M12 8h.01"></path>
+                              </svg>
+                            </span>
+                          </span>
+                          <div class="bcn-help-article__callout-body">
+                            <span class="bcn-help-article__callout-label">Note</span>
+                            <p class="bcn-help-article__callout-text type-body">
+                              When an agency amends a document, its commitments are revised rather
+                              than replaced. The original and updated language coexist with explicit
+                              lineage.
+                            </p>
+                          </div>
+                        </aside>
+                      </div>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="what-is-a-requirement"
+                    data-category="data-catalog"
+                    hidden=""
+                  >
+                    <article id="article-what-is-a-requirement" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">Requirement</h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">Glossary</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          A Requirement is one discrete unit of work contained within a commitment.
+                          A commitment stating “prior to grading, conduct protocol-level surveys for
+                          burrowing owl and submit results within 30 days” resolves to two
+                          requirements: conduct the survey, and submit the results.
+                        </p>
+                        <p class="bcn-help-article__p type-body">
+                          Each requirement carries its own type, scope, and frequency. The
+                          requirement is the unit consolidated into trackable actions.
+                        </p>
+                      </div>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="what-is-an-action"
+                    data-category="data-catalog"
+                    hidden=""
+                  >
+                    <article id="article-what-is-an-action" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">Action</h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">Glossary</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          An Action is a planned unit of compliance work. It consolidates
+                          requirements — often drawn from many commitments — that describe the same
+                          underlying task. A requirement to submit the stormwater plan appearing
+                          across 44 commitments resolves to one action.
+                        </p>
+                        <figure class="bcn-help-article__figure">
+                          <div class="bcn-help-article__figure-frame">
+                            <span class="bcn-help-article__figure-icon"
+                              ><span class="esa-icon esa-icon--lg" aria-hidden="true">
+                                <svg
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
+                                  <circle cx="9" cy="9" r="2"></circle>
+                                  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
+                                </svg>
+                              </span>
+                            </span>
+                            <span class="bcn-help-article__figure-label"
+                              >From documents to work</span
+                            >
+                          </div>
+                          <figcaption class="bcn-help-article__caption type-caption">
+                            Thousands of requirements across dozens of documents collapse into a few
+                            hundred actions — the minimum set of real work.
+                          </figcaption>
+                        </figure>
+                        <p class="bcn-help-article__p type-body">
+                          Each action defines the work, the expected evidence, the schedule, and the
+                          responsible party. Actions begin as drafts and must be published before
+                          they generate trackable implementations.
+                        </p>
+                      </div>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="tracing-lineage"
+                    data-category="data-catalog"
+                    hidden=""
+                  >
+                    <article id="article-tracing-lineage" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          Tracing a requirement back to its source
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">How-to</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          Every requirement keeps its full ancestry: the commitment it came from,
+                          and the source document that commitment was extracted from. This is how a
+                          requirement is traced to the exact regulatory language behind it.
+                        </p>
+                        <ol class="bcn-help-article__steps">
+                          <li class="bcn-help-article__step type-body">
+                            Open the requirement. The lineage strip at the top shows Source →
+                            Commitment → Requirement.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Click the commitment to read the obligation in the document’s original
+                            words.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Click the source to see the document’s details, agency, and attached
+                            file — with the cited passage highlighted.
+                          </li>
+                        </ol>
+                      </div>
+                      <nav class="bcn-help-article__related" aria-label="Related articles">
+                        <span class="bcn-help-article__related-label">Related</span>
+                        <ul class="bcn-help-article__related-list">
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-what-is-a-requirement"
+                              >Requirement</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-what-is-a-source"
+                              >Source Document</a
+                            >
+                          </li>
+                        </ul>
+                      </nav>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="feature-flag"
+                    data-category="settings-config"
+                    hidden=""
+                  >
+                    <article id="article-feature-flag" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">Feature Flag</h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">Glossary</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          A Feature Flag is a configuration switch that turns a Beacon capability on
+                          or off for a tenant. Flags allow a feature to be released to specific
+                          tenants independently, without a code change.
+                        </p>
+                        <p class="bcn-help-article__p type-body">
+                          Feature flags are administered in tenant settings. A disabled flag hides
+                          its feature from navigation and removes its surfaces from every project
+                          the tenant owns.
+                        </p>
+                      </div>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="managing-tenant-settings"
+                    data-category="settings-config"
+                    hidden=""
+                  >
+                    <article id="article-managing-tenant-settings" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          Managing tenant settings
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">How-to</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          Tenant settings control behavior shared across every project a tenant
+                          owns: display labels for core entities, default notification rules,
+                          enabled features, and the user roster. Changes apply tenant-wide.
+                        </p>
+                        <ol class="bcn-help-article__steps">
+                          <li class="bcn-help-article__step type-body">
+                            Open Settings and select the tenant settings section (available to
+                            tenant administrators).
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Adjust display labels, defaults, or enabled features; each change is
+                            scoped to the current tenant only.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Save. Tenant-wide changes take effect on the next page load for every
+                            user in the tenant.
+                          </li>
+                        </ol>
+                        <aside class="bcn-help-article__callout bcn-help-article__callout--note">
+                          <span class="bcn-help-article__callout-icon">
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 16v-4"></path>
+                                <path d="M12 8h.01"></path>
+                              </svg>
+                            </span>
+                          </span>
+                          <div class="bcn-help-article__callout-body">
+                            <span class="bcn-help-article__callout-label">Note</span>
+                            <p class="bcn-help-article__callout-text type-body">
+                              Entity label overrides — for example, renaming Actions to match an
+                              agency’s vocabulary — apply to navigation, headings, and search across
+                              the tenant.
+                            </p>
+                          </div>
+                        </aside>
+                      </div>
+                      <nav class="bcn-help-article__related" aria-label="Related articles">
+                        <span class="bcn-help-article__related-label">Related</span>
+                        <ul class="bcn-help-article__related-list">
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-tenant"
+                              >Tenant</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-feature-flag"
+                              >Feature Flag</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-managing-users-roles"
+                              >Managing users and roles</a
+                            >
+                          </li>
+                        </ul>
+                      </nav>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="managing-users-roles"
+                    data-category="settings-config"
+                    hidden=""
+                  >
+                    <article id="article-managing-users-roles" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          Managing users and roles
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">How-to</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          Access in Beacon is governed by role. A role determines which zones a user
+                          can view and which records a user can create, edit, or approve. Users are
+                          added at the tenant level and assigned one or more roles.
+                        </p>
+                        <ol class="bcn-help-article__steps">
+                          <li class="bcn-help-article__step type-body">
+                            Open Settings and select Users.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Invite a user by email, or select an existing user to change their
+                            assignment.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Assign roles — for example, viewer, contributor, or reviewer — and save.
+                          </li>
+                        </ol>
+                        <aside class="bcn-help-article__callout bcn-help-article__callout--note">
+                          <span class="bcn-help-article__callout-icon">
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 16v-4"></path>
+                                <path d="M12 8h.01"></path>
+                              </svg>
+                            </span>
+                          </span>
+                          <div class="bcn-help-article__callout-body">
+                            <span class="bcn-help-article__callout-label">Note</span>
+                            <p class="bcn-help-article__callout-text type-body">
+                              Approval actions, such as clearing a survey through quality control,
+                              require a role with review authority. A contributor role cannot
+                              approve its own records.
+                            </p>
+                          </div>
+                        </aside>
+                      </div>
+                      <nav class="bcn-help-article__related" aria-label="Related articles">
+                        <span class="bcn-help-article__related-label">Related</span>
+                        <ul class="bcn-help-article__related-list">
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-managing-tenant-settings"
+                              >Managing tenant settings</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-qc-field-surveys"
+                              >Reviewing field surveys before they count</a
+                            >
+                          </li>
+                        </ul>
+                      </nav>
+                    </article>
+                  </article>
+                  <article
+                    class="bcn-kb__article"
+                    data-article-id="configuring-notifications"
+                    data-category="settings-config"
+                    hidden=""
+                  >
+                    <article id="article-configuring-notifications" class="bcn-help-article">
+                      <header class="bcn-help-article__head">
+                        <h2 class="bcn-help-article__title type-card-title">
+                          Configuring notifications
+                        </h2>
+                        <span class="esa-badge esa-badge--primary esa-badge--sm">
+                          <span class="esa-badge__text">How-to</span>
+                        </span>
+                      </header>
+                      <div class="bcn-help-article__body">
+                        <p class="bcn-help-article__p type-body">
+                          Notifications alert users to compliance events — an approaching deadline,
+                          a new provisional block, a returned survey. Defaults are set at the tenant
+                          level; each user may adjust their own delivery preferences within those
+                          defaults.
+                        </p>
+                        <ol class="bcn-help-article__steps">
+                          <li class="bcn-help-article__step type-body">
+                            Open Settings and select Notifications to review the tenant’s default
+                            rules.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Enable or disable notifications by event type, and set the delivery
+                            channel for each.
+                          </li>
+                          <li class="bcn-help-article__step type-body">
+                            Individual users adjust their personal preferences from the same
+                            section; tenant defaults apply where a user has made no choice.
+                          </li>
+                        </ol>
+                        <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
+                          <span class="bcn-help-article__callout-icon">
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+                                ></path>
+                                <path d="M9 18h6"></path>
+                                <path d="M10 22h4"></path>
+                              </svg>
+                            </span>
+                          </span>
+                          <div class="bcn-help-article__callout-body">
+                            <span class="bcn-help-article__callout-label">Tip</span>
+                            <p class="bcn-help-article__callout-text type-body">
+                              Scope notifications to the components a user has starred to keep
+                              alerts limited to their own work.
+                            </p>
+                          </div>
+                        </aside>
+                      </div>
+                      <nav class="bcn-help-article__related" aria-label="Related articles">
+                        <span class="bcn-help-article__related-label">Related</span>
+                        <ul class="bcn-help-article__related-list">
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-managing-tenant-settings"
+                              >Managing tenant settings</a
+                            >
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-help-article__related-link"
+                              href="/beacon-design/prototypes/help#article-starring-components"
+                              >Starring components on your dashboard</a
                             >
                           </li>
                         </ul>
@@ -2399,132 +3277,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </article>
                 </div>
               </section>
-              <script type="module">
-                const d = (n) =>
-                  n.replace(
-                    /[&<>"']/g,
-                    (o) =>
-                      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[o],
-                  );
-                function v(n, o) {
-                  const f = n.toLowerCase(),
-                    u = o.toLowerCase();
-                  let l = "",
-                    c = 0;
-                  for (; c < n.length; ) {
-                    const i = f.indexOf(u, c);
-                    if (i === -1) {
-                      l += d(n.slice(c));
-                      break;
-                    }
-                    ((l += d(n.slice(c, i))),
-                      (l += `<mark>${d(n.slice(i, i + o.length))}</mark>`),
-                      (c = i + o.length));
-                  }
-                  return l;
-                }
-                function y(n) {
-                  const o = n;
-                  return o
-                    ? o.matches?.("[data-kb-search]")
-                      ? o
-                      : (o.closest?.("[data-kb-search]") ?? null)
-                    : null;
-                }
-                function A() {
-                  const n = document.querySelector("[data-kb-browser]");
-                  if (!n) return;
-                  const o = n.querySelector(".bcn-kb__rail"),
-                    f = n.querySelector("[data-kb-pane]"),
-                    u = n.querySelector("[data-kb-welcome]"),
-                    l = [...f.querySelectorAll(".bcn-kb__article")],
-                    c = [...o.querySelectorAll(".bcn-kb__link")],
-                    i = [...o.querySelectorAll(".bcn-kb__item")],
-                    b = [...o.querySelectorAll(".bcn-kb__group")],
-                    g = (e) => e.querySelector(".bcn-kb__link-title");
-                  function p() {
-                    const e = n.getBoundingClientRect().top + window.scrollY - 80;
-                    window.scrollTo({ top: Math.max(0, e), behavior: "auto" });
-                  }
-                  function h() {
-                    u.hidden = !1;
-                    for (const e of l) e.hidden = !0;
-                    for (const e of c) e.classList.remove("is-active");
-                  }
-                  function _(e) {
-                    const t = l.find((r) => r.dataset.articleId === e);
-                    if (!t) return !1;
-                    u.hidden = !0;
-                    for (const r of l) r.hidden = r !== t;
-                    for (const r of c) r.classList.toggle("is-active", r.dataset.articleLink === e);
-                    return (
-                      c
-                        .find((r) => r.dataset.articleLink === e)
-                        ?.scrollIntoView({ block: "nearest" }),
-                      p(),
-                      !0
-                    );
-                  }
-                  function S(e) {
-                    const t = o.querySelector(`[data-kb-group="${e}"]`);
-                    if (!t) {
-                      h();
-                      return;
-                    }
-                    t.scrollIntoView({ block: "nearest" });
-                    const r = t.querySelector(".bcn-kb__link")?.dataset.articleLink;
-                    r && _(r);
-                  }
-                  function m() {
-                    const e = location.hash;
-                    e.startsWith("#article-")
-                      ? _(e.slice(9)) || h()
-                      : e.startsWith("#category-")
-                        ? S(e.slice(10))
-                        : h();
-                  }
-                  function q() {
-                    for (const e of i) e.hidden = !1;
-                    for (const e of b) e.hidden = !1;
-                    for (const e of c) g(e).textContent = e.dataset.title ?? "";
-                  }
-                  function L(e) {
-                    const t = e.trim();
-                    if (t.length < 2) {
-                      q();
-                      return;
-                    }
-                    const r = t.toLowerCase();
-                    for (const s of i) {
-                      const a = s.querySelector(".bcn-kb__link"),
-                        k = a.dataset.title ?? "",
-                        w = `${k} ${a.dataset.summary ?? ""}`.toLowerCase().includes(r);
-                      ((s.hidden = !w), (g(a).innerHTML = w ? v(k, t) : d(k)));
-                    }
-                    for (const s of b)
-                      s.hidden = ![...s.querySelectorAll(".bcn-kb__item")].some((a) => !a.hidden);
-                  }
-                  function E() {
-                    return (
-                      i.find((e) => !e.hidden)?.querySelector(".bcn-kb__link")?.dataset
-                        .articleLink ?? null
-                    );
-                  }
-                  (window.addEventListener("hashchange", m),
-                    document.addEventListener("input", (e) => {
-                      const t = y(e.target);
-                      t && L(t.value ?? "");
-                    }),
-                    document.addEventListener("keydown", (e) => {
-                      if (e.key !== "Enter" || !y(e.target)) return;
-                      e.preventDefault();
-                      const t = E();
-                      t && (location.hash = `#article-${t}`);
-                    }),
-                    m());
-                }
-                A();
-              </script>
+              <script
+                type="module"
+                src="/beacon-design/_astro/BcnKbBrowser.astro_astro_type_script_index_0_lang.m43tDYg9.js"
+              ></script>
             </div>
           </section>
         </div>
@@ -2618,7 +3374,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.DH-DZQi7.js"
+    src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.vImwuuMB.js"
   ></script>
   <!-- Aldo — help & guidance, app-wide like the palette above: the floating
          bottom-center utility bar and the route-aware guidance drawer it opens.
@@ -2626,7 +3382,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   <div
     class="bcn-help-bar"
     data-help-bar=""
-    data-newest="2026-07-14"
+    data-newest="2026-06-02"
     role="toolbar"
     aria-label="Help &amp; utilities"
   >
@@ -2720,117 +3476,65 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               stroke-linejoin="round"
               focusable="false"
             >
-              <path
-                d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.69 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.453 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"
-              ></path>
+              <path d="M8 2v4"></path>
+              <path d="M12 2v4"></path>
+              <path d="M16 2v4"></path>
+              <rect width="16" height="18" x="4" y="4" rx="2"></rect>
+              <path d="M8 10h6"></path>
+              <path d="M8 14h8"></path>
+              <path d="M8 18h5"></path>
             </svg>
           </span>
         </button>
         <span class="bcn-help-bar__dot" data-whatsnew-dot="" aria-hidden="true"></span>
       </span>
       <div slot="content" class="bcn-help-bar__panel">
-        <p class="bcn-help-bar__panel-title">What's new</p>
+        <header class="bcn-help-bar__panel-header">
+          <p class="bcn-help-bar__panel-title">What's new</p>
+          <p class="bcn-help-bar__panel-release">
+            1.33.0 · <time datetime="2026-06-02">Jun 2, 2026</time>
+          </p>
+        </header>
         <ul class="bcn-help-bar__panel-list">
           <li class="bcn-help-bar__panel-item">
-            <span class="bcn-help-bar__panel-icon" aria-hidden="true">
-              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <rect width="7" height="9" x="3" y="3" rx="1"></rect>
-                  <rect width="7" height="5" x="14" y="3" rx="1"></rect>
-                  <rect width="7" height="9" x="14" y="12" rx="1"></rect>
-                  <rect width="7" height="5" x="3" y="16" rx="1"></rect>
-                </svg>
-              </span>
-            </span>
-            <div class="bcn-help-bar__panel-text">
-              <div class="bcn-help-bar__panel-head">
-                <p class="bcn-help-bar__panel-item-title">Project Dashboard</p>
-                <span class="bcn-count" aria-label="Released Jul 14, 2026">Jul 14</span>
-              </div>
+            <a
+              class="bcn-help-bar__panel-link"
+              href="/beacon-design/prototypes/release-notes#v1-33-0"
+            >
+              <p class="bcn-help-bar__panel-item-title">Commitment Lists</p>
               <p class="bcn-help-bar__panel-item-blurb">
-                A new logged-in homepage: the most critical items, starred components, and front
-                doors into every zone.
+                Save a filtered view of commitments as a reusable, named List, then reopen it
+                anytime to scope the grid to just its members.
               </p>
-            </div>
+            </a>
           </li>
           <li class="bcn-help-bar__panel-item">
-            <span class="bcn-help-bar__panel-icon" aria-hidden="true">
-              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path
-                    d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"
-                  ></path>
-                  <circle cx="12" cy="8" r="2"></circle>
-                  <path
-                    d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"
-                  ></path>
-                </svg>
-              </span>
-            </span>
-            <div class="bcn-help-bar__panel-text">
-              <div class="bcn-help-bar__panel-head">
-                <p class="bcn-help-bar__panel-item-title">Site Clearance go/no-go</p>
-                <span class="bcn-count" aria-label="Released Jul 2, 2026">Jul 2</span>
-              </div>
+            <a
+              class="bcn-help-bar__panel-link"
+              href="/beacon-design/prototypes/release-notes#v1-33-0"
+            >
+              <p class="bcn-help-bar__panel-item-title">Evidence of Compliance</p>
               <p class="bcn-help-bar__panel-item-blurb">
-                Provisional blocks now show exactly which discipline reviews are outstanding before
-                ground disturbance.
+                Every Evidence of Compliance record now lives in one Data Catalog grid with Project,
+                Component, and Work Area scope selectors, instead of separate tabs on each page.
               </p>
-            </div>
+            </a>
           </li>
           <li class="bcn-help-bar__panel-item">
-            <span class="bcn-help-bar__panel-icon" aria-hidden="true">
-              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <path d="m21 21-4.3-4.3"></path>
-                </svg>
-              </span>
-            </span>
-            <div class="bcn-help-bar__panel-text">
-              <div class="bcn-help-bar__panel-head">
-                <p class="bcn-help-bar__panel-item-title">Full-text search</p>
-                <span class="bcn-count" aria-label="Released Jun 19, 2026">Jun 19</span>
-              </div>
+            <a
+              class="bcn-help-bar__panel-link"
+              href="/beacon-design/prototypes/release-notes#v1-33-0"
+            >
+              <p class="bcn-help-bar__panel-item-title">Commitment Compliance</p>
               <p class="bcn-help-bar__panel-item-blurb">
-                Press / anywhere — search now reads commitment body text and documents, with
-                highlighted snippets.
+                A new Monitoring Portal section shows which commitments are out of compliance and
+                the field observations driving it, matched by species.
               </p>
-            </div>
+            </a>
           </li>
         </ul>
         <div class="bcn-help-bar__panel-footer">
-          <a class="bcn-help-bar__panel-all" href="#release-notes">
+          <a class="bcn-help-bar__panel-all" href="/beacon-design/prototypes/release-notes">
             All release notes<span class="bcn-help-bar__panel-all-arrow" aria-hidden="true">→</span>
           </a>
         </div>
@@ -3046,11 +3750,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 class="bcn-gd-row"
                 data-article-id="what-is-an-action"
                 data-kind="glossary"
-                data-title="What is an Action?"
+                data-title="Action"
                 data-summary="One trackable deliverable consolidating requirements that describe the same work."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">What is an Action?</span>
+                  <span class="bcn-gd-row__title">Action</span>
                   <span class="bcn-gd-row__sub"
                     >One trackable deliverable consolidating requirements that describe the same
                     work.</span
@@ -3076,13 +3780,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 class="bcn-gd-row"
                 data-article-id="what-is-a-commitment"
                 data-kind="glossary"
-                data-title="What is a Commitment?"
-                data-summary="One discrete obligation, in the document’s own words."
+                data-title="Commitment"
+                data-summary="One discrete obligation, recorded in its source document’s original language."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">What is a Commitment?</span>
+                  <span class="bcn-gd-row__title">Commitment</span>
                   <span class="bcn-gd-row__sub"
-                    >One discrete obligation, in the document’s own words.</span
+                    >One discrete obligation, recorded in its source document’s original
+                    language.</span
                   >
                 </span>
                 <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -3105,14 +3810,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 class="bcn-gd-row"
                 data-article-id="what-is-a-component"
                 data-kind="glossary"
-                data-title="What is a Component?"
-                data-summary="A physical or logical subdivision of the project with its own compliance tracking."
+                data-title="Component"
+                data-summary="A distinct place or package of work within a project, tracked independently."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">What is a Component?</span>
+                  <span class="bcn-gd-row__title">Component</span>
                   <span class="bcn-gd-row__sub"
-                    >A physical or logical subdivision of the project with its own compliance
-                    tracking.</span
+                    >A distinct place or package of work within a project, tracked
+                    independently.</span
                   >
                 </span>
                 <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -3143,16 +3848,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         <button
           type="button"
           class="bcn-gd-row"
-          data-article-id="what-is-a-source"
+          data-article-id="project-vs-component-scope"
           data-kind="glossary"
-          data-title="What is a Source Document?"
-          data-summary="The regulatory document — permit, EIR, agreement — obligations are extracted from."
+          data-title="Scope"
+          data-summary="The setting that determines whether work is tracked once, or once per location."
         >
           <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">What is a Source Document?</span>
+            <span class="bcn-gd-row__title">Scope</span>
             <span class="bcn-gd-row__sub"
-              >The regulatory document — permit, EIR, agreement — obligations are extracted
-              from.</span
+              >The setting that determines whether work is tracked once, or once per location.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -3173,15 +3877,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         ><button
           type="button"
           class="bcn-gd-row"
-          data-article-id="what-is-a-requirement"
+          data-article-id="tenant"
           data-kind="glossary"
-          data-title="What is a Requirement?"
-          data-summary="A specific, actionable sub-obligation broken out of a commitment."
+          data-title="Tenant"
+          data-summary="The client organization a Beacon workspace, its data, and its configuration are scoped to."
         >
           <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">What is a Requirement?</span>
+            <span class="bcn-gd-row__title">Tenant</span>
             <span class="bcn-gd-row__sub"
-              >A specific, actionable sub-obligation broken out of a commitment.</span
+              >The client organization a Beacon workspace, its data, and its configuration are
+              scoped to.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -3202,15 +3907,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         ><button
           type="button"
           class="bcn-gd-row"
-          data-article-id="tracing-lineage"
-          data-kind="howto"
-          data-title="Tracing a requirement back to its source"
-          data-summary="Follow the lineage from any requirement up to the exact document language."
+          data-article-id="work-area"
+          data-kind="glossary"
+          data-title="Work Area"
+          data-summary="The finest scope level — a subdivision of a component for field-level tracking."
         >
           <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Tracing a requirement back to its source</span>
+            <span class="bcn-gd-row__title">Work Area</span>
             <span class="bcn-gd-row__sub"
-              >Follow the lineage from any requirement up to the exact document language.</span
+              >The finest scope level — a subdivision of a component for field-level tracking.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -3233,13 +3938,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           class="bcn-gd-row"
           data-article-id="actions-vs-implementations"
           data-kind="glossary"
-          data-title="Actions vs. implementations"
-          data-summary="The action is the plan; implementations are the work you actually do."
+          data-title="Implementation"
+          data-summary="A single execution of a published action — the record teams work day to day."
         >
           <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Actions vs. implementations</span>
+            <span class="bcn-gd-row__title">Implementation</span>
             <span class="bcn-gd-row__sub"
-              >The action is the plan; implementations are the work you actually do.</span
+              >A single execution of a published action — the record teams work day to day.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -3260,15 +3965,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         ><button
           type="button"
           class="bcn-gd-row"
-          data-article-id="project-vs-component-scope"
+          data-article-id="permit"
           data-kind="glossary"
-          data-title="Project scope vs. component scope"
-          data-summary="Scope decides whether work is tracked once, or once per location."
+          data-title="Permit"
+          data-summary="An agency authorization the project must obtain, tracked through the acquisition pipeline."
         >
           <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Project scope vs. component scope</span>
+            <span class="bcn-gd-row__title">Permit</span>
             <span class="bcn-gd-row__sub"
-              >Scope decides whether work is tracked once, or once per location.</span
+              >An agency authorization the project must obtain, tracked through the acquisition
+              pipeline.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -3350,12 +4056,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           data-article-id="reading-critical-now"
           data-kind="howto"
           data-title="How “Most critical right now” is chosen"
-          data-summary="Why an item earns a spot at the top of your dashboard."
+          data-summary="Why an item earns a spot at the top of the dashboard."
         >
           <span class="bcn-gd-row__text">
             <span class="bcn-gd-row__title">How “Most critical right now” is chosen</span>
             <span class="bcn-gd-row__sub"
-              >Why an item earns a spot at the top of your dashboard.</span
+              >Why an item earns a spot at the top of the dashboard.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -3378,13 +4084,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           class="bcn-gd-row"
           data-article-id="what-is-a-dmr"
           data-kind="glossary"
-          data-title="What is a Daily Monitoring Report?"
-          data-summary="The structured field report of a day on site — and a direct source of evidence."
+          data-title="Daily Monitoring Report"
+          data-summary="The structured field record of one day on site, and a direct source of evidence."
         >
           <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">What is a Daily Monitoring Report?</span>
+            <span class="bcn-gd-row__title">Daily Monitoring Report</span>
             <span class="bcn-gd-row__sub"
-              >The structured field report of a day on site — and a direct source of evidence.</span
+              >The structured field record of one day on site, and a direct source of
+              evidence.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -3407,14 +4114,102 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           class="bcn-gd-row"
           data-article-id="what-is-an-observation"
           data-kind="glossary"
-          data-title="What is an Observation?"
+          data-title="Observation"
           data-summary="One recorded field event — a species sighting, habitat condition, weather event, or BMP check."
         >
           <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">What is an Observation?</span>
+            <span class="bcn-gd-row__title">Observation</span>
             <span class="bcn-gd-row__sub"
               >One recorded field event — a species sighting, habitat condition, weather event, or
               BMP check.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="survey"
+          data-kind="glossary"
+          data-title="Survey"
+          data-summary="A field data record synced from a collection app, effective only after quality-control approval."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Survey</span>
+            <span class="bcn-gd-row__sub"
+              >A field data record synced from a collection app, effective only after
+              quality-control approval.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="site-clearance"
+          data-kind="glossary"
+          data-title="Site Clearance"
+          data-summary="The go/no-go determination of whether a site is clear for ground disturbance."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Site Clearance</span>
+            <span class="bcn-gd-row__sub"
+              >The go/no-go determination of whether a site is clear for ground disturbance.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="monitoring-portal"
+          data-kind="glossary"
+          data-title="Monitoring Portal"
+          data-summary="The section that reports commitment compliance from field observations."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Monitoring Portal</span>
+            <span class="bcn-gd-row__sub"
+              >The section that reports commitment compliance from field observations.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -3496,13 +4291,249 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           class="bcn-gd-row"
           data-article-id="what-is-evidence"
           data-kind="glossary"
-          data-title="What counts as Evidence of Compliance?"
-          data-summary="The documented proof an obligation was met — the artifact an auditor sees."
+          data-title="Evidence of Compliance"
+          data-summary="The documented proof that an obligation was met — the artifact an auditor reviews."
         >
           <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">What counts as Evidence of Compliance?</span>
+            <span class="bcn-gd-row__title">Evidence of Compliance</span>
             <span class="bcn-gd-row__sub"
-              >The documented proof an obligation was met — the artifact an auditor sees.</span
+              >The documented proof that an obligation was met — the artifact an auditor
+              reviews.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="assembling-compliance-report"
+          data-kind="howto"
+          data-title="Assembling a compliance report"
+          data-summary="Compile evidence of compliance into a report package for an agency."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Assembling a compliance report</span>
+            <span class="bcn-gd-row__sub"
+              >Compile evidence of compliance into a report package for an agency.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="what-is-a-source"
+          data-kind="glossary"
+          data-title="Source Document"
+          data-summary="The regulatory document — permit, EIR, or agreement — that obligations are extracted from."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Source Document</span>
+            <span class="bcn-gd-row__sub"
+              >The regulatory document — permit, EIR, or agreement — that obligations are extracted
+              from.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="what-is-a-requirement"
+          data-kind="glossary"
+          data-title="Requirement"
+          data-summary="A specific, actionable sub-obligation broken out of a commitment."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Requirement</span>
+            <span class="bcn-gd-row__sub"
+              >A specific, actionable sub-obligation broken out of a commitment.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="tracing-lineage"
+          data-kind="howto"
+          data-title="Tracing a requirement back to its source"
+          data-summary="Follow the lineage from any requirement up to the exact document language."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Tracing a requirement back to its source</span>
+            <span class="bcn-gd-row__sub"
+              >Follow the lineage from any requirement up to the exact document language.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="feature-flag"
+          data-kind="glossary"
+          data-title="Feature Flag"
+          data-summary="A tenant-level switch that enables or disables a Beacon capability."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Feature Flag</span>
+            <span class="bcn-gd-row__sub"
+              >A tenant-level switch that enables or disables a Beacon capability.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="managing-tenant-settings"
+          data-kind="howto"
+          data-title="Managing tenant settings"
+          data-summary="Configure the display labels, defaults, and enabled features that apply across a tenant."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Managing tenant settings</span>
+            <span class="bcn-gd-row__sub"
+              >Configure the display labels, defaults, and enabled features that apply across a
+              tenant.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="managing-users-roles"
+          data-kind="howto"
+          data-title="Managing users and roles"
+          data-summary="Add users to a tenant and assign the roles that govern their access."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Managing users and roles</span>
+            <span class="bcn-gd-row__sub"
+              >Add users to a tenant and assign the roles that govern their access.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="configuring-notifications"
+          data-kind="howto"
+          data-title="Configuring notifications"
+          data-summary="Set which compliance events generate notifications, and how each user receives them."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Configuring notifications</span>
+            <span class="bcn-gd-row__sub"
+              >Set which compliance events generate notifications, and how each user receives
+              them.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -3638,554 +4669,18 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
     <div class="bcn-gd-article__body">
       <div
         class="bcn-gd-article__panel"
-        data-article-body="five-minute-tour"
-        data-kind="howto"
-        data-title="A five-minute tour of Beacon"
-        hidden=""
-      >
-        <article id="article-five-minute-tour" class="bcn-help-article">
-          <div class="bcn-help-article__body">
-            <p class="bcn-help-article__p type-body">
-              Beacon turns a shelf of regulatory documents into a working compliance program.
-              Everything in the app follows one flow: documents are cataloged, obligations are
-              planned into actions, and completed work is proven with evidence.
-            </p>
-            <figure class="bcn-help-article__video">
-              <div class="bcn-help-article__video-frame">
-                <span class="bcn-help-article__video-play"
-                  ><span class="esa-icon esa-icon--md" aria-hidden="true">
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      focusable="false"
-                    >
-                      <polygon points="6 3 20 12 6 21 6 3"></polygon>
-                    </svg>
-                  </span>
-                </span>
-                <span class="bcn-help-article__video-duration"
-                  ><span class="esa-badge esa-badge--primary esa-badge--sm">
-                    <span class="esa-badge__text">4:32</span>
-                  </span>
-                </span>
-              </div>
-              <figcaption class="bcn-help-article__caption type-caption">
-                Watch: a quick tour of Beacon
-              </figcaption>
-            </figure>
-            <ol class="bcn-help-article__steps">
-              <li class="bcn-help-article__step type-body">
-                The Data Catalog holds your source documents and the commitments and requirements
-                extracted from them.
-              </li>
-              <li class="bcn-help-article__step type-body">
-                Tracking is where planned actions become day-to-day work, tracked per project or per
-                component.
-              </li>
-              <li class="bcn-help-article__step type-body">
-                Monitoring captures what happens in the field — daily reports, observations, and
-                surveys.
-              </li>
-              <li class="bcn-help-article__step type-body">
-                Reporting assembles evidence of compliance into the reports your agencies expect.
-              </li>
-            </ol>
-            <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
-              <span class="bcn-help-article__callout-icon">
-                <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path
-                      d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
-                    ></path>
-                    <path d="M9 18h6"></path>
-                    <path d="M10 22h4"></path>
-                  </svg>
-                </span>
-              </span>
-              <div class="bcn-help-article__callout-body">
-                <span class="bcn-help-article__callout-label">Tip</span>
-                <p class="bcn-help-article__callout-text type-body">
-                  The side navigation mirrors these four zones. If you are ever lost, start from
-                  your project dashboard — it links into each zone.
-                </p>
-              </div>
-            </aside>
-          </div>
-          <nav class="bcn-help-article__related" aria-label="Related articles">
-            <span class="bcn-help-article__related-label">Related</span>
-            <ul class="bcn-help-article__related-list">
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-global-search-tips"
-                  >Finding anything with search</a
-                >
-              </li>
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-an-action"
-                  >What is an Action?</a
-                >
-              </li>
-            </ul>
-          </nav>
-        </article>
-      </div>
-      <div
-        class="bcn-gd-article__panel"
-        data-article-body="global-search-tips"
-        data-kind="howto"
-        data-title="Finding anything with search"
-        hidden=""
-      >
-        <article id="article-global-search-tips" class="bcn-help-article">
-          <div class="bcn-help-article__body">
-            <p class="bcn-help-article__p type-body">
-              Search reads the full text of everything in your project — including the body text of
-              commitments and uploaded documents, not just titles.
-            </p>
-            <ol class="bcn-help-article__steps">
-              <li class="bcn-help-article__step type-body">
-                Press / on any page, or click the search field in the top bar.
-              </li>
-              <li class="bcn-help-article__step type-body">
-                Type a few words — results group by type (commitments, requirements, actions,
-                documents) with matching snippets highlighted.
-              </li>
-              <li class="bcn-help-article__step type-body">
-                Press Enter on a result to jump straight to it, or choose “See all results” for the
-                full page with filters.
-              </li>
-            </ol>
-            <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
-              <span class="bcn-help-article__callout-icon">
-                <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path
-                      d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
-                    ></path>
-                    <path d="M9 18h6"></path>
-                    <path d="M10 22h4"></path>
-                  </svg>
-                </span>
-              </span>
-              <div class="bcn-help-article__callout-body">
-                <span class="bcn-help-article__callout-label">Tip</span>
-                <p class="bcn-help-article__callout-text type-body">
-                  Searching a permit number or an agency name is often the fastest way to find every
-                  obligation tied to it.
-                </p>
-              </div>
-            </aside>
-          </div>
-          <nav class="bcn-help-article__related" aria-label="Related articles">
-            <span class="bcn-help-article__related-label">Related</span>
-            <ul class="bcn-help-article__related-list">
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-five-minute-tour"
-                  >A five-minute tour of Beacon</a
-                >
-              </li>
-            </ul>
-          </nav>
-        </article>
-      </div>
-      <div
-        class="bcn-gd-article__panel"
-        data-article-body="what-is-a-source"
-        data-kind="glossary"
-        data-title="What is a Source Document?"
-        hidden=""
-      >
-        <article id="article-what-is-a-source" class="bcn-help-article">
-          <div class="bcn-help-article__body">
-            <p class="bcn-help-article__p type-body">
-              A Source Document is a regulatory document attached to your project: a permit, an
-              environmental impact report, an incidental take permit, a contract, or an agency
-              agreement. It is where every obligation in Beacon originally comes from.
-            </p>
-            <p class="bcn-help-article__p type-body">
-              A project may carry dozens of sources from different agencies, and each source may
-              contain anywhere from a handful to hundreds of discrete obligations. Uploading the
-              original PDF lets Beacon extract its text for search and assisted commitment
-              extraction.
-            </p>
-          </div>
-          <nav class="bcn-help-article__related" aria-label="Related articles">
-            <span class="bcn-help-article__related-label">Related</span>
-            <ul class="bcn-help-article__related-list">
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-a-commitment"
-                  >What is a Commitment?</a
-                >
-              </li>
-            </ul>
-          </nav>
-        </article>
-      </div>
-      <div
-        class="bcn-gd-article__panel"
-        data-article-body="what-is-a-commitment"
-        data-kind="glossary"
-        data-title="What is a Commitment?"
-        hidden=""
-      >
-        <article id="article-what-is-a-commitment" class="bcn-help-article">
-          <div class="bcn-help-article__body">
-            <p class="bcn-help-article__p type-body">
-              A Commitment is a single “thing the project must do,” captured in the original
-              regulatory language of its source document. Commitments carry structured details —
-              type, resource category, phases, species, seasons — so they can be filtered and
-              planned.
-            </p>
-            <p class="bcn-help-article__p type-body">
-              The same real-world obligation often appears in several documents. Each appearance is
-              kept as its own commitment; the overlap is resolved later, when requirements are
-              consolidated into actions.
-            </p>
-            <aside class="bcn-help-article__callout bcn-help-article__callout--note">
-              <span class="bcn-help-article__callout-icon">
-                <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="M12 16v-4"></path>
-                    <path d="M12 8h.01"></path>
-                  </svg>
-                </span>
-              </span>
-              <div class="bcn-help-article__callout-body">
-                <span class="bcn-help-article__callout-label">Note</span>
-                <p class="bcn-help-article__callout-text type-body">
-                  When an agency amends a document, commitments are revised rather than replaced —
-                  the original and updated language coexist with clear lineage.
-                </p>
-              </div>
-            </aside>
-          </div>
-          <nav class="bcn-help-article__related" aria-label="Related articles">
-            <span class="bcn-help-article__related-label">Related</span>
-            <ul class="bcn-help-article__related-list">
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-a-source"
-                  >What is a Source Document?</a
-                >
-              </li>
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-a-requirement"
-                  >What is a Requirement?</a
-                >
-              </li>
-            </ul>
-          </nav>
-        </article>
-      </div>
-      <div
-        class="bcn-gd-article__panel"
-        data-article-body="what-is-a-requirement"
-        data-kind="glossary"
-        data-title="What is a Requirement?"
-        hidden=""
-      >
-        <article id="article-what-is-a-requirement" class="bcn-help-article">
-          <div class="bcn-help-article__body">
-            <p class="bcn-help-article__p type-body">
-              A Requirement is one specific piece of work inside a commitment. A commitment stating
-              “prior to grading, conduct protocol-level surveys for burrowing owl and submit results
-              within 30 days” contains two requirements: conduct the survey, and submit the results.
-            </p>
-            <p class="bcn-help-article__p type-body">
-              Requirements carry their own type, scope, and frequency, and are the unit that gets
-              consolidated into trackable actions.
-            </p>
-          </div>
-          <nav class="bcn-help-article__related" aria-label="Related articles">
-            <span class="bcn-help-article__related-label">Related</span>
-            <ul class="bcn-help-article__related-list">
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-a-commitment"
-                  >What is a Commitment?</a
-                >
-              </li>
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-an-action"
-                  >What is an Action?</a
-                >
-              </li>
-            </ul>
-          </nav>
-        </article>
-      </div>
-      <div
-        class="bcn-gd-article__panel"
-        data-article-body="what-is-an-action"
-        data-kind="glossary"
-        data-title="What is an Action?"
-        hidden=""
-      >
-        <article id="article-what-is-an-action" class="bcn-help-article">
-          <div class="bcn-help-article__body">
-            <p class="bcn-help-article__p type-body">
-              An Action is a planned unit of compliance work. It consolidates requirements — often
-              from many commitments — that describe the same underlying task. If “submit the
-              stormwater plan” appears in 44 different commitments, it becomes one action.
-            </p>
-            <figure class="bcn-help-article__figure">
-              <div class="bcn-help-article__figure-frame">
-                <span class="bcn-help-article__figure-icon"
-                  ><span class="esa-icon esa-icon--lg" aria-hidden="true">
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      focusable="false"
-                    >
-                      <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
-                      <circle cx="9" cy="9" r="2"></circle>
-                      <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
-                    </svg>
-                  </span>
-                </span>
-                <span class="bcn-help-article__figure-label">From documents to work</span>
-              </div>
-              <figcaption class="bcn-help-article__caption type-caption">
-                Thousands of requirements across dozens of documents collapse into a few hundred
-                actions — the minimum set of real work.
-              </figcaption>
-            </figure>
-            <p class="bcn-help-article__p type-body">
-              Each action defines the work, the evidence expected, the schedule, and the responsible
-              party. Actions start as drafts and must be published before they generate trackable
-              implementations.
-            </p>
-          </div>
-          <nav class="bcn-help-article__related" aria-label="Related articles">
-            <span class="bcn-help-article__related-label">Related</span>
-            <ul class="bcn-help-article__related-list">
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-a-requirement"
-                  >What is a Requirement?</a
-                >
-              </li>
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-actions-vs-implementations"
-                  >Actions vs. implementations</a
-                >
-              </li>
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-project-vs-component-scope"
-                  >Project scope vs. component scope</a
-                >
-              </li>
-            </ul>
-          </nav>
-        </article>
-      </div>
-      <div
-        class="bcn-gd-article__panel"
-        data-article-body="tracing-lineage"
-        data-kind="howto"
-        data-title="Tracing a requirement back to its source"
-        hidden=""
-      >
-        <article id="article-tracing-lineage" class="bcn-help-article">
-          <div class="bcn-help-article__body">
-            <p class="bcn-help-article__p type-body">
-              Every requirement keeps its full ancestry: the commitment it came from, and the source
-              document that commitment was extracted from. This is how you answer “why do we have to
-              do this?” with the exact regulatory language.
-            </p>
-            <ol class="bcn-help-article__steps">
-              <li class="bcn-help-article__step type-body">
-                Open the requirement — the lineage strip at the top shows Source → Commitment →
-                Requirement.
-              </li>
-              <li class="bcn-help-article__step type-body">
-                Click the commitment to read the obligation in the document’s original words.
-              </li>
-              <li class="bcn-help-article__step type-body">
-                Click the source to see the document’s details, agency, and attached PDF — with the
-                cited passage highlighted.
-              </li>
-            </ol>
-          </div>
-          <nav class="bcn-help-article__related" aria-label="Related articles">
-            <span class="bcn-help-article__related-label">Related</span>
-            <ul class="bcn-help-article__related-list">
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-a-requirement"
-                  >What is a Requirement?</a
-                >
-              </li>
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-a-source"
-                  >What is a Source Document?</a
-                >
-              </li>
-            </ul>
-          </nav>
-        </article>
-      </div>
-      <div
-        class="bcn-gd-article__panel"
-        data-article-body="actions-vs-implementations"
-        data-kind="glossary"
-        data-title="Actions vs. implementations"
-        hidden=""
-      >
-        <article id="article-actions-vs-implementations" class="bcn-help-article">
-          <div class="bcn-help-article__body">
-            <p class="bcn-help-article__p type-body">
-              An action defines what must be done. An implementation tracks actually doing it —
-              status, assignee, tasks, comments, and evidence. Most teams simply call
-              implementations “the actions,” and that is fine: they are the thing you interact with
-              daily.
-            </p>
-            <p class="bcn-help-article__p type-body">
-              How many implementations an action produces depends on its scope and frequency. A
-              one-time, project-wide plan submission produces one. A recurring, component-scoped
-              inspection produces one per component, per occurrence.
-            </p>
-          </div>
-          <nav class="bcn-help-article__related" aria-label="Related articles">
-            <span class="bcn-help-article__related-label">Related</span>
-            <ul class="bcn-help-article__related-list">
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-an-action"
-                  >What is an Action?</a
-                >
-              </li>
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-project-vs-component-scope"
-                  >Project scope vs. component scope</a
-                >
-              </li>
-            </ul>
-          </nav>
-        </article>
-      </div>
-      <div
-        class="bcn-gd-article__panel"
-        data-article-body="what-is-a-component"
-        data-kind="glossary"
-        data-title="What is a Component?"
-        hidden=""
-      >
-        <article id="article-what-is-a-component" class="bcn-help-article">
-          <div class="bcn-help-article__body">
-            <p class="bcn-help-article__p type-body">
-              A Component is a distinct place or package of work within your project — a launch
-              shaft, an intake site, a construction segment. Components matter because the same
-              obligation often plays out independently at each location.
-            </p>
-            <p class="bcn-help-article__p type-body">
-              Components map to the commitments that apply to them, can carry their own milestone
-              dates, and receive their own implementations of component-scoped actions. Work Areas
-              subdivide a component further when field tracking needs finer grain.
-            </p>
-          </div>
-          <nav class="bcn-help-article__related" aria-label="Related articles">
-            <span class="bcn-help-article__related-label">Related</span>
-            <ul class="bcn-help-article__related-list">
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-project-vs-component-scope"
-                  >Project scope vs. component scope</a
-                >
-              </li>
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-starring-components"
-                  >Starring components on your dashboard</a
-                >
-              </li>
-            </ul>
-          </nav>
-        </article>
-      </div>
-      <div
-        class="bcn-gd-article__panel"
         data-article-body="project-vs-component-scope"
         data-kind="glossary"
-        data-title="Project scope vs. component scope"
+        data-title="Scope"
         hidden=""
       >
         <article id="article-project-vs-component-scope" class="bcn-help-article">
           <div class="bcn-help-article__body">
             <p class="bcn-help-article__p type-body">
-              Scope is one of Beacon’s most important switches. A project-scoped action is done
-              once, centrally — “submit the project-wide stormwater plan.” A component-scoped action
-              is done independently at every applicable component — “install exclusion fencing” at
-              each of 20 construction areas.
+              Scope determines how an action is distributed. A project-scoped action is performed
+              once, centrally — for example, submitting the project-wide stormwater plan. A
+              component-scoped action is performed independently at every applicable component — for
+              example, installing exclusion fencing at each of 20 construction areas.
             </p>
             <figure class="bcn-help-article__figure">
               <div class="bcn-help-article__figure-frame">
@@ -4238,8 +4733,143 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <div class="bcn-help-article__callout-body">
                 <span class="bcn-help-article__callout-label">Note</span>
                 <p class="bcn-help-article__callout-text type-body">
-                  Each implementation is tracked on its own: different assignees, different
-                  timelines, different evidence.
+                  Each implementation is tracked separately, with its own assignee, timeline, and
+                  evidence.
+                </p>
+              </div>
+            </aside>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="tenant"
+        data-kind="glossary"
+        data-title="Tenant"
+        hidden=""
+      >
+        <article id="article-tenant" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              A Tenant is the organization a Beacon workspace belongs to. Beacon is multi-tenant:
+              each tenant’s projects, documents, users, and configuration are isolated from every
+              other tenant’s, and a user operates within a single tenant at a time.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              Tenant-level settings — display labels, enabled features, notification defaults, and
+              user roles — apply uniformly across every project the tenant owns.
+            </p>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="work-area"
+        data-kind="glossary"
+        data-title="Work Area"
+        hidden=""
+      >
+        <article id="article-work-area" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              A Work Area is a subdivision of a component, used when field tracking requires finer
+              grain than the component itself provides. Work areas form the most granular level of
+              the Project → Component → Work Area scope hierarchy.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              Evidence of Compliance and monitoring records can be scoped to a work area, isolating
+              activity to a specific portion of a component.
+            </p>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="five-minute-tour"
+        data-kind="howto"
+        data-title="A five-minute tour of Beacon"
+        hidden=""
+      >
+        <article id="article-five-minute-tour" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              Beacon turns a body of regulatory documents into a working compliance program.
+              Everything in the app follows one flow: documents are cataloged, obligations are
+              planned into actions, and completed work is proven with evidence.
+            </p>
+            <figure class="bcn-help-article__video">
+              <div class="bcn-help-article__video-frame">
+                <span class="bcn-help-article__video-play"
+                  ><span class="esa-icon esa-icon--md" aria-hidden="true">
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                    </svg>
+                  </span>
+                </span>
+                <span class="bcn-help-article__video-duration"
+                  ><span class="esa-badge esa-badge--primary esa-badge--sm">
+                    <span class="esa-badge__text">4:32</span>
+                  </span>
+                </span>
+              </div>
+              <figcaption class="bcn-help-article__caption type-caption">
+                Watch: a quick tour of Beacon
+              </figcaption>
+            </figure>
+            <ol class="bcn-help-article__steps">
+              <li class="bcn-help-article__step type-body">
+                The Data Catalog holds source documents and the commitments and requirements
+                extracted from them.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Tracking is where planned actions become day-to-day work, tracked per project or per
+                component.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Monitoring captures what happens in the field — daily reports, observations, and
+                surveys.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Reporting assembles evidence of compliance into the reports agencies expect.
+              </li>
+            </ol>
+            <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
+              <span class="bcn-help-article__callout-icon">
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path
+                      d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+                    ></path>
+                    <path d="M9 18h6"></path>
+                    <path d="M10 22h4"></path>
+                  </svg>
+                </span>
+              </span>
+              <div class="bcn-help-article__callout-body">
+                <span class="bcn-help-article__callout-label">Tip</span>
+                <p class="bcn-help-article__callout-text type-body">
+                  The side navigation mirrors these four zones. The project dashboard links into
+                  each zone and is the shortest path back to any of them.
                 </p>
               </div>
             </aside>
@@ -4250,19 +4880,155 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <li>
                 <a
                   class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-a-component"
-                  >What is a Component?</a
+                  href="/beacon-design/prototypes/help#article-global-search-tips"
+                  >Finding anything with search</a
                 >
               </li>
               <li>
                 <a
                   class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-actions-vs-implementations"
-                  >Actions vs. implementations</a
+                  href="/beacon-design/prototypes/help#article-what-is-an-action"
+                  >Action</a
                 >
               </li>
             </ul>
           </nav>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="global-search-tips"
+        data-kind="howto"
+        data-title="Finding anything with search"
+        hidden=""
+      >
+        <article id="article-global-search-tips" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              Search reads the full text of everything in a project — including the body text of
+              commitments and uploaded documents, not just titles.
+            </p>
+            <ol class="bcn-help-article__steps">
+              <li class="bcn-help-article__step type-body">
+                Press / on any page, or click the search field in the top bar.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Type a few words. Results group by type — commitments, requirements, actions,
+                documents — with matching snippets highlighted.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Press Enter on a result to open it, or choose “See all results” for the full page
+                with filters.
+              </li>
+            </ol>
+            <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
+              <span class="bcn-help-article__callout-icon">
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path
+                      d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+                    ></path>
+                    <path d="M9 18h6"></path>
+                    <path d="M10 22h4"></path>
+                  </svg>
+                </span>
+              </span>
+              <div class="bcn-help-article__callout-body">
+                <span class="bcn-help-article__callout-label">Tip</span>
+                <p class="bcn-help-article__callout-text type-body">
+                  Searching a permit number or an agency name returns every obligation tied to it.
+                </p>
+              </div>
+            </aside>
+          </div>
+          <nav class="bcn-help-article__related" aria-label="Related articles">
+            <span class="bcn-help-article__related-label">Related</span>
+            <ul class="bcn-help-article__related-list">
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-five-minute-tour"
+                  >A five-minute tour of Beacon</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="actions-vs-implementations"
+        data-kind="glossary"
+        data-title="Implementation"
+        hidden=""
+      >
+        <article id="article-actions-vs-implementations" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              An Implementation is the tracked execution of an action: its status, assignee, tasks,
+              comments, and evidence. The action defines what must be done; the implementation
+              records doing it. In daily use, implementations are what teams refer to as the
+              actions.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              The number of implementations an action generates is determined by its scope and
+              frequency. A one-time, project-scoped submission generates one implementation. A
+              recurring, component-scoped inspection generates one per component, per occurrence.
+            </p>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="what-is-a-component"
+        data-kind="glossary"
+        data-title="Component"
+        hidden=""
+      >
+        <article id="article-what-is-a-component" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              A Component is a discrete location or work package within a project — a launch shaft,
+              an intake site, a construction segment. Components exist because the same obligation
+              frequently applies independently at each location.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              A component maps to the commitments that apply to it, may carry its own milestone
+              dates, and receives its own implementations of component-scoped actions. A Work Area
+              subdivides a component further when field tracking requires finer grain.
+            </p>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="permit"
+        data-kind="glossary"
+        data-title="Permit"
+        hidden=""
+      >
+        <article id="article-permit" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              A Permit is an authorization or approval a project must secure from a regulatory
+              agency before or during construction. Beacon tracks each permit through its
+              acquisition pipeline — from not yet applied, through agency review, to issued.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              An issued permit typically becomes a source document: its conditions are extracted as
+              commitments and enter the catalog alongside every other obligation.
+            </p>
+          </div>
         </article>
       </div>
       <div
@@ -4275,14 +5041,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         <article id="article-reading-permit-tracking" class="bcn-help-article">
           <div class="bcn-help-article__body">
             <p class="bcn-help-article__p type-body">
-              Permit Tracking shows every permit and approval your project needs, each with its
-              current status in the acquisition pipeline — from “not yet applied” through agency
-              review to “issued.”
+              Permit Tracking lists every permit and approval a project needs, each with its current
+              status in the acquisition pipeline — from not yet applied, through agency review, to
+              issued.
             </p>
             <ol class="bcn-help-article__steps">
               <li class="bcn-help-article__step type-body">
-                Each row is one permit; the status lozenge shows where it sits in the pipeline right
-                now.
+                Each row is one permit; the status lozenge shows where it sits in the pipeline.
               </li>
               <li class="bcn-help-article__step type-body">
                 The date column shows the next deadline — a submittal window, an agency response
@@ -4290,7 +5055,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               </li>
               <li class="bcn-help-article__step type-body">
                 Open a permit to see its conditions, responsible contacts, and the source document
-                it will arrive as once issued.
+                it will become once issued.
               </li>
             </ol>
             <figure class="bcn-help-article__video">
@@ -4347,8 +5112,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <div class="bcn-help-article__callout-body">
                 <span class="bcn-help-article__callout-label">Tip</span>
                 <p class="bcn-help-article__callout-text type-body">
-                  An issued permit usually becomes a new source document — its conditions are
-                  extracted as commitments and join the catalog like any other obligation.
+                  An issued permit becomes a source document: its conditions are extracted as
+                  commitments and join the catalog like any other obligation.
                 </p>
               </div>
             </aside>
@@ -4359,15 +5124,22 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <li>
                 <a
                   class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-permit"
+                  >Permit</a
+                >
+              </li>
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
                   href="/beacon-design/prototypes/help#article-what-is-a-source"
-                  >What is a Source Document?</a
+                  >Source Document</a
                 >
               </li>
               <li>
                 <a
                   class="bcn-help-article__related-link"
                   href="/beacon-design/prototypes/help#article-what-is-a-commitment"
-                  >What is a Commitment?</a
+                  >Commitment</a
                 >
               </li>
             </ul>
@@ -4384,16 +5156,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         <article id="article-starring-components" class="bcn-help-article">
           <div class="bcn-help-article__body">
             <p class="bcn-help-article__p type-body">
-              Large projects can have dozens of components, but most people work in a few. Starring
-              pins a component to your project dashboard as a card with its Tracking, Monitoring,
-              and Reporting pulse — your portal into that component’s own dashboard.
+              A project may have dozens of components, though most people work in a few. Starring
+              pins a component to the project dashboard as a card showing its Tracking, Monitoring,
+              and Reporting pulse — the entry point into that component’s own dashboard.
             </p>
             <ol class="bcn-help-article__steps">
               <li class="bcn-help-article__step type-body">
                 Open any component and click the star in its header.
               </li>
               <li class="bcn-help-article__step type-body">
-                Starred components appear on your project dashboard in the Components section.
+                Starred components appear on the project dashboard in the Components section.
               </li>
               <li class="bcn-help-article__step type-body">
                 Un-star from either place; the component itself is unaffected.
@@ -4407,7 +5179,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <a
                   class="bcn-help-article__related-link"
                   href="/beacon-design/prototypes/help#article-what-is-a-component"
-                  >What is a Component?</a
+                  >Component</a
                 >
               </li>
               <li>
@@ -4431,14 +5203,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         <article id="article-reading-critical-now" class="bcn-help-article">
           <div class="bcn-help-article__body">
             <p class="bcn-help-article__p type-body">
-              The dashboard’s critical surface is deliberately small: it elevates only items that
+              The dashboard’s critical surface is deliberately small. It elevates only items that
               are project-critical today — an overdue action on a critical-path component, a lapsed
               survey blocking ground disturbance, a report due to an agency this week.
             </p>
             <p class="bcn-help-article__p type-body">
-              Items leave the surface when the underlying condition clears — completing the work,
-              filing the report, or a review resolving the block. There is nothing to configure; it
-              reads the same signals shown in each zone.
+              An item leaves the surface when its underlying condition clears — the work is
+              completed, the report is filed, or a review resolves the block. There is nothing to
+              configure; the surface reads the same signals shown in each zone.
             </p>
           </div>
           <nav class="bcn-help-article__related" aria-label="Related articles">
@@ -4466,57 +5238,38 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         class="bcn-gd-article__panel"
         data-article-body="what-is-a-dmr"
         data-kind="glossary"
-        data-title="What is a Daily Monitoring Report?"
+        data-title="Daily Monitoring Report"
         hidden=""
       >
         <article id="article-what-is-a-dmr" class="bcn-help-article">
           <div class="bcn-help-article__body">
             <p class="bcn-help-article__p type-body">
-              A Daily Monitoring Report (DMR) captures one day of field monitoring: who observed,
-              site and weather conditions, construction activities underway, observations recorded,
-              photos, and narrative notes.
+              A Daily Monitoring Report (DMR) documents one day of field monitoring: the observer,
+              site and weather conditions, construction activities underway, recorded observations,
+              photographs, and narrative notes.
             </p>
             <p class="bcn-help-article__p type-body">
-              DMRs are a bridge to compliance: when an obligation says “conduct daily biological
-              monitoring during construction,” the DMRs documenting that monitoring are the evidence
-              the obligation was met.
+              DMRs connect field activity to compliance. When an obligation requires daily
+              biological monitoring during construction, the DMRs documenting that monitoring
+              constitute the evidence the obligation was met.
             </p>
           </div>
-          <nav class="bcn-help-article__related" aria-label="Related articles">
-            <span class="bcn-help-article__related-label">Related</span>
-            <ul class="bcn-help-article__related-list">
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-an-observation"
-                  >What is an Observation?</a
-                >
-              </li>
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-evidence"
-                  >What counts as Evidence of Compliance?</a
-                >
-              </li>
-            </ul>
-          </nav>
         </article>
       </div>
       <div
         class="bcn-gd-article__panel"
         data-article-body="what-is-an-observation"
         data-kind="glossary"
-        data-title="What is an Observation?"
+        data-title="Observation"
         hidden=""
       >
         <article id="article-what-is-an-observation" class="bcn-help-article">
           <div class="bcn-help-article__body">
             <p class="bcn-help-article__p type-body">
-              An Observation is a single recorded event from the field: “two burrowing owls at the
-              north staging area,” “silt fence along the eastern boundary intact,” “wind exceeded 25
-              mph, dust control activated.” Observations usually belong to a DMR and carry species
-              data, location, time, and photos.
+              An Observation is a single recorded field event: two burrowing owls at the north
+              staging area, an intact silt fence along the eastern boundary, or wind exceeding 25
+              mph with dust control activated. An observation typically belongs to a DMR and carries
+              species data, location, time, and photographs.
             </p>
             <aside class="bcn-help-article__callout bcn-help-article__callout--note">
               <span class="bcn-help-article__callout-icon">
@@ -4542,31 +5295,76 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <span class="bcn-help-article__callout-label">Note</span>
                 <p class="bcn-help-article__callout-text type-body">
                   Observations with compliance consequences — an active nest inside a buffer, a
-                  failed BMP — surface in Monitoring as items needing action, and can trigger review
-                  before work proceeds.
+                  failed BMP — surface in Monitoring as items requiring action, and may trigger
+                  review before work proceeds.
                 </p>
               </div>
             </aside>
           </div>
-          <nav class="bcn-help-article__related" aria-label="Related articles">
-            <span class="bcn-help-article__related-label">Related</span>
-            <ul class="bcn-help-article__related-list">
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-a-dmr"
-                  >What is a Daily Monitoring Report?</a
-                >
-              </li>
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-site-clearance-go-no-go"
-                  >Using Site Clearance go/no-go</a
-                >
-              </li>
-            </ul>
-          </nav>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="survey"
+        data-kind="glossary"
+        data-title="Survey"
+        hidden=""
+      >
+        <article id="article-survey" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              A Survey is a structured field record — typically a species or habitat survey —
+              collected in a field application such as Fulcrum or Survey123 and synced into Beacon.
+              Surveys supply the dated evidence behind clearances and compliance countdowns.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              A survey record does not affect compliance until it passes quality-control review.
+              Pending records are excluded from clearance and evidence calculations by default.
+            </p>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="site-clearance"
+        data-kind="glossary"
+        data-title="Site Clearance"
+        hidden=""
+      >
+        <article id="article-site-clearance" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              Site Clearance is the determination of whether a specific site is clear to disturb
+              ground on a given day. Beacon detects potential blocks — a lapsed nesting survey, an
+              open wildlife buffer — and marks the site provisionally blocked until a qualified
+              reviewer records a decision.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              Detections are advisory; reviews are authoritative. A site is clear only when no
+              unresolved block remains and the governing reviews permit disturbance.
+            </p>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="monitoring-portal"
+        data-kind="glossary"
+        data-title="Monitoring Portal"
+        hidden=""
+      >
+        <article id="article-monitoring-portal" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              The Monitoring Portal is the area of Beacon that reports commitment-level compliance
+              against field activity. It identifies commitments that are out of compliance and the
+              observations driving each result, matched by species and condition.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              The portal reads the same observation and survey records captured elsewhere in
+              Monitoring; it holds no separate data of its own.
+            </p>
+          </div>
         </article>
       </div>
       <div
@@ -4579,20 +5377,20 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         <article id="article-qc-field-surveys" class="bcn-help-article">
           <div class="bcn-help-article__body">
             <p class="bcn-help-article__p type-body">
-              Survey records flow in from field collection tools (Fulcrum, Survey123). Before a
-              record affects compliance — clearances, countdowns, evidence — it passes a
+              Survey records flow in from field collection tools such as Fulcrum and Survey123.
+              Before a record affects compliance — clearances, countdowns, evidence — it passes a
               quality-control review.
             </p>
             <ol class="bcn-help-article__steps">
               <li class="bcn-help-article__step type-body">
-                New records land with a “pending QC” status in the Surveys grid.
+                New records arrive with a pending-QC status in the Surveys grid.
               </li>
               <li class="bcn-help-article__step type-body">
                 A reviewer checks species identification, coordinates, and required fields, then
                 approves or returns the record.
               </li>
               <li class="bcn-help-article__step type-body">
-                Views default to QC-approved records only; toggle the filter to see pending ones.
+                Views default to QC-approved records; toggle the filter to see pending ones.
               </li>
             </ol>
           </div>
@@ -4602,15 +5400,22 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <li>
                 <a
                   class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-survey"
+                  >Survey</a
+                >
+              </li>
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
                   href="/beacon-design/prototypes/help#article-what-is-an-observation"
-                  >What is an Observation?</a
+                  >Observation</a
                 >
               </li>
               <li>
                 <a
                   class="bcn-help-article__related-link"
                   href="/beacon-design/prototypes/help#article-what-is-a-dmr"
-                  >What is a Daily Monitoring Report?</a
+                  >Daily Monitoring Report</a
                 >
               </li>
             </ul>
@@ -4628,8 +5433,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           <div class="bcn-help-article__body">
             <p class="bcn-help-article__p type-body">
               Site Clearance answers one question per site: is it clear to disturb ground today? The
-              system detects potential blocks — a lapsed nesting survey, an unclosed wildlife buffer
-              — and marks the site provisionally blocked until a qualified reviewer decides.
+              system detects potential blocks — a lapsed nesting survey, an open wildlife buffer —
+              and marks the site provisionally blocked until a qualified reviewer decides.
             </p>
             <ol class="bcn-help-article__steps">
               <li class="bcn-help-article__step type-body">
@@ -4641,7 +5446,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 required outcome.
               </li>
               <li class="bcn-help-article__step type-body">
-                Reviews overrule detections: the system detects, humans decide.
+                Reviews overrule detections: the system detects, a reviewer decides.
               </li>
             </ol>
             <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
@@ -4669,8 +5474,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <div class="bcn-help-article__callout-body">
                 <span class="bcn-help-article__callout-label">Tip</span>
                 <p class="bcn-help-article__callout-text type-body">
-                  The map and the review list are the same data — pick whichever view fits how you
-                  work.
+                  The map and the review list present the same data in two views.
                 </p>
               </div>
             </aside>
@@ -4681,8 +5485,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <li>
                 <a
                   class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-site-clearance"
+                  >Site Clearance</a
+                >
+              </li>
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
                   href="/beacon-design/prototypes/help#article-what-is-an-observation"
-                  >What is an Observation?</a
+                  >Observation</a
                 >
               </li>
               <li>
@@ -4700,20 +5511,20 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         class="bcn-gd-article__panel"
         data-article-body="what-is-evidence"
         data-kind="glossary"
-        data-title="What counts as Evidence of Compliance?"
+        data-title="Evidence of Compliance"
         hidden=""
       >
         <article id="article-what-is-evidence" class="bcn-help-article">
           <div class="bcn-help-article__body">
             <p class="bcn-help-article__p type-body">
-              Evidence of Compliance is the end of the whole flow: the report, photo, receipt,
-              signed form, or monitoring record that proves an obligation was met. It is what you
-              present to a regulatory agency during an audit.
+              Evidence of Compliance is the terminal output of the compliance flow: the report,
+              photograph, receipt, signed form, or monitoring record that proves an obligation was
+              satisfied. It is the material presented to a regulatory agency during an audit.
             </p>
             <p class="bcn-help-article__p type-body">
-              Evidence attaches to action implementations, and can also link to checklist items to
-              satisfy specific requirements per component. Field-sourced evidence can come straight
-              from Daily Monitoring Reports.
+              Evidence attaches to action implementations and may also link to checklist items that
+              satisfy specific requirements per component. Field-sourced evidence can derive
+              directly from Daily Monitoring Reports.
             </p>
             <aside class="bcn-help-article__callout bcn-help-article__callout--note">
               <span class="bcn-help-article__callout-icon">
@@ -4738,8 +5549,72 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <div class="bcn-help-article__callout-body">
                 <span class="bcn-help-article__callout-label">Note</span>
                 <p class="bcn-help-article__callout-text type-body">
-                  Every evidence record keeps its files, metadata, and timestamps — an auditable
+                  Every evidence record retains its files, metadata, and timestamps — an auditable
                   trail from source document to proof.
+                </p>
+              </div>
+            </aside>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="assembling-compliance-report"
+        data-kind="howto"
+        data-title="Assembling a compliance report"
+        hidden=""
+      >
+        <article id="article-assembling-compliance-report" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              A compliance report presents the evidence behind a set of obligations in the format an
+              agency expects. Reports are assembled from existing Evidence of Compliance records;
+              they create no new evidence.
+            </p>
+            <ol class="bcn-help-article__steps">
+              <li class="bcn-help-article__step type-body">
+                Open Reporting and choose the report template that matches the agency’s required
+                format.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Select the scope — project, component, or work area — and the reporting period.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Beacon gathers the evidence records in scope; review the set and exclude any records
+                that do not apply.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Generate the package. The output lists each obligation, its status, and the linked
+                evidence.
+              </li>
+            </ol>
+            <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
+              <span class="bcn-help-article__callout-icon">
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path
+                      d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+                    ></path>
+                    <path d="M9 18h6"></path>
+                    <path d="M10 22h4"></path>
+                  </svg>
+                </span>
+              </span>
+              <div class="bcn-help-article__callout-body">
+                <span class="bcn-help-article__callout-label">Tip</span>
+                <p class="bcn-help-article__callout-text type-body">
+                  A report reflects the evidence present at generation time. Regenerate after new
+                  evidence is attached to capture the current state.
                 </p>
               </div>
             </aside>
@@ -4750,15 +5625,467 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <li>
                 <a
                   class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-a-dmr"
-                  >What is a Daily Monitoring Report?</a
+                  href="/beacon-design/prototypes/help#article-what-is-evidence"
+                  >Evidence of Compliance</a
                 >
               </li>
               <li>
                 <a
                   class="bcn-help-article__related-link"
                   href="/beacon-design/prototypes/help#article-actions-vs-implementations"
-                  >Actions vs. implementations</a
+                  >Implementation</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="what-is-a-source"
+        data-kind="glossary"
+        data-title="Source Document"
+        hidden=""
+      >
+        <article id="article-what-is-a-source" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              A Source Document is a regulatory record attached to a project: a permit, an
+              environmental impact report, an incidental take permit, a contract, or an agency
+              agreement. Every obligation in Beacon originates from a source document.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              A project may carry dozens of source documents from multiple agencies, and a single
+              source may contain anywhere from a few to several hundred discrete obligations.
+              Uploading the original file makes its text available for search and assisted
+              commitment extraction.
+            </p>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="what-is-a-commitment"
+        data-kind="glossary"
+        data-title="Commitment"
+        hidden=""
+      >
+        <article id="article-what-is-a-commitment" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              A Commitment is a single obligation a project must satisfy, captured in the regulatory
+              language of its source document. Each commitment carries structured attributes — type,
+              resource category, phase, species, and season — that support filtering and planning.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              The same real-world obligation frequently appears across multiple documents. Each
+              appearance is retained as a separate commitment; the overlap is resolved downstream,
+              when requirements are consolidated into actions.
+            </p>
+            <aside class="bcn-help-article__callout bcn-help-article__callout--note">
+              <span class="bcn-help-article__callout-icon">
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 16v-4"></path>
+                    <path d="M12 8h.01"></path>
+                  </svg>
+                </span>
+              </span>
+              <div class="bcn-help-article__callout-body">
+                <span class="bcn-help-article__callout-label">Note</span>
+                <p class="bcn-help-article__callout-text type-body">
+                  When an agency amends a document, its commitments are revised rather than
+                  replaced. The original and updated language coexist with explicit lineage.
+                </p>
+              </div>
+            </aside>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="what-is-a-requirement"
+        data-kind="glossary"
+        data-title="Requirement"
+        hidden=""
+      >
+        <article id="article-what-is-a-requirement" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              A Requirement is one discrete unit of work contained within a commitment. A commitment
+              stating “prior to grading, conduct protocol-level surveys for burrowing owl and submit
+              results within 30 days” resolves to two requirements: conduct the survey, and submit
+              the results.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              Each requirement carries its own type, scope, and frequency. The requirement is the
+              unit consolidated into trackable actions.
+            </p>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="what-is-an-action"
+        data-kind="glossary"
+        data-title="Action"
+        hidden=""
+      >
+        <article id="article-what-is-an-action" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              An Action is a planned unit of compliance work. It consolidates requirements — often
+              drawn from many commitments — that describe the same underlying task. A requirement to
+              submit the stormwater plan appearing across 44 commitments resolves to one action.
+            </p>
+            <figure class="bcn-help-article__figure">
+              <div class="bcn-help-article__figure-frame">
+                <span class="bcn-help-article__figure-icon"
+                  ><span class="esa-icon esa-icon--lg" aria-hidden="true">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
+                      <circle cx="9" cy="9" r="2"></circle>
+                      <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
+                    </svg>
+                  </span>
+                </span>
+                <span class="bcn-help-article__figure-label">From documents to work</span>
+              </div>
+              <figcaption class="bcn-help-article__caption type-caption">
+                Thousands of requirements across dozens of documents collapse into a few hundred
+                actions — the minimum set of real work.
+              </figcaption>
+            </figure>
+            <p class="bcn-help-article__p type-body">
+              Each action defines the work, the expected evidence, the schedule, and the responsible
+              party. Actions begin as drafts and must be published before they generate trackable
+              implementations.
+            </p>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="tracing-lineage"
+        data-kind="howto"
+        data-title="Tracing a requirement back to its source"
+        hidden=""
+      >
+        <article id="article-tracing-lineage" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              Every requirement keeps its full ancestry: the commitment it came from, and the source
+              document that commitment was extracted from. This is how a requirement is traced to
+              the exact regulatory language behind it.
+            </p>
+            <ol class="bcn-help-article__steps">
+              <li class="bcn-help-article__step type-body">
+                Open the requirement. The lineage strip at the top shows Source → Commitment →
+                Requirement.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Click the commitment to read the obligation in the document’s original words.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Click the source to see the document’s details, agency, and attached file — with the
+                cited passage highlighted.
+              </li>
+            </ol>
+          </div>
+          <nav class="bcn-help-article__related" aria-label="Related articles">
+            <span class="bcn-help-article__related-label">Related</span>
+            <ul class="bcn-help-article__related-list">
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-what-is-a-requirement"
+                  >Requirement</a
+                >
+              </li>
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-what-is-a-source"
+                  >Source Document</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="feature-flag"
+        data-kind="glossary"
+        data-title="Feature Flag"
+        hidden=""
+      >
+        <article id="article-feature-flag" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              A Feature Flag is a configuration switch that turns a Beacon capability on or off for
+              a tenant. Flags allow a feature to be released to specific tenants independently,
+              without a code change.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              Feature flags are administered in tenant settings. A disabled flag hides its feature
+              from navigation and removes its surfaces from every project the tenant owns.
+            </p>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="managing-tenant-settings"
+        data-kind="howto"
+        data-title="Managing tenant settings"
+        hidden=""
+      >
+        <article id="article-managing-tenant-settings" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              Tenant settings control behavior shared across every project a tenant owns: display
+              labels for core entities, default notification rules, enabled features, and the user
+              roster. Changes apply tenant-wide.
+            </p>
+            <ol class="bcn-help-article__steps">
+              <li class="bcn-help-article__step type-body">
+                Open Settings and select the tenant settings section (available to tenant
+                administrators).
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Adjust display labels, defaults, or enabled features; each change is scoped to the
+                current tenant only.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Save. Tenant-wide changes take effect on the next page load for every user in the
+                tenant.
+              </li>
+            </ol>
+            <aside class="bcn-help-article__callout bcn-help-article__callout--note">
+              <span class="bcn-help-article__callout-icon">
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 16v-4"></path>
+                    <path d="M12 8h.01"></path>
+                  </svg>
+                </span>
+              </span>
+              <div class="bcn-help-article__callout-body">
+                <span class="bcn-help-article__callout-label">Note</span>
+                <p class="bcn-help-article__callout-text type-body">
+                  Entity label overrides — for example, renaming Actions to match an agency’s
+                  vocabulary — apply to navigation, headings, and search across the tenant.
+                </p>
+              </div>
+            </aside>
+          </div>
+          <nav class="bcn-help-article__related" aria-label="Related articles">
+            <span class="bcn-help-article__related-label">Related</span>
+            <ul class="bcn-help-article__related-list">
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-tenant"
+                  >Tenant</a
+                >
+              </li>
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-feature-flag"
+                  >Feature Flag</a
+                >
+              </li>
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-managing-users-roles"
+                  >Managing users and roles</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="managing-users-roles"
+        data-kind="howto"
+        data-title="Managing users and roles"
+        hidden=""
+      >
+        <article id="article-managing-users-roles" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              Access in Beacon is governed by role. A role determines which zones a user can view
+              and which records a user can create, edit, or approve. Users are added at the tenant
+              level and assigned one or more roles.
+            </p>
+            <ol class="bcn-help-article__steps">
+              <li class="bcn-help-article__step type-body">Open Settings and select Users.</li>
+              <li class="bcn-help-article__step type-body">
+                Invite a user by email, or select an existing user to change their assignment.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Assign roles — for example, viewer, contributor, or reviewer — and save.
+              </li>
+            </ol>
+            <aside class="bcn-help-article__callout bcn-help-article__callout--note">
+              <span class="bcn-help-article__callout-icon">
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 16v-4"></path>
+                    <path d="M12 8h.01"></path>
+                  </svg>
+                </span>
+              </span>
+              <div class="bcn-help-article__callout-body">
+                <span class="bcn-help-article__callout-label">Note</span>
+                <p class="bcn-help-article__callout-text type-body">
+                  Approval actions, such as clearing a survey through quality control, require a
+                  role with review authority. A contributor role cannot approve its own records.
+                </p>
+              </div>
+            </aside>
+          </div>
+          <nav class="bcn-help-article__related" aria-label="Related articles">
+            <span class="bcn-help-article__related-label">Related</span>
+            <ul class="bcn-help-article__related-list">
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-managing-tenant-settings"
+                  >Managing tenant settings</a
+                >
+              </li>
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-qc-field-surveys"
+                  >Reviewing field surveys before they count</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="configuring-notifications"
+        data-kind="howto"
+        data-title="Configuring notifications"
+        hidden=""
+      >
+        <article id="article-configuring-notifications" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              Notifications alert users to compliance events — an approaching deadline, a new
+              provisional block, a returned survey. Defaults are set at the tenant level; each user
+              may adjust their own delivery preferences within those defaults.
+            </p>
+            <ol class="bcn-help-article__steps">
+              <li class="bcn-help-article__step type-body">
+                Open Settings and select Notifications to review the tenant’s default rules.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Enable or disable notifications by event type, and set the delivery channel for
+                each.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Individual users adjust their personal preferences from the same section; tenant
+                defaults apply where a user has made no choice.
+              </li>
+            </ol>
+            <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
+              <span class="bcn-help-article__callout-icon">
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path
+                      d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+                    ></path>
+                    <path d="M9 18h6"></path>
+                    <path d="M10 22h4"></path>
+                  </svg>
+                </span>
+              </span>
+              <div class="bcn-help-article__callout-body">
+                <span class="bcn-help-article__callout-label">Tip</span>
+                <p class="bcn-help-article__callout-text type-body">
+                  Scope notifications to the components a user has starred to keep alerts limited to
+                  their own work.
+                </p>
+              </div>
+            </aside>
+          </div>
+          <nav class="bcn-help-article__related" aria-label="Related articles">
+            <span class="bcn-help-article__related-label">Related</span>
+            <ul class="bcn-help-article__related-list">
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-managing-tenant-settings"
+                  >Managing tenant settings</a
+                >
+              </li>
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-starring-components"
+                  >Starring components on your dashboard</a
                 >
               </li>
             </ul>
@@ -4769,7 +6096,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </esa-side-dialog>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnGuidanceDrawer.astro_astro_type_script_index_0_lang.BSgV_Ns6.js"
+    src="/beacon-design/_astro/BcnGuidanceDrawer.astro_astro_type_script_index_0_lang.D06JsUes.js"
   ></script>
 </div>
 ```
@@ -4818,27 +6145,22 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   -webkit-appearance: none;
   appearance: none;
 }
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
+.bcn-kb__pane {
+  min-block-size: 60vh;
+  padding-block-start: var(--spacing-600);
+  border-top: 1px solid var(--color-border);
+  scroll-margin-top: var(--spacing-400);
 }
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+.bcn-kb__pane:not(:has(> .bcn-kb__article:not([hidden]))) {
+  min-block-size: 0;
+  padding-block-start: 0;
+  border-top: 0;
 }
-.bcn-count {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 18px;
-  height: 18px;
-  padding: 0 var(--spacing-100);
-  font-size: 0.8125rem;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-100);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
+.bcn-kb__article {
+  max-inline-size: 70ch;
+}
+.bcn-kb__article[hidden] {
+  display: none;
 }
 .stack {
   --gap: var(--spacing-400, 1rem);
@@ -4871,98 +6193,206 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   line-height: var(--line-height-tight);
   letter-spacing: var(--letter-spacing-tight);
 }
-.grid {
-  --gap: var(--spacing-400, 1rem);
-  --grid-min: 16rem;
-  display: grid;
-  gap: var(--gap);
-  grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min), 100%), 1fr));
-}
 .type-card-title {
   font-size: var(--type-size-400);
   font-weight: var(--font-weight-medium);
   line-height: var(--line-height-normal);
   letter-spacing: var(--letter-spacing-normal);
 }
-.sidebar {
-  --gap: var(--spacing-500, 1.5rem);
-  --sidebar-width: 18rem;
-  --sidebar-content-min: 60%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap);
+.bcn-kb-hero {
+  padding-block: var(--spacing-500) var(--spacing-400);
 }
-.sidebar > :first-child {
-  flex-basis: var(--sidebar-width);
-  flex-grow: 1;
-}
-.sidebar > :last-child {
-  flex-basis: 0;
-  flex-grow: 999;
-  min-inline-size: var(--sidebar-content-min);
-}
-.esa-empty-state {
-  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
-  --_empty-title-size: 16px;
-  --_empty-desc-size: 14px;
-  --_empty-gap: var(--empty-state-gap, var(--spacing-200, 0.5rem));
+.bcn-kb-hero__col {
+  --center-max: 44rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  gap: var(--spacing-400);
   text-align: center;
-  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
-  gap: var(--_empty-gap);
 }
-.esa-empty-state--lg {
-  --_empty-icon-size: var(--empty-state-icon-size-lg, 64px);
-  --_empty-title-size: 20px;
-  --_empty-desc-size: 16px;
-  padding: var(--spacing-800, 4rem) var(--spacing-400, 1rem);
+.bcn-kb-hero__intro {
+  --gap: var(--spacing-200);
+  align-items: center;
 }
-.esa-empty-state__icon {
-  color: var(--empty-state-icon-color, var(--color-text-muted, #737373));
-  margin-bottom: var(--spacing-100, 0.25rem);
-  display: inline-flex;
+.bcn-kb-hero__title {
+  color: var(--color-text-primary);
 }
-.esa-empty-state__icon svg {
-  width: var(--_empty-icon-size);
-  height: var(--_empty-icon-size);
+.bcn-kb-hero__lede {
+  max-inline-size: 34rem;
+  color: var(--color-text-secondary);
 }
-.esa-empty-state__title {
-  margin: 0;
-  font-size: var(--_empty-title-size);
-  font-weight: 600;
-  color: var(--empty-state-title-color, var(--color-text-primary, #171717));
-}
-.esa-empty-state__description {
-  margin: 0;
-  font-size: var(--_empty-desc-size);
-  color: var(--empty-state-description-color, var(--color-text-secondary, #525252));
-  max-width: 360px;
-}
-.esa-empty-state__actions {
-  margin-top: var(--spacing-200, 0.5rem);
-}
-.page-layout {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
-}
-.page-layout__container {
-  display: flex;
-  flex-direction: column;
-}
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
+.bcn-kb-hero__search-wrap {
   position: relative;
+  inline-size: 100%;
+  max-inline-size: 40rem;
 }
-.page-layout section {
-  width: 100%;
+.bcn-kb-hero__searchbar {
+  position: relative;
+  inline-size: 100%;
+}
+.bcn-kb-hero__search-icon {
+  position: absolute;
+  inset-inline-start: var(--spacing-400);
+  inset-block-start: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  color: var(--color-text-tertiary);
+  pointer-events: none;
+  z-index: 1;
+  --icon-size-md: 22px;
+}
+.bcn-kb-hero__search {
+  --form-height-lg: 3.5rem;
+  --form-font-size-lg: 1.1875rem;
+  --form-padding-x-lg: 3.25rem;
+  --form-radius-lg: var(--radius-300);
+  --form-border-color-focus: var(--color-text-link);
+  --focus-ring-color: var(--color-text-link);
+  inline-size: 100%;
+  text-align: start;
+}
+.bcn-kb-hero__results {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: calc(100% + var(--spacing-150));
+  z-index: 30;
+  max-block-size: min(60vh, 30rem);
+  overflow-y: auto;
+  padding: var(--spacing-100);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+  box-shadow: var(--shadow-200, 0 8px 28px rgb(0 0 0 / 0.12));
+  text-align: start;
+}
+.bcn-kb-hero__results[hidden] {
+  display: none;
+}
+.bcn-kb-hero__whatsnew {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.bcn-kb-hero__whatsnew-arrow {
+  transition: transform 0.15s ease;
+}
+.bcn-kbc {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-500);
+}
+.bcn-kbc__title {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+.bcn-kbc__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-400);
+}
+.bcn-kbc__grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+.bcn-kbc__grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+.bcn-kbc__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  padding: var(--spacing-500);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+  scroll-margin-top: 5rem;
+}
+.bcn-kbc__card-title {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+.bcn-kbc__card-desc {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+.bcn-kbc__featured {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+}
+.bcn-kbc__featured-link {
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-medium);
+  line-height: 1.35;
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition: color 0.12s ease;
+}
+.bcn-kbc__foot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-300);
+  margin-top: auto;
+  padding-top: var(--spacing-300);
+  border-top: 1px solid var(--color-border-light);
+}
+.bcn-kbc__count {
+  font-size: 0.8125rem;
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+}
+.bcn-kbc__viewall {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-link);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.15s ease;
+}
+.bcn-kbc__viewall-arrow {
+  transition: transform 0.15s ease;
+}
+.bcn-kbg {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+  padding-block-start: var(--spacing-500);
+  border-top: 1px solid var(--color-border);
+}
+.bcn-kbg__title {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+.bcn-kbg__terms {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  columns: 12rem;
+  column-gap: var(--spacing-600);
+}
+.bcn-kbg__term {
+  break-inside: avoid;
+  margin-block-end: var(--spacing-150);
+}
+.bcn-kbg__link {
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition: color 0.12s ease;
 }
 .modern-layout {
   display: flex;
@@ -5355,9 +6785,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   color: var(--color-text-inverse);
   line-height: 0;
 }
-.bcn-aldo-mark[data-size="lg"] {
-  width: 64px;
-  height: 64px;
+.bcn-aldo-mark[data-size="md"] {
+  width: 40px;
+  height: 40px;
 }
 .bcn-aldo-mark[data-animated] {
   animation: bcn-aldo-pulse 2s ease-in-out infinite;
@@ -5461,11 +6891,24 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   max-width: 84vw;
   color: var(--color-text-primary);
 }
+.bcn-help-bar__panel-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-200);
+  margin: 0 0 var(--spacing-300);
+}
 .bcn-help-bar__panel-title {
-  margin: 0 0 var(--spacing-200);
+  margin: 0;
   font-size: var(--type-size-200, 0.9375rem);
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
+}
+.bcn-help-bar__panel-release {
+  margin: 0;
+  font-size: var(--type-size-150, 0.875rem);
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
 }
 .bcn-help-bar__panel-list {
   list-style: none;
@@ -5473,43 +6916,24 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-300);
-}
-.bcn-help-bar__panel-item {
-  display: flex;
   gap: var(--spacing-200);
 }
-.bcn-help-bar__panel-icon {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-200, var(--radius-100));
-  background: var(--color-surface-sunken);
-  color: var(--color-text-secondary);
-}
-.bcn-help-bar__panel-text {
-  flex: 1;
-  min-width: 0;
-}
-.bcn-help-bar__panel-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-200);
-  margin: 0 0 2px;
+.bcn-help-bar__panel-link {
+  display: block;
+  padding: var(--spacing-150) var(--spacing-150);
+  margin: 0 calc(var(--spacing-150) * -1);
+  border-radius: var(--radius-200, 8px);
+  color: inherit;
+  text-decoration: none;
+  transition: background var(--transition-fast, 0.15s ease);
 }
 .bcn-help-bar__panel-item-title {
-  margin: 0;
-  font-size: var(--type-size-200, 0.9375rem);
-  font-weight: var(--font-weight-bold);
+  margin: 0 0 2px;
+  font-family: var(--font-decorative);
+  font-size: 1.0625rem;
+  font-weight: var(--font-weight-semibold);
   line-height: 1.3;
   color: var(--color-text-primary);
-}
-.bcn-help-bar__panel-head .bcn-count {
-  flex: none;
 }
 .bcn-help-bar__panel-item-blurb {
   margin: 0;
@@ -5529,7 +6953,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   gap: 4px;
   font-size: var(--type-size-150, 0.875rem);
   font-weight: var(--font-weight-medium);
-  color: var(--color-primary);
+  color: var(--color-text-link);
   text-decoration: none;
 }
 .bcn-help-bar__panel-all-arrow {
@@ -5546,10 +6970,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   align-items: center;
   gap: var(--spacing-300);
   min-width: 0;
-}
-.bcn-aldo-mark[data-size="md"] {
-  width: 40px;
-  height: 40px;
 }
 .bcn-gd__title {
   font-family: var(--font-decorative);
@@ -5739,153 +7159,29 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .bcn-gd-article__panel[hidden] {
   display: none;
 }
-.bcn-kb-hero {
-  padding-block: var(--spacing-700) var(--spacing-600);
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
 }
-.bcn-kb-hero__col {
-  --center-max: 44rem;
-  text-align: center;
-}
-.bcn-kb-hero__stack {
-  --gap: var(--spacing-400);
-  align-items: center;
-}
-.bcn-kb-hero__title {
-  color: var(--color-text-primary);
-}
-.bcn-kb-hero__lede {
-  max-inline-size: 34rem;
-  color: var(--color-text-secondary);
-}
-.bcn-kb-hero__search {
-  inline-size: 100%;
-  max-inline-size: 35rem;
-  margin-block-start: var(--spacing-200);
-  text-align: start;
-}
-.bcn-kbc {
+.page-layout {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-400);
-}
-.bcn-kbc__title {
-  margin: 0;
-  color: var(--color-text-primary);
-}
-.bcn-kbc__tile {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
-  height: 100%;
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
   box-sizing: border-box;
-  padding: var(--spacing-400);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-300);
-  text-decoration: none;
-  color: inherit;
-  transition:
-    border-color 0.15s ease,
-    transform 0.15s ease,
-    box-shadow 0.15s ease;
 }
-.bcn-kbc__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-200, var(--radius-100));
-  background: var(--color-surface-sunken);
-  color: var(--color-text-secondary);
-  transition:
-    background 0.15s ease,
-    color 0.15s ease;
-}
-.bcn-kbc__tile-title {
-  color: var(--color-text-primary);
-  transition: color 0.15s ease;
-}
-.bcn-kbc__desc {
-  margin: 0;
-  color: var(--color-text-secondary);
-}
-.bcn-kbc__count {
-  display: inline-flex;
-  margin-top: auto;
-  padding-top: var(--spacing-100);
-}
-.bcn-kb {
-  --sidebar-width: 260px;
-  --sidebar-content-min: 60%;
-  --gap: var(--spacing-600, 2rem);
-}
-.bcn-kb__rail {
-  position: sticky;
-  top: var(--spacing-500, 1.5rem);
-  align-self: start;
-  max-block-size: calc(100vh - var(--spacing-700, 3rem));
-  overflow-y: auto;
-}
-.bcn-kb__groups {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.page-layout__container {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-500, 1.5rem);
 }
-.bcn-kb__group-title {
-  margin: 0 0 var(--spacing-200, 0.5rem);
-  padding-inline: var(--spacing-300, 0.75rem);
-  font-size: var(--type-size-300, 1rem);
-  font-weight: var(--font-weight-semibold, 600);
-  color: var(--color-text-primary);
-  line-height: 1.3;
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
+  position: relative;
 }
-.bcn-kb__items {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-.bcn-kb__link {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: var(--spacing-200, 0.5rem) var(--spacing-300, 0.75rem);
-  border-radius: var(--radius-200, 8px);
-  color: var(--color-text-secondary);
-  text-decoration: none;
-  transition:
-    background 0.1s ease,
-    color 0.1s ease;
-}
-.bcn-kb__link-title {
-  font-size: var(--type-size-200, 0.875rem);
-  font-weight: var(--font-weight-medium, 500);
-  color: inherit;
-  line-height: 1.35;
-}
-.bcn-kb__link-kind {
-  font-size: 13px;
-  color: var(--color-text-tertiary);
-}
-.bcn-kb__pane {
-  min-block-size: 60vh;
-}
-.bcn-kb__welcome {
-  display: grid;
-  place-items: center;
-  min-block-size: 60vh;
-}
-.bcn-kb__article {
-  max-inline-size: 70ch;
-}
-.bcn-kb__article[hidden] {
-  display: none;
+.page-layout section {
+  width: 100%;
 }
 ```
 
@@ -5913,36 +7209,28 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 | `--bcn-helpbar-hover-bg` | `rgba(255, 255, 255, .1)` | component |
 | `--color-accent` | `#f76b15` | semantic |
 | `--color-border` | `#dcdcdc` | semantic |
+| `--color-border-light` | `#efefef` | semantic |
 | `--color-primary` | `#005862` | semantic |
 | `--color-surface` | `#fcfcfc` | semantic |
 | `--color-surface-sunken` | `#efefef` | semantic |
 | `--color-text-inverse` | `#fcfcfc` | semantic |
-| `--color-text-muted` | `#7c7c7c` | semantic |
+| `--color-text-link` | `#005862` | semantic |
 | `--color-text-primary` | `#3d3d3d` | semantic |
 | `--color-text-secondary` | `#525252` | semantic |
 | `--color-text-tertiary` | `#656565` | semantic |
-| `--empty-state-description-color` | `#525252` | component |
-| `--empty-state-gap` | `.5rem` | component |
-| `--empty-state-icon-color` | `#7c7c7c` | component |
-| `--empty-state-icon-size-lg` | `64px` | component |
-| `--empty-state-icon-size-md` | `48px` | component |
-| `--empty-state-title-color` | `#3d3d3d` | component |
 | `--font-decorative` | `"Besley", serif` | component |
 | `--font-display` | `"DM Sans", sans-serif` | primitive |
 | `--font-sans` | `"DM Sans", sans-serif` | primitive |
 | `--font-weight-bold` | `650` | primitive |
-| `--font-weight-medium` | `450` | primitive |
+| `--font-weight-medium` | `500` | primitive |
 | `--font-weight-regular` | `350` | primitive |
 | `--font-weight-semibold` | `550` | primitive |
 | `--form-height-md` | `36px` | component |
 | `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
-| `--icon-size-large` | `24px` | component |
-| `--icon-size-lg` | `24px` | primitive |
 | `--icon-size-md` | `20px` | primitive |
 | `--icon-size-medium` | `20px` | component |
 | `--icon-size-sm` | `16px` | primitive |
 | `--icon-size-small` | `16px` | component |
-| `--icon-size-xl` | `28px` | primitive |
 | `--icon-size-xs` | `14px` | primitive |
 | `--letter-spacing-normal` | `.01em` | primitive |
 | `--letter-spacing-tight` | `-.01em` | primitive |
@@ -5954,7 +7242,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 | `--radius-300` | `.5rem` | primitive |
 | `--radius-400` | `.75rem` | primitive |
 | `--radius-full` | `9999px` | primitive |
-| `--sidebar-width` | `280px` | semantic |
+| `--shadow-200` | `0 4px 20px -4px rgba(0, 0, 0, .06)` | primitive |
 | `--spacing-050` | `.125rem` | primitive |
 | `--spacing-100` | `.25rem` | primitive |
 | `--spacing-150` | `.375rem` | primitive |
@@ -5965,7 +7253,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 | `--spacing-500` | `1.5rem` | primitive |
 | `--spacing-600` | `2rem` | primitive |
 | `--spacing-700` | `3rem` | primitive |
-| `--spacing-800` | `4rem` | primitive |
 | `--transition-fast` | `.15s ease` | primitive |
 | `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | primitive |
 | `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |

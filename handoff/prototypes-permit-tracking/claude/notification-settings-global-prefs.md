@@ -107,6 +107,60 @@ A GLOBAL, per-user preferences dialog (esa-dialog) opened from the page utilitie
 
 ## Styles
 ```css
+.notif {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+}
+.notif__lede {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+.notif__lede strong {
+  color: var(--color-text-primary);
+}
+.notif__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.notif__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-400);
+  padding: var(--spacing-300) 0;
+}
+.notif__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.notif__title {
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.notif__sub {
+  font-size: 0.8125rem;
+  color: var(--color-text-tertiary);
+}
+.notif esa-switch-toggle {
+  flex-shrink: 0;
+}
+.notif__row + .notif__row {
+  border-top: 1px solid var(--color-border-light);
+}
+.notif__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-200);
+}
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
   --_btn-padding-x: var(--form-padding-x-md, 16px);
@@ -186,60 +240,6 @@ A GLOBAL, per-user preferences dialog (esa-dialog) opened from the page utilitie
 .esa-button--color-ghost.esa-button--active .esa-button__native {
   background: var(--color-surface-sunken, #efefef);
 }
-.notif {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-}
-.notif__lede {
-  margin: 0;
-  font-size: 0.9375rem;
-  line-height: 1.6;
-  color: var(--color-text-secondary);
-}
-.notif__lede strong {
-  color: var(--color-text-primary);
-}
-.notif__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
-.notif__row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-400);
-  padding: var(--spacing-300) 0;
-}
-.notif__text {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-.notif__title {
-  font-size: 0.9375rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.notif__sub {
-  font-size: 0.8125rem;
-  color: var(--color-text-tertiary);
-}
-.notif esa-switch-toggle {
-  flex-shrink: 0;
-}
-.notif__row + .notif__row {
-  border-top: 1px solid var(--color-border-light);
-}
-.notif__footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--spacing-200);
-}
 ```
 
 ## Tokens
@@ -254,7 +254,7 @@ A GLOBAL, per-user preferences dialog (esa-dialog) opened from the page utilitie
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
-- `--font-weight-medium`: 450 _(primitive)_
+- `--font-weight-medium`: 500 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
 - `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
 - `--form-font-size-sm`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
