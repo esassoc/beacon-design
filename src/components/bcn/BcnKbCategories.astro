@@ -1,224 +1,194 @@
 ---
-// <BcnKbCategories> — "Browse by category" tile row for the Help & Guidance page.
-// One quiet white tile per help category; each tile is an anchor that deep-links
-// the article-browser sibling to that category via a `#category-<id>` hash. This
-// section only EMITS the link — the browser component owns the hash behavior.
-// Icons mark the category headers (structure), the sanctioned icon use.
+// <BcnKbCategories> — the browse surface of the Help & Guidance page: a DENSE
+// documentation index (no cards, no icon chips), then an A–Z glossary. It is the
+// page's primary way to find an article; each entry deep-links the reading-pane
+// sibling via a `#article-<id>` hash.
 //
-// This is the page's PRIMARY browse surface: the five categories sit in ONE
-// deliberate row (repeat(5) on desktop, stacking to a single column below 64rem)
-// so the fifth tile is never orphaned into a 4+1 grid. The browser rail below is a
-// contextual accordion, not a second flat index of the same articles.
+// Layout: the seven categories (contract order: General, Getting Started, Tracking,
+// Monitoring, Reporting, Data Catalog, Settings & Configuration) flow into a
+// multi-column CSS-`columns` index — a modest normal-case heading per category over a
+// compact list of its article links (title + terse one-liner). Below, a quiet
+// "Glossary" heading over the glossary terms A–Z (`glossaryArticles()`), a flowing
+// multi-column list of bare-term links. Chrome is hairlines + whitespace only — no
+// card borders, no hover-lift, no colored left borders.
 //
-// Data-bound like BcnTrackingZone: reads HELP_CATEGORIES + articlesByCategory
-// directly. Takes one optional prop — `releaseNotesHref` — the doorway to the
-// release-notes page, rendered as a quiet link beside the section heading (help.astro
-// owns the base-aware href; this component owns the rendering).
+// Data-bound like BcnTrackingZone: reads HELP_CATEGORIES + articlesByCategory +
+// glossaryArticles directly — the category set and article counts follow the data.
 //
-// Composes: EsaIcon (leading category glyph), BcnCount (quiet neutral article
-// count). Tiles are an OWNED anchor, not esa-card — see bcn-lego-checked below.
+// Search hooks: the section is [data-kb-index]; every article row and glossary term
+// carries [data-kb-entry] + data-title/data-summary; category groups carry
+// [data-kb-cat] and id="category-<id>"; the glossary is [data-kb-glossary]. The
+// controller (kb-browser.ts) live-filters against these while a query is active.
+// Each category group keeps id="category-<id>" so #category-<id> deep-links (the Aldo
+// drawer, external links) scroll to it natively (scroll-margin clears the topbar).
 //
-// bcn-lego-checked: esa-card does NOT fit as a linked category tile — (1) it
-// renders a <div>, not an anchor, and its header/body split (56px min-height
-// header + divider) is heavier chrome than a quiet single-surface tile; (2) its
-// `icon` prop draws a HARDCODED info glyph and ignores the name, so it cannot show
-// the category's own Lucide icon. Checked Ecology (no "link tile" lego) and Beacon
-// (prod has no equivalent surface). The count uses bcn-count (esa-badge has NO
-// neutral variant — its six variants are saturated fills, so it can't render a
-// quiet count; per BcnCount's own docs + design-principles). Icon is esa-icon —
-// no primitive reinvented. bcn-kb-categories is the reusable home.
-import EsaIcon from '@esa/ecology/esa-icon.astro';
-import BcnCount from './BcnCount.astro';
-import { HELP_CATEGORIES, articlesByCategory } from '../../data/help-center';
+// bcn-lego-checked: this is a bespoke documentation INDEX — a text-dense list of
+// links grouped by category plus an A–Z term list. No esa-* lego models it:
+// esa-card/esa-link-column are card/box surfaces (the card chrome Andy rejected);
+// esa-sidebar-nav renders ornamental micro-label group headings and filled-badge
+// hints, not quiet normal-case headings + terse one-liners; esa-pillbox is tag
+// chips. Checked Ecology + Beacon (prod has no KB index). Every link is a plain
+// anchor; the only chrome is token-driven type + hairlines. bcn-kb-categories is the
+// reusable home.
+import { HELP_CATEGORIES, articlesByCategory, glossaryArticles } from '../../data/help-center';
 
-interface Props {
-  /** Base-aware href to the release-notes page; when set, a quiet doorway renders. */
-  releaseNotesHref?: string;
-}
-const { releaseNotesHref } = Astro.props;
-
-// Lucide inner-SVG for category glyphs. Only `database` is in esa-icon's built-in
-// registry; the rest need `paths`. Verbatim strings copied from AppShell's LUCIDE
-// map / lucide.dev. esa-icon prefers its registry, so supplying paths for
-// `database` too is harmless and keeps the lookup uniform.
-const ICON_PATHS: Record<string, string> = {
-  compass:
-    '<path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/><circle cx="12" cy="12" r="10"/>',
-  database:
-    '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>',
-  radar:
-    '<path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"/><path d="M4 6h.01"/><path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"/><path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"/><path d="M12 18h.01"/><path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"/><circle cx="12" cy="12" r="2"/><path d="m13.41 10.59 5.66-5.66"/>',
-  'map-pinned':
-    '<path d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"/><circle cx="12" cy="8" r="2"/><path d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"/>',
-  'clipboard-list':
-    '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>',
-};
-
-const tiles = HELP_CATEGORIES.map((c) => {
-  const count = articlesByCategory(c.id).length;
-  return {
-    ...c,
-    count,
-    countText: `${count} ${count === 1 ? 'article' : 'articles'}`,
-  };
-});
+const groups = HELP_CATEGORIES.map((c) => ({ ...c, articles: articlesByCategory(c.id) }));
+const glossary = glossaryArticles();
 ---
 
-<section class="bcn-kbc" aria-labelledby="bcn-kbc-title">
-  <div class="bcn-kbc__head">
-    <h2 id="bcn-kbc-title" class="bcn-kbc__title type-section-title">Browse by category</h2>
-    {
-      releaseNotesHref && (
-        <a class="bcn-kbc__whatsnew" href={releaseNotesHref}>
-          What's new<span class="bcn-kbc__whatsnew-arrow" aria-hidden="true">→</span>
-        </a>
-      )
-    }
+<section class="bcn-kbc" data-kb-index aria-labelledby="bcn-kbc-index-title">
+  <div class="bcn-kbc__block">
+    <h2 id="bcn-kbc-index-title" class="bcn-kbc__section-title type-section-title">Browse by category</h2>
+    <div class="bcn-kbc__index">
+      {
+        groups.map((cat) => (
+          <section class="bcn-kbc__cat" id={`category-${cat.id}`} data-kb-cat={cat.id}>
+            <h3 class="bcn-kbc__cat-title">{cat.title}</h3>
+            <ul class="bcn-kbc__list" role="list">
+              {cat.articles.map((a) => (
+                <li class="bcn-kbc__row" data-kb-entry data-title={a.title} data-summary={a.summary}>
+                  <a class="bcn-kbc__link" href={`#article-${a.id}`} data-article-link={a.id}>
+                    {a.title}
+                  </a>
+                  <span class="bcn-kbc__row-summary">{a.summary}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
   </div>
 
-  <div class="bcn-kbc__row">
-    {
-      tiles.map((c) => (
-        <a class="bcn-kbc__tile" href={`#category-${c.id}`}>
-          <span class="bcn-kbc__icon" aria-hidden="true">
-            <EsaIcon name={c.icon} size="md" paths={ICON_PATHS[c.icon]} />
-          </span>
-          <span class="bcn-kbc__tile-title type-card-title">{c.title}</span>
-          <span class="bcn-kbc__desc type-body">{c.description}</span>
-          <span class="bcn-kbc__count">
-            <BcnCount value={c.countText} />
-          </span>
-        </a>
-      ))
-    }
-  </div>
+  <section class="bcn-kbc__block bcn-kbc__glossary" data-kb-glossary aria-labelledby="bcn-kbc-gloss-title">
+    <h2 id="bcn-kbc-gloss-title" class="bcn-kbc__section-title type-section-title">Glossary</h2>
+    <ul class="bcn-kbc__terms" role="list">
+      {
+        glossary.map((a) => (
+          <li class="bcn-kbc__term" data-kb-entry data-title={a.title} data-summary={a.summary}>
+            <a class="bcn-kbc__term-link" href={`#article-${a.id}`} data-article-link={a.id}>
+              {a.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
 </section>
 
 <style>
+  /* Dense documentation index — no card chrome; hairlines + whitespace only. */
   .bcn-kbc {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-600);
+  }
+
+  .bcn-kbc__block {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-400);
   }
 
-  /* Section heading + quiet release-notes doorway on one baseline. */
-  .bcn-kbc__head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--spacing-400);
-    flex-wrap: wrap;
-  }
-  .bcn-kbc__title {
+  /* Section heading — readable words, normal case, primary text. */
+  .bcn-kbc__section-title {
     margin: 0;
     color: var(--color-text-primary);
   }
 
-  /* Quiet doorway — the Aldo accent is the help-surface accent, used only on hover
-     so the resting state stays neutral. */
-  .bcn-kbc__whatsnew {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-100);
-    font-size: var(--type-size-200, 0.875rem);
-    font-weight: var(--font-weight-medium, 500);
-    color: var(--color-text-secondary);
+  /* ── category index: the seven groups flow into balanced text columns ── */
+  .bcn-kbc__index {
+    columns: 20rem 3;
+    column-gap: var(--spacing-700);
+  }
+
+  /* One category group — kept whole within a column. */
+  .bcn-kbc__cat {
+    break-inside: avoid;
+    margin-block-end: var(--spacing-500);
+    scroll-margin-top: 5rem; /* #category-<id> lands clear of the app topbar */
+  }
+  .bcn-kbc__cat[hidden] { display: none; }
+
+  /* Category heading — 17px semibold, normal case (deliberate fixed size: the fluid
+     roles balloon past 17px on wide viewports; a dense index heading holds steady). */
+  .bcn-kbc__cat-title {
+    margin: 0 0 var(--spacing-200);
+    padding-block-end: var(--spacing-150);
+    border-bottom: 1px solid var(--color-border-light);
+    font-size: 1.0625rem;
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.3;
+    color: var(--color-text-primary);
+  }
+
+  .bcn-kbc__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+
+  /* One article entry: title link over a terse one-liner. Tight leading, small rhythm. */
+  .bcn-kbc__row { display: flex; flex-direction: column; gap: 1px; }
+  .bcn-kbc__row[hidden] { display: none; }
+
+  .bcn-kbc__link {
+    font-size: 0.9375rem; /* 15px — dense-index list size */
+    font-weight: var(--font-weight-medium);
+    line-height: 1.35;
+    color: var(--color-text-primary);
     text-decoration: none;
-    white-space: nowrap;
-    transition: color 150ms ease;
+    transition: color 120ms ease;
   }
-  .bcn-kbc__whatsnew:hover {
+  .bcn-kbc__link:hover {
     color: var(--bcn-aldo-600, #06736f);
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
-  .bcn-kbc__whatsnew:focus-visible {
+  .bcn-kbc__link:focus-visible {
     outline: 2px solid var(--bcn-aldo, #08908b);
     outline-offset: 2px;
     border-radius: var(--radius-100);
   }
-  .bcn-kbc__whatsnew-arrow {
-    transition: transform 150ms ease;
-  }
-  .bcn-kbc__whatsnew:hover .bcn-kbc__whatsnew-arrow {
-    transform: translateX(2px);
-  }
 
-  /* Five categories in ONE deliberate row on desktop — never a 4+1 orphan grid.
-     Collapses straight to a single stacked column below 64rem (skipping the
-     orphan-prone 2/3/4-up counts entirely). */
-  .bcn-kbc__row {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: var(--spacing-300);
-  }
-  @media (max-width: 64rem) {
-    .bcn-kbc__row {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  /* Quiet white tile, rendered as a full-height anchor so tiles in a row align
-     their counts at the bottom (margin-top:auto on the count). Hover is a subtle
-     border-color shift + 2px lift + soft shadow — never a colored left border. */
-  .bcn-kbc__tile {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-200);
-    height: 100%;
-    box-sizing: border-box;
-    padding: var(--spacing-400);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-300);
-    text-decoration: none;
-    color: inherit;
-    transition: border-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
-  }
-  .bcn-kbc__tile:hover {
-    border-color: color-mix(in srgb, var(--color-primary) 40%, var(--color-border));
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-100, 0 2px 12px rgba(0, 0, 0, 0.04));
-  }
-  .bcn-kbc__tile:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
-  }
-
-  /* Neutral icon chip (gray wash, never a brand fill); tints toward primary on
-     hover to echo the tile affordance. */
-  .bcn-kbc__icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-200, var(--radius-100));
-    background: var(--color-surface-sunken);
+  .bcn-kbc__row-summary {
+    font-size: 0.8125rem; /* 13px terse one-liner */
+    line-height: 1.4;
     color: var(--color-text-secondary);
-    transition: background 150ms ease, color 150ms ease;
-  }
-  .bcn-kbc__tile:hover .bcn-kbc__icon {
-    background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface));
-    color: var(--color-primary);
   }
 
-  .bcn-kbc__tile-title {
-    color: var(--color-text-primary);
-    transition: color 150ms ease;
-  }
-  .bcn-kbc__tile:hover .bcn-kbc__tile-title {
-    color: var(--color-primary);
-  }
+  /* ── glossary: A–Z term links, flowing into narrow text columns ── */
+  .bcn-kbc__glossary { padding-block-start: var(--spacing-500); border-top: 1px solid var(--color-border); }
+  .bcn-kbc__glossary[hidden] { display: none; }
 
-  .bcn-kbc__desc {
+  .bcn-kbc__terms {
+    list-style: none;
     margin: 0;
-    color: var(--color-text-secondary);
+    padding: 0;
+    columns: 12rem;
+    column-gap: var(--spacing-600);
   }
+  .bcn-kbc__term { break-inside: avoid; margin-block-end: var(--spacing-150); }
+  .bcn-kbc__term[hidden] { display: none; }
 
-  /* Push the count to the tile floor so a row of tiles baseline-aligns their
-     counts regardless of description length. */
-  .bcn-kbc__count {
-    display: inline-flex;
-    margin-top: auto;
-    padding-top: var(--spacing-100);
+  .bcn-kbc__term-link {
+    font-size: 0.9375rem; /* 15px */
+    line-height: 1.4;
+    color: var(--color-text-primary);
+    text-decoration: none;
+    transition: color 120ms ease;
+  }
+  .bcn-kbc__term-link:hover {
+    color: var(--bcn-aldo-600, #06736f);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .bcn-kbc__term-link:focus-visible {
+    outline: 2px solid var(--bcn-aldo, #08908b);
+    outline-offset: 2px;
+    border-radius: var(--radius-100);
   }
 </style>

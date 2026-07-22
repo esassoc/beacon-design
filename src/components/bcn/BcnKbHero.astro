@@ -1,52 +1,61 @@
 ---
-// <BcnKbHero> — the hero of the "Help & Guidance" page (/prototypes/help): the
-// Aldo mark, the page title, a one-line lede, and a LARGE, search-first field that
-// is the page's primary action. It is the front door to the knowledge base — the
-// search drives the article browser below, but this component owns only the input;
-// a sibling wires the filtering. It renders on the page's own neutral canvas (no
-// card/box of its own).
+// <BcnKbHero> — the hero of the "Help & Guidance" page (/prototypes/help): the Aldo
+// mark, the page title, a one-line lede, and a LARGE, search-first field that is the
+// page's primary action, with a quiet "What's new" doorway to the release notes. The
+// page is now a dense documentation index, so the hero is deliberately COMPACT — it
+// must not push the index below the fold.
 //
 // Search PRIMACY (2026-07-22): the field is the esa-text-field lego at size="lg",
 // scaled up via a SCOPED re-point of its public size tokens (--form-height-lg /
 // --form-font-size-lg / --form-padding-x-lg / --form-radius-lg) — the sanctioned
 // component-token override, localized to this one field so nothing leaks globally.
 // A leading esa-icon search glyph sits in the enlarged left gutter (decorative
-// overlay; the field owns its own box). The mark/title/lede compress into a tight
-// group above so the search reads as the focal action.
+// overlay; the field owns its own box).
 //
-// The search field carries [data-kb-search] — the browser sibling attaches its
-// listener to that attribute (see SIBLING CONTRACT below), so this component adds
-// NO filtering logic.
+// LIVE RESULTS: directly under the field sits a pre-rendered results listbox
+// ([data-kb-results]) — one hidden row per article (title, category, summary). The
+// controller (kb-browser.ts, mounted by <BcnKbBrowser>) reveals matching rows as the
+// user types, drives Arrow/Enter/Esc keyboard nav, and routes a chosen row into the
+// reading pane via the #article-<id> hash. Pre-rendering keeps search progressive
+// (the server-rendered rows carry the data; JS only shows/hides/marks them) and out
+// of the JS bundle. The field carries [data-kb-search] — the controller listens on
+// that attribute (SIBLING CONTRACT below).
 //
-// Composes: BcnAldoMark (the animated mark) + type-roles (.type-page-title /
-// .type-body) + the layout primitives (.center / .stack) + esa-text-field + esa-icon.
-// The only CSS here is composition glue: centering the column, the search-field
-// scale re-point + leading-icon overlay, and the vertical rhythm knobs.
+// Composes: BcnAldoMark + type-roles + the .center/.stack primitives + esa-text-field
+// + esa-icon. The only CSS is composition glue: the centered column, the search-field
+// scale re-point + leading-icon overlay, the results dropdown, and vertical rhythm.
 //
-// SIBLING CONTRACT — the search hook the article browser listens on:
+// SIBLING CONTRACT — the search hook the controller listens on:
 //   Element : <esa-text-field data-kb-search> (the lego's host element)
 //   Query   : [data-kb-search]
-//   Fires   : native `input` (composed → retargets to the host; read
-//             e.target.value) AND the lego's own `change` CustomEvent on every
-//             keystroke (bubbles/composed; read e.detail.value). Either matches.
+//   Fires   : native `input` (composed → retargets to the host; read e.target.value).
 //
 // bcn-lego-checked: no esa-* lego is a page HERO assembly (mark + title + lede +
-// search) — esa-page-header is a title/lede/actions row with no mark or search
-// field. Checked Beacon (prod has no KB hero — this is new). The search control
-// itself IS a lego (esa-text-field) and the leading glyph is esa-icon; bcn-kb-hero
-// is the reusable composition home, and the only CSS is layout glue + a scoped
-// token re-point over the layout primitives.
+// search + results listbox) — esa-page-header is a title/lede/actions row with no
+// mark, search, or results panel; esa-command-palette is a modal overlay, not an
+// in-page search-first hero. The search control itself IS a lego (esa-text-field) and
+// the leading glyph is esa-icon; the result rows are owned text rows (title/category/
+// summary), not a reinvented primitive. Checked Ecology + Beacon (prod has no KB
+// hero — this is new). bcn-kb-hero is the reusable composition home; the only CSS is
+// layout glue + a scoped token re-point.
 import BcnAldoMark from './BcnAldoMark.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { HELP_ARTICLES, HELP_CATEGORIES } from '../../data/help-center';
 
 interface Props {
   title?: string;
   lede?: string;
+  /** Base-aware href to the release-notes page; when set, a quiet "What's new" doorway renders. */
+  releaseNotesHref?: string;
 }
 const {
   title = 'Help & Guidance',
   lede = 'Plain answers about how Beacon works — on every page, and all in one place.',
+  releaseNotesHref,
 } = Astro.props;
+
+// Category id → display title, for the category label on each result row.
+const categoryTitle = new Map(HELP_CATEGORIES.map((c) => [c.id, c.title]));
 
 // Lucide "search" — handed to esa-icon's `paths` fallback (same mechanism the rest
 // of this feature uses for off-registry glyphs).
@@ -56,24 +65,63 @@ const SEARCH_PATHS = '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'
 <section class="bcn-kb-hero" aria-label="Help & Guidance">
   <div class="center bcn-kb-hero__col">
     <div class="stack bcn-kb-hero__intro">
-      <BcnAldoMark size="lg" animated />
+      <BcnAldoMark size="md" animated />
       <h1 class="type-page-title bcn-kb-hero__title">{title}</h1>
       <p class="type-body bcn-kb-hero__lede">{lede}</p>
     </div>
 
-    <div class="bcn-kb-hero__searchbar">
-      <span class="bcn-kb-hero__search-icon" aria-hidden="true">
-        <EsaIcon name="search" size="md" paths={SEARCH_PATHS} />
-      </span>
-      <esa-text-field
-        class="bcn-kb-hero__search"
-        data-kb-search
-        size="lg"
-        type="text"
-        placeholder="Search help articles…"
-        aria-label="Search help articles"
-      ></esa-text-field>
+    <div class="bcn-kb-hero__search-wrap">
+      <div class="bcn-kb-hero__searchbar">
+        <span class="bcn-kb-hero__search-icon" aria-hidden="true">
+          <EsaIcon name="search" size="md" paths={SEARCH_PATHS} />
+        </span>
+        <esa-text-field
+          class="bcn-kb-hero__search"
+          data-kb-search
+          size="lg"
+          type="text"
+          placeholder="Search help articles…"
+          aria-label="Search help articles"
+          role="combobox"
+          aria-controls="bcn-kb-results"
+          aria-expanded="false"
+          aria-autocomplete="list"
+        ></esa-text-field>
+      </div>
+
+      <div class="bcn-kb-hero__results" id="bcn-kb-results" data-kb-results role="listbox" aria-label="Search results" hidden>
+        {HELP_ARTICLES.map((a) => (
+          <a
+            class="bcn-kb-hero__result"
+            id={`kb-result-${a.id}`}
+            role="option"
+            aria-selected="false"
+            href={`#article-${a.id}`}
+            data-result
+            data-title={a.title}
+            data-summary={a.summary}
+            hidden
+          >
+            <span class="bcn-kb-hero__result-top">
+              <span class="bcn-kb-hero__result-title" data-result-title>{a.title}</span>
+              <span class="bcn-kb-hero__result-cat">{categoryTitle.get(a.category)}</span>
+            </span>
+            <span class="bcn-kb-hero__result-summary">{a.summary}</span>
+          </a>
+        ))}
+        <p class="bcn-kb-hero__no-results" data-kb-no-results hidden>
+          No articles match “<span data-kb-query></span>”.
+        </p>
+      </div>
     </div>
+
+    {
+      releaseNotesHref && (
+        <a class="bcn-kb-hero__whatsnew" href={releaseNotesHref}>
+          What's new in Beacon<span class="bcn-kb-hero__whatsnew-arrow" aria-hidden="true">→</span>
+        </a>
+      )
+    }
   </div>
 </section>
 
@@ -83,27 +131,25 @@ const SEARCH_PATHS = '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'
 </script>
 
 <style>
-  /* Quiet neutral surface — the page provides the canvas; the hero adds only
-     breathing room. No card, border, or fill of its own. */
+  /* Compact neutral surface — the page provides the canvas; the hero adds only a
+     little breathing room so the dense index sits near the fold. No card of its own. */
   .bcn-kb-hero {
-    padding-block: var(--spacing-700) var(--spacing-600);
+    padding-block: var(--spacing-500) var(--spacing-400);
   }
 
-  /* Centered content column. .center constrains the max width and centers the
-     block; align/text-align center the items. */
+  /* Centered content column. */
   .bcn-kb-hero__col {
     --center-max: 44rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--spacing-600);
+    gap: var(--spacing-400);
     text-align: center;
   }
 
-  /* Mark + title + lede as one tight group, so the search below reads as the
-     separate, primary action. */
+  /* Mark + title + lede as one tight group, so the search reads as the primary action. */
   .bcn-kb-hero__intro {
-    --gap: var(--spacing-300);
+    --gap: var(--spacing-200);
     align-items: center;
   }
 
@@ -111,21 +157,25 @@ const SEARCH_PATHS = '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'
     color: var(--color-text-primary);
   }
 
-  /* Lede: secondary weight, held to a readable measure under the title. */
   .bcn-kb-hero__lede {
     max-inline-size: 34rem;
     color: var(--color-text-secondary);
   }
 
-  /* ── Search: the primary action ──
-     The lego at size="lg" scaled up via a SCOPED re-point of its public size
-     tokens. Enlarged padding-x opens a left gutter for the search glyph. */
-  .bcn-kb-hero__searchbar {
+  /* ── Search: the primary action + its live-results dropdown ── */
+  .bcn-kb-hero__search-wrap {
     position: relative;
     inline-size: 100%;
     max-inline-size: 40rem;
   }
 
+  .bcn-kb-hero__searchbar {
+    position: relative;
+    inline-size: 100%;
+  }
+
+  /* The lego at size="lg", scaled up via a SCOPED re-point of its public size tokens.
+     Enlarged padding-x opens a left gutter for the search glyph. */
   .bcn-kb-hero__search {
     --form-height-lg: 3.5rem; /* 56px — taller than default lg (48px): primary */
     --form-font-size-lg: 1.1875rem; /* ~19px */
@@ -135,8 +185,7 @@ const SEARCH_PATHS = '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'
     text-align: start; /* reset the hero's centered text for the input's own value */
   }
 
-  /* Leading search glyph, centered in the field's left gutter. Decorative overlay
-     — the field owns focus/typing; clicks fall through to it. */
+  /* Leading search glyph, centered in the field's left gutter (decorative overlay). */
   .bcn-kb-hero__search-icon {
     position: absolute;
     inset-inline-start: var(--spacing-400);
@@ -146,6 +195,102 @@ const SEARCH_PATHS = '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>'
     color: var(--color-text-tertiary);
     pointer-events: none;
     z-index: 1;
-    --icon-size-md: 22px; /* nudge esa-icon up to match the larger field */
+    --icon-size-md: 22px;
   }
+
+  /* Live-results dropdown — anchored under the field, overlays the index below. */
+  .bcn-kb-hero__results {
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: calc(100% + var(--spacing-150));
+    z-index: 30;
+    max-block-size: min(60vh, 30rem);
+    overflow-y: auto;
+    padding: var(--spacing-100);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+    box-shadow: var(--shadow-200, 0 8px 28px rgb(0 0 0 / 0.12));
+    text-align: start;
+  }
+  .bcn-kb-hero__results[hidden] { display: none; }
+
+  /* One result = a two-line text row (title + category, then summary). No card chrome;
+     the active/hover row gets a quiet Aldo tint (never a colored left border). */
+  .bcn-kb-hero__result {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--spacing-200) var(--spacing-300);
+    border-radius: var(--radius-200);
+    text-decoration: none;
+    color: inherit;
+  }
+  .bcn-kb-hero__result[hidden] { display: none; }
+  .bcn-kb-hero__result:hover,
+  .bcn-kb-hero__result.is-active {
+    background: var(--bcn-aldo-50, #e8f6f5);
+  }
+
+  .bcn-kb-hero__result-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+  }
+  .bcn-kb-hero__result-title {
+    font-size: 0.9375rem; /* 15px — dense-index list size (deliberate, no role fits) */
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+    line-height: 1.35;
+  }
+  .bcn-kb-hero__result.is-active .bcn-kb-hero__result-title,
+  .bcn-kb-hero__result:hover .bcn-kb-hero__result-title {
+    color: var(--bcn-aldo-600, #06736f);
+  }
+  .bcn-kb-hero__result-title :global(mark) {
+    background: var(--bcn-aldo-100, #cfeceb);
+    color: inherit;
+    border-radius: 2px;
+    padding: 0 1px;
+  }
+  /* Category tag — genuine meta, floored at 13px; flush right on the title line. */
+  .bcn-kb-hero__result-cat {
+    flex: none;
+    font-size: 0.8125rem;
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+  }
+  .bcn-kb-hero__result-summary {
+    font-size: 0.8125rem; /* 13px terse one-liner */
+    color: var(--color-text-secondary);
+    line-height: 1.4;
+  }
+
+  .bcn-kb-hero__no-results {
+    margin: 0;
+    padding: var(--spacing-300);
+    font-size: 0.9375rem;
+    color: var(--color-text-secondary);
+  }
+
+  /* Quiet "What's new" doorway — Aldo accent only on hover, resting state neutral. */
+  .bcn-kb-hero__whatsnew {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    font-size: 0.9375rem;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+  .bcn-kb-hero__whatsnew:hover { color: var(--bcn-aldo-600, #06736f); }
+  .bcn-kb-hero__whatsnew:focus-visible {
+    outline: 2px solid var(--bcn-aldo, #08908b);
+    outline-offset: 2px;
+    border-radius: var(--radius-100);
+  }
+  .bcn-kb-hero__whatsnew-arrow { transition: transform 150ms ease; }
+  .bcn-kb-hero__whatsnew:hover .bcn-kb-hero__whatsnew-arrow { transform: translateX(2px); }
 </style>

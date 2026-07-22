@@ -1,117 +1,46 @@
 ---
-// <BcnKbBrowser> — the article browser of the Help & Guidance page (/prototypes/help):
-// a left rail of category groups + article links beside a reading pane. Hash-routed
-// (#article-<id> / #category-<id>) so the Aldo guidance drawer can deep-link to an
-// exact article. Behavior lives in ./kb-browser.ts.
+// <BcnKbBrowser> — the reading pane of the Help & Guidance page (/prototypes/help).
+// The dense index + glossary (<BcnKbCategories>) is now the browse surface, so the
+// old left-rail accordion is GONE (2026-07-22): this component is purely the pane
+// that renders ONE article at a time, hash-routed so the index, the search results,
+// the Aldo guidance drawer, and external links can all deep-link an exact article.
 //
-// Browse-state vs reading-state are DELIBERATE (2026-07-22):
-//   - The rail is a CATEGORY ACCORDION, not a flat dump of all 18 articles (which
-//     duplicated the tiles above). Only the ACTIVE category's articles expand; the
-//     other categories collapse to quiet header rows that reuse the #category-<id>
-//     hash to switch. So the rail is contextual wayfinding — the category you are
-//     in, its siblings — rather than a second index of everything.
-//   - The default pane is a POPULATED START LANDING (the essentials — the model's
-//     own HELP_GENERAL_CONTEXT set, as cards), not an empty "Pick an article"
-//     welcome floating in dead space. Reading a specific article replaces it.
+//   #article-<id> → show that article, scroll the pane clear of the topbar.
+//   (default)     → the first article (data-kb-default), shown WITHOUT scrolling so
+//                   the hero + index stay in view on load — no empty "pick an article"
+//                   dead space and no cards.
 //
-// Frame: the .sidebar layout primitive (rail 260px, content min 60%; stacks on narrow
-// viewports). Every article body is pre-rendered <hidden> via <BcnHelpArticle> so search
-// reads titles/summaries straight from the DOM and the JS bundle carries no content.
+// Every article body is pre-rendered <hidden> via <BcnHelpArticle> so the controller
+// toggles visibility off the light DOM and the JS bundle carries no article content.
+// Behavior lives in ./kb-browser.ts (the page controller — it also drives the hero's
+// live search + the index filter).
 //
-// bcn-lego-checked: the rail is an owned quiet accordion, NOT esa-sidebar-nav. Checked the
-// lego (node_modules/@esa/ecology/src/components/esa-sidebar-nav.ts): it renders real
-// <a href> grouped items, but fights this browser on four counts — (1) its group heading is
-// the banned ornamental micro-label (11px uppercase, letter-spaced), (2) a per-item hint can
-// only be a filled badge pill, not quiet 13-14px secondary "How-to"/"Glossary" text, (3) it
-// has no collapsible per-group accordion driven by the URL hash, and (4) live search needs
-// <mark> substring highlighting inside link text + data-title/data-summary matching, both
-// impossible across its shadow-DOM, property-driven boundary. Start-landing cards + article
-// bodies are owned reading-pane content (BcnHelpArticle renders every body). Checked Ecology
-// (esa-sidebar-nav, esa-empty-state) + Beacon. bcn-kb-browser is the reusable home.
-import EsaIcon from '@esa/ecology/esa-icon.astro';
-import BcnCount from './BcnCount.astro';
+// bcn-lego-checked: the reading pane is owned content — it renders full help articles
+// (heading + prose/steps/callouts/placeholder media + related links) through
+// BcnHelpArticle, which no esa-* lego models (esa-card is a bare box; esa-empty-state
+// is a placeholder, not an article). Checked Ecology + Beacon. bcn-kb-browser is the
+// reusable home; its only CSS is the pane frame + the article measure.
 import BcnHelpArticle from './BcnHelpArticle.astro';
-import {
-  HELP_CATEGORIES,
-  HELP_ARTICLES,
-  HELP_GENERAL_CONTEXT,
-  articlesByCategory,
-  getArticle,
-} from '../../data/help-center';
+import { HELP_ARTICLES } from '../../data/help-center';
 
-const kindLabel = (kind: 'howto' | 'glossary') => (kind === 'howto' ? 'How-to' : 'Glossary');
-
-// The default active category (first group) — the rail opens here, and the start
-// landing sits in the pane beside it.
-const DEFAULT_CATEGORY = HELP_CATEGORIES[0].id;
-
-// Chevron for the accordion header (off-registry → paths fallback).
-const CHEVRON_PATHS = '<path d="m9 18 6-6-6-6"/>';
-
-// "Start here" cards = the model's general/essentials context (the fallback set
-// every page falls back to). howtos first, then key terms — resolved to articles.
-const startCards = [...HELP_GENERAL_CONTEXT.howtos, ...HELP_GENERAL_CONTEXT.terms]
-  .map((id) => getArticle(id))
-  .filter((a): a is NonNullable<typeof a> => a !== undefined);
+// The pane's default article — shown when no #article-<id> deep-link is present.
+// Prefer the orientation tour, then any how-to, so the page never lands mid-glossary.
+const defaultArticle =
+  HELP_ARTICLES.find((a) => a.id === 'five-minute-tour') ??
+  HELP_ARTICLES.find((a) => a.kind === 'howto') ??
+  HELP_ARTICLES[0];
+const defaultArticleId = defaultArticle?.id ?? '';
 ---
 
-<section class="bcn-kb sidebar" data-kb-browser>
-  <nav class="bcn-kb__rail" aria-label="Help articles">
-    <ul class="bcn-kb__groups" role="list">
-      {HELP_CATEGORIES.map((cat) => {
-        const items = articlesByCategory(cat.id);
-        return (
-          <li class="bcn-kb__group" id={`category-${cat.id}`} data-kb-group={cat.id}>
-            <a class="bcn-kb__group-header" href={`#category-${cat.id}`}>
-              <span class="bcn-kb__group-title">{cat.title}</span>
-              <BcnCount value={items.length} label={`${items.length} articles`} />
-              <span class="bcn-kb__chevron" aria-hidden="true">
-                <EsaIcon name="chevron-right" size="sm" paths={CHEVRON_PATHS} />
-              </span>
-            </a>
-            <ul class="bcn-kb__items" role="list">
-              {items.map((a) => (
-                <li class="bcn-kb__item">
-                  <a
-                    class="bcn-kb__link"
-                    href={`#article-${a.id}`}
-                    data-article-link={a.id}
-                    data-title={a.title}
-                    data-summary={a.summary}
-                  >
-                    <span class="bcn-kb__link-title">{a.title}</span>
-                    <span class="bcn-kb__link-kind">{kindLabel(a.kind)}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </li>
-        );
-      })}
-    </ul>
-  </nav>
-
-  <div class="bcn-kb__pane" data-kb-pane>
-    <div class="bcn-kb__start" data-kb-start>
-      <h2 class="bcn-kb__start-title type-section-title">Start here</h2>
-      <div class="bcn-kb__start-cards">
-        {startCards.map((a) => (
-          <a class="bcn-kb__start-card" href={`#article-${a.id}`}>
-            <span class="bcn-kb__start-card-head">
-              <span class="bcn-kb__start-card-title type-card-title">{a.title}</span>
-              <span class="bcn-kb__start-card-kind">{kindLabel(a.kind)}</span>
-            </span>
-            <span class="bcn-kb__start-card-summary type-body">{a.summary}</span>
-          </a>
-        ))}
-      </div>
-    </div>
-
-    {HELP_ARTICLES.map((a) => (
-      <article class="bcn-kb__article" data-article-id={a.id} data-category={a.category} hidden>
-        <BcnHelpArticle article={a} headingLevel="h2" />
-      </article>
-    ))}
+<section class="bcn-kb" data-kb-browser>
+  <div class="bcn-kb__pane" data-kb-pane data-kb-default={defaultArticleId}>
+    {
+      HELP_ARTICLES.map((a) => (
+        <article class="bcn-kb__article" data-article-id={a.id} data-category={a.category} hidden>
+          <BcnHelpArticle article={a} headingLevel="h2" />
+        </article>
+      ))
+    }
   </div>
 </section>
 
@@ -121,156 +50,15 @@ const startCards = [...HELP_GENERAL_CONTEXT.howtos, ...HELP_GENERAL_CONTEXT.term
 </script>
 
 <style>
-  /* Frame: the .sidebar primitive, tuned to a 260px rail + 60%-min reading column.
-     Its flex-wrap makes the rail stack above the pane on narrow viewports for free. */
-  .bcn-kb {
-    --sidebar-width: 260px;
-    --sidebar-content-min: 60%;
-    --gap: var(--spacing-600, 2rem);
+  /* Reading pane — separated from the index above by a hairline, so a selected
+     article reads as its own region. Generous min-height keeps the frame stable so
+     switching articles never jumps the page. */
+  .bcn-kb__pane {
+    min-block-size: 60vh;
+    padding-block-start: var(--spacing-600);
+    border-top: 1px solid var(--color-border);
+    scroll-margin-top: var(--spacing-400); /* clearance when routed into view */
   }
-
-  /* ── left rail (category accordion) ── */
-  .bcn-kb__rail {
-    position: sticky;
-    top: var(--spacing-500, 1.5rem);
-    align-self: start;
-    max-block-size: calc(100vh - var(--spacing-700, 3rem));
-    overflow-y: auto;
-  }
-  .bcn-kb__groups { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
-  .bcn-kb__group[hidden] { display: none; }
-
-  /* Group header = the accordion switcher (an <a> to #category-<id>, so it reuses
-     the hash routing + back/forward for free). Title + count + chevron on one row. */
-  .bcn-kb__group-header {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-200, 0.5rem);
-    padding: var(--spacing-200, 0.5rem) var(--spacing-300, 0.75rem);
-    border-radius: var(--radius-200, 8px);
-    text-decoration: none;
-    color: var(--color-text-primary);
-    transition: background 0.1s ease;
-  }
-  .bcn-kb__group-header:hover { background: var(--color-surface-sunken); }
-  .bcn-kb__group-header:focus-visible {
-    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, var(--bcn-aldo, #08908b));
-    outline-offset: 2px;
-  }
-  .bcn-kb__group-title {
-    flex: 1 1 auto;
-    font-size: var(--type-size-250, 0.9375rem);
-    font-weight: var(--font-weight-semibold, 600);
-    line-height: 1.3;
-  }
-  /* Chevron points right when collapsed, down when the group is active. */
-  .bcn-kb__chevron {
-    display: inline-flex;
-    color: var(--color-text-tertiary);
-    transition: transform 0.15s ease;
-  }
-  .bcn-kb__group[data-active] .bcn-kb__chevron { transform: rotate(90deg); }
-  .bcn-kb__group[data-active] .bcn-kb__group-header { color: var(--bcn-aldo-600, #06736f); }
-
-  /* Items collapsed by default; the active group expands them. During a search the
-     root carries [data-searching] and every matched item is revealed across groups. */
-  .bcn-kb__items {
-    list-style: none;
-    margin: 0;
-    padding: var(--spacing-100, 0.25rem) 0 var(--spacing-200, 0.5rem) var(--spacing-300, 0.75rem);
-    display: none;
-    flex-direction: column;
-    gap: 1px;
-  }
-  .bcn-kb__group[data-active] .bcn-kb__items { display: flex; }
-  .bcn-kb[data-searching] .bcn-kb__items { display: flex; }
-  .bcn-kb__item[hidden] { display: none; }
-
-  .bcn-kb__link {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    padding: var(--spacing-200, 0.5rem) var(--spacing-300, 0.75rem);
-    border-radius: var(--radius-200, 8px);
-    color: var(--color-text-secondary);
-    text-decoration: none;
-    transition: background 0.1s ease, color 0.1s ease;
-  }
-  .bcn-kb__link:hover { background: var(--color-surface-sunken); color: var(--color-text-primary); }
-  .bcn-kb__link:focus-visible {
-    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, var(--bcn-aldo, #08908b));
-    outline-offset: 2px;
-  }
-  /* Active = a quiet Aldo-green tint (never a colored left border). */
-  .bcn-kb__link.is-active { background: var(--bcn-aldo-50, #e8f6f5); }
-  .bcn-kb__link.is-active .bcn-kb__link-title { color: var(--bcn-aldo-600, #06736f); font-weight: var(--font-weight-semibold, 600); }
-
-  .bcn-kb__link-title {
-    font-size: var(--type-size-200, 0.875rem);
-    font-weight: var(--font-weight-medium, 500);
-    color: inherit;
-    line-height: 1.35;
-  }
-  /* Kind hint — genuine meta, so 13px secondary is honest here (not a body role). */
-  .bcn-kb__link-kind { font-size: 13px; color: var(--color-text-tertiary); }
-
-  /* Search hits — injected by kb-browser.ts, so :global reaches the <mark> nodes. */
-  .bcn-kb__link-title :global(mark) {
-    background: var(--bcn-aldo-100, #cfeceb);
-    color: inherit;
-    border-radius: 2px;
-    padding: 0 1px;
-  }
-
-  /* ── reading pane ── */
-  /* Generous min-height keeps the frame stable so switching articles never jumps the page. */
-  .bcn-kb__pane { min-block-size: 60vh; }
-
-  /* Start landing — the populated default state (the essentials as cards). */
-  .bcn-kb__start[hidden] { display: none; }
-  .bcn-kb__start-title { margin: 0 0 var(--spacing-400, 1rem); color: var(--color-text-primary); }
-  .bcn-kb__start-cards {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--spacing-300, 0.75rem);
-  }
-  @media (max-width: 48rem) {
-    .bcn-kb__start-cards { grid-template-columns: 1fr; }
-  }
-
-  /* Quiet card — same austere language as the category tiles (no colored border,
-     subtle lift on hover). */
-  .bcn-kb__start-card {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-100, 0.25rem);
-    padding: var(--spacing-400, 1rem);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-300);
-    text-decoration: none;
-    color: inherit;
-    transition: border-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
-  }
-  .bcn-kb__start-card:hover {
-    border-color: color-mix(in srgb, var(--bcn-aldo, #08908b) 40%, var(--color-border));
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-100, 0 2px 12px rgba(0, 0, 0, 0.04));
-  }
-  .bcn-kb__start-card:focus-visible {
-    outline: 2px solid var(--bcn-aldo, #08908b);
-    outline-offset: 2px;
-  }
-  .bcn-kb__start-card-head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--spacing-300, 0.75rem);
-  }
-  .bcn-kb__start-card-title { color: var(--color-text-primary); transition: color 150ms ease; }
-  .bcn-kb__start-card:hover .bcn-kb__start-card-title { color: var(--bcn-aldo-600, #06736f); }
-  .bcn-kb__start-card-kind { flex: none; font-size: 13px; color: var(--color-text-tertiary); }
-  .bcn-kb__start-card-summary { margin: 0; color: var(--color-text-secondary); }
 
   .bcn-kb__article { max-inline-size: 70ch; }
   .bcn-kb__article[hidden] { display: none; }

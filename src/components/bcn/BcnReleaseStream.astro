@@ -1,13 +1,14 @@
 ---
 // <BcnReleaseStream> — the body of the Release Notes prototype (/prototypes/
 // release-notes): one reverse-chronological stream of product releases, the
-// Linear-changelog pattern adapted to Beacon's app chrome. Each release is an
-// anchored <article> — version header + a "Latest" marker, the numbered
-// headline stories (the richest tier), area-grouped entries with optional
-// feature-flag / applies notes, and a collapsed "Fixes & small improvements"
-// list. Every release and every entry is a hash target so the sidebar / release
-// index and cross-release headline links resolve to it (scroll-margin adds landing
-// room — the app's scroll container already starts below the fixed topbar).
+// changelog pattern (Notion / Claude Code / Sketch) adapted to Beacon's chrome.
+// Each release is an anchored <article>: a quiet date + "Latest" meta line, the
+// serif version number, the headline stories (serif titles — the richest tier),
+// area-grouped entries with optional feature-flag / applies notes, and a
+// collapsed "Fixes & small improvements" list. Every release and every entry is a
+// hash target so the sidebar / release index and cross-release headline links
+// resolve to it (scroll-margin adds landing room — the app's scroll container
+// already starts below the fixed topbar).
 //
 // Presentational — the whole stream comes from RELEASES (../../data/release-notes);
 // no props, no client JS (the fixes disclosure is native <details>). Blocks
@@ -15,13 +16,18 @@
 // and `code` in text/items/fixes are formatted at build time (escape → replace →
 // set:html) since Astro won't process markup inside interpolated strings.
 //
+// Typography: a serif display layer (var(--font-decorative), Besley) carries the
+// two display tiers — the release version number and the headline story titles;
+// everything else stays on the sans body face (inherited from the app root). The
+// hierarchy is weight- and size-driven and the ink is monochrome — no status
+// colour anywhere; the "Latest" marker is a quiet gray text label, not a chip, and
+// the only colour that surfaces is the house link colour on actual links. Prose is
+// held to a ~42rem reading measure so text never runs the full content column.
+//
 // bcn-lego-checked: no esa-* lego renders a changelog / release stream — checked
-// Ecology (esa-card is a bare container; esa-badge/esa-icon are composed INSIDE
-// here) and Beacon (no release-notes primitive). The "Latest" marker reuses the
-// BcnStatusChip lego (quiet dot + value-tinted pill, its hex is the SSR default
-// since --st-latest is never defined); the callout icon and code/bold spans are
+// Ecology (esa-card is a bare container; esa-icon is composed INSIDE here) and
+// Beacon (no release-notes primitive). The callout icon and the code/bold spans are
 // token-driven content typography, legitimately bespoke rendering.
-import BcnStatusChip from './BcnStatusChip.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import { RELEASES } from '../../data/release-notes';
 
@@ -36,7 +42,7 @@ const formatInline = (s: string): string =>
     .replace(/`([^`]+)`/g, '<code>$1</code>')
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
 
-// "June 2, 2026" for the version header; ISO stays on <time datetime> (BcnHelpBar's
+// "June 2, 2026" for the meta line; ISO stays on <time datetime> (BcnHelpBar's
 // fmtLong pattern — T00:00:00 pins local midnight so the date never shifts a day).
 const fmtDate = (iso: string): string =>
   new Date(`${iso}T00:00:00`).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
@@ -50,43 +56,35 @@ const fmtDate = (iso: string): string =>
       aria-labelledby={`${release.anchor}-heading`}
     >
       <header class="bcn-release__header">
-        <div class="bcn-release__title-row">
-          <h2 class="bcn-release__version type-section-title" id={`${release.anchor}-heading`}>
-            {release.version}
-          </h2>
-          {release.latest && (
-            /* Beacon secondary teal (#00918b) is the SSR default; --st-latest is
-               never defined, so this hex always drives the quiet "current" pill. */
-            <BcnStatusChip status="latest" label="Latest" hex="#00918b" />
-          )}
-        </div>
-        <p class="bcn-release__subline">
+        {/* Sketch pattern — a small, quiet meta line sits ABOVE the serif version:
+            the "Latest" marker (newest release only), the date, and any patch note. */}
+        <p class="bcn-release__meta">
+          {release.latest && <span class="bcn-release__latest">Latest</span>}
           <time class="bcn-release__date" datetime={release.date}>{fmtDate(release.date)}</time>
-          {release.patchNote && (
-            <span class="bcn-release__patch">{release.patchNote}</span>
-          )}
+          {release.patchNote && <span class="bcn-release__patch">{release.patchNote}</span>}
         </p>
+        <h2 class="bcn-release__version" id={`${release.anchor}-heading`}>
+          {release.version}
+        </h2>
       </header>
 
       {release.headlines.length > 0 && (
-        <ol class="bcn-release__headlines">
+        <ul class="bcn-release__headlines">
           {release.headlines.map((h) => (
             <li class="bcn-release__headline">
-              <div class="bcn-release__headline-body">
-                <h3 class="bcn-release__headline-title type-card-title">
-                  {h.entryId ? (
-                    <a class="bcn-release__headline-link" href={`#${release.anchor}-${h.entryId}`}>
-                      {h.title}
-                    </a>
-                  ) : (
-                    h.title
-                  )}
-                </h3>
-                <p class="bcn-release__headline-text type-body" set:html={formatInline(h.text)} />
-              </div>
+              <h3 class="bcn-release__headline-title">
+                {h.entryId ? (
+                  <a class="bcn-release__headline-link" href={`#${release.anchor}-${h.entryId}`}>
+                    {h.title}
+                  </a>
+                ) : (
+                  h.title
+                )}
+              </h3>
+              <p class="bcn-release__headline-text" set:html={formatInline(h.text)} />
             </li>
           ))}
-        </ol>
+        </ul>
       )}
 
       {release.sections.map((section) => (
@@ -107,13 +105,13 @@ const fmtDate = (iso: string): string =>
                 <div class="bcn-release__blocks">
                   {entry.blocks.map((block) => {
                     if (block.kind === 'p') {
-                      return <p class="bcn-release__p type-body" set:html={formatInline(block.text)} />;
+                      return <p class="bcn-release__p" set:html={formatInline(block.text)} />;
                     }
                     if (block.kind === 'bullets') {
                       return (
                         <ul class="bcn-release__bullets">
                           {block.items.map((item) => (
-                            <li class="bcn-release__bullet type-body" set:html={formatInline(item)} />
+                            <li class="bcn-release__bullet" set:html={formatInline(item)} />
                           ))}
                         </ul>
                       );
@@ -122,7 +120,7 @@ const fmtDate = (iso: string): string =>
                       return (
                         <aside class="bcn-release__callout">
                           <span class="bcn-release__callout-icon"><EsaIcon name="info" size="sm" /></span>
-                          <p class="bcn-release__callout-text type-body" set:html={formatInline(block.text)} />
+                          <p class="bcn-release__callout-text" set:html={formatInline(block.text)} />
                         </aside>
                       );
                     }
@@ -152,8 +150,8 @@ const fmtDate = (iso: string): string =>
 </section>
 
 <style>
-  /* Token-driven throughout; the parent page owns the outer canvas. Each release
-     is held to a readable measure and centered so prose never runs edge-to-edge,
+  /* Token-driven throughout; the parent page owns the outer canvas. Each release is
+     held to a readable measure and centered so prose never runs edge-to-edge,
      whatever width the page hands the stream. */
   .bcn-release-stream {
     display: flex;
@@ -161,13 +159,13 @@ const fmtDate = (iso: string): string =>
   }
 
   .bcn-release {
-    max-inline-size: 54rem;
+    max-inline-size: 46rem;
     margin-inline: auto;
     inline-size: 100%;
     /* Breathing room for hash-jump landings; the scroll container itself already
        sits below the fixed topbar (AppShell's .modern-layout__body padding). */
     scroll-margin-top: var(--spacing-500);
-    padding-block: var(--spacing-700);
+    padding-block: var(--spacing-800);
   }
   /* Releases below the first carry a hairline separator — a rule, never a
      status border. */
@@ -181,80 +179,70 @@ const fmtDate = (iso: string): string =>
     display: flex;
     flex-direction: column;
     gap: var(--spacing-150);
-    margin-block-end: var(--spacing-500);
+    margin-block-end: var(--spacing-600);
   }
-  .bcn-release__title-row {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-300);
-    flex-wrap: wrap;
-  }
-  .bcn-release__version {
-    margin: 0;
-    color: var(--color-text-primary);
-  }
-  /* Date + patch note on one quiet line; the patch note trails after a middot. */
-  .bcn-release__subline {
+  /* The quiet meta line above the version: Latest · date · patch note. Small sans,
+     never bold, middot-separated. */
+  .bcn-release__meta {
     margin: 0;
     display: flex;
     align-items: baseline;
     flex-wrap: wrap;
-    gap: var(--spacing-200);
-    font-size: 0.9375rem;
-    color: var(--color-text-secondary);
-  }
-  .bcn-release__date { font-weight: var(--font-weight-medium); }
-  .bcn-release__patch { color: var(--color-text-tertiary); }
-  .bcn-release__patch::before {
-    content: '·';
-    margin-inline-end: var(--spacing-200);
+    font-size: 0.875rem;
+    line-height: 1.4;
     color: var(--color-text-tertiary);
   }
+  .bcn-release__latest {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+  }
+  .bcn-release__latest::after {
+    content: '·';
+    margin-inline: var(--spacing-200);
+    color: var(--color-text-muted);
+  }
+  .bcn-release__patch { color: var(--color-text-muted); }
+  .bcn-release__patch::before {
+    content: '·';
+    margin-inline: var(--spacing-200);
+    color: var(--color-text-muted);
+  }
+  /* Serif display tier — the release number. Besley at ~30px (type-size-600),
+     tight leading, a hair of negative tracking for the large optical size. */
+  .bcn-release__version {
+    margin: 0;
+    font-family: var(--font-decorative);
+    font-size: var(--type-size-600);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--color-text-primary);
+  }
 
-  /* ── Headlines — the numbered big stories (richest tier) ────────── */
+  /* ── Headlines — the big stories (richest tier), serif-titled ─────── */
   .bcn-release__headlines {
     list-style: none;
-    counter-reset: bcn-headline;
-    margin: 0 0 var(--spacing-600);
+    margin: 0 0 var(--spacing-700);
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-500);
+    gap: var(--spacing-600);
   }
   .bcn-release__headline {
-    counter-increment: bcn-headline;
-    display: grid;
-    grid-template-columns: 2.25rem 1fr;
-    align-items: start;
-    gap: var(--spacing-400);
-  }
-  /* Quiet brand-tinted numbered marker (the BcnHelpArticle step-marker pattern,
-     scaled up for the headline tier). No saturated fill, no left border. */
-  .bcn-release__headline::before {
-    content: counter(bcn-headline);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    inline-size: 2.25rem;
-    block-size: 2.25rem;
-    border-radius: var(--radius-full);
-    background: var(--color-primary-subtle);
-    color: var(--color-primary);
-    font-size: 1.0625rem;
-    font-weight: var(--font-weight-semibold);
-    line-height: 1;
-  }
-  .bcn-release__headline-body {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-150);
-    min-inline-size: 0;
-    padding-block-start: var(--spacing-100);
+    gap: var(--spacing-200);
   }
+  /* Serif display tier — the headline title. Besley ~21px, medium weight; the serif
+     voice and the spacing carry the tier (no number chips, no colour). */
   .bcn-release__headline-title {
     margin: 0;
+    font-family: var(--font-decorative);
+    font-size: clamp(1.1875rem, 1.05rem + 0.7vw, 1.3125rem);
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: -0.005em;
     color: var(--color-text-primary);
-    font-weight: var(--font-weight-semibold);
   }
   .bcn-release__headline-link {
     color: inherit;
@@ -263,22 +251,26 @@ const fmtDate = (iso: string): string =>
   .bcn-release__headline-link:hover {
     color: var(--color-text-link);
     text-decoration: underline;
+    text-underline-offset: 2px;
   }
   .bcn-release__headline-text {
     margin: 0;
+    max-inline-size: 42rem;
+    font-size: 1rem;
+    line-height: var(--line-height-normal);
     color: var(--color-text-secondary);
   }
 
   /* ── Area groups + entries ──────────────────────────────────────── */
-  .bcn-release__group + .bcn-release__group { margin-block-start: var(--spacing-600); }
+  .bcn-release__group + .bcn-release__group { margin-block-start: var(--spacing-700); }
 
-  /* Readable area label — normal case, 15px semibold, a hairline underscoring it
-     as a section divider. Deliberately NOT an ornamental uppercase micro-label. */
+  /* Readable area label — normal case, 17px semibold, a hairline underscoring it as
+     a section divider. Deliberately NOT an ornamental uppercase micro-label. */
   .bcn-release__group-title {
     margin: 0 0 var(--spacing-400);
     padding-block-end: var(--spacing-200);
     border-bottom: 1px solid var(--color-border-light);
-    font-size: 0.9375rem;
+    font-size: 1.0625rem;
     font-weight: var(--font-weight-semibold);
     color: var(--color-text-secondary);
   }
@@ -297,11 +289,13 @@ const fmtDate = (iso: string): string =>
     flex-wrap: wrap;
     gap: var(--spacing-150) var(--spacing-300);
     margin-block-end: var(--spacing-300);
+    max-inline-size: 42rem;
   }
   .bcn-release__entry-title {
     margin: 0;
     font-size: 1rem;
     font-weight: var(--font-weight-semibold);
+    line-height: 1.4;
     color: var(--color-text-primary);
   }
   /* Feature-flag note — quiet neutral chip, the flag name in mono (genuine
@@ -327,14 +321,17 @@ const fmtDate = (iso: string): string =>
     color: var(--color-text-tertiary);
   }
 
-  /* ── Blocks (p / bullets / callout) — pattern from BcnHelpArticle ── */
+  /* ── Blocks (p / bullets / callout) — held to the reading measure ── */
   .bcn-release__blocks {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-400);
+    max-inline-size: 42rem;
   }
   .bcn-release__p {
     margin: 0;
+    font-size: 1rem;
+    line-height: var(--line-height-normal);
     color: var(--color-text-primary);
   }
   .bcn-release__bullets {
@@ -345,11 +342,13 @@ const fmtDate = (iso: string): string =>
     gap: var(--spacing-200);
   }
   .bcn-release__bullet {
+    font-size: 1rem;
+    line-height: var(--line-height-normal);
     color: var(--color-text-primary);
   }
   .bcn-release__bullet::marker { color: var(--color-text-tertiary); }
-  /* Quiet tinted note box — leading icon + text. Sunken surface + hairline, no
-     colored left border. */
+  /* Quiet neutral note box — leading icon + text. Sunken surface + hairline, no
+     colour, no left border. */
   .bcn-release__callout {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -362,11 +361,13 @@ const fmtDate = (iso: string): string =>
   }
   .bcn-release__callout-icon {
     display: inline-flex;
-    margin-block-start: 1px;
+    margin-block-start: 2px;
     color: var(--color-text-secondary);
   }
   .bcn-release__callout-text {
     margin: 0;
+    font-size: 1rem;
+    line-height: var(--line-height-normal);
     color: var(--color-text-primary);
   }
 
@@ -385,6 +386,7 @@ const fmtDate = (iso: string): string =>
   .bcn-release__fixes-list {
     margin: var(--spacing-300) 0 0;
     padding-inline-start: var(--spacing-500);
+    max-inline-size: 42rem;
     display: flex;
     flex-direction: column;
     gap: var(--spacing-200);
@@ -409,11 +411,6 @@ const fmtDate = (iso: string): string =>
   }
 
   @media (max-width: 32rem) {
-    .bcn-release { padding-block: var(--spacing-600); }
-    .bcn-release__headline {
-      grid-template-columns: 1.875rem 1fr;
-      gap: var(--spacing-300);
-    }
-    .bcn-release__headline::before { inline-size: 1.875rem; block-size: 1.875rem; font-size: 1rem; }
+    .bcn-release { padding-block: var(--spacing-700); }
   }
 </style>

@@ -6,7 +6,8 @@
 // Consumers:
 //   - BcnGuidanceDrawer  — pre-renders every article; a client script shows the
 //     set matching the current route (HELP_ROUTE_CONTEXTS, first match wins).
-//   - BcnKbBrowser / BcnKbHero / BcnKbCategories — the full browsable page.
+//   - BcnKbBrowser / BcnKbHero / BcnKbCategories — the full browsable page, with
+//     an A-Z glossary view fed by glossaryArticles().
 //   - BcnHelpBar — WHATS_NEW feeds the "What's new" popover.
 //
 // Client scripts should import ONLY the small route/context exports — article
@@ -23,12 +24,18 @@ export type HelpBlock =
   /** Placeholder video — rendered as a thumb with a play affordance. */
   | { kind: 'video'; label: string; duration: string };
 
+// Category order below IS the display order (General first, Settings &
+// Configuration last). Glossary terms live in the functional category their term
+// belongs to; General additionally holds the structural vocabulary shared across
+// every zone.
 export type HelpCategoryId =
+  | 'general'
   | 'getting-started'
-  | 'data-catalog'
   | 'tracking'
   | 'monitoring'
-  | 'reporting';
+  | 'reporting'
+  | 'data-catalog'
+  | 'settings-config';
 
 export interface HelpCategory {
   id: HelpCategoryId;
@@ -41,9 +48,10 @@ export interface HelpCategory {
 export interface HelpArticle {
   /** Kebab id — also the hash deep-link on the Help & Guidance page. */
   id: string;
-  /** 'howto' = task guidance; 'glossary' = "what is a …" quick answer. */
+  /** 'howto' = task guidance; 'glossary' = single-term definition. */
   kind: 'howto' | 'glossary';
   category: HelpCategoryId;
+  /** How-to: a task phrase. Glossary: the bare product term ("Action", "Scope"). */
   title: string;
   /** One-liner shown in lists and search results. */
   summary: string;
@@ -54,39 +62,113 @@ export interface HelpArticle {
 
 export const HELP_CATEGORIES: HelpCategory[] = [
   {
+    id: 'general',
+    title: 'General',
+    icon: 'book-open',
+    description: 'App-wide structure and the vocabulary shared across every zone.',
+  },
+  {
     id: 'getting-started',
-    title: 'Getting started',
+    title: 'Getting Started',
     icon: 'compass',
     description: 'Orientation, navigation, and search — the first day in Beacon.',
   },
   {
-    id: 'data-catalog',
-    title: 'Data Catalog',
-    icon: 'database',
-    description: 'Sources, commitments, and requirements — how obligations are documented.',
-  },
-  {
     id: 'tracking',
-    title: 'Tracking & actions',
+    title: 'Tracking',
     icon: 'radar',
-    description: 'Actions, implementations, components, and scope — how work gets done.',
+    description: 'Actions, implementations, components, and permits — how obligations become tracked work.',
   },
   {
     id: 'monitoring',
-    title: 'Monitoring & field work',
+    title: 'Monitoring',
     icon: 'map-pinned',
     description: 'Daily reports, observations, surveys, and site clearance.',
   },
   {
     id: 'reporting',
-    title: 'Reporting & evidence',
+    title: 'Reporting',
     icon: 'clipboard-list',
-    description: 'Evidence of compliance and the reports built from it.',
+    description: 'Evidence of compliance and the reports assembled from it.',
+  },
+  {
+    id: 'data-catalog',
+    title: 'Data Catalog',
+    icon: 'database',
+    description: 'Source documents, commitments, and requirements — how obligations are documented.',
+  },
+  {
+    id: 'settings-config',
+    title: 'Settings & Configuration',
+    icon: 'settings',
+    description: 'Tenant configuration, users, notifications, and feature flags.',
   },
 ];
 
 export const HELP_ARTICLES: HelpArticle[] = [
-  // ═══ Getting started ═══
+  // ═══ General ═══
+  {
+    id: 'project-vs-component-scope',
+    kind: 'glossary',
+    category: 'general',
+    title: 'Scope',
+    summary: 'The setting that determines whether work is tracked once, or once per location.',
+    blocks: [
+      {
+        kind: 'p',
+        text: 'Scope determines how an action is distributed. A project-scoped action is performed once, centrally — for example, submitting the project-wide stormwater plan. A component-scoped action is performed independently at every applicable component — for example, installing exclusion fencing at each of 20 construction areas.',
+      },
+      {
+        kind: 'figure',
+        label: 'The scope multiplier',
+        caption: 'One component-scoped action across 20 components produces 20 independently tracked implementations.',
+      },
+      {
+        kind: 'callout',
+        tone: 'note',
+        text: 'Each implementation is tracked separately, with its own assignee, timeline, and evidence.',
+      },
+    ],
+    related: ['what-is-a-component', 'actions-vs-implementations', 'work-area'],
+  },
+  {
+    id: 'tenant',
+    kind: 'glossary',
+    category: 'general',
+    title: 'Tenant',
+    summary: 'The client organization a Beacon workspace, its data, and its configuration are scoped to.',
+    blocks: [
+      {
+        kind: 'p',
+        text: 'A Tenant is the organization a Beacon workspace belongs to. Beacon is multi-tenant: each tenant’s projects, documents, users, and configuration are isolated from every other tenant’s, and a user operates within a single tenant at a time.',
+      },
+      {
+        kind: 'p',
+        text: 'Tenant-level settings — display labels, enabled features, notification defaults, and user roles — apply uniformly across every project the tenant owns.',
+      },
+    ],
+    related: ['managing-tenant-settings', 'feature-flag'],
+  },
+  {
+    id: 'work-area',
+    kind: 'glossary',
+    category: 'general',
+    title: 'Work Area',
+    summary: 'The finest scope level — a subdivision of a component for field-level tracking.',
+    blocks: [
+      {
+        kind: 'p',
+        text: 'A Work Area is a subdivision of a component, used when field tracking requires finer grain than the component itself provides. Work areas form the most granular level of the Project → Component → Work Area scope hierarchy.',
+      },
+      {
+        kind: 'p',
+        text: 'Evidence of Compliance and monitoring records can be scoped to a work area, isolating activity to a specific portion of a component.',
+      },
+    ],
+    related: ['what-is-a-component', 'project-vs-component-scope'],
+  },
+
+  // ═══ Getting Started ═══
   {
     id: 'five-minute-tour',
     kind: 'howto',
@@ -96,22 +178,22 @@ export const HELP_ARTICLES: HelpArticle[] = [
     blocks: [
       {
         kind: 'p',
-        text: 'Beacon turns a shelf of regulatory documents into a working compliance program. Everything in the app follows one flow: documents are cataloged, obligations are planned into actions, and completed work is proven with evidence.',
+        text: 'Beacon turns a body of regulatory documents into a working compliance program. Everything in the app follows one flow: documents are cataloged, obligations are planned into actions, and completed work is proven with evidence.',
       },
       { kind: 'video', label: 'Watch: a quick tour of Beacon', duration: '4:32' },
       {
         kind: 'steps',
         items: [
-          'The Data Catalog holds your source documents and the commitments and requirements extracted from them.',
+          'The Data Catalog holds source documents and the commitments and requirements extracted from them.',
           'Tracking is where planned actions become day-to-day work, tracked per project or per component.',
           'Monitoring captures what happens in the field — daily reports, observations, and surveys.',
-          'Reporting assembles evidence of compliance into the reports your agencies expect.',
+          'Reporting assembles evidence of compliance into the reports agencies expect.',
         ],
       },
       {
         kind: 'callout',
         tone: 'tip',
-        text: 'The side navigation mirrors these four zones. If you are ever lost, start from your project dashboard — it links into each zone.',
+        text: 'The side navigation mirrors these four zones. The project dashboard links into each zone and is the shortest path back to any of them.',
       },
     ],
     related: ['global-search-tips', 'what-is-an-action'],
@@ -125,23 +207,342 @@ export const HELP_ARTICLES: HelpArticle[] = [
     blocks: [
       {
         kind: 'p',
-        text: 'Search reads the full text of everything in your project — including the body text of commitments and uploaded documents, not just titles.',
+        text: 'Search reads the full text of everything in a project — including the body text of commitments and uploaded documents, not just titles.',
       },
       {
         kind: 'steps',
         items: [
           'Press / on any page, or click the search field in the top bar.',
-          'Type a few words — results group by type (commitments, requirements, actions, documents) with matching snippets highlighted.',
-          'Press Enter on a result to jump straight to it, or choose “See all results” for the full page with filters.',
+          'Type a few words. Results group by type — commitments, requirements, actions, documents — with matching snippets highlighted.',
+          'Press Enter on a result to open it, or choose “See all results” for the full page with filters.',
         ],
       },
       {
         kind: 'callout',
         tone: 'tip',
-        text: 'Searching a permit number or an agency name is often the fastest way to find every obligation tied to it.',
+        text: 'Searching a permit number or an agency name returns every obligation tied to it.',
       },
     ],
     related: ['five-minute-tour'],
+  },
+
+  // ═══ Tracking ═══
+  {
+    id: 'actions-vs-implementations',
+    kind: 'glossary',
+    category: 'tracking',
+    title: 'Implementation',
+    summary: 'A single execution of a published action — the record teams work day to day.',
+    blocks: [
+      {
+        kind: 'p',
+        text: 'An Implementation is the tracked execution of an action: its status, assignee, tasks, comments, and evidence. The action defines what must be done; the implementation records doing it. In daily use, implementations are what teams refer to as the actions.',
+      },
+      {
+        kind: 'p',
+        text: 'The number of implementations an action generates is determined by its scope and frequency. A one-time, project-scoped submission generates one implementation. A recurring, component-scoped inspection generates one per component, per occurrence.',
+      },
+    ],
+    related: ['what-is-an-action', 'project-vs-component-scope'],
+  },
+  {
+    id: 'what-is-a-component',
+    kind: 'glossary',
+    category: 'tracking',
+    title: 'Component',
+    summary: 'A distinct place or package of work within a project, tracked independently.',
+    blocks: [
+      {
+        kind: 'p',
+        text: 'A Component is a discrete location or work package within a project — a launch shaft, an intake site, a construction segment. Components exist because the same obligation frequently applies independently at each location.',
+      },
+      {
+        kind: 'p',
+        text: 'A component maps to the commitments that apply to it, may carry its own milestone dates, and receives its own implementations of component-scoped actions. A Work Area subdivides a component further when field tracking requires finer grain.',
+      },
+    ],
+    related: ['project-vs-component-scope', 'starring-components', 'work-area'],
+  },
+  {
+    id: 'permit',
+    kind: 'glossary',
+    category: 'tracking',
+    title: 'Permit',
+    summary: 'An agency authorization the project must obtain, tracked through the acquisition pipeline.',
+    blocks: [
+      {
+        kind: 'p',
+        text: 'A Permit is an authorization or approval a project must secure from a regulatory agency before or during construction. Beacon tracks each permit through its acquisition pipeline — from not yet applied, through agency review, to issued.',
+      },
+      {
+        kind: 'p',
+        text: 'An issued permit typically becomes a source document: its conditions are extracted as commitments and enter the catalog alongside every other obligation.',
+      },
+    ],
+    related: ['reading-permit-tracking', 'what-is-a-source'],
+  },
+  {
+    id: 'reading-permit-tracking',
+    kind: 'howto',
+    category: 'tracking',
+    title: 'Reading the Permit Tracking board',
+    summary: 'Where each permit stands, what is blocking it, and what is due next.',
+    blocks: [
+      {
+        kind: 'p',
+        text: 'Permit Tracking lists every permit and approval a project needs, each with its current status in the acquisition pipeline — from not yet applied, through agency review, to issued.',
+      },
+      {
+        kind: 'steps',
+        items: [
+          'Each row is one permit; the status lozenge shows where it sits in the pipeline.',
+          'The date column shows the next deadline — a submittal window, an agency response due, or an expiration to renew.',
+          'Open a permit to see its conditions, responsible contacts, and the source document it will become once issued.',
+        ],
+      },
+      { kind: 'video', label: 'Watch: a permit’s life in Beacon', duration: '2:47' },
+      {
+        kind: 'callout',
+        tone: 'tip',
+        text: 'An issued permit becomes a source document: its conditions are extracted as commitments and join the catalog like any other obligation.',
+      },
+    ],
+    related: ['permit', 'what-is-a-source', 'what-is-a-commitment'],
+  },
+  {
+    id: 'starring-components',
+    kind: 'howto',
+    category: 'tracking',
+    title: 'Starring components on your dashboard',
+    summary: 'Pin the three-to-five components you actually work in.',
+    blocks: [
+      {
+        kind: 'p',
+        text: 'A project may have dozens of components, though most people work in a few. Starring pins a component to the project dashboard as a card showing its Tracking, Monitoring, and Reporting pulse — the entry point into that component’s own dashboard.',
+      },
+      {
+        kind: 'steps',
+        items: [
+          'Open any component and click the star in its header.',
+          'Starred components appear on the project dashboard in the Components section.',
+          'Un-star from either place; the component itself is unaffected.',
+        ],
+      },
+    ],
+    related: ['what-is-a-component', 'reading-critical-now'],
+  },
+  {
+    id: 'reading-critical-now',
+    kind: 'howto',
+    category: 'tracking',
+    title: 'How “Most critical right now” is chosen',
+    summary: 'Why an item earns a spot at the top of the dashboard.',
+    blocks: [
+      {
+        kind: 'p',
+        text: 'The dashboard’s critical surface is deliberately small. It elevates only items that are project-critical today — an overdue action on a critical-path component, a lapsed survey blocking ground disturbance, a report due to an agency this week.',
+      },
+      {
+        kind: 'p',
+        text: 'An item leaves the surface when its underlying condition clears — the work is completed, the report is filed, or a review resolves the block. There is nothing to configure; the surface reads the same signals shown in each zone.',
+      },
+    ],
+    related: ['starring-components', 'site-clearance-go-no-go'],
+  },
+
+  // ═══ Monitoring ═══
+  {
+    id: 'what-is-a-dmr',
+    kind: 'glossary',
+    category: 'monitoring',
+    title: 'Daily Monitoring Report',
+    summary: 'The structured field record of one day on site, and a direct source of evidence.',
+    blocks: [
+      {
+        kind: 'p',
+        text: 'A Daily Monitoring Report (DMR) documents one day of field monitoring: the observer, site and weather conditions, construction activities underway, recorded observations, photographs, and narrative notes.',
+      },
+      {
+        kind: 'p',
+        text: 'DMRs connect field activity to compliance. When an obligation requires daily biological monitoring during construction, the DMRs documenting that monitoring constitute the evidence the obligation was met.',
+      },
+    ],
+    related: ['what-is-an-observation', 'what-is-evidence'],
+  },
+  {
+    id: 'what-is-an-observation',
+    kind: 'glossary',
+    category: 'monitoring',
+    title: 'Observation',
+    summary: 'One recorded field event — a species sighting, habitat condition, weather event, or BMP check.',
+    blocks: [
+      {
+        kind: 'p',
+        text: 'An Observation is a single recorded field event: two burrowing owls at the north staging area, an intact silt fence along the eastern boundary, or wind exceeding 25 mph with dust control activated. An observation typically belongs to a DMR and carries species data, location, time, and photographs.',
+      },
+      {
+        kind: 'callout',
+        tone: 'note',
+        text: 'Observations with compliance consequences — an active nest inside a buffer, a failed BMP — surface in Monitoring as items requiring action, and may trigger review before work proceeds.',
+      },
+    ],
+    related: ['what-is-a-dmr', 'site-clearance'],
+  },
+  {
+    id: 'survey',
+    kind: 'glossary',
+    category: 'monitoring',
+    title: 'Survey',
+    summary: 'A field data record synced from a collection app, effective only after quality-control approval.',
+    blocks: [
+      {
+        kind: 'p',
+        text: 'A Survey is a structured field record — typically a species or habitat survey — collected in a field application such as Fulcrum or Survey123 and synced into Beacon. Surveys supply the dated evidence behind clearances and compliance countdowns.',
+      },
+      {
+        kind: 'p',
+        text: 'A survey record does not affect compliance until it passes quality-control review. Pending records are excluded from clearance and evidence calculations by default.',
+      },
+    ],
+    related: ['qc-field-surveys', 'site-clearance'],
+  },
+  {
+    id: 'site-clearance',
+    kind: 'glossary',
+    category: 'monitoring',
+    title: 'Site Clearance',
+    summary: 'The go/no-go determination of whether a site is clear for ground disturbance.',
+    blocks: [
+      {
+        kind: 'p',
+        text: 'Site Clearance is the determination of whether a specific site is clear to disturb ground on a given day. Beacon detects potential blocks — a lapsed nesting survey, an open wildlife buffer — and marks the site provisionally blocked until a qualified reviewer records a decision.',
+      },
+      {
+        kind: 'p',
+        text: 'Detections are advisory; reviews are authoritative. A site is clear only when no unresolved block remains and the governing reviews permit disturbance.',
+      },
+    ],
+    related: ['site-clearance-go-no-go', 'what-is-an-observation'],
+  },
+  {
+    id: 'monitoring-portal',
+    kind: 'glossary',
+    category: 'monitoring',
+    title: 'Monitoring Portal',
+    summary: 'The section that reports commitment compliance from field observations.',
+    blocks: [
+      {
+        kind: 'p',
+        text: 'The Monitoring Portal is the area of Beacon that reports commitment-level compliance against field activity. It identifies commitments that are out of compliance and the observations driving each result, matched by species and condition.',
+      },
+      {
+        kind: 'p',
+        text: 'The portal reads the same observation and survey records captured elsewhere in Monitoring; it holds no separate data of its own.',
+      },
+    ],
+    related: ['what-is-an-observation', 'what-is-a-dmr'],
+  },
+  {
+    id: 'qc-field-surveys',
+    kind: 'howto',
+    category: 'monitoring',
+    title: 'Reviewing field surveys before they count',
+    summary: 'Surveys sync from field apps, but only QC-approved records drive compliance.',
+    blocks: [
+      {
+        kind: 'p',
+        text: 'Survey records flow in from field collection tools such as Fulcrum and Survey123. Before a record affects compliance — clearances, countdowns, evidence — it passes a quality-control review.',
+      },
+      {
+        kind: 'steps',
+        items: [
+          'New records arrive with a pending-QC status in the Surveys grid.',
+          'A reviewer checks species identification, coordinates, and required fields, then approves or returns the record.',
+          'Views default to QC-approved records; toggle the filter to see pending ones.',
+        ],
+      },
+    ],
+    related: ['survey', 'what-is-an-observation', 'what-is-a-dmr'],
+  },
+  {
+    id: 'site-clearance-go-no-go',
+    kind: 'howto',
+    category: 'monitoring',
+    title: 'Using Site Clearance go/no-go',
+    summary: 'Check whether a work site is clear for ground disturbance — and what is blocking it.',
+    blocks: [
+      {
+        kind: 'p',
+        text: 'Site Clearance answers one question per site: is it clear to disturb ground today? The system detects potential blocks — a lapsed nesting survey, an open wildlife buffer — and marks the site provisionally blocked until a qualified reviewer decides.',
+      },
+      {
+        kind: 'steps',
+        items: [
+          'Green sites are clear; amber sites carry a provisional block awaiting review; red sites are blocked by a recorded decision.',
+          'Open a site to see each discipline’s reviews, the detections behind them, and the required outcome.',
+          'Reviews overrule detections: the system detects, a reviewer decides.',
+        ],
+      },
+      {
+        kind: 'callout',
+        tone: 'tip',
+        text: 'The map and the review list present the same data in two views.',
+      },
+    ],
+    related: ['site-clearance', 'what-is-an-observation', 'reading-critical-now'],
+  },
+
+  // ═══ Reporting ═══
+  {
+    id: 'what-is-evidence',
+    kind: 'glossary',
+    category: 'reporting',
+    title: 'Evidence of Compliance',
+    summary: 'The documented proof that an obligation was met — the artifact an auditor reviews.',
+    blocks: [
+      {
+        kind: 'p',
+        text: 'Evidence of Compliance is the terminal output of the compliance flow: the report, photograph, receipt, signed form, or monitoring record that proves an obligation was satisfied. It is the material presented to a regulatory agency during an audit.',
+      },
+      {
+        kind: 'p',
+        text: 'Evidence attaches to action implementations and may also link to checklist items that satisfy specific requirements per component. Field-sourced evidence can derive directly from Daily Monitoring Reports.',
+      },
+      {
+        kind: 'callout',
+        tone: 'note',
+        text: 'Every evidence record retains its files, metadata, and timestamps — an auditable trail from source document to proof.',
+      },
+    ],
+    related: ['what-is-a-dmr', 'actions-vs-implementations'],
+  },
+  {
+    id: 'assembling-compliance-report',
+    kind: 'howto',
+    category: 'reporting',
+    title: 'Assembling a compliance report',
+    summary: 'Compile evidence of compliance into a report package for an agency.',
+    blocks: [
+      {
+        kind: 'p',
+        text: 'A compliance report presents the evidence behind a set of obligations in the format an agency expects. Reports are assembled from existing Evidence of Compliance records; they create no new evidence.',
+      },
+      {
+        kind: 'steps',
+        items: [
+          'Open Reporting and choose the report template that matches the agency’s required format.',
+          'Select the scope — project, component, or work area — and the reporting period.',
+          'Beacon gathers the evidence records in scope; review the set and exclude any records that do not apply.',
+          'Generate the package. The output lists each obligation, its status, and the linked evidence.',
+        ],
+      },
+      {
+        kind: 'callout',
+        tone: 'tip',
+        text: 'A report reflects the evidence present at generation time. Regenerate after new evidence is attached to capture the current state.',
+      },
+    ],
+    related: ['what-is-evidence', 'actions-vs-implementations'],
   },
 
   // ═══ Data Catalog ═══
@@ -149,16 +550,16 @@ export const HELP_ARTICLES: HelpArticle[] = [
     id: 'what-is-a-source',
     kind: 'glossary',
     category: 'data-catalog',
-    title: 'What is a Source Document?',
-    summary: 'The regulatory document — permit, EIR, agreement — obligations are extracted from.',
+    title: 'Source Document',
+    summary: 'The regulatory document — permit, EIR, or agreement — that obligations are extracted from.',
     blocks: [
       {
         kind: 'p',
-        text: 'A Source Document is a regulatory document attached to your project: a permit, an environmental impact report, an incidental take permit, a contract, or an agency agreement. It is where every obligation in Beacon originally comes from.',
+        text: 'A Source Document is a regulatory record attached to a project: a permit, an environmental impact report, an incidental take permit, a contract, or an agency agreement. Every obligation in Beacon originates from a source document.',
       },
       {
         kind: 'p',
-        text: 'A project may carry dozens of sources from different agencies, and each source may contain anywhere from a handful to hundreds of discrete obligations. Uploading the original PDF lets Beacon extract its text for search and assisted commitment extraction.',
+        text: 'A project may carry dozens of source documents from multiple agencies, and a single source may contain anywhere from a few to several hundred discrete obligations. Uploading the original file makes its text available for search and assisted commitment extraction.',
       },
     ],
     related: ['what-is-a-commitment'],
@@ -167,21 +568,21 @@ export const HELP_ARTICLES: HelpArticle[] = [
     id: 'what-is-a-commitment',
     kind: 'glossary',
     category: 'data-catalog',
-    title: 'What is a Commitment?',
-    summary: 'One discrete obligation, in the document’s own words.',
+    title: 'Commitment',
+    summary: 'One discrete obligation, recorded in its source document’s original language.',
     blocks: [
       {
         kind: 'p',
-        text: 'A Commitment is a single “thing the project must do,” captured in the original regulatory language of its source document. Commitments carry structured details — type, resource category, phases, species, seasons — so they can be filtered and planned.',
+        text: 'A Commitment is a single obligation a project must satisfy, captured in the regulatory language of its source document. Each commitment carries structured attributes — type, resource category, phase, species, and season — that support filtering and planning.',
       },
       {
         kind: 'p',
-        text: 'The same real-world obligation often appears in several documents. Each appearance is kept as its own commitment; the overlap is resolved later, when requirements are consolidated into actions.',
+        text: 'The same real-world obligation frequently appears across multiple documents. Each appearance is retained as a separate commitment; the overlap is resolved downstream, when requirements are consolidated into actions.',
       },
       {
         kind: 'callout',
         tone: 'note',
-        text: 'When an agency amends a document, commitments are revised rather than replaced — the original and updated language coexist with clear lineage.',
+        text: 'When an agency amends a document, its commitments are revised rather than replaced. The original and updated language coexist with explicit lineage.',
       },
     ],
     related: ['what-is-a-source', 'what-is-a-requirement'],
@@ -190,16 +591,16 @@ export const HELP_ARTICLES: HelpArticle[] = [
     id: 'what-is-a-requirement',
     kind: 'glossary',
     category: 'data-catalog',
-    title: 'What is a Requirement?',
+    title: 'Requirement',
     summary: 'A specific, actionable sub-obligation broken out of a commitment.',
     blocks: [
       {
         kind: 'p',
-        text: 'A Requirement is one specific piece of work inside a commitment. A commitment stating “prior to grading, conduct protocol-level surveys for burrowing owl and submit results within 30 days” contains two requirements: conduct the survey, and submit the results.',
+        text: 'A Requirement is one discrete unit of work contained within a commitment. A commitment stating “prior to grading, conduct protocol-level surveys for burrowing owl and submit results within 30 days” resolves to two requirements: conduct the survey, and submit the results.',
       },
       {
         kind: 'p',
-        text: 'Requirements carry their own type, scope, and frequency, and are the unit that gets consolidated into trackable actions.',
+        text: 'Each requirement carries its own type, scope, and frequency. The requirement is the unit consolidated into trackable actions.',
       },
     ],
     related: ['what-is-a-commitment', 'what-is-an-action'],
@@ -208,12 +609,12 @@ export const HELP_ARTICLES: HelpArticle[] = [
     id: 'what-is-an-action',
     kind: 'glossary',
     category: 'data-catalog',
-    title: 'What is an Action?',
+    title: 'Action',
     summary: 'One trackable deliverable consolidating requirements that describe the same work.',
     blocks: [
       {
         kind: 'p',
-        text: 'An Action is a planned unit of compliance work. It consolidates requirements — often from many commitments — that describe the same underlying task. If “submit the stormwater plan” appears in 44 different commitments, it becomes one action.',
+        text: 'An Action is a planned unit of compliance work. It consolidates requirements — often drawn from many commitments — that describe the same underlying task. A requirement to submit the stormwater plan appearing across 44 commitments resolves to one action.',
       },
       {
         kind: 'figure',
@@ -222,7 +623,7 @@ export const HELP_ARTICLES: HelpArticle[] = [
       },
       {
         kind: 'p',
-        text: 'Each action defines the work, the evidence expected, the schedule, and the responsible party. Actions start as drafts and must be published before they generate trackable implementations.',
+        text: 'Each action defines the work, the expected evidence, the schedule, and the responsible party. Actions begin as drafts and must be published before they generate trackable implementations.',
       },
     ],
     related: ['what-is-a-requirement', 'actions-vs-implementations', 'project-vs-component-scope'],
@@ -236,261 +637,119 @@ export const HELP_ARTICLES: HelpArticle[] = [
     blocks: [
       {
         kind: 'p',
-        text: 'Every requirement keeps its full ancestry: the commitment it came from, and the source document that commitment was extracted from. This is how you answer “why do we have to do this?” with the exact regulatory language.',
+        text: 'Every requirement keeps its full ancestry: the commitment it came from, and the source document that commitment was extracted from. This is how a requirement is traced to the exact regulatory language behind it.',
       },
       {
         kind: 'steps',
         items: [
-          'Open the requirement — the lineage strip at the top shows Source → Commitment → Requirement.',
+          'Open the requirement. The lineage strip at the top shows Source → Commitment → Requirement.',
           'Click the commitment to read the obligation in the document’s original words.',
-          'Click the source to see the document’s details, agency, and attached PDF — with the cited passage highlighted.',
+          'Click the source to see the document’s details, agency, and attached file — with the cited passage highlighted.',
         ],
       },
     ],
     related: ['what-is-a-requirement', 'what-is-a-source'],
   },
 
-  // ═══ Tracking & actions ═══
+  // ═══ Settings & Configuration ═══
   {
-    id: 'actions-vs-implementations',
+    id: 'feature-flag',
     kind: 'glossary',
-    category: 'tracking',
-    title: 'Actions vs. implementations',
-    summary: 'The action is the plan; implementations are the work you actually do.',
+    category: 'settings-config',
+    title: 'Feature Flag',
+    summary: 'A tenant-level switch that enables or disables a Beacon capability.',
     blocks: [
       {
         kind: 'p',
-        text: 'An action defines what must be done. An implementation tracks actually doing it — status, assignee, tasks, comments, and evidence. Most teams simply call implementations “the actions,” and that is fine: they are the thing you interact with daily.',
+        text: 'A Feature Flag is a configuration switch that turns a Beacon capability on or off for a tenant. Flags allow a feature to be released to specific tenants independently, without a code change.',
       },
       {
         kind: 'p',
-        text: 'How many implementations an action produces depends on its scope and frequency. A one-time, project-wide plan submission produces one. A recurring, component-scoped inspection produces one per component, per occurrence.',
+        text: 'Feature flags are administered in tenant settings. A disabled flag hides its feature from navigation and removes its surfaces from every project the tenant owns.',
       },
     ],
-    related: ['what-is-an-action', 'project-vs-component-scope'],
+    related: ['managing-tenant-settings', 'tenant'],
   },
   {
-    id: 'what-is-a-component',
-    kind: 'glossary',
-    category: 'tracking',
-    title: 'What is a Component?',
-    summary: 'A physical or logical subdivision of the project with its own compliance tracking.',
+    id: 'managing-tenant-settings',
+    kind: 'howto',
+    category: 'settings-config',
+    title: 'Managing tenant settings',
+    summary: 'Configure the display labels, defaults, and enabled features that apply across a tenant.',
     blocks: [
       {
         kind: 'p',
-        text: 'A Component is a distinct place or package of work within your project — a launch shaft, an intake site, a construction segment. Components matter because the same obligation often plays out independently at each location.',
+        text: 'Tenant settings control behavior shared across every project a tenant owns: display labels for core entities, default notification rules, enabled features, and the user roster. Changes apply tenant-wide.',
       },
       {
-        kind: 'p',
-        text: 'Components map to the commitments that apply to them, can carry their own milestone dates, and receive their own implementations of component-scoped actions. Work Areas subdivide a component further when field tracking needs finer grain.',
-      },
-    ],
-    related: ['project-vs-component-scope', 'starring-components'],
-  },
-  {
-    id: 'project-vs-component-scope',
-    kind: 'glossary',
-    category: 'tracking',
-    title: 'Project scope vs. component scope',
-    summary: 'Scope decides whether work is tracked once, or once per location.',
-    blocks: [
-      {
-        kind: 'p',
-        text: 'Scope is one of Beacon’s most important switches. A project-scoped action is done once, centrally — “submit the project-wide stormwater plan.” A component-scoped action is done independently at every applicable component — “install exclusion fencing” at each of 20 construction areas.',
-      },
-      {
-        kind: 'figure',
-        label: 'The scope multiplier',
-        caption: 'One component-scoped action across 20 components produces 20 independently tracked implementations.',
+        kind: 'steps',
+        items: [
+          'Open Settings and select the tenant settings section (available to tenant administrators).',
+          'Adjust display labels, defaults, or enabled features; each change is scoped to the current tenant only.',
+          'Save. Tenant-wide changes take effect on the next page load for every user in the tenant.',
+        ],
       },
       {
         kind: 'callout',
         tone: 'note',
-        text: 'Each implementation is tracked on its own: different assignees, different timelines, different evidence.',
+        text: 'Entity label overrides — for example, renaming Actions to match an agency’s vocabulary — apply to navigation, headings, and search across the tenant.',
       },
     ],
-    related: ['what-is-a-component', 'actions-vs-implementations'],
+    related: ['tenant', 'feature-flag', 'managing-users-roles'],
   },
   {
-    id: 'reading-permit-tracking',
+    id: 'managing-users-roles',
     kind: 'howto',
-    category: 'tracking',
-    title: 'Reading the Permit Tracking board',
-    summary: 'Where each permit stands, what is blocking it, and what is due next.',
+    category: 'settings-config',
+    title: 'Managing users and roles',
+    summary: 'Add users to a tenant and assign the roles that govern their access.',
     blocks: [
       {
         kind: 'p',
-        text: 'Permit Tracking shows every permit and approval your project needs, each with its current status in the acquisition pipeline — from “not yet applied” through agency review to “issued.”',
+        text: 'Access in Beacon is governed by role. A role determines which zones a user can view and which records a user can create, edit, or approve. Users are added at the tenant level and assigned one or more roles.',
       },
       {
         kind: 'steps',
         items: [
-          'Each row is one permit; the status lozenge shows where it sits in the pipeline right now.',
-          'The date column shows the next deadline — a submittal window, an agency response due, or an expiration to renew.',
-          'Open a permit to see its conditions, responsible contacts, and the source document it will arrive as once issued.',
+          'Open Settings and select Users.',
+          'Invite a user by email, or select an existing user to change their assignment.',
+          'Assign roles — for example, viewer, contributor, or reviewer — and save.',
         ],
-      },
-      { kind: 'video', label: 'Watch: a permit’s life in Beacon', duration: '2:47' },
-      {
-        kind: 'callout',
-        tone: 'tip',
-        text: 'An issued permit usually becomes a new source document — its conditions are extracted as commitments and join the catalog like any other obligation.',
-      },
-    ],
-    related: ['what-is-a-source', 'what-is-a-commitment'],
-  },
-  {
-    id: 'starring-components',
-    kind: 'howto',
-    category: 'tracking',
-    title: 'Starring components on your dashboard',
-    summary: 'Pin the three-to-five components you actually work in.',
-    blocks: [
-      {
-        kind: 'p',
-        text: 'Large projects can have dozens of components, but most people work in a few. Starring pins a component to your project dashboard as a card with its Tracking, Monitoring, and Reporting pulse — your portal into that component’s own dashboard.',
-      },
-      {
-        kind: 'steps',
-        items: [
-          'Open any component and click the star in its header.',
-          'Starred components appear on your project dashboard in the Components section.',
-          'Un-star from either place; the component itself is unaffected.',
-        ],
-      },
-    ],
-    related: ['what-is-a-component', 'reading-critical-now'],
-  },
-  {
-    id: 'reading-critical-now',
-    kind: 'howto',
-    category: 'tracking',
-    title: 'How “Most critical right now” is chosen',
-    summary: 'Why an item earns a spot at the top of your dashboard.',
-    blocks: [
-      {
-        kind: 'p',
-        text: 'The dashboard’s critical surface is deliberately small: it elevates only items that are project-critical today — an overdue action on a critical-path component, a lapsed survey blocking ground disturbance, a report due to an agency this week.',
-      },
-      {
-        kind: 'p',
-        text: 'Items leave the surface when the underlying condition clears — completing the work, filing the report, or a review resolving the block. There is nothing to configure; it reads the same signals shown in each zone.',
-      },
-    ],
-    related: ['starring-components', 'site-clearance-go-no-go'],
-  },
-
-  // ═══ Monitoring & field work ═══
-  {
-    id: 'what-is-a-dmr',
-    kind: 'glossary',
-    category: 'monitoring',
-    title: 'What is a Daily Monitoring Report?',
-    summary: 'The structured field report of a day on site — and a direct source of evidence.',
-    blocks: [
-      {
-        kind: 'p',
-        text: 'A Daily Monitoring Report (DMR) captures one day of field monitoring: who observed, site and weather conditions, construction activities underway, observations recorded, photos, and narrative notes.',
-      },
-      {
-        kind: 'p',
-        text: 'DMRs are a bridge to compliance: when an obligation says “conduct daily biological monitoring during construction,” the DMRs documenting that monitoring are the evidence the obligation was met.',
-      },
-    ],
-    related: ['what-is-an-observation', 'what-is-evidence'],
-  },
-  {
-    id: 'what-is-an-observation',
-    kind: 'glossary',
-    category: 'monitoring',
-    title: 'What is an Observation?',
-    summary: 'One recorded field event — a species sighting, habitat condition, weather event, or BMP check.',
-    blocks: [
-      {
-        kind: 'p',
-        text: 'An Observation is a single recorded event from the field: “two burrowing owls at the north staging area,” “silt fence along the eastern boundary intact,” “wind exceeded 25 mph, dust control activated.” Observations usually belong to a DMR and carry species data, location, time, and photos.',
       },
       {
         kind: 'callout',
         tone: 'note',
-        text: 'Observations with compliance consequences — an active nest inside a buffer, a failed BMP — surface in Monitoring as items needing action, and can trigger review before work proceeds.',
+        text: 'Approval actions, such as clearing a survey through quality control, require a role with review authority. A contributor role cannot approve its own records.',
       },
     ],
-    related: ['what-is-a-dmr', 'site-clearance-go-no-go'],
+    related: ['managing-tenant-settings', 'qc-field-surveys'],
   },
   {
-    id: 'qc-field-surveys',
+    id: 'configuring-notifications',
     kind: 'howto',
-    category: 'monitoring',
-    title: 'Reviewing field surveys before they count',
-    summary: 'Surveys sync from field apps, but only QC-approved records drive compliance.',
+    category: 'settings-config',
+    title: 'Configuring notifications',
+    summary: 'Set which compliance events generate notifications, and how each user receives them.',
     blocks: [
       {
         kind: 'p',
-        text: 'Survey records flow in from field collection tools (Fulcrum, Survey123). Before a record affects compliance — clearances, countdowns, evidence — it passes a quality-control review.',
+        text: 'Notifications alert users to compliance events — an approaching deadline, a new provisional block, a returned survey. Defaults are set at the tenant level; each user may adjust their own delivery preferences within those defaults.',
       },
       {
         kind: 'steps',
         items: [
-          'New records land with a “pending QC” status in the Surveys grid.',
-          'A reviewer checks species identification, coordinates, and required fields, then approves or returns the record.',
-          'Views default to QC-approved records only; toggle the filter to see pending ones.',
-        ],
-      },
-    ],
-    related: ['what-is-an-observation', 'what-is-a-dmr'],
-  },
-  {
-    id: 'site-clearance-go-no-go',
-    kind: 'howto',
-    category: 'monitoring',
-    title: 'Using Site Clearance go/no-go',
-    summary: 'Check whether a work site is clear for ground disturbance — and what is blocking it.',
-    blocks: [
-      {
-        kind: 'p',
-        text: 'Site Clearance answers one question per site: is it clear to disturb ground today? The system detects potential blocks — a lapsed nesting survey, an unclosed wildlife buffer — and marks the site provisionally blocked until a qualified reviewer decides.',
-      },
-      {
-        kind: 'steps',
-        items: [
-          'Green sites are clear; amber sites carry a provisional block awaiting review; red sites are blocked by a recorded decision.',
-          'Open a site to see each discipline’s reviews, the detections behind them, and the required outcome.',
-          'Reviews overrule detections: the system detects, humans decide.',
+          'Open Settings and select Notifications to review the tenant’s default rules.',
+          'Enable or disable notifications by event type, and set the delivery channel for each.',
+          'Individual users adjust their personal preferences from the same section; tenant defaults apply where a user has made no choice.',
         ],
       },
       {
         kind: 'callout',
         tone: 'tip',
-        text: 'The map and the review list are the same data — pick whichever view fits how you work.',
+        text: 'Scope notifications to the components a user has starred to keep alerts limited to their own work.',
       },
     ],
-    related: ['what-is-an-observation', 'reading-critical-now'],
-  },
-
-  // ═══ Reporting & evidence ═══
-  {
-    id: 'what-is-evidence',
-    kind: 'glossary',
-    category: 'reporting',
-    title: 'What counts as Evidence of Compliance?',
-    summary: 'The documented proof an obligation was met — the artifact an auditor sees.',
-    blocks: [
-      {
-        kind: 'p',
-        text: 'Evidence of Compliance is the end of the whole flow: the report, photo, receipt, signed form, or monitoring record that proves an obligation was met. It is what you present to a regulatory agency during an audit.',
-      },
-      {
-        kind: 'p',
-        text: 'Evidence attaches to action implementations, and can also link to checklist items to satisfy specific requirements per component. Field-sourced evidence can come straight from Daily Monitoring Reports.',
-      },
-      {
-        kind: 'callout',
-        tone: 'note',
-        text: 'Every evidence record keeps its files, metadata, and timestamps — an auditable trail from source document to proof.',
-      },
-    ],
-    related: ['what-is-a-dmr', 'actions-vs-implementations'],
+    related: ['managing-tenant-settings', 'starring-components'],
   },
 ];
 
@@ -515,7 +774,7 @@ export const HELP_ROUTE_CONTEXTS: HelpRouteContext[] = [
     page: 'Permit Tracking',
     purpose: 'Every permit and approval the project needs, tracked through the acquisition pipeline — what is in hand, in review, and due next.',
     howtos: ['reading-permit-tracking', 'global-search-tips'],
-    terms: ['what-is-a-source', 'what-is-a-commitment'],
+    terms: ['permit', 'what-is-a-source', 'what-is-a-commitment'],
   },
   {
     pattern: '/prototypes/project-dashboard',
@@ -558,21 +817,21 @@ export const HELP_ROUTE_CONTEXTS: HelpRouteContext[] = [
     page: 'Site Clearance',
     purpose: 'Go/no-go for ground disturbance — which sites are clear today, and exactly what blocks the rest.',
     howtos: ['site-clearance-go-no-go'],
-    terms: ['what-is-an-observation'],
+    terms: ['site-clearance', 'what-is-an-observation'],
   },
   {
     pattern: '/prototypes/monitoring/surveys',
     page: 'Surveys',
     purpose: 'Field survey records synced from collection apps, quality-controlled before they count toward compliance.',
     howtos: ['qc-field-surveys'],
-    terms: ['what-is-an-observation', 'what-is-a-dmr'],
+    terms: ['survey', 'what-is-an-observation', 'what-is-a-dmr'],
   },
   {
     pattern: '/prototypes/monitoring',
     page: 'Monitoring',
     purpose: 'What is happening in the field — daily reports, observations, surveys, and the compliance concerns they raise.',
     howtos: ['qc-field-surveys', 'site-clearance-go-no-go'],
-    terms: ['what-is-a-dmr', 'what-is-an-observation'],
+    terms: ['what-is-a-dmr', 'what-is-an-observation', 'monitoring-portal'],
   },
   {
     pattern: '/prototypes/requirement-tracker',
@@ -652,4 +911,11 @@ export function articlesByCategory(id: HelpCategoryId): HelpArticle[] {
 
 export function getArticle(id: string): HelpArticle | undefined {
   return HELP_ARTICLES.find((a) => a.id === id);
+}
+
+/** All glossary-kind articles, sorted A-Z by title — the Help page's A-Z glossary view. */
+export function glossaryArticles(): HelpArticle[] {
+  return HELP_ARTICLES
+    .filter((a) => a.kind === 'glossary')
+    .sort((a, b) => a.title.localeCompare(b.title));
 }

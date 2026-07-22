@@ -1,50 +1,47 @@
-// kb-browser — behavior for <BcnKbBrowser>, the article browser of the Help &
-// Guidance page (/prototypes/help). Three jobs, all driven off the server-rendered
-// light DOM (no article bodies are imported here — they live in the DOM):
+// kb-browser — page controller for the Help & Guidance page (/prototypes/help).
+// Three jobs, all driven off the server-rendered light DOM (no article bodies are
+// imported here — they live in the DOM, so the JS bundle carries no content):
 //
-//   1. HASH ROUTING. The reading pane shows ONE article at a time (or the start
-//      landing) so the guidance drawer (a sibling surface) can deep-link to an
-//      exact article.
-//        #article-<id>  → show that article, expand + mark its rail link active, scroll to top.
-//        #category-<id> → expand that category in the rail + show its FIRST article.
-//        (no hash)      → the populated START LANDING (pane) + the first category expanded.
-//      Rail links (article links AND category headers) are real <a href="#…"> so
-//      back/forward Just Works; we only listen to hashchange + the initial load.
+//   1. READING-PANE ROUTING. The pane (in <BcnKbBrowser>) shows ONE article at a
+//      time; the dense category index + glossary (in <BcnKbCategories>) and the Aldo
+//      guidance drawer deep-link into it.
+//        #article-<id>  → show that article and scroll the pane clear of the topbar.
+//        #category-<id> → the category group in the index owns id="category-<id>"
+//                         (+ scroll-margin), so the browser scrolls there natively;
+//                         we only reset the pane to its default article.
+//        (no hash)      → the default article, WITHOUT scrolling, so the hero + index
+//                         stay in view on load.
 //
-//   2. CATEGORY ACCORDION. The rail shows one category's articles at a time: the
-//      ACTIVE category is expanded (data-active), the rest collapse to header rows.
-//      setActiveCategory() is the single writer of that state; routing calls it so the
-//      rail always reflects where you are — contextual wayfinding, not a flat index.
+//   2. LIVE SEARCH → RESULTS. The hero (sibling) owns the [data-kb-search] field and
+//      a pre-rendered results listbox ([data-kb-results], one hidden row per article).
+//      Typing (debounced, ≥2 chars) reveals matching rows with the matched substring
+//      <mark>ed; Arrow keys move the active row, Enter opens it, Esc clears. Click or
+//      Enter routes via the hash into the reading pane.
 //
-//   3. LIVE SEARCH. The hero (sibling) renders a search field carrying [data-kb-search]
-//      — it may be a Lit <esa-text-field>, so we listen at document level for the
-//      COMPOSED 'input' event and read .value off the retargeted host. ≥2 chars puts
-//      the rail into search mode ([data-searching], which reveals matched items across
-//      ALL categories regardless of the accordion), filters against data-title/
-//      data-summary, hides empty groups, and marks the matched substring. Enter opens
-//      the first match. Clearing the box restores the accordion to the active category.
+//   3. LIVE INDEX FILTER. While a query is active the index below narrows to the same
+//      matches — non-matching entries hide, empty category groups and the glossary
+//      collapse. Clearing the query restores everything.
 //
-// Self-mounting (queries [data-kb-browser]) like initOmniSearch — the "own behavior"
-// controller shape, matched to evidence-list.ts's export naming.
+// Self-mounting off document-level queries (the field, results, index, and pane each
+// live in a different sibling component); missing pieces are simply skipped.
 
 const MIN_QUERY = 2;
-/** Nudges the scrolled pane top clear of the app topbar so it isn't tucked under it. */
-const HEADER_OFFSET = 80;
+const DEBOUNCE_MS = 150;
 
 const escapeHtml = (s: string): string =>
   s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string));
 
-/** Escaped title HTML with every case-insensitive occurrence of `q` wrapped in <mark>. */
-function highlight(title: string, q: string): string {
-  const lc = title.toLowerCase();
+/** Escaped text with every case-insensitive occurrence of `q` wrapped in <mark>. */
+function highlight(text: string, q: string): string {
+  const lc = text.toLowerCase();
   const needle = q.toLowerCase();
   let out = '';
   let i = 0;
-  while (i < title.length) {
+  while (i < text.length) {
     const idx = lc.indexOf(needle, i);
-    if (idx === -1) { out += escapeHtml(title.slice(i)); break; }
-    out += escapeHtml(title.slice(i, idx));
-    out += `<mark>${escapeHtml(title.slice(idx, idx + q.length))}</mark>`;
+    if (idx === -1) { out += escapeHtml(text.slice(i)); break; }
+    out += escapeHtml(text.slice(i, idx));
+    out += `<mark>${escapeHtml(text.slice(idx, idx + q.length))}</mark>`;
     i = idx + q.length;
   }
   return out;
@@ -59,119 +56,170 @@ function searchField(target: EventTarget | null): HTMLElement | null {
 }
 
 export function setupKbBrowser(): void {
-  const root = document.querySelector<HTMLElement>('[data-kb-browser]');
-  if (!root) return;
+  // ── reading pane (in <BcnKbBrowser>) ──
+  const pane = document.querySelector<HTMLElement>('[data-kb-pane]');
+  const articles = pane ? [...pane.querySelectorAll<HTMLElement>('.bcn-kb__article')] : [];
+  const defaultId = pane?.dataset.kbDefault ?? articles[0]?.dataset.articleId ?? '';
 
-  const rail = root.querySelector<HTMLElement>('.bcn-kb__rail')!;
-  const pane = root.querySelector<HTMLElement>('[data-kb-pane]')!;
-  const start = root.querySelector<HTMLElement>('[data-kb-start]')!;
-
-  const articles = [...pane.querySelectorAll<HTMLElement>('.bcn-kb__article')];
-  const links = [...rail.querySelectorAll<HTMLAnchorElement>('.bcn-kb__link')];
-  const items = [...rail.querySelectorAll<HTMLElement>('.bcn-kb__item')];
-  const groups = [...rail.querySelectorAll<HTMLElement>('.bcn-kb__group')];
-
-  const DEFAULT_CATEGORY = groups[0]?.dataset.kbGroup ?? '';
-  const linkTitle = (link: HTMLElement) => link.querySelector<HTMLElement>('.bcn-kb__link-title')!;
-
-  // ---- reading-pane scroll ----
-  function scrollToPaneTop(): void {
-    const top = root!.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
-    window.scrollTo({ top: Math.max(0, top), behavior: 'auto' });
+  function scrollPaneTop(): void {
+    // The page scrolls inside the app-shell content area, not the window, so scroll
+    // via scrollIntoView (it drives the nearest scrollable ancestor). scroll-margin-top
+    // on the pane clears the app topbar.
+    pane?.scrollIntoView({ block: 'start', behavior: 'auto' });
   }
 
-  // ---- category accordion (single writer of the expanded group) ----
-  function setActiveCategory(catId: string): void {
-    for (const g of groups) g.toggleAttribute('data-active', g.dataset.kbGroup === catId);
-  }
-
-  // ---- pane states ----
-  function showStart(): void {
-    start.hidden = false;
-    for (const a of articles) a.hidden = true;
-    for (const l of links) l.classList.remove('is-active');
-    setActiveCategory(DEFAULT_CATEGORY);
-  }
-
-  function showArticle(id: string): boolean {
+  function showArticle(id: string, scroll: boolean): boolean {
     const target = articles.find((a) => a.dataset.articleId === id);
     if (!target) return false;
-    start.hidden = true;
     for (const a of articles) a.hidden = a !== target;
-    for (const l of links) l.classList.toggle('is-active', l.dataset.articleLink === id);
-    // Expand the article's own category so its rail link is visible.
-    if (target.dataset.category) setActiveCategory(target.dataset.category);
-    links.find((l) => l.dataset.articleLink === id)?.scrollIntoView({ block: 'nearest' });
-    scrollToPaneTop();
+    // Defer to the next frame so this wins over the browser's own fragment scroll
+    // when the hash changes in-page (choosing a search result, an index link).
+    if (scroll) requestAnimationFrame(scrollPaneTop);
     return true;
   }
 
-  function showCategory(catId: string): void {
-    const group = rail.querySelector<HTMLElement>(`[data-kb-group="${catId}"]`);
-    if (!group) { showStart(); return; }
-    setActiveCategory(catId);
-    group.scrollIntoView({ block: 'nearest' });
-    const firstId = group.querySelector<HTMLElement>('.bcn-kb__link')?.dataset.articleLink;
-    if (firstId) showArticle(firstId);
+  function showDefault(): void {
+    if (defaultId) showArticle(defaultId, false);
   }
 
-  // ---- hash routing ----
+  // ── dense index (in <BcnKbCategories>) ──
+  const index = document.querySelector<HTMLElement>('[data-kb-index]');
+  const entries = index ? [...index.querySelectorAll<HTMLElement>('[data-kb-entry]')] : [];
+  const catGroups = index ? [...index.querySelectorAll<HTMLElement>('[data-kb-cat]')] : [];
+  const glossary = index?.querySelector<HTMLElement>('[data-kb-glossary]') ?? null;
+
+  // ── live-search results (in <BcnKbHero>) ──
+  const field = document.querySelector<HTMLElement>('[data-kb-search]');
+  const results = document.querySelector<HTMLElement>('[data-kb-results]');
+  const resultRows = results ? [...results.querySelectorAll<HTMLAnchorElement>('[data-result]')] : [];
+  const noResults = results?.querySelector<HTMLElement>('[data-kb-no-results]') ?? null;
+  const noResultsQuery = noResults?.querySelector<HTMLElement>('[data-kb-query]') ?? null;
+  const rowTitle = (r: HTMLElement) => r.querySelector<HTMLElement>('[data-result-title]')!;
+
+  let visible: HTMLAnchorElement[] = [];
+  let activeIdx = -1;
+
+  function closeResults(): void {
+    if (!results) return;
+    results.hidden = true;
+    field?.setAttribute('aria-expanded', 'false');
+    field?.removeAttribute('aria-activedescendant');
+    for (const r of resultRows) { r.classList.remove('is-active'); r.setAttribute('aria-selected', 'false'); }
+    activeIdx = -1;
+  }
+
+  function markActive(): void {
+    for (const r of resultRows) { r.classList.remove('is-active'); r.setAttribute('aria-selected', 'false'); }
+    const row = visible[activeIdx];
+    if (row) {
+      row.classList.add('is-active');
+      row.setAttribute('aria-selected', 'true');
+      field?.setAttribute('aria-activedescendant', row.id);
+      row.scrollIntoView({ block: 'nearest' });
+    } else {
+      field?.removeAttribute('aria-activedescendant');
+    }
+  }
+
+  function filterResults(q: string, needle: string): void {
+    if (!results) return;
+    for (const r of resultRows) {
+      const hit = `${r.dataset.title ?? ''} ${r.dataset.summary ?? ''}`.toLowerCase().includes(needle);
+      r.hidden = !hit;
+      rowTitle(r).innerHTML = hit ? highlight(r.dataset.title ?? '', q) : escapeHtml(r.dataset.title ?? '');
+    }
+    visible = resultRows.filter((r) => !r.hidden);
+    results.hidden = false;
+    field?.setAttribute('aria-expanded', 'true');
+    if (noResults) {
+      const empty = visible.length === 0;
+      noResults.hidden = !empty;
+      if (empty && noResultsQuery) noResultsQuery.textContent = q;
+    }
+    activeIdx = visible.length ? 0 : -1;
+    markActive();
+  }
+
+  function filterIndex(active: boolean, needle: string): void {
+    if (!index) return;
+    index.toggleAttribute('data-searching', active);
+    if (!active) {
+      for (const e of entries) e.hidden = false;
+      for (const g of catGroups) g.hidden = false;
+      if (glossary) glossary.hidden = false;
+      return;
+    }
+    for (const e of entries) {
+      e.hidden = !`${e.dataset.title ?? ''} ${e.dataset.summary ?? ''}`.toLowerCase().includes(needle);
+    }
+    const hasVisibleEntry = (scope: HTMLElement) =>
+      [...scope.querySelectorAll<HTMLElement>('[data-kb-entry]')].some((e) => !e.hidden);
+    for (const g of catGroups) g.hidden = !hasVisibleEntry(g);
+    if (glossary) glossary.hidden = !hasVisibleEntry(glossary);
+  }
+
+  function applyQuery(raw: string): void {
+    const q = raw.trim();
+    if (q.length < MIN_QUERY) { closeResults(); filterIndex(false, ''); return; }
+    const needle = q.toLowerCase();
+    filterResults(q, needle);
+    filterIndex(true, needle);
+  }
+
+  // ── hash routing ──
   function route(): void {
     const hash = location.hash;
     if (hash.startsWith('#article-')) {
-      if (!showArticle(hash.slice('#article-'.length))) showStart();
-    } else if (hash.startsWith('#category-')) {
-      showCategory(hash.slice('#category-'.length));
+      closeResults();
+      if (!showArticle(hash.slice('#article-'.length), true)) showDefault();
     } else {
-      showStart();
+      // #category-<id> scrolls natively to the index group; both it and no-hash
+      // reset the pane to the default article.
+      showDefault();
     }
   }
 
-  // ---- live search (rail filter) ----
-  function clearSearch(): void {
-    root!.removeAttribute('data-searching');
-    for (const item of items) item.hidden = false;
-    for (const group of groups) group.hidden = false;
-    for (const link of links) linkTitle(link).textContent = link.dataset.title ?? '';
-  }
-
-  function applySearch(raw: string): void {
-    const q = raw.trim();
-    if (q.length < MIN_QUERY) { clearSearch(); return; }
-    root!.setAttribute('data-searching', '');
-    const needle = q.toLowerCase();
-    for (const item of items) {
-      const link = item.querySelector<HTMLAnchorElement>('.bcn-kb__link')!;
-      const title = link.dataset.title ?? '';
-      const hit = `${title} ${link.dataset.summary ?? ''}`.toLowerCase().includes(needle);
-      item.hidden = !hit;
-      linkTitle(link).innerHTML = hit ? highlight(title, q) : escapeHtml(title);
-    }
-    for (const group of groups) {
-      group.hidden = ![...group.querySelectorAll<HTMLElement>('.bcn-kb__item')].some((i) => !i.hidden);
-    }
-  }
-
-  function firstVisibleArticleId(): string | null {
-    return items.find((i) => !i.hidden)?.querySelector<HTMLElement>('.bcn-kb__link')?.dataset.articleLink ?? null;
-  }
-
-  // ---- events ----
+  // ── events ──
   window.addEventListener('hashchange', route);
 
-  // The hero search field lives outside this component; listen at document level and
-  // filter to [data-kb-search] (composed 'input' from a Lit <esa-text-field> retargets
-  // to its host, which carries the attribute).
+  let timer: number | undefined;
   document.addEventListener('input', (e) => {
-    const field = searchField(e.target);
-    if (field) applySearch((field as HTMLInputElement).value ?? '');
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key !== 'Enter' || !searchField(e.target)) return;
-    e.preventDefault();
-    const id = firstVisibleArticleId();
-    if (id) location.hash = `#article-${id}`;
+    if (!searchField(e.target)) return;
+    const value = (e.target as HTMLInputElement).value ?? '';
+    window.clearTimeout(timer);
+    timer = window.setTimeout(() => applyQuery(value), DEBOUNCE_MS);
   });
 
-  route(); // initial load (deep-link or start landing)
+  document.addEventListener('keydown', (e) => {
+    const f = searchField(e.target);
+    if (!f) return;
+    if (e.key === 'ArrowDown' && visible.length) {
+      e.preventDefault();
+      activeIdx = Math.min(activeIdx + 1, visible.length - 1);
+      markActive();
+    } else if (e.key === 'ArrowUp' && visible.length) {
+      e.preventDefault();
+      activeIdx = Math.max(activeIdx - 1, 0);
+      markActive();
+    } else if (e.key === 'Enter') {
+      const row = visible[activeIdx] ?? visible[0];
+      if (row) { e.preventDefault(); location.hash = new URL(row.href).hash; }
+    } else if (e.key === 'Escape') {
+      if ('value' in f) (f as HTMLInputElement).value = '';
+      applyQuery('');
+    }
+  });
+
+  // Choosing a result closes the panel; hash routing shows the article.
+  results?.addEventListener('click', () => closeResults());
+
+  // Click outside the field + panel closes the panel.
+  document.addEventListener('click', (e) => {
+    if (!results || results.hidden) return;
+    const t = e.target as Node;
+    if (results.contains(t) || field?.contains(t)) return;
+    closeResults();
+  });
+
+  route(); // honor an initial deep-link (or land on the default article)
 }
