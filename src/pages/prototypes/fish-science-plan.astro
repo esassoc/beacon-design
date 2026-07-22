@@ -1,0 +1,145 @@
+---
+// Fish Science Plan — the draft plan as a navigable DOCUMENT with its review
+// layer: the brief's "linking COAs to sections from the draft science plan +
+// comment tracking/documentation" bullet, whole.
+//
+// DATA SOURCE: ./data/fish-plan.ts — PLAN_SECTIONS (the FIXED Feb-2026 outline),
+// PLAN_COMMENTS (plan-level review comments), and the study-scoped review
+// threads from STUDY_PROFILES, all anchored by sectionId. Sections cite COAs;
+// COA chips resolve to the work-breakdown detail pages (families → Programs,
+// dot-numbers → Studies). The corpus is fixed — only comment status is live.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import BcnPlanReader from '../../components/bcn/BcnPlanReader.astro';
+import { PROGRAMS, PLAN_SECTIONS, PLAN_COMMENTS, STUDY_PROFILES, COA_NAMES } from '../../data/fish-plan';
+import {
+  COMMENT_INTENT_META,
+  COMMENT_STATUS_META,
+  PROJECT_NAME,
+  type CommentIntent,
+  type CommentStatus,
+  type ReviewComment,
+} from '../../data/fish-model';
+import { withBase } from '../../lib/base';
+
+// ── COA reference → work-breakdown node (Studies AND Programs resolve). ──
+const coaToNodeId = new Map(
+  [...PROGRAMS, ...PROGRAMS.flatMap((p) => p.children)]
+    .filter((n) => n.coaRef)
+    .map((n) => [n.coaRef as string, n.id]),
+);
+const detailHref = (id: string) => withBase(`/prototypes/fish-detail/${id}`);
+
+// ── Comments per section: plan-level + every study thread, joined by sectionId. ──
+const allComments: ReviewComment[] = [
+  ...PLAN_COMMENTS,
+  ...Object.values(STUDY_PROFILES).flatMap((p) => p.reviewComments ?? []),
+];
+const bySection = new Map<string, ReviewComment[]>();
+for (const c of allComments) {
+  if (!c.sectionId) continue;
+  if (!bySection.has(c.sectionId)) bySection.set(c.sectionId, []);
+  bySection.get(c.sectionId)!.push(c);
+}
+
+const projectComment = (c: ReviewComment) => ({
+  id: c.id,
+  author: c.author,
+  agency: c.agency,
+  date: c.date,
+  intentKey: c.intent,
+  intentLabel: COMMENT_INTENT_META[c.intent].label,
+  statusKey: c.status,
+  statusLabel: COMMENT_STATUS_META[c.status].label,
+  statusHex: COMMENT_STATUS_META[c.status].hex,
+  text: c.text,
+  replies: c.replies ?? [],
+});
+
+const sections = PLAN_SECTIONS.map((s) => ({
+  id: s.id,
+  number: s.number,
+  title: s.title,
+  level: s.level,
+  excerpt: s.excerpt,
+  coaChips: s.coaRefs.map((ref) => {
+    const nodeId = coaToNodeId.get(ref);
+    return { ref, name: COA_NAMES[ref], href: nodeId ? detailHref(nodeId) : undefined };
+  }),
+  comments: (bySection.get(s.id) ?? [])
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .map(projectComment),
+}));
+
+const outline = sections.map((s) => ({
+  id: s.id,
+  number: s.number,
+  title: s.title,
+  level: s.level,
+  commentCount: s.comments.length,
+}));
+
+const counts = {
+  open: allComments.filter((c) => c.status === 'open').length,
+  addressed: allComments.filter((c) => c.status === 'addressed').length,
+  resolved: allComments.filter((c) => c.status === 'resolved').length,
+};
+
+const intents = (Object.keys(COMMENT_INTENT_META) as CommentIntent[]).map((k) => ({
+  value: k,
+  label: COMMENT_INTENT_META[k].label,
+}));
+const statusOptions = [
+  { value: 'all', label: 'All statuses', color: '#d4d4d4' },
+  ...(Object.keys(COMMENT_STATUS_META) as CommentStatus[]).map((k) => ({
+    value: k,
+    label: COMMENT_STATUS_META[k].label,
+    color: COMMENT_STATUS_META[k].hex,
+  })),
+];
+const coas = [...bySection.keys()]
+  .flatMap((id) => PLAN_SECTIONS.find((s) => s.id === id)?.coaRefs ?? [])
+  .concat(PLAN_SECTIONS.flatMap((s) => s.coaRefs))
+  .filter((ref, i, arr) => arr.indexOf(ref) === i)
+  .sort()
+  .map((ref) => ({ value: ref, label: COA_NAMES[ref] ? `${ref} — ${COA_NAMES[ref]}` : ref }));
+
+const FLASK =
+  '<path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/>';
+
+const fishNav = [
+  { id: 'project', title: 'Project', icon: 'layout-dashboard', iconPaths: '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>', expanded: false, items: [{ id: 'dashboard', label: 'Dashboard' }] },
+  {
+    id: 'studies', title: 'Studies', icon: 'flask-conical', iconPaths: FLASK, expanded: true, active: true, dividerAfter: true,
+    items: [
+      { id: 'science-plan', label: 'Science Plan', active: true },
+      { id: 'tasking-gantt', label: 'Study Planning', href: withBase('/prototypes/fish-gantt') },
+      { id: 'data-model', label: 'Data Model', href: withBase('/prototypes/fish-model-map') },
+    ],
+  },
+  { id: 'tracking', title: 'Tracking', icon: 'radar', expanded: false, items: [{ id: 'project-tracking', label: 'Project Tracking' }] },
+];
+---
+
+<!-- manifest:
+  layout: stack
+  sections:
+    - plan reader            -> bcn-plan-reader        # fixed draft-plan outline + per-section COA chips + anchored CDFW comment threads (filter bar included)
+-->
+
+<AppShell title={`${PROJECT_NAME} — Science Plan`} tenantName="DWR" projectName="Delta Conveyance" navSections={fishNav}>
+  <PageLayout
+    title="Science Plan"
+    icon="book-open"
+    breadcrumbs={[{ label: 'Delta Conveyance', href: '#project' }, { label: 'Studies', href: '#studies' }, { label: 'Science Plan' }]}
+  >
+    <BcnPlanReader
+      sections={sections}
+      outline={outline}
+      counts={counts}
+      intents={intents}
+      statusOptions={statusOptions}
+      coas={coas}
+    />
+  </PageLayout>
+</AppShell>
