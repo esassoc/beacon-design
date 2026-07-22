@@ -87,6 +87,44 @@ BcnCommitmentRow — one Condition-of-Approval measure relevant to the observati
   color: var(--color-text-tertiary);
   flex: none;
 }
+.bcn-crow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-250);
+  padding: var(--spacing-200) var(--spacing-300);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+.bcn-crow__code {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 12%, white);
+  padding: 1px var(--spacing-200);
+  border-radius: var(--radius-100);
+}
+.bcn-crow__title {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bcn-crow__open {
+  flex-shrink: 0;
+  display: inline-flex;
+  color: var(--color-text-tertiary);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
@@ -131,44 +169,6 @@ BcnCommitmentRow — one Condition-of-Approval measure relevant to the observati
   transition: background var(--transition-fast, 0.15s ease);
   -webkit-appearance: none;
   appearance: none;
-}
-.bcn-crow {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-250);
-  padding: var(--spacing-200) var(--spacing-300);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-  cursor: pointer;
-  transition:
-    border-color 0.15s ease,
-    background 0.15s ease;
-}
-.bcn-crow__code {
-  flex-shrink: 0;
-  font-family: var(--font-mono);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-  padding: 1px var(--spacing-200);
-  border-radius: var(--radius-100);
-}
-.bcn-crow__title {
-  flex: 1;
-  min-width: 0;
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.bcn-crow__open {
-  flex-shrink: 0;
-  display: inline-flex;
-  color: var(--color-text-tertiary);
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

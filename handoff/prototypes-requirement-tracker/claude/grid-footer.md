@@ -142,6 +142,109 @@ Beacon's standard grid footer: "Download as CSV" (download glyph) on the left, "
   color: var(--color-text-tertiary);
   flex: none;
 }
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.bcn-reqref__key .esa-icon {
+  --_icon-size: 11px;
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+}
+.bcn-reqref__footer .esa-button--color-ghost .esa-button__native {
+  color: var(--color-secondary);
+}
+.bcn-reqref__footer .esa-icon {
+  --_icon-size: 13px;
+}
+.bcn-reqref__ext .esa-icon {
+  --_icon-size: 12px;
+  opacity: 0.75;
+}
+.esa-collapsible__summary .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary, #404040);
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--color-secondary) !important;
+}
+.table-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-400);
+  padding: var(--spacing-200) var(--spacing-400);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-top: 0;
+  border-radius: 0 0 var(--radius-100) var(--radius-100);
+}
+.row-count-data {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-400);
+  font-size: var(--type-size-100);
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.filtered-rows-count {
+  color: var(--color-text-tertiary);
+}
+.filtered-rows-count[hidden] {
+  display: none;
+}
+.bcn-disc__head .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+}
+.bcn-disc__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-disc__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
+.bcn-evidence-card__lead .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-tertiary);
+  transition: transform 0.15s ease;
+}
+.bcn-evidence-card__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-evidence-card__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
   --_btn-padding-x: var(--form-padding-x-md, 16px);
@@ -212,109 +315,6 @@ Beacon's standard grid footer: "Download as CSV" (download glyph) on the left, "
 }
 .esa-button--color-primary {
   --_accent-text: var(--color-primary-strong);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--color-secondary) !important;
-}
-.table-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-400);
-  padding: var(--spacing-200) var(--spacing-400);
-  background: var(--color-background);
-  border: 1px solid var(--color-border);
-  border-top: 0;
-  border-radius: 0 0 var(--radius-100) var(--radius-100);
-}
-.row-count-data {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-400);
-  font-size: var(--type-size-100);
-  color: var(--color-text-secondary);
-  font-variant-numeric: tabular-nums;
-}
-.filtered-rows-count {
-  color: var(--color-text-tertiary);
-}
-.filtered-rows-count[hidden] {
-  display: none;
-}
-.bcn-disc__head .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary);
-}
-.bcn-disc__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-disc__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
-.bcn-evidence-card__lead .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-tertiary);
-  transition: transform 0.15s ease;
-}
-.bcn-evidence-card__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-evidence-card__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.bcn-reqref__key .esa-icon {
-  --_icon-size: 11px;
-  color: var(--color-text-tertiary);
-  flex-shrink: 0;
-}
-.bcn-reqref__footer .esa-button--color-ghost .esa-button__native {
-  color: var(--color-secondary);
-}
-.bcn-reqref__footer .esa-icon {
-  --_icon-size: 13px;
-}
-.bcn-reqref__ext .esa-icon {
-  --_icon-size: 12px;
-  opacity: 0.75;
-}
-.esa-collapsible__summary .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary, #404040);
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
 }
 ```
 

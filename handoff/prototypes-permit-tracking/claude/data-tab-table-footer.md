@@ -51,13 +51,6 @@ The grid footer (Beacon's standard pattern): "Download as CSV" on the left, a li
 
 ## Styles
 ```css
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
@@ -102,6 +95,35 @@ The grid footer (Beacon's standard pattern): "Download as CSV" on the left, a li
   transition: background var(--transition-fast, 0.15s ease);
   -webkit-appearance: none;
   appearance: none;
+}
+.pd__section-head .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+}
+.table-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-400);
+  padding: var(--spacing-200) var(--spacing-400);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-top: 0;
+  border-radius: 0 0 var(--radius-100) var(--radius-100);
+}
+.row-count-data {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-400);
+  font-size: var(--type-size-100);
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.filtered-rows-count {
+  color: var(--color-text-tertiary);
+}
+.filtered-rows-count[hidden] {
+  display: none;
 }
 .bcn-search-trigger .esa-icon {
   flex: none;
@@ -210,34 +232,12 @@ The grid footer (Beacon's standard pattern): "Download as CSV" on the left, a li
   color: var(--_on);
   border-color: transparent;
 }
-.pd__section-head .esa-icon {
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
   flex-shrink: 0;
-  color: var(--color-text-secondary);
-}
-.table-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-400);
-  padding: var(--spacing-200) var(--spacing-400);
-  background: var(--color-background);
-  border: 1px solid var(--color-border);
-  border-top: 0;
-  border-radius: 0 0 var(--radius-100) var(--radius-100);
-}
-.row-count-data {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-400);
-  font-size: var(--type-size-100);
-  color: var(--color-text-secondary);
-  font-variant-numeric: tabular-nums;
-}
-.filtered-rows-count {
-  color: var(--color-text-tertiary);
-}
-.filtered-rows-count[hidden] {
-  display: none;
 }
 ```
 

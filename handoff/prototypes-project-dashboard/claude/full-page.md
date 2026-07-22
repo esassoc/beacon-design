@@ -4104,6 +4104,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .esa-button__label {
   white-space: nowrap;
 }
+:host {
+  display: inline-block;
+}
+.esa-tooltip-anchor {
+  position: relative;
+  display: inline-flex;
+}
 .modern-layout {
   display: flex;
   flex-direction: column;
@@ -5090,13 +5097,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .claude svg {
   flex: none;
 }
-:host {
-  display: inline-block;
-}
-.esa-tooltip-anchor {
-  position: relative;
-  display: inline-flex;
-}
 .page-layout {
   display: flex;
   flex-direction: column;
@@ -5680,9 +5680,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   font-family: var(--font-decorative, var(--font-sans));
   font-weight: var(--font-weight-bold);
 }
-:host {
-  --_width: var(--side-dialog-width, 400px);
-}
 .bcn-status-chip {
   display: inline-flex;
   align-items: center;
@@ -5923,6 +5920,9 @@ img {
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-relaxed);
   letter-spacing: var(--letter-spacing-normal);
+}
+:host {
+  --_width: var(--side-dialog-width, 400px);
 }
 :host {
   --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));

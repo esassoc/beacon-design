@@ -52,34 +52,6 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
 
 ## Styles
 ```css
-.page-layout__title h1 .esa-icon {
-  color: var(--color-secondary) !important;
-}
-.bcn-disc__head .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary);
-}
-.bcn-disc__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-disc__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
-.bcn-evidence-card__lead .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-tertiary);
-  transition: transform 0.15s ease;
-}
-.bcn-evidence-card__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-evidence-card__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
@@ -150,6 +122,34 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
 .page-layout__title h1 .esa-icon {
   color: var(--bcn-gray-1000);
   flex-shrink: 0;
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--color-secondary) !important;
+}
+.bcn-disc__head .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+}
+.bcn-disc__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-disc__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
+.bcn-evidence-card__lead .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-tertiary);
+  transition: transform 0.15s ease;
+}
+.bcn-evidence-card__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-evidence-card__actions .esa-icon {
+  width: 15px;
+  height: 15px;
 }
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);

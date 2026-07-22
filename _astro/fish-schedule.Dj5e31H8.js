@@ -1,0 +1,1 @@
+const o=2026,D=2045;function c(e){const[n,E="01",a="01"]=e.split("-"),s=new Date(Number(n),Number(E)-1,Number(a)).getTime(),t=new Date(2026,0,1).getTime(),m=new Date(2045,0,1).getTime();return Math.min(1,Math.max(0,(s-t)/(m-t)))}export{o as S,c as a,D as b};
