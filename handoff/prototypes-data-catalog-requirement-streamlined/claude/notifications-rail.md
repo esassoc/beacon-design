@@ -88,46 +88,36 @@ The Notifications rail module: rule-phrasing trigger rows (Coming up / Due / Pas
 
 ## Styles
 ```css
-.bcn-lineage__icon .esa-icon {
-  --_icon-size: 14px;
-}
-.bcn-triggers {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
-}
-.bcn-trigger-row {
-  display: flex;
+.esa-icon-link {
+  --_il-font: var(--icon-link-font-size-md, 1rem);
+  display: inline-flex;
   align-items: center;
-  gap: var(--spacing-250);
-  font-size: var(--form-font-size-md);
+  gap: var(--icon-link-gap, var(--spacing-150, 6px));
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: var(--_il-font);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
 }
-.bcn-trigger-row .esa-icon {
-  color: var(--color-primary);
+.esa-icon-link--sm {
+  --_il-font: var(--icon-link-font-size-sm, 0.875rem);
+}
+.esa-icon-link--medium {
+  font-weight: var(--font-weight-medium, 500);
+}
+.esa-icon-link__label {
+  display: inline-block;
+}
+.esa-collapsible__summary .esa-icon {
   flex-shrink: 0;
-}
-.bcn-trigger-row__name {
-  color: var(--color-text-primary);
-  font-weight: var(--font-weight-medium);
-}
-.bcn-trigger-row__rule {
-  margin-left: auto;
-  color: var(--color-text-secondary);
-  text-align: right;
-}
-.bcn-context__doc .esa-icon {
-  color: var(--color-text-tertiary);
-}
-.bcn-note .esa-icon {
-  color: var(--color-primary);
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-.bcn-ntoggle__title .esa-icon {
-  color: var(--color-text-primary);
+  color: var(--color-text-secondary, #404040);
 }
 .bcn-search-trigger .esa-icon {
   flex: none;
@@ -189,12 +179,49 @@ The Notifications rail module: rule-phrasing trigger rows (Coming up / Due / Pas
 .esa-icon--md {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
 }
+.bcn-lineage__icon .esa-icon {
+  --_icon-size: 14px;
+}
+.bcn-triggers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+.bcn-trigger-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-250);
+  font-size: var(--form-font-size-md);
+}
+.bcn-trigger-row .esa-icon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+.bcn-trigger-row__name {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+}
+.bcn-trigger-row__rule {
+  margin-left: auto;
+  color: var(--color-text-secondary);
+  text-align: right;
+}
+.bcn-context__doc .esa-icon {
+  color: var(--color-text-tertiary);
+}
+.bcn-note .esa-icon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.bcn-ntoggle__title .esa-icon {
+  color: var(--color-text-primary);
+}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
-}
-.esa-collapsible__summary .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary, #404040);
 }
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
@@ -224,33 +251,6 @@ The Notifications rail module: rule-phrasing trigger rows (Coming up / Due / Pas
 }
 .bcn-reqref__footer .esa-icon {
   --_icon-size: 13px;
-}
-.esa-icon-link {
-  --_il-font: var(--icon-link-font-size-md, 1rem);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--icon-link-gap, var(--spacing-150, 6px));
-  padding: 0;
-  margin: 0;
-  border: 0;
-  background: none;
-  color: inherit;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: var(--_il-font);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
-  text-decoration: none;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.esa-icon-link--sm {
-  --_il-font: var(--icon-link-font-size-sm, 0.875rem);
-}
-.esa-icon-link--medium {
-  font-weight: var(--font-weight-medium, 500);
-}
-.esa-icon-link__label {
-  display: inline-block;
 }
 ```
 

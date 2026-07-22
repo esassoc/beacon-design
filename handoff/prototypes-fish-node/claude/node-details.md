@@ -618,7 +618,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <h3 class="esa-empty-state__title">Pick a node</h3>
                   <p class="esa-empty-state__description">
                     Open a node from the Study Planning gantt (View full details in the row drawer),
-                    or pass ?id= with a CMT / STY / SUB / TSK id.
+                    or pass ?id= with a COA / STY / SUB / TSK id.
                   </p>
                   <div class="esa-empty-state__actions">
                     <span
@@ -653,7 +653,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               </section>
               <section
                 class="bcn-node-page__panel"
-                data-node-panel="CMT-011"
+                data-node-panel="COA-10.19"
                 data-node-name="Fisheries Evaluation Studies"
                 data-node-tier="Commitment"
                 data-start=""
@@ -674,7 +674,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="idrow">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">ID</span>
-                          <span class="bcn-key-value__val">CMT-011</span>
+                          <span class="bcn-key-value__val">COA-10.19</span>
                         </div>
                       </div>
                       <div data-live="coa">
@@ -825,7 +825,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     </div>
                     <script
                       type="module"
-                      src="/beacon-design/_astro/BcnFundingPlan.astro_astro_type_script_index_0_lang.BcmJ4tNP.js"
+                      src="/beacon-design/_astro/BcnFundingPlan.astro_astro_type_script_index_0_lang.BpU5iGfi.js"
                     ></script>
                   </section>
                   <!-- ── 4 · Roll-up (PARENT nodes only) ── -->
@@ -895,7 +895,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 </div>
                 <script
                   type="module"
-                  src="/beacon-design/_astro/BcnNodeDetail.astro_astro_type_script_index_0_lang.DYHGioeB.js"
+                  src="/beacon-design/_astro/BcnNodeDetail.astro_astro_type_script_index_0_lang.DXn9G0U7.js"
                 ></script>
               </section>
               <section
@@ -4898,7 +4898,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               </section>
               <section
                 class="bcn-node-page__panel"
-                data-node-panel="CMT-012"
+                data-node-panel="COA-10.20"
                 data-node-name="Water Quality Evaluation Studies"
                 data-node-tier="Commitment"
                 data-start=""
@@ -4919,7 +4919,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="idrow">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">ID</span>
-                          <span class="bcn-key-value__val">CMT-012</span>
+                          <span class="bcn-key-value__val">COA-10.20</span>
                         </div>
                       </div>
                       <div data-live="coa">
@@ -7116,7 +7116,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               </section>
               <section
                 class="bcn-node-page__panel"
-                data-node-panel="CMT-013"
+                data-node-panel="COA-10.21"
                 data-node-name="Ecological Response Evaluation Studies"
                 data-node-tier="Commitment"
                 data-start=""
@@ -7139,7 +7139,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="idrow">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">ID</span>
-                          <span class="bcn-key-value__val">CMT-013</span>
+                          <span class="bcn-key-value__val">COA-10.21</span>
                         </div>
                       </div>
                       <div data-live="coa">
@@ -9197,7 +9197,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               </section>
               <section
                 class="bcn-node-page__panel"
-                data-node-panel="CMT-014"
+                data-node-panel="COA-10.26"
                 data-node-name="Incorporation of Fish Guidance System into the North Delta Intake Structures"
                 data-node-tier="Commitment"
                 data-start=""
@@ -9221,7 +9221,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="idrow">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">ID</span>
-                          <span class="bcn-key-value__val">CMT-014</span>
+                          <span class="bcn-key-value__val">COA-10.26</span>
                         </div>
                       </div>
                       <div data-live="coa">

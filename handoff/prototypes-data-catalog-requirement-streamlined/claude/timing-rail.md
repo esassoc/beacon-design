@@ -49,6 +49,52 @@ The Timing rail module (esa-collapsible): a single one-time deadline rule ("14 d
 
 ## Styles
 ```css
+.bcn-key-value {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.bcn-key-value__key {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--form-label-color);
+}
+.bcn-key-value__val {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-key-value__hint {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+}
+.esa-icon-link {
+  --_il-font: var(--icon-link-font-size-md, 1rem);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--icon-link-gap, var(--spacing-150, 6px));
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: var(--_il-font);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.esa-icon-link--sm {
+  --_il-font: var(--icon-link-font-size-sm, 0.875rem);
+}
+.esa-icon-link--medium {
+  font-weight: var(--font-weight-medium, 500);
+}
+.esa-icon-link__label {
+  display: inline-block;
+}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -122,27 +168,29 @@ The Timing rail module (esa-collapsible): a single one-time deadline rule ("14 d
 .bcn-reqref__footer .esa-icon {
   --_icon-size: 13px;
 }
-.bcn-action__rail .esa-collapsible__title {
-  font-size: var(--type-size-300);
-  font-weight: var(--font-weight-semibold);
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
 }
-.bcn-lineage__icon .esa-icon {
-  --_icon-size: 14px;
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
 }
-.bcn-trigger-row .esa-icon {
-  color: var(--color-primary);
-  flex-shrink: 0;
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
 }
-.bcn-context__doc .esa-icon {
-  color: var(--color-text-tertiary);
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
 }
-.bcn-note .esa-icon {
-  color: var(--color-primary);
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-.bcn-ntoggle__title .esa-icon {
-  color: var(--color-text-primary);
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
 }
 .bcn-search-trigger .esa-icon {
   flex: none;
@@ -180,75 +228,27 @@ The Timing rail module (esa-collapsible): a single one-time deadline rule ("14 d
   color: var(--color-text-tertiary);
   flex: none;
 }
-.bcn-key-value {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.bcn-key-value__key {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  color: var(--form-label-color);
-}
-.bcn-key-value__val {
-  font-size: var(--form-font-size-md);
+.bcn-action__rail .esa-collapsible__title {
+  font-size: var(--type-size-300);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
 }
-.bcn-key-value__hint {
-  font-size: 0.75rem;
+.bcn-lineage__icon .esa-icon {
+  --_icon-size: 14px;
+}
+.bcn-trigger-row .esa-icon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+.bcn-context__doc .esa-icon {
   color: var(--color-text-tertiary);
 }
-.esa-icon-link {
-  --_il-font: var(--icon-link-font-size-md, 1rem);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--icon-link-gap, var(--spacing-150, 6px));
-  padding: 0;
-  margin: 0;
-  border: 0;
-  background: none;
-  color: inherit;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: var(--_il-font);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
-  text-decoration: none;
-  cursor: pointer;
-  white-space: nowrap;
+.bcn-note .esa-icon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-top: 2px;
 }
-.esa-icon-link--sm {
-  --_il-font: var(--icon-link-font-size-sm, 0.875rem);
-}
-.esa-icon-link--medium {
-  font-weight: var(--font-weight-medium, 500);
-}
-.esa-icon-link__label {
-  display: inline-block;
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+.bcn-ntoggle__title .esa-icon {
+  color: var(--color-text-primary);
 }
 ```
 

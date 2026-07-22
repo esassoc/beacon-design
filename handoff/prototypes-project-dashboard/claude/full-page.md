@@ -4105,11 +4105,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   white-space: nowrap;
 }
 :host {
-  display: inline-block;
-}
-.esa-tooltip-anchor {
-  position: relative;
-  display: inline-flex;
+  --_width: var(--side-dialog-width, 400px);
 }
 .modern-layout {
   display: flex;
@@ -4888,6 +4884,20 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 }
 .bcn-gd-article__panel[hidden] {
   display: none;
+}
+:host {
+  --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
+  --_popover-border: var(--popover-border-color, var(--color-border, #e5e5e5));
+  --_popover-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+  --_popover-radius: var(--popover-radius, var(--radius-200, 0.5rem));
+  --_popover-padding: var(--spacing-300, 0.75rem);
+  --_popover-arrow-size: 8px;
+  --_popover-color: var(--popover-color, var(--color-text-primary, #171717));
+  display: inline-block;
+}
+.esa-popover-anchor {
+  position: relative;
+  display: inline-block;
 }
 :host {
   all: initial;
@@ -5680,6 +5690,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   font-family: var(--font-decorative, var(--font-sans));
   font-weight: var(--font-weight-bold);
 }
+:host {
+  display: inline-block;
+}
+.esa-tooltip-anchor {
+  position: relative;
+  display: inline-flex;
+}
 .bcn-status-chip {
   display: inline-flex;
   align-items: center;
@@ -5920,23 +5937,6 @@ img {
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-relaxed);
   letter-spacing: var(--letter-spacing-normal);
-}
-:host {
-  --_width: var(--side-dialog-width, 400px);
-}
-:host {
-  --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
-  --_popover-border: var(--popover-border-color, var(--color-border, #e5e5e5));
-  --_popover-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
-  --_popover-radius: var(--popover-radius, var(--radius-200, 0.5rem));
-  --_popover-padding: var(--spacing-300, 0.75rem);
-  --_popover-arrow-size: 8px;
-  --_popover-color: var(--popover-color, var(--color-text-primary, #171717));
-  display: inline-block;
-}
-.esa-popover-anchor {
-  position: relative;
-  display: inline-block;
 }
 ```
 

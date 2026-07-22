@@ -228,6 +228,9 @@ One connected lineage spine in the rail: the document's ANCESTRY (Project → th
   flex-shrink: 0;
   color: var(--color-text-secondary, #404040);
 }
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
@@ -392,9 +395,6 @@ One connected lineage spine in the rail: the document's ANCESTRY (Project → th
 }
 .bcn-lineage__node:last-child:before {
   display: none;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
 }
 ```
 
