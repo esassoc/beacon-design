@@ -1,16 +1,22 @@
 ---
-// <BcnKbCategories> — "Browse by category" tile grid for the Help & Guidance page.
+// <BcnKbCategories> — "Browse by category" tile row for the Help & Guidance page.
 // One quiet white tile per help category; each tile is an anchor that deep-links
 // the article-browser sibling to that category via a `#category-<id>` hash. This
 // section only EMITS the link — the browser component owns the hash behavior.
 // Icons mark the category headers (structure), the sanctioned icon use.
 //
-// Data-bound like BcnTrackingZone: reads HELP_CATEGORIES + articlesByCategory
-// directly, so it takes no props.
+// This is the page's PRIMARY browse surface: the five categories sit in ONE
+// deliberate row (repeat(5) on desktop, stacking to a single column below 64rem)
+// so the fifth tile is never orphaned into a 4+1 grid. The browser rail below is a
+// contextual accordion, not a second flat index of the same articles.
 //
-// Composes: the .grid layout primitive (tile grid), EsaIcon (leading category
-// glyph), BcnCount (quiet neutral article count). Tiles are an OWNED anchor, not
-// esa-card — see bcn-lego-checked below.
+// Data-bound like BcnTrackingZone: reads HELP_CATEGORIES + articlesByCategory
+// directly. Takes one optional prop — `releaseNotesHref` — the doorway to the
+// release-notes page, rendered as a quiet link beside the section heading (help.astro
+// owns the base-aware href; this component owns the rendering).
+//
+// Composes: EsaIcon (leading category glyph), BcnCount (quiet neutral article
+// count). Tiles are an OWNED anchor, not esa-card — see bcn-lego-checked below.
 //
 // bcn-lego-checked: esa-card does NOT fit as a linked category tile — (1) it
 // renders a <div>, not an anchor, and its header/body split (56px min-height
@@ -19,12 +25,17 @@
 // the category's own Lucide icon. Checked Ecology (no "link tile" lego) and Beacon
 // (prod has no equivalent surface). The count uses bcn-count (esa-badge has NO
 // neutral variant — its six variants are saturated fills, so it can't render a
-// quiet count; per BcnCount's own docs + design-principles). Icon is esa-icon,
-// layout is the .grid primitive — no primitive reinvented. bcn-kb-categories is
-// the reusable home.
+// quiet count; per BcnCount's own docs + design-principles). Icon is esa-icon —
+// no primitive reinvented. bcn-kb-categories is the reusable home.
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import BcnCount from './BcnCount.astro';
 import { HELP_CATEGORIES, articlesByCategory } from '../../data/help-center';
+
+interface Props {
+  /** Base-aware href to the release-notes page; when set, a quiet doorway renders. */
+  releaseNotesHref?: string;
+}
+const { releaseNotesHref } = Astro.props;
 
 // Lucide inner-SVG for category glyphs. Only `database` is in esa-icon's built-in
 // registry; the rest need `paths`. Verbatim strings copied from AppShell's LUCIDE
@@ -54,14 +65,23 @@ const tiles = HELP_CATEGORIES.map((c) => {
 ---
 
 <section class="bcn-kbc" aria-labelledby="bcn-kbc-title">
-  <h2 id="bcn-kbc-title" class="bcn-kbc__title type-section-title">Browse by category</h2>
+  <div class="bcn-kbc__head">
+    <h2 id="bcn-kbc-title" class="bcn-kbc__title type-section-title">Browse by category</h2>
+    {
+      releaseNotesHref && (
+        <a class="bcn-kbc__whatsnew" href={releaseNotesHref}>
+          What's new<span class="bcn-kbc__whatsnew-arrow" aria-hidden="true">→</span>
+        </a>
+      )
+    }
+  </div>
 
-  <div class="grid" data-gap="md" style="--grid-min: 13.75rem;">
+  <div class="bcn-kbc__row">
     {
       tiles.map((c) => (
         <a class="bcn-kbc__tile" href={`#category-${c.id}`}>
           <span class="bcn-kbc__icon" aria-hidden="true">
-            <EsaIcon name={c.icon} size="lg" paths={ICON_PATHS[c.icon]} />
+            <EsaIcon name={c.icon} size="md" paths={ICON_PATHS[c.icon]} />
           </span>
           <span class="bcn-kbc__tile-title type-card-title">{c.title}</span>
           <span class="bcn-kbc__desc type-body">{c.description}</span>
@@ -80,9 +100,60 @@ const tiles = HELP_CATEGORIES.map((c) => {
     flex-direction: column;
     gap: var(--spacing-400);
   }
+
+  /* Section heading + quiet release-notes doorway on one baseline. */
+  .bcn-kbc__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    flex-wrap: wrap;
+  }
   .bcn-kbc__title {
     margin: 0;
     color: var(--color-text-primary);
+  }
+
+  /* Quiet doorway — the Aldo accent is the help-surface accent, used only on hover
+     so the resting state stays neutral. */
+  .bcn-kbc__whatsnew {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    font-size: var(--type-size-200, 0.875rem);
+    font-weight: var(--font-weight-medium, 500);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 150ms ease;
+  }
+  .bcn-kbc__whatsnew:hover {
+    color: var(--bcn-aldo-600, #06736f);
+  }
+  .bcn-kbc__whatsnew:focus-visible {
+    outline: 2px solid var(--bcn-aldo, #08908b);
+    outline-offset: 2px;
+    border-radius: var(--radius-100);
+  }
+  .bcn-kbc__whatsnew-arrow {
+    transition: transform 150ms ease;
+  }
+  .bcn-kbc__whatsnew:hover .bcn-kbc__whatsnew-arrow {
+    transform: translateX(2px);
+  }
+
+  /* Five categories in ONE deliberate row on desktop — never a 4+1 orphan grid.
+     Collapses straight to a single stacked column below 64rem (skipping the
+     orphan-prone 2/3/4-up counts entirely). */
+  .bcn-kbc__row {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--spacing-300);
+  }
+  @media (max-width: 64rem) {
+    .bcn-kbc__row {
+      grid-template-columns: 1fr;
+    }
   }
 
   /* Quiet white tile, rendered as a full-height anchor so tiles in a row align
@@ -118,8 +189,8 @@ const tiles = HELP_CATEGORIES.map((c) => {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     border-radius: var(--radius-200, var(--radius-100));
     background: var(--color-surface-sunken);
     color: var(--color-text-secondary);

@@ -612,28 +612,35 @@ export interface WhatsNewEntry {
   date: string;
   title: string;
   blurb: string;
-  /** esa-icon name (AppShell's LUCIDE map has paths for off-registry names). */
+  /** esa-icon name — must exist in the shared icon registry. */
   icon: string;
+  /** Release-page hash target — the `#anchor` for this entry's release on the release-notes page. */
+  anchor: string;
 }
 
+// The top three Beacon 1.33 headline stories (released 2026-06-02); each links
+// to that release on the release-notes page via its `#v1-33-0` anchor.
 export const WHATS_NEW: WhatsNewEntry[] = [
   {
-    date: '2026-07-14',
-    title: 'Project Dashboard',
-    blurb: 'A new logged-in homepage: the most critical items, starred components, and front doors into every zone.',
-    icon: 'layout-dashboard',
+    date: '2026-06-02',
+    title: 'Commitment Lists',
+    blurb: 'Save a filtered view of commitments as a reusable, named List, then reopen it anytime to scope the grid to just its members.',
+    icon: 'folder',
+    anchor: 'v1-33-0',
   },
   {
-    date: '2026-07-02',
-    title: 'Site Clearance go/no-go',
-    blurb: 'Provisional blocks now show exactly which discipline reviews are outstanding before ground disturbance.',
-    icon: 'map-pinned',
+    date: '2026-06-02',
+    title: 'Evidence of Compliance',
+    blurb: 'Every Evidence of Compliance record now lives in one Data Catalog grid with Project, Component, and Work Area scope selectors, instead of separate tabs on each page.',
+    icon: 'file-text',
+    anchor: 'v1-33-0',
   },
   {
-    date: '2026-06-19',
-    title: 'Full-text search',
-    blurb: 'Press / anywhere — search now reads commitment body text and documents, with highlighted snippets.',
-    icon: 'search',
+    date: '2026-06-02',
+    title: 'Commitment Compliance',
+    blurb: 'A new Monitoring Portal section shows which commitments are out of compliance and the field observations driving it, matched by species.',
+    icon: 'activity',
+    anchor: 'v1-33-0',
   },
 ];
 

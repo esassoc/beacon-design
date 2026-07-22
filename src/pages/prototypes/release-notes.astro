@@ -1,0 +1,28 @@
+---
+// Release Notes — the in-app release-notes surface coupled to Help & Guidance:
+// every Beacon release in one reverse-chronological stream (the Linear-changelog
+// pattern in Beacon's chrome), fed by the real 1.31–1.33 notes transcribed into
+// src/data/release-notes.ts (client-facing subset). The What's-new popover in
+// BcnHelpBar deep-links into the release anchors (#v1-33-0); the version rail
+// scroll-spies the stream and jumps land with scroll-margin breathing room.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import BcnReleaseNav from '../../components/bcn/BcnReleaseNav.astro';
+import BcnReleaseStream from '../../components/bcn/BcnReleaseStream.astro';
+---
+
+<!-- manifest:
+  layout: sidebar(14rem rail)                   # SPINE
+  sections:
+    - version rail    -> bcn-release-nav        # sticky anchor list, scroll-spy, Latest marker
+    - release stream  -> bcn-release-stream     # anchored releases: headlines, area entries, fixes
+-->
+
+<AppShell title="Release Notes — Beacon">
+  <PageLayout title="Release Notes" icon="star">
+    <div class="sidebar" data-gap="xl" style="--sidebar-width: 14rem; --sidebar-content-min: 62%;">
+      <BcnReleaseNav />
+      <BcnReleaseStream />
+    </div>
+  </PageLayout>
+</AppShell>

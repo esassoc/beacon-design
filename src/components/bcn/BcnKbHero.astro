@@ -1,18 +1,27 @@
 ---
 // <BcnKbHero> — the hero of the "Help & Guidance" page (/prototypes/help): the
-// Aldo mark, the page title, a one-line lede, and a large, inviting search field.
-// It is the front door to the knowledge base — the search drives the article
-// browser below, but this component owns only the input; a sibling wires the
-// filtering. It renders on the page's own neutral canvas (no card/box of its own).
+// Aldo mark, the page title, a one-line lede, and a LARGE, search-first field that
+// is the page's primary action. It is the front door to the knowledge base — the
+// search drives the article browser below, but this component owns only the input;
+// a sibling wires the filtering. It renders on the page's own neutral canvas (no
+// card/box of its own).
 //
-// The search field is the esa-text-field lego, sized lg and centered. It carries
-// [data-kb-search] — the browser sibling attaches its listener to that attribute
-// (see SIBLING CONTRACT below), so this component adds NO filtering logic.
+// Search PRIMACY (2026-07-22): the field is the esa-text-field lego at size="lg",
+// scaled up via a SCOPED re-point of its public size tokens (--form-height-lg /
+// --form-font-size-lg / --form-padding-x-lg / --form-radius-lg) — the sanctioned
+// component-token override, localized to this one field so nothing leaks globally.
+// A leading esa-icon search glyph sits in the enlarged left gutter (decorative
+// overlay; the field owns its own box). The mark/title/lede compress into a tight
+// group above so the search reads as the focal action.
+//
+// The search field carries [data-kb-search] — the browser sibling attaches its
+// listener to that attribute (see SIBLING CONTRACT below), so this component adds
+// NO filtering logic.
 //
 // Composes: BcnAldoMark (the animated mark) + type-roles (.type-page-title /
-// .type-body) + the layout primitives (.center / .stack) + esa-text-field. The
-// only CSS here is composition glue: centering the column, constraining the lede
-// and field widths, and the vertical rhythm knobs.
+// .type-body) + the layout primitives (.center / .stack) + esa-text-field + esa-icon.
+// The only CSS here is composition glue: centering the column, the search-field
+// scale re-point + leading-icon overlay, and the vertical rhythm knobs.
 //
 // SIBLING CONTRACT — the search hook the article browser listens on:
 //   Element : <esa-text-field data-kb-search> (the lego's host element)
@@ -24,9 +33,11 @@
 // bcn-lego-checked: no esa-* lego is a page HERO assembly (mark + title + lede +
 // search) — esa-page-header is a title/lede/actions row with no mark or search
 // field. Checked Beacon (prod has no KB hero — this is new). The search control
-// itself IS a lego (esa-text-field); bcn-kb-hero is the reusable composition home,
-// and the only CSS is layout glue over the layout primitives.
+// itself IS a lego (esa-text-field) and the leading glyph is esa-icon; bcn-kb-hero
+// is the reusable composition home, and the only CSS is layout glue + a scoped
+// token re-point over the layout primitives.
 import BcnAldoMark from './BcnAldoMark.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
 
 interface Props {
   title?: string;
@@ -36,14 +47,24 @@ const {
   title = 'Help & Guidance',
   lede = 'Plain answers about how Beacon works — on every page, and all in one place.',
 } = Astro.props;
+
+// Lucide "search" — handed to esa-icon's `paths` fallback (same mechanism the rest
+// of this feature uses for off-registry glyphs).
+const SEARCH_PATHS = '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>';
 ---
 
 <section class="bcn-kb-hero" aria-label="Help & Guidance">
   <div class="center bcn-kb-hero__col">
-    <div class="stack bcn-kb-hero__stack">
+    <div class="stack bcn-kb-hero__intro">
       <BcnAldoMark size="lg" animated />
       <h1 class="type-page-title bcn-kb-hero__title">{title}</h1>
       <p class="type-body bcn-kb-hero__lede">{lede}</p>
+    </div>
+
+    <div class="bcn-kb-hero__searchbar">
+      <span class="bcn-kb-hero__search-icon" aria-hidden="true">
+        <EsaIcon name="search" size="md" paths={SEARCH_PATHS} />
+      </span>
       <esa-text-field
         class="bcn-kb-hero__search"
         data-kb-search
@@ -69,13 +90,20 @@ const {
   }
 
   /* Centered content column. .center constrains the max width and centers the
-     block; the stack owns the vertical rhythm; align/text-align center the items. */
+     block; align/text-align center the items. */
   .bcn-kb-hero__col {
     --center-max: 44rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-600);
     text-align: center;
   }
-  .bcn-kb-hero__stack {
-    --gap: var(--spacing-400);
+
+  /* Mark + title + lede as one tight group, so the search below reads as the
+     separate, primary action. */
+  .bcn-kb-hero__intro {
+    --gap: var(--spacing-300);
     align-items: center;
   }
 
@@ -89,12 +117,35 @@ const {
     color: var(--color-text-secondary);
   }
 
-  /* The search field: large and inviting, centered at a comfortable max width.
-     A touch more top space sets it apart from the lede as the primary action. */
-  .bcn-kb-hero__search {
+  /* ── Search: the primary action ──
+     The lego at size="lg" scaled up via a SCOPED re-point of its public size
+     tokens. Enlarged padding-x opens a left gutter for the search glyph. */
+  .bcn-kb-hero__searchbar {
+    position: relative;
     inline-size: 100%;
-    max-inline-size: 35rem;
-    margin-block-start: var(--spacing-200);
+    max-inline-size: 40rem;
+  }
+
+  .bcn-kb-hero__search {
+    --form-height-lg: 3.5rem; /* 56px — taller than default lg (48px): primary */
+    --form-font-size-lg: 1.1875rem; /* ~19px */
+    --form-padding-x-lg: 3.25rem; /* opens the leading gutter for the glyph */
+    --form-radius-lg: var(--radius-300);
+    inline-size: 100%;
     text-align: start; /* reset the hero's centered text for the input's own value */
+  }
+
+  /* Leading search glyph, centered in the field's left gutter. Decorative overlay
+     — the field owns focus/typing; clicks fall through to it. */
+  .bcn-kb-hero__search-icon {
+    position: absolute;
+    inset-inline-start: var(--spacing-400);
+    inset-block-start: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    color: var(--color-text-tertiary);
+    pointer-events: none;
+    z-index: 1;
+    --icon-size-md: 22px; /* nudge esa-icon up to match the larger field */
   }
 </style>

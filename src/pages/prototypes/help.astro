@@ -10,21 +10,22 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import BcnKbHero from '../../components/bcn/BcnKbHero.astro';
 import BcnKbCategories from '../../components/bcn/BcnKbCategories.astro';
 import BcnKbBrowser from '../../components/bcn/BcnKbBrowser.astro';
+import { withBase } from '../../lib/base';
 ---
 
 <!-- manifest:
   layout: stack(2xl)                          # SPINE
   sections:
-    - hero + search      -> bcn-kb-hero        # Aldo mark, title, big article search
-    - browse by category -> bcn-kb-categories  # one tile per category, count badges
-    - article browser    -> bcn-kb-browser     # rail + reading pane, hash deep-links
+    - hero + search      -> bcn-kb-hero        # Aldo mark, title, search-first field
+    - browse by category -> bcn-kb-categories  # 5-tile row, count badges, what's-new doorway
+    - article browser    -> bcn-kb-browser     # rail accordion + reading pane, hash deep-links
 -->
 
 <AppShell title="Help & Guidance — Beacon">
   <PageLayout title="Help & Guidance" hideTitleRow>
     <div class="stack" data-gap="2xl">
       <BcnKbHero />
-      <BcnKbCategories />
+      <BcnKbCategories releaseNotesHref={withBase('/prototypes/release-notes')} />
       <BcnKbBrowser />
     </div>
   </PageLayout>

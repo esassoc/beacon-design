@@ -1,0 +1,223 @@
+---
+// <BcnReleaseNav> — the slim version rail for the Release Notes page
+// (/prototypes/release-notes): wayfinding for a reverse-chron stream of releases.
+// One row per release — version number (anchor link to #{anchor}), a short human
+// date, and a quiet "Latest" marker on the newest entry. A minimal
+// IntersectionObserver scroll-spy mirrors the in-view release into an active
+// highlight; the links are plain anchors that work without JS (progressive).
+//
+// Frame: designed to be the :first-child aside of the page's .sidebar primitive —
+// the PAGE owns the .sidebar wrapper and sets --sidebar-width (slim, ~14rem). The
+// rail sticks WITHIN the .modern-layout__content scroll container; its sticky top
+// is a small breathing gap, NOT the 52px topbar height, because that scroll
+// container already starts below the fixed topbar (AppShell's .modern-layout__body
+// carries padding-top: 52px). Mirrors bcn-kb-browser's rail conventions.
+//
+// bcn-lego-checked: a version rail of in-page anchor links with a scroll-spy active
+// state and a "Latest" marker has no esa-* equivalent. esa-sidebar-nav is a
+// route/section nav behind a shadow-DOM, property-driven boundary — its group
+// headings are the banned ornamental micro-label (11px uppercase letter-spaced) and
+// its per-item hint can only be a filled badge pill, not the quiet 14px date meta
+// this rail needs — wrong for a quiet in-page TOC. Owned quiet list; same shape as
+// bcn-kb-browser's rail. Checked Ecology (esa-sidebar-nav) + Beacon.
+import type { Release } from '../../data/release-notes';
+import { RELEASES } from '../../data/release-notes';
+
+// The newest release carries the "Latest" marker: the one flagged latest, else the
+// first row (the stream is reverse-chron, so index 0 is newest).
+const latest = RELEASES.find((r) => r.latest) ?? RELEASES[0];
+const latestAnchor = latest?.anchor;
+const latestYear = latest ? new Date(latest.date).getUTCFullYear() : new Date().getUTCFullYear();
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+// Short human date — "Jul 22", with the year appended only when it differs from the
+// newest release's year (keeps the rail slim). Falls back to the raw string if the
+// stored value isn't a parseable date. UTC read avoids an ISO-midnight off-by-one.
+function shortDate(raw: string): string {
+  const d = new Date(raw);
+  if (Number.isNaN(d.getTime())) return raw;
+  const md = `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}`;
+  return d.getUTCFullYear() === latestYear ? md : `${md}, ${d.getUTCFullYear()}`;
+}
+---
+
+<nav class="bcn-release-nav" aria-label="Releases" data-release-nav>
+  <h2 class="bcn-release-nav__heading">Releases</h2>
+  <ol class="bcn-release-nav__list" role="list">
+    {RELEASES.map((r) => (
+      <li class="bcn-release-nav__item">
+        <a class="bcn-release-nav__link" href={`#${r.anchor}`} data-release-link={r.anchor}>
+          <span class="bcn-release-nav__version">
+            {r.version}
+            {r.anchor === latestAnchor && <span class="bcn-release-nav__latest">Latest</span>}
+          </span>
+          <span class="bcn-release-nav__date">{shortDate(r.date)}</span>
+          {r.patchNote && <span class="bcn-release-nav__note">{r.patchNote}</span>}
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<script>
+  // Scroll-spy for the version rail. Purely progressive: the anchor links jump to
+  // each release without JS; this only mirrors the in-view release into an active
+  // highlight. Observes the release sections rendered by <BcnReleaseStream> (matched
+  // by id === the nav link's anchor).
+  function setupReleaseNav(): void {
+    const nav = document.querySelector<HTMLElement>('[data-release-nav]');
+    if (!nav) return;
+
+    const links = [...nav.querySelectorAll<HTMLAnchorElement>('[data-release-link]')];
+    if (!links.length) return;
+
+    // Resolve each link to its release section; keep only those present in the DOM.
+    const known = new Set(links.map((l) => l.dataset.releaseLink));
+    const sections = [...known]
+      .map((id) => document.getElementById(id!))
+      .filter((el): el is HTMLElement => el !== null)
+      .sort((a, b) =>
+        a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1
+      );
+    if (!sections.length) return;
+
+    function setActive(id: string): void {
+      for (const link of links) {
+        const on = link.dataset.releaseLink === id;
+        link.classList.toggle('is-active', on);
+        if (on) link.setAttribute('aria-current', 'true');
+        else link.removeAttribute('aria-current');
+      }
+    }
+
+    // Active = the topmost release (document order) currently inside a thin band just
+    // under the topbar. When the scroll sits between bands, the last active stays.
+    const visible = new Set<string>();
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) visible.add(e.target.id);
+          else visible.delete(e.target.id);
+        }
+        const active = sections.find((s) => visible.has(s.id));
+        if (active) setActive(active.id);
+      },
+      { rootMargin: '-68px 0px -55% 0px', threshold: 0 }
+    );
+    for (const s of sections) io.observe(s);
+
+    // Initial highlight: a deep-linked release from the hash, else the newest (first).
+    const hashId = location.hash.slice(1);
+    setActive(known.has(hashId) ? hashId : sections[0].id);
+  }
+
+  setupReleaseNav();
+</script>
+
+<style>
+  /* Sticky rail. top is a small breathing gap — the .modern-layout__content scroll
+     container already begins below the fixed 52px topbar, so no header offset is
+     added here. align-self:start keeps the flex item from stretching, giving the
+     sticky element slack to move; the height cap + auto-scroll handle long lists. */
+  .bcn-release-nav {
+    position: sticky;
+    top: var(--spacing-500, 1.5rem);
+    align-self: start;
+    max-block-size: calc(100vh - var(--spacing-900, 6rem));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .bcn-release-nav__heading {
+    margin: 0 0 var(--spacing-200, 0.5rem);
+    padding-inline: var(--spacing-300, 0.75rem);
+    font-size: 1rem;
+    font-weight: var(--font-weight-semibold, 600);
+    color: var(--color-text-primary);
+    line-height: 1.3;
+  }
+
+  .bcn-release-nav__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .bcn-release-nav__link {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--spacing-200, 0.5rem) var(--spacing-300, 0.75rem);
+    border-radius: var(--radius-200, 0.5rem);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: background 0.1s ease, color 0.1s ease;
+  }
+  .bcn-release-nav__link:hover {
+    background: var(--color-surface-sunken);
+    color: var(--color-text-primary);
+  }
+  .bcn-release-nav__link:focus-visible {
+    outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, var(--bcn-aldo, #08908b));
+    outline-offset: 2px;
+  }
+
+  /* Active / in-view — a quiet aldo-green tint (never a colored left border). */
+  .bcn-release-nav__link.is-active {
+    background: var(--bcn-aldo-50, #e8f6f5);
+  }
+  .bcn-release-nav__link.is-active .bcn-release-nav__version {
+    color: var(--bcn-aldo-600, #06736f);
+  }
+
+  .bcn-release-nav__version {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200, 0.5rem);
+    font-size: 1rem; /* 16px — the primary wayfinding target */
+    font-weight: var(--font-weight-semibold, 600);
+    color: var(--color-text-primary);
+    line-height: 1.3;
+  }
+
+  /* "Latest" — a quiet 4px teal badge, deliberately distinct from the aldo active
+     tint so the newest-release marker never reads as the in-view state. */
+  .bcn-release-nav__latest {
+    flex: none;
+    font-size: 12px;
+    font-weight: var(--font-weight-medium, 500);
+    color: var(--bcn-teal-900, #005862);
+    background: var(--bcn-teal-100, #eef5f4);
+    padding: 1px var(--spacing-150, 0.375rem);
+    border-radius: var(--radius-100, 0.25rem);
+    line-height: 1.5;
+  }
+
+  /* Date — a genuine timestamp, so 14px secondary is honest meta (not a body role). */
+  .bcn-release-nav__date {
+    font-size: 0.875rem;
+    color: var(--color-text-tertiary);
+    line-height: 1.35;
+  }
+
+  /* Optional short qualifier from the data ("hotfix", "security patch") — quiet. */
+  .bcn-release-nav__note {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    line-height: 1.35;
+  }
+
+  /* When the .sidebar primitive folds the rail above the stream on narrow viewports,
+     drop the sticky + height cap so it reads as a plain header list. */
+  @media (max-width: 48rem) {
+    .bcn-release-nav {
+      position: static;
+      max-block-size: none;
+      overflow: visible;
+    }
+  }
+</style>
