@@ -1,4 +1,4 @@
-# Juvenile Salmonid Migration & Survival
+# Migration & Survival Study
 
 Re-implement this UI section faithfully on your stack. Keep the CSS custom-property
 names (`var(--…)`) so it stays themeable — the values below are the resolved
@@ -539,7 +539,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </svg>
                 </span>
                 <span class="breadcrumb-item" aria-current="page">
-                  Juvenile Salmonid Migration &amp; Survival
+                  Migration &amp; Survival Study
                 </span>
               </div>
             </nav>
@@ -566,7 +566,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <path d="M8.5 2h7"></path>
                   </svg>
                 </span>
-                Juvenile Salmonid Migration &amp; Survival
+                Migration &amp; Survival Study
               </h1>
               <span class="bcn-fdetail__badges">
                 <span class="bcn-fdetail__chip" data-chip="id">STY-014</span>
@@ -665,9 +665,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="name">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Name</span>
-                          <span class="bcn-key-value__val"
-                            >Juvenile Salmonid Migration &amp; Survival</span
-                          >
+                          <span class="bcn-key-value__val">Migration &amp; Survival Study</span>
                         </div>
                       </div>
                       <div data-live="idrow">
@@ -685,9 +683,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <div data-live="parent">
                         <div class="bcn-key-value">
                           <span class="bcn-key-value__key">Parent</span>
-                          <span class="bcn-key-value__val"
-                            >Fish Migration, Survival &amp; Predation Studies</span
-                          >
+                          <span class="bcn-key-value__val">Fisheries Evaluation Studies</span>
                         </div>
                       </div>
                     </div>
@@ -822,7 +818,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     </div>
                     <script
                       type="module"
-                      src="/beacon-design/_astro/BcnFundingPlan.astro_astro_type_script_index_0_lang.hohG8McH.js"
+                      src="/beacon-design/_astro/BcnFundingPlan.astro_astro_type_script_index_0_lang.BcmJ4tNP.js"
                     ></script>
                   </section>
                   <!-- ── 4 · Roll-up (PARENT nodes only) ── -->
@@ -889,7 +885,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 </div>
                 <script
                   type="module"
-                  src="/beacon-design/_astro/BcnNodeDetail.astro_astro_type_script_index_0_lang.xFdjaozm.js"
+                  src="/beacon-design/_astro/BcnNodeDetail.astro_astro_type_script_index_0_lang.DYHGioeB.js"
                 ></script>
                 <article class="bcn-sketch">
                   <!-- Field 1 — Focal Species -->
@@ -1637,11 +1633,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           </span>
                         </span>
                         <span class="bcn-dlineage__body">
-                          <span class="bcn-dlineage__kind">Program</span>
+                          <span class="bcn-dlineage__kind">Commitment</span>
                           <a
                             class="bcn-dlineage__name"
-                            href="/beacon-design/prototypes/fish-detail/PRG-011"
-                            >Fish Migration, Survival &amp; Predation Studies</a
+                            href="/beacon-design/prototypes/fish-detail/CMT-011"
+                            >Fisheries Evaluation Studies</a
                           >
                         </span>
                       </li>
@@ -1670,7 +1666,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <span class="bcn-dlineage__body">
                           <span class="bcn-dlineage__kind">Study</span>
                           <span class="bcn-dlineage__name bcn-dlineage__name--current"
-                            >Juvenile Salmonid Migration &amp; Survival</span
+                            >Migration &amp; Survival Study</span
                           >
                         </span>
                       </li>
@@ -1782,9 +1778,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             href="/beacon-design/prototypes/fish-detail/STY-015"
                           >
                             <span class="bcn-dchildren__id">STY-015</span>
-                            <span class="bcn-dchildren__name"
-                              >Predation Risk &amp; Hotspot Characterization</span
-                            >
+                            <span class="bcn-dchildren__name">Predation Study</span>
                           </a>
                         </li>
                       </ul>
@@ -2013,7 +2007,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <li>
                         <a href="/beacon-design/prototypes/fish-science-plan#sec-3-5-1">
                           <span class="fd-plansec__num">3.5.1</span> Condition of Approval 10.19.1
-                          (Juvenile Salmonid Migration &amp; Survival)
+                          (Migration &amp; Survival Study)
                         </a>
                       </li>
                     </ul>

@@ -9,8 +9,8 @@
 //                            every countdown, flag, window, export stamp, and
 //                            gantt today-line reads it).
 //   2. PROGRAMS            — the four-tier work-breakdown forest
-//                            (Program → Study → Sub-study → Task):
-//        • stable type-prefixed IDs are identity (PRG/STY/SUB/TSK); the ITP COA
+//                            (Commitment → Study → Sub-study → Task):
+//        • stable type-prefixed IDs are identity (CMT/STY/SUB/TSK); the ITP COA
 //          dot-number (coaRef) is a commitment REFERENCE, never identity —
 //          study ↔ COA is not strictly 1:1 (that is what the crosswalk is for);
 //        • the TASK is the schedulable month-by-month leaf; status, span, and
@@ -111,15 +111,15 @@ const branch = (
 export const PROGRAMS: HierNode[] = [
   branch(
     'program',
-    'PRG-011',
+    'CMT-011',
     '10.19',
-    'Fish Migration, Survival & Predation Studies',
+    'Fisheries Evaluation Studies',
     [
       branch(
         'study',
         'STY-014',
         '10.19.1',
-        'Juvenile Salmonid Migration & Survival',
+        'Migration & Survival Study',
         [
           branch(
             'substudy',
@@ -160,7 +160,7 @@ export const PROGRAMS: HierNode[] = [
         'study',
         'STY-015',
         '10.19.2',
-        'Predation Risk & Hotspot Characterization',
+        'Predation Study',
         [
           branch(
             'substudy',
@@ -218,15 +218,15 @@ export const PROGRAMS: HierNode[] = [
   ),
   branch(
     'program',
-    'PRG-012',
+    'CMT-012',
     '10.20',
-    'Water Quality & Monitoring Infrastructure',
+    'Water Quality Evaluation Studies',
     [
       branch(
         'study',
         'STY-017',
         '10.20.1',
-        'Continuous Water-Quality Station Network',
+        'Installation of New Real-time Monitoring Station',
         [
           branch(
             'substudy',
@@ -280,9 +280,9 @@ export const PROGRAMS: HierNode[] = [
   ),
   branch(
     'program',
-    'PRG-013',
+    'CMT-013',
     '10.21',
-    'Operations-Phase Effectiveness Monitoring',
+    'Ecological Response Evaluation Studies',
     [
       branch(
         'study',
@@ -338,9 +338,9 @@ export const PROGRAMS: HierNode[] = [
   ),
   branch(
     'program',
-    'PRG-014',
+    'CMT-014',
     '10.26',
-    'Fish Guidance System Evaluation',
+    'Incorporation of Fish Guidance System into the North Delta Intake Structures',
     [
       branch(
         'study',
@@ -542,7 +542,7 @@ export const PLAN_ROOT: HierNode = {
 // Chapter/section numbering and chapter-level titles transcribe the real Feb-2026
 // draft ("Covered Fish Species Monitoring and Science Plan — DCP ITP COA 10.18");
 // the 3.5.x sketch sections carry THIS fixture's study set, and excerpts are
-// condensed. Sections cite COAs (families resolve to Programs, dot-numbers to
+// condensed. Sections cite COAs (families resolve to Commitments, dot-numbers to
 // Studies); review comments anchor to sections. The document is fixed — only
 // comment status is live data.
 export const PLAN_SECTIONS: PlanSection[] = [
@@ -586,11 +586,11 @@ export const PLAN_SECTIONS: PlanSection[] = [
     excerpt: 'One sketch per condition of approval: the core hypotheses, methods, study components, and relevance to DCP effects of the work proposed for each COA.',
   },
   {
-    id: 'sec-3-5-1', number: '3.5.1', title: 'Condition of Approval 10.19.1 (Juvenile Salmonid Migration & Survival)', level: 3, parentId: 'sec-3-5', coaRefs: ['10.19.1'],
+    id: 'sec-3-5-1', number: '3.5.1', title: 'Condition of Approval 10.19.1 (Migration & Survival Study)', level: 3, parentId: 'sec-3-5', coaRefs: ['10.19.1'],
     excerpt: 'Acoustic-telemetry evaluation of juvenile salmonid survival and routing in the near-field intake reach and through-Delta, establishing the preconstruction baseline required before in-water work.',
   },
   {
-    id: 'sec-3-5-2', number: '3.5.2', title: 'Condition of Approval 10.19.2 (Predation Risk & Hotspot Characterization)', level: 3, parentId: 'sec-3-5', coaRefs: ['10.19.2'],
+    id: 'sec-3-5-2', number: '3.5.2', title: 'Condition of Approval 10.19.2 (Predation Study)', level: 3, parentId: 'sec-3-5', coaRefs: ['10.19.2'],
     excerpt: 'Hydroacoustic surveys, diet and eDNA sampling, and exposure modeling to characterize predation risk and identify hotspots near the North Delta intakes.',
   },
   {
@@ -598,7 +598,7 @@ export const PLAN_SECTIONS: PlanSection[] = [
     excerpt: 'Near-field and far-field surveys of covered-species abundance and distribution at the North Delta intakes, including a technology pilot to select the best abundance-measurement methods before baseline monitoring begins.',
   },
   {
-    id: 'sec-3-5-4', number: '3.5.4', title: 'Condition of Approval 10.20.1 (Continuous Water-Quality Station Network)', level: 3, parentId: 'sec-3-5', coaRefs: ['10.20.1'],
+    id: 'sec-3-5-4', number: '3.5.4', title: 'Condition of Approval 10.20.1 (Installation of New Real-time Monitoring Station)', level: 3, parentId: 'sec-3-5', coaRefs: ['10.20.1'],
     excerpt: 'Installation and rating of a new real-time monitoring station downstream of Intake C before initiation of preconstruction baseline monitoring.',
   },
   {

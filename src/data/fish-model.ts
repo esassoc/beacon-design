@@ -12,17 +12,19 @@
 // The contract is organized in STRATA — read them as the architecture:
 //
 //   A. COMMITMENT-REFERENCE VOCABULARY — how records point at the regulatory
-//      layer. The ITP Condition of Approval (= a Beacon Commitment) is always a
-//      REFERENCE (`coaRef`/`coaNumber`), never identity: a study references its
-//      condition, a program references the condition FAMILY, and study ↔ COA is
-//      not strictly 1:1 (that is why the crosswalk exists). Plus org vocabulary.
+//      layer. Beacon tracks Commitments at the two-level COA grain (10.19, 10.20,
+//      10.26); the work-breakdown's TOP tier (a Commitment node) mirrors one of
+//      those records via `coaRef`. The Study tier references an ITP sub-study
+//      named WITHIN that commitment's text (e.g. 10.19.1) — a real identifier, but
+//      NOT a separately-tracked Commitment. `coaRef`/`coaNumber` is always a
+//      REFERENCE, never identity (study ↔ COA is not 1:1 — hence the crosswalk).
 //   B. AUTHORED-SATELLITE RECORDS — content people write and own, keyed by COA:
 //      the 9-field `StudySketch` (a literal transcription of "Table 1.
 //      Requirements and Key Considerations for DCP Study Plans" — a schema, not
 //      prose), the CDFW `ReviewComment` cycle, `Deliverable`s, RACI
 //      `RoleAssignment`s, and the assembled `StudyProfile` satellite.
 //   C. PRESENTATION METAS — label/hex vocabularies for the above.
-//   D. THE WORK-BREAKDOWN — the execution tree (`HierNode`, Program → Study →
+//   D. THE WORK-BREAKDOWN — the execution tree (`HierNode`, Commitment → Study →
 //      Sub-study → Task) laid OVER the commitment references, plus the anchors
 //      (`Milestone`) and authored plan judgment (`PlanAssumption`).
 //   E. DERIVATIONS — `computeRollUp` and friends. Derived values are NEVER
@@ -368,16 +370,16 @@ export const PROJECT_SUBTITLE = 'Delta Conveyance Project — CESA Incidental Ta
 // The 7/8 data-model decision gave fish-study compliance a recursive hierarchy.
 // The second prototype socializes THAT model as a work breakdown with named tiers:
 //
-//     Program → Study → Sub-study → Task
+//     Commitment → Study → Sub-study → Task
 //
 // Design decisions locked by Andy (this contract implements all five):
 //   1. FOUR named tiers (was three), CRUD at every tier (UI-level in the component).
 //   2. NO dependency dimension — informs/informed-by is dropped from this view.
-//   3. IDENTITY is a stable, type-prefixed id (PRG-###/STY-###/SUB-###/TSK-###).
+//   3. IDENTITY is a stable, type-prefixed id (CMT-###/STY-###/SUB-###/TSK-###).
 //      The ITP COA dot-number ("10.19.1") is a secondary REFERENCE label only.
 //   4. The TASK (4th tier) is the schedulable, month-by-month unit — it owns the
 //      start/end months, the owner, and the status. Everything ROLLS UP from
-//      tasks: Task → Sub-study → Study → Program (status + funding + span).
+//      tasks: Task → Sub-study → Study → Commitment (status + funding + span).
 //   5. The row side panel reads Identity → Timing → Funding → Roll-up → notes.
 //
 // The month-scale schedule still honors the fish-study calendar (water-year
@@ -421,11 +423,11 @@ export interface PlanAssumption {
   kind: 'assumption' | 'question';
   text: string;
 }
-export type TierPrefix = 'PRG' | 'STY' | 'SUB' | 'TSK';
+export type TierPrefix = 'CMT' | 'STY' | 'SUB' | 'TSK';
 
 /** Per-tier display + the type prefix that stamps a node's stable id. */
 export const TIER_META: Record<NodeTier, { label: string; prefix: TierPrefix; childLabel: string }> = {
-  program: { label: 'Program', prefix: 'PRG', childLabel: 'Study' },
+  program: { label: 'Commitment', prefix: 'CMT', childLabel: 'Study' },
   study: { label: 'Study', prefix: 'STY', childLabel: 'Sub-study' },
   substudy: { label: 'Sub-study', prefix: 'SUB', childLabel: 'Task' },
   task: { label: 'Task', prefix: 'TSK', childLabel: '' },
@@ -467,7 +469,7 @@ export interface FundingEntry {
 
 /** A node in the 4-tier work breakdown. Recursive; leaves (Tasks) carry the schedule. */
 export interface HierNode {
-  /** STABLE, type-prefixed identity — PRG-###/STY-###/SUB-###/TSK-###. THE identity (not the COA). */
+  /** STABLE, type-prefixed identity — CMT-###/STY-###/SUB-###/TSK-###. THE identity (not the COA). */
   id: string;
   tier: NodeTier;
   name: string;
@@ -580,7 +582,7 @@ const maxMonth = (a?: string, b?: string): string | undefined => (!a ? b : !b ? 
 
 /**
  * Roll a node up from its subtree: status health, schedule span, and funding all
- * aggregate Task → Sub-study → Study → Program. A leaf returns its own values.
+ * aggregate Task → Sub-study → Study → Commitment. A leaf returns its own values.
  */
 export function computeRollUp(node: HierNode): NodeRollUp {
   const ownFunding = sumFunding(node.funding);

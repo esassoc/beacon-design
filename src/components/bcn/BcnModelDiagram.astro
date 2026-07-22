@@ -33,10 +33,11 @@ interface Entity {
 
 const TIERS: Entity[] = [
   {
-    name: 'Program',
-    chip: 'PRG-###',
-    purpose: 'Top-level grouping of the science plan.',
+    name: 'Commitment',
+    chip: 'CMT-###',
+    purpose: 'A tracked Condition of Approval — the Beacon Commitment this work satisfies.',
     fields: [
+      { name: 'coaRef', note: '→ Beacon Commitment (the tracked COA, e.g. 10.19)', ref: 'commitment' },
       { name: 'name' },
       { name: 'funding[]', note: 'per water year' },
       { name: 'children[]', note: '→ Study' },
@@ -45,9 +46,9 @@ const TIERS: Entity[] = [
   {
     name: 'Study',
     chip: 'STY-###',
-    purpose: 'The unit of accountability & compliance.',
+    purpose: 'An ITP study within the commitment; where the work is led & scheduled.',
     fields: [
-      { name: 'coaRef', note: '→ Commitment (reference, not identity)', ref: 'commitment' },
+      { name: 'coaRef', note: 'sub-study number (e.g. 10.19.1) — within the commitment', ref: 'commitment' },
       { name: 'lead', note: 'accountable org' },
       { name: 'roles[]', note: '11 RACI work-streams' },
       { name: 'drivenBy', note: '→ Milestone', ref: 'milestone' },
@@ -85,7 +86,7 @@ const SOURCES: (Entity & { tone: 'external' | 'stored' })[] = [
     tone: 'external',
     purpose: 'The ITP Condition of Approval — lives in Beacon’s Data Catalog, outside this fixture. In prod the deadline citation text is THIS record.',
     fields: [
-      { name: 'coa number', note: '"10.19.1" — what coaRef points at' },
+      { name: 'coa number', note: '"10.19" — the tracked grain; studies ref 10.19.x within it' },
       { name: 'condition text', note: 'the regulatory quote' },
     ],
   },
@@ -141,7 +142,7 @@ const DERIVED: Entity[] = [
   {
     name: 'NodeRollUp',
     chip: 'computeRollUp()',
-    purpose: 'Aggregates Task → Sub-study → Study → Program on every render.',
+    purpose: 'Aggregates Task → Sub-study → Study → Commitment on every render.',
     fields: [
       { name: 'span envelope', note: 'min start · max end of the subtree' },
       { name: 'aggregate status', note: 'blocked > at-risk > complete > on-track' },

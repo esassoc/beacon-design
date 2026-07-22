@@ -585,7 +585,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <li>
                         <code class="bcn-model-diagram__fname">coa number</code>
                         <span class="bcn-model-diagram__fnote"
-                          >"10.19.1" — what coaRef points at</span
+                          >"10.19" — the tracked grain; studies ref 10.19.x within it</span
                         >
                       </li>
                       <li>
@@ -640,13 +640,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <div class="bcn-model-diagram__spine">
                   <article class="bcn-model-diagram__card bcn-model-diagram__card--tier">
                     <header class="bcn-model-diagram__card-head">
-                      <span class="bcn-model-diagram__card-name">Program</span>
-                      <span class="bcn-model-diagram__chip" data-tone="id">PRG-###</span>
+                      <span class="bcn-model-diagram__card-name">Commitment</span>
+                      <span class="bcn-model-diagram__chip" data-tone="id">CMT-###</span>
                     </header>
                     <p class="bcn-model-diagram__purpose">
-                      Top-level grouping of the science plan.
+                      A tracked Condition of Approval — the Beacon Commitment this work satisfies.
                     </p>
                     <ul class="bcn-model-diagram__fields">
+                      <li>
+                        <code class="bcn-model-diagram__fname" data-ref="commitment">coaRef</code>
+                        <span class="bcn-model-diagram__fnote"
+                          >→ Beacon Commitment (the tracked COA, e.g. 10.19)</span
+                        >
+                      </li>
                       <li><code class="bcn-model-diagram__fname">name</code></li>
                       <li>
                         <code class="bcn-model-diagram__fname">funding[]</code>
@@ -667,13 +673,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <span class="bcn-model-diagram__chip" data-tone="id">STY-###</span>
                     </header>
                     <p class="bcn-model-diagram__purpose">
-                      The unit of accountability &amp; compliance.
+                      An ITP study within the commitment; where the work is led &amp; scheduled.
                     </p>
                     <ul class="bcn-model-diagram__fields">
                       <li>
                         <code class="bcn-model-diagram__fname" data-ref="commitment">coaRef</code>
                         <span class="bcn-model-diagram__fnote"
-                          >→ Commitment (reference, not identity)</span
+                          >sub-study number (e.g. 10.19.1) — within the commitment</span
                         >
                       </li>
                       <li>
@@ -849,7 +855,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       >
                     </header>
                     <p class="bcn-model-diagram__purpose">
-                      Aggregates Task → Sub-study → Study → Program on every render.
+                      Aggregates Task → Sub-study → Study → Commitment on every render.
                     </p>
                     <ul class="bcn-model-diagram__fields">
                       <li>
@@ -4204,6 +4210,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   background: color-mix(in srgb, var(--color-commitment) 12%, white);
   border-color: transparent;
 }
+.bcn-model-diagram__fname[data-ref="commitment"],
+.bcn-model-diagram__fname[data-ref="milestone"] {
+  color: var(--color-commitment);
+}
 .bcn-model-diagram__link {
   display: flex;
   align-items: center;
@@ -4239,10 +4249,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   border-bottom: 5px solid transparent;
   border-left: 7px solid var(--color-border-strong);
 }
-.bcn-model-diagram__fname[data-ref="commitment"],
-.bcn-model-diagram__fname[data-ref="milestone"] {
-  color: var(--color-commitment);
-}
 .bcn-model-diagram__row--satellites {
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
@@ -4261,9 +4267,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .bcn-model-diagram__card--projection {
   gap: var(--spacing-150);
   background: var(--color-surface-sunken);
-}
-:host {
-  --_width: var(--side-dialog-width, 400px);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
@@ -4324,11 +4327,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   white-space: nowrap;
 }
 :host {
-  display: inline-block;
-}
-.esa-tooltip-anchor {
-  position: relative;
-  display: inline-flex;
+  --_width: var(--side-dialog-width, 400px);
 }
 :host {
   all: initial;
@@ -4537,6 +4536,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 }
 .claude svg {
   flex: none;
+}
+:host {
+  display: inline-block;
+}
+.esa-tooltip-anchor {
+  position: relative;
+  display: inline-flex;
 }
 :host {
   --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));

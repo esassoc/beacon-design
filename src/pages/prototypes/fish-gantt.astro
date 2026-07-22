@@ -3,11 +3,11 @@
 //
 // The 7/8 data-model decision gave fish-study compliance its own module built on a
 // recursive hierarchy. This page socializes that model (for Gardner + Chris Geech)
-// as a four-tier WORK BREAKDOWN — Program → Study → Sub-study → Task — where:
+// as a four-tier WORK BREAKDOWN — Commitment → Study → Sub-study → Task — where:
 //   • the TASK is the schedulable month-by-month unit (a status-colored bar on the
 //     water-year axis), and status / funding / span roll UP to the parents;
 //   • every node is editable (add / rename / reparent / delete at all four tiers);
-//   • stable type-prefixed IDs (PRG/STY/SUB/TSK) are identity, the COA dot-number a
+//   • stable type-prefixed IDs (CMT/STY/SUB/TSK) are identity, the COA dot-number a
 //     secondary reference; there is NO dependency dimension in this view;
 //   • clicking a row opens its EDIT drawer — Date range, Budget, Status (tasks)
 //     plus Add-child / Delete — the slim write surface. The comprehensive record
@@ -517,7 +517,7 @@ const fishNav = [
   }
 
   function tierLabel(t: string) {
-    return t === 'program' ? 'Program' : t === 'study' ? 'Study' : t === 'substudy' ? 'Sub-study' : 'Task';
+    return t === 'program' ? 'Commitment' : t === 'study' ? 'Study' : t === 'substudy' ? 'Sub-study' : 'Task';
   }
 
   function exportXls(kind: string) {

@@ -12,7 +12,7 @@
 // bcn-work-breakdown is the reusable home.
 //
 // vs. the prior prototype (Andy's five locked decisions):
-//   1. FOUR named tiers (Program → Study → Sub-study → Task), CRUD at every tier.
+//   1. FOUR named tiers (Commitment → Study → Sub-study → Task), CRUD at every tier.
 //   2. NO dependency arrows — that dimension is dropped from this view.
 //   3. Stable type-prefixed IDS are identity; the COA dot-number rides as a muted
 //      secondary reference label next to the id.
@@ -126,7 +126,7 @@ function leadCell(node: HierNode): { text: string; filterVal: string; inherited:
 <div class="bcn-wb">
   <script is:inline type="application/json" data-wb-model set:html={modelJson}></script>
   <!-- ── Filter bar (permit-tracking pattern): controls on top, legend below.
-       Every lego rides the sm size variant; Add program lives at the BOTTOM of
+       Every lego rides the sm size variant; Add commitment lives at the BOTTOM of
        the tree body (the ghost add-row), so the bar starts with Search. ── -->
   <div class="bcn-wb__filterbar">
     <div class="bcn-wb__fb-top">
@@ -172,7 +172,7 @@ function leadCell(node: HierNode): { text: string; filterVal: string; inherited:
     <div class="bcn-wb__canvas">
       <!-- ── Axis header: phases / years / milestones (water-year aware) ── -->
       <header class="bcn-wb__axis">
-        <div class="bcn-wb__corner">Program / study / sub-study / task</div>
+        <div class="bcn-wb__corner">Commitment / study / sub-study / task</div>
         <div class="bcn-wb__lead-head">Lead</div>
         <div class="bcn-wb__money-head">Planned $</div>
         <div class="bcn-wb__head-plot">
@@ -290,11 +290,11 @@ function leadCell(node: HierNode): { text: string; filterVal: string; inherited:
         }
       </div>
 
-      <!-- ── Ghost add-row: Add program lives at the bottom of the tree body.
+      <!-- ── Ghost add-row: Add commitment lives at the bottom of the tree body.
            The button rides the sticky label column so it stays visible while
            the plot scrolls. Same #bcn-wb-add-program hook as before. ── -->
       <div class="bcn-wb__addrow">
-        <span id="bcn-wb-add-program"><EsaButton color="ghost" appearance="dashed" size="sm" icon="plus">Add program</EsaButton></span>
+        <span id="bcn-wb-add-program"><EsaButton color="ghost" appearance="dashed" size="sm" icon="plus">Add commitment</EsaButton></span>
         <span class="bcn-wb__lead" aria-hidden="true"></span>
         <span class="bcn-wb__money" aria-hidden="true"></span>
       </div>
@@ -370,8 +370,8 @@ function leadCell(node: HierNode): { text: string; filterVal: string; inherited:
   type Tier = 'program' | 'study' | 'substudy' | 'task';
   const CHILD_TIER: Partial<Record<Tier, Tier>> = { program: 'study', study: 'substudy', substudy: 'task' };
   const PARENT_TIER: Partial<Record<Tier, Tier>> = { study: 'program', substudy: 'study', task: 'substudy' };
-  const TIER_LABEL: Record<Tier, string> = { program: 'Program', study: 'Study', substudy: 'Sub-study', task: 'Task' };
-  const TIER_PREFIX: Record<Tier, string> = { program: 'PRG', study: 'STY', substudy: 'SUB', task: 'TSK' };
+  const TIER_LABEL: Record<Tier, string> = { program: 'Commitment', study: 'Study', substudy: 'Sub-study', task: 'Task' };
+  const TIER_PREFIX: Record<Tier, string> = { program: 'CMT', study: 'STY', substudy: 'SUB', task: 'TSK' };
   const TIER_CLASS: Record<Tier, string> = { program: 'is-program', study: 'is-study', substudy: 'is-substudy', task: 'is-task' };
 
   // ── Month math. Mirrors the SSR axis EXACTLY (axisFraction is Date-based, so
@@ -724,7 +724,7 @@ function leadCell(node: HierNode): { text: string; filterVal: string; inherited:
     if (tierToggle) {
       tierToggle.options = [
         { value: 'all', label: 'All' },
-        { value: 'program', label: 'Programs' },
+        { value: 'program', label: 'Commitments' },
         { value: 'study', label: 'Studies' },
         { value: 'substudy', label: 'Sub-studies' },
         { value: 'task', label: 'Tasks' },
@@ -975,7 +975,7 @@ function leadCell(node: HierNode): { text: string; filterVal: string; inherited:
     function addProgram() {
       const row = tpl.content.firstElementChild!.cloneNode(true) as HTMLElement;
       const id = nextId('program');
-      const name = 'New program';
+      const name = 'New commitment';
       row.className = 'bcn-wb__row is-program is-leaf';
       row.dataset.id = id;
       row.dataset.tier = 'program';
