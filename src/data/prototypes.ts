@@ -274,9 +274,51 @@ export const prototypeGroups: PrototypeGroup[] = [
         createdAt: '2026-06-15',
         status: 'in-progress',
       },
-      // The Tasking Gantt was rebuilt on the `proto/fish-gantt-rebuild` branch
-      // (beacon-design--ws-fish worktree) and its page no longer exists on main —
-      // re-add the row here when that branch merges.
+      {
+        slug: 'fish-gantt',
+        title: 'Study Planning (work breakdown)',
+        description:
+          'The four-tier work breakdown — Program → Study → Sub-study → Task — that socializes the recursive data model. Stable type-prefixed IDs (PRG/STY/SUB/TSK) are identity, the COA dot-number a secondary reference; the Task is the schedulable month unit whose status, funding, and span roll up to the parents. Add / rename / reparent / delete at every tier; the row drawer is the per-node EDIT surface (Name, ID, date range, per-water-year budget, add-child / delete), with the full record on the node details page.',
+        route: '/prototypes/fish-gantt',
+        createdAt: '2026-07-15',
+        status: 'in-progress',
+      },
+      {
+        slug: 'fish-node',
+        title: 'Node details (work breakdown)',
+        description:
+          'The per-node details page behind the Study Planning drawer — the full record for any ?id= (PRG/STY/SUB/TSK): identity with COA reference + parent, timing with water years + field seasons, the funding plan, the status roll-up meter, and constraints/notes. The drawer keeps only the slim edit surface.',
+        route: '/prototypes/fish-node',
+        createdAt: '2026-07-16',
+        status: 'in-progress',
+      },
+      {
+        slug: 'fish-model-map',
+        title: 'Data model map',
+        description:
+          'The architecture diagram of the Study Planning feature: regulatory sources (Commitment/COA in the Data Catalog, Milestone anchors) → the stored four-tier work-breakdown with its satellites (RoleAssignment, FundingEntry, PlanAssumption, StudyProfile) → the render-time derivations (NodeRollUp, Readiness chains) → the five projected surfaces (Gantt, Roles, Readiness, Exports, Detail pages). Stored vs computed vs external, on one screen.',
+        route: '/prototypes/fish-model-map',
+        createdAt: '2026-07-21',
+        status: 'in-progress',
+      },
+      {
+        slug: 'fish-detail',
+        title: 'Record detail pages (work breakdown)',
+        description:
+          'The unified per-node detail page — one static route per Program / Study / Sub-study / Task. Read-only on landing: lineage rail (data-catalog spine), identity / timing / funding as key-values, children + sibling records, assignments; study tier adds the authored science-plan sketch, the CDFW review thread, and the crosswalk facts rail. All editing happens in side drawers (Edit record, Edit assignments) with live roll-up recompute. Supersedes fish-node and the fish-study pages.',
+        route: '/prototypes/fish-detail/STY-014',
+        createdAt: '2026-07-21',
+        status: 'in-progress',
+      },
+      {
+        slug: 'fish-science-plan',
+        title: 'Science Plan reader',
+        description:
+          'The draft science plan as a document surface: the fixed Feb-2026 outline with per-section COA chips linking to the study detail pages, and section-anchored CDFW comment threads (comment → response, intent, status). Search / status / intent / COA filters with a derived open-addressed-resolved tally; comment STATUS is the one live datum of the fixed corpus. Closes the brief’s science-plan linking + comment-tracking bullet.',
+        route: '/prototypes/fish-science-plan',
+        createdAt: '2026-07-21',
+        status: 'in-progress',
+      },
     ],
   },
   {

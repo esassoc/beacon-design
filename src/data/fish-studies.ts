@@ -1,5 +1,17 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Fish Studies — the STUDY ROWS (data fixture).
+// Fish Studies — the LEGACY REGISTER + authored-content corpus (data fixture).
+//
+// STATUS (2026-07-21): QUARANTINED. The live system's source of truth is
+// ./fish-plan.ts. This file remains for exactly two purposes:
+//   1. CORPUS — the authored science-plan content (sketches, CDFW review
+//      comments, deliverables, crosswalk facts) that fish-plan.ts projects into
+//      STUDY_PROFILES for the COAs the work-breakdown covers. Each authored fact
+//      lives HERE once; fish-plan is its only live doorway.
+//   2. LEGACY PAGES — the two SUPERSEDED pages (fish-studies.astro,
+//      fish-study/[coa].astro) still read these rows whole.
+// For plan COAs, every EXECUTION field on these rows (scheduleStart/End,
+// execStatus, dcpLead, roles, commentCount) is DEAD — the work-breakdown owns
+// execution. Do not add new consumers; import from ./fish-plan.ts instead.
 //
 // Seeded from the real DCP source documents (see ./fish-model.ts for why these
 // four artifacts exist and how they project from one dataset):

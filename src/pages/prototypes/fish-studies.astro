@@ -1,4 +1,8 @@
 ---
+// SUPERSEDED (2026-07-21): the Science Plan register page from the flat-STUDIES
+// era. The live system is /prototypes/fish-gantt (projections) +
+// /prototypes/fish-detail/[id] (records), all sourced from data/fish-plan.ts.
+// This page still reads the LEGACY register (data/fish-studies.ts) directly.
 // Fish Studies — the Science Plan workspace (DCP Covered Fish Species Monitoring).
 //
 // THE THESIS: the four documents the team maintains by hand today — a narrative
@@ -19,6 +23,7 @@ import FilterContainer from '@esa/ecology/esa-filter-container.astro';
 import FilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
 import BcnScheduleTimeline from '../../components/bcn/BcnScheduleTimeline.astro';
 import BcnStatusSelect from '../../components/bcn/BcnStatusSelect.astro';
+import BcnRolesMatrix from '../../components/bcn/BcnRolesMatrix.astro';
 import { STUDIES } from '../../data/fish-studies';
 import { CATEGORY_META, PLAN_STATUS_META, EXEC_STATUS_META, PROJECT_NAME } from '../../data/fish-model';
 import { PHASE_META } from '../../data/fish-schedule';
@@ -147,6 +152,11 @@ const fishNav = [
     <div class="bcn-view-pane" id="view-timeline">
       <BcnScheduleTimeline studies={STUDIES} today={TODAY} />
     </div>
+
+    <!-- ═══ ROLES view — the RACI matrix projection (same data) ═══ -->
+    <div class="bcn-view-pane" id="view-roles" hidden>
+      <BcnRolesMatrix rows={STUDIES.map((s) => ({ id: s.coaNumber, ref: s.coaNumber, name: s.name, lead: s.dcpLead, roles: s.roles }))} />
+    </div>
   </PageLayout>
 
   <!-- ═══ Generate outputs dialog (the differentiator: one dataset → many documents) ═══ -->
@@ -169,8 +179,8 @@ const fishNav = [
       </li>
       <li class="bcn-out__item">
         <EsaIcon name="users" size="md" paths="<path d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2'/><circle cx='9' cy='7' r='4'/><path d='M22 21v-2a4 4 0 0 0-3-3.87'/>" />
-        <div><strong>Roles &amp; Responsibilities Summary</strong><span>Excel — the RACI matrix</span></div>
-        <EsaButton color="ghost" appearance="outline" size="sm">.xlsx</EsaButton>
+        <div><strong>Roles &amp; Responsibilities Summary</strong><span>the RACI matrix — generated live</span></div>
+        <span id="fs-out-roles"><EsaButton color="ghost" appearance="outline" size="sm" icon="external-link">Open</EsaButton></span>
       </li>
       <li class="bcn-out__item">
         <EsaIcon name="calendar" size="md" paths="<path d='M8 2v4'/><path d='M16 2v4'/><rect width='18' height='18' x='3' y='4' rx='2'/><path d='M3 10h18'/>" />
@@ -424,22 +434,27 @@ const fishNav = [
   document.getElementById('fs-download')!.addEventListener('click', () => api.exportDataAsCsv({ fileName: 'itp-aquatic-study-crosswalk.csv' }));
 
   // ── View toggle (Grid | Timeline) ──
-  const panes: Record<string, HTMLElement> = { grid: document.getElementById('view-grid')!, timeline: document.getElementById('view-timeline')! };
+  const panes: Record<string, HTMLElement> = {
+    grid: document.getElementById('view-grid')!,
+    timeline: document.getElementById('view-timeline')!,
+    roles: document.getElementById('view-roles')!,
+  };
   const viewToggle = document.getElementById('fs-views') as HTMLElement & { options: { label: string; value: string; icon?: string }[]; value: string };
   // Timeline first + default (the schedule is the hero view for this module).
   viewToggle.options = [
     { label: 'Timeline', value: 'timeline', icon: "<path d='M8 2v4'/><path d='M16 2v4'/><rect width='18' height='18' x='3' y='4' rx='2'/><path d='M3 10h18'/>" },
     { label: 'Grid', value: 'grid', icon: "<rect width='18' height='18' x='3' y='3' rx='2'/><path d='M3 9h18'/><path d='M3 15h18'/><path d='M9 3v18'/><path d='M15 3v18'/>" },
+    { label: 'Roles', value: 'roles', icon: "<path d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2'/><circle cx='9' cy='7' r='4'/><path d='M22 21v-2a4 4 0 0 0-3-3.87'/>" },
   ];
   viewToggle.value = 'timeline';
   const sortGroup = document.getElementById('fs-sort-group')!;
-  viewToggle.addEventListener('change', (e) => {
-    const view = (e as CustomEvent).detail.value as string;
+  function showView(view: string) {
     Object.entries(panes).forEach(([k, el]) => (el.hidden = k !== view));
     sortGroup.hidden = view !== 'timeline'; // arrange is a timeline-only control
     // AG Grid inits with 0 height while hidden; nudge it to render rows once shown.
     if (view === 'grid') requestAnimationFrame(() => api.setGridOption('rowData', rows));
-  });
+  }
+  viewToggle.addEventListener('change', (e) => showView((e as CustomEvent).detail.value as string));
 
   // ── Arrange toggle (By date | By category) — timeline only ──
   const sortToggle = document.getElementById('fs-sort') as HTMLElement & { options: { label: string; value: string; icon?: string }[]; value: string };
@@ -455,6 +470,12 @@ const fishNav = [
   const outputs = document.getElementById('fs-outputs') as HTMLElement & { open: boolean };
   document.getElementById('fs-generate')!.addEventListener('click', () => (outputs.open = true));
   document.getElementById('fs-outputs-close')!.addEventListener('click', () => (outputs.open = false));
+  // The Roles output is a LIVE projection — open the matrix view rather than "download".
+  document.getElementById('fs-out-roles')?.addEventListener('click', () => {
+    viewToggle.value = 'roles';
+    showView('roles');
+    outputs.open = false;
+  });
 
   // ── Manage-study drawer (esa-side-dialog) ──
   const drawer = document.getElementById('fs-drawer') as HTMLElement & { show(): void; close(): void };

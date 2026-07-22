@@ -1,0 +1,46 @@
+---
+// Fish Studies — the DATA MODEL MAP.
+//
+// The architecture-on-a-projector page for the Study Planning feature: regulatory
+// sources → the stored four-tier work-breakdown (+ satellites) → the derivations
+// computed at render → the four projected surfaces (Gantt, Roles, Readiness,
+// Exports). The diagram content is the schema contract in src/data/fish-model.ts,
+// curated to the load-bearing fields; the pitch is ONE model, many artifacts.
+import AppShell from '../../layouts/AppShell.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import BcnModelDiagram from '../../components/bcn/BcnModelDiagram.astro';
+import { PROJECT_NAME } from '../../data/fish-model';
+import { withBase } from '../../lib/base';
+
+const FLASK =
+  '<path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/>';
+
+const fishNav = [
+  { id: 'project', title: 'Project', icon: 'layout-dashboard', iconPaths: '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>', expanded: false, items: [{ id: 'dashboard', label: 'Dashboard' }] },
+  {
+    id: 'studies', title: 'Studies', icon: 'flask-conical', iconPaths: FLASK, expanded: true, active: true, dividerAfter: true,
+    items: [
+      { id: 'science-plan', label: 'Science Plan', href: withBase('/prototypes/fish-science-plan') },
+      { id: 'tasking-gantt', label: 'Study Planning', href: withBase('/prototypes/fish-gantt') },
+      { id: 'model-map', label: 'Data Model', active: true },
+    ],
+  },
+  { id: 'tracking', title: 'Tracking', icon: 'radar', expanded: false, items: [{ id: 'project-tracking', label: 'Project Tracking' }] },
+];
+---
+
+<!-- manifest:
+  layout: stack
+  sections:
+    - data model diagram -> bcn-model-diagram   # sources → stored model → computed → projections
+-->
+
+<AppShell title={`${PROJECT_NAME} — Data Model`} tenantName="DWR" projectName="Delta Conveyance" navSections={fishNav}>
+  <PageLayout
+    title="Data Model"
+    icon="map"
+    breadcrumbs={[{ label: 'Delta Conveyance', href: '#project' }, { label: 'Studies', href: '#studies' }, { label: 'Data Model' }]}
+  >
+    <BcnModelDiagram />
+  </PageLayout>
+</AppShell>

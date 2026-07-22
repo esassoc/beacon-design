@@ -45,7 +45,7 @@ const selected = opts.find((o) => o.value === current) ?? opts[0];
 ---
 
 <div class="bcn-status-select" id={id} data-value={current}>
-  <span class="bcn-status-select__label">{label}</span>
+  {label && <span class="bcn-status-select__label">{label}</span>}
   <div class="bcn-status-select__dd">
     <button type="button" class="bcn-status-select__trigger" aria-haspopup="listbox" aria-expanded="false">
       <span
@@ -105,7 +105,8 @@ const selected = opts.find((o) => o.value === current) ?? opts[0];
   .bcn-status-select[data-value='completed'] .bcn-status-select__dot--trigger { background: var(--bcn-status-completed); }
 
   .bcn-status-select__menu {
-    position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 20;
+    /* Grows to the longest option (min = trigger width) instead of wrapping rows. */
+    position: absolute; top: calc(100% + 4px); left: 0; min-width: 100%; width: max-content; z-index: 20;
     margin: 0; padding: var(--spacing-100); list-style: none;
     background: var(--color-surface); border: 1px solid var(--color-border);
     border-radius: var(--form-radius-md); box-shadow: var(--shadow-300);
@@ -114,7 +115,7 @@ const selected = opts.find((o) => o.value === current) ?? opts[0];
   .bcn-status-select__opt {
     display: flex; align-items: center; gap: var(--spacing-200);
     padding: var(--spacing-200) var(--spacing-300); font-size: 0.875rem; color: var(--color-text-primary);
-    border-radius: var(--radius-200); cursor: pointer;
+    border-radius: var(--radius-200); cursor: pointer; white-space: nowrap;
   }
   .bcn-status-select__opt:hover { background: var(--color-surface-sunken); }
   .bcn-status-select__opt[aria-selected='true'] { background: var(--color-surface-sunken); font-weight: var(--font-weight-semibold); }

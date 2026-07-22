@@ -1,0 +1,326 @@
+---
+// <BcnNodeDetail> — the FULL details view for one work-breakdown node, READ-ONLY.
+// Hosted on the detail pages (fish-detail/[id], fish-node). Reads top-to-bottom in
+// the locked order (Andy, decision 5):
+//   Identity → Timing → Funding → Roll-up (parents only) → constraints/notes (collapsed).
+//
+// READ-ONLY BY DESIGN (Andy, 2026-07-21): "All editing should be done in a modal
+// or side drawer. The detail page should be read only as you land on it." Every
+// field renders as a key/value; the HOST page owns the Edit-record drawer and
+// repaints this block after a save via the data-live hooks below (name / id / coa
+// / sched / season / wy / owner / parent, plus the status chip and the roll-up
+// meter). The client script keeps derived text in sync on wb-model-change for
+// wbApi hosts (fish-node); drawer hosts patch directly.
+//
+// bcn-lego-checked: this is a COMPOSITION of legos — bcn-key-value (identity/timing
+// rows), bcn-status-chip (task status), bcn-funding-plan (dollars/water-year,
+// readonly), bcn-rollup-summary (the legible parent roll-up), and esa-collapsible
+// for the collapsed constraints/notes. No form control renders here — that is the
+// point. The only CSS is section-stacking glue.
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import BcnKeyValue from './BcnKeyValue.astro';
+import BcnFundingPlan from './BcnFundingPlan.astro';
+import BcnRollupSummary from './BcnRollupSummary.astro';
+import {
+  TIER_META,
+  TASK_STATUS_META,
+  FIELD_SEASON_META,
+  monthLabel,
+  waterYearOf,
+  fieldSeasonOf,
+  formatUSD,
+  type HierNode,
+  type NodeRollUp,
+} from '../../data/fish-model';
+
+interface Props {
+  node: HierNode;
+  rollup: NodeRollUp;
+  parentName?: string;
+}
+const { node, rollup, parentName } = Astro.props;
+
+const tier = TIER_META[node.tier];
+const isTask = node.tier === 'task';
+const isParent = node.children.length > 0;
+
+// Timing values: a Task uses its own months; a parent shows its rolled-up span.
+const startMonth = isTask ? node.startMonth : rollup.startMonth;
+const endMonth = isTask ? node.endMonth : rollup.endMonth;
+const spanLabel = startMonth ? `${monthLabel(startMonth)} – ${monthLabel(endMonth)}` : '—';
+const wyStart = startMonth ? waterYearOf(startMonth) : undefined;
+const wyEnd = endMonth ? waterYearOf(endMonth) : undefined;
+const wyLabel = wyStart ? (wyStart === wyEnd ? `WY${wyStart}` : `WY${wyStart}–WY${wyEnd}`) : '—';
+const startSeason = startMonth ? FIELD_SEASON_META[fieldSeasonOf(startMonth)] : undefined;
+const endSeason = endMonth ? FIELD_SEASON_META[fieldSeasonOf(endMonth)] : undefined;
+const seasonLabel =
+  startSeason && endSeason
+    ? startSeason === endSeason
+      ? startSeason.label
+      : `${startSeason.label} → ${endSeason.label}`
+    : '—';
+
+// A task's scheduled span, as water years — the funding table offers those rows.
+const spanYears: number[] = [];
+if (isTask && node.startMonth && node.endMonth) {
+  const a = waterYearOf(node.startMonth);
+  const b = Math.max(a, waterYearOf(node.endMonth));
+  for (let wy = a; wy <= b; wy++) spanYears.push(wy);
+}
+
+// Roll-up child label (plural of the child tier: studies / sub-studies / tasks).
+const childTier = node.children[0]?.tier;
+const pluralize = (w: string) => (w.endsWith('y') ? `${w.slice(0, -1)}ies` : `${w}s`);
+const childLabel = childTier ? pluralize(TIER_META[childTier].label.toLowerCase()) : '';
+
+const hasNotes = Boolean(node.notes) || Boolean(node.constraints?.length);
+
+// Planned funding as a plain key/value: total + the water-year range it spans.
+const fYears = rollup.fundingByYear.map((f) => f.waterYear);
+const plannedKv = `${formatUSD(rollup.totalFunding)}${
+  fYears.length ? ` · WY${Math.min(...fYears)}–${Math.max(...fYears)}` : ''
+}`;
+---
+
+<div class="bcn-detail">
+  <!-- ── 1 · Identity ── -->
+  <section class="bcn-detail__section">
+    <h3 class="bcn-detail__title">Identity</h3>
+    <div class="bcn-detail__rows">
+      <div data-live="name"><BcnKeyValue label="Name" value={node.name} /></div>
+      <div data-live="idrow">
+        <BcnKeyValue label="ID" value={node.id} />
+      </div>
+      <div data-live="coa">
+        <BcnKeyValue label="COA reference" value={node.coaRef ?? '—'} />
+      </div>
+      {node.tier !== 'program' && <div data-live="parent"><BcnKeyValue label="Parent" value={parentName ?? '—'} /></div>}
+    </div>
+  </section>
+
+  <!-- ── 2 · Timing (fish-study calendar: water years + field seasons) ── -->
+  <section class="bcn-detail__section">
+    <h3 class="bcn-detail__title">Timing</h3>
+    {isTask ? (
+      <div class="bcn-detail__rows">
+        <div data-live="sched"><BcnKeyValue label="Schedule" value={spanLabel} /></div>
+        <div data-live="season"><BcnKeyValue label="Field seasons" value={seasonLabel} /></div>
+        <div data-live="wy"><BcnKeyValue label="Water years" value={wyLabel} /></div>
+      </div>
+    ) : (
+      <div class="bcn-detail__rows">
+        <div data-live="span"><BcnKeyValue label="Rolled-up span" value={spanLabel} hint="min start → max end across all tasks in this branch" /></div>
+        <div data-live="wy"><BcnKeyValue label="Water years" value={wyLabel} /></div>
+      </div>
+    )}
+  </section>
+
+  <!-- ── 3 · Funding (CDFW dollars per water year; tasks sum upward) ── -->
+  <section class="bcn-detail__section">
+    <h3 class="bcn-detail__title">Funding plan</h3>
+    <div data-live="funding"><BcnKeyValue label="Planned" value={plannedKv} /></div>
+    <BcnFundingPlan rollup={rollup} ownFunding={node.funding} spanYears={spanYears} readonly />
+  </section>
+
+  <!-- ── 4 · Roll-up (PARENT nodes only) ── -->
+  {isParent && (
+    <section class="bcn-detail__section">
+      <h3 class="bcn-detail__title">Status roll-up</h3>
+      <BcnRollupSummary rollup={rollup} childCount={node.children.length} childLabel={childLabel} />
+    </section>
+  )}
+
+  <!-- ── 5 · Constraints / notes (collapsed by default) ── -->
+  <section class="bcn-detail__section bcn-detail__section--flush">
+    <EsaCollapsible title="Constraints & notes" flush open={false}>
+      <div class="bcn-detail__notes" data-live="notes">
+        {hasNotes ? (
+          <>
+            {node.constraints && node.constraints.length > 0 && (
+              <ul class="bcn-detail__constraints">
+                {node.constraints.map((c) => <li>{c}</li>)}
+              </ul>
+            )}
+            {node.notes && <p class="bcn-detail__note">{node.notes}</p>}
+          </>
+        ) : (
+          <p class="bcn-detail__note bcn-detail__note--empty">None recorded.</p>
+        )}
+      </div>
+    </EsaCollapsible>
+  </section>
+</div>
+
+<script>
+  import {
+    TASK_STATUS_META,
+    HEALTH_META,
+    TIER_META,
+    monthLabel,
+    waterYearOf,
+    fieldSeasonOf,
+    formatUSD,
+    FIELD_SEASON_META,
+  } from '../../data/fish-model';
+  import type { HierNode, NodeRollUp } from '../../data/fish-model';
+
+  type WbApi = {
+    getNode(id: string): HierNode | undefined;
+    parentOf(id: string): HierNode | null;
+    rollupOf(id: string): NodeRollUp | undefined;
+  };
+  const getApi = (): WbApi | undefined =>
+    (document.querySelector('.bcn-wb') as (HTMLElement & { wbApi?: WbApi }) | null)?.wbApi;
+
+  const pluralize = (w: string) => (w.endsWith('y') ? `${w.slice(0, -1)}ies` : `${w}s`);
+  const setText = (root: ParentNode, sel: string, text: string) => {
+    const el = root.querySelector<HTMLElement>(sel);
+    if (el) el.textContent = text;
+  };
+
+  const wyLabelOf = (start?: string, end?: string): string => {
+    if (!start) return '—';
+    const a = waterYearOf(start);
+    const b = end ? waterYearOf(end) : a;
+    return a === b ? `WY${a}` : `WY${a}–WY${b}`;
+  };
+
+  function syncTiming(panel: HTMLElement, node: HierNode, r: NodeRollUp) {
+    const start = node.tier === 'task' ? node.startMonth : r.startMonth;
+    const end = node.tier === 'task' ? node.endMonth : r.endMonth;
+    const span = start ? `${monthLabel(start)} – ${monthLabel(end)}` : '—';
+    if (node.tier === 'task') {
+      setText(panel, '[data-live="sched"] .bcn-key-value__val', span);
+      const ss = start ? FIELD_SEASON_META[fieldSeasonOf(start)] : undefined;
+      const es = end ? FIELD_SEASON_META[fieldSeasonOf(end)] : undefined;
+      setText(
+        panel,
+        '[data-live="season"] .bcn-key-value__val',
+        ss && es ? (ss === es ? ss.label : `${ss.label} → ${es.label}`) : '—',
+      );
+    } else {
+      setText(panel, '[data-live="span"] .bcn-key-value__val', span);
+    }
+    setText(panel, '[data-live="wy"] .bcn-key-value__val', wyLabelOf(start, end));
+  }
+
+  // Re-derives the parent roll-up meter (chip, segmented bar, count line). The
+  // bar/count children are rebuilt — bcn-rollup styles are global for this reason.
+  function syncRollup(panel: HTMLElement, node: HierNode, r: NodeRollUp) {
+    const root = panel.querySelector<HTMLElement>('.bcn-rollup');
+    if (!root) return;
+    const childTier = node.children[0]?.tier;
+    const childLabel = childTier ? pluralize(TIER_META[childTier].label.toLowerCase()) : 'children';
+    setText(root, '.bcn-rollup__from', `Rolled up from ${node.children.length} ${childLabel}`);
+    const agg = TASK_STATUS_META[r.aggregate];
+    const chip = root.querySelector<HTMLElement>('.bcn-status-chip');
+    if (chip) {
+      chip.dataset.status = r.aggregate;
+      // Fish-study statuses have no --st-* theme token — the ramp hex IS the value.
+      chip.style.setProperty('--_chip', agg.hex);
+      setText(chip, '.bcn-status-chip__label', agg.label);
+    }
+    const bar = root.querySelector<HTMLElement>('.bcn-rollup__bar');
+    if (bar) {
+      bar.setAttribute(
+        'aria-label',
+        `${r.taskCount} tasks: ${r.onTrack} on track, ${r.atRisk} at risk, ${r.blocked} blocked, ${r.complete} complete`,
+      );
+      const segs = [
+        { count: r.blocked, hex: HEALTH_META.blocked.hex, label: 'blocked' },
+        { count: r.atRisk, hex: HEALTH_META['at-risk'].hex, label: 'at risk' },
+        { count: r.onTrack, hex: HEALTH_META['on-track'].hex, label: 'on track' },
+        { count: r.complete, hex: TASK_STATUS_META.complete.hex, label: 'complete' },
+      ]
+        .filter((s) => s.count > 0)
+        .map((s) => {
+          const seg = document.createElement('span');
+          seg.className = 'bcn-rollup__seg';
+          seg.style.width = `${(s.count / Math.max(r.taskCount, 1)) * 100}%`;
+          seg.style.setProperty('--_c', s.hex);
+          seg.title = `${s.count} ${s.label}`;
+          return seg;
+        });
+      bar.replaceChildren(...segs);
+    }
+    const counts = root.querySelector<HTMLElement>('.bcn-rollup__counts');
+    if (counts) {
+      const mk = (count: number, label: string, hex: string) => {
+        const span = document.createElement('span');
+        span.className = 'bcn-rollup__count';
+        const dot = document.createElement('span');
+        dot.className = 'bcn-rollup__dot';
+        dot.style.setProperty('--_c', hex);
+        span.append(dot, `${count} ${label}`);
+        return span;
+      };
+      const total = document.createElement('span');
+      total.className = 'bcn-rollup__total';
+      total.textContent = `${r.taskCount} ${r.taskCount === 1 ? 'task' : 'tasks'}`;
+      const parts = [
+        total,
+        mk(r.onTrack, 'on track', HEALTH_META['on-track'].hex),
+        mk(r.atRisk, 'at risk', HEALTH_META['at-risk'].hex),
+        mk(r.blocked, 'blocked', HEALTH_META.blocked.hex),
+      ];
+      if (r.complete > 0) parts.push(mk(r.complete, 'complete', TASK_STATUS_META.complete.hex));
+      counts.replaceChildren(...parts);
+    }
+  }
+
+  function syncPanel(panel: HTMLElement) {
+    const api = getApi();
+    if (!api) return;
+    const id = panel.dataset.nodePanel ?? '';
+    const node = api.getNode(id);
+    const r = api.rollupOf(id);
+    if (!node || !r) return;
+    setText(panel, '[data-live="name"] .bcn-key-value__val', node.name);
+    setText(panel, '[data-live="idrow"] .bcn-key-value__val', node.id);
+    setText(panel, '[data-live="coa"] .bcn-key-value__val', node.coaRef ?? '—');
+    const parentVal = panel.querySelector<HTMLElement>('[data-live="parent"] .bcn-key-value__val');
+    if (parentVal) parentVal.textContent = api.parentOf(id)?.name ?? '—';
+    const fy = r.fundingByYear.map((f) => f.waterYear);
+    setText(
+      panel,
+      '[data-live="funding"] .bcn-key-value__val',
+      `${formatUSD(r.totalFunding)}${fy.length ? ` · WY${Math.min(...fy)}–${Math.max(...fy)}` : ''}`,
+    );
+    syncTiming(panel, node, r);
+    syncRollup(panel, node, r);
+  }
+
+  // Keep the visible panel's derived text in sync with every model change (wbApi
+  // hosts), and (re)fill a panel whenever it is opened.
+  document.addEventListener('wb-model-change', () => {
+    const panel = document.querySelector<HTMLElement>('[data-node-panel]:not([hidden])');
+    if (panel) syncPanel(panel);
+  });
+  document.addEventListener('wb-node-select', (e) => {
+    const id = (e as CustomEvent).detail?.id as string;
+    const panel = document.querySelector<HTMLElement>(`[data-node-panel="${id}"]`);
+    if (panel) syncPanel(panel);
+  });
+</script>
+
+<style>
+  .bcn-detail { display: flex; flex-direction: column; gap: var(--spacing-700); }
+  .bcn-detail__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-detail__section--flush { border-top: 1px solid var(--color-border-light); padding-top: var(--spacing-200); }
+
+  /* House section heading: readable words, border-bottom, app scale. */
+  .bcn-detail__title { margin: 0; padding-bottom: var(--spacing-200); border-bottom: 1px solid var(--color-border); font-size: var(--type-size-300); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); line-height: 1.3; }
+
+  .bcn-detail__rows { display: flex; flex-direction: column; gap: var(--spacing-300); }
+
+  .bcn-detail__notes { display: flex; flex-direction: column; gap: var(--spacing-200); }
+</style>
+
+<style is:global>
+  /* Global ON PURPOSE: the host page rebuilds the notes block after an
+     Edit-record save — scoped attribute selectors would miss injected nodes.
+     Classes stay bcn-detail__-namespaced. */
+  .bcn-detail__constraints { margin: 0; padding-left: var(--spacing-400); display: flex; flex-direction: column; gap: var(--spacing-100); font-size: var(--type-size-200); color: var(--color-text-secondary); }
+  .bcn-detail__note { margin: 0; font-size: var(--type-size-200); color: var(--color-text-secondary); line-height: 1.55; }
+  .bcn-detail__note--empty { color: var(--color-text-tertiary); font-style: italic; }
+</style>

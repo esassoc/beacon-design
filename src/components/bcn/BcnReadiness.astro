@@ -1,0 +1,1047 @@
+---
+// <BcnReadiness> — the "Readiness" projection (back-planning derivation).
+//
+// The third view of the fish-studies work-breakdown (beside the tasking Gantt and
+// the Roles matrix). Replaces the hand-maintained "Prior to 2030 Timelines Memo":
+// immovable regulatory milestones (horizontal timeline) → per-study deadline
+// chains (sortable/filterable cards, the three dates first-class) → the work plan
+// by field season (collapsible windows of Task rows).
+//
+// Like <BcnPre2030Memo> and <BcnRolesMatrix>, it takes fully-projected plain data —
+// the PAGE maps the HierNode forest + milestones into these shapes; this component
+// holds no schedule math beyond positioning what it is handed. Task rows re-emit
+// `wb-node-select` so the host page's node drawer opens on click.
+//
+// bcn-lego-checked: composed legos — esa-card (chain cards), esa-popover (milestone
+// meta), esa-pill (season badges), esa-text-field + esa-select (toolbar). Bespoke:
+// (1) the milestone TIMELINE — no esa-* lego draws a dated axis; (2) the window
+// disclosure uses native <details>/<summary> because esa-collapsible's summary is
+// title-string-only and cannot host the season pill + Now marker — summary-slot gap
+// flagged for /request-lego. Status is the house inline dot+word (not esa-badge).
+// Flag chips follow the hub's NEW soft treatment (component-details branch: a-3
+// fill / a-6 ring / step-11 text) approximated with semantic-layer color-mix until
+// the Radix accent context lands. No raw --bcn-gray-* reads.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaPill from '@esa/ecology/esa-pill.astro';
+import EsaFilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
+import BcnStatusSelect from './BcnStatusSelect.astro';
+import { withBase } from '../../lib/base';
+
+/** Records link out to their unified detail page — the projections stay light. */
+const detailHref = (id: string) => withBase(`/prototypes/fish-detail/${id}`);
+
+/** Status tone for the inline dot — matches BcnPre2030Memo's MemoTone exactly. */
+export type ReadinessTone = 'on-track' | 'at-risk' | 'blocked' | 'complete' | 'not-started';
+
+/** A regulatory/engineering anchor on the milestone timeline. */
+export interface ReadinessMilestone {
+  id: string;
+  name: string;                 // "30% Design"
+  kind: 'design' | 'construction' | 'operations' | 'phase';
+  monthIso: string;             // '2030-10' — axis position
+  endIso?: string;              // phases only — the band's end
+  monthLabel: string;           // "Oct 2030"
+  endLabel?: string;            // "Jan 2034"
+  windowLabel?: string;         // "2030 – 2031"
+  countdown: string;            // "16 months away" | "underway — ends Jan 2034" | "passed"
+  state: 'past' | 'active' | 'upcoming';
+  citation?: string;            // regulatory source line — shown in the popover
+}
+
+/** One derived alert on a study's deadline chain. */
+export interface ReadinessFlag {
+  tone: 'warn' | 'risk';
+  label: string;
+}
+
+/** A study's back-planned deadline chain (one card). ISO twins of the labels
+ *  carry sortable values onto data-attributes. */
+export interface ReadinessStudy {
+  id: string;                   // STY-###
+  coaRef: string;               // "10.19.1"
+  name: string;
+  lead?: string;                // "DWR-DISE"
+  drivenByName?: string;        // driving milestone name; undefined → no regulatory deadline
+  deadlineIso?: string;
+  mustStartIso?: string;
+  finishIso?: string;
+  deadlineLabel?: string;       // "Sep 2033"
+  mustStartLabel?: string;      // "Apr 2028"
+  finishLabel?: string;         // "Oct 2031"
+  statusTone: ReadinessTone;
+  statusLabel: string;
+  flags: ReadinessFlag[];
+}
+
+/** One Task row inside a window group — a real Task node; click opens its drawer. */
+export interface ReadinessPeriodItem {
+  id: string;                   // TSK-###
+  name: string;
+  span: string;
+  owner?: string;
+  statusTone: ReadinessTone;
+  statusLabel: string;
+  starts: boolean;              // true → this task STARTS in this window
+}
+
+/** Tasks grouped by their study within a single window. */
+export interface ReadinessPeriodGroup {
+  studyId: string;              // STY-### — the group head links to its detail page
+  studyRef: string;
+  studyName: string;
+  items: ReadinessPeriodItem[];
+}
+
+/** One field-season window (a collapsible in the work plan). */
+export interface ReadinessPeriod {
+  key: string;
+  label: string;                // "2029 · Apr – Sep" or "2029/30 · Oct – Mar"
+  season: 'dry' | 'wet';
+  current?: boolean;
+  groups: ReadinessPeriodGroup[];
+}
+
+interface Props {
+  milestones: ReadinessMilestone[];
+  studies: ReadinessStudy[];
+  periods: ReadinessPeriod[];
+  /** Status-filter vocabulary (value/label/color) — colors from TASK_STATUS_META. */
+  statusOptions: { value: string; label: string; color?: string }[];
+  todayIso: string;             // '2026-07'
+  todayLabel: string;           // "July 21, 2026"
+}
+
+const { milestones, studies, periods, statusOptions, todayIso, todayLabel } = Astro.props;
+
+// ── Timeline geometry: linear month axis from Jan of the program's first year. ──
+const mi = (iso: string) => +iso.slice(0, 4) * 12 + (+iso.slice(5, 7) - 1);
+const allIdx = [...milestones.flatMap((m) => [mi(m.monthIso), m.endIso ? mi(m.endIso) : mi(m.monthIso)]), mi(todayIso)];
+const axisStart = Math.floor(Math.min(...allIdx) / 12) * 12;
+const axisEnd = Math.max(...allIdx) + 10;
+const pctOfIdx = (i: number) => ((i - axisStart) / (axisEnd - axisStart)) * 100;
+const pctOf = (iso: string) => `${pctOfIdx(mi(iso)).toFixed(2)}%`;
+const spanPct = (a: string, b: string) => `${(pctOfIdx(mi(b)) - pctOfIdx(mi(a))).toFixed(2)}%`;
+
+const phases = milestones.filter((m) => m.endIso);
+const points = milestones.filter((m) => !m.endIso);
+
+const firstYear = Math.ceil(axisStart / 12);
+const lastYear = Math.floor(axisEnd / 12);
+const years: { y: number; left: string; labeled: boolean }[] = [];
+for (let y = firstYear; y <= lastYear; y++)
+  years.push({ y, left: `${pctOfIdx(y * 12).toFixed(2)}%`, labeled: (y - firstYear) % 2 === 0 });
+
+const SEASON_META = { dry: { label: 'Dry season', variant: 'warning' }, wet: { label: 'Winter freshet', variant: 'info' } } as const;
+
+// If no listed window is the current one (today may fall in a window with no
+// scheduled work), the first upcoming window renders open instead.
+const hasCurrent = periods.some((p) => p.current);
+---
+
+<section class="bcn-readiness">
+  <!-- ── 1 · Milestone timeline ── -->
+  <section class="bcn-readiness__region">
+    <h2 class="bcn-readiness__h2">Regulatory milestones</h2>
+    <div class="bcn-readiness__tl" role="group" aria-label="Timeline of regulatory milestones">
+      {years.map((yr) => (
+        <>
+          <span class="bcn-readiness__tl-tick" style={`left: ${yr.left};`}></span>
+          {yr.labeled && <span class="bcn-readiness__tl-yr" style={`left: ${yr.left};`}>{yr.y}</span>}
+        </>
+      ))}
+      <span class="bcn-readiness__tl-axis"></span>
+
+      <span class="bcn-readiness__tl-today" style={`left: ${pctOf(todayIso)};`}>
+        <span class="bcn-readiness__tl-today-beacon" aria-hidden="true"></span>
+        <span class="bcn-readiness__tl-today-lbl">Today · {todayLabel}</span>
+      </span>
+
+      {phases.map((m) => (
+        <div class="bcn-readiness__tl-band" data-state={m.state} style={`left: ${pctOf(m.monthIso)}; width: ${spanPct(m.monthIso, m.endIso!)};`}>
+          <esa-popover position="bottom" trigger="hover">
+            <button type="button" class="bcn-readiness__tl-band-btn">
+              <span class="bcn-readiness__tl-band-lbl">{m.name}</span>
+            </button>
+            <div slot="content" class="bcn-readiness__tl-pop">
+              <span class="bcn-readiness__tl-pop-name">{m.name}</span>
+              <span class="bcn-readiness__mono">{m.monthLabel} – {m.endLabel}</span>
+              <span class="bcn-readiness__tl-pop-count">{m.countdown}</span>
+              {m.citation && <span class="bcn-readiness__tl-pop-cite">{m.citation}</span>}
+            </div>
+          </esa-popover>
+        </div>
+      ))}
+
+      {points.map((m, i) => (
+        <esa-popover class="bcn-readiness__tl-pointpop" position={pctOfIdx(mi(m.monthIso)) > 82 ? 'left' : 'bottom'} trigger="hover" style={`left: ${pctOf(m.monthIso)};`}>
+          <button type="button" class="bcn-readiness__tl-point" data-state={m.state} data-row={i % 2}>
+            <span class="bcn-readiness__tl-lbl">{m.name}</span>
+            <span class="bcn-readiness__tl-stem" aria-hidden="true"></span>
+            <span class="bcn-readiness__tl-dot" aria-hidden="true"></span>
+          </button>
+          <div slot="content" class="bcn-readiness__tl-pop">
+            <span class="bcn-readiness__tl-pop-name">{m.name}</span>
+            <span class="bcn-readiness__mono">{m.monthLabel}{m.windowLabel ? ` · ${m.windowLabel}` : ''}</span>
+            <span class="bcn-readiness__tl-pop-count">{m.countdown}</span>
+            {m.citation && <span class="bcn-readiness__tl-pop-cite">{m.citation}</span>}
+          </div>
+        </esa-popover>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── 2 · Deadline chains ── -->
+  <section class="bcn-readiness__region">
+    <h2 class="bcn-readiness__h2">Deadline chains</h2>
+
+    <div class="bcn-readiness__filterbar">
+      <div class="bcn-readiness__fb-top">
+        <div class="bcn-readiness__fb-group">
+          <span class="bcn-readiness__fb-label">Search</span>
+          <esa-text-field id="bcn-rdn-search" placeholder="Search study or COA" size="sm"></esa-text-field>
+        </div>
+        <span class="bcn-readiness__fb-divider"></span>
+        <div class="bcn-readiness__fb-group">
+          <span class="bcn-readiness__fb-label">Lead</span>
+          <esa-select id="bcn-rdn-lead" size="sm"></esa-select>
+        </div>
+        <div class="bcn-readiness__fb-group">
+          <span class="bcn-readiness__fb-label">Status</span>
+          <BcnStatusSelect id="bcn-rdn-status" label="" value="all" options={statusOptions} />
+        </div>
+        <span class="bcn-readiness__fb-divider"></span>
+        <div class="bcn-readiness__fb-group">
+          <span class="bcn-readiness__fb-label">Sort by</span>
+          <esa-select id="bcn-rdn-sort" size="sm"></esa-select>
+        </div>
+        <span class="bcn-readiness__fb-clear"><EsaFilterClearButton label="Clear" /></span>
+      </div>
+    </div>
+
+    <div class="bcn-readiness__chains" id="bcn-rdn-chains">
+      {
+        studies.map((s) => (
+          <div
+            class="bcn-readiness__chainitem"
+            data-id={s.id}
+            data-name={`${s.name} ${s.coaRef}`.toLowerCase()}
+            data-lead={s.lead ?? ''}
+            data-tone={s.statusTone}
+            data-deadline={s.deadlineIso ?? '9999'}
+            data-muststart={s.mustStartIso ?? '9999'}
+            data-finish={s.finishIso ?? '9999'}
+            title="Open study"
+            role="button"
+            tabindex="0"
+          >
+            <EsaCard variant="outlined">
+              <div class="bcn-readiness__study">
+                <header class="bcn-readiness__study-head">
+                  <div class="bcn-readiness__study-id">
+                    <a class="bcn-readiness__coa" href={detailHref(s.id)} title="Open study detail page">{s.coaRef}</a>
+                    <h3 class="bcn-readiness__study-name" data-raw={s.name}>{s.name}</h3>
+                    {s.lead && <span class="bcn-readiness__study-lead">Lead {s.lead}</span>}
+                  </div>
+                  <span class="bcn-readiness__status">
+                    <span class="bcn-readiness__dot" data-tone={s.statusTone} aria-hidden="true" />
+                    {s.statusLabel}
+                  </span>
+                </header>
+
+                <div class="bcn-readiness__dates" data-tone={s.statusTone}>
+                  <div class="bcn-readiness__date">
+                    <span class="bcn-readiness__date-k">Must start</span>
+                    <span class="bcn-readiness__date-v">{s.mustStartLabel ?? '—'}</span>
+                  </div>
+                  <div class="bcn-readiness__date">
+                    <span class="bcn-readiness__date-k">Projected finish</span>
+                    <span class="bcn-readiness__date-v">{s.finishLabel ?? '—'}</span>
+                  </div>
+                  <div class="bcn-readiness__date" data-empty={s.deadlineLabel ? undefined : ''}>
+                    <span class="bcn-readiness__date-k">Deadline</span>
+                    <span class="bcn-readiness__date-v">{s.deadlineLabel ?? '—'}</span>
+                  </div>
+                </div>
+
+                {s.flags.length > 0 && (
+                  <div class="bcn-readiness__flags">
+                    {s.flags.map((f) => (
+                      <span class="bcn-readiness__flag" data-tone={f.tone}>
+                        <svg class="bcn-readiness__flag-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                          {f.tone === 'risk' ? (
+                            <>
+                              <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+                              <path d="M12 9v4" />
+                              <path d="M12 17h.01" />
+                            </>
+                          ) : (
+                            <>
+                              <circle cx="12" cy="12" r="10" />
+                              <path d="M12 8v4" />
+                              <path d="M12 16h.01" />
+                            </>
+                          )}
+                        </svg>
+                        {f.label}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </EsaCard>
+          </div>
+        ))
+      }
+      <p class="bcn-readiness__noresults" hidden>No studies match the filters.</p>
+    </div>
+  </section>
+
+  <!-- ── 3 · Work plan by field season ── -->
+  <section class="bcn-readiness__region">
+    <h2 class="bcn-readiness__h2">Work plan by field season</h2>
+    <div class="bcn-readiness__periods">
+      {
+        periods.map((p, pi) => (
+          <details class="bcn-readiness__period" data-current={p.current ? '' : undefined} open={p.current || (!hasCurrent && pi === 0)}>
+            <summary class="bcn-readiness__period-sum">
+              <span class="bcn-readiness__period-label">{p.label}</span>
+              <EsaPill label={SEASON_META[p.season].label} variant={SEASON_META[p.season].variant} size="sm" removable={false} />
+              {p.current && <EsaPill label="Now" variant="success" size="sm" removable={false} />}
+            </summary>
+            <div class="bcn-readiness__period-body">
+              <div class="bcn-readiness__prow bcn-readiness__prow--head" aria-hidden="true">
+                <span>Task</span>
+                <span>Schedule</span>
+                <span>Name</span>
+                <span>Owner</span>
+                <span>Status</span>
+              </div>
+              {p.groups.map((g) => (
+                <div class="bcn-readiness__pgroup">
+                  <div class="bcn-readiness__pgroup-head">
+                    <a class="bcn-readiness__coa" href={detailHref(g.studyId)} title="Open study detail page">{g.studyRef}</a>
+                    <span class="bcn-readiness__pgroup-name">{g.studyName}</span>
+                  </div>
+                  <ul class="bcn-readiness__pitems">
+                    {g.items.map((it) => (
+                      <li>
+                        <button type="button" class="bcn-readiness__prow bcn-readiness__pitem" data-task-id={it.id} title="Open task">
+                          <span class="bcn-readiness__tid">{it.id}</span>
+                          <span class="bcn-readiness__pitem-span">{it.span}</span>
+                          <span class="bcn-readiness__pitem-name">
+                            {it.name}
+                            {it.starts && <span class="bcn-readiness__starts">starts</span>}
+                          </span>
+                          <span class="bcn-readiness__pitem-owner">{it.owner ?? ''}</span>
+                          <span class="bcn-readiness__status">
+                            <span class="bcn-readiness__dot" data-tone={it.statusTone} aria-hidden="true" />
+                            {it.statusLabel}
+                          </span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </section>
+</section>
+
+<script>
+  import '@esa/ecology/esa-popover';
+  import { setupStatusSelect } from './status-select';
+
+  document.querySelectorAll<HTMLElement>('.bcn-readiness').forEach((root) => {
+    // ── Deadline-chain filter bar: search (hit-highlight) + lead + status + sort. ──
+    const cards = [...root.querySelectorAll<HTMLElement>('.bcn-readiness__chainitem')];
+    const container = root.querySelector<HTMLElement>('#bcn-rdn-chains');
+    const noResults = root.querySelector<HTMLElement>('.bcn-readiness__noresults');
+    const search = root.querySelector('#bcn-rdn-search') as HTMLElement & { value: string };
+    const leadSel = root.querySelector('#bcn-rdn-lead') as HTMLElement & { options: { value: string; label: string }[]; value: string };
+    const statusRoot = root.querySelector<HTMLElement>('#bcn-rdn-status');
+    const statusCtl = statusRoot ? setupStatusSelect(statusRoot) : null;
+    const sortSel = root.querySelector('#bcn-rdn-sort') as HTMLElement & { options: { value: string; label: string }[]; value: string };
+
+    const distinctLeads = [...new Set(cards.map((c) => c.dataset.lead ?? '').filter(Boolean))].sort();
+    if (leadSel) {
+      leadSel.options = [{ value: 'all', label: 'All leads' }, ...distinctLeads.map((l) => ({ value: l, label: l }))];
+      leadSel.value = 'all';
+    }
+    if (sortSel) {
+      sortSel.options = [
+        { value: 'muststart', label: 'Must start' },
+        { value: 'finish', label: 'Projected finish' },
+        { value: 'deadline', label: 'Deadline' },
+      ];
+      sortSel.value = 'deadline';
+    }
+
+    let q = '';
+    let lead = 'all';
+    let status = 'all';
+
+    const escHtml = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const escRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+    function apply() {
+      let shown = 0;
+      cards.forEach((card) => {
+        const matches =
+          (!q || (card.dataset.name ?? '').includes(q)) &&
+          (lead === 'all' || card.dataset.lead === lead) &&
+          (status === 'all' || card.dataset.tone === status);
+        card.hidden = !matches;
+        if (matches) shown++;
+        // Hit-highlighting on the study name (innerHTML-injected → :global styles).
+        const nameEl = card.querySelector<HTMLElement>('.bcn-readiness__study-name');
+        if (nameEl) {
+          const raw = nameEl.dataset.raw ?? '';
+          nameEl.innerHTML =
+            matches && q
+              ? escHtml(raw).replace(new RegExp(`(${escRe(q)})`, 'ig'), '<mark class="bcn-readiness__hit">$1</mark>')
+              : escHtml(raw);
+        }
+      });
+      if (noResults) noResults.hidden = shown > 0;
+    }
+
+    function resort() {
+      if (!container || !sortSel) return;
+      const key = sortSel.value || 'deadline';
+      [...cards]
+        .sort((a, b) => (a.dataset[key] ?? '9999').localeCompare(b.dataset[key] ?? '9999'))
+        .forEach((c) => container.insertBefore(c, noResults));
+    }
+
+    search?.addEventListener('change', (e) => {
+      q = (((e as CustomEvent).detail?.value as string) ?? search.value ?? '').trim().toLowerCase();
+      apply();
+    });
+    leadSel?.addEventListener('change', (e) => {
+      lead = ((e as CustomEvent).detail?.value as string) ?? leadSel.value ?? 'all';
+      apply();
+    });
+    statusRoot?.addEventListener('change', (e) => {
+      status = ((e as CustomEvent).detail?.value as string) ?? 'all';
+      apply();
+    });
+    sortSel?.addEventListener('change', () => resort());
+
+    // esa-filter-clear-button dispatches a bubbling esa-filter-clear.
+    root.addEventListener('esa-filter-clear', () => {
+      q = '';
+      lead = 'all';
+      status = 'all';
+      if (search) search.value = '';
+      if (leadSel) leadSel.value = 'all';
+      statusCtl?.setValue('all');
+      if (sortSel) sortSel.value = 'deadline';
+      apply();
+      resort();
+    });
+
+    // ── Task rows and chain cards are real records — click (or Enter/Space on a
+    //    card) opens the drawer. Anchors inside (COA chips) navigate instead. ──
+    const openRecord = (t: HTMLElement) => {
+      if (t.closest('a')) return;
+      const taskBtn = t.closest<HTMLElement>('[data-task-id]');
+      const id = taskBtn?.dataset.taskId ?? t.closest<HTMLElement>('.bcn-readiness__chainitem')?.dataset.id;
+      if (id) document.dispatchEvent(new CustomEvent('wb-node-select', { detail: { id }, bubbles: true }));
+    };
+    root.addEventListener('click', (e) => openRecord(e.target as HTMLElement));
+    root.addEventListener('keydown', (e) => {
+      const card = (e.target as HTMLElement).closest<HTMLElement>('.bcn-readiness__chainitem');
+      if (card && (e.key === 'Enter' || e.key === ' ')) {
+        e.preventDefault();
+        openRecord(e.target as HTMLElement);
+      }
+    });
+  });
+</script>
+
+<style>
+  /* bcn-lego-checked: layout + timeline glue ONLY (see frontmatter note). Ink is
+     semantic-layer tokens (--color-*, --bcn-status-*), never raw --bcn-gray-*. */
+
+  .bcn-readiness {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-800);
+    color: var(--color-text-primary);
+    font-size: var(--type-size-200);
+    line-height: 1.5;
+  }
+
+  .bcn-readiness__region {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+  .bcn-readiness__h2 {
+    margin: 0;
+    padding-bottom: var(--spacing-200);
+    border-bottom: 1px solid var(--color-border);
+    font-size: var(--type-size-300);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    line-height: 1.3;
+  }
+
+  /* ── Shared: mono, status dot + word, COA tag, task-id tag ── */
+  .bcn-readiness__mono {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .bcn-readiness__status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    white-space: nowrap;
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+  }
+  .bcn-readiness__dot {
+    width: 9px;
+    height: 9px;
+    border-radius: var(--radius-full);
+    background: var(--_tone, var(--color-text-muted));
+    flex: none;
+  }
+  .bcn-readiness__dot[data-tone='on-track'] { --_tone: var(--color-secondary); }
+  .bcn-readiness__dot[data-tone='complete'] { --_tone: var(--bcn-status-completed); }
+  .bcn-readiness__dot[data-tone='at-risk'] { --_tone: var(--bcn-status-in-progress); }
+  .bcn-readiness__dot[data-tone='blocked'] { --_tone: var(--bcn-status-overdue); }
+  .bcn-readiness__dot[data-tone='not-started'] { --_tone: var(--color-text-muted); }
+
+  .bcn-readiness__tid {
+    justify-self: start;
+  }
+  a.bcn-readiness__coa {
+    text-decoration: none;
+  }
+  a.bcn-readiness__coa:hover {
+    background: color-mix(in srgb, var(--color-commitment) 20%, white);
+  }
+  .bcn-readiness__coa,
+  .bcn-readiness__tid {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem; /* adherence-allow: font-too-small — matches the gantt's Andy-sanctioned 11px ID badges */
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-commitment);
+    background: color-mix(in srgb, var(--color-commitment) 12%, white);
+    padding: 1px 5px;
+    border-radius: var(--radius-100);
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+
+  /* ── 1 · Milestone timeline ── */
+  .bcn-readiness__tl {
+    position: relative;
+    height: 138px;
+    margin-top: var(--spacing-200);
+  }
+  .bcn-readiness__tl-axis {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 30px;
+    height: 2px;
+    background: var(--color-border-strong);
+  }
+  .bcn-readiness__tl-tick {
+    position: absolute;
+    bottom: 26px;
+    width: 1px;
+    height: 10px;
+    background: var(--color-border);
+  }
+  .bcn-readiness__tl-yr {
+    position: absolute;
+    bottom: 6px;
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: var(--type-size-100);
+    color: var(--color-text-tertiary);
+  }
+
+  /* Phase band: sits on the axis, ABOVE the today line; label = popover trigger. */
+  .bcn-readiness__tl-band {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 25px;
+    height: 22px;
+    z-index: 2;
+    padding: 0 var(--spacing-150);
+    border: 1px solid color-mix(in srgb, var(--color-secondary) 45%, transparent);
+    border-radius: var(--radius-100);
+    background: color-mix(in srgb, var(--color-secondary) 14%, var(--color-surface));
+    /* no overflow clip — the popover renders inside this box */
+  }
+  .bcn-readiness__tl-band[data-state='past'] {
+    border-color: var(--color-border);
+    background: var(--color-surface-sunken);
+  }
+  .bcn-readiness__tl-band-btn {
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+  .bcn-readiness__tl-band-lbl {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: color-mix(in srgb, var(--color-secondary) 65%, var(--color-text-primary));
+    white-space: nowrap;
+  }
+
+  /* Point milestones: dot on the axis, stem up to an alternating-height label. */
+  .bcn-readiness__tl-pointpop {
+    display: block;
+    position: absolute;
+    bottom: 31px;
+    width: 0;
+    overflow: visible;
+    z-index: 3;
+  }
+  .bcn-readiness__tl-point {
+    position: relative;
+    display: block;
+    transform: translateX(-50%);
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+  .bcn-readiness__tl-dot {
+    display: block;
+    width: 10px;
+    height: 10px;
+    margin: 0 auto;
+    border-radius: var(--radius-full);
+    background: var(--color-surface);
+    border: 3px solid var(--color-text-secondary);
+  }
+  .bcn-readiness__tl-point[data-state='past'] .bcn-readiness__tl-dot {
+    border-color: var(--color-border-strong);
+  }
+  .bcn-readiness__tl-stem {
+    display: block;
+    width: 1px;
+    margin: 0 auto;
+    height: 18px;
+    background: var(--color-border);
+  }
+  .bcn-readiness__tl-point[data-row='1'] .bcn-readiness__tl-stem {
+    height: 46px;
+  }
+  .bcn-readiness__tl-lbl {
+    display: block;
+    max-width: 18ch;
+    margin: 0 auto 3px;
+    text-align: center;
+    line-height: 1.25;
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+
+  /* Today: red indicator BEHIND the phase band, with a subtle pulsing beacon. */
+  .bcn-readiness__tl-today {
+    position: absolute;
+    top: 14px;
+    bottom: 24px;
+    width: 1px;
+    background: var(--color-danger);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .bcn-readiness__tl-today-beacon {
+    position: absolute;
+    top: -4px;
+    left: -3px;
+    width: 7px;
+    height: 7px;
+    border-radius: var(--radius-full);
+    background: var(--color-danger);
+    animation: bcn-readiness-beacon 2.4s ease-out infinite;
+  }
+  @keyframes bcn-readiness-beacon {
+    0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-danger) 35%, transparent); }
+    60% { box-shadow: 0 0 0 9px color-mix(in srgb, var(--color-danger) 0%, transparent); }
+    100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-danger) 0%, transparent); }
+  }
+  .bcn-readiness__tl-today-lbl {
+    position: absolute;
+    top: -14px;
+    left: var(--spacing-200);
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-danger);
+    white-space: nowrap;
+  }
+
+  /* Popover content (slotted light DOM). */
+  .bcn-readiness__tl-pop {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+    max-width: 34ch;
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+  }
+  .bcn-readiness__tl-pop-name {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    font-size: var(--type-size-200);
+  }
+  .bcn-readiness__tl-pop-count {
+    color: var(--color-text-secondary);
+  }
+  .bcn-readiness__tl-pop-cite {
+    color: var(--color-text-tertiary);
+    line-height: 1.4;
+  }
+
+  /* ── 2 · Deadline chains — filter bar matches the gantt's (white container). ── */
+  .bcn-readiness__filterbar {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    background: var(--color-surface);
+  }
+  .bcn-readiness__fb-top {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    flex-wrap: wrap;
+    padding: var(--spacing-250) var(--spacing-400);
+  }
+  .bcn-readiness__fb-group {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+  .bcn-readiness__fb-label {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+  }
+  .bcn-readiness__fb-divider {
+    width: 1px;
+    align-self: stretch;
+    background: var(--color-border);
+    margin: 0 var(--spacing-100);
+  }
+  .bcn-readiness__fb-clear {
+    margin-left: auto;
+  }
+  .bcn-readiness__fb-group :global(esa-text-field) {
+    width: 220px;
+  }
+  .bcn-readiness__fb-group :global(esa-select) {
+    display: inline-block;
+    width: 11em;
+  }
+  /* Size the status select's trigger down to match the sm controls beside it
+     (esa-select sm reads --form-font-size-sm). */
+  .bcn-readiness__fb-group :global(.bcn-status-select__trigger) {
+    height: 32px;
+    padding: 0 var(--spacing-200);
+    font-size: var(--form-font-size-sm, 12px);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .bcn-readiness__chains {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  /* Slim card: tighten the lego's padding for this dense list context. The whole
+     card is a click target — it opens the study's drawer. */
+  .bcn-readiness__chainitem {
+    cursor: pointer;
+  }
+  .bcn-readiness__chainitem:hover :global(.esa-card) {
+    border-color: var(--color-border-strong);
+  }
+  .bcn-readiness__chainitem :global(.esa-card__body) {
+    padding: var(--spacing-300) var(--spacing-400);
+  }
+  .bcn-readiness__study {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-250);
+  }
+  .bcn-readiness__study-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+  }
+  .bcn-readiness__study-id {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--spacing-250);
+    min-width: 0;
+  }
+  .bcn-readiness__study-name {
+    margin: 0;
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    line-height: 1.35;
+  }
+  :global(.bcn-readiness__hit) {
+    background: color-mix(in srgb, var(--bcn-status-in-progress) 30%, transparent);
+    color: inherit;
+    border-radius: 2px;
+    padding: 0 1px;
+  }
+  .bcn-readiness__study-lead {
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+  }
+
+  /* The three dates as first-class entities — tint follows the study's STATUS
+     tone, so a card's severity reads in one glance across all three boxes. */
+  .bcn-readiness__dates {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-300);
+  }
+  .bcn-readiness__dates[data-tone='on-track'] { --_hue: var(--color-secondary); }
+  .bcn-readiness__dates[data-tone='complete'] { --_hue: var(--bcn-status-completed); }
+  .bcn-readiness__dates[data-tone='at-risk'] { --_hue: var(--bcn-status-in-progress); }
+  .bcn-readiness__dates[data-tone='blocked'] { --_hue: var(--bcn-status-overdue); }
+  .bcn-readiness__dates[data-tone='not-started'] { --_hue: var(--color-text-muted); }
+  .bcn-readiness__date {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-250);
+    padding: var(--spacing-200) var(--spacing-250);
+    border: 1px solid color-mix(in srgb, var(--_hue) 18%, transparent);
+    border-radius: var(--radius-100);
+    background: color-mix(in srgb, var(--_hue) 6%, var(--color-surface));
+  }
+  .bcn-readiness__date[data-empty] {
+    background: var(--color-surface);
+  }
+  .bcn-readiness__date-k {
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    color: color-mix(in srgb, var(--_hue) 55%, var(--color-text-primary));
+  }
+  .bcn-readiness__date-v {
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+  }
+  .bcn-readiness__date[data-empty] .bcn-readiness__date-v {
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-regular);
+  }
+
+  /* Flags: grayscale chips — the severity lives in the leading icon, so they read
+     beneath the status-tinted date boxes instead of competing with them. */
+  .bcn-readiness__flags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-200);
+  }
+  .bcn-readiness__flag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    padding: 2px 10px;
+    border-radius: var(--radius-100);
+    font-size: var(--type-size-150);
+    line-height: 1.5;
+    background: var(--color-surface-sunken);
+    box-shadow: inset 0 0 0 1px var(--color-border-light);
+    color: var(--color-text-secondary);
+  }
+  .bcn-readiness__flag-ic {
+    width: 13px;
+    height: 13px;
+    flex: none;
+  }
+  .bcn-readiness__flag[data-tone='warn'] .bcn-readiness__flag-ic {
+    color: var(--bcn-status-in-progress);
+  }
+  .bcn-readiness__flag[data-tone='risk'] .bcn-readiness__flag-ic {
+    color: var(--bcn-status-overdue);
+  }
+
+  .bcn-readiness__noresults {
+    margin: 0;
+    font-size: var(--type-size-150);
+    color: var(--color-text-tertiary);
+  }
+
+  /* ── 3 · Work plan by field season ── */
+  .bcn-readiness__periods {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-readiness__period {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    background: var(--color-surface);
+  }
+  .bcn-readiness__period[data-current] {
+    border-color: var(--color-secondary);
+    background: color-mix(in srgb, var(--color-secondary) 4%, var(--color-surface));
+  }
+  .bcn-readiness__period-sum {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-250);
+    padding: var(--spacing-250) var(--spacing-400);
+    cursor: pointer;
+    list-style: none;
+  }
+  .bcn-readiness__period-sum::-webkit-details-marker {
+    display: none;
+  }
+  .bcn-readiness__period-sum::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--color-text-tertiary);
+    border-bottom: 2px solid var(--color-text-tertiary);
+    transform: rotate(-45deg);
+    transition: transform 150ms ease;
+    margin-left: auto;
+  }
+  .bcn-readiness__period[open] > .bcn-readiness__period-sum::after {
+    transform: rotate(45deg);
+  }
+  .bcn-readiness__period-label {
+    font-size: var(--type-size-200);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .bcn-readiness__period-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    padding: var(--spacing-300) var(--spacing-400) var(--spacing-400);
+    border-top: 1px solid var(--color-border-light);
+  }
+  /* Shared row grid — fixed px columns so header + rows align across groups
+     (ch units resolve per-element font and drift between header and rows). */
+  .bcn-readiness__prow {
+    display: grid;
+    grid-template-columns: 64px 168px minmax(0, 1fr) 150px 96px;
+    align-items: baseline;
+    gap: var(--spacing-400);
+    padding: var(--spacing-150) var(--spacing-100);
+    font-size: var(--type-size-150);
+    /* Task rows are children of the study head — indent them under it. */
+    margin-left: var(--spacing-600);
+  }
+  .bcn-readiness__prow--head {
+    margin-left: var(--spacing-600);
+    padding-bottom: var(--spacing-100);
+    border-bottom: 1px solid var(--color-border);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-tertiary);
+  }
+  .bcn-readiness__pgroup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+  }
+  .bcn-readiness__pgroup-head {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--spacing-200);
+  }
+  .bcn-readiness__pgroup-name {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    line-height: 1.3;
+  }
+  .bcn-readiness__pitems {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-readiness__pitems li + li .bcn-readiness__pitem {
+    border-top: 1px solid var(--color-border-light);
+  }
+  /* A task row is a real Task record — full-row button opens its drawer. */
+  .bcn-readiness__pitem {
+    width: calc(100% - var(--spacing-600));
+    background: none;
+    border: 0;
+    text-align: left;
+    /* family only — `font:` shorthand would reset font-size over the row's 150 */
+    font-family: inherit;
+    cursor: pointer;
+    border-radius: var(--radius-100);
+  }
+  .bcn-readiness__pitem:hover {
+    background: var(--color-surface-sunken);
+  }
+  .bcn-readiness__pitem-span {
+    color: var(--color-text-secondary);
+  }
+  .bcn-readiness__pitem-name {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-150);
+    color: var(--color-text-primary);
+    line-height: 1.35;
+    min-width: 0;
+  }
+  .bcn-readiness__pitem-owner {
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+  }
+  .bcn-readiness__starts {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 8px;
+    border-radius: var(--radius-100);
+    background: color-mix(in srgb, var(--color-secondary) 10%, var(--color-surface));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-secondary) 25%, transparent);
+    color: color-mix(in srgb, var(--color-secondary) 60%, var(--color-text-primary));
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.6;
+  }
+
+  @media (max-width: 900px) {
+    .bcn-readiness__dates {
+      grid-template-columns: 1fr;
+    }
+    .bcn-readiness__prow {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-150) var(--spacing-300);
+      margin-left: var(--spacing-300);
+    }
+    .bcn-readiness__prow--head {
+      display: none;
+    }
+  }
+</style>

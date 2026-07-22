@@ -29,8 +29,12 @@ import {
 
 interface Props {
   comments: ReviewComment[];
+  /** Optional plan-section context: sectionId → its document number + reader
+   *  href. When a comment's sectionId resolves, a "§ n.n.n" chip links into the
+   *  science-plan reader. */
+  sectionRefs?: Record<string, { number: string; href: string }>;
 }
-const { comments } = Astro.props;
+const { comments, sectionRefs } = Astro.props;
 
 // Group by anchored field, preserving the sketch field order from the meta map.
 const fieldOrder = Object.keys(SKETCH_FIELD_META);
@@ -87,6 +91,11 @@ const fieldLabel = (f: string) => SKETCH_FIELD_META[f as keyof typeof SKETCH_FIE
                   {c.agency && <EsaBadge variant="warning" size="sm" value="CDFW" />}
                   <span class="bcn-review__time">{c.date}</span>
                   <span class="bcn-review__tags">
+                    {c.sectionId && sectionRefs?.[c.sectionId] && (
+                      <a class="bcn-review__section" href={sectionRefs[c.sectionId].href} title="Open in the Science Plan reader">
+                        § {sectionRefs[c.sectionId].number}
+                      </a>
+                    )}
                     <EsaPill label={COMMENT_INTENT_META[c.intent].label} removable={false} size="sm" />
                     <BcnStatusChip status={c.status} label={COMMENT_STATUS_META[c.status].label} hex={COMMENT_STATUS_META[c.status].hex} />
                   </span>
@@ -128,6 +137,8 @@ const fieldLabel = (f: string) => SKETCH_FIELD_META[f as keyof typeof SKETCH_FIE
   .bcn-review__count[data-s='open']::before { background: var(--color-warning); }
   .bcn-review__count[data-s='addressed']::before { background: var(--color-info); }
   .bcn-review__count[data-s='resolved']::before { background: var(--color-success); }
+  .bcn-review__section { font-family: var(--font-mono); font-size: 0.6875rem; /* adherence-allow: font-too-small — matches the sanctioned 11px reference chips */ font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 1px 5px; border-radius: var(--radius-100); text-decoration: none; white-space: nowrap; }
+  .bcn-review__section:hover { background: color-mix(in srgb, var(--color-commitment) 20%, white); }
   .bcn-review__none { margin: 0; font-size: var(--type-size-200); color: var(--color-text-tertiary); }
 
   .bcn-review__groups { display: flex; flex-direction: column; gap: var(--spacing-500); }
