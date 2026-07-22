@@ -56,9 +56,6 @@ The document identity row: an H1 of the source-document name (the FEIR) with a S
 
 ## Styles
 ```css
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -95,9 +92,8 @@ The document identity row: an H1 of the source-document name (the FEIR) with a S
   color: var(--color-text-tertiary);
   flex: none;
 }
-.esa-collapsible__summary .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary, #404040);
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
 }
 .bcn-doc__head {
   display: flex;
@@ -133,6 +129,10 @@ The document identity row: an H1 of the source-document name (the FEIR) with a S
 #download-coversheet .esa-button {
   width: 100%;
   justify-content: center;
+}
+.esa-collapsible__summary .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary, #404040);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));

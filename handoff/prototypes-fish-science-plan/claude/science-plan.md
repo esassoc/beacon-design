@@ -809,8 +809,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <a class="bcn-planr__toc-link" href="#sec-3-5-3">
                         <span class="bcn-planr__toc-num">3.5.3</span>
                         <span class="bcn-planr__toc-title"
-                          >Condition of Approval 10.19.3 (Salmonid Outmigration Timing &amp;
-                          Cues)</span
+                          >Condition of Approval 10.19.3 (Abundance &amp; Distribution Study)</span
                         >
                       </a>
                     </li>
@@ -827,7 +826,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <a class="bcn-planr__toc-link" href="#sec-3-5-5">
                         <span class="bcn-planr__toc-num">3.5.5</span>
                         <span class="bcn-planr__toc-title"
-                          >Condition of Approval 10.20.2 (Harmful Algal Bloom Monitoring)</span
+                          >Condition of Approval 10.20.2 (Sediment &amp; Turbidity Monitoring)</span
                         >
                       </a>
                     </li>
@@ -835,7 +834,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <a class="bcn-planr__toc-link" href="#sec-3-5-6">
                         <span class="bcn-planr__toc-num">3.5.6</span>
                         <span class="bcn-planr__toc-title"
-                          >Condition of Approval 10.21.1 (Long-term Salmonid Response
+                          >Condition of Approval 10.21.1 (Hydrodynamics at Georgiana Slough
                           Monitoring)</span
                         >
                       </a>
@@ -844,7 +843,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <a class="bcn-planr__toc-link" href="#sec-3-5-7">
                         <span class="bcn-planr__toc-num">3.5.7</span>
                         <span class="bcn-planr__toc-title"
-                          >Condition of Approval 10.21.2 (Decadal Ecosystem Trend Reporting)</span
+                          >Condition of Approval 10.21.2 (Covered Fish Species Life Cycle
+                          Models)</span
                         >
                       </a>
                     </li>
@@ -1713,13 +1713,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     class="bcn-planr__section"
                     id="sec-3-5-3"
                     data-level="3"
-                    data-search="3.5.3 condition of approval 10.19.3 (salmonid outmigration timing &amp; cues) rotary screw-trap monitoring and analysis of environmental cues governing juvenile outmigration timing past the intake reach."
+                    data-search="3.5.3 condition of approval 10.19.3 (abundance &amp; distribution study) near-field and far-field surveys of covered-species abundance and distribution at the north delta intakes, including a technology pilot to select the best abundance-measurement methods before baseline monitoring begins."
                     data-coas="10.19.3"
                   >
                     <header class="bcn-planr__sec-head">
                       <h4 class="bcn-planr__h3">
                         <span class="bcn-planr__num">3.5.3</span>Condition of Approval 10.19.3
-                        (Salmonid Outmigration Timing &amp; Cues)
+                        (Abundance &amp; Distribution Study)
                       </h4>
                       <span class="bcn-planr__coas">
                         <a
@@ -1731,8 +1731,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </span>
                     </header>
                     <p class="bcn-planr__excerpt">
-                      Rotary screw-trap monitoring and analysis of environmental cues governing
-                      juvenile outmigration timing past the intake reach.
+                      Near-field and far-field surveys of covered-species abundance and distribution
+                      at the North Delta intakes, including a technology pilot to select the best
+                      abundance-measurement methods before baseline monitoring begins.
                     </p>
                   </section>
                   <section
@@ -1765,13 +1766,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     class="bcn-planr__section"
                     id="sec-3-5-5"
                     data-level="3"
-                    data-search="3.5.5 condition of approval 10.20.2 (harmful algal bloom monitoring) hab observation and toxin analysis at fixed stations, coordinated with the delta-wide cyanobacteria monitoring strategy."
+                    data-search="3.5.5 condition of approval 10.20.2 (sediment &amp; turbidity monitoring) continuous sediment and turbidity monitoring at the north delta diversions, coordinated with the real-time monitoring station, to characterize suspended-sediment and turbidity conditions."
                     data-coas="10.20.2"
                   >
                     <header class="bcn-planr__sec-head">
                       <h4 class="bcn-planr__h3">
                         <span class="bcn-planr__num">3.5.5</span>Condition of Approval 10.20.2
-                        (Harmful Algal Bloom Monitoring)
+                        (Sediment &amp; Turbidity Monitoring)
                       </h4>
                       <span class="bcn-planr__coas">
                         <a
@@ -1783,21 +1784,22 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </span>
                     </header>
                     <p class="bcn-planr__excerpt">
-                      HAB observation and toxin analysis at fixed stations, coordinated with the
-                      Delta-wide cyanobacteria monitoring strategy.
+                      Continuous sediment and turbidity monitoring at the North Delta diversions,
+                      coordinated with the real-time monitoring station, to characterize
+                      suspended-sediment and turbidity conditions.
                     </p>
                   </section>
                   <section
                     class="bcn-planr__section"
                     id="sec-3-5-6"
                     data-level="3"
-                    data-search="3.5.6 condition of approval 10.21.1 (long-term salmonid response monitoring) post-construction survival and trend monitoring through phase 1 operations, extending the baseline telemetry series."
+                    data-search="3.5.6 condition of approval 10.21.1 (hydrodynamics at georgiana slough monitoring) hydrodynamic monitoring at georgiana slough to characterize flow split and routing, informing the flow-reversal and routing-minimization analyses under coa 10.21.7."
                     data-coas="10.21.1"
                   >
                     <header class="bcn-planr__sec-head">
                       <h4 class="bcn-planr__h3">
                         <span class="bcn-planr__num">3.5.6</span>Condition of Approval 10.21.1
-                        (Long-term Salmonid Response Monitoring)
+                        (Hydrodynamics at Georgiana Slough Monitoring)
                       </h4>
                       <span class="bcn-planr__coas">
                         <a
@@ -1809,21 +1811,22 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </span>
                     </header>
                     <p class="bcn-planr__excerpt">
-                      Post-construction survival and trend monitoring through Phase 1 operations,
-                      extending the baseline telemetry series.
+                      Hydrodynamic monitoring at Georgiana Slough to characterize flow split and
+                      routing, informing the flow-reversal and routing-minimization analyses under
+                      COA 10.21.7.
                     </p>
                   </section>
                   <section
                     class="bcn-planr__section"
                     id="sec-3-5-7"
                     data-level="3"
-                    data-search="3.5.7 condition of approval 10.21.2 (decadal ecosystem trend reporting) synthesis of monitoring series into decadal ecosystem trend reporting supporting the itp review cycle."
+                    data-search="3.5.7 condition of approval 10.21.2 (covered fish species life cycle models) refinement and evaluation of covered-species life-cycle models to incorporate dcp operations, drawing on the fish and water-quality monitoring studies to identify and address data gaps."
                     data-coas="10.21.2"
                   >
                     <header class="bcn-planr__sec-head">
                       <h4 class="bcn-planr__h3">
                         <span class="bcn-planr__num">3.5.7</span>Condition of Approval 10.21.2
-                        (Decadal Ecosystem Trend Reporting)
+                        (Covered Fish Species Life Cycle Models)
                       </h4>
                       <span class="bcn-planr__coas">
                         <a
@@ -1835,8 +1838,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </span>
                     </header>
                     <p class="bcn-planr__excerpt">
-                      Synthesis of monitoring series into decadal ecosystem trend reporting
-                      supporting the ITP review cycle.
+                      Refinement and evaluation of covered-species life-cycle models to incorporate
+                      DCP operations, drawing on the fish and water-quality monitoring studies to
+                      identify and address data gaps.
                     </p>
                   </section>
                   <section
@@ -4664,147 +4668,64 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
-.page-layout {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
-}
-.page-layout__container {
-  display: flex;
-  flex-direction: column;
-}
-.page-layout section {
-  width: 100%;
-}
-.breadcrumbs {
-  padding: var(--spacing-400) 0;
-}
-.breadcrumbs__items {
-  display: flex;
-  gap: var(--spacing-100);
-  align-items: center;
-  flex-wrap: wrap;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.breadcrumb-item {
-  color: var(--bcn-gray-600);
-  text-transform: capitalize;
-  font-size: 0.875rem;
-}
-a.breadcrumb-item {
-  text-decoration: none;
-}
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
-.page-layout__title-main {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.page-layout__title h1 {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  font-family: var(--font-decorative);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--type-size-500);
-  margin: 0;
-  color: var(--bcn-gray-1000);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
-}
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
-  position: relative;
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+.esa-avatar {
+  --_avatar-size: var(--avatar-size-md, 40px);
+  --_avatar-font-size: 16px;
+  --_avatar-radius: var(--avatar-radius, var(--radius-full, 9999px));
+  --_avatar-bg: var(--avatar-bg, hsl(var(--_avatar-hue, 200) 45% 65%));
+  --_avatar-text: var(--avatar-text-color, var(--color-text-inverse, #fff));
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
-  --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));
-  --_badge-height: var(--badge-height-md, 28px);
-  --_badge-font-size: 13px;
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  --_badge-min-width: var(--badge-height-md, 28px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: var(--_badge-height);
-  min-width: var(--_badge-min-width);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--badge-radius, var(--radius-100, 4px));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  font-size: var(--_badge-font-size);
+  width: var(--_avatar-size);
+  height: var(--_avatar-size);
+  border-radius: var(--_avatar-radius);
+  background: var(--_avatar-bg);
+  color: var(--_avatar-text);
+  font-size: var(--_avatar-font-size);
   font-weight: 600;
+  overflow: hidden;
+  flex-shrink: 0;
+  user-select: none;
+  box-sizing: border-box;
+}
+.esa-avatar--sm {
+  --_avatar-size: var(--avatar-size-sm, 28px);
+  --_avatar-font-size: 11px;
+}
+.esa-avatar__initials {
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+.esa-pill {
+  --_pill-bg: var(--pill-bg, var(--color-surface-sunken, #efefef));
+  --_pill-text: var(--pill-text-color, var(--color-text-primary, #171717));
+  --_pill-border: var(--pill-border-color, var(--color-border-light, #efefef));
+  --_pill-height: var(--pill-height-md, 28px);
+  --_pill-font-size: 13px;
+  --_pill-padding-x: var(--spacing-200, 0.5rem);
+  --_pill-gap: var(--spacing-100, 0.25rem);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--_pill-gap);
+  height: var(--_pill-height);
+  padding-inline: var(--_pill-padding-x);
+  border: 1px solid var(--_pill-border);
+  border-radius: var(--pill-radius, var(--radius-full, 9999px));
+  background: var(--_pill-bg);
+  color: var(--_pill-text);
+  font-size: var(--_pill-font-size);
   line-height: 1;
   white-space: nowrap;
   box-sizing: border-box;
 }
-.esa-badge--sm {
-  --_badge-height: var(--badge-height-sm, 22px);
-  --_badge-font-size: 11px;
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
-  --_badge-min-width: var(--badge-height-sm, 22px);
+.esa-pill--sm {
+  --_pill-height: var(--pill-height-sm, 22px);
+  --_pill-font-size: 11px;
+  --_pill-padding-x: var(--spacing-150, 0.375rem);
 }
-.esa-badge--warning {
-  --_badge-bg: var(--color-warning, #ffc53d);
-  --_badge-text: var(--color-warning-on-fill, #4f3422);
+.esa-pill__label {
+  font-weight: 500;
 }
 .bcn-planr {
   display: flex;
@@ -5095,189 +5016,147 @@ a.breadcrumb-item {
   font-size: var(--type-size-150);
   color: var(--color-text-tertiary);
 }
-.bcn-status-select {
+.page-layout {
   display: flex;
   flex-direction: column;
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
+  box-sizing: border-box;
+}
+.page-layout__container {
+  display: flex;
+  flex-direction: column;
+}
+.page-layout section {
+  width: 100%;
+}
+.breadcrumbs {
+  padding: var(--spacing-400) 0;
+}
+.breadcrumbs__items {
+  display: flex;
   gap: var(--spacing-100);
+  align-items: center;
+  flex-wrap: wrap;
 }
-.bcn-status-select__dd {
-  position: relative;
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
 }
-.bcn-status-select__trigger {
+.breadcrumb-item {
+  color: var(--bcn-gray-600);
+  text-transform: capitalize;
+  font-size: 0.875rem;
+}
+a.breadcrumb-item {
+  text-decoration: none;
+}
+.page-layout__title {
+  border-bottom: 1px solid var(--bcn-gray-200);
+  padding: var(--spacing-500) 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.page-layout__title-main {
   display: flex;
   align-items: center;
   gap: var(--spacing-200);
-  width: 100%;
-  height: 40px;
-  padding: 0 var(--spacing-300);
-  font-size: 0.875rem;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-primary);
-  background: var(--color-surface);
-  border: 1px solid var(--form-border-color);
-  border-radius: var(--form-radius-md);
-  cursor: pointer;
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
+  min-width: 0;
 }
-.bcn-status-select__dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.bcn-status-select__value {
-  flex: 1;
-  text-align: left;
-}
-.bcn-status-select__chev {
-  color: var(--color-text-tertiary);
-  flex-shrink: 0;
-  transition: transform 0.15s ease;
-}
-.bcn-status-select__menu {
-  position: absolute;
-  top: calc(100% + 4px);
-  left: 0;
-  min-width: 100%;
-  width: max-content;
-  z-index: 20;
+.page-layout__title h1 {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  font-family: var(--font-decorative);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--type-size-500);
   margin: 0;
-  padding: var(--spacing-100);
-  list-style: none;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--form-radius-md);
-  box-shadow: var(--shadow-300);
+  color: var(--bcn-gray-1000);
 }
-.bcn-status-select__menu[hidden] {
-  display: none;
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
 }
-.esa-filter-clear-button {
-  --_clear-text: var(--filter-clear-color, var(--color-primary-strong, #3a7c59));
-  --_clear-text-hover: var(--filter-clear-color-hover, var(--color-primary-strong, #3a7c59));
-  --_clear-font-size: var(--type-size-150, 0.875rem);
-  --_clear-icon-size: 18px;
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
+  position: relative;
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-100, 0.25rem);
-  padding: var(--spacing-100, 0.25rem) var(--spacing-200, 0.5rem);
-  border: none;
-  border-radius: var(--radius-100, 0.25rem);
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
   background: transparent;
-  color: var(--_clear-text);
-  font-family: var(--font-sans, inherit);
-  font-size: var(--_clear-font-size);
-  font-weight: var(--font-weight-medium, 450);
+  color: inherit;
   cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  transition:
-    color var(--transition-fast, 0.15s ease),
-    background var(--transition-fast, 0.15s ease);
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
 }
-.esa-filter-clear-button__icon {
-  width: var(--_clear-icon-size);
-  height: var(--_clear-icon-size);
-  flex: none;
-}
-.esa-filter-clear-button__label {
-  white-space: nowrap;
-}
-.bcn-status-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-  padding: 2px var(--spacing-250);
-  border-radius: var(--radius-full);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  white-space: nowrap;
-  background: color-mix(in srgb, var(--_chip) 16%, transparent);
-  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
-}
-.bcn-status-chip__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: var(--radius-full);
-  background: var(--_chip);
-  flex-shrink: 0;
-}
-.bcn-count {
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
+  --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));
+  --_badge-height: var(--badge-height-md, 28px);
+  --_badge-font-size: 13px;
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  --_badge-min-width: var(--badge-height-md, 28px);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 18px;
-  height: 18px;
-  padding: 0 var(--spacing-100);
-  font-size: 0.8125rem;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-100);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-.esa-avatar {
-  --_avatar-size: var(--avatar-size-md, 40px);
-  --_avatar-font-size: 16px;
-  --_avatar-radius: var(--avatar-radius, var(--radius-full, 9999px));
-  --_avatar-bg: var(--avatar-bg, hsl(var(--_avatar-hue, 200) 45% 65%));
-  --_avatar-text: var(--avatar-text-color, var(--color-text-inverse, #fff));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_avatar-size);
-  height: var(--_avatar-size);
-  border-radius: var(--_avatar-radius);
-  background: var(--_avatar-bg);
-  color: var(--_avatar-text);
-  font-size: var(--_avatar-font-size);
+  height: var(--_badge-height);
+  min-width: var(--_badge-min-width);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--badge-radius, var(--radius-100, 4px));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  font-size: var(--_badge-font-size);
   font-weight: 600;
-  overflow: hidden;
-  flex-shrink: 0;
-  user-select: none;
-  box-sizing: border-box;
-}
-.esa-avatar--sm {
-  --_avatar-size: var(--avatar-size-sm, 28px);
-  --_avatar-font-size: 11px;
-}
-.esa-avatar__initials {
-  line-height: 1;
-  letter-spacing: 0.02em;
-}
-.esa-pill {
-  --_pill-bg: var(--pill-bg, var(--color-surface-sunken, #efefef));
-  --_pill-text: var(--pill-text-color, var(--color-text-primary, #171717));
-  --_pill-border: var(--pill-border-color, var(--color-border-light, #efefef));
-  --_pill-height: var(--pill-height-md, 28px);
-  --_pill-font-size: 13px;
-  --_pill-padding-x: var(--spacing-200, 0.5rem);
-  --_pill-gap: var(--spacing-100, 0.25rem);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--_pill-gap);
-  height: var(--_pill-height);
-  padding-inline: var(--_pill-padding-x);
-  border: 1px solid var(--_pill-border);
-  border-radius: var(--pill-radius, var(--radius-full, 9999px));
-  background: var(--_pill-bg);
-  color: var(--_pill-text);
-  font-size: var(--_pill-font-size);
   line-height: 1;
   white-space: nowrap;
   box-sizing: border-box;
 }
-.esa-pill--sm {
-  --_pill-height: var(--pill-height-sm, 22px);
-  --_pill-font-size: 11px;
-  --_pill-padding-x: var(--spacing-150, 0.375rem);
+.esa-badge--sm {
+  --_badge-height: var(--badge-height-sm, 22px);
+  --_badge-font-size: 11px;
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
+  --_badge-min-width: var(--badge-height-sm, 22px);
 }
-.esa-pill__label {
-  font-weight: 500;
+.esa-badge--warning {
+  --_badge-bg: var(--color-warning, #ffc53d);
+  --_badge-text: var(--color-warning-on-fill, #4f3422);
 }
 .modern-layout {
   display: flex;
@@ -6045,6 +5924,131 @@ a.breadcrumb-item {
 }
 .bcn-gd-article__panel[hidden] {
   display: none;
+}
+.bcn-status-select {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+}
+.bcn-status-select__dd {
+  position: relative;
+}
+.bcn-status-select__trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  width: 100%;
+  height: 40px;
+  padding: 0 var(--spacing-300);
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  border: 1px solid var(--form-border-color);
+  border-radius: var(--form-radius-md);
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.bcn-status-select__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.bcn-status-select__value {
+  flex: 1;
+  text-align: left;
+}
+.bcn-status-select__chev {
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+.bcn-status-select__menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  min-width: 100%;
+  width: max-content;
+  z-index: 20;
+  margin: 0;
+  padding: var(--spacing-100);
+  list-style: none;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--form-radius-md);
+  box-shadow: var(--shadow-300);
+}
+.bcn-status-select__menu[hidden] {
+  display: none;
+}
+.esa-filter-clear-button {
+  --_clear-text: var(--filter-clear-color, var(--color-primary-strong, #3a7c59));
+  --_clear-text-hover: var(--filter-clear-color-hover, var(--color-primary-strong, #3a7c59));
+  --_clear-font-size: var(--type-size-150, 0.875rem);
+  --_clear-icon-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-100, 0.25rem);
+  padding: var(--spacing-100, 0.25rem) var(--spacing-200, 0.5rem);
+  border: none;
+  border-radius: var(--radius-100, 0.25rem);
+  background: transparent;
+  color: var(--_clear-text);
+  font-family: var(--font-sans, inherit);
+  font-size: var(--_clear-font-size);
+  font-weight: var(--font-weight-medium, 450);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition:
+    color var(--transition-fast, 0.15s ease),
+    background var(--transition-fast, 0.15s ease);
+}
+.esa-filter-clear-button__icon {
+  width: var(--_clear-icon-size);
+  height: var(--_clear-icon-size);
+  flex: none;
+}
+.esa-filter-clear-button__label {
+  white-space: nowrap;
+}
+.bcn-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  padding: 2px var(--spacing-250);
+  border-radius: var(--radius-full);
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--_chip) 16%, transparent);
+  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+}
+.bcn-status-chip__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--_chip);
+  flex-shrink: 0;
+}
+.bcn-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 var(--spacing-100);
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-100);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 ```
 

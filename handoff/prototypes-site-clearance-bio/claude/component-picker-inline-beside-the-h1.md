@@ -46,41 +46,44 @@ The single-select Component picker that scopes the whole page — map, grids, an
 
 ## Styles
 ```css
-.comp-picker {
-  display: inline-flex;
-  align-items: center;
-  align-self: center;
-  min-width: 0;
-}
-.comp-picker esa-dropdown-menu {
-  display: inline-flex;
-  align-items: center;
-  --type-size-200: 0.875rem;
-}
-.comp-picker__trigger {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-  margin: 0;
-  padding: var(--spacing-100) var(--spacing-200);
-  border: 0;
-  border-radius: var(--radius-200);
-  background: transparent;
-  font: inherit;
-  font-size: 0.875rem;
-  line-height: 1.3;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  white-space: nowrap;
-}
-.comp-picker__trigger .esa-icon {
+.bcn-search-trigger .esa-icon {
+  flex: none;
   color: var(--color-text-tertiary);
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
   flex-shrink: 0;
 }
-.wa__section .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary);
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
@@ -141,44 +144,41 @@ The single-select Component picker that scopes the whole page — map, grids, an
   flex-shrink: 0;
   color: var(--color-text-secondary, #404040);
 }
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
+.comp-picker {
+  display: inline-flex;
+  align-items: center;
+  align-self: center;
+  min-width: 0;
 }
-.topbar__right .esa-icon-button {
+.comp-picker esa-dropdown-menu {
+  display: inline-flex;
+  align-items: center;
+  --type-size-200: 0.875rem;
+}
+.comp-picker__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  margin: 0;
+  padding: var(--spacing-100) var(--spacing-200);
+  border: 0;
+  border-radius: var(--radius-200);
+  background: transparent;
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 1.3;
+  font-weight: var(--font-weight-medium);
   color: var(--color-text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
 }
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
-}
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
-}
-.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
-  transform: rotate(-90deg);
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-gd__label .esa-icon {
+.comp-picker__trigger .esa-icon {
   color: var(--color-text-tertiary);
-  flex: none;
+  flex-shrink: 0;
+}
+.wa__section .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
 }
 ```
 

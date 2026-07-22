@@ -102,36 +102,6 @@
         --type-size-500: clamp(1.125rem, 0.98rem + 0.72vw, 1.5rem);
       }
 
-      *,
-      *:before,
-      *:after {
-        box-sizing: border-box;
-      }
-      body {
-        margin: 0;
-        font-family: var(--font-sans, system-ui, sans-serif);
-        font-weight: var(--font-weight-regular, 350);
-        color: var(--color-text-primary, #3d3d3d);
-        background: var(--color-surface, #fff);
-        -webkit-font-smoothing: antialiased;
-      }
-      button {
-        font-family: inherit;
-        cursor: pointer;
-        background: none;
-        border: 0;
-      }
-      a {
-        color: var(--color-text-link, #005862);
-        text-decoration: none;
-      }
-      img {
-        display: block;
-        max-width: 100%;
-      }
-      :where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
-        margin: 0;
-      }
       :host {
         all: initial;
       }
@@ -341,6 +311,9 @@
         flex: none;
       }
       :host {
+        --_width: var(--side-dialog-width, 400px);
+      }
+      :host {
         --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
         --_popover-border: var(--popover-border-color, var(--color-border, #e5e5e5));
         --_popover-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
@@ -531,9 +504,6 @@
         background: var(--_accent);
         color: var(--_on);
         border-color: transparent;
-      }
-      :host {
-        --_width: var(--side-dialog-width, 400px);
       }
       .modern-layout {
         display: flex;
@@ -1390,6 +1360,36 @@
         border-radius: var(--radius-100);
         font-variant-numeric: tabular-nums;
         white-space: nowrap;
+      }
+      *,
+      *:before,
+      *:after {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: var(--font-sans, system-ui, sans-serif);
+        font-weight: var(--font-weight-regular, 350);
+        color: var(--color-text-primary, #3d3d3d);
+        background: var(--color-surface, #fff);
+        -webkit-font-smoothing: antialiased;
+      }
+      button {
+        font-family: inherit;
+        cursor: pointer;
+        background: none;
+        border: 0;
+      }
+      a {
+        color: var(--color-text-link, #005862);
+        text-decoration: none;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+      }
+      :where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
+        margin: 0;
       }
     </style>
   </head>
@@ -5457,7 +5457,7 @@
                   <section
                     class="bcn-node-page__panel"
                     data-node-panel="STY-016"
-                    data-node-name="Salmonid Outmigration Timing &amp; Cues"
+                    data-node-name="Abundance &amp; Distribution Study"
                     data-node-tier="Study"
                     data-start=""
                     data-end=""
@@ -5472,7 +5472,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Name</span>
                               <span class="bcn-key-value__val"
-                                >Salmonid Outmigration Timing &amp; Cues</span
+                                >Abundance &amp; Distribution Study</span
                               >
                             </div>
                           </div>
@@ -5697,7 +5697,7 @@
                   <section
                     class="bcn-node-page__panel"
                     data-node-panel="SUB-025"
-                    data-node-name="Rotary screw-trap timing monitoring"
+                    data-node-name="Juvenile abundance &amp; distribution monitoring"
                     data-node-tier="Sub-study"
                     data-start=""
                     data-end=""
@@ -5712,7 +5712,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Name</span>
                               <span class="bcn-key-value__val"
-                                >Rotary screw-trap timing monitoring</span
+                                >Juvenile abundance &amp; distribution monitoring</span
                               >
                             </div>
                           </div>
@@ -5732,7 +5732,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Parent</span>
                               <span class="bcn-key-value__val"
-                                >Salmonid Outmigration Timing &amp; Cues</span
+                                >Abundance &amp; Distribution Study</span
                               >
                             </div>
                           </div>
@@ -5970,7 +5970,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Parent</span>
                               <span class="bcn-key-value__val"
-                                >Rotary screw-trap timing monitoring</span
+                                >Juvenile abundance &amp; distribution monitoring</span
                               >
                             </div>
                           </div>
@@ -6062,7 +6062,7 @@
                   <section
                     class="bcn-node-page__panel"
                     data-node-panel="TSK-012"
-                    data-node-name="RST installation &amp; calibration"
+                    data-node-name="Monitoring-array installation &amp; calibration"
                     data-node-tier="Task"
                     data-start="2028-08"
                     data-end="2028-11"
@@ -6077,7 +6077,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Name</span>
                               <span class="bcn-key-value__val"
-                                >RST installation &amp; calibration</span
+                                >Monitoring-array installation &amp; calibration</span
                               >
                             </div>
                           </div>
@@ -6097,7 +6097,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Parent</span>
                               <span class="bcn-key-value__val"
-                                >Rotary screw-trap timing monitoring</span
+                                >Juvenile abundance &amp; distribution monitoring</span
                               >
                             </div>
                           </div>
@@ -6189,7 +6189,7 @@
                   <section
                     class="bcn-node-page__panel"
                     data-node-panel="TSK-013"
-                    data-node-name="Outmigration timing field seasons"
+                    data-node-name="Abundance &amp; distribution field seasons"
                     data-node-tier="Task"
                     data-start="2028-12"
                     data-end="2032-03"
@@ -6204,7 +6204,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Name</span>
                               <span class="bcn-key-value__val"
-                                >Outmigration timing field seasons</span
+                                >Abundance &amp; distribution field seasons</span
                               >
                             </div>
                           </div>
@@ -6224,7 +6224,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Parent</span>
                               <span class="bcn-key-value__val"
-                                >Rotary screw-trap timing monitoring</span
+                                >Juvenile abundance &amp; distribution monitoring</span
                               >
                             </div>
                           </div>
@@ -6322,7 +6322,7 @@
                   <section
                     class="bcn-node-page__panel"
                     data-node-panel="TSK-014"
-                    data-node-name="Migration cue &amp; timing analysis"
+                    data-node-name="Abundance &amp; distribution analysis"
                     data-node-tier="Task"
                     data-start="2032-04"
                     data-end="2032-10"
@@ -6337,7 +6337,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Name</span>
                               <span class="bcn-key-value__val"
-                                >Migration cue &amp; timing analysis</span
+                                >Abundance &amp; distribution analysis</span
                               >
                             </div>
                           </div>
@@ -6357,7 +6357,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Parent</span>
                               <span class="bcn-key-value__val"
-                                >Rotary screw-trap timing monitoring</span
+                                >Juvenile abundance &amp; distribution monitoring</span
                               >
                             </div>
                           </div>
@@ -8009,7 +8009,7 @@
                   <section
                     class="bcn-node-page__panel"
                     data-node-panel="STY-018"
-                    data-node-name="Harmful Algal Bloom Monitoring"
+                    data-node-name="Sediment &amp; Turbidity Monitoring"
                     data-node-tier="Study"
                     data-start=""
                     data-end=""
@@ -8023,7 +8023,9 @@
                           <div data-live="name">
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Name</span>
-                              <span class="bcn-key-value__val">Harmful Algal Bloom Monitoring</span>
+                              <span class="bcn-key-value__val"
+                                >Sediment &amp; Turbidity Monitoring</span
+                              >
                             </div>
                           </div>
                           <div data-live="idrow">
@@ -8197,7 +8199,7 @@
                   <section
                     class="bcn-node-page__panel"
                     data-node-panel="SUB-028"
-                    data-node-name="HAB sampling program"
+                    data-node-name="Sediment &amp; turbidity sampling program"
                     data-node-tier="Sub-study"
                     data-start=""
                     data-end=""
@@ -8211,7 +8213,9 @@
                           <div data-live="name">
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Name</span>
-                              <span class="bcn-key-value__val">HAB sampling program</span>
+                              <span class="bcn-key-value__val"
+                                >Sediment &amp; turbidity sampling program</span
+                              >
                             </div>
                           </div>
                           <div data-live="idrow">
@@ -8229,7 +8233,9 @@
                           <div data-live="parent">
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Parent</span>
-                              <span class="bcn-key-value__val">Harmful Algal Bloom Monitoring</span>
+                              <span class="bcn-key-value__val"
+                                >Sediment &amp; Turbidity Monitoring</span
+                              >
                             </div>
                           </div>
                         </div>
@@ -8415,7 +8421,9 @@
                           <div data-live="parent">
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Parent</span>
-                              <span class="bcn-key-value__val">HAB sampling program</span>
+                              <span class="bcn-key-value__val"
+                                >Sediment &amp; turbidity sampling program</span
+                              >
                             </div>
                           </div>
                         </div>
@@ -8500,7 +8508,7 @@
                   <section
                     class="bcn-node-page__panel"
                     data-node-panel="TSK-021"
-                    data-node-name="HAB field season 1"
+                    data-node-name="Turbidity &amp; SSC field season 1"
                     data-node-tier="Task"
                     data-start="2029-09"
                     data-end="2030-03"
@@ -8514,7 +8522,9 @@
                           <div data-live="name">
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Name</span>
-                              <span class="bcn-key-value__val">HAB field season 1</span>
+                              <span class="bcn-key-value__val"
+                                >Turbidity &amp; SSC field season 1</span
+                              >
                             </div>
                           </div>
                           <div data-live="idrow">
@@ -8532,7 +8542,9 @@
                           <div data-live="parent">
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Parent</span>
-                              <span class="bcn-key-value__val">HAB sampling program</span>
+                              <span class="bcn-key-value__val"
+                                >Sediment &amp; turbidity sampling program</span
+                              >
                             </div>
                           </div>
                         </div>
@@ -8623,7 +8635,7 @@
                   <section
                     class="bcn-node-page__panel"
                     data-node-panel="TSK-022"
-                    data-node-name="Toxin lab analysis &amp; reporting"
+                    data-node-name="Sediment-flux lab analysis &amp; reporting"
                     data-node-tier="Task"
                     data-start="2030-04"
                     data-end="2030-09"
@@ -8638,7 +8650,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Name</span>
                               <span class="bcn-key-value__val"
-                                >Toxin lab analysis &amp; reporting</span
+                                >Sediment-flux lab analysis &amp; reporting</span
                               >
                             </div>
                           </div>
@@ -8657,7 +8669,9 @@
                           <div data-live="parent">
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Parent</span>
-                              <span class="bcn-key-value__val">HAB sampling program</span>
+                              <span class="bcn-key-value__val"
+                                >Sediment &amp; turbidity sampling program</span
+                              >
                             </div>
                           </div>
                         </div>
@@ -9010,7 +9024,7 @@
                   <section
                     class="bcn-node-page__panel"
                     data-node-panel="STY-019"
-                    data-node-name="Long-term Salmonid Response Monitoring"
+                    data-node-name="Hydrodynamics at Georgiana Slough Monitoring"
                     data-node-tier="Study"
                     data-start=""
                     data-end=""
@@ -9025,7 +9039,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Name</span>
                               <span class="bcn-key-value__val"
-                                >Long-term Salmonid Response Monitoring</span
+                                >Hydrodynamics at Georgiana Slough Monitoring</span
                               >
                             </div>
                           </div>
@@ -9270,7 +9284,7 @@
                   <section
                     class="bcn-node-page__panel"
                     data-node-panel="SUB-029"
-                    data-node-name="Post-construction survival verification"
+                    data-node-name="Continuous hydrodynamic monitoring"
                     data-node-tier="Sub-study"
                     data-start=""
                     data-end=""
@@ -9285,7 +9299,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Name</span>
                               <span class="bcn-key-value__val"
-                                >Post-construction survival verification</span
+                                >Continuous hydrodynamic monitoring</span
                               >
                             </div>
                           </div>
@@ -9305,7 +9319,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Parent</span>
                               <span class="bcn-key-value__val"
-                                >Long-term Salmonid Response Monitoring</span
+                                >Hydrodynamics at Georgiana Slough Monitoring</span
                               >
                             </div>
                           </div>
@@ -9490,7 +9504,7 @@
                   <section
                     class="bcn-node-page__panel"
                     data-node-panel="TSK-023"
-                    data-node-name="Ops-phase acoustic telemetry seasons"
+                    data-node-name="ADCP array deployment &amp; data collection"
                     data-node-tier="Task"
                     data-start="2034-10"
                     data-end="2038-03"
@@ -9505,7 +9519,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Name</span>
                               <span class="bcn-key-value__val"
-                                >Ops-phase acoustic telemetry seasons</span
+                                >ADCP array deployment &amp; data collection</span
                               >
                             </div>
                           </div>
@@ -9525,7 +9539,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Parent</span>
                               <span class="bcn-key-value__val"
-                                >Post-construction survival verification</span
+                                >Continuous hydrodynamic monitoring</span
                               >
                             </div>
                           </div>
@@ -9623,7 +9637,7 @@
                   <section
                     class="bcn-node-page__panel"
                     data-node-panel="TSK-024"
-                    data-node-name="Five-year survival trend synthesis"
+                    data-node-name="Multi-year flow-split synthesis"
                     data-node-tier="Task"
                     data-start="2038-04"
                     data-end="2039-03"
@@ -9638,7 +9652,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Name</span>
                               <span class="bcn-key-value__val"
-                                >Five-year survival trend synthesis</span
+                                >Multi-year flow-split synthesis</span
                               >
                             </div>
                           </div>
@@ -9658,7 +9672,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Parent</span>
                               <span class="bcn-key-value__val"
-                                >Post-construction survival verification</span
+                                >Continuous hydrodynamic monitoring</span
                               >
                             </div>
                           </div>
@@ -9750,7 +9764,7 @@
                   <section
                     class="bcn-node-page__panel"
                     data-node-panel="SUB-030"
-                    data-node-name="Adaptive-management triggers &amp; response"
+                    data-node-name="Routing &amp; flow-reversal analysis"
                     data-node-tier="Sub-study"
                     data-start=""
                     data-end=""
@@ -9765,7 +9779,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Name</span>
                               <span class="bcn-key-value__val"
-                                >Adaptive-management triggers &amp; response</span
+                                >Routing &amp; flow-reversal analysis</span
                               >
                             </div>
                           </div>
@@ -9785,7 +9799,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Parent</span>
                               <span class="bcn-key-value__val"
-                                >Long-term Salmonid Response Monitoring</span
+                                >Hydrodynamics at Georgiana Slough Monitoring</span
                               >
                             </div>
                           </div>
@@ -10001,7 +10015,7 @@
                           <div class="esa-collapsible__body">
                             <div class="bcn-detail__notes" data-live="notes">
                               <ul class="bcn-detail__constraints">
-                                <li>Begins at Phase 1 operations (WY2034)</li>
+                                <li>Continuous through operations (WY2034+)</li>
                               </ul>
                             </div>
                           </div>
@@ -10012,7 +10026,7 @@
                   <section
                     class="bcn-node-page__panel"
                     data-node-panel="TSK-025"
-                    data-node-name="Trigger framework &amp; thresholds"
+                    data-node-name="Hydrodynamic model calibration"
                     data-node-tier="Task"
                     data-start="2033-04"
                     data-end="2033-12"
@@ -10026,9 +10040,7 @@
                           <div data-live="name">
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Name</span>
-                              <span class="bcn-key-value__val"
-                                >Trigger framework &amp; thresholds</span
-                              >
+                              <span class="bcn-key-value__val">Hydrodynamic model calibration</span>
                             </div>
                           </div>
                           <div data-live="idrow">
@@ -10047,7 +10059,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Parent</span>
                               <span class="bcn-key-value__val"
-                                >Adaptive-management triggers &amp; response</span
+                                >Routing &amp; flow-reversal analysis</span
                               >
                             </div>
                           </div>
@@ -10139,7 +10151,7 @@
                   <section
                     class="bcn-node-page__panel"
                     data-node-panel="TSK-026"
-                    data-node-name="Annual trigger evaluations"
+                    data-node-name="Annual hydrodynamic monitoring"
                     data-node-tier="Task"
                     data-start="2034-04"
                     data-end="2041-09"
@@ -10153,7 +10165,7 @@
                           <div data-live="name">
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Name</span>
-                              <span class="bcn-key-value__val">Annual trigger evaluations</span>
+                              <span class="bcn-key-value__val">Annual hydrodynamic monitoring</span>
                             </div>
                           </div>
                           <div data-live="idrow">
@@ -10172,7 +10184,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Parent</span>
                               <span class="bcn-key-value__val"
-                                >Adaptive-management triggers &amp; response</span
+                                >Routing &amp; flow-reversal analysis</span
                               >
                             </div>
                           </div>
@@ -10286,7 +10298,7 @@
                   <section
                     class="bcn-node-page__panel"
                     data-node-panel="STY-020"
-                    data-node-name="Decadal Ecosystem Trend Reporting"
+                    data-node-name="Covered Fish Species Life Cycle Models"
                     data-node-tier="Study"
                     data-start=""
                     data-end=""
@@ -10301,7 +10313,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Name</span>
                               <span class="bcn-key-value__val"
-                                >Decadal Ecosystem Trend Reporting</span
+                                >Covered Fish Species Life Cycle Models</span
                               >
                             </div>
                           </div>
@@ -10475,8 +10487,8 @@
                   </section>
                   <section
                     class="bcn-node-page__panel"
-                    data-node-panel="SUB-031"
-                    data-node-name="Integrated monitoring synthesis"
+                    data-node-panel="SUB-033"
+                    data-node-name="Life-cycle model refinement"
                     data-node-tier="Sub-study"
                     data-start=""
                     data-end=""
@@ -10490,15 +10502,13 @@
                           <div data-live="name">
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Name</span>
-                              <span class="bcn-key-value__val"
-                                >Integrated monitoring synthesis</span
-                              >
+                              <span class="bcn-key-value__val">Life-cycle model refinement</span>
                             </div>
                           </div>
                           <div data-live="idrow">
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">ID</span>
-                              <span class="bcn-key-value__val">SUB-031</span>
+                              <span class="bcn-key-value__val">SUB-033</span>
                             </div>
                           </div>
                           <div data-live="coa">
@@ -10511,7 +10521,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Parent</span>
                               <span class="bcn-key-value__val"
-                                >Decadal Ecosystem Trend Reporting</span
+                                >Covered Fish Species Life Cycle Models</span
                               >
                             </div>
                           </div>
@@ -10666,7 +10676,7 @@
                   <section
                     class="bcn-node-page__panel"
                     data-node-panel="TSK-027"
-                    data-node-name="Mid-operations synthesis report"
+                    data-node-name="Model refinement with monitoring data"
                     data-node-tier="Task"
                     data-start="2037-10"
                     data-end="2038-09"
@@ -10681,7 +10691,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Name</span>
                               <span class="bcn-key-value__val"
-                                >Mid-operations synthesis report</span
+                                >Model refinement with monitoring data</span
                               >
                             </div>
                           </div>
@@ -10700,9 +10710,7 @@
                           <div data-live="parent">
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Parent</span>
-                              <span class="bcn-key-value__val"
-                                >Integrated monitoring synthesis</span
-                              >
+                              <span class="bcn-key-value__val">Life-cycle model refinement</span>
                             </div>
                           </div>
                         </div>
@@ -10789,7 +10797,7 @@
                   <section
                     class="bcn-node-page__panel"
                     data-node-panel="TSK-028"
-                    data-node-name="Decadal science-plan review &amp; CDFW report-out"
+                    data-node-name="Decadal model validation &amp; CDFW report-out"
                     data-node-tier="Task"
                     data-start="2041-10"
                     data-end="2042-09"
@@ -10804,7 +10812,7 @@
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Name</span>
                               <span class="bcn-key-value__val"
-                                >Decadal science-plan review &amp; CDFW report-out</span
+                                >Decadal model validation &amp; CDFW report-out</span
                               >
                             </div>
                           </div>
@@ -10823,9 +10831,7 @@
                           <div data-live="parent">
                             <div class="bcn-key-value">
                               <span class="bcn-key-value__key">Parent</span>
-                              <span class="bcn-key-value__val"
-                                >Integrated monitoring synthesis</span
-                              >
+                              <span class="bcn-key-value__val">Life-cycle model refinement</span>
                             </div>
                           </div>
                         </div>
@@ -11342,7 +11348,7 @@
                             <div class="bcn-detail__notes" data-live="notes">
                               <ul class="bcn-detail__constraints">
                                 <li>
-                                  Recommended fish-guidance plan due to CDFW by January 2029 — one
+                                  Recommended fish-guidance plan due to CDFW by January 2030 — one
                                   year before 30% design finalization
                                 </li>
                                 <li>
