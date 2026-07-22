@@ -7,7 +7,7 @@
 //   • the TASK is the schedulable month-by-month unit (a status-colored bar on the
 //     water-year axis), and status / funding / span roll UP to the parents;
 //   • every node is editable (add / rename / reparent / delete at all four tiers);
-//   • stable type-prefixed IDs (CMT/STY/SUB/TSK) are identity, the COA dot-number a
+//   • a Commitment's id is its COA; Study/Sub-study/Task ids are synthetic, the COA dot-number a
 //     secondary reference; there is NO dependency dimension in this view;
 //   • clicking a row opens its EDIT drawer — Date range, Budget, Status (tasks)
 //     plus Add-child / Delete — the slim write surface. The comprehensive record
@@ -272,6 +272,7 @@ const fishNav = [
     icon="flask-conical"
     breadcrumbs={[{ label: 'Delta Conveyance', href: '#project' }, { label: 'Studies', href: '#studies' }, { label: 'Study Planning' }]}
   >
+    <span slot="title-badge" class="bcn-gantt-coa" title="Covered Fish Species Monitoring & Science Plan">COA 10.18</span>
     <div slot="utilities" class="bcn-gantt-utils">
       <esa-button-toggle id="gantt-view" value="gantt" size="md"></esa-button-toggle>
       <esa-dropdown-menu id="export-menu" position="below-end">
@@ -919,6 +920,18 @@ const fishNav = [
   .bcn-roles-edit__tent { display: inline-flex; align-items: center; gap: var(--spacing-200); grid-column: 1 / -1; font-size: var(--type-size-150); color: var(--color-text-secondary); cursor: pointer; }
 
   .bcn-roles-edit-foot { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-200); width: 100%; }
+  /* COA 10.18 anchor chip beside the page title — the science-plan commitment
+     this whole work-breakdown satisfies (a data reference, not a label). */
+  .bcn-gantt-coa {
+    font-family: var(--font-mono);
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-commitment);
+    background: color-mix(in srgb, var(--color-commitment) 12%, white);
+    padding: 2px 8px;
+    border-radius: var(--radius-100);
+  }
+
   /* ── Utilities row: view toggle + Export menu side by side ── */
   .bcn-gantt-utils {
     display: flex;

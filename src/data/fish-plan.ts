@@ -10,8 +10,9 @@
 //                            gantt today-line reads it).
 //   2. PROGRAMS            — the four-tier work-breakdown forest
 //                            (Commitment → Study → Sub-study → Task):
-//        • stable type-prefixed IDs are identity (CMT/STY/SUB/TSK); the ITP COA
-//          dot-number (coaRef) is a commitment REFERENCE, never identity —
+//        • a Commitment's id IS its COA (e.g. "COA-10.19"); Study/Sub-study/Task
+//          carry stable synthetic ids (STY/SUB/TSK) with the ITP sub-number
+//          (coaRef, e.g. "10.19.1") shown as a reference —
 //          study ↔ COA is not strictly 1:1 (that is what the crosswalk is for);
 //        • the TASK is the schedulable month-by-month leaf; status, span, and
 //          per-water-year funding all ROLL UP (derived at render, never stored);
@@ -111,7 +112,7 @@ const branch = (
 export const PROGRAMS: HierNode[] = [
   branch(
     'program',
-    'CMT-011',
+    'COA-10.19',
     '10.19',
     'Fisheries Evaluation Studies',
     [
@@ -218,7 +219,7 @@ export const PROGRAMS: HierNode[] = [
   ),
   branch(
     'program',
-    'CMT-012',
+    'COA-10.20',
     '10.20',
     'Water Quality Evaluation Studies',
     [
@@ -280,7 +281,7 @@ export const PROGRAMS: HierNode[] = [
   ),
   branch(
     'program',
-    'CMT-013',
+    'COA-10.21',
     '10.21',
     'Ecological Response Evaluation Studies',
     [
@@ -338,7 +339,7 @@ export const PROGRAMS: HierNode[] = [
   ),
   branch(
     'program',
-    'CMT-014',
+    'COA-10.26',
     '10.26',
     'Incorporation of Fish Guidance System into the North Delta Intake Structures',
     [

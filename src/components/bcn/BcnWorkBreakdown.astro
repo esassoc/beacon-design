@@ -244,6 +244,7 @@ function leadCell(node: HierNode): { text: string; filterVal: string; inherited:
                   )}
                   <button type="button" class="bcn-wb__name-btn" title={`${node.id} — ${node.name}`} aria-label={`Open ${node.id} ${node.name}`}>
                     <span class="bcn-wb__id">{node.id}</span>
+                    {node.tier === 'study' && node.coaRef && <span class="bcn-wb__ref" title="ITP condition reference">{node.coaRef}</span>}
                     <span class="bcn-wb__name">{node.name}</span>
                   </button>
                   {node.tier !== 'task' && (
@@ -371,7 +372,7 @@ function leadCell(node: HierNode): { text: string; filterVal: string; inherited:
   const CHILD_TIER: Partial<Record<Tier, Tier>> = { program: 'study', study: 'substudy', substudy: 'task' };
   const PARENT_TIER: Partial<Record<Tier, Tier>> = { study: 'program', substudy: 'study', task: 'substudy' };
   const TIER_LABEL: Record<Tier, string> = { program: 'Commitment', study: 'Study', substudy: 'Sub-study', task: 'Task' };
-  const TIER_PREFIX: Record<Tier, string> = { program: 'CMT', study: 'STY', substudy: 'SUB', task: 'TSK' };
+  const TIER_PREFIX: Record<Tier, string> = { program: 'COA', study: 'STY', substudy: 'SUB', task: 'TSK' };
   const TIER_CLASS: Record<Tier, string> = { program: 'is-program', study: 'is-study', substudy: 'is-substudy', task: 'is-task' };
 
   // ── Month math. Mirrors the SSR axis EXACTLY (axisFraction is Date-based, so
@@ -1312,6 +1313,7 @@ function leadCell(node: HierNode): { text: string; filterVal: string; inherited:
   .bcn-wb__name-btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; border-radius: var(--radius-100); }
   .bcn-wb__id { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.6875rem; /* adherence-allow: font-too-small — Andy-sanctioned 11px ID badges (2026-07-15) */ font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 1px 5px; border-radius: var(--radius-100); }
   /* Tier ramp — one hue, dark to light down the tree */
+  .bcn-wb__ref { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.6875rem; /* adherence-allow: font-too-small — matches the 11px ID badges */ color: var(--color-text-tertiary); background: var(--color-surface-sunken); padding: 1px 5px; border-radius: var(--radius-100); }
   .bcn-wb__row.is-program .bcn-wb__id { background: color-mix(in srgb, var(--color-commitment) 30%, white); color: color-mix(in srgb, var(--color-commitment) 85%, black); }
   .bcn-wb__row.is-study .bcn-wb__id { background: color-mix(in srgb, var(--color-commitment) 20%, white); }
   .bcn-wb__row.is-substudy .bcn-wb__id { background: color-mix(in srgb, var(--color-commitment) 12%, white); }

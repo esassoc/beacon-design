@@ -591,13 +591,6 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
   color: var(--color-text-tertiary);
   flex: none;
 }
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
-}
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
   --_ib-bg-hover: var(
@@ -648,6 +641,13 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
 }
 .esa-icon-link__label {
   display: inline-block;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
 }
 ```
 

@@ -34,10 +34,10 @@ interface Entity {
 const TIERS: Entity[] = [
   {
     name: 'Commitment',
-    chip: 'CMT-###',
+    chip: 'COA-10.19',
     purpose: 'A tracked Condition of Approval — the Beacon Commitment this work satisfies.',
     fields: [
-      { name: 'coaRef', note: '→ Beacon Commitment (the tracked COA, e.g. 10.19)', ref: 'commitment' },
+      { name: 'id', note: 'IS the COA — e.g. "COA-10.19"', ref: 'commitment' },
       { name: 'name' },
       { name: 'funding[]', note: 'per water year' },
       { name: 'children[]', note: '→ Study' },

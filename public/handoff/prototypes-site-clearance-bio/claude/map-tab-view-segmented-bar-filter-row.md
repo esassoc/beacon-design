@@ -213,12 +213,9 @@ The Map tab is the hero (default of the 3-tab esa-tab-layout: Map · Data · Act
 .esa-icon-button--sm {
   --_ib-size: var(--form-height-sm, 32px);
 }
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
+.esa-collapsible__summary .esa-icon {
   flex-shrink: 0;
+  color: var(--color-text-secondary, #404040);
 }
 .bcn-search-trigger .esa-icon {
   flex: none;
@@ -254,6 +251,17 @@ The Map tab is the hero (default of the 3-tab esa-tab-layout: Map · Data · Act
 .bcn-help-bar .esa-icon-button {
   color: var(--bcn-helpbar-fg-muted);
   --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
 }
 .comp-picker__trigger .esa-icon {
   color: var(--color-text-tertiary);
@@ -297,6 +305,10 @@ The Map tab is the hero (default of the 3-tab esa-tab-layout: Map · Data · Act
   display: flex;
   align-items: center;
   gap: var(--spacing-200);
+}
+.wa__section .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
 }
 ```
 
