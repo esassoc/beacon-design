@@ -1,30 +1,40 @@
 ---
-// Help & Guidance — the full browsable knowledge base behind "Aldo," Beacon's
-// in-app help affordance (compass mark, named for Aldo Leopold). The floating
-// help bar and route-aware guidance drawer are mounted app-wide in AppShell and
-// surface this same dataset per page; this page is the all-in-one-place view:
-// searchable hero, category tiles, and a hash-routed article browser the drawer
-// deep-links into (#article-<id> / #category-<id>).
+// Help & Guidance HOME — the calm front door to "Aldo," Beacon's in-app help (compass
+// mark, named for Aldo Leopold). A search-first hero, a CURATED category-card grid
+// (a preview per category, not the whole catalog), and the A–Z glossary. The dense
+// all-articles index that used to live here was overwhelming as a homepage (round 3);
+// the comprehensive per-category lists now live on the category pages
+// (/prototypes/help/<id>), reached via each card's "View all →".
+//
+// A hidden, hash-routed reading pane still lives at the bottom so #article-<id> deep
+// links resolve here (the Aldo guidance drawer and article "Related" links point at
+// /prototypes/help#article-<id> — HARD CONTRACT). With no hash the pane stays collapsed,
+// so the home reads calm; a deep-link (or a card's featured link, or a search result)
+// expands it and scrolls to the article. #category-<id> redirects to the category page.
 import AppShell from '../../layouts/AppShell.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import BcnKbHero from '../../components/bcn/BcnKbHero.astro';
 import BcnKbCategories from '../../components/bcn/BcnKbCategories.astro';
+import BcnKbGlossary from '../../components/bcn/BcnKbGlossary.astro';
 import BcnKbBrowser from '../../components/bcn/BcnKbBrowser.astro';
+import { withBase } from '../../lib/base';
 ---
 
 <!-- manifest:
   layout: stack(2xl)                          # SPINE
   sections:
-    - hero + search      -> bcn-kb-hero        # Aldo mark, title, big article search
-    - browse by category -> bcn-kb-categories  # one tile per category, count badges
-    - article browser    -> bcn-kb-browser     # rail + reading pane, hash deep-links
+    - hero + live search  -> bcn-kb-hero         # Aldo mark, title, search-first field, live results, what's-new doorway
+    - category cards      -> bcn-kb-categories   # curated 7-card grid (4+3): preview + count + View all → category page
+    - A–Z glossary        -> bcn-kb-glossary     # bare terms, flowing columns (kept as-is)
+    - reading pane        -> bcn-kb-browser      # hidden hash-routed reader; deep-link target (drawer HARD CONTRACT)
 -->
 
 <AppShell title="Help & Guidance — Beacon">
   <PageLayout title="Help & Guidance" hideTitleRow>
     <div class="stack" data-gap="2xl">
-      <BcnKbHero />
+      <BcnKbHero releaseNotesHref={withBase('/prototypes/release-notes')} />
       <BcnKbCategories />
+      <BcnKbGlossary />
       <BcnKbBrowser />
     </div>
   </PageLayout>

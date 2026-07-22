@@ -12,8 +12,9 @@
 //
 // Presentational and data-driven: the whole body comes from `article.blocks`; the
 // three flags (headingLevel / hideTitle / compact) let the drawer and the page share
-// one look with different chrome. The Aldo accent (--bcn-aldo-*) tints callouts and
-// step markers so help reads as its own distinct, quiet presence.
+// one look with different chrome. Callouts and step markers use the neutral sunken
+// treatment (gray fill, neutral ink) — the light Aldo tint is off-brand and banned as
+// an accent; the saturated Aldo mark glyph is the only place the accent survives.
 //
 // bcn-lego-checked: no esa-* lego renders a rich article body (heading + ordered
 // prose/steps/callouts/placeholder media + related links) — checked Ecology (esa-card
@@ -131,7 +132,7 @@ const GLYPH = {
     })}
   </div>
 
-  {related.length > 0 && (
+  {article.kind !== 'glossary' && related.length > 0 && (
     <nav class="bcn-help-article__related" aria-label="Related articles">
       <span class="bcn-help-article__related-label">Related</span>
       <ul class="bcn-help-article__related-list">
@@ -144,8 +145,8 @@ const GLYPH = {
 </article>
 
 <style>
-  /* Token-driven throughout; parent owns outer margin. Semantic layer + the Aldo
-     accent (--bcn-aldo-*) only — never the raw --bcn-gray-* ramp. */
+  /* Token-driven throughout; parent owns outer margin. Semantic layer only — no
+     light Aldo tint (banned as an accent), never the raw --bcn-gray-* ramp. */
   .bcn-help-article { display: flex; flex-direction: column; gap: var(--spacing-500); }
   .bcn-help-article--compact { gap: var(--spacing-400); }
 
@@ -160,7 +161,7 @@ const GLYPH = {
   /* Paragraphs — primary text, never grayed; type-body carries the size. */
   .bcn-help-article__p { margin: 0; color: var(--color-text-primary); }
 
-  /* Ordered steps — quiet round numbered markers (Aldo), NO colored left border. */
+  /* Ordered steps — quiet round numbered markers (neutral gray), NO colored left border. */
   .bcn-help-article__steps {
     list-style: none; counter-reset: bcn-step; margin: 0; padding: 0;
     display: flex; flex-direction: column; gap: var(--spacing-300);
@@ -174,26 +175,24 @@ const GLYPH = {
     content: counter(bcn-step);
     display: inline-flex; align-items: center; justify-content: center;
     width: 1.625rem; height: 1.625rem; border-radius: var(--radius-full);
-    background: var(--bcn-aldo-50); color: var(--bcn-aldo-600);
+    background: var(--color-surface-sunken); color: var(--color-text-primary);
     font-size: 0.8125rem; font-weight: var(--font-weight-semibold); line-height: 1;
   }
 
-  /* Callout — quiet tinted box. Leading icon + normal-case label + body text.
-     tip = Aldo tint; note = neutral sunken surface. No uppercase micro-label. */
+  /* Callout — quiet neutral sunken box; Tip and Note share one treatment (gray fill,
+     neutral icon + label ink). Only the leading glyph (lightbulb vs info) and the label
+     word distinguish them. No tint, no uppercase micro-label. */
   .bcn-help-article__callout {
     display: grid; grid-template-columns: auto 1fr; align-items: start; gap: var(--spacing-300);
     padding: var(--spacing-400); border-radius: var(--radius-200);
     border: 1px solid var(--color-border-light); background: var(--color-surface-sunken);
   }
   .bcn-help-article--compact .bcn-help-article__callout { padding: var(--spacing-300); }
-  .bcn-help-article__callout--tip { background: var(--bcn-aldo-50); border-color: var(--bcn-aldo-100); }
   .bcn-help-article__callout-icon { display: inline-flex; margin-top: 1px; color: var(--color-text-secondary); }
-  .bcn-help-article__callout--tip .bcn-help-article__callout-icon { color: var(--bcn-aldo-600); }
   .bcn-help-article__callout-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
   .bcn-help-article__callout-label {
     font-size: 0.875rem; font-weight: var(--font-weight-semibold); color: var(--color-text-secondary);
   }
-  .bcn-help-article__callout--tip .bcn-help-article__callout-label { color: var(--bcn-aldo-600); }
   .bcn-help-article__callout-text { margin: 0; color: var(--color-text-primary); }
 
   /* Figure placeholder — a quiet dashed frame with a centered glyph + label; caption

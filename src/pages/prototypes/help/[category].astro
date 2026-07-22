@@ -1,0 +1,43 @@
+---
+// Help & Guidance — CATEGORY page. One static route per help category via getStaticPaths
+// (/prototypes/help/<id>). The COMPREHENSIVE per-category surface the home's cards link
+// into: PageLayout supplies the breadcrumb back to the Help home + the category title
+// (H1); <BcnKbArticleList> lists every article in the category (title + summary), each
+// deep-linking the reading pane below; <BcnKbBrowser> — scoped to this category, landing
+// on its first article — is that reader.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import BcnKbArticleList from '../../../components/bcn/BcnKbArticleList.astro';
+import BcnKbBrowser from '../../../components/bcn/BcnKbBrowser.astro';
+import { HELP_CATEGORIES, articlesByCategory } from '../../../data/help-center';
+import { withBase } from '../../../lib/base';
+
+export function getStaticPaths() {
+  return HELP_CATEGORIES.map((category) => ({
+    params: { category: category.id },
+    props: { category, articles: articlesByCategory(category.id) },
+  }));
+}
+
+const { category, articles } = Astro.props;
+const helpHref = withBase('/prototypes/help');
+---
+
+<!-- manifest:
+  layout: stack(xl)                            # SPINE
+  sections:
+    - article list -> bcn-kb-article-list       # description lede + count + full title/summary list
+    - reading pane -> bcn-kb-browser            # reader scoped to this category (default = first article)
+-->
+
+<AppShell title={`${category.title} — Help & Guidance — Beacon`}>
+  <PageLayout
+    title={category.title}
+    breadcrumbs={[{ label: 'Help & Guidance', href: helpHref }, { label: category.title }]}
+  >
+    <div class="stack" data-gap="xl">
+      <BcnKbArticleList category={category} articles={articles} />
+      <BcnKbBrowser articles={articles} defaultOnLoad />
+    </div>
+  </PageLayout>
+</AppShell>

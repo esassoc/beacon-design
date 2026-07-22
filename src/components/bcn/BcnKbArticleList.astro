@@ -1,0 +1,96 @@
+---
+// <BcnKbArticleList> — the comprehensive article list on a category page: the category's
+// one-line description as a lede, the article count, then every article in the category
+// as a title link over a terse one-line summary. This IS the full browse for a category
+// (denser than the home's curated cards). Each row deep-links the reading-pane sibling
+// on the same page via #article-<id>.
+//
+// bcn-lego-checked: a dense titled article list (title link + one-line summary per row)
+// is not any esa-* lego — esa-card is card chrome; esa-link-column is a card of bare
+// links with no summaries; esa-sidebar-nav renders ornamental micro-label group headers
+// + filled-badge hints. Checked Ecology + Beacon (prod has no KB list). Every link is a
+// plain anchor; the only chrome is token type + hairlines. bcn-kb-article-list is the home.
+import type { HelpArticle, HelpCategory } from '../../data/help-center';
+
+interface Props {
+  category: HelpCategory;
+  articles: HelpArticle[];
+}
+const { category, articles } = Astro.props;
+const count = articles.length;
+---
+
+<section class="bcn-kbl" aria-label={`${category.title} articles`}>
+  <span class="bcn-kbl__count">{count} article{count === 1 ? '' : 's'}</span>
+
+  <ul class="bcn-kbl__list" role="list">
+    {
+      articles.map((a) => (
+        <li class="bcn-kbl__row">
+          <a class="bcn-kbl__link" href={`#article-${a.id}`}>{a.title}</a>
+          <span class="bcn-kbl__summary">{a.summary}</span>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style>
+  .bcn-kbl {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-500);
+    max-inline-size: 60rem;
+  }
+
+  /* A quiet count sits alone above the list — no lede. */
+  .bcn-kbl__count {
+    font-size: 0.8125rem; /* 13px meta */
+    color: var(--color-text-tertiary);
+  }
+
+  /* Article list — one title link over a terse summary per row, divided by hairlines. */
+  .bcn-kbl__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-kbl__row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-050);
+    padding-block: var(--spacing-300);
+  }
+  /* Hairlines divide rows only — the list has no outer top/bottom border. */
+  .bcn-kbl__row + .bcn-kbl__row {
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  .bcn-kbl__link {
+    font-size: 1rem; /* 16px */
+    font-weight: var(--font-weight-medium);
+    line-height: 1.4;
+    color: var(--color-text-primary);
+    text-decoration: none;
+    transition: color 120ms ease;
+    width: fit-content;
+  }
+  .bcn-kbl__link:hover {
+    color: var(--color-text-link);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .bcn-kbl__link:focus-visible {
+    outline: 2px solid var(--color-text-link);
+    outline-offset: 2px;
+    border-radius: var(--radius-100);
+  }
+
+  .bcn-kbl__summary {
+    font-size: 0.875rem; /* 14px — dense floor */
+    line-height: 1.45;
+    color: var(--color-text-secondary);
+  }
+</style>
