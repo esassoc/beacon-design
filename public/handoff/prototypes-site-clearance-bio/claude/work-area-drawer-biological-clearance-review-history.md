@@ -166,140 +166,6 @@ The heart of the drawer: the full review history (reverse-chron node rail; the L
   color: var(--bcn-gray-1000);
   flex-shrink: 0;
 }
-.comp-picker__trigger .esa-icon {
-  color: var(--color-text-tertiary);
-  flex-shrink: 0;
-}
-#wa-read > .bioclear {
-  padding-top: var(--spacing-500);
-}
-.wa__section {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  margin: 0 0 var(--spacing-300);
-  font-size: 0.9375rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.wa__section .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary);
-}
-.bioclear__add {
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-200);
-}
-.dd__count {
-  font-size: 0.9375rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.dd__form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300) var(--spacing-400);
-  background: var(--color-background);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-300);
-}
-.dd__form[hidden] {
-  display: none;
-}
-.revs {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
-.wa__footer-start .esa-button__label {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-}
-.wa__section .esa-badge {
-  vertical-align: middle;
-}
-.we__row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-300);
-}
-.entry__line .gate__chipwrap {
-  vertical-align: text-bottom;
-}
-.rev {
-  position: relative;
-  display: grid;
-  grid-template-columns: 16px 1fr;
-  column-gap: var(--spacing-250);
-  padding-bottom: var(--spacing-400);
-}
-.rev:last-child {
-  padding-bottom: 0;
-}
-.rev__dot {
-  width: 16px;
-  height: 16px;
-  border-radius: var(--radius-full);
-  margin-top: 2px;
-  z-index: 1;
-  background: var(--color-surface);
-  border: 2px solid var(--color-border-strong);
-  box-sizing: border-box;
-}
-.rev__main {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150);
-  min-width: 0;
-}
-.rev__head {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-200);
-  margin: 0;
-  font-size: 1rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.rev__when {
-  font-size: 0.875rem;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
-}
-.rev__edit {
-  margin-left: auto;
-}
-.rev__chiprow {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-200);
-}
-.rev__current {
-  display: inline-flex;
-  align-items: center;
-  padding: 1px var(--spacing-200);
-  border-radius: var(--radius-full);
-  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
-  border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
-  font-size: 0.75rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-primary);
-  white-space: nowrap;
-}
-.rev__note {
-  margin: 0;
-  font-size: 0.9375rem;
-  line-height: 1.55;
-  color: var(--color-text-secondary);
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
@@ -480,6 +346,140 @@ The heart of the drawer: the full review history (reverse-chron node rail; the L
 .bcn-gd__label .esa-icon {
   color: var(--color-text-tertiary);
   flex: none;
+}
+.comp-picker__trigger .esa-icon {
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+}
+#wa-read > .bioclear {
+  padding-top: var(--spacing-500);
+}
+.wa__section {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  margin: 0 0 var(--spacing-300);
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.wa__section .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+}
+.bioclear__add {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-200);
+}
+.dd__count {
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.dd__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-400);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+}
+.dd__form[hidden] {
+  display: none;
+}
+.revs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.wa__footer-start .esa-button__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+}
+.wa__section .esa-badge {
+  vertical-align: middle;
+}
+.we__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-300);
+}
+.entry__line .gate__chipwrap {
+  vertical-align: text-bottom;
+}
+.rev {
+  position: relative;
+  display: grid;
+  grid-template-columns: 16px 1fr;
+  column-gap: var(--spacing-250);
+  padding-bottom: var(--spacing-400);
+}
+.rev:last-child {
+  padding-bottom: 0;
+}
+.rev__dot {
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-full);
+  margin-top: 2px;
+  z-index: 1;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border-strong);
+  box-sizing: border-box;
+}
+.rev__main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  min-width: 0;
+}
+.rev__head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-200);
+  margin: 0;
+  font-size: 1rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.rev__when {
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+.rev__edit {
+  margin-left: auto;
+}
+.rev__chiprow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-200);
+}
+.rev__current {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px var(--spacing-200);
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+.rev__note {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
 }
 ```
 

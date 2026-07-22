@@ -50,6 +50,9 @@ A rail action module: a full-width "Download Source Coversheet" button (prod sou
 
 ## Styles
 ```css
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -171,21 +174,6 @@ A rail action module: a full-width "Download Source Coversheet" button (prod sou
   color: var(--_accent-text);
   border-color: var(--color-border-strong, #d4d4d4);
 }
-.bcn-btn-ico {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-}
-.bcn-lineage__icon .esa-icon {
-  --_icon-size: 14px;
-}
-#download-coversheet .esa-button {
-  width: 100%;
-  justify-content: center;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
@@ -230,6 +218,18 @@ A rail action module: a full-width "Download Source Coversheet" button (prod sou
   transition: background var(--transition-fast, 0.15s ease);
   -webkit-appearance: none;
   appearance: none;
+}
+.bcn-btn-ico {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+}
+.bcn-lineage__icon .esa-icon {
+  --_icon-size: 14px;
+}
+#download-coversheet .esa-button {
+  width: 100%;
+  justify-content: center;
 }
 .esa-collapsible__summary .esa-icon {
   flex-shrink: 0;
