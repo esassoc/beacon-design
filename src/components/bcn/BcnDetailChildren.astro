@@ -1,0 +1,183 @@
+---
+// <BcnDetailChildren> — the tree-traversal block of a node detail page: the node's
+// children as linked record rows, plus previous/next sibling navigation. Fully
+// projected plain data — the PAGE maps HierNode children/siblings into these rows
+// (same projection discipline as BcnRolesMatrix / BcnReadiness).
+//
+// bcn-lego-checked: no esa-* lego renders a linked record table (AG Grid is the
+// interactive grid; esa-link-column is a nav list, not a data row). Rows reuse the
+// sanctioned mono id chip + house status dot+word. Layout glue only; semantic
+// tokens only (--color-*, --bcn-status-*), never raw --bcn-gray-*.
+
+export interface DetailChildRow {
+  id: string;
+  name: string;
+  href: string;
+  span: string;
+  funding: string;
+  statusTone: 'on-track' | 'at-risk' | 'blocked' | 'complete' | 'not-started';
+  statusLabel: string;
+}
+
+export interface DetailSiblingNav {
+  prevHref?: string;
+  prevId?: string;
+  prevName?: string;
+  nextHref?: string;
+  nextId?: string;
+  nextName?: string;
+}
+
+interface Props {
+  /** Plural child-tier heading, e.g. "Sub-studies" / "Tasks" / "Studies". */
+  heading: string;
+  rows: DetailChildRow[];
+  siblings?: DetailSiblingNav;
+}
+const { heading, rows, siblings } = Astro.props;
+const hasSiblings = Boolean(siblings?.prevHref || siblings?.nextHref);
+---
+
+<section class="bcn-dchildren">
+  {rows.length > 0 && (
+    <>
+      {heading && <h3 class="bcn-dchildren__h">{heading}</h3>}
+      <ul class="bcn-dchildren__list">
+        {rows.map((r) => (
+          <li>
+            <a class="bcn-dchildren__row" href={r.href}>
+              <span class="bcn-dchildren__id">{r.id}</span>
+              <span class="bcn-dchildren__name">{r.name}</span>
+              <span class="bcn-dchildren__meta">
+                <span class="bcn-dchildren__span">{r.span}</span>
+                <span class="bcn-dchildren__funding">{r.funding}</span>
+                <span class="bcn-dchildren__status">
+                  <span class="bcn-dchildren__dot" data-tone={r.statusTone} aria-hidden="true" />
+                  {r.statusLabel}
+                </span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </>
+  )}
+
+  {hasSiblings && (
+    <ul class="bcn-dchildren__list" aria-label="Sibling records">
+      {siblings?.prevHref && (
+        <li>
+          <a class="bcn-dchildren__sibrow" href={siblings.prevHref}>
+            <span class="bcn-dchildren__id">{siblings.prevId}</span>
+            <span class="bcn-dchildren__name">{siblings.prevName}</span>
+          </a>
+        </li>
+      )}
+      {siblings?.nextHref && (
+        <li>
+          <a class="bcn-dchildren__sibrow" href={siblings.nextHref}>
+            <span class="bcn-dchildren__id">{siblings.nextId}</span>
+            <span class="bcn-dchildren__name">{siblings.nextName}</span>
+          </a>
+        </li>
+      )}
+    </ul>
+  )}
+</section>
+
+<style>
+  .bcn-dchildren {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-250);
+  }
+  .bcn-dchildren__h {
+    margin: 0;
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .bcn-dchildren__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-dchildren__list li + li .bcn-dchildren__row {
+    border-top: 1px solid var(--color-border-light);
+  }
+  .bcn-dchildren__row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+    padding: var(--spacing-200) var(--spacing-100);
+    text-decoration: none;
+    border-radius: var(--radius-100);
+  }
+  .bcn-dchildren__row:hover {
+    background: var(--color-surface-sunken);
+  }
+  .bcn-dchildren__id {
+    display: inline-block;
+    align-self: flex-start;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem; /* adherence-allow: font-too-small — matches the gantt's Andy-sanctioned 11px ID badges */
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-commitment);
+    background: color-mix(in srgb, var(--color-commitment) 12%, white);
+    padding: 1px 5px;
+    border-radius: var(--radius-100);
+    white-space: nowrap;
+  }
+  .bcn-dchildren__name {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+    line-height: 1.35;
+  }
+  .bcn-dchildren__meta {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--spacing-100) var(--spacing-300);
+    font-size: var(--type-size-100);
+    color: var(--color-text-secondary);
+  }
+  .bcn-dchildren__funding {
+    color: var(--color-text-tertiary);
+  }
+  .bcn-dchildren__status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    white-space: nowrap;
+  }
+  .bcn-dchildren__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: var(--_tone, var(--color-text-muted));
+    flex: none;
+  }
+  .bcn-dchildren__dot[data-tone='on-track'] { --_tone: var(--color-secondary); }
+  .bcn-dchildren__dot[data-tone='complete'] { --_tone: var(--bcn-status-completed); }
+  .bcn-dchildren__dot[data-tone='at-risk'] { --_tone: var(--bcn-status-in-progress); }
+  .bcn-dchildren__dot[data-tone='blocked'] { --_tone: var(--bcn-status-overdue); }
+  .bcn-dchildren__dot[data-tone='not-started'] { --_tone: var(--color-text-muted); }
+
+  .bcn-dchildren__sibrow {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-200);
+    padding: var(--spacing-200) var(--spacing-100);
+    text-decoration: none;
+    border-radius: var(--radius-100);
+  }
+  .bcn-dchildren__sibrow:hover {
+    background: var(--color-surface-sunken);
+  }
+  .bcn-dchildren__list li + li .bcn-dchildren__sibrow {
+    border-top: 1px solid var(--color-border-light);
+  }
+</style>

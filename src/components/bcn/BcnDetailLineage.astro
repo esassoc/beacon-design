@@ -1,0 +1,121 @@
+---
+// <BcnDetailLineage> — the work-breakdown lineage spine for a node detail page:
+// Program → Study → Sub-study → Task on a connected rail, the CURRENT node marked
+// with the secondary ring, every ancestor linking to its own detail page. The
+// same treatment as the data-catalog detail pages' Lineage rail (requirement page:
+// project → source document → commitment → requirement); leads the rail.
+//
+// bcn-lego-checked: composes esa-icon; the connected-rail list is the established
+// bcn-lineage treatment (data-catalog pages) given a reusable home for the
+// work-breakdown chain. Semantic tokens only; never raw --bcn-gray-*.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+
+export interface LineageNode {
+  /** Tier label, e.g. "Program" / "Study" / "Sub-study" / "Task". */
+  kind: string;
+  name: string;
+  /** Ancestors link to their detail pages; the current node carries no href. */
+  href?: string;
+  current?: boolean;
+  /** Lucide icon name (esa-icon registry) or inline paths for one that is not. */
+  icon?: string;
+  paths?: string;
+}
+
+interface Props {
+  nodes: LineageNode[];
+}
+const { nodes } = Astro.props;
+---
+
+<ol class="bcn-dlineage">
+  {nodes.map((n) => (
+    <li class:list={['bcn-dlineage__node', { 'bcn-dlineage__node--current': n.current }]}>
+      <span class="bcn-dlineage__icon"><EsaIcon name={n.icon} paths={n.paths} size="sm" /></span>
+      <span class="bcn-dlineage__body">
+        <span class="bcn-dlineage__kind">{n.kind}</span>
+        {n.href ? (
+          <a class="bcn-dlineage__name" href={n.href}>{n.name}</a>
+        ) : (
+          <span class="bcn-dlineage__name bcn-dlineage__name--current">{n.name}</span>
+        )}
+      </span>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .bcn-dlineage {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-dlineage__node {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-300);
+    padding-bottom: var(--spacing-400);
+  }
+  .bcn-dlineage__node::before {
+    content: '';
+    position: absolute;
+    left: 13px;
+    top: 30px;
+    bottom: 2px;
+    width: 2px;
+    background: var(--color-border);
+  }
+  .bcn-dlineage__node:last-child {
+    padding-bottom: 0;
+  }
+  .bcn-dlineage__node:last-child::before {
+    display: none;
+  }
+  .bcn-dlineage__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+  }
+  .bcn-dlineage__icon :global(.esa-icon) {
+    --_icon-size: 14px;
+  }
+  .bcn-dlineage__node--current .bcn-dlineage__icon {
+    border-color: var(--color-secondary);
+    color: var(--color-secondary);
+  }
+  .bcn-dlineage__body {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+    padding-top: 2px;
+  }
+  .bcn-dlineage__kind {
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+  }
+  .bcn-dlineage__name {
+    font-size: var(--form-font-size-md, 0.9375rem);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.35;
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+  a.bcn-dlineage__name:hover {
+    text-decoration: underline;
+  }
+  .bcn-dlineage__name--current {
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-semibold);
+  }
+</style>

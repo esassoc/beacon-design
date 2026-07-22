@@ -1,29 +1,24 @@
 ---
-// <BcnNodeDetail> — the FULL details view for one work-breakdown node. Hosted on
-// the node DETAILS page (/prototypes/fish-node?id=…); the gantt drawer now uses
-// the slim BcnNodeEdit instead. Reads top-to-bottom in the locked order (Andy,
-// decision 5):
+// <BcnNodeDetail> — the FULL details view for one work-breakdown node, READ-ONLY.
+// Hosted on the detail pages (fish-detail/[id], fish-node). Reads top-to-bottom in
+// the locked order (Andy, decision 5):
 //   Identity → Timing → Funding → Roll-up (parents only) → constraints/notes (collapsed).
 //
-// EDITABLE: the Identity section's Name + ID are esa-text-field legos (moved out
-// of the drawer 2026-07-16 — the HOST PAGE wires them: on fish-node they drive
-// the page's own header/title/labels); a Task's Timing section is esa-select
-// month/year pairs that write through the gantt's wbApi (bars + roll-up brackets
-// re-derive live); the Funding
-// section's dollar cells are esa-text-field legos (see BcnFundingPlan). The client
-// script below keeps every panel's derived text (spans, water years, roll-up
-// counts) in sync after any model change — elements it patches carry data-live
-// hooks; the roll-up meter is rebuilt via bcn-rollup classes (globally styled).
+// READ-ONLY BY DESIGN (Andy, 2026-07-21): "All editing should be done in a modal
+// or side drawer. The detail page should be read only as you land on it." Every
+// field renders as a key/value; the HOST page owns the Edit-record drawer and
+// repaints this block after a save via the data-live hooks below (name / id / coa
+// / sched / season / wy / owner / parent, plus the status chip and the roll-up
+// meter). The client script keeps derived text in sync on wb-model-change for
+// wbApi hosts (fish-node); drawer hosts patch directly.
 //
 // bcn-lego-checked: this is a COMPOSITION of legos — bcn-key-value (identity/timing
-// rows), bcn-status-chip (task status), bcn-funding-plan (dollars/water-year),
-// bcn-rollup-summary (the legible parent roll-up), esa-select (month/year pickers),
-// and the esa-collapsible lego for the collapsed constraints/notes. No reinvented
-// primitive; the only page-side CSS is section-stacking glue. bcn-node-detail is the
-// reusable home for the panel body.
+// rows), bcn-status-chip (task status), bcn-funding-plan (dollars/water-year,
+// readonly), bcn-rollup-summary (the legible parent roll-up), and esa-collapsible
+// for the collapsed constraints/notes. No form control renders here — that is the
+// point. The only CSS is section-stacking glue.
 import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
 import BcnKeyValue from './BcnKeyValue.astro';
-import BcnStatusChip from './BcnStatusChip.astro';
 import BcnFundingPlan from './BcnFundingPlan.astro';
 import BcnRollupSummary from './BcnRollupSummary.astro';
 import {
@@ -33,10 +28,10 @@ import {
   monthLabel,
   waterYearOf,
   fieldSeasonOf,
+  formatUSD,
   type HierNode,
   type NodeRollUp,
 } from '../../data/fish-model';
-import { SCHEDULE_START_YEAR, SCHEDULE_END_YEAR } from '../../data/fish-schedule';
 
 interface Props {
   node: HierNode;
@@ -52,24 +47,18 @@ const isParent = node.children.length > 0;
 // Timing values: a Task uses its own months; a parent shows its rolled-up span.
 const startMonth = isTask ? node.startMonth : rollup.startMonth;
 const endMonth = isTask ? node.endMonth : rollup.endMonth;
+const spanLabel = startMonth ? `${monthLabel(startMonth)} – ${monthLabel(endMonth)}` : '—';
 const wyStart = startMonth ? waterYearOf(startMonth) : undefined;
 const wyEnd = endMonth ? waterYearOf(endMonth) : undefined;
 const wyLabel = wyStart ? (wyStart === wyEnd ? `WY${wyStart}` : `WY${wyStart}–WY${wyEnd}`) : '—';
 const startSeason = startMonth ? FIELD_SEASON_META[fieldSeasonOf(startMonth)] : undefined;
 const endSeason = endMonth ? FIELD_SEASON_META[fieldSeasonOf(endMonth)] : undefined;
-const seasonHint =
+const seasonLabel =
   startSeason && endSeason
     ? startSeason === endSeason
-      ? `Field season: ${startSeason.label}`
-      : `Field seasons: ${startSeason.label} → ${endSeason.label}`
-    : 'Set a start and end month to place this task on the gantt.';
-
-// Month/year picker options (esa-select hydrates the JSON attribute).
-const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const monthOptsJson = JSON.stringify(MONTH_NAMES.map((label, i) => ({ value: String(i + 1).padStart(2, '0'), label })));
-const yearOptsList = [];
-for (let y = SCHEDULE_START_YEAR; y < SCHEDULE_END_YEAR; y++) yearOptsList.push({ value: String(y), label: String(y) });
-const yearOptsJson = JSON.stringify(yearOptsList);
+      ? startSeason.label
+      : `${startSeason.label} → ${endSeason.label}`
+    : '—';
 
 // A task's scheduled span, as water years — the funding table offers those rows.
 const spanYears: number[] = [];
@@ -84,30 +73,27 @@ const childTier = node.children[0]?.tier;
 const pluralize = (w: string) => (w.endsWith('y') ? `${w.slice(0, -1)}ies` : `${w}s`);
 const childLabel = childTier ? pluralize(TIER_META[childTier].label.toLowerCase()) : '';
 
-const st = node.status ? TASK_STATUS_META[node.status] : undefined;
 const hasNotes = Boolean(node.notes) || Boolean(node.constraints?.length);
+
+// Planned funding as a plain key/value: total + the water-year range it spans.
+const fYears = rollup.fundingByYear.map((f) => f.waterYear);
+const plannedKv = `${formatUSD(rollup.totalFunding)}${
+  fYears.length ? ` · WY${Math.min(...fYears)}–${Math.max(...fYears)}` : ''
+}`;
 ---
 
 <div class="bcn-detail">
-  <!-- ── 1 · Identity — Name + ID are EDITABLE here (the drawer no longer holds
-       them). The host page wires these fields to its own header/title/labels. ── -->
+  <!-- ── 1 · Identity ── -->
   <section class="bcn-detail__section">
     <h3 class="bcn-detail__title">Identity</h3>
-    <div class="bcn-detail__identity">
-      <span class="bcn-detail__id">{node.id}</span>
-      <span class="bcn-detail__tier">{tier.label}</span>
-    </div>
     <div class="bcn-detail__rows">
-      <esa-text-field label="Name" size="sm" value={node.name} data-detail-name></esa-text-field>
-      <esa-text-field
-        class="bcn-detail__idfield"
-        label="ID"
-        size="sm"
-        value={node.id}
-        help-text="Stable identity — applying a new ID re-keys this record and everything referencing it"
-        data-detail-id
-      ></esa-text-field>
-      <BcnKeyValue label="COA reference" value={node.coaRef ?? '—'} hint="ITP Condition of Approval — reference label, not the record id" />
+      <div data-live="name"><BcnKeyValue label="Name" value={node.name} /></div>
+      <div data-live="idrow">
+        <BcnKeyValue label="ID" value={node.id} />
+      </div>
+      <div data-live="coa">
+        <BcnKeyValue label="COA reference" value={node.coaRef ?? '—'} />
+      </div>
       {node.tier !== 'program' && <div data-live="parent"><BcnKeyValue label="Parent" value={parentName ?? '—'} /></div>}
     </div>
   </section>
@@ -117,27 +103,13 @@ const hasNotes = Boolean(node.notes) || Boolean(node.constraints?.length);
     <h3 class="bcn-detail__title">Timing</h3>
     {isTask ? (
       <div class="bcn-detail__rows">
-        <div class="bcn-detail__sched" role="group" aria-label="Task schedule">
-          <div class="bcn-detail__sched-grid">
-            <esa-select label="Start month" size="sm" placeholder="Month" options={monthOptsJson} data-wb-field="start" data-part="month"></esa-select>
-            <esa-select label="Start year" size="sm" placeholder="Year" options={yearOptsJson} data-wb-field="start" data-part="year"></esa-select>
-            <esa-select label="End month" size="sm" placeholder="Month" options={monthOptsJson} data-wb-field="end" data-part="month"></esa-select>
-            <esa-select label="End year" size="sm" placeholder="Year" options={yearOptsJson} data-wb-field="end" data-part="year"></esa-select>
-          </div>
-          <span class="bcn-detail__sched-hint" data-live="season">{seasonHint}</span>
-        </div>
+        <div data-live="sched"><BcnKeyValue label="Schedule" value={spanLabel} /></div>
+        <div data-live="season"><BcnKeyValue label="Field seasons" value={seasonLabel} /></div>
         <div data-live="wy"><BcnKeyValue label="Water years" value={wyLabel} /></div>
-        <BcnKeyValue label="Owner" value={node.owner ?? '—'} />
-        {st && (
-          <div class="bcn-detail__status">
-            <span class="bcn-detail__status-lbl">Status</span>
-            <BcnStatusChip status={node.status!} label={st.label} hex={st.hex} />
-          </div>
-        )}
       </div>
     ) : (
       <div class="bcn-detail__rows">
-        <div data-live="span"><BcnKeyValue label="Rolled-up span" value={`${monthLabel(startMonth)} – ${monthLabel(endMonth)}`} hint="min start → max end across all tasks in this branch" /></div>
+        <div data-live="span"><BcnKeyValue label="Rolled-up span" value={spanLabel} hint="min start → max end across all tasks in this branch" /></div>
         <div data-live="wy"><BcnKeyValue label="Water years" value={wyLabel} /></div>
       </div>
     )}
@@ -146,7 +118,8 @@ const hasNotes = Boolean(node.notes) || Boolean(node.constraints?.length);
   <!-- ── 3 · Funding (CDFW dollars per water year; tasks sum upward) ── -->
   <section class="bcn-detail__section">
     <h3 class="bcn-detail__title">Funding plan</h3>
-    <BcnFundingPlan rollup={rollup} ownFunding={node.funding} spanYears={spanYears} />
+    <div data-live="funding"><BcnKeyValue label="Planned" value={plannedKv} /></div>
+    <BcnFundingPlan rollup={rollup} ownFunding={node.funding} spanYears={spanYears} readonly />
   </section>
 
   <!-- ── 4 · Roll-up (PARENT nodes only) ── -->
@@ -160,25 +133,25 @@ const hasNotes = Boolean(node.notes) || Boolean(node.constraints?.length);
   <!-- ── 5 · Constraints / notes (collapsed by default) ── -->
   <section class="bcn-detail__section bcn-detail__section--flush">
     <EsaCollapsible title="Constraints & notes" flush open={false}>
-      {hasNotes ? (
-        <div class="bcn-detail__notes">
-          {node.constraints && node.constraints.length > 0 && (
-            <ul class="bcn-detail__constraints">
-              {node.constraints.map((c) => <li>{c}</li>)}
-            </ul>
-          )}
-          {node.notes && <p class="bcn-detail__note">{node.notes}</p>}
-        </div>
-      ) : (
-        <p class="bcn-detail__note bcn-detail__note--empty">None recorded.</p>
-      )}
+      <div class="bcn-detail__notes" data-live="notes">
+        {hasNotes ? (
+          <>
+            {node.constraints && node.constraints.length > 0 && (
+              <ul class="bcn-detail__constraints">
+                {node.constraints.map((c) => <li>{c}</li>)}
+              </ul>
+            )}
+            {node.notes && <p class="bcn-detail__note">{node.notes}</p>}
+          </>
+        ) : (
+          <p class="bcn-detail__note bcn-detail__note--empty">None recorded.</p>
+        )}
+      </div>
     </EsaCollapsible>
   </section>
 </div>
 
 <script>
-  import '@esa/ecology/esa-select';
-  import '@esa/ecology/esa-text-field';
   import {
     TASK_STATUS_META,
     HEALTH_META,
@@ -186,6 +159,7 @@ const hasNotes = Boolean(node.notes) || Boolean(node.constraints?.length);
     monthLabel,
     waterYearOf,
     fieldSeasonOf,
+    formatUSD,
     FIELD_SEASON_META,
   } from '../../data/fish-model';
   import type { HierNode, NodeRollUp } from '../../data/fish-model';
@@ -194,7 +168,6 @@ const hasNotes = Boolean(node.notes) || Boolean(node.constraints?.length);
     getNode(id: string): HierNode | undefined;
     parentOf(id: string): HierNode | null;
     rollupOf(id: string): NodeRollUp | undefined;
-    setTaskSchedule(id: string, startMonth: string, endMonth: string): void;
   };
   const getApi = (): WbApi | undefined =>
     (document.querySelector('.bcn-wb') as (HTMLElement & { wbApi?: WbApi }) | null)?.wbApi;
@@ -215,32 +188,18 @@ const hasNotes = Boolean(node.notes) || Boolean(node.constraints?.length);
   function syncTiming(panel: HTMLElement, node: HierNode, r: NodeRollUp) {
     const start = node.tier === 'task' ? node.startMonth : r.startMonth;
     const end = node.tier === 'task' ? node.endMonth : r.endMonth;
+    const span = start ? `${monthLabel(start)} – ${monthLabel(end)}` : '—';
     if (node.tier === 'task') {
-      const sel = (field: string, part: string) =>
-        panel.querySelector(`esa-select[data-wb-field="${field}"][data-part="${part}"]`) as
-          | (HTMLElement & { value: string | string[] })
-          | null;
-      const sm = sel('start', 'month');
-      if (sm) sm.value = start ? start.slice(5) : '';
-      const sy = sel('start', 'year');
-      if (sy) sy.value = start ? start.slice(0, 4) : '';
-      const em = sel('end', 'month');
-      if (em) em.value = end ? end.slice(5) : '';
-      const ey = sel('end', 'year');
-      if (ey) ey.value = end ? end.slice(0, 4) : '';
+      setText(panel, '[data-live="sched"] .bcn-key-value__val', span);
       const ss = start ? FIELD_SEASON_META[fieldSeasonOf(start)] : undefined;
       const es = end ? FIELD_SEASON_META[fieldSeasonOf(end)] : undefined;
       setText(
         panel,
-        '[data-live="season"]',
-        ss && es
-          ? ss === es
-            ? `Field season: ${ss.label}`
-            : `Field seasons: ${ss.label} → ${es.label}`
-          : 'Set a start and end month to place this task on the gantt.',
+        '[data-live="season"] .bcn-key-value__val',
+        ss && es ? (ss === es ? ss.label : `${ss.label} → ${es.label}`) : '—',
       );
     } else {
-      setText(panel, '[data-live="span"] .bcn-key-value__val', `${monthLabel(start)} – ${monthLabel(end)}`);
+      setText(panel, '[data-live="span"] .bcn-key-value__val', span);
     }
     setText(panel, '[data-live="wy"] .bcn-key-value__val', wyLabelOf(start, end));
   }
@@ -316,52 +275,23 @@ const hasNotes = Boolean(node.notes) || Boolean(node.constraints?.length);
     const node = api.getNode(id);
     const r = api.rollupOf(id);
     if (!node || !r) return;
-    setText(panel, '.bcn-detail__id', node.id);
-    setText(panel, '.bcn-detail__tier', TIER_META[node.tier].label);
-    const active = document.activeElement;
-    const nameField = panel.querySelector<HTMLElement & { value: string }>('esa-text-field[data-detail-name]');
-    if (nameField && nameField !== active) nameField.value = node.name;
-    const idField = panel.querySelector<HTMLElement & { value: string }>('esa-text-field[data-detail-id]');
-    if (idField && idField !== active) idField.value = node.id;
+    setText(panel, '[data-live="name"] .bcn-key-value__val', node.name);
+    setText(panel, '[data-live="idrow"] .bcn-key-value__val', node.id);
+    setText(panel, '[data-live="coa"] .bcn-key-value__val', node.coaRef ?? '—');
     const parentVal = panel.querySelector<HTMLElement>('[data-live="parent"] .bcn-key-value__val');
     if (parentVal) parentVal.textContent = api.parentOf(id)?.name ?? '—';
+    const fy = r.fundingByYear.map((f) => f.waterYear);
+    setText(
+      panel,
+      '[data-live="funding"] .bcn-key-value__val',
+      `${formatUSD(r.totalFunding)}${fy.length ? ` · WY${Math.min(...fy)}–${Math.max(...fy)}` : ''}`,
+    );
     syncTiming(panel, node, r);
     syncRollup(panel, node, r);
   }
 
-  // ONE delegated listener for the month/year pickers: resolve the pair into
-  // 'YYYY-MM', keep start ≤ end, write through wbApi (bars re-derive live).
-  document.addEventListener('change', (e) => {
-    const el = e.target as HTMLElement & { value?: string | string[] };
-    if (!(el instanceof HTMLElement) || el.tagName !== 'ESA-SELECT' || !el.dataset.wbField) return;
-    const panel = el.closest('[data-node-panel]') as HTMLElement | null;
-    const api = getApi();
-    if (!panel || !api) return;
-    const id = panel.dataset.nodePanel ?? '';
-    const node = api.getNode(id);
-    if (!node || node.tier !== 'task') return;
-    const value = String((e as CustomEvent).detail?.value ?? el.value ?? '');
-    if (!value) return;
-    const edge = el.dataset.wbField; // 'start' | 'end'
-    const base = (edge === 'start' ? node.startMonth : node.endMonth) ?? node.startMonth ?? node.endMonth ?? '2029-04';
-    let [y, m] = base.split('-');
-    if (el.dataset.part === 'month') m = value;
-    else y = value;
-    let start = node.startMonth;
-    let end = node.endMonth;
-    if (edge === 'start') start = `${y}-${m}`;
-    else end = `${y}-${m}`;
-    if (!start) start = end;
-    if (!end) end = start;
-    if (start! > end!) {
-      if (edge === 'start') end = start;
-      else start = end;
-    }
-    api.setTaskSchedule(id, start!, end!);
-  });
-
-  // Keep the visible panel's derived text in sync with every model change, and
-  // (re)fill a panel's controls whenever it is opened.
+  // Keep the visible panel's derived text in sync with every model change (wbApi
+  // hosts), and (re)fill a panel whenever it is opened.
   document.addEventListener('wb-model-change', () => {
     const panel = document.querySelector<HTMLElement>('[data-node-panel]:not([hidden])');
     if (panel) syncPanel(panel);
@@ -374,29 +304,22 @@ const hasNotes = Boolean(node.notes) || Boolean(node.constraints?.length);
 </script>
 
 <style>
-  .bcn-detail { display: flex; flex-direction: column; gap: var(--spacing-500); }
+  .bcn-detail { display: flex; flex-direction: column; gap: var(--spacing-700); }
   .bcn-detail__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
   .bcn-detail__section--flush { border-top: 1px solid var(--color-border-light); padding-top: var(--spacing-200); }
 
-  .bcn-detail__title { margin: 0; font-size: var(--form-font-size-md); font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); }
-
-  .bcn-detail__identity { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; }
-  .bcn-detail__id { font-family: var(--font-mono); font-size: var(--type-size-200); font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 2px var(--spacing-250); border-radius: var(--radius-100); }
-  .bcn-detail__tier { font-size: var(--type-size-100); font-weight: var(--font-weight-medium); color: var(--color-text-tertiary); }
-
-  /* The lego reads its face font from --font-sans — point the ID field at mono. */
-  .bcn-detail__idfield { --font-sans: var(--font-mono, monospace); }
+  /* House section heading: readable words, border-bottom, app scale. */
+  .bcn-detail__title { margin: 0; padding-bottom: var(--spacing-200); border-bottom: 1px solid var(--color-border); font-size: var(--type-size-300); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); line-height: 1.3; }
 
   .bcn-detail__rows { display: flex; flex-direction: column; gap: var(--spacing-300); }
 
-  .bcn-detail__sched { display: flex; flex-direction: column; gap: var(--spacing-200); }
-  .bcn-detail__sched-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-200) var(--spacing-300); }
-  .bcn-detail__sched-hint { font-size: 0.8125rem; color: var(--color-text-tertiary); }
-
-  .bcn-detail__status { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; }
-  .bcn-detail__status-lbl { font-size: var(--form-font-size-md); font-weight: var(--font-weight-medium); color: var(--form-label-color); }
-
   .bcn-detail__notes { display: flex; flex-direction: column; gap: var(--spacing-200); }
+</style>
+
+<style is:global>
+  /* Global ON PURPOSE: the host page rebuilds the notes block after an
+     Edit-record save — scoped attribute selectors would miss injected nodes.
+     Classes stay bcn-detail__-namespaced. */
   .bcn-detail__constraints { margin: 0; padding-left: var(--spacing-400); display: flex; flex-direction: column; gap: var(--spacing-100); font-size: var(--type-size-200); color: var(--color-text-secondary); }
   .bcn-detail__note { margin: 0; font-size: var(--type-size-200); color: var(--color-text-secondary); line-height: 1.55; }
   .bcn-detail__note--empty { color: var(--color-text-tertiary); font-style: italic; }

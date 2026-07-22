@@ -1,0 +1,85 @@
+---
+// <BcnRolesRepeater> — ACF-repeater-style RACI editor: only assigned work-streams
+// render as rows; Add appends a blank row (work-stream + org dropdowns, person
+// text, tentative switch, per-row remove). The HOST wires it with
+// setupRolesRepeater(root, vocab) from ./roles-repeater — rows are cloned from
+// the SSR <template>, so scoped styles reach them without :global.
+//
+// bcn-lego-checked: every control is a lego — esa-select (work-stream, org),
+// esa-text-field (person), esa-switch-toggle (tentative), esa-icon-button
+// (remove), esa-button (Add). The row grid is layout glue only. Semantic tokens.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+---
+
+<div class="bcn-rrep" data-roles-repeater>
+  <div class="bcn-rrep__list" data-rr-list></div>
+
+  <template data-rr-row>
+    <div class="bcn-rrep__row" data-rr-item>
+      <div class="bcn-rrep__selects">
+        <esa-select data-rr-ws size="sm" placeholder="Work-stream" label="Work-stream"></esa-select>
+        <esa-select data-rr-org size="sm" placeholder="Org" label="Org"></esa-select>
+      </div>
+      <div class="bcn-rrep__second">
+        <esa-text-field data-rr-person size="sm" placeholder="Person (optional)" label="Person"></esa-text-field>
+        <label class="bcn-rrep__tent">
+          <esa-switch-toggle data-rr-tent></esa-switch-toggle>
+          <span>Tentative</span>
+        </label>
+        <span class="bcn-rrep__del" data-rr-del>
+          <EsaIconButton icon="trash-2" label="Remove assignment" size="sm" />
+        </span>
+      </div>
+    </div>
+  </template>
+
+  <span data-rr-add class="bcn-rrep__add">
+    <EsaButton color="ghost" appearance="outline" size="sm" icon="plus">Add assignment</EsaButton>
+  </span>
+</div>
+
+<style>
+  .bcn-rrep {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-rrep__list {
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-rrep__row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding: var(--spacing-300) 0;
+    border-bottom: 1px solid var(--color-border-light);
+  }
+  .bcn-rrep__selects {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-200);
+  }
+  .bcn-rrep__second {
+    display: grid;
+    grid-template-columns: 1fr max-content max-content;
+    gap: var(--spacing-200);
+    align-items: end;
+  }
+  .bcn-rrep__tent {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    padding-bottom: 6px;
+    font-size: var(--type-size-100);
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+  }
+  .bcn-rrep__del {
+    padding-bottom: 2px;
+  }
+  .bcn-rrep__add {
+    align-self: flex-start;
+  }
+</style>

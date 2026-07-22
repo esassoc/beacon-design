@@ -1,0 +1,168 @@
+---
+// <BcnDetailAssignments> — the WHO block of a node detail page, READ-ONLY on
+// landing (Andy, 2026-07-21: all editing happens in a modal or side drawer):
+//   study → lead org + the assigned work-streams, with an Edit button that opens
+//           the host page's assignments side panel (esa-side-dialog +
+//           <BcnRolesRepeater>). The host repaints the rows after a save by
+//           cloning the SSR <template> here.
+//   task  → Owner + Status as key/values (status = the colored chip); edited via
+//           the host page's Edit-record drawer, repainted through the data-da-*
+//           hooks.
+//
+// bcn-lego-checked: esa-button (Edit), bcn-status-chip (task status); the rows
+// are key/value layout glue only. Semantic tokens; never raw --bcn-gray-*.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnStatusChip from './BcnStatusChip.astro';
+
+export interface AssignRoleRow {
+  workstream: string;           // key, e.g. 'lead'
+  label: string;                // "Study / Plan Lead"
+  org: string;
+  person: string;
+  tentative: boolean;
+}
+
+interface Props {
+  tier: 'study' | 'task';
+  /** study — current lead */
+  lead?: string;
+  /** study — all work-stream rows, merged (empty org = unassigned, not rendered) */
+  roles?: AssignRoleRow[];
+  /** task — current owner (org or org — person) */
+  owner?: string;
+  /** task — current status + the colored task-status vocabulary */
+  statusValue?: string;
+  statusOptions?: { value: string; label: string; color?: string }[];
+}
+const { tier, lead, roles = [], owner, statusValue, statusOptions = [] } = Astro.props;
+
+const assigned = roles.filter((r) => r.org);
+const statusMeta = statusOptions.find((o) => o.value === statusValue);
+---
+
+<div class="bcn-dassign">
+  {tier === 'study' && (
+    <>
+      <div class="bcn-dassign__lead">
+        <span class="bcn-dassign__k">Lead org</span>
+        <span class="bcn-dassign__v" data-da-lead-ro>{lead ?? '—'}</span>
+      </div>
+
+      <div class="bcn-dassign__roles" data-da-ro-list>
+        {assigned.map((r) => (
+          <div class="bcn-dassign__role">
+            <span class="bcn-dassign__ws">{r.label}</span>
+            <span class="bcn-dassign__who">
+              <span class="bcn-dassign__org">{r.org}</span>
+              {r.person && <span class="bcn-dassign__person">{r.person}</span>}
+              {r.tentative && <span class="bcn-dassign__tent">tentative</span>}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      <template data-da-ro-row>
+        <div class="bcn-dassign__role">
+          <span class="bcn-dassign__ws" data-ro-ws></span>
+          <span class="bcn-dassign__who">
+            <span class="bcn-dassign__org" data-ro-org></span>
+            <span class="bcn-dassign__person" data-ro-person></span>
+            <span class="bcn-dassign__tent" data-ro-tent>tentative</span>
+          </span>
+        </div>
+      </template>
+
+      <span class="bcn-dassign__edit" data-da-edit>
+        <EsaButton color="ghost" appearance="outline" size="sm" icon="pencil">Edit assignments</EsaButton>
+      </span>
+    </>
+  )}
+
+  {tier === 'task' && (
+    <>
+      <div class="bcn-dassign__lead">
+        <span class="bcn-dassign__k">Owner</span>
+        <span class="bcn-dassign__v" data-da-owner-ro>{owner ?? '—'}</span>
+      </div>
+      <div class="bcn-dassign__lead" data-da-status-ro>
+        <span class="bcn-dassign__k">Status</span>
+        {statusMeta ? (
+          <BcnStatusChip status={statusValue!} label={statusMeta.label} hex={statusMeta.color ?? ''} />
+        ) : (
+          <span class="bcn-dassign__v">—</span>
+        )}
+      </div>
+    </>
+  )}
+</div>
+
+<style>
+  .bcn-dassign {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-dassign__lead {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+  /* Status chips hug their content — never stretch to the rail width. */
+  .bcn-dassign :global(.bcn-status-chip) {
+    width: fit-content;
+    align-self: flex-start;
+  }
+  /* Mirrors bcn-key-value's label → value tier exactly (one KV treatment). */
+  .bcn-dassign__k {
+    font-size: var(--form-font-size-md, 0.9375rem);
+    font-weight: var(--font-weight-medium);
+    color: var(--form-label-color);
+  }
+  .bcn-dassign__v {
+    font-size: var(--form-font-size-md, 0.9375rem);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .bcn-dassign__roles {
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-dassign__role {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--spacing-200) 0;
+    border-bottom: 1px solid var(--color-border-light);
+  }
+  .bcn-dassign__role:last-child {
+    border-bottom: 0;
+  }
+  .bcn-dassign__ws {
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-tertiary);
+  }
+  .bcn-dassign__who {
+    display: inline-flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--spacing-200);
+    font-size: var(--type-size-150);
+  }
+  .bcn-dassign__org {
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-medium);
+  }
+  .bcn-dassign__person {
+    color: var(--color-text-secondary);
+  }
+  .bcn-dassign__tent {
+    font-size: var(--type-size-100);
+    font-style: italic;
+    color: var(--color-text-tertiary);
+  }
+  .bcn-dassign__edit {
+    align-self: flex-start;
+  }
+</style>

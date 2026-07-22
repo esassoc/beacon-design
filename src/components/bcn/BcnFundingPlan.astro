@@ -6,11 +6,14 @@
 // (details page — $ summary + split sentence + table) and 'slim' (drawer — the
 // table only, reading as an addition equation with a bold live Total).
 //
-// EDITABLE: the per-water-year "Own"/"Amount" cells are esa-text-field legos that
-// write through the gantt's wbApi (see BcnWorkBreakdown). The client script below
-// owns re-rendering this block after any model change — it rebuilds the same
-// markup the SSR emits, and PATCHES derived cells only while an amount field has
-// focus so typing never loses the caret.
+// EDITABLE only in drawer hosts: the per-water-year "Own"/"Amount" cells are
+// esa-text-field legos that write through the gantt's wbApi (see BcnWorkBreakdown).
+// With `readonly` (detail pages — they land read-only; edits go through the host's
+// Edit-record drawer) the Own cells render as plain numbers with data-cell="own"
+// patch hooks. The client script below owns re-rendering this block after any
+// model change — it rebuilds the same markup the SSR emits (respecting the
+// block's data-readonly attribute), and PATCHES derived cells only while an
+// amount field has focus so typing never loses the caret.
 //
 // bcn-lego-checked: no esa-* lego renders a multi-column money-by-period plan
 // table (esa-stat is a single metric; there is no data-table lego — AG Grid is the
@@ -33,8 +36,11 @@ interface Props {
    * nodes keep the Own/Rolled-up/Total columns. 'full' (details page) keeps both.
    */
   variant?: 'full' | 'slim';
+  /** Read-only: Own renders as plain numbers (detail pages land read-only —
+   *  editing happens in the host's Edit-record drawer). */
+  readonly?: boolean;
 }
-const { rollup, ownFunding, spanYears = [], variant = 'full' } = Astro.props;
+const { rollup, ownFunding, spanYears = [], variant = 'full', readonly = false } = Astro.props;
 const slim = variant === 'slim';
 
 const ownByYear = new Map(ownFunding.map((f) => [f.waterYear, f.amount]));
@@ -46,26 +52,9 @@ const rows = years.map((wy) => {
   return { wy, own, sub: total - own, total };
 });
 const hasSub = rollup.totalFunding !== rollup.ownFunding;
-const firstYear = rows.at(0)?.wy;
-const lastYear = rows.at(-1)?.wy;
 ---
 
-<div class:list={['bcn-funding', { 'bcn-funding--slim': slim }]}>
-  {!slim && (
-    <div class="bcn-funding__summary">
-      <span class="bcn-funding__total-val">{formatUSD(rollup.totalFunding)}</span>
-      <span class="bcn-funding__total-lbl">planned{firstYear ? `, WY${firstYear}–${lastYear}` : ''}</span>
-    </div>
-  )}
-
-  {!slim && hasSub && (
-    <div class="bcn-funding__split">
-      <span data-cell="split-own">{formatUSD(rollup.ownFunding)} at this node</span>
-      <span class="bcn-funding__split-sep">+</span>
-      <span data-cell="split-sub">{formatUSD(rollup.totalFunding - rollup.ownFunding)} rolled up from {rollup.taskCount} tasks</span>
-    </div>
-  )}
-
+<div class:list={['bcn-funding', { 'bcn-funding--slim': slim }]} data-readonly={readonly ? '' : undefined}>
   {rows.length > 0 ? (
     <table class="bcn-funding__table">
       <thead>
@@ -80,9 +69,13 @@ const lastYear = rows.at(-1)?.wy;
         {rows.map((r) => (
           <tr data-wy={r.wy}>
             <th scope="row" class="bcn-funding__year">WY{r.wy}</th>
-            <td class="bcn-funding__num bcn-funding__edit">
-              <esa-text-field class="bcn-funding__field" size="sm" type="text" prefix="$" placeholder="0" value={r.own ? String(r.own) : ''} data-wb-funding data-wy={r.wy}></esa-text-field>
-            </td>
+            {readonly ? (
+              <td class="bcn-funding__num" data-cell="own">{r.own ? formatUSD(r.own) : '—'}</td>
+            ) : (
+              <td class="bcn-funding__num bcn-funding__edit">
+                <esa-text-field class="bcn-funding__field" size="sm" type="text" prefix="$" placeholder="0" value={r.own ? String(r.own) : ''} data-wb-funding data-wy={r.wy}></esa-text-field>
+              </td>
+            )}
             {hasSub && <td class="bcn-funding__num bcn-funding__muted" data-cell="sub">{r.sub ? formatUSD(r.sub) : '—'}</td>}
             {hasSub && <td class="bcn-funding__num bcn-funding__strong" data-cell="total">{r.total ? formatUSD(r.total) : '—'}</td>}
           </tr>
@@ -98,7 +91,7 @@ const lastYear = rows.at(-1)?.wy;
       </tfoot>
     </table>
   ) : (
-    <p class="bcn-funding__empty">No funding plan yet — set the task's months, then enter dollars per water year.</p>
+    <p class="bcn-funding__empty">None planned.</p>
   )}
 </div>
 
@@ -152,26 +145,12 @@ const lastYear = rows.at(-1)?.wy;
     const rows = rowsFor(node, r);
     const hasSub = r.totalFunding !== r.ownFunding;
     const slim = block.classList.contains('bcn-funding--slim');
+    const readonly = block.hasAttribute('data-readonly');
     const field = (row: FundingRow) =>
-      `<esa-text-field class="bcn-funding__field" size="sm" type="text" prefix="$" placeholder="0" value="${row.own || ''}" data-wb-funding data-wy="${row.wy}"></esa-text-field>`;
+      readonly
+        ? money(row.own)
+        : `<esa-text-field class="bcn-funding__field" size="sm" type="text" prefix="$" placeholder="0" value="${row.own || ''}" data-wb-funding data-wy="${row.wy}"></esa-text-field>`;
     block.innerHTML = `
-      ${
-        slim
-          ? ''
-          : `<div class="bcn-funding__summary">
-              <span class="bcn-funding__total-val">${formatUSD(r.totalFunding)}</span>
-              <span class="bcn-funding__total-lbl">planned${rows.length ? `, WY${rows[0].wy}–${rows[rows.length - 1].wy}` : ''}</span>
-            </div>`
-      }
-      ${
-        !slim && hasSub
-          ? `<div class="bcn-funding__split">
-              <span data-cell="split-own">${formatUSD(r.ownFunding)} at this node</span>
-              <span class="bcn-funding__split-sep">+</span>
-              <span data-cell="split-sub">${formatUSD(r.totalFunding - r.ownFunding)} rolled up from ${r.taskCount} tasks</span>
-            </div>`
-          : ''
-      }
       ${
         rows.length
           ? `<table class="bcn-funding__table">
@@ -185,7 +164,7 @@ const lastYear = rows.at(-1)?.wy;
                   .map(
                     (row) => `<tr data-wy="${row.wy}">
                       <th scope="row" class="bcn-funding__year">WY${row.wy}</th>
-                      <td class="bcn-funding__num bcn-funding__edit">${field(row)}</td>
+                      <td class="bcn-funding__num${readonly ? '' : ' bcn-funding__edit'}"${readonly ? ' data-cell="own"' : ''}>${field(row)}</td>
                       ${
                         hasSub
                           ? `<td class="bcn-funding__num bcn-funding__muted" data-cell="sub">${money(row.sub)}</td>
@@ -207,7 +186,7 @@ const lastYear = rows.at(-1)?.wy;
                 }
               </tr></tfoot>
             </table>`
-          : '<p class="bcn-funding__empty">No funding plan yet — set the task’s months, then enter dollars per water year.</p>'
+          : '<p class="bcn-funding__empty">None planned.</p>'
       }
     `;
   }
@@ -227,10 +206,6 @@ const lastYear = rows.at(-1)?.wy;
     setCell('[data-cell="foot-own"]', formatUSD(r.ownFunding));
     setCell('[data-cell="foot-sub"]', formatUSD(r.totalFunding - r.ownFunding));
     setCell('[data-cell="foot-total"]', formatUSD(r.totalFunding));
-    setCell('[data-cell="split-own"]', `${formatUSD(r.ownFunding)} at this node`);
-    setCell('[data-cell="split-sub"]', `${formatUSD(r.totalFunding - r.ownFunding)} rolled up from ${r.taskCount} tasks`);
-    setCell('.bcn-funding__total-val', formatUSD(r.totalFunding));
-    setCell('.bcn-funding__total-lbl', `planned${rows.length ? `, WY${rows[0].wy}–${rows[rows.length - 1].wy}` : ''}`);
   }
 
   function syncBlock(panel: HTMLElement) {
@@ -278,12 +253,6 @@ const lastYear = rows.at(-1)?.wy;
      Every class is bcn-funding__-namespaced. */
   .bcn-funding { display: flex; flex-direction: column; gap: var(--spacing-300); }
 
-  .bcn-funding__summary { display: flex; align-items: baseline; gap: var(--spacing-200); flex-wrap: wrap; }
-  .bcn-funding__total-val { font-family: var(--font-decorative); font-size: var(--type-size-500); font-weight: var(--font-weight-bold); color: var(--color-text-primary); line-height: 1.1; }
-  .bcn-funding__total-lbl { font-size: var(--type-size-100); color: var(--color-text-secondary); }
-  .bcn-funding__split { display: flex; align-items: center; gap: var(--spacing-150); flex-wrap: wrap; font-size: var(--type-size-100); color: var(--color-text-secondary); }
-  .bcn-funding__split-sep { color: var(--color-text-muted); font-weight: var(--font-weight-semibold); }
-
   .bcn-funding__table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
   .bcn-funding__table th, .bcn-funding__table td { padding: var(--spacing-150) var(--spacing-200); font-size: var(--type-size-200); text-align: left; border-bottom: 1px solid var(--color-border-light); }
   .bcn-funding__table thead th { font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); border-bottom: 1px solid var(--color-border); }
@@ -294,14 +263,12 @@ const lastYear = rows.at(-1)?.wy;
     font-weight: var(--form-label-font-weight, var(--font-weight-medium));
     color: var(--form-label-color);
   }
-  /* Water-year row headers: sans (not mono), body-coherent size. */
-  .bcn-funding--slim .bcn-funding__year { font-family: var(--font-sans); font-weight: var(--font-weight-regular); color: var(--color-text-primary); }
   /* The amount input fills its column (two-column task tables only — parents
      keep Own/Rolled-up/Total widths). */
   .bcn-funding--slim .bcn-funding__table:not(:has([data-cell='sub'])) .bcn-funding__edit { width: 60%; }
   .bcn-funding--slim .bcn-funding__field { width: 100%; }
   .bcn-funding__num { text-align: right; }
-  .bcn-funding__year { font-family: var(--font-mono); font-weight: var(--font-weight-medium); color: var(--color-text-secondary); }
+  .bcn-funding__year { font-weight: var(--font-weight-regular); color: var(--color-text-primary); }
   .bcn-funding__muted { color: var(--color-text-secondary); }
   .bcn-funding__strong { font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
   .bcn-funding__table tfoot th, .bcn-funding__table tfoot td { border-top: 1px solid var(--color-border-strong); border-bottom: 0; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }

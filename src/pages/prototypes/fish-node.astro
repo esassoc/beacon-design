@@ -1,4 +1,7 @@
 ---
+// SUPERSEDED (2026-07-21): replaced by the unified detail pages at
+// /prototypes/fish-detail/[id] (tree traversal + full editing + study narrative).
+// Nothing links here anymore; kept for reference until removed.
 // Fish Node — the per-node DETAILS page behind the Study Planning gantt.
 //
 // The gantt row drawer is the slim EDIT surface (Date range / Budget / Status);
@@ -17,7 +20,7 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import BcnNodeDetail from '../../components/bcn/BcnNodeDetail.astro';
-import { PROGRAMS } from '../../data/fish-hierarchy';
+import { PROGRAMS } from '../../data/fish-plan';
 import { computeRollUp, flattenForest, TIER_META, PROJECT_NAME } from '../../data/fish-model';
 import { withBase } from '../../lib/base';
 
