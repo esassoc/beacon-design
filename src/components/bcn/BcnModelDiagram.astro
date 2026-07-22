@@ -1,0 +1,543 @@
+---
+// <BcnModelDiagram> — the data-model map of the Study Planning feature.
+//
+// A projector-readable diagram of the ONE model behind the fish-studies work:
+// regulatory sources (top) feed the stored four-tier work-breakdown (middle),
+// derivations are computed at render (never stored), and five surfaces project
+// from the same record (bottom). The content is the schema CONTRACT in
+// src/data/fish-model.ts, hand-curated to the load-bearing fields — this
+// component takes no props because the model it documents is singular.
+//
+// bcn-lego-checked: no esa-* lego renders an entity/dataflow diagram; esa-card is
+// a padded content surface with heading chrome, not a schema glyph at diagram
+// density (field tables, kind tags, band connectors). Checked Beacon (no ui-*
+// diagram component). bcn-model-diagram is the reusable home; all ink from the
+// semantic token layer (--color-*, --bcn-status-*, --color-commitment).
+
+interface Field {
+  /** Field name (mono). */
+  name: string;
+  /** Short annotation after the name. */
+  note?: string;
+  /** Reference accent: this field points at another entity. */
+  ref?: 'commitment' | 'milestone';
+}
+
+interface Entity {
+  name: string;
+  /** Prefix or kind chip after the name (e.g. "STY-###"). */
+  chip?: string;
+  purpose: string;
+  fields: Field[];
+}
+
+const TIERS: Entity[] = [
+  {
+    name: 'Program',
+    chip: 'PRG-###',
+    purpose: 'Top-level grouping of the science plan.',
+    fields: [
+      { name: 'name' },
+      { name: 'funding[]', note: 'per water year' },
+      { name: 'children[]', note: '→ Study' },
+    ],
+  },
+  {
+    name: 'Study',
+    chip: 'STY-###',
+    purpose: 'The unit of accountability & compliance.',
+    fields: [
+      { name: 'coaRef', note: '→ Commitment (reference, not identity)', ref: 'commitment' },
+      { name: 'lead', note: 'accountable org' },
+      { name: 'roles[]', note: '11 RACI work-streams' },
+      { name: 'drivenBy', note: '→ Milestone', ref: 'milestone' },
+      { name: 'deadline', note: 'due month from the condition text' },
+      { name: 'children[]', note: '→ Sub-study' },
+    ],
+  },
+  {
+    name: 'Sub-study',
+    chip: 'SUB-###',
+    purpose: 'A line of work inside a study.',
+    fields: [
+      { name: 'coaRef', note: 'dot-letter reference', ref: 'commitment' },
+      { name: 'constraints[]', note: 'back-planning rationale' },
+      { name: 'children[]', note: '→ Task' },
+    ],
+  },
+  {
+    name: 'Task',
+    chip: 'TSK-###',
+    purpose: 'The schedulable month-by-month unit.',
+    fields: [
+      { name: 'startMonth · endMonth', note: 'the schedule lives HERE' },
+      { name: 'owner', note: 'who does the work' },
+      { name: 'status', note: 'not-started → complete' },
+      { name: 'funding[]', note: 'per water year' },
+    ],
+  },
+];
+
+const SOURCES: (Entity & { tone: 'external' | 'stored' })[] = [
+  {
+    name: 'Commitment (COA)',
+    chip: 'Data Catalog',
+    tone: 'external',
+    purpose: 'The ITP Condition of Approval — lives in Beacon’s Data Catalog, outside this fixture. In prod the deadline citation text is THIS record.',
+    fields: [
+      { name: 'coa number', note: '"10.19.1" — what coaRef points at' },
+      { name: 'condition text', note: 'the regulatory quote' },
+    ],
+  },
+  {
+    name: 'Milestone',
+    chip: 'anchor',
+    tone: 'stored',
+    purpose: 'The immovable engineering / regulatory anchors that back-planning starts from.',
+    fields: [
+      { name: 'kind', note: 'design · construction · operations · phase' },
+      { name: 'month (· endMonth)', note: 'phases carry a span' },
+      { name: 'citation', note: 'MMRP / ITP source line' },
+    ],
+  },
+];
+
+const SATELLITES: Entity[] = [
+  {
+    name: 'RoleAssignment',
+    chip: 'on Study',
+    purpose: 'One RACI work-stream assignment.',
+    fields: [
+      { name: 'workstream', note: 'lead · design · implementation · …' },
+      { name: 'org · person? · tentative?' },
+    ],
+  },
+  {
+    name: 'FundingEntry',
+    chip: 'on any node',
+    purpose: 'Planned dollars entered at a node; task dollars sum upward.',
+    fields: [{ name: 'waterYear · amount' }],
+  },
+  {
+    name: 'PlanAssumption',
+    chip: 'authored',
+    purpose: 'The judgment stratum — positions & open questions no derivation can produce.',
+    fields: [{ name: 'kind', note: 'assumption · question' }, { name: 'text' }],
+  },
+  {
+    name: 'StudyProfile',
+    chip: 'authored · by COA',
+    purpose: 'The science-plan satellite per COA: everything people WRITE about a study, never its execution facts.',
+    fields: [
+      { name: 'sketch', note: 'the 9-field study-plan form' },
+      { name: 'reviewComments', note: 'the CDFW comment cycle' },
+      { name: 'deliverables · planning · crosswalk facts' },
+      { name: 'informs · informedBy', note: 'COA dependency references' },
+    ],
+  },
+];
+
+const DERIVED: Entity[] = [
+  {
+    name: 'NodeRollUp',
+    chip: 'computeRollUp()',
+    purpose: 'Aggregates Task → Sub-study → Study → Program on every render.',
+    fields: [
+      { name: 'span envelope', note: 'min start · max end of the subtree' },
+      { name: 'aggregate status', note: 'blocked > at-risk > complete > on-track' },
+      { name: 'health counts', note: 'on track · at risk · blocked · complete' },
+      { name: 'totalFunding · fundingByYear' },
+    ],
+  },
+  {
+    name: 'Readiness chains',
+    chip: 'per study',
+    purpose: 'The back-planning derivation the old memo maintained by hand.',
+    fields: [
+      { name: 'must-start-by', note: 'earliest task start' },
+      { name: 'must-finish-by', note: 'the study deadline' },
+      { name: 'countdowns · flags', note: '"needs kickoff", "past deadline"' },
+    ],
+  },
+];
+
+const PROJECTIONS: { name: string; note: string }[] = [
+  { name: 'Gantt', note: 'the interactive plan — light CRUD at every tier via wbApi' },
+  { name: 'Roles matrix', note: 'the RACI pivot — study × 11 work-streams' },
+  { name: 'Readiness', note: 'milestones → deadline chains → field-season windows' },
+  { name: 'Detail pages', note: 'per-record: tree traversal, heavy editing, the authored profile' },
+  { name: 'Exports', note: 'PDF timelines memo · XLS workbooks — documents as outputs' },
+];
+---
+
+<div class="bcn-model-diagram">
+  <!-- ── Band 1 · Regulatory sources ── -->
+  <section class="bcn-model-diagram__band">
+    <h2 class="bcn-model-diagram__band-title">Regulatory sources</h2>
+    <div class="bcn-model-diagram__row bcn-model-diagram__row--pair">
+      {
+        SOURCES.map((e) => (
+          <article class="bcn-model-diagram__card" data-tone={e.tone}>
+            <header class="bcn-model-diagram__card-head">
+              <span class="bcn-model-diagram__card-name">{e.name}</span>
+              {e.chip && <span class="bcn-model-diagram__chip" data-tone={e.tone}>{e.chip}</span>}
+              {e.tone === 'external' && <span class="bcn-model-diagram__chip" data-tone="external">external</span>}
+            </header>
+            <p class="bcn-model-diagram__purpose">{e.purpose}</p>
+            <ul class="bcn-model-diagram__fields">
+              {e.fields.map((f) => (
+                <li>
+                  <code class="bcn-model-diagram__fname" data-ref={f.ref}>{f.name}</code>
+                  {f.note && <span class="bcn-model-diagram__fnote">{f.note}</span>}
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <div class="bcn-model-diagram__flow" aria-hidden="true">
+    <span class="bcn-model-diagram__flow-label">coaRef references · drivenBy anchors</span>
+  </div>
+
+  <!-- ── Band 2 · The one model (stored) ── -->
+  <section class="bcn-model-diagram__band" data-tone="model">
+    <h2 class="bcn-model-diagram__band-title">The one model — stored in fish-plan.ts</h2>
+    <p class="bcn-model-diagram__band-note">
+      One module owns everything below: TODAY (the plan's current-date anchor), the work-breakdown
+      forest, the milestones, and the authored satellites. The type-prefixed id is the record's
+      identity; the COA dot-number rides along as a reference. Status, span, and funding are never
+      stored on parents — they roll up.
+    </p>
+    <div class="bcn-model-diagram__spine">
+      {
+        TIERS.map((e, i) => (
+          <>
+            {i > 0 && (
+              <div class="bcn-model-diagram__link" aria-hidden="true">
+                <span class="bcn-model-diagram__link-label">1&hairsp;—&hairsp;n</span>
+              </div>
+            )}
+            <article class="bcn-model-diagram__card bcn-model-diagram__card--tier">
+              <header class="bcn-model-diagram__card-head">
+                <span class="bcn-model-diagram__card-name">{e.name}</span>
+                <span class="bcn-model-diagram__chip" data-tone="id">{e.chip}</span>
+              </header>
+              <p class="bcn-model-diagram__purpose">{e.purpose}</p>
+              <ul class="bcn-model-diagram__fields">
+                {e.fields.map((f) => (
+                  <li>
+                    <code class="bcn-model-diagram__fname" data-ref={f.ref}>{f.name}</code>
+                    {f.note && <span class="bcn-model-diagram__fnote">{f.note}</span>}
+                  </li>
+                ))}
+              </ul>
+            </article>
+          </>
+        ))
+      }
+    </div>
+    <div class="bcn-model-diagram__row bcn-model-diagram__row--satellites">
+      {
+        SATELLITES.map((e) => (
+          <article class="bcn-model-diagram__card bcn-model-diagram__card--satellite">
+            <header class="bcn-model-diagram__card-head">
+              <span class="bcn-model-diagram__card-name">{e.name}</span>
+              {e.chip && <span class="bcn-model-diagram__chip">{e.chip}</span>}
+            </header>
+            <p class="bcn-model-diagram__purpose">{e.purpose}</p>
+            <ul class="bcn-model-diagram__fields">
+              {e.fields.map((f) => (
+                <li>
+                  <code class="bcn-model-diagram__fname">{f.name}</code>
+                  {f.note && <span class="bcn-model-diagram__fnote">{f.note}</span>}
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <div class="bcn-model-diagram__flow" aria-hidden="true">
+    <span class="bcn-model-diagram__flow-label">derived on every render — never stored</span>
+  </div>
+
+  <!-- ── Band 3 · Computed at render ── -->
+  <section class="bcn-model-diagram__band">
+    <h2 class="bcn-model-diagram__band-title">Computed at render</h2>
+    <div class="bcn-model-diagram__row bcn-model-diagram__row--pair">
+      {
+        DERIVED.map((e) => (
+          <article class="bcn-model-diagram__card bcn-model-diagram__card--computed">
+            <header class="bcn-model-diagram__card-head">
+              <span class="bcn-model-diagram__card-name">{e.name}</span>
+              {e.chip && <span class="bcn-model-diagram__chip" data-tone="computed">{e.chip}</span>}
+            </header>
+            <p class="bcn-model-diagram__purpose">{e.purpose}</p>
+            <ul class="bcn-model-diagram__fields">
+              {e.fields.map((f) => (
+                <li>
+                  <code class="bcn-model-diagram__fname">{f.name}</code>
+                  {f.note && <span class="bcn-model-diagram__fnote">{f.note}</span>}
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <div class="bcn-model-diagram__flow" aria-hidden="true">
+    <span class="bcn-model-diagram__flow-label">rendered into</span>
+  </div>
+
+  <!-- ── Band 4 · Projections ── -->
+  <section class="bcn-model-diagram__band">
+    <h2 class="bcn-model-diagram__band-title">Projections — one model, five surfaces</h2>
+    <div class="bcn-model-diagram__row bcn-model-diagram__row--projections">
+      {
+        PROJECTIONS.map((p) => (
+          <article class="bcn-model-diagram__card bcn-model-diagram__card--projection">
+            <span class="bcn-model-diagram__card-name">{p.name}</span>
+            <p class="bcn-model-diagram__purpose">{p.note}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</div>
+
+<style>
+  /* bcn-lego-checked: diagram-specific layout + entity-card CSS only — no esa-*
+     lego renders an entity/dataflow diagram (see frontmatter). Semantic tokens
+     only; no raw --bcn-gray-* reads. */
+
+  .bcn-model-diagram {
+    display: flex;
+    flex-direction: column;
+    color: var(--color-text-primary);
+    font-size: var(--type-size-200);
+    line-height: 1.5;
+  }
+
+  /* ── Bands ── */
+  .bcn-model-diagram__band {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    padding: var(--spacing-500);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    background: var(--color-surface, #fff);
+  }
+  .bcn-model-diagram__band[data-tone='model'] {
+    background: var(--color-surface-sunken);
+    border-color: var(--color-border-strong);
+  }
+  .bcn-model-diagram__band-title {
+    margin: 0;
+    font-size: var(--type-size-400);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.3;
+  }
+  .bcn-model-diagram__band-note {
+    margin: calc(-1 * var(--spacing-300)) 0 0;
+    max-width: 72ch;
+    color: var(--color-text-secondary);
+  }
+
+  /* ── Flow connectors between bands ── */
+  .bcn-model-diagram__flow {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding: var(--spacing-200) 0;
+    margin-inline: var(--spacing-600);
+  }
+  .bcn-model-diagram__flow-label {
+    position: relative;
+    padding-left: var(--spacing-500);
+    font-size: var(--type-size-150);
+    color: var(--color-text-tertiary);
+  }
+  .bcn-model-diagram__flow-label::before {
+    content: '';
+    position: absolute;
+    left: var(--spacing-200);
+    top: -14px;
+    bottom: -14px;
+    width: 2px;
+    background: var(--color-border-strong);
+  }
+  .bcn-model-diagram__flow-label::after {
+    content: '';
+    position: absolute;
+    left: calc(var(--spacing-200) - 4px);
+    bottom: -16px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid var(--color-border-strong);
+  }
+
+  /* ── Rows & the tier spine ── */
+  .bcn-model-diagram__row {
+    display: grid;
+    gap: var(--spacing-400);
+  }
+  .bcn-model-diagram__row--pair {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+  .bcn-model-diagram__row--satellites {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+  .bcn-model-diagram__row--projections {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+  .bcn-model-diagram__spine {
+    display: flex;
+    align-items: stretch;
+    gap: var(--spacing-200);
+    overflow-x: auto;
+    padding-bottom: var(--spacing-200);
+  }
+  .bcn-model-diagram__spine .bcn-model-diagram__card--tier {
+    flex: 1 1 0;
+    min-width: 240px;
+  }
+  .bcn-model-diagram__link {
+    display: flex;
+    align-items: center;
+    flex: none;
+    position: relative;
+    width: 34px;
+  }
+  .bcn-model-diagram__link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 6px;
+    top: 50%;
+    height: 2px;
+    background: var(--color-border-strong);
+  }
+  .bcn-model-diagram__link::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 7px solid var(--color-border-strong);
+  }
+  .bcn-model-diagram__link-label {
+    position: absolute;
+    top: calc(50% - 26px);
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: var(--type-size-150);
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+  }
+
+  /* ── Entity cards ── */
+  .bcn-model-diagram__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-250);
+    padding: var(--spacing-400);
+    background: var(--color-surface, #fff);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-200);
+  }
+  .bcn-model-diagram__card[data-tone='external'] {
+    border-style: dashed;
+    border-color: var(--color-commitment);
+    background: color-mix(in srgb, var(--color-commitment) 5%, white);
+  }
+  .bcn-model-diagram__card--computed {
+    border-style: dashed;
+  }
+  .bcn-model-diagram__card--satellite {
+    border-color: var(--color-border);
+  }
+  .bcn-model-diagram__card--projection {
+    gap: var(--spacing-150);
+    background: var(--color-surface-sunken);
+  }
+  .bcn-model-diagram__card-head {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--spacing-200);
+  }
+  .bcn-model-diagram__card-name {
+    font-size: var(--type-size-300);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.3;
+  }
+  .bcn-model-diagram__chip {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    background: var(--color-surface-sunken);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-100);
+    padding: 0 6px;
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+  .bcn-model-diagram__chip[data-tone='id'] {
+    color: var(--color-commitment);
+    background: color-mix(in srgb, var(--color-commitment) 12%, white);
+    border-color: transparent;
+  }
+  .bcn-model-diagram__chip[data-tone='external'] {
+    color: var(--color-commitment);
+    border-color: var(--color-commitment);
+    background: transparent;
+  }
+  .bcn-model-diagram__chip[data-tone='computed'] {
+    border-style: dashed;
+  }
+  .bcn-model-diagram__purpose {
+    margin: 0;
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+  }
+
+  /* ── Field lists ── */
+  .bcn-model-diagram__fields {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-model-diagram__fields li {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--spacing-200);
+    padding: var(--spacing-150) 0;
+    border-top: 1px solid var(--color-border-light);
+    font-size: var(--type-size-150);
+  }
+  .bcn-model-diagram__fname {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-primary);
+  }
+  .bcn-model-diagram__fname[data-ref='commitment'],
+  .bcn-model-diagram__fname[data-ref='milestone'] {
+    color: var(--color-commitment);
+  }
+  .bcn-model-diagram__fnote {
+    color: var(--color-text-tertiary);
+  }
+</style>

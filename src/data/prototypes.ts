@@ -266,6 +266,33 @@ export const prototypeGroups: PrototypeGroup[] = [
         createdAt: '2026-07-16',
         status: 'in-progress',
       },
+      {
+        slug: 'fish-model-map',
+        title: 'Data model map',
+        description:
+          'The architecture diagram of the Study Planning feature: regulatory sources (Commitment/COA in the Data Catalog, Milestone anchors) → the stored four-tier work-breakdown with its satellites (RoleAssignment, FundingEntry, PlanAssumption, StudyProfile) → the render-time derivations (NodeRollUp, Readiness chains) → the five projected surfaces (Gantt, Roles, Readiness, Exports, Detail pages). Stored vs computed vs external, on one screen.',
+        route: '/prototypes/fish-model-map',
+        createdAt: '2026-07-21',
+        status: 'in-progress',
+      },
+      {
+        slug: 'fish-detail',
+        title: 'Record detail pages (work breakdown)',
+        description:
+          'The unified per-node detail page — one static route per Program / Study / Sub-study / Task. Read-only on landing: lineage rail (data-catalog spine), identity / timing / funding as key-values, children + sibling records, assignments; study tier adds the authored science-plan sketch, the CDFW review thread, and the crosswalk facts rail. All editing happens in side drawers (Edit record, Edit assignments) with live roll-up recompute. Supersedes fish-node and the fish-study pages.',
+        route: '/prototypes/fish-detail/STY-014',
+        createdAt: '2026-07-21',
+        status: 'in-progress',
+      },
+      {
+        slug: 'fish-science-plan',
+        title: 'Science Plan reader',
+        description:
+          'The draft science plan as a document surface: the fixed Feb-2026 outline with per-section COA chips linking to the study detail pages, and section-anchored CDFW comment threads (comment → response, intent, status). Search / status / intent / COA filters with a derived open-addressed-resolved tally; comment STATUS is the one live datum of the fixed corpus. Closes the brief’s science-plan linking + comment-tracking bullet.',
+        route: '/prototypes/fish-science-plan',
+        createdAt: '2026-07-21',
+        status: 'in-progress',
+      },
     ],
   },
 ];
