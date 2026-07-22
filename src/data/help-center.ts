@@ -840,6 +840,13 @@ export const HELP_ROUTE_CONTEXTS: HelpRouteContext[] = [
     howtos: ['tracing-lineage'],
     terms: ['what-is-a-requirement', 'what-is-evidence'],
   },
+  {
+    pattern: '/prototypes/release-notes',
+    page: 'Release Notes',
+    purpose: 'What changed in each Beacon release — headline features, per-area improvements, and fixes, newest first.',
+    howtos: ['managing-tenant-settings'],
+    terms: ['feature-flag'],
+  },
 ];
 
 /** Fallback for any page without a curated context. */
