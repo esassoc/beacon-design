@@ -1,0 +1,631 @@
+---
+// <BcnPre2030Memo> — the "Prior to 2030 Timelines Memo" projection.
+//
+// A read-only DOCUMENT view of the four-tier work-breakdown (Program → Study →
+// Sub-study → Task). It renders the same record the tasking gantt and the roles
+// matrix read, shaped as the timelines memo DWR maintains by hand today: a memo
+// header block, a purpose, a studies-at-a-glance table, then per-study timeline
+// sections whose spans, leads, budgets, and task sequences all come from props.
+// Like <BcnRolesMatrix>, it takes fully-projected plain data — the PAGE maps the
+// HierNode forest into these shapes; this component never imports the fixture and
+// holds no schedule math beyond formatting what it is handed.
+//
+// bcn-lego-checked: no esa-* lego renders a formatted memo/document. The paper
+// SHEET is a real lego (esa-card, outlined + spacious) — used as a padded bordered
+// surface, its header stays empty because the memo carries its own header block.
+// Study status is shown as an inline status DOT + word (the house-endorsed status
+// treatment), NOT esa-badge — esa-badge is a labelled count pill sized 18–34px,
+// too heavy for an inline document cue, and its variants are brand hues, not the
+// study RdYlGn ramp. The glance is a semantic <table> (no esa data-table lego; the
+// AG-Grid crosswalk is the interactive grid — a print table is not that). Only CSS
+// here is document typography + the glance table's scroll wrapper. Tokens are the
+// semantic layer only (--color-*, --bcn-status-*); no raw --bcn-gray-* ramp.
+import EsaCard from '@esa/ecology/esa-card.astro';
+
+/** Status tone for the inline dot — the study-tier roll-up aggregate. */
+export type MemoTone = 'on-track' | 'at-risk' | 'blocked' | 'complete' | 'not-started';
+
+/** The memo header block + intro. Every field defaults; the page may override. */
+export interface MemoMeta {
+  to: string;
+  from: string;
+  date: string;
+  re: string;
+  /** One or more intro paragraphs. */
+  purpose: string[];
+}
+
+/** One scheduled leaf task, projected from a Task HierNode. */
+export interface MemoTask {
+  /** Stable id (TSK-###). */
+  id: string;
+  /** COA reference label, e.g. "10.19.1a.2". */
+  coaRef: string;
+  name: string;
+  /** Pre-formatted month span, e.g. "Oct 2028 – Mar 2029". */
+  span: string;
+  /** Who does the task (org or org — person). */
+  owner?: string;
+  /** Sub-study this task rolls into — shown as context. */
+  group?: string;
+}
+
+/** Per-study roll-up health counts (from computeRollUp). */
+export interface MemoHealth {
+  taskCount: number;
+  onTrack: number;
+  atRisk: number;
+  blocked: number;
+  complete: number;
+}
+
+/** A study section, projected from a Study HierNode + its roll-up. */
+export interface MemoStudy {
+  /** Stable id (STY-###). */
+  id: string;
+  /** COA reference label, e.g. "10.19.1". */
+  coaRef: string;
+  name: string;
+  /** Lead org label, e.g. "DWR-DISE". */
+  lead?: string;
+  /** Overall span (envelope of the study's tasks), e.g. "Apr 2028 – Oct 2031". */
+  span: string;
+  /** Budget label — sum of task planning estimates, e.g. "$2.5M". */
+  funding: string;
+  statusTone: MemoTone;
+  statusLabel: string;
+  health: MemoHealth;
+  /** Tasks, chronological (the page sorts by start month). */
+  tasks: MemoTask[];
+}
+
+/** A program group — studies in science-plan order. */
+export interface MemoProgram {
+  /** Stable id (PRG-###). */
+  id: string;
+  /** COA reference label, e.g. "10.19". */
+  coaRef: string;
+  name: string;
+  studies: MemoStudy[];
+}
+
+/** An immovable anchor quoted in the memo's Milestones & phases section. */
+export interface MemoMilestone {
+  name: string;
+  /** Pre-formatted date/window, e.g. "Oct 2030 (2030 – 2031)". */
+  label: string;
+  /** Regulatory source line (MMRP / ITP) — the deadline's citation. */
+  citation?: string;
+}
+
+/** Authored judgment the schedule cannot derive — survives every regeneration. */
+export interface MemoAssumption {
+  kind: 'assumption' | 'question';
+  text: string;
+}
+
+interface Props {
+  programs: MemoProgram[];
+  /** Memo header + intro; merged over the defaults below. */
+  meta?: Partial<MemoMeta>;
+  /** Milestones & phases section (omit to skip the section). */
+  milestones?: MemoMilestone[];
+  /** Assumptions & open questions section (omit to skip the section). */
+  assumptions?: MemoAssumption[];
+}
+
+const DEFAULT_META: MemoMeta = {
+  to: 'CDFW — Bay Delta Region',
+  from: 'DWR Delta Conveyance Office',
+  date: 'April 15, 2026',
+  re: 'Prior to 2030 — Projected Covered Fish Species Study Timelines',
+  purpose: [
+    'This memo sets out the projected timelines for the covered fish species monitoring and science studies, to support planning for the monitoring equipment, permitting, and field staffing that must be in place ahead of the 2030 design and operations milestones.',
+    'Timelines are back-planned from in-water construction and the 30% and 60% design deadlines. A study’s span is the envelope of its scheduled tasks, and its budget is the sum of their planning estimates.',
+  ],
+};
+
+const { programs, milestones = [], assumptions = [] } = Astro.props;
+const meta: MemoMeta = { ...DEFAULT_META, ...Astro.props.meta };
+
+// Flatten the studies for the glance table (rendering concern, not projection).
+const glance = programs.flatMap((p) => p.studies);
+
+// Plan-scale counts, derived from the props already in hand (array sizes only).
+const studyCount = glance.length;
+const taskCount = glance.reduce((n, s) => n + s.health.taskCount, 0);
+
+const HEADER_ROWS: { label: string; value: string }[] = [
+  { label: 'To', value: meta.to },
+  { label: 'From', value: meta.from },
+  { label: 'Date', value: meta.date },
+  { label: 'Re', value: meta.re },
+];
+
+/** "9 tasks · 3 on track · 1 at risk" — nonzero buckets only. */
+function healthSummary(h: MemoHealth): string {
+  const parts = [`${h.taskCount} ${h.taskCount === 1 ? 'task' : 'tasks'}`];
+  if (h.complete) parts.push(`${h.complete} complete`);
+  if (h.onTrack) parts.push(`${h.onTrack} on track`);
+  if (h.atRisk) parts.push(`${h.atRisk} at risk`);
+  if (h.blocked) parts.push(`${h.blocked} blocked`);
+  return parts.join(' · ');
+}
+---
+
+<div class="bcn-memo">
+  <EsaCard variant="outlined" padding="spacious">
+    <article class="bcn-memo__doc">
+      <!-- ── Memo header block ── -->
+      <header class="bcn-memo__head">
+        <p class="bcn-memo__kicker">Memorandum</p>
+        <dl class="bcn-memo__meta">
+          {
+            HEADER_ROWS.map((row) => (
+              <div class="bcn-memo__meta-row">
+                <dt class="bcn-memo__meta-label">{row.label}</dt>
+                <dd class="bcn-memo__meta-value">{row.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </header>
+
+      <!-- ── Purpose / intro ── -->
+      <section class="bcn-memo__purpose">
+        {meta.purpose.map((para) => <p>{para}</p>)}
+      </section>
+
+      <!-- ── Milestones & phases — the anchors the plan back-plans from ── -->
+      {
+        milestones.length > 0 && (
+          <section class="bcn-memo__section">
+            <h2 class="bcn-memo__h2">Milestones & phases</h2>
+            <ul class="bcn-memo__milestones">
+              {milestones.map((m) => (
+                <li class="bcn-memo__milestone">
+                  <span class="bcn-memo__milestone-line">
+                    <span class="bcn-memo__milestone-name">{m.name}</span>
+                    <span class="bcn-memo__mono">{m.label}</span>
+                  </span>
+                  {m.citation && <span class="bcn-memo__citation">{m.citation}</span>}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      <!-- ── Studies at a glance ── -->
+      <section class="bcn-memo__section">
+        <h2 class="bcn-memo__h2">Studies at a glance</h2>
+        <p class="bcn-memo__lede">
+          {studyCount} studies across {programs.length} programs, {taskCount} scheduled tasks.
+        </p>
+        <div class="bcn-memo__tablewrap">
+          <table class="bcn-memo__table">
+            <thead>
+              <tr>
+                <th scope="col">COA</th>
+                <th scope="col">Study</th>
+                <th scope="col">Lead</th>
+                <th scope="col">Span</th>
+                <th scope="col" class="bcn-memo__num">Budget</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                glance.map((s) => (
+                  <tr>
+                    <td><span class="bcn-memo__coa">{s.coaRef}</span></td>
+                    <th scope="row" class="bcn-memo__cell-name">{s.name}</th>
+                    <td>{s.lead ?? '—'}</td>
+                    <td class="bcn-memo__mono">{s.span}</td>
+                    <td class="bcn-memo__mono bcn-memo__num">{s.funding}</td>
+                    <td>
+                      <span class="bcn-memo__status">
+                        <span class="bcn-memo__dot" data-tone={s.statusTone} aria-hidden="true" />
+                        {s.statusLabel}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ── Per-program → per-study timeline sections ── -->
+      {
+        programs.map((program) => (
+          <section class="bcn-memo__section">
+            <h2 class="bcn-memo__h2">
+              <span class="bcn-memo__coa bcn-memo__coa--h">{program.coaRef}</span>
+              {program.name}
+            </h2>
+
+            {program.studies.map((study) => (
+              <section class="bcn-memo__study">
+                <h3 class="bcn-memo__h3">
+                  <span class="bcn-memo__coa">{study.coaRef}</span>
+                  {study.name}
+                </h3>
+
+                <p class="bcn-memo__studymeta">
+                  <span><span class="bcn-memo__ml">Lead</span> {study.lead ?? '—'}</span>
+                  <span class="bcn-memo__sep">·</span>
+                  <span><span class="bcn-memo__ml">Span</span> <span class="bcn-memo__mono">{study.span}</span></span>
+                  <span class="bcn-memo__sep">·</span>
+                  <span><span class="bcn-memo__ml">Budget</span> <span class="bcn-memo__mono">{study.funding}</span></span>
+                  <span class="bcn-memo__sep">·</span>
+                  <span class="bcn-memo__status">
+                    <span class="bcn-memo__dot" data-tone={study.statusTone} aria-hidden="true" />
+                    {study.statusLabel}
+                  </span>
+                </p>
+
+                <p class="bcn-memo__rollup">{healthSummary(study.health)}</p>
+
+                <ol class="bcn-memo__tasks">
+                  {study.tasks.map((t) => (
+                    <li class="bcn-memo__task">
+                      <span class="bcn-memo__task-span bcn-memo__mono">{t.span}</span>
+                      <span class="bcn-memo__task-body">
+                        <span class="bcn-memo__task-name">{t.name}</span>
+                        <span class="bcn-memo__task-sub">
+                          {t.group}
+                          {t.owner && (
+                            <>
+                              <span class="bcn-memo__sep">·</span>
+                              {t.owner}
+                            </>
+                          )}
+                        </span>
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+            ))}
+          </section>
+        ))
+      }
+
+      <!-- ── Assumptions & open questions — the judgment stratum ── -->
+      {
+        assumptions.length > 0 && (
+          <section class="bcn-memo__section">
+            <h2 class="bcn-memo__h2">Assumptions & open questions</h2>
+            <ul class="bcn-memo__assumptions">
+              {assumptions.map((a) => (
+                <li class="bcn-memo__assumption">
+                  <span class="bcn-memo__assumption-kind" data-kind={a.kind}>
+                    {a.kind === 'question' ? 'Open question' : 'Assumption'}
+                  </span>
+                  <span>{a.text}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+    </article>
+  </EsaCard>
+</div>
+
+<style>
+  /* bcn-lego-checked: document typography + glance-table scroll wrapper ONLY. The
+     sheet is esa-card; status is an inline dot; the table is semantic. All ink from
+     semantic tokens (--color-*, --bcn-status-*), never the raw --bcn-gray-* ramp. */
+
+  /* Centered print measure — the memo reads as a sheet inside its pane. */
+  .bcn-memo {
+    max-width: 76ch;
+    margin-inline: auto;
+    color: var(--color-text-primary);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .bcn-memo__doc {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-600);
+  }
+
+  /* ── Header block ── */
+  .bcn-memo__head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    padding-bottom: var(--spacing-500);
+    border-bottom: 2px solid var(--color-border-strong);
+  }
+  .bcn-memo__kicker {
+    margin: 0;
+    font-size: var(--type-size-300);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-tertiary);
+  }
+  .bcn-memo__meta {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: var(--spacing-200) var(--spacing-400);
+    margin: 0;
+  }
+  .bcn-memo__meta-row {
+    display: contents;
+  }
+  .bcn-memo__meta-label {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-tertiary);
+  }
+  .bcn-memo__meta-value {
+    margin: 0;
+    color: var(--color-text-primary);
+  }
+  /* The Re line is the document's title — let it read as one. */
+  .bcn-memo__meta-row:last-child .bcn-memo__meta-value {
+    font-size: var(--type-size-400);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.35;
+  }
+
+  /* ── Purpose ── */
+  .bcn-memo__purpose {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-memo__purpose p {
+    margin: 0;
+  }
+
+  /* ── Milestones & phases ── */
+  .bcn-memo__milestones {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-memo__milestone {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--spacing-250) 0;
+    border-bottom: 1px solid var(--color-border-light);
+  }
+  .bcn-memo__milestone:first-child {
+    border-top: 1px solid var(--color-border-light);
+  }
+  .bcn-memo__milestone-line {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--spacing-300);
+  }
+  .bcn-memo__milestone-name {
+    font-weight: var(--font-weight-medium);
+  }
+  .bcn-memo__citation {
+    font-size: var(--type-size-300);
+    color: var(--color-text-tertiary);
+  }
+
+  /* ── Assumptions & open questions ── */
+  .bcn-memo__assumptions {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-memo__assumption {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .bcn-memo__assumption-kind {
+    font-size: var(--type-size-300);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-tertiary);
+  }
+  .bcn-memo__assumption-kind[data-kind='question'] {
+    color: var(--color-commitment);
+  }
+
+  /* ── Sections + headings ── */
+  .bcn-memo__section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+  .bcn-memo__h2 {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--spacing-300);
+    margin: 0;
+    padding-bottom: var(--spacing-250);
+    border-bottom: 1px solid var(--color-border);
+    font-size: var(--type-size-500);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    line-height: 1.3;
+  }
+  .bcn-memo__lede {
+    margin: calc(-1 * var(--spacing-200)) 0 0;
+    color: var(--color-text-secondary);
+  }
+
+  .bcn-memo__study {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-250);
+  }
+  .bcn-memo__h3 {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--spacing-250);
+    margin: var(--spacing-300) 0 0;
+    font-size: var(--type-size-400);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    line-height: 1.35;
+  }
+
+  /* ── COA reference tag (mono, commitment hue) — mirrors BcnRolesMatrix's tag ── */
+  .bcn-memo__coa {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-commitment);
+    background: color-mix(in srgb, var(--color-commitment) 12%, white);
+    padding: 0 6px;
+    border-radius: var(--radius-100);
+    line-height: 1.5;
+  }
+  .bcn-memo__coa--h {
+    font-size: 0.9375rem;
+  }
+
+  /* ── Study meta line + roll-up ── */
+  .bcn-memo__studymeta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-200);
+    margin: 0;
+    font-size: var(--type-size-300);
+    color: var(--color-text-secondary);
+  }
+  .bcn-memo__ml {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-tertiary);
+  }
+  .bcn-memo__sep {
+    color: var(--color-border-strong);
+  }
+  .bcn-memo__rollup {
+    margin: 0;
+    font-size: var(--type-size-300);
+    color: var(--color-text-tertiary);
+  }
+
+  /* ── Status dot + word ── */
+  .bcn-memo__status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    white-space: nowrap;
+  }
+  .bcn-memo__dot {
+    width: 9px;
+    height: 9px;
+    border-radius: var(--radius-full);
+    background: var(--_tone, var(--color-text-muted));
+    flex: none;
+  }
+  .bcn-memo__dot[data-tone='on-track'] { --_tone: var(--color-secondary); }
+  .bcn-memo__dot[data-tone='complete'] { --_tone: var(--bcn-status-completed); }
+  .bcn-memo__dot[data-tone='at-risk'] { --_tone: var(--bcn-status-in-progress); }
+  .bcn-memo__dot[data-tone='blocked'] { --_tone: var(--bcn-status-overdue); }
+  .bcn-memo__dot[data-tone='not-started'] { --_tone: var(--color-text-muted); }
+
+  /* ── Task list — chronological, span-anchored ── */
+  .bcn-memo__tasks {
+    list-style: none;
+    margin: var(--spacing-100) 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-memo__task {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: var(--spacing-100) var(--spacing-400);
+    padding: var(--spacing-250) 0;
+    border-bottom: 1px solid var(--color-border-light);
+  }
+  .bcn-memo__task:first-child {
+    border-top: 1px solid var(--color-border-light);
+  }
+  .bcn-memo__task-span {
+    font-size: var(--type-size-300);
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+  }
+  .bcn-memo__task-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .bcn-memo__task-name {
+    color: var(--color-text-primary);
+  }
+  .bcn-memo__task-sub {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-150);
+    font-size: var(--type-size-300);
+    color: var(--color-text-tertiary);
+  }
+
+  /* ── Glance table ── */
+  .bcn-memo__tablewrap {
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+  }
+  .bcn-memo__table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 44rem;
+    font-size: var(--type-size-300);
+  }
+  .bcn-memo__table thead th {
+    position: sticky;
+    top: 0;
+    text-align: left;
+    padding: var(--spacing-250) var(--spacing-300);
+    background: var(--color-surface-sunken);
+    border-bottom: 1px solid var(--color-border);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+  }
+  .bcn-memo__table td,
+  .bcn-memo__table tbody th {
+    text-align: left;
+    padding: var(--spacing-250) var(--spacing-300);
+    border-bottom: 1px solid var(--color-border-light);
+    vertical-align: top;
+    color: var(--color-text-secondary);
+  }
+  .bcn-memo__table tbody tr:last-child td,
+  .bcn-memo__table tbody tr:last-child th {
+    border-bottom: 0;
+  }
+  .bcn-memo__cell-name {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+  }
+  .bcn-memo__num {
+    text-align: right;
+  }
+  .bcn-memo__mono {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+  /* Month spans and budgets never wrap — the tablewrap scrolls instead. */
+  .bcn-memo__table .bcn-memo__mono {
+    white-space: nowrap;
+  }
+</style>

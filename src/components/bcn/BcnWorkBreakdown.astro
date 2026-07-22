@@ -82,6 +82,45 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   substudy: 'is-substudy',
   task: 'is-task',
 };
+
+// ── Lead (study-tier accountability) for the "who's leading" column ──
+//   • Study  → its own lead (the hero cell).
+//   • Program → the distinct set of its studies' leads, rolled up to "Multiple (n)".
+//   • Sub-study / Task → the parent study's lead, INHERITED (rendered muted).
+// filterVal is the resolved study lead (blank on programs, which surface via ancestors).
+const nodeById = new Map(flat.map((f) => [f.node.id, f.node] as const));
+const parentIdOf = new Map(flat.map((f) => [f.node.id, f.parentId] as const));
+function studyLeadOf(id: string): string {
+  let cur: string | undefined = id;
+  while (cur) {
+    const n = nodeById.get(cur);
+    if (n?.tier === 'study') return n.lead ?? '';
+    cur = parentIdOf.get(cur) ?? undefined;
+  }
+  return '';
+}
+function programLeads(node: HierNode): string[] {
+  const set = new Set<string>();
+  const walk = (n: HierNode) => {
+    if (n.tier === 'study' && n.lead) set.add(n.lead);
+    n.children.forEach(walk);
+  };
+  walk(node);
+  return [...set].sort();
+}
+function leadCell(node: HierNode): { text: string; filterVal: string; inherited: boolean; title: string } {
+  if (node.tier === 'program') {
+    const ls = programLeads(node);
+    const text = ls.length <= 1 ? (ls[0] ?? '') : `Multiple (${ls.length})`;
+    return { text, filterVal: '', inherited: false, title: ls.length > 1 ? `Leads: ${ls.join(', ')}` : text };
+  }
+  if (node.tier === 'study') {
+    const l = node.lead ?? '';
+    return { text: l, filterVal: l, inherited: false, title: l ? `Lead: ${l}` : 'No lead set' };
+  }
+  const l = studyLeadOf(node.id);
+  return { text: l, filterVal: l, inherited: true, title: l ? `Inherited lead: ${l}` : '' };
+}
 ---
 
 <div class="bcn-wb">
@@ -99,6 +138,11 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       <div class="bcn-wb__fb-group">
         <span class="bcn-wb__fb-label">Tier</span>
         <esa-button-toggle id="bcn-wb-tier-filter" value="all" size="sm"></esa-button-toggle>
+      </div>
+      <span class="bcn-wb__fb-divider"></span>
+      <div class="bcn-wb__fb-group">
+        <span class="bcn-wb__fb-label">Lead</span>
+        <esa-select id="bcn-wb-lead-filter" class="bcn-wb__fb-leadsel" size="sm"></esa-select>
       </div>
       <span class="bcn-wb__fb-divider"></span>
       <div class="bcn-wb__fb-group">
@@ -129,6 +173,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       <!-- ── Axis header: phases / years / milestones (water-year aware) ── -->
       <header class="bcn-wb__axis">
         <div class="bcn-wb__corner">Program / study / sub-study / task</div>
+        <div class="bcn-wb__lead-head">Lead</div>
         <div class="bcn-wb__money-head">Planned $</div>
         <div class="bcn-wb__head-plot">
           <div class="bcn-wb__head-bands">
@@ -176,6 +221,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
             const geo = barGeo(node);
             const hasChildren = node.children.length > 0;
             const st = node.status ? TASK_STATUS_META[node.status] : undefined;
+            const lead = leadCell(node);
             return (
               <div
                 class:list={['bcn-wb__row', TIER_CLASS[node.tier], { 'is-leaf': !hasChildren }]}
@@ -186,6 +232,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
                 data-depth={depth}
                 data-parent={parentId ?? ''}
                 data-has-children={hasChildren ? '1' : '0'}
+                data-lead={lead.filterVal}
               >
                 <div class="bcn-wb__label" style={`--_indent: ${depth};`}>
                   {hasChildren ? (
@@ -208,6 +255,8 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
                     <button type="button" class="bcn-wb__kebab" aria-label={`Actions for ${node.name}`}>⋯</button>
                   </esa-dropdown-menu>
                 </div>
+
+                <span class:list={['bcn-wb__lead', { 'is-inherited': lead.inherited }]} title={lead.title}>{lead.text || '—'}</span>
 
                 <span class="bcn-wb__money">{r.totalFunding ? formatUSD(r.totalFunding) : '—'}</span>
 
@@ -246,12 +295,14 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
            the plot scrolls. Same #bcn-wb-add-program hook as before. ── -->
       <div class="bcn-wb__addrow">
         <span id="bcn-wb-add-program"><EsaButton color="ghost" appearance="dashed" size="sm" icon="plus">Add program</EsaButton></span>
+        <span class="bcn-wb__lead" aria-hidden="true"></span>
         <span class="bcn-wb__money" aria-hidden="true"></span>
       </div>
 
       <!-- ── Sum line: the money column totals at the bottom, spreadsheet-style. ── -->
       <div class="bcn-wb__row bcn-wb__row--total">
         <div class="bcn-wb__label bcn-wb__label--total" style="--_indent: 0;">Total</div>
+        <span class="bcn-wb__lead" aria-hidden="true"></span>
         <span class="bcn-wb__money bcn-wb__money--total" data-wb-money-total>{formatUSD(programs.reduce((s: number, p) => s + computeRollUp(p).totalFunding, 0))}</span>
         <div class="bcn-wb__plot"></div>
       </div>
@@ -274,6 +325,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
           <button type="button" class="bcn-wb__kebab" aria-label="Row actions">⋯</button>
         </esa-dropdown-menu>
       </div>
+      <span class="bcn-wb__lead"></span>
       <span class="bcn-wb__money">—</span>
       <div class="bcn-wb__plot">
         {DCP_PHASES.map((p) => (
@@ -312,7 +364,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   import '@esa/ecology/esa-text-field';
   import '@esa/ecology/esa-button-toggle';
   import { computeRollUp, formatUSD, TASK_STATUS_META } from '../../data/fish-model';
-  import type { HierNode, NodeRollUp, TaskStatus } from '../../data/fish-model';
+  import type { HierNode, NodeRollUp, RoleAssignment, TaskStatus } from '../../data/fish-model';
   import { axisFraction, SCHEDULE_START_YEAR, SCHEDULE_END_YEAR } from '../../data/fish-schedule';
 
   type Tier = 'program' | 'study' | 'substudy' | 'task';
@@ -375,6 +427,36 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
     }
     reindex();
     let rollups = new Map<string, NodeRollUp>();
+
+    // Client-side lead resolution — mirrors the SSR leadCell so patchRow keeps the
+    // Lead column + data-lead correct after any mutation (setLead, reparent, add).
+    function studyLeadClient(id: string): string {
+      let cur: string | undefined = id;
+      while (cur) {
+        const n = byId.get(cur);
+        if (n?.tier === 'study') return n.lead ?? '';
+        cur = parentNode.get(cur)?.id;
+      }
+      return '';
+    }
+    function leadInfoClient(node: HierNode): { text: string; filterVal: string; inherited: boolean } {
+      if (node.tier === 'program') {
+        const set = new Set<string>();
+        const walk = (n: HierNode) => {
+          if (n.tier === 'study' && n.lead) set.add(n.lead);
+          n.children.forEach(walk);
+        };
+        walk(node);
+        const ls = [...set].sort();
+        return { text: ls.length <= 1 ? (ls[0] ?? '') : `Multiple (${ls.length})`, filterVal: '', inherited: false };
+      }
+      if (node.tier === 'study') {
+        const l = node.lead ?? '';
+        return { text: l, filterVal: l, inherited: false };
+      }
+      const l = studyLeadClient(node.id);
+      return { text: l, filterVal: l, inherited: true };
+    }
 
     const rows = () => [...body.querySelectorAll<HTMLElement>('.bcn-wb__row:not(.bcn-wb__row--total)')];
     const rowById = (id: string) => body.querySelector<HTMLElement>(`.bcn-wb__row[data-id="${id}"]`);
@@ -452,6 +534,13 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       syncRowText(row, node);
       const money = row.querySelector<HTMLElement>('.bcn-wb__money');
       if (money) money.textContent = r?.totalFunding ? formatUSD(r.totalFunding) : '—';
+      const leadEl = row.querySelector<HTMLElement>('.bcn-wb__lead');
+      if (leadEl) {
+        const li = leadInfoClient(node);
+        leadEl.textContent = li.text || '—';
+        leadEl.classList.toggle('is-inherited', li.inherited);
+        row.dataset.lead = li.filterVal;
+      }
       const plot = row.querySelector<HTMLElement>('.bcn-wb__plot')!;
       let mark = plot.querySelector<HTMLElement>('.bcn-wb__bar, .bcn-wb__summary');
       const geo = barGeoOf(node);
@@ -555,6 +644,24 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
         n.status = status;
         recompute('status');
       },
+      // Study-tier lead (accountability). Roll-up + inherited display re-derive via
+      // patchRow's leadInfoClient, so the whole Lead column + data-lead update live.
+      setLead(id: string, lead: string) {
+        const n = byId.get(id);
+        if (!n || n.tier !== 'study' || n.lead === lead) return;
+        n.lead = lead as HierNode['lead'];
+        recompute('lead');
+      },
+      // Study-tier RACI. Roles don't affect gantt geometry, so no recompute — the
+      // Roles matrix repaints its own row from the returned assignments.
+      setRoles(id: string, roles: RoleAssignment[]) {
+        const n = byId.get(id);
+        if (!n || n.tier !== 'study') return;
+        n.roles = roles;
+      },
+      getRoles(id: string): RoleAssignment[] {
+        return byId.get(id)?.roles ?? [];
+      },
       // Re-key a node: the id IS the client-model key, so this updates the model
       // node, the row's data-id + badge, children's data-parent references, and
       // the collapse set — then announces the re-key (wb-node-id-change) so the
@@ -624,6 +731,22 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       ];
     }
 
+    // Lead filter: single-select over the distinct study leads (+ All). Because a
+    // study's lead inherits down to its sub-studies/tasks (data-lead), selecting a
+    // lead keeps whole study subtrees; programs surface as ancestor context.
+    const leadToggle = wb.querySelector('#bcn-wb-lead-filter') as HTMLElement & {
+      options: { value: string; label: string }[];
+      value: string;
+    };
+    let filterLead = 'all';
+    const distinctLeads = [
+      ...new Set([...byId.values()].filter((n) => n.tier === 'study' && n.lead).map((n) => n.lead as string)),
+    ].sort();
+    if (leadToggle) {
+      leadToggle.options = [{ value: 'all', label: 'All leads' }, ...distinctLeads.map((l) => ({ value: l, label: l }))];
+      leadToggle.value = 'all';
+    }
+
     // Year-range filter: bounds derived from the rows' actual spans.
     const yearFrom = wb.querySelector('#bcn-wb-year-from') as HTMLElement & { options: { value: string; label: string }[]; value: string };
     const yearTo = wb.querySelector('#bcn-wb-year-to') as HTMLElement & { options: { value: string; label: string }[]; value: string };
@@ -639,10 +762,11 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
 
     function filterSet(): Set<HTMLElement> | null {
       const yearNarrowed = filterYearFrom > minYear || filterYearTo < maxYear;
-      if (filterTier === 'all' && !filterQuery && !yearNarrowed) return null;
+      if (filterTier === 'all' && !filterQuery && !yearNarrowed && filterLead === 'all') return null;
       const q = filterQuery.toLowerCase();
       const matches = rows().filter((r) => {
         if (filterTier !== 'all' && r.dataset.tier !== filterTier) return false;
+        if (filterLead !== 'all' && (r.dataset.lead ?? '') !== filterLead) return false;
         if (yearNarrowed) {
           const ds = r.dataset.start;
           const de = r.dataset.end;
@@ -657,7 +781,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
       // outline level (that grain and above), else it would show everything.
       const visible = new Set<HTMLElement>();
       for (const m of matches) {
-        if (q) blockOf(m).forEach((r) => visible.add(r));
+        if (q || filterLead !== 'all') blockOf(m).forEach((r) => visible.add(r));
         else visible.add(m);
         let p = m.dataset.parent ?? '';
         while (p) {
@@ -691,6 +815,10 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
     });
     tierToggle?.addEventListener('change', (e) => {
       filterTier = ((e as CustomEvent).detail?.value as string) ?? tierToggle.value ?? 'all';
+      applyVisibility();
+    });
+    leadToggle?.addEventListener('change', (e) => {
+      filterLead = ((e as CustomEvent).detail?.value as string) ?? leadToggle.value ?? 'all';
       applyVisibility();
     });
     yearFrom?.addEventListener('change', (e) => {
@@ -1101,6 +1229,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
     flex-direction: column;
     gap: var(--spacing-300);
     --_label-w: 420px;
+    --_lead-w: 120px;
     --_money-w: 96px;
     --_plot-w: 1900px;
     --_row-h: 28px;
@@ -1115,6 +1244,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   .bcn-wb__fb-group esa-text-field { width: 220px; }
   /* Year pickers hold a 4-digit year — no need for the default select width. */
   .bcn-wb__fb-year { display: inline-block; width: 5.5em; }
+  .bcn-wb__fb-leadsel { display: inline-block; width: 10em; }
   .bcn-wb__fb-label { font-size: var(--type-size-150); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); white-space: nowrap; }
   .bcn-wb__fb-divider { width: 1px; align-self: stretch; background: var(--color-border); margin: 0 var(--spacing-100); }
   .bcn-wb__fb-to { font-size: var(--type-size-150); color: var(--color-text-tertiary); }
@@ -1127,12 +1257,13 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
 
   /* ── Scroll + canvas ── */
   .bcn-wb__scroll { overflow-x: auto; border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface); }
-  .bcn-wb__canvas { min-width: calc(var(--_label-w) + var(--_plot-w)); }
+  .bcn-wb__canvas { min-width: calc(var(--_label-w) + var(--_lead-w) + var(--_money-w) + var(--_plot-w)); }
 
   /* ── Axis header ── */
-  .bcn-wb__axis { display: grid; grid-template-columns: var(--_label-w) var(--_money-w) 1fr; position: sticky; top: 0; z-index: 5; background: var(--color-surface); border-bottom: 1px solid var(--color-border); }
-  .bcn-wb__money-head { display: flex; align-items: flex-end; justify-content: flex-end; position: sticky; left: var(--_label-w); z-index: 3; padding: var(--spacing-200) var(--spacing-300); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); background: var(--color-surface); border-right: 1px solid var(--color-border); }
-  .bcn-wb__corner { display: flex; align-items: flex-end; padding: var(--spacing-200) var(--spacing-300); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); border-right: 1px solid var(--color-border); }
+  .bcn-wb__axis { display: grid; grid-template-columns: var(--_label-w) var(--_lead-w) var(--_money-w) 1fr; position: sticky; top: 0; z-index: 5; background: var(--color-surface); border-bottom: 1px solid var(--color-border); }
+  .bcn-wb__lead-head { display: flex; align-items: flex-end; position: sticky; left: var(--_label-w); z-index: 4; padding: var(--spacing-200) var(--spacing-300); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); background: var(--color-surface); border-right: 1px solid var(--color-border); }
+  .bcn-wb__money-head { display: flex; align-items: flex-end; justify-content: flex-end; position: sticky; left: calc(var(--_label-w) + var(--_lead-w)); z-index: 4; padding: var(--spacing-200) var(--spacing-300); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); background: var(--color-surface); border-right: 1px solid var(--color-border); }
+  .bcn-wb__corner { display: flex; align-items: flex-end; position: sticky; left: 0; z-index: 4; padding: var(--spacing-200) var(--spacing-300); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); background: var(--color-surface); border-right: 1px solid var(--color-border); }
   .bcn-wb__head-plot { position: relative; }
   .bcn-wb__head-bands { position: absolute; inset: 0; z-index: 0; }
   .bcn-wb__head-phases { position: relative; z-index: 1; height: 18px; }
@@ -1155,7 +1286,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
 
   /* ── Body / rows ── */
   .bcn-wb__body { position: relative; }
-  .bcn-wb__row { display: grid; grid-template-columns: var(--_label-w) var(--_money-w) 1fr; border-bottom: 1px solid var(--color-border-light); }
+  .bcn-wb__row { display: grid; grid-template-columns: var(--_label-w) var(--_lead-w) var(--_money-w) 1fr; border-bottom: 1px solid var(--color-border-light); }
   .bcn-wb__row[hidden] { display: none; }
   .bcn-wb__row.is-program { background: color-mix(in srgb, var(--color-text-primary) 3%, transparent); }
   .bcn-wb__row.is-study { background: color-mix(in srgb, var(--color-text-primary) 1.5%, transparent); }
@@ -1203,7 +1334,15 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
   /* Always visible (was hover-reveal — Andy couldn't find the CRUD affordances) */
   /* The money column: its own sticky grid track between the tree and the plot,
      so values read in one straight line down the chart. */
-  .bcn-wb__money { display: flex; align-items: center; justify-content: flex-end; position: sticky; left: var(--_label-w); z-index: 3; padding: 0 var(--spacing-300); min-height: var(--_row-h); font-size: var(--type-size-150); font-variant-numeric: tabular-nums; color: var(--color-text-secondary); background: var(--color-surface); border-right: 1px solid var(--color-border); }
+  /* Lead column (study-tier accountability) — sits between the label and money,
+     sharing their sticky/frozen behavior; inherited leads render muted. */
+  .bcn-wb__lead { display: flex; align-items: center; position: sticky; left: var(--_label-w); z-index: 3; padding: 0 var(--spacing-300); min-height: var(--_row-h); font-size: var(--type-size-150); color: var(--color-text-secondary); background: var(--color-surface); border-right: 1px solid var(--color-border); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bcn-wb__lead.is-inherited { color: var(--color-text-muted); }
+  .bcn-wb__row.is-program .bcn-wb__lead { background: color-mix(in srgb, var(--color-text-primary) 3%, var(--color-surface)); font-weight: var(--font-weight-semibold); }
+  .bcn-wb__row.is-study .bcn-wb__lead { background: color-mix(in srgb, var(--color-text-primary) 1.5%, var(--color-surface)); font-weight: var(--font-weight-medium); }
+  .bcn-wb__row.is-selected .bcn-wb__lead { background: var(--color-primary-subtle); }
+
+  .bcn-wb__money { display: flex; align-items: center; justify-content: flex-end; position: sticky; left: calc(var(--_label-w) + var(--_lead-w)); z-index: 3; padding: 0 var(--spacing-300); min-height: var(--_row-h); font-size: var(--type-size-150); font-variant-numeric: tabular-nums; color: var(--color-text-secondary); background: var(--color-surface); border-right: 1px solid var(--color-border); }
   /* Derived vs entered: parents' dollars are roll-ups (quiet, muted) so the eye
      doesn't sum the column across tiers; tasks are the real entries (solid);
      the Total row is the one honest sum (bold). */
@@ -1263,7 +1402,7 @@ const TIER_CLASS: Record<HierNode['tier'], string> = {
 
   /* Ghost add-row at the bottom of the tree body — the button rides the sticky
      label column so it stays visible while the plot scrolls. */
-  .bcn-wb__addrow { display: grid; grid-template-columns: var(--_label-w) var(--_money-w) 1fr; border-top: 1px solid var(--color-border-light); }
+  .bcn-wb__addrow { display: grid; grid-template-columns: var(--_label-w) var(--_lead-w) var(--_money-w) 1fr; border-top: 1px solid var(--color-border-light); }
   .bcn-wb__addrow > span:first-child { display: block; position: sticky; left: 0; padding: var(--spacing-150) var(--spacing-200); background: var(--color-surface); border-right: 1px solid var(--color-border); }
   .bcn-wb__addrow .esa-button { display: block; width: 100%; }
   .bcn-wb__addrow .esa-button .esa-button__native { width: 100%; justify-content: center; }

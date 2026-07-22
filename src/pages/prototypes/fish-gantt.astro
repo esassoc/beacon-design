@@ -10,24 +10,205 @@
 //   • stable type-prefixed IDs (PRG/STY/SUB/TSK) are identity, the COA dot-number a
 //     secondary reference; there is NO dependency dimension in this view;
 //   • clicking a row opens its EDIT drawer — Date range, Budget, Status (tasks)
-//     plus Add-child / Delete — the slim write surface. Name + ID editing and the
-//     full record (COA reference, parent, owner, water years, roll-up meter,
-//     constraints/notes) live on the node DETAILS page (/prototypes/fish-node?id=…)
+//     plus Add-child / Delete — the slim write surface. The comprehensive record
+//     and heavy editing live on the unified DETAIL pages (/prototypes/fish-detail/…)
 //     behind the drawer's "View full details" link.
-// The same fish-schedule.ts calendar rules (water-year deadlines, half-year field
-// seasons) drive the axis. Dollar/status content is illustrative fixture data.
+// DATA SOURCE: everything on this page projects from ./data/fish-plan.ts (the
+// source of truth: TODAY, PROGRAMS, MILESTONES, PLAN_ASSUMPTIONS) with calendar
+// rules from ./data/fish-schedule.ts. Dollar/status content is illustrative.
 import AppShell from '../../layouts/AppShell.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnWorkBreakdown from '../../components/bcn/BcnWorkBreakdown.astro';
 import BcnNodeEdit from '../../components/bcn/BcnNodeEdit.astro';
-import { PROGRAMS } from '../../data/fish-hierarchy';
-import { computeRollUp, flattenForest, TIER_META, PROJECT_NAME, type HierNode } from '../../data/fish-model';
+import BcnRolesMatrix from '../../components/bcn/BcnRolesMatrix.astro';
+import BcnPre2030Memo from '../../components/bcn/BcnPre2030Memo.astro';
+import BcnReadiness from '../../components/bcn/BcnReadiness.astro';
+import BcnRolesRepeater from '../../components/bcn/BcnRolesRepeater.astro';
+import { PROGRAMS, MILESTONES, PLAN_ASSUMPTIONS, TODAY, TODAY_LABEL, TODAY_MONTH } from '../../data/fish-plan';
+import { computeRollUp, flattenForest, TIER_META, PROJECT_NAME, WORKSTREAM_META, LEAD_ORGS, TASK_STATUS_META, monthLabel, formatUSD, type HierNode, type WorkstreamKey } from '../../data/fish-model';
+import { SCHEDULE_START_YEAR, SCHEDULE_END_YEAR } from '../../data/fish-schedule';
 import { withBase } from '../../lib/base';
 
-const TODAY = '2029-06-15';
-
 const flat = flattenForest(PROGRAMS);
+
+// Roles-matrix projection: the SAME work-breakdown studies, pivoted to RACI rows.
+const rolesRows = flat
+  .map((f) => f.node)
+  .filter((n) => n.tier === 'study')
+  .map((n) => ({ id: n.id, ref: n.coaRef ?? n.id, name: n.name, lead: n.lead, roles: n.roles ?? [] }));
+
+// The 11 RACI work-streams — the rows of the roles-edit drawer.
+const WORKSTREAMS = Object.keys(WORKSTREAM_META) as WorkstreamKey[];
+
+// Pre-2030 memo projection: the SAME forest, shaped as the timelines-memo document.
+const memoSpan = (a?: string, b?: string) => `${monthLabel(a)} – ${monthLabel(b)}`;
+const memoTasks = (study: HierNode) =>
+  study.children
+    .flatMap((child) =>
+      child.tier === 'task'
+        ? [{ t: child, group: undefined as string | undefined }]
+        : child.children.map((t) => ({ t, group: child.name as string | undefined })),
+    )
+    .sort((x, y) => (x.t.startMonth ?? '').localeCompare(y.t.startMonth ?? ''))
+    .map(({ t, group }) => ({ id: t.id, coaRef: t.coaRef ?? t.id, name: t.name, span: memoSpan(t.startMonth, t.endMonth), owner: t.owner, group }));
+const memoPrograms = PROGRAMS.map((program) => ({
+  id: program.id,
+  coaRef: program.coaRef ?? program.id,
+  name: program.name,
+  studies: program.children.map((study) => {
+    const r = computeRollUp(study);
+    return {
+      id: study.id,
+      coaRef: study.coaRef ?? study.id,
+      name: study.name,
+      lead: study.lead,
+      span: memoSpan(r.startMonth, r.endMonth),
+      funding: formatUSD(r.totalFunding),
+      statusTone: r.aggregate,
+      statusLabel: TASK_STATUS_META[r.aggregate].label,
+      health: { taskCount: r.taskCount, onTrack: r.onTrack, atRisk: r.atRisk, blocked: r.blocked, complete: r.complete },
+      tasks: memoTasks(study),
+    };
+  }),
+}));
+const memoMilestones = MILESTONES.map((m) => ({
+  name: m.name,
+  label: m.endMonth
+    ? `${monthLabel(m.month)} – ${monthLabel(m.endMonth)}`
+    : m.windowLabel ?? monthLabel(m.month),
+  citation: m.citation,
+}));
+
+// ── Readiness projection: the memo's DERIVATION, kept live. Anchors → per-study
+//    deadline chains (must-start-by is computed, never stored) → the next six
+//    field-season windows. TODAY (from fish-plan) drives every countdown and flag. ──
+const monthIndex = (iso: string) => +iso.slice(0, 4) * 12 + (+iso.slice(5, 7) - 1);
+const monthsBetween = (a: string, b: string) => monthIndex(b) - monthIndex(a);
+const isoFromIndex = (i: number) => `${Math.floor(i / 12)}-${String((i % 12) + 1).padStart(2, '0')}`;
+const away = (n: number) => (n <= 1 ? 'this month' : n < 24 ? `${n} months away` : `~${Math.round(n / 12)} years away`);
+
+const readinessMilestones = MILESTONES.map((m) => {
+  const d = monthsBetween(TODAY_MONTH, m.month);
+  const active = m.endMonth ? d <= 0 && monthsBetween(TODAY_MONTH, m.endMonth) >= 0 : false;
+  const state = active ? 'active' : d < 0 ? 'past' : 'upcoming';
+  const countdown = active
+    ? `underway — ends ${monthLabel(m.endMonth)}`
+    : d < 0
+      ? 'passed'
+      : away(d);
+  return {
+    id: m.id,
+    name: m.name,
+    kind: m.kind,
+    monthIso: m.month,
+    endIso: m.endMonth,
+    monthLabel: monthLabel(m.month),
+    endLabel: m.endMonth ? monthLabel(m.endMonth) : undefined,
+    windowLabel: m.windowLabel,
+    countdown,
+    state,
+    citation: m.citation,
+  };
+});
+
+const msName = new Map(MILESTONES.map((m) => [m.id, m.name]));
+const readinessStudies = PROGRAMS.flatMap((program) =>
+  program.children.map((study) => {
+    const r = computeRollUp(study);
+    const flags: { tone: 'warn' | 'risk'; label: string }[] = [];
+    const studyTaskNodes = study.children.flatMap((c) => (c.tier === 'task' ? [c] : c.children));
+    if (study.deadline) {
+      if (r.endMonth && monthsBetween(study.deadline, r.endMonth) > 0 && monthsBetween(TODAY_MONTH, r.endMonth) >= 0)
+        flags.push({ tone: 'risk', label: `Projected ${monthsBetween(study.deadline, r.endMonth)} months past deadline` });
+      else if (monthsBetween(study.deadline, TODAY_MONTH) > 0 && r.aggregate !== 'complete')
+        flags.push({ tone: 'warn', label: 'Deadline passed — work continuing' });
+      // Blocked flag names the actual blocked Task record, not a sentence about it.
+      const blocked = studyTaskNodes.filter((t) => t.status === 'blocked');
+      if (blocked.length > 0)
+        flags.push({
+          tone: 'risk',
+          label: `Blocked — “${blocked[0].name}”${blocked.length > 1 ? ` +${blocked.length - 1} more` : ''}`,
+        });
+    }
+    const kickoff = studyTaskNodes
+      .filter((t) => t.status === 'not-started' && t.startMonth && monthsBetween(TODAY_MONTH, t.startMonth) >= 0 && monthsBetween(TODAY_MONTH, t.startMonth) <= 12)
+      .sort((a, b) => (a.startMonth ?? '').localeCompare(b.startMonth ?? ''))[0];
+    if (kickoff) flags.push({ tone: 'warn', label: `Kickoff due — “${kickoff.name}” starts ${monthLabel(kickoff.startMonth)}` });
+    return {
+      id: study.id,
+      coaRef: study.coaRef ?? study.id,
+      name: study.name,
+      lead: study.lead,
+      drivenByName: study.drivenBy ? msName.get(study.drivenBy) : undefined,
+      deadlineIso: study.deadline,
+      mustStartIso: r.startMonth,
+      finishIso: r.endMonth,
+      deadlineLabel: study.deadline ? monthLabel(study.deadline) : undefined,
+      mustStartLabel: r.startMonth ? monthLabel(r.startMonth) : undefined,
+      finishLabel: r.endMonth ? monthLabel(r.endMonth) : undefined,
+      statusTone: r.aggregate,
+      statusLabel: TASK_STATUS_META[r.aggregate].label,
+      flags,
+    };
+  }),
+// Default order = soonest regulatory deadline first; studies without one sink to
+// the bottom. The card toolbar re-sorts client-side.
+).sort((a, b) => (a.deadlineIso ?? '9999').localeCompare(b.deadlineIso ?? '9999'));
+
+// The next six field-season windows in the water-year rhythm: Apr–Sep (dry) /
+// Oct–Mar (winter freshet). The window containing TODAY comes first.
+const curIdx = monthIndex(TODAY_MONTH);
+const windowStartIdx = (() => {
+  const m = curIdx % 12; // 0=Jan … 3=Apr … 9=Oct
+  return m >= 3 && m <= 8 ? curIdx - (m - 3) : m < 3 ? curIdx - (m + 3) : curIdx - (m - 9);
+})();
+const readinessPeriods: {
+  key: string;
+  label: string;
+  season: 'dry' | 'wet';
+  current?: boolean;
+  groups: { studyRef: string; studyName: string; items: unknown[] }[];
+}[] = [];
+for (let k = 0; readinessPeriods.length < 6 && k < 40; k++) {
+  const s = windowStartIdx + k * 6;
+  const startIso = isoFromIndex(s);
+  const endIso = isoFromIndex(s + 5);
+  const dry = s % 12 === 3;
+  const y = Math.floor(s / 12);
+  const label = dry ? `${y} · Apr – Sep` : `${y}/${String((y + 1) % 100).padStart(2, '0')} · Oct – Mar`;
+  const groups = PROGRAMS.flatMap((program) =>
+    program.children.map((study) => {
+      const items = study.children
+        .flatMap((c) => (c.tier === 'task' ? [c] : c.children))
+        .filter((t) => t.startMonth && t.endMonth && t.startMonth <= endIso && t.endMonth >= startIso)
+        .sort((a, b) => (a.startMonth ?? '').localeCompare(b.startMonth ?? ''))
+        .map((t) => ({
+          id: t.id,
+          name: t.name,
+          span: memoSpan(t.startMonth, t.endMonth),
+          owner: t.owner,
+          statusTone: (t.status ?? 'not-started') as typeof readinessStudies[number]['statusTone'],
+          statusLabel: TASK_STATUS_META[t.status ?? 'not-started'].label,
+          starts: !!t.startMonth && t.startMonth >= startIso && t.startMonth <= endIso,
+        }));
+      return { studyId: study.id, studyRef: study.coaRef ?? study.id, studyName: study.name, items };
+    }),
+  ).filter((g) => g.items.length > 0);
+  if (groups.length === 0) continue; // a window with no scheduled work has nothing to show
+  readinessPeriods.push({ key: startIso, label, season: dry ? 'dry' : 'wet', current: k === 0, groups });
+}
+
+// Status-filter options for the Readiness toolbar — colors from the same
+// TASK_STATUS_META ramp the gantt legend reads, ordered least → most severe.
+const readinessStatusOptions = [
+  { value: 'all', label: 'All statuses', color: '#d4d4d4' },
+  ...(['complete', 'on-track', 'not-started', 'at-risk', 'blocked'] as const).map((s) => ({
+    value: s,
+    label: TASK_STATUS_META[s].label,
+    color: TASK_STATUS_META[s].hex,
+  })),
+];
 
 // One SSR edit panel per node — toggled into the drawer on wb-node-select.
 const nodePanels = flat.map(({ node }) => ({
@@ -42,6 +223,18 @@ const nodePanels = flat.map(({ node }) => ({
 const TPL_TASK: HierNode = { id: '', tier: 'task', name: '', status: 'not-started', funding: [], children: [] };
 const TPL_BRANCH: HierNode = { id: '', tier: 'study', name: '', funding: [], children: [TPL_TASK] };
 
+// ── Create-drawer option sources (SSR'd onto the esa-select `options` attrs so the
+//    stacked create form hydrates with the same vocabularies the edit drawer uses). ──
+const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const monthOptsJson = JSON.stringify(MONTH_NAMES.map((label, i) => ({ value: String(i + 1).padStart(2, '0'), label })));
+const yearOptsList = [];
+for (let y = SCHEDULE_START_YEAR; y < SCHEDULE_END_YEAR; y++) yearOptsList.push({ value: String(y), label: String(y) });
+const yearOptsJson = JSON.stringify(yearOptsList);
+const leadOptsJson = JSON.stringify(LEAD_ORGS.map((l) => ({ value: l, label: l })));
+const statusOptsJson = JSON.stringify(
+  (Object.entries(TASK_STATUS_META) as [string, { label: string }][]).map(([value, m]) => ({ value, label: m.label })),
+);
+
 const FLASK =
   '<path d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"/><path d="M6.453 15h11.094"/><path d="M8.5 2h7"/>';
 
@@ -50,8 +243,9 @@ const fishNav = [
   {
     id: 'studies', title: 'Studies', icon: 'flask-conical', iconPaths: FLASK, expanded: true, active: true, dividerAfter: true,
     items: [
-      { id: 'science-plan', label: 'Science Plan', href: withBase('/prototypes/fish-studies') },
+      { id: 'science-plan', label: 'Science Plan', href: withBase('/prototypes/fish-science-plan') },
       { id: 'tasking-gantt', label: 'Study Planning', active: true },
+      { id: 'data-model', label: 'Data Model', href: withBase('/prototypes/fish-model-map') },
     ],
   },
   { id: 'tracking', title: 'Tracking', icon: 'radar', expanded: false, items: [{ id: 'project-tracking', label: 'Project Tracking' }] },
@@ -61,10 +255,15 @@ const fishNav = [
 <!-- manifest:
   layout: stack
   sections:
-    - header utilities       -> esa-button            # Science Plan crosswalk link in the PageLayout utilities slot
+    - header utilities       -> esa-button-toggle      # Gantt | Roles | Readiness view switch + esa-dropdown-menu Export (PDF/XLS per view)
     - work-breakdown gantt    -> bcn-work-breakdown    # recursive 4-tier tree + month timeline + roll-up bars + CRUD
+    - roles matrix view       -> bcn-roles-matrix       # RACI projection of the same studies (Search + Lead filters)
+    - readiness view          -> bcn-readiness          # milestone anchors + deadline chains + field-season windows (the memo's derivation, live)
+    - memo print template     -> bcn-pre-2030-memo      # never on screen; the Readiness PDF export (timelines memo document)
     - node edit drawer        -> esa-side-dialog        # row side-panel container
     - node edit body          -> bcn-node-edit          # date range / budget / status (tasks) + add-child / delete / details link
+    - create drawer           -> esa-side-dialog        # stacked over the node drawer (permit-tracking pattern); tier-aware create form
+    - roles edit drawer       -> esa-side-dialog        # per-study RACI editor opened from the Roles view
 -->
 
 <AppShell title={`${PROJECT_NAME} — Study Planning`} tenantName="DWR" projectName="Delta Conveyance" navSections={fishNav}>
@@ -74,15 +273,49 @@ const fishNav = [
     breadcrumbs={[{ label: 'Delta Conveyance', href: '#project' }, { label: 'Studies', href: '#studies' }, { label: 'Study Planning' }]}
   >
     <div slot="utilities" class="bcn-gantt-utils">
-      <EsaButton href={withBase('/prototypes/fish-studies')} color="ghost" appearance="outline" size="md" icon="table">Science Plan crosswalk</EsaButton>
+      <esa-button-toggle id="gantt-view" value="gantt" size="md"></esa-button-toggle>
+      <esa-dropdown-menu id="export-menu" position="below-end">
+        <span id="export-trigger"><EsaButton color="ghost" appearance="outline">Export</EsaButton></span>
+      </esa-dropdown-menu>
     </div>
 
-    <!-- ═══ The four-tier tasking gantt ═══
+    <!-- ═══ GANTT view — the four-tier tasking gantt ═══
          bcn-lego-checked: PAGE-COMPOSITION GLUE ONLY. The tree is bcn-work-breakdown;
-         the drawer body is bcn-node-edit. Every section resolves to a component (see
-         manifest). Checked esa-* (no 4-tier gantt lego, no node-panel lego) and Beacon.
-         Page CSS is drawer-chrome glue. -->
-    <BcnWorkBreakdown programs={PROGRAMS} today={TODAY} />
+         the drawer body is bcn-node-edit; the Roles view is bcn-roles-matrix — both
+         are projections of the SAME work-breakdown studies. Checked esa-* (no 4-tier
+         gantt lego, no RACI-matrix lego) and Beacon. Page CSS is drawer-chrome glue. -->
+    <div id="view-gantt">
+      <BcnWorkBreakdown programs={PROGRAMS} today={TODAY} />
+    </div>
+
+    <!-- ═══ ROLES view — the RACI matrix, generated from the same studies ═══ -->
+    <div id="view-roles" hidden>
+      <BcnRolesMatrix rows={rolesRows} />
+    </div>
+
+    <!-- ═══ READINESS view — the timelines memo's derivation, kept live ═══ -->
+    <div id="view-readiness" hidden>
+      <BcnReadiness
+        milestones={readinessMilestones}
+        studies={readinessStudies}
+        periods={readinessPeriods}
+        statusOptions={readinessStatusOptions}
+        todayIso={TODAY_MONTH}
+        todayLabel={TODAY_LABEL}
+      />
+    </div>
+
+    <!-- ═══ PDF TEMPLATE — the Prior-to-2030 timelines memo. Never shown on screen:
+         it is the document EMISSION of the Readiness projection, rendered only by
+         Export → PDF (body[data-print='memo'] print styles). Same model, frozen. ═══ -->
+    <div id="print-memo" hidden>
+      <BcnPre2030Memo
+        programs={memoPrograms}
+        meta={{ date: TODAY_LABEL }}
+        milestones={memoMilestones}
+        assumptions={PLAN_ASSUMPTIONS}
+      />
+    </div>
   </PageLayout>
 
   <!-- ═══ Node-edit drawer — Date range / Budget / Status (tasks) + actions ═══ -->
@@ -113,38 +346,345 @@ const fishNav = [
     </div>
 
     <span slot="footer" class="bcn-node-foot">
+      <span id="node-delete"><EsaButton color="danger" appearance="soft" icon="trash-2">Delete</EsaButton></span>
       <span id="node-close"><EsaButton color="primary">Close</EsaButton></span>
+    </span>
+  </esa-side-dialog>
+
+  <!-- ═══ Create drawer — STACKED over the node drawer (permit-tracking pattern).
+       Opened by the node drawer's "Add <child tier>" button; a small, tier-aware
+       create form. On Create it routes through wbApi (addChildTo → setName / setLead
+       / setStatus / setSchedule). Every control is an esa-* lego; the only page CSS
+       is form-stacking glue + the two drawer-stacking custom-property knobs. ═══ -->
+  <esa-side-dialog id="create-drawer" size="md" style="--z-modal: 1340; --z-modal-backdrop: 1310;">
+    <div slot="header" class="bcn-create-head">
+      <span class="bcn-create-head__title" id="create-title">New node</span>
+    </div>
+
+    <div class="bcn-create">
+      <esa-text-field id="create-name" label="Name" placeholder="Name this node" size="sm" required></esa-text-field>
+
+      <esa-text-field
+        id="create-coa"
+        label="COA reference"
+        placeholder="e.g. 10.19.1"
+        size="sm"
+        help-text="Optional — the ITP Condition-of-Approval number is a secondary reference, not the identity."
+      ></esa-text-field>
+
+      <div id="create-lead-wrap" hidden>
+        <esa-select id="create-lead" label="Lead org" size="sm" placeholder="Select lead org" options={leadOptsJson}></esa-select>
+      </div>
+
+      <div id="create-status-wrap" hidden>
+        <esa-select id="create-status" label="Status" size="sm" placeholder="Select status" options={statusOptsJson}></esa-select>
+      </div>
+
+      <section class="bcn-create__section" aria-label="Date range">
+        <span class="bcn-create__label">Date range</span>
+        <div class="bcn-create__sched-grid" role="group" aria-label="New node schedule">
+          <esa-select id="create-start-month" label="Start month" size="sm" placeholder="Month" options={monthOptsJson}></esa-select>
+          <esa-select id="create-start-year" label="Start year" size="sm" placeholder="Year" options={yearOptsJson}></esa-select>
+          <esa-select id="create-end-month" label="End month" size="sm" placeholder="Month" options={monthOptsJson}></esa-select>
+          <esa-select id="create-end-year" label="End year" size="sm" placeholder="Year" options={yearOptsJson}></esa-select>
+        </div>
+      </section>
+    </div>
+
+    <span slot="footer" class="bcn-create-foot">
+      <span id="create-cancel"><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span id="create-submit"><EsaButton color="primary" disabled>Create</EsaButton></span>
+    </span>
+  </esa-side-dialog>
+
+  <!-- ═══ Roles-edit drawer — update a study's RACI (opened from the Roles view).
+       Body is composition glue: a row per work-stream, each an esa-text-field
+       (org / person) + esa-switch-toggle (tentative). Save writes through wbApi. ═══ -->
+  <esa-side-dialog id="roles-drawer" size="md" style="--z-modal: 1300; --z-modal-backdrop: 1250;">
+    <div slot="header" class="bcn-roles-edit-head">
+      <span class="bcn-roles-edit-head__ref" id="roles-drawer-ref">—</span>
+      <span class="bcn-roles-edit-head__title" id="roles-drawer-title">Edit roles</span>
+    </div>
+    <div class="bcn-roles-edit">
+      <BcnRolesRepeater />
+    </div>
+    <span slot="footer" class="bcn-roles-edit-foot">
+      <span id="roles-drawer-cancel"><EsaButton color="ghost" appearance="outline">Cancel</EsaButton></span>
+      <span id="roles-drawer-save"><EsaButton color="primary">Save roles</EsaButton></span>
     </span>
   </esa-side-dialog>
 </AppShell>
 
 <script>
   import '@esa/ecology/esa-side-dialog';
-  import type { HierNode, NodeRollUp } from '../../data/fish-model';
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-switch-toggle';
+  import '@esa/ecology/esa-dropdown-menu';
+  import { WORKSTREAM_META, LEAD_ORGS as LEAD_ORG_LIST } from '../../data/fish-model';
+  import { setupRolesRepeater } from '../../components/bcn/roles-repeater';
+  import type { HierNode, NodeRollUp, RoleAssignment, WorkstreamKey } from '../../data/fish-model';
+  import { MILESTONES, TODAY } from '../../data/fish-plan';
+  import { downloadXls, h, type XlsCell } from '../../lib/spreadsheet-xls';
+
+  // Vocab lookups for the XLS builders (labels for workstream columns, names for
+  // the driving-milestone column).
+  const WORKSTREAM_LABELS: Record<string, string> = Object.fromEntries(
+    Object.entries(WORKSTREAM_META).map(([k, m]) => [k, m.label]),
+  );
+  const MS_NAMES: Record<string, string> = Object.fromEntries(MILESTONES.map((m) => [m.id, m.name]));
 
   type WbApi = {
     getNode(id: string): HierNode | undefined;
     allNodes(): HierNode[];
     planRollup(): NodeRollUp;
     tierCounts(): { programs: number; studies: number };
+    rollupOf(id: string): NodeRollUp | undefined;
+    addChildTo(id: string): void;
+    setName(id: string, name: string): void;
+    setLead(id: string, lead: string): void;
+    setStatus(id: string, status: string): void;
+    setSchedule(id: string, startMonth: string, endMonth: string): void;
+    requestDelete(id: string): void;
+    getRoles(id: string): RoleAssignment[];
+    setRoles(id: string, roles: RoleAssignment[]): void;
   };
   const getApi = (): WbApi | undefined =>
     (document.querySelector('.bcn-wb') as (HTMLElement & { wbApi?: WbApi }) | null)?.wbApi;
+
+  // ── View toggle: Gantt | Roles | Memo — all projections of the same work-breakdown. ──
+  const viewToggle = document.getElementById('gantt-view') as HTMLElement & {
+    options: { label: string; value: string; icon?: string }[];
+    value: string;
+  };
+  const vGantt = document.getElementById('view-gantt')!;
+  const vRoles = document.getElementById('view-roles')!;
+  const vReadiness = document.getElementById('view-readiness')!;
+  viewToggle.options = [
+    { label: 'Gantt', value: 'gantt', icon: "<path d='M8 6h10'/><path d='M6 12h12'/><path d='M4 18h8'/>" },
+    { label: 'Roles', value: 'roles', icon: "<path d='M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2'/><circle cx='9' cy='7' r='4'/><path d='M22 21v-2a4 4 0 0 0-3-3.87'/>" },
+    { label: 'Readiness', value: 'readiness', icon: "<circle cx='12' cy='12' r='10'/><polyline points='12 6 12 12 16 14'/>" },
+  ];
+  viewToggle.value = 'gantt';
+  let currentView = 'gantt';
+  viewToggle.addEventListener('change', (e) => {
+    const v = (e as CustomEvent).detail.value as string;
+    currentView = v;
+    vGantt.hidden = v !== 'gantt';
+    vRoles.hidden = v !== 'roles';
+    vReadiness.hidden = v !== 'readiness';
+    syncExportItems();
+  });
+
+  // ── Export: every view emits the documents DWR hand-maintains today. PDF routes
+  //    through print CSS (body[data-print=…] isolates one surface); XLS builds a
+  //    SpreadsheetML workbook from the LIVE wbApi model, so client-side edits are
+  //    in the download. The Readiness PDF is the timelines memo itself. ──
+  const exportMenu = document.getElementById('export-menu') as HTMLElement & {
+    items: { label: string; action: string }[];
+  };
+  const EXPORT_ITEMS: Record<string, { label: string; action: string }[]> = {
+    gantt: [
+      { label: 'PDF — schedule snapshot', action: 'pdf:gantt' },
+      { label: 'XLS — schedule workbook', action: 'xls:schedule' },
+    ],
+    roles: [
+      { label: 'PDF — roles matrix', action: 'pdf:roles' },
+      { label: 'XLS — roles workbook', action: 'xls:roles' },
+    ],
+    readiness: [
+      { label: 'PDF — timelines memo', action: 'pdf:memo' },
+      { label: 'XLS — deadlines workbook', action: 'xls:readiness' },
+    ],
+  };
+  const syncExportItems = () => {
+    exportMenu.items = EXPORT_ITEMS[currentView] ?? [];
+  };
+  syncExportItems();
+
+  // The plan's current-date anchor stamps export filenames.
+  const EXPORT_STAMP = TODAY;
+
+  function exportPdf(kind: string) {
+    document.body.dataset.print = kind;
+    const done = () => {
+      delete document.body.dataset.print;
+      window.removeEventListener('afterprint', done);
+    };
+    window.addEventListener('afterprint', done);
+    window.print();
+  }
+
+  function tierLabel(t: string) {
+    return t === 'program' ? 'Program' : t === 'study' ? 'Study' : t === 'substudy' ? 'Sub-study' : 'Task';
+  }
+
+  function exportXls(kind: string) {
+    const api = getApi();
+    if (!api) return;
+    const nodes = api.allNodes();
+    const studies = nodes.filter((n) => n.tier === 'study');
+    if (kind === 'schedule') {
+      const rows: XlsCell[][] = [
+        ['ID', 'Tier', 'COA ref', 'Name', 'Lead', 'Owner', 'Start', 'End', 'Status', 'Total funding'].map(h),
+        ...nodes.map((n) => {
+          const r = api.rollupOf(n.id);
+          return [
+            n.id,
+            tierLabel(n.tier),
+            n.coaRef ?? '',
+            n.name,
+            n.lead ?? '',
+            n.owner ?? '',
+            r?.startMonth ?? n.startMonth ?? '',
+            r?.endMonth ?? n.endMonth ?? '',
+            n.status ?? r?.aggregate ?? '',
+            r?.totalFunding ?? 0,
+          ];
+        }),
+      ];
+      const years = [...new Set(nodes.flatMap((n) => (api.rollupOf(n.id)?.fundingByYear ?? []).map((f) => f.waterYear)))].sort();
+      const funding: XlsCell[][] = [
+        ['ID', 'Name', ...years.map((y) => `WY${y}`)].map(h),
+        ...nodes.map((n) => {
+          const by = new Map((api.rollupOf(n.id)?.fundingByYear ?? []).map((f) => [f.waterYear, f.amount]));
+          return [n.id, n.name, ...years.map((y) => by.get(y) ?? 0)] as XlsCell[];
+        }),
+      ];
+      downloadXls(`study-planning-schedule_${EXPORT_STAMP}`, [
+        { name: 'Schedule', columns: [64, 70, 64, 240, 80, 130, 60, 60, 76, 90], rows },
+        { name: 'Funding by water year', columns: [64, 240], rows: funding },
+      ]);
+    } else if (kind === 'roles') {
+      const wsKeys = Object.keys(WORKSTREAM_LABELS);
+      const rows: XlsCell[][] = [
+        ['COA', 'Study', 'Lead org', ...wsKeys.map((k) => WORKSTREAM_LABELS[k])].map(h),
+        ...studies.map((s) => {
+          const roles = api.getRoles(s.id);
+          return [
+            s.coaRef ?? s.id,
+            s.name,
+            s.lead ?? '',
+            ...wsKeys.map((k) => {
+              const a = roles.find((x) => x.workstream === k);
+              if (!a) return '';
+              return `${a.org}${a.person ? ` — ${a.person}` : ''}${a.tentative ? ' (tentative)' : ''}`;
+            }),
+          ] as XlsCell[];
+        }),
+      ];
+      downloadXls(`study-planning-roles_${EXPORT_STAMP}`, [
+        { name: 'Roles', columns: [56, 220, 80, ...wsKeys.map(() => 150)], rows },
+      ]);
+    } else if (kind === 'readiness') {
+      const rows: XlsCell[][] = [
+        ['COA', 'Study', 'Lead', 'Driving milestone', 'Deadline', 'Must start by', 'Projected finish', 'Status'].map(h),
+        ...studies.map((s) => {
+          const r = api.rollupOf(s.id);
+          return [
+            s.coaRef ?? s.id,
+            s.name,
+            s.lead ?? '',
+            s.drivenBy ? (MS_NAMES[s.drivenBy] ?? s.drivenBy) : 'No regulatory deadline',
+            s.deadline ?? '',
+            r?.startMonth ?? '',
+            r?.endMonth ?? '',
+            r?.aggregate ?? '',
+          ] as XlsCell[];
+        }),
+      ];
+      downloadXls(`study-planning-deadlines_${EXPORT_STAMP}`, [
+        { name: 'Deadlines', columns: [56, 220, 80, 200, 70, 90, 100, 76], rows },
+      ]);
+    }
+  }
+
+  exportMenu.addEventListener('menu-action', (e) => {
+    const action = (e as CustomEvent).detail as string;
+    const [mode, kind] = action.split(':');
+    if (mode === 'pdf') exportPdf(kind);
+    else if (mode === 'xls') exportXls(kind);
+  });
 
   const drawer = document.getElementById('node-drawer') as HTMLElement & { show(): void; close(): void };
   const idEl = document.getElementById('node-id')!;
   const titleEl = document.getElementById('node-title')!;
   const panelHost = document.querySelector<HTMLElement>('.bcn-node-body')!;
   const panels = () => [...panelHost.querySelectorAll<HTMLElement>('[data-node-panel]')];
+  const deleteLabel = document.querySelector<HTMLElement>('#node-delete .esa-button__label');
+  let currentNodeId = '';
 
   document.addEventListener('wb-node-select', (e) => {
     const id = (e as CustomEvent).detail?.id as string;
     const panel = panels().find((p) => p.dataset.nodePanel === id);
     if (!panel) return;
     panels().forEach((p) => (p.hidden = p !== panel));
+    currentNodeId = id;
     idEl.textContent = id;
     titleEl.textContent = panel.dataset.nodeName ?? id;
+    // Footer delete follows the open node's tier ("Delete study" / "Delete task"…).
+    if (deleteLabel) deleteLabel.textContent = `Delete ${(panel.dataset.nodeTier ?? '').toLowerCase()}`.trim();
     drawer.show();
+  });
+
+  // Footer delete (left-aligned) → confirm dialog on the currently-open node.
+  document.getElementById('node-delete')!.addEventListener('click', () => {
+    const api = getApi();
+    if (currentNodeId && api) api.requestDelete(currentNodeId);
+  });
+
+  // ── Roles-edit drawer: open from the Roles matrix (roles-row-select), edit the
+  //    study's RACI, save through wbApi.setRoles, then repaint the matrix row. ──
+  const rolesDrawer = document.getElementById('roles-drawer') as HTMLElement & { show(): void; close(): void };
+  const rolesRefEl = document.getElementById('roles-drawer-ref')!;
+  const rolesTitleEl = document.getElementById('roles-drawer-title')!;
+  let editingRolesId = '';
+
+  // Repeater vocab: work-streams from the contract; orgs = distinct org values
+  // across the live model's study assignments + the lead-org list. The model is
+  // only reachable once wbApi exists, so the repeater initializes lazily.
+  let rolesRepCtl: ReturnType<typeof setupRolesRepeater> | null = null;
+  const ensureRolesRepeater = () => {
+    if (rolesRepCtl) return rolesRepCtl;
+    const root = rolesDrawer.querySelector<HTMLElement>('[data-roles-repeater]');
+    const api = getApi();
+    if (!root || !api) return null;
+    const orgs = [
+      ...new Set([
+        ...LEAD_ORG_LIST,
+        ...api.allNodes().filter((n) => n.tier === 'study').flatMap((n) => (n.roles ?? []).map((r) => r.org)),
+      ]),
+    ].sort();
+    rolesRepCtl = setupRolesRepeater(root, {
+      workstreams: Object.entries(WORKSTREAM_META).map(([value, m]) => ({ value, label: m.label })),
+      orgs: orgs.map((o) => ({ value: o, label: o })),
+    });
+    return rolesRepCtl;
+  };
+
+  document.addEventListener('roles-row-select', (e) => {
+    const id = (e as CustomEvent).detail?.id as string;
+    const api = getApi();
+    const node = api?.getNode(id);
+    const ctl = ensureRolesRepeater();
+    if (!api || !node || !ctl) return;
+    editingRolesId = id;
+    rolesRefEl.textContent = node.coaRef ?? node.id;
+    rolesTitleEl.textContent = node.name;
+    ctl.setRows(api.getRoles(id));
+    rolesDrawer.show();
+  });
+
+  document.getElementById('roles-drawer-cancel')!.addEventListener('click', () => rolesDrawer.close());
+  document.getElementById('roles-drawer-save')!.addEventListener('click', () => {
+    const api = getApi();
+    const ctl = rolesRepCtl;
+    if (!api || !editingRolesId || !ctl) return rolesDrawer.close();
+    const roles = ctl.getRows();
+    api.setRoles(editingRolesId, roles);
+    document.dispatchEvent(new CustomEvent('roles-updated', { detail: { id: editingRolesId, roles }, bubbles: true }));
+    rolesDrawer.close();
   });
 
   // wbApi.setId re-keys the model (ID editing now lives on the details page;
@@ -160,10 +700,129 @@ const fishNav = [
   });
 
   document.getElementById('node-close')!.addEventListener('click', () => drawer.close());
+
+  // ══ Stacked create drawer (permit-tracking pattern) — the node drawer's "Add
+  //    <child tier>" button opens a SECOND side-dialog over the first; Create routes
+  //    through wbApi (addChildTo mints the child, then setName / setLead / setStatus
+  //    / setSchedule fill the entered fields). ══
+  const createDrawer = document.getElementById('create-drawer') as HTMLElement & { show(): void; close(): void; open: boolean };
+  const createTitle = document.getElementById('create-title')!;
+  const createName = document.getElementById('create-name') as HTMLElement & { value: string };
+  const createCoa = document.getElementById('create-coa') as HTMLElement & { value: string };
+  const createLeadWrap = document.getElementById('create-lead-wrap')!;
+  const createLead = document.getElementById('create-lead') as HTMLElement & { value: string };
+  const createStatusWrap = document.getElementById('create-status-wrap')!;
+  const createStatus = document.getElementById('create-status') as HTMLElement & { value: string };
+  const createCancel = document.getElementById('create-cancel')!;
+  const createSubmit = document.getElementById('create-submit')!;
+
+  const CHILD_TIER: Record<string, string> = { program: 'study', study: 'substudy', substudy: 'task' };
+  const dateSel = (edge: 'start' | 'end', part: 'month' | 'year') =>
+    document.getElementById(`create-${edge}-${part}`) as HTMLElement & { value: string };
+  const setCreateDate = (edge: 'start' | 'end', iso: string) => {
+    const [y, m] = (iso || '').split('-');
+    dateSel(edge, 'month').value = m ?? '';
+    dateSel(edge, 'year').value = y ?? '';
+  };
+  const readCreateDate = (edge: 'start' | 'end') => {
+    const m = String(dateSel(edge, 'month').value ?? '');
+    const y = String(dateSel(edge, 'year').value ?? '');
+    return y && m ? `${y}-${m}` : '';
+  };
+  // esa-button is compile-time, so toggle its disabled affordance in the DOM.
+  const setCreateEnabled = (enabled: boolean) => {
+    createSubmit.querySelector('.esa-button')?.classList.toggle('esa-button--disabled', !enabled);
+    const native = createSubmit.querySelector('button.esa-button__native') as HTMLButtonElement | null;
+    if (native) native.disabled = !enabled;
+  };
+
+  let createParentId = '';
+
+  function openCreate(parentId: string) {
+    const api = getApi();
+    const parent = api?.getNode(parentId);
+    if (!api || !parent) return;
+    const childTier = CHILD_TIER[parent.tier];
+    if (!childTier) return; // tasks have no child tier
+    createParentId = parentId;
+    createTitle.textContent = `New ${childTier === 'substudy' ? 'sub-study' : childTier}`;
+    createName.value = '';
+    createCoa.value = '';
+    // Lead only for a study-tier child; Status only for a task-tier child — the two
+    // fields the model actually carries on those tiers (setLead / setStatus).
+    createLeadWrap.hidden = childTier !== 'study';
+    if (childTier === 'study') createLead.value = '';
+    createStatusWrap.hidden = childTier !== 'task';
+    if (childTier === 'task') createStatus.value = 'not-started';
+    // Seed a sensible span inside the parent's effective range (own, else derived).
+    const roll = api.rollupOf(parentId);
+    setCreateDate('start', parent.startMonth ?? roll?.startMonth ?? '2029-04');
+    setCreateDate('end', parent.endMonth ?? roll?.endMonth ?? '2029-09');
+    setCreateEnabled(false);
+    // Card-stack over the node drawer: it insets to peek out; the top drawer brings
+    // no second backdrop (so the page never double-dims).
+    const stacked = drawer.open;
+    createDrawer.classList.toggle('is-stacked', stacked);
+    drawer.classList.toggle('is-under', stacked);
+    createDrawer.show();
+  }
+
+  // esa-text-field re-emits 'change' on every keystroke — gate Create on a name.
+  createName.addEventListener('change', () => setCreateEnabled(createName.value.trim().length > 0));
+
+  function handleCreate() {
+    const api = getApi();
+    const name = createName.value.trim();
+    if (!api || !createParentId || !name) return;
+    // addChildTo mints the child (default name) + selects it; diff allNodes() to
+    // learn its id, then create-then-set the entered fields through the API.
+    const before = new Set(api.allNodes().map((n) => n.id));
+    api.addChildTo(createParentId);
+    const created = api.allNodes().find((n) => !before.has(n.id));
+    if (created) {
+      api.setName(created.id, name);
+      // No coaRef setter on wbApi; getNode returns the LIVE model node and coaRef
+      // affects neither geometry nor roll-ups, so set it directly (no recompute).
+      const coa = createCoa.value.trim();
+      if (coa) { const node = api.getNode(created.id); if (node) node.coaRef = coa; }
+      if (created.tier === 'study') {
+        const lead = String(createLead.value ?? '');
+        if (lead) api.setLead(created.id, lead);
+      }
+      if (created.tier === 'task') {
+        const status = String(createStatus.value ?? '');
+        if (status) api.setStatus(created.id, status);
+      }
+      let startISO = readCreateDate('start');
+      let endISO = readCreateDate('end');
+      if (startISO && !endISO) endISO = startISO;
+      if (endISO && !startISO) startISO = endISO;
+      if (startISO && endISO) {
+        if (startISO > endISO) endISO = startISO;
+        api.setSchedule(created.id, startISO, endISO);
+      }
+    }
+    createDrawer.close(); // fires 'close' → un-insets the node drawer
+    // Return the node drawer to the PARENT (permit-tracking: the under card is
+    // unchanged when the top card closes). addChildTo left it on the new child.
+    document.dispatchEvent(new CustomEvent('wb-node-select', { detail: { id: createParentId }, bubbles: true }));
+  }
+
+  createSubmit.addEventListener('click', () => handleCreate());
+  createCancel.addEventListener('click', () => createDrawer.close());
+  // Any close path (Cancel / Create / X / backdrop / Esc) un-insets the node drawer.
+  createDrawer.addEventListener('close', () => drawer.classList.remove('is-under'));
+  document.addEventListener('wb-add-child-request', (e) =>
+    openCreate((e as CustomEvent).detail?.parentId as string),
+  );
+
   // The lego's own Esc handler only hears keydown when focus is inside the dialog;
-  // close from anywhere so an open drawer never traps the page.
+  // close from anywhere so an open drawer never traps the page. With the create
+  // drawer stacked on top, Esc closes IT first, leaving the node drawer open.
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') drawer.close();
+    if (e.key !== 'Escape') return;
+    if (createDrawer.open) createDrawer.close();
+    else drawer.close();
   });
 
   // ── Panel reconciliation: nodes added by the CRUD layer get a cloned blank
@@ -207,9 +866,12 @@ const fishNav = [
 
 <style>
   /* bcn-lego-checked: PAGE-COMPOSITION GLUE ONLY. The stat row wraps esa-stat legos;
-     the tree is bcn-work-breakdown; the drawer body is bcn-node-edit. Every section
-     resolves to a component (see manifest). Checked esa-* (no 4-tier gantt lego, no
-     node-panel lego) and Beacon. No reinvented primitive; no raw form control. */
+     the tree is bcn-work-breakdown; the drawer body is bcn-node-edit; the stacked
+     create drawer composes esa-side-dialog + esa-text-field + esa-select + esa-button.
+     Every section resolves to a component (see manifest). Checked esa-* (no 4-tier
+     gantt lego, no node-panel lego) and Beacon. The only bespoke CSS is drawer chrome
+     + create-form stacking glue and the two esa-side-dialog stacking knobs (--side-
+     dialog-inset / --color-backdrop). No reinvented primitive; no raw form control. */
 
 
 
@@ -222,6 +884,90 @@ const fishNav = [
   .bcn-node-body [data-node-panel][hidden] { display: none; }
   .bcn-node-body [data-node-panel]:not([hidden]) { display: flex; flex-direction: column; flex: 1; }
 
-  .bcn-node-foot { display: flex; align-items: center; justify-content: flex-end; width: 100%; }
+  .bcn-node-foot { display: flex; align-items: center; justify-content: space-between; width: 100%; }
   .bcn-node-foot a { text-decoration: none; }
+
+  /* ── Stacked create drawer (a small, tier-aware create form) ── */
+  .bcn-create-head { display: flex; align-items: center; gap: var(--spacing-200); min-width: 0; }
+  .bcn-create-head__title { font-family: var(--font-decorative); font-size: 1.125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); line-height: 1.25; min-width: 0; }
+
+  .bcn-create { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .bcn-create__section { display: flex; flex-direction: column; gap: var(--spacing-300); }
+  .bcn-create__label { font-size: var(--form-font-size-md, 0.9375rem); font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); }
+  .bcn-create__sched-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-200) var(--spacing-300); }
+
+  .bcn-create-foot { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-200); width: 100%; }
+
+  /* ── Drawer stacking (create drawer over the node drawer) — two index cards.
+     The under card insets to peek out from behind the top; the top card brings no
+     second backdrop, so the page doesn't double-dim. Both are esa-side-dialog custom
+     properties; the slide is the lego's own inset transition. --side-dialog-inset
+     MUST carry units (44px) — a unitless value silently kills the width calc. ── */
+  #node-drawer.is-under { --side-dialog-inset: 44px; }
+  #create-drawer.is-stacked { --color-backdrop: transparent; --backdrop-filter: none; }
+
+  /* ── Roles-edit drawer body (composition glue: rows of esa-* controls) ── */
+  .bcn-roles-edit-head { display: flex; align-items: center; gap: var(--spacing-200); flex-wrap: wrap; min-width: 0; }
+  .bcn-roles-edit-head__ref { flex-shrink: 0; font-family: var(--font-mono); font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 1px var(--spacing-200); border-radius: var(--radius-100); }
+  .bcn-roles-edit-head__title { font-family: var(--font-decorative); font-size: 1.125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); line-height: 1.25; min-width: 0; }
+
+  .bcn-roles-edit { display: flex; flex-direction: column; gap: var(--spacing-400); }
+  .bcn-roles-edit__row { display: flex; flex-direction: column; gap: var(--spacing-200); padding-bottom: var(--spacing-400); border-bottom: 1px solid var(--color-border-light); }
+  .bcn-roles-edit__row:last-child { border-bottom: 0; padding-bottom: 0; }
+  .bcn-roles-edit__ws { font-size: var(--form-font-size-md, 0.9375rem); font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); }
+  .bcn-roles-edit__fields { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-200) var(--spacing-300); align-items: center; }
+  .bcn-roles-edit__tent { display: inline-flex; align-items: center; gap: var(--spacing-200); grid-column: 1 / -1; font-size: var(--type-size-150); color: var(--color-text-secondary); cursor: pointer; }
+
+  .bcn-roles-edit-foot { display: flex; align-items: center; justify-content: flex-end; gap: var(--spacing-200); width: 100%; }
+  /* ── Utilities row: view toggle + Export menu side by side ── */
+  .bcn-gantt-utils {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+
+  /* ── Print isolation: Export → PDF stamps body[data-print=…], shows exactly one
+     surface, and prints it. The memo template (#print-memo) exists ONLY for this
+     path — the visibility trick survives the app shell without knowing its
+     internals (visibility inherits through shadow roots; display:none does not
+     need fighting except the template's own [hidden]). ── */
+  @media print {
+    :global(body[data-print]) :global(*) {
+      visibility: hidden;
+    }
+    :global(body[data-print='memo']) #print-memo,
+    :global(body[data-print='memo']) #print-memo :global(*) {
+      visibility: visible;
+    }
+    :global(body[data-print='memo']) #print-memo {
+      display: block !important;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+    :global(body[data-print='gantt']) #view-gantt,
+    :global(body[data-print='gantt']) #view-gantt :global(*) {
+      visibility: visible;
+    }
+    :global(body[data-print='gantt']) #view-gantt {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+    :global(body[data-print='gantt']) #view-gantt :global(*) {
+      overflow: visible !important;
+    }
+    :global(body[data-print='roles']) #view-roles,
+    :global(body[data-print='roles']) #view-roles :global(*) {
+      visibility: visible;
+    }
+    :global(body[data-print='roles']) #view-roles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+  }
 </style>

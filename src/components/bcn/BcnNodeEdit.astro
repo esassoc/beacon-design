@@ -23,7 +23,7 @@
 import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnFundingPlan from './BcnFundingPlan.astro';
 import BcnStatusSelect from './BcnStatusSelect.astro';
-import { TASK_STATUS_META, TIER_META, waterYearOf, type HierNode, type NodeRollUp } from '../../data/fish-model';
+import { LEAD_ORGS, TASK_STATUS_META, TIER_META, waterYearOf, type HierNode, type NodeRollUp } from '../../data/fish-model';
 import { SCHEDULE_START_YEAR, SCHEDULE_END_YEAR } from '../../data/fish-schedule';
 import { withBase } from '../../lib/base';
 
@@ -63,7 +63,11 @@ const statusOpts = (Object.entries(TASK_STATUS_META) as [string, { label: string
   ([value, m]) => ({ value, label: m.label, color: m.hex }),
 );
 
-const detailsHref = withBase(`/prototypes/fish-node?id=${node.id}`);
+// Lead-org options for the study-tier Lead picker (esa-select hydrates the JSON).
+const leadOptsJson = JSON.stringify(LEAD_ORGS.map((l) => ({ value: l, label: l })));
+
+// Every tier opens its unified detail page (tree traversal + full editing).
+const detailsHref = withBase(`/prototypes/fish-detail/${node.id}`);
 ---
 
 <div class="bcn-edit">
@@ -74,6 +78,15 @@ const detailsHref = withBase(`/prototypes/fish-node?id=${node.id}`);
     <section class="bcn-edit__section">
       <h3 class="bcn-edit__title">Status</h3>
       <BcnStatusSelect label="" value={node.status ?? 'not-started'} options={statusOpts} />
+    </section>
+  )}
+
+  <!-- ── Lead (STUDIES only — accountability sits on the Study; sub-studies/tasks
+       inherit it; programs roll it up). Writes through wbApi.setLead. ── -->
+  {node.tier === 'study' && (
+    <section class="bcn-edit__section">
+      <h3 class="bcn-edit__title">Lead</h3>
+      <esa-select label="" size="sm" placeholder="Select lead org" options={leadOptsJson} data-wb-lead></esa-select>
     </section>
   )}
 
@@ -103,9 +116,6 @@ const detailsHref = withBase(`/prototypes/fish-node?id=${node.id}`);
         Add {tier.childLabel.toLowerCase()}
       </EsaButton>
     )}
-    <EsaButton color="danger" appearance="soft" size="sm" icon="trash-2" data-wb-delete>
-      Delete {tier.label.toLowerCase()}
-    </EsaButton>
     <EsaButton class="bcn-edit__details" href={detailsHref} color="ghost" appearance="outline" size="sm" icon="external-link" data-wb-details>
       View full details
     </EsaButton>
@@ -123,6 +133,7 @@ const detailsHref = withBase(`/prototypes/fish-node?id=${node.id}`);
     rollupOf(id: string): NodeRollUp | undefined;
     setSchedule(id: string, startMonth: string, endMonth: string): void;
     setStatus(id: string, status: string): void;
+    setLead(id: string, lead: string): void;
     addChildTo(id: string): void;
     requestDelete(id: string): void;
   };
@@ -160,6 +171,9 @@ const detailsHref = withBase(`/prototypes/fish-node?id=${node.id}`);
     if (!node) return;
     const statusCtl = statusCtlOf(panel);
     if (statusCtl && node.status && statusCtl.value !== node.status) statusCtl.setValue(node.status);
+    // Lead picker (studies): reflect the node's current lead.
+    const leadSel = panel.querySelector<Field>('esa-select[data-wb-lead]');
+    if (leadSel) leadSel.value = node.lead ?? '';
     const sel = (field: string, part: string) =>
       panel.querySelector<Field>(`esa-select[data-wb-field="${field}"][data-part="${part}"]`);
     // Pre-fill from the node's own dates, falling back to the DERIVED roll-up
@@ -189,8 +203,9 @@ const detailsHref = withBase(`/prototypes/fish-node?id=${node.id}`);
     setText(panel, '[data-wb-delete] .esa-button__label', `Delete ${meta.label.toLowerCase()}`);
     const details = panel.querySelector<HTMLAnchorElement>('a[data-wb-details]');
     if (details) {
-      const base = (details.getAttribute('href') ?? '').split('?')[0];
-      details.setAttribute('href', `${base}?id=${encodeURIComponent(id)}`);
+      // Preserve the site base, then re-point at the node's unified detail page.
+      const siteBase = (details.getAttribute('href') ?? '').split('/prototypes/')[0];
+      details.setAttribute('href', `${siteBase}/prototypes/fish-detail/${encodeURIComponent(id)}`);
     }
   }
 
@@ -242,14 +257,31 @@ const detailsHref = withBase(`/prototypes/fish-node?id=${node.id}`);
     api.setSchedule(id, start!, end!);
   });
 
-  // ── Structure actions: add child (drawer follows the new node) / delete. ──
+  // ── Lead (STUDY tier): esa-select change → wbApi.setLead. The Lead column,
+  //    its program roll-up, and inherited sub-rows re-derive through recompute. ──
+  document.addEventListener('change', (e) => {
+    const el = e.target as HTMLElement & { value?: string };
+    if (!(el instanceof HTMLElement) || el.tagName !== 'ESA-SELECT' || el.dataset.wbLead === undefined) return;
+    const panel = el.closest('[data-node-panel]') as HTMLElement | null;
+    const api = getApi();
+    if (!panel || !api) return;
+    const value = String((e as CustomEvent).detail?.value ?? el.value ?? '');
+    if (value) api.setLead(panel.dataset.nodePanel ?? '', value);
+  });
+
+  // ── Structure actions: add child opens the stacked create drawer (the PAGE owns
+  //    that drawer — permit-tracking pattern), so here we just announce intent with
+  //    the parent id; delete confirms through the gantt's dialog as before. ──
   document.addEventListener('click', (e) => {
     const t = e.target as HTMLElement;
     const add = t.closest?.('[data-wb-add]');
     if (add) {
       const panel = add.closest('[data-node-panel]') as HTMLElement | null;
-      const api = getApi();
-      if (panel && api) api.addChildTo(panel.dataset.nodePanel ?? '');
+      const parentId = panel?.dataset.nodePanel ?? '';
+      if (parentId)
+        document.dispatchEvent(
+          new CustomEvent('wb-add-child-request', { detail: { parentId }, bubbles: true }),
+        );
       return;
     }
     const del = t.closest?.('[data-wb-delete]');

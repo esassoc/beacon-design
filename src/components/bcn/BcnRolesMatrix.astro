@@ -1,0 +1,239 @@
+---
+// <BcnRolesMatrix> — the "Roles Spreadsheet" projection (study × workstream RACI).
+//
+// A projection of the work-breakdown studies: studies down the side, the 11 RACI
+// work-streams across the top, each cell the assigned org (+ named person, + a
+// "tentative" marker for the source's trailing "?"). Generated live from each
+// study's role assignments, so it never drifts the way the hand-maintained
+// Roles_Summary.xlsx does. A Search + Lead filter bar (parity with the gantt's
+// controls) scopes the rows; clicking a study row emits `roles-row-select` so the
+// host can open its RACI edit drawer, and a `roles-updated` event repaints a row
+// in place after a save.
+//
+// bcn-lego-checked: no esa-* lego renders a pivoted RACI matrix (checked the
+// catalog — esa-card/esa-stat are static, the AG-Grid crosswalk is a flat row table,
+// not a study×workstream pivot). Checked Beacon prod (roles live in an exported
+// spreadsheet, no component). The filter controls ARE legos (esa-text-field /
+// esa-select); the pivot itself is a semantic <table> with a sticky header row +
+// sticky study column — the only CSS is that sticky-matrix glue.
+import { WORKSTREAM_META, type RoleAssignment, type WorkstreamKey } from '../../data/fish-model';
+
+/** Generic row so the matrix projects from EITHER dataset (the work-breakdown
+ *  studies OR the flat study register) — the caller maps its records to this. */
+export interface RoleMatrixRow {
+  /** Stable id (the work-breakdown study id, e.g. "STY-014") — the edit key. */
+  id: string;
+  /** COA reference badge, e.g. "10.19.1". */
+  ref: string;
+  name: string;
+  /** Study lead org — drives the Lead filter. */
+  lead?: string;
+  roles: RoleAssignment[];
+}
+
+interface Props {
+  rows: RoleMatrixRow[];
+}
+const { rows: inputRows } = Astro.props;
+
+const WORKSTREAMS = Object.keys(WORKSTREAM_META) as WorkstreamKey[];
+
+// One row per study; each carries a workstream → assignment lookup so empty cells
+// render blank (a study rarely touches all 11 work-streams).
+const rows = inputRows.map((r) => ({
+  row: r,
+  byWorkstream: new Map(r.roles.map((a) => [a.workstream, a])),
+}));
+---
+
+<div class="bcn-roles" data-workstreams={JSON.stringify(WORKSTREAMS)}>
+  <!-- ── Filter bar (parity with the gantt's controls; Search + Lead — the two
+       that apply to a flat study matrix). Every control is a lego. ── -->
+  <div class="bcn-roles__filterbar">
+    <div class="bcn-roles__fb-group">
+      <span class="bcn-roles__fb-label">Search</span>
+      <esa-text-field id="bcn-roles-search" placeholder="Search study or COA" size="sm"></esa-text-field>
+    </div>
+    <span class="bcn-roles__fb-divider"></span>
+    <div class="bcn-roles__fb-group">
+      <span class="bcn-roles__fb-label">Lead</span>
+      <esa-select id="bcn-roles-lead" class="bcn-roles__fb-leadsel" size="sm"></esa-select>
+    </div>
+    <span class="bcn-roles__fb-hint">Click a study to edit its roles</span>
+  </div>
+
+  <div class="bcn-roles__scroll">
+    <table class="bcn-roles__table">
+      <thead>
+        <tr>
+          <th class="bcn-roles__corner" scope="col">Study</th>
+          {WORKSTREAMS.map((w) => (
+            <th class="bcn-roles__ws" scope="col">{WORKSTREAM_META[w].label}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {
+          rows.map(({ row, byWorkstream }) => (
+            <tr
+              class="bcn-roles__row"
+              data-id={row.id}
+              data-ref={row.ref.toLowerCase()}
+              data-name={row.name.toLowerCase()}
+              data-lead={row.lead ?? ''}
+            >
+              <th class="bcn-roles__study" scope="row">
+                <span class="bcn-roles__coa">{row.ref}</span>
+                <span class="bcn-roles__name">{row.name}</span>
+              </th>
+              {
+                WORKSTREAMS.map((w) => {
+                  const a = byWorkstream.get(w);
+                  return (
+                    <td class="bcn-roles__cell">
+                      {a ? (
+                        <span class="bcn-roles__assign">
+                          <span class="bcn-roles__org">
+                            {a.org}
+                            {a.tentative && <span class="bcn-roles__tentative" title="Tentative — unconfirmed in the source">?</span>}
+                          </span>
+                          {a.person && <span class="bcn-roles__person">{a.person}</span>}
+                        </span>
+                      ) : (
+                        <span class="bcn-roles__empty" aria-hidden="true">·</span>
+                      )}
+                    </td>
+                  );
+                })
+              }
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+  <p class="bcn-roles__note">
+    Generated from each study’s role assignments — the same records the gantt reads.
+    A <span class="bcn-roles__tentative bcn-roles__tentative--legend">?</span> marks an assignment the source left unconfirmed.
+  </p>
+</div>
+
+<script>
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-select';
+  import type { RoleAssignment, WorkstreamKey } from '../../data/fish-model';
+
+  const ENT: Record<string, string> = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+  const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ENT[c]);
+
+  // A cell's inner markup, kept byte-for-byte with the SSR render above so a
+  // repaint after an edit is indistinguishable from the initial render.
+  function cellInner(a: RoleAssignment | undefined): string {
+    if (!a) return '<span class="bcn-roles__empty" aria-hidden="true">·</span>';
+    const tent = a.tentative
+      ? '<span class="bcn-roles__tentative" title="Tentative — unconfirmed in the source">?</span>'
+      : '';
+    const person = a.person ? `<span class="bcn-roles__person">${esc(a.person)}</span>` : '';
+    return `<span class="bcn-roles__assign"><span class="bcn-roles__org">${esc(a.org)}${tent}</span>${person}</span>`;
+  }
+
+  document.querySelectorAll<HTMLElement>('.bcn-roles').forEach((root) => {
+    const workstreams: WorkstreamKey[] = JSON.parse(root.dataset.workstreams ?? '[]');
+    const allRows = [...root.querySelectorAll<HTMLElement>('.bcn-roles__row')];
+
+    // ── Filter bar: Search (name/COA) + Lead. ──
+    const search = root.querySelector('#bcn-roles-search') as HTMLElement & { value: string };
+    const leadSel = root.querySelector('#bcn-roles-lead') as HTMLElement & {
+      options: { value: string; label: string }[];
+      value: string;
+    };
+    let filterQuery = '';
+    let filterLead = 'all';
+    const distinctLeads = [...new Set(allRows.map((r) => r.dataset.lead ?? '').filter(Boolean))].sort();
+    if (leadSel) {
+      leadSel.options = [{ value: 'all', label: 'All leads' }, ...distinctLeads.map((l) => ({ value: l, label: l }))];
+      leadSel.value = 'all';
+    }
+    function applyFilter() {
+      allRows.forEach((row) => {
+        const matchesQ = !filterQuery || (row.dataset.name ?? '').includes(filterQuery) || (row.dataset.ref ?? '').includes(filterQuery);
+        const matchesLead = filterLead === 'all' || (row.dataset.lead ?? '') === filterLead;
+        row.hidden = !(matchesQ && matchesLead);
+      });
+    }
+    search?.addEventListener('change', (e) => {
+      filterQuery = (((e as CustomEvent).detail?.value as string) ?? search.value ?? '').trim().toLowerCase();
+      applyFilter();
+    });
+    leadSel?.addEventListener('change', (e) => {
+      filterLead = ((e as CustomEvent).detail?.value as string) ?? leadSel.value ?? 'all';
+      applyFilter();
+    });
+
+    // ── Row click → ask the host to open the RACI edit drawer for this study. ──
+    root.querySelector('tbody')?.addEventListener('click', (e) => {
+      const row = (e.target as HTMLElement).closest<HTMLElement>('.bcn-roles__row');
+      if (!row) return;
+      document.dispatchEvent(new CustomEvent('roles-row-select', { detail: { id: row.dataset.id }, bubbles: true }));
+    });
+
+    // ── Repaint a row's cells after a save (host dispatches with the new roles). ──
+    document.addEventListener('roles-updated', (e) => {
+      const { id, roles } = ((e as CustomEvent).detail ?? {}) as { id?: string; roles?: RoleAssignment[] };
+      const row = allRows.find((r) => r.dataset.id === id);
+      if (!row || !roles) return;
+      const byWs = new Map(roles.map((a) => [a.workstream, a]));
+      const cells = [...row.querySelectorAll<HTMLElement>('.bcn-roles__cell')];
+      workstreams.forEach((w, i) => {
+        if (cells[i]) cells[i].innerHTML = cellInner(byWs.get(w));
+      });
+    });
+  });
+</script>
+
+<style>
+  /* bcn-lego-checked: sticky-matrix layout glue ONLY. The pivot is a semantic
+     <table>; sticky header row + sticky study column keep both axes anchored while
+     the 11 work-stream columns scroll. Filter controls are legos. */
+  .bcn-roles { display: flex; flex-direction: column; gap: var(--spacing-300); --_study-w: 300px; }
+
+  /* Filter bar (gantt-parity) */
+  .bcn-roles__filterbar { display: flex; align-items: center; gap: var(--spacing-300); flex-wrap: wrap; padding: var(--spacing-250) var(--spacing-400); border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface); }
+  .bcn-roles__fb-group { display: inline-flex; align-items: center; gap: var(--spacing-300); }
+  .bcn-roles__filterbar :global(esa-text-field) { width: 240px; }
+  .bcn-roles__filterbar :global(esa-select) { width: 11em; }
+  .bcn-roles__fb-label { font-size: var(--type-size-150); font-weight: var(--font-weight-semibold); color: var(--color-text-tertiary); white-space: nowrap; }
+  .bcn-roles__fb-divider { width: 1px; align-self: stretch; background: var(--color-border); margin: 0 var(--spacing-100); }
+  .bcn-roles__fb-hint { margin-left: auto; font-size: var(--type-size-100); color: var(--color-text-tertiary); font-style: italic; }
+
+  .bcn-roles__scroll { overflow: auto; max-height: calc(100vh - 360px); border: 1px solid var(--color-border); border-radius: var(--radius-200); background: var(--color-surface); }
+
+  .bcn-roles__table { border-collapse: separate; border-spacing: 0; width: max-content; min-width: 100%; }
+
+  /* Header row (sticky top) */
+  .bcn-roles__table thead th { position: sticky; top: 0; z-index: 2; background: var(--color-surface-sunken); border-bottom: 1px solid var(--color-border); }
+  .bcn-roles__corner { position: sticky; left: 0; z-index: 3 !important; width: var(--_study-w); min-width: var(--_study-w); text-align: left; padding: var(--spacing-300); font-size: var(--type-size-150); font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); border-right: 1px solid var(--color-border); }
+  .bcn-roles__ws { min-width: 148px; max-width: 176px; padding: var(--spacing-250) var(--spacing-300); text-align: left; vertical-align: bottom; font-size: var(--type-size-100); font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); line-height: 1.3; }
+
+  /* Study column (sticky left) — clickable to edit */
+  .bcn-roles__row { cursor: pointer; }
+  .bcn-roles__study { position: sticky; left: 0; z-index: 1; width: var(--_study-w); min-width: var(--_study-w); text-align: left; vertical-align: top; padding: var(--spacing-250) var(--spacing-300); background: var(--color-surface); border-right: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border-light); }
+  .bcn-roles__coa { display: inline-block; font-family: var(--font-mono); font-size: 0.6875rem; font-weight: var(--font-weight-semibold); color: var(--color-commitment); background: color-mix(in srgb, var(--color-commitment) 12%, white); padding: 1px 5px; border-radius: var(--radius-100); margin-bottom: 2px; }
+  .bcn-roles__name { display: block; font-size: var(--type-size-100); color: var(--color-text-primary); line-height: 1.35; }
+
+  /* Cells. The inner assign/org/person/tentative/empty spans are ALSO produced by
+     the client repaint via innerHTML, which Astro's scoped attribute never reaches —
+     so they are :global (names are bcn-roles__-namespaced, safe to unscope). */
+  .bcn-roles__cell { padding: var(--spacing-250) var(--spacing-300); vertical-align: top; border-bottom: 1px solid var(--color-border-light); border-right: 1px solid var(--color-border-light); }
+  .bcn-roles__row:hover .bcn-roles__cell { background: color-mix(in srgb, var(--color-secondary) 5%, transparent); }
+  .bcn-roles__row:hover .bcn-roles__study { background: color-mix(in srgb, var(--color-secondary) 5%, var(--color-surface)); }
+  :global(.bcn-roles__assign) { display: flex; flex-direction: column; gap: 1px; }
+  :global(.bcn-roles__org) { font-size: var(--type-size-100); font-weight: var(--font-weight-medium); color: var(--color-text-primary); line-height: 1.3; }
+  :global(.bcn-roles__person) { font-size: 0.75rem; color: var(--color-text-tertiary); line-height: 1.3; }
+  :global(.bcn-roles__empty) { color: var(--color-border-strong); }
+
+  :global(.bcn-roles__tentative) { display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; margin-left: 3px; border-radius: var(--radius-full); background: color-mix(in srgb, var(--color-warning) 20%, white); color: color-mix(in srgb, var(--color-warning) 80%, black); font-size: 0.625rem; font-weight: var(--font-weight-semibold); vertical-align: middle; }
+  .bcn-roles__tentative--legend { margin: 0 2px; }
+
+  .bcn-roles__note { margin: 0; font-size: var(--type-size-100); color: var(--color-text-tertiary); line-height: 1.5; }
+</style>
