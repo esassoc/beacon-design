@@ -336,6 +336,15 @@ export const prototypeGroups: PrototypeGroup[] = [
         createdAt: '2026-07-16',
         status: 'in-progress',
       },
+      {
+        slug: 'release-notes',
+        title: 'Release Notes',
+        description:
+          'Every Beacon release in one reverse-chronological stream — the changelog pattern in Beacon’s chrome, fed by the real 1.31–1.33 notes. Three tiers per release (headline stories, area-grouped entries with feature-flag notes, a collapsed fixes list), a sticky scroll-spy version rail, and monochrome serif typesetting. The help bar’s What’s-new popover deep-links into each release anchor.',
+        route: '/prototypes/release-notes',
+        createdAt: '2026-07-22',
+        status: 'in-progress',
+      },
     ],
   },
 ];

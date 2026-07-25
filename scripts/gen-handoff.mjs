@@ -7,7 +7,8 @@
 // manifest the runtime inspector reads. Routes without a spec fall back to the
 // hub's whole-page capture (the @esa/handoff CLI).
 //
-//   npm run handoff:all
+//   npm run handoff:all                          # every route (the deploy path)
+//   npm run handoff:all -- help release-notes    # only those routes' bundles
 //
 // Capture runs against `preview` (production output) per the handoff README.
 import { readFileSync, existsSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
@@ -34,7 +35,7 @@ const tierIndex = await buildTierIndex(root('node_modules/@esa/tokens'));
 // immediately precedes `route:`, and group slugs are harmlessly overwritten by the
 // page slug before any route consumes them.
 const registry = readFileSync(root('src/data/prototypes.ts'), 'utf8');
-const targets = [];
+let targets = [];
 let pendingSlug = null;
 for (const m of registry.matchAll(/slug:\s*'([^']+)'|route:\s*'([^']+)'/g)) {
   if (m[1] !== undefined) pendingSlug = m[1];
@@ -46,6 +47,22 @@ for (const m of registry.matchAll(/slug:\s*'([^']+)'|route:\s*'([^']+)'/g)) {
 if (!targets.length) {
   console.error('handoff:all — no prototypes found in src/data/prototypes.ts');
   process.exit(1);
+}
+
+// Optional slug filter. Regenerating one bundle still costs a full astro build (the
+// capture runs against the production preview), but it skips ~40 browser captures and
+// keeps the diff to the routes you actually changed. Unknown slugs FAIL rather than
+// silently capturing nothing.
+const only = process.argv.slice(2);
+if (only.length) {
+  const known = new Set(targets.map((t) => t.slug));
+  const unknown = only.filter((s) => !known.has(s));
+  if (unknown.length) {
+    console.error(`handoff — unknown slug(s): ${unknown.join(', ')}`);
+    console.error(`  known: ${[...known].join(', ')}`);
+    process.exit(1);
+  }
+  targets = targets.filter((t) => only.includes(t.slug));
 }
 
 const run = (cmd, args, extraEnv = {}) => {
