@@ -253,7 +253,17 @@ const facets = [
     width: 100%;
     border-collapse: collapse;
     font-size: var(--type-size-200);
+    /* FIXED, not auto: with auto layout the browser re-measures every column from the
+       rows currently VISIBLE, so expanding an effort — which introduces long page titles
+       and the first non-empty Status cells — resized the whole table under the cursor.
+       Fixed layout takes its widths from the header row alone, so the columns hold still
+       no matter which rows are open. */
+    table-layout: fixed;
   }
+  .bcn-pi__table th:nth-child(1) { width: 52%; }
+  .bcn-pi__table th:nth-child(2) { width: 18%; }
+  .bcn-pi__table th:nth-child(3) { width: 15%; }
+  .bcn-pi__table th:nth-child(4) { width: 15%; }
   .bcn-pi__table th[scope='col'] {
     padding: var(--spacing-250) var(--spacing-300);
     text-align: left;
@@ -316,9 +326,12 @@ const facets = [
     font-weight: var(--font-weight-semibold);
     line-height: 1.35;
   }
-  .bcn-pi__toggle :global(mark) {
-    background: color-mix(in srgb, var(--color-text-primary) 16%, transparent);
-    color: inherit;
+  /* Search hits — highlighter-yellow with dark text, the same #fde047 the omni-search
+     palette and results page use. One search-hit treatment across the spoke. */
+  .bcn-pi__toggle :global(mark),
+  .bcn-pi__link :global(mark) {
+    background: #fde047;
+    color: var(--color-text-primary);
     border-radius: 2px;
     padding: 0 1px;
   }
@@ -345,14 +358,6 @@ const facets = [
   .bcn-pi__link:hover {
     text-decoration: underline;
     text-underline-offset: 2px;
-  }
-  /* Matched substring — a neutral translucent wash that reads on white AND on the
-     sunken hover row. Never a tint (the house bans colour as an accent here). */
-  .bcn-pi__link :global(mark) {
-    background: color-mix(in srgb, var(--color-text-primary) 16%, transparent);
-    color: inherit;
-    border-radius: 2px;
-    padding: 0 1px;
   }
 
   .bcn-pi__cell-meta {
@@ -388,11 +393,16 @@ const facets = [
     background: var(--bcn-flag-on-color);
   }
 
-  /* Narrow: drop the tenant column rather than scroll the table sideways. */
+  /* Narrow: drop the tenant column rather than scroll the table sideways. The remaining
+     three are re-declared so the percentages still sum to 100 — under fixed layout a
+     hidden column does not hand its width back on its own. */
   @media (max-width: 48rem) {
     .bcn-pi__table th:nth-child(2),
     .bcn-pi__table td:nth-child(2) {
       display: none;
     }
+    .bcn-pi__table th:nth-child(1) { width: 54%; }
+    .bcn-pi__table th:nth-child(3) { width: 23%; }
+    .bcn-pi__table th:nth-child(4) { width: 23%; }
   }
 </style>
