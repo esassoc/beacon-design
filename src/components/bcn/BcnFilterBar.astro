@@ -1,0 +1,154 @@
+---
+// <BcnFilterBar> — the carded two-band filter bar Beacon's data surfaces share: a TOP
+// band carrying an optional lead control (a View pivot, a scope toggle) with the search
+// pushed to the right, and a BOTTOM band carrying the filter dropdowns behind a "Filters"
+// label with a clear-all pinned right.
+//
+// This shell was hand-copied into SIX pages before it was extracted — requirement-tracker,
+// permit-tracking, site-clearance, site-clearance-bio, fish-studies, monitoring/surveys —
+// which is precisely the "one-off page blob" the spoke's component rule forbids. The CSS
+// here is a faithful port of that shared glue, so a page adopting it should look identical.
+//
+// Every CONTROL stays a lego and is passed in by the host: esa-button-toggle for a pivot,
+// esa-text-field + esa-icon-button for search, esa-filter-dropdown for each facet,
+// esa-filter-clear-button for clear. The bar owns only the two-band card and the labels;
+// it holds NO filter state and wires NO behavior, so any page can drive it however it
+// already does (AG Grid, a DOM controller, or a framework store).
+//
+// Slots:
+//   lead    — optional; a labelled control group at the top-left (label via `leadLabel`).
+//   search  — optional; the search control, pushed right on the top band.
+//   default — the filter dropdowns; wrapped in esa-filter-container (the lego) for you.
+//   actions — optional; the clear-all, pinned right on the bottom band.
+//
+// The top band renders only when `lead` or `search` is filled, so a filters-only bar
+// collapses to a single band instead of leaving an empty strip.
+//
+// bcn-lego-checked: no esa-* lego is a two-band filter-bar CARD. esa-filter-container is
+// only the flex row of dropdowns (composed INSIDE here, not reimplemented); esa-search-panel
+// is a fixed-position overlay palette with a backdrop and Esc-to-close, not an in-page bar;
+// esa-app-bar is the top chrome strip. Checked Beacon (prod has the same glue inline in its
+// tracking pages, which is what this ports). bcn-filter-bar is the reusable home.
+import FilterContainer from '@esa/ecology/esa-filter-container.astro';
+
+interface Props {
+  /** Label beside the lead slot, e.g. "View". Omitted renders no label. */
+  leadLabel?: string;
+  /** Label for the filters band. */
+  filtersLabel?: string;
+}
+const { leadLabel, filtersLabel = 'Filters' } = Astro.props;
+
+const hasLead = Astro.slots.has('lead');
+const hasSearch = Astro.slots.has('search');
+const hasTop = hasLead || hasSearch;
+const hasActions = Astro.slots.has('actions');
+---
+
+<div class="bcn-filterbar">
+  {
+    hasTop && (
+      <div class="bcn-filterbar__top">
+        {hasLead && (
+          <div class="bcn-filterbar__group">
+            {leadLabel && <span class="bcn-filterbar__label">{leadLabel}</span>}
+            <slot name="lead" />
+          </div>
+        )}
+        {hasSearch && (
+          <div class:list={['bcn-filterbar__search', !hasLead && 'bcn-filterbar__search--alone']}>
+            <slot name="search" />
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  <div class="bcn-filterbar__bottom">
+    <span class="bcn-filterbar__label">{filtersLabel}</span>
+    <FilterContainer>
+      <slot />
+    </FilterContainer>
+    {
+      hasActions && (
+        <span class="bcn-filterbar__clear">
+          <slot name="actions" />
+        </span>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  /* Carded two-band shell — the faithful port. Semantic tokens only. */
+  .bcn-filterbar {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+  }
+
+  .bcn-filterbar__top {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-400);
+    padding: var(--spacing-300) var(--spacing-400);
+    flex-wrap: wrap;
+  }
+
+  .bcn-filterbar__bottom {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding: var(--spacing-300) var(--spacing-400);
+    flex-wrap: wrap;
+  }
+  /* The divider exists only when there is a band above it to divide from. */
+  .bcn-filterbar__top + .bcn-filterbar__bottom {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .bcn-filterbar__group {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+
+  /* A readable word, not an ornamental micro-label. */
+  .bcn-filterbar__label {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+  }
+
+  /* Search sits right on the top band; it stretches to fill what the lead leaves. */
+  .bcn-filterbar__search {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    min-width: 300px;
+  }
+  .bcn-filterbar__search :global(esa-text-field) {
+    flex: 1;
+  }
+
+  /* With no lead control there is nothing to sit beside, so a 300px field pinned right
+     leaves the band looking half-empty. Alone, the search takes the width. */
+  .bcn-filterbar__search--alone {
+    margin-left: 0;
+    flex: 1;
+  }
+
+  .bcn-filterbar__clear {
+    margin-left: auto;
+  }
+
+  /* Narrow: the search drops to its own line rather than crushing the lead. */
+  @media (max-width: 40rem) {
+    .bcn-filterbar__search {
+      margin-left: 0;
+      min-width: 100%;
+    }
+  }
+</style>

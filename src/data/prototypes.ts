@@ -8,6 +8,17 @@
 
 export type PrototypeStatus = 'live' | 'in-progress' | 'planned' | 'archived';
 
+/** The tenant an effort was built for. 'platform' = ships to every tenant. */
+export type PrototypeTenant = 'dcp' | 'prologis' | 'aws' | 'platform';
+
+/** Display labels for the tenant facet. 'platform' borrows the product's own phrase. */
+export const TENANT_LABEL: Record<PrototypeTenant, string> = {
+  dcp: 'Delta Conveyance',
+  prologis: 'Prologis',
+  aws: 'AWS',
+  platform: 'All tenants',
+};
+
 export interface PrototypePage {
   /** URL-safe id. */
   slug: string;
@@ -21,6 +32,8 @@ export interface PrototypePage {
   /** Jira id, e.g. "BCN-1317". Optional. */
   ticket?: string;
   status: PrototypeStatus;
+  /** Override the group's tenant. Only when a page diverges from its effort. */
+  tenant?: PrototypeTenant;
 }
 
 export interface PrototypeGroup {
@@ -28,12 +41,41 @@ export interface PrototypeGroup {
   title: string;
   /** One-liner under the group heading. */
   description: string;
+  /** The tenant this EFFORT was built for — an engagement has one client. A page
+      may override it, but that is the exception; the group carries the fact. */
+  tenant: PrototypeTenant;
   pages: PrototypePage[];
+}
+
+/** One page flattened with the effort it belongs to and its resolved tenant. */
+export interface PrototypeRow extends PrototypePage {
+  tenant: PrototypeTenant;
+  groupSlug: string;
+  groupTitle: string;
+}
+
+/**
+ * Every page as a flat list, NEWEST FIRST — the shape the index grid renders.
+ * Ties on createdAt fall back to title so the order is stable across builds
+ * (several pages share a build date).
+ */
+export function allPrototypeRows(): PrototypeRow[] {
+  return prototypeGroups
+    .flatMap((g) =>
+      g.pages.map((p) => ({
+        ...p,
+        tenant: p.tenant ?? g.tenant,
+        groupSlug: g.slug,
+        groupTitle: g.title,
+      }))
+    )
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt) || a.title.localeCompare(b.title));
 }
 
 export const prototypeGroups: PrototypeGroup[] = [
   {
     slug: 'project-dashboard',
+    tenant: 'dcp',
     title: 'Project Dashboard',
     description:
       'The logged-in project HOMEPAGE — a profile-style landing that answers "where am I, and what should I do next?" and acts as a front door to the app, with detail pushed down to the component dashboards.',
@@ -60,6 +102,7 @@ export const prototypeGroups: PrototypeGroup[] = [
   },
   {
     slug: 'global-search',
+    tenant: 'dcp',
     title: 'Global Search',
     description:
       'Cross-entity search for the whole project — the "/" omnibox (mounted app-wide in the chrome) and the full results page.',
@@ -77,6 +120,7 @@ export const prototypeGroups: PrototypeGroup[] = [
   },
   {
     slug: 'tracking-improvements',
+    tenant: 'prologis',
     title: 'Tracking Improvements',
     description:
       'Requirement-centric compliance tracking — the Tracker grid, the Data Catalog detail/editing surfaces, and the streamlined-workflow variants.',
@@ -162,6 +206,7 @@ export const prototypeGroups: PrototypeGroup[] = [
   },
   {
     slug: 'permit-tracking',
+    tenant: 'aws',
     title: 'Permit Tracking',
     description:
       'Linear-infrastructure permitting as ONE feature (Tracking → Permit Tracking): the map-first dashboard and the CRUD workspace are tabs of a single page (BCN-1266 / BCN-1267).',
@@ -180,6 +225,7 @@ export const prototypeGroups: PrototypeGroup[] = [
   },
   {
     slug: 'site-clearance',
+    tenant: 'dcp',
     title: 'Site Clearance',
     description:
       'Monitoring Portal decision support — clearance surveys + observation buffers derive a go/no-go status per work area (map-first), with the clearance drawer as the write surface.',
@@ -224,6 +270,7 @@ export const prototypeGroups: PrototypeGroup[] = [
   },
   {
     slug: 'monitoring-portal',
+    tenant: 'dcp',
     title: 'Monitoring Portal',
     description:
       'The field-monitoring command center — the tabs-to-sidebar nav refactor, the commitment-compliance dashboard explored as three switchable variants, and survey documents (Fulcrum / Survey123 / CASP) brought in as a grid.',
@@ -252,6 +299,7 @@ export const prototypeGroups: PrototypeGroup[] = [
   },
   {
     slug: 'fish-studies',
+    tenant: 'dcp',
     title: 'Fish Studies',
     description:
       'Science-plan project management — one COA-keyed study dataset projected as the crosswalk grid, a water-year gantt, and the narrative sketch + CDFW review-comment cycle, with on-demand document outputs (the single-source-of-truth pitch for Aaron/Paul).',
@@ -323,6 +371,7 @@ export const prototypeGroups: PrototypeGroup[] = [
   },
   {
     slug: 'help-guidance',
+    tenant: 'platform',
     title: 'Help & Guidance',
     description:
       'In-context help on every page — a floating utility bar (the Aldo compass mark) opens a route-aware guidance drawer, backed by one browsable knowledge base.',
