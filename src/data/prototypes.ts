@@ -337,6 +337,15 @@ export const prototypeGroups: PrototypeGroup[] = [
         status: 'in-progress',
       },
       {
+        slug: 'help-category',
+        title: 'Help category page',
+        description:
+          'The comprehensive per-category surface the home’s cards link into — one static route per help category, shown here as Tracking. A breadcrumb back to the help home, the category’s full article list (title over a one-line summary, hairline-divided), and a reading pane scoped to that category which lands on its first article. Registered as the capturable exemplar for all seven categories; they share one route shape.',
+        route: '/prototypes/help/tracking',
+        createdAt: '2026-07-22',
+        status: 'in-progress',
+      },
+      {
         slug: 'release-notes',
         title: 'Release Notes',
         description:
