@@ -137,7 +137,7 @@ A contextual action bar that appears above the Permits grid when one or more row
 - `--color-text-inverse`: #fcfcfc _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
-- `--font-weight-medium`: 450 _(primitive)_
+- `--font-weight-medium`: 500 _(primitive)_
 - `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
 - `--form-font-size-sm`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
 - `--form-height-md`: 36px _(component)_

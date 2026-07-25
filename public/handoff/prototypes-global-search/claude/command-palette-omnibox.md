@@ -2685,7 +2685,7 @@ The global-search command palette — a fixed overlay centered both vertically a
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
 - `--font-decorative`: "Besley", serif _(component)_
-- `--font-weight-medium`: 450 _(primitive)_
+- `--font-weight-medium`: 500 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_

@@ -47,53 +47,6 @@ The destructive action lives in a bottom danger zone (BcnDangerZone — GitHub l
 
 ## Styles
 ```css
-#download-coversheet .esa-button {
-  width: 100%;
-  justify-content: center;
-}
-.bcn-danger-zone {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-}
-.bcn-danger-zone__heading {
-  margin: 0;
-  font-size: var(--type-size-250);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-danger-zone__box {
-  padding: var(--spacing-500);
-  border: 1px solid var(--color-danger);
-  border-radius: var(--radius-200);
-  background: var(--color-surface);
-}
-.bcn-danger-zone__item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-400);
-}
-.bcn-danger-zone__text {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100);
-  min-width: 0;
-}
-.bcn-danger-zone__title {
-  margin: 0;
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-danger-zone__desc {
-  margin: 0;
-  font-size: var(--form-font-size-md);
-  color: var(--color-text-secondary);
-}
-.bcn-danger-zone__action {
-  flex-shrink: 0;
-}
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
   --_btn-padding-x: var(--form-padding-x-md, 16px);
@@ -179,6 +132,53 @@ The destructive action lives in a bottom danger zone (BcnDangerZone — GitHub l
   color: var(--_accent-text);
   border-color: var(--color-border-strong, #d4d4d4);
 }
+#download-coversheet .esa-button {
+  width: 100%;
+  justify-content: center;
+}
+.bcn-danger-zone {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+}
+.bcn-danger-zone__heading {
+  margin: 0;
+  font-size: var(--type-size-250);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-danger-zone__box {
+  padding: var(--spacing-500);
+  border: 1px solid var(--color-danger);
+  border-radius: var(--radius-200);
+  background: var(--color-surface);
+}
+.bcn-danger-zone__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-400);
+}
+.bcn-danger-zone__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+  min-width: 0;
+}
+.bcn-danger-zone__title {
+  margin: 0;
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-danger-zone__desc {
+  margin: 0;
+  font-size: var(--form-font-size-md);
+  color: var(--color-text-secondary);
+}
+.bcn-danger-zone__action {
+  flex-shrink: 0;
+}
 ```
 
 ## Tokens
@@ -196,7 +196,7 @@ The destructive action lives in a bottom danger zone (BcnDangerZone — GitHub l
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
-- `--font-weight-medium`: 450 _(primitive)_
+- `--font-weight-medium`: 500 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
 - `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
 - `--form-font-size-sm`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_

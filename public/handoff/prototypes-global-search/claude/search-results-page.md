@@ -11216,43 +11216,6 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
 
 ## Styles
 ```css
-.esa-empty-state {
-  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
-  --_empty-title-size: 16px;
-  --_empty-desc-size: 14px;
-  --_empty-gap: var(--empty-state-gap, var(--spacing-200, 0.5rem));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
-  gap: var(--_empty-gap);
-}
-.esa-empty-state__icon {
-  color: var(--empty-state-icon-color, var(--color-text-muted, #737373));
-  margin-bottom: var(--spacing-100, 0.25rem);
-  display: inline-flex;
-}
-.esa-empty-state__icon svg {
-  width: var(--_empty-icon-size);
-  height: var(--_empty-icon-size);
-}
-.esa-empty-state__title {
-  margin: 0;
-  font-size: var(--_empty-title-size);
-  font-weight: 600;
-  color: var(--empty-state-title-color, var(--color-text-primary, #171717));
-}
-.esa-empty-state__description {
-  margin: 0;
-  font-size: var(--_empty-desc-size);
-  color: var(--empty-state-description-color, var(--color-text-secondary, #525252));
-  max-width: 360px;
-}
-.esa-empty-state__actions {
-  margin-top: var(--spacing-200, 0.5rem);
-}
 .bcn-sr {
   display: flex;
   flex-direction: column;
@@ -11497,6 +11460,43 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
   font-size: var(--type-size-100);
   font-style: normal;
   color: var(--color-text-tertiary);
+}
+.esa-empty-state {
+  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
+  --_empty-title-size: 16px;
+  --_empty-desc-size: 14px;
+  --_empty-gap: var(--empty-state-gap, var(--spacing-200, 0.5rem));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
+  gap: var(--_empty-gap);
+}
+.esa-empty-state__icon {
+  color: var(--empty-state-icon-color, var(--color-text-muted, #737373));
+  margin-bottom: var(--spacing-100, 0.25rem);
+  display: inline-flex;
+}
+.esa-empty-state__icon svg {
+  width: var(--_empty-icon-size);
+  height: var(--_empty-icon-size);
+}
+.esa-empty-state__title {
+  margin: 0;
+  font-size: var(--_empty-title-size);
+  font-weight: 600;
+  color: var(--empty-state-title-color, var(--color-text-primary, #171717));
+}
+.esa-empty-state__description {
+  margin: 0;
+  font-size: var(--_empty-desc-size);
+  color: var(--empty-state-description-color, var(--color-text-secondary, #525252));
+  max-width: 360px;
+}
+.esa-empty-state__actions {
+  margin-top: var(--spacing-200, 0.5rem);
 }
 ```
 

@@ -333,6 +333,18 @@ The same reading pane the help home uses, but SCOPED to this category and landin
 
 ## Styles
 ```css
+.type-card-title {
+  font-size: var(--type-size-400);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-body {
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-relaxed);
+  letter-spacing: var(--letter-spacing-normal);
+}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -355,6 +367,14 @@ The same reading pane the help home uses, but SCOPED to this category and landin
     transform 0.15s ease,
     opacity 0.2s ease-in-out;
   flex-shrink: 0;
+}
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
 }
 .bcn-help-article {
   display: flex;
@@ -379,14 +399,6 @@ The same reading pane the help home uses, but SCOPED to this category and landin
 .bcn-help-article__p {
   margin: 0;
   color: var(--color-text-primary);
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
@@ -439,8 +451,16 @@ The same reading pane the help home uses, but SCOPED to this category and landin
   border-top: 1px solid var(--color-border);
   scroll-margin-top: var(--spacing-400);
 }
+.bcn-kb__pane:not(:has(> .bcn-kb__article:not([hidden]))) {
+  min-block-size: 0;
+  padding-block-start: 0;
+  border-top: 0;
+}
 .bcn-kb__article {
   max-inline-size: 70ch;
+}
+.bcn-kb__article[hidden] {
+  display: none;
 }
 .esa-badge {
   --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
@@ -469,21 +489,6 @@ The same reading pane the help home uses, but SCOPED to this category and landin
   --_badge-font-size: 11px;
   --_badge-padding-x: var(--spacing-150, 0.375rem);
   --_badge-min-width: var(--badge-height-sm, 22px);
-}
-.bcn-kb__article[hidden] {
-  display: none;
-}
-.type-card-title {
-  font-size: var(--type-size-400);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-normal);
-  letter-spacing: var(--letter-spacing-normal);
-}
-.type-body {
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-relaxed);
-  letter-spacing: var(--letter-spacing-normal);
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

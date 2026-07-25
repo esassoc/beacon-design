@@ -144,6 +144,9 @@ The shared renderer for ONE article, captured on the dataset's richest body so e
 
 ## Styles
 ```css
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
@@ -216,6 +219,24 @@ The shared renderer for ONE article, captured on the dataset's richest body so e
   --_badge-font-size: 11px;
   --_badge-padding-x: var(--spacing-150, 0.375rem);
   --_badge-min-width: var(--badge-height-sm, 22px);
+}
+.type-card-title {
+  font-size: var(--type-size-400);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-body {
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-relaxed);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-caption {
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
 }
 .bcn-search-trigger .esa-icon {
   flex: none;
@@ -403,27 +424,6 @@ The shared renderer for ONE article, captured on the dataset's richest body so e
   font-size: 0.9375rem;
   color: var(--color-text-link);
   text-decoration: none;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.type-card-title {
-  font-size: var(--type-size-400);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-normal);
-  letter-spacing: var(--letter-spacing-normal);
-}
-.type-body {
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-relaxed);
-  letter-spacing: var(--letter-spacing-normal);
-}
-.type-caption {
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-normal);
-  letter-spacing: var(--letter-spacing-normal);
 }
 ```
 

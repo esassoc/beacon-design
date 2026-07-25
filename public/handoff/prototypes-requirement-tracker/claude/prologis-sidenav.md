@@ -333,74 +333,6 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
 
 ## Styles
 ```css
-.page-layout__title h1 .esa-icon {
-  color: var(--color-secondary) !important;
-}
-.bcn-disc__head .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary);
-}
-.bcn-disc__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-disc__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
-.bcn-evidence-card__lead .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-tertiary);
-  transition: transform 0.15s ease;
-}
-.bcn-evidence-card__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-evidence-card__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.bcn-reqref__key .esa-icon {
-  --_icon-size: 11px;
-  color: var(--color-text-tertiary);
-  flex-shrink: 0;
-}
-.bcn-reqref__footer .esa-icon {
-  --_icon-size: 13px;
-}
-.bcn-reqref__ext .esa-icon {
-  --_icon-size: 12px;
-  opacity: 0.75;
-}
-.esa-collapsible__summary .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary, #404040);
-}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -642,12 +574,80 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
 .esa-icon-link__label {
   display: inline-block;
 }
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.bcn-reqref__key .esa-icon {
+  --_icon-size: 11px;
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+}
+.bcn-reqref__footer .esa-icon {
+  --_icon-size: 13px;
+}
+.bcn-reqref__ext .esa-icon {
+  --_icon-size: 12px;
+  opacity: 0.75;
+}
+.esa-collapsible__summary .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary, #404040);
+}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
 .page-layout__title h1 .esa-icon {
   color: var(--bcn-gray-1000);
   flex-shrink: 0;
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--color-secondary) !important;
+}
+.bcn-disc__head .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+}
+.bcn-disc__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-disc__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
+.bcn-evidence-card__lead .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-tertiary);
+  transition: transform 0.15s ease;
+}
+.bcn-evidence-card__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-evidence-card__actions .esa-icon {
+  width: 15px;
+  height: 15px;
 }
 ```
 
@@ -666,7 +666,7 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
-- `--font-weight-medium`: 450 _(primitive)_
+- `--font-weight-medium`: 500 _(primitive)_
 - `--form-height-md`: 36px _(component)_
 - `--form-height-sm`: 28px _(component)_
 - `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_

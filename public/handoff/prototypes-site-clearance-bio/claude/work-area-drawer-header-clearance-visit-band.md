@@ -27,16 +27,6 @@ The top of the write drawer (esa-side-dialog, 640px): a header with the work-are
 
 ## Styles
 ```css
-.bcn-key-value {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.bcn-key-value__key {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  color: var(--form-label-color);
-}
 .band {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -51,13 +41,23 @@ The top of the write drawer (esa-side-dialog, 640px): a header with the work-are
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
 }
+.bcn-key-value {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.bcn-key-value__key {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--form-label-color);
+}
 ```
 
 ## Tokens
 - `--color-background`: #fafafa _(semantic)_
 - `--color-border`: #dcdcdc _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
-- `--font-weight-medium`: 450 _(primitive)_
+- `--font-weight-medium`: 500 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
 - `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
 - `--form-label-color`: #525252 _(component)_

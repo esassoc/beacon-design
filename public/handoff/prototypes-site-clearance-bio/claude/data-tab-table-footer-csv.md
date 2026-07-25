@@ -102,51 +102,43 @@ The footer under the grids: a "Download as CSV" action on the left and a live "T
   flex-shrink: 0;
   color: var(--color-text-secondary, #404040);
 }
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
+.comp-picker__trigger .esa-icon {
+  color: var(--color-text-tertiary);
   flex-shrink: 0;
 }
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.topbar__right .esa-icon-button {
+.wa__section .esa-icon {
+  flex-shrink: 0;
   color: var(--color-text-secondary);
 }
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
+.wa__footer-start .esa-button__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
 }
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
+.table-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-400);
+  padding: var(--spacing-200) var(--spacing-400);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-top: 0;
+  border-radius: 0 0 var(--radius-100) var(--radius-100);
 }
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
+.row-count-data {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-400);
+  font-size: var(--type-size-100);
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
 }
-.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
-  transform: rotate(-90deg);
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-gd__label .esa-icon {
+.filtered-rows-count {
   color: var(--color-text-tertiary);
-  flex: none;
+}
+.filtered-rows-count[hidden] {
+  display: none;
 }
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
@@ -219,43 +211,51 @@ The footer under the grids: a "Download as CSV" action on the left and a live "T
   color: var(--_on);
   border-color: transparent;
 }
-.comp-picker__trigger .esa-icon {
-  color: var(--color-text-tertiary);
-  flex-shrink: 0;
-}
-.wa__section .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary);
-}
-.wa__footer-start .esa-button__label {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-}
-.table-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-400);
-  padding: var(--spacing-200) var(--spacing-400);
-  background: var(--color-background);
-  border: 1px solid var(--color-border);
-  border-top: 0;
-  border-radius: 0 0 var(--radius-100) var(--radius-100);
-}
-.row-count-data {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-400);
-  font-size: var(--type-size-100);
-  color: var(--color-text-secondary);
-  font-variant-numeric: tabular-nums;
-}
-.filtered-rows-count {
+.bcn-search-trigger .esa-icon {
+  flex: none;
   color: var(--color-text-tertiary);
 }
-.filtered-rows-count[hidden] {
-  display: none;
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
 }
 ```
 
@@ -276,7 +276,7 @@ The footer under the grids: a "Download as CSV" action on the left and a live "T
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
-- `--font-weight-medium`: 450 _(primitive)_
+- `--font-weight-medium`: 500 _(primitive)_
 - `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
 - `--form-font-size-sm`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
 - `--form-height-md`: 36px _(component)_

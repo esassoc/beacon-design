@@ -8439,7 +8439,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.DH-DZQi7.js"
+    src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.vImwuuMB.js"
   ></script>
   <!-- Aldo — help & guidance, app-wide like the palette above: the floating
          bottom-center utility bar and the route-aware guidance drawer it opens.
@@ -8447,7 +8447,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   <div
     class="bcn-help-bar"
     data-help-bar=""
-    data-newest="2026-07-14"
+    data-newest="2026-06-02"
     role="toolbar"
     aria-label="Help &amp; utilities"
   >
@@ -8541,117 +8541,65 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               stroke-linejoin="round"
               focusable="false"
             >
-              <path
-                d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.69 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.453 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"
-              ></path>
+              <path d="M8 2v4"></path>
+              <path d="M12 2v4"></path>
+              <path d="M16 2v4"></path>
+              <rect width="16" height="18" x="4" y="4" rx="2"></rect>
+              <path d="M8 10h6"></path>
+              <path d="M8 14h8"></path>
+              <path d="M8 18h5"></path>
             </svg>
           </span>
         </button>
         <span class="bcn-help-bar__dot" data-whatsnew-dot="" aria-hidden="true"></span>
       </span>
       <div slot="content" class="bcn-help-bar__panel">
-        <p class="bcn-help-bar__panel-title">What's new</p>
+        <header class="bcn-help-bar__panel-header">
+          <p class="bcn-help-bar__panel-title">What's new</p>
+          <p class="bcn-help-bar__panel-release">
+            1.33.0 · <time datetime="2026-06-02">Jun 2, 2026</time>
+          </p>
+        </header>
         <ul class="bcn-help-bar__panel-list">
           <li class="bcn-help-bar__panel-item">
-            <span class="bcn-help-bar__panel-icon" aria-hidden="true">
-              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <rect width="7" height="9" x="3" y="3" rx="1"></rect>
-                  <rect width="7" height="5" x="14" y="3" rx="1"></rect>
-                  <rect width="7" height="9" x="14" y="12" rx="1"></rect>
-                  <rect width="7" height="5" x="3" y="16" rx="1"></rect>
-                </svg>
-              </span>
-            </span>
-            <div class="bcn-help-bar__panel-text">
-              <div class="bcn-help-bar__panel-head">
-                <p class="bcn-help-bar__panel-item-title">Project Dashboard</p>
-                <span class="bcn-count" aria-label="Released Jul 14, 2026">Jul 14</span>
-              </div>
+            <a
+              class="bcn-help-bar__panel-link"
+              href="/beacon-design/prototypes/release-notes#v1-33-0"
+            >
+              <p class="bcn-help-bar__panel-item-title">Commitment Lists</p>
               <p class="bcn-help-bar__panel-item-blurb">
-                A new logged-in homepage: the most critical items, starred components, and front
-                doors into every zone.
+                Save a filtered view of commitments as a reusable, named List, then reopen it
+                anytime to scope the grid to just its members.
               </p>
-            </div>
+            </a>
           </li>
           <li class="bcn-help-bar__panel-item">
-            <span class="bcn-help-bar__panel-icon" aria-hidden="true">
-              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path
-                    d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"
-                  ></path>
-                  <circle cx="12" cy="8" r="2"></circle>
-                  <path
-                    d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"
-                  ></path>
-                </svg>
-              </span>
-            </span>
-            <div class="bcn-help-bar__panel-text">
-              <div class="bcn-help-bar__panel-head">
-                <p class="bcn-help-bar__panel-item-title">Site Clearance go/no-go</p>
-                <span class="bcn-count" aria-label="Released Jul 2, 2026">Jul 2</span>
-              </div>
+            <a
+              class="bcn-help-bar__panel-link"
+              href="/beacon-design/prototypes/release-notes#v1-33-0"
+            >
+              <p class="bcn-help-bar__panel-item-title">Evidence of Compliance</p>
               <p class="bcn-help-bar__panel-item-blurb">
-                Provisional blocks now show exactly which discipline reviews are outstanding before
-                ground disturbance.
+                Every Evidence of Compliance record now lives in one Data Catalog grid with Project,
+                Component, and Work Area scope selectors, instead of separate tabs on each page.
               </p>
-            </div>
+            </a>
           </li>
           <li class="bcn-help-bar__panel-item">
-            <span class="bcn-help-bar__panel-icon" aria-hidden="true">
-              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <path d="m21 21-4.3-4.3"></path>
-                </svg>
-              </span>
-            </span>
-            <div class="bcn-help-bar__panel-text">
-              <div class="bcn-help-bar__panel-head">
-                <p class="bcn-help-bar__panel-item-title">Full-text search</p>
-                <span class="bcn-count" aria-label="Released Jun 19, 2026">Jun 19</span>
-              </div>
+            <a
+              class="bcn-help-bar__panel-link"
+              href="/beacon-design/prototypes/release-notes#v1-33-0"
+            >
+              <p class="bcn-help-bar__panel-item-title">Commitment Compliance</p>
               <p class="bcn-help-bar__panel-item-blurb">
-                Press / anywhere — search now reads commitment body text and documents, with
-                highlighted snippets.
+                A new Monitoring Portal section shows which commitments are out of compliance and
+                the field observations driving it, matched by species.
               </p>
-            </div>
+            </a>
           </li>
         </ul>
         <div class="bcn-help-bar__panel-footer">
-          <a class="bcn-help-bar__panel-all" href="#release-notes">
+          <a class="bcn-help-bar__panel-all" href="/beacon-design/prototypes/release-notes">
             All release notes<span class="bcn-help-bar__panel-all-arrow" aria-hidden="true">→</span>
           </a>
         </div>
@@ -8867,11 +8815,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 class="bcn-gd-row"
                 data-article-id="what-is-an-action"
                 data-kind="glossary"
-                data-title="What is an Action?"
+                data-title="Action"
                 data-summary="One trackable deliverable consolidating requirements that describe the same work."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">What is an Action?</span>
+                  <span class="bcn-gd-row__title">Action</span>
                   <span class="bcn-gd-row__sub"
                     >One trackable deliverable consolidating requirements that describe the same
                     work.</span
@@ -8897,13 +8845,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 class="bcn-gd-row"
                 data-article-id="what-is-a-commitment"
                 data-kind="glossary"
-                data-title="What is a Commitment?"
-                data-summary="One discrete obligation, in the document’s own words."
+                data-title="Commitment"
+                data-summary="One discrete obligation, recorded in its source document’s original language."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">What is a Commitment?</span>
+                  <span class="bcn-gd-row__title">Commitment</span>
                   <span class="bcn-gd-row__sub"
-                    >One discrete obligation, in the document’s own words.</span
+                    >One discrete obligation, recorded in its source document’s original
+                    language.</span
                   >
                 </span>
                 <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -8926,14 +8875,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 class="bcn-gd-row"
                 data-article-id="what-is-a-component"
                 data-kind="glossary"
-                data-title="What is a Component?"
-                data-summary="A physical or logical subdivision of the project with its own compliance tracking."
+                data-title="Component"
+                data-summary="A distinct place or package of work within a project, tracked independently."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">What is a Component?</span>
+                  <span class="bcn-gd-row__title">Component</span>
                   <span class="bcn-gd-row__sub"
-                    >A physical or logical subdivision of the project with its own compliance
-                    tracking.</span
+                    >A distinct place or package of work within a project, tracked
+                    independently.</span
                   >
                 </span>
                 <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -8964,16 +8913,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         <button
           type="button"
           class="bcn-gd-row"
-          data-article-id="what-is-a-source"
+          data-article-id="project-vs-component-scope"
           data-kind="glossary"
-          data-title="What is a Source Document?"
-          data-summary="The regulatory document — permit, EIR, agreement — obligations are extracted from."
+          data-title="Scope"
+          data-summary="The setting that determines whether work is tracked once, or once per location."
         >
           <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">What is a Source Document?</span>
+            <span class="bcn-gd-row__title">Scope</span>
             <span class="bcn-gd-row__sub"
-              >The regulatory document — permit, EIR, agreement — obligations are extracted
-              from.</span
+              >The setting that determines whether work is tracked once, or once per location.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -8994,15 +8942,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         ><button
           type="button"
           class="bcn-gd-row"
-          data-article-id="what-is-a-requirement"
+          data-article-id="tenant"
           data-kind="glossary"
-          data-title="What is a Requirement?"
-          data-summary="A specific, actionable sub-obligation broken out of a commitment."
+          data-title="Tenant"
+          data-summary="The client organization a Beacon workspace, its data, and its configuration are scoped to."
         >
           <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">What is a Requirement?</span>
+            <span class="bcn-gd-row__title">Tenant</span>
             <span class="bcn-gd-row__sub"
-              >A specific, actionable sub-obligation broken out of a commitment.</span
+              >The client organization a Beacon workspace, its data, and its configuration are
+              scoped to.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -9023,15 +8972,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         ><button
           type="button"
           class="bcn-gd-row"
-          data-article-id="tracing-lineage"
-          data-kind="howto"
-          data-title="Tracing a requirement back to its source"
-          data-summary="Follow the lineage from any requirement up to the exact document language."
+          data-article-id="work-area"
+          data-kind="glossary"
+          data-title="Work Area"
+          data-summary="The finest scope level — a subdivision of a component for field-level tracking."
         >
           <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Tracing a requirement back to its source</span>
+            <span class="bcn-gd-row__title">Work Area</span>
             <span class="bcn-gd-row__sub"
-              >Follow the lineage from any requirement up to the exact document language.</span
+              >The finest scope level — a subdivision of a component for field-level tracking.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -9054,13 +9003,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           class="bcn-gd-row"
           data-article-id="actions-vs-implementations"
           data-kind="glossary"
-          data-title="Actions vs. implementations"
-          data-summary="The action is the plan; implementations are the work you actually do."
+          data-title="Implementation"
+          data-summary="A single execution of a published action — the record teams work day to day."
         >
           <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Actions vs. implementations</span>
+            <span class="bcn-gd-row__title">Implementation</span>
             <span class="bcn-gd-row__sub"
-              >The action is the plan; implementations are the work you actually do.</span
+              >A single execution of a published action — the record teams work day to day.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -9081,15 +9030,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         ><button
           type="button"
           class="bcn-gd-row"
-          data-article-id="project-vs-component-scope"
+          data-article-id="permit"
           data-kind="glossary"
-          data-title="Project scope vs. component scope"
-          data-summary="Scope decides whether work is tracked once, or once per location."
+          data-title="Permit"
+          data-summary="An agency authorization the project must obtain, tracked through the acquisition pipeline."
         >
           <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Project scope vs. component scope</span>
+            <span class="bcn-gd-row__title">Permit</span>
             <span class="bcn-gd-row__sub"
-              >Scope decides whether work is tracked once, or once per location.</span
+              >An agency authorization the project must obtain, tracked through the acquisition
+              pipeline.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -9171,12 +9121,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           data-article-id="reading-critical-now"
           data-kind="howto"
           data-title="How “Most critical right now” is chosen"
-          data-summary="Why an item earns a spot at the top of your dashboard."
+          data-summary="Why an item earns a spot at the top of the dashboard."
         >
           <span class="bcn-gd-row__text">
             <span class="bcn-gd-row__title">How “Most critical right now” is chosen</span>
             <span class="bcn-gd-row__sub"
-              >Why an item earns a spot at the top of your dashboard.</span
+              >Why an item earns a spot at the top of the dashboard.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -9199,13 +9149,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           class="bcn-gd-row"
           data-article-id="what-is-a-dmr"
           data-kind="glossary"
-          data-title="What is a Daily Monitoring Report?"
-          data-summary="The structured field report of a day on site — and a direct source of evidence."
+          data-title="Daily Monitoring Report"
+          data-summary="The structured field record of one day on site, and a direct source of evidence."
         >
           <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">What is a Daily Monitoring Report?</span>
+            <span class="bcn-gd-row__title">Daily Monitoring Report</span>
             <span class="bcn-gd-row__sub"
-              >The structured field report of a day on site — and a direct source of evidence.</span
+              >The structured field record of one day on site, and a direct source of
+              evidence.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -9228,14 +9179,102 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           class="bcn-gd-row"
           data-article-id="what-is-an-observation"
           data-kind="glossary"
-          data-title="What is an Observation?"
+          data-title="Observation"
           data-summary="One recorded field event — a species sighting, habitat condition, weather event, or BMP check."
         >
           <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">What is an Observation?</span>
+            <span class="bcn-gd-row__title">Observation</span>
             <span class="bcn-gd-row__sub"
               >One recorded field event — a species sighting, habitat condition, weather event, or
               BMP check.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="survey"
+          data-kind="glossary"
+          data-title="Survey"
+          data-summary="A field data record synced from a collection app, effective only after quality-control approval."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Survey</span>
+            <span class="bcn-gd-row__sub"
+              >A field data record synced from a collection app, effective only after
+              quality-control approval.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="site-clearance"
+          data-kind="glossary"
+          data-title="Site Clearance"
+          data-summary="The go/no-go determination of whether a site is clear for ground disturbance."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Site Clearance</span>
+            <span class="bcn-gd-row__sub"
+              >The go/no-go determination of whether a site is clear for ground disturbance.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="monitoring-portal"
+          data-kind="glossary"
+          data-title="Monitoring Portal"
+          data-summary="The section that reports commitment compliance from field observations."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Monitoring Portal</span>
+            <span class="bcn-gd-row__sub"
+              >The section that reports commitment compliance from field observations.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -9317,13 +9356,249 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           class="bcn-gd-row"
           data-article-id="what-is-evidence"
           data-kind="glossary"
-          data-title="What counts as Evidence of Compliance?"
-          data-summary="The documented proof an obligation was met — the artifact an auditor sees."
+          data-title="Evidence of Compliance"
+          data-summary="The documented proof that an obligation was met — the artifact an auditor reviews."
         >
           <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">What counts as Evidence of Compliance?</span>
+            <span class="bcn-gd-row__title">Evidence of Compliance</span>
             <span class="bcn-gd-row__sub"
-              >The documented proof an obligation was met — the artifact an auditor sees.</span
+              >The documented proof that an obligation was met — the artifact an auditor
+              reviews.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="assembling-compliance-report"
+          data-kind="howto"
+          data-title="Assembling a compliance report"
+          data-summary="Compile evidence of compliance into a report package for an agency."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Assembling a compliance report</span>
+            <span class="bcn-gd-row__sub"
+              >Compile evidence of compliance into a report package for an agency.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="what-is-a-source"
+          data-kind="glossary"
+          data-title="Source Document"
+          data-summary="The regulatory document — permit, EIR, or agreement — that obligations are extracted from."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Source Document</span>
+            <span class="bcn-gd-row__sub"
+              >The regulatory document — permit, EIR, or agreement — that obligations are extracted
+              from.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="what-is-a-requirement"
+          data-kind="glossary"
+          data-title="Requirement"
+          data-summary="A specific, actionable sub-obligation broken out of a commitment."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Requirement</span>
+            <span class="bcn-gd-row__sub"
+              >A specific, actionable sub-obligation broken out of a commitment.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="tracing-lineage"
+          data-kind="howto"
+          data-title="Tracing a requirement back to its source"
+          data-summary="Follow the lineage from any requirement up to the exact document language."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Tracing a requirement back to its source</span>
+            <span class="bcn-gd-row__sub"
+              >Follow the lineage from any requirement up to the exact document language.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="feature-flag"
+          data-kind="glossary"
+          data-title="Feature Flag"
+          data-summary="A tenant-level switch that enables or disables a Beacon capability."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Feature Flag</span>
+            <span class="bcn-gd-row__sub"
+              >A tenant-level switch that enables or disables a Beacon capability.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="managing-tenant-settings"
+          data-kind="howto"
+          data-title="Managing tenant settings"
+          data-summary="Configure the display labels, defaults, and enabled features that apply across a tenant."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Managing tenant settings</span>
+            <span class="bcn-gd-row__sub"
+              >Configure the display labels, defaults, and enabled features that apply across a
+              tenant.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="managing-users-roles"
+          data-kind="howto"
+          data-title="Managing users and roles"
+          data-summary="Add users to a tenant and assign the roles that govern their access."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Managing users and roles</span>
+            <span class="bcn-gd-row__sub"
+              >Add users to a tenant and assign the roles that govern their access.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="configuring-notifications"
+          data-kind="howto"
+          data-title="Configuring notifications"
+          data-summary="Set which compliance events generate notifications, and how each user receives them."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Configuring notifications</span>
+            <span class="bcn-gd-row__sub"
+              >Set which compliance events generate notifications, and how each user receives
+              them.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -9459,554 +9734,18 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
     <div class="bcn-gd-article__body">
       <div
         class="bcn-gd-article__panel"
-        data-article-body="five-minute-tour"
-        data-kind="howto"
-        data-title="A five-minute tour of Beacon"
-        hidden=""
-      >
-        <article id="article-five-minute-tour" class="bcn-help-article">
-          <div class="bcn-help-article__body">
-            <p class="bcn-help-article__p type-body">
-              Beacon turns a shelf of regulatory documents into a working compliance program.
-              Everything in the app follows one flow: documents are cataloged, obligations are
-              planned into actions, and completed work is proven with evidence.
-            </p>
-            <figure class="bcn-help-article__video">
-              <div class="bcn-help-article__video-frame">
-                <span class="bcn-help-article__video-play"
-                  ><span class="esa-icon esa-icon--md" aria-hidden="true">
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      focusable="false"
-                    >
-                      <polygon points="6 3 20 12 6 21 6 3"></polygon>
-                    </svg>
-                  </span>
-                </span>
-                <span class="bcn-help-article__video-duration"
-                  ><span class="esa-badge esa-badge--primary esa-badge--sm">
-                    <span class="esa-badge__text">4:32</span>
-                  </span>
-                </span>
-              </div>
-              <figcaption class="bcn-help-article__caption type-caption">
-                Watch: a quick tour of Beacon
-              </figcaption>
-            </figure>
-            <ol class="bcn-help-article__steps">
-              <li class="bcn-help-article__step type-body">
-                The Data Catalog holds your source documents and the commitments and requirements
-                extracted from them.
-              </li>
-              <li class="bcn-help-article__step type-body">
-                Tracking is where planned actions become day-to-day work, tracked per project or per
-                component.
-              </li>
-              <li class="bcn-help-article__step type-body">
-                Monitoring captures what happens in the field — daily reports, observations, and
-                surveys.
-              </li>
-              <li class="bcn-help-article__step type-body">
-                Reporting assembles evidence of compliance into the reports your agencies expect.
-              </li>
-            </ol>
-            <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
-              <span class="bcn-help-article__callout-icon">
-                <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path
-                      d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
-                    ></path>
-                    <path d="M9 18h6"></path>
-                    <path d="M10 22h4"></path>
-                  </svg>
-                </span>
-              </span>
-              <div class="bcn-help-article__callout-body">
-                <span class="bcn-help-article__callout-label">Tip</span>
-                <p class="bcn-help-article__callout-text type-body">
-                  The side navigation mirrors these four zones. If you are ever lost, start from
-                  your project dashboard — it links into each zone.
-                </p>
-              </div>
-            </aside>
-          </div>
-          <nav class="bcn-help-article__related" aria-label="Related articles">
-            <span class="bcn-help-article__related-label">Related</span>
-            <ul class="bcn-help-article__related-list">
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-global-search-tips"
-                  >Finding anything with search</a
-                >
-              </li>
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-an-action"
-                  >What is an Action?</a
-                >
-              </li>
-            </ul>
-          </nav>
-        </article>
-      </div>
-      <div
-        class="bcn-gd-article__panel"
-        data-article-body="global-search-tips"
-        data-kind="howto"
-        data-title="Finding anything with search"
-        hidden=""
-      >
-        <article id="article-global-search-tips" class="bcn-help-article">
-          <div class="bcn-help-article__body">
-            <p class="bcn-help-article__p type-body">
-              Search reads the full text of everything in your project — including the body text of
-              commitments and uploaded documents, not just titles.
-            </p>
-            <ol class="bcn-help-article__steps">
-              <li class="bcn-help-article__step type-body">
-                Press / on any page, or click the search field in the top bar.
-              </li>
-              <li class="bcn-help-article__step type-body">
-                Type a few words — results group by type (commitments, requirements, actions,
-                documents) with matching snippets highlighted.
-              </li>
-              <li class="bcn-help-article__step type-body">
-                Press Enter on a result to jump straight to it, or choose “See all results” for the
-                full page with filters.
-              </li>
-            </ol>
-            <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
-              <span class="bcn-help-article__callout-icon">
-                <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path
-                      d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
-                    ></path>
-                    <path d="M9 18h6"></path>
-                    <path d="M10 22h4"></path>
-                  </svg>
-                </span>
-              </span>
-              <div class="bcn-help-article__callout-body">
-                <span class="bcn-help-article__callout-label">Tip</span>
-                <p class="bcn-help-article__callout-text type-body">
-                  Searching a permit number or an agency name is often the fastest way to find every
-                  obligation tied to it.
-                </p>
-              </div>
-            </aside>
-          </div>
-          <nav class="bcn-help-article__related" aria-label="Related articles">
-            <span class="bcn-help-article__related-label">Related</span>
-            <ul class="bcn-help-article__related-list">
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-five-minute-tour"
-                  >A five-minute tour of Beacon</a
-                >
-              </li>
-            </ul>
-          </nav>
-        </article>
-      </div>
-      <div
-        class="bcn-gd-article__panel"
-        data-article-body="what-is-a-source"
-        data-kind="glossary"
-        data-title="What is a Source Document?"
-        hidden=""
-      >
-        <article id="article-what-is-a-source" class="bcn-help-article">
-          <div class="bcn-help-article__body">
-            <p class="bcn-help-article__p type-body">
-              A Source Document is a regulatory document attached to your project: a permit, an
-              environmental impact report, an incidental take permit, a contract, or an agency
-              agreement. It is where every obligation in Beacon originally comes from.
-            </p>
-            <p class="bcn-help-article__p type-body">
-              A project may carry dozens of sources from different agencies, and each source may
-              contain anywhere from a handful to hundreds of discrete obligations. Uploading the
-              original PDF lets Beacon extract its text for search and assisted commitment
-              extraction.
-            </p>
-          </div>
-          <nav class="bcn-help-article__related" aria-label="Related articles">
-            <span class="bcn-help-article__related-label">Related</span>
-            <ul class="bcn-help-article__related-list">
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-a-commitment"
-                  >What is a Commitment?</a
-                >
-              </li>
-            </ul>
-          </nav>
-        </article>
-      </div>
-      <div
-        class="bcn-gd-article__panel"
-        data-article-body="what-is-a-commitment"
-        data-kind="glossary"
-        data-title="What is a Commitment?"
-        hidden=""
-      >
-        <article id="article-what-is-a-commitment" class="bcn-help-article">
-          <div class="bcn-help-article__body">
-            <p class="bcn-help-article__p type-body">
-              A Commitment is a single “thing the project must do,” captured in the original
-              regulatory language of its source document. Commitments carry structured details —
-              type, resource category, phases, species, seasons — so they can be filtered and
-              planned.
-            </p>
-            <p class="bcn-help-article__p type-body">
-              The same real-world obligation often appears in several documents. Each appearance is
-              kept as its own commitment; the overlap is resolved later, when requirements are
-              consolidated into actions.
-            </p>
-            <aside class="bcn-help-article__callout bcn-help-article__callout--note">
-              <span class="bcn-help-article__callout-icon">
-                <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="M12 16v-4"></path>
-                    <path d="M12 8h.01"></path>
-                  </svg>
-                </span>
-              </span>
-              <div class="bcn-help-article__callout-body">
-                <span class="bcn-help-article__callout-label">Note</span>
-                <p class="bcn-help-article__callout-text type-body">
-                  When an agency amends a document, commitments are revised rather than replaced —
-                  the original and updated language coexist with clear lineage.
-                </p>
-              </div>
-            </aside>
-          </div>
-          <nav class="bcn-help-article__related" aria-label="Related articles">
-            <span class="bcn-help-article__related-label">Related</span>
-            <ul class="bcn-help-article__related-list">
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-a-source"
-                  >What is a Source Document?</a
-                >
-              </li>
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-a-requirement"
-                  >What is a Requirement?</a
-                >
-              </li>
-            </ul>
-          </nav>
-        </article>
-      </div>
-      <div
-        class="bcn-gd-article__panel"
-        data-article-body="what-is-a-requirement"
-        data-kind="glossary"
-        data-title="What is a Requirement?"
-        hidden=""
-      >
-        <article id="article-what-is-a-requirement" class="bcn-help-article">
-          <div class="bcn-help-article__body">
-            <p class="bcn-help-article__p type-body">
-              A Requirement is one specific piece of work inside a commitment. A commitment stating
-              “prior to grading, conduct protocol-level surveys for burrowing owl and submit results
-              within 30 days” contains two requirements: conduct the survey, and submit the results.
-            </p>
-            <p class="bcn-help-article__p type-body">
-              Requirements carry their own type, scope, and frequency, and are the unit that gets
-              consolidated into trackable actions.
-            </p>
-          </div>
-          <nav class="bcn-help-article__related" aria-label="Related articles">
-            <span class="bcn-help-article__related-label">Related</span>
-            <ul class="bcn-help-article__related-list">
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-a-commitment"
-                  >What is a Commitment?</a
-                >
-              </li>
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-an-action"
-                  >What is an Action?</a
-                >
-              </li>
-            </ul>
-          </nav>
-        </article>
-      </div>
-      <div
-        class="bcn-gd-article__panel"
-        data-article-body="what-is-an-action"
-        data-kind="glossary"
-        data-title="What is an Action?"
-        hidden=""
-      >
-        <article id="article-what-is-an-action" class="bcn-help-article">
-          <div class="bcn-help-article__body">
-            <p class="bcn-help-article__p type-body">
-              An Action is a planned unit of compliance work. It consolidates requirements — often
-              from many commitments — that describe the same underlying task. If “submit the
-              stormwater plan” appears in 44 different commitments, it becomes one action.
-            </p>
-            <figure class="bcn-help-article__figure">
-              <div class="bcn-help-article__figure-frame">
-                <span class="bcn-help-article__figure-icon"
-                  ><span class="esa-icon esa-icon--lg" aria-hidden="true">
-                    <svg
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      focusable="false"
-                    >
-                      <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
-                      <circle cx="9" cy="9" r="2"></circle>
-                      <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
-                    </svg>
-                  </span>
-                </span>
-                <span class="bcn-help-article__figure-label">From documents to work</span>
-              </div>
-              <figcaption class="bcn-help-article__caption type-caption">
-                Thousands of requirements across dozens of documents collapse into a few hundred
-                actions — the minimum set of real work.
-              </figcaption>
-            </figure>
-            <p class="bcn-help-article__p type-body">
-              Each action defines the work, the evidence expected, the schedule, and the responsible
-              party. Actions start as drafts and must be published before they generate trackable
-              implementations.
-            </p>
-          </div>
-          <nav class="bcn-help-article__related" aria-label="Related articles">
-            <span class="bcn-help-article__related-label">Related</span>
-            <ul class="bcn-help-article__related-list">
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-a-requirement"
-                  >What is a Requirement?</a
-                >
-              </li>
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-actions-vs-implementations"
-                  >Actions vs. implementations</a
-                >
-              </li>
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-project-vs-component-scope"
-                  >Project scope vs. component scope</a
-                >
-              </li>
-            </ul>
-          </nav>
-        </article>
-      </div>
-      <div
-        class="bcn-gd-article__panel"
-        data-article-body="tracing-lineage"
-        data-kind="howto"
-        data-title="Tracing a requirement back to its source"
-        hidden=""
-      >
-        <article id="article-tracing-lineage" class="bcn-help-article">
-          <div class="bcn-help-article__body">
-            <p class="bcn-help-article__p type-body">
-              Every requirement keeps its full ancestry: the commitment it came from, and the source
-              document that commitment was extracted from. This is how you answer “why do we have to
-              do this?” with the exact regulatory language.
-            </p>
-            <ol class="bcn-help-article__steps">
-              <li class="bcn-help-article__step type-body">
-                Open the requirement — the lineage strip at the top shows Source → Commitment →
-                Requirement.
-              </li>
-              <li class="bcn-help-article__step type-body">
-                Click the commitment to read the obligation in the document’s original words.
-              </li>
-              <li class="bcn-help-article__step type-body">
-                Click the source to see the document’s details, agency, and attached PDF — with the
-                cited passage highlighted.
-              </li>
-            </ol>
-          </div>
-          <nav class="bcn-help-article__related" aria-label="Related articles">
-            <span class="bcn-help-article__related-label">Related</span>
-            <ul class="bcn-help-article__related-list">
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-a-requirement"
-                  >What is a Requirement?</a
-                >
-              </li>
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-a-source"
-                  >What is a Source Document?</a
-                >
-              </li>
-            </ul>
-          </nav>
-        </article>
-      </div>
-      <div
-        class="bcn-gd-article__panel"
-        data-article-body="actions-vs-implementations"
-        data-kind="glossary"
-        data-title="Actions vs. implementations"
-        hidden=""
-      >
-        <article id="article-actions-vs-implementations" class="bcn-help-article">
-          <div class="bcn-help-article__body">
-            <p class="bcn-help-article__p type-body">
-              An action defines what must be done. An implementation tracks actually doing it —
-              status, assignee, tasks, comments, and evidence. Most teams simply call
-              implementations “the actions,” and that is fine: they are the thing you interact with
-              daily.
-            </p>
-            <p class="bcn-help-article__p type-body">
-              How many implementations an action produces depends on its scope and frequency. A
-              one-time, project-wide plan submission produces one. A recurring, component-scoped
-              inspection produces one per component, per occurrence.
-            </p>
-          </div>
-          <nav class="bcn-help-article__related" aria-label="Related articles">
-            <span class="bcn-help-article__related-label">Related</span>
-            <ul class="bcn-help-article__related-list">
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-an-action"
-                  >What is an Action?</a
-                >
-              </li>
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-project-vs-component-scope"
-                  >Project scope vs. component scope</a
-                >
-              </li>
-            </ul>
-          </nav>
-        </article>
-      </div>
-      <div
-        class="bcn-gd-article__panel"
-        data-article-body="what-is-a-component"
-        data-kind="glossary"
-        data-title="What is a Component?"
-        hidden=""
-      >
-        <article id="article-what-is-a-component" class="bcn-help-article">
-          <div class="bcn-help-article__body">
-            <p class="bcn-help-article__p type-body">
-              A Component is a distinct place or package of work within your project — a launch
-              shaft, an intake site, a construction segment. Components matter because the same
-              obligation often plays out independently at each location.
-            </p>
-            <p class="bcn-help-article__p type-body">
-              Components map to the commitments that apply to them, can carry their own milestone
-              dates, and receive their own implementations of component-scoped actions. Work Areas
-              subdivide a component further when field tracking needs finer grain.
-            </p>
-          </div>
-          <nav class="bcn-help-article__related" aria-label="Related articles">
-            <span class="bcn-help-article__related-label">Related</span>
-            <ul class="bcn-help-article__related-list">
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-project-vs-component-scope"
-                  >Project scope vs. component scope</a
-                >
-              </li>
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-starring-components"
-                  >Starring components on your dashboard</a
-                >
-              </li>
-            </ul>
-          </nav>
-        </article>
-      </div>
-      <div
-        class="bcn-gd-article__panel"
         data-article-body="project-vs-component-scope"
         data-kind="glossary"
-        data-title="Project scope vs. component scope"
+        data-title="Scope"
         hidden=""
       >
         <article id="article-project-vs-component-scope" class="bcn-help-article">
           <div class="bcn-help-article__body">
             <p class="bcn-help-article__p type-body">
-              Scope is one of Beacon’s most important switches. A project-scoped action is done
-              once, centrally — “submit the project-wide stormwater plan.” A component-scoped action
-              is done independently at every applicable component — “install exclusion fencing” at
-              each of 20 construction areas.
+              Scope determines how an action is distributed. A project-scoped action is performed
+              once, centrally — for example, submitting the project-wide stormwater plan. A
+              component-scoped action is performed independently at every applicable component — for
+              example, installing exclusion fencing at each of 20 construction areas.
             </p>
             <figure class="bcn-help-article__figure">
               <div class="bcn-help-article__figure-frame">
@@ -10059,8 +9798,143 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <div class="bcn-help-article__callout-body">
                 <span class="bcn-help-article__callout-label">Note</span>
                 <p class="bcn-help-article__callout-text type-body">
-                  Each implementation is tracked on its own: different assignees, different
-                  timelines, different evidence.
+                  Each implementation is tracked separately, with its own assignee, timeline, and
+                  evidence.
+                </p>
+              </div>
+            </aside>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="tenant"
+        data-kind="glossary"
+        data-title="Tenant"
+        hidden=""
+      >
+        <article id="article-tenant" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              A Tenant is the organization a Beacon workspace belongs to. Beacon is multi-tenant:
+              each tenant’s projects, documents, users, and configuration are isolated from every
+              other tenant’s, and a user operates within a single tenant at a time.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              Tenant-level settings — display labels, enabled features, notification defaults, and
+              user roles — apply uniformly across every project the tenant owns.
+            </p>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="work-area"
+        data-kind="glossary"
+        data-title="Work Area"
+        hidden=""
+      >
+        <article id="article-work-area" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              A Work Area is a subdivision of a component, used when field tracking requires finer
+              grain than the component itself provides. Work areas form the most granular level of
+              the Project → Component → Work Area scope hierarchy.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              Evidence of Compliance and monitoring records can be scoped to a work area, isolating
+              activity to a specific portion of a component.
+            </p>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="five-minute-tour"
+        data-kind="howto"
+        data-title="A five-minute tour of Beacon"
+        hidden=""
+      >
+        <article id="article-five-minute-tour" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              Beacon turns a body of regulatory documents into a working compliance program.
+              Everything in the app follows one flow: documents are cataloged, obligations are
+              planned into actions, and completed work is proven with evidence.
+            </p>
+            <figure class="bcn-help-article__video">
+              <div class="bcn-help-article__video-frame">
+                <span class="bcn-help-article__video-play"
+                  ><span class="esa-icon esa-icon--md" aria-hidden="true">
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                    </svg>
+                  </span>
+                </span>
+                <span class="bcn-help-article__video-duration"
+                  ><span class="esa-badge esa-badge--primary esa-badge--sm">
+                    <span class="esa-badge__text">4:32</span>
+                  </span>
+                </span>
+              </div>
+              <figcaption class="bcn-help-article__caption type-caption">
+                Watch: a quick tour of Beacon
+              </figcaption>
+            </figure>
+            <ol class="bcn-help-article__steps">
+              <li class="bcn-help-article__step type-body">
+                The Data Catalog holds source documents and the commitments and requirements
+                extracted from them.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Tracking is where planned actions become day-to-day work, tracked per project or per
+                component.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Monitoring captures what happens in the field — daily reports, observations, and
+                surveys.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Reporting assembles evidence of compliance into the reports agencies expect.
+              </li>
+            </ol>
+            <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
+              <span class="bcn-help-article__callout-icon">
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path
+                      d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+                    ></path>
+                    <path d="M9 18h6"></path>
+                    <path d="M10 22h4"></path>
+                  </svg>
+                </span>
+              </span>
+              <div class="bcn-help-article__callout-body">
+                <span class="bcn-help-article__callout-label">Tip</span>
+                <p class="bcn-help-article__callout-text type-body">
+                  The side navigation mirrors these four zones. The project dashboard links into
+                  each zone and is the shortest path back to any of them.
                 </p>
               </div>
             </aside>
@@ -10071,19 +9945,155 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <li>
                 <a
                   class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-a-component"
-                  >What is a Component?</a
+                  href="/beacon-design/prototypes/help#article-global-search-tips"
+                  >Finding anything with search</a
                 >
               </li>
               <li>
                 <a
                   class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-actions-vs-implementations"
-                  >Actions vs. implementations</a
+                  href="/beacon-design/prototypes/help#article-what-is-an-action"
+                  >Action</a
                 >
               </li>
             </ul>
           </nav>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="global-search-tips"
+        data-kind="howto"
+        data-title="Finding anything with search"
+        hidden=""
+      >
+        <article id="article-global-search-tips" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              Search reads the full text of everything in a project — including the body text of
+              commitments and uploaded documents, not just titles.
+            </p>
+            <ol class="bcn-help-article__steps">
+              <li class="bcn-help-article__step type-body">
+                Press / on any page, or click the search field in the top bar.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Type a few words. Results group by type — commitments, requirements, actions,
+                documents — with matching snippets highlighted.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Press Enter on a result to open it, or choose “See all results” for the full page
+                with filters.
+              </li>
+            </ol>
+            <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
+              <span class="bcn-help-article__callout-icon">
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path
+                      d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+                    ></path>
+                    <path d="M9 18h6"></path>
+                    <path d="M10 22h4"></path>
+                  </svg>
+                </span>
+              </span>
+              <div class="bcn-help-article__callout-body">
+                <span class="bcn-help-article__callout-label">Tip</span>
+                <p class="bcn-help-article__callout-text type-body">
+                  Searching a permit number or an agency name returns every obligation tied to it.
+                </p>
+              </div>
+            </aside>
+          </div>
+          <nav class="bcn-help-article__related" aria-label="Related articles">
+            <span class="bcn-help-article__related-label">Related</span>
+            <ul class="bcn-help-article__related-list">
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-five-minute-tour"
+                  >A five-minute tour of Beacon</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="actions-vs-implementations"
+        data-kind="glossary"
+        data-title="Implementation"
+        hidden=""
+      >
+        <article id="article-actions-vs-implementations" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              An Implementation is the tracked execution of an action: its status, assignee, tasks,
+              comments, and evidence. The action defines what must be done; the implementation
+              records doing it. In daily use, implementations are what teams refer to as the
+              actions.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              The number of implementations an action generates is determined by its scope and
+              frequency. A one-time, project-scoped submission generates one implementation. A
+              recurring, component-scoped inspection generates one per component, per occurrence.
+            </p>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="what-is-a-component"
+        data-kind="glossary"
+        data-title="Component"
+        hidden=""
+      >
+        <article id="article-what-is-a-component" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              A Component is a discrete location or work package within a project — a launch shaft,
+              an intake site, a construction segment. Components exist because the same obligation
+              frequently applies independently at each location.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              A component maps to the commitments that apply to it, may carry its own milestone
+              dates, and receives its own implementations of component-scoped actions. A Work Area
+              subdivides a component further when field tracking requires finer grain.
+            </p>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="permit"
+        data-kind="glossary"
+        data-title="Permit"
+        hidden=""
+      >
+        <article id="article-permit" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              A Permit is an authorization or approval a project must secure from a regulatory
+              agency before or during construction. Beacon tracks each permit through its
+              acquisition pipeline — from not yet applied, through agency review, to issued.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              An issued permit typically becomes a source document: its conditions are extracted as
+              commitments and enter the catalog alongside every other obligation.
+            </p>
+          </div>
         </article>
       </div>
       <div
@@ -10096,14 +10106,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         <article id="article-reading-permit-tracking" class="bcn-help-article">
           <div class="bcn-help-article__body">
             <p class="bcn-help-article__p type-body">
-              Permit Tracking shows every permit and approval your project needs, each with its
-              current status in the acquisition pipeline — from “not yet applied” through agency
-              review to “issued.”
+              Permit Tracking lists every permit and approval a project needs, each with its current
+              status in the acquisition pipeline — from not yet applied, through agency review, to
+              issued.
             </p>
             <ol class="bcn-help-article__steps">
               <li class="bcn-help-article__step type-body">
-                Each row is one permit; the status lozenge shows where it sits in the pipeline right
-                now.
+                Each row is one permit; the status lozenge shows where it sits in the pipeline.
               </li>
               <li class="bcn-help-article__step type-body">
                 The date column shows the next deadline — a submittal window, an agency response
@@ -10111,7 +10120,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               </li>
               <li class="bcn-help-article__step type-body">
                 Open a permit to see its conditions, responsible contacts, and the source document
-                it will arrive as once issued.
+                it will become once issued.
               </li>
             </ol>
             <figure class="bcn-help-article__video">
@@ -10168,8 +10177,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <div class="bcn-help-article__callout-body">
                 <span class="bcn-help-article__callout-label">Tip</span>
                 <p class="bcn-help-article__callout-text type-body">
-                  An issued permit usually becomes a new source document — its conditions are
-                  extracted as commitments and join the catalog like any other obligation.
+                  An issued permit becomes a source document: its conditions are extracted as
+                  commitments and join the catalog like any other obligation.
                 </p>
               </div>
             </aside>
@@ -10180,15 +10189,22 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <li>
                 <a
                   class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-permit"
+                  >Permit</a
+                >
+              </li>
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
                   href="/beacon-design/prototypes/help#article-what-is-a-source"
-                  >What is a Source Document?</a
+                  >Source Document</a
                 >
               </li>
               <li>
                 <a
                   class="bcn-help-article__related-link"
                   href="/beacon-design/prototypes/help#article-what-is-a-commitment"
-                  >What is a Commitment?</a
+                  >Commitment</a
                 >
               </li>
             </ul>
@@ -10205,16 +10221,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         <article id="article-starring-components" class="bcn-help-article">
           <div class="bcn-help-article__body">
             <p class="bcn-help-article__p type-body">
-              Large projects can have dozens of components, but most people work in a few. Starring
-              pins a component to your project dashboard as a card with its Tracking, Monitoring,
-              and Reporting pulse — your portal into that component’s own dashboard.
+              A project may have dozens of components, though most people work in a few. Starring
+              pins a component to the project dashboard as a card showing its Tracking, Monitoring,
+              and Reporting pulse — the entry point into that component’s own dashboard.
             </p>
             <ol class="bcn-help-article__steps">
               <li class="bcn-help-article__step type-body">
                 Open any component and click the star in its header.
               </li>
               <li class="bcn-help-article__step type-body">
-                Starred components appear on your project dashboard in the Components section.
+                Starred components appear on the project dashboard in the Components section.
               </li>
               <li class="bcn-help-article__step type-body">
                 Un-star from either place; the component itself is unaffected.
@@ -10228,7 +10244,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <a
                   class="bcn-help-article__related-link"
                   href="/beacon-design/prototypes/help#article-what-is-a-component"
-                  >What is a Component?</a
+                  >Component</a
                 >
               </li>
               <li>
@@ -10252,14 +10268,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         <article id="article-reading-critical-now" class="bcn-help-article">
           <div class="bcn-help-article__body">
             <p class="bcn-help-article__p type-body">
-              The dashboard’s critical surface is deliberately small: it elevates only items that
+              The dashboard’s critical surface is deliberately small. It elevates only items that
               are project-critical today — an overdue action on a critical-path component, a lapsed
               survey blocking ground disturbance, a report due to an agency this week.
             </p>
             <p class="bcn-help-article__p type-body">
-              Items leave the surface when the underlying condition clears — completing the work,
-              filing the report, or a review resolving the block. There is nothing to configure; it
-              reads the same signals shown in each zone.
+              An item leaves the surface when its underlying condition clears — the work is
+              completed, the report is filed, or a review resolves the block. There is nothing to
+              configure; the surface reads the same signals shown in each zone.
             </p>
           </div>
           <nav class="bcn-help-article__related" aria-label="Related articles">
@@ -10287,57 +10303,38 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         class="bcn-gd-article__panel"
         data-article-body="what-is-a-dmr"
         data-kind="glossary"
-        data-title="What is a Daily Monitoring Report?"
+        data-title="Daily Monitoring Report"
         hidden=""
       >
         <article id="article-what-is-a-dmr" class="bcn-help-article">
           <div class="bcn-help-article__body">
             <p class="bcn-help-article__p type-body">
-              A Daily Monitoring Report (DMR) captures one day of field monitoring: who observed,
-              site and weather conditions, construction activities underway, observations recorded,
-              photos, and narrative notes.
+              A Daily Monitoring Report (DMR) documents one day of field monitoring: the observer,
+              site and weather conditions, construction activities underway, recorded observations,
+              photographs, and narrative notes.
             </p>
             <p class="bcn-help-article__p type-body">
-              DMRs are a bridge to compliance: when an obligation says “conduct daily biological
-              monitoring during construction,” the DMRs documenting that monitoring are the evidence
-              the obligation was met.
+              DMRs connect field activity to compliance. When an obligation requires daily
+              biological monitoring during construction, the DMRs documenting that monitoring
+              constitute the evidence the obligation was met.
             </p>
           </div>
-          <nav class="bcn-help-article__related" aria-label="Related articles">
-            <span class="bcn-help-article__related-label">Related</span>
-            <ul class="bcn-help-article__related-list">
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-an-observation"
-                  >What is an Observation?</a
-                >
-              </li>
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-evidence"
-                  >What counts as Evidence of Compliance?</a
-                >
-              </li>
-            </ul>
-          </nav>
         </article>
       </div>
       <div
         class="bcn-gd-article__panel"
         data-article-body="what-is-an-observation"
         data-kind="glossary"
-        data-title="What is an Observation?"
+        data-title="Observation"
         hidden=""
       >
         <article id="article-what-is-an-observation" class="bcn-help-article">
           <div class="bcn-help-article__body">
             <p class="bcn-help-article__p type-body">
-              An Observation is a single recorded event from the field: “two burrowing owls at the
-              north staging area,” “silt fence along the eastern boundary intact,” “wind exceeded 25
-              mph, dust control activated.” Observations usually belong to a DMR and carry species
-              data, location, time, and photos.
+              An Observation is a single recorded field event: two burrowing owls at the north
+              staging area, an intact silt fence along the eastern boundary, or wind exceeding 25
+              mph with dust control activated. An observation typically belongs to a DMR and carries
+              species data, location, time, and photographs.
             </p>
             <aside class="bcn-help-article__callout bcn-help-article__callout--note">
               <span class="bcn-help-article__callout-icon">
@@ -10363,31 +10360,76 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <span class="bcn-help-article__callout-label">Note</span>
                 <p class="bcn-help-article__callout-text type-body">
                   Observations with compliance consequences — an active nest inside a buffer, a
-                  failed BMP — surface in Monitoring as items needing action, and can trigger review
-                  before work proceeds.
+                  failed BMP — surface in Monitoring as items requiring action, and may trigger
+                  review before work proceeds.
                 </p>
               </div>
             </aside>
           </div>
-          <nav class="bcn-help-article__related" aria-label="Related articles">
-            <span class="bcn-help-article__related-label">Related</span>
-            <ul class="bcn-help-article__related-list">
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-a-dmr"
-                  >What is a Daily Monitoring Report?</a
-                >
-              </li>
-              <li>
-                <a
-                  class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-site-clearance-go-no-go"
-                  >Using Site Clearance go/no-go</a
-                >
-              </li>
-            </ul>
-          </nav>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="survey"
+        data-kind="glossary"
+        data-title="Survey"
+        hidden=""
+      >
+        <article id="article-survey" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              A Survey is a structured field record — typically a species or habitat survey —
+              collected in a field application such as Fulcrum or Survey123 and synced into Beacon.
+              Surveys supply the dated evidence behind clearances and compliance countdowns.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              A survey record does not affect compliance until it passes quality-control review.
+              Pending records are excluded from clearance and evidence calculations by default.
+            </p>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="site-clearance"
+        data-kind="glossary"
+        data-title="Site Clearance"
+        hidden=""
+      >
+        <article id="article-site-clearance" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              Site Clearance is the determination of whether a specific site is clear to disturb
+              ground on a given day. Beacon detects potential blocks — a lapsed nesting survey, an
+              open wildlife buffer — and marks the site provisionally blocked until a qualified
+              reviewer records a decision.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              Detections are advisory; reviews are authoritative. A site is clear only when no
+              unresolved block remains and the governing reviews permit disturbance.
+            </p>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="monitoring-portal"
+        data-kind="glossary"
+        data-title="Monitoring Portal"
+        hidden=""
+      >
+        <article id="article-monitoring-portal" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              The Monitoring Portal is the area of Beacon that reports commitment-level compliance
+              against field activity. It identifies commitments that are out of compliance and the
+              observations driving each result, matched by species and condition.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              The portal reads the same observation and survey records captured elsewhere in
+              Monitoring; it holds no separate data of its own.
+            </p>
+          </div>
         </article>
       </div>
       <div
@@ -10400,20 +10442,20 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         <article id="article-qc-field-surveys" class="bcn-help-article">
           <div class="bcn-help-article__body">
             <p class="bcn-help-article__p type-body">
-              Survey records flow in from field collection tools (Fulcrum, Survey123). Before a
-              record affects compliance — clearances, countdowns, evidence — it passes a
+              Survey records flow in from field collection tools such as Fulcrum and Survey123.
+              Before a record affects compliance — clearances, countdowns, evidence — it passes a
               quality-control review.
             </p>
             <ol class="bcn-help-article__steps">
               <li class="bcn-help-article__step type-body">
-                New records land with a “pending QC” status in the Surveys grid.
+                New records arrive with a pending-QC status in the Surveys grid.
               </li>
               <li class="bcn-help-article__step type-body">
                 A reviewer checks species identification, coordinates, and required fields, then
                 approves or returns the record.
               </li>
               <li class="bcn-help-article__step type-body">
-                Views default to QC-approved records only; toggle the filter to see pending ones.
+                Views default to QC-approved records; toggle the filter to see pending ones.
               </li>
             </ol>
           </div>
@@ -10423,15 +10465,22 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <li>
                 <a
                   class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-survey"
+                  >Survey</a
+                >
+              </li>
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
                   href="/beacon-design/prototypes/help#article-what-is-an-observation"
-                  >What is an Observation?</a
+                  >Observation</a
                 >
               </li>
               <li>
                 <a
                   class="bcn-help-article__related-link"
                   href="/beacon-design/prototypes/help#article-what-is-a-dmr"
-                  >What is a Daily Monitoring Report?</a
+                  >Daily Monitoring Report</a
                 >
               </li>
             </ul>
@@ -10449,8 +10498,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           <div class="bcn-help-article__body">
             <p class="bcn-help-article__p type-body">
               Site Clearance answers one question per site: is it clear to disturb ground today? The
-              system detects potential blocks — a lapsed nesting survey, an unclosed wildlife buffer
-              — and marks the site provisionally blocked until a qualified reviewer decides.
+              system detects potential blocks — a lapsed nesting survey, an open wildlife buffer —
+              and marks the site provisionally blocked until a qualified reviewer decides.
             </p>
             <ol class="bcn-help-article__steps">
               <li class="bcn-help-article__step type-body">
@@ -10462,7 +10511,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 required outcome.
               </li>
               <li class="bcn-help-article__step type-body">
-                Reviews overrule detections: the system detects, humans decide.
+                Reviews overrule detections: the system detects, a reviewer decides.
               </li>
             </ol>
             <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
@@ -10490,8 +10539,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <div class="bcn-help-article__callout-body">
                 <span class="bcn-help-article__callout-label">Tip</span>
                 <p class="bcn-help-article__callout-text type-body">
-                  The map and the review list are the same data — pick whichever view fits how you
-                  work.
+                  The map and the review list present the same data in two views.
                 </p>
               </div>
             </aside>
@@ -10502,8 +10550,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <li>
                 <a
                   class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-site-clearance"
+                  >Site Clearance</a
+                >
+              </li>
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
                   href="/beacon-design/prototypes/help#article-what-is-an-observation"
-                  >What is an Observation?</a
+                  >Observation</a
                 >
               </li>
               <li>
@@ -10521,20 +10576,20 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         class="bcn-gd-article__panel"
         data-article-body="what-is-evidence"
         data-kind="glossary"
-        data-title="What counts as Evidence of Compliance?"
+        data-title="Evidence of Compliance"
         hidden=""
       >
         <article id="article-what-is-evidence" class="bcn-help-article">
           <div class="bcn-help-article__body">
             <p class="bcn-help-article__p type-body">
-              Evidence of Compliance is the end of the whole flow: the report, photo, receipt,
-              signed form, or monitoring record that proves an obligation was met. It is what you
-              present to a regulatory agency during an audit.
+              Evidence of Compliance is the terminal output of the compliance flow: the report,
+              photograph, receipt, signed form, or monitoring record that proves an obligation was
+              satisfied. It is the material presented to a regulatory agency during an audit.
             </p>
             <p class="bcn-help-article__p type-body">
-              Evidence attaches to action implementations, and can also link to checklist items to
-              satisfy specific requirements per component. Field-sourced evidence can come straight
-              from Daily Monitoring Reports.
+              Evidence attaches to action implementations and may also link to checklist items that
+              satisfy specific requirements per component. Field-sourced evidence can derive
+              directly from Daily Monitoring Reports.
             </p>
             <aside class="bcn-help-article__callout bcn-help-article__callout--note">
               <span class="bcn-help-article__callout-icon">
@@ -10559,8 +10614,72 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <div class="bcn-help-article__callout-body">
                 <span class="bcn-help-article__callout-label">Note</span>
                 <p class="bcn-help-article__callout-text type-body">
-                  Every evidence record keeps its files, metadata, and timestamps — an auditable
+                  Every evidence record retains its files, metadata, and timestamps — an auditable
                   trail from source document to proof.
+                </p>
+              </div>
+            </aside>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="assembling-compliance-report"
+        data-kind="howto"
+        data-title="Assembling a compliance report"
+        hidden=""
+      >
+        <article id="article-assembling-compliance-report" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              A compliance report presents the evidence behind a set of obligations in the format an
+              agency expects. Reports are assembled from existing Evidence of Compliance records;
+              they create no new evidence.
+            </p>
+            <ol class="bcn-help-article__steps">
+              <li class="bcn-help-article__step type-body">
+                Open Reporting and choose the report template that matches the agency’s required
+                format.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Select the scope — project, component, or work area — and the reporting period.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Beacon gathers the evidence records in scope; review the set and exclude any records
+                that do not apply.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Generate the package. The output lists each obligation, its status, and the linked
+                evidence.
+              </li>
+            </ol>
+            <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
+              <span class="bcn-help-article__callout-icon">
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path
+                      d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+                    ></path>
+                    <path d="M9 18h6"></path>
+                    <path d="M10 22h4"></path>
+                  </svg>
+                </span>
+              </span>
+              <div class="bcn-help-article__callout-body">
+                <span class="bcn-help-article__callout-label">Tip</span>
+                <p class="bcn-help-article__callout-text type-body">
+                  A report reflects the evidence present at generation time. Regenerate after new
+                  evidence is attached to capture the current state.
                 </p>
               </div>
             </aside>
@@ -10571,15 +10690,467 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <li>
                 <a
                   class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-what-is-a-dmr"
-                  >What is a Daily Monitoring Report?</a
+                  href="/beacon-design/prototypes/help#article-what-is-evidence"
+                  >Evidence of Compliance</a
                 >
               </li>
               <li>
                 <a
                   class="bcn-help-article__related-link"
                   href="/beacon-design/prototypes/help#article-actions-vs-implementations"
-                  >Actions vs. implementations</a
+                  >Implementation</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="what-is-a-source"
+        data-kind="glossary"
+        data-title="Source Document"
+        hidden=""
+      >
+        <article id="article-what-is-a-source" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              A Source Document is a regulatory record attached to a project: a permit, an
+              environmental impact report, an incidental take permit, a contract, or an agency
+              agreement. Every obligation in Beacon originates from a source document.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              A project may carry dozens of source documents from multiple agencies, and a single
+              source may contain anywhere from a few to several hundred discrete obligations.
+              Uploading the original file makes its text available for search and assisted
+              commitment extraction.
+            </p>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="what-is-a-commitment"
+        data-kind="glossary"
+        data-title="Commitment"
+        hidden=""
+      >
+        <article id="article-what-is-a-commitment" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              A Commitment is a single obligation a project must satisfy, captured in the regulatory
+              language of its source document. Each commitment carries structured attributes — type,
+              resource category, phase, species, and season — that support filtering and planning.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              The same real-world obligation frequently appears across multiple documents. Each
+              appearance is retained as a separate commitment; the overlap is resolved downstream,
+              when requirements are consolidated into actions.
+            </p>
+            <aside class="bcn-help-article__callout bcn-help-article__callout--note">
+              <span class="bcn-help-article__callout-icon">
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 16v-4"></path>
+                    <path d="M12 8h.01"></path>
+                  </svg>
+                </span>
+              </span>
+              <div class="bcn-help-article__callout-body">
+                <span class="bcn-help-article__callout-label">Note</span>
+                <p class="bcn-help-article__callout-text type-body">
+                  When an agency amends a document, its commitments are revised rather than
+                  replaced. The original and updated language coexist with explicit lineage.
+                </p>
+              </div>
+            </aside>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="what-is-a-requirement"
+        data-kind="glossary"
+        data-title="Requirement"
+        hidden=""
+      >
+        <article id="article-what-is-a-requirement" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              A Requirement is one discrete unit of work contained within a commitment. A commitment
+              stating “prior to grading, conduct protocol-level surveys for burrowing owl and submit
+              results within 30 days” resolves to two requirements: conduct the survey, and submit
+              the results.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              Each requirement carries its own type, scope, and frequency. The requirement is the
+              unit consolidated into trackable actions.
+            </p>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="what-is-an-action"
+        data-kind="glossary"
+        data-title="Action"
+        hidden=""
+      >
+        <article id="article-what-is-an-action" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              An Action is a planned unit of compliance work. It consolidates requirements — often
+              drawn from many commitments — that describe the same underlying task. A requirement to
+              submit the stormwater plan appearing across 44 commitments resolves to one action.
+            </p>
+            <figure class="bcn-help-article__figure">
+              <div class="bcn-help-article__figure-frame">
+                <span class="bcn-help-article__figure-icon"
+                  ><span class="esa-icon esa-icon--lg" aria-hidden="true">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
+                      <circle cx="9" cy="9" r="2"></circle>
+                      <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
+                    </svg>
+                  </span>
+                </span>
+                <span class="bcn-help-article__figure-label">From documents to work</span>
+              </div>
+              <figcaption class="bcn-help-article__caption type-caption">
+                Thousands of requirements across dozens of documents collapse into a few hundred
+                actions — the minimum set of real work.
+              </figcaption>
+            </figure>
+            <p class="bcn-help-article__p type-body">
+              Each action defines the work, the expected evidence, the schedule, and the responsible
+              party. Actions begin as drafts and must be published before they generate trackable
+              implementations.
+            </p>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="tracing-lineage"
+        data-kind="howto"
+        data-title="Tracing a requirement back to its source"
+        hidden=""
+      >
+        <article id="article-tracing-lineage" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              Every requirement keeps its full ancestry: the commitment it came from, and the source
+              document that commitment was extracted from. This is how a requirement is traced to
+              the exact regulatory language behind it.
+            </p>
+            <ol class="bcn-help-article__steps">
+              <li class="bcn-help-article__step type-body">
+                Open the requirement. The lineage strip at the top shows Source → Commitment →
+                Requirement.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Click the commitment to read the obligation in the document’s original words.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Click the source to see the document’s details, agency, and attached file — with the
+                cited passage highlighted.
+              </li>
+            </ol>
+          </div>
+          <nav class="bcn-help-article__related" aria-label="Related articles">
+            <span class="bcn-help-article__related-label">Related</span>
+            <ul class="bcn-help-article__related-list">
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-what-is-a-requirement"
+                  >Requirement</a
+                >
+              </li>
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-what-is-a-source"
+                  >Source Document</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="feature-flag"
+        data-kind="glossary"
+        data-title="Feature Flag"
+        hidden=""
+      >
+        <article id="article-feature-flag" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              A Feature Flag is a configuration switch that turns a Beacon capability on or off for
+              a tenant. Flags allow a feature to be released to specific tenants independently,
+              without a code change.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              Feature flags are administered in tenant settings. A disabled flag hides its feature
+              from navigation and removes its surfaces from every project the tenant owns.
+            </p>
+          </div>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="managing-tenant-settings"
+        data-kind="howto"
+        data-title="Managing tenant settings"
+        hidden=""
+      >
+        <article id="article-managing-tenant-settings" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              Tenant settings control behavior shared across every project a tenant owns: display
+              labels for core entities, default notification rules, enabled features, and the user
+              roster. Changes apply tenant-wide.
+            </p>
+            <ol class="bcn-help-article__steps">
+              <li class="bcn-help-article__step type-body">
+                Open Settings and select the tenant settings section (available to tenant
+                administrators).
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Adjust display labels, defaults, or enabled features; each change is scoped to the
+                current tenant only.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Save. Tenant-wide changes take effect on the next page load for every user in the
+                tenant.
+              </li>
+            </ol>
+            <aside class="bcn-help-article__callout bcn-help-article__callout--note">
+              <span class="bcn-help-article__callout-icon">
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 16v-4"></path>
+                    <path d="M12 8h.01"></path>
+                  </svg>
+                </span>
+              </span>
+              <div class="bcn-help-article__callout-body">
+                <span class="bcn-help-article__callout-label">Note</span>
+                <p class="bcn-help-article__callout-text type-body">
+                  Entity label overrides — for example, renaming Actions to match an agency’s
+                  vocabulary — apply to navigation, headings, and search across the tenant.
+                </p>
+              </div>
+            </aside>
+          </div>
+          <nav class="bcn-help-article__related" aria-label="Related articles">
+            <span class="bcn-help-article__related-label">Related</span>
+            <ul class="bcn-help-article__related-list">
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-tenant"
+                  >Tenant</a
+                >
+              </li>
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-feature-flag"
+                  >Feature Flag</a
+                >
+              </li>
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-managing-users-roles"
+                  >Managing users and roles</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="managing-users-roles"
+        data-kind="howto"
+        data-title="Managing users and roles"
+        hidden=""
+      >
+        <article id="article-managing-users-roles" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              Access in Beacon is governed by role. A role determines which zones a user can view
+              and which records a user can create, edit, or approve. Users are added at the tenant
+              level and assigned one or more roles.
+            </p>
+            <ol class="bcn-help-article__steps">
+              <li class="bcn-help-article__step type-body">Open Settings and select Users.</li>
+              <li class="bcn-help-article__step type-body">
+                Invite a user by email, or select an existing user to change their assignment.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Assign roles — for example, viewer, contributor, or reviewer — and save.
+              </li>
+            </ol>
+            <aside class="bcn-help-article__callout bcn-help-article__callout--note">
+              <span class="bcn-help-article__callout-icon">
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 16v-4"></path>
+                    <path d="M12 8h.01"></path>
+                  </svg>
+                </span>
+              </span>
+              <div class="bcn-help-article__callout-body">
+                <span class="bcn-help-article__callout-label">Note</span>
+                <p class="bcn-help-article__callout-text type-body">
+                  Approval actions, such as clearing a survey through quality control, require a
+                  role with review authority. A contributor role cannot approve its own records.
+                </p>
+              </div>
+            </aside>
+          </div>
+          <nav class="bcn-help-article__related" aria-label="Related articles">
+            <span class="bcn-help-article__related-label">Related</span>
+            <ul class="bcn-help-article__related-list">
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-managing-tenant-settings"
+                  >Managing tenant settings</a
+                >
+              </li>
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-qc-field-surveys"
+                  >Reviewing field surveys before they count</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="configuring-notifications"
+        data-kind="howto"
+        data-title="Configuring notifications"
+        hidden=""
+      >
+        <article id="article-configuring-notifications" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              Notifications alert users to compliance events — an approaching deadline, a new
+              provisional block, a returned survey. Defaults are set at the tenant level; each user
+              may adjust their own delivery preferences within those defaults.
+            </p>
+            <ol class="bcn-help-article__steps">
+              <li class="bcn-help-article__step type-body">
+                Open Settings and select Notifications to review the tenant’s default rules.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Enable or disable notifications by event type, and set the delivery channel for
+                each.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Individual users adjust their personal preferences from the same section; tenant
+                defaults apply where a user has made no choice.
+              </li>
+            </ol>
+            <aside class="bcn-help-article__callout bcn-help-article__callout--tip">
+              <span class="bcn-help-article__callout-icon">
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path
+                      d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"
+                    ></path>
+                    <path d="M9 18h6"></path>
+                    <path d="M10 22h4"></path>
+                  </svg>
+                </span>
+              </span>
+              <div class="bcn-help-article__callout-body">
+                <span class="bcn-help-article__callout-label">Tip</span>
+                <p class="bcn-help-article__callout-text type-body">
+                  Scope notifications to the components a user has starred to keep alerts limited to
+                  their own work.
+                </p>
+              </div>
+            </aside>
+          </div>
+          <nav class="bcn-help-article__related" aria-label="Related articles">
+            <span class="bcn-help-article__related-label">Related</span>
+            <ul class="bcn-help-article__related-list">
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-managing-tenant-settings"
+                  >Managing tenant settings</a
+                >
+              </li>
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-starring-components"
+                  >Starring components on your dashboard</a
                 >
               </li>
             </ul>
@@ -10590,13 +11161,27 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </esa-side-dialog>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnGuidanceDrawer.astro_astro_type_script_index_0_lang.BSgV_Ns6.js"
+    src="/beacon-design/_astro/BcnGuidanceDrawer.astro_astro_type_script_index_0_lang.D06JsUes.js"
   ></script>
 </div>
 ```
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
+.esa-button{--_btn-height: var(--form-height-md, 40px);--_btn-padding-x: var(--form-padding-x-md, 16px);--_btn-font-size: var(--form-font-size-md, 14px);--_btn-radius: var(--form-radius-md, 6px);--_accent: var(--color-primary, #46a758);--_accent-hover: var(--color-primary-hover, #3e9b4f);--_on: var(--color-text-inverse, #ffffff);--_accent-text: var(--_accent);--_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);--_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);display:inline-block}
+.esa-button__native{display:inline-flex;align-items:center;justify-content:center;gap:var(--spacing-200, 8px);width:100%;height:var(--_btn-height);padding-inline:var(--_btn-padding-x);border:1px solid transparent;border-radius:var(--_btn-radius);font-size:var(--_btn-font-size);font-family:var(--font-sans, system-ui, sans-serif);font-weight:var(--font-weight-medium, 500);line-height:1;text-decoration:none;cursor:pointer;transition:background var(--transition-fast, .15s ease),border-color var(--transition-fast, .15s ease);-webkit-appearance:none;appearance:none}
+.esa-button--appearance-outline .esa-button__native,.esa-button--appearance-dashed .esa-button__native{background:transparent;color:var(--_accent-text);border-color:var(--_accent)}
+.esa-button--color-ghost .esa-button__native{background:transparent;color:var(--color-text-primary, #171717);border-color:transparent}
+.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native{border-color:var(--color-border, #e5e5e5)}
+.esa-button__label{white-space:nowrap}
+.esa-button--sm{--_btn-height: var(--form-height-sm, 32px);--_btn-padding-x: var(--form-padding-x-sm, 12px);--_btn-font-size: var(--form-font-size-sm, 12px);--_btn-radius: var(--form-radius-sm, 4px)}
+.esa-button--sm .esa-button__native{height:auto;padding-block:var(--spacing-150, 6px)}
+.esa-button--color-primary{--_accent-text: var(--color-primary-strong)}
+.esa-button--appearance-fill .esa-button__native{background:var(--_accent);color:var(--_on);border-color:transparent}
+:where(.ag-theme-checkboxStyle-4) {
+.ag-checkbox-input-wrapper,.ag-radio-button-input-wrapper{background-color:var(--ag-checkbox-unchecked-background-color);border:solid var(--ag-checkbox-border-width) var(--ag-checkbox-unchecked-border-color);flex:none;height:var(--ag-icon-size);position:relative;width:var(--ag-icon-size);&:where(.ag-checked){background-color:var(--ag-checkbox-checked-background-color);border-color:var(--ag-checkbox-checked-border-color)}
+&:where(.ag-disabled){filter:grayscale();opacity:.5}
+.ag-cell-editing-error .ag-checkbox-input-wrapper:focus-within{box-shadow:var(--ag-focus-error-shadow)}
 :where(.ag-theme-iconSet-5) {
 .ag-icon-aggregation::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M18%207V4H6l6%208-6%208h12v-3%22%2F%3E%3C%2Fsvg%3E'); }
 .ag-icon-arrows::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpolyline%20points%3D%225%209%202%2012%205%2015%22%2F%3E%3Cpolyline%20points%3D%229%205%2012%202%2015%205%22%2F%3E%3Cpolyline%20points%3D%2215%2019%2012%2022%209%2019%22%2F%3E%3Cpolyline%20points%3D%2219%209%2022%2012%2019%2015%22%2F%3E%3Cline%20x1%3D%222%22%20x2%3D%2222%22%20y1%3D%2212%22%20y2%3D%2212%22%2F%3E%3Cline%20x1%3D%2212%22%20x2%3D%2212%22%20y1%3D%222%22%20y2%3D%2222%22%2F%3E%3C%2Fsvg%3E'); }
@@ -10663,87 +11248,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .ag-icon-small-down::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22black%22%20stroke%3D%22none%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M7.334%2010.667%2016%2021.334l8.667-10.667H7.334Z%22%2F%3E%3C%2Fsvg%3E'); }
 .ag-icon-small-up::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22black%22%20stroke%3D%22none%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M7.334%2021.333%2016%2010.666l8.667%2010.667H7.334Z%22%2F%3E%3C%2Fsvg%3E'); }
 .ag-icon-un-pin::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20class%3D%22ag-icon%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M8%2011a.75.75%200%200%200-.75.75v3.333a.75.75%200%201%200%201.5%200V11.75A.75.75%200%200%200%208%2011Z%22%2F%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M13.11%201.436a.75.75%200%200%200-1.22-.872l-10%2014a.75.75%200%201%200%201.22.872L5.207%2012.5h7.376a.75.75%200%200%200%20.75-.75v-1.174a2.08%202.08%200%200%200-1.153-1.863l-1.185-.599-.005-.002a.58.58%200%200%201-.323-.522V5.165a2.083%202.083%200%200%200%201.854-2.904l.589-.825Zm-3.943%205.52v.634a2.08%202.08%200%200%200%201.153%201.863l1.185.6.005.002a.58.58%200%200%201%20.323.522V11H6.28l2.887-4.044ZM9.277%201H5.25a2.084%202.084%200%200%200-.083%204.165v1.676l1.5-2.132v-.292a.75.75%200%200%200-.75-.75H5.25a.584.584%200%200%201%200-1.167h2.972L9.277%201Z%22%2F%3E%3C%2Fsvg%3E'); }
-.esa-icon{--_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));display:inline-flex;align-items:center;justify-content:center;width:var(--_icon-size);height:var(--_icon-size);line-height:1;color:inherit}
-.esa-icon--xs{--_icon-size: var(--icon-size-xs, 14px)}
-.esa-icon svg{display:block;width:var(--_icon-size);height:var(--_icon-size)}
-.esa-icon--sm{--_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px))}
-.esa-icon--md{--_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px))}
-.bcn-fs-utils{display:inline-flex;align-items:center;gap:var(--spacing-200)}
-.bcn-filterbar{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-200);margin-bottom:var(--spacing-400)}
-.bcn-filterbar__top{display:flex;align-items:center;gap:var(--spacing-400);padding:var(--spacing-300) var(--spacing-400);flex-wrap:wrap}
-.bcn-filterbar__group{display:inline-flex;align-items:center;gap:var(--spacing-300)}
-.bcn-filterbar__label{font-size:var(--type-size-150);font-weight:var(--font-weight-semibold);color:var(--color-text-tertiary);white-space:nowrap}
-.bcn-filterbar__search{margin-left:auto;display:inline-flex;align-items:center;gap:var(--spacing-150);min-width:300px}
-.bcn-filterbar__search esa-text-field{flex:1}
-.bcn-filterbar__bottom{display:flex;align-items:center;gap:var(--spacing-300);padding:var(--spacing-300) var(--spacing-400);border-top:1px solid var(--color-border);flex-wrap:wrap}
-.bcn-filterbar__clear{margin-left:auto}
-.bcn-view-pane[hidden]{display:none}
-.bcn-timeline{display:flex;flex-direction:column;gap:var(--spacing-300);--_label-w: 340px;--_plot-w: 1900px;--_row-h: 30px}
-.bcn-timeline__legend{display:flex;align-items:center;flex-wrap:wrap;gap:var(--spacing-300);font-size:var(--type-size-100);color:var(--color-text-secondary)}
-.bcn-timeline__legend-title{font-weight:var(--font-weight-semibold);color:var(--color-text-tertiary)}
-.bcn-timeline__legend-item{display:inline-flex;align-items:center;gap:var(--spacing-150)}
-.bcn-timeline__legend-dot{width:9px;height:9px;border-radius:var(--radius-full);background:var(--_c)}
-.bcn-timeline__legend-hint{margin-left:auto;color:var(--color-text-muted);font-style:italic}
-.bcn-timeline__scroll{overflow-x:auto;border:1px solid var(--color-border);border-radius:var(--radius-200);background:var(--color-surface)}
-.bcn-timeline__canvas{min-width:calc(var(--_label-w) + var(--_plot-w))}
-.bcn-timeline__axis{display:grid;grid-template-columns:var(--_label-w) 1fr;position:sticky;top:0;z-index:5;background:var(--color-surface);border-bottom:1px solid var(--color-border)}
-.bcn-timeline__corner{display:flex;align-items:flex-end;padding:var(--spacing-200) var(--spacing-300);font-size:var(--type-size-100);font-weight:var(--font-weight-semibold);color:var(--color-text-tertiary);border-right:1px solid var(--color-border)}
-.bcn-timeline__head-plot{position:relative}
-.bcn-timeline__head-bands{position:absolute;inset:0;z-index:0}
-.bcn-timeline__band{position:absolute;top:0;bottom:0}
-.bcn-timeline__band[data-phase=baseline]{background:color-mix(in srgb,var(--color-text-primary) 7%,transparent)}
-.bcn-timeline__band[data-phase=in-water-construction]{background:color-mix(in srgb,var(--color-text-primary) 3%,transparent)}
-.bcn-timeline__band[data-phase=phase1-ops]{background:color-mix(in srgb,var(--color-text-primary) 7%,transparent)}
-.bcn-timeline__band[data-phase=phase2-ops]{background:color-mix(in srgb,var(--color-text-primary) 3%,transparent)}
-.bcn-timeline__head-phases{position:relative;z-index:1;height:18px}
-.bcn-timeline__phase-tag{position:absolute;top:0;bottom:0;display:inline-flex;align-items:center;padding:0 var(--spacing-150);font-size:.625rem;font-weight:var(--font-weight-semibold);text-transform:uppercase;letter-spacing:.03em;color:var(--color-text-secondary);white-space:nowrap;overflow:hidden}
-.bcn-timeline__head-years{position:relative;z-index:1;height:20px}
-.bcn-timeline__yr{position:absolute;top:0;bottom:0;border-left:1px solid var(--color-border-light);display:flex;align-items:center}
-.bcn-timeline__yr-label{font-size:.6875rem;color:var(--color-text-muted);padding-left:4px;font-variant-numeric:tabular-nums}
-.bcn-timeline__yr.is-five{border-left-color:var(--color-border-strong)}
-.bcn-timeline__yr.is-five .bcn-timeline__yr-label{color:var(--color-text-secondary);font-weight:var(--font-weight-semibold)}
-.bcn-timeline__head-ms{position:relative;z-index:1;height:22px}
-.bcn-timeline__ms-tag{position:absolute;top:2px;transform:translate(-50%);font-size:.625rem;font-weight:var(--font-weight-semibold);color:var(--color-primary);white-space:nowrap;background:var(--color-surface);padding:0 3px;border:1px solid var(--color-primary-border);border-radius:var(--radius-100)}
-.bcn-timeline__ms-tag.is-alt{top:11px}
-.bcn-timeline__lane-title{margin:0;padding:var(--spacing-150) var(--spacing-300);font-size:var(--type-size-100);font-weight:var(--font-weight-semibold);color:var(--color-text-secondary);background:var(--color-surface-sunken);border-bottom:1px solid var(--color-border);position:sticky;left:0;z-index:3}
-.bcn-timeline__lane-title[hidden]{display:none}
-.bcn-timeline__row{display:grid;grid-template-columns:var(--_label-w) 1fr;border-bottom:1px solid var(--color-border-light)}
-.bcn-timeline__row-label{display:flex;align-items:center;gap:var(--spacing-200);padding:0 var(--spacing-300);min-height:var(--_row-h);width:100%;border:0;border-right:1px solid var(--color-border);overflow:hidden;background:var(--color-surface);position:sticky;left:0;z-index:3;cursor:pointer;text-align:left;font:inherit}
-.bcn-timeline__coa{flex-shrink:0;font-family:var(--font-mono);font-size:.625rem;font-weight:var(--font-weight-semibold);color:var(--color-commitment);background:color-mix(in srgb,var(--color-commitment) 12%,white);padding:1px 5px;border-radius:var(--radius-100)}
-.bcn-timeline__name{font-size:var(--type-size-200);font-weight:var(--font-weight-medium);color:var(--color-text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.bcn-timeline__plot{position:relative;min-height:var(--_row-h)}
-.bcn-timeline__grid{position:absolute;top:0;bottom:0;width:0;border-left:1px solid var(--color-border-light)}
-.bcn-timeline__grid.is-five{border-left-color:var(--color-border)}
-.bcn-timeline__ms-line{position:absolute;top:0;bottom:0;width:0;border-left:1px dashed color-mix(in srgb,var(--color-primary) 35%,transparent)}
-.bcn-timeline__today{position:absolute;top:0;bottom:0;width:0;border-left:2px solid var(--color-warning);z-index:2}
-.bcn-timeline__bar{position:absolute;top:50%;transform:translateY(-50%);height:16px;min-width:5px;border:1px solid color-mix(in srgb,var(--_c) 72%,black);border-radius:var(--radius-100);background:linear-gradient(90deg,var(--_c) 0%,color-mix(in srgb,var(--_c) 62%,white) 100%);padding:0;cursor:pointer;z-index:1;transition:filter .12s ease,box-shadow .12s ease}
-.bcn-out__head{font-family:var(--font-decorative);font-size:1.375rem;font-weight:var(--font-weight-semibold);color:var(--color-text-primary)}
-.bcn-out__lede{margin:0 0 var(--spacing-400);font-size:var(--type-size-200);color:var(--color-text-secondary);line-height:1.5}
-.bcn-out__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--spacing-200)}
-.bcn-out__item{display:flex;align-items:center;gap:var(--spacing-300);padding:var(--spacing-300);border:1px solid var(--color-border);border-radius:var(--radius-200)}
-.bcn-out__item .esa-icon{color:var(--color-secondary);flex-shrink:0}
-.bcn-out__item div{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0}
-.bcn-out__item strong{font-size:var(--form-font-size-md);font-weight:var(--font-weight-semibold);color:var(--color-text-primary)}
-.bcn-out__item span{font-size:.8125rem;color:var(--color-text-tertiary)}
-.bcn-out__foot{display:flex;justify-content:flex-end;width:100%}
-.bcn-drawer-head{display:flex;align-items:center;gap:var(--spacing-200);flex-wrap:wrap;min-width:0}
-.bcn-drawer-head__badge{flex-shrink:0;font-family:var(--font-mono);font-size:var(--type-size-100);font-weight:var(--font-weight-semibold);color:var(--color-commitment);background:color-mix(in srgb,var(--color-commitment) 12%,white);padding:1px var(--spacing-200);border-radius:var(--radius-100)}
-.bcn-drawer-head__title{font-family:var(--font-decorative);font-size:1.125rem;font-weight:var(--font-weight-semibold);color:var(--color-text-primary);line-height:1.25;min-width:0}
-.bcn-drawer{display:flex;flex-direction:column;gap:var(--spacing-400)}
-.bcn-drawer__dates{display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-300)}
-.bcn-drawer__foot{display:flex;align-items:center;justify-content:space-between;width:100%;gap:var(--spacing-300)}
-.bcn-drawer__foot-actions{display:inline-flex;align-items:center;gap:var(--spacing-200)}
-.fs-grid{width:100%;height:calc(100vh - 300px);min-height:600px}
-.esa-button{--_btn-height: var(--form-height-md, 40px);--_btn-padding-x: var(--form-padding-x-md, 16px);--_btn-font-size: var(--form-font-size-md, 14px);--_btn-radius: var(--form-radius-md, 6px);--_accent: var(--color-primary, #46a758);--_accent-hover: var(--color-primary-hover, #3e9b4f);--_on: var(--color-text-inverse, #ffffff);--_accent-text: var(--_accent);--_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);--_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);display:inline-block}
-.esa-button__native{display:inline-flex;align-items:center;justify-content:center;gap:var(--spacing-200, 8px);width:100%;height:var(--_btn-height);padding-inline:var(--_btn-padding-x);border:1px solid transparent;border-radius:var(--_btn-radius);font-size:var(--_btn-font-size);font-family:var(--font-sans, system-ui, sans-serif);font-weight:var(--font-weight-medium, 500);line-height:1;text-decoration:none;cursor:pointer;transition:background var(--transition-fast, .15s ease),border-color var(--transition-fast, .15s ease);-webkit-appearance:none;appearance:none}
-.esa-button--appearance-outline .esa-button__native,.esa-button--appearance-dashed .esa-button__native{background:transparent;color:var(--_accent-text);border-color:var(--_accent)}
-.esa-button--color-ghost .esa-button__native{background:transparent;color:var(--color-text-primary, #171717);border-color:transparent}
-.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native{border-color:var(--color-border, #e5e5e5)}
-.esa-button__label{white-space:nowrap}
-.esa-button--sm{--_btn-height: var(--form-height-sm, 32px);--_btn-padding-x: var(--form-padding-x-sm, 12px);--_btn-font-size: var(--form-font-size-sm, 12px);--_btn-radius: var(--form-radius-sm, 4px)}
-.esa-button--sm .esa-button__native{height:auto;padding-block:var(--spacing-150, 6px)}
-.esa-button--color-primary{--_accent-text: var(--color-primary-strong)}
-.esa-button--appearance-fill .esa-button__native{background:var(--_accent);color:var(--_on);border-color:transparent}
+:where(.ag-theme-tabStyle-6) {
+.ag-tabs-header{background-color:var(--ag-tab-bar-background-color);border-bottom:var(--ag-tab-bar-border);display:flex;flex:1;gap:var(--ag-tab-spacing);padding:var(--ag-tab-bar-top-padding) var(--ag-tab-bar-horizontal-padding) 0}
+:where(.ag-ltr) .ag-tabs-close-button-wrapper{border-right:solid var(--ag-border-width) var(--ag-border-color)}
+:where(.ag-ltr) .ag-tab.ag-tab-selected:where(:not(:first-of-type)){border-left-color:var(--ag-tab-selected-border-color)}
+:where(.ag-ltr) .ag-tab.ag-tab-selected:where(:not(:last-of-type)){border-right-color:var(--ag-tab-selected-border-color)}
 .page-layout{display:flex;flex-direction:column;min-height:calc(100vh - 52px);padding:var(--spacing-600);background:var(--bcn-gray-50);box-sizing:border-box}
 .page-layout__container{display:flex;flex-direction:column}
 .page-layout section{width:100%}
@@ -10758,6 +11267,65 @@ a.breadcrumb-item{text-decoration:none}
 .page-layout__title h1 .esa-icon{color:var(--bcn-gray-1000);flex-shrink:0}
 .page-layout__utilities{display:flex;gap:var(--spacing-200)}
 .page-layout__content{padding:var(--spacing-500) 0;min-height:70vh;position:relative}
+:where(.ag-theme-batchEditStyle-3) {
+.ag-cell-batch-edit{background-color:var(--ag-cell-batch-edit-background-color);color:var(--ag-cell-batch-edit-text-color);display:inherit}
+.ag-row-batch-edit{background-color:var(--ag-row-batch-edit-background-color);color:var(--ag-row-batch-edit-text-color)}
+.ag-measurement-container{height:0;overflow:hidden;visibility:hidden;width:0}
+.ag-chart,.ag-dnd-ghost,.ag-external,.ag-popup,.ag-root-wrapper{cursor:default;line-height:normal;white-space:normal;-webkit-font-smoothing:antialiased;background-color:var(--ag-wrapper-background-color);color:var(--ag-text-color);color-scheme:var(--ag-browser-color-scheme);font-family:var(--ag-font-family);font-size:var(--ag-font-size);font-weight:var(--ag-font-weight);--ag-indentation-level:0}
+:where(.ag-ltr){direction:ltr;.ag-body,.ag-body-horizontal-scroll,.ag-body-viewport,.ag-floating-bottom,.ag-floating-top,.ag-header,.ag-sticky-bottom,.ag-sticky-top{flex-direction:row}
+.ag-root-wrapper{border:var(--ag-wrapper-border);border-radius:var(--ag-wrapper-border-radius);container-type:inline-size;display:flex;flex-direction:column;overflow:hidden;position:relative;&.ag-layout-normal{content-visibility:auto;height:100%}
+&.ag-layout-normal{content-visibility:auto;height:100%}
+.ag-root-wrapper-body{display:flex;flex-direction:row;&.ag-layout-normal{flex:1 1 auto;height:0;min-height:0}
+&.ag-layout-normal{flex:1 1 auto;height:0;min-height:0}
+.ag-unselectable{-webkit-user-select:none;-moz-user-select:none;user-select:none}
+.ag-root{display:flex;flex-direction:column;position:relative;&.ag-layout-auto-height,&.ag-layout-normal{flex:1 1 auto;overflow:hidden;width:0}
+&.ag-layout-normal{height:100%}
+&.ag-layout-auto-height,&.ag-layout-normal{flex:1 1 auto;overflow:hidden;width:0}
+&.ag-layout-normal{height:100%}
+.ag-body{display:flex;flex:1 1 auto;flex-direction:row!important;min-height:0;position:relative}
+.ag-body,.ag-body-horizontal-scroll,.ag-body-viewport,.ag-floating-bottom,.ag-floating-top,.ag-header,.ag-sticky-bottom,.ag-sticky-top{flex-direction:row}
+.ag-body,.ag-floating-bottom,.ag-floating-top{background-color:var(--ag-data-background-color)}
+.ag-body-horizontal-scroll-viewport,.ag-body-vertical-scroll-viewport,.ag-body-viewport,.ag-center-cols-viewport,.ag-floating-bottom-viewport,.ag-floating-top-viewport,.ag-header-viewport,.ag-sticky-bottom-viewport,.ag-sticky-top-viewport{flex:1 1 auto;height:100%;min-width:0;overflow:hidden;position:relative}
+.ag-body-viewport,.ag-center-cols-viewport,.ag-floating-bottom-viewport,.ag-floating-top-viewport,.ag-header-viewport,.ag-sticky-bottom-viewport,.ag-sticky-top-viewport{overflow-x:auto;-ms-overflow-style:none!important;scrollbar-width:none!important}
+.ag-body-viewport{display:flex;overflow-x:hidden;&:where(.ag-layout-normal){overflow-y:auto;-webkit-overflow-scrolling:touch}
+&:where(.ag-layout-normal){overflow-y:auto;-webkit-overflow-scrolling:touch}
+.ag-viewport{position:relative}
+.ag-center-cols-viewport{min-height:100%;width:100%}
+:where(.ag-theme-inputStyle-7) {
+:where(.ag-input-field-input[type=number]:not(.ag-number-field-input-stepper)){-webkit-appearance:textfield;-moz-appearance:textfield;appearance:textfield;&::-webkit-inner-spin-button,&::-webkit-outer-spin-button{-webkit-appearance:none;appearance:none;margin:0}
+:where(.ag-ltr) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding-left:var(--ag-input-padding-start)}
+&:where(.ag-ltr,.ag-rtl) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding:0 var(--ag-input-padding-start)}
+:where(.ag-ltr) :where(.ag-column-select-header-filter-wrapper),:where(.ag-ltr) :where(.ag-filter-add-select),:where(.ag-ltr) :where(.ag-filter-filter),:where(.ag-ltr) :where(.ag-filter-toolpanel-search),:where(.ag-ltr) :where(.ag-floating-filter-search-icon),:where(.ag-ltr) :where(.ag-mini-filter){.ag-input-wrapper:before{margin-left:var(--ag-spacing)}
+.esa-icon{--_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));display:inline-flex;align-items:center;justify-content:center;width:var(--_icon-size);height:var(--_icon-size);line-height:1;color:inherit}
+.esa-icon--xs{--_icon-size: var(--icon-size-xs, 14px)}
+.esa-icon svg{display:block;width:var(--_icon-size);height:var(--_icon-size)}
+.esa-icon--sm{--_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px))}
+.esa-icon--md{--_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px))}
+:where(.ag-theme-columnDropStyle-2) {
+.ag-column-drop-vertical-empty-message{align-items:center;border:dashed var(--ag-border-width);border-color:var(--ag-border-color);display:flex;inset:0;justify-content:center;margin:calc(var(--ag-spacing)*1.5) calc(var(--ag-spacing)*2);overflow:hidden;padding:calc(var(--ag-spacing)*2);position:absolute}
+:where(.ag-theme-part-8) {
+.ag-icon-filter::before { mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolygon%20points%3D%2222%203%202%203%2010%2012.46%2010%2019%2014%2021%2014%2012.46%2022%203%22%2F%3E%3C%2Fsvg%3E"); }
+;
+.ag-icon-filterActive::before { mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolygon%20points%3D%2222%203%202%203%2010%2012.46%2010%2019%2014%2021%2014%2012.46%2022%203%22%2F%3E%3C%2Fsvg%3E"); }
+.esa-icon-button{--_ib-size: var(--form-height-md, 40px);--_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));display:inline-flex;align-items:center;justify-content:center;width:var(--_ib-size);height:var(--_ib-size);padding:0;border:0;border-radius:var(--radius-200, 8px);background:transparent;color:inherit;cursor:pointer;transition:background var(--transition-fast, .15s ease);-webkit-appearance:none;appearance:none}
+.esa-filter-container{display:flex;flex-wrap:wrap;align-items:center;gap:var(--_filter-container-row-gap, .5rem) var(--_filter-container-gap, .75rem)}
+.esa-filter-clear-button{--_clear-text: var(--filter-clear-color, var(--color-primary-strong, #3a7c59));--_clear-text-hover: var(--filter-clear-color-hover, var(--color-primary-strong, #3a7c59));--_clear-font-size: var(--type-size-150, .875rem);--_clear-icon-size: 18px;display:inline-flex;align-items:center;gap:var(--spacing-100, .25rem);padding:var(--spacing-100, .25rem) var(--spacing-200, .5rem);border:none;border-radius:var(--radius-100, .25rem);background:transparent;color:var(--_clear-text);font-family:var(--font-sans, inherit);font-size:var(--_clear-font-size);font-weight:var(--font-weight-medium, 450);cursor:pointer;text-decoration:underline;text-underline-offset:2px;transition:color var(--transition-fast, .15s ease),background var(--transition-fast, .15s ease)}
+.esa-filter-clear-button__icon{width:var(--_clear-icon-size);height:var(--_clear-icon-size);flex:none}
+.esa-filter-clear-button__label{white-space:nowrap}
+.bcn-status-select{display:flex;flex-direction:column;gap:var(--spacing-100)}
+.bcn-status-select__label{font-size:.875rem;font-weight:var(--font-weight-medium);color:var(--form-label-color)}
+.bcn-status-select__dd{position:relative}
+.bcn-status-select__trigger{display:flex;align-items:center;gap:var(--spacing-200);width:100%;height:40px;padding:0 var(--spacing-300);font-size:.875rem;font-weight:var(--font-weight-medium);color:var(--color-text-primary);background:var(--color-surface);border:1px solid var(--form-border-color);border-radius:var(--form-radius-md);cursor:pointer;transition:border-color .15s ease,box-shadow .15s ease}
+.bcn-status-select__dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.bcn-status-select__value{flex:1;text-align:left}
+.bcn-status-select__chev{color:var(--color-text-tertiary);flex-shrink:0;transition:transform .15s ease}
+.bcn-status-select__menu{position:absolute;top:calc(100% + 4px);left:0;min-width:100%;width:max-content;z-index:20;margin:0;padding:var(--spacing-100);list-style:none;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--form-radius-md);box-shadow:var(--shadow-300)}
+.bcn-status-select__menu[hidden]{display:none}
+.bcn-status-select[data-value=not-started] .bcn-status-select__dot--trigger{background:var(--bcn-status-not-started)}
+.esa-icon-link{--_il-font: var(--icon-link-font-size-md, 1rem);display:inline-flex;align-items:center;gap:var(--icon-link-gap, var(--spacing-150, 6px));padding:0;margin:0;border:0;background:none;color:inherit;font-family:var(--font-sans, system-ui, sans-serif);font-size:var(--_il-font);font-weight:var(--font-weight-medium, 500);line-height:1;text-decoration:none;cursor:pointer;white-space:nowrap}
+.esa-icon-link--sm{--_il-font: var(--icon-link-font-size-sm, .875rem)}
+.esa-icon-link--medium{font-weight:var(--font-weight-medium, 500)}
+.esa-icon-link__label{display:inline-block}
 :has(> :where(.ag-theme-params-1)):not(:where(.ag-theme-params-1)) {
 	--ag-inherited-accent-color: var(--ag-accent-color);
 	--ag-inherited-advanced-filter-builder-button-bar-border: var(--ag-advanced-filter-builder-button-bar-border);
@@ -11372,8 +11940,72 @@ a.breadcrumb-item{text-decoration:none}
 	--ag-browser-color-scheme: var(--ag-inherited-browser-color-scheme, light);
 	--ag-chrome-background-color: var(--ag-inherited-chrome-background-color, color-mix(in srgb, var(--ag-background-color), var(--ag-foreground-color) 2%));
 }
-.ag-measurement-container{height:0;overflow:hidden;visibility:hidden;width:0}
-.ag-chart,.ag-dnd-ghost,.ag-external,.ag-popup,.ag-root-wrapper{cursor:default;line-height:normal;white-space:normal;-webkit-font-smoothing:antialiased;background-color:var(--ag-wrapper-background-color);color:var(--ag-text-color);color-scheme:var(--ag-browser-color-scheme);font-family:var(--ag-font-family);font-size:var(--ag-font-size);font-weight:var(--ag-font-weight);--ag-indentation-level:0}
+.bcn-fs-utils{display:inline-flex;align-items:center;gap:var(--spacing-200)}
+.bcn-filterbar{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-200);margin-bottom:var(--spacing-400)}
+.bcn-filterbar__top{display:flex;align-items:center;gap:var(--spacing-400);padding:var(--spacing-300) var(--spacing-400);flex-wrap:wrap}
+.bcn-filterbar__group{display:inline-flex;align-items:center;gap:var(--spacing-300)}
+.bcn-filterbar__label{font-size:var(--type-size-150);font-weight:var(--font-weight-semibold);color:var(--color-text-tertiary);white-space:nowrap}
+.bcn-filterbar__search{margin-left:auto;display:inline-flex;align-items:center;gap:var(--spacing-150);min-width:300px}
+.bcn-filterbar__search esa-text-field{flex:1}
+.bcn-filterbar__bottom{display:flex;align-items:center;gap:var(--spacing-300);padding:var(--spacing-300) var(--spacing-400);border-top:1px solid var(--color-border);flex-wrap:wrap}
+.bcn-filterbar__clear{margin-left:auto}
+.bcn-view-pane[hidden]{display:none}
+.bcn-timeline{display:flex;flex-direction:column;gap:var(--spacing-300);--_label-w: 340px;--_plot-w: 1900px;--_row-h: 30px}
+.bcn-timeline__legend{display:flex;align-items:center;flex-wrap:wrap;gap:var(--spacing-300);font-size:var(--type-size-100);color:var(--color-text-secondary)}
+.bcn-timeline__legend-title{font-weight:var(--font-weight-semibold);color:var(--color-text-tertiary)}
+.bcn-timeline__legend-item{display:inline-flex;align-items:center;gap:var(--spacing-150)}
+.bcn-timeline__legend-dot{width:9px;height:9px;border-radius:var(--radius-full);background:var(--_c)}
+.bcn-timeline__legend-hint{margin-left:auto;color:var(--color-text-muted);font-style:italic}
+.bcn-timeline__scroll{overflow-x:auto;border:1px solid var(--color-border);border-radius:var(--radius-200);background:var(--color-surface)}
+.bcn-timeline__canvas{min-width:calc(var(--_label-w) + var(--_plot-w))}
+.bcn-timeline__axis{display:grid;grid-template-columns:var(--_label-w) 1fr;position:sticky;top:0;z-index:5;background:var(--color-surface);border-bottom:1px solid var(--color-border)}
+.bcn-timeline__corner{display:flex;align-items:flex-end;padding:var(--spacing-200) var(--spacing-300);font-size:var(--type-size-100);font-weight:var(--font-weight-semibold);color:var(--color-text-tertiary);border-right:1px solid var(--color-border)}
+.bcn-timeline__head-plot{position:relative}
+.bcn-timeline__head-bands{position:absolute;inset:0;z-index:0}
+.bcn-timeline__band{position:absolute;top:0;bottom:0}
+.bcn-timeline__band[data-phase=baseline]{background:color-mix(in srgb,var(--color-text-primary) 7%,transparent)}
+.bcn-timeline__band[data-phase=in-water-construction]{background:color-mix(in srgb,var(--color-text-primary) 3%,transparent)}
+.bcn-timeline__band[data-phase=phase1-ops]{background:color-mix(in srgb,var(--color-text-primary) 7%,transparent)}
+.bcn-timeline__band[data-phase=phase2-ops]{background:color-mix(in srgb,var(--color-text-primary) 3%,transparent)}
+.bcn-timeline__head-phases{position:relative;z-index:1;height:18px}
+.bcn-timeline__phase-tag{position:absolute;top:0;bottom:0;display:inline-flex;align-items:center;padding:0 var(--spacing-150);font-size:.625rem;font-weight:var(--font-weight-semibold);text-transform:uppercase;letter-spacing:.03em;color:var(--color-text-secondary);white-space:nowrap;overflow:hidden}
+.bcn-timeline__head-years{position:relative;z-index:1;height:20px}
+.bcn-timeline__yr{position:absolute;top:0;bottom:0;border-left:1px solid var(--color-border-light);display:flex;align-items:center}
+.bcn-timeline__yr-label{font-size:.6875rem;color:var(--color-text-muted);padding-left:4px;font-variant-numeric:tabular-nums}
+.bcn-timeline__yr.is-five{border-left-color:var(--color-border-strong)}
+.bcn-timeline__yr.is-five .bcn-timeline__yr-label{color:var(--color-text-secondary);font-weight:var(--font-weight-semibold)}
+.bcn-timeline__head-ms{position:relative;z-index:1;height:22px}
+.bcn-timeline__ms-tag{position:absolute;top:2px;transform:translate(-50%);font-size:.625rem;font-weight:var(--font-weight-semibold);color:var(--color-primary);white-space:nowrap;background:var(--color-surface);padding:0 3px;border:1px solid var(--color-primary-border);border-radius:var(--radius-100)}
+.bcn-timeline__ms-tag.is-alt{top:11px}
+.bcn-timeline__lane-title{margin:0;padding:var(--spacing-150) var(--spacing-300);font-size:var(--type-size-100);font-weight:var(--font-weight-semibold);color:var(--color-text-secondary);background:var(--color-surface-sunken);border-bottom:1px solid var(--color-border);position:sticky;left:0;z-index:3}
+.bcn-timeline__lane-title[hidden]{display:none}
+.bcn-timeline__row{display:grid;grid-template-columns:var(--_label-w) 1fr;border-bottom:1px solid var(--color-border-light)}
+.bcn-timeline__row-label{display:flex;align-items:center;gap:var(--spacing-200);padding:0 var(--spacing-300);min-height:var(--_row-h);width:100%;border:0;border-right:1px solid var(--color-border);overflow:hidden;background:var(--color-surface);position:sticky;left:0;z-index:3;cursor:pointer;text-align:left;font:inherit}
+.bcn-timeline__coa{flex-shrink:0;font-family:var(--font-mono);font-size:.625rem;font-weight:var(--font-weight-semibold);color:var(--color-commitment);background:color-mix(in srgb,var(--color-commitment) 12%,white);padding:1px 5px;border-radius:var(--radius-100)}
+.bcn-timeline__name{font-size:var(--type-size-200);font-weight:var(--font-weight-medium);color:var(--color-text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bcn-timeline__plot{position:relative;min-height:var(--_row-h)}
+.bcn-timeline__grid{position:absolute;top:0;bottom:0;width:0;border-left:1px solid var(--color-border-light)}
+.bcn-timeline__grid.is-five{border-left-color:var(--color-border)}
+.bcn-timeline__ms-line{position:absolute;top:0;bottom:0;width:0;border-left:1px dashed color-mix(in srgb,var(--color-primary) 35%,transparent)}
+.bcn-timeline__today{position:absolute;top:0;bottom:0;width:0;border-left:2px solid var(--color-warning);z-index:2}
+.bcn-timeline__bar{position:absolute;top:50%;transform:translateY(-50%);height:16px;min-width:5px;border:1px solid color-mix(in srgb,var(--_c) 72%,black);border-radius:var(--radius-100);background:linear-gradient(90deg,var(--_c) 0%,color-mix(in srgb,var(--_c) 62%,white) 100%);padding:0;cursor:pointer;z-index:1;transition:filter .12s ease,box-shadow .12s ease}
+.bcn-out__head{font-family:var(--font-decorative);font-size:1.375rem;font-weight:var(--font-weight-semibold);color:var(--color-text-primary)}
+.bcn-out__lede{margin:0 0 var(--spacing-400);font-size:var(--type-size-200);color:var(--color-text-secondary);line-height:1.5}
+.bcn-out__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--spacing-200)}
+.bcn-out__item{display:flex;align-items:center;gap:var(--spacing-300);padding:var(--spacing-300);border:1px solid var(--color-border);border-radius:var(--radius-200)}
+.bcn-out__item .esa-icon{color:var(--color-secondary);flex-shrink:0}
+.bcn-out__item div{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0}
+.bcn-out__item strong{font-size:var(--form-font-size-md);font-weight:var(--font-weight-semibold);color:var(--color-text-primary)}
+.bcn-out__item span{font-size:.8125rem;color:var(--color-text-tertiary)}
+.bcn-out__foot{display:flex;justify-content:flex-end;width:100%}
+.bcn-drawer-head{display:flex;align-items:center;gap:var(--spacing-200);flex-wrap:wrap;min-width:0}
+.bcn-drawer-head__badge{flex-shrink:0;font-family:var(--font-mono);font-size:var(--type-size-100);font-weight:var(--font-weight-semibold);color:var(--color-commitment);background:color-mix(in srgb,var(--color-commitment) 12%,white);padding:1px var(--spacing-200);border-radius:var(--radius-100)}
+.bcn-drawer-head__title{font-family:var(--font-decorative);font-size:1.125rem;font-weight:var(--font-weight-semibold);color:var(--color-text-primary);line-height:1.25;min-width:0}
+.bcn-drawer{display:flex;flex-direction:column;gap:var(--spacing-400)}
+.bcn-drawer__dates{display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-300)}
+.bcn-drawer__foot{display:flex;align-items:center;justify-content:space-between;width:100%;gap:var(--spacing-300)}
+.bcn-drawer__foot-actions{display:inline-flex;align-items:center;gap:var(--spacing-200)}
+.fs-grid{width:100%;height:calc(100vh - 300px);min-height:600px}
 .modern-layout{display:flex;flex-direction:column;height:100vh}
 .topbar{position:fixed;top:0;left:0;right:0;height:52px;background:var(--bcn-gray-100);border-bottom:1px solid var(--bcn-gray-300);z-index:1100;display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:0 var(--spacing-200)}
 .topbar{padding:0 var(--spacing-400)}
@@ -11435,17 +12067,15 @@ a.breadcrumb-item{text-decoration:none}
 .bcn-help-bar__whatsnew{position:relative;display:inline-flex}
 .bcn-help-bar__dot{position:absolute;top:7px;right:7px;width:8px;height:8px;border-radius:50%;background:var(--bcn-aldo);box-shadow:0 0 0 2px var(--bcn-helpbar-bg-solid);pointer-events:none}
 .bcn-help-bar__panel{width:340px;max-width:84vw;color:var(--color-text-primary)}
-.bcn-help-bar__panel-title{margin:0 0 var(--spacing-200);font-size:var(--type-size-200, .9375rem);font-weight:var(--font-weight-semibold);color:var(--color-text-primary)}
-.bcn-help-bar__panel-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--spacing-300)}
-.bcn-help-bar__panel-item{display:flex;gap:var(--spacing-200)}
-.bcn-help-bar__panel-icon{flex:none;display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:var(--radius-200, var(--radius-100));background:var(--color-surface-sunken);color:var(--color-text-secondary)}
-.bcn-help-bar__panel-text{flex:1;min-width:0}
-.bcn-help-bar__panel-head{display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-200);margin:0 0 2px}
-.bcn-help-bar__panel-item-title{margin:0;font-size:var(--type-size-200, .9375rem);font-weight:var(--font-weight-bold);line-height:1.3;color:var(--color-text-primary)}
-.bcn-help-bar__panel-head .bcn-count{flex:none}
+.bcn-help-bar__panel-header{display:flex;align-items:baseline;justify-content:space-between;gap:var(--spacing-200);margin:0 0 var(--spacing-300)}
+.bcn-help-bar__panel-title{margin:0;font-size:var(--type-size-200, .9375rem);font-weight:var(--font-weight-semibold);color:var(--color-text-primary)}
+.bcn-help-bar__panel-release{margin:0;font-size:var(--type-size-150, .875rem);color:var(--color-text-tertiary);white-space:nowrap}
+.bcn-help-bar__panel-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--spacing-200)}
+.bcn-help-bar__panel-link{display:block;padding:var(--spacing-150) var(--spacing-150);margin:0 calc(var(--spacing-150) * -1);border-radius:var(--radius-200, 8px);color:inherit;text-decoration:none;transition:background var(--transition-fast, .15s ease)}
+.bcn-help-bar__panel-item-title{margin:0 0 2px;font-family:var(--font-decorative);font-size:1.0625rem;font-weight:var(--font-weight-semibold);line-height:1.3;color:var(--color-text-primary)}
 .bcn-help-bar__panel-item-blurb{margin:0;font-size:var(--type-size-150, .875rem);font-weight:var(--font-weight-regular, 400);line-height:1.45;color:var(--color-text-secondary)}
 .bcn-help-bar__panel-footer{margin-top:var(--spacing-300);padding-top:var(--spacing-250, .625rem);border-top:1px solid var(--color-border)}
-.bcn-help-bar__panel-all{display:inline-flex;align-items:center;gap:4px;font-size:var(--type-size-150, .875rem);font-weight:var(--font-weight-medium);color:var(--color-primary);text-decoration:none}
+.bcn-help-bar__panel-all{display:inline-flex;align-items:center;gap:4px;font-size:var(--type-size-150, .875rem);font-weight:var(--font-weight-medium);color:var(--color-text-link);text-decoration:none}
 .bcn-help-bar__panel-all-arrow{transition:transform .15s ease}
 .bcn-gd{--z-modal-backdrop: 1300;--z-modal: 1301;--side-dialog-width: 460px;--backdrop-filter: blur(2px)}
 .bcn-gd__header{display:flex;align-items:center;gap:var(--spacing-300);min-width:0}
@@ -11476,70 +12106,9 @@ a.breadcrumb-item{text-decoration:none}
 .bcn-gd-article__title{font-family:var(--font-decorative);font-size:var(--type-size-300);font-weight:var(--font-weight-semibold);color:var(--color-text-primary);line-height:1.25}
 .bcn-gd-article__kind{flex:none;padding:1px 6px;border-radius:var(--radius-100);border:1px solid var(--color-border);background:var(--color-surface);font-size:var(--type-size-100);font-weight:var(--font-weight-medium);color:var(--color-text-secondary);line-height:1.5;white-space:nowrap}
 .bcn-gd-article__panel[hidden]{display:none}
-:where(.ag-ltr){direction:ltr;.ag-body,.ag-body-horizontal-scroll,.ag-body-viewport,.ag-floating-bottom,.ag-floating-top,.ag-header,.ag-sticky-bottom,.ag-sticky-top{flex-direction:row}
-.ag-root-wrapper{border:var(--ag-wrapper-border);border-radius:var(--ag-wrapper-border-radius);container-type:inline-size;display:flex;flex-direction:column;overflow:hidden;position:relative;&.ag-layout-normal{content-visibility:auto;height:100%}
-&.ag-layout-normal{content-visibility:auto;height:100%}
-.ag-root-wrapper-body{display:flex;flex-direction:row;&.ag-layout-normal{flex:1 1 auto;height:0;min-height:0}
-&.ag-layout-normal{flex:1 1 auto;height:0;min-height:0}
-.ag-unselectable{-webkit-user-select:none;-moz-user-select:none;user-select:none}
-.ag-root{display:flex;flex-direction:column;position:relative;&.ag-layout-auto-height,&.ag-layout-normal{flex:1 1 auto;overflow:hidden;width:0}
-&.ag-layout-normal{height:100%}
-&.ag-layout-auto-height,&.ag-layout-normal{flex:1 1 auto;overflow:hidden;width:0}
-&.ag-layout-normal{height:100%}
-.ag-body{display:flex;flex:1 1 auto;flex-direction:row!important;min-height:0;position:relative}
-.ag-body,.ag-body-horizontal-scroll,.ag-body-viewport,.ag-floating-bottom,.ag-floating-top,.ag-header,.ag-sticky-bottom,.ag-sticky-top{flex-direction:row}
-.ag-body,.ag-floating-bottom,.ag-floating-top{background-color:var(--ag-data-background-color)}
-.ag-body-horizontal-scroll-viewport,.ag-body-vertical-scroll-viewport,.ag-body-viewport,.ag-center-cols-viewport,.ag-floating-bottom-viewport,.ag-floating-top-viewport,.ag-header-viewport,.ag-sticky-bottom-viewport,.ag-sticky-top-viewport{flex:1 1 auto;height:100%;min-width:0;overflow:hidden;position:relative}
-.ag-body-viewport,.ag-center-cols-viewport,.ag-floating-bottom-viewport,.ag-floating-top-viewport,.ag-header-viewport,.ag-sticky-bottom-viewport,.ag-sticky-top-viewport{overflow-x:auto;-ms-overflow-style:none!important;scrollbar-width:none!important}
-.ag-body-viewport{display:flex;overflow-x:hidden;&:where(.ag-layout-normal){overflow-y:auto;-webkit-overflow-scrolling:touch}
-&:where(.ag-layout-normal){overflow-y:auto;-webkit-overflow-scrolling:touch}
-.ag-viewport{position:relative}
-.ag-center-cols-viewport{min-height:100%;width:100%}
-:where(.ag-theme-tabStyle-6) {
-.ag-tabs-header{background-color:var(--ag-tab-bar-background-color);border-bottom:var(--ag-tab-bar-border);display:flex;flex:1;gap:var(--ag-tab-spacing);padding:var(--ag-tab-bar-top-padding) var(--ag-tab-bar-horizontal-padding) 0}
-:where(.ag-ltr) .ag-tabs-close-button-wrapper{border-right:solid var(--ag-border-width) var(--ag-border-color)}
-:where(.ag-ltr) .ag-tab.ag-tab-selected:where(:not(:first-of-type)){border-left-color:var(--ag-tab-selected-border-color)}
-:where(.ag-ltr) .ag-tab.ag-tab-selected:where(:not(:last-of-type)){border-right-color:var(--ag-tab-selected-border-color)}
-:where(.ag-theme-checkboxStyle-4) {
-.ag-checkbox-input-wrapper,.ag-radio-button-input-wrapper{background-color:var(--ag-checkbox-unchecked-background-color);border:solid var(--ag-checkbox-border-width) var(--ag-checkbox-unchecked-border-color);flex:none;height:var(--ag-icon-size);position:relative;width:var(--ag-icon-size);&:where(.ag-checked){background-color:var(--ag-checkbox-checked-background-color);border-color:var(--ag-checkbox-checked-border-color)}
-&:where(.ag-disabled){filter:grayscale();opacity:.5}
-.ag-cell-editing-error .ag-checkbox-input-wrapper:focus-within{box-shadow:var(--ag-focus-error-shadow)}
-:where(.ag-theme-part-8) {
-.ag-icon-filter::before { mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolygon%20points%3D%2222%203%202%203%2010%2012.46%2010%2019%2014%2021%2014%2012.46%2022%203%22%2F%3E%3C%2Fsvg%3E"); }
-;
-.ag-icon-filterActive::before { mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolygon%20points%3D%2222%203%202%203%2010%2012.46%2010%2019%2014%2021%2014%2012.46%2022%203%22%2F%3E%3C%2Fsvg%3E"); }
-.esa-icon-button{--_ib-size: var(--form-height-md, 40px);--_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));display:inline-flex;align-items:center;justify-content:center;width:var(--_ib-size);height:var(--_ib-size);padding:0;border:0;border-radius:var(--radius-200, 8px);background:transparent;color:inherit;cursor:pointer;transition:background var(--transition-fast, .15s ease);-webkit-appearance:none;appearance:none}
-.esa-filter-container{display:flex;flex-wrap:wrap;align-items:center;gap:var(--_filter-container-row-gap, .5rem) var(--_filter-container-gap, .75rem)}
-.esa-filter-clear-button{--_clear-text: var(--filter-clear-color, var(--color-primary-strong, #3a7c59));--_clear-text-hover: var(--filter-clear-color-hover, var(--color-primary-strong, #3a7c59));--_clear-font-size: var(--type-size-150, .875rem);--_clear-icon-size: 18px;display:inline-flex;align-items:center;gap:var(--spacing-100, .25rem);padding:var(--spacing-100, .25rem) var(--spacing-200, .5rem);border:none;border-radius:var(--radius-100, .25rem);background:transparent;color:var(--_clear-text);font-family:var(--font-sans, inherit);font-size:var(--_clear-font-size);font-weight:var(--font-weight-medium, 450);cursor:pointer;text-decoration:underline;text-underline-offset:2px;transition:color var(--transition-fast, .15s ease),background var(--transition-fast, .15s ease)}
-.esa-filter-clear-button__icon{width:var(--_clear-icon-size);height:var(--_clear-icon-size);flex:none}
-.esa-filter-clear-button__label{white-space:nowrap}
-.bcn-status-select{display:flex;flex-direction:column;gap:var(--spacing-100)}
-.bcn-status-select__label{font-size:.875rem;font-weight:var(--font-weight-medium);color:var(--form-label-color)}
-.bcn-status-select__dd{position:relative}
-.bcn-status-select__trigger{display:flex;align-items:center;gap:var(--spacing-200);width:100%;height:40px;padding:0 var(--spacing-300);font-size:.875rem;font-weight:var(--font-weight-medium);color:var(--color-text-primary);background:var(--color-surface);border:1px solid var(--form-border-color);border-radius:var(--form-radius-md);cursor:pointer;transition:border-color .15s ease,box-shadow .15s ease}
-.bcn-status-select__dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-.bcn-status-select__value{flex:1;text-align:left}
-.bcn-status-select__chev{color:var(--color-text-tertiary);flex-shrink:0;transition:transform .15s ease}
-.bcn-status-select__menu{position:absolute;top:calc(100% + 4px);left:0;min-width:100%;width:max-content;z-index:20;margin:0;padding:var(--spacing-100);list-style:none;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--form-radius-md);box-shadow:var(--shadow-300)}
-.bcn-status-select__menu[hidden]{display:none}
-.bcn-status-select[data-value=not-started] .bcn-status-select__dot--trigger{background:var(--bcn-status-not-started)}
-.esa-icon-link{--_il-font: var(--icon-link-font-size-md, 1rem);display:inline-flex;align-items:center;gap:var(--icon-link-gap, var(--spacing-150, 6px));padding:0;margin:0;border:0;background:none;color:inherit;font-family:var(--font-sans, system-ui, sans-serif);font-size:var(--_il-font);font-weight:var(--font-weight-medium, 500);line-height:1;text-decoration:none;cursor:pointer;white-space:nowrap}
-.esa-icon-link--sm{--_il-font: var(--icon-link-font-size-sm, .875rem)}
-.esa-icon-link--medium{font-weight:var(--font-weight-medium, 500)}
-.esa-icon-link__label{display:inline-block}
-.bcn-count{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 var(--spacing-100);font-size:.8125rem;font-weight:var(--font-weight-medium);color:var(--color-text-secondary);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-100);font-variant-numeric:tabular-nums;white-space:nowrap}
 :where(.ag-theme-buttonStyle-1) {
 :where(.ag-button){background:none;border:none;color:inherit;cursor:pointer;font-family:inherit;font-size:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;margin:0;padding:0;text-indent:inherit;text-shadow:inherit;text-transform:inherit;word-spacing:inherit;&:disabled{cursor:default}
-:where(.ag-theme-columnDropStyle-2) {
-.ag-column-drop-vertical-empty-message{align-items:center;border:dashed var(--ag-border-width);border-color:var(--ag-border-color);display:flex;inset:0;justify-content:center;margin:calc(var(--ag-spacing)*1.5) calc(var(--ag-spacing)*2);overflow:hidden;padding:calc(var(--ag-spacing)*2);position:absolute}
-:where(.ag-theme-inputStyle-7) {
-:where(.ag-input-field-input[type=number]:not(.ag-number-field-input-stepper)){-webkit-appearance:textfield;-moz-appearance:textfield;appearance:textfield;&::-webkit-inner-spin-button,&::-webkit-outer-spin-button{-webkit-appearance:none;appearance:none;margin:0}
-:where(.ag-ltr) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding-left:var(--ag-input-padding-start)}
-&:where(.ag-ltr,.ag-rtl) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding:0 var(--ag-input-padding-start)}
-:where(.ag-ltr) :where(.ag-column-select-header-filter-wrapper),:where(.ag-ltr) :where(.ag-filter-add-select),:where(.ag-ltr) :where(.ag-filter-filter),:where(.ag-ltr) :where(.ag-filter-toolpanel-search),:where(.ag-ltr) :where(.ag-floating-filter-search-icon),:where(.ag-ltr) :where(.ag-mini-filter){.ag-input-wrapper:before{margin-left:var(--ag-spacing)}
-:where(.ag-theme-batchEditStyle-3) {
-.ag-cell-batch-edit{background-color:var(--ag-cell-batch-edit-background-color);color:var(--ag-cell-batch-edit-text-color);display:inherit}
-.ag-row-batch-edit{background-color:var(--ag-row-batch-edit-background-color);color:var(--ag-row-batch-edit-text-color)}
+html,.modern-layout__content{scroll-behavior:smooth}
 ```
 
 ## Tokens
@@ -11579,6 +12148,7 @@ a.breadcrumb-item{text-decoration:none}
 | `--color-surface` | `#fcfcfc` | semantic |
 | `--color-surface-sunken` | `#efefef` | semantic |
 | `--color-text-inverse` | `#fcfcfc` | semantic |
+| `--color-text-link` | `#005862` | semantic |
 | `--color-text-muted` | `#7c7c7c` | semantic |
 | `--color-text-primary` | `#3d3d3d` | semantic |
 | `--color-text-secondary` | `#525252` | semantic |
@@ -11590,7 +12160,7 @@ a.breadcrumb-item{text-decoration:none}
 | `--font-mono` | `"Roboto Mono", ui-monospace, monospace` | primitive |
 | `--font-sans` | `"DM Sans", sans-serif` | primitive |
 | `--font-weight-bold` | `650` | primitive |
-| `--font-weight-medium` | `450` | primitive |
+| `--font-weight-medium` | `500` | primitive |
 | `--font-weight-regular` | `350` | primitive |
 | `--font-weight-semibold` | `550` | primitive |
 | `--form-border-color` | `#dcdcdc` | component |

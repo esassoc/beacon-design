@@ -254,7 +254,7 @@ A GLOBAL, per-user preferences dialog (esa-dialog) opened from the page utilitie
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
-- `--font-weight-medium`: 450 _(primitive)_
+- `--font-weight-medium`: 500 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
 - `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
 - `--form-font-size-sm`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_

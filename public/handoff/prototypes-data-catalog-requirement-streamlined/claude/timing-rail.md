@@ -49,54 +49,41 @@ The Timing rail module (esa-collapsible): a single one-time deadline rule ("14 d
 
 ## Styles
 ```css
-.bcn-key-value {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.bcn-key-value__key {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  color: var(--form-label-color);
-}
-.bcn-key-value__val {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-key-value__hint {
-  font-size: 0.75rem;
+.bcn-search-trigger .esa-icon {
+  flex: none;
   color: var(--color-text-tertiary);
 }
-.esa-icon-link {
-  --_il-font: var(--icon-link-font-size-md, 1rem);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--icon-link-gap, var(--spacing-150, 6px));
-  padding: 0;
-  margin: 0;
-  border: 0;
-  background: none;
-  color: inherit;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: var(--_il-font);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
-  text-decoration: none;
-  cursor: pointer;
-  white-space: nowrap;
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
 }
-.esa-icon-link--sm {
-  --_il-font: var(--icon-link-font-size-sm, 0.875rem);
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
 }
-.esa-icon-link--medium {
-  font-weight: var(--font-weight-medium, 500);
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
 }
-.esa-icon-link__label {
-  display: inline-block;
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
 }
-.breadcrumbs__items .esa-icon {
+.nav-section__header > .esa-icon:last-child {
   color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
 }
 .esa-collapsible {
   border: 1px solid var(--collapsible-border-color, var(--color-border, #e5e5e5));
@@ -160,13 +147,51 @@ The Timing rail module (esa-collapsible): a single one-time deadline rule ("14 d
   -webkit-appearance: none;
   appearance: none;
 }
-.bcn-reqref__key .esa-icon {
-  --_icon-size: 11px;
-  color: var(--color-text-tertiary);
-  flex-shrink: 0;
+.bcn-key-value {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
-.bcn-reqref__footer .esa-icon {
-  --_icon-size: 13px;
+.bcn-key-value__key {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--form-label-color);
+}
+.bcn-key-value__val {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-key-value__hint {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+}
+.esa-icon-link {
+  --_il-font: var(--icon-link-font-size-md, 1rem);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--icon-link-gap, var(--spacing-150, 6px));
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: var(--_il-font);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.esa-icon-link--sm {
+  --_il-font: var(--icon-link-font-size-sm, 0.875rem);
+}
+.esa-icon-link--medium {
+  font-weight: var(--font-weight-medium, 500);
+}
+.esa-icon-link__label {
+  display: inline-block;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
@@ -192,42 +217,6 @@ The Timing rail module (esa-collapsible): a single one-time deadline rule ("14 d
 .esa-icon--md {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
 }
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
-}
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
-}
 .bcn-action__rail .esa-collapsible__title {
   font-size: var(--type-size-300);
   font-weight: var(--font-weight-semibold);
@@ -250,6 +239,17 @@ The Timing rail module (esa-collapsible): a single one-time deadline rule ("14 d
 .bcn-ntoggle__title .esa-icon {
   color: var(--color-text-primary);
 }
+.bcn-reqref__key .esa-icon {
+  --_icon-size: 11px;
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+}
+.bcn-reqref__footer .esa-icon {
+  --_icon-size: 13px;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
 ```
 
 ## Tokens
@@ -270,7 +270,7 @@ The Timing rail module (esa-collapsible): a single one-time deadline rule ("14 d
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
-- `--font-weight-medium`: 450 _(primitive)_
+- `--font-weight-medium`: 500 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
 - `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
 - `--form-height-md`: 36px _(component)_

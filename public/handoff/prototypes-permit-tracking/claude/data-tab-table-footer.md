@@ -167,42 +167,6 @@ The grid footer (Beacon's standard pattern): "Download as CSV" on the left, a li
   color: var(--_on);
   border-color: transparent;
 }
-.pd__section-head .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary);
-}
-.table-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-400);
-  padding: var(--spacing-200) var(--spacing-400);
-  background: var(--color-background);
-  border: 1px solid var(--color-border);
-  border-top: 0;
-  border-radius: 0 0 var(--radius-100) var(--radius-100);
-}
-.row-count-data {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-400);
-  font-size: var(--type-size-100);
-  color: var(--color-text-secondary);
-  font-variant-numeric: tabular-nums;
-}
-.filtered-rows-count {
-  color: var(--color-text-tertiary);
-}
-.filtered-rows-count[hidden] {
-  display: none;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
-}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -235,9 +199,37 @@ The grid footer (Beacon's standard pattern): "Download as CSV" on the left, a li
   color: var(--bcn-helpbar-fg-muted);
   --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
 }
-.bcn-gd__label .esa-icon {
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
+.table-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-400);
+  padding: var(--spacing-200) var(--spacing-400);
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-top: 0;
+  border-radius: 0 0 var(--radius-100) var(--radius-100);
+}
+.row-count-data {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-400);
+  font-size: var(--type-size-100);
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.filtered-rows-count {
   color: var(--color-text-tertiary);
-  flex: none;
+}
+.filtered-rows-count[hidden] {
+  display: none;
 }
 ```
 
@@ -258,7 +250,7 @@ The grid footer (Beacon's standard pattern): "Download as CSV" on the left, a li
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
-- `--font-weight-medium`: 450 _(primitive)_
+- `--font-weight-medium`: 500 _(primitive)_
 - `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
 - `--form-font-size-sm`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
 - `--form-height-md`: 36px _(component)_
