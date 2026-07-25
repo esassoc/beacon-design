@@ -46,6 +46,49 @@ The single-select Component picker that scopes the whole page — map, grids, an
 
 ## Styles
 ```css
+.comp-picker {
+  display: inline-flex;
+  align-items: center;
+  align-self: center;
+  min-width: 0;
+}
+.comp-picker esa-dropdown-menu {
+  display: inline-flex;
+  align-items: center;
+  --type-size-200: 0.875rem;
+}
+.comp-picker__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  margin: 0;
+  padding: var(--spacing-100) var(--spacing-200);
+  border: 0;
+  border-radius: var(--radius-200);
+  background: transparent;
+  font: inherit;
+  font-size: 0.875rem;
+  line-height: 1.3;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.comp-picker__trigger .esa-icon {
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+}
+.wa__section .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -84,49 +127,6 @@ The single-select Component picker that scopes the whole page — map, grids, an
 .bcn-gd__label .esa-icon {
   color: var(--color-text-tertiary);
   flex: none;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
-}
-.comp-picker {
-  display: inline-flex;
-  align-items: center;
-  align-self: center;
-  min-width: 0;
-}
-.comp-picker esa-dropdown-menu {
-  display: inline-flex;
-  align-items: center;
-  --type-size-200: 0.875rem;
-}
-.comp-picker__trigger {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-  margin: 0;
-  padding: var(--spacing-100) var(--spacing-200);
-  border: 0;
-  border-radius: var(--radius-200);
-  background: transparent;
-  font: inherit;
-  font-size: 0.875rem;
-  line-height: 1.3;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  white-space: nowrap;
-}
-.comp-picker__trigger .esa-icon {
-  color: var(--color-text-tertiary);
-  flex-shrink: 0;
-}
-.wa__section .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));

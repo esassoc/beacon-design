@@ -215,6 +215,13 @@ The demoted reference detail: two EsaCollapsible rows with live counts — Notes
   padding: 0 var(--collapsible-padding-x, var(--spacing-400, 1rem))
     var(--spacing-400, 1rem);
 }
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -253,13 +260,6 @@ The demoted reference detail: two EsaCollapsible rows with live counts — Notes
 .bcn-gd__label .esa-icon {
   color: var(--color-text-tertiary);
   flex: none;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
 }
 .comp-picker__trigger .esa-icon {
   color: var(--color-text-tertiary);

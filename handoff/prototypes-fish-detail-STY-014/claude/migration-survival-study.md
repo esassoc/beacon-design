@@ -6159,10 +6159,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .bcn-review__item + .bcn-review__item {
   margin-top: var(--spacing-200);
 }
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
-}
 .page-layout {
   display: flex;
   flex-direction: column;
@@ -7234,6 +7230,10 @@ a.breadcrumb-item {
   border-bottom: 0;
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
+}
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
 }
 ```
 

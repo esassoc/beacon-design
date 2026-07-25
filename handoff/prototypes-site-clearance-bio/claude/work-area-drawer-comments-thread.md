@@ -93,13 +93,6 @@ A per-work-area collaboration thread (the unified comment system; ported from pe
 
 ## Styles
 ```css
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
-}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -261,6 +254,13 @@ A per-work-area collaboration thread (the unified comment system; ported from pe
   background: var(--_accent);
   color: var(--_on);
   border-color: transparent;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
 }
 .comp-picker__trigger .esa-icon {
   color: var(--color-text-tertiary);

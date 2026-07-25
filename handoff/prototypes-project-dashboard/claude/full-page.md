@@ -4714,18 +4714,7 @@ img {
   letter-spacing: var(--letter-spacing-normal);
 }
 :host {
-  --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
-  --_popover-border: var(--popover-border-color, var(--color-border, #e5e5e5));
-  --_popover-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
-  --_popover-radius: var(--popover-radius, var(--radius-200, 0.5rem));
-  --_popover-padding: var(--spacing-300, 0.75rem);
-  --_popover-arrow-size: 8px;
-  --_popover-color: var(--popover-color, var(--color-text-primary, #171717));
-  display: inline-block;
-}
-.esa-popover-anchor {
-  position: relative;
-  display: inline-block;
+  --_width: var(--side-dialog-width, 400px);
 }
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
@@ -4801,6 +4790,20 @@ img {
 }
 .page-layout section {
   width: 100%;
+}
+:host {
+  --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
+  --_popover-border: var(--popover-border-color, var(--color-border, #e5e5e5));
+  --_popover-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+  --_popover-radius: var(--popover-radius, var(--radius-200, 0.5rem));
+  --_popover-padding: var(--spacing-300, 0.75rem);
+  --_popover-arrow-size: 8px;
+  --_popover-color: var(--popover-color, var(--color-text-primary, #171717));
+  display: inline-block;
+}
+.esa-popover-anchor {
+  position: relative;
+  display: inline-block;
 }
 .bcn-status-chip {
   display: inline-flex;
@@ -5723,9 +5726,6 @@ img {
 .bcn-sd__name--serif {
   font-family: var(--font-decorative, var(--font-sans));
   font-weight: var(--font-weight-bold);
-}
-:host {
-  --_width: var(--side-dialog-width, 400px);
 }
 .modern-layout {
   display: flex;

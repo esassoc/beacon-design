@@ -1,0 +1,692 @@
+{
+  "name": "help-category",
+  "url": "http://localhost:4399/beacon-design/prototypes/help/tracking/",
+  "theme": "beacon",
+  "generatedFrom": "spec",
+  "sections": [
+    {
+      "label": "Breadcrumb (nested help route)",
+      "tag": "section",
+      "selector": ".page-layout__breadcrumbs",
+      "html": "<section class=\"page-layout__breadcrumbs\">\n  <nav class=\"breadcrumbs\" aria-label=\"Breadcrumb\">\n    <div class=\"breadcrumbs__items\">\n      <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n        <svg\n          width=\"16\"\n          height=\"16\"\n          viewBox=\"0 0 24 24\"\n          fill=\"none\"\n          stroke=\"currentColor\"\n          stroke-width=\"2\"\n          stroke-linecap=\"round\"\n          stroke-linejoin=\"round\"\n          focusable=\"false\"\n        >\n          <path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\"></path>\n          <path\n            d=\"M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"\n          ></path>\n        </svg>\n      </span>\n      <a class=\"breadcrumb-item\" href=\"/beacon-design/prototypes/help\">\n        Help &amp; Guidance </a\n      ><span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n        <svg\n          width=\"16\"\n          height=\"16\"\n          viewBox=\"0 0 24 24\"\n          fill=\"none\"\n          stroke=\"currentColor\"\n          stroke-width=\"2\"\n          stroke-linecap=\"round\"\n          stroke-linejoin=\"round\"\n          focusable=\"false\"\n        >\n          <path d=\"m9 18 6-6-6-6\"></path>\n        </svg>\n      </span>\n      <span class=\"breadcrumb-item\" aria-current=\"page\"> Tracking </span>\n    </div>\n  </nav>\n</section>",
+      "css": ".esa-icon {\n  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  line-height: 1;\n  color: inherit;\n}\n.esa-icon--xs {\n  --_icon-size: var(--icon-size-xs, 14px);\n}\n.esa-icon svg {\n  display: block;\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));\n}\n.esa-icon--md {\n  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));\n}\n.esa-icon-button {\n  --_ib-size: var(--form-height-md, 40px);\n  --_ib-bg-hover: var(\n    --icon-button-bg-hover,\n    color-mix(in srgb, currentColor 14%, transparent)\n  );\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: var(--_ib-size);\n  height: var(--_ib-size);\n  padding: 0;\n  border: 0;\n  border-radius: var(--radius-200, 8px);\n  background: transparent;\n  color: inherit;\n  cursor: pointer;\n  transition: background var(--transition-fast, 0.15s ease);\n  -webkit-appearance: none;\n  appearance: none;\n}\n.breadcrumbs {\n  padding: var(--spacing-400) 0;\n}\n.breadcrumbs__items {\n  display: flex;\n  gap: var(--spacing-100);\n  align-items: center;\n  flex-wrap: wrap;\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.breadcrumb-item {\n  color: var(--bcn-gray-600);\n  text-transform: capitalize;\n  font-size: 0.875rem;\n}\na.breadcrumb-item {\n  text-decoration: none;\n}\n.bcn-search-trigger .esa-icon {\n  flex: none;\n  color: var(--color-text-tertiary);\n}\n.topbar__right .esa-icon-button {\n  color: var(--color-text-secondary);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  flex-shrink: 0;\n  color: var(--bcn-gray-500);\n}\n.nav-section__header > .esa-icon:first-child {\n  flex-shrink: 0;\n  color: var(--bcn-gray-950);\n  transition: color 0.15s ease;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  transition:\n    transform 0.15s ease,\n    opacity 0.2s ease-in-out;\n  flex-shrink: 0;\n}\n.bcn-help-bar .esa-icon-button {\n  color: var(--bcn-helpbar-fg-muted);\n  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-text-tertiary);\n  flex: none;\n}",
+      "guide": {
+        "intent": "The way back up. A category page is the only nested route in the knowledge base, so it is the only place the help feature shows a breadcrumb: \"Help & Guidance / <Category>\", with the category as the current page.",
+        "decisions": [
+          "The breadcrumb comes from PageLayout, which ports Beacon's prod page-layout + breadcrumbs components (home glyph, chevron separators) — the page passes a breadcrumbs array and owns nothing about the chrome.",
+          "The category title is the page H1, supplied through the same PageLayout prop — the category name is stated once as the heading, not repeated as a lede.",
+          "The last crumb is a span carrying aria-current=\"page\", not a link; earlier crumbs are anchors.",
+          "The help home deliberately has NO breadcrumb (it is a top-level destination); only the category level adds one."
+        ],
+        "gotchas": [
+          "The crumb back to the help home must go through withBase — a bare /prototypes/help breaks under the deployed base path.",
+          "Do not add a description lede under the title. An earlier revision had one and it was cut: the category description already does that work on the home's card, and repeating it here pushed the article list down for no gain."
+        ],
+        "acceptance": [
+          "The page shows \"Help & Guidance / Tracking\" above a \"Tracking\" H1; the first crumb navigates to the help home under any base path; the last crumb is inert and marked as the current page."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--bcn-gray-400",
+          "value": "#989898",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-500",
+          "value": "#7c7c7c",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-600",
+          "value": "#656565",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-950",
+          "value": "#292929",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-fg-muted",
+          "value": "rgba(255, 255, 255, .72)",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-hover-bg",
+          "value": "rgba(255, 255, 255, .1)",
+          "tier": "component"
+        },
+        {
+          "name": "--color-text-secondary",
+          "value": "#525252",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-tertiary",
+          "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--form-height-md",
+          "value": "36px",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-button-bg-hover",
+          "value": "color-mix(in srgb, currentColor 14%, transparent)",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-size-md",
+          "value": "20px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-medium",
+          "value": "20px",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-size-sm",
+          "value": "16px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-small",
+          "value": "16px",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-size-xs",
+          "value": "14px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-100",
+          "value": ".25rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-400",
+          "value": "1rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--transition-fast",
+          "value": ".15s ease",
+          "tier": "primitive"
+        }
+      ],
+      "claudePath": "claude/breadcrumb-nested-help-route.md",
+      "repoPath": "public/handoff/prototypes-help-tracking/claude/breadcrumb-nested-help-route.md"
+    },
+    {
+      "label": "Category article list (full browse)",
+      "tag": "section",
+      "selector": ".bcn-kbl",
+      "html": "<section class=\"bcn-kbl\" aria-label=\"Tracking articles\">\n  <span class=\"bcn-kbl__count\">6 articles</span>\n  <ul class=\"bcn-kbl__list\" role=\"list\">\n    <li class=\"bcn-kbl__row\">\n      <a class=\"bcn-kbl__link\" href=\"#article-actions-vs-implementations\"\n        >Implementation</a\n      >\n      <span class=\"bcn-kbl__summary\"\n        >A single execution of a published action — the record teams work day to\n        day.</span\n      >\n    </li>\n    <li class=\"bcn-kbl__row\">\n      <a class=\"bcn-kbl__link\" href=\"#article-what-is-a-component\">Component</a>\n      <span class=\"bcn-kbl__summary\"\n        >A distinct place or package of work within a project, tracked\n        independently.</span\n      >\n    </li>\n    <li class=\"bcn-kbl__row\">\n      <a class=\"bcn-kbl__link\" href=\"#article-permit\">Permit</a>\n      <span class=\"bcn-kbl__summary\"\n        >An agency authorization the project must obtain, tracked through the acquisition\n        pipeline.</span\n      >\n    </li>\n    <li class=\"bcn-kbl__row\">\n      <a class=\"bcn-kbl__link\" href=\"#article-reading-permit-tracking\"\n        >Reading the Permit Tracking board</a\n      >\n      <span class=\"bcn-kbl__summary\"\n        >Where each permit stands, what is blocking it, and what is due next.</span\n      >\n    </li>\n    <li class=\"bcn-kbl__row\">\n      <a class=\"bcn-kbl__link\" href=\"#article-starring-components\"\n        >Starring components on your dashboard</a\n      >\n      <span class=\"bcn-kbl__summary\"\n        >Pin the three-to-five components you actually work in.</span\n      >\n    </li>\n    <li class=\"bcn-kbl__row\">\n      <a class=\"bcn-kbl__link\" href=\"#article-reading-critical-now\"\n        >How “Most critical right now” is chosen</a\n      >\n      <span class=\"bcn-kbl__summary\"\n        >Why an item earns a spot at the top of the dashboard.</span\n      >\n    </li>\n  </ul>\n</section>",
+      "css": ".bcn-kbl {\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-500);\n  max-inline-size: 60rem;\n}\n.bcn-kbl__count {\n  font-size: 0.8125rem;\n  color: var(--color-text-tertiary);\n}\n.bcn-kbl__list {\n  list-style: none;\n  margin: 0;\n  padding: 0;\n  display: flex;\n  flex-direction: column;\n}\n.bcn-kbl__row {\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-050);\n  padding-block: var(--spacing-300);\n}\n.bcn-kbl__link {\n  font-size: 1rem;\n  font-weight: var(--font-weight-medium);\n  line-height: 1.4;\n  color: var(--color-text-primary);\n  text-decoration: none;\n  transition: color 0.12s ease;\n  width: fit-content;\n}\n.bcn-kbl__summary {\n  font-size: 0.875rem;\n  line-height: 1.45;\n  color: var(--color-text-secondary);\n}\n.bcn-kbl__row + .bcn-kbl__row {\n  border-top: 1px solid var(--color-border-light);\n}",
+      "guide": {
+        "intent": "The comprehensive list for one category: a quiet article count, then EVERY article in the category as a title link over a terse one-line summary. This is the full browse — denser than the home's curated preview cards, and the reason \"View all →\" exists.",
+        "decisions": [
+          "Rows are divided by hairlines with NO outer border — the list reads as a continuous index rather than a boxed table. Andy's call in the category-page polish pass.",
+          "A bare count sits alone above the list. No lede, no filters, no sort control — the category is already the filter.",
+          "Every row deep-links the reading pane on the SAME page via #article-<id> — the same hash contract every other entry point in the feature uses, so a row here and a search result on the home behave identically.",
+          "The title is a link and the summary is plain text beside it; the row is not itself a link, matching the container-not-link discipline used on the home's cards.",
+          "The list is held to a 60rem measure so long summaries do not run the full content column."
+        ],
+        "gotchas": [
+          "No esa-* lego fits: esa-card is card chrome, esa-link-column is a card of bare links with no summaries, and esa-sidebar-nav renders ornamental micro-label group headers plus filled-badge hints. A dense titled article list is bcn-kb-article-list.",
+          "The count is derived from the articles passed in, not stored — it must match articlesByCategory for the route, or the home's card count and this page disagree.",
+          "Rows come from getStaticPaths props, so the list is fully server-rendered; nothing here needs client JS."
+        ],
+        "acceptance": [
+          "The count matches the number of rows and the count on the home's card for this category; every article in the category appears exactly once as a title link over a summary; rows are separated by hairlines with no box around the list; clicking a row opens it in the pane below."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--color-border-light",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-primary",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-secondary",
+          "value": "#525252",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-tertiary",
+          "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--font-weight-medium",
+          "value": "500",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-050",
+          "value": ".125rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-300",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-500",
+          "value": "1.5rem",
+          "tier": "primitive"
+        }
+      ],
+      "claudePath": "claude/category-article-list-full-browse.md",
+      "repoPath": "public/handoff/prototypes-help-tracking/claude/category-article-list-full-browse.md"
+    },
+    {
+      "label": "Category-scoped reading pane",
+      "tag": "div",
+      "selector": ".bcn-kb__pane",
+      "html": "<div class=\"bcn-kb__pane\" data-kb-pane=\"\" data-kb-default=\"actions-vs-implementations\">\n  <article\n    class=\"bcn-kb__article\"\n    data-article-id=\"actions-vs-implementations\"\n    data-category=\"tracking\"\n  >\n    <article id=\"article-actions-vs-implementations\" class=\"bcn-help-article\">\n      <header class=\"bcn-help-article__head\">\n        <h2 class=\"bcn-help-article__title type-card-title\">Implementation</h2>\n        <span class=\"esa-badge esa-badge--primary esa-badge--sm\">\n          <span class=\"esa-badge__text\">Glossary</span>\n        </span>\n      </header>\n      <div class=\"bcn-help-article__body\">\n        <p class=\"bcn-help-article__p type-body\">\n          An Implementation is the tracked execution of an action: its status, assignee,\n          tasks, comments, and evidence. The action defines what must be done; the\n          implementation records doing it. In daily use, implementations are what teams\n          refer to as the actions.\n        </p>\n        <p class=\"bcn-help-article__p type-body\">\n          The number of implementations an action generates is determined by its scope and\n          frequency. A one-time, project-scoped submission generates one implementation. A\n          recurring, component-scoped inspection generates one per component, per\n          occurrence.\n        </p>\n      </div>\n    </article>\n  </article>\n  <article\n    class=\"bcn-kb__article\"\n    data-article-id=\"what-is-a-component\"\n    data-category=\"tracking\"\n    hidden=\"\"\n  >\n    <article id=\"article-what-is-a-component\" class=\"bcn-help-article\">\n      <header class=\"bcn-help-article__head\">\n        <h2 class=\"bcn-help-article__title type-card-title\">Component</h2>\n        <span class=\"esa-badge esa-badge--primary esa-badge--sm\">\n          <span class=\"esa-badge__text\">Glossary</span>\n        </span>\n      </header>\n      <div class=\"bcn-help-article__body\">\n        <p class=\"bcn-help-article__p type-body\">\n          A Component is a discrete location or work package within a project — a launch\n          shaft, an intake site, a construction segment. Components exist because the same\n          obligation frequently applies independently at each location.\n        </p>\n        <p class=\"bcn-help-article__p type-body\">\n          A component maps to the commitments that apply to it, may carry its own\n          milestone dates, and receives its own implementations of component-scoped\n          actions. A Work Area subdivides a component further when field tracking requires\n          finer grain.\n        </p>\n      </div>\n    </article>\n  </article>\n  <article\n    class=\"bcn-kb__article\"\n    data-article-id=\"permit\"\n    data-category=\"tracking\"\n    hidden=\"\"\n  >\n    <article id=\"article-permit\" class=\"bcn-help-article\">\n      <header class=\"bcn-help-article__head\">\n        <h2 class=\"bcn-help-article__title type-card-title\">Permit</h2>\n        <span class=\"esa-badge esa-badge--primary esa-badge--sm\">\n          <span class=\"esa-badge__text\">Glossary</span>\n        </span>\n      </header>\n      <div class=\"bcn-help-article__body\">\n        <p class=\"bcn-help-article__p type-body\">\n          A Permit is an authorization or approval a project must secure from a regulatory\n          agency before or during construction. Beacon tracks each permit through its\n          acquisition pipeline — from not yet applied, through agency review, to issued.\n        </p>\n        <p class=\"bcn-help-article__p type-body\">\n          An issued permit typically becomes a source document: its conditions are\n          extracted as commitments and enter the catalog alongside every other obligation.\n        </p>\n      </div>\n    </article>\n  </article>\n  <article\n    class=\"bcn-kb__article\"\n    data-article-id=\"reading-permit-tracking\"\n    data-category=\"tracking\"\n    hidden=\"\"\n  >\n    <article id=\"article-reading-permit-tracking\" class=\"bcn-help-article\">\n      <header class=\"bcn-help-article__head\">\n        <h2 class=\"bcn-help-article__title type-card-title\">\n          Reading the Permit Tracking board\n        </h2>\n        <span class=\"esa-badge esa-badge--primary esa-badge--sm\">\n          <span class=\"esa-badge__text\">How-to</span>\n        </span>\n      </header>\n      <div class=\"bcn-help-article__body\">\n        <p class=\"bcn-help-article__p type-body\">\n          Permit Tracking lists every permit and approval a project needs, each with its\n          current status in the acquisition pipeline — from not yet applied, through\n          agency review, to issued.\n        </p>\n        <ol class=\"bcn-help-article__steps\">\n          <li class=\"bcn-help-article__step type-body\">\n            Each row is one permit; the status lozenge shows where it sits in the\n            pipeline.\n          </li>\n          <li class=\"bcn-help-article__step type-body\">\n            The date column shows the next deadline — a submittal window, an agency\n            response due, or an expiration to renew.\n          </li>\n          <li class=\"bcn-help-article__step type-body\">\n            Open a permit to see its conditions, responsible contacts, and the source\n            document it will become once issued.\n          </li>\n        </ol>\n        <figure class=\"bcn-help-article__video\">\n          <div class=\"bcn-help-article__video-frame\">\n            <span class=\"bcn-help-article__video-play\"\n              ><span class=\"esa-icon esa-icon--md\" aria-hidden=\"true\">\n                <svg\n                  width=\"20\"\n                  height=\"20\"\n                  viewBox=\"0 0 24 24\"\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  stroke-width=\"2\"\n                  stroke-linecap=\"round\"\n                  stroke-linejoin=\"round\"\n                  focusable=\"false\"\n                >\n                  <polygon points=\"6 3 20 12 6 21 6 3\"></polygon>\n                </svg>\n              </span>\n            </span>\n            <span class=\"bcn-help-article__video-duration\"\n              ><span class=\"esa-badge esa-badge--primary esa-badge--sm\">\n                <span class=\"esa-badge__text\">2:47</span>\n              </span>\n            </span>\n          </div>\n          <figcaption class=\"bcn-help-article__caption type-caption\">\n            Watch: a permit’s life in Beacon\n          </figcaption>\n        </figure>\n        <aside class=\"bcn-help-article__callout bcn-help-article__callout--tip\">\n          <span class=\"bcn-help-article__callout-icon\">\n            <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n              <svg\n                width=\"16\"\n                height=\"16\"\n                viewBox=\"0 0 24 24\"\n                fill=\"none\"\n                stroke=\"currentColor\"\n                stroke-width=\"2\"\n                stroke-linecap=\"round\"\n                stroke-linejoin=\"round\"\n                focusable=\"false\"\n              >\n                <path\n                  d=\"M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5\"\n                ></path>\n                <path d=\"M9 18h6\"></path>\n                <path d=\"M10 22h4\"></path>\n              </svg>\n            </span>\n          </span>\n          <div class=\"bcn-help-article__callout-body\">\n            <span class=\"bcn-help-article__callout-label\">Tip</span>\n            <p class=\"bcn-help-article__callout-text type-body\">\n              An issued permit becomes a source document: its conditions are extracted as\n              commitments and join the catalog like any other obligation.\n            </p>\n          </div>\n        </aside>\n      </div>\n      <nav class=\"bcn-help-article__related\" aria-label=\"Related articles\">\n        <span class=\"bcn-help-article__related-label\">Related</span>\n        <ul class=\"bcn-help-article__related-list\">\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-permit\"\n              >Permit</a\n            >\n          </li>\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-what-is-a-source\"\n              >Source Document</a\n            >\n          </li>\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-what-is-a-commitment\"\n              >Commitment</a\n            >\n          </li>\n        </ul>\n      </nav>\n    </article>\n  </article>\n  <article\n    class=\"bcn-kb__article\"\n    data-article-id=\"starring-components\"\n    data-category=\"tracking\"\n    hidden=\"\"\n  >\n    <article id=\"article-starring-components\" class=\"bcn-help-article\">\n      <header class=\"bcn-help-article__head\">\n        <h2 class=\"bcn-help-article__title type-card-title\">\n          Starring components on your dashboard\n        </h2>\n        <span class=\"esa-badge esa-badge--primary esa-badge--sm\">\n          <span class=\"esa-badge__text\">How-to</span>\n        </span>\n      </header>\n      <div class=\"bcn-help-article__body\">\n        <p class=\"bcn-help-article__p type-body\">\n          A project may have dozens of components, though most people work in a few.\n          Starring pins a component to the project dashboard as a card showing its\n          Tracking, Monitoring, and Reporting pulse — the entry point into that\n          component’s own dashboard.\n        </p>\n        <ol class=\"bcn-help-article__steps\">\n          <li class=\"bcn-help-article__step type-body\">\n            Open any component and click the star in its header.\n          </li>\n          <li class=\"bcn-help-article__step type-body\">\n            Starred components appear on the project dashboard in the Components section.\n          </li>\n          <li class=\"bcn-help-article__step type-body\">\n            Un-star from either place; the component itself is unaffected.\n          </li>\n        </ol>\n      </div>\n      <nav class=\"bcn-help-article__related\" aria-label=\"Related articles\">\n        <span class=\"bcn-help-article__related-label\">Related</span>\n        <ul class=\"bcn-help-article__related-list\">\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-what-is-a-component\"\n              >Component</a\n            >\n          </li>\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-reading-critical-now\"\n              >How “Most critical right now” is chosen</a\n            >\n          </li>\n        </ul>\n      </nav>\n    </article>\n  </article>\n  <article\n    class=\"bcn-kb__article\"\n    data-article-id=\"reading-critical-now\"\n    data-category=\"tracking\"\n    hidden=\"\"\n  >\n    <article id=\"article-reading-critical-now\" class=\"bcn-help-article\">\n      <header class=\"bcn-help-article__head\">\n        <h2 class=\"bcn-help-article__title type-card-title\">\n          How “Most critical right now” is chosen\n        </h2>\n        <span class=\"esa-badge esa-badge--primary esa-badge--sm\">\n          <span class=\"esa-badge__text\">How-to</span>\n        </span>\n      </header>\n      <div class=\"bcn-help-article__body\">\n        <p class=\"bcn-help-article__p type-body\">\n          The dashboard’s critical surface is deliberately small. It elevates only items\n          that are project-critical today — an overdue action on a critical-path\n          component, a lapsed survey blocking ground disturbance, a report due to an\n          agency this week.\n        </p>\n        <p class=\"bcn-help-article__p type-body\">\n          An item leaves the surface when its underlying condition clears — the work is\n          completed, the report is filed, or a review resolves the block. There is nothing\n          to configure; the surface reads the same signals shown in each zone.\n        </p>\n      </div>\n      <nav class=\"bcn-help-article__related\" aria-label=\"Related articles\">\n        <span class=\"bcn-help-article__related-label\">Related</span>\n        <ul class=\"bcn-help-article__related-list\">\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-starring-components\"\n              >Starring components on your dashboard</a\n            >\n          </li>\n          <li>\n            <a\n              class=\"bcn-help-article__related-link\"\n              href=\"/beacon-design/prototypes/help#article-site-clearance-go-no-go\"\n              >Using Site Clearance go/no-go</a\n            >\n          </li>\n        </ul>\n      </nav>\n    </article>\n  </article>\n</div>",
+      "css": ".type-card-title {\n  font-size: var(--type-size-400);\n  font-weight: var(--font-weight-medium);\n  line-height: var(--line-height-normal);\n  letter-spacing: var(--letter-spacing-normal);\n}\n.type-body {\n  font-size: var(--type-size-200);\n  font-weight: var(--font-weight-regular);\n  line-height: var(--line-height-relaxed);\n  letter-spacing: var(--letter-spacing-normal);\n}\n.bcn-search-trigger .esa-icon {\n  flex: none;\n  color: var(--color-text-tertiary);\n}\n.topbar__right .esa-icon-button {\n  color: var(--color-text-secondary);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  flex-shrink: 0;\n  color: var(--bcn-gray-500);\n}\n.nav-section__header > .esa-icon:first-child {\n  flex-shrink: 0;\n  color: var(--bcn-gray-950);\n  transition: color 0.15s ease;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  transition:\n    transform 0.15s ease,\n    opacity 0.2s ease-in-out;\n  flex-shrink: 0;\n}\n.bcn-help-bar .esa-icon-button {\n  color: var(--bcn-helpbar-fg-muted);\n  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-text-tertiary);\n  flex: none;\n}\n.bcn-help-article {\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-500);\n}\n.bcn-help-article__head {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-300);\n  flex-wrap: wrap;\n}\n.bcn-help-article__title {\n  margin: 0;\n  color: var(--color-text-primary);\n}\n.bcn-help-article__body {\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-400);\n}\n.bcn-help-article__p {\n  margin: 0;\n  color: var(--color-text-primary);\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  line-height: 1;\n  color: inherit;\n}\n.esa-icon--xs {\n  --_icon-size: var(--icon-size-xs, 14px);\n}\n.esa-icon svg {\n  display: block;\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));\n}\n.esa-icon--md {\n  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));\n}\n.esa-icon-button {\n  --_ib-size: var(--form-height-md, 40px);\n  --_ib-bg-hover: var(\n    --icon-button-bg-hover,\n    color-mix(in srgb, currentColor 14%, transparent)\n  );\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: var(--_ib-size);\n  height: var(--_ib-size);\n  padding: 0;\n  border: 0;\n  border-radius: var(--radius-200, 8px);\n  background: transparent;\n  color: inherit;\n  cursor: pointer;\n  transition: background var(--transition-fast, 0.15s ease);\n  -webkit-appearance: none;\n  appearance: none;\n}\n.bcn-kb__pane {\n  min-block-size: 60vh;\n  padding-block-start: var(--spacing-600);\n  border-top: 1px solid var(--color-border);\n  scroll-margin-top: var(--spacing-400);\n}\n.bcn-kb__pane:not(:has(> .bcn-kb__article:not([hidden]))) {\n  min-block-size: 0;\n  padding-block-start: 0;\n  border-top: 0;\n}\n.bcn-kb__article {\n  max-inline-size: 70ch;\n}\n.bcn-kb__article[hidden] {\n  display: none;\n}\n.esa-badge {\n  --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));\n  --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));\n  --_badge-height: var(--badge-height-md, 28px);\n  --_badge-font-size: 13px;\n  --_badge-padding-x: var(--spacing-200, 0.5rem);\n  --_badge-min-width: var(--badge-height-md, 28px);\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  height: var(--_badge-height);\n  min-width: var(--_badge-min-width);\n  padding-inline: var(--_badge-padding-x);\n  border-radius: var(--badge-radius, var(--radius-100, 4px));\n  background: var(--_badge-bg);\n  color: var(--_badge-text);\n  font-size: var(--_badge-font-size);\n  font-weight: 600;\n  line-height: 1;\n  white-space: nowrap;\n  box-sizing: border-box;\n}\n.esa-badge--sm {\n  --_badge-height: var(--badge-height-sm, 22px);\n  --_badge-font-size: 11px;\n  --_badge-padding-x: var(--spacing-150, 0.375rem);\n  --_badge-min-width: var(--badge-height-sm, 22px);\n}\n.breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}",
+      "guide": {
+        "intent": "The same reading pane the help home uses, but SCOPED to this category and landing on its first article — so a category page is readable the moment it loads rather than showing an empty reader.",
+        "decisions": [
+          "ONE component, two behaviors, chosen by props — not two components. bcn-kb-browser takes `articles` (scoping the reader to this category's subset) and `defaultOnLoad` (true here, false on the home).",
+          "With no hash, the category page lands on its FIRST article and does NOT scroll — the list must stay in view, because the list is the point of this page. The home, by contrast, collapses the pane to nothing.",
+          "The default article id is resolved at build time into data-kb-default, so the controller reads a value rather than re-deriving the default.",
+          "Scoping is genuine: only this category's articles are pre-rendered here, so a stray #article-<id> from another category does not resolve on this route — that is the home's job, and the home passes every article precisely so external deep links always land somewhere."
+        ],
+        "gotchas": [
+          "The home is the ONLY page that can resolve any #article-<id>. Drawer rows and article \"Related\" links therefore point at /prototypes/help#article-<id>, never at a category route — keep that contract when porting, or related links break depending on which page the user is on.",
+          "Landing on the first article must not scroll. Reusing the home's scroll-into-view behavior here pushes the list off screen on load, which reads as a broken page.",
+          "The pane's empty-collapse :has() rule still applies, but on this route it should never trigger — if it does, defaultOnLoad or the default id is not reaching the controller."
+        ],
+        "acceptance": [
+          "Loading the route with no hash shows the category's first article with the list still visible above it; clicking any row swaps the pane to that article; an #article-<id> from a different category does not resolve here."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--badge-bg",
+          "value": "#005862",
+          "tier": "component"
+        },
+        {
+          "name": "--badge-height-md",
+          "value": "28px",
+          "tier": "component"
+        },
+        {
+          "name": "--badge-height-sm",
+          "value": "22px",
+          "tier": "component"
+        },
+        {
+          "name": "--badge-radius",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--badge-text-color",
+          "value": "#fcfcfc",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-400",
+          "value": "#989898",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-500",
+          "value": "#7c7c7c",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-950",
+          "value": "#292929",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-fg-muted",
+          "value": "rgba(255, 255, 255, .72)",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-hover-bg",
+          "value": "rgba(255, 255, 255, .1)",
+          "tier": "component"
+        },
+        {
+          "name": "--color-border",
+          "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-primary",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-inverse",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-primary",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-secondary",
+          "value": "#525252",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-tertiary",
+          "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--font-weight-medium",
+          "value": "500",
+          "tier": "primitive"
+        },
+        {
+          "name": "--font-weight-regular",
+          "value": "350",
+          "tier": "primitive"
+        },
+        {
+          "name": "--form-height-md",
+          "value": "36px",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-button-bg-hover",
+          "value": "color-mix(in srgb, currentColor 14%, transparent)",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-size-md",
+          "value": "20px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-medium",
+          "value": "20px",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-size-sm",
+          "value": "16px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-small",
+          "value": "16px",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-size-xs",
+          "value": "14px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--letter-spacing-normal",
+          "value": ".01em",
+          "tier": "primitive"
+        },
+        {
+          "name": "--line-height-normal",
+          "value": "1.6",
+          "tier": "primitive"
+        },
+        {
+          "name": "--line-height-relaxed",
+          "value": "1.8",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-100",
+          "value": ".25rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-150",
+          "value": ".375rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-300",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-400",
+          "value": "1rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-500",
+          "value": "1.5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-600",
+          "value": "2rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--transition-fast",
+          "value": ".15s ease",
+          "tier": "primitive"
+        },
+        {
+          "name": "--type-size-200",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--type-size-400",
+          "value": "clamp(1rem, .88rem + .6vw, 1.25rem)",
+          "tier": "primitive"
+        }
+      ],
+      "claudePath": "claude/category-scoped-reading-pane.md",
+      "repoPath": "public/handoff/prototypes-help-tracking/claude/category-scoped-reading-pane.md"
+    },
+    {
+      "label": "Article renderer (how-to: steps, video, callout)",
+      "tag": "article",
+      "selector": ".bcn-kb__article:not([hidden]) .bcn-help-article",
+      "apply": [
+        {
+          "click": "a[href=\"#article-reading-permit-tracking\"]"
+        }
+      ],
+      "html": "<article id=\"article-reading-permit-tracking\" class=\"bcn-help-article\">\n  <header class=\"bcn-help-article__head\">\n    <h2 class=\"bcn-help-article__title type-card-title\">\n      Reading the Permit Tracking board\n    </h2>\n    <span class=\"esa-badge esa-badge--primary esa-badge--sm\">\n      <span class=\"esa-badge__text\">How-to</span>\n    </span>\n  </header>\n  <div class=\"bcn-help-article__body\">\n    <p class=\"bcn-help-article__p type-body\">\n      Permit Tracking lists every permit and approval a project needs, each with its\n      current status in the acquisition pipeline — from not yet applied, through agency\n      review, to issued.\n    </p>\n    <ol class=\"bcn-help-article__steps\">\n      <li class=\"bcn-help-article__step type-body\">\n        Each row is one permit; the status lozenge shows where it sits in the pipeline.\n      </li>\n      <li class=\"bcn-help-article__step type-body\">\n        The date column shows the next deadline — a submittal window, an agency response\n        due, or an expiration to renew.\n      </li>\n      <li class=\"bcn-help-article__step type-body\">\n        Open a permit to see its conditions, responsible contacts, and the source document\n        it will become once issued.\n      </li>\n    </ol>\n    <figure class=\"bcn-help-article__video\">\n      <div class=\"bcn-help-article__video-frame\">\n        <span class=\"bcn-help-article__video-play\"\n          ><span class=\"esa-icon esa-icon--md\" aria-hidden=\"true\">\n            <svg\n              width=\"20\"\n              height=\"20\"\n              viewBox=\"0 0 24 24\"\n              fill=\"none\"\n              stroke=\"currentColor\"\n              stroke-width=\"2\"\n              stroke-linecap=\"round\"\n              stroke-linejoin=\"round\"\n              focusable=\"false\"\n            >\n              <polygon points=\"6 3 20 12 6 21 6 3\"></polygon>\n            </svg>\n          </span>\n        </span>\n        <span class=\"bcn-help-article__video-duration\"\n          ><span class=\"esa-badge esa-badge--primary esa-badge--sm\">\n            <span class=\"esa-badge__text\">2:47</span>\n          </span>\n        </span>\n      </div>\n      <figcaption class=\"bcn-help-article__caption type-caption\">\n        Watch: a permit’s life in Beacon\n      </figcaption>\n    </figure>\n    <aside class=\"bcn-help-article__callout bcn-help-article__callout--tip\">\n      <span class=\"bcn-help-article__callout-icon\">\n        <span class=\"esa-icon esa-icon--sm\" aria-hidden=\"true\">\n          <svg\n            width=\"16\"\n            height=\"16\"\n            viewBox=\"0 0 24 24\"\n            fill=\"none\"\n            stroke=\"currentColor\"\n            stroke-width=\"2\"\n            stroke-linecap=\"round\"\n            stroke-linejoin=\"round\"\n            focusable=\"false\"\n          >\n            <path\n              d=\"M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5\"\n            ></path>\n            <path d=\"M9 18h6\"></path>\n            <path d=\"M10 22h4\"></path>\n          </svg>\n        </span>\n      </span>\n      <div class=\"bcn-help-article__callout-body\">\n        <span class=\"bcn-help-article__callout-label\">Tip</span>\n        <p class=\"bcn-help-article__callout-text type-body\">\n          An issued permit becomes a source document: its conditions are extracted as\n          commitments and join the catalog like any other obligation.\n        </p>\n      </div>\n    </aside>\n  </div>\n  <nav class=\"bcn-help-article__related\" aria-label=\"Related articles\">\n    <span class=\"bcn-help-article__related-label\">Related</span>\n    <ul class=\"bcn-help-article__related-list\">\n      <li>\n        <a\n          class=\"bcn-help-article__related-link\"\n          href=\"/beacon-design/prototypes/help#article-permit\"\n          >Permit</a\n        >\n      </li>\n      <li>\n        <a\n          class=\"bcn-help-article__related-link\"\n          href=\"/beacon-design/prototypes/help#article-what-is-a-source\"\n          >Source Document</a\n        >\n      </li>\n      <li>\n        <a\n          class=\"bcn-help-article__related-link\"\n          href=\"/beacon-design/prototypes/help#article-what-is-a-commitment\"\n          >Commitment</a\n        >\n      </li>\n    </ul>\n  </nav>\n</article>",
+      "css": ".breadcrumbs__items .esa-icon {\n  color: var(--bcn-gray-400);\n}\n.esa-icon {\n  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n  line-height: 1;\n  color: inherit;\n}\n.esa-icon--xs {\n  --_icon-size: var(--icon-size-xs, 14px);\n}\n.esa-icon svg {\n  display: block;\n  width: var(--_icon-size);\n  height: var(--_icon-size);\n}\n.esa-icon--sm {\n  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));\n}\n.esa-icon--md {\n  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));\n}\n.esa-icon-button {\n  --_ib-size: var(--form-height-md, 40px);\n  --_ib-bg-hover: var(\n    --icon-button-bg-hover,\n    color-mix(in srgb, currentColor 14%, transparent)\n  );\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: var(--_ib-size);\n  height: var(--_ib-size);\n  padding: 0;\n  border: 0;\n  border-radius: var(--radius-200, 8px);\n  background: transparent;\n  color: inherit;\n  cursor: pointer;\n  transition: background var(--transition-fast, 0.15s ease);\n  -webkit-appearance: none;\n  appearance: none;\n}\n.esa-badge {\n  --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));\n  --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));\n  --_badge-height: var(--badge-height-md, 28px);\n  --_badge-font-size: 13px;\n  --_badge-padding-x: var(--spacing-200, 0.5rem);\n  --_badge-min-width: var(--badge-height-md, 28px);\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  height: var(--_badge-height);\n  min-width: var(--_badge-min-width);\n  padding-inline: var(--_badge-padding-x);\n  border-radius: var(--badge-radius, var(--radius-100, 4px));\n  background: var(--_badge-bg);\n  color: var(--_badge-text);\n  font-size: var(--_badge-font-size);\n  font-weight: 600;\n  line-height: 1;\n  white-space: nowrap;\n  box-sizing: border-box;\n}\n.esa-badge--sm {\n  --_badge-height: var(--badge-height-sm, 22px);\n  --_badge-font-size: 11px;\n  --_badge-padding-x: var(--spacing-150, 0.375rem);\n  --_badge-min-width: var(--badge-height-sm, 22px);\n}\n.type-card-title {\n  font-size: var(--type-size-400);\n  font-weight: var(--font-weight-medium);\n  line-height: var(--line-height-normal);\n  letter-spacing: var(--letter-spacing-normal);\n}\n.type-body {\n  font-size: var(--type-size-200);\n  font-weight: var(--font-weight-regular);\n  line-height: var(--line-height-relaxed);\n  letter-spacing: var(--letter-spacing-normal);\n}\n.type-caption {\n  font-size: var(--type-size-100);\n  font-weight: var(--font-weight-regular);\n  line-height: var(--line-height-normal);\n  letter-spacing: var(--letter-spacing-normal);\n}\n.bcn-search-trigger .esa-icon {\n  flex: none;\n  color: var(--color-text-tertiary);\n}\n.topbar__right .esa-icon-button {\n  color: var(--color-text-secondary);\n}\n.project-switcher__trigger > .esa-icon:first-child {\n  flex-shrink: 0;\n  color: var(--bcn-gray-500);\n}\n.nav-section__header > .esa-icon:first-child {\n  flex-shrink: 0;\n  color: var(--bcn-gray-950);\n  transition: color 0.15s ease;\n}\n.nav-section__header > .esa-icon:last-child {\n  color: var(--bcn-gray-400);\n  transition:\n    transform 0.15s ease,\n    opacity 0.2s ease-in-out;\n  flex-shrink: 0;\n}\n.bcn-help-bar .esa-icon-button {\n  color: var(--bcn-helpbar-fg-muted);\n  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);\n}\n.bcn-gd__label .esa-icon {\n  color: var(--color-text-tertiary);\n  flex: none;\n}\n.bcn-help-article {\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-500);\n}\n.bcn-help-article__head {\n  display: flex;\n  align-items: center;\n  gap: var(--spacing-300);\n  flex-wrap: wrap;\n}\n.bcn-help-article__title {\n  margin: 0;\n  color: var(--color-text-primary);\n}\n.bcn-help-article__body {\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-400);\n}\n.bcn-help-article__p {\n  margin: 0;\n  color: var(--color-text-primary);\n}\n.bcn-help-article__steps {\n  list-style: none;\n  counter-reset: bcn-step;\n  margin: 0;\n  padding: 0;\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-300);\n}\n.bcn-help-article__step {\n  counter-increment: bcn-step;\n  display: grid;\n  grid-template-columns: 1.625rem 1fr;\n  align-items: start;\n  gap: var(--spacing-300);\n  margin: 0;\n  color: var(--color-text-primary);\n}\n.bcn-help-article__step:before {\n  content: counter(bcn-step);\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 1.625rem;\n  height: 1.625rem;\n  border-radius: var(--radius-full);\n  background: var(--color-surface-sunken);\n  color: var(--color-text-primary);\n  font-size: 0.8125rem;\n  font-weight: var(--font-weight-semibold);\n  line-height: 1;\n}\n.bcn-help-article__video {\n  margin: 0;\n  display: flex;\n  flex-direction: column;\n  gap: var(--spacing-200);\n}\n.bcn-help-article__video-frame {\n  position: relative;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  aspect-ratio: 16 / 9;\n  border-radius: var(--radius-200);\n  overflow: hidden;\n  border: 1px solid var(--color-border);\n  background: color-mix(\n    in srgb,\n    var(--color-text-primary) 8%,\n    var(--color-surface-sunken)\n  );\n}\n.bcn-help-article__video-play {\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  width: 3rem;\n  height: 3rem;\n  border-radius: var(--radius-full);\n  background: var(--color-surface);\n  color: var(--color-text-primary);\n  box-shadow: 0 1px 4px #0000002e;\n  padding-left: 3px;\n}\n.bcn-help-article__video-duration {\n  position: absolute;\n  right: var(--spacing-200);\n  bottom: var(--spacing-200);\n}\n.bcn-help-article__video-label,\n.bcn-help-article__caption {\n  font-size: max(0.8125rem, var(--type-size-100));\n  color: var(--color-text-secondary);\n  margin: 0;\n}\n.bcn-help-article__callout {\n  display: grid;\n  grid-template-columns: auto 1fr;\n  align-items: start;\n  gap: var(--spacing-300);\n  padding: var(--spacing-400);\n  border-radius: var(--radius-200);\n  border: 1px solid var(--color-border-light);\n  background: var(--color-surface-sunken);\n}\n.bcn-help-article__callout-icon {\n  display: inline-flex;\n  margin-top: 1px;\n  color: var(--color-text-secondary);\n}\n.bcn-help-article__callout-body {\n  display: flex;\n  flex-direction: column;\n  gap: 2px;\n  min-width: 0;\n}\n.bcn-help-article__callout-label {\n  font-size: 0.875rem;\n  font-weight: var(--font-weight-semibold);\n  color: var(--color-text-secondary);\n}\n.bcn-help-article__callout-text {\n  margin: 0;\n  color: var(--color-text-primary);\n}\n.bcn-help-article__related {\n  display: flex;\n  align-items: baseline;\n  flex-wrap: wrap;\n  gap: var(--spacing-150) var(--spacing-300);\n  padding-top: var(--spacing-300);\n  border-top: 1px solid var(--color-border-light);\n}\n.bcn-help-article__related-label {\n  font-size: 0.875rem;\n  font-weight: var(--font-weight-semibold);\n  color: var(--color-text-secondary);\n}\n.bcn-help-article__related-list {\n  display: flex;\n  flex-wrap: wrap;\n  gap: var(--spacing-100) var(--spacing-300);\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.bcn-help-article__related-link {\n  font-size: 0.9375rem;\n  color: var(--color-text-link);\n  text-decoration: none;\n}",
+      "guide": {
+        "intent": "The shared renderer for ONE article, captured on the dataset's richest body so every block type is visible at once: the title with its kind badge, numbered steps, a placeholder video frame, a callout, and the trailing \"Related\" row. Both the knowledge base and the Aldo drawer render articles through this component, so help content looks identical everywhere.",
+        "decisions": [
+          "ONE renderer, three chrome flags: headingLevel (h2 on the page, h3 in the drawer), hideTitle (when the host owns the title), and compact (tighter rhythm for the drawer). Two consumers sharing one look is what justifies the component.",
+          "The body is a BLOCK UNION rendered in order — p | steps | callout | figure | video — driven entirely by article.blocks. Same block model the release-notes stream uses.",
+          "Steps are an ordered list with quiet round NUMBERED MARKERS drawn by a CSS counter (counter-increment + ::before), on a neutral gray fill. Never a colored left border.",
+          "Callouts carry a tone (note | tip) that changes only the glyph and the label — \"Note\" with an info glyph, \"Tip\" with a lightbulb. Both use the neutral sunken treatment: gray fill, neutral ink.",
+          "Figures and videos are calm PLACEHOLDER frames — a glyph, a label, and a caption. No real assets ship; the frame states what would go there. The video frame carries its duration as an esa-badge.",
+          "Off-registry glyphs (lightbulb, image, play) go through esa-icon's documented `paths` fallback rather than forking the shared icon registry.",
+          "The \"Related\" row is suppressed for glossary articles — a term definition ends at the definition; only how-tos carry onward links.",
+          "Related ids resolve through getArticle and unresolvable ids are silently dropped, so a stale id degrades to one fewer link rather than a broken href.",
+          "The article root carries id=\"article-<id>\", which is what makes every #article-<id> deep link in the feature resolve."
+        ],
+        "gotchas": [
+          "The light Aldo tint is BANNED as a surface or accent here — callouts and step markers are neutral sunken gray. The saturated Aldo mark glyph is the only place the accent color survives in this feature.",
+          "Read the semantic token layer only (--color-*, --spacing-*), never the raw --bcn-gray-* ramp.",
+          "No esa-* lego renders a rich article body; esa-icon and esa-badge are composed INSIDE it. esa-card is a bare container and esa-empty-state is a placeholder — neither models article content.",
+          "Every article is pre-rendered for both the pane and the drawer, so this renderer runs 29 times per page in the home's case. Keep it presentational and client-JS-free or that cost compounds.",
+          "Paragraph text is primary ink, never grayed — graying body prose to look calm makes long articles harder to read."
+        ],
+        "acceptance": [
+          "The how-to shows its title with a \"How-to\" badge, numbered steps with round neutral markers, a placeholder video frame with a duration badge, a labeled callout, and a \"Related\" row; the same article rendered in the drawer looks identical apart from heading level and spacing; a glossary article shows a \"Glossary\" badge and no \"Related\" row."
+        ]
+      },
+      "tokens": [
+        {
+          "name": "--badge-bg",
+          "value": "#005862",
+          "tier": "component"
+        },
+        {
+          "name": "--badge-height-md",
+          "value": "28px",
+          "tier": "component"
+        },
+        {
+          "name": "--badge-height-sm",
+          "value": "22px",
+          "tier": "component"
+        },
+        {
+          "name": "--badge-radius",
+          "value": ".25rem",
+          "tier": "component"
+        },
+        {
+          "name": "--badge-text-color",
+          "value": "#fcfcfc",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-400",
+          "value": "#989898",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-500",
+          "value": "#7c7c7c",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-gray-950",
+          "value": "#292929",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-fg-muted",
+          "value": "rgba(255, 255, 255, .72)",
+          "tier": "component"
+        },
+        {
+          "name": "--bcn-helpbar-hover-bg",
+          "value": "rgba(255, 255, 255, .1)",
+          "tier": "component"
+        },
+        {
+          "name": "--color-border",
+          "value": "#dcdcdc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-border-light",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-primary",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-surface",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-surface-sunken",
+          "value": "#efefef",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-inverse",
+          "value": "#fcfcfc",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-link",
+          "value": "#005862",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-primary",
+          "value": "#3d3d3d",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-secondary",
+          "value": "#525252",
+          "tier": "semantic"
+        },
+        {
+          "name": "--color-text-tertiary",
+          "value": "#656565",
+          "tier": "semantic"
+        },
+        {
+          "name": "--font-weight-medium",
+          "value": "500",
+          "tier": "primitive"
+        },
+        {
+          "name": "--font-weight-regular",
+          "value": "350",
+          "tier": "primitive"
+        },
+        {
+          "name": "--font-weight-semibold",
+          "value": "550",
+          "tier": "primitive"
+        },
+        {
+          "name": "--form-height-md",
+          "value": "36px",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-button-bg-hover",
+          "value": "color-mix(in srgb, currentColor 14%, transparent)",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-size-md",
+          "value": "20px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-medium",
+          "value": "20px",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-size-sm",
+          "value": "16px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--icon-size-small",
+          "value": "16px",
+          "tier": "component"
+        },
+        {
+          "name": "--icon-size-xs",
+          "value": "14px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--letter-spacing-normal",
+          "value": ".01em",
+          "tier": "primitive"
+        },
+        {
+          "name": "--line-height-normal",
+          "value": "1.6",
+          "tier": "primitive"
+        },
+        {
+          "name": "--line-height-relaxed",
+          "value": "1.8",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-100",
+          "value": ".25rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--radius-full",
+          "value": "9999px",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-100",
+          "value": ".25rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-150",
+          "value": ".375rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-200",
+          "value": ".5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-300",
+          "value": ".75rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-400",
+          "value": "1rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--spacing-500",
+          "value": "1.5rem",
+          "tier": "primitive"
+        },
+        {
+          "name": "--transition-fast",
+          "value": ".15s ease",
+          "tier": "primitive"
+        },
+        {
+          "name": "--type-size-100",
+          "value": "clamp(.625rem, .56rem + .32vw, .75rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--type-size-200",
+          "value": "clamp(.75rem, .66rem + .44vw, .9375rem)",
+          "tier": "primitive"
+        },
+        {
+          "name": "--type-size-400",
+          "value": "clamp(1rem, .88rem + .6vw, 1.25rem)",
+          "tier": "primitive"
+        }
+      ],
+      "claudePath": "claude/article-renderer-how-to-steps-video-callout.md",
+      "repoPath": "public/handoff/prototypes-help-tracking/claude/article-renderer-how-to-steps-video-callout.md"
+    }
+  ]
+}
