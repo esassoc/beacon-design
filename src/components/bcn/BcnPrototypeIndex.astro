@@ -1,43 +1,45 @@
 ---
-// <BcnPrototypeIndex> — the spoke's prototype index as ONE filterable surface: the shared
-// two-band filter bar over a table of every prototype, newest first. It replaced the
-// per-effort stacked tables on the home page, which grew past scanning once the registry
-// crossed ~28 pages across 8 efforts.
+// <BcnPrototypeIndex> — the spoke's prototype index: the shared two-band filter bar over
+// a table of EFFORTS, newest first, each expanding to the pages built for it.
 //
-// The bar and the grid are one interactive unit — the bar drives nothing else — so they
-// live in one section component rather than being wired across the page.
+// The effort is the line item. A flat list of every discrete page answered "what screens
+// exist" when the question is "what work is here" — and at 28 pages across 8 efforts it
+// had stopped being scannable either way. Pages are the detail you open an effort to see.
 //
-// ROWS ARE SERVER-RENDERED, ALL OF THEM. The controller only shows/hides rows and wraps
-// matches in <mark>; nothing about the catalog enters the JS bundle. Same progressive
-// strategy the help-centre search uses, and it means the full index is present for anyone
-// with JS off — they simply get an unfiltered list, which is the honest fallback.
+// ROWS ARE SERVER-RENDERED, ALL OF THEM, EXPANDED. The controller collapses on init and
+// then only toggles `hidden` — so the catalog never enters the JS bundle, and with JS off
+// the page is a complete, fully-expanded index rather than eight dead rows.
 //
-// Every column traces to a registry field: title/description are authored, tenant resolves
-// through the group, createdAt and status are stored. Nothing on screen is derived prose.
+// Every column traces to a registry field: effort/page titles are authored, tenant resolves
+// through the group, status is stored per page. The one derivation is an effort's date —
+// its newest page's — and it is labelled "Latest", not presented as a stored fact.
 //
-// Composes: BcnFilterBar (which wraps esa-filter-container) + esa-filter-dropdown ×3 +
+// Descriptions are searched but not shown (they run to full paragraphs and made the grid
+// unreadable), so a description-only match surfaces the row without a visible highlight.
+//
+// Composes: BcnFilterBar (which wraps esa-filter-container) + esa-filter-dropdown ×2 +
 // esa-text-field + esa-icon-button + esa-empty-state. Behavior in ./prototype-index.ts.
 //
 // bcn-lego-checked: the ROW GRID is a semantic <table> — the hub ships no table/data-grid
 // lego (checked the full catalog: esa-card is a box, esa-link-column is a card of bare
-// links, esa-pillbox is chips), and Beacon's own grids are AG Grid, which is far too heavy
-// for a 28-row static index and would put the catalog into the JS bundle. Every CONTROL
-// above the table IS a lego, and the filter-bar shell is bcn-filter-bar. bcn-prototype-index
-// is the reusable home; its CSS is the table skin plus the status token.
+// links, esa-collapsible is a single disclosure, not a table with expandable rows), and
+// Beacon's own grids are AG Grid, far too heavy for a 28-row static index and it would put
+// the catalog in the bundle. Every CONTROL above the table IS a lego and the bar shell is
+// bcn-filter-bar. bcn-prototype-index is the reusable home.
 import BcnFilterBar from './BcnFilterBar.astro';
 import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import FilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
 import {
-  allPrototypeRows,
-  prototypeGroups,
+  allPrototypeEfforts,
   TENANT_LABEL,
   type PrototypeStatus,
   type PrototypeTenant,
 } from '../../data/prototypes';
 import { withBase } from '../../lib/base';
 
-const rows = allPrototypeRows();
+const efforts = allPrototypeEfforts();
+const pageCount = efforts.reduce((n, e) => n + e.pages.length, 0);
 
 const STATUS_LABEL: Record<PrototypeStatus, string> = {
   live: 'Live',
@@ -54,28 +56,17 @@ const fmtDate = (iso: string): string => {
   return `${MONTHS[m - 1]} ${d}, ${y}`;
 };
 
-// Facet options are DERIVED from the rows actually present, so a facet can never offer a
-// value that matches nothing, and a new tenant/effort/status appears without a code edit.
-// Counts ride along as the option label suffix the dropdown shows at rest.
-const countBy = <T extends string>(pick: (r: (typeof rows)[number]) => T): Map<T, number> => {
-  const m = new Map<T, number>();
-  for (const r of rows) m.set(pick(r), (m.get(pick(r)) ?? 0) + 1);
-  return m;
-};
-
-const tenantCounts = countBy((r) => r.tenant);
+// Facet options are DERIVED from the efforts actually present, so a facet can never offer
+// a value that matches nothing, and a new tenant appears without a code edit. Counts ride
+// along as the option label suffix.
+const tenantCounts = new Map<PrototypeTenant, number>();
+for (const e of efforts) tenantCounts.set(e.tenant, (tenantCounts.get(e.tenant) ?? 0) + 1);
 const tenantOptions = (Object.keys(TENANT_LABEL) as PrototypeTenant[])
   .filter((t) => tenantCounts.has(t))
   .map((t) => ({ value: t, label: `${TENANT_LABEL[t]} (${tenantCounts.get(t)})` }));
 
-// Effort options keep REGISTRY ORDER (the groups array), not alphabetical — the registry
-// order is authored and reads as the shape of the work.
-const effortCounts = countBy((r) => r.groupSlug);
-const effortOptions = prototypeGroups
-  .filter((g) => effortCounts.has(g.slug))
-  .map((g) => ({ value: g.slug, label: `${g.title} (${effortCounts.get(g.slug)})` }));
-
-const statusCounts = countBy((r) => r.status);
+const statusCounts = new Map<PrototypeStatus, number>();
+for (const e of efforts) for (const p of e.pages) statusCounts.set(p.status, (statusCounts.get(p.status) ?? 0) + 1);
 const statusOptions = (Object.keys(STATUS_LABEL) as PrototypeStatus[])
   .filter((s) => statusCounts.has(s))
   .map((s) => ({ value: s, label: `${STATUS_LABEL[s]} (${statusCounts.get(s)})` }));
@@ -86,7 +77,6 @@ const statusOptions = (Object.keys(STATUS_LABEL) as PrototypeStatus[])
 // retires Status: every prototype is 'in-progress'.)
 const facets = [
   { key: 'tenant', label: 'Tenant', options: tenantOptions },
-  { key: 'effort', label: 'Effort', options: effortOptions },
   { key: 'status', label: 'Status', options: statusOptions },
 ].filter((f) => f.options.length > 1);
 ---
@@ -95,7 +85,7 @@ const facets = [
   <div class="bcn-pi__head">
     <h2 id="bcn-pi-title" class="bcn-pi__title type-section-title">Prototypes</h2>
     <p class="bcn-pi__count">
-      <span data-pi-count>{rows.length}</span> of {rows.length}
+      <span data-pi-count>{efforts.length}</span> of {efforts.length} efforts · {pageCount} pages
     </p>
   </div>
 
@@ -103,7 +93,7 @@ const facets = [
     <esa-text-field
       slot="search"
       data-pi-search
-      placeholder="Search prototypes…"
+      placeholder="Search efforts and pages…"
       aria-label="Search prototypes"
       size="md"></esa-text-field>
     <span slot="search" data-pi-search-clear hidden>
@@ -128,45 +118,82 @@ const facets = [
   <table class="bcn-pi__table">
     <thead>
       <tr>
-        <th scope="col">Prototype</th>
-        <th scope="col">Tenant</th>
         <th scope="col">Effort</th>
-        <th scope="col">Built</th>
+        <th scope="col">Tenant</th>
+        <th scope="col">Latest</th>
         <th scope="col">Status</th>
       </tr>
     </thead>
-    <tbody data-pi-body>
+    <tbody>
       {
-        rows.map((r) => (
-          <tr
-            class="bcn-pi__row"
-            data-pi-row
-            data-tenant={r.tenant}
-            data-effort={r.groupSlug}
-            data-status={r.status}
-            data-title={r.title}
-            data-desc={r.description}
-          >
-            <td class="bcn-pi__cell-main">
-              <a class="bcn-pi__link" href={withBase(r.route)} data-pi-title>
-                {r.title}
-              </a>
-              <span class="bcn-pi__desc" data-pi-desc>
-                {r.description}
-              </span>
-            </td>
-            <td class="bcn-pi__cell-meta">{TENANT_LABEL[r.tenant]}</td>
-            <td class="bcn-pi__cell-meta">{r.groupTitle}</td>
-            <td class="bcn-pi__cell-date">
-              <time datetime={r.createdAt}>{fmtDate(r.createdAt)}</time>
-            </td>
-            <td>
-              <span class="bcn-pi__status" data-status={r.status}>
-                <span class="bcn-pi__status-dot" aria-hidden="true" />
-                {STATUS_LABEL[r.status]}
-              </span>
-            </td>
-          </tr>
+        efforts.map((e) => (
+          <>
+            <tr class="bcn-pi__row bcn-pi__row--effort" data-pi-effort={e.slug} data-tenant={e.tenant} data-title={e.title}>
+              <th scope="rowgroup" class="bcn-pi__cell-effort">
+                <button
+                  type="button"
+                  class="bcn-pi__toggle"
+                  data-pi-toggle={e.slug}
+                  aria-expanded="true"
+                  aria-controls={e.pages.map((p) => `pi-page-${p.slug}`).join(' ')}
+                >
+                  <svg
+                    class="bcn-pi__chevron"
+                    viewBox="0 0 24 24"
+                    width="16"
+                    height="16"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="m9 18 6-6-6-6" />
+                  </svg>
+                  <span class="bcn-pi__effort-title" data-pi-title>
+                    {e.title}
+                  </span>
+                  <span class="bcn-pi__pages" data-pi-pagecount>
+                    {e.pages.length} page{e.pages.length === 1 ? '' : 's'}
+                  </span>
+                </button>
+              </th>
+              <td class="bcn-pi__cell-meta">{TENANT_LABEL[e.tenant]}</td>
+              <td class="bcn-pi__cell-date">
+                <time datetime={e.latest}>{fmtDate(e.latest)}</time>
+              </td>
+              <td />
+            </tr>
+
+            {e.pages.map((p) => (
+              <tr
+                class="bcn-pi__row bcn-pi__row--page"
+                id={`pi-page-${p.slug}`}
+                data-pi-page={e.slug}
+                data-tenant={p.tenant}
+                data-status={p.status}
+                data-title={p.title}
+                data-desc={p.description}
+              >
+                <td class="bcn-pi__cell-page">
+                  <a class="bcn-pi__link" href={withBase(p.route)} data-pi-title>
+                    {p.title}
+                  </a>
+                </td>
+                <td />
+                <td class="bcn-pi__cell-date">
+                  <time datetime={p.createdAt}>{fmtDate(p.createdAt)}</time>
+                </td>
+                <td>
+                  <span class="bcn-pi__status" data-status={p.status}>
+                    <span class="bcn-pi__status-dot" aria-hidden="true" />
+                    {STATUS_LABEL[p.status]}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </>
         ))
       }
     </tbody>
@@ -213,50 +240,6 @@ const facets = [
     font-variant-numeric: tabular-nums;
   }
 
-  /* ── Table skin. Rows divide with hairlines; no outer box fights the filter card. ── */
-  .bcn-pi__table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: var(--type-size-200);
-  }
-  .bcn-pi__table th {
-    padding: var(--spacing-250) var(--spacing-300);
-    text-align: left;
-    font-size: 0.875rem;
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-secondary);
-    border-bottom: 1px solid var(--color-border);
-    white-space: nowrap;
-  }
-  .bcn-pi__table td {
-    padding: var(--spacing-300);
-    vertical-align: top;
-    border-bottom: 1px solid var(--color-border-light);
-  }
-  .bcn-pi__row[hidden] {
-    display: none;
-  }
-  .bcn-pi__row:hover {
-    background: var(--color-surface-sunken);
-  }
-
-  /* Two-line main cell: the title link over its one-line description. */
-  .bcn-pi__cell-main {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    min-width: 22rem;
-  }
-  .bcn-pi__link {
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-link);
-    text-decoration: none;
-    line-height: 1.35;
-  }
-  .bcn-pi__link:hover {
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
   /* esa-text-field's focus tokens default to Radix grass — an off-brand green ring.
      Re-point its PUBLIC focus properties to the house link colour, scoped to this
      surface so nothing leaks. (Same fix bcn-kb-hero carries.) */
@@ -265,25 +248,107 @@ const facets = [
     --focus-ring-color: var(--color-text-link);
   }
 
-  /* The registry description, clamped to two lines — several run long. */
-  .bcn-pi__desc {
-    font-size: 0.875rem;
-    line-height: 1.45;
-    color: var(--color-text-secondary);
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  /* ── Table skin. Rows divide with hairlines; no outer box fights the filter card. ── */
+  .bcn-pi__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--type-size-200);
   }
-  /* The clamp stays put while searching. A hit deeper in the text stays visible because
-     the controller re-windows the description around the match rather than un-clamping —
-     these registry descriptions run long enough that un-clamping three results fills a
-     screen. */
+  .bcn-pi__table th[scope='col'] {
+    padding: var(--spacing-250) var(--spacing-300);
+    text-align: left;
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+  }
+  .bcn-pi__table td,
+  .bcn-pi__table th[scope='rowgroup'] {
+    padding: var(--spacing-250) var(--spacing-300);
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--color-border-light);
+  }
+  .bcn-pi__row[hidden] {
+    display: none;
+  }
 
+  /* ── Effort row — the line item. Its hairline is full-strength so each effort reads
+        as the start of a block; its pages divide with the lighter rule. ── */
+  .bcn-pi__row--effort th {
+    border-bottom-color: var(--color-border);
+  }
+  .bcn-pi__row--effort:hover {
+    background: var(--color-surface-sunken);
+  }
+  .bcn-pi__cell-effort {
+    padding: 0 !important;
+  }
+
+  /* The whole effort cell is the disclosure control. */
+  .bcn-pi__toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    inline-size: 100%;
+    padding: var(--spacing-250) var(--spacing-300);
+    background: none;
+    border: 0;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    color: var(--color-text-primary);
+  }
+  .bcn-pi__toggle:focus-visible {
+    outline: 2px solid var(--color-text-link);
+    outline-offset: -2px;
+  }
+  .bcn-pi__chevron {
+    flex: none;
+    color: var(--color-text-tertiary);
+    transition: transform 140ms ease;
+  }
+  .bcn-pi__toggle[aria-expanded='true'] .bcn-pi__chevron {
+    transform: rotate(90deg);
+  }
+  .bcn-pi__effort-title {
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.35;
+  }
+  .bcn-pi__toggle :global(mark) {
+    background: color-mix(in srgb, var(--color-text-primary) 16%, transparent);
+    color: inherit;
+    border-radius: 2px;
+    padding: 0 1px;
+  }
+  /* A genuine count, so 13px tertiary is honest meta. */
+  .bcn-pi__pages {
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-regular);
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+  }
+
+  /* ── Page row — indented under its effort, quieter than the line item. ── */
+  .bcn-pi__cell-page {
+    padding-left: calc(var(--spacing-300) + var(--spacing-600)) !important;
+  }
+  .bcn-pi__row--page:hover {
+    background: var(--color-surface-sunken);
+  }
+  .bcn-pi__link {
+    color: var(--color-text-link);
+    text-decoration: none;
+    line-height: 1.35;
+  }
+  .bcn-pi__link:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
   /* Matched substring — a neutral translucent wash that reads on white AND on the
      sunken hover row. Never a tint (the house bans colour as an accent here). */
-  .bcn-pi__link :global(mark),
-  .bcn-pi__desc :global(mark) {
+  .bcn-pi__link :global(mark) {
     background: color-mix(in srgb, var(--color-text-primary) 16%, transparent);
     color: inherit;
     border-radius: 2px;
@@ -323,16 +388,11 @@ const facets = [
     background: var(--bcn-flag-on-color);
   }
 
-  /* Narrow: drop the two nowrap meta columns rather than scroll the table sideways. */
-  @media (max-width: 60rem) {
-    .bcn-pi__table th:nth-child(3),
-    .bcn-pi__table td:nth-child(3),
-    .bcn-pi__table th:nth-child(4),
-    .bcn-pi__table td:nth-child(4) {
+  /* Narrow: drop the tenant column rather than scroll the table sideways. */
+  @media (max-width: 48rem) {
+    .bcn-pi__table th:nth-child(2),
+    .bcn-pi__table td:nth-child(2) {
       display: none;
-    }
-    .bcn-pi__cell-main {
-      min-width: 0;
     }
   }
 </style>

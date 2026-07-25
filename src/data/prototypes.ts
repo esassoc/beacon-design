@@ -47,29 +47,43 @@ export interface PrototypeGroup {
   pages: PrototypePage[];
 }
 
-/** One page flattened with the effort it belongs to and its resolved tenant. */
-export interface PrototypeRow extends PrototypePage {
+/** One page with its tenant resolved from the effort it belongs to. */
+export interface PrototypePageRow extends PrototypePage {
   tenant: PrototypeTenant;
-  groupSlug: string;
-  groupTitle: string;
+}
+
+/** An effort and its pages — the unit the index lists. */
+export interface PrototypeEffort {
+  slug: string;
+  title: string;
+  tenant: PrototypeTenant;
+  pages: PrototypePageRow[];
+  /** The newest page in the effort — when it was last worked on, and its sort key. */
+  latest: string;
 }
 
 /**
- * Every page as a flat list, NEWEST FIRST — the shape the index grid renders.
- * Ties on createdAt fall back to title so the order is stable across builds
- * (several pages share a build date).
+ * Every EFFORT, newest first, with its pages newest first inside it.
+ *
+ * An effort has no build date of its own, so it takes its newest page's: "when was this
+ * last touched" is the fact that orders the index. Ties fall back to title so the order
+ * is stable across builds (several pages share a date).
  */
-export function allPrototypeRows(): PrototypeRow[] {
+export function allPrototypeEfforts(): PrototypeEffort[] {
   return prototypeGroups
-    .flatMap((g) =>
-      g.pages.map((p) => ({
-        ...p,
-        tenant: p.tenant ?? g.tenant,
-        groupSlug: g.slug,
-        groupTitle: g.title,
-      }))
-    )
-    .sort((a, b) => b.createdAt.localeCompare(a.createdAt) || a.title.localeCompare(b.title));
+    .map((g) => {
+      const pages = g.pages
+        .map((p) => ({ ...p, tenant: p.tenant ?? g.tenant }))
+        .sort((a, b) => b.createdAt.localeCompare(a.createdAt) || a.title.localeCompare(b.title));
+      return {
+        slug: g.slug,
+        title: g.title,
+        tenant: g.tenant,
+        pages,
+        latest: pages.reduce((max, p) => (p.createdAt > max ? p.createdAt : max), ''),
+      };
+    })
+    .sort((a, b) => b.latest.localeCompare(a.latest) || a.title.localeCompare(b.title));
 }
 
 export const prototypeGroups: PrototypeGroup[] = [

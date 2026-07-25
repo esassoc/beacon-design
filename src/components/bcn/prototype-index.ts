@@ -1,45 +1,32 @@
-// prototype-index.client — behavior for <BcnPrototypeIndex>: three multi-select facets
-// (tenant / effort / status) ANDed together, plus a keyword query ORed across each row's
-// title and description, with matches highlighted in place.
+// prototype-index.client — behavior for <BcnPrototypeIndex>: a two-level table of efforts
+// and their pages, with expand/collapse, two multi-select facets (tenant / status) ANDed
+// together, and a keyword query ORed across effort titles, page titles, and page
+// descriptions.
 //
-// Every row is server-rendered; this only toggles `hidden` and rewrites the two text
-// cells. The catalog never enters the bundle — the same progressive strategy the
-// help-centre search uses. With JS off the page is a complete, unfiltered index.
+// Every row is server-rendered EXPANDED; this collapses them on init and thereafter only
+// toggles `hidden`. The catalog never enters the bundle, and with JS off the page is a
+// complete, fully-expanded index rather than eight rows that will not open.
+//
+// Descriptions are searched but never shown, so a description-only match surfaces its
+// effort and page without a visible highlight — the row is the answer, not the snippet.
 //
 // Facet options arrive as JSON on data-options because `options` is a Lit ARRAY property:
-// arrays cannot cross an HTML attribute, so Astro can't hand it over at build time and the
-// property has to be assigned here.
+// arrays cannot cross an HTML attribute, so Astro can't hand it over at build time.
 
-/** A facet key → the row data-attribute it filters on. Both are the same string today,
-    but naming the mapping keeps the row contract explicit. */
-const FACETS = ['tenant', 'effort', 'status'] as const;
+const FACETS = ['tenant', 'status'] as const;
 type Facet = (typeof FACETS)[number];
 
 const escapeHtml = (s: string): string =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 /**
- * A window of `text` centred on the first occurrence of `q`, so the hit is inside the
- * two-line clamp instead of buried in paragraph six. Registry descriptions run long —
- * un-clamping them instead turns three results into a full screen of prose.
+ * Escaped text with every case-insensitive occurrence of `q` wrapped in <mark>.
  *
- * Snaps the start back to a word boundary and marks either end with an ellipsis when
- * text was dropped. Returns the head of the string unchanged when the hit is already
- * near it (or when there is no hit).
+ * SAFE-innerHTML CONTRACT: this escapes EVERY segment it emits — both the registry text
+ * and the user's query — and the <mark> wrappers are the only markup it injects. Its
+ * result is the ONLY thing assigned to innerHTML below. Preserve that if you touch this;
+ * never interpolate a raw query.
  */
-function snippet(text: string, q: string, radius = 80): string {
-  if (!q) return text;
-  const idx = text.toLowerCase().indexOf(q.toLowerCase());
-  if (idx <= radius) return text;
-
-  let start = idx - radius;
-  const space = text.indexOf(' ', start);
-  if (space !== -1 && space < idx) start = space + 1;
-  const end = Math.min(text.length, idx + q.length + radius);
-  return `…${text.slice(start, end)}${end < text.length ? '…' : ''}`;
-}
-
-/** Escaped text with every case-insensitive occurrence of `q` wrapped in <mark>. */
 function highlight(text: string, q: string): string {
   if (!q) return escapeHtml(text);
   const hay = text.toLowerCase();
@@ -63,8 +50,9 @@ export function setupPrototypeIndex(): void {
   const root = document.querySelector<HTMLElement>('[data-prototype-index]');
   if (!root) return;
 
-  const rows = [...root.querySelectorAll<HTMLElement>('[data-pi-row]')];
-  if (!rows.length) return;
+  const effortRows = [...root.querySelectorAll<HTMLElement>('[data-pi-effort]')];
+  const pageRows = [...root.querySelectorAll<HTMLElement>('[data-pi-page]')];
+  if (!effortRows.length) return;
 
   const search = root.querySelector<HTMLElement>('[data-pi-search]');
   const searchClear = root.querySelector<HTMLElement>('[data-pi-search-clear]');
@@ -73,9 +61,29 @@ export function setupPrototypeIndex(): void {
   const table = root.querySelector<HTMLElement>('.bcn-pi__table');
   const clearAll = root.querySelector<HTMLElement>('[data-pi-clear]');
 
-  // ── facet state ──
+  // Pages grouped by their effort slug, so a row only ever walks its own children.
+  const pagesOf = new Map<string, HTMLElement[]>();
+  for (const row of pageRows) {
+    const slug = row.dataset.piPage!;
+    const list = pagesOf.get(slug);
+    if (list) list.push(row);
+    else pagesOf.set(slug, [row]);
+  }
+
+  // ── state ──
   const active = new Map<Facet, Set<string>>(FACETS.map((f) => [f, new Set<string>()]));
+  const expanded = new Set<string>(); // efforts the USER opened; search opens on top of it
   let query = '';
+
+  // ── expand / collapse ──
+  for (const btn of root.querySelectorAll<HTMLElement>('[data-pi-toggle]')) {
+    btn.addEventListener('click', () => {
+      const slug = btn.dataset.piToggle!;
+      if (expanded.has(slug)) expanded.delete(slug);
+      else expanded.add(slug);
+      apply();
+    });
+  }
 
   // ── hand each dropdown its options, then listen for selection ──
   const dropdowns = new Map<Facet, HTMLElement>();
@@ -89,7 +97,7 @@ export function setupPrototypeIndex(): void {
       try {
         (el as unknown as { options: unknown }).options = JSON.parse(raw);
       } catch {
-        /* malformed options → the dropdown simply renders empty rather than throwing */
+        /* malformed options → the dropdown renders empty rather than throwing */
       }
     }
 
@@ -115,14 +123,13 @@ export function setupPrototypeIndex(): void {
     apply();
   });
 
-  // The clear-all button bubbles `esa-filter-clear`; catch the click too, since the lego
-  // is presentational and a host may not re-emit.
   const resetAll = (): void => {
     query = '';
     setFieldValue(search, '');
     if (searchClear) searchClear.hidden = true;
     for (const f of FACETS) active.get(f)!.clear();
     for (const el of dropdowns.values()) clearDropdown(el);
+    expanded.clear();
     apply();
   };
   clearAll?.addEventListener('click', resetAll);
@@ -132,38 +139,74 @@ export function setupPrototypeIndex(): void {
 
   // ────────────────────────────────────────────────────────────────────────────
   function apply(): void {
-    let shown = 0;
+    const q = query.toLowerCase();
+    let shownEfforts = 0;
 
-    for (const row of rows) {
-      const facetHit = FACETS.every((f) => {
-        const set = active.get(f)!;
-        return set.size === 0 || set.has(row.dataset[f] ?? '');
-      });
+    for (const effortRow of effortRows) {
+      const slug = effortRow.dataset.piEffort!;
+      const pages = pagesOf.get(slug) ?? [];
+      const effortTitle = effortRow.dataset.title ?? '';
 
-      const title = row.dataset.title ?? '';
-      const desc = row.dataset.desc ?? '';
-      const queryHit =
-        query === '' ||
-        title.toLowerCase().includes(query.toLowerCase()) ||
-        desc.toLowerCase().includes(query.toLowerCase());
+      // The tenant facet is an EFFORT fact; status is a PAGE fact. So tenant gates the
+      // whole effort, while status gates which pages inside it survive.
+      const tenantSet = active.get('tenant')!;
+      const tenantHit = tenantSet.size === 0 || tenantSet.has(effortRow.dataset.tenant ?? '');
 
-      const visible = facetHit && queryHit;
-      row.hidden = !visible;
-      if (!visible) continue;
-      shown++;
+      const statusSet = active.get('status')!;
+      const effortTitleHit = q !== '' && effortTitle.toLowerCase().includes(q);
 
-      // SAFE-innerHTML CONTRACT: highlight() escapes EVERY segment it emits — both the
-      // registry text and the user's query — and the <mark> wrappers are the only markup
-      // it injects. Preserve that if you touch this; never interpolate a raw query.
-      const titleEl = row.querySelector<HTMLElement>('[data-pi-title]');
-      const descEl = row.querySelector<HTMLElement>('[data-pi-desc]');
-      if (titleEl) titleEl.innerHTML = highlight(title, query);
-      if (descEl) descEl.innerHTML = highlight(snippet(desc, query), query);
+      let matchingPages = 0;
+      for (const pageRow of pages) {
+        const statusHit = statusSet.size === 0 || statusSet.has(pageRow.dataset.status ?? '');
+        const title = pageRow.dataset.title ?? '';
+        const desc = pageRow.dataset.desc ?? '';
+        // An effort-title match carries its pages: searching "fish" should show the
+        // effort's pages, not an effort that opens onto nothing.
+        const queryHit =
+          q === '' ||
+          effortTitleHit ||
+          title.toLowerCase().includes(q) ||
+          desc.toLowerCase().includes(q);
+
+        const keep = tenantHit && statusHit && queryHit;
+        pageRow.dataset.piMatch = keep ? '1' : '';
+        if (keep) matchingPages++;
+
+        const titleEl = pageRow.querySelector<HTMLElement>('[data-pi-title]');
+        if (titleEl) titleEl.innerHTML = highlight(title, query);
+      }
+
+      // An effort survives if any page did — or if its own title matched and the tenant
+      // facet allows it, so a title hit never yields an effort with zero rows.
+      const effortVisible = tenantHit && (matchingPages > 0 || (effortTitleHit && pages.length === 0));
+      effortRow.hidden = !effortVisible;
+      if (effortVisible) shownEfforts++;
+
+      // A query force-opens every surviving effort — a collapsed hit is a hidden answer.
+      const open = effortVisible && (query !== '' || expanded.has(slug));
+      for (const pageRow of pages) {
+        pageRow.hidden = !(open && pageRow.dataset.piMatch === '1');
+      }
+
+      const toggle = effortRow.querySelector<HTMLElement>('[data-pi-toggle]');
+      toggle?.setAttribute('aria-expanded', String(open));
+
+      // The count follows the filter: an effort narrowed to 2 of 7 pages says so.
+      const countLabel = effortRow.querySelector<HTMLElement>('[data-pi-pagecount]');
+      if (countLabel) {
+        const total = pages.length;
+        const noun = total === 1 ? 'page' : 'pages';
+        countLabel.textContent =
+          matchingPages === total ? `${total} ${noun}` : `${matchingPages} of ${total} ${noun}`;
+      }
+
+      const effortTitleEl = effortRow.querySelector<HTMLElement>('[data-pi-title]');
+      if (effortTitleEl) effortTitleEl.innerHTML = highlight(effortTitle, query);
     }
 
-    if (countEl) countEl.textContent = String(shown);
-    if (emptyEl) emptyEl.hidden = shown > 0;
-    if (table) table.hidden = shown === 0;
+    if (countEl) countEl.textContent = String(shownEfforts);
+    if (emptyEl) emptyEl.hidden = shownEfforts > 0;
+    if (table) table.hidden = shownEfforts === 0;
   }
 }
 
