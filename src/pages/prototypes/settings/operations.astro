@@ -1,0 +1,49 @@
+---
+// Unified Settings — OPERATIONS. The maintenance jobs ESA runs, as a console rather
+// than a menu: every job states what it does and how far it reaches before it is
+// started, confirms in place (an all-tenants job additionally gates on the operator
+// typing its name back), and lands in the run history below the moment it fires.
+//
+// Prod ships these as bare navigation tiles with no scope, no confirmation, and no
+// record of who ran what. The two components here are that whole difference.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import BcnSettingsShell from '../../../components/bcn/BcnSettingsShell.astro';
+import BcnOpCard from '../../../components/bcn/BcnOpCard.astro';
+import BcnRunHistory from '../../../components/bcn/BcnRunHistory.astro';
+import { OPERATIONS, OPERATION_RUNS, settingsPage } from '../../../data/settings-registry';
+import { withBase } from '../../../lib/base';
+
+const page = settingsPage('operations')!;
+const settingsHref = withBase('/prototypes/settings');
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout > stack(xl)      # SPINE — page.description renders as the intro band in the content stack
+  sections:
+    - settings frame -> bcn-settings-shell       # search + zone nav + view-as switch; wraps all page content
+    - operations     -> bcn-op-card              # one card per job: scope badge, confirm dialog, typed-name gate
+    - run history    -> bcn-run-history          # every run newest-first; listens for bcn-op-run itself
+-->
+
+<AppShell title={`${page.title} — Settings — Beacon`}>
+  <PageLayout
+    title={page.title}
+    breadcrumbs={[{ label: 'Settings', href: settingsHref }, { label: page.title }]}
+  >
+    <BcnSettingsShell activePageId={page.id}>
+      <div class="stack" data-gap="xl">
+        <p class="type-body">{page.description}</p>
+
+        <div class="grid" data-gap="lg" style="--grid-min: 22rem;">
+          {OPERATIONS.map((op) => <BcnOpCard op={op} />)}
+        </div>
+
+        <EsaCard variant="outlined" title="Run history">
+          <BcnRunHistory runs={OPERATION_RUNS} ops={OPERATIONS} />
+        </EsaCard>
+      </div>
+    </BcnSettingsShell>
+  </PageLayout>
+</AppShell>

@@ -1,0 +1,130 @@
+---
+// Unified Settings — TENANTS. Every tenant on the platform, and the flow that creates
+// one. The list is deliberately NOT a bespoke grid: TENANTS is projected into the
+// registry's own `collection` section shape, so it renders through the same
+// <BcnSettingsSection> every other settings list uses and inherits its table anatomy,
+// its "Add …" action, and its record badge for free.
+//
+// ESA Baseline carries the 'Clone source' badge because provisioning a tenant copies
+// its configuration — which is also why it holds every module and only ESA staff.
+//
+// The New tenant drawer is presentational: the fields and the module chips show what
+// provisioning asks for. Subdomain is called out as permanent because it is the one
+// value the real app refuses to change after creation.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaFormField from '@esa/ecology/esa-form-field.astro';
+import EsaPill from '@esa/ecology/esa-pill.astro';
+import BcnSettingsShell from '../../../components/bcn/BcnSettingsShell.astro';
+import BcnSettingsSection from '../../../components/bcn/BcnSettingsSection.astro';
+import { TENANTS, settingsPage } from '../../../data/settings-registry';
+import type { SettingsSection } from '../../../data/settings-registry';
+import { withBase } from '../../../lib/base';
+
+const page = settingsPage('tenants')!;
+const settingsHref = withBase('/prototypes/settings');
+
+const tenantList: SettingsSection = {
+  kind: 'collection',
+  id: 'tenant-list',
+  title: 'Tenants',
+  columns: [
+    { key: 'tenant', label: 'Tenant' },
+    { key: 'subdomain', label: 'Subdomain' },
+    { key: 'modules', label: 'Modules' },
+    { key: 'users', label: 'Users' },
+    { key: 'created', label: 'Created' },
+  ],
+  records: TENANTS.map((tenant) => ({
+    id: tenant.id,
+    cells: {
+      tenant: tenant.name,
+      subdomain: tenant.subdomain,
+      modules: tenant.modules.join(', '),
+      users: String(tenant.users),
+      created: tenant.created,
+    },
+    badge: tenant.id === 'esa-baseline' ? 'Clone source' : undefined,
+  })),
+  addLabel: 'New tenant',
+};
+
+// The selectable module set is every module some tenant already has — first-seen order,
+// so the list is the platform's own vocabulary rather than an authored one.
+const moduleOptions = [...new Set(TENANTS.flatMap((tenant) => tenant.modules))];
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout > stack(xl)      # SPINE — page.description renders as the intro band in the content stack
+  sections:
+    - settings frame -> bcn-settings-shell       # search + zone nav + view-as switch; wraps all page content
+    - tenant list    -> bcn-settings-section     # TENANTS projected into the registry's `collection` shape
+    - new tenant     -> esa-side-dialog          # provisioning fields + module chips, opened by the list's add action
+-->
+
+<AppShell title={`${page.title} — Settings — Beacon`}>
+  <PageLayout
+    title={page.title}
+    breadcrumbs={[{ label: 'Settings', href: settingsHref }, { label: page.title }]}
+  >
+    <BcnSettingsShell activePageId={page.id}>
+      <div class="stack" data-gap="xl">
+        <p class="type-body">{page.description}</p>
+        <BcnSettingsSection section={tenantList} />
+      </div>
+    </BcnSettingsShell>
+
+    <!-- z lifts the panel + backdrop above AppShell's fixed topbar (z 1100); the lego's
+         own defaults are 400/300, which would put the drawer underneath it. -->
+    <esa-side-dialog
+      id="new-tenant"
+      heading="New tenant"
+      position="right"
+      size="md"
+      style="--z-modal: 1300; --z-modal-backdrop: 1250;">
+      <div class="stack" data-gap="lg">
+        <esa-text-field label="Tenant name" placeholder="Organization name"></esa-text-field>
+        <esa-text-field
+          label="Subdomain"
+          placeholder="dcp"
+          help-text="Letters, numbers, hyphens; cannot be changed later"></esa-text-field>
+
+        <EsaFormField label="Modules" helpText="Modules control which product areas appear in the main menu.">
+          <div class="cluster" data-gap="xs">
+            {moduleOptions.map((module) => <EsaPill label={module} removable={false} size="sm" />)}
+          </div>
+        </EsaFormField>
+      </div>
+
+      <div class="cluster" data-gap="sm" slot="footer" style="--justify: flex-end">
+        <EsaButton color="ghost" appearance="outline" size="sm" id="new-tenant-cancel">
+          Cancel
+        </EsaButton>
+        <EsaButton color="primary" size="sm">Create tenant</EsaButton>
+      </div>
+    </esa-side-dialog>
+  </PageLayout>
+</AppShell>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-text-field';
+
+  interface SideDialog extends HTMLElement {
+    show(): void;
+    close(): void;
+  }
+
+  const dialog = document.getElementById('new-tenant') as SideDialog | null;
+
+  // <BcnSettingsSection> stamps its collection "Add …" action with
+  // data-settings-add=<section.id> — the sanctioned hook for wiring a flow behind it.
+  document
+    .querySelector<HTMLButtonElement>('[data-settings-add="tenant-list"]')
+    ?.addEventListener('click', () => dialog?.show());
+
+  document
+    .getElementById('new-tenant-cancel')
+    ?.addEventListener('click', () => dialog?.close());
+</script>

@@ -11,6 +11,8 @@
 interface ChangeLogEvent {
   text: string;
   emphasis?: string;
+  /** Optional: renders the emphasis as a link to the record the event happened on. */
+  href?: string;
   by: string;
 }
 interface ChangeLogDay {
@@ -30,7 +32,15 @@ const { days } = Astro.props;
       <ul class="bcn-change-log__events">
         {day.events.map((e) => (
           <li class="bcn-change-log__event">
-            <span class="bcn-change-log__text">{e.text} {e.emphasis && <strong>{e.emphasis}</strong>}</span>
+            <span class="bcn-change-log__text">
+              {e.text}{' '}
+              {e.emphasis &&
+                (e.href ? (
+                  <a class="bcn-change-log__target" href={e.href}><strong>{e.emphasis}</strong></a>
+                ) : (
+                  <strong>{e.emphasis}</strong>
+                ))}
+            </span>
             <span class="bcn-change-log__by">{e.by}</span>
           </li>
         ))}
@@ -49,5 +59,9 @@ const { days } = Astro.props;
   .bcn-change-log__events { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--spacing-300); }
   .bcn-change-log__event { display: flex; flex-direction: column; gap: 1px; }
   .bcn-change-log__text { font-size: 0.875rem; line-height: 1.4; color: var(--color-text-primary); }
+  /* The emphasis is the record the event happened ON — a link when the host has a
+     route for it, otherwise plain bold. Same weight either way. */
+  .bcn-change-log__target { color: var(--color-text-link); text-decoration: none; }
+  .bcn-change-log__target:hover { text-decoration: underline; }
   .bcn-change-log__by { font-size: 0.75rem; color: var(--color-text-tertiary); }
 </style>

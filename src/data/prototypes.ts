@@ -88,6 +88,60 @@ export function allPrototypeEfforts(): PrototypeEffort[] {
 
 export const prototypeGroups: PrototypeGroup[] = [
   {
+    slug: 'settings',
+    tenant: 'platform',
+    title: 'Unified Settings',
+    description:
+      'One settings framework spanning ESA and tenant administration: the two split admin surfaces reconceived as zones of a single place, where an ESA-only page sits beside its tenant-admin neighbors under one nav, one search, and a view-as lens — rather than living in a separate application.',
+    pages: [
+      {
+        slug: 'settings',
+        title: 'Settings',
+        description:
+          'The settings home: a card per zone listing that zone’s pages, and the record of what recently changed across all of them.',
+        route: '/prototypes/settings',
+        createdAt: '2026-07-29',
+        status: 'live',
+      },
+      {
+        slug: 'settings-page',
+        title: 'Settings page',
+        description:
+          'The capturable exemplar for all 20 standard pages that share one route shape: the registry’s section array IS the page, rendered as setting rows, record collections, or term pairs, plus a danger zone where one is declared.',
+        route: '/prototypes/settings/terminology',
+        createdAt: '2026-07-29',
+        status: 'live',
+      },
+      {
+        slug: 'settings-feature-flags',
+        title: 'Feature Flags',
+        description:
+          'Flags split by lifecycle — capability, rollout, default preference — with every row self-describing, self-saving, and carrying the date it last changed. No page-wide Save.',
+        route: '/prototypes/settings/feature-flags',
+        createdAt: '2026-07-29',
+        status: 'live',
+      },
+      {
+        slug: 'settings-operations',
+        title: 'Operations',
+        description:
+          'Maintenance jobs as a console: blast radius stated before the run, confirmation in place with a typed-name gate for platform-wide jobs, and a run history that updates the moment a job fires.',
+        route: '/prototypes/settings/operations',
+        createdAt: '2026-07-29',
+        status: 'live',
+      },
+      {
+        slug: 'settings-tenants',
+        title: 'Tenants',
+        description:
+          'Every tenant on the platform with its subdomain, modules, and user count, plus the drawer that provisions a new one from the baseline configuration.',
+        route: '/prototypes/settings/tenants',
+        createdAt: '2026-07-29',
+        status: 'live',
+      },
+    ],
+  },
+  {
     slug: 'project-dashboard',
     tenant: 'dcp',
     title: 'Project Dashboard',

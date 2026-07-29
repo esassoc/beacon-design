@@ -1,0 +1,332 @@
+---
+// <BcnSettingsSearch> — search across EVERY setting in the Unified Settings prototype
+// (the VS Code "search settings" move). Mounts at the top of the settings rail, above
+// the zone nav.
+//
+// BUILD-TIME INDEX. The whole settings registry is flattened here, at build time, into
+// one pre-rendered hidden row per searchable thing:
+//   • every `rows` item on every page   → deep-links to  <page>#s-<item.id>
+//   • every page itself                → deep-links to  <page>
+//   • every `collection` / `pairs` section → deep-links to <page>#sec-<section.id>
+// Each row carries its lowercased haystack in [data-match] (label + description +
+// keywords + page title), so the controller does nothing but substring-test attributes,
+// toggle `hidden`, and wrap hits in <mark>. No settings content reaches the JS bundle,
+// and search degrades to a plain (if long) list without JS.
+//
+// AUDIENCE. Rows sourced from an `audience: 'esa-admin'` page carry [data-esa-only]; the
+// settings shell suppresses those under the tenant view. The controller probes one such
+// row per query and drops the whole class from the results when the shell has them
+// hidden — so tenant users never get a hit they cannot open.
+//
+// RANKING + CAP. Hits are ordered label-match-first, then everything else, and the top 10
+// are shown via flexbox `order` (the rows stay in document order in the DOM — only their
+// visual order moves). The remainder collapses into one "n more matches" line.
+//
+// The panel sits in the RAIL FLOW, not as an overlay: it pushes the nav down while open
+// and collapses on Esc or an emptied field. Steadier than a floating panel in a column
+// that is already the page's navigation.
+//
+// CSS SPLIT (the Astro scoped-CSS + innerHTML rule): everything here is server-rendered,
+// so it is all scoped `<style>`. The one thing the controller injects is the <mark>
+// wrapper inside a result's label — styled through `:global(mark)` nested under the
+// scoped label class, exactly as <BcnKbHero> does.
+//
+// SIBLING CONTRACT — the hooks settings-search.ts listens on:
+//   Field  : <esa-text-field data-settings-search>  → native composed `input`
+//   Panel  : [data-settings-panel]                  → shown/hidden as a whole
+//   List   : [data-settings-results] (role=listbox) → holds [data-result] anchors
+//   Rows   : [data-result] with [data-match], [data-label], optional [data-esa-only]
+//
+// bcn-lego-checked: no esa-* lego is a search-field + live-results assembly — checked
+// esa-command-palette and esa-entity-search (both already rejected in this repo for
+// search: see <BcnOmniSearch>'s note — hardcoded overlay position, title/subtitle-only
+// matching), and esa-sidebar-nav has no search affordance. The CONTROL itself is the
+// lego (esa-text-field at size="md", which is 36px under the Beacon theme — already rail
+// scale, so no bespoke input and no size hackery), the glyph is esa-icon, and the result
+// rows are owned two-line text rows, not a reinvented primitive. Checked Beacon (prod
+// Settings has per-page filtering, no cross-settings search — this is new).
+// bcn-settings-search is the reusable home; the only CSS is composition glue plus a
+// scoped re-point of the field's public size/focus tokens.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { SETTINGS_PAGES, SETTINGS_ZONES, settingsPagePath } from '../../data/settings-registry';
+import { withBase } from '../../lib/base';
+
+// Lucide "search" — the icon registry doesn't ship it, so it goes through esa-icon's
+// `paths` fallback (the same mechanism <BcnKbHero> uses).
+const SEARCH_PATHS = '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>';
+
+const zoneTitle = new Map(SETTINGS_ZONES.map((z) => [z.id, z.title]));
+
+interface IndexRow {
+  /** Base-aware href — a settings page, optionally with a #s-/#sec- deep link. */
+  href: string;
+  /** The searchable thing's own name. The only text that gets <mark>ed. */
+  label: string;
+  /** Where it lives: zone, or "zone · page". */
+  meta: string;
+  /** Lowercased haystack the controller substring-tests. */
+  match: string;
+  /** Sourced from an ESA-admin-only page. */
+  esaOnly: boolean;
+}
+
+const index: IndexRow[] = [];
+
+for (const page of SETTINGS_PAGES) {
+  const zone = zoneTitle.get(page.zone) ?? page.zone;
+  const path = settingsPagePath(page.id);
+  const esaOnly = page.audience === 'esa-admin';
+  const within = `${zone} · ${page.title}`;
+
+  // The page itself — so "Notifications" finds the page, not just its switches.
+  index.push({
+    href: withBase(path),
+    label: page.title,
+    meta: zone,
+    match: `${page.title} ${page.description}`.toLowerCase(),
+    esaOnly,
+  });
+
+  for (const section of page.sections) {
+    if (section.kind === 'rows') {
+      for (const item of section.items) {
+        index.push({
+          href: withBase(`${path}#s-${item.id}`),
+          label: item.label,
+          meta: within,
+          match: `${item.label} ${item.description} ${(item.keywords ?? []).join(' ')} ${page.title}`.toLowerCase(),
+          esaOnly,
+        });
+      }
+    } else {
+      // collection | pairs — the section is the smallest addressable unit.
+      index.push({
+        href: withBase(`${path}#sec-${section.id}`),
+        label: section.title,
+        meta: within,
+        match: `${section.title} ${section.description} ${page.title}`.toLowerCase(),
+        esaOnly,
+      });
+    }
+  }
+}
+---
+
+<div class="bcn-settings-search">
+  <div class="bcn-settings-search__fieldwrap">
+    <span class="bcn-settings-search__icon" aria-hidden="true">
+      <EsaIcon name="search" size="sm" paths={SEARCH_PATHS} />
+    </span>
+    <esa-text-field
+      class="bcn-settings-search__field"
+      data-settings-search
+      size="md"
+      type="text"
+      placeholder="Search settings…"
+      aria-label="Search settings"
+      role="combobox"
+      aria-controls="bcn-settings-results"
+      aria-expanded="false"
+      aria-autocomplete="list"
+    ></esa-text-field>
+  </div>
+
+  <div class="bcn-settings-search__panel" data-settings-panel hidden>
+    <p class="bcn-settings-search__count">
+      <span data-settings-count></span>
+      <kbd>Esc</kbd>
+    </p>
+
+    <div
+      class="bcn-settings-search__list"
+      id="bcn-settings-results"
+      data-settings-results
+      role="listbox"
+      aria-label="Settings search results"
+    >
+      {
+        index.map((row, i) => (
+          <a
+            class="bcn-settings-search__result"
+            id={`bcn-set-r-${i}`}
+            role="option"
+            aria-selected="false"
+            href={row.href}
+            data-result
+            data-label={row.label}
+            data-match={row.match}
+            data-esa-only={row.esaOnly ? 'true' : undefined}
+            hidden
+          >
+            <span class="bcn-settings-search__result-label" data-result-label>{row.label}</span>
+            <span class="bcn-settings-search__result-meta">{row.meta}</span>
+          </a>
+        ))
+      }
+    </div>
+
+    <p class="bcn-settings-search__more" data-settings-more hidden></p>
+    <p class="bcn-settings-search__empty" data-settings-empty hidden>
+      No settings match “<span data-settings-query></span>”.
+    </p>
+  </div>
+</div>
+
+<script>
+  // Register the Lit lego so <esa-text-field> upgrades on the page.
+  import '@esa/ecology/esa-text-field';
+  import { setupSettingsSearch } from './settings-search';
+  setupSettingsSearch();
+</script>
+
+<style>
+  .bcn-settings-search {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+
+  /* ── Field: the esa-text-field lego, with a leading glyph in a widened gutter ── */
+  .bcn-settings-search__fieldwrap {
+    position: relative;
+  }
+
+  /* size="md" is 36px under the Beacon theme — already rail scale. The only re-point is
+     the left padding (to open the glyph gutter) and the focus color: the lego's focus
+     tokens default to an off-brand ring, so point them at the house link color. Scoped
+     to this one field, so nothing leaks. */
+  .bcn-settings-search__field {
+    --form-padding-x-md: 2rem;
+    --form-border-color-focus: var(--color-text-link);
+    --focus-ring-color: var(--color-text-link);
+    display: block;
+  }
+
+  /* Decorative overlay — the field owns its own box. */
+  .bcn-settings-search__icon {
+    position: absolute;
+    inset-inline-start: var(--spacing-250);
+    inset-block-start: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    z-index: 1;
+    color: var(--color-text-tertiary);
+    pointer-events: none;
+  }
+
+  /* ── Results panel: in the rail FLOW (pushes the nav down), not an overlay ── */
+  .bcn-settings-search__panel {
+    display: flex;
+    flex-direction: column;
+    max-block-size: min(60vh, 26rem);
+    overflow-y: auto;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-100);
+  }
+  .bcn-settings-search__panel[hidden] {
+    display: none;
+  }
+
+  /* A genuine hit count, plus the key that closes the panel. */
+  .bcn-settings-search__count {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-200);
+    margin: 0;
+    padding: var(--spacing-150) var(--spacing-250);
+    border-bottom: 1px solid var(--color-border-light, var(--color-border));
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+  }
+  .bcn-settings-search__count kbd {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 19px;
+    height: 19px;
+    padding: 0 5px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-tertiary);
+    background: var(--color-surface-sunken);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+  }
+
+  /* Flex column so the controller can rank rows with `order` while the DOM stays put. */
+  .bcn-settings-search__list {
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-100);
+    gap: 1px;
+  }
+
+  /* One result = a two-line text row (what it is, then where it lives). No card chrome;
+     the active/hover row gets a quiet neutral sunken wash. */
+  .bcn-settings-search__result {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: var(--spacing-150) var(--spacing-200);
+    border-radius: var(--radius-100);
+    text-decoration: none;
+    color: inherit;
+  }
+  .bcn-settings-search__result[hidden] {
+    display: none;
+  }
+  .bcn-settings-search__result:hover,
+  .bcn-settings-search__result.is-active {
+    background: var(--color-surface-sunken);
+  }
+
+  .bcn-settings-search__result-label {
+    font-size: var(--type-size-200);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+    line-height: 1.35;
+  }
+  .bcn-settings-search__result:hover .bcn-settings-search__result-label,
+  .bcn-settings-search__result.is-active .bcn-settings-search__result-label {
+    color: var(--color-text-link);
+  }
+
+  /* Matched substring — highlighter-yellow with dark text, the one search-hit treatment
+     across the spoke (omni-search palette, results page, prototype index). Injected by
+     the controller, so it needs :global() under the scoped label class. */
+  .bcn-settings-search__result-label :global(mark) {
+    background: #fde047;
+    color: var(--color-text-primary);
+    border-radius: 2px;
+    padding: 0 1px;
+  }
+
+  /* Zone · page breadcrumb — genuine meta. */
+  .bcn-settings-search__result-meta {
+    font-size: var(--type-size-150);
+    color: var(--color-text-tertiary);
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .bcn-settings-search__more,
+  .bcn-settings-search__empty {
+    margin: 0;
+    padding: var(--spacing-200) var(--spacing-250);
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+  }
+  .bcn-settings-search__more {
+    border-top: 1px solid var(--color-border-light, var(--color-border));
+    color: var(--color-text-tertiary);
+  }
+  .bcn-settings-search__more[hidden],
+  .bcn-settings-search__empty[hidden] {
+    display: none;
+  }
+</style>

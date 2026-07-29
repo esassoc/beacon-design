@@ -260,11 +260,16 @@ if (activeNavId) {
         {/* ESA-Config keeps the hand-rolled .icon-button: its glyph (sliders-horizontal)
             is not in esa-icon's built-in registry, and esa-icon-button gives no way to
             forward custom Lucide `paths`. See NEEDS.md. */}
-        <a href="#esa-config" class="icon-button" aria-label="ESA-Config">
+        <a href={withBase('/prototypes/settings')} class="icon-button" aria-label="ESA-Config">
           <EsaIcon name="sliders-horizontal" size="md" paths={LUCIDE['sliders-horizontal']} />
         </a>
 
-        <EsaIconButton icon="settings" label="Admin settings" size="md" href="#admin" />
+        <EsaIconButton
+          icon="settings"
+          label="Admin settings"
+          size="md"
+          href={withBase('/prototypes/settings')}
+        />
 
         <div class="user-menu" id="user-menu">
           <button type="button" class="user-menu-trigger" id="user-menu-trigger" aria-label="User menu" aria-expanded="false">

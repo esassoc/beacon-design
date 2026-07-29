@@ -1,0 +1,134 @@
+---
+// <BcnSettingsShell> — the frame every Unified Settings page renders inside: a persistent
+// rail (search + section nav + the "View as" audience switch) beside the page's own
+// content. Pages compose it as `<BcnSettingsShell activePageId="...">…</BcnSettingsShell>`
+// and own nothing of the chrome.
+//
+// Frame: the .sidebar layout primitive carries the two columns — a 15rem rail that sticks
+// within the .modern-layout__content scroll container, and the slotted content. The sticky
+// top is a small breathing gap, NOT the 52px topbar height, because that scroll container
+// already starts below the fixed topbar (AppShell's .modern-layout__body carries
+// padding-top: 52px). Same rail conventions as bcn-release-nav / bcn-kb-browser.
+//
+// AUDIENCE CONTRACT — the reason the shell exists as a component rather than a wrapper
+// div. Unified Settings is one page set read by two audiences, so the root carries
+// `data-audience="esa-admin" | "tenant-admin"`. Anything anywhere under the shell tagged
+// `data-esa-only` disappears when the audience is tenant-admin; sibling components mark
+// their ESA-only parts and never touch the switch. The choice persists per browser under
+// `bcn-settings-audience` (see settings-shell.ts).
+//
+// bcn-lego-checked: the audience switch itself IS the esa-button-toggle lego (label +
+// segments + roving-tabindex radiogroup, nothing hand-rolled), and the two columns are the
+// .sidebar primitive. No esa-* lego frames a settings rail: esa-app-shell is the app-wide
+// topbar/body chrome one level up, and esa-sidebar-nav is the nav list that goes INSIDE
+// this rail (bcn-settings-nav's job), not the rail's sticky geometry + audience root.
+// Checked Beacon (Beacon.Web has no unified-settings shell — its settings pages each
+// re-declare their own layout, which is the drift this replaces). The CSS below is
+// composition glue only: rail stickiness, the pinned-bottom slot for the switch, and the
+// data-esa-only visibility rule the contract above promises.
+import BcnSettingsSearch from './BcnSettingsSearch.astro';
+import BcnSettingsNav from './BcnSettingsNav.astro';
+import { AUDIENCE_OPTIONS, DEFAULT_AUDIENCE } from './settings-shell';
+
+interface Props {
+  /** Which nav row reads as current — handed straight to <BcnSettingsNav>. */
+  activePageId: string;
+}
+
+const { activePageId } = Astro.props;
+---
+
+<div
+  class="bcn-settings-shell sidebar"
+  data-gap="xl"
+  style="--sidebar-width: 15rem; --sidebar-content-min: 62%;"
+  data-audience={DEFAULT_AUDIENCE}
+  data-settings-shell
+>
+  <div class="bcn-settings-shell__rail stack" data-gap="lg">
+    <BcnSettingsSearch />
+    <BcnSettingsNav activePageId={activePageId} />
+
+    <div class="bcn-settings-shell__audience">
+      <esa-button-toggle
+        label="View as"
+        size="md"
+        data-settings-audience
+        data-options={JSON.stringify(AUDIENCE_OPTIONS)}></esa-button-toggle>
+    </div>
+  </div>
+
+  <div class="bcn-settings-shell__content">
+    <slot />
+  </div>
+</div>
+
+<script is:inline>
+  // Paint the stored audience before the module below loads, so a tenant-admin reader
+  // never gets a frame of ESA-only rows on the way in. Deliberately duplicates the
+  // AUDIENCE_STORAGE_KEY literal from settings-shell.ts — an inline script cannot import.
+  try {
+    var stored = localStorage.getItem('bcn-settings-audience');
+    if (stored === 'esa-admin' || stored === 'tenant-admin') {
+      var shell = document.querySelector('[data-settings-shell]');
+      if (shell) shell.setAttribute('data-audience', stored);
+    }
+  } catch (e) {
+    /* localStorage unavailable — the server-rendered default stands */
+  }
+</script>
+
+<script>
+  import '@esa/ecology/esa-button-toggle';
+  import { setupSettingsShell } from './settings-shell';
+  setupSettingsShell();
+</script>
+
+<style>
+  /* Sticky rail. top is a small breathing gap — the .modern-layout__content scroll
+     container already begins below the fixed 52px topbar, so no header offset is added
+     here. align-self:start keeps the flex item from stretching, giving the sticky element
+     slack to move; the min-height is what lets the audience switch sit at the bottom of a
+     short rail rather than floating up under the nav. */
+  .bcn-settings-shell__rail {
+    position: sticky;
+    top: var(--spacing-500, 1.5rem);
+    align-self: start;
+    min-block-size: min(30rem, calc(100vh - var(--spacing-900, 6rem)));
+    max-block-size: calc(100vh - var(--spacing-900, 6rem));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  /* The switch is the quiet last thing in the rail: pushed to the bottom, fenced off from
+     the nav by a hairline so it never reads as another nav row. */
+  .bcn-settings-shell__audience {
+    margin-block-start: auto;
+    padding-block-start: var(--spacing-400, 1rem);
+    border-block-start: 1px solid var(--color-border-light, var(--color-border));
+  }
+
+  .bcn-settings-shell__content {
+    min-inline-size: 0; /* let long tables/code scroll inside the column, not widen it */
+  }
+
+  /* THE AUDIENCE CONTRACT, in one rule: tenant admins don't see what only ESA owns.
+     :global() because slotted content carries the PAGE's scope, not this component's. */
+  .bcn-settings-shell[data-audience='tenant-admin'] :global([data-esa-only]) {
+    display: none;
+  }
+
+  /* When the .sidebar primitive folds the rail above the content on narrow viewports, drop
+     the sticky geometry so it reads as a plain header block. */
+  @media (max-width: 48rem) {
+    .bcn-settings-shell__rail {
+      position: static;
+      min-block-size: 0;
+      max-block-size: none;
+      overflow: visible;
+    }
+    .bcn-settings-shell__audience {
+      margin-block-start: 0;
+    }
+  }
+</style>

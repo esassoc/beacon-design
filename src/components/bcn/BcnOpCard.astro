@@ -1,0 +1,166 @@
+---
+// <BcnOpCard> — one admin operation in the Operations console, rendered as a
+// self-describing, confirmed, observable job instead of a navigation tile.
+//
+// Three facts from the registry drive the whole card:
+//   • name         → the card title
+//   • description  → what the job does, in plain language, on the card AND in the confirm
+//   • scope        → the badge, and (for 'all-tenants') a warning alert + a typed-name gate
+//
+// The scope line is the one derivation: 'tenant' → "Runs for this tenant only.",
+// 'all-tenants' → "Runs across every tenant on the platform." Nothing else on the card is
+// authored here; the copy is the registry's.
+//
+// GUIDED vs INSTANT. A guided op links to its own multi-step run and gets no dialog —
+// its `guidedNote` rides beside the link as a caption. An instant op fires from the card,
+// so it carries an esa-dialog confirm; an 'all-tenants' instant op additionally makes the
+// confirm button wait on the operator typing the operation name back.
+//
+// Behavior in ./ops-console.ts (one controller for every card on the page). On confirm it
+// dispatches `bcn-op-run` on document — the run-history sibling listens and prepends a row.
+//
+// bcn-lego-checked: esa-confirm-dialog was the first stop for the confirm and does NOT
+// fit — its body is a single `message` STRING with no slots, so it cannot carry the
+// description + scope alert + esa-text-field the typed-name gate needs. Composed
+// esa-dialog (the lego built for slotted bodies) instead. Everything else IS a lego:
+// esa-card (outlined), esa-badge (scope), esa-alert-box (the warning line), esa-button,
+// esa-text-field, plus stack/cluster/repel primitives and type roles. The only CSS left is
+// two text sizes and the badge's public component-token seam — esa-badge ships no neutral
+// variant, so the quiet "This tenant" badge recolors through --badge-bg /
+// --badge-text-color rather than restyling the lego. Checked Beacon (prod ships these jobs
+// as bare nav tiles — nothing to port). bcn-op-card is the reusable home.
+import type { Operation } from '../../data/settings-registry';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+
+interface Props {
+  op: Operation;
+}
+const { op } = Astro.props;
+
+const allTenants = op.scope === 'all-tenants';
+const scopeLabel = allTenants ? 'All tenants' : 'This tenant';
+const scopeLine = allTenants
+  ? 'Runs across every tenant on the platform.'
+  : 'Runs for this tenant only.';
+---
+
+<article
+  class="bcn-op"
+  data-op-card
+  data-op-id={op.id}
+  data-op-name={op.name}
+  data-op-scope={op.scope}
+>
+  <EsaCard variant="outlined" title={op.name}>
+    <span slot="actions" class={`bcn-op__scope${allTenants ? '' : ' bcn-op__scope--quiet'}`}>
+      <EsaBadge value={scopeLabel} variant={allTenants ? 'warning' : 'primary'} />
+    </span>
+
+    <div class="stack" data-gap="sm">
+      <p class="bcn-op__desc">{op.description}</p>
+      {allTenants && <EsaAlertBox variant="warning">{scopeLine}</EsaAlertBox>}
+    </div>
+
+    <div class="cluster" data-gap="sm" slot="footer">
+      {
+        op.guided ? (
+          <EsaButton color="ghost" appearance="outline" size="sm" icon="arrow-right" href="#">
+            Open guided run
+          </EsaButton>
+        ) : (
+          <EsaButton color="primary" size="sm" data-op-run={op.id}>
+            Run…
+          </EsaButton>
+        )
+      }
+      {op.guided && op.guidedNote && <span class="bcn-op__note">{op.guidedNote}</span>}
+    </div>
+  </EsaCard>
+
+  {
+    /* Instant ops confirm in place. Rendered as a SIBLING of the card, not inside it —
+       the dialog is a page-level overlay and has no business living in card chrome. */
+    !op.guided && (
+      <esa-dialog data-op-dialog={op.id} heading={`Run ${op.name}?`}>
+        <div class="stack" data-gap="sm">
+          <p class="bcn-op__desc">{op.description}</p>
+          {allTenants ? (
+            <EsaAlertBox variant="warning">{scopeLine}</EsaAlertBox>
+          ) : (
+            <p class="bcn-op__scope-line">{scopeLine}</p>
+          )}
+          {allTenants && (
+            <esa-text-field
+              label="Type the operation name to confirm"
+              placeholder={op.name}
+              data-op-confirm-input
+            ></esa-text-field>
+          )}
+        </div>
+
+        <div class="cluster" data-gap="sm" slot="footer" style="--justify: flex-end">
+          <EsaButton color="ghost" appearance="outline" size="sm" data-op-cancel={op.id}>
+            Cancel
+          </EsaButton>
+          <EsaButton color="primary" size="sm" disabled={allTenants} data-op-confirm={op.id}>
+            Run now
+          </EsaButton>
+        </div>
+      </esa-dialog>
+    )
+  }
+</article>
+
+<style>
+  .bcn-op {
+    display: block;
+  }
+
+  /* The confirm has to clear the app's fixed topbar (z 1100). esa-dialog defaults to
+     --z-modal 400 / --z-modal-backdrop 300, which would render the panel AND its
+     backdrop underneath it — leaving the topbar lit and clickable behind a modal. */
+  .bcn-op esa-dialog {
+    --z-modal: 1300;
+    --z-modal-backdrop: 1250;
+  }
+
+  .bcn-op__scope {
+    display: inline-flex;
+  }
+  /* esa-badge has no neutral variant — recolor the "This tenant" badge through the lego's
+     public component tokens instead of restyling it. Only the all-tenants badge should
+     carry a fill loud enough to stop someone. */
+  .bcn-op__scope--quiet {
+    --badge-bg: var(--color-surface-sunken);
+    --badge-text-color: var(--color-text-secondary);
+  }
+
+  .bcn-op__desc {
+    font-size: 1rem; /* 16px */
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+
+  .bcn-op__scope-line {
+    font-size: 1rem; /* 16px */
+    line-height: 1.5;
+    color: var(--color-text-tertiary);
+  }
+
+  .bcn-op__note {
+    font-size: 0.875rem; /* 14px — caption beside the action */
+    line-height: 1.4;
+    color: var(--color-text-tertiary);
+  }
+</style>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-text-field';
+  import { setupOpsConsole } from './ops-console';
+
+  setupOpsConsole();
+</script>

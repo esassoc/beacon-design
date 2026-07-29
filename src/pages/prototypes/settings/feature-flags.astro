@@ -1,0 +1,78 @@
+---
+// Unified Settings — FEATURE FLAGS. The real dbo.FeatureFlag table is one
+// undifferentiated list, so a capability the tenant bought, a rollout that dies at GA,
+// and a permanent default all read the same. This page splits it by lifecycle, which is
+// the fact that decides how a flag should be presented and when it can be deleted:
+//
+//   capability  → permanent switches for what this tenant sees
+//   rollout     → temporary gates for in-flight work, removed at GA
+//   preference  → not gates at all; they set the default new records start with
+//
+// The three blocks are the only thing authored here. Everything inside a block comes off
+// the FeatureFlag record, and the toggle IS the save — there is no page Save button,
+// because a page-wide Save over a list of unrelated switches is what made the prod
+// screen unreadable.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import BcnSettingsShell from '../../../components/bcn/BcnSettingsShell.astro';
+import BcnFlagList from '../../../components/bcn/BcnFlagList.astro';
+import { FEATURE_FLAGS, settingsPage } from '../../../data/settings-registry';
+import type { FlagLifecycle } from '../../../data/settings-registry';
+import { withBase } from '../../../lib/base';
+
+const page = settingsPage('feature-flags')!;
+const settingsHref = withBase('/prototypes/settings');
+
+// Order is the lifecycle's own arc: what the tenant owns, what is on its way, what is
+// merely a default. Each block's line says how the group behaves and when its flags die.
+const GROUPS: { lifecycle: FlagLifecycle; title: string; description: string }[] = [
+  {
+    lifecycle: 'capability',
+    title: 'Capability toggles',
+    description: 'Permanent switches for what this tenant sees.',
+  },
+  {
+    lifecycle: 'rollout',
+    title: 'Rollout flags',
+    description: 'Temporary gates for in-flight work — removed when the feature reaches GA.',
+  },
+  {
+    lifecycle: 'preference',
+    title: 'Default preferences',
+    description: 'Not gates: they set which behavior new records start with.',
+  },
+];
+
+const blocks = GROUPS.map((group) => ({
+  ...group,
+  flags: FEATURE_FLAGS.filter((flag) => flag.lifecycle === group.lifecycle),
+})).filter((block) => block.flags.length > 0);
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout > stack(xl)      # SPINE — page.description renders as the intro band in the content stack
+  sections:
+    - settings frame   -> bcn-settings-shell     # search + zone nav + view-as switch; wraps all page content
+    - lifecycle blocks -> bcn-flag-list          # one card per lifecycle: divided stack of bcn-flag-row
+-->
+
+<AppShell title={`${page.title} — Settings — Beacon`}>
+  <PageLayout
+    title={page.title}
+    breadcrumbs={[{ label: 'Settings', href: settingsHref }, { label: page.title }]}
+  >
+    <BcnSettingsShell activePageId={page.id}>
+      <div class="stack" data-gap="xl">
+        <p class="type-body">{page.description}</p>
+
+        <div class="stack" data-gap="lg">
+          {
+            blocks.map((block) => (
+              <BcnFlagList title={block.title} description={block.description} flags={block.flags} />
+            ))
+          }
+        </div>
+      </div>
+    </BcnSettingsShell>
+  </PageLayout>
+</AppShell>

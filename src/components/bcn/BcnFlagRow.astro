@@ -1,0 +1,174 @@
+---
+// <BcnFlagRow> — one feature flag in the Unified Settings flag list, as a
+// SELF-DESCRIBING, SELF-SAVING row. The old page was a bare stack of toggles behind a
+// single page-wide Save; here every flag carries its own name, code key, plain-language
+// description, lifecycle, and last-changed line, and the toggle IS the save (flag-rows.ts
+// confirms with a toast). There is no page Save button.
+//
+// The row deliberately owns no card — the page stacks these under lifecycle headings with
+// hairline dividers, so this renders as bare grid content with block padding only.
+//
+// LAYOUT: a 3-column grid where the switch, the name line, and the chips all sit in grid
+// ROW 1, so they optically center on each other with no magic offset; the description and
+// the meta line occupy rows 2 and 3 of the name column.
+//
+// The switch gets no visible label — the row is its label. `label` is still passed, for
+// the accessible name (it renders INSIDE the lego's shadow button, so it names the
+// control), then hidden with ::part(label) so the title isn't printed twice.
+//
+// bcn-lego-checked: no esa-* lego is a settings/feature-flag row (esa-card is a generic
+// container and would give the row a card it must not have); checked Beacon — the prod
+// flag screen is a bare ui-switch list with no per-flag metadata to port. bcn-flag-row is
+// the reusable home, composing esa-switch-toggle + esa-badge + type-roles.
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import type { FeatureFlag } from '../../data/settings-registry';
+
+interface Props {
+  flag: FeatureFlag;
+}
+const { flag } = Astro.props;
+
+// Lifecycle hue. Each is rendered as a TINT (see `tint()`), never a saturated fill:
+// capability is structural (house teal), rollout is in-flight (azure), preference is the
+// quietest of the three (neutral gray) because it is a standing taste setting, not a
+// staged change.
+const LIFECYCLE: Record<FeatureFlag['lifecycle'], { label: string; hue: string }> = {
+  capability: { label: 'Capability', hue: 'var(--color-primary)' },
+  rollout: { label: 'Rollout', hue: 'var(--color-info)' },
+  preference: { label: 'Preference', hue: 'var(--color-text-secondary)' },
+};
+
+/**
+ * Quiet-chip tint, applied to esa-badge through its PUBLIC component tokens rather than by
+ * restyling the lego. The badge's built-in variants are saturated fills; the house chip is
+ * a light tint with mid-tone text (same 16%/72% formula as BcnStatusChip). Only the default
+ * `primary` variant leaves --badge-bg/--badge-text-color in play, so these badges pass no
+ * `variant` — a variant class would override the tint.
+ */
+const tint = (hue: string): string =>
+  `--badge-bg: color-mix(in srgb, ${hue} 16%, transparent);` +
+  `--badge-text-color: color-mix(in srgb, ${hue} 72%, #1a1a1a);`;
+
+/** `on` may arrive ISO or already-friendly. Parse the ISO case by parts — `new Date('…')`
+ *  on a bare date reads UTC midnight and renders a day early west of Greenwich. */
+function formatChangedOn(on: string): string {
+  const iso = /^(\d{4})-(\d{2})-(\d{2})$/.exec(on);
+  if (!iso) return on;
+  const d = new Date(Number(iso[1]), Number(iso[2]) - 1, Number(iso[3]));
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+const lifecycle = LIFECYCLE[flag.lifecycle];
+const changedOn = formatChangedOn(flag.lastChanged.on);
+const gaLabel = `Remove at GA${flag.gaTarget ? ` · ${flag.gaTarget}` : ''}`;
+---
+
+<div
+  class="bcn-flag-row"
+  data-bcn-flag-row
+  data-flag-id={flag.id}
+  data-display-name={flag.displayName}
+  data-enabled={flag.enabled ? '' : undefined}
+>
+  <esa-switch-toggle
+    class="bcn-flag-row__switch"
+    data-bcn-flag-toggle
+    label={flag.displayName}
+    checked={flag.enabled ? '' : undefined}
+  ></esa-switch-toggle>
+
+  <p class="bcn-flag-row__name type-body-large">
+    <span class="bcn-flag-row__display">{flag.displayName}</span>
+    <code class="bcn-flag-row__key type-code">{flag.name}</code>
+  </p>
+
+  <div class="bcn-flag-row__chips">
+    <span class="bcn-flag-row__chip" style={tint(lifecycle.hue)}>
+      <EsaBadge value={lifecycle.label} size="sm" />
+    </span>
+    {flag.removeAtGa && (
+      <span class="bcn-flag-row__chip" style={tint('var(--color-warning)')}>
+        <EsaBadge value={gaLabel} size="sm" />
+      </span>
+    )}
+  </div>
+
+  <p class="bcn-flag-row__desc type-body">{flag.description}</p>
+  <p class="bcn-flag-row__meta type-caption" data-bcn-flag-meta>
+    Changed {changedOn} by {flag.lastChanged.by}
+  </p>
+</div>
+
+<script>
+  import '@esa/ecology/esa-switch-toggle';
+  import { setupFlagRows } from './flag-rows';
+  setupFlagRows();
+</script>
+
+<style>
+  /* No card, no divider, no background — the page stacks rows and owns the hairlines. */
+  .bcn-flag-row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    column-gap: var(--spacing-400);
+    row-gap: var(--spacing-150);
+    align-items: center;
+    padding-block: var(--spacing-400);
+  }
+
+  /* Row 1 holds the three aligned elements; rows 2–3 continue the name column. */
+  .bcn-flag-row__switch { grid-column: 1; grid-row: 1; }
+  .bcn-flag-row__name   { grid-column: 2; grid-row: 1; }
+  .bcn-flag-row__chips  { grid-column: 3; grid-row: 1; }
+  .bcn-flag-row__desc   { grid-column: 2; grid-row: 2; }
+  .bcn-flag-row__meta   { grid-column: 2; grid-row: 3; }
+
+  /* Accessible name only — it lives inside the switch's button, so it must stay in the
+     a11y tree rather than be display:none'd. :global() around the custom element is the
+     repo's proven ::part() idiom; the .bcn-flag-row ancestor keeps it off other switches. */
+  .bcn-flag-row :global(esa-switch-toggle)::part(label) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .bcn-flag-row__name {
+    margin: 0;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--spacing-250);
+  }
+  .bcn-flag-row__display {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .bcn-flag-row__key { color: var(--color-text-tertiary); }
+
+  .bcn-flag-row__desc { margin: 0; color: var(--color-text-secondary); }
+  .bcn-flag-row__meta { margin: 0; color: var(--color-text-tertiary); }
+
+  /* sm badges are 22px — the same rendered height as the md switch beside them. */
+  .bcn-flag-row__chips {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--spacing-200);
+  }
+  .bcn-flag-row__chip { display: inline-flex; }
+
+  /* Narrow: the chips drop below the meta line rather than crushing the name column. */
+  @media (max-width: 640px) {
+    .bcn-flag-row { grid-template-columns: auto minmax(0, 1fr); }
+    .bcn-flag-row__chips {
+      grid-column: 2;
+      grid-row: 4;
+      justify-content: flex-start;
+      margin-top: var(--spacing-100);
+    }
+  }
+</style>

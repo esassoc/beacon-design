@@ -1,0 +1,256 @@
+---
+// <BcnSettingsSection> — one section of the Unified Settings surface, rendered by
+// its `kind`. Every section on the page is the same card shell; only the body
+// anatomy changes:
+//
+//   rows       → a divided stack of <BcnSettingRow> (the setting-per-row anatomy)
+//   collection → a records table (column labels, one row per record, optional
+//                trailing badge, optional "Add …" action in the card footer)
+//   pairs      → the Terminology anatomy: Entity / Singular / Plural, with the two
+//                overrides as text fields whose PLACEHOLDER is the canonical term,
+//                so a blank field shows the platform default in grey
+//
+// The shell is esa-card (outlined); `section.description` rides the card's own
+// `subtitle` API so it renders under the title without extra chrome. The card
+// itself can't take an id (esa-card's props are a closed set, no rest spread), so
+// the `sec-<id>` anchor lives on a wrapping <section> — which also carries the
+// scroll-margin the section nav needs when it jumps.
+//
+// bcn-lego-checked: the RECORDS/PAIRS grids are semantic <table>s — the hub ships
+// no table or data-grid lego (checked the full catalog: esa-card is a box,
+// esa-link-column is a card of bare links, esa-collapsible is a single disclosure),
+// and Beacon's own grids are AG Grid, far too heavy for a static settings list and
+// it would put the catalog in the bundle. This is the same call BcnPrototypeIndex
+// made for its index table. Everything else IS a lego — esa-card (shell),
+// esa-badge (record badge, quieted via its own --badge-* component tokens),
+// esa-button (add action), esa-text-field (terminology overrides) — and the CSS
+// below is table/divider glue only. bcn-settings-section is the reusable home.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnSettingRow from './BcnSettingRow.astro';
+import type { SettingsSection } from '../../data/settings-registry';
+
+interface Props {
+  section: SettingsSection;
+}
+const { section } = Astro.props;
+
+// Anchor target for the section nav.
+const anchorId = `sec-${section.id}`;
+
+// A collection only grows the trailing badge column when a record actually carries one.
+const hasBadges = section.kind === 'collection' && section.records.some((r) => !!r.badge);
+---
+
+<section id={anchorId} class="bcn-set">
+  <EsaCard variant="outlined" title={section.title} subtitle={section.description}>
+    {
+      section.kind === 'rows' && (
+        <ul class="bcn-set__rows">
+          {section.items.map((item) => (
+            <li>
+              <BcnSettingRow item={item} />
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
+    {
+      section.kind === 'collection' && (
+        <div class="bcn-set__scroll">
+          <table class="bcn-set__table">
+            <thead>
+              <tr>
+                {section.columns.map((col) => (
+                  <th class="bcn-set__th" scope="col">
+                    {col.label}
+                  </th>
+                ))}
+                {hasBadges && <th class="bcn-set__th" scope="col"></th>}
+              </tr>
+            </thead>
+            <tbody>
+              {section.records.map((record) => (
+                <tr class="bcn-set__tr" data-record={record.id}>
+                  {section.columns.map((col, i) =>
+                    i === 0 ? (
+                      <th class="bcn-set__td bcn-set__td--lead" scope="row">
+                        {record.cells[col.key]}
+                      </th>
+                    ) : (
+                      <td class="bcn-set__td">{record.cells[col.key]}</td>
+                    )
+                  )}
+                  {hasBadges && (
+                    <td class="bcn-set__td bcn-set__td--badge">
+                      {record.badge && <EsaBadge value={record.badge} />}
+                    </td>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )
+    }
+
+    {
+      section.kind === 'pairs' && (
+        <div class="bcn-set__scroll">
+          <table class="bcn-set__table">
+            <thead>
+              <tr>
+                <th class="bcn-set__th" scope="col">
+                  Entity
+                </th>
+                <th class="bcn-set__th" scope="col">
+                  Singular
+                </th>
+                <th class="bcn-set__th" scope="col">
+                  Plural
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {section.pairs.map((pair) => (
+                <tr class="bcn-set__tr">
+                  <th class="bcn-set__td bcn-set__td--lead" scope="row">
+                    {pair.entity}
+                  </th>
+                  <td class="bcn-set__td bcn-set__td--field">
+                    <esa-text-field
+                      value={pair.singular ?? ''}
+                      placeholder={pair.canonicalSingular}
+                      aria-label={`${pair.entity} — singular`}
+                    ></esa-text-field>
+                  </td>
+                  <td class="bcn-set__td bcn-set__td--field">
+                    <esa-text-field
+                      value={pair.plural ?? ''}
+                      placeholder={pair.canonicalPlural}
+                      aria-label={`${pair.entity} — plural`}
+                    ></esa-text-field>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )
+    }
+
+    {
+      section.kind === 'collection' && section.addLabel && (
+        <EsaButton
+          slot="footer"
+          size="sm"
+          color="ghost"
+          appearance="outline"
+          icon="plus"
+          data-settings-add={section.id}
+        >
+          {section.addLabel}
+        </EsaButton>
+      )
+    }
+  </EsaCard>
+</section>
+
+<script>
+  // esa-text-field is a Lit lego (.ts) — register the custom element.
+  import '@esa/ecology/esa-text-field';
+</script>
+
+<style>
+  /* bcn-lego-checked: table + divider glue ONLY (see the header note for why the
+     records/pairs grids are semantic <table>s). No primitive is reinvented here. */
+  .bcn-set {
+    display: block;
+    /* The section nav jumps to #sec-<id>; keep the card clear of the sticky topbar. */
+    scroll-margin-block-start: var(--spacing-600);
+  }
+
+  /* ── rows: a divided stack. Each BcnSettingRow owns its own vertical rhythm;
+     the <li> only carries the hairline between siblings. ── */
+  .bcn-set__rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-set__rows > li + li {
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  /* ── collection + pairs: a table that scrolls inside its own container when the
+     columns outgrow the card. ── */
+  .bcn-set__scroll {
+    overflow-x: auto;
+  }
+  .bcn-set__table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  .bcn-set__th {
+    padding: 0 var(--spacing-400) var(--spacing-250);
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+    text-align: left;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .bcn-set__td {
+    padding: var(--spacing-300) var(--spacing-400);
+    font-size: var(--type-size-200);
+    color: var(--color-text-secondary);
+    text-align: left;
+    vertical-align: middle;
+  }
+  .bcn-set__tr + .bcn-set__tr .bcn-set__td {
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  /* Flush the outer columns with the card's content edge. */
+  .bcn-set__th:first-child,
+  .bcn-set__td:first-child {
+    padding-inline-start: 0;
+  }
+  .bcn-set__th:last-child,
+  .bcn-set__td:last-child {
+    padding-inline-end: 0;
+  }
+
+  /* The first column leads the row. */
+  .bcn-set__td--lead {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+    white-space: nowrap;
+  }
+
+  /* Quiet badge: neutral surface + secondary text via esa-badge's own component
+     tokens (the lego's theming hook), not a bespoke chip. */
+  .bcn-set__td--badge {
+    --badge-bg: var(--color-surface-sunken);
+    --badge-text-color: var(--color-text-secondary);
+    width: 1%;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  /* Terminology override fields. */
+  .bcn-set__td--field {
+    min-width: 200px;
+    padding-block: var(--spacing-250);
+  }
+  .bcn-set__td--field esa-text-field {
+    display: block;
+    width: 100%;
+  }
+</style>

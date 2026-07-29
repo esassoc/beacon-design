@@ -1,0 +1,304 @@
+---
+// <BcnRunHistory> — the shared run-history feed for the Operations console: every
+// operation run, newest first, as a semantic table.
+//
+// Every column traces to a stored field. Started/actor/status/summary are stored on
+// the run; Operation and Scope are resolved through the run's operationId to the
+// Operation record, so a run can never claim a name or a blast radius the registry
+// does not define. A run whose operationId has no Operation shows the raw id and no
+// scope badge rather than guessing at either.
+//
+// Rows injected at runtime (see the event contract below) are cloned from the
+// server-rendered <template> in this file, NOT built from a JS string — a
+// JS-authored element cannot carry Astro's scoped-style hash, so a hand-built row
+// would render unstyled. Cloning the SSR template keeps the scoped CSS attached.
+// (Same idiom as BcnDetailAssignments' data-da-ro-row.)
+//
+// bcn-lego-checked: the ROW GRID is a semantic <table> — the hub ships no table or
+// data-grid lego (checked the full catalog: esa-card is a box, esa-link-column is a
+// card of bare links, esa-collapsible is a single disclosure), and Beacon's own grids
+// are AG Grid, far too heavy for a static run feed. Same reasoning BcnPrototypeIndex
+// records. Status IS esa-badge and the empty state IS esa-empty-state. The Scope and
+// Running badges are bcn- shells because esa-badge has no neutral variant (its six
+// variants are all saturated fills) AND it has no slot — its only content channel is
+// the `value` string prop, so it cannot host the spinner a running row needs; that is
+// the gap BcnCount already documents. bcn-run-history is the reusable home.
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
+import type { Operation, OperationRun } from '../../data/settings-registry';
+
+interface Props {
+  /** Newest first — rendered in the order given, never re-sorted here. */
+  runs: OperationRun[];
+  /** Resolves a run's operationId to its name and scope. */
+  ops: Operation[];
+}
+const { runs, ops } = Astro.props;
+
+const opById = new Map(ops.map((o) => [o.id, o] as const));
+
+const SCOPE_LABEL: Record<Operation['scope'], string> = {
+  tenant: 'This tenant',
+  'all-tenants': 'All tenants',
+};
+
+const STATUS_LABEL: Record<OperationRun['status'], string> = {
+  succeeded: 'Succeeded',
+  failed: 'Failed',
+  running: 'Running',
+};
+
+const STATUS_VARIANT = { succeeded: 'success', failed: 'danger' } as const;
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+// Parse the ISO parts by hand rather than through new Date() — a UTC-midnight
+// timestamp rolls back a day in the build environment. A `started` that is already a
+// display string passes through untouched, so the column never mangles what it is given.
+const ISO = /^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}):(\d{2}))?/;
+const fmtStarted = (value: string): string => {
+  const m = ISO.exec(value);
+  if (!m) return value;
+  const [, year, month, day, hh, mm] = m;
+  const date = `${MONTHS[Number(month) - 1]} ${Number(day)}`;
+  if (!hh) return `${date}, ${year}`;
+  const hour = Number(hh) % 12 || 12;
+  return `${date}, ${hour}:${mm} ${Number(hh) < 12 ? 'AM' : 'PM'}`;
+};
+const isTimestamp = (value: string): boolean => ISO.test(value);
+---
+
+<section class="bcn-run-history" data-run-history>
+  <div class="bcn-run-history__scroll" data-run-table hidden={runs.length === 0}>
+    <table class="bcn-run-history__table" aria-label="Run history">
+      <thead>
+        <tr>
+          <th scope="col">Started</th>
+          <th scope="col">Operation</th>
+          <th scope="col">Scope</th>
+          <th scope="col">Run by</th>
+          <th scope="col">Status</th>
+          <th scope="col">Result</th>
+        </tr>
+      </thead>
+      {/* Rows arrive here while the console is open, so announce them. */}
+      <tbody data-run-feed aria-live="polite">
+        {
+          runs.map((run) => {
+            const op = opById.get(run.operationId);
+            return (
+              <tr class="bcn-run-history__row" data-run-id={run.id}>
+                <td class="bcn-run-history__started">
+                  {isTimestamp(run.started) ? (
+                    <time datetime={run.started}>{fmtStarted(run.started)}</time>
+                  ) : (
+                    run.started
+                  )}
+                </td>
+                <td class="bcn-run-history__op">{op?.name ?? run.operationId}</td>
+                <td>
+                  {op && (
+                    <span class="bcn-run-history__scope" data-scope={op.scope}>
+                      {SCOPE_LABEL[op.scope]}
+                    </span>
+                  )}
+                </td>
+                <td class="bcn-run-history__actor">{run.actor}</td>
+                <td>
+                  {run.status === 'running' ? (
+                    <span class="bcn-run-history__running">
+                      <EsaLoadingSpinner size="xs" color="currentColor" />
+                      {STATUS_LABEL.running}
+                    </span>
+                  ) : (
+                    <EsaBadge variant={STATUS_VARIANT[run.status]} value={STATUS_LABEL[run.status]} />
+                  )}
+                </td>
+                <td class="bcn-run-history__result">{run.summary}</td>
+              </tr>
+            );
+          })
+        }
+      </tbody>
+    </table>
+  </div>
+
+  {/* Cloned by the bcn-op-run listener below. Everything except the operation name and
+      the scope badge is constant for a console-started run, so it is pre-filled here. */}
+  <template data-run-row-template>
+    <tr class="bcn-run-history__row">
+      <td class="bcn-run-history__started">Just now</td>
+      <td class="bcn-run-history__op" data-run-op></td>
+      <td><span class="bcn-run-history__scope" data-run-scope></span></td>
+      <td class="bcn-run-history__actor">You</td>
+      <td>
+        <span class="bcn-run-history__running">
+          <EsaLoadingSpinner size="xs" color="currentColor" />
+          {STATUS_LABEL.running}
+        </span>
+      </td>
+      <td class="bcn-run-history__result">Started from this console.</td>
+    </tr>
+  </template>
+
+  <div data-run-empty hidden={runs.length > 0}>
+    <EsaEmptyState
+      title="No runs yet"
+      description="Operations you run from this console appear here."
+      size="sm"
+    />
+  </div>
+</section>
+
+<script>
+  // The Operations console dispatches this on `document` the moment an operation is
+  // started; the feed shows the run immediately rather than waiting for a reload.
+  interface OpRunDetail {
+    opId: string;
+    opName: string;
+    scope: 'tenant' | 'all-tenants';
+  }
+
+  const SCOPE_LABEL: Record<OpRunDetail['scope'], string> = {
+    tenant: 'This tenant',
+    'all-tenants': 'All tenants',
+  };
+
+  document.addEventListener('bcn-op-run', (event) => {
+    const detail = (event as CustomEvent<OpRunDetail>).detail;
+    if (!detail) return;
+
+    for (const root of document.querySelectorAll<HTMLElement>('[data-run-history]')) {
+      const feed = root.querySelector<HTMLElement>('[data-run-feed]');
+      const template = root.querySelector<HTMLTemplateElement>('[data-run-row-template]');
+      const row = template?.content.firstElementChild?.cloneNode(true) as HTMLElement | undefined;
+      if (!feed || !row) continue;
+
+      row.dataset.runId = `run-${detail.opId}-${Date.now()}`;
+
+      const opCell = row.querySelector('[data-run-op]');
+      if (opCell) opCell.textContent = detail.opName;
+
+      const scopeCell = row.querySelector<HTMLElement>('[data-run-scope]');
+      if (scopeCell) {
+        scopeCell.dataset.scope = detail.scope;
+        scopeCell.textContent = SCOPE_LABEL[detail.scope] ?? detail.scope;
+      }
+
+      feed.prepend(row);
+
+      // First run of the session: the table is still behind the empty state.
+      root.querySelector<HTMLElement>('[data-run-table]')?.removeAttribute('hidden');
+      root.querySelector<HTMLElement>('[data-run-empty]')?.setAttribute('hidden', '');
+    }
+  });
+</script>
+
+<style>
+  /* esa-badge's success variant pairs its fill with --color-success-on-fill, which
+     still resolves to the hub's lime foreground (#37401c) while Beacon re-points
+     --color-success to a dark teal — dark text on a dark fill. Re-point the public
+     foreground token, scoped here so nothing leaks. */
+  .bcn-run-history {
+    --color-success-on-fill: var(--color-text-inverse);
+  }
+
+  /* The six columns need more room than a narrow console pane gives them, so the
+     table scrolls inside its own box — the page never scrolls sideways. */
+  .bcn-run-history__scroll {
+    overflow-x: auto;
+  }
+
+  .bcn-run-history__table {
+    width: 100%;
+    min-width: 56rem;
+    border-collapse: collapse;
+    /* FIXED, not auto: rows are prepended while the console is open, and under auto
+       layout each insert re-measures every column from the rows now present — the
+       table would resize under the cursor. Fixed takes its widths from the header
+       row alone, so the columns hold still. (The lesson bcn-prototype-index records.) */
+    table-layout: fixed;
+  }
+  .bcn-run-history__table th:nth-child(1) { width: 12%; }
+  .bcn-run-history__table th:nth-child(2) { width: 20%; }
+  .bcn-run-history__table th:nth-child(3) { width: 11%; }
+  .bcn-run-history__table th:nth-child(4) { width: 13%; }
+  .bcn-run-history__table th:nth-child(5) { width: 12%; }
+  .bcn-run-history__table th:nth-child(6) { width: 32%; }
+
+  .bcn-run-history__table th[scope='col'] {
+    padding: var(--spacing-250) var(--spacing-300);
+    text-align: left;
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+  }
+
+  .bcn-run-history__table td {
+    padding: var(--spacing-250) var(--spacing-300);
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--color-border-light);
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+  }
+  .bcn-run-history__row:hover {
+    background: var(--color-surface-sunken);
+  }
+
+  /* Started and Run by are meta — quieter, but no smaller than the 14px floor. */
+  .bcn-run-history__started {
+    white-space: nowrap;
+    color: var(--color-text-tertiary);
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-run-history__actor {
+    white-space: nowrap;
+    color: var(--color-text-secondary);
+  }
+
+  /* The operation is what the row is about — it carries the weight. */
+  .bcn-run-history__op {
+    font-weight: var(--font-weight-medium);
+    line-height: 1.35;
+  }
+
+  /* Summaries run long; this is the one cell that wraps. */
+  .bcn-run-history__result {
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+
+  /* Scope — the sanctioned quiet badge: 4px radius, surface fill, hairline border,
+     sized to match the esa-badge sitting beside it in the Status column. */
+  .bcn-run-history__scope,
+  .bcn-run-history__running {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    height: 28px;
+    padding-inline: var(--spacing-200);
+    /* 13px — the design-principles meta floor for badge chrome, matching bcn-count
+       and esa-badge's own md text size so the two read as one tier. */
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-100);
+    white-space: nowrap;
+    box-sizing: border-box;
+  }
+
+  /* An all-tenants run reaches past this tenant, so it is toned — mixed off the
+     theme's own --color-warning rather than the hub's warning-subtle/strong pair,
+     which still resolves to yellow while Beacon's warning is orange. */
+  .bcn-run-history__scope[data-scope='all-tenants'] {
+    color: color-mix(in srgb, var(--color-warning) 62%, black);
+    background: color-mix(in srgb, var(--color-warning) 10%, var(--color-surface));
+    border-color: color-mix(in srgb, var(--color-warning) 38%, var(--color-surface));
+  }
+</style>

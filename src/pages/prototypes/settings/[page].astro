@@ -1,0 +1,72 @@
+---
+// Unified Settings — the STANDARD page renderer. One static route per settings page of
+// kind 'standard' (/prototypes/settings/<id>), all twenty of them rendered by this one
+// file: the registry's `sections` array IS the page, and the three section kinds
+// (rows / collection / pairs) are the only layouts a settings page can take.
+//
+// Nothing here is authored per page. Title, description, scope, sections, and the
+// danger action all come off the SettingsPage record, so a page cannot say anything the
+// registry does not define — and a new settings page is a registry entry, not a file.
+//
+// AUDIENCE: an 'esa-admin' page keeps its own URL and renders in full. Only the NAV
+// hides ESA-only rows under the tenant view; the page itself stays reachable, which is
+// what makes the ESA/tenant split a lens over one surface rather than two apps.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnSettingsShell from '../../../components/bcn/BcnSettingsShell.astro';
+import BcnSettingsSection from '../../../components/bcn/BcnSettingsSection.astro';
+import BcnDangerZone from '../../../components/bcn/BcnDangerZone.astro';
+import { SETTINGS_PAGES } from '../../../data/settings-registry';
+import { withBase } from '../../../lib/base';
+
+export function getStaticPaths() {
+  return SETTINGS_PAGES.filter((p) => p.kind === 'standard').map((page) => ({
+    params: { page: page.id },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+const danger = page.danger;
+const settingsHref = withBase('/prototypes/settings');
+---
+
+<!-- manifest:
+  layout: AppShell > PageLayout > stack(xl)     # SPINE — page.description + scope badge render as the intro band in the content stack
+  sections:
+    - settings frame -> bcn-settings-shell      # search + zone nav + view-as switch; wraps all page content
+    - page sections  -> bcn-settings-section    # one card per registry section (rows | collection | pairs)
+    - danger zone    -> bcn-danger-zone         # page.danger, only where the registry declares one
+-->
+
+<AppShell title={`${page.title} — Settings — Beacon`}>
+  <PageLayout
+    title={page.title}
+    breadcrumbs={[{ label: 'Settings', href: settingsHref }, { label: page.title }]}
+  >
+    <BcnSettingsShell activePageId={page.id}>
+      <div class="stack" data-gap="xl">
+        <div class="cluster" data-gap="sm">
+          <p class="type-body">{page.description}</p>
+          {page.scope === 'platform' && <EsaBadge value="All tenants" size="sm" />}
+        </div>
+
+        <div class="stack" data-gap="lg">
+          {page.sections.map((section) => <BcnSettingsSection section={section} />)}
+        </div>
+
+        {
+          danger && (
+            <BcnDangerZone title={danger.title} description={danger.description}>
+              <EsaButton color="danger" appearance="soft" size="sm">
+                {danger.actionLabel}
+              </EsaButton>
+            </BcnDangerZone>
+          )
+        }
+      </div>
+    </BcnSettingsShell>
+  </PageLayout>
+</AppShell>

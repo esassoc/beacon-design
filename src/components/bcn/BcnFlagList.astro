@@ -1,0 +1,62 @@
+---
+// <BcnFlagList> — one LIFECYCLE block of the Feature Flags page: an outlined card
+// titled by what the group IS, holding its flags as a divided stack of <BcnFlagRow>.
+//
+// It exists because <BcnFlagRow> deliberately owns no card and no divider ("the page
+// stacks these under lifecycle headings with hairline dividers"), and a settings PAGE
+// in this spoke carries zero CSS — Astro's scoped styles do not cross a file, so the
+// hairline had nowhere to live. This is that home. The anatomy is BcnSettingsSection's
+// `rows` idiom exactly: esa-card (outlined) + title/subtitle, body = <ul> whose
+// `li + li` carries the hairline, each row rendering its own vertical rhythm.
+//
+// The card takes the group's name and one factual line about what the group is; the
+// flags are handed in already partitioned by lifecycle, so this component never
+// filters, sorts, or reasons about lifecycle itself.
+//
+// bcn-lego-checked: the shell IS esa-card (outlined, title + subtitle) and every row
+// IS bcn-flag-row — checked Ecology for a divided-list lego (esa-link-column is a card
+// of bare anchors with no slotted rows; esa-collapsible is a single disclosure;
+// esa-card has no divided-body mode) and Beacon (the prod flag screen is an
+// undifferentiated ui-switch list — nothing to port). The only CSS below is the
+// divider glue BcnSettingsSection already documents for the same anatomy.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import BcnFlagRow from './BcnFlagRow.astro';
+import type { FeatureFlag } from '../../data/settings-registry';
+
+interface Props {
+  /** What this group of flags IS. */
+  title: string;
+  /** One factual line: how the group behaves and when its flags die. */
+  description: string;
+  /** Already partitioned by lifecycle — rendered in the order given. */
+  flags: FeatureFlag[];
+}
+const { title, description, flags } = Astro.props;
+---
+
+<EsaCard variant="outlined" title={title} subtitle={description}>
+  <ul class="bcn-flag-list">
+    {
+      flags.map((flag) => (
+        <li>
+          <BcnFlagRow flag={flag} />
+        </li>
+      ))
+    }
+  </ul>
+</EsaCard>
+
+<style>
+  /* Each BcnFlagRow owns its own block padding; the <li> only carries the hairline
+     between siblings. Same divider glue as BcnSettingsSection's `rows` stack. */
+  .bcn-flag-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-flag-list > li + li {
+    border-top: 1px solid var(--color-border-light);
+  }
+</style>
