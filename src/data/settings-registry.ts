@@ -1466,7 +1466,10 @@ export const SETTINGS_PAGES: SettingsPage[] = [
     title: 'Feature Flags',
     description: 'Per-tenant switches for product capabilities, in-progress rollouts, and default behavior.',
     kind: 'bespoke',
-    scope: 'platform',
+    // Lives in the Platform zone (ESA staff manage it) but EDITS this tenant's
+    // flag values — the real FeatureFlagController resolves the tenant from
+    // request context. No "All tenants" page badge.
+    scope: 'tenant',
     audience: 'esa-admin',
     helpCategory: 'settings-config',
     sections: [],
@@ -1477,7 +1480,10 @@ export const SETTINGS_PAGES: SettingsPage[] = [
     title: 'Operations',
     description: 'Maintenance jobs ESA runs against a single tenant or every tenant, and the record of each run.',
     kind: 'bespoke',
-    scope: 'platform',
+    // Scope varies per job, and each op card carries its own tenant/all-tenants
+    // badge — a page-level "All tenants" would overstate. Tenants is the only
+    // page whose every action is platform-wide.
+    scope: 'tenant',
     audience: 'esa-admin',
     helpCategory: 'settings-config',
     sections: [],

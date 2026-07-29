@@ -1,42 +1,23 @@
 ---
-// Unified Settings — HOME. The front door to the one settings framework that spans
-// ESA and tenant administration: a card per zone, each listing that zone's pages as
-// links, then the record of what has recently changed across all of them.
-//
-// The zone cards and the rail say the same thing two ways, deliberately — the rail is
-// wayfinding you keep while you work, the cards are the landing surface that shows a
-// zone's whole contents at once. Both resolve ESA-only the same way (the zone is
-// ESA-only, or every page under it is), so the two never disagree.
+// Unified Settings — HOME. The front door to the one settings framework that spans ESA
+// and tenant administration. The rail is the index of every settings page, so the home
+// route holds no second copy of it: it lands on a null state that points at the rail and
+// the search, then shows the record of what has recently changed across all of them.
 import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
 import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
 import BcnSettingsShell from '../../../components/bcn/BcnSettingsShell.astro';
-import BcnLinkRowCard from '../../../components/bcn/BcnLinkRowCard.astro';
 import BcnChangeLog from '../../../components/bcn/BcnChangeLog.astro';
 import {
   SETTINGS_CHANGES,
-  SETTINGS_ZONES,
-  pagesByZone,
   settingsPage,
   settingsPagePath,
 } from '../../../data/settings-registry';
 import { withBase } from '../../../lib/base';
 
 const crumbs = [{ label: 'Home', href: withBase('/') }, { label: 'Settings' }];
-
-// One card per zone, in registry order. A zone with no pages is dropped so the grid
-// never shows a card over nothing.
-const zoneCards = SETTINGS_ZONES.map((zone) => {
-  const pages = pagesByZone(zone.id);
-  return {
-    zone,
-    pages,
-    // Same rule as BcnSettingsNav: the whole card disappears in tenant view when the
-    // zone is ESA-only or every page under it is, so no orphan card is left behind.
-    esaOnly: zone.audience === 'esa-admin' || pages.every((p) => p.audience === 'esa-admin'),
-    rows: pages.map((p) => ({ label: p.title, href: withBase(settingsPagePath(p.id)) })),
-  };
-}).filter((c) => c.pages.length > 0);
 
 // SETTINGS_CHANGES is newest-first and flat; BcnChangeLog groups by day. Parse the ISO
 // parts by hand — new Date('2026-07-28') reads UTC midnight and renders a day early
@@ -67,30 +48,28 @@ const changeDays = [...byDay.entries()].map(([on, events]) => ({ date: fmtDate(o
   layout: AppShell > PageLayout > stack(xl)      # SPINE — the shell owns the rail, the stack the two bands
   sections:
     - settings frame -> bcn-settings-shell       # search + zone nav + view-as switch; wraps all page content
-    - zone cards     -> bcn-link-row-card        # one card per zone: description + its pages as links + page count
+    - null state     -> esa-empty-state          # no page selected — points at the rail and the search
     - recent changes -> bcn-change-log           # SETTINGS_CHANGES grouped by day, each linked to its page
 -->
 
-<AppShell title="Settings — Beacon">
+<AppShell expandedSections={[]} title="Settings — Beacon">
   <PageLayout title="Settings" breadcrumbs={crumbs}>
     <BcnSettingsShell activePageId="home">
       <div class="stack" data-gap="xl">
-        <div class="grid" data-gap="lg" style="--grid-min: 22rem;">
-          {
-            zoneCards.map(({ zone, rows, esaOnly }) => (
-              <div data-esa-only={esaOnly ? '' : undefined}>
-                <BcnLinkRowCard
-                  title={zone.title}
-                  subtitle={zone.description}
-                  rows={rows}
-                  count
-                  countLabel={`${rows.length} pages`}
-                  chevrons
-                />
-              </div>
-            ))
-          }
-        </div>
+        <EsaCard variant="outlined">
+          <!-- esa-empty-state and esa-icon BOTH size the slotted svg, at equal
+               specificity — point their public size tokens at one value so the glyph
+               renders the same regardless of which rule the build orders last. -->
+          <div style="--empty-state-icon-size-lg: 3rem; --icon-size-xl: 3rem;">
+            <EsaEmptyState
+              size="lg"
+              title="Select a settings page"
+              description="Pick a page from the rail, or search across every setting."
+            >
+              <EsaIcon slot="icon" name="settings" size="xl" />
+            </EsaEmptyState>
+          </div>
+        </EsaCard>
 
         <EsaCard variant="outlined" title="Recent changes">
           <BcnChangeLog days={changeDays} />

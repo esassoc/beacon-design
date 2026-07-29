@@ -4,9 +4,13 @@
 // file: the registry's `sections` array IS the page, and the three section kinds
 // (rows / collection / pairs) are the only layouts a settings page can take.
 //
-// Nothing here is authored per page. Title, description, scope, sections, and the
-// danger action all come off the SettingsPage record, so a page cannot say anything the
-// registry does not define — and a new settings page is a registry entry, not a file.
+// Nothing here is authored per page. Title, scope, sections, and the danger action all
+// come off the SettingsPage record, so a page cannot say anything the registry does not
+// define — and a new settings page is a registry entry, not a file. `description` is
+// index-only: it feeds the rail's search, and is NOT printed over the page's own content.
+//
+// The scope marker rides PageLayout's `title-badge` slot, so a platform-wide page is
+// flagged on the title row itself rather than in a band above the sections.
 //
 // AUDIENCE: an 'esa-admin' page keeps its own URL and renders in full. Only the NAV
 // hides ESA-only rows under the tenant view; the page itself stays reachable, which is
@@ -34,25 +38,23 @@ const settingsHref = withBase('/prototypes/settings');
 ---
 
 <!-- manifest:
-  layout: AppShell > PageLayout > stack(xl)     # SPINE — page.description + scope badge render as the intro band in the content stack
+  layout: AppShell > PageLayout > stack(xl)     # SPINE — the content stack holds sections then danger zone
   sections:
+    - scope marker   -> esa-badge               # page.scope === 'platform', in PageLayout's title-badge slot
     - settings frame -> bcn-settings-shell      # search + zone nav + view-as switch; wraps all page content
     - page sections  -> bcn-settings-section    # one card per registry section (rows | collection | pairs)
     - danger zone    -> bcn-danger-zone         # page.danger, only where the registry declares one
 -->
 
-<AppShell title={`${page.title} — Settings — Beacon`}>
+<AppShell expandedSections={[]} title={`${page.title} — Settings — Beacon`}>
   <PageLayout
     title={page.title}
     breadcrumbs={[{ label: 'Settings', href: settingsHref }, { label: page.title }]}
   >
+    {page.scope === 'platform' && <EsaBadge slot="title-badge" value="All tenants" size="sm" />}
+
     <BcnSettingsShell activePageId={page.id}>
       <div class="stack" data-gap="xl">
-        <div class="cluster" data-gap="sm">
-          <p class="type-body">{page.description}</p>
-          {page.scope === 'platform' && <EsaBadge value="All tenants" size="sm" />}
-        </div>
-
         <div class="stack" data-gap="lg">
           {page.sections.map((section) => <BcnSettingsSection section={section} />)}
         </div>

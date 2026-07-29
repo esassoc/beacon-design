@@ -202,7 +202,7 @@ const selectOptionsJson =
   .bcn-setting-row.repel {
     --gap: var(--spacing-500);
     --align: center;
-    padding-block: var(--spacing-400);
+    padding-block: var(--spacing-300);
     padding-inline: var(--spacing-300);
     /* Deep-linked rows must clear a sticky app bar. */
     scroll-margin-block-start: var(--spacing-800);
@@ -250,7 +250,10 @@ const selectOptionsJson =
     font-weight: var(--font-weight-semibold);
     color: var(--color-text-primary);
   }
+  /* type-body's relaxed 1.8 is essay leading; a two-line setting description wants to sit
+     closer to its own name. Overrides the role class (scoped selector outranks it). */
   .bcn-setting-row__desc {
+    line-height: 1.4;
     color: var(--color-text-secondary);
     max-inline-size: 60ch;
   }

@@ -170,6 +170,19 @@ const hasBadges = section.kind === 'collection' && section.records.some((r) => !
     display: block;
     /* The section nav jumps to #sec-<id>; keep the card clear of the sticky topbar. */
     scroll-margin-block-start: var(--spacing-600);
+    /* esa-card fills its footer with --color-surface-sunken by default, which reads as a
+       mid-gray band under the table. Re-pointed through the lego's OWN public token
+       (inherited down to the card) so the "Add …" action sits on the card surface behind
+       a single hairline — the lego's border-top already resolves to --color-border-light. */
+    --card-footer-bg: transparent;
+  }
+
+  /* .esa-card__subtitle is esa-card's own header class; the lego sets its size and color
+     but no leading, so the section's description inherits the page's relaxed 1.8. Tighten
+     it to match the cells. esa-card exposes no subtitle token, so this re-skins the hub
+     class directly — fenced to .bcn-set so no other card on the page is touched. */
+  .bcn-set :global(.esa-card__subtitle) {
+    line-height: 1.4;
   }
 
   /* ── rows: a divided stack. Each BcnSettingRow owns its own vertical rhythm;
@@ -206,10 +219,14 @@ const hasBadges = section.kind === 'collection' && section.records.some((r) => !
     border-bottom: 1px solid var(--color-border);
   }
 
+  /* Record cells carry the record's own values, so they read as CONTENT in primary ink,
+     not as secondary chrome. The tightened leading is between the ramp's tight (1.3) and
+     normal (1.6) steps — neither lands where a dense data row wants to sit. */
   .bcn-set__td {
-    padding: var(--spacing-300) var(--spacing-400);
+    padding: var(--spacing-250) var(--spacing-400);
     font-size: var(--type-size-200);
-    color: var(--color-text-secondary);
+    line-height: 1.4;
+    color: var(--color-text-primary);
     text-align: left;
     vertical-align: middle;
   }

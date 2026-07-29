@@ -113,7 +113,7 @@ const gaLabel = `Remove at GA${flag.gaTarget ? ` · ${flag.gaTarget}` : ''}`;
     column-gap: var(--spacing-400);
     row-gap: var(--spacing-150);
     align-items: center;
-    padding-block: var(--spacing-400);
+    padding-block: var(--spacing-300);
   }
 
   /* Row 1 holds the three aligned elements; rows 2–3 continue the name column. */
@@ -148,7 +148,9 @@ const gaLabel = `Remove at GA${flag.gaTarget ? ` · ${flag.gaTarget}` : ''}`;
   }
   .bcn-flag-row__key { color: var(--color-text-tertiary); }
 
-  .bcn-flag-row__desc { margin: 0; color: var(--color-text-secondary); }
+  /* type-body's relaxed 1.8 is essay leading; a flag's description wants to sit closer to
+     its own name. Overrides the role class (scoped selector outranks it). */
+  .bcn-flag-row__desc { margin: 0; line-height: 1.4; color: var(--color-text-secondary); }
   .bcn-flag-row__meta { margin: 0; color: var(--color-text-tertiary); }
 
   /* sm badges are 22px — the same rendered height as the md switch beside them. */

@@ -24,8 +24,6 @@ export interface LinkRow {
 
 interface Props {
   title: string;
-  /** Optional line under the title — rides esa-card's own `subtitle` API. */
-  subtitle?: string;
   rows: LinkRow[];
   /** Show the row count as a quiet header badge. */
   count?: boolean;
@@ -34,10 +32,10 @@ interface Props {
   /** Trailing chevron per row (the utility-rail look). */
   chevrons?: boolean;
 }
-const { title, subtitle, rows, count = false, countLabel, chevrons = false } = Astro.props;
+const { title, rows, count = false, countLabel, chevrons = false } = Astro.props;
 ---
 
-<EsaCard title={title} subtitle={subtitle}>
+<EsaCard title={title}>
   {count && <BcnCount slot="actions" value={rows.length} label={countLabel ?? `${rows.length} items`} />}
   <ul class="bcn-lrc">
     {

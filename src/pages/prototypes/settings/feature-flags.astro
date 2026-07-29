@@ -14,6 +14,7 @@
 // screen unreadable.
 import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
 import BcnSettingsShell from '../../../components/bcn/BcnSettingsShell.astro';
 import BcnFlagList from '../../../components/bcn/BcnFlagList.astro';
 import { FEATURE_FLAGS, settingsPage } from '../../../data/settings-registry';
@@ -50,21 +51,22 @@ const blocks = GROUPS.map((group) => ({
 ---
 
 <!-- manifest:
-  layout: AppShell > PageLayout > stack(xl)      # SPINE — page.description renders as the intro band in the content stack
+  layout: AppShell > PageLayout > stack(xl)      # SPINE — the content stack holds the lifecycle blocks
   sections:
+    - scope marker     -> esa-badge              # page.scope === 'platform', in PageLayout's title-badge slot
     - settings frame   -> bcn-settings-shell     # search + zone nav + view-as switch; wraps all page content
     - lifecycle blocks -> bcn-flag-list          # one card per lifecycle: divided stack of bcn-flag-row
 -->
 
-<AppShell title={`${page.title} — Settings — Beacon`}>
+<AppShell expandedSections={[]} title={`${page.title} — Settings — Beacon`}>
   <PageLayout
     title={page.title}
     breadcrumbs={[{ label: 'Settings', href: settingsHref }, { label: page.title }]}
   >
+    {page.scope === 'platform' && <EsaBadge slot="title-badge" value="All tenants" size="sm" />}
+
     <BcnSettingsShell activePageId={page.id}>
       <div class="stack" data-gap="xl">
-        <p class="type-body">{page.description}</p>
-
         <div class="stack" data-gap="lg">
           {
             blocks.map((block) => (

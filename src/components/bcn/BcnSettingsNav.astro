@@ -7,8 +7,8 @@
 //
 // Audience: pages (and whole zones) that only ESA staff can reach carry a quiet
 // "ESA" marker and a `data-esa-only` attribute. The shell's view-as toggle sets
-// `data-audience="tenant-admin"` on the shell root; the hiding rule for THIS rail's
-// own elements lives in this file (see the :global([data-audience=…]) rule below).
+// `data-audience="tenant-admin"` on the shell root, and the shell's single
+// [data-audience] rule hides every [data-esa-only] descendant — including these rows.
 //
 // Frame: designed to be the :first-child aside of the page's .sidebar primitive —
 // the PAGE owns the .sidebar wrapper and sets --sidebar-width (~15rem). The rail
@@ -51,7 +51,7 @@ const groups = SETTINGS_ZONES.map((zone) => ({ zone, pages: pagesByZone(zone.id)
 <nav class="bcn-settings-nav" aria-label="Settings">
   {groups.map(({ zone, pages, esaOnly }) => (
     <div class="bcn-settings-nav__group" data-esa-only={esaOnly ? '' : undefined}>
-      <h2 class="type-body bcn-settings-nav__zone" id={`settings-zone-${zone.id}`}>
+      <h2 class="type-body-small bcn-settings-nav__zone" id={`settings-zone-${zone.id}`}>
         {zone.title}
         {esaOnly && (
           <span class="bcn-settings-nav__esa">
@@ -66,7 +66,7 @@ const groups = SETTINGS_ZONES.map((zone) => ({ zone, pages: pagesByZone(zone.id)
             data-esa-only={!esaOnly && page.audience === 'esa-admin' ? '' : undefined}
           >
             <a
-              class="type-body bcn-settings-nav__link"
+              class="type-body-small bcn-settings-nav__link"
               href={withBase(settingsPagePath(page.id))}
               aria-current={page.id === activePageId ? 'page' : undefined}
             >
@@ -98,20 +98,20 @@ const groups = SETTINGS_ZONES.map((zone) => ({ zone, pages: pagesByZone(zone.id)
     overscroll-behavior: contain;
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-500, 1.5rem);
+    gap: var(--spacing-400, 1rem);
   }
 
   /* Audience hiding is NOT re-declared here: this rail only ever renders inside
      <BcnSettingsShell>, whose single [data-audience] rule hides every
      [data-esa-only] descendant — including these groups and rows. */
 
-  /* Zone title — readable words. Hierarchy against the links comes from weight and
-     ink, not from a smaller size, so this never becomes an ornamental micro-label. */
+  /* Zone title — readable words at the same 14px as its links. Hierarchy comes from
+     weight and ink, never from case, tracking, or a micro size. */
   .bcn-settings-nav__zone {
     display: flex;
     align-items: center;
     gap: var(--spacing-200, 0.5rem);
-    margin: 0 0 var(--spacing-200, 0.5rem);
+    margin: 0 0 var(--spacing-150, 0.375rem);
     padding-inline: var(--spacing-300, 0.75rem);
     font-weight: var(--font-weight-semibold, 600);
     color: var(--color-text-primary);
@@ -131,15 +131,16 @@ const groups = SETTINGS_ZONES.map((zone) => ({ zone, pages: pagesByZone(zone.id)
     align-items: center;
     justify-content: space-between;
     gap: var(--spacing-200, 0.5rem);
-    padding: var(--spacing-200, 0.5rem) var(--spacing-300, 0.75rem);
+    padding: var(--spacing-150, 0.375rem) var(--spacing-300, 0.75rem);
     border-radius: var(--radius-200, 0.5rem);
     color: var(--color-text-secondary);
     text-decoration: none;
     transition: background 0.1s ease, color 0.1s ease;
   }
-  /* Hover — a neutral wash; the current state is the only tinted row in the rail. */
+  /* Hover — HALF the sunken wash, so the current row stays the darkest thing in the
+     rail. Both states are neutral, so value is the only thing separating them. */
   .bcn-settings-nav__link:hover {
-    background: var(--color-surface-sunken);
+    background: color-mix(in srgb, var(--color-surface-sunken) 50%, transparent);
     color: var(--color-text-primary);
   }
   .bcn-settings-nav__link:focus-visible {
@@ -148,12 +149,14 @@ const groups = SETTINGS_ZONES.map((zone) => ({ zone, pages: pagesByZone(zone.id)
     outline-offset: 2px;
   }
 
-  /* Current page — the one tinted row: a pale brand wash with brand ink, so the
-     rail's position in the settings area reads at a glance without a colour bar. */
+  /* Current page — the darkest row in the rail, stated in NEUTRAL house value: a full
+     sunken wash, primary ink, semibold. No brand tint and no colour bar; --color-surface-
+     sunken is the deepest surface the semantic layer offers (there is no
+     surface-sunken-strong), so hover is softened above rather than active deepened. */
   .bcn-settings-nav__link[aria-current='page'] {
-    background: var(--color-primary-subtle);
-    color: var(--color-primary);
-    font-weight: var(--font-weight-medium, 500);
+    background: var(--color-surface-sunken);
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-semibold, 600);
   }
 
   .bcn-settings-nav__title {

@@ -117,6 +117,11 @@ const scopeLine = allTenants
 <style>
   .bcn-op {
     display: block;
+    /* esa-card fills its footer with --color-surface-sunken by default, which reads as a
+       mid-gray band under the description. Re-pointed through the lego's OWN public token
+       (inherited down to the card) so the Run action sits on the card surface behind a
+       single hairline — the lego's border-top already resolves to --color-border-light. */
+    --card-footer-bg: transparent;
   }
 
   /* The confirm has to clear the app's fixed topbar (z 1100). esa-dialog defaults to

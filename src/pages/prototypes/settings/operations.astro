@@ -8,6 +8,7 @@
 // record of who ran what. The two components here are that whole difference.
 import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaCard from '@esa/ecology/esa-card.astro';
 import BcnSettingsShell from '../../../components/bcn/BcnSettingsShell.astro';
 import BcnOpCard from '../../../components/bcn/BcnOpCard.astro';
@@ -20,22 +21,23 @@ const settingsHref = withBase('/prototypes/settings');
 ---
 
 <!-- manifest:
-  layout: AppShell > PageLayout > stack(xl)      # SPINE — page.description renders as the intro band in the content stack
+  layout: AppShell > PageLayout > stack(xl)      # SPINE — the content stack holds the op grid then run history
   sections:
+    - scope marker   -> esa-badge                # page.scope === 'platform', in PageLayout's title-badge slot
     - settings frame -> bcn-settings-shell       # search + zone nav + view-as switch; wraps all page content
     - operations     -> bcn-op-card              # one card per job: scope badge, confirm dialog, typed-name gate
     - run history    -> bcn-run-history          # every run newest-first; listens for bcn-op-run itself
 -->
 
-<AppShell title={`${page.title} — Settings — Beacon`}>
+<AppShell expandedSections={[]} title={`${page.title} — Settings — Beacon`}>
   <PageLayout
     title={page.title}
     breadcrumbs={[{ label: 'Settings', href: settingsHref }, { label: page.title }]}
   >
+    {page.scope === 'platform' && <EsaBadge slot="title-badge" value="All tenants" size="sm" />}
+
     <BcnSettingsShell activePageId={page.id}>
       <div class="stack" data-gap="xl">
-        <p class="type-body">{page.description}</p>
-
         <div class="grid" data-gap="lg" style="--grid-min: 22rem;">
           {OPERATIONS.map((op) => <BcnOpCard op={op} />)}
         </div>
