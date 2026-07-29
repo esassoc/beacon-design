@@ -6,9 +6,9 @@
 // rail ships with zero client JS — no scroll-spy, no observers, no hydration.
 //
 // Audience: pages (and whole zones) that only ESA staff can reach carry a quiet
-// "ESA" marker and a `data-esa-only` attribute. The shell's view-as toggle sets
-// `data-audience="tenant-admin"` on the shell root, and the shell's single
-// [data-audience] rule hides every [data-esa-only] descendant — including these rows.
+// "ESA" marker and a `data-esa-only` attribute. Both are display-only markers of
+// registry `audience` data — in the real product visibility would come from
+// User.IsEsaAdmin, so the prototype states ownership without simulating gating.
 //
 // Frame: designed to be the :first-child aside of the page's .sidebar primitive —
 // the PAGE owns the .sidebar wrapper and sets --sidebar-width (~15rem). The rail
@@ -100,10 +100,6 @@ const groups = SETTINGS_ZONES.map((zone) => ({ zone, pages: pagesByZone(zone.id)
     flex-direction: column;
     gap: var(--spacing-400, 1rem);
   }
-
-  /* Audience hiding is NOT re-declared here: this rail only ever renders inside
-     <BcnSettingsShell>, whose single [data-audience] rule hides every
-     [data-esa-only] descendant — including these groups and rows. */
 
   /* Zone title — readable words at the same 14px as its links. Hierarchy comes from
      weight and ink, never from case, tracking, or a micro size. */

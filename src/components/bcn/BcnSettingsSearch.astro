@@ -13,10 +13,9 @@
 // toggle `hidden`, and wrap hits in <mark>. No settings content reaches the JS bundle,
 // and search degrades to a plain (if long) list without JS.
 //
-// AUDIENCE. Rows sourced from an `audience: 'esa-admin'` page carry [data-esa-only]; the
-// settings shell suppresses those under the tenant view. The controller probes one such
-// row per query and drops the whole class from the results when the shell has them
-// hidden — so tenant users never get a hit they cannot open.
+// AUDIENCE. Rows sourced from an `audience: 'esa-admin'` page carry [data-esa-only] — a
+// display-only marker of registry audience data, matching the rail's ESA chips. Real
+// gating would come from the signed-in user (User.IsEsaAdmin), not from the client.
 //
 // RANKING + CAP. Hits are ordered label-match-first, then everything else, and the top 10
 // are shown via flexbox `order` (the rows stay in document order in the DOM — only their

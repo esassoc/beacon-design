@@ -72,12 +72,6 @@ export function setupSettingsSearch(): void {
   let visible: HTMLAnchorElement[] = [];
   let activeIdx = -1;
 
-  /** Is the shell currently showing ESA-admin surfaces? Read from the shell's own
-   *  audience contract — data-audience on [data-settings-shell] — not probed from CSS. */
-  function esaVisible(): boolean {
-    const shell = field.closest<HTMLElement>('[data-settings-shell]');
-    return shell?.dataset.audience !== 'tenant-admin';
-  }
 
   function collapse(): void {
     panel.hidden = true;
@@ -110,16 +104,13 @@ export function setupSettingsSearch(): void {
   }
 
   function filter(q: string, needle: string): void {
-    const allowEsa = esaVisible();
-
     // Two buckets: a hit on the thing's own label outranks a hit that only landed in a
     // description or keyword.
     const byLabel: HTMLAnchorElement[] = [];
     const byText: HTMLAnchorElement[] = [];
 
     for (const r of rows) {
-      const hit =
-        (r.dataset.match ?? '').includes(needle) && (allowEsa || !r.hasAttribute('data-esa-only'));
+      const hit = (r.dataset.match ?? '').includes(needle);
       if (!hit) {
         r.hidden = true;
         continue;
