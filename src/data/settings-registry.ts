@@ -167,8 +167,9 @@ export interface TenantRecord {
 }
 
 // ─── Zones ───────────────────────────────────────────────────────────────────
-// Order below IS the nav order. Platform is last and is the only esa-admin zone;
-// the esa-admin PAGES inside the other six are folded in beside their neighbors.
+// Order below IS the nav order. Platform sits second, directly under General,
+// and is the only esa-admin zone; the esa-admin PAGES inside the other six are
+// folded in beside their neighbors.
 
 export const SETTINGS_ZONES: SettingsZone[] = [
   {
@@ -177,6 +178,13 @@ export const SETTINGS_ZONES: SettingsZone[] = [
     icon: 'settings',
     description: 'Tenant identity and branding, the product vocabulary, field definitions, and the pages added to the main menu.',
     audience: 'tenant-admin',
+  },
+  {
+    id: 'platform',
+    title: 'Platform',
+    icon: 'layout-dashboard',
+    description: 'Tenant provisioning, feature flags, and the maintenance operations ESA runs across the platform.',
+    audience: 'esa-admin',
   },
   {
     id: 'people-access',
@@ -212,13 +220,6 @@ export const SETTINGS_ZONES: SettingsZone[] = [
     icon: 'database',
     description: 'The pick lists commitments are classified with, the grid and card layout, and the category maps published to the reporting API.',
     audience: 'tenant-admin',
-  },
-  {
-    id: 'platform',
-    title: 'Platform',
-    icon: 'layout-dashboard',
-    description: 'Tenant provisioning, feature flags, and the maintenance operations ESA runs across the platform.',
-    audience: 'esa-admin',
   },
 ];
 
@@ -549,6 +550,47 @@ export const SETTINGS_PAGES: SettingsPage[] = [
         addLabel: 'Add custom page',
       },
     ],
+  },
+
+  // ═══ Platform (bespoke builds — no sections) ═══
+  {
+    id: 'tenants',
+    zone: 'platform',
+    title: 'Tenants',
+    description: 'Every tenant on the platform, with its subdomain, enabled modules, user count, and creation date.',
+    kind: 'bespoke',
+    scope: 'platform',
+    audience: 'esa-admin',
+    helpCategory: 'settings-config',
+    sections: [],
+  },
+  {
+    id: 'feature-flags',
+    zone: 'platform',
+    title: 'Feature Flags',
+    description: 'Per-tenant switches for product capabilities, in-progress rollouts, and default behavior.',
+    kind: 'bespoke',
+    // Lives in the Platform zone (ESA staff manage it) but EDITS this tenant's
+    // flag values — the real FeatureFlagController resolves the tenant from
+    // request context. No "All tenants" page badge.
+    scope: 'tenant',
+    audience: 'esa-admin',
+    helpCategory: 'settings-config',
+    sections: [],
+  },
+  {
+    id: 'operations',
+    zone: 'platform',
+    title: 'Operations',
+    description: 'Maintenance jobs ESA runs against a single tenant or every tenant, and the record of each run.',
+    kind: 'bespoke',
+    // Scope varies per job, and each op card carries its own tenant/all-tenants
+    // badge — a page-level "All tenants" would overstate. Tenants is the only
+    // page whose every action is platform-wide.
+    scope: 'tenant',
+    audience: 'esa-admin',
+    helpCategory: 'settings-config',
+    sections: [],
   },
 
   // ═══ People & Access ═══
@@ -1446,47 +1488,6 @@ export const SETTINGS_PAGES: SettingsPage[] = [
         addLabel: 'Add category map',
       },
     ],
-  },
-
-  // ═══ Platform (bespoke builds — no sections) ═══
-  {
-    id: 'tenants',
-    zone: 'platform',
-    title: 'Tenants',
-    description: 'Every tenant on the platform, with its subdomain, enabled modules, user count, and creation date.',
-    kind: 'bespoke',
-    scope: 'platform',
-    audience: 'esa-admin',
-    helpCategory: 'settings-config',
-    sections: [],
-  },
-  {
-    id: 'feature-flags',
-    zone: 'platform',
-    title: 'Feature Flags',
-    description: 'Per-tenant switches for product capabilities, in-progress rollouts, and default behavior.',
-    kind: 'bespoke',
-    // Lives in the Platform zone (ESA staff manage it) but EDITS this tenant's
-    // flag values — the real FeatureFlagController resolves the tenant from
-    // request context. No "All tenants" page badge.
-    scope: 'tenant',
-    audience: 'esa-admin',
-    helpCategory: 'settings-config',
-    sections: [],
-  },
-  {
-    id: 'operations',
-    zone: 'platform',
-    title: 'Operations',
-    description: 'Maintenance jobs ESA runs against a single tenant or every tenant, and the record of each run.',
-    kind: 'bespoke',
-    // Scope varies per job, and each op card carries its own tenant/all-tenants
-    // badge — a page-level "All tenants" would overstate. Tenants is the only
-    // page whose every action is platform-wide.
-    scope: 'tenant',
-    audience: 'esa-admin',
-    helpCategory: 'settings-config',
-    sections: [],
   },
 ];
 

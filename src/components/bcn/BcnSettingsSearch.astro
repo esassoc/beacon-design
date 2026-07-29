@@ -21,9 +21,11 @@
 // are shown via flexbox `order` (the rows stay in document order in the DOM — only their
 // visual order moves). The remainder collapses into one "n more matches" line.
 //
-// The panel sits in the RAIL FLOW, not as an overlay: it pushes the nav down while open
-// and collapses on Esc or an emptied field. Steadier than a floating panel in a column
-// that is already the page's navigation.
+// The panel is an OVERLAY anchored under the field — absolutely positioned on a raised
+// surface, floating OVER the nav rather than pushing it down, and it collapses on Esc or an
+// emptied field. It escapes cleanly because the shell's rail is no longer a scrollport (see
+// <BcnSettingsShell>'s SCROLL OWNERSHIP note); the nav scrolls in an inner div below, which
+// is also what keeps this field's focus ring from being clipped along the rail edge.
 //
 // CSS SPLIT (the Astro scoped-CSS + innerHTML rule): everything here is server-rendered,
 // so it is all scoped `<style>`. The one thing the controller injects is the <mark>
@@ -179,10 +181,10 @@ for (const page of SETTINGS_PAGES) {
 </script>
 
 <style>
+  /* Positioning context for the results overlay — the field is the only thing in flow, so
+     the panel measures its offset from the bottom of the field. */
   .bcn-settings-search {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-200);
+    position: relative;
   }
 
   /* ── Field: the esa-text-field lego, with a leading glyph in a widened gutter ── */
@@ -213,15 +215,26 @@ for (const page of SETTINGS_PAGES) {
     pointer-events: none;
   }
 
-  /* ── Results panel: in the rail FLOW (pushes the nav down), not an overlay ── */
+  /* ── Results panel: an overlay hung under the field, over the nav ── */
+  /* Elevation is the white card surface plus a shadow — the semantic layer has no
+     surface-raised token, so --color-surface (white on the rail's off-white ground) IS the
+     raised value, and --shadow-300 lifts it off the nav rows showing through around it.
+     z-index 30 only has to beat the nav below (everything in the rail is auto/0); it stays
+     far under the fixed topbar (1100) and any dialog, so an open panel can never cover
+     app chrome. Scrolls internally once the ten ranked rows plus the count exceed the cap. */
   .bcn-settings-search__panel {
+    position: absolute;
+    inset-block-start: calc(100% + var(--spacing-100));
+    inset-inline: 0;
+    z-index: 30;
     display: flex;
     flex-direction: column;
-    max-block-size: min(60vh, 26rem);
+    max-block-size: min(24rem, 60vh);
     overflow-y: auto;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-100);
+    box-shadow: var(--shadow-300);
   }
   .bcn-settings-search__panel[hidden] {
     display: none;

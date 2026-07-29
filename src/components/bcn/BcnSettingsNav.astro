@@ -10,11 +10,12 @@
 // registry `audience` data — in the real product visibility would come from
 // User.IsEsaAdmin, so the prototype states ownership without simulating gating.
 //
-// Frame: designed to be the :first-child aside of the page's .sidebar primitive —
-// the PAGE owns the .sidebar wrapper and sets --sidebar-width (~15rem). The rail
-// sticks WITHIN the .modern-layout__content scroll container, so its sticky top is a
-// small breathing gap, NOT the 52px topbar height (AppShell's .modern-layout__body
-// already carries that padding). Mirrors BcnReleaseNav's rail conventions.
+// Frame: a plain grouped list that owns NO rail geometry. <BcnSettingsShell> is the
+// rail — it holds the sticky position, the height cap, and the scrollport this list
+// sits inside. (Both used to declare the sticky/overflow pair, from when this nav WAS
+// the whole rail; a rail that scrolls clips what's above it, so the shell took the
+// geometry and the search field's focus ring stopped being cut in half.) Dropping
+// something else in beside it means giving that wrapper the same treatment.
 //
 // bcn-lego-checked: a grouped settings rail with a build-time active route and an
 // audience marker has no esa-* equivalent. esa-sidebar-nav is the closest lego but
@@ -85,17 +86,9 @@ const groups = SETTINGS_ZONES.map((zone) => ({ zone, pages: pagesByZone(zone.id)
 </nav>
 
 <style>
-  /* Sticky rail. top is a small breathing gap — the .modern-layout__content scroll
-     container already begins below the fixed 52px topbar, so no header offset is
-     added here. align-self:start keeps the flex item from stretching, giving the
-     sticky element slack to move; the height cap + auto-scroll handle long lists. */
+  /* Just the group rhythm — stickiness, the height cap, and the scrolling all belong to
+     the shell's rail now (see Frame above). */
   .bcn-settings-nav {
-    position: sticky;
-    top: var(--spacing-500, 1.5rem);
-    align-self: start;
-    max-block-size: calc(100vh - var(--spacing-900, 6rem));
-    overflow-y: auto;
-    overscroll-behavior: contain;
     display: flex;
     flex-direction: column;
     gap: var(--spacing-400, 1rem);
@@ -168,15 +161,5 @@ const groups = SETTINGS_ZONES.map((zone) => ({ zone, pages: pagesByZone(zone.id)
     display: inline-flex;
     --badge-bg: var(--color-surface-sunken);
     --badge-text-color: var(--color-text-tertiary);
-  }
-
-  /* When the .sidebar primitive folds the rail above the content on narrow
-     viewports, drop the sticky + height cap so it reads as a plain header list. */
-  @media (max-width: 48rem) {
-    .bcn-settings-nav {
-      position: static;
-      max-block-size: none;
-      overflow: visible;
-    }
   }
 </style>

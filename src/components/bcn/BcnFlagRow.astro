@@ -1,9 +1,14 @@
 ---
 // <BcnFlagRow> — one feature flag in the Unified Settings flag list, as a
 // SELF-DESCRIBING, SELF-SAVING row. The old page was a bare stack of toggles behind a
-// single page-wide Save; here every flag carries its own name, code key, plain-language
-// description, lifecycle, and last-changed line, and the toggle IS the save (flag-rows.ts
-// confirms with a toast). There is no page Save button.
+// single page-wide Save; here every flag carries its own name, plain-language description,
+// lifecycle, and last-changed line, and the toggle IS the save (flag-rows.ts confirms with
+// a toast). There is no page Save button.
+//
+// DENSITY: this reads as a preference LIST, not a stack of cards — small switch, 15px
+// semibold name, 14px description, tight block padding. The name stands alone; the
+// PascalCase dbo.FeatureFlag key was dropped on review (2026-07-29) as developer trivia
+// in a tenant-facing list. `flag.name` is still the registry's identity field.
 //
 // The row deliberately owns no card — the page stacks these under lifecycle headings with
 // hairline dividers, so this renders as bare grid content with block padding only.
@@ -74,13 +79,11 @@ const gaLabel = `Remove at GA${flag.gaTarget ? ` · ${flag.gaTarget}` : ''}`;
     class="bcn-flag-row__switch"
     data-bcn-flag-toggle
     label={flag.displayName}
+    size="sm"
     checked={flag.enabled ? '' : undefined}
   ></esa-switch-toggle>
 
-  <p class="bcn-flag-row__name type-body-large">
-    <span class="bcn-flag-row__display">{flag.displayName}</span>
-    <code class="bcn-flag-row__key type-code">{flag.name}</code>
-  </p>
+  <p class="bcn-flag-row__name type-body">{flag.displayName}</p>
 
   <div class="bcn-flag-row__chips">
     <span class="bcn-flag-row__chip" style={tint(lifecycle.hue)}>
@@ -93,7 +96,7 @@ const gaLabel = `Remove at GA${flag.gaTarget ? ` · ${flag.gaTarget}` : ''}`;
     )}
   </div>
 
-  <p class="bcn-flag-row__desc type-body">{flag.description}</p>
+  <p class="bcn-flag-row__desc type-body-small">{flag.description}</p>
   <p class="bcn-flag-row__meta type-caption" data-bcn-flag-meta>
     Changed {changedOn} by {flag.lastChanged.by}
   </p>
@@ -111,9 +114,9 @@ const gaLabel = `Remove at GA${flag.gaTarget ? ` · ${flag.gaTarget}` : ''}`;
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
     column-gap: var(--spacing-400);
-    row-gap: var(--spacing-150);
+    row-gap: var(--spacing-100);
     align-items: center;
-    padding-block: var(--spacing-300);
+    padding-block: var(--spacing-250);
   }
 
   /* Row 1 holds the three aligned elements; rows 2–3 continue the name column. */
@@ -135,25 +138,20 @@ const gaLabel = `Remove at GA${flag.gaTarget ? ` · ${flag.gaTarget}` : ''}`;
     white-space: nowrap;
   }
 
+  /* The display name is the whole line, so weight and ink sit on the paragraph itself.
+     type-body's relaxed 1.8 would open a gap between the name and the description under
+     it; both are tightened here (a scoped selector outranks the role class). */
   .bcn-flag-row__name {
     margin: 0;
-    display: flex;
-    align-items: baseline;
-    flex-wrap: wrap;
-    gap: var(--spacing-250);
-  }
-  .bcn-flag-row__display {
+    line-height: 1.4;
     font-weight: var(--font-weight-semibold);
     color: var(--color-text-primary);
   }
-  .bcn-flag-row__key { color: var(--color-text-tertiary); }
-
-  /* type-body's relaxed 1.8 is essay leading; a flag's description wants to sit closer to
-     its own name. Overrides the role class (scoped selector outranks it). */
   .bcn-flag-row__desc { margin: 0; line-height: 1.4; color: var(--color-text-secondary); }
   .bcn-flag-row__meta { margin: 0; color: var(--color-text-tertiary); }
 
-  /* sm badges are 22px — the same rendered height as the md switch beside them. */
+  /* sm badges are 22px and the sm switch is 18px — the grid's align-items:center lands both
+     on the name's line box, so the three row-1 items read as one line at any chip count. */
   .bcn-flag-row__chips {
     display: flex;
     align-items: center;

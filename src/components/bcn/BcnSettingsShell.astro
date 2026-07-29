@@ -9,6 +9,13 @@
 // already starts below the fixed topbar (AppShell's .modern-layout__body carries
 // padding-top: 52px). Same rail conventions as bcn-release-nav / bcn-kb-browser.
 //
+// SCROLL OWNERSHIP: the rail sticks and caps its height but is NOT itself the scrollport —
+// an inner div around the nav is. When the rail scrolled, everything inside it was clipped
+// at its padding edge, which cost the search field the outer half of its focus ring and cut
+// off the results panel. So the two jobs are split: the rail owns sticky geometry, the inner
+// .__nav-scroll owns overflow, and the search sits above it as a non-scrolling child whose
+// absolutely-positioned results panel can overlap the nav freely.
+//
 // AUDIENCE: pages an ESA admin owns are marked in the registry (`audience: 'esa-admin'`)
 // and surface as quiet ESA chips in the rail and `data-esa-only` attributes in the markup.
 // The markers are display-only — in the real product the audience comes from who the
@@ -20,8 +27,8 @@
 // esa-sidebar-nav is the nav list that goes INSIDE this rail (bcn-settings-nav's job),
 // not the rail's sticky geometry. Checked Beacon (Beacon.Web has no unified-settings
 // shell — its settings pages each re-declare their own layout, which is the drift this
-// replaces). The CSS below is composition glue only: rail stickiness and the content
-// column's overflow behavior.
+// replaces). The CSS below is composition glue only: rail stickiness, the nav scrollport,
+// and the content column's overflow behavior.
 import BcnSettingsSearch from './BcnSettingsSearch.astro';
 import BcnSettingsNav from './BcnSettingsNav.astro';
 
@@ -40,8 +47,12 @@ const { activePageId } = Astro.props;
   data-settings-shell
 >
   <div class="bcn-settings-shell__rail stack" data-gap="lg">
-    <BcnSettingsSearch />
-    <BcnSettingsNav activePageId={activePageId} />
+    <div class="bcn-settings-shell__search">
+      <BcnSettingsSearch />
+    </div>
+    <div class="bcn-settings-shell__nav-scroll">
+      <BcnSettingsNav activePageId={activePageId} />
+    </div>
   </div>
 
   <div class="bcn-settings-shell__content">
@@ -50,17 +61,36 @@ const { activePageId } = Astro.props;
 </div>
 
 <style>
-  /* Sticky rail. top is a small breathing gap — the .modern-layout__content scroll
-     container already begins below the fixed 52px topbar, so no header offset is added
-     here. align-self:start keeps the flex item from stretching, giving the sticky element
-     slack to move. */
+  /* Sticky rail — geometry only, no overflow (see SCROLL OWNERSHIP above). top is a small
+     breathing gap: the .modern-layout__content scroll container already begins below the
+     fixed 52px topbar, so no header offset is added here. align-self:start keeps the flex
+     item from stretching, giving the sticky element slack to move. .stack already makes it
+     a flex column, which is what lets the nav scroller claim the leftover height. */
   .bcn-settings-shell__rail {
     position: sticky;
     top: var(--spacing-500, 1.5rem);
     align-self: start;
     max-block-size: calc(100vh - var(--spacing-900, 6rem));
+  }
+
+  /* The search keeps its natural height no matter how tall the nav is — it is the rail's
+     fixed head, and its overlay panel must never be the thing that gets squeezed. */
+  .bcn-settings-shell__search {
+    flex: none;
+  }
+
+  /* The rail's scrollport. min-block-size:0 is what allows a flex item to shrink below its
+     content height — without it the div would refuse to compress and the whole rail would
+     spill past the viewport instead of scrolling here. overflow-y:auto also clips the inline
+     axis, so the box is bled 4px wider than the rail and padded back in; that gutter is
+     what the nav links' 2px-offset focus rings live in. */
+  .bcn-settings-shell__nav-scroll {
+    flex: 1;
+    min-block-size: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
+    padding-inline: var(--spacing-100);
+    margin-inline: calc(-1 * var(--spacing-100));
   }
 
   .bcn-settings-shell__content {
@@ -68,11 +98,15 @@ const { activePageId } = Astro.props;
   }
 
   /* When the .sidebar primitive folds the rail above the content on narrow viewports, drop
-     the sticky geometry so it reads as a plain header block. */
+     the sticky geometry AND the inner scrollport so the whole thing reads as a plain header
+     block that grows with its content. */
   @media (max-width: 48rem) {
     .bcn-settings-shell__rail {
       position: static;
       max-block-size: none;
+    }
+    .bcn-settings-shell__nav-scroll {
+      flex: none;
       overflow: visible;
     }
   }
