@@ -5,10 +5,13 @@
 // Three facts from the registry drive the whole card:
 //   • name         → the card title
 //   • description  → what the job does, in plain language, on the card AND in the confirm
-//   • scope        → the badge, and (for 'all-tenants') a warning alert + a typed-name gate
+//   • scope        → for 'all-tenants', a warning alert + a typed-name gate (the header
+//                    scope badge was removed on review 2026-07-29 — scope reads from the
+//                    description and the alert, not a chip)
 //
 // The scope line is the one derivation: 'tenant' → "Runs for this tenant only.",
-// 'all-tenants' → "Runs across every tenant on the platform." Nothing else on the card is
+// 'all-tenants' → "Runs across every tenant on the platform." It renders in the confirm
+// dialog; on the card only the all-tenants alert repeats it. Nothing else on the card is
 // authored here; the copy is the registry's.
 //
 // GUIDED vs INSTANT. A guided op links to its own multi-step run and gets no dialog —
@@ -23,15 +26,12 @@
 // fit — its body is a single `message` STRING with no slots, so it cannot carry the
 // description + scope alert + esa-text-field the typed-name gate needs. Composed
 // esa-dialog (the lego built for slotted bodies) instead. Everything else IS a lego:
-// esa-card (outlined), esa-badge (scope), esa-alert-box (the warning line), esa-button,
-// esa-text-field, plus stack/cluster/repel primitives and type roles. The only CSS left is
-// two text sizes and the badge's public component-token seam — esa-badge ships no neutral
-// variant, so the quiet "This tenant" badge recolors through --badge-bg /
-// --badge-text-color rather than restyling the lego. Checked Beacon (prod ships these jobs
-// as bare nav tiles — nothing to port). bcn-op-card is the reusable home.
+// esa-card (outlined), esa-alert-box (the warning line), esa-button, esa-text-field,
+// plus stack/cluster primitives and type roles. The only CSS left is two text sizes and
+// the card/dialog token re-points. Checked Beacon (prod ships these jobs as bare nav
+// tiles — nothing to port). bcn-op-card is the reusable home.
 import type { Operation } from '../../data/settings-registry';
 import EsaCard from '@esa/ecology/esa-card.astro';
-import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 
@@ -41,7 +41,6 @@ interface Props {
 const { op } = Astro.props;
 
 const allTenants = op.scope === 'all-tenants';
-const scopeLabel = allTenants ? 'All tenants' : 'This tenant';
 const scopeLine = allTenants
   ? 'Runs across every tenant on the platform.'
   : 'Runs for this tenant only.';
@@ -55,10 +54,6 @@ const scopeLine = allTenants
   data-op-scope={op.scope}
 >
   <EsaCard variant="outlined" title={op.name}>
-    <span slot="actions" class={`bcn-op__scope${allTenants ? '' : ' bcn-op__scope--quiet'}`}>
-      <EsaBadge value={scopeLabel} variant={allTenants ? 'warning' : 'primary'} />
-    </span>
-
     <div class="stack" data-gap="sm">
       <p class="bcn-op__desc">{op.description}</p>
       {allTenants && <EsaAlertBox variant="warning">{scopeLine}</EsaAlertBox>}
@@ -130,17 +125,6 @@ const scopeLine = allTenants
   .bcn-op esa-dialog {
     --z-modal: 1300;
     --z-modal-backdrop: 1250;
-  }
-
-  .bcn-op__scope {
-    display: inline-flex;
-  }
-  /* esa-badge has no neutral variant — recolor the "This tenant" badge through the lego's
-     public component tokens instead of restyling it. Only the all-tenants badge should
-     carry a fill loud enough to stop someone. */
-  .bcn-op__scope--quiet {
-    --badge-bg: var(--color-surface-sunken);
-    --badge-text-color: var(--color-text-secondary);
   }
 
   .bcn-op__desc {

@@ -95,6 +95,11 @@ const { activePageId } = Astro.props;
 
   .bcn-settings-shell__content {
     min-inline-size: 0; /* let long tables/code scroll inside the column, not widen it */
+    /* Settings cards sit on pure white (Andy's call, 2026-07-29) — esa-card's default
+       --color-surface is the theme's near-white gray, which read as tinted against the
+       page. Re-pointed once here through the lego's own public token so every card in
+       the slotted content inherits it. */
+    --card-bg: #ffffff;
   }
 
   /* When the .sidebar primitive folds the rail above the content on narrow viewports, drop

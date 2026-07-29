@@ -8,14 +8,16 @@
 // DENSITY: this reads as a preference LIST, not a stack of cards — small switch, 15px
 // semibold name, 14px description, tight block padding. The name stands alone; the
 // PascalCase dbo.FeatureFlag key was dropped on review (2026-07-29) as developer trivia
-// in a tenant-facing list. `flag.name` is still the registry's identity field.
+// in a tenant-facing list, and the right-edge lifecycle/GA chips followed it (also
+// 2026-07-29): the page already groups rows under lifecycle headings, so the chip
+// re-stated the heading. Remove-at-GA survives as text on the meta line — it is registry
+// data, not chrome. `flag.name` and `flag.lifecycle` are still the registry's fields.
 //
 // The row deliberately owns no card — the page stacks these under lifecycle headings with
 // hairline dividers, so this renders as bare grid content with block padding only.
 //
-// LAYOUT: a 3-column grid where the switch, the name line, and the chips all sit in grid
-// ROW 1, so they optically center on each other with no magic offset; the description and
-// the meta line occupy rows 2 and 3 of the name column.
+// LAYOUT: a 2-column grid — switch beside the name column; description and meta continue
+// under the name.
 //
 // The switch gets no visible label — the row is its label. `label` is still passed, for
 // the accessible name (it renders INSIDE the lego's shadow button, so it names the
@@ -24,35 +26,13 @@
 // bcn-lego-checked: no esa-* lego is a settings/feature-flag row (esa-card is a generic
 // container and would give the row a card it must not have); checked Beacon — the prod
 // flag screen is a bare ui-switch list with no per-flag metadata to port. bcn-flag-row is
-// the reusable home, composing esa-switch-toggle + esa-badge + type-roles.
-import EsaBadge from '@esa/ecology/esa-badge.astro';
+// the reusable home, composing esa-switch-toggle + type-roles.
 import type { FeatureFlag } from '../../data/settings-registry';
 
 interface Props {
   flag: FeatureFlag;
 }
 const { flag } = Astro.props;
-
-// Lifecycle hue. Each is rendered as a TINT (see `tint()`), never a saturated fill:
-// capability is structural (house teal), rollout is in-flight (azure), preference is the
-// quietest of the three (neutral gray) because it is a standing taste setting, not a
-// staged change.
-const LIFECYCLE: Record<FeatureFlag['lifecycle'], { label: string; hue: string }> = {
-  capability: { label: 'Capability', hue: 'var(--color-primary)' },
-  rollout: { label: 'Rollout', hue: 'var(--color-info)' },
-  preference: { label: 'Preference', hue: 'var(--color-text-secondary)' },
-};
-
-/**
- * Quiet-chip tint, applied to esa-badge through its PUBLIC component tokens rather than by
- * restyling the lego. The badge's built-in variants are saturated fills; the house chip is
- * a light tint with mid-tone text (same 16%/72% formula as BcnStatusChip). Only the default
- * `primary` variant leaves --badge-bg/--badge-text-color in play, so these badges pass no
- * `variant` — a variant class would override the tint.
- */
-const tint = (hue: string): string =>
-  `--badge-bg: color-mix(in srgb, ${hue} 16%, transparent);` +
-  `--badge-text-color: color-mix(in srgb, ${hue} 72%, #1a1a1a);`;
 
 /** `on` may arrive ISO or already-friendly. Parse the ISO case by parts — `new Date('…')`
  *  on a bare date reads UTC midnight and renders a day early west of Greenwich. */
@@ -63,9 +43,8 @@ function formatChangedOn(on: string): string {
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
-const lifecycle = LIFECYCLE[flag.lifecycle];
 const changedOn = formatChangedOn(flag.lastChanged.on);
-const gaLabel = `Remove at GA${flag.gaTarget ? ` · ${flag.gaTarget}` : ''}`;
+const gaNote = flag.removeAtGa ? ` · Remove at GA${flag.gaTarget ? ` (${flag.gaTarget})` : ''}` : '';
 ---
 
 <div
@@ -85,20 +64,9 @@ const gaLabel = `Remove at GA${flag.gaTarget ? ` · ${flag.gaTarget}` : ''}`;
 
   <p class="bcn-flag-row__name type-body">{flag.displayName}</p>
 
-  <div class="bcn-flag-row__chips">
-    <span class="bcn-flag-row__chip" style={tint(lifecycle.hue)}>
-      <EsaBadge value={lifecycle.label} size="sm" />
-    </span>
-    {flag.removeAtGa && (
-      <span class="bcn-flag-row__chip" style={tint('var(--color-warning)')}>
-        <EsaBadge value={gaLabel} size="sm" />
-      </span>
-    )}
-  </div>
-
   <p class="bcn-flag-row__desc type-body-small">{flag.description}</p>
   <p class="bcn-flag-row__meta type-caption" data-bcn-flag-meta>
-    Changed {changedOn} by {flag.lastChanged.by}
+    Changed {changedOn} by {flag.lastChanged.by}{gaNote}
   </p>
 </div>
 
@@ -112,17 +80,16 @@ const gaLabel = `Remove at GA${flag.gaTarget ? ` · ${flag.gaTarget}` : ''}`;
   /* No card, no divider, no background — the page stacks rows and owns the hairlines. */
   .bcn-flag-row {
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-columns: auto minmax(0, 1fr);
     column-gap: var(--spacing-400);
     row-gap: var(--spacing-100);
     align-items: center;
     padding-block: var(--spacing-250);
   }
 
-  /* Row 1 holds the three aligned elements; rows 2–3 continue the name column. */
+  /* Row 1 pairs the switch with the name; rows 2–3 continue the name column. */
   .bcn-flag-row__switch { grid-column: 1; grid-row: 1; }
   .bcn-flag-row__name   { grid-column: 2; grid-row: 1; }
-  .bcn-flag-row__chips  { grid-column: 3; grid-row: 1; }
   .bcn-flag-row__desc   { grid-column: 2; grid-row: 2; }
   .bcn-flag-row__meta   { grid-column: 2; grid-row: 3; }
 
@@ -149,26 +116,4 @@ const gaLabel = `Remove at GA${flag.gaTarget ? ` · ${flag.gaTarget}` : ''}`;
   }
   .bcn-flag-row__desc { margin: 0; line-height: 1.4; color: var(--color-text-secondary); }
   .bcn-flag-row__meta { margin: 0; color: var(--color-text-tertiary); }
-
-  /* sm badges are 22px and the sm switch is 18px — the grid's align-items:center lands both
-     on the name's line box, so the three row-1 items read as one line at any chip count. */
-  .bcn-flag-row__chips {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: var(--spacing-200);
-  }
-  .bcn-flag-row__chip { display: inline-flex; }
-
-  /* Narrow: the chips drop below the meta line rather than crushing the name column. */
-  @media (max-width: 640px) {
-    .bcn-flag-row { grid-template-columns: auto minmax(0, 1fr); }
-    .bcn-flag-row__chips {
-      grid-column: 2;
-      grid-row: 4;
-      justify-content: flex-start;
-      margin-top: var(--spacing-100);
-    }
-  }
 </style>
