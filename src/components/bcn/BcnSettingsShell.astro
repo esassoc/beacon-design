@@ -91,6 +91,10 @@ const { activePageId } = Astro.props;
     overscroll-behavior: contain;
     padding-inline: var(--spacing-100);
     margin-inline: calc(-1 * var(--spacing-100));
+    /* Generous tail padding: the last rows should land with air under them, not jammed
+       against the scrollport edge — reaching the bottom of the list was reading harder
+       than it should. */
+    padding-block-end: var(--spacing-700, 2.5rem);
   }
 
   .bcn-settings-shell__content {
