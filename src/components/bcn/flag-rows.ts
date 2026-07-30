@@ -1,6 +1,5 @@
 // flag-rows — behavior for <BcnFlagRow>: per-flag save. There is no page Save button, so
-// flipping a switch IS the commit. Each toggle rewrites its own row's meta line to
-// "Changed just now by you" and raises a toast confirming the save.
+// flipping a switch IS the commit, and a toast confirms the save.
 //
 // Self-mounting like setupPrototypeIndex(): the component's <script> is hoisted and
 // bundled ONCE per page no matter how many rows render, so this sweeps the document for
@@ -44,7 +43,6 @@ export function setupFlagRows(): void {
   for (const row of rows) {
     const toggle = row.querySelector<HTMLElement>('[data-bcn-flag-toggle]');
     if (!toggle) continue;
-    const meta = row.querySelector<HTMLElement>('[data-bcn-flag-meta]');
 
     toggle.addEventListener('change', (event) => {
       const detail = (event as CustomEvent<{ checked?: boolean }>).detail;
@@ -52,8 +50,6 @@ export function setupFlagRows(): void {
 
       if (enabled) row.dataset.enabled = '';
       else delete row.dataset.enabled;
-
-      if (meta) meta.textContent = 'Changed just now by you';
 
       const name = row.dataset.displayName ?? 'Flag';
       const bar = snackbarHost();

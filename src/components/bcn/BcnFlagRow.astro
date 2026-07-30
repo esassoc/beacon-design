@@ -1,9 +1,11 @@
 ---
 // <BcnFlagRow> — one feature flag in the Unified Settings flag list, as a
 // SELF-DESCRIBING, SELF-SAVING row. The old page was a bare stack of toggles behind a
-// single page-wide Save; here every flag carries its own name, plain-language description,
-// lifecycle, and last-changed line, and the toggle IS the save (flag-rows.ts confirms with
-// a toast). There is no page Save button.
+// single page-wide Save; here every flag carries its own name and plain-language
+// description, and the toggle IS the save (flag-rows.ts confirms with a toast). There is
+// no page Save button. The changed-date/person line was removed on review (2026-07-30) —
+// change history belongs to log surfaces (the home page's Recent changes), not row chrome;
+// `flag.lastChanged` stays in the registry unrendered.
 //
 // DENSITY: this reads as a preference LIST, not a stack of cards — small switch, 15px
 // semibold name, 14px description, tight block padding. The name stands alone; the
@@ -34,17 +36,7 @@ interface Props {
 }
 const { flag } = Astro.props;
 
-/** `on` may arrive ISO or already-friendly. Parse the ISO case by parts — `new Date('…')`
- *  on a bare date reads UTC midnight and renders a day early west of Greenwich. */
-function formatChangedOn(on: string): string {
-  const iso = /^(\d{4})-(\d{2})-(\d{2})$/.exec(on);
-  if (!iso) return on;
-  const d = new Date(Number(iso[1]), Number(iso[2]) - 1, Number(iso[3]));
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-}
-
-const changedOn = formatChangedOn(flag.lastChanged.on);
-const gaNote = flag.removeAtGa ? ` · Remove at GA${flag.gaTarget ? ` (${flag.gaTarget})` : ''}` : '';
+const gaNote = flag.removeAtGa ? `Remove at GA${flag.gaTarget ? ` (${flag.gaTarget})` : ''}` : '';
 ---
 
 <div
@@ -65,9 +57,7 @@ const gaNote = flag.removeAtGa ? ` · Remove at GA${flag.gaTarget ? ` (${flag.ga
   <p class="bcn-flag-row__name type-body">{flag.displayName}</p>
 
   <p class="bcn-flag-row__desc type-body-small">{flag.description}</p>
-  <p class="bcn-flag-row__meta type-caption" data-bcn-flag-meta>
-    Changed {changedOn} by {flag.lastChanged.by}{gaNote}
-  </p>
+  {gaNote && <p class="bcn-flag-row__meta type-caption">{gaNote}</p>}
 </div>
 
 <script>
