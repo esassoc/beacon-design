@@ -4,17 +4,20 @@
 // anatomy changes:
 //
 //   rows       → a divided stack of <BcnSettingRow> (the setting-per-row anatomy)
-//   collection → a records list, drawn one of two ways. `presentation: 'grid'` —
-//                the pages that ARE ag-Grids in the real app — hands the records to
-//                <BcnSettingsGrid> for sorting, per-column filtering, and resize;
-//                everything else keeps the semantic table (column labels, one row per
-//                record, optional trailing badge). Either way the optional "Add …"
-//                action is the body's last block, a collection with no records renders
+//   collection → a records list, drawn one of exactly TWO ways, both of them delegated:
+//                `presentation: 'grid'` — the pages that ARE ag-Grids in the real app —
+//                hands the records to <BcnSettingsGrid> for sorting, per-column
+//                filtering, and resize; `presentation: 'rows'` hands them to
+//                <BcnRecordRows> for slim read-only rows with per-row actions and the
+//                section's one edit modal. Nothing else: the semantic records table this
+//                file used to draw was retired 2026-07-30, when every list on the surface
+//                became one of those two. Either way a collection with no records renders
 //                an esa-empty-state instead of an empty list, and one whose `total`
 //                exceeds the records it holds says how much of the list it is showing.
 //   pairs      → the Terminology anatomy: Entity / Singular / Plural, with the two
 //                overrides as text fields whose PLACEHOLDER is the canonical term,
-//                so a blank field shows the platform default in grey
+//                so a blank field shows the platform default in grey. The one table
+//                left in this file, and a form grid rather than a records list.
 //
 // The shell is esa-card (outlined); `section.description` rides the card's own
 // `subtitle` API so it renders under the title without extra chrome. The card
@@ -22,23 +25,22 @@
 // the `sec-<id>` anchor lives on a wrapping <section> — which also carries the
 // scroll-margin the section nav needs when it jumps.
 //
-// bcn-lego-checked: the TABLE records list and the PAIRS grid are semantic <table>s —
-// the hub ships no table lego (checked the full catalog: esa-card is a box,
-// esa-link-column is a card of bare links, esa-collapsible is a single disclosure),
-// and the pages that keep the table are the ones prod builds bespoke too, where a data
-// grid would be chrome around four rows. This is the same call BcnPrototypeIndex made
-// for its index table. Where prod DOES ship an ag-Grid, so does this — through
-// <BcnSettingsGrid>, which composes the spoke's shared beacon-grid kit. Everything else
-// IS a lego — esa-card (shell), esa-badge (record badge, quieted via its own --badge-*
-// component tokens), esa-button (add action), esa-text-field (terminology overrides),
-// esa-empty-state (zero records) — and the CSS below is table/divider glue only.
-// bcn-settings-section is the reusable home.
+// bcn-lego-checked: this file draws no records list of its own any more — a collection is
+// dispatched to <BcnSettingsGrid> or <BcnRecordRows>, which each carry their own lookup.
+// What remains is the card shell and the PAIRS form grid, a semantic <table> because the
+// hub ships no table lego (checked the full catalog: esa-card is a box, esa-link-column is
+// a card of bare links, esa-collapsible is a single disclosure) and Terminology is a
+// three-column form, not a records list — the same call BcnPrototypeIndex made for its
+// index table. Everything else IS a lego: esa-card (shell), esa-button (add action),
+// esa-text-field (terminology overrides), esa-empty-state (zero records). The CSS below is
+// the pairs table's own glue plus the section anchor. bcn-settings-section is the
+// reusable home.
 import EsaCard from '@esa/ecology/esa-card.astro';
-import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import BcnSettingRow from './BcnSettingRow.astro';
 import BcnSettingsGrid from './BcnSettingsGrid.astro';
+import BcnRecordRows from './BcnRecordRows.astro';
 import type { SettingsSection } from '../../data/settings-registry';
 
 interface Props {
@@ -49,16 +51,14 @@ const { section } = Astro.props;
 // Anchor target for the section nav.
 const anchorId = `sec-${section.id}`;
 
-// A collection only grows the trailing badge column when a record actually carries one.
-const hasBadges = section.kind === 'collection' && section.records.some((r) => !!r.badge);
-
 // A collection holding nothing shows the empty state; no list is drawn at all. That
 // holds for the gridded pages too (People and Organizations are empty in the real
 // tenant): AG Grid's no-rows overlay would sit in a tall blank body under a header of
 // column names, which is exactly the raw treatment this page is arguing against.
 const isEmpty = section.kind === 'collection' && section.records.length === 0;
 
-// Where the real app ships an ag-Grid, so does this — see the registry's `presentation`.
+// Where the real app ships an ag-Grid, so does this; everywhere else the records are slim
+// rows. See the registry's `presentation` — there is no third answer.
 const isGrid = section.kind === 'collection' && section.presentation === 'grid';
 
 // The empty state's title is the section's own name — "People" → "No people yet".
@@ -118,44 +118,7 @@ const isSample =
 
     {section.kind === 'collection' && !isEmpty && isGrid && <BcnSettingsGrid section={section} />}
 
-    {
-      section.kind === 'collection' && !isEmpty && !isGrid && (
-        <div class="bcn-set__scroll">
-          <table class="bcn-set__table">
-            <thead>
-              <tr>
-                {section.columns.map((col) => (
-                  <th class="bcn-set__th" scope="col">
-                    {col.label}
-                  </th>
-                ))}
-                {hasBadges && <th class="bcn-set__th" scope="col"></th>}
-              </tr>
-            </thead>
-            <tbody>
-              {section.records.map((record) => (
-                <tr class="bcn-set__tr" data-record={record.id}>
-                  {section.columns.map((col, i) =>
-                    i === 0 ? (
-                      <th class="bcn-set__td bcn-set__td--lead" scope="row">
-                        {record.cells[col.key]}
-                      </th>
-                    ) : (
-                      <td class="bcn-set__td">{record.cells[col.key]}</td>
-                    )
-                  )}
-                  {hasBadges && (
-                    <td class="bcn-set__td bcn-set__td--badge">
-                      {record.badge && <EsaBadge value={record.badge} />}
-                    </td>
-                  )}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )
-    }
+    {section.kind === 'collection' && !isEmpty && !isGrid && <BcnRecordRows section={section} />}
 
     {
       /* A tenant's real lists run to 75 users and 320 tags. Where the fixture holds a
@@ -221,8 +184,9 @@ const isSample =
 </script>
 
 <style>
-  /* bcn-lego-checked: table + divider glue ONLY (see the header note for why the
-     records/pairs grids are semantic <table>s). No primitive is reinvented here. */
+  /* bcn-lego-checked: the pairs table + divider glue ONLY (see the header note for why
+     Terminology's form grid is a semantic <table>). No primitive is reinvented here —
+     both records presentations moved out to their own components. */
   .bcn-set {
     display: block;
     /* The section nav jumps to #sec-<id>; keep the card clear of the sticky topbar. */
@@ -250,8 +214,8 @@ const isSample =
     border-top: 1px solid var(--color-border-light);
   }
 
-  /* ── collection + pairs: a table that scrolls inside its own container when the
-     columns outgrow the card. ── */
+  /* ── pairs: a table that scrolls inside its own container when the three columns
+     outgrow the card. ── */
   .bcn-set__scroll {
     overflow-x: auto;
   }
@@ -271,9 +235,9 @@ const isSample =
     border-bottom: 1px solid var(--color-border);
   }
 
-  /* Record cells carry the record's own values, so they read as CONTENT in primary ink,
-     not as secondary chrome. The tightened leading is between the ramp's tight (1.3) and
-     normal (1.6) steps — neither lands where a dense data row wants to sit. */
+  /* Cells carry the tenant's own terms, so they read as CONTENT in primary ink, not as
+     secondary chrome. The tightened leading is between the ramp's tight (1.3) and normal
+     (1.6) steps — neither lands where a dense data row wants to sit. */
   .bcn-set__td {
     padding: var(--spacing-250) var(--spacing-400);
     font-size: var(--type-size-200);
@@ -303,17 +267,7 @@ const isSample =
     white-space: nowrap;
   }
 
-  /* Quiet badge: neutral surface + secondary text via esa-badge's own component
-     tokens (the lego's theming hook), not a bespoke chip. */
-  .bcn-set__td--badge {
-    --badge-bg: var(--color-surface-sunken);
-    --badge-text-color: var(--color-text-secondary);
-    width: 1%;
-    text-align: right;
-    white-space: nowrap;
-  }
-
-  /* How much of the list is on screen — a caption for the table above it, so it sits
+  /* How much of the list is on screen — a caption for the list above it, so it sits
      quiet: the 14px step, tertiary ink, no rule of its own. */
   .bcn-set__count {
     margin: var(--spacing-250) 0 0;

@@ -2,8 +2,14 @@
 // Unified Settings — TENANTS. Every tenant on the platform, and the flow that creates
 // one. The list is deliberately NOT a bespoke grid: TENANTS is projected into the
 // registry's own `collection` section shape, so it renders through the same
-// <BcnSettingsSection> every other settings list uses and inherits its table anatomy,
-// its "Add …" action, and its record badge for free.
+// <BcnSettingsSection> every other settings list uses and inherits the slim-row anatomy,
+// its per-row Edit, its record badge, and the shared edit modal for free.
+//
+// TWO ADD FLOWS, ONE EDIT. The section is marked `addFlow: 'page'`, which leaves the
+// header's "New tenant" action to the side dialog below — provisioning asks for more than
+// the list's columns hold (module selection, the permanence warning), so it keeps the
+// richer drawer. EDITING a tenant is the generic modal <BcnRecordRows> renders for every
+// slim-row section; nothing is wired here for it.
 //
 // ESA Baseline carries the 'Clone source' badge because provisioning a tenant copies
 // its configuration — which is also why it holds every module and only ESA staff.
@@ -29,10 +35,13 @@ const settingsHref = withBase('/prototypes/settings');
 const tenantList: SettingsSection = {
   kind: 'collection',
   id: 'tenant-list',
+  presentation: 'rows',
   title: 'Tenants',
   columns: [
     { key: 'tenant', label: 'Tenant' },
-    { key: 'subdomain', label: 'Subdomain' },
+    // The real page renders a subdomain as a monospace chip — it is the address the
+    // tenant is reached at, not prose.
+    { key: 'subdomain', label: 'Subdomain', code: true },
     { key: 'modules', label: 'Modules' },
     { key: 'users', label: 'Users' },
     { key: 'created', label: 'Created' },
@@ -48,7 +57,11 @@ const tenantList: SettingsSection = {
     },
     badge: tenant.id === 'esa-baseline' ? 'Clone source' : undefined,
   })),
+  rowActions: ['edit'],
   addLabel: 'New tenant',
+  // Provisioning is richer than the list's columns, so the header action opens this
+  // page's side dialog instead of the generic record modal. Edit still uses the modal.
+  addFlow: 'page',
   // The platform runs 19 tenants; these four are the ones the prototype needs to
   // show (a client, a second client, a project tenant, and the clone source).
   total: TENANTS_TOTAL,
@@ -65,6 +78,7 @@ const moduleOptions = [...new Set(TENANTS.flatMap((tenant) => tenant.modules))];
     - scope marker   -> esa-badge                # page.scope === 'platform', in PageLayout's title-badge slot
     - settings frame -> bcn-settings-shell       # search + zone nav + view-as switch; wraps all page content
     - tenant list    -> bcn-settings-section     # TENANTS projected into the registry's `collection` shape
+                                                 #   -> bcn-record-rows (presentation 'rows'): slim rows + Edit + its modal
     - new tenant     -> esa-side-dialog          # provisioning fields + module chips, opened by the list's add action
 -->
 

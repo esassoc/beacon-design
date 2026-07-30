@@ -67,7 +67,16 @@ export interface SettingItem {
 export interface CollectionColumn {
   key: string;
   label: string;
+  /**
+   * The value is an identifier rather than prose — a subdomain, a key, a slug — and
+   * reads as a monospace chip in the slim-row presentation, the way the real Tenants
+   * page renders a subdomain. Ignored by the grid, whose columns are uniform.
+   */
+  code?: boolean;
 }
+
+/** A row-level action offered on a slim-row collection. */
+export type RecordAction = 'edit' | 'clone' | 'delete' | 'deactivate';
 
 export interface CollectionRecord {
   id: string;
@@ -96,18 +105,43 @@ export type SettingsSection =
       title: string;
       description?: string;
       /**
-       * How the records are drawn. GRID WHERE PROD GRIDS: a section carries
-       * 'grid' when the page it belongs to is an ag-Grid in the real app (the
-       * QA walk, docs/qa-settings-walk-2026-07-30.md, records which ones) — so
-       * the prototype offers the same sorting, filtering, and column behavior
-       * an admin already has. Absent means the semantic table, which is what
-       * the pages prod builds bespoke (report types, report templates,
-       * clearance review kinds, category maps, tenants) keep.
+       * How the records are drawn. There are exactly TWO list presentations in this
+       * surface (Andy, 2026-07-30) and every collection declares which one it is:
+       *
+       *   'grid' — a Beacon data grid. GRID WHERE PROD GRIDS: the page is an ag-Grid
+       *            in the real app (the QA walk, docs/qa-settings-walk-2026-07-30.md,
+       *            records which ones), so the prototype offers the same sorting,
+       *            filtering, and column behavior an admin already has.
+       *   'rows' — slim read-only card rows with per-row actions. The pages prod
+       *            builds bespoke (report types, report templates, clearance review
+       *            kinds, category maps, tenants) are short, hand-ordered lists where
+       *            a grid's filter and sort chrome would outweigh four records.
        */
-      presentation?: 'grid';
+      presentation: 'grid' | 'rows';
       columns: CollectionColumn[];
       records: CollectionRecord[];
+      /**
+       * The actions each slim row offers, right-aligned in the order given. Mirrors
+       * what the real page does with a row: Report Templates offers Edit/Clone/Delete,
+       * Clearance Review Kinds deactivates instead of deleting because a kind in use
+       * must survive on the reviews that carry it. Grid sections ignore it.
+       * Defaults to ['edit'] on a 'rows' section that names none.
+       */
+      rowActions?: RecordAction[];
+      /**
+       * The list is hand-ordered and the real page reorders it by dragging, so each
+       * row leads with a handle and ROW POSITION is the order — there is no order
+       * column to disagree with it. Grid sections ignore it.
+       */
+      dragHandles?: boolean;
       addLabel?: string;
+      /**
+       * Where the "Add …" action goes on a slim-row section. 'modal' (the default)
+       * opens the section's own record modal empty; 'page' means the page wires its
+       * own richer flow to the button — the Tenants side dialog is the one case — and
+       * the modal is left to handle Edit only.
+       */
+      addFlow?: 'modal' | 'page';
       /**
        * How many records the page really holds. `records` is a sample on the
        * long lists (a tenant carries 320 tags, 75 users, 36 definitions), so the
@@ -1129,22 +1163,23 @@ export const SETTINGS_PAGES: SettingsPage[] = [
       {
         kind: 'collection',
         id: 'review-kinds',
+        presentation: 'rows',
         title: 'Review kinds',
         // The three kinds are the ones the Site Clearance prototype's reviews already
         // record (REVIEW_KIND_LABEL in geotech-fixture-bio.ts) — this page is where
-        // that list comes from. Order is the dropdown's order, held here as a column
-        // because the settings table has no drag; the real page drags the rows.
+        // that list comes from. ORDER IS ROW POSITION, carried by the drag handle the
+        // way the real page carries it; the standing 'Order' column was dropped when
+        // the handles arrived (2026-07-30) rather than restate the same fact twice.
         description:
           'The list the Kind dropdown on a clearance review reads from, in the order it offers them. A kind that has been used on a review is deactivated rather than deleted, so past reviews keep their kind.',
-        columns: [
-          { key: 'reviewKind', label: 'Review kind' },
-          { key: 'order', label: 'Order' },
-        ],
+        columns: [{ key: 'reviewKind', label: 'Review kind' }],
         records: [
-          { id: 'rk-14-day', cells: { reviewKind: '14-day clearance', order: '1' } },
-          { id: 'rk-72-hour', cells: { reviewKind: '72-hour clearance', order: '2' } },
-          { id: 'rk-management', cells: { reviewKind: 'Management determination', order: '3' } },
+          { id: 'rk-14-day', cells: { reviewKind: '14-day clearance' } },
+          { id: 'rk-72-hour', cells: { reviewKind: '72-hour clearance' } },
+          { id: 'rk-management', cells: { reviewKind: 'Management determination' } },
         ],
+        rowActions: ['edit', 'deactivate'],
+        dragHandles: true,
         addLabel: 'Add kind',
         total: 3,
       },
@@ -1179,35 +1214,39 @@ export const SETTINGS_PAGES: SettingsPage[] = [
       {
         kind: 'collection',
         id: 'report-type-list',
+        presentation: 'rows',
         title: 'Report types',
         // Scope reads from the real ReportScopeType enum, which offers exactly two
         // values: Project and Component. FIXTURE SCALE: the real tenant has one
         // report type, which shows nothing about how a list of them behaves — four
         // are kept here so the page has an anatomy to demonstrate. Same call on
         // Report Templates below (the real tenant has one template, under that one type).
+        // Order is the drag handle's, as on the real page; the 'Order' column it used
+        // to be spelled out in was dropped with the handles (2026-07-30).
         columns: [
           { key: 'reportType', label: 'Report type name' },
           { key: 'scope', label: 'Scope' },
-          { key: 'order', label: 'Order' },
         ],
         records: [
           {
             id: 'rt-daily-monitoring',
-            cells: { reportType: 'Daily Monitoring Report', scope: 'Component', order: '1' },
+            cells: { reportType: 'Daily Monitoring Report', scope: 'Component' },
           },
           {
             id: 'rt-weekly-compliance',
-            cells: { reportType: 'Weekly Compliance Summary', scope: 'Project', order: '2' },
+            cells: { reportType: 'Weekly Compliance Summary', scope: 'Project' },
           },
           {
             id: 'rt-monthly-compliance',
-            cells: { reportType: 'Monthly Compliance Report', scope: 'Project', order: '3' },
+            cells: { reportType: 'Monthly Compliance Report', scope: 'Project' },
           },
           {
             id: 'rt-component-completion',
-            cells: { reportType: 'Component Completion Report', scope: 'Component', order: '4' },
+            cells: { reportType: 'Component Completion Report', scope: 'Component' },
           },
         ],
+        rowActions: ['edit', 'delete'],
+        dragHandles: true,
         addLabel: 'Add report type',
       },
     ],
@@ -1225,6 +1264,7 @@ export const SETTINGS_PAGES: SettingsPage[] = [
       {
         kind: 'collection',
         id: 'template-list',
+        presentation: 'rows',
         title: 'Templates',
         description: 'A report type can carry several templates; the author picks one when the report is created.',
         columns: [
@@ -1266,6 +1306,8 @@ export const SETTINGS_PAGES: SettingsPage[] = [
             },
           },
         ],
+        // The three the real page offers on every template row, in its order.
+        rowActions: ['edit', 'clone', 'delete'],
         addLabel: 'Add template',
       },
     ],
@@ -1545,6 +1587,7 @@ export const SETTINGS_PAGES: SettingsPage[] = [
       {
         kind: 'collection',
         id: 'category-maps',
+        presentation: 'rows',
         title: 'Category maps',
         description: 'A map is scoped to one project; rolling the key invalidates the previous one immediately.',
         // A map can exist with no categories in it and no key generated yet — the
@@ -1588,6 +1631,7 @@ export const SETTINGS_PAGES: SettingsPage[] = [
             },
           },
         ],
+        rowActions: ['edit', 'delete'],
         addLabel: 'Add category map',
         total: 3,
       },

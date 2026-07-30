@@ -43,6 +43,7 @@ const settingsHref = withBase('/prototypes/settings');
     - scope marker   -> esa-badge               # page.scope === 'platform', in PageLayout's title-badge slot
     - settings frame -> bcn-settings-shell      # search + zone nav + view-as switch; wraps all page content
     - page sections  -> bcn-settings-section    # one card per registry section (rows | collection | pairs)
+                                                #   collection -> bcn-settings-grid | bcn-record-rows, per `presentation`
     - danger zone    -> bcn-danger-zone         # page.danger, only where the registry declares one
 -->
 

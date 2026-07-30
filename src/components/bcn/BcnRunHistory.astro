@@ -21,9 +21,8 @@
 //
 // bcn-lego-checked: this is the sanctioned grid kit, not a hand-rolled table — the
 // spoke ships the ported prod AG Grid theme in src/lib/beacon-grid.ts, and
-// BcnSettingsGrid already mounts it for the settings collections. Run history sits on
-// the same ESA-admin surface and picks the same charcoal theme variant by the same
-// [data-esa-surface] test, so the console reads as one family of lists. (This
+// BcnSettingsGrid already mounts it for the settings collections. Run history mounts the
+// same card-hosted theme, so the console reads as one family of lists. (This
 // supersedes the file's earlier no-esa-table-lego rationale: the question stopped
 // being "which table lego" once the grid kit covered this surface.) The empty state IS
 // esa-empty-state and the Running spinner IS esa-loading-spinner, both rendered here
@@ -114,7 +113,7 @@ const rows = runs.map((run) => {
 <script>
   import { createGrid, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
   import type { ColDef, GridOptions } from 'ag-grid-community';
-  import { settingsTheme, settingsEsaTheme, makeQuietChipRenderer } from '../../lib/beacon-grid';
+  import { settingsTheme, makeQuietChipRenderer } from '../../lib/beacon-grid';
 
   ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -199,10 +198,9 @@ const rows = runs.map((run) => {
     ];
 
     const gridOptions: GridOptions<RunRow> = {
-      // An ESA-admin page's cards carry a charcoal header band; the grid inside one
-      // matches it instead of stacking teal under charcoal. Same [data-esa-surface]
-      // stamp BcnSettingsGrid reads, so the two lists on this page can't disagree.
-      theme: mount.closest('[data-esa-surface]') ? settingsEsaTheme : settingsTheme,
+      // The kit's one card-hosted theme, the same one BcnSettingsGrid mounts, so the
+      // two lists on this page can't disagree.
+      theme: settingsTheme,
       rowData: rows,
       columnDefs,
       // The card grows with the rows instead of holding a fixed scrollport.

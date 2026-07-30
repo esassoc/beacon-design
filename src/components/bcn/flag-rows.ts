@@ -9,27 +9,7 @@
 // row mirrors it onto data-enabled so the page can count or style by it. Nothing persists
 // across a reload.
 
-import '@esa/ecology/esa-snackbar-container';
-
-/** The imperative slice of esa-snackbar-container this module drives. */
-interface SnackbarHost extends HTMLElement {
-  show(config: { message: string; variant?: string; duration?: number }): string;
-  dismiss(id: string): void;
-}
-
-/**
- * The page's toast stack, created on first use.
- *
- * The container is `display: contents` around a `position: fixed` stack, so body is the
- * right home for it and a page that already renders one is reused rather than doubled.
- */
-function snackbarHost(): SnackbarHost {
-  const existing = document.querySelector<SnackbarHost>('esa-snackbar-container');
-  if (existing) return existing;
-  const created = document.createElement('esa-snackbar-container') as SnackbarHost;
-  document.body.appendChild(created);
-  return created;
-}
+import { snackbarHost } from '../../lib/snackbar';
 
 export function setupFlagRows(): void {
   const rows = [...document.querySelectorAll<HTMLElement>('[data-bcn-flag-row]')];

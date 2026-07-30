@@ -45,29 +45,30 @@ export const beaconTheme = themeQuartz.withPart(beaconIconOverrides).withParams(
 
 /**
  * The card-hosted variant, for grids that sit INSIDE a card body (the Unified
- * Settings collection sections) rather than owning the page. Only the corners
- * change: beaconTheme squares its bottom pair because a page grid has the
- * download/record-count strip welded under it, and a settings grid ends at its
- * last row. The teal header band stays — it is what an admin sees on the same
- * list today.
+ * Settings collection sections and the Operations run history) rather than
+ * owning the page. ONE theme for that surface — there is no ESA-admin variant.
+ *
+ * QUIET LIGHT HEADER (Andy, 2026-07-30). A page grid owns its viewport and can
+ * afford a filled band; a card-hosted grid already sits under the card's own
+ * title, and on an ESA-admin page under a charcoal one, so a filled band made
+ * the card read as two stacked chrome bars — teal under charcoal, or charcoal
+ * under charcoal once the two were matched. Both are gone. The header is the
+ * card's white with dark semibold labels and a hairline under the row, so a
+ * section reads title → columns → rows in one descent, and the card band is the
+ * only dark thing on the card. Everything else is beaconTheme's: same font,
+ * same 13px, same accent, same zebra, same borders.
+ *
+ * The corners also square-to-round: beaconTheme squares its bottom pair because
+ * a page grid has the download/record-count strip welded under it, and a
+ * card-hosted grid ends at its last row.
  */
 export const settingsTheme = beaconTheme.withParams({
   wrapperBorderRadius: '4px',
-});
-
-/**
- * The same card-hosted grid on an ESA-admin settings page, whose card carries a
- * CHARCOAL header band of its own (BcnSettingsShell's ESA surface). Teal 40px
- * under charcoal read as two competing headers; matching the band puts the two
- * in one family, so the card reads as title-then-columns rather than as two
- * stacked chrome bars.
- *
- * The hex is --bcn-helpbar-bg (rgba(23,25,27,.78)) composited over the white
- * card body — the literal the card band resolves to, since AG Grid can't read a
- * CSS var. Same annotation discipline as beaconTheme above.
- */
-export const settingsEsaTheme = settingsTheme.withParams({
-  headerBackgroundColor: '#4a4c4d',
+  headerBackgroundColor: '#ffffff', // the card body's own surface
+  headerTextColor: '#3d3d3d', // gray-900 — the same ink the rows carry
+  headerRowBorder: '1px solid #dcdcdc', // gray-200, the hairline that does the band's job
+  // The teal band's white handle is invisible on white; the hairline's gray is not.
+  headerColumnResizeHandleColor: '#dcdcdc', // gray-200
 });
 
 /** Status metadata: a label + a literal hex (kept in sync with --bcn-status-* by value). */

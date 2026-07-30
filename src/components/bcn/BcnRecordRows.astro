@@ -1,0 +1,316 @@
+---
+// <BcnRecordRows> — the records of a `collection` section drawn as SLIM CARD ROWS, the
+// second and last list presentation this surface has (the registry marks it
+// `presentation: 'rows'`; the other is <BcnSettingsGrid>). It mounts inside the section
+// card's body, and it is what the short, hand-ordered lists prod builds bespoke wear:
+// report types, report templates, clearance review kinds, category maps, tenants.
+//
+// Rows are READ-ONLY. Every value on screen is text; the only controls are the row's
+// actions, and editing happens in the section's one modal rather than in the row — so a
+// list of four records reads as four records instead of as sixteen inputs.
+//
+// ROW ANATOMY, one shape for every list on the surface:
+//   [drag handle]  lead cell + record badge          [Edit] [Clone] [Delete]
+//                  label value · label value · …
+// The lead cell is the section's FIRST column, at the same 15px semibold every row on
+// this surface leads with (BcnSettingRow's label, BcnFlagRow's name). The remaining
+// columns continue on a quiet 14px meta line, each carrying its own column label —
+// without one a bare `34` or `12` names nothing, and the label is the column's own
+// stored `label`, not authored copy. A column the registry marks `code` renders its
+// value as a mono chip, the way the real Tenants page renders a subdomain.
+//
+// ACTIONS come from `section.rowActions` (default ['edit']) and mirror the real page:
+// Report Templates offers Edit/Clone/Delete, Clearance Review Kinds deactivates instead
+// of deleting. One treatment everywhere — sm buttons, icon + word: edit/clone/deactivate
+// quiet ghost-outline (deactivate in muted ink), delete alone in the danger register.
+//
+// THE MODAL is rendered once per section, not once per row, and is populated from the
+// clicked row by ./record-rows.ts: one esa-text-field per column, labelled by the column.
+// Edit and Clone open it filled, the card header's "Add …" opens it empty. Selects and
+// toggles are not modeled — a settings record's real editor is out of this prototype's
+// scope, and a plain field per column is enough to show that the row hands off to a
+// dialog. Save closes with a toast; nothing persists.
+//
+// DRAG HANDLES are decorative (`section.dragHandles`). They say the list is hand-ordered
+// and reordered by dragging, which is what the real Clearance Review Kinds and Report
+// Types pages do — and why those two sections carry no 'Order' column: row position IS
+// the order, and a column restating it would be a second answer to one question.
+//
+// bcn-lego-checked: no esa-* lego is a record row — checked the full catalog (esa-card is
+// a box and would give each record a card it must not have, esa-link-column is a card of
+// bare links, esa-collapsible is a single disclosure, esa-pillbox/esa-chip-group are
+// selection controls). Checked Beacon: these five pages each hand-roll their own row
+// markup, which is the drift this replaces — the anatomy above is ported from them and
+// stated ONCE. Everything that IS a lego is one: esa-button (every action and the modal's
+// footer), esa-badge (the record marker and the deactivated marker, quieted through its
+// own --badge-* tokens), esa-dialog (the modal), esa-text-field (its fields), plus the
+// stack/cluster primitives and the type roles. The CSS below is row geometry, the two
+// hairlines, and the code chip's surface. bcn-record-rows is the reusable home.
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import type { CollectionSection, RecordAction } from '../../data/settings-registry';
+
+interface Props {
+  section: CollectionSection;
+}
+const { section } = Astro.props;
+
+// Word + icon per action. The words are the real pages' own.
+const ACTIONS: Record<RecordAction, { label: string; icon: string }> = {
+  edit: { label: 'Edit', icon: 'pencil' },
+  clone: { label: 'Clone', icon: 'copy' },
+  // The real page's circle-slash (block, not destroy); circle-x is the registry's
+  // nearest registered glyph, and the word carries the rest.
+  deactivate: { label: 'Deactivate', icon: 'circle-x' },
+  delete: { label: 'Delete', icon: 'trash-2' },
+};
+
+const rowActions = section.rowActions ?? ['edit'];
+const dragHandles = section.dragHandles ?? false;
+
+// The first column leads the row; the rest continue on the meta line under it.
+const [leadColumn, ...metaColumns] = section.columns;
+
+// A deactivate-capable list pre-renders the marker every row would earn, hidden until
+// the row is deactivated — so the state is SSR material the controller reveals, not
+// markup it authors. (Same discipline as BcnRunHistory's spinner and empty-state.)
+const canDeactivate = rowActions.includes('deactivate');
+
+// The card header's "Add …" button is rendered by <BcnSettingsSection> and stamped
+// data-settings-add=<section.id>. It opens THIS modal, empty, under its own label —
+// unless the page claims it for a richer flow of its own (`addFlow: 'page'`, which is
+// the Tenants side dialog and nothing else). Passing the label through the mount is what
+// lets the controller find and title the action without the page wiring anything.
+const addLabel = section.addFlow === 'page' ? undefined : section.addLabel;
+---
+
+<div class="bcn-record-rows" data-record-rows={section.id} data-add-label={addLabel}>
+  <ul class="bcn-record-rows__list">
+    {
+      section.records.map((record) => (
+        <li class="bcn-record-rows__row" data-record-row data-record-id={record.id}>
+          {dragHandles && (
+            <span class="bcn-record-rows__handle" aria-hidden="true">
+              <svg width="10" height="16" viewBox="0 0 10 16" fill="currentColor">
+                <circle cx="2" cy="3" r="1.35" />
+                <circle cx="8" cy="3" r="1.35" />
+                <circle cx="2" cy="8" r="1.35" />
+                <circle cx="8" cy="8" r="1.35" />
+                <circle cx="2" cy="13" r="1.35" />
+                <circle cx="8" cy="13" r="1.35" />
+              </svg>
+            </span>
+          )}
+
+          <div class="bcn-record-rows__content">
+            <p class="bcn-record-rows__lead type-body">
+              <span data-cell={leadColumn.key}>{record.cells[leadColumn.key]}</span>
+              {record.badge && <EsaBadge value={record.badge} size="sm" />}
+              {canDeactivate && (
+                <span class="bcn-record-rows__off" hidden>
+                  <EsaBadge value="Deactivated" size="sm" />
+                </span>
+              )}
+            </p>
+
+            {metaColumns.length > 0 && (
+              <p class="bcn-record-rows__meta type-body-small">
+                {metaColumns.map((col) => (
+                  <span class="bcn-record-rows__pair">
+                    <span class="bcn-record-rows__label">{col.label}</span>
+                    {col.code ? (
+                      <code class="bcn-record-rows__code type-code" data-cell={col.key}>
+                        {record.cells[col.key]}
+                      </code>
+                    ) : (
+                      <span class="bcn-record-rows__value" data-cell={col.key}>
+                        {record.cells[col.key]}
+                      </span>
+                    )}
+                  </span>
+                ))}
+              </p>
+            )}
+          </div>
+
+          <div class="bcn-record-rows__actions cluster" data-gap="xs">
+            {rowActions.map((action) => (
+              <EsaButton
+                size="sm"
+                color={action === 'delete' ? 'danger' : 'ghost'}
+                appearance={action === 'delete' ? 'soft' : 'outline'}
+                icon={ACTIONS[action].icon}
+                class={action === 'deactivate' ? 'bcn-record-rows__quiet' : undefined}
+                data-record-action={action}
+              >
+                {ACTIONS[action].label}
+              </EsaButton>
+            ))}
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+
+  {
+    /* ONE modal for the whole section — the row that opened it fills it. Rendered as
+       the list's sibling because a dialog is a page-level overlay; it draws nothing
+       until it opens. Heading is set by the controller (Edit / Clone / the add label). */
+  }
+  <esa-dialog data-record-dialog size="md">
+    <div class="stack" data-gap="md">
+      {
+        section.columns.map((col) => (
+          <esa-text-field label={col.label} data-record-field={col.key}></esa-text-field>
+        ))
+      }
+    </div>
+
+    <div class="cluster" data-gap="sm" slot="footer" style="--justify: flex-end">
+      <EsaButton color="ghost" appearance="outline" size="sm" data-record-cancel>
+        Cancel
+      </EsaButton>
+      <EsaButton color="primary" size="sm" data-record-save>Save</EsaButton>
+    </div>
+  </esa-dialog>
+</div>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-text-field';
+  import { setupRecordRows } from './record-rows';
+
+  setupRecordRows();
+</script>
+
+<style>
+  /* bcn-lego-checked: row geometry, the row hairlines, and the code chip's surface —
+     see the header note for why no esa-* lego is a record row. No primitive is
+     reinvented here; every control in the row is a lego. */
+  .bcn-record-rows {
+    display: block;
+  }
+
+  .bcn-record-rows__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Hairline dividers, no zebra: the row's own content does the separating, and a
+     striped background under a read-only list reads as a data grid it is not. */
+  .bcn-record-rows__row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding-block: var(--spacing-250);
+  }
+  .bcn-record-rows__row + .bcn-record-rows__row {
+    border-top: 1px solid var(--color-border-light);
+  }
+
+  /* Decorative — it says the list is dragged into order; the drag itself is not modeled. */
+  .bcn-record-rows__handle {
+    display: flex;
+    align-items: center;
+    color: var(--color-text-tertiary);
+    cursor: grab;
+  }
+
+  .bcn-record-rows__content {
+    flex: 1;
+    min-inline-size: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+  }
+
+  /* The lead cell carries the row. type-body's relaxed 1.8 would open a gap above the
+     meta line under it — same tightening BcnFlagRow's name makes. */
+  .bcn-record-rows__lead {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-200);
+    margin: 0;
+    line-height: 1.4;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    /* Quiet record markers — neutral surface + secondary ink through esa-badge's own
+       component tokens, the same quieting the grid's badge column carries. */
+    --badge-bg: var(--color-surface-sunken);
+    --badge-text-color: var(--color-text-secondary);
+  }
+
+  /* The supporting columns, on one wrapping line. The gap BETWEEN pairs is wider than
+     the one inside a pair, so a label reads as belonging to the value beside it rather
+     than to the value before it — the only thing separating them is that rhythm. */
+  .bcn-record-rows__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--spacing-100) var(--spacing-500);
+    margin: 0;
+    line-height: 1.4;
+  }
+  .bcn-record-rows__pair {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--spacing-150);
+    min-inline-size: 0;
+  }
+  /* The column's own name, one step quieter than the value it names. */
+  .bcn-record-rows__label {
+    color: var(--color-text-tertiary);
+  }
+  .bcn-record-rows__value {
+    color: var(--color-text-secondary);
+  }
+
+  /* An identifier, not prose: mono on the sunken surface, the 4px radius this chrome
+     uses everywhere. type-code supplies the family and size. */
+  .bcn-record-rows__code {
+    padding: 1px var(--spacing-150);
+    border-radius: var(--radius-100);
+    background: var(--color-surface-sunken);
+    color: var(--color-text-secondary);
+  }
+
+  .bcn-record-rows__actions {
+    flex-shrink: 0;
+  }
+
+  /* Deactivate is a state change, not a destructive one — it sits in the muted register
+     rather than the danger one. esa-button's ghost color reads --color-text-primary for
+     its label and --color-border for its edge; both are re-pointed one step down for
+     this button only, through the SEMANTIC tokens the lego already reads. */
+  .bcn-record-rows :global(.bcn-record-rows__quiet) {
+    --color-text-primary: var(--color-text-secondary);
+    --color-border: var(--color-border-light);
+  }
+
+  /* A deactivated row keeps its place in the order and stops competing for attention.
+     Its handle goes with it: a deactivated kind is out of the dropdown, so it has no
+     position left to drag. (hidden, not removed — the rows stay aligned.) */
+  .bcn-record-rows__row[data-deactivated] .bcn-record-rows__lead {
+    color: var(--color-text-tertiary);
+  }
+  .bcn-record-rows__row[data-deactivated] .bcn-record-rows__handle {
+    visibility: hidden;
+  }
+  /* The action that already happened. The controller disables the native button, but
+     esa-button paints its disabled look from a class it sets at render time, so the
+     spent state has to be stated here for a button disabled after the fact. */
+  .bcn-record-rows__row[data-deactivated] :global(.bcn-record-rows__quiet) {
+    opacity: 0.5;
+  }
+
+  /* The dialog draws nothing until it opens; keep the closed host out of the card's flow.
+     Its z re-point clears the app's fixed topbar (z 1100) — the lego defaults to
+     400/300, which would render the panel AND its backdrop underneath it. */
+  .bcn-record-rows esa-dialog {
+    display: block;
+    --z-modal: 1300;
+    --z-modal-backdrop: 1250;
+  }
+</style>

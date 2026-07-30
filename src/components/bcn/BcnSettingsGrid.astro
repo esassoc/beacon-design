@@ -20,7 +20,7 @@
 // nearest things are esa-card (a box) and esa-link-column (a card of bare links).
 // Beacon's own admin lists ARE ag-Grid, and this spoke already ships the ported prod
 // theme as a shared kit (src/lib/beacon-grid.ts), which is what this composes —
-// settingsTheme / settingsEsaTheme are that kit's card-hosted variants, not a fork.
+// settingsTheme is that kit's card-hosted variant, not a fork.
 // bcn-settings-grid is the reusable home; the CSS below is host geometry plus the two
 // cell looks AG Grid injects outside Astro's scope (lead cell, quiet badge).
 import type { CollectionSection } from '../../data/settings-registry';
@@ -108,7 +108,7 @@ const payload = { columns, rows, hasBadges };
   // grid never load AG Grid.
   import { createGrid, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
   import type { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
-  import { settingsTheme, settingsEsaTheme } from '../../lib/beacon-grid';
+  import { settingsTheme } from '../../lib/beacon-grid';
 
   ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -169,14 +169,10 @@ const payload = { columns, rows, hasBadges };
       });
     }
 
-    // An ESA-admin page's cards carry a charcoal header band; the grid inside one
-    // matches it instead of stacking teal under charcoal. The signal is the same
-    // [data-esa-surface] stamp BcnSettingsShell re-skins the cards from — no prop
-    // to thread, and the two can't disagree.
-    const esaSurface = !!mount.closest('[data-esa-surface]');
-
     const gridOptions: GridOptions = {
-      theme: esaSurface ? settingsEsaTheme : settingsTheme,
+      // One theme, tenant page or ESA page: the kit's header is the card's own white
+      // with a hairline under it, so nothing stacks under the card's title band.
+      theme: settingsTheme,
       rowData: rows,
       columnDefs,
       // The card grows with the rows instead of holding a fixed scrollport.
