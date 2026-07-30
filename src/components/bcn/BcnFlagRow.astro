@@ -78,7 +78,18 @@ const gaNote = flag.removeAtGa ? `Remove at GA${flag.gaTarget ? ` (${flag.gaTarg
   }
 
   /* Row 1 pairs the switch with the name; rows 2–3 continue the name column. */
-  .bcn-flag-row__switch { grid-column: 1; grid-row: 1; }
+  /* display:flex on the HOST is the vertical-centering fix: the lego ships
+     :host{display:inline-block}, so its track sits on a text baseline inside an
+     inherited line box — the host grows taller than the 18px track and the switch rides
+     visibly HIGH beside the name. A flex host has no anonymous line box: host height =
+     track height, and the grid's align-items:center then truly centers it. (Hub gap
+     filed in NEEDS.md.) */
+  .bcn-flag-row__switch {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+  }
   .bcn-flag-row__name   { grid-column: 2; grid-row: 1; }
   .bcn-flag-row__desc   { grid-column: 2; grid-row: 2; }
   .bcn-flag-row__meta   { grid-column: 2; grid-row: 3; }

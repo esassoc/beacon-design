@@ -285,6 +285,14 @@ const selectOptionsJson =
     inline-size: 100%;
   }
 
+  /* Vertical-centering fix, same as bcn-flag-row: the lego's inline-block host puts its
+     track on a text baseline inside an inherited line box, floating the switch high.
+     A flex host collapses to track height so the row centers it truly. (NEEDS.md.) */
+  .bcn-setting-row__control esa-switch-toggle {
+    display: flex;
+    align-items: center;
+  }
+
   /* The switch's inner <button role="switch"> takes its accessible name from the lego's
      own label; clip that copy so the visible name stays the row's. Clipped, never
      display:none — it has to survive in the accessibility tree. */
