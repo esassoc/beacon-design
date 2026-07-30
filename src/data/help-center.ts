@@ -847,6 +847,14 @@ export const HELP_ROUTE_CONTEXTS: HelpRouteContext[] = [
     howtos: ['managing-tenant-settings'],
     terms: ['feature-flag'],
   },
+  {
+    // One context for the whole Unified Settings area — every page under the shell.
+    pattern: '/prototypes/settings',
+    page: 'Settings',
+    purpose: 'Every switch, list, and template that shapes how Beacon behaves for this tenant — and the platform controls ESA runs across all tenants.',
+    howtos: ['managing-tenant-settings', 'managing-users-roles', 'configuring-notifications'],
+    terms: ['feature-flag', 'tenant'],
+  },
 ];
 
 /** Fallback for any page without a curated context. */
