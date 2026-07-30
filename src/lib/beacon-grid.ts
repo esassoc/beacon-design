@@ -90,6 +90,43 @@ export function makeStatusRenderer(statusMeta: StatusMeta) {
   };
 }
 
+/** Options for {@link makeQuietChipRenderer}. */
+export interface QuietChipOptions {
+  /**
+   * Row field holding the chip's tone key, stamped on the chip as `data-tone`. The
+   * DISPLAYED value stays the cell's own — so the column sorts, filters, and reads as
+   * the label, while the tone rides beside it as a separate stored field.
+   */
+  toneField?: string;
+  /** The class the consumer styles `:global` (AG Grid injects cells outside Astro's scope). */
+  className?: string;
+  /** A node placed ahead of the label for a given tone — e.g. a cloned SSR spinner. */
+  lead?: (tone: string) => Node | null;
+}
+
+/**
+ * A quiet chip cell — hairline border, surface fill, tone stamped for the consumer's
+ * CSS. The sibling of {@link makeStatusRenderer}: that one draws the data-catalog
+ * grids' tinted dot-pill from a hex map, this one draws the settings surface's quieter
+ * bordered chip and leaves every color to the page, so a chip can be toned off the
+ * theme's semantic tokens instead of a literal.
+ */
+export function makeQuietChipRenderer(options: QuietChipOptions = {}) {
+  const { toneField, className = 'bcn-grid-quiet-chip', lead } = options;
+  return (p: ICellRendererParams) => {
+    const label = p.value == null ? '' : String(p.value);
+    if (!label) return '';
+    const el = document.createElement('span');
+    el.className = className;
+    const tone = toneField ? String(p.data?.[toneField] ?? '') : '';
+    if (tone) el.dataset.tone = tone;
+    const leadNode = tone ? lead?.(tone) : null;
+    if (leadNode) el.append(leadNode);
+    el.append(label);
+    return el;
+  };
+}
+
 /** Underlined teal link cell (the Name / Commitment / Source Document columns). */
 export function linkRenderer(p: ICellRendererParams) {
   const el = document.createElement('a');

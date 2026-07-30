@@ -167,7 +167,6 @@ export interface Operation {
   scope: 'tenant' | 'all-tenants';
   /** True when the operation opens a multi-step flow instead of running on click. */
   guided?: boolean;
-  guidedNote?: string;
 }
 
 export interface OperationRun {
@@ -1748,7 +1747,6 @@ export const OPERATIONS: Operation[] = [
     description: 'Matches a folder of field files to action implementations by filename and creates an evidence-of-compliance record for each match. Runs against this tenant.',
     scope: 'tenant',
     guided: true,
-    guidedNote: 'Pattern-matched file ingest with preview before commit',
   },
   {
     id: 'extract-source-pdfs',

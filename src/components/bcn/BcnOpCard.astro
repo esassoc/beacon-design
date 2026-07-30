@@ -14,10 +14,10 @@
 // dialog; on the card only the all-tenants alert repeats it. Nothing else on the card is
 // authored here; the copy is the registry's.
 //
-// GUIDED vs INSTANT. A guided op links to its own multi-step run and gets no dialog —
-// its `guidedNote` rides beside the link as a caption. An instant op fires from the card,
-// so it carries an esa-dialog confirm; an 'all-tenants' instant op additionally makes the
-// confirm button wait on the operator typing the operation name back.
+// GUIDED vs INSTANT. A guided op links to its own multi-step run and gets no dialog. An
+// instant op fires from the card, so it carries an esa-dialog confirm; an 'all-tenants'
+// instant op additionally makes the confirm button wait on the operator typing the
+// operation name back.
 //
 // Behavior in ./ops-console.ts (one controller for every card on the page). On confirm it
 // dispatches `bcn-op-run` on document — the run-history sibling listens and prepends a row.
@@ -27,9 +27,9 @@
 // description + scope alert + esa-text-field the typed-name gate needs. Composed
 // esa-dialog (the lego built for slotted bodies) instead. Everything else IS a lego:
 // esa-card (outlined), esa-alert-box (the warning line), esa-button, esa-text-field,
-// plus stack/cluster primitives and type roles. The only CSS left is two text sizes and
-// the card/dialog token re-points. Checked Beacon (prod ships these jobs as bare nav
-// tiles — nothing to port). bcn-op-card is the reusable home.
+// plus stack/cluster primitives and type roles. The only CSS left is two text colors,
+// the card/dialog token re-points, and one hub-bug patch. Checked Beacon (prod ships
+// these jobs as bare nav tiles — nothing to port). bcn-op-card is the reusable home.
 import type { Operation } from '../../data/settings-registry';
 import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
@@ -55,23 +55,22 @@ const scopeLine = allTenants
 >
   <EsaCard variant="outlined" title={op.name}>
     <div class="stack" data-gap="sm">
-      <p class="bcn-op__desc">{op.description}</p>
+      <p class="bcn-op__desc type-body-small">{op.description}</p>
       {allTenants && <EsaAlertBox variant="warning">{scopeLine}</EsaAlertBox>}
     </div>
 
     <div class="cluster" data-gap="sm" slot="footer">
       {
         op.guided ? (
-          <EsaButton color="ghost" appearance="outline" size="sm" icon="arrow-right" href="#">
+          <EsaButton color="ghost" appearance="outline" size="md" icon="arrow-right" href="#">
             Open guided run
           </EsaButton>
         ) : (
-          <EsaButton color="primary" size="sm" data-op-run={op.id}>
+          <EsaButton color="primary" size="md" data-op-run={op.id}>
             Run…
           </EsaButton>
         )
       }
-      {op.guided && op.guidedNote && <span class="bcn-op__note">{op.guidedNote}</span>}
     </div>
   </EsaCard>
 
@@ -81,11 +80,13 @@ const scopeLine = allTenants
     !op.guided && (
       <esa-dialog data-op-dialog={op.id} heading={`Run ${op.name}?`}>
         <div class="stack" data-gap="sm">
-          <p class="bcn-op__desc">{op.description}</p>
+          {/* Full size here, unlike the card's 14px: in the confirm the description is
+              not a caption under a title, it IS what the operator is reading. */}
+          <p class="bcn-op__dialog-desc type-body">{op.description}</p>
           {allTenants ? (
             <EsaAlertBox variant="warning">{scopeLine}</EsaAlertBox>
           ) : (
-            <p class="bcn-op__scope-line">{scopeLine}</p>
+            <p class="bcn-op__scope-line type-body">{scopeLine}</p>
           )}
           {allTenants && (
             <esa-text-field
@@ -127,21 +128,27 @@ const scopeLine = allTenants
     --z-modal-backdrop: 1250;
   }
 
+  /* HUB BUG (esa-alert-box): the variant icon is an inline <svg> inside
+     .esa-alert-box__icon, so it sits on that div's text baseline and the inherited line
+     box hangs ~6px of descender space UNDER the 20px glyph — a one-line warning measures
+     53px where its text needs 47px, and the icon reads low against the line it labels.
+     Blocking the svg collapses the line box to the glyph; nothing moves, the dead space
+     goes. Scoped to .bcn-op, :global because the lego's internals carry its own hash. */
+  .bcn-op :global(.esa-alert-box__icon svg) {
+    display: block;
+  }
+
+  /* Same scale as the settings rows beside them (BcnSettingRow's __desc). */
   .bcn-op__desc {
-    font-size: 1rem; /* 16px */
-    line-height: 1.5;
+    line-height: 1.4;
+    color: var(--color-text-secondary);
+  }
+
+  .bcn-op__dialog-desc {
     color: var(--color-text-secondary);
   }
 
   .bcn-op__scope-line {
-    font-size: 1rem; /* 16px */
-    line-height: 1.5;
-    color: var(--color-text-tertiary);
-  }
-
-  .bcn-op__note {
-    font-size: 0.875rem; /* 14px — caption beside the action */
-    line-height: 1.4;
     color: var(--color-text-tertiary);
   }
 </style>

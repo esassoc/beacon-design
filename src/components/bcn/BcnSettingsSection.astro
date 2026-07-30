@@ -72,18 +72,17 @@ const isSample =
 <section id={anchorId} class="bcn-set">
   <EsaCard variant="outlined" title={section.title} subtitle={section.description}>
     {
-      /* A GRID section's add action sits in the card HEADER, right-aligned by
-         esa-card's own actions slot — a grid ends at its last row, so a button welded
-         under it reads as a row. The table sections keep theirs as the body's last
-         block (below).
+      /* EVERY collection's add action sits in the card HEADER, right-aligned by
+         esa-card's own actions slot (grids first, then the table sections joined them —
+         Andy, 2026-07-30).
 
          The Astro quirk: a slot="" child registers the slot from its mere presence in
          the expression, so every other card grows an empty .esa-card__actions — an
          empty flex div in a header that is already space-between, no chrome and no
          height of its own. Tolerable here where the same quirk was NOT tolerable for
-         the footer slot, which drew a filled band. Grid + addLabel is the only case
-         that emits a button; data-settings-add rides it either way. */
-      section.kind === 'collection' && isGrid && section.addLabel && (
+         the footer slot, which drew a filled band. Collection + addLabel is the only
+         case that emits a button; data-settings-add rides it for page wiring. */
+      section.kind === 'collection' && section.addLabel && (
         <EsaButton
           slot="actions"
           size="sm"
@@ -169,20 +168,6 @@ const isSample =
     }
 
     {
-      /* A TABLE section's add action lives in the BODY, not the card's footer slot:
-         Astro registers a named slot even when its conditional expression renders
-         nothing, so a footer expression here gave every rows/pairs card an empty
-         footer band. (The grid sections' action is in the header — see the top.) */
-      section.kind === 'collection' && !isGrid && section.addLabel && (
-        <div class="bcn-set__add">
-          <EsaButton size="sm" color="ghost" appearance="outline" icon="plus" data-settings-add={section.id}>
-            {section.addLabel}
-          </EsaButton>
-        </div>
-      )
-    }
-
-    {
       section.kind === 'pairs' && (
         <div class="bcn-set__scroll">
           <table class="bcn-set__table">
@@ -242,14 +227,6 @@ const isSample =
     display: block;
     /* The section nav jumps to #sec-<id>; keep the card clear of the sticky topbar. */
     scroll-margin-block-start: var(--spacing-600);
-  }
-
-  /* The add action — a quiet last block in the card body, fenced from the records above
-     by a hairline. (Deliberately NOT the card's footer slot — see the markup note.) */
-  .bcn-set__add {
-    padding-block-start: var(--spacing-400);
-    margin-block-start: var(--spacing-400);
-    border-block-start: 1px solid var(--color-border-light);
   }
 
   /* .esa-card__subtitle is esa-card's own header class; the lego sets its size and color

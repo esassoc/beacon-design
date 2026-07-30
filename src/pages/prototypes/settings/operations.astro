@@ -25,8 +25,8 @@ const settingsHref = withBase('/prototypes/settings');
   sections:
     - scope marker   -> esa-badge                # page.scope === 'platform', in PageLayout's title-badge slot
     - settings frame -> bcn-settings-shell       # search + zone nav + view-as switch; wraps all page content
-    - operations     -> bcn-op-card              # one card per job: scope badge, confirm dialog, typed-name gate
-    - run history    -> bcn-run-history          # every run newest-first; listens for bcn-op-run itself
+    - operations     -> bcn-op-card              # one card per job: scope alert, confirm dialog, typed-name gate
+    - run history    -> bcn-run-history          # every run newest-first as a beacon-grid; listens for bcn-op-run itself
 -->
 
 <AppShell expandedSections={[]} title={`${page.title} — Settings — Beacon`}>
