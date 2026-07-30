@@ -11284,10 +11284,9 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
     background 0.12s ease,
     color 0.12s ease;
 }
-.bcn-sr__scope--active {
-  background: var(--color-primary);
-  color: var(--color-text-inverse);
-  font-weight: var(--font-weight-semibold);
+.bcn-sr--idle .bcn-sr__scope {
+  color: var(--color-text-tertiary);
+  cursor: default;
 }
 .bcn-sr__scope-label {
   flex: 1;
@@ -11301,6 +11300,9 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
   font-size: 11px;
   font-variant-numeric: tabular-nums;
   opacity: 0.8;
+}
+.bcn-sr--idle .bcn-sr__scope-count {
+  display: none;
 }
 .bcn-sr__main {
   flex: 1 1 auto;
@@ -11319,19 +11321,31 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
 .bcn-sr__landing {
   padding: var(--spacing-700) 0;
 }
-.bcn-sr__landing[hidden],
-.bcn-sr__results[hidden] {
-  display: none;
-}
 .bcn-sr__results {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-500);
 }
+.bcn-sr__landing[hidden],
+.bcn-sr__results[hidden] {
+  display: none;
+}
+.bcn-sr__search:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-subtle);
+}
+.bcn-sr__scope--active {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-weight: var(--font-weight-semibold);
+}
 .bcn-sr__group {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-150);
+}
+.bcn-sr__group[hidden] {
+  display: none;
 }
 .bcn-sr__group-head {
   display: flex;
@@ -11383,6 +11397,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
   gap: var(--spacing-200);
   min-width: 0;
 }
+.bcn-sr__row-code {
+  flex: none;
+  padding: 1px 6px;
+  border-radius: var(--radius-100);
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+  white-space: nowrap;
+  color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 12%, white);
+}
 .bcn-sr__row-title {
   flex: 0 1 auto;
   min-width: 0;
@@ -11404,37 +11429,6 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
   line-height: 1.7;
   color: var(--color-text-primary);
   text-align: left;
-}
-.bcn-sr__row-snippet[hidden] {
-  display: none;
-}
-.bcn-sr__row-code {
-  flex: none;
-  padding: 1px 6px;
-  border-radius: var(--radius-100);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.4;
-  white-space: nowrap;
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-}
-.bcn-sr__empty[hidden] {
-  display: none;
-}
-.bcn-sr--idle .bcn-sr__scope {
-  color: var(--color-text-tertiary);
-  cursor: default;
-}
-.bcn-sr--idle .bcn-sr__scope-count {
-  display: none;
-}
-.bcn-sr__search:focus-within {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-primary-subtle);
-}
-.bcn-sr__group[hidden] {
-  display: none;
 }
 .bcn-sr__row-snippet p {
   margin: 0;
@@ -11460,6 +11454,12 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
   font-size: var(--type-size-100);
   font-style: normal;
   color: var(--color-text-tertiary);
+}
+.bcn-sr__row-snippet[hidden] {
+  display: none;
+}
+.bcn-sr__empty[hidden] {
+  display: none;
 }
 .esa-empty-state {
   --_empty-icon-size: var(--empty-state-icon-size-md, 48px);

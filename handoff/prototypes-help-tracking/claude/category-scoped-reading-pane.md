@@ -345,6 +345,9 @@ The same reading pane the help home uses, but SCOPED to this category and landin
   line-height: var(--line-height-relaxed);
   letter-spacing: var(--letter-spacing-normal);
 }
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -489,9 +492,6 @@ The same reading pane the help home uses, but SCOPED to this category and landin
   --_badge-font-size: 11px;
   --_badge-padding-x: var(--spacing-150, 0.375rem);
   --_badge-min-width: var(--badge-height-sm, 22px);
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
 }
 ```
 

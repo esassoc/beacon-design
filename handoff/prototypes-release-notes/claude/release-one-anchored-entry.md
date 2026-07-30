@@ -468,6 +468,10 @@ One release in the stream: a quiet meta line ("Latest" + the long date) above th
 
 ## Styles
 ```css
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
 .bcn-release-nav {
   position: sticky;
   top: var(--spacing-500, 1.5rem);
@@ -772,10 +776,6 @@ One release in the stream: a quiet meta line ("Latest" + the long date) above th
 .bcn-gd__label .esa-icon {
   color: var(--color-text-tertiary);
   flex: none;
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
