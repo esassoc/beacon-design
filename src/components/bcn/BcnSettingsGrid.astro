@@ -108,7 +108,7 @@ const payload = { columns, rows, hasBadges };
   // grid never load AG Grid.
   import { createGrid, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
   import type { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
-  import { settingsTheme } from '../../lib/beacon-grid';
+  import { settingsTheme, settingsEsaTheme } from '../../lib/beacon-grid';
 
   ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -170,9 +170,9 @@ const payload = { columns, rows, hasBadges };
     }
 
     const gridOptions: GridOptions = {
-      // One theme, tenant page or ESA page: the kit's header is the card's own white
-      // with a hairline under it, so nothing stacks under the card's title band.
-      theme: settingsTheme,
+      // Tenant pages keep the prod teal header (the beacon-grid identity); ESA pages
+      // run the quiet light header so nothing stacks under the charcoal card band.
+      theme: mount.closest('[data-esa-surface]') ? settingsEsaTheme : settingsTheme,
       rowData: rows,
       columnDefs,
       // The card grows with the rows instead of holding a fixed scrollport.

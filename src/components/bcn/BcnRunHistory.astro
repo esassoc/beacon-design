@@ -113,7 +113,7 @@ const rows = runs.map((run) => {
 <script>
   import { createGrid, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
   import type { ColDef, GridOptions } from 'ag-grid-community';
-  import { settingsTheme, makeQuietChipRenderer } from '../../lib/beacon-grid';
+  import { settingsTheme, settingsEsaTheme, makeQuietChipRenderer } from '../../lib/beacon-grid';
 
   ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -198,9 +198,9 @@ const rows = runs.map((run) => {
     ];
 
     const gridOptions: GridOptions<RunRow> = {
-      // The kit's one card-hosted theme, the same one BcnSettingsGrid mounts, so the
-      // two lists on this page can't disagree.
-      theme: settingsTheme,
+      // The same audience test BcnSettingsGrid runs, so the two lists on a page can't
+      // disagree — Operations is an ESA surface, so this resolves to the quiet header.
+      theme: mount.closest('[data-esa-surface]') ? settingsEsaTheme : settingsTheme,
       rowData: rows,
       columnDefs,
       // The card grows with the rows instead of holding a fixed scrollport.

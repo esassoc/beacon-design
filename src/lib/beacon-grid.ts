@@ -48,21 +48,26 @@ export const beaconTheme = themeQuartz.withPart(beaconIconOverrides).withParams(
  * Settings collection sections and the Operations run history) rather than
  * owning the page. ONE theme for that surface — there is no ESA-admin variant.
  *
- * QUIET LIGHT HEADER (Andy, 2026-07-30). A page grid owns its viewport and can
- * afford a filled band; a card-hosted grid already sits under the card's own
- * title, and on an ESA-admin page under a charcoal one, so a filled band made
- * the card read as two stacked chrome bars — teal under charcoal, or charcoal
- * under charcoal once the two were matched. Both are gone. The header is the
- * card's white with dark semibold labels and a hairline under the row, so a
- * section reads title → columns → rows in one descent, and the card band is the
- * only dark thing on the card. Everything else is beaconTheme's: same font,
- * same 13px, same accent, same zebra, same borders.
+ * TWO settings variants (Andy, 2026-07-30). A TENANT page's card grid keeps the
+ * prod teal header — the beacon-grid identity — because the card band above it is
+ * light and the teal is the only chrome bar. An ESA page's card sits under the
+ * charcoal band, where any filled grid header stacked a second dark bar (teal
+ * under charcoal, or charcoal under charcoal once the two were matched), so the
+ * ESA variant runs a QUIET LIGHT header: the card's white, dark semibold labels,
+ * a hairline doing the band's job — title → columns → rows in one descent, the
+ * card band the only dark thing. Everything else is beaconTheme's: same font,
+ * same 13px, same accent, same zebra, same borders. Consumers pick by
+ * `host.closest('[data-esa-surface]')`.
  *
- * The corners also square-to-round: beaconTheme squares its bottom pair because
- * a page grid has the download/record-count strip welded under it, and a
+ * Both square-to-round the corners: beaconTheme squares its bottom pair because a
+ * page grid has the download/record-count strip welded under it, and a
  * card-hosted grid ends at its last row.
  */
 export const settingsTheme = beaconTheme.withParams({
+  wrapperBorderRadius: '4px',
+});
+
+export const settingsEsaTheme = beaconTheme.withParams({
   wrapperBorderRadius: '4px',
   headerBackgroundColor: '#ffffff', // the card body's own surface
   headerTextColor: '#3d3d3d', // gray-900 — the same ink the rows carry
