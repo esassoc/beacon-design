@@ -293,6 +293,17 @@ const isTimestamp = (value: string): boolean => ISO.test(value);
     box-sizing: border-box;
   }
 
+  /* On an ESA-admin settings page bcn-settings-shell stamps [data-esa-surface] and the
+     cards go dark glass, but --color-surface stays white on purpose (it still paints
+     switch thumbs and dialog panels) — so this neutral chip would be a bright white pill
+     in every row. Take the fill from the re-pointed sunken step instead. The all-tenants
+     tone below is left alone deliberately: a run that reaches every tenant should keep
+     shouting in warning color. */
+  :global([data-esa-surface]) .bcn-run-history__scope:not([data-scope='all-tenants']),
+  :global([data-esa-surface]) .bcn-run-history__running {
+    background: var(--color-surface-sunken);
+  }
+
   /* An all-tenants run reaches past this tenant, so it is toned — mixed off the
      theme's own --color-warning rather than the hub's warning-subtle/strong pair,
      which still resolves to yellow while Beacon's warning is orange. */

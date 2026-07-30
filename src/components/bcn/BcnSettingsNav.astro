@@ -59,13 +59,13 @@ const blocks = AUDIENCE_BLOCKS.map((block) => ({
       class={`bcn-settings-nav__block${block.id === 'esa-admin' ? ' bcn-settings-nav__block--esa' : ''}`}
       aria-labelledby={`settings-aud-${block.id}`}
     >
-      <h2 class="type-body-small bcn-settings-nav__aud" id={`settings-aud-${block.id}`}>
+      <h2 class="type-body bcn-settings-nav__aud" id={`settings-aud-${block.id}`}>
         {block.title}
       </h2>
       {block.zones.map(({ zone, pages }) => (
         <div class="bcn-settings-nav__group">
           <h3
-            class="type-body-small bcn-settings-nav__zone"
+            class="type-label bcn-settings-nav__zone"
             id={`settings-zone-${block.id}-${zone.id}`}
           >
             {zone.title}
@@ -108,20 +108,41 @@ const blocks = AUDIENCE_BLOCKS.map((block) => ({
     gap: var(--spacing-400, 1rem);
   }
 
-  /* The ESA Admin block is a quiet dark panel — the house inverse surface (the topbar's
-     family, same as the help bar's dark chrome), so platform-operator territory reads as
-     a different world at a glance. The panel IS the divider between the two audience
-     blocks; no hairline needed. */
+  /* The ESA Admin block is a dark-GLASS panel, deliberately the same chrome family as
+     the floating help bar (bcn-help-bar) rather than the flat --color-surface-inverse
+     it used to be: solid inverse read as a near-black slab dropped into the rail, while
+     the translucent recipe lets the page value through and settles into a mid-charcoal.
+     Same tokens, same blur, same fallbacks as the action bar. The panel IS the divider
+     between the two audience blocks; no hairline needed. */
   .bcn-settings-nav__block--esa {
-    background: var(--color-surface-inverse);
+    background: var(--bcn-helpbar-bg);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    backdrop-filter: blur(14px) saturate(1.4);
+    border: 1px solid var(--bcn-helpbar-border);
     border-radius: var(--radius-300, 0.5rem);
     padding: var(--spacing-300, 0.75rem);
+  }
+  /* No backdrop-filter support (either prefix) → opaque dark fallback. */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .bcn-settings-nav__block--esa {
+      background: var(--bcn-helpbar-bg-solid);
+    }
+  }
+  /* Honor a reduced-transparency preference — drop the blur, go solid. */
+  @media (prefers-reduced-transparency: reduce) {
+    .bcn-settings-nav__block--esa {
+      background: var(--bcn-helpbar-bg-solid);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
   }
   .bcn-settings-nav__block--esa .bcn-settings-nav__aud {
     color: var(--color-text-inverse);
   }
   .bcn-settings-nav__block--esa .bcn-settings-nav__zone {
-    color: color-mix(in srgb, var(--color-text-inverse) 64%, transparent);
+    /* 72%, not the 64% the near-black panel could carry: the glass composites lighter,
+       so the eyebrow needs more ink to hold 4.5:1 at its smaller size. */
+    color: color-mix(in srgb, var(--color-text-inverse) 72%, transparent);
   }
   .bcn-settings-nav__block--esa .bcn-settings-nav__link {
     color: color-mix(in srgb, var(--color-text-inverse) 78%, transparent);
@@ -130,8 +151,12 @@ const blocks = AUDIENCE_BLOCKS.map((block) => ({
     background: color-mix(in srgb, var(--color-text-inverse) 8%, transparent);
     color: var(--color-text-inverse);
   }
+  /* Current page — the same "hover is half of current" logic as the light block, run in
+     the other direction: on dark, the most prominent row is the LIGHTEST, so it takes a
+     16% ink wash. (--color-surface-inverse-hover is a solid near-black and would now sink
+     the current row BELOW the glass it sits on.) */
   .bcn-settings-nav__block--esa .bcn-settings-nav__link[aria-current='page'] {
-    background: var(--color-surface-inverse-hover);
+    background: color-mix(in srgb, var(--color-text-inverse) 16%, transparent);
     color: var(--color-text-inverse);
   }
   /* The teal focus ring drowns on the dark surface — ring in inverse ink instead. */
@@ -139,9 +164,8 @@ const blocks = AUDIENCE_BLOCKS.map((block) => ({
     outline-color: var(--color-text-inverse);
   }
 
-  /* Tier 1 — the audience heading. Same 14px as everything in the rail (hierarchy by
-     weight and ink, never case/tracking/micro sizes); semibold primary, the strongest
-     text here. */
+  /* Tier 1 — the audience heading, the strongest text in the rail: .type-body (a step
+     ABOVE the links' .type-body-small), semibold, primary ink. */
   .bcn-settings-nav__aud {
     margin: 0;
     padding-inline: var(--spacing-300, 0.75rem);
@@ -149,13 +173,18 @@ const blocks = AUDIENCE_BLOCKS.map((block) => ({
     color: var(--color-text-primary);
   }
 
-  /* Tier 2 — zone subheadings step down to medium/secondary so they read as internal
-     structure under the audience heading, not as its peer. */
+  /* Tier 2 — zone subheadings as classic eyebrow labels: uppercase, tracked, tertiary,
+     a step BELOW the links so the three tiers read 15 semibold > 12 eyebrow > 14 link.
+     This deliberately overrides the house "no ornamental section labels" rule — Andy's
+     explicit call for the settings rail (2026-07-30). Do not revert it on review: the
+     rail carries two grouping tiers in one narrow column, and the eyebrow is what keeps
+     the zone from competing with the audience heading above it. */
   .bcn-settings-nav__zone {
     margin: 0 0 var(--spacing-100, 0.25rem);
     padding-inline: var(--spacing-300, 0.75rem);
-    font-weight: var(--font-weight-medium, 500);
-    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-tertiary);
   }
 
   .bcn-settings-nav__list {

@@ -36,7 +36,7 @@ const settingsHref = withBase('/prototypes/settings');
   >
     {page.scope === 'platform' && <EsaBadge slot="title-badge" value="All tenants" size="sm" />}
 
-    <BcnSettingsShell activePageId={page.id}>
+    <BcnSettingsShell activePageId={page.id} esaSurface>
       <div class="stack" data-gap="xl">
         <div class="grid" data-gap="lg" style="--grid-min: 22rem;">
           {OPERATIONS.map((op) => <BcnOpCard op={op} />)}

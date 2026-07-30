@@ -53,7 +53,7 @@ const settingsHref = withBase('/prototypes/settings');
   >
     {page.scope === 'platform' && <EsaBadge slot="title-badge" value="All tenants" size="sm" />}
 
-    <BcnSettingsShell activePageId={page.id}>
+    <BcnSettingsShell activePageId={page.id} esaSurface={page.audience === 'esa-admin'}>
       <div class="stack" data-gap="xl">
         <div class="stack" data-gap="lg">
           {page.sections.map((section) => <BcnSettingsSection section={section} />)}

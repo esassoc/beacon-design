@@ -72,7 +72,7 @@ const moduleOptions = [...new Set(TENANTS.flatMap((tenant) => tenant.modules))];
   >
     {page.scope === 'platform' && <EsaBadge slot="title-badge" value="All tenants" size="sm" />}
 
-    <BcnSettingsShell activePageId={page.id}>
+    <BcnSettingsShell activePageId={page.id} esaSurface>
       <div class="stack" data-gap="xl">
         <BcnSettingsSection section={tenantList} />
       </div>
