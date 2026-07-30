@@ -26,7 +26,12 @@
 // This rail is also strictly SIMPLER — static links, no client runtime at all.
 // Checked Beacon (prod settings nav is a bespoke Angular list). Owned quiet list;
 // bcn-settings-nav is its reusable home.
-import { SETTINGS_ZONES, pagesByZone, settingsPagePath } from '../../data/settings-registry';
+import {
+  SETTINGS_ZONES,
+  pagesByZone,
+  settingsPagePath,
+  settingsPageCount,
+} from '../../data/settings-registry';
 import type { SettingsAudience } from '../../data/settings-registry';
 import { withBase } from '../../lib/base';
 
@@ -75,17 +80,25 @@ const blocks = AUDIENCE_BLOCKS.map((block) => ({
             aria-labelledby={`settings-zone-${block.id}-${zone.id}`}
             role="list"
           >
-            {pages.map((page) => (
-              <li class="bcn-settings-nav__item">
-                <a
-                  class="type-body-small bcn-settings-nav__link"
-                  href={withBase(settingsPagePath(page.id))}
-                  aria-current={page.id === activePageId ? 'page' : undefined}
-                >
-                  {page.title}
-                </a>
-              </li>
-            ))}
+            {pages.map((page) => {
+              const count = settingsPageCount(page);
+              return (
+                <li class="bcn-settings-nav__item">
+                  <a
+                    class="type-body-small bcn-settings-nav__link"
+                    href={withBase(settingsPagePath(page.id))}
+                    aria-current={page.id === activePageId ? 'page' : undefined}
+                  >
+                    <span class="bcn-settings-nav__page">{page.title}</span>
+                    {count !== undefined && (
+                      <span class="bcn-settings-nav__count" aria-label={`${count} records`}>
+                        {count}
+                      </span>
+                    )}
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         </div>
       ))}
@@ -198,12 +211,34 @@ const blocks = AUDIENCE_BLOCKS.map((block) => ({
   }
 
   .bcn-settings-nav__link {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-200, 0.5rem);
     padding: var(--spacing-150, 0.375rem) var(--spacing-300, 0.75rem);
     border-radius: var(--radius-200, 0.5rem);
     color: var(--color-text-secondary);
     text-decoration: none;
     transition: background 0.1s ease, color 0.1s ease;
+  }
+  .bcn-settings-nav__page {
+    min-width: 0;
+  }
+  /* Record count — quiet meta at the row's end, mirroring the live count badges on the
+     real admin dashboard tiles. Plain text, not a badge: a filled chip on every list row
+     would out-shout the page names. */
+  .bcn-settings-nav__count {
+    flex: none;
+    font-size: 0.8125rem; /* 13px — genuine meta */
+    color: var(--color-text-tertiary);
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-settings-nav__block--esa .bcn-settings-nav__count {
+    color: color-mix(in srgb, #ffffff 55%, transparent);
+  }
+  /* The current row's count keeps the row's ink so the pair reads as one unit. */
+  .bcn-settings-nav__link[aria-current='page'] .bcn-settings-nav__count {
+    color: inherit;
   }
   /* Hover — HALF the sunken wash, so the current row stays the darkest thing in the
      rail. Both states are neutral, so value is the only thing separating them. */

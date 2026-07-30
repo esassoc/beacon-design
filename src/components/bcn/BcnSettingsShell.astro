@@ -21,17 +21,11 @@
 // preview switch shipped in v1 and was removed on review, 2026-07-29.)
 //
 // ESA SURFACE: an ESA-admin page passes `esaSurface`, which stamps `data-esa-surface` on
-// the content column and puts its CARDS into the same dark-glass chrome family as the ESA
-// block in the rail and the floating help bar. The mechanism is a token re-point, not
-// per-component styling: the semantic layer (--color-text-*, --color-border*,
-// --color-surface-sunken) is re-pointed once on .esa-card and every bcn-* and esa-* thing
-// inside inherits it, because they all read the semantic layer and never the raw ramp.
-//
-// The re-point lives on the CARD, not on the column, and that is load-bearing. Overlays
-// rendered beside a card — bcn-op-card's esa-dialog confirm, the tenants side dialog —
-// are page-level surfaces that must stay LIGHT; scoping to .esa-card leaves them alone
-// for free instead of needing a reset. Same for bcn-danger-zone, which keeps its light
-// red-bordered box so a destructive action stays in its own visual register.
+// the content column and gives its cards a DARK HEADER BAND in the settings chrome's
+// charcoal (the help-bar family) — title + subtitle in light ink, body in normal light
+// mode. (v2: the fully dark-glass card bodies shipped 2026-07-30 AM were pulled the same
+// day — the band alone marks ESA territory without asking controls to live on charcoal.)
+// Mechanism: esa-card's own public header tokens, nothing per-component.
 //
 // bcn-lego-checked: the two columns are the .sidebar primitive. No esa-* lego frames a
 // settings rail: esa-app-shell is the app-wide topbar/body chrome one level up, and
@@ -97,86 +91,21 @@ const { activePageId, esaSurface = false } = Astro.props;
     --card-bg: #ffffff;
   }
 
-  /* Snapshot of the LIGHT semantic ink, captured on the column — one level above the
-     re-point below, so these resolve against the theme's own values and then inherit
-     down unchanged. It is how anything that must stay light chrome inside a dark card
-     gets handed the original values back without reading the raw --bcn-gray-* ramp. */
-  .bcn-settings-shell__content[data-esa-surface] {
-    --bcn-esa-ink-light: var(--color-text-primary);
-    --bcn-esa-ink-light-secondary: var(--color-text-secondary);
-
-    /* Footer fill is set HERE rather than on .esa-card below so a card that has its own
-       opinion still wins — bcn-op-card deliberately zeroes it so its Run action sits on
-       the card surface behind a single hairline, and a re-point on the card itself would
-       silently overrule that. The mix is spelled out because at this level the semantic
-       tokens are still the light ones. */
-    --card-footer-bg: color-mix(in srgb, var(--color-text-inverse) 10%, transparent);
-  }
-
-  /* Re-skins the hub's .esa-card class: the token re-point that turns an ESA-admin page's
-     cards into dark glass. --card-bg and the blur are the chrome; everything else is the
-     SEMANTIC layer, re-pointed here so slotted bcn-* components and esa-* legos invert by
-     inheritance rather than by being restyled one at a time. Ink is mixed off
-     --color-text-inverse; the percentages are contrast-driven against the composited
-     glass (~#494b4d over the page ground), which is lighter than a solid inverse surface:
-     secondary lands ~6.2:1, tertiary ~4.8:1, both AA at the 14–16px these carry.
-     --color-surface deliberately does NOT move — it still has to paint esa-switch-toggle's
-     thumb and esa-select's option panel white. */
+  /* Re-skins the hub's .esa-card class on ESA-admin pages: a dark
+     HEADER BAND only — the body stays light (Andy, 2026-07-30: fully dark card bodies
+     weren't working; the band alone marks the territory). Solid dark rather than glass:
+     a shallow band over a white body has nothing worth blurring behind it. The card's
+     own overflow:hidden clips the band into the rounded corners, and this is the same
+     anatomy the lego's `headerVariant="primary"` ships — a colored band with inverse
+     ink — stated in the settings chrome's charcoal instead of the brand fill. */
   .bcn-settings-shell__content[data-esa-surface] :global(.esa-card) {
-    --card-bg: var(--bcn-helpbar-bg);
-    -webkit-backdrop-filter: blur(14px) saturate(1.4);
-    backdrop-filter: blur(14px) saturate(1.4);
-
-    /* Deeper white than gray-1, and hotter mixes — the first pass read muddy on the
-       glass (Andy, 2026-07-30). Primary is pure white; secondary ~88% holds ~7:1 on the
-       composited glass, tertiary ~72% stays comfortably AA at caption sizes. */
-    --color-text-primary: #ffffff;
-    --color-text-secondary: color-mix(in srgb, #ffffff 88%, transparent);
-    --color-text-tertiary: color-mix(in srgb, #ffffff 72%, transparent);
-    --color-border: color-mix(in srgb, #ffffff 24%, transparent);
-    --color-border-light: color-mix(in srgb, #ffffff 15%, transparent);
-    --color-surface-sunken: color-mix(in srgb, #ffffff 10%, transparent);
-
-    /* Accents on the dark surface: the Beacon teal on-track (#005862) sinks into the
-       charcoal, so checked switches run in Aldo green — the house's one bright accent
-       (Andy's call, 2026-07-30). Off-tracks go to a light translucent gray so the state
-       pair reads by hue AND value; the lego's thumb stays white via --color-surface. */
-    --switch-toggle-track-bg-checked: var(--bcn-aldo);
-    --switch-toggle-track-bg: color-mix(in srgb, #ffffff 34%, transparent);
-
-    /* esa-card reads each of these as `var(--card-X, var(--semantic-X))`, so re-pointing
-       the semantic layer alone is NOT enough: the hub ships a fully resolved --card-*
-       layer on :root (--card-header-color #3d3d3d, --card-header-border-color #efefef,
-       --card-footer-bg #efefef), which short-circuits the fallback and left card titles
-       dark and header hairlines near-white on the glass. Pointing them back at the
-       semantic tokens re-opens the chain the lego documents — and because these are
-       declared on the same element, they pick up the re-points above. (--card-footer-bg
-       is handled a level up; see the note there.) */
-    --card-border-color: var(--color-border);
-    --card-header-color: var(--color-text-primary);
-    --card-header-border-color: var(--color-border-light);
+    --card-header-bg: var(--bcn-helpbar-bg-solid);
+    --card-header-color: #ffffff;
+    --card-header-border-color: transparent;
   }
-
-  /* No backdrop-filter support (either prefix) → opaque dark fallback, same as the help bar. */
-  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    .bcn-settings-shell__content[data-esa-surface] :global(.esa-card) {
-      --card-bg: var(--bcn-helpbar-bg-solid);
-    }
+  /* The subtitle reads the secondary text token, not the header-color chain — hand it
+     light ink inside the band only. */
+  .bcn-settings-shell__content[data-esa-surface] :global(.esa-card__header .esa-card__subtitle) {
+    color: color-mix(in srgb, #ffffff 82%, transparent);
   }
-  @media (prefers-reduced-transparency: reduce) {
-    .bcn-settings-shell__content[data-esa-surface] :global(.esa-card) {
-      --card-bg: var(--bcn-helpbar-bg-solid);
-      -webkit-backdrop-filter: none;
-      backdrop-filter: none;
-    }
-  }
-
-  /* An alert inside a dark card keeps its light tinted fill (--color-warning-subtle and
-     friends are the whole point of the variant), so its ink has to stay dark or it turns
-     white-on-amber. Handed back through esa-alert-box's OWN public tokens. */
-  .bcn-settings-shell__content[data-esa-surface] :global(.esa-alert-box) {
-    --alert-box-title-color: var(--bcn-esa-ink-light);
-    --alert-box-text-color: var(--bcn-esa-ink-light-secondary);
-  }
-
 </style>

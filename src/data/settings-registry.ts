@@ -172,19 +172,21 @@ export interface TenantRecord {
 // folded in beside their neighbors.
 
 export const SETTINGS_ZONES: SettingsZone[] = [
-  {
-    id: 'general',
-    title: 'General',
-    icon: 'settings',
-    description: 'Tenant identity and branding, the product vocabulary, field definitions, and the pages added to the main menu.',
-    audience: 'tenant-admin',
-  },
+  // Platform leads (Andy, 2026-07-30): it opens the ESA Admin nav block, and no
+  // tenant-audience page lives in it, so the tenant block's order is untouched.
   {
     id: 'platform',
     title: 'Platform',
     icon: 'layout-dashboard',
     description: 'Tenant provisioning, feature flags, and the maintenance operations ESA runs across the platform.',
     audience: 'esa-admin',
+  },
+  {
+    id: 'general',
+    title: 'General',
+    icon: 'settings',
+    description: 'Tenant identity and branding, the product vocabulary, field definitions, and the pages added to the main menu.',
+    audience: 'tenant-admin',
   },
   {
     id: 'people-access',
@@ -1827,4 +1829,20 @@ export function settingsPage(id: string): SettingsPage | undefined {
 /** Base-less route for a settings page — wrap with withBase() at the call site. */
 export function settingsPagePath(id: string): string {
   return `/prototypes/settings/${id}`;
+}
+
+/**
+ * Record count for pages that ARE lists — the rail shows it beside the page name,
+ * mirroring the live count badges on the real admin dashboard tiles. Derivation only:
+ * collection sections sum their records; the bespoke platform pages count their own
+ * datasets. Pages of settings (rows) and fixed vocabularies (pairs) return undefined —
+ * a count adds nothing there.
+ */
+export function settingsPageCount(page: SettingsPage): number | undefined {
+  if (page.id === 'tenants') return TENANTS.length;
+  if (page.id === 'feature-flags') return FEATURE_FLAGS.length;
+  if (page.id === 'operations') return OPERATIONS.length;
+  const collections = page.sections.filter((s) => s.kind === 'collection');
+  if (collections.length === 0) return undefined;
+  return collections.reduce((sum, s) => sum + s.records.length, 0);
 }
