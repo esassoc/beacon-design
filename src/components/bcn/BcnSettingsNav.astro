@@ -136,32 +136,33 @@ const blocks = AUDIENCE_BLOCKS.map((block) => ({
       backdrop-filter: none;
     }
   }
+  /* Pure-white ink basis at hotter mixes than the first pass — gray-1 through the glass
+     read muddy (Andy, 2026-07-30). Links at 88% hold ~7:1; eyebrows at 78% clear AA at
+     their small size. */
   .bcn-settings-nav__block--esa .bcn-settings-nav__aud {
-    color: var(--color-text-inverse);
+    color: #ffffff;
   }
   .bcn-settings-nav__block--esa .bcn-settings-nav__zone {
-    /* 72%, not the 64% the near-black panel could carry: the glass composites lighter,
-       so the eyebrow needs more ink to hold 4.5:1 at its smaller size. */
-    color: color-mix(in srgb, var(--color-text-inverse) 72%, transparent);
+    color: color-mix(in srgb, #ffffff 78%, transparent);
   }
   .bcn-settings-nav__block--esa .bcn-settings-nav__link {
-    color: color-mix(in srgb, var(--color-text-inverse) 78%, transparent);
+    color: color-mix(in srgb, #ffffff 88%, transparent);
   }
   .bcn-settings-nav__block--esa .bcn-settings-nav__link:hover {
-    background: color-mix(in srgb, var(--color-text-inverse) 8%, transparent);
-    color: var(--color-text-inverse);
+    background: color-mix(in srgb, #ffffff 8%, transparent);
+    color: #ffffff;
   }
   /* Current page — the same "hover is half of current" logic as the light block, run in
      the other direction: on dark, the most prominent row is the LIGHTEST, so it takes a
      16% ink wash. (--color-surface-inverse-hover is a solid near-black and would now sink
      the current row BELOW the glass it sits on.) */
   .bcn-settings-nav__block--esa .bcn-settings-nav__link[aria-current='page'] {
-    background: color-mix(in srgb, var(--color-text-inverse) 16%, transparent);
-    color: var(--color-text-inverse);
+    background: color-mix(in srgb, #ffffff 18%, transparent);
+    color: #ffffff;
   }
-  /* The teal focus ring drowns on the dark surface — ring in inverse ink instead. */
+  /* The teal focus ring drowns on the dark surface — ring in white instead. */
   .bcn-settings-nav__block--esa .bcn-settings-nav__link:focus-visible {
-    outline-color: var(--color-text-inverse);
+    outline-color: #ffffff;
   }
 
   /* Tier 1 — the audience heading, the strongest text in the rail: .type-body (a step

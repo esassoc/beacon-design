@@ -154,12 +154,22 @@ const { activePageId, esaSurface = false } = Astro.props;
     -webkit-backdrop-filter: blur(14px) saturate(1.4);
     backdrop-filter: blur(14px) saturate(1.4);
 
-    --color-text-primary: var(--color-text-inverse);
-    --color-text-secondary: color-mix(in srgb, var(--color-text-inverse) 78%, transparent);
-    --color-text-tertiary: color-mix(in srgb, var(--color-text-inverse) 66%, transparent);
-    --color-border: color-mix(in srgb, var(--color-text-inverse) 22%, transparent);
-    --color-border-light: color-mix(in srgb, var(--color-text-inverse) 14%, transparent);
-    --color-surface-sunken: color-mix(in srgb, var(--color-text-inverse) 10%, transparent);
+    /* Deeper white than gray-1, and hotter mixes — the first pass read muddy on the
+       glass (Andy, 2026-07-30). Primary is pure white; secondary ~88% holds ~7:1 on the
+       composited glass, tertiary ~72% stays comfortably AA at caption sizes. */
+    --color-text-primary: #ffffff;
+    --color-text-secondary: color-mix(in srgb, #ffffff 88%, transparent);
+    --color-text-tertiary: color-mix(in srgb, #ffffff 72%, transparent);
+    --color-border: color-mix(in srgb, #ffffff 24%, transparent);
+    --color-border-light: color-mix(in srgb, #ffffff 15%, transparent);
+    --color-surface-sunken: color-mix(in srgb, #ffffff 10%, transparent);
+
+    /* Accents on the dark surface: the Beacon teal on-track (#005862) sinks into the
+       charcoal, so checked switches run in Aldo green — the house's one bright accent
+       (Andy's call, 2026-07-30). Off-tracks go to a light translucent gray so the state
+       pair reads by hue AND value; the lego's thumb stays white via --color-surface. */
+    --switch-toggle-track-bg-checked: var(--bcn-aldo);
+    --switch-toggle-track-bg: color-mix(in srgb, #ffffff 34%, transparent);
 
     /* esa-card reads each of these as `var(--card-X, var(--semantic-X))`, so re-pointing
        the semantic layer alone is NOT enough: the hub ships a fully resolved --card-*
