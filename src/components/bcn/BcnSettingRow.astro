@@ -75,16 +75,16 @@ const selectOptionsJson =
   <div class="bcn-setting-row__def stack">
     {
       isGroup ? (
-        <span class="bcn-setting-row__label type-body-large" id={labelId}>
+        <span class="bcn-setting-row__label type-body" id={labelId}>
           {item.label}
         </span>
       ) : (
-        <label class="bcn-setting-row__label type-body-large" id={labelId} for={controlId}>
+        <label class="bcn-setting-row__label type-body" id={labelId} for={controlId}>
           {item.label}
         </label>
       )
     }
-    <p class="bcn-setting-row__desc type-body">{item.description}</p>
+    <p class="bcn-setting-row__desc type-body-small">{item.description}</p>
   </div>
 
   <div class={controlClass} role={isGroup ? 'group' : undefined} aria-labelledby={isGroup ? labelId : undefined}>
@@ -246,12 +246,13 @@ const selectOptionsJson =
     flex-grow: 1;
     max-inline-size: 34rem;
   }
+  /* 16px name / 14px description — the same dense pairing as bcn-flag-row, so every
+     labelled row in the settings surface reads at one scale. */
   .bcn-setting-row__label {
+    line-height: 1.4;
     font-weight: var(--font-weight-semibold);
     color: var(--color-text-primary);
   }
-  /* type-body's relaxed 1.8 is essay leading; a two-line setting description wants to sit
-     closer to its own name. Overrides the role class (scoped selector outranks it). */
   .bcn-setting-row__desc {
     line-height: 1.4;
     color: var(--color-text-secondary);

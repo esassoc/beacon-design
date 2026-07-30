@@ -5,7 +5,7 @@
 //
 //   rows       → a divided stack of <BcnSettingRow> (the setting-per-row anatomy)
 //   collection → a records table (column labels, one row per record, optional
-//                trailing badge, optional "Add …" action in the card footer)
+//                trailing badge, optional "Add …" action as the body's last block)
 //   pairs      → the Terminology anatomy: Entity / Singular / Plural, with the two
 //                overrides as text fields whose PLACEHOLDER is the canonical term,
 //                so a blank field shows the platform default in grey
@@ -97,6 +97,19 @@ const hasBadges = section.kind === 'collection' && section.records.some((r) => !
     }
 
     {
+      /* The add action lives in the BODY, not the card's footer slot: Astro registers a
+         named slot even when its conditional expression renders nothing, so a footer
+         expression here gave every rows/pairs card an empty footer band. */
+      section.kind === 'collection' && section.addLabel && (
+        <div class="bcn-set__add">
+          <EsaButton size="sm" color="ghost" appearance="outline" icon="plus" data-settings-add={section.id}>
+            {section.addLabel}
+          </EsaButton>
+        </div>
+      )
+    }
+
+    {
       section.kind === 'pairs' && (
         <div class="bcn-set__scroll">
           <table class="bcn-set__table">
@@ -141,20 +154,6 @@ const hasBadges = section.kind === 'collection' && section.records.some((r) => !
       )
     }
 
-    {
-      section.kind === 'collection' && section.addLabel && (
-        <EsaButton
-          slot="footer"
-          size="sm"
-          color="ghost"
-          appearance="outline"
-          icon="plus"
-          data-settings-add={section.id}
-        >
-          {section.addLabel}
-        </EsaButton>
-      )
-    }
   </EsaCard>
 </section>
 
@@ -170,11 +169,14 @@ const hasBadges = section.kind === 'collection' && section.records.some((r) => !
     display: block;
     /* The section nav jumps to #sec-<id>; keep the card clear of the sticky topbar. */
     scroll-margin-block-start: var(--spacing-600);
-    /* esa-card fills its footer with --color-surface-sunken by default, which reads as a
-       mid-gray band under the table. Re-pointed through the lego's OWN public token
-       (inherited down to the card) so the "Add …" action sits on the card surface behind
-       a single hairline — the lego's border-top already resolves to --color-border-light. */
-    --card-footer-bg: transparent;
+  }
+
+  /* The add action — a quiet last block in the card body, fenced from the records above
+     by a hairline. (Deliberately NOT the card's footer slot — see the markup note.) */
+  .bcn-set__add {
+    padding-block-start: var(--spacing-400);
+    margin-block-start: var(--spacing-400);
+    border-block-start: 1px solid var(--color-border-light);
   }
 
   /* .esa-card__subtitle is esa-card's own header class; the lego sets its size and color
