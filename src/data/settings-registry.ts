@@ -95,6 +95,16 @@ export type SettingsSection =
       id: string;
       title: string;
       description?: string;
+      /**
+       * How the records are drawn. GRID WHERE PROD GRIDS: a section carries
+       * 'grid' when the page it belongs to is an ag-Grid in the real app (the
+       * QA walk, docs/qa-settings-walk-2026-07-30.md, records which ones) — so
+       * the prototype offers the same sorting, filtering, and column behavior
+       * an admin already has. Absent means the semantic table, which is what
+       * the pages prod builds bespoke (report types, report templates,
+       * clearance review kinds, category maps, tenants) keep.
+       */
+      presentation?: 'grid';
       columns: CollectionColumn[];
       records: CollectionRecord[];
       addLabel?: string;
@@ -109,6 +119,9 @@ export type SettingsSection =
       emptyText?: string;
     }
   | { kind: 'pairs'; id: string; title: string; description?: string; pairs: TermPair[] };
+
+/** The records-list section, named so a component can take one as a prop. */
+export type CollectionSection = Extract<SettingsSection, { kind: 'collection' }>;
 
 export interface SettingsPage {
   id: string;
@@ -414,6 +427,7 @@ export const SETTINGS_PAGES: SettingsPage[] = [
       {
         kind: 'collection',
         id: 'field-definitions',
+        presentation: 'grid',
         title: 'Field definitions',
         description: 'A field with no definition shows no tooltip.',
         columns: [
@@ -507,6 +521,7 @@ export const SETTINGS_PAGES: SettingsPage[] = [
       {
         kind: 'collection',
         id: 'custom-field-definitions',
+        presentation: 'grid',
         title: 'Field definitions',
         description: 'A required field blocks the record from being saved until it has a value.',
         // Column wording follows the real grid (Display Label / Entity Type / Field
@@ -599,6 +614,7 @@ export const SETTINGS_PAGES: SettingsPage[] = [
       {
         kind: 'collection',
         id: 'custom-page-list',
+        presentation: 'grid',
         title: 'Pages',
         description: 'A page appears in the menu section it is filed under, for the roles listed.',
         // `Content?` is the real grid's own column: a page can be filed in the menu
@@ -690,6 +706,7 @@ export const SETTINGS_PAGES: SettingsPage[] = [
       {
         kind: 'collection',
         id: 'user-list',
+        presentation: 'grid',
         title: 'Users',
         description: 'An invited user is active as soon as they accept and sign in for the first time.',
         // The real grid's columns, minus its surrogate integer ID. `System support`
@@ -813,6 +830,7 @@ export const SETTINGS_PAGES: SettingsPage[] = [
       {
         kind: 'collection',
         id: 'role-list',
+        presentation: 'grid',
         title: 'Roles',
         description: 'System roles ship with Beacon and cannot be deleted; custom roles belong to this tenant.',
         // The real grid ships a Description column and leaves it empty on all four
@@ -875,6 +893,7 @@ export const SETTINGS_PAGES: SettingsPage[] = [
       {
         kind: 'collection',
         id: 'person-list',
+        presentation: 'grid',
         title: 'People',
         description: 'A person can be named on an action or a notification without ever signing in.',
         // Empty on purpose, and empty in the real tenant: two years in, nobody has
@@ -908,6 +927,7 @@ export const SETTINGS_PAGES: SettingsPage[] = [
       {
         kind: 'collection',
         id: 'organization-list',
+        presentation: 'grid',
         title: 'Organizations',
         description: 'An organization in use by a person or a commitment cannot be deleted.',
         // Same story as People, and the same columns — in the real app these are one
@@ -1015,6 +1035,7 @@ export const SETTINGS_PAGES: SettingsPage[] = [
       {
         kind: 'collection',
         id: 'sent-notifications',
+        presentation: 'grid',
         title: 'Sent',
         description: 'Newest first. A failed message is not retried automatically — fix the address and resend from the Action.',
         // The real audit log carries eleven columns, most of them the notification's
@@ -1265,6 +1286,7 @@ export const SETTINGS_PAGES: SettingsPage[] = [
       {
         kind: 'collection',
         id: 'commitment-type-list',
+        presentation: 'grid',
         title: 'Commitment types',
         // "Number of references" is the real column: how many records carry the term,
         // and the reason a type in use can't simply be deleted. The four types are the
@@ -1326,6 +1348,7 @@ export const SETTINGS_PAGES: SettingsPage[] = [
       {
         kind: 'collection',
         id: 'phase-list',
+        presentation: 'grid',
         title: 'Phases',
         // Listed in sort order, not alphabetically — the order is the point.
         columns: [
@@ -1359,6 +1382,7 @@ export const SETTINGS_PAGES: SettingsPage[] = [
       {
         kind: 'collection',
         id: 'resource-category-list',
+        presentation: 'grid',
         title: 'Resource categories',
         // Alphabetical, like the real grid. The list mixes environmental resource areas
         // with process buckets, and the process ones tend to sit at zero references —
@@ -1395,6 +1419,7 @@ export const SETTINGS_PAGES: SettingsPage[] = [
       {
         kind: 'collection',
         id: 'tag-list',
+        presentation: 'grid',
         title: 'Tags',
         description:
           'Anyone can create a tag while they work, so the list grows fast and unevenly. A tag stays on the list after the last record drops it — the count is how you find those.',

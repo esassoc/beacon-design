@@ -22,10 +22,11 @@
 //
 // ESA SURFACE: an ESA-admin page passes `esaSurface`, which stamps `data-esa-surface` on
 // the content column and gives its cards a DARK HEADER BAND in the settings chrome's
-// charcoal (the help-bar family) — title + subtitle in light ink, body in normal light
-// mode. (v2: the fully dark-glass card bodies shipped 2026-07-30 AM were pulled the same
-// day — the band alone marks ESA territory without asking controls to live on charcoal.)
-// Mechanism: esa-card's own public header tokens, nothing per-component.
+// charcoal (the help-bar family) — title, subtitle, and any header ACTION in light ink,
+// body in normal light mode. (v2: the fully dark-glass card bodies shipped 2026-07-30 AM
+// were pulled the same day — the band alone marks ESA territory without asking controls
+// to live on charcoal.) Mechanism: esa-card's own public header tokens, plus the three
+// semantic tokens esa-button reads, nothing per-component.
 //
 // bcn-lego-checked: the two columns are the .sidebar primitive. No esa-* lego frames a
 // settings rail: esa-app-shell is the app-wide topbar/body chrome one level up, and
@@ -111,5 +112,17 @@ const { activePageId, esaSurface = false } = Astro.props;
      light ink inside the band only. */
   .bcn-settings-shell__content[data-esa-surface] :global(.esa-card__header .esa-card__subtitle) {
     color: color-mix(in srgb, #ffffff 82%, transparent);
+  }
+
+  /* A card's header action (the collection grids' "Add …" button) sits ON the dark
+     band, where esa-button's ghost/outline variant would draw near-black text inside a
+     near-white border. Its label, border, and hover wash are the three SEMANTIC tokens
+     the lego reads — re-pointed to light ink for the action area only, the same way the
+     band itself is stated through esa-card's public tokens. Nothing else in the header
+     reads them. */
+  .bcn-settings-shell__content[data-esa-surface] :global(.esa-card__header .esa-card__actions) {
+    --color-text-primary: #ffffff;
+    --color-border: color-mix(in srgb, #ffffff 42%, transparent);
+    --color-surface-sunken: color-mix(in srgb, #ffffff 16%, transparent);
   }
 </style>

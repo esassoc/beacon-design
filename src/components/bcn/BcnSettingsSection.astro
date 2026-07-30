@@ -4,11 +4,14 @@
 // anatomy changes:
 //
 //   rows       → a divided stack of <BcnSettingRow> (the setting-per-row anatomy)
-//   collection → a records table (column labels, one row per record, optional
-//                trailing badge, optional "Add …" action as the body's last block).
-//                A collection with no records renders an esa-empty-state instead of
-//                an empty grid, and one whose `total` exceeds the records it holds
-//                says how much of the list it is showing.
+//   collection → a records list, drawn one of two ways. `presentation: 'grid'` —
+//                the pages that ARE ag-Grids in the real app — hands the records to
+//                <BcnSettingsGrid> for sorting, per-column filtering, and resize;
+//                everything else keeps the semantic table (column labels, one row per
+//                record, optional trailing badge). Either way the optional "Add …"
+//                action is the body's last block, a collection with no records renders
+//                an esa-empty-state instead of an empty list, and one whose `total`
+//                exceeds the records it holds says how much of the list it is showing.
 //   pairs      → the Terminology anatomy: Entity / Singular / Plural, with the two
 //                overrides as text fields whose PLACEHOLDER is the canonical term,
 //                so a blank field shows the platform default in grey
@@ -19,20 +22,23 @@
 // the `sec-<id>` anchor lives on a wrapping <section> — which also carries the
 // scroll-margin the section nav needs when it jumps.
 //
-// bcn-lego-checked: the RECORDS/PAIRS grids are semantic <table>s — the hub ships
-// no table or data-grid lego (checked the full catalog: esa-card is a box,
+// bcn-lego-checked: the TABLE records list and the PAIRS grid are semantic <table>s —
+// the hub ships no table lego (checked the full catalog: esa-card is a box,
 // esa-link-column is a card of bare links, esa-collapsible is a single disclosure),
-// and Beacon's own grids are AG Grid, far too heavy for a static settings list and
-// it would put the catalog in the bundle. This is the same call BcnPrototypeIndex
-// made for its index table. Everything else IS a lego — esa-card (shell),
-// esa-badge (record badge, quieted via its own --badge-* component tokens),
-// esa-button (add action), esa-text-field (terminology overrides) — and the CSS
-// below is table/divider glue only. bcn-settings-section is the reusable home.
+// and the pages that keep the table are the ones prod builds bespoke too, where a data
+// grid would be chrome around four rows. This is the same call BcnPrototypeIndex made
+// for its index table. Where prod DOES ship an ag-Grid, so does this — through
+// <BcnSettingsGrid>, which composes the spoke's shared beacon-grid kit. Everything else
+// IS a lego — esa-card (shell), esa-badge (record badge, quieted via its own --badge-*
+// component tokens), esa-button (add action), esa-text-field (terminology overrides),
+// esa-empty-state (zero records) — and the CSS below is table/divider glue only.
+// bcn-settings-section is the reusable home.
 import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import BcnSettingRow from './BcnSettingRow.astro';
+import BcnSettingsGrid from './BcnSettingsGrid.astro';
 import type { SettingsSection } from '../../data/settings-registry';
 
 interface Props {
@@ -46,8 +52,14 @@ const anchorId = `sec-${section.id}`;
 // A collection only grows the trailing badge column when a record actually carries one.
 const hasBadges = section.kind === 'collection' && section.records.some((r) => !!r.badge);
 
-// A collection holding nothing shows the empty state; the grid is not drawn at all.
+// A collection holding nothing shows the empty state; no list is drawn at all. That
+// holds for the gridded pages too (People and Organizations are empty in the real
+// tenant): AG Grid's no-rows overlay would sit in a tall blank body under a header of
+// column names, which is exactly the raw treatment this page is arguing against.
 const isEmpty = section.kind === 'collection' && section.records.length === 0;
+
+// Where the real app ships an ag-Grid, so does this — see the registry's `presentation`.
+const isGrid = section.kind === 'collection' && section.presentation === 'grid';
 
 // The empty state's title is the section's own name — "People" → "No people yet".
 const emptyTitle = `No ${section.title.toLowerCase()} yet`;
@@ -59,6 +71,32 @@ const isSample =
 
 <section id={anchorId} class="bcn-set">
   <EsaCard variant="outlined" title={section.title} subtitle={section.description}>
+    {
+      /* A GRID section's add action sits in the card HEADER, right-aligned by
+         esa-card's own actions slot — a grid ends at its last row, so a button welded
+         under it reads as a row. The table sections keep theirs as the body's last
+         block (below).
+
+         The Astro quirk: a slot="" child registers the slot from its mere presence in
+         the expression, so every other card grows an empty .esa-card__actions — an
+         empty flex div in a header that is already space-between, no chrome and no
+         height of its own. Tolerable here where the same quirk was NOT tolerable for
+         the footer slot, which drew a filled band. Grid + addLabel is the only case
+         that emits a button; data-settings-add rides it either way. */
+      section.kind === 'collection' && isGrid && section.addLabel && (
+        <EsaButton
+          slot="actions"
+          size="sm"
+          color="ghost"
+          appearance="outline"
+          icon="plus"
+          data-settings-add={section.id}
+        >
+          {section.addLabel}
+        </EsaButton>
+      )
+    }
+
     {
       section.kind === 'rows' && (
         <ul class="bcn-set__rows">
@@ -79,8 +117,10 @@ const isSample =
       )
     }
 
+    {section.kind === 'collection' && !isEmpty && isGrid && <BcnSettingsGrid section={section} />}
+
     {
-      section.kind === 'collection' && !isEmpty && (
+      section.kind === 'collection' && !isEmpty && !isGrid && (
         <div class="bcn-set__scroll">
           <table class="bcn-set__table">
             <thead>
@@ -129,10 +169,11 @@ const isSample =
     }
 
     {
-      /* The add action lives in the BODY, not the card's footer slot: Astro registers a
-         named slot even when its conditional expression renders nothing, so a footer
-         expression here gave every rows/pairs card an empty footer band. */
-      section.kind === 'collection' && section.addLabel && (
+      /* A TABLE section's add action lives in the BODY, not the card's footer slot:
+         Astro registers a named slot even when its conditional expression renders
+         nothing, so a footer expression here gave every rows/pairs card an empty
+         footer band. (The grid sections' action is in the header — see the top.) */
+      section.kind === 'collection' && !isGrid && section.addLabel && (
         <div class="bcn-set__add">
           <EsaButton size="sm" color="ghost" appearance="outline" icon="plus" data-settings-add={section.id}>
             {section.addLabel}

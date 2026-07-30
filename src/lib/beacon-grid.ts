@@ -43,6 +43,33 @@ export const beaconTheme = themeQuartz.withPart(beaconIconOverrides).withParams(
   checkboxCheckedBackgroundColor: '#f9a134', // ESA orange / --color-orange-400
 });
 
+/**
+ * The card-hosted variant, for grids that sit INSIDE a card body (the Unified
+ * Settings collection sections) rather than owning the page. Only the corners
+ * change: beaconTheme squares its bottom pair because a page grid has the
+ * download/record-count strip welded under it, and a settings grid ends at its
+ * last row. The teal header band stays — it is what an admin sees on the same
+ * list today.
+ */
+export const settingsTheme = beaconTheme.withParams({
+  wrapperBorderRadius: '4px',
+});
+
+/**
+ * The same card-hosted grid on an ESA-admin settings page, whose card carries a
+ * CHARCOAL header band of its own (BcnSettingsShell's ESA surface). Teal 40px
+ * under charcoal read as two competing headers; matching the band puts the two
+ * in one family, so the card reads as title-then-columns rather than as two
+ * stacked chrome bars.
+ *
+ * The hex is --bcn-helpbar-bg (rgba(23,25,27,.78)) composited over the white
+ * card body — the literal the card band resolves to, since AG Grid can't read a
+ * CSS var. Same annotation discipline as beaconTheme above.
+ */
+export const settingsEsaTheme = settingsTheme.withParams({
+  headerBackgroundColor: '#4a4c4d',
+});
+
 /** Status metadata: a label + a literal hex (kept in sync with --bcn-status-* by value). */
 export type StatusMeta = Record<string, { label: string; hex: string }>;
 

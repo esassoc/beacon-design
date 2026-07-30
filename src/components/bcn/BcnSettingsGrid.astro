@@ -1,0 +1,237 @@
+---
+// <BcnSettingsGrid> — the records of a `collection` section drawn as a Beacon data
+// grid, for the settings pages that ARE ag-Grids in the real app (the registry marks
+// them `presentation: 'grid'`). It mounts inside the section card's body, in place of
+// the semantic table, and brings the sorting, per-column filtering, and column resize
+// an admin already has on /admin/users or /esa-config/custom-field-definitions.
+//
+// domLayout 'autoHeight': the card grows to its rows instead of holding a fixed
+// viewport-height scrollport. Settings lists are short by design here — the fixtures
+// stay the sample they were, and the "Showing n of N" caption under the grid (the
+// section's job, not this component's) still says so.
+//
+// SIZING and column TYPE are derived from the records, not authored per page: a
+// column's flex weight and its floor come from the longest value in it, a column of
+// sentences wraps with an auto row height (so the Labels & Definitions row carrying a
+// pasted mitigation measure survives rather than truncating), and a column of whole
+// numbers is carried as numbers so it sorts and filters as one.
+//
+// bcn-lego-checked: no esa-* lego is a data grid — checked the full catalog, the
+// nearest things are esa-card (a box) and esa-link-column (a card of bare links).
+// Beacon's own admin lists ARE ag-Grid, and this spoke already ships the ported prod
+// theme as a shared kit (src/lib/beacon-grid.ts), which is what this composes —
+// settingsTheme / settingsEsaTheme are that kit's card-hosted variants, not a fork.
+// bcn-settings-grid is the reusable home; the CSS below is host geometry plus the two
+// cell looks AG Grid injects outside Astro's scope (lead cell, quiet badge).
+import type { CollectionSection } from '../../data/settings-registry';
+
+interface Props {
+  section: CollectionSection;
+}
+const { section } = Astro.props;
+
+// A column that holds prose rather than a value wraps instead of truncating: a
+// sentence is content the reader came for (the role descriptions, the field
+// definitions), and a clipped one is content the page no longer shows. The threshold
+// sits above the longest VALUE any settings list carries — an email address, a joined
+// role list, an action name — so only real sentences trip it.
+const LONG_TEXT = 45;
+// Rough advance of the grid's 13px DM Sans, in px per character.
+const CHAR = 7.3;
+// Cell padding, and header padding plus its sort caret and filter icon.
+const CELL_CHROME = 40;
+const HEADER_CHROME = 58;
+
+// Every column asks for the width its own content wants — the longer of its header
+// (plus room for the sort caret and filter icon) and its longest value — and that
+// number is both the flex weight and, capped, the floor it will not shrink past. So
+// the columns divide the card proportionally to what they hold instead of evenly,
+// and a value column can't be squeezed to nothing by a long header beside it.
+const columns = section.columns.map((col, i) => {
+  const values = section.records.map((record) => record.cells[col.key] ?? '');
+  const longest = values.reduce((max, value) => Math.max(max, value.length), 0);
+  const wrap = longest > LONG_TEXT;
+  // A column of whole numbers — reference counts, sort orders, block counts — is
+  // carried as numbers, not as the strings the fixture stores, so that sorting it
+  // puts 7 before 11 and its filter offers ranges instead of "contains".
+  const numeric = values.length > 0 && values.every((value) => /^\d+$/.test(value));
+  const contentWant = Math.min(longest, wrap ? 78 : 34) * CHAR + CELL_CHROME;
+  const want = Math.max(col.label.length * CHAR + HEADER_CHROME, contentWant);
+  // Floors that sum past the card's width force a horizontal scrollbar that exists to
+  // reveal a sliver, so the general cap is what a two-word value needs — set where the
+  // widest settings list (Users, six columns) lands just inside the card.
+  // Two things override it: a header gets room for its longest word (headers wrap,
+  // and a wrap mid-word looks like a defect), and a column of COMPACT values — dates,
+  // timestamps, counts, Yes/No — gets its whole content, because a clipped date reads
+  // as broken where a clipped sentence reads as a sentence that continues.
+  const longestWord = Math.max(...col.label.split(' ').map((word) => word.length));
+  return {
+    key: col.key,
+    label: col.label,
+    lead: i === 0,
+    wrap,
+    numeric,
+    flex: want,
+    minWidth: Math.max(
+      Math.min(want, wrap ? 220 : 124),
+      Math.min(longestWord * CHAR + HEADER_CHROME, 160),
+      contentWant <= 160 ? contentWant : 0
+    ),
+  };
+});
+
+// A record's badge rides its own trailing column — the same place the table put it.
+const hasBadges = section.records.some((record) => !!record.badge);
+
+const numericKeys = new Set(columns.filter((col) => col.numeric).map((col) => col.key));
+
+const rows = section.records.map((record) => {
+  const row: Record<string, string | number> = { __badge: record.badge ?? '' };
+  for (const [key, value] of Object.entries(record.cells)) {
+    row[key] = numericKeys.has(key) ? Number(value) : value;
+  }
+  return row;
+});
+
+const payload = { columns, rows, hasBadges };
+---
+
+<div class="bcn-settings-grid" data-settings-grid>
+  <script type="application/json" data-settings-grid-data set:html={JSON.stringify(payload)} />
+  <div class="bcn-settings-grid__host" data-settings-grid-host></div>
+</div>
+
+<script>
+  // One script per page, however many grids are on it: every [data-settings-grid] on
+  // the page is mounted from its own inline payload. Astro ships this script only to
+  // the pages that actually render the component, so the settings pages holding no
+  // grid never load AG Grid.
+  import { createGrid, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
+  import type { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
+  import { settingsTheme, settingsEsaTheme } from '../../lib/beacon-grid';
+
+  ModuleRegistry.registerModules([AllCommunityModule]);
+
+  interface PayloadColumn {
+    key: string;
+    label: string;
+    lead: boolean;
+    wrap: boolean;
+    numeric: boolean;
+    flex: number;
+    minWidth: number;
+  }
+  interface Payload {
+    columns: PayloadColumn[];
+    rows: Record<string, string | number>[];
+    hasBadges: boolean;
+  }
+
+  // The record's badge, in the quiet look the table gave it: neutral surface,
+  // secondary ink. AG Grid injects cells outside Astro's scope, so the class is
+  // styled :global below.
+  function badgeRenderer(p: ICellRendererParams) {
+    if (!p.value) return '';
+    const el = document.createElement('span');
+    el.className = 'bcn-settings-grid__badge';
+    el.textContent = String(p.value);
+    return el;
+  }
+
+  for (const mount of document.querySelectorAll<HTMLElement>('[data-settings-grid]')) {
+    const data = mount.querySelector('[data-settings-grid-data]');
+    const host = mount.querySelector<HTMLElement>('[data-settings-grid-host]');
+    if (!data || !host) continue;
+
+    const { columns, rows, hasBadges }: Payload = JSON.parse(data.textContent || '{}');
+
+    const columnDefs: ColDef[] = columns.map((col) => ({
+      field: col.key,
+      headerName: col.label,
+      flex: col.flex,
+      minWidth: col.minWidth,
+      wrapText: col.wrap,
+      autoHeight: col.wrap,
+      filter: col.numeric ? 'agNumberColumnFilter' : true,
+      cellClass: col.lead ? 'bcn-settings-grid__lead' : undefined,
+    }));
+
+    if (hasBadges) {
+      // Unlabeled and unsorted — a marker on the record, not a value to rank by.
+      columnDefs.push({
+        field: '__badge',
+        headerName: '',
+        width: 92,
+        sortable: false,
+        filter: false,
+        resizable: false,
+        cellRenderer: badgeRenderer,
+      });
+    }
+
+    // An ESA-admin page's cards carry a charcoal header band; the grid inside one
+    // matches it instead of stacking teal under charcoal. The signal is the same
+    // [data-esa-surface] stamp BcnSettingsShell re-skins the cards from — no prop
+    // to thread, and the two can't disagree.
+    const esaSurface = !!mount.closest('[data-esa-surface]');
+
+    const gridOptions: GridOptions = {
+      theme: esaSurface ? settingsEsaTheme : settingsTheme,
+      rowData: rows,
+      columnDefs,
+      // The card grows with the rows instead of holding a fixed scrollport.
+      domLayout: 'autoHeight',
+      defaultColDef: {
+        sortable: true,
+        resizable: true,
+        filter: true,
+        suppressHeaderMenuButton: true,
+        // A column narrower than its own header wraps the header rather than
+        // clipping it: a truncated column name reads as a defect, a truncated
+        // value reads as a value that is longer than the column (and carries a
+        // tooltip). Beacon's own grids clip both.
+        wrapHeaderText: true,
+        autoHeaderHeight: true,
+        tooltipValueGetter: (p) => p.value,
+      },
+      tooltipShowDelay: 0,
+      tooltipShowMode: 'whenTruncated',
+    };
+
+    createGrid(host, gridOptions);
+  }
+</script>
+
+<style>
+  /* bcn-lego-checked: grid host geometry + the two cell looks AG Grid injects outside
+     Astro's scope (see the header note). No primitive is reinvented here. */
+  .bcn-settings-grid {
+    /* The card's content edge is the grid's edge; the wrapper border draws the frame. */
+    inline-size: 100%;
+  }
+
+  /* The first column leads the row — same weight the table's lead cell carried. */
+  .bcn-settings-grid :global(.bcn-settings-grid__lead) {
+    font-weight: var(--font-weight-medium);
+  }
+
+  /* Quiet badge: neutral surface, secondary ink, the 4px radius the settings chrome
+     uses everywhere. Matches what esa-badge renders in the table's badge column. */
+  .bcn-settings-grid :global(.bcn-settings-grid__badge) {
+    display: inline-block;
+    padding: 2px var(--spacing-150);
+    border-radius: var(--radius-100);
+    background: var(--color-surface-sunken);
+    color: var(--color-text-secondary);
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-medium);
+    line-height: 1.4;
+  }
+
+  /* A wrapped prose cell sets its own leading — AG Grid's default line-height is tuned
+     for one-line values. */
+  .bcn-settings-grid :global(.ag-cell-wrap-text) {
+    line-height: 1.5;
+    padding-block: var(--spacing-200);
+  }
+</style>
