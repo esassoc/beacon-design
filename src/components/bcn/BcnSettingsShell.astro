@@ -99,7 +99,11 @@ const { activePageId, esaSurface = false } = Astro.props;
      anatomy the lego's `headerVariant="primary"` ships — a colored band with inverse
      ink — stated in the settings chrome's charcoal instead of the brand fill. */
   .bcn-settings-shell__content[data-esa-surface] :global(.esa-card) {
-    --card-header-bg: var(--bcn-helpbar-bg-solid);
+    /* The TRANSLUCENT helpbar color, not the solid fallback (Andy, 2026-07-30 — solid
+       read too dark): over the white card body it composites to the same mid-charcoal
+       the rail's glass panel gets over the page, so band and panel match by
+       construction. No blur needed — the flat card bg behind it has nothing to blur. */
+    --card-header-bg: var(--bcn-helpbar-bg);
     --card-header-color: #ffffff;
     --card-header-border-color: transparent;
   }
