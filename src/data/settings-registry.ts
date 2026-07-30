@@ -90,7 +90,24 @@ export interface TermPair {
 
 export type SettingsSection =
   | { kind: 'rows'; id: string; title: string; description?: string; items: SettingItem[] }
-  | { kind: 'collection'; id: string; title: string; description?: string; columns: CollectionColumn[]; records: CollectionRecord[]; addLabel?: string }
+  | {
+      kind: 'collection';
+      id: string;
+      title: string;
+      description?: string;
+      columns: CollectionColumn[];
+      records: CollectionRecord[];
+      addLabel?: string;
+      /**
+       * How many records the page really holds. `records` is a sample on the
+       * long lists (a tenant carries 320 tags, 75 users, 36 definitions), so the
+       * table says how much it is showing and the nav count stays truthful.
+       * Omitted where the fixture already carries every record.
+       */
+      total?: number;
+      /** Body copy for the zero-record state. Required in spirit whenever a page can be empty. */
+      emptyText?: string;
+    }
   | { kind: 'pairs'; id: string; title: string; description?: string; pairs: TermPair[] };
 
 export interface SettingsPage {
@@ -460,7 +477,20 @@ export const SETTINGS_PAGES: SettingsPage[] = [
               definition: 'The agency that issued the commitment and accepts the evidence that it was met.',
             },
           },
+          {
+            // Definitions are rich text pasted from source documents, so one row runs
+            // many times the height of its neighbors. The table has to survive it.
+            id: 'def-summary-of-change',
+            cells: {
+              label: 'Summary of Change',
+              definition:
+                'What changed in this version of the commitment, and why. Record the language that was added, removed, or reworded, the amendment or agency correspondence that prompted it, and the date the change took effect. Where an agency directed the change, name the agency and the document it came from so the revision can be traced without opening the source. Where the change is editorial — a typo, a renumbering, a corrected cross-reference — say so plainly, because reviewers read this field to decide whether a re-approval is needed. This field is pasted into the annual compliance report verbatim, so it is written for an agency reader rather than for the compliance team.',
+            },
+          },
         ],
+        // 36 in the real tenant — the definition set covers every field on the
+        // Data Catalog forms, not the handful a prototype needs to show.
+        total: 36,
       },
     ],
   },
@@ -479,32 +509,77 @@ export const SETTINGS_PAGES: SettingsPage[] = [
         id: 'custom-field-definitions',
         title: 'Field definitions',
         description: 'A required field blocks the record from being saved until it has a value.',
+        // Column wording follows the real grid (Display Label / Entity Type / Field
+        // Type / Required / Active) in this surface's sentence case. Its sixth column,
+        // Display Order, is left out: the real value is 0 on every row in every tenant,
+        // and a column nobody fills is the smell this prototype is arguing against.
         columns: [
-          { key: 'field', label: 'Field' },
-          { key: 'entity', label: 'Entity' },
-          { key: 'type', label: 'Type' },
+          { key: 'field', label: 'Display label' },
+          { key: 'entity', label: 'Entity type' },
+          { key: 'type', label: 'Field type' },
           { key: 'required', label: 'Required' },
+          { key: 'active', label: 'Active' },
         ],
         records: [
           {
             id: 'cf-cdfw-permit',
-            cells: { field: 'CDFW Permit Number', entity: 'Source Document', type: 'Text', required: 'No' },
+            cells: {
+              field: 'CDFW Permit Number',
+              entity: 'Source Document',
+              type: 'Text',
+              required: 'No',
+              active: 'Yes',
+            },
           },
           {
             id: 'cf-acreage',
-            cells: { field: 'Acreage Impacted', entity: 'Component', type: 'Number', required: 'Yes' },
+            cells: {
+              field: 'Acreage Impacted',
+              entity: 'Component',
+              type: 'Number',
+              required: 'Yes',
+              active: 'Yes',
+            },
           },
           {
             id: 'cf-survey-window',
-            cells: { field: 'Survey Window', entity: 'Work Area', type: 'Date', required: 'No' },
+            cells: {
+              field: 'Survey Window',
+              entity: 'Work Area',
+              type: 'Date',
+              required: 'No',
+              active: 'No',
+            },
           },
           {
             id: 'cf-funding-source',
-            cells: { field: 'Funding Source', entity: 'Project', type: 'Dropdown', required: 'No' },
+            cells: {
+              field: 'Funding Source',
+              entity: 'Project',
+              type: 'Dropdown',
+              required: 'No',
+              active: 'Yes',
+            },
           },
           {
             id: 'cf-photo-required',
-            cells: { field: 'Photo Required', entity: 'Component', type: 'Boolean', required: 'No' },
+            cells: {
+              field: 'Photo Required',
+              entity: 'Component',
+              type: 'Boolean',
+              required: 'No',
+              active: 'Yes',
+            },
+          },
+          {
+            id: 'cf-parcel-apn',
+            cells: {
+              field: 'Parcel APN',
+              entity: 'Work Area',
+              type: 'Text',
+              required: 'No',
+              active: 'Yes',
+            },
           },
         ],
         addLabel: 'Add field definition',
@@ -526,30 +601,36 @@ export const SETTINGS_PAGES: SettingsPage[] = [
         id: 'custom-page-list',
         title: 'Pages',
         description: 'A page appears in the menu section it is filed under, for the roles listed.',
+        // `Content?` is the real grid's own column: a page can be filed in the menu
+        // before anyone writes its body, and the list is where that gets caught.
         columns: [
-          { key: 'page', label: 'Page' },
+          { key: 'page', label: 'Page name' },
           { key: 'menu', label: 'Menu' },
+          { key: 'content', label: 'Content?' },
           { key: 'viewableBy', label: 'Viewable by' },
         ],
         records: [
           {
             id: 'cp-field-crew',
-            cells: { page: 'Field Crew Resources', menu: 'Monitoring', viewableBy: 'All roles' },
+            cells: {
+              page: 'Field Crew Resources',
+              menu: 'Monitoring',
+              content: 'Yes',
+              viewableBy: 'All roles',
+            },
           },
           {
             id: 'cp-cdfw-coordination',
             cells: {
               page: 'CDFW Coordination',
               menu: 'Tracking',
-              viewableBy: 'Compliance Lead, Administrator',
+              content: 'No',
+              viewableBy: 'Administrator, Compliance Lead',
             },
-          },
-          {
-            id: 'cp-program-contacts',
-            cells: { page: 'Program Contacts', menu: 'General', viewableBy: 'All roles' },
           },
         ],
         addLabel: 'Add custom page',
+        total: 2,
       },
     ],
   },
@@ -611,11 +692,16 @@ export const SETTINGS_PAGES: SettingsPage[] = [
         id: 'user-list',
         title: 'Users',
         description: 'An invited user is active as soon as they accept and sign in for the first time.',
+        // The real grid's columns, minus its surrogate integer ID. `System support`
+        // is ReceiveSupportEmails — who ESA's support mail reaches; `ESA admin` is
+        // IsEsaAdmin, the flag behind every [ESA] page in this surface.
         columns: [
           { key: 'name', label: 'Name' },
           { key: 'email', label: 'Email' },
           { key: 'role', label: 'Role' },
-          { key: 'added', label: 'Added' },
+          { key: 'systemSupport', label: 'System support?' },
+          { key: 'esaAdmin', label: 'ESA admin?' },
+          { key: 'created', label: 'Created' },
         ],
         records: [
           {
@@ -624,7 +710,9 @@ export const SETTINGS_PAGES: SettingsPage[] = [
               name: 'Marla Quintero',
               email: 'm.quintero@esassoc.com',
               role: 'Administrator',
-              added: '2024-11-04',
+              systemSupport: 'Yes',
+              esaAdmin: 'Yes',
+              created: '2024-11-04',
             },
           },
           {
@@ -633,7 +721,20 @@ export const SETTINGS_PAGES: SettingsPage[] = [
               name: 'Devin Oyelaran',
               email: 'd.oyelaran@esassoc.com',
               role: 'Compliance Lead',
-              added: '2025-02-18',
+              systemSupport: 'No',
+              esaAdmin: 'Yes',
+              created: '2025-02-18',
+            },
+          },
+          {
+            id: 'u-marchetti',
+            cells: {
+              name: 'Sylvia Marchetti',
+              email: 's.marchetti@esassoc.com',
+              role: 'Administrator',
+              systemSupport: 'Yes',
+              esaAdmin: 'Yes',
+              created: '2025-04-30',
             },
           },
           {
@@ -642,7 +743,9 @@ export const SETTINGS_PAGES: SettingsPage[] = [
               name: 'Priya Raghunathan',
               email: 'p.raghunathan@icf.com',
               role: 'Compliance Lead',
-              added: '2025-06-09',
+              systemSupport: 'No',
+              esaAdmin: 'No',
+              created: '2025-06-09',
             },
           },
           {
@@ -651,7 +754,20 @@ export const SETTINGS_PAGES: SettingsPage[] = [
               name: 'Tom Beaudry',
               email: 't.beaudry@icf.com',
               role: 'Field Monitor',
-              added: '2025-08-22',
+              systemSupport: 'No',
+              esaAdmin: 'No',
+              created: '2025-08-22',
+            },
+          },
+          {
+            id: 'u-nakamura',
+            cells: {
+              name: 'Hollis Nakamura',
+              email: 'hollis.nakamura@icf.com',
+              role: 'Field Monitor',
+              systemSupport: 'No',
+              esaAdmin: 'No',
+              created: '2025-11-05',
             },
           },
           {
@@ -659,8 +775,10 @@ export const SETTINGS_PAGES: SettingsPage[] = [
             cells: {
               name: 'Karen Ishikawa',
               email: 'karen.ishikawa@water.ca.gov',
-              role: 'DWR Reviewer',
-              added: '2026-01-13',
+              role: 'Read Only',
+              systemSupport: 'No',
+              esaAdmin: 'No',
+              created: '2026-01-13',
             },
           },
           {
@@ -669,11 +787,16 @@ export const SETTINGS_PAGES: SettingsPage[] = [
               name: 'Alonzo Ferrer',
               email: 'alonzo.ferrer@water.ca.gov',
               role: 'Read Only',
-              added: '2026-07-17',
+              systemSupport: 'No',
+              esaAdmin: 'No',
+              created: '2026-07-17',
             },
           },
         ],
         addLabel: 'Invite user',
+        // 75 in the real tenant: ESA staff, the client program office, and the
+        // consultants on it, accumulated over two years.
+        total: 75,
       },
     ],
   },
@@ -681,7 +804,7 @@ export const SETTINGS_PAGES: SettingsPage[] = [
     id: 'roles',
     zone: 'people-access',
     title: 'Roles',
-    description: 'Each role sets thirteen per-area rights, from none to full, plus six administrative flags such as impersonating another user and finalizing commitments.',
+    description: 'Each role sets eleven per-area rights, from none to full, plus six administrative flags — impersonating a user, approving commitments, editing approved commitments, the two connection settings, and administering the tenant.',
     kind: 'standard',
     scope: 'tenant',
     audience: 'tenant-admin',
@@ -692,54 +815,50 @@ export const SETTINGS_PAGES: SettingsPage[] = [
         id: 'role-list',
         title: 'Roles',
         description: 'System roles ship with Beacon and cannot be deleted; custom roles belong to this tenant.',
+        // The real grid ships a Description column and leaves it empty on all four
+        // rows. Here every role says what it is — the same argument the SettingItem
+        // description makes, applied to a lookup list.
         columns: [
-          { key: 'role', label: 'Role' },
+          { key: 'name', label: 'Name' },
           { key: 'description', label: 'Description' },
-          { key: 'type', label: 'Type' },
+          { key: 'isSystemRole', label: 'Is system role' },
         ],
         records: [
           {
             id: 'r-administrator',
             cells: {
-              role: 'Administrator',
+              name: 'Administrator',
               description: 'Full rights in every area, plus every administrative flag.',
-              type: 'System',
+              isSystemRole: 'Yes',
             },
           },
           {
             id: 'r-compliance-lead',
             cells: {
-              role: 'Compliance Lead',
+              name: 'Compliance Lead',
               description: 'Edits commitments, actions, and evidence; cannot change tenant configuration.',
-              type: 'Custom',
+              isSystemRole: 'No',
             },
           },
           {
             id: 'r-field-monitor',
             cells: {
-              role: 'Field Monitor',
+              name: 'Field Monitor',
               description: 'Records observations, daily reports, and evidence from the field; reads everything else.',
-              type: 'Custom',
-            },
-          },
-          {
-            id: 'r-dwr-reviewer',
-            cells: {
-              role: 'DWR Reviewer',
-              description: 'Reads every area and comments on reports; holds no edit rights.',
-              type: 'Custom',
+              isSystemRole: 'No',
             },
           },
           {
             id: 'r-read-only',
             cells: {
-              role: 'Read Only',
-              description: 'Reads every area; holds no edit rights anywhere.',
-              type: 'System',
+              name: 'Read Only',
+              description: 'Reads every area; holds no edit rights anywhere. Agency reviewers sit here.',
+              isSystemRole: 'Yes',
             },
           },
         ],
         addLabel: 'Add role',
+        total: 4,
       },
     ],
   },
@@ -757,51 +876,22 @@ export const SETTINGS_PAGES: SettingsPage[] = [
         kind: 'collection',
         id: 'person-list',
         title: 'People',
+        description: 'A person can be named on an action or a notification without ever signing in.',
+        // Empty on purpose, and empty in the real tenant: two years in, nobody has
+        // added a person, because nothing in the app pushes them to. The real grid
+        // answers that with ag-Grid's raw "No Rows To Show"; this page says what the
+        // list is for and how to start it.
         columns: [
           { key: 'name', label: 'Name' },
-          { key: 'organization', label: 'Organization' },
           { key: 'email', label: 'Email' },
           { key: 'phone', label: 'Phone' },
+          { key: 'created', label: 'Created' },
         ],
-        records: [
-          {
-            id: 'p-salcido',
-            cells: {
-              name: 'Renata Salcido',
-              organization: 'California Department of Fish and Wildlife',
-              email: 'r.salcido@wildlife.ca.gov',
-              phone: '(916) 555-0142',
-            },
-          },
-          {
-            id: 'p-whitfield',
-            cells: {
-              name: 'Grant Whitfield',
-              organization: 'Department of Water Resources',
-              email: 'grant.whitfield@water.ca.gov',
-              phone: '(916) 555-0198',
-            },
-          },
-          {
-            id: 'p-nakamura',
-            cells: {
-              name: 'Hollis Nakamura',
-              organization: 'ICF',
-              email: 'hollis.nakamura@icf.com',
-              phone: '(916) 555-0173',
-            },
-          },
-          {
-            id: 'p-trombley',
-            cells: {
-              name: 'Bea Trombley',
-              organization: 'U.S. Fish and Wildlife Service',
-              email: 'bea_trombley@fws.gov',
-              phone: '(916) 555-0121',
-            },
-          },
-        ],
+        records: [],
+        emptyText:
+          'People are the contact records actions are assigned to and notifications are sent to. Add one here; invite the people who also need to sign in from the Users page.',
         addLabel: 'Add person',
+        total: 0,
       },
     ],
   },
@@ -820,50 +910,19 @@ export const SETTINGS_PAGES: SettingsPage[] = [
         id: 'organization-list',
         title: 'Organizations',
         description: 'An organization in use by a person or a commitment cannot be deleted.',
+        // Same story as People, and the same columns — in the real app these are one
+        // grid with two labels, and both are empty.
         columns: [
           { key: 'name', label: 'Name' },
           { key: 'email', label: 'Email' },
           { key: 'phone', label: 'Phone' },
+          { key: 'created', label: 'Created' },
         ],
-        records: [
-          {
-            id: 'org-dwr',
-            cells: {
-              name: 'Department of Water Resources',
-              email: 'deltaprogram@water.ca.gov',
-              phone: '(916) 555-0100',
-            },
-          },
-          {
-            id: 'org-cdfw',
-            cells: {
-              name: 'California Department of Fish and Wildlife',
-              email: 'r3permits@wildlife.ca.gov',
-              phone: '(916) 555-0140',
-            },
-          },
-          {
-            id: 'org-icf',
-            cells: { name: 'ICF', email: 'delta.program@icf.com', phone: '(916) 555-0170' },
-          },
-          {
-            id: 'org-esa',
-            cells: {
-              name: 'Environmental Science Associates',
-              email: 'beacon@esassoc.com',
-              phone: '(916) 555-0180',
-            },
-          },
-          {
-            id: 'org-usfws',
-            cells: {
-              name: 'U.S. Fish and Wildlife Service',
-              email: 'sfbaydelta@fws.gov',
-              phone: '(916) 555-0121',
-            },
-          },
-        ],
+        records: [],
+        emptyText:
+          'Organizations are the agencies and firms people, commitments, and approvals are attributed to. Add the ones this tenant works with.',
         addLabel: 'Add organization',
+        total: 0,
       },
     ],
   },
@@ -958,8 +1017,12 @@ export const SETTINGS_PAGES: SettingsPage[] = [
         id: 'sent-notifications',
         title: 'Sent',
         description: 'Newest first. A failed message is not retried automatically — fix the address and resend from the Action.',
+        // The real audit log carries eleven columns, most of them the notification's
+        // own context (Component, Project, Due Date) that a reader already has from
+        // the Action. These five are what a delivery question actually needs — and
+        // Status is the one the real log has no column for at all.
         columns: [
-          { key: 'sent', label: 'Sent' },
+          { key: 'sent', label: 'Sent date' },
           { key: 'action', label: 'Action' },
           { key: 'recipient', label: 'Recipient' },
           { key: 'type', label: 'Type' },
@@ -1047,55 +1110,23 @@ export const SETTINGS_PAGES: SettingsPage[] = [
         kind: 'collection',
         id: 'review-kinds',
         title: 'Review kinds',
-        description: 'A site is cleared once every applicable review kind has recorded its required outcome.',
+        // The three kinds are the ones the Site Clearance prototype's reviews already
+        // record (REVIEW_KIND_LABEL in geotech-fixture-bio.ts) — this page is where
+        // that list comes from. Order is the dropdown's order, held here as a column
+        // because the settings table has no drag; the real page drags the rows.
+        description:
+          'The list the Kind dropdown on a clearance review reads from, in the order it offers them. A kind that has been used on a review is deactivated rather than deleted, so past reviews keep their kind.',
         columns: [
           { key: 'reviewKind', label: 'Review kind' },
-          { key: 'discipline', label: 'Discipline' },
-          { key: 'requiredOutcome', label: 'Required outcome' },
+          { key: 'order', label: 'Order' },
         ],
         records: [
-          {
-            id: 'rk-nesting-bird',
-            cells: {
-              reviewKind: 'Nesting bird survey',
-              discipline: 'Biological',
-              requiredOutcome: 'Survey complete + buffer set',
-            },
-          },
-          {
-            id: 'rk-aquatic',
-            cells: {
-              reviewKind: 'Aquatic resources review',
-              discipline: 'Biological',
-              requiredOutcome: 'Clearance memo',
-            },
-          },
-          {
-            id: 'rk-cultural',
-            cells: {
-              reviewKind: 'Cultural resources review',
-              discipline: 'Cultural',
-              requiredOutcome: 'Records search + monitor decision',
-            },
-          },
-          {
-            id: 'rk-paleo',
-            cells: {
-              reviewKind: 'Paleontological review',
-              discipline: 'Paleo',
-              requiredOutcome: 'Sensitivity determination',
-            },
-          },
-          {
-            id: 'rk-hazmat',
-            cells: {
-              reviewKind: 'Hazardous materials screen',
-              discipline: 'Hazmat',
-              requiredOutcome: 'Phase I complete',
-            },
-          },
+          { id: 'rk-14-day', cells: { reviewKind: '14-day clearance', order: '1' } },
+          { id: 'rk-72-hour', cells: { reviewKind: '72-hour clearance', order: '2' } },
+          { id: 'rk-management', cells: { reviewKind: 'Management determination', order: '3' } },
         ],
-        addLabel: 'Add review kind',
+        addLabel: 'Add kind',
+        total: 3,
       },
       {
         kind: 'rows',
@@ -1119,7 +1150,7 @@ export const SETTINGS_PAGES: SettingsPage[] = [
     id: 'report-types',
     zone: 'reporting',
     title: 'Report Types',
-    description: 'The kinds of report this tenant files. Scope controls which entity a report is filed against; order controls how templates are grouped when a report is created.',
+    description: 'The kinds of report this tenant files. Scope is what a report is filed against — a Project or a Component; order controls how templates are grouped when a report is created.',
     kind: 'standard',
     scope: 'tenant',
     audience: 'esa-admin',
@@ -1129,15 +1160,20 @@ export const SETTINGS_PAGES: SettingsPage[] = [
         kind: 'collection',
         id: 'report-type-list',
         title: 'Report types',
+        // Scope reads from the real ReportScopeType enum, which offers exactly two
+        // values: Project and Component. FIXTURE SCALE: the real tenant has one
+        // report type, which shows nothing about how a list of them behaves — four
+        // are kept here so the page has an anatomy to demonstrate. Same call on
+        // Report Templates below (the real tenant has one template, under that one type).
         columns: [
-          { key: 'reportType', label: 'Report type' },
+          { key: 'reportType', label: 'Report type name' },
           { key: 'scope', label: 'Scope' },
           { key: 'order', label: 'Order' },
         ],
         records: [
           {
             id: 'rt-daily-monitoring',
-            cells: { reportType: 'Daily Monitoring Report', scope: 'Work Area', order: '1' },
+            cells: { reportType: 'Daily Monitoring Report', scope: 'Component', order: '1' },
           },
           {
             id: 'rt-weekly-compliance',
@@ -1230,10 +1266,13 @@ export const SETTINGS_PAGES: SettingsPage[] = [
         kind: 'collection',
         id: 'commitment-type-list',
         title: 'Commitment types',
+        // "Number of references" is the real column: how many records carry the term,
+        // and the reason a type in use can't simply be deleted. The four types are the
+        // four the Commitment Type definition names.
         columns: [
           { key: 'name', label: 'Name' },
           { key: 'description', label: 'Description' },
-          { key: 'inUse', label: 'In use' },
+          { key: 'references', label: 'Number of references' },
         ],
         records: [
           {
@@ -1241,7 +1280,7 @@ export const SETTINGS_PAGES: SettingsPage[] = [
             cells: {
               name: 'Avoidance and Minimization',
               description: 'Measures that keep an impact from occurring, or reduce its severity.',
-              inUse: '48',
+              references: '48',
             },
           },
           {
@@ -1249,7 +1288,7 @@ export const SETTINGS_PAGES: SettingsPage[] = [
             cells: {
               name: 'Mitigation',
               description: 'Measures that offset an impact that cannot be avoided.',
-              inUse: '31',
+              references: '31',
             },
           },
           {
@@ -1257,7 +1296,7 @@ export const SETTINGS_PAGES: SettingsPage[] = [
             cells: {
               name: 'Monitoring',
               description: 'Observation and survey work that confirms conditions in the field.',
-              inUse: '22',
+              references: '22',
             },
           },
           {
@@ -1265,19 +1304,12 @@ export const SETTINGS_PAGES: SettingsPage[] = [
             cells: {
               name: 'Reporting',
               description: 'Documents and submittals owed to an agency on a schedule.',
-              inUse: '9',
-            },
-          },
-          {
-            id: 'ct-compensatory',
-            cells: {
-              name: 'Compensatory Mitigation',
-              description: 'Habitat or credit obligations satisfied away from the impact site.',
-              inUse: '6',
+              references: '9',
             },
           },
         ],
         addLabel: 'Add commitment type',
+        total: 4,
       },
     ],
   },
@@ -1295,18 +1327,22 @@ export const SETTINGS_PAGES: SettingsPage[] = [
         kind: 'collection',
         id: 'phase-list',
         title: 'Phases',
+        // Listed in sort order, not alphabetically — the order is the point.
         columns: [
           { key: 'name', label: 'Name' },
           { key: 'sortOrder', label: 'Sort order' },
-          { key: 'inUse', label: 'In use' },
+          { key: 'references', label: 'Number of references' },
         ],
         records: [
-          { id: 'ph-preconstruction', cells: { name: 'Pre-Construction', sortOrder: '1', inUse: '64' } },
-          { id: 'ph-construction', cells: { name: 'Construction', sortOrder: '2', inUse: '89' } },
-          { id: 'ph-operations', cells: { name: 'Operations', sortOrder: '3', inUse: '12' } },
-          { id: 'ph-restoration', cells: { name: 'Restoration', sortOrder: '4', inUse: '18' } },
+          { id: 'ph-planning', cells: { name: 'Implementation Planning', sortOrder: '1', references: '27' } },
+          { id: 'ph-preconstruction', cells: { name: 'Pre-Construction', sortOrder: '2', references: '64' } },
+          { id: 'ph-construction', cells: { name: 'Construction', sortOrder: '3', references: '89' } },
+          { id: 'ph-postconstruction', cells: { name: 'Post-Construction', sortOrder: '4', references: '41' } },
+          { id: 'ph-operations', cells: { name: 'Operations', sortOrder: '5', references: '12' } },
+          { id: 'ph-restoration', cells: { name: 'Restoration', sortOrder: '6', references: '18' } },
         ],
         addLabel: 'Add phase',
+        total: 6,
       },
     ],
   },
@@ -1324,19 +1360,25 @@ export const SETTINGS_PAGES: SettingsPage[] = [
         kind: 'collection',
         id: 'resource-category-list',
         title: 'Resource categories',
+        // Alphabetical, like the real grid. The list mixes environmental resource areas
+        // with process buckets, and the process ones tend to sit at zero references —
+        // categories somebody created for a document that never needed them.
         columns: [
           { key: 'name', label: 'Name' },
-          { key: 'inUse', label: 'In use' },
+          { key: 'references', label: 'Number of references' },
         ],
         records: [
-          { id: 'rc-biological', cells: { name: 'Biological Resources', inUse: '72' } },
-          { id: 'rc-cultural', cells: { name: 'Cultural Resources', inUse: '24' } },
-          { id: 'rc-water-quality', cells: { name: 'Water Quality', inUse: '31' } },
-          { id: 'rc-air-quality', cells: { name: 'Air Quality', inUse: '12' } },
-          { id: 'rc-noise', cells: { name: 'Noise', inUse: '9' } },
-          { id: 'rc-recreation', cells: { name: 'Recreation', inUse: '4' } },
+          { id: 'rc-agency-consultation', cells: { name: 'Agency Consultation', references: '0' } },
+          { id: 'rc-air-quality', cells: { name: 'Air Quality', references: '12' } },
+          { id: 'rc-biological', cells: { name: 'Biological Resources', references: '72' } },
+          { id: 'rc-cultural', cells: { name: 'Cultural Resources', references: '24' } },
+          { id: 'rc-document-review', cells: { name: 'Document Review and Amendments', references: '0' } },
+          { id: 'rc-noise', cells: { name: 'Noise', references: '9' } },
+          { id: 'rc-recreation', cells: { name: 'Recreation', references: '4' } },
+          { id: 'rc-water-quality', cells: { name: 'Water Quality', references: '31' } },
         ],
         addLabel: 'Add resource category',
+        total: 26,
       },
     ],
   },
@@ -1354,21 +1396,41 @@ export const SETTINGS_PAGES: SettingsPage[] = [
         kind: 'collection',
         id: 'tag-list',
         title: 'Tags',
+        description:
+          'Anyone can create a tag while they work, so the list grows fast and unevenly. A tag stays on the list after the last record drops it — the count is how you find those.',
+        // Tags are user-typed free text: lower case unless the term is an acronym,
+        // and occasionally leading with a number. That is the real content shape,
+        // and it is why this list is the tenant's largest by an order of magnitude.
+        // "Applies to" is the real grid's `Type` column, named for what it does.
         columns: [
-          { key: 'tag', label: 'Tag' },
+          { key: 'name', label: 'Name' },
           { key: 'appliesTo', label: 'Applies to' },
           { key: 'inUse', label: 'In use' },
         ],
         records: [
-          { id: 'tg-nesting-season', cells: { tag: 'Nesting Season', appliesTo: 'Commitment', inUse: '18' } },
-          { id: 'tg-usace-404', cells: { tag: 'USACE 404', appliesTo: 'Requirement', inUse: '11' } },
+          { id: 'tg-75ft-buffer', cells: { name: '75-ft buffer', appliesTo: 'Requirement', inUse: '23' } },
+          {
+            id: 'tg-adaptive-management',
+            cells: { name: 'adaptive management', appliesTo: 'Commitment', inUse: '14' },
+          },
+          {
+            id: 'tg-agency-approval',
+            cells: { name: 'agency approval', appliesTo: 'Requirement', inUse: '31' },
+          },
+          { id: 'tg-nesting-season', cells: { name: 'nesting season', appliesTo: 'Commitment', inUse: '18' } },
+          { id: 'tg-night-work', cells: { name: 'night work', appliesTo: 'Commitment', inUse: '7' } },
           {
             id: 'tg-photo-required',
-            cells: { tag: 'Photo Required', appliesTo: 'Evidence of Compliance', inUse: '26' },
+            cells: { name: 'photo required', appliesTo: 'Evidence of Compliance', inUse: '26' },
           },
-          { id: 'tg-night-work', cells: { tag: 'Night Work', appliesTo: 'Commitment', inUse: '7' } },
+          {
+            id: 'tg-turbidity',
+            cells: { name: 'turbidity', appliesTo: 'Evidence of Compliance', inUse: '0' },
+          },
+          { id: 'tg-usace-404', cells: { name: 'USACE 404', appliesTo: 'Requirement', inUse: '11' } },
         ],
         addLabel: 'Add tag',
+        total: 320,
       },
     ],
   },
@@ -1461,42 +1523,61 @@ export const SETTINGS_PAGES: SettingsPage[] = [
         id: 'category-maps',
         title: 'Category maps',
         description: 'A map is scoped to one project; rolling the key invalidates the previous one immediately.',
+        // A map can exist with no categories in it and no key generated yet — the
+        // real tenant carries one of each, and they are the rows worth seeing.
         columns: [
-          { key: 'map', label: 'Map' },
+          { key: 'name', label: 'Name' },
           { key: 'project', label: 'Project' },
           { key: 'categories', label: 'Categories' },
+          { key: 'updated', label: 'Last updated' },
           { key: 'apiKey', label: 'API key' },
         ],
         records: [
           {
             id: 'cm-dwr-quarterly',
             cells: {
-              map: 'DWR Quarterly Rollup',
+              name: 'DWR Quarterly Rollup',
               project: 'Delta Conveyance',
-              categories: '12 categories',
-              apiKey: 'Active — rolled 2026-06-12',
+              categories: '12',
+              updated: '2026-06-12',
+              apiKey: 'Active',
             },
           },
           {
             id: 'cm-annual-mitigation',
             cells: {
-              map: 'Annual Mitigation Summary',
+              name: 'Annual Mitigation Summary',
               project: 'Delta Conveyance',
-              categories: '8 categories',
+              categories: '8',
+              updated: '2026-05-08',
               apiKey: 'Active',
+            },
+          },
+          {
+            id: 'cm-nesting-bird-alerts',
+            cells: {
+              name: 'Nesting Bird Alerts',
+              project: 'Delta Conveyance',
+              categories: '0',
+              updated: 'Never',
+              apiKey: 'Not generated',
             },
           },
         ],
         addLabel: 'Add category map',
+        total: 3,
       },
     ],
   },
 ];
 
 // ─── Feature flags ───────────────────────────────────────────────────────────
-// `name` matches the dbo.FeatureFlag row. Lifecycle is the addition the real
-// table lacks: today a capability the tenant bought, a rollout that will be
-// deleted at GA, and a permanent default all sit in one undifferentiated list.
+// `name` matches the dbo.FeatureFlag row; `displayName` and `enabled` match what
+// the real Feature Flags page shows for this tenant, in its order. Lifecycle is
+// the addition the real page lacks: it draws two groups, Capability Toggles and
+// Rollout Flags, and files everything that isn't a purchased product area into
+// the second — so a permanent default like Components Default Off sits beside a
+// rollout that gets deleted at GA. `preference` splits those two apart.
 
 export const FEATURE_FLAGS: FeatureFlag[] = [
   {
@@ -1529,9 +1610,11 @@ export const FEATURE_FLAGS: FeatureFlag[] = [
   {
     id: 'tenant-ai-usage',
     name: 'TenantAIUsage',
-    displayName: 'AI Assistance',
+    displayName: 'Tenant AI Usage',
     description: 'Gates every AI-assisted extraction and drafting endpoint for this tenant. Off means no tenant content is sent to a model.',
-    lifecycle: 'capability',
+    // Not a capability: it gates no product area and mirrors no module on the
+    // tenant profile — the real page files it under Rollout Flags too.
+    lifecycle: 'rollout',
     enabled: true,
     lastChanged: { by: 'Rob Kittredge', on: '2026-06-24' },
   },
@@ -1568,7 +1651,7 @@ export const FEATURE_FLAGS: FeatureFlag[] = [
     displayName: 'Configurable Data Catalog Display',
     description: 'Lets the tenant choose the commitments grid columns and compare-card fields instead of using the system default layout.',
     lifecycle: 'rollout',
-    enabled: false,
+    enabled: true,
     lastChanged: { by: 'Curtis Lam', on: '2026-07-08' },
   },
   {
@@ -1581,6 +1664,17 @@ export const FEATURE_FLAGS: FeatureFlag[] = [
     lastChanged: { by: 'Rob Kittredge', on: '2026-06-30' },
   },
   {
+    id: 'streamlined-workflow-enabled',
+    name: 'StreamlinedWorkflowEnabled',
+    displayName: 'Streamlined Workflow Enabled',
+    description: 'Turns on the streamlined path from commitment to tracked action. Removed once the workflow ships to every tenant.',
+    lifecycle: 'rollout',
+    gaTarget: '2026 R4',
+    removeAtGa: true,
+    enabled: false,
+    lastChanged: { by: 'Curtis Lam', on: '2026-07-14' },
+  },
+  {
     id: 'site-clearance',
     name: 'SiteClearance',
     displayName: 'Site Clearance',
@@ -1588,17 +1682,6 @@ export const FEATURE_FLAGS: FeatureFlag[] = [
     lifecycle: 'rollout',
     enabled: true,
     lastChanged: { by: 'Nadia Boutros', on: '2026-07-28' },
-  },
-  {
-    id: 'streamlined-workflow-enabled',
-    name: 'StreamlinedWorkflowEnabled',
-    displayName: 'Streamlined Workflow',
-    description: 'Turns on the streamlined path from commitment to tracked action. Removed once the workflow ships to every tenant.',
-    lifecycle: 'rollout',
-    gaTarget: '2026 R4',
-    removeAtGa: true,
-    enabled: false,
-    lastChanged: { by: 'Curtis Lam', on: '2026-07-14' },
   },
   {
     id: 'help-guidance',
@@ -1752,7 +1835,7 @@ export const SETTINGS_CHANGES: SettingsChange[] = [
     on: '2026-07-09',
     by: 'Sylvia Marchetti',
     pageId: 'site-clearance',
-    summary: 'Added the Paleontological review kind',
+    summary: 'Added the 72-hour clearance review kind',
   },
   {
     on: '2026-07-02',
@@ -1765,6 +1848,14 @@ export const SETTINGS_CHANGES: SettingsChange[] = [
 // ─── Tenants ─────────────────────────────────────────────────────────────────
 // ESA Baseline is the clone source: a new tenant is provisioned by copying its
 // configuration, which is why it carries every module and only ESA staff.
+
+/**
+ * How many tenants the platform really runs — client organizations, agencies,
+ * one-off project tenants, and ESA's own internal and demo tenants. TENANTS
+ * below is a four-row sample of that; the tenants page and the nav count both
+ * read this so neither claims the sample is the whole platform.
+ */
+export const TENANTS_TOTAL = 19;
 
 export const TENANTS: TenantRecord[] = [
   {
@@ -1834,15 +1925,17 @@ export function settingsPagePath(id: string): string {
 /**
  * Record count for pages that ARE lists — the rail shows it beside the page name,
  * mirroring the live count badges on the real admin dashboard tiles. Derivation only:
- * collection sections sum their records; the bespoke platform pages count their own
- * datasets. Pages of settings (rows) and fixed vocabularies (pairs) return undefined —
- * a count adds nothing there.
+ * a collection section reports its real `total` where the fixture is a sample, and
+ * its record count otherwise; the bespoke platform pages count their own datasets.
+ * Pages of settings (rows) and fixed vocabularies (pairs) return undefined — a count
+ * adds nothing there. Zero is a count, not an absence: People and Organizations show
+ * 0, the same as the real dashboard tiles do.
  */
 export function settingsPageCount(page: SettingsPage): number | undefined {
-  if (page.id === 'tenants') return TENANTS.length;
+  if (page.id === 'tenants') return TENANTS_TOTAL;
   if (page.id === 'feature-flags') return FEATURE_FLAGS.length;
   if (page.id === 'operations') return OPERATIONS.length;
   const collections = page.sections.filter((s) => s.kind === 'collection');
   if (collections.length === 0) return undefined;
-  return collections.reduce((sum, s) => sum + s.records.length, 0);
+  return collections.reduce((sum, s) => sum + (s.total ?? s.records.length), 0);
 }

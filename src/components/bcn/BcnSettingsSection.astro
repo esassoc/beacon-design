@@ -5,7 +5,10 @@
 //
 //   rows       → a divided stack of <BcnSettingRow> (the setting-per-row anatomy)
 //   collection → a records table (column labels, one row per record, optional
-//                trailing badge, optional "Add …" action as the body's last block)
+//                trailing badge, optional "Add …" action as the body's last block).
+//                A collection with no records renders an esa-empty-state instead of
+//                an empty grid, and one whose `total` exceeds the records it holds
+//                says how much of the list it is showing.
 //   pairs      → the Terminology anatomy: Entity / Singular / Plural, with the two
 //                overrides as text fields whose PLACEHOLDER is the canonical term,
 //                so a blank field shows the platform default in grey
@@ -28,6 +31,7 @@
 import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import BcnSettingRow from './BcnSettingRow.astro';
 import type { SettingsSection } from '../../data/settings-registry';
 
@@ -41,6 +45,16 @@ const anchorId = `sec-${section.id}`;
 
 // A collection only grows the trailing badge column when a record actually carries one.
 const hasBadges = section.kind === 'collection' && section.records.some((r) => !!r.badge);
+
+// A collection holding nothing shows the empty state; the grid is not drawn at all.
+const isEmpty = section.kind === 'collection' && section.records.length === 0;
+
+// The empty state's title is the section's own name — "People" → "No people yet".
+const emptyTitle = `No ${section.title.toLowerCase()} yet`;
+
+// The records shown are a sample only when the section says how many there really are.
+const isSample =
+  section.kind === 'collection' && section.total !== undefined && section.total > section.records.length;
 ---
 
 <section id={anchorId} class="bcn-set">
@@ -58,7 +72,15 @@ const hasBadges = section.kind === 'collection' && section.records.some((r) => !
     }
 
     {
-      section.kind === 'collection' && (
+      /* Size md, not sm: the lego's sm variant drops the title to 14px and the body
+         copy to 12px, under this surface's 16px floor. */
+      section.kind === 'collection' && isEmpty && (
+        <EsaEmptyState title={emptyTitle} description={section.emptyText} />
+      )
+    }
+
+    {
+      section.kind === 'collection' && !isEmpty && (
         <div class="bcn-set__scroll">
           <table class="bcn-set__table">
             <thead>
@@ -93,6 +115,16 @@ const hasBadges = section.kind === 'collection' && section.records.some((r) => !
             </tbody>
           </table>
         </div>
+      )
+    }
+
+    {
+      /* A tenant's real lists run to 75 users and 320 tags. Where the fixture holds a
+         sample, the table says so rather than reading as the whole list. */
+      section.kind === 'collection' && isSample && (
+        <p class="bcn-set__count">
+          Showing {section.records.length} of {section.total}
+        </p>
       )
     }
 
@@ -261,6 +293,14 @@ const hasBadges = section.kind === 'collection' && section.records.some((r) => !
     width: 1%;
     text-align: right;
     white-space: nowrap;
+  }
+
+  /* How much of the list is on screen — a caption for the table above it, so it sits
+     quiet: the 14px step, tertiary ink, no rule of its own. */
+  .bcn-set__count {
+    margin: var(--spacing-250) 0 0;
+    font-size: var(--type-size-150);
+    color: var(--color-text-tertiary);
   }
 
   /* Terminology override fields. */

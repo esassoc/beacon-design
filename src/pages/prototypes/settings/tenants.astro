@@ -19,7 +19,7 @@ import EsaFormField from '@esa/ecology/esa-form-field.astro';
 import EsaPill from '@esa/ecology/esa-pill.astro';
 import BcnSettingsShell from '../../../components/bcn/BcnSettingsShell.astro';
 import BcnSettingsSection from '../../../components/bcn/BcnSettingsSection.astro';
-import { TENANTS, settingsPage } from '../../../data/settings-registry';
+import { TENANTS, TENANTS_TOTAL, settingsPage } from '../../../data/settings-registry';
 import type { SettingsSection } from '../../../data/settings-registry';
 import { withBase } from '../../../lib/base';
 
@@ -49,6 +49,9 @@ const tenantList: SettingsSection = {
     badge: tenant.id === 'esa-baseline' ? 'Clone source' : undefined,
   })),
   addLabel: 'New tenant',
+  // The platform runs 19 tenants; these four are the ones the prototype needs to
+  // show (a client, a second client, a project tenant, and the clone source).
+  total: TENANTS_TOTAL,
 };
 
 // The selectable module set is every module some tenant already has — first-seen order,
