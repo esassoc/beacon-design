@@ -25,7 +25,7 @@ import EsaFormField from '@esa/ecology/esa-form-field.astro';
 import EsaPill from '@esa/ecology/esa-pill.astro';
 import BcnSettingsShell from '../../../components/bcn/BcnSettingsShell.astro';
 import BcnSettingsSection from '../../../components/bcn/BcnSettingsSection.astro';
-import { TENANTS, TENANTS_TOTAL, settingsPage } from '../../../data/settings-registry';
+import { TENANTS, MODULES, settingsPage } from '../../../data/settings-registry';
 import type { SettingsSection } from '../../../data/settings-registry';
 import { withBase } from '../../../lib/base';
 
@@ -37,39 +37,28 @@ const tenantList: SettingsSection = {
   id: 'tenant-list',
   presentation: 'rows',
   title: 'Tenants',
+  // Name + subdomain IS the entirety of the real list's data (Andy, 2026-07-30) —
+  // the subdomain as a monospace chip, the way the real page renders the address.
   columns: [
     { key: 'tenant', label: 'Tenant' },
-    // The real page renders a subdomain as a monospace chip — it is the address the
-    // tenant is reached at, not prose.
     { key: 'subdomain', label: 'Subdomain', code: true },
-    { key: 'modules', label: 'Modules' },
-    { key: 'users', label: 'Users' },
-    { key: 'created', label: 'Created' },
   ],
   records: TENANTS.map((tenant) => ({
     id: tenant.id,
     cells: {
       tenant: tenant.name,
       subdomain: tenant.subdomain,
-      modules: tenant.modules.join(', '),
-      users: String(tenant.users),
-      created: tenant.created,
     },
-    badge: tenant.id === 'esa-baseline' ? 'Clone source' : undefined,
   })),
   rowActions: ['edit'],
   addLabel: 'New tenant',
   // Provisioning is richer than the list's columns, so the header action opens this
   // page's side dialog instead of the generic record modal. Edit still uses the modal.
   addFlow: 'page',
-  // The platform runs 19 tenants; these four are the ones the prototype needs to
-  // show (a client, a second client, a project tenant, and the clone source).
-  total: TENANTS_TOTAL,
 };
 
-// The selectable module set is every module some tenant already has — first-seen order,
-// so the list is the platform's own vocabulary rather than an authored one.
-const moduleOptions = [...new Set(TENANTS.flatMap((tenant) => tenant.modules))];
+// The real module catalog; Core is always enabled, so the picker never offers it.
+const moduleOptions = MODULES.filter((m) => m !== 'Core');
 ---
 
 <!-- manifest:

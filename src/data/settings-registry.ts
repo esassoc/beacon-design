@@ -224,9 +224,6 @@ export interface TenantRecord {
   id: string;
   name: string;
   subdomain: string;
-  modules: string[];
-  users: number;
-  created: string;
 }
 
 // ─── Zones ───────────────────────────────────────────────────────────────────
@@ -1913,65 +1910,42 @@ export const SETTINGS_CHANGES: SettingsChange[] = [
 ];
 
 // ─── Tenants ─────────────────────────────────────────────────────────────────
-// ESA Baseline is the clone source: a new tenant is provisioned by copying its
-// configuration, which is why it carries every module and only ESA staff.
+// The REAL platform roster, supplied by Andy from the live Tenants page
+// (2026-07-30) — client organizations, agencies, one-off project tenants, and
+// ESA's own internal and demo tenants. Name + subdomain IS the entirety of the
+// list's data; there are no other columns.
 
-/**
- * How many tenants the platform really runs — client organizations, agencies,
- * one-off project tenants, and ESA's own internal and demo tenants. TENANTS
- * below is a four-row sample of that; the tenants page and the nav count both
- * read this so neither claims the sample is the whole platform.
- */
-export const TENANTS_TOTAL = 19;
+/** The real module catalog (ModuleDto). Core is always enabled and never offered. */
+export const MODULES = [
+  'Core',
+  'Commitment Library',
+  'Monitoring Dashboard',
+  'Scheduling',
+  'Compliance Tracking',
+  'Spatial Library',
+  'Reporting',
+];
 
 export const TENANTS: TenantRecord[] = [
-  {
-    id: 'dcp',
-    name: 'Delta Conveyance Project',
-    subdomain: 'dcp',
-    modules: [
-      'Core',
-      'Commitment Library',
-      'Compliance Tracking',
-      'Reporting',
-      'Monitoring Dashboard',
-      'Spatial Library',
-    ],
-    users: 34,
-    created: '2024-09-16',
-  },
-  {
-    id: 'prologis',
-    name: 'Prologis',
-    subdomain: 'prologis',
-    modules: ['Core', 'Commitment Library', 'Compliance Tracking', 'Reporting'],
-    users: 18,
-    created: '2025-03-04',
-  },
-  {
-    id: 'aws',
-    name: 'AWS Infrastructure',
-    subdomain: 'aws',
-    modules: ['Core', 'Commitment Library', 'Compliance Tracking', 'Scheduling', 'Reporting'],
-    users: 26,
-    created: '2025-10-21',
-  },
-  {
-    id: 'esa-baseline',
-    name: 'ESA Baseline',
-    subdomain: 'esa',
-    modules: [
-      'Core',
-      'Commitment Library',
-      'Monitoring Dashboard',
-      'Scheduling',
-      'Compliance Tracking',
-      'Spatial Library',
-      'Reporting',
-    ],
-    users: 6,
-    created: '2024-06-03',
-  },
+  { id: 'apt', name: 'Alaska Power & Telephone', subdomain: 'apt' },
+  { id: 'aws', name: 'AWS', subdomain: 'aws' },
+  { id: 'bonozoic', name: 'Beyond Petrochemicals', subdomain: 'bonozoic' },
+  { id: 'casp', name: 'CASP', subdomain: 'casp' },
+  { id: 'cobalt-solar', name: 'Cobalt Solar', subdomain: 'cobalt-solar' },
+  { id: 'cpuc', name: 'CPUC', subdomain: 'cpuc' },
+  { id: 'delta-conveyance', name: 'Delta Conveyance', subdomain: 'delta-conveyance' },
+  { id: 'esa', name: 'ESA', subdomain: 'esa' },
+  { id: 'esa-ml', name: 'ESA Measure Library', subdomain: 'esa-ml' },
+  { id: 'nepa-demo', name: 'ESA NEPA Demo', subdomain: 'nepa-demo' },
+  { id: 'ggb', name: 'GGB Highway & Transportation', subdomain: 'ggb' },
+  { id: 'gridliance', name: 'Gridliance Core Upgrades CIC', subdomain: 'gridliance' },
+  { id: 'lebls', name: 'LEBLS', subdomain: 'lebls' },
+  { id: 'losvaqueros', name: 'Los Vaqueros', subdomain: 'losvaqueros' },
+  { id: 'prologis', name: 'Prologis', subdomain: 'prologis' },
+  { id: 'sfo', name: 'SFO', subdomain: 'sfo' },
+  { id: 'sitesreservoir', name: 'Sites Reservoir', subdomain: 'sitesreservoir' },
+  { id: 'trpa', name: 'Tahoe Regional Planning Agency', subdomain: 'trpa' },
+  { id: 'vista-grande', name: 'Vista Grande', subdomain: 'vista-grande' },
 ];
 
 // ─── Small helpers (build-time) ──────────────────────────────────────────────
@@ -1999,7 +1973,7 @@ export function settingsPagePath(id: string): string {
  * 0, the same as the real dashboard tiles do.
  */
 export function settingsPageCount(page: SettingsPage): number | undefined {
-  if (page.id === 'tenants') return TENANTS_TOTAL;
+  if (page.id === 'tenants') return TENANTS.length;
   if (page.id === 'feature-flags') return FEATURE_FLAGS.length;
   if (page.id === 'operations') return OPERATIONS.length;
   const collections = page.sections.filter((s) => s.kind === 'collection');
