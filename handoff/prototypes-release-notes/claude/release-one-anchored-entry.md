@@ -742,6 +742,10 @@ One release in the stream: a quiet meta line ("Latest" + the long date) above th
 .bcn-release + .bcn-release {
   border-top: 1px solid var(--color-border-light);
 }
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -817,10 +821,6 @@ One release in the stream: a quiet meta line ("Latest" + the long date) above th
   transition: background var(--transition-fast, 0.15s ease);
   -webkit-appearance: none;
   appearance: none;
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
 }
 ```
 

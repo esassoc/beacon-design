@@ -4096,10 +4096,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
-}
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
   --_btn-padding-x: var(--form-padding-x-md, 16px);
@@ -5556,6 +5552,10 @@ a.breadcrumb-item {
 }
 .bcn-gd-article__panel[hidden] {
   display: none;
+}
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
 }
 ```
 

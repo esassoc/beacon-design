@@ -244,6 +244,10 @@ Aldo's opening message on THIS route — the route-aware half of the guidance dr
 .esa-icon-button:hover {
   background: var(--_ib-bg-hover);
 }
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -392,10 +396,6 @@ Aldo's opening message on THIS route — the route-aware half of the guidance dr
 .bcn-gd-row .esa-icon {
   color: var(--color-text-tertiary);
   flex: none;
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
 }
 ```
 

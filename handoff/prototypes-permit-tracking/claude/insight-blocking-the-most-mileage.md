@@ -93,11 +93,6 @@ The right insight card: the actionable one — pending permits ranked by the rou
   display: flex;
   flex-direction: column;
 }
-.ins-card__sub {
-  margin: calc(-1 * var(--spacing-100)) 0 0;
-  font-size: 0.8125rem;
-  color: var(--color-text-tertiary);
-}
 .ins-row {
   display: flex;
   align-items: center;
@@ -132,6 +127,11 @@ The right insight card: the actionable one — pending permits ranked by the rou
 }
 .ins-row + .ins-row {
   border-top: 1px solid var(--color-border-light);
+}
+.ins-card__sub {
+  margin: calc(-1 * var(--spacing-100)) 0 0;
+  font-size: 0.8125rem;
+  color: var(--color-text-tertiary);
 }
 .ins-row[data-ins-permit] {
   cursor: pointer;
