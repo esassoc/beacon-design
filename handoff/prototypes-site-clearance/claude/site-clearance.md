@@ -9514,6 +9514,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
 .print-header {
   display: none;
 }
@@ -10270,10 +10274,6 @@ svg.leaflet-image-layer.leaflet-interactive path {
 }
 .leaflet-tile-loaded {
   visibility: inherit;
-}
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
 }
 .modern-layout {
   display: flex;

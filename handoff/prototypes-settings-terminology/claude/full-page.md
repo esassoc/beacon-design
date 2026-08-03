@@ -6,7 +6,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 - **Source prototype:** http://localhost:4399/beacon-design/prototypes/settings/terminology/
 - **Section element:** `<page>`
-- **Components:** esa-badge (hub), esa-button (hub), esa-card (hub), esa-icon (hub), esa-icon-button (hub)
+- **Components:** esa-badge (hub), esa-card (hub), esa-icon (hub), esa-icon-button (hub)
 
 ## Markup (de-scoped, framework-free)
 ```html
@@ -2077,252 +2077,223 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 </div>
               </div>
               <div class="bcn-settings-shell__content" data-esa-surface="">
-                <div class="stack" data-gap="xl">
-                  <div class="stack" data-gap="lg">
-                    <section id="sec-entity-aliases" class="bcn-set">
-                      <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__header">
-                          <div class="esa-card__header-content">
-                            <div class="esa-card__titles">
-                              <h3 class="esa-card__title">Entity aliases</h3>
-                              <p class="esa-card__subtitle">
-                                Both forms are required when a term is set — the singular and the
-                                plural appear in different places.
-                              </p>
-                            </div>
-                          </div>
-                          <div class="esa-card__actions"></div>
-                        </div>
-                        <div class="esa-card__body">
-                          <div class="bcn-set__scroll">
-                            <table class="bcn-set__table">
-                              <thead>
-                                <tr>
-                                  <th class="bcn-set__th" scope="col">Entity</th>
-                                  <th class="bcn-set__th" scope="col">Singular</th>
-                                  <th class="bcn-set__th" scope="col">Plural</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <tr class="bcn-set__tr">
-                                  <th class="bcn-set__td bcn-set__td--lead" scope="row">Project</th>
-                                  <td class="bcn-set__td bcn-set__td--field">
-                                    <esa-text-field
-                                      value=""
-                                      placeholder="Project"
-                                      aria-label="Project — singular"
-                                      size="md"
-                                    ></esa-text-field>
-                                  </td>
-                                  <td class="bcn-set__td bcn-set__td--field">
-                                    <esa-text-field
-                                      value=""
-                                      placeholder="Projects"
-                                      aria-label="Project — plural"
-                                      size="md"
-                                    ></esa-text-field>
-                                  </td>
-                                </tr>
-                                <tr class="bcn-set__tr">
-                                  <th class="bcn-set__td bcn-set__td--lead" scope="row">
-                                    Source Document
-                                  </th>
-                                  <td class="bcn-set__td bcn-set__td--field">
-                                    <esa-text-field
-                                      value="Regulatory Document"
-                                      placeholder="Source Document"
-                                      aria-label="Source Document — singular"
-                                      size="md"
-                                    ></esa-text-field>
-                                  </td>
-                                  <td class="bcn-set__td bcn-set__td--field">
-                                    <esa-text-field
-                                      value="Regulatory Documents"
-                                      placeholder="Source Documents"
-                                      aria-label="Source Document — plural"
-                                      size="md"
-                                    ></esa-text-field>
-                                  </td>
-                                </tr>
-                                <tr class="bcn-set__tr">
-                                  <th class="bcn-set__td bcn-set__td--lead" scope="row">
-                                    Commitment
-                                  </th>
-                                  <td class="bcn-set__td bcn-set__td--field">
-                                    <esa-text-field
-                                      value="Environmental Commitment"
-                                      placeholder="Commitment"
-                                      aria-label="Commitment — singular"
-                                      size="md"
-                                    ></esa-text-field>
-                                  </td>
-                                  <td class="bcn-set__td bcn-set__td--field">
-                                    <esa-text-field
-                                      value="Environmental Commitments"
-                                      placeholder="Commitments"
-                                      aria-label="Commitment — plural"
-                                      size="md"
-                                    ></esa-text-field>
-                                  </td>
-                                </tr>
-                                <tr class="bcn-set__tr">
-                                  <th class="bcn-set__td bcn-set__td--lead" scope="row">
-                                    Requirement
-                                  </th>
-                                  <td class="bcn-set__td bcn-set__td--field">
-                                    <esa-text-field
-                                      value=""
-                                      placeholder="Requirement"
-                                      aria-label="Requirement — singular"
-                                      size="md"
-                                    ></esa-text-field>
-                                  </td>
-                                  <td class="bcn-set__td bcn-set__td--field">
-                                    <esa-text-field
-                                      value=""
-                                      placeholder="Requirements"
-                                      aria-label="Requirement — plural"
-                                      size="md"
-                                    ></esa-text-field>
-                                  </td>
-                                </tr>
-                                <tr class="bcn-set__tr">
-                                  <th class="bcn-set__td bcn-set__td--lead" scope="row">Action</th>
-                                  <td class="bcn-set__td bcn-set__td--field">
-                                    <esa-text-field
-                                      value=""
-                                      placeholder="Action"
-                                      aria-label="Action — singular"
-                                      size="md"
-                                    ></esa-text-field>
-                                  </td>
-                                  <td class="bcn-set__td bcn-set__td--field">
-                                    <esa-text-field
-                                      value=""
-                                      placeholder="Actions"
-                                      aria-label="Action — plural"
-                                      size="md"
-                                    ></esa-text-field>
-                                  </td>
-                                </tr>
-                                <tr class="bcn-set__tr">
-                                  <th class="bcn-set__td bcn-set__td--lead" scope="row">
-                                    Component
-                                  </th>
-                                  <td class="bcn-set__td bcn-set__td--field">
-                                    <esa-text-field
-                                      value="Construction Area"
-                                      placeholder="Component"
-                                      aria-label="Component — singular"
-                                      size="md"
-                                    ></esa-text-field>
-                                  </td>
-                                  <td class="bcn-set__td bcn-set__td--field">
-                                    <esa-text-field
-                                      value="Construction Areas"
-                                      placeholder="Components"
-                                      aria-label="Component — plural"
-                                      size="md"
-                                    ></esa-text-field>
-                                  </td>
-                                </tr>
-                                <tr class="bcn-set__tr">
-                                  <th class="bcn-set__td bcn-set__td--lead" scope="row">
-                                    Action Implementation
-                                  </th>
-                                  <td class="bcn-set__td bcn-set__td--field">
-                                    <esa-text-field
-                                      value=""
-                                      placeholder="Action Implementation"
-                                      aria-label="Action Implementation — singular"
-                                      size="md"
-                                    ></esa-text-field>
-                                  </td>
-                                  <td class="bcn-set__td bcn-set__td--field">
-                                    <esa-text-field
-                                      value=""
-                                      placeholder="Action Implementations"
-                                      aria-label="Action Implementation — plural"
-                                      size="md"
-                                    ></esa-text-field>
-                                  </td>
-                                </tr>
-                                <tr class="bcn-set__tr">
-                                  <th class="bcn-set__td bcn-set__td--lead" scope="row">
-                                    Evidence of Compliance
-                                  </th>
-                                  <td class="bcn-set__td bcn-set__td--field">
-                                    <esa-text-field
-                                      value=""
-                                      placeholder="Evidence of Compliance"
-                                      aria-label="Evidence of Compliance — singular"
-                                      size="md"
-                                    ></esa-text-field>
-                                  </td>
-                                  <td class="bcn-set__td bcn-set__td--field">
-                                    <esa-text-field
-                                      value=""
-                                      placeholder="Evidence of Compliance"
-                                      aria-label="Evidence of Compliance — plural"
-                                      size="md"
-                                    ></esa-text-field>
-                                  </td>
-                                </tr>
-                                <tr class="bcn-set__tr">
-                                  <th class="bcn-set__td bcn-set__td--lead" scope="row">
-                                    Work Area
-                                  </th>
-                                  <td class="bcn-set__td bcn-set__td--field">
-                                    <esa-text-field
-                                      value=""
-                                      placeholder="Work Area"
-                                      aria-label="Work Area — singular"
-                                      size="md"
-                                    ></esa-text-field>
-                                  </td>
-                                  <td class="bcn-set__td bcn-set__td--field">
-                                    <esa-text-field
-                                      value=""
-                                      placeholder="Work Areas"
-                                      aria-label="Work Area — plural"
-                                      size="md"
-                                    ></esa-text-field>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
+                <div class="stack" data-gap="lg">
+                  <section id="sec-entity-aliases" class="bcn-set">
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__header">
+                        <div class="esa-card__header-content">
+                          <div class="esa-card__titles">
+                            <h3 class="esa-card__title">Entity aliases</h3>
+                            <p class="esa-card__subtitle">
+                              Both forms are required when a term is set — the singular and the
+                              plural appear in different places.
+                            </p>
                           </div>
                         </div>
+                        <div class="esa-card__actions"></div>
                       </div>
-                    </section>
-                    <script
-                      type="module"
-                      src="/beacon-design/_astro/BcnSettingsSection.astro_astro_type_script_index_0_lang.DZd8f0M0.js"
-                    ></script>
-                  </div>
-                  <section class="bcn-danger-zone" aria-labelledby="bcn-danger-zone-1">
-                    <h2 class="bcn-danger-zone__heading" id="bcn-danger-zone-1">Danger Zone</h2>
-                    <div class="bcn-danger-zone__box">
-                      <div class="bcn-danger-zone__item">
-                        <div class="bcn-danger-zone__text">
-                          <h3 class="bcn-danger-zone__title">Reset all terms</h3>
-                          <p class="bcn-danger-zone__desc">
-                            Clears every alias at once and returns the whole app to Beacon’s default
-                            vocabulary.
-                          </p>
-                        </div>
-                        <div class="bcn-danger-zone__action">
-                          <span
-                            class="esa-button esa-button--color-danger esa-button--appearance-soft esa-button--sm"
-                          >
-                            <button class="esa-button__native" type="button">
-                              <span class="esa-button__label"> Reset to defaults </span>
-                            </button>
-                          </span>
+                      <div class="esa-card__body">
+                        <div class="bcn-set__scroll">
+                          <table class="bcn-set__table">
+                            <thead>
+                              <tr>
+                                <th class="bcn-set__th" scope="col">Entity</th>
+                                <th class="bcn-set__th" scope="col">Singular</th>
+                                <th class="bcn-set__th" scope="col">Plural</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr class="bcn-set__tr">
+                                <th class="bcn-set__td bcn-set__td--lead" scope="row">Project</th>
+                                <td class="bcn-set__td bcn-set__td--field">
+                                  <esa-text-field
+                                    value=""
+                                    placeholder="Project"
+                                    aria-label="Project — singular"
+                                    size="md"
+                                  ></esa-text-field>
+                                </td>
+                                <td class="bcn-set__td bcn-set__td--field">
+                                  <esa-text-field
+                                    value=""
+                                    placeholder="Projects"
+                                    aria-label="Project — plural"
+                                    size="md"
+                                  ></esa-text-field>
+                                </td>
+                              </tr>
+                              <tr class="bcn-set__tr">
+                                <th class="bcn-set__td bcn-set__td--lead" scope="row">
+                                  Source Document
+                                </th>
+                                <td class="bcn-set__td bcn-set__td--field">
+                                  <esa-text-field
+                                    value="Regulatory Document"
+                                    placeholder="Source Document"
+                                    aria-label="Source Document — singular"
+                                    size="md"
+                                  ></esa-text-field>
+                                </td>
+                                <td class="bcn-set__td bcn-set__td--field">
+                                  <esa-text-field
+                                    value="Regulatory Documents"
+                                    placeholder="Source Documents"
+                                    aria-label="Source Document — plural"
+                                    size="md"
+                                  ></esa-text-field>
+                                </td>
+                              </tr>
+                              <tr class="bcn-set__tr">
+                                <th class="bcn-set__td bcn-set__td--lead" scope="row">
+                                  Commitment
+                                </th>
+                                <td class="bcn-set__td bcn-set__td--field">
+                                  <esa-text-field
+                                    value="Environmental Commitment"
+                                    placeholder="Commitment"
+                                    aria-label="Commitment — singular"
+                                    size="md"
+                                  ></esa-text-field>
+                                </td>
+                                <td class="bcn-set__td bcn-set__td--field">
+                                  <esa-text-field
+                                    value="Environmental Commitments"
+                                    placeholder="Commitments"
+                                    aria-label="Commitment — plural"
+                                    size="md"
+                                  ></esa-text-field>
+                                </td>
+                              </tr>
+                              <tr class="bcn-set__tr">
+                                <th class="bcn-set__td bcn-set__td--lead" scope="row">
+                                  Requirement
+                                </th>
+                                <td class="bcn-set__td bcn-set__td--field">
+                                  <esa-text-field
+                                    value=""
+                                    placeholder="Requirement"
+                                    aria-label="Requirement — singular"
+                                    size="md"
+                                  ></esa-text-field>
+                                </td>
+                                <td class="bcn-set__td bcn-set__td--field">
+                                  <esa-text-field
+                                    value=""
+                                    placeholder="Requirements"
+                                    aria-label="Requirement — plural"
+                                    size="md"
+                                  ></esa-text-field>
+                                </td>
+                              </tr>
+                              <tr class="bcn-set__tr">
+                                <th class="bcn-set__td bcn-set__td--lead" scope="row">Action</th>
+                                <td class="bcn-set__td bcn-set__td--field">
+                                  <esa-text-field
+                                    value=""
+                                    placeholder="Action"
+                                    aria-label="Action — singular"
+                                    size="md"
+                                  ></esa-text-field>
+                                </td>
+                                <td class="bcn-set__td bcn-set__td--field">
+                                  <esa-text-field
+                                    value=""
+                                    placeholder="Actions"
+                                    aria-label="Action — plural"
+                                    size="md"
+                                  ></esa-text-field>
+                                </td>
+                              </tr>
+                              <tr class="bcn-set__tr">
+                                <th class="bcn-set__td bcn-set__td--lead" scope="row">Component</th>
+                                <td class="bcn-set__td bcn-set__td--field">
+                                  <esa-text-field
+                                    value="Construction Area"
+                                    placeholder="Component"
+                                    aria-label="Component — singular"
+                                    size="md"
+                                  ></esa-text-field>
+                                </td>
+                                <td class="bcn-set__td bcn-set__td--field">
+                                  <esa-text-field
+                                    value="Construction Areas"
+                                    placeholder="Components"
+                                    aria-label="Component — plural"
+                                    size="md"
+                                  ></esa-text-field>
+                                </td>
+                              </tr>
+                              <tr class="bcn-set__tr">
+                                <th class="bcn-set__td bcn-set__td--lead" scope="row">
+                                  Action Implementation
+                                </th>
+                                <td class="bcn-set__td bcn-set__td--field">
+                                  <esa-text-field
+                                    value=""
+                                    placeholder="Action Implementation"
+                                    aria-label="Action Implementation — singular"
+                                    size="md"
+                                  ></esa-text-field>
+                                </td>
+                                <td class="bcn-set__td bcn-set__td--field">
+                                  <esa-text-field
+                                    value=""
+                                    placeholder="Action Implementations"
+                                    aria-label="Action Implementation — plural"
+                                    size="md"
+                                  ></esa-text-field>
+                                </td>
+                              </tr>
+                              <tr class="bcn-set__tr">
+                                <th class="bcn-set__td bcn-set__td--lead" scope="row">
+                                  Evidence of Compliance
+                                </th>
+                                <td class="bcn-set__td bcn-set__td--field">
+                                  <esa-text-field
+                                    value=""
+                                    placeholder="Evidence of Compliance"
+                                    aria-label="Evidence of Compliance — singular"
+                                    size="md"
+                                  ></esa-text-field>
+                                </td>
+                                <td class="bcn-set__td bcn-set__td--field">
+                                  <esa-text-field
+                                    value=""
+                                    placeholder="Evidence of Compliance"
+                                    aria-label="Evidence of Compliance — plural"
+                                    size="md"
+                                  ></esa-text-field>
+                                </td>
+                              </tr>
+                              <tr class="bcn-set__tr">
+                                <th class="bcn-set__td bcn-set__td--lead" scope="row">Work Area</th>
+                                <td class="bcn-set__td bcn-set__td--field">
+                                  <esa-text-field
+                                    value=""
+                                    placeholder="Work Area"
+                                    aria-label="Work Area — singular"
+                                    size="md"
+                                  ></esa-text-field>
+                                </td>
+                                <td class="bcn-set__td bcn-set__td--field">
+                                  <esa-text-field
+                                    value=""
+                                    placeholder="Work Areas"
+                                    aria-label="Work Area — plural"
+                                    size="md"
+                                  ></esa-text-field>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </div>
                       </div>
                     </div>
                   </section>
+                  <script
+                    type="module"
+                    src="/beacon-design/_astro/BcnSettingsSection.astro_astro_type_script_index_0_lang.DZd8f0M0.js"
+                  ></script>
                 </div>
               </div>
             </div>
@@ -5175,12 +5146,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --color-accent: #f76b15;
   --color-border: #dcdcdc;
   --color-border-light: #efefef;
-  --color-border-strong: #bdbdbd;
-  --color-danger: #e5484d;
-  --color-danger-hover: #dc3e42;
-  --color-danger-strong: #ce2c31;
   --color-primary: #005862;
-  --color-primary-hover: #00474f;
   --color-surface: #fcfcfc;
   --color-surface-sunken: #efefef;
   --color-text-inverse: #fcfcfc;
@@ -5198,15 +5164,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --form-border-color: #dcdcdc;
   --form-border-width: 1px;
   --form-font-size-md: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
-  --form-font-size-sm: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
   --form-height-md: 36px;
-  --form-height-sm: 28px;
   --form-padding-x-md: 0.75rem;
-  --form-padding-x-sm: 0.625rem;
   --form-padding-y-md: 0.5rem;
   --form-placeholder-color: #7c7c7c;
   --form-radius-md: 0.25rem;
-  --form-radius-sm: 0.25rem;
   --form-text-color: #3d3d3d;
   --icon-button-bg-hover: color-mix(in srgb, currentColor 14%, transparent);
   --icon-size-md: 20px;
@@ -5249,105 +5211,89 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --type-size-500: clamp(1.125rem, 0.98rem + 0.72vw, 1.5rem);
 }
 
-.esa-card {
-  --_card-bg: var(--card-bg, var(--color-surface, #ffffff));
-  --_card-border: var(--card-border-color, var(--color-border, #e5e5e5));
-  --_card-radius: var(--card-radius, var(--radius-300, 0.5rem));
-  --_card-padding: var(--card-padding, var(--spacing-500, 1.5rem));
-  --_card-header-bg: var(--card-header-bg, transparent);
-  --_card-header-color: var(--card-header-color, var(--color-text-primary, #171717));
-  --_card-header-border: var(--card-header-border-color, var(--color-border-light, #efefef));
-  display: block;
-  background: var(--_card-bg);
-  border: 1px solid var(--_card-border);
-  border-radius: var(--_card-radius);
-  overflow: hidden;
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
 }
-.esa-card--outlined {
-  --_card-border: var(--color-border, #e5e5e5);
-}
-.esa-card__header {
-  display: flex;
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  padding: var(--spacing-400, 1rem) var(--_card-padding);
-  background: var(--_card-header-bg);
-  color: var(--_card-header-color);
-  border-bottom: 1px solid var(--_card-header-border);
-  min-height: 56px;
-}
-.esa-card__header-content {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300, 0.75rem);
-}
-.esa-card__titles {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-050, 0.125rem);
-}
-.esa-card__title {
-  font-size: var(--type-size-250, 1.0625rem);
-  font-weight: 600;
-  margin: 0;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
   color: inherit;
-  font-family: var(--font-sans, "DM Sans", sans-serif);
 }
-.esa-card__subtitle {
-  font-size: var(--type-size-150, 0.8125rem);
-  color: var(--color-text-secondary, #525252);
-  margin: 0;
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
 }
-.esa-card__actions {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200, 0.5rem);
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
 }
-.esa-card__body {
-  padding: var(--_card-padding);
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
 }
-.bcn-danger-zone {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
 }
-.bcn-danger-zone__heading {
-  margin: 0;
-  font-size: var(--type-size-250);
+.bcn-set {
+  display: block;
+  scroll-margin-block-start: var(--spacing-600);
+}
+.bcn-set .esa-card__subtitle {
+  line-height: 1.4;
+}
+.bcn-set__scroll {
+  overflow-x: auto;
+}
+.bcn-set__table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+.bcn-set__th {
+  padding: 0 var(--spacing-400) var(--spacing-250);
+  font-size: var(--type-size-150);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-danger-zone__box {
-  padding: var(--spacing-500);
-  border: 1px solid var(--color-danger);
-  border-radius: var(--radius-200);
-  background: var(--color-surface);
-}
-.bcn-danger-zone__item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-400);
-}
-.bcn-danger-zone__text {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100);
-  min-width: 0;
-}
-.bcn-danger-zone__title {
-  margin: 0;
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-danger-zone__desc {
-  margin: 0;
-  font-size: var(--form-font-size-md);
   color: var(--color-text-secondary);
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--color-border);
 }
-.bcn-danger-zone__action {
-  flex-shrink: 0;
+.bcn-set__th:first-child,
+.bcn-set__td:first-child {
+  padding-inline-start: 0;
+}
+.bcn-set__th:last-child,
+.bcn-set__td:last-child {
+  padding-inline-end: 0;
+}
+.bcn-set__td {
+  padding: var(--spacing-250) var(--spacing-400);
+  font-size: var(--type-size-200);
+  line-height: 1.4;
+  color: var(--color-text-primary);
+  text-align: left;
+  vertical-align: middle;
+}
+.bcn-set__td--lead {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+.bcn-set__td--field {
+  min-width: 200px;
+  padding-block: var(--spacing-250);
+}
+.bcn-set__td--field esa-text-field {
+  display: block;
+  width: 100%;
+}
+.bcn-set__tr + .bcn-set__tr .bcn-set__td {
+  border-top: 1px solid var(--color-border-light);
 }
 .modern-layout {
   display: flex;
@@ -6123,6 +6069,83 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .bcn-gd-article__panel[hidden] {
   display: none;
 }
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-weight: var(--font-weight-regular, 350);
+  color: var(--color-text-primary, #3d3d3d);
+  background: var(--color-surface, #fff);
+  -webkit-font-smoothing: antialiased;
+}
+button {
+  font-family: inherit;
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+a {
+  color: var(--color-text-link, #005862);
+  text-decoration: none;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
+  margin: 0;
+}
+.sidebar {
+  --gap: var(--spacing-500, 1.5rem);
+  --sidebar-width: 18rem;
+  --sidebar-content-min: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+}
+[data-gap="xl"] {
+  --gap: var(--spacing-600, 2rem);
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+[data-gap="lg"] {
+  --gap: var(--spacing-500, 1.5rem);
+}
+.sidebar > :first-child {
+  flex-basis: var(--sidebar-width);
+  flex-grow: 1;
+}
+.type-body {
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-relaxed);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-label {
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-body-small {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.sidebar > :last-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: var(--sidebar-content-min);
+}
 :host {
   --_field-padding-y: var(--form-padding-y-md, 0.5rem);
   --_field-padding-x: var(--form-padding-x-md, 0.75rem);
@@ -6167,110 +6190,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 }
 .input::placeholder {
   color: var(--form-placeholder-color, #737373);
-}
-.esa-button {
-  --_btn-height: var(--form-height-md, 40px);
-  --_btn-padding-x: var(--form-padding-x-md, 16px);
-  --_btn-font-size: var(--form-font-size-md, 14px);
-  --_btn-radius: var(--form-radius-md, 6px);
-  --_accent: var(--color-primary, #46a758);
-  --_accent-hover: var(--color-primary-hover, #3e9b4f);
-  --_on: var(--color-text-inverse, #ffffff);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button--sm {
-  --_btn-height: var(--form-height-sm, 32px);
-  --_btn-padding-x: var(--form-padding-x-sm, 12px);
-  --_btn-font-size: var(--form-font-size-sm, 12px);
-  --_btn-radius: var(--form-radius-sm, 4px);
-}
-.esa-button--color-danger {
-  --_accent: var(--color-danger);
-  --_accent-hover: var(--color-danger-hover);
-  --_accent-text: var(--color-danger-strong);
-}
-.esa-button__native {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  height: var(--_btn-height);
-  padding-inline: var(--_btn-padding-x);
-  border: 1px solid transparent;
-  border-radius: var(--_btn-radius);
-  font-size: var(--_btn-font-size);
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-button--sm .esa-button__native {
-  height: auto;
-  padding-block: var(--spacing-150, 6px);
-}
-.esa-button--appearance-soft .esa-button__native {
-  background: color-mix(
-    in srgb,
-    var(--color-surface-sunken, #efefef) 45%,
-    var(--color-surface, #fff)
-  );
-  color: var(--_accent-text);
-  border-color: var(--color-border-strong, #d4d4d4);
-}
-.esa-button__label {
-  white-space: nowrap;
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
 }
 .bcn-settings-shell__rail {
   align-self: start;
@@ -6432,79 +6351,154 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --color-border: color-mix(in srgb, #ffffff 42%, transparent);
   --color-surface-sunken: color-mix(in srgb, #ffffff 16%, transparent);
 }
-:host {
-  --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
-  --_popover-border: var(--popover-border-color, var(--color-border, #e5e5e5));
-  --_popover-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
-  --_popover-radius: var(--popover-radius, var(--radius-200, 0.5rem));
-  --_popover-padding: var(--spacing-300, 0.75rem);
-  --_popover-arrow-size: 8px;
-  --_popover-color: var(--popover-color, var(--color-text-primary, #171717));
-  display: inline-block;
+.esa-card {
+  --_card-bg: var(--card-bg, var(--color-surface, #ffffff));
+  --_card-border: var(--card-border-color, var(--color-border, #e5e5e5));
+  --_card-radius: var(--card-radius, var(--radius-300, 0.5rem));
+  --_card-padding: var(--card-padding, var(--spacing-500, 1.5rem));
+  --_card-header-bg: var(--card-header-bg, transparent);
+  --_card-header-color: var(--card-header-color, var(--color-text-primary, #171717));
+  --_card-header-border: var(--card-header-border-color, var(--color-border-light, #efefef));
+  display: block;
+  background: var(--_card-bg);
+  border: 1px solid var(--_card-border);
+  border-radius: var(--_card-radius);
+  overflow: hidden;
 }
-.esa-popover-anchor {
+.esa-card--outlined {
+  --_card-border: var(--color-border, #e5e5e5);
+}
+.esa-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-400, 1rem) var(--_card-padding);
+  background: var(--_card-header-bg);
+  color: var(--_card-header-color);
+  border-bottom: 1px solid var(--_card-header-border);
+  min-height: 56px;
+}
+.esa-card__header-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300, 0.75rem);
+}
+.esa-card__titles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050, 0.125rem);
+}
+.esa-card__title {
+  font-size: var(--type-size-250, 1.0625rem);
+  font-weight: 600;
+  margin: 0;
+  color: inherit;
+  font-family: var(--font-sans, "DM Sans", sans-serif);
+}
+.esa-card__subtitle {
+  font-size: var(--type-size-150, 0.8125rem);
+  color: var(--color-text-secondary, #525252);
+  margin: 0;
+}
+.esa-card__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200, 0.5rem);
+}
+.esa-card__body {
+  padding: var(--_card-padding);
+}
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
+  box-sizing: border-box;
+}
+.page-layout__container {
+  display: flex;
+  flex-direction: column;
+}
+.page-layout section {
+  width: 100%;
+}
+.breadcrumbs {
+  padding: var(--spacing-400) 0;
+}
+.breadcrumbs__items {
+  display: flex;
+  gap: var(--spacing-100);
+  align-items: center;
+  flex-wrap: wrap;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.breadcrumb-item {
+  color: var(--bcn-gray-600);
+  text-transform: capitalize;
+  font-size: 0.875rem;
+}
+a.breadcrumb-item {
+  text-decoration: none;
+}
+.page-layout__title {
+  border-bottom: 1px solid var(--bcn-gray-200);
+  padding: var(--spacing-500) 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.page-layout__title-main {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+.page-layout__title h1 {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  font-family: var(--font-decorative);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--type-size-500);
+  margin: 0;
+  color: var(--bcn-gray-1000);
+}
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
   position: relative;
+}
+:host {
   display: inline-block;
 }
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
+.esa-tooltip-anchor {
+  position: relative;
+  display: inline-flex;
 }
-.bcn-set {
-  display: block;
-  scroll-margin-block-start: var(--spacing-600);
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
 }
-.bcn-set .esa-card__subtitle {
-  line-height: 1.4;
-}
-.bcn-set__scroll {
-  overflow-x: auto;
-}
-.bcn-set__table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-}
-.bcn-set__th {
-  padding: 0 var(--spacing-400) var(--spacing-250);
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-secondary);
-  text-align: left;
-  white-space: nowrap;
-  border-bottom: 1px solid var(--color-border);
-}
-.bcn-set__th:first-child,
-.bcn-set__td:first-child {
-  padding-inline-start: 0;
-}
-.bcn-set__th:last-child,
-.bcn-set__td:last-child {
-  padding-inline-end: 0;
-}
-.bcn-set__td {
-  padding: var(--spacing-250) var(--spacing-400);
-  font-size: var(--type-size-200);
-  line-height: 1.4;
-  color: var(--color-text-primary);
-  text-align: left;
-  vertical-align: middle;
-}
-.bcn-set__td--lead {
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-primary);
-  white-space: nowrap;
-}
-.bcn-set__td--field {
-  min-width: 200px;
-  padding-block: var(--spacing-250);
-}
-.bcn-set__td--field esa-text-field {
-  display: block;
-  width: 100%;
-}
-.bcn-set__tr + .bcn-set__tr .bcn-set__td {
-  border-top: 1px solid var(--color-border-light);
+:host {
+  --_width: var(--side-dialog-width, 400px);
 }
 :host {
   all: initial;
@@ -6714,156 +6708,19 @@ html,
 .claude svg {
   flex: none;
 }
-.page-layout {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
-}
-.page-layout__container {
-  display: flex;
-  flex-direction: column;
-}
-.page-layout section {
-  width: 100%;
-}
-.breadcrumbs {
-  padding: var(--spacing-400) 0;
-}
-.breadcrumbs__items {
-  display: flex;
-  gap: var(--spacing-100);
-  align-items: center;
-  flex-wrap: wrap;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.breadcrumb-item {
-  color: var(--bcn-gray-600);
-  text-transform: capitalize;
-  font-size: 0.875rem;
-}
-a.breadcrumb-item {
-  text-decoration: none;
-}
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
-.page-layout__title-main {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.page-layout__title h1 {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  font-family: var(--font-decorative);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--type-size-500);
-  margin: 0;
-  color: var(--bcn-gray-1000);
-}
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
-  position: relative;
-}
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-regular, 350);
-  color: var(--color-text-primary, #3d3d3d);
-  background: var(--color-surface, #fff);
-  -webkit-font-smoothing: antialiased;
-}
-button {
-  font-family: inherit;
-  cursor: pointer;
-  background: none;
-  border: 0;
-}
-a {
-  color: var(--color-text-link, #005862);
-  text-decoration: none;
-}
-img {
-  display: block;
-  max-width: 100%;
-}
-:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
-  margin: 0;
-}
-.sidebar {
-  --gap: var(--spacing-500, 1.5rem);
-  --sidebar-width: 18rem;
-  --sidebar-content-min: 60%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap);
-}
-[data-gap="xl"] {
-  --gap: var(--spacing-600, 2rem);
-}
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-}
-[data-gap="lg"] {
-  --gap: var(--spacing-500, 1.5rem);
-}
-.sidebar > :first-child {
-  flex-basis: var(--sidebar-width);
-  flex-grow: 1;
-}
-.type-body {
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-relaxed);
-  letter-spacing: var(--letter-spacing-normal);
-}
-.type-label {
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-normal);
-  letter-spacing: var(--letter-spacing-normal);
-}
-.type-body-small {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-normal);
-  letter-spacing: var(--letter-spacing-normal);
-}
-.sidebar > :last-child {
-  flex-basis: 0;
-  flex-grow: 999;
-  min-inline-size: var(--sidebar-content-min);
-}
 :host {
-  --_width: var(--side-dialog-width, 400px);
-}
-:host {
+  --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
+  --_popover-border: var(--popover-border-color, var(--color-border, #e5e5e5));
+  --_popover-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+  --_popover-radius: var(--popover-radius, var(--radius-200, 0.5rem));
+  --_popover-padding: var(--spacing-300, 0.75rem);
+  --_popover-arrow-size: 8px;
+  --_popover-color: var(--popover-color, var(--color-text-primary, #171717));
   display: inline-block;
 }
-.esa-tooltip-anchor {
+.esa-popover-anchor {
   position: relative;
-  display: inline-flex;
+  display: inline-block;
 }
 ```
 
@@ -6900,12 +6757,7 @@ img {
 | `--color-accent` | `#f76b15` | semantic |
 | `--color-border` | `#dcdcdc` | semantic |
 | `--color-border-light` | `#efefef` | semantic |
-| `--color-border-strong` | `#bdbdbd` | semantic |
-| `--color-danger` | `#e5484d` | semantic |
-| `--color-danger-hover` | `#dc3e42` | semantic |
-| `--color-danger-strong` | `#ce2c31` | semantic |
 | `--color-primary` | `#005862` | semantic |
-| `--color-primary-hover` | `#00474f` | semantic |
 | `--color-surface` | `#fcfcfc` | semantic |
 | `--color-surface-sunken` | `#efefef` | semantic |
 | `--color-text-inverse` | `#fcfcfc` | semantic |
@@ -6923,15 +6775,11 @@ img {
 | `--form-border-color` | `#dcdcdc` | component |
 | `--form-border-width` | `1px` | component |
 | `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | component |
-| `--form-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` | component |
 | `--form-height-md` | `36px` | component |
-| `--form-height-sm` | `28px` | component |
 | `--form-padding-x-md` | `.75rem` | component |
-| `--form-padding-x-sm` | `.625rem` | component |
 | `--form-padding-y-md` | `.5rem` | component |
 | `--form-placeholder-color` | `#7c7c7c` | component |
 | `--form-radius-md` | `.25rem` | component |
-| `--form-radius-sm` | `.25rem` | component |
 | `--form-text-color` | `#3d3d3d` | component |
 | `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
 | `--icon-size-md` | `20px` | primitive |
