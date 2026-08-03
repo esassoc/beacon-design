@@ -12,9 +12,16 @@
 //     entirely from `sections`; the three section kinds (rows / collection /
 //     pairs) are the only layouts a settings page can take.
 //   - the bespoke platform builds — tenants, feature-flags, and operations carry
-//     `sections: []` and are fed by TENANTS / FEATURE_FLAGS / OPERATIONS +
-//     OPERATION_RUNS instead.
-//   - the settings home activity rail — SETTINGS_CHANGES.
+//     `sections: []` and are fed by TENANTS / FEATURE_FLAGS / OPERATIONS instead.
+//
+// SCOPE (2026-08-03, shaping): the three data-backed surfaces this prototype once
+// carried are OUT of the funded epic, because none of them has a table behind it in
+// prod — the settings change feed (SETTINGS_CHANGES) and the operation run history
+// (OPERATION_RUNS) both left with it, and the flag lifecycle stayed only because it
+// needs no migration: `lifecycle` rides the code-level flag catalog, next to the
+// descriptions. The two danger zones went the same way — Deactivate tenant and Reset
+// all terms are actions Beacon does not have, and the epic adds no new destructive
+// ones. See projects/beacon/shaping/unified-settings.md.
 //
 // GROUNDING: the zone and page inventory, the control kinds, the nine aliasable
 // entities, the FieldDefinitionType label list, the role and module names, and
@@ -170,7 +177,6 @@ export interface SettingsPage {
   helpCategory?: string;
   /** Empty for bespoke pages. */
   sections: SettingsSection[];
-  danger?: { title: string; description: string; actionLabel: string };
 }
 
 /**
@@ -201,23 +207,6 @@ export interface Operation {
   scope: 'tenant' | 'all-tenants';
   /** True when the operation opens a multi-step flow instead of running on click. */
   guided?: boolean;
-}
-
-export interface OperationRun {
-  id: string;
-  operationId: string;
-  started: string;
-  actor: string;
-  status: 'succeeded' | 'failed' | 'running';
-  summary: string;
-}
-
-export interface SettingsChange {
-  on: string;
-  by: string;
-  /** A SettingsPage id. */
-  pageId: string;
-  summary: string;
 }
 
 export interface TenantRecord {
@@ -378,11 +367,6 @@ export const SETTINGS_PAGES: SettingsPage[] = [
         ],
       },
     ],
-    danger: {
-      title: 'Deactivate tenant',
-      description: 'Signs everyone out and closes the subdomain. Data is retained and the tenant can be reactivated by ESA.',
-      actionLabel: 'Deactivate tenant',
-    },
   },
   {
     id: 'terminology',
@@ -438,11 +422,6 @@ export const SETTINGS_PAGES: SettingsPage[] = [
         ],
       },
     ],
-    danger: {
-      title: 'Reset all terms',
-      description: 'Clears every alias at once and returns the whole app to Beacon’s default vocabulary.',
-      actionLabel: 'Reset to defaults',
-    },
   },
   {
     id: 'labels-definitions',
@@ -1812,100 +1791,6 @@ export const OPERATIONS: Operation[] = [
     name: 'Send Notifications',
     description: 'Runs the notification job immediately rather than waiting for the nightly schedule, for every tenant on the platform.',
     scope: 'all-tenants',
-  },
-];
-
-/** Newest first. */
-export const OPERATION_RUNS: OperationRun[] = [
-  {
-    id: 'run-0231',
-    operationId: 'extract-source-pdfs',
-    started: '2026-07-29 08:12',
-    actor: 'Nadia Boutros',
-    status: 'running',
-    summary: '341 of 512 documents processed',
-  },
-  {
-    id: 'run-0230',
-    operationId: 'bulk-eoc-ingest',
-    started: '2026-07-27 14:05',
-    actor: 'Curtis Lam',
-    status: 'succeeded',
-    summary: '182 files — 174 created, 6 updated, 2 skipped',
-  },
-  {
-    id: 'run-0229',
-    operationId: 'backfill-dmr-eoc',
-    started: '2026-07-24 11:30',
-    actor: 'Sylvia Marchetti',
-    status: 'failed',
-    summary: 'Stopped at 41/300 — duplicate DMR keys',
-  },
-  {
-    id: 'run-0228',
-    operationId: 'send-notifications',
-    started: '2026-07-22 06:00',
-    actor: 'Rob Kittredge',
-    status: 'succeeded',
-    summary: '214 emails across 9 tenants',
-  },
-  {
-    id: 'run-0227',
-    operationId: 'extract-source-pdfs',
-    started: '2026-07-16 09:48',
-    actor: 'Nadia Boutros',
-    status: 'succeeded',
-    summary: '512 documents — 512 extracted, 0 failed',
-  },
-  {
-    id: 'run-0226',
-    operationId: 'extend-rolling-window',
-    started: '2026-07-01 05:00',
-    actor: 'Rob Kittredge',
-    status: 'succeeded',
-    summary: 'Window advanced to 2027-01-31 for 9 tenants',
-  },
-];
-
-// ─── Recent changes ──────────────────────────────────────────────────────────
-
-/** Newest first. Every `pageId` resolves through settingsPage(). */
-export const SETTINGS_CHANGES: SettingsChange[] = [
-  {
-    on: '2026-07-28',
-    by: 'Nadia Boutros',
-    pageId: 'feature-flags',
-    summary: 'Turned on Site Clearance',
-  },
-  {
-    on: '2026-07-24',
-    by: 'Marla Quintero',
-    pageId: 'terminology',
-    summary: 'Set Component to Construction Area / Construction Areas',
-  },
-  {
-    on: '2026-07-21',
-    by: 'Devin Oyelaran',
-    pageId: 'report-templates',
-    summary: 'Edited Daily Monitoring Report — Biological, now 9 blocks',
-  },
-  {
-    on: '2026-07-17',
-    by: 'Marla Quintero',
-    pageId: 'users',
-    summary: 'Invited alonzo.ferrer@water.ca.gov as Read Only',
-  },
-  {
-    on: '2026-07-09',
-    by: 'Sylvia Marchetti',
-    pageId: 'site-clearance',
-    summary: 'Added the 72-hour clearance review kind',
-  },
-  {
-    on: '2026-07-02',
-    by: 'Marla Quintero',
-    pageId: 'tenant-profile',
-    summary: 'Enabled the Spatial Library module',
   },
 ];
 

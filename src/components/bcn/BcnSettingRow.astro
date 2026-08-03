@@ -6,6 +6,13 @@
 // Everything the row shows comes off the SettingItem record — label, description, and the
 // control's own kind + value. The row authors nothing.
 //
+// SAVING IS THE ROW'S JOB. There is no page Save and no section Save anywhere in settings
+// (2026-08-03 shaping call): every control commits itself and the row confirms it with a
+// "Saved" flag beside the name. The flag rides the NAME line rather than sitting under the
+// description so that appearing and leaving never changes the row's height. Commit timing
+// differs by control kind and the failure state is deliberately unbuilt — see the autosave
+// block in the script below.
+//
 // ANCHORS: the wrapper carries id="s-<item.id>", so search results deep-link to
 // `#s-<id>`. Arriving there fires a :target animation that settles a synthesis-blue tint
 // (--color-info-subtle) back to transparent, which is what tells the reader WHICH row the
@@ -73,17 +80,22 @@ const selectOptionsJson =
 
 <div class="bcn-setting-row repel" id={rowId} data-kind={control.kind}>
   <div class="bcn-setting-row__def stack">
-    {
-      isGroup ? (
-        <span class="bcn-setting-row__label type-body" id={labelId}>
-          {item.label}
-        </span>
-      ) : (
-        <label class="bcn-setting-row__label type-body" id={labelId} for={controlId}>
-          {item.label}
-        </label>
-      )
-    }
+    <span class="bcn-setting-row__name cluster">
+      {
+        isGroup ? (
+          <span class="bcn-setting-row__label type-body" id={labelId}>
+            {item.label}
+          </span>
+        ) : (
+          <label class="bcn-setting-row__label type-body" id={labelId} for={controlId}>
+            {item.label}
+          </label>
+        )
+      }
+      <span class="bcn-setting-row__saved type-body-small" data-setting-saved role="status" hidden>
+        Saved
+      </span>
+    </span>
     <p class="bcn-setting-row__desc type-body-small">{item.description}</p>
   </div>
 
@@ -186,13 +198,76 @@ const selectOptionsJson =
   // esa-select's `value` is a property ACCESSOR — it is deliberately absent from the
   // lego's static properties, so there is no attribute to render a selection into.
   // Hand the fixture's value over as a property once the element upgrades. This is
-  // initial-state hydration, not behavior: nothing here listens for change.
+  // initial-state hydration, not behavior.
   customElements.whenDefined('esa-select').then(() => {
     document
       .querySelectorAll<HTMLElement & { value: string }>('esa-select[data-setting-value]')
       .forEach((el) => {
         el.value = el.dataset.settingValue ?? '';
       });
+  });
+
+  // ── Per-setting autosave (2026-08-03 shaping call) ─────────────────────────────────
+  // Every control commits itself; there is no page Save and no section Save anywhere in
+  // settings. The row says so by flashing "Saved" beside its name — on the NAME line, not
+  // under the description, so a save never changes the row's height.
+  //
+  // COMMIT TIMING IS PER KIND, and the difference is not cosmetic:
+  //   toggle / select  → commit on `change`. The change IS the whole interaction; there is
+  //                      no intermediate state worth holding.
+  //   text / textarea  → commit on BLUR. esa-text-field and esa-textarea re-emit every
+  //                      keystroke as a composed `change` (see the lego's onInput), so
+  //                      committing on that event would save — and announce — once per
+  //                      character. Keystrokes only mark the row dirty; focusout commits
+  //                      it, and only if something actually changed.
+  //
+  // One delegated pair of listeners per page: all four legos dispatch `change` composed,
+  // so it crosses their shadow boundaries and arrives here. `focusout` does too.
+  //
+  // NOT BUILT: the failure state. A control that commits on blur has to say when the
+  // commit failed and what the stored value is now — retry, revert, or hold the dirty
+  // value — and that is an open question in the shaping brief, not a decision this
+  // prototype should quietly make. Everything here is the happy path.
+  const SAVED_MS = 1800;
+  const DIRTY = new WeakSet<Element>();
+  const TIMERS = new WeakMap<Element, number>();
+  const DEFERRED = new Set(['esa-text-field', 'esa-textarea']);
+
+  const rowOf = (target: EventTarget | null): HTMLElement | null =>
+    target instanceof Element ? target.closest<HTMLElement>('.bcn-setting-row') : null;
+
+  function confirmSaved(row: HTMLElement): void {
+    const flag = row.querySelector<HTMLElement>('[data-setting-saved]');
+    if (!flag) return;
+    // Re-announce a repeat save: clear the text first so the live region reports it again
+    // rather than treating identical content as no change.
+    flag.textContent = '';
+    flag.hidden = false;
+    flag.textContent = 'Saved';
+    window.clearTimeout(TIMERS.get(row) ?? 0);
+    TIMERS.set(
+      row,
+      window.setTimeout(() => {
+        flag.hidden = true;
+      }, SAVED_MS)
+    );
+  }
+
+  document.addEventListener('change', (event) => {
+    const row = rowOf(event.target);
+    if (!row) return;
+    const tag = (event.target as Element).tagName.toLowerCase();
+    // A locked field (Subdomain) is disabled and never reaches here.
+    if (DEFERRED.has(tag)) DIRTY.add(event.target as Element);
+    else confirmSaved(row);
+  });
+
+  document.addEventListener('focusout', (event) => {
+    const target = event.target as Element | null;
+    if (!target || !DIRTY.has(target)) return;
+    DIRTY.delete(target);
+    const row = rowOf(target);
+    if (row) confirmSaved(row);
   });
 </script>
 
@@ -246,6 +321,26 @@ const selectOptionsJson =
     flex-grow: 1;
     max-inline-size: 34rem;
   }
+  /* The name line carries the label and the save confirmation side by side, so the flag
+     appears and leaves without moving the description or changing the row's height. */
+  .bcn-setting-row__name.cluster {
+    --gap: var(--spacing-200);
+    --align: baseline;
+  }
+
+  /* "Saved" — the autosave confirmation, and the only thing standing in for the Save
+     button this surface does not have. Success ink at the description's size: quiet enough
+     to ignore once trusted, present enough to answer "did that take?". */
+  .bcn-setting-row__saved {
+    line-height: 1.4;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-success);
+    white-space: nowrap;
+  }
+  .bcn-setting-row__saved[hidden] {
+    display: none;
+  }
+
   /* 16px name / 14px description — the same dense pairing as bcn-flag-row, so every
      labelled row in the settings surface reads at one scale. */
   .bcn-setting-row__label {

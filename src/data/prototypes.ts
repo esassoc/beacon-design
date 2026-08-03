@@ -92,22 +92,13 @@ export const prototypeGroups: PrototypeGroup[] = [
     tenant: 'platform',
     title: 'Unified Settings',
     description:
-      'One settings framework spanning ESA and tenant administration: the two split admin surfaces reconceived as zones of a single place, where an ESA-only page sits beside its tenant-admin neighbors under one nav, one search, and a view-as lens — rather than living in a separate application.',
+      'One settings framework spanning ESA and tenant administration: the two split admin surfaces reconceived as zones of a single place, where an ESA-only page sits beside its tenant-admin neighbors under one nav and one search — rather than living in a separate application. /settings has no landing page of its own; the rail is the index, so the route lands on the first page the user can reach.',
     pages: [
-      {
-        slug: 'settings',
-        title: 'Settings',
-        description:
-          'The settings home: a card per zone listing that zone’s pages, and the record of what recently changed across all of them.',
-        route: '/prototypes/settings',
-        createdAt: '2026-07-29',
-        status: 'live',
-      },
       {
         slug: 'settings-page',
         title: 'Settings page',
         description:
-          'The capturable exemplar for all 20 standard pages that share one route shape: the registry’s section array IS the page, rendered as setting rows, record collections, or term pairs, plus a danger zone where one is declared.',
+          'The capturable exemplar for all 20 standard pages that share one route shape: the registry’s section array IS the page, rendered as setting rows, record collections, or term pairs. Every control commits itself and the row confirms it — no page Save anywhere in settings.',
         route: '/prototypes/settings/terminology',
         createdAt: '2026-07-29',
         status: 'live',
@@ -125,7 +116,7 @@ export const prototypeGroups: PrototypeGroup[] = [
         slug: 'settings-operations',
         title: 'Operations',
         description:
-          'Maintenance jobs as a console: blast radius stated before the run, confirmation in place with a typed-name gate for platform-wide jobs, and a run history that updates the moment a job fires.',
+          'Maintenance jobs as a console: reach stated before the run, and confirmation in place with a typed-name gate for platform-wide jobs. Prod fires four of these from an anchor with no href and no confirm.',
         route: '/prototypes/settings/operations',
         createdAt: '2026-07-29',
         status: 'live',

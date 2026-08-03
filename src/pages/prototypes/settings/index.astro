@@ -1,80 +1,44 @@
 ---
-// Unified Settings — HOME. The front door to the one settings framework that spans ESA
-// and tenant administration. The rail is the index of every settings page, so the home
-// route holds no second copy of it: it lands on a null state that points at the rail and
-// the search, then shows the record of what has recently changed across all of them.
-import AppShell from '../../../layouts/AppShell.astro';
-import PageLayout from '../../../layouts/PageLayout.astro';
-import EsaCard from '@esa/ecology/esa-card.astro';
-import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
-import EsaIcon from '@esa/ecology/esa-icon.astro';
-import BcnSettingsShell from '../../../components/bcn/BcnSettingsShell.astro';
-import BcnChangeLog from '../../../components/bcn/BcnChangeLog.astro';
-import {
-  SETTINGS_CHANGES,
-  settingsPage,
-  settingsPagePath,
-} from '../../../data/settings-registry';
+// Unified Settings — the /settings route itself has NO page (2026-08-03 shaping call). It
+// lands on the first settings page the signed-in user can reach.
+//
+// The landing page it replaced was a null state ("Select a settings page") over a Recent
+// changes feed. The feed needed a settings audit trail Beacon has no table for and left
+// scope with the other two data-backed surfaces; what remained was a screen whose only job
+// was to point at the rail — and the rail is already the index of every page, present on
+// every route. So there is no home to design or maintain: the rail IS the home.
+//
+// FIRST PAGE, DERIVED. The target is the rail's own first row, computed the way
+// <BcnSettingsNav> computes it — audience blocks in AUDIENCE_ORDER, zones in registry
+// order inside each — so re-ordering the rail moves this redirect with it and the two can
+// never disagree. In the real app the audience comes from the signed-in user
+// (User.IsEsaAdmin), which is what makes the target differ per user; the prototype has no
+// session, so it resolves the ESA-admin rail it renders.
+//
+// STATIC REDIRECT. The spoke builds to static HTML with no server to send a 302, so this
+// is a meta refresh plus a real link for anyone who lands with it disabled. `canonical`
+// points at the destination so the redirect is not the indexed URL.
+import { SETTINGS_ZONES, pagesByZone, settingsPagePath } from '../../../data/settings-registry';
+import type { SettingsAudience } from '../../../data/settings-registry';
 import { withBase } from '../../../lib/base';
 
-const crumbs = [{ label: 'Home', href: withBase('/') }, { label: 'Settings' }];
+const AUDIENCE_ORDER: SettingsAudience[] = ['esa-admin', 'tenant-admin'];
 
-// SETTINGS_CHANGES is newest-first and flat; BcnChangeLog groups by day. Parse the ISO
-// parts by hand — new Date('2026-07-28') reads UTC midnight and renders a day early
-// west of Greenwich.
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const fmtDate = (on: string): string => {
-  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(on);
-  if (!m) return on;
-  return `${MONTHS[Number(m[2]) - 1]} ${Number(m[3])}, ${m[1]}`;
-};
+const firstPage = AUDIENCE_ORDER.flatMap((audience) =>
+  SETTINGS_ZONES.flatMap((zone) => pagesByZone(zone.id).filter((p) => p.audience === audience))
+)[0];
 
-const byDay = new Map<string, { text: string; emphasis?: string; href?: string; by: string }[]>();
-for (const change of SETTINGS_CHANGES) {
-  const page = settingsPage(change.pageId);
-  const events = byDay.get(change.on) ?? [];
-  events.push({
-    text: `${change.summary} in`,
-    emphasis: page?.title ?? change.pageId,
-    href: withBase(settingsPagePath(change.pageId)),
-    by: change.by,
-  });
-  byDay.set(change.on, events);
-}
-const changeDays = [...byDay.entries()].map(([on, events]) => ({ date: fmtDate(on), events }));
+const target = withBase(settingsPagePath(firstPage.id));
 ---
 
-<!-- manifest:
-  layout: AppShell > PageLayout > stack(xl)      # SPINE — the shell owns the rail, the stack the two bands
-  sections:
-    - settings frame -> bcn-settings-shell       # search + zone nav + view-as switch; wraps all page content
-    - null state     -> esa-empty-state          # no page selected — points at the rail and the search
-    - recent changes -> bcn-change-log           # SETTINGS_CHANGES grouped by day, each linked to its page
--->
-
-<AppShell expandedSections={[]} title="Settings — Beacon">
-  <PageLayout title="Settings" breadcrumbs={crumbs}>
-    <BcnSettingsShell activePageId="home">
-      <div class="stack" data-gap="xl">
-        <EsaCard variant="outlined">
-          <!-- esa-empty-state and esa-icon BOTH size the slotted svg, at equal
-               specificity — point their public size tokens at one value so the glyph
-               renders the same regardless of which rule the build orders last. -->
-          <div style="--empty-state-icon-size-lg: 3rem; --icon-size-xl: 3rem;">
-            <EsaEmptyState
-              size="lg"
-              title="Select a settings page"
-              description="Pick a page from the rail, or search across every setting."
-            >
-              <EsaIcon slot="icon" name="settings" size="xl" />
-            </EsaEmptyState>
-          </div>
-        </EsaCard>
-
-        <EsaCard variant="outlined" title="Recent changes">
-          <BcnChangeLog days={changeDays} />
-        </EsaCard>
-      </div>
-    </BcnSettingsShell>
-  </PageLayout>
-</AppShell>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <link rel="canonical" href={target} />
+    <title>Settings — Beacon</title>
+  </head>
+  <body>
+    <a href={target}>Continue to {firstPage.title}</a>
+  </body>
+</html>

@@ -73,7 +73,7 @@ const [leadColumn, ...metaColumns] = section.columns;
 
 // A deactivate-capable list pre-renders the marker every row would earn, hidden until
 // the row is deactivated — so the state is SSR material the controller reveals, not
-// markup it authors. (Same discipline as BcnRunHistory's spinner and empty-state.)
+// markup it authors. (Same discipline as the setting row's save confirmation.)
 const canDeactivate = rowActions.includes('deactivate');
 
 // The card header's "Add …" button is rendered by <BcnSettingsSection> and stamped

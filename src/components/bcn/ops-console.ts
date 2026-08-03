@@ -8,9 +8,12 @@
 //                             name matches op.name (case-insensitive, trimmed)
 //   confirm                 → closes the dialog, announces the run, flashes the trigger
 //
-// The RUN ITSELF is not this controller's business. It dispatches `bcn-op-run` on
-// document and stops; the run-history component listens and prepends its own row. That
-// keeps the card ignorant of what observes it, and lets a page mount either half alone.
+// The RUN ITSELF is not this controller's business. It dispatches `bcn-op-run` on document
+// and stops. NOTHING LISTENS TODAY — the run-history component that prepended a row left
+// scope with the rest of the deferred persistence (2026-08-03), and the card already closes
+// its own loop by holding the trigger at "Started". The event stays because the seam is the
+// point: the card is ignorant of what observes it, so the history can mount later without
+// touching this file.
 //
 // Guided ops have no dialog and no trigger — they link out to their own multi-step run —
 // so wiring quietly skips them.

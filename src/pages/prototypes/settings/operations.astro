@@ -1,19 +1,25 @@
 ---
 // Unified Settings — OPERATIONS. The maintenance jobs ESA runs, as a console rather
 // than a menu: every job states what it does and how far it reaches before it is
-// started, confirms in place (an all-tenants job additionally gates on the operator
-// typing its name back), and lands in the run history below the moment it fires.
+// started, and confirms in place — an all-tenants job additionally gates on the operator
+// typing its name back.
 //
-// Prod ships these as bare navigation tiles with no scope, no confirmation, and no
-// record of who ran what. The two components here are that whole difference.
+// Prod ships these as bare navigation tiles with no scope and no confirmation: four of
+// them are anchors with no href that fire a platform-wide job on one click. BcnOpCard is
+// that whole difference.
+//
+// NO RUN HISTORY (2026-08-03 shaping call). The console used to close with every past run
+// — actor, status, result — and that surface went out of the funded epic: it needs run
+// persistence and job-status reporting that prod has no table for, while the confirmation
+// and the reach statement need neither. What is left is the half that stops an accident,
+// which was always the point of the page. The record of what already happened is named
+// follow-on work, deliberately absent rather than faked.
 import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
-import EsaCard from '@esa/ecology/esa-card.astro';
 import BcnSettingsShell from '../../../components/bcn/BcnSettingsShell.astro';
 import BcnOpCard from '../../../components/bcn/BcnOpCard.astro';
-import BcnRunHistory from '../../../components/bcn/BcnRunHistory.astro';
-import { OPERATIONS, OPERATION_RUNS, settingsPage } from '../../../data/settings-registry';
+import { OPERATIONS, settingsPage } from '../../../data/settings-registry';
 import { withBase } from '../../../lib/base';
 
 const page = settingsPage('operations')!;
@@ -21,12 +27,11 @@ const settingsHref = withBase('/prototypes/settings');
 ---
 
 <!-- manifest:
-  layout: AppShell > PageLayout > stack(xl)      # SPINE — the content stack holds the op grid then run history
+  layout: AppShell > PageLayout > grid           # SPINE — the op grid IS the page
   sections:
     - scope marker   -> esa-badge                # page.scope === 'platform', in PageLayout's title-badge slot
-    - settings frame -> bcn-settings-shell       # search + zone nav + view-as switch; wraps all page content
+    - settings frame -> bcn-settings-shell       # search + audience-grouped zone nav; wraps all page content
     - operations     -> bcn-op-card              # one card per job: scope alert, confirm dialog, typed-name gate
-    - run history    -> bcn-run-history          # every run newest-first as a beacon-grid; listens for bcn-op-run itself
 -->
 
 <AppShell expandedSections={[]} title={`${page.title} — Settings — Beacon`}>
@@ -37,14 +42,8 @@ const settingsHref = withBase('/prototypes/settings');
     {page.scope === 'platform' && <EsaBadge slot="title-badge" value="All tenants" size="sm" />}
 
     <BcnSettingsShell activePageId={page.id} esaSurface>
-      <div class="stack" data-gap="xl">
-        <div class="grid" data-gap="lg" style="--grid-min: 22rem;">
-          {OPERATIONS.map((op) => <BcnOpCard op={op} />)}
-        </div>
-
-        <EsaCard variant="outlined" title="Run history">
-          <BcnRunHistory runs={OPERATION_RUNS} ops={OPERATIONS} />
-        </EsaCard>
+      <div class="grid" data-gap="lg" style="--grid-min: 22rem;">
+        {OPERATIONS.map((op) => <BcnOpCard op={op} />)}
       </div>
     </BcnSettingsShell>
   </PageLayout>
