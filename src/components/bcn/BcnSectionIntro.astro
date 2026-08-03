@@ -1,0 +1,100 @@
+---
+// <BcnSectionIntro> — the marketing section header: eyebrow, serif headline,
+// accent bar, and a balanced subtext. Used centered above full-width sections
+// and left-aligned inside split layouts (BcnScaleStats). `onDark` flips the
+// text colors for the dark forest section.
+//
+// bcn-lego-checked: no esa-* lego is a marketing section header — esa-page-header
+// is app-chrome (title/lede/actions row, no eyebrow/accent/serif voice); checked
+// Beacon (prod has no marketing site). bcn-section-intro is the reusable home for
+// the homepage's repeated header block. Text uses the token type scale + the
+// --font-decorative serif voice.
+interface Props {
+  eyebrow?: string;
+  headline: string;
+  subtext?: string;
+  center?: boolean;
+  onDark?: boolean;
+}
+const { eyebrow, headline, subtext, center = false, onDark = false } = Astro.props;
+---
+
+<div
+  class:list={[
+    'bcn-section-intro',
+    { 'bcn-section-intro--center': center, 'bcn-section-intro--on-dark': onDark },
+  ]}
+>
+  {eyebrow && <span class="bcn-section-intro__eyebrow">{eyebrow}</span>}
+  <h2 class="bcn-section-intro__headline">{headline}</h2>
+  <div class="bcn-section-intro__accent" aria-hidden="true"></div>
+  {subtext && <p class="bcn-section-intro__subtext">{subtext}</p>}
+</div>
+
+<style>
+  .bcn-section-intro {
+    margin-block-end: var(--spacing-700);
+  }
+  .bcn-section-intro--center {
+    text-align: center;
+  }
+
+  /* Marketing eyebrow — the specimen's kicker voice, kept faithful to the
+     approved specimen (deliberate exception to the app-surface label rule). */
+  .bcn-section-intro__eyebrow {
+    display: block;
+    font-size: 12px;
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--color-text-tertiary);
+    margin-block-end: var(--spacing-300);
+  }
+
+  .bcn-section-intro__headline {
+    margin: 0 0 var(--spacing-400);
+    font-family: var(--font-decorative, var(--font-sans));
+    font-size: var(--type-size-700);
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-tight, 1.25);
+    color: var(--color-text-primary);
+    text-wrap: balance;
+  }
+
+  .bcn-section-intro__accent {
+    inline-size: 48px;
+    block-size: 4px;
+    background: var(--color-primary);
+    border-radius: var(--radius-full, 9999px);
+    margin-block-end: var(--spacing-400);
+  }
+  .bcn-section-intro--center .bcn-section-intro__accent {
+    margin-inline: auto;
+  }
+
+  .bcn-section-intro__subtext {
+    margin: 0;
+    font-size: var(--type-size-300);
+    color: var(--color-text-secondary);
+    max-inline-size: 820px;
+    line-height: var(--line-height-relaxed, 1.75);
+    text-wrap: balance;
+  }
+  .bcn-section-intro--center .bcn-section-intro__subtext {
+    margin-inline: auto;
+  }
+
+  /* Dark (forest) sections. */
+  .bcn-section-intro--on-dark .bcn-section-intro__eyebrow {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .bcn-section-intro--on-dark .bcn-section-intro__headline {
+    color: #ffffff;
+  }
+  .bcn-section-intro--on-dark .bcn-section-intro__accent {
+    background: #ffffff;
+  }
+  .bcn-section-intro--on-dark .bcn-section-intro__subtext {
+    color: rgba(255, 255, 255, 0.8);
+  }
+</style>

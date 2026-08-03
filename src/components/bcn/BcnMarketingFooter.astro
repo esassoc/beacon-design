@@ -1,0 +1,42 @@
+---
+// <BcnMarketingFooter> — the homepage's dark utility footer: copyright line and
+// the Privacy · Terms · Security links.
+//
+// bcn-lego-checked: no esa-* lego is a site footer (checked the catalog; app
+// shells end at the content region), and Beacon prod has no marketing chrome.
+// bcn-marketing-footer is the reusable home; CSS is one dark band + links.
+const YEAR = 2026;
+---
+
+<footer class="bcn-mkt-footer">
+  <div>&copy; {YEAR} ESA &mdash; Beacon Environmental Compliance Platform</div>
+  <div>
+    <a href="#">Privacy</a> &middot; <a href="#">Terms</a> &middot; <a href="#">Security</a>
+  </div>
+</footer>
+
+<style>
+  .bcn-mkt-footer {
+    background: #292929;
+    color: #989898;
+    padding: var(--spacing-600) var(--spacing-500);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: var(--type-size-150);
+  }
+  .bcn-mkt-footer a {
+    color: #989898;
+  }
+  .bcn-mkt-footer a:hover {
+    color: #dcdcdc;
+  }
+
+  @media (max-width: 768px) {
+    .bcn-mkt-footer {
+      flex-direction: column;
+      gap: var(--spacing-300);
+      text-align: center;
+    }
+  }
+</style>

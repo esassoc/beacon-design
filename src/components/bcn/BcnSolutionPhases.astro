@@ -1,0 +1,79 @@
+---
+// <BcnSolutionPhases> — "Beacon Brings Structure to Compliance": the three
+// Catalog → Plan → Execute phase cards, each with a color-medallion icon.
+// Content from SOLUTION_PHASES in src/data/homepage.ts; the medallion colors
+// are the specimen's marketing step ramp (categorical artwork accents, carried
+// on the data rows — not app status colors).
+//
+// bcn-lego-checked: esa-card is app card chrome — these are centered marketing
+// tiles with a hover lift and a 64px color medallion; checked Beacon (no
+// marketing site). Icons via the esa-icon lego paths fallback.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { SOLUTION_PHASES, MARKETING_ICON_PATHS } from '../../data/homepage';
+---
+
+<div class="bcn-solution">
+  {
+    SOLUTION_PHASES.map((phase, i) => (
+      <div class="bcn-solution__card" data-reveal data-reveal-delay={String(i + 1)}>
+        <div class="bcn-solution__medallion" style={`background: ${phase.accent}`}>
+          <EsaIcon name={phase.icon} size="xl" paths={MARKETING_ICON_PATHS[phase.icon]} />
+        </div>
+        <div class="bcn-solution__title">{phase.title}</div>
+        <div class="bcn-solution__desc">{phase.description}</div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .bcn-solution {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-500);
+  }
+
+  .bcn-solution__card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    padding: var(--spacing-600) var(--spacing-500);
+    text-align: center;
+    transition:
+      transform 200ms ease,
+      box-shadow 200ms ease;
+  }
+  .bcn-solution__card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-200, 0 0 1.5rem rgba(0, 0, 0, 0.1));
+  }
+
+  .bcn-solution__medallion {
+    inline-size: 64px;
+    block-size: 64px;
+    border-radius: var(--radius-full, 9999px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--spacing-400);
+    color: #ffffff;
+    --icon-size-xl: 32px;
+  }
+
+  .bcn-solution__title {
+    font-size: var(--type-size-400);
+    font-weight: var(--font-weight-semibold);
+    margin-block-end: var(--spacing-300);
+  }
+  .bcn-solution__desc {
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed, 1.75);
+  }
+
+  @media (max-width: 768px) {
+    .bcn-solution {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

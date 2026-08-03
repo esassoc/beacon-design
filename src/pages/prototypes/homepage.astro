@@ -1,0 +1,106 @@
+---
+// The public marketing HOMEPAGE — translated from the approved specimen
+// (beacon-prototypes/homepage-specimen.html). Marketing chrome, not app chrome:
+// BaseLayout only (no AppShell), full-bleed tone bands, the Besley serif display
+// voice, and scroll-reveal. All copy lives in src/data/homepage.ts; every
+// section is a bcn- marketing component; the page is the manifest.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BcnMarketingNav from '../../components/bcn/BcnMarketingNav.astro';
+import BcnMarketingHero from '../../components/bcn/BcnMarketingHero.astro';
+import BcnMarketingSection from '../../components/bcn/BcnMarketingSection.astro';
+import BcnScaleStats from '../../components/bcn/BcnScaleStats.astro';
+import BcnChallengeGrid from '../../components/bcn/BcnChallengeGrid.astro';
+import BcnContrastPanels from '../../components/bcn/BcnContrastPanels.astro';
+import BcnSolutionPhases from '../../components/bcn/BcnSolutionPhases.astro';
+import BcnMarketGrid from '../../components/bcn/BcnMarketGrid.astro';
+import BcnCaDotMap from '../../components/bcn/BcnCaDotMap.astro';
+import BcnCtaPaths from '../../components/bcn/BcnCtaPaths.astro';
+import BcnMarketingFooter from '../../components/bcn/BcnMarketingFooter.astro';
+---
+
+<!-- manifest:
+  layout: full-bleed band flow (BaseLayout; bcn-marketing-section tone bands)   # SPINE
+  sections:
+    - topnav          -> bcn-marketing-nav       # floating glass bar over the hero
+    - hero            -> bcn-marketing-hero      # aerial photo, serif display, CTAs, ESA badge
+    - scale           -> bcn-scale-stats         # 2×2 serif stats beside the dam photo
+    - challenges      -> bcn-challenge-grid      # six client-question cards
+    - status quo      -> bcn-contrast-panels     # Without/With Beacon before-after pair
+    - solution        -> bcn-solution-phases     # Catalog → Plan → Execute medallion cards
+    - markets         -> bcn-market-grid         # six market photo cards → esassoc.com
+    - active projects -> bcn-ca-dot-map          # interactive CA dot map + glass project cards
+    - get started     -> bcn-cta-paths           # three doors, demo featured
+    - footer          -> bcn-marketing-footer    # dark utility footer
+-->
+
+<BaseLayout title="Beacon — Environmental Compliance Platform">
+  <BcnMarketingNav />
+  <BcnMarketingHero />
+
+  <BcnMarketingSection tone="white" id="scale">
+    <BcnScaleStats
+      eyebrow="The Scale of Compliance"
+      headline="Every Large Project Is a Compliance Operation"
+      subtext="Infrastructure projects don't just manage construction — they manage a web of environmental obligations that span agencies, species, phases, and years."
+    />
+  </BcnMarketingSection>
+
+  <BcnMarketingSection
+    tone="light"
+    id="challenge"
+    eyebrow="The Challenge"
+    headline="Questions That Keep Compliance Teams Up at Night"
+    subtext="When dozens of permits generate hundreds of obligations across multiple agencies, phases, and locations — the same questions come up on every project."
+  >
+    <BcnChallengeGrid />
+  </BcnMarketingSection>
+
+  <BcnMarketingSection
+    tone="white"
+    eyebrow="The Status Quo"
+    headline="Spreadsheets Can't Scale to This Complexity"
+    subtext="Compliance isn't a flat to-do list. It's hierarchical, multi-dimensional, and relational. Purpose-built tools make the difference."
+  >
+    <BcnContrastPanels />
+  </BcnMarketingSection>
+
+  <BcnMarketingSection
+    tone="white"
+    id="solution"
+    eyebrow="The Solution"
+    headline="Beacon Brings Structure to Compliance"
+    subtext="Three phases. One platform. Complete traceability from permit language to evidence of completion."
+  >
+    <BcnSolutionPhases />
+  </BcnMarketingSection>
+
+  <BcnMarketingSection
+    tone="light"
+    eyebrow="Markets"
+    headline="Built for Complex Environmental Projects"
+    subtext="From reservoirs to airports to fiber corridors, Beacon handles the compliance complexity that generic tools cannot."
+  >
+    <BcnMarketGrid />
+  </BcnMarketingSection>
+
+  <BcnMarketingSection
+    tone="forest"
+    id="projects"
+    eyebrow="Active Projects"
+    headline="Tracking Compliance Across California's Highest-Profile Projects"
+    subtext="Delta smelt, steelhead, Ridgway's rail — California's most complex infrastructure projects live or die on species mitigation tracking. Beacon maps every condition of approval to the responsible party and flags overdue deliverables before agencies do."
+  >
+    <BcnCaDotMap />
+  </BcnMarketingSection>
+
+  <BcnMarketingSection
+    tone="light"
+    id="contact"
+    eyebrow="Get Started"
+    headline="Ready to Bring Order to Compliance?"
+  >
+    <BcnCtaPaths />
+  </BcnMarketingSection>
+
+  <BcnMarketingFooter />
+</BaseLayout>

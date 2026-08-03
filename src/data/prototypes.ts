@@ -88,6 +88,24 @@ export function allPrototypeEfforts(): PrototypeEffort[] {
 
 export const prototypeGroups: PrototypeGroup[] = [
   {
+    slug: 'marketing-site',
+    tenant: 'platform',
+    title: 'Marketing Site',
+    description:
+      'The public face of the product: pre-login pages that explain what Beacon is, who it serves, and why spreadsheets fail — marketing chrome (photo hero, serif display voice, tone bands), not app chrome.',
+    pages: [
+      {
+        slug: 'homepage',
+        title: 'Homepage',
+        description:
+          'The public landing page: photo hero, compliance-scale stats, the six client questions, Without/With Beacon, Catalog → Plan → Execute, market cards, the interactive California project dot map, and the three get-started doors.',
+        route: '/prototypes/homepage',
+        createdAt: '2026-08-03',
+        status: 'live',
+      },
+    ],
+  },
+  {
     slug: 'settings',
     tenant: 'platform',
     title: 'Unified Settings',

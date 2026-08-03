@@ -1,0 +1,78 @@
+---
+// <BcnChallengeGrid> — "Questions That Keep Compliance Teams Up at Night": the
+// six client-perspective question cards in a two-column grid. Content from
+// CHALLENGES in src/data/homepage.ts.
+//
+// bcn-lego-checked: esa-card is app card chrome (header/body/footer slots) —
+// these are quote-style marketing rows (icon + serif question + supporting
+// line) where the card is a flat bordered surface with a hover lift; checked
+// Beacon (no marketing site). Icons via the esa-icon lego paths fallback.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { CHALLENGES, MARKETING_ICON_PATHS } from '../../data/homepage';
+---
+
+<div class="bcn-challenges">
+  {
+    CHALLENGES.map((challenge) => (
+      <div class="bcn-challenges__card">
+        <span class="bcn-challenges__icon">
+          <EsaIcon name={challenge.icon} size="xl" paths={MARKETING_ICON_PATHS[challenge.icon]} />
+        </span>
+        <div>
+          <h3 class="bcn-challenges__q">{challenge.question}</h3>
+          <p class="bcn-challenges__desc">{challenge.description}</p>
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .bcn-challenges {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-400);
+  }
+
+  .bcn-challenges__card {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-400);
+    padding: var(--spacing-500);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    transition: box-shadow 200ms ease;
+  }
+  .bcn-challenges__card:hover {
+    box-shadow: var(--shadow-200, 0 0 0.75rem rgba(0, 0, 0, 0.1));
+  }
+
+  .bcn-challenges__icon {
+    display: inline-flex;
+    color: var(--color-primary);
+    flex-shrink: 0;
+    margin-block-start: 2px;
+  }
+
+  .bcn-challenges__q {
+    margin: 0 0 var(--spacing-200);
+    font-family: var(--font-decorative, var(--font-sans));
+    font-size: var(--type-size-300);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight, 1.25);
+    color: var(--color-text-primary);
+  }
+  .bcn-challenges__desc {
+    margin: 0;
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-relaxed, 1.75);
+  }
+
+  @media (max-width: 768px) {
+    .bcn-challenges {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

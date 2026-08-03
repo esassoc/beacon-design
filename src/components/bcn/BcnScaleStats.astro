@@ -1,0 +1,115 @@
+---
+// <BcnScaleStats> — "The Scale of Compliance": a split band with the left-aligned
+// section intro + a 2×2 grid of serif stat figures, and the dam-construction
+// photo on the right. Content from SCALE_STATS in src/data/homepage.ts.
+//
+// bcn-lego-checked: esa-stat is the app stat tile (value/label/sub in a card
+// chrome) — this is the marketing stat voice: bare icon + serif display figure +
+// one-line label, no card, beside a photo; checked Beacon (no marketing site).
+// Icons are the esa-icon lego (registry name or paths fallback); layout is the
+// component's own split grid (collapses long before .sidebar's proportional
+// break fits a 50/50 photo split).
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnSectionIntro from './BcnSectionIntro.astro';
+import { withBase } from '../../lib/base';
+import { SCALE_STATS, MARKETING_ICON_PATHS } from '../../data/homepage';
+
+interface Props {
+  eyebrow: string;
+  headline: string;
+  subtext: string;
+}
+const { eyebrow, headline, subtext } = Astro.props;
+---
+
+<div class="bcn-scale">
+  <div>
+    <BcnSectionIntro {eyebrow} {headline} {subtext} />
+    <div class="bcn-scale__stats">
+      {
+        SCALE_STATS.map((stat) => (
+          <div class="bcn-scale__stat">
+            <span class="bcn-scale__icon">
+              <EsaIcon name={stat.icon} size="xl" paths={MARKETING_ICON_PATHS[stat.icon]} />
+            </span>
+            <div>
+              <div class="bcn-scale__value">{stat.value}</div>
+              <div class="bcn-scale__label">{stat.label}</div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+  <div class="bcn-scale__image">
+    <img
+      src={withBase('/images/marketing/scale-dam-construction.jpg')}
+      alt="Aerial view of dam construction in a mountain river canyon"
+      loading="lazy"
+    />
+  </div>
+</div>
+
+<style>
+  .bcn-scale {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-700);
+    align-items: center;
+  }
+
+  .bcn-scale__stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-500);
+  }
+
+  .bcn-scale__stat {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-400);
+  }
+  .bcn-scale__icon {
+    display: inline-flex;
+    color: var(--color-primary);
+    margin-block-start: 2px;
+    flex-shrink: 0;
+  }
+
+  .bcn-scale__value {
+    font-family: var(--font-decorative, var(--font-sans));
+    font-size: var(--type-size-500);
+    font-weight: var(--font-weight-bold);
+    line-height: 1;
+    margin-block-end: var(--spacing-100);
+    color: var(--color-text-primary);
+  }
+  .bcn-scale__label {
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-normal, 1.5);
+  }
+
+  .bcn-scale__image {
+    border-radius: var(--radius-200);
+    overflow: hidden;
+  }
+  .bcn-scale__image img {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+    min-block-size: 400px;
+  }
+
+  @media (max-width: 768px) {
+    .bcn-scale {
+      grid-template-columns: 1fr;
+    }
+    .bcn-scale__image {
+      display: none;
+    }
+    .bcn-scale__stats {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

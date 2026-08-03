@@ -1,0 +1,128 @@
+---
+// <BcnCaDotMap> — "Active Projects": the interactive California dot-matrix map
+// beside the project cards. The svg host carries its projects as a data-projects
+// JSON attribute (map label + position + pill placement); the ca-dot-map.ts
+// controller builds the dot field, markers, hover physics, and label pills.
+// Cards list the same projects with their glowing status dot and tagline.
+// Content from DOT_MAP_PROJECTS in src/data/homepage.ts.
+//
+// bcn-lego-checked: no esa-* lego renders a dot-matrix geography or glass
+// project cards on a dark photo band; esa-card is light app chrome. Checked
+// Beacon (no marketing site). bcn-ca-dot-map is the reusable home; the glass
+// card treatment belongs to the dark marketing band.
+import { DOT_MAP_PROJECTS } from '../../data/homepage';
+
+const mapProjects = DOT_MAP_PROJECTS.map((p) => ({
+  name: p.mapLabel ?? p.name,
+  lng: p.lng,
+  lat: p.lat,
+  color: p.color,
+  label: p.label,
+}));
+---
+
+<div class="bcn-dot-map">
+  <div class="bcn-dot-map__canvas">
+    <svg
+      data-ca-dot-map
+      data-projects={JSON.stringify(mapProjects)}
+      viewBox="0 0 440 560"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-label="Dot map of California showing active Beacon projects"></svg>
+  </div>
+  <div class="bcn-dot-map__cards">
+    {
+      DOT_MAP_PROJECTS.map((project) => (
+        <div class="bcn-dot-map__card">
+          <div class="bcn-dot-map__card-header">
+            <span class="bcn-dot-map__dot" style={`background: ${project.color}; color: ${project.color}`} />
+            <span class="bcn-dot-map__name">{project.name}</span>
+          </div>
+          <div class="bcn-dot-map__tagline">{project.tagline}</div>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  import { setupCaDotMap } from './ca-dot-map';
+  setupCaDotMap();
+</script>
+
+<style>
+  .bcn-dot-map {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-700);
+    align-items: center;
+  }
+
+  .bcn-dot-map__canvas {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+  .bcn-dot-map__canvas svg {
+    display: block;
+    inline-size: 100%;
+    max-inline-size: 550px;
+    block-size: auto;
+    cursor: crosshair;
+    transform: scale(1.2);
+    transform-origin: center center;
+  }
+
+  .bcn-dot-map__cards {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+
+  /* Glass cards on the dark forest band. */
+  .bcn-dot-map__card {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-200);
+    padding: var(--spacing-400) var(--spacing-500);
+    transition: background 150ms ease;
+  }
+  .bcn-dot-map__card:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .bcn-dot-map__card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin-block-end: var(--spacing-100);
+  }
+  .bcn-dot-map__dot {
+    inline-size: 10px;
+    block-size: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 0 6px currentColor;
+  }
+  .bcn-dot-map__name {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: #ffffff;
+  }
+  .bcn-dot-map__tagline {
+    font-size: var(--type-size-150);
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: var(--line-height-normal, 1.5);
+  }
+
+  @media (max-width: 768px) {
+    .bcn-dot-map {
+      grid-template-columns: 1fr;
+    }
+    .bcn-dot-map__canvas svg {
+      max-inline-size: 360px;
+    }
+  }
+</style>

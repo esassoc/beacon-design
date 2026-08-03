@@ -1,0 +1,95 @@
+---
+// <BcnMarketGrid> — "Built for Complex Environmental Projects": the six market
+// photo cards (photo, title, one-liner, "Beacon for X →" link out to the
+// esassoc.com market page). Content from MARKETS in src/data/homepage.ts;
+// photos are local copies under public/images/marketing/.
+//
+// bcn-lego-checked: esa-card has no photo-cap media slot and esa-link-column is
+// a footer link list — this is a photo-forward marketing card with a hover
+// lift; checked Beacon (no marketing site). bcn-market-grid is the reusable
+// home; CSS is card chrome + the photo cap.
+import { withBase } from '../../lib/base';
+import { MARKETS } from '../../data/homepage';
+---
+
+<div class="bcn-markets">
+  {
+    MARKETS.map((market) => (
+      <div class="bcn-markets__card">
+        <img class="bcn-markets__image" src={withBase(market.image)} alt={market.alt} loading="lazy" />
+        <div class="bcn-markets__body">
+          <h3 class="bcn-markets__title">{market.title}</h3>
+          <p class="bcn-markets__desc">{market.description}</p>
+          <a class="bcn-markets__link" href={market.href}>
+            {market.linkLabel} <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .bcn-markets {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-400);
+  }
+
+  .bcn-markets__card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+    transition:
+      box-shadow 200ms ease,
+      transform 200ms ease;
+  }
+  .bcn-markets__card:hover {
+    box-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.08),
+      0 4px 8px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+  }
+
+  .bcn-markets__image {
+    inline-size: 100%;
+    block-size: 140px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .bcn-markets__body {
+    padding: var(--spacing-400);
+  }
+  .bcn-markets__title {
+    margin: 0 0 var(--spacing-100);
+    font-size: var(--type-size-300);
+    font-weight: var(--font-weight-semibold);
+  }
+  .bcn-markets__desc {
+    margin: 0 0 var(--spacing-300);
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+    line-height: var(--line-height-normal, 1.5);
+  }
+  .bcn-markets__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+  .bcn-markets__link:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 768px) {
+    .bcn-markets {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

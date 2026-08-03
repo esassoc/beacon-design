@@ -1,0 +1,240 @@
+---
+// <BcnContrastPanels> — "Spreadsheets Can't Scale": the Without/With Beacon
+// before-and-after pair. The before card bleeds the spreadsheet-chaos photo and
+// lists failures on a danger-subtle wash; the after card bleeds an illustrative
+// dark product-window mock and lists the fixes on a success-subtle wash.
+// Content from CONTRAST_* in src/data/homepage.ts.
+//
+// The mock is an ILLUSTRATION of a Beacon tracker window (marketing artwork,
+// not app chrome) — its dark-glass colors are literal by design, like pixels in
+// a screenshot; status tints use the semantic status colors where they exist.
+//
+// bcn-lego-checked: no esa-* lego is a before/after comparison card or a product
+// -window vignette; esa-card is app chrome, esa-badge is the app badge voice —
+// the mock's pill badges are part of the artwork. Checked Beacon (no marketing
+// site). List glyphs are the esa-icon lego (x / circle-check, both in registry).
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { withBase } from '../../lib/base';
+import { CONTRAST_WITHOUT, CONTRAST_WITH, CONTRAST_MOCK_ROWS } from '../../data/homepage';
+---
+
+<div class="bcn-contrast">
+  <div class="bcn-contrast__card bcn-contrast__card--before">
+    <div class="bcn-contrast__bleed">
+      <img
+        src={withBase('/images/marketing/spreadsheet-chaos.jpg')}
+        alt="Laptop showing chaotic color-coded compliance spreadsheet on a cluttered desk"
+        loading="lazy"
+      />
+    </div>
+    <div class="bcn-contrast__title">
+      <EsaIcon name="x" size="lg" paths='<path d="M18 6 6 18"/><path d="m6 6 12 12"/>' />
+      Without Beacon
+    </div>
+    <ul class="bcn-contrast__list">
+      {
+        CONTRAST_WITHOUT.map((item) => (
+          <li class="bcn-contrast__item">
+            <span class="bcn-contrast__glyph">
+              <EsaIcon name="x" size="md" paths='<path d="M18 6 6 18"/><path d="m6 6 12 12"/>' />
+            </span>
+            <span>{item}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="bcn-contrast__card bcn-contrast__card--after">
+    <div class="bcn-contrast__bleed">
+      <div class="bcn-contrast__mock" aria-hidden="true">
+        <div class="bcn-contrast__mock-bar">
+          <span class="bcn-contrast__mock-dot"></span>
+          <span>Beacon — Compliance Tracker</span>
+        </div>
+        {
+          CONTRAST_MOCK_ROWS.map((row) => (
+            <div class="bcn-contrast__mock-row">
+              <span class:list={['bcn-contrast__mock-status', `is-${row.status}`]} />
+              <span>{row.label}</span>
+              <span class:list={['bcn-contrast__mock-badge', `is-${row.status}`]}>{row.badge}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+    <div class="bcn-contrast__title">
+      <EsaIcon name="circle-check" size="lg" />
+      With Beacon
+    </div>
+    <ul class="bcn-contrast__list">
+      {
+        CONTRAST_WITH.map((item) => (
+          <li class="bcn-contrast__item">
+            <span class="bcn-contrast__glyph">
+              <EsaIcon name="circle-check" size="md" />
+            </span>
+            <span>{item}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>
+
+<style>
+  .bcn-contrast {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-600);
+  }
+
+  .bcn-contrast__card {
+    border-radius: var(--radius-200);
+    padding: var(--spacing-600);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+  }
+  .bcn-contrast__card--before {
+    background: var(--color-danger-subtle);
+    border-color: var(--color-danger-border);
+  }
+  .bcn-contrast__card--after {
+    background: var(--color-success-subtle);
+    border-color: var(--color-success-border);
+  }
+
+  /* Full-bleed media strip across the card's top. */
+  .bcn-contrast__bleed {
+    margin: calc(-1 * var(--spacing-600)) calc(-1 * var(--spacing-600)) var(--spacing-500);
+  }
+  .bcn-contrast__bleed img {
+    inline-size: 100%;
+    block-size: 200px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .bcn-contrast__title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin-block-end: var(--spacing-400);
+    font-size: var(--type-size-400);
+    font-weight: var(--font-weight-semibold);
+  }
+  .bcn-contrast__card--before .bcn-contrast__title {
+    color: var(--color-danger-strong);
+  }
+  .bcn-contrast__card--after .bcn-contrast__title {
+    color: var(--color-success-strong);
+  }
+
+  .bcn-contrast__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-contrast__item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-300);
+    font-size: var(--type-size-200);
+    line-height: var(--line-height-normal, 1.5);
+  }
+  .bcn-contrast__glyph {
+    display: inline-flex;
+    flex-shrink: 0;
+    margin-block-start: 2px;
+  }
+  .bcn-contrast__card--before .bcn-contrast__glyph {
+    color: var(--color-danger);
+  }
+  .bcn-contrast__card--after .bcn-contrast__glyph {
+    color: var(--color-success);
+  }
+
+  /* ── The illustrative dark product-window mock (artwork literals) ── */
+  .bcn-contrast__mock {
+    background: #292929;
+    padding: var(--spacing-300);
+    font-size: 12px;
+    color: #bdbdbd;
+    min-block-size: 200px;
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-contrast__mock-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-200) var(--spacing-300);
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius-100);
+    margin-block-end: var(--spacing-300);
+    font-weight: var(--font-weight-medium);
+    font-size: 11px;
+    color: #989898;
+  }
+  .bcn-contrast__mock-dot {
+    inline-size: 8px;
+    block-size: 8px;
+    border-radius: 50%;
+    background: var(--color-primary);
+  }
+  .bcn-contrast__mock-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding: var(--spacing-200) var(--spacing-300);
+    border-block-end: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 11px;
+  }
+  .bcn-contrast__mock-row span:nth-child(2) {
+    flex: 1;
+    color: #ffffff;
+  }
+  .bcn-contrast__mock-status {
+    inline-size: 8px;
+    block-size: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .bcn-contrast__mock-status.is-done {
+    background: #4ade80;
+  }
+  .bcn-contrast__mock-status.is-active {
+    background: #f9a134;
+  }
+  .bcn-contrast__mock-status.is-pending {
+    background: #7c7c7c;
+  }
+  .bcn-contrast__mock-badge {
+    font-size: 10px;
+    font-weight: var(--font-weight-semibold);
+    padding: 2px 8px;
+    border-radius: var(--radius-full, 9999px);
+    white-space: nowrap;
+  }
+  .bcn-contrast__mock-badge.is-done {
+    background: rgba(74, 222, 128, 0.15);
+    color: #4ade80;
+  }
+  .bcn-contrast__mock-badge.is-active {
+    background: rgba(249, 161, 52, 0.15);
+    color: #f9a134;
+  }
+  .bcn-contrast__mock-badge.is-pending {
+    background: rgba(255, 255, 255, 0.06);
+    color: #989898;
+  }
+
+  @media (max-width: 768px) {
+    .bcn-contrast {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
