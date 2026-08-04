@@ -397,14 +397,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <li class="nav-item">
               <a href="#dashboard" class="nav-sublink active"> Dashboard </a>
             </li>
-            <li class="nav-item">
-              <a href="#source-documents" class="nav-sublink"> Source Documents </a>
-            </li>
-            <li class="nav-item"><a href="#commitments" class="nav-sublink"> Commitments </a></li>
-            <li class="nav-item"><a href="#requirements" class="nav-sublink"> Requirements </a></li>
-            <li class="nav-item">
-              <a href="#organize-actions" class="nav-sublink"> Organize Actions </a>
-            </li>
             <li class="nav-item"><a href="#action-lists" class="nav-sublink"> Action Lists </a></li>
             <li class="nav-item">
               <a href="#document-reviews" class="nav-sublink"> Document Reviews </a>
@@ -6105,6 +6097,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .esa-form-field__help {
   color: var(--_help-color);
 }
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
 .esa-card {
   --_card-bg: var(--card-bg, var(--color-surface, #ffffff));
   --_card-border: var(--card-border-color, var(--color-border, #e5e5e5));
@@ -6227,9 +6223,61 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --_badge-padding-x: var(--spacing-150, 0.375rem);
   --_badge-min-width: var(--badge-height-sm, 22px);
 }
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
+.sidebar {
+  --gap: var(--spacing-500, 1.5rem);
+  --sidebar-width: 18rem;
+  --sidebar-content-min: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+.sidebar > :first-child {
+  flex-basis: var(--sidebar-width);
+  flex-grow: 1;
+}
+.type-body {
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-relaxed);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-label {
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-body-small {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.sidebar > :last-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: var(--sidebar-content-min);
+}
+.type-code {
+  font-family: var(--font-mono);
+  font-size: var(--type-size-100);
+  line-height: var(--line-height-normal);
+}
+.cluster {
+  --gap: var(--spacing-300, 0.75rem);
+  --align: center;
+  --justify: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+  align-items: var(--align);
+  justify-content: var(--justify);
 }
 .bcn-settings-shell__rail {
   align-self: start;
@@ -6397,6 +6445,107 @@ html,
   --color-border: color-mix(in srgb, #ffffff 42%, transparent);
   --color-surface-sunken: color-mix(in srgb, #ffffff 16%, transparent);
 }
+.bcn-set {
+  display: block;
+  scroll-margin-block-start: var(--spacing-600);
+}
+.bcn-record-rows {
+  display: block;
+}
+.bcn-record-rows__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.bcn-record-rows__row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  padding-block: var(--spacing-250);
+}
+.bcn-record-rows__content {
+  flex: 1;
+  min-inline-size: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+}
+.bcn-record-rows__lead {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-200);
+  margin: 0;
+  line-height: 1.4;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  --badge-bg: var(--color-surface-sunken);
+  --badge-text-color: var(--color-text-secondary);
+}
+.bcn-record-rows__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--spacing-100) var(--spacing-500);
+  margin: 0;
+  line-height: 1.4;
+}
+.bcn-record-rows__pair {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--spacing-150);
+  min-inline-size: 0;
+}
+.bcn-record-rows__label {
+  color: var(--color-text-tertiary);
+}
+.bcn-record-rows__code {
+  padding: 1px var(--spacing-150);
+  border-radius: var(--radius-100);
+  background: var(--color-surface-sunken);
+  color: var(--color-text-secondary);
+}
+.bcn-record-rows__actions {
+  flex-shrink: 0;
+}
+.bcn-record-rows__row + .bcn-record-rows__row {
+  border-top: 1px solid var(--color-border-light);
+}
+.bcn-record-rows esa-dialog {
+  display: block;
+  --z-modal: 1300;
+  --z-modal-backdrop: 1250;
+}
+.esa-pill {
+  --_pill-bg: var(--pill-bg, var(--color-surface-sunken, #efefef));
+  --_pill-text: var(--pill-text-color, var(--color-text-primary, #171717));
+  --_pill-border: var(--pill-border-color, var(--color-border-light, #efefef));
+  --_pill-height: var(--pill-height-md, 28px);
+  --_pill-font-size: 13px;
+  --_pill-padding-x: var(--spacing-200, 0.5rem);
+  --_pill-gap: var(--spacing-100, 0.25rem);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--_pill-gap);
+  height: var(--_pill-height);
+  padding-inline: var(--_pill-padding-x);
+  border: 1px solid var(--_pill-border);
+  border-radius: var(--pill-radius, var(--radius-full, 9999px));
+  background: var(--_pill-bg);
+  color: var(--_pill-text);
+  font-size: var(--_pill-font-size);
+  line-height: 1;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+.esa-pill--sm {
+  --_pill-height: var(--pill-height-sm, 22px);
+  --_pill-font-size: 11px;
+  --_pill-padding-x: var(--spacing-150, 0.375rem);
+}
+.esa-pill__label {
+  font-weight: 500;
+}
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
   --_btn-padding-x: var(--form-padding-x-md, 16px);
@@ -6467,92 +6616,6 @@ html,
   background: var(--_accent);
   color: var(--_on);
   border-color: transparent;
-}
-.esa-pill {
-  --_pill-bg: var(--pill-bg, var(--color-surface-sunken, #efefef));
-  --_pill-text: var(--pill-text-color, var(--color-text-primary, #171717));
-  --_pill-border: var(--pill-border-color, var(--color-border-light, #efefef));
-  --_pill-height: var(--pill-height-md, 28px);
-  --_pill-font-size: 13px;
-  --_pill-padding-x: var(--spacing-200, 0.5rem);
-  --_pill-gap: var(--spacing-100, 0.25rem);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--_pill-gap);
-  height: var(--_pill-height);
-  padding-inline: var(--_pill-padding-x);
-  border: 1px solid var(--_pill-border);
-  border-radius: var(--pill-radius, var(--radius-full, 9999px));
-  background: var(--_pill-bg);
-  color: var(--_pill-text);
-  font-size: var(--_pill-font-size);
-  line-height: 1;
-  white-space: nowrap;
-  box-sizing: border-box;
-}
-.esa-pill--sm {
-  --_pill-height: var(--pill-height-sm, 22px);
-  --_pill-font-size: 11px;
-  --_pill-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-pill__label {
-  font-weight: 500;
-}
-.sidebar {
-  --gap: var(--spacing-500, 1.5rem);
-  --sidebar-width: 18rem;
-  --sidebar-content-min: 60%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap);
-}
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-}
-.sidebar > :first-child {
-  flex-basis: var(--sidebar-width);
-  flex-grow: 1;
-}
-.type-body {
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-relaxed);
-  letter-spacing: var(--letter-spacing-normal);
-}
-.type-label {
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-normal);
-  letter-spacing: var(--letter-spacing-normal);
-}
-.type-body-small {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-normal);
-  letter-spacing: var(--letter-spacing-normal);
-}
-.sidebar > :last-child {
-  flex-basis: 0;
-  flex-grow: 999;
-  min-inline-size: var(--sidebar-content-min);
-}
-.type-code {
-  font-family: var(--font-mono);
-  font-size: var(--type-size-100);
-  line-height: var(--line-height-normal);
-}
-.cluster {
-  --gap: var(--spacing-300, 0.75rem);
-  --align: center;
-  --justify: flex-start;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap);
-  align-items: var(--align);
-  justify-content: var(--justify);
 }
 .modern-layout {
   display: flex;
@@ -7319,77 +7382,6 @@ html,
 }
 .bcn-gd-article__panel[hidden] {
   display: none;
-}
-.bcn-set {
-  display: block;
-  scroll-margin-block-start: var(--spacing-600);
-}
-.bcn-record-rows {
-  display: block;
-}
-.bcn-record-rows__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.bcn-record-rows__row {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  padding-block: var(--spacing-250);
-}
-.bcn-record-rows__content {
-  flex: 1;
-  min-inline-size: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100);
-}
-.bcn-record-rows__lead {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-200);
-  margin: 0;
-  line-height: 1.4;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-  --badge-bg: var(--color-surface-sunken);
-  --badge-text-color: var(--color-text-secondary);
-}
-.bcn-record-rows__meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--spacing-100) var(--spacing-500);
-  margin: 0;
-  line-height: 1.4;
-}
-.bcn-record-rows__pair {
-  display: inline-flex;
-  align-items: baseline;
-  gap: var(--spacing-150);
-  min-inline-size: 0;
-}
-.bcn-record-rows__label {
-  color: var(--color-text-tertiary);
-}
-.bcn-record-rows__code {
-  padding: 1px var(--spacing-150);
-  border-radius: var(--radius-100);
-  background: var(--color-surface-sunken);
-  color: var(--color-text-secondary);
-}
-.bcn-record-rows__actions {
-  flex-shrink: 0;
-}
-.bcn-record-rows__row + .bcn-record-rows__row {
-  border-top: 1px solid var(--color-border-light);
-}
-.bcn-record-rows esa-dialog {
-  display: block;
-  --z-modal: 1300;
-  --z-modal-backdrop: 1250;
 }
 .page-layout {
   display: flex;

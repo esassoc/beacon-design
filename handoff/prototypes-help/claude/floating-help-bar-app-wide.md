@@ -189,6 +189,51 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
 
 ## Styles
 ```css
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(
+    --icon-button-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -311,54 +356,82 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
   box-shadow: 0 0 0 2px var(--bcn-helpbar-bg-solid);
   pointer-events: none;
 }
+.bcn-help-bar__panel {
+  width: 340px;
+  max-width: 84vw;
+  color: var(--color-text-primary);
+}
+.bcn-help-bar__panel-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-200);
+  margin: 0 0 var(--spacing-300);
+}
+.bcn-help-bar__panel-title {
+  margin: 0;
+  font-size: var(--type-size-200, 0.9375rem);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-help-bar__panel-release {
+  margin: 0;
+  font-size: var(--type-size-150, 0.875rem);
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+}
+.bcn-help-bar__panel-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+.bcn-help-bar__panel-link {
+  display: block;
+  padding: var(--spacing-150) var(--spacing-150);
+  margin: 0 calc(var(--spacing-150) * -1);
+  border-radius: var(--radius-200, 8px);
+  color: inherit;
+  text-decoration: none;
+  transition: background var(--transition-fast, 0.15s ease);
+}
+.bcn-help-bar__panel-item-title {
+  margin: 0 0 2px;
+  font-family: var(--font-decorative);
+  font-size: 1.0625rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.3;
+  color: var(--color-text-primary);
+}
+.bcn-help-bar__panel-item-blurb {
+  margin: 0;
+  font-size: var(--type-size-150, 0.875rem);
+  font-weight: var(--font-weight-regular, 400);
+  line-height: 1.45;
+  color: var(--color-text-secondary);
+}
+.bcn-help-bar__panel-footer {
+  margin-top: var(--spacing-300);
+  padding-top: var(--spacing-250, 0.625rem);
+  border-top: 1px solid var(--color-border);
+}
+.bcn-help-bar__panel-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--type-size-150, 0.875rem);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-link);
+  text-decoration: none;
+}
+.bcn-help-bar__panel-all-arrow {
+  transition: transform 0.15s ease;
+}
 .bcn-gd__label .esa-icon {
   color: var(--color-text-tertiary);
   flex: none;
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(
-    --icon-button-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
 }
 ```
 
@@ -374,10 +447,16 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
 - `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
 - `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
 - `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
+- `--color-border`: #dcdcdc _(semantic)_
 - `--color-text-inverse`: #fcfcfc _(semantic)_
+- `--color-text-link`: #005862 _(semantic)_
+- `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
+- `--font-decorative`: "Besley", serif _(component)_
 - `--font-weight-medium`: 500 _(primitive)_
+- `--font-weight-regular`: 350 _(primitive)_
+- `--font-weight-semibold`: 550 _(primitive)_
 - `--form-height-md`: 36px _(component)_
 - `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
 - `--icon-size-md`: 20px _(primitive)_
@@ -391,6 +470,9 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
 - `--spacing-050`: .125rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
+- `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
+- `--spacing-300`: .75rem _(primitive)_
 - `--transition-fast`: .15s ease _(primitive)_
+- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
 - `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_

@@ -125,6 +125,53 @@ The Map tab is the hero (default of the 3-tab esa-tab-layout: Map · Data · Act
 
 ## Styles
 ```css
+.comp-picker__trigger .esa-icon {
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+}
+.map-filterbar {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--spacing-300);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+}
+.map-filterbar__row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  flex-wrap: wrap;
+  padding: var(--spacing-250) var(--spacing-400);
+}
+.map-filterbar__label {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+}
+.map-filterbar__goto {
+  margin-left: auto;
+  display: flex;
+  gap: var(--spacing-200);
+}
+.map-filterbar__goto esa-combobox {
+  --form-height-sm: 32px;
+  --form-font-size-sm: var(--type-size-150);
+}
+.map-filterbar__row + .map-filterbar__row {
+  border-top: 1px solid var(--color-border);
+}
+.map-filterbar__buffer {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+}
+.wa__section .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -262,53 +309,6 @@ The Map tab is the hero (default of the 3-tab esa-tab-layout: Map · Data · Act
 .bcn-gd__label .esa-icon {
   color: var(--color-text-tertiary);
   flex: none;
-}
-.comp-picker__trigger .esa-icon {
-  color: var(--color-text-tertiary);
-  flex-shrink: 0;
-}
-.map-filterbar {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: var(--spacing-300);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-}
-.map-filterbar__row {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  flex-wrap: wrap;
-  padding: var(--spacing-250) var(--spacing-400);
-}
-.map-filterbar__label {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-tertiary);
-  white-space: nowrap;
-}
-.map-filterbar__goto {
-  margin-left: auto;
-  display: flex;
-  gap: var(--spacing-200);
-}
-.map-filterbar__goto esa-combobox {
-  --form-height-sm: 32px;
-  --form-font-size-sm: var(--type-size-150);
-}
-.map-filterbar__row + .map-filterbar__row {
-  border-top: 1px solid var(--color-border);
-}
-.map-filterbar__buffer {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-}
-.wa__section .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary);
 }
 ```
 

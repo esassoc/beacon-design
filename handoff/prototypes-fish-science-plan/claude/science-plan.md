@@ -6652,7 +6652,7 @@ html,
 | `--color-text-primary` | `#3d3d3d` | semantic |
 | `--color-text-secondary` | `#525252` | semantic |
 | `--color-text-tertiary` | `#656565` | semantic |
-| `--color-warning` | `#f2770e` | semantic |
+| `--color-warning` | `#f59e0b` | semantic |
 | `--color-warning-on-fill` | `#4f3422` | semantic |
 | `--filter-clear-color` | `#7c7c7c` | component |
 | `--filter-clear-color-hover` | `#ce2c31` | component |

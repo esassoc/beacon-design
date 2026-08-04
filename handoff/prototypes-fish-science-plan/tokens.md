@@ -21,7 +21,7 @@ The 102 design tokens this page actually uses, resolved to their final values fo
 | `--color-text-primary` | `#3d3d3d` |
 | `--color-text-secondary` | `#525252` |
 | `--color-text-tertiary` | `#656565` |
-| `--color-warning` | `#f2770e` |
+| `--color-warning` | `#f59e0b` |
 | `--color-warning-on-fill` | `#4f3422` |
 
 ## Component

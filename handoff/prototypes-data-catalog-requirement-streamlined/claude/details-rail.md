@@ -55,6 +55,36 @@ The Details rail module (esa-collapsible): Default Assignee + a fixed Project sc
 
 ## Styles
 ```css
+.bcn-reqref__key .esa-icon {
+  --_icon-size: 11px;
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+}
+.bcn-reqref__footer .esa-icon {
+  --_icon-size: 13px;
+}
+.bcn-action__rail .esa-collapsible__title {
+  font-size: var(--type-size-300);
+  font-weight: var(--font-weight-semibold);
+}
+.bcn-lineage__icon .esa-icon {
+  --_icon-size: 14px;
+}
+.bcn-trigger-row .esa-icon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+.bcn-context__doc .esa-icon {
+  color: var(--color-text-tertiary);
+}
+.bcn-note .esa-icon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.bcn-ntoggle__title .esa-icon {
+  color: var(--color-text-primary);
+}
 .esa-collapsible {
   border: 1px solid var(--collapsible-border-color, var(--color-border, #e5e5e5));
   border-radius: var(--collapsible-radius, var(--radius-300, 0.5rem));
@@ -96,8 +126,41 @@ The Details rail module (esa-collapsible): Default Assignee + a fixed Project sc
   padding: 0 var(--collapsible-padding-x, var(--spacing-400, 1rem))
     var(--spacing-400, 1rem);
 }
-.breadcrumbs__items .esa-icon {
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header > .esa-icon:last-child {
   color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
@@ -190,71 +253,8 @@ The Details rail module (esa-collapsible): Default Assignee + a fixed Project sc
 .esa-icon-link__label {
   display: inline-block;
 }
-.bcn-reqref__key .esa-icon {
-  --_icon-size: 11px;
-  color: var(--color-text-tertiary);
-  flex-shrink: 0;
-}
-.bcn-reqref__footer .esa-icon {
-  --_icon-size: 13px;
-}
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
-}
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header > .esa-icon:last-child {
+.breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
-}
-.bcn-action__rail .esa-collapsible__title {
-  font-size: var(--type-size-300);
-  font-weight: var(--font-weight-semibold);
-}
-.bcn-lineage__icon .esa-icon {
-  --_icon-size: 14px;
-}
-.bcn-trigger-row .esa-icon {
-  color: var(--color-primary);
-  flex-shrink: 0;
-}
-.bcn-context__doc .esa-icon {
-  color: var(--color-text-tertiary);
-}
-.bcn-note .esa-icon {
-  color: var(--color-primary);
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-.bcn-ntoggle__title .esa-icon {
-  color: var(--color-text-primary);
 }
 ```
 

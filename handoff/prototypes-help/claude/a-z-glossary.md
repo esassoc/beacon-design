@@ -79,6 +79,13 @@ Every glossary-kind article as a bare term link, sorted A–Z and flowing into n
 
 ## Styles
 ```css
+.type-section-title {
+  font-family: var(--font-display, var(--font-sans));
+  font-size: var(--type-size-500);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+}
 .bcn-kbg {
   display: flex;
   flex-direction: column;
@@ -107,13 +114,6 @@ Every glossary-kind article as a bare term link, sorted A–Z and flowing into n
   color: var(--color-text-primary);
   text-decoration: none;
   transition: color 0.12s ease;
-}
-.type-section-title {
-  font-family: var(--font-display, var(--font-sans));
-  font-size: var(--type-size-500);
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-tight);
-  letter-spacing: var(--letter-spacing-tight);
 }
 ```
 

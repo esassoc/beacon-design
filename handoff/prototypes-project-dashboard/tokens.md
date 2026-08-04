@@ -1,6 +1,6 @@
 # Token contract — prototypes-project-dashboard
 
-The 102 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 118 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -9,13 +9,17 @@ The 102 design tokens this page actually uses, resolved to their final values fo
 | `--color-accent` | `#f76b15` |
 | `--color-border` | `#dcdcdc` |
 | `--color-border-light` | `#efefef` |
+| `--color-border-strong` | `#bdbdbd` |
 | `--color-danger` | `#e5484d` |
+| `--color-info` | `#228be6` |
 | `--color-primary` | `#005862` |
 | `--color-primary-hover` | `#00474f` |
 | `--color-primary-strong` | `#2a7e3b` |
 | `--color-secondary` | `#00918b` |
+| `--color-secondary-hover` | `#0a6562` |
 | `--color-secondary-strong` | `#2a7e3b` |
 | `--color-surface` | `#fcfcfc` |
+| `--color-surface-elevated` | `#fcfcfc` |
 | `--color-surface-sunken` | `#efefef` |
 | `--color-text-inverse` | `#fcfcfc` |
 | `--color-text-link` | `#005862` |
@@ -23,6 +27,7 @@ The 102 design tokens this page actually uses, resolved to their final values fo
 | `--color-text-primary` | `#3d3d3d` |
 | `--color-text-secondary` | `#525252` |
 | `--color-text-tertiary` | `#656565` |
+| `--color-warning` | `#f59e0b` |
 | `--sidebar-width` | `280px` |
 
 ## Component
@@ -50,6 +55,7 @@ The 102 design tokens this page actually uses, resolved to their final values fo
 | `--bcn-helpbar-fg-muted` | `rgba(255, 255, 255, .72)` |
 | `--bcn-helpbar-hover-bg` | `rgba(255, 255, 255, .1)` |
 | `--bcn-teal-600` | `#0e807b` |
+| `--bcn-teal-800` | `#0a6562` |
 | `--card-bg` | `#fcfcfc` |
 | `--card-border-color` | `#dcdcdc` |
 | `--card-header-bg` | `transparent` |
@@ -58,11 +64,23 @@ The 102 design tokens this page actually uses, resolved to their final values fo
 | `--card-padding` | `1.5rem` |
 | `--card-radius` | `.5rem` |
 | `--color-commitment` | `#58508d` |
+| `--dialog-bg` | `#fcfcfc` |
+| `--dialog-border-color` | `#efefef` |
+| `--dialog-radius` | `.75rem` |
+| `--dialog-width` | `480px` |
+| `--dialog-width-lg` | `640px` |
 | `--font-decorative` | `"Besley", serif` |
+| `--form-bg` | `#fcfcfc` |
+| `--form-border-color` | `#dcdcdc` |
+| `--form-border-width` | `1px` |
 | `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--form-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--form-height-md` | `36px` |
+| `--form-height-sm` | `28px` |
 | `--form-padding-x-md` | `.75rem` |
+| `--form-padding-x-sm` | `.625rem` |
 | `--form-radius-md` | `.25rem` |
+| `--form-radius-sm` | `.25rem` |
 | `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` |
 | `--icon-size-medium` | `20px` |
 | `--icon-size-small` | `16px` |
@@ -86,10 +104,8 @@ The 102 design tokens this page actually uses, resolved to their final values fo
 | `--icon-size-md` | `20px` |
 | `--icon-size-sm` | `16px` |
 | `--icon-size-xs` | `14px` |
-| `--letter-spacing-normal` | `.01em` |
 | `--letter-spacing-tight` | `-.01em` |
 | `--line-height-normal` | `1.6` |
-| `--line-height-relaxed` | `1.8` |
 | `--line-height-tight` | `1.3` |
 | `--radius-100` | `.25rem` |
 | `--radius-200` | `.5rem` |
@@ -123,8 +139,12 @@ The 102 design tokens this page actually uses, resolved to their final values fo
 
 Defined per-component (not at `:root`); see the component's own rule in `styles.css`.
 
+- `--color-orange-400`
+- `--dialog-footer-bg`
+- `--dialog-header-bg`
 - `--gap`
 - `--sidebar-content-min`
+- `--spacing-350`
 - `--stat-accent-color`
 - `--stat-gap`
 - `--stat-label-color`

@@ -85,13 +85,6 @@ The single-select Component picker that scopes the whole page — map, grids, an
   color: var(--color-text-tertiary);
   flex: none;
 }
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
-}
 .comp-picker {
   display: inline-flex;
   align-items: center;
@@ -127,6 +120,13 @@ The single-select Component picker that scopes the whole page — map, grids, an
 .wa__section .esa-icon {
   flex-shrink: 0;
   color: var(--color-text-secondary);
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
