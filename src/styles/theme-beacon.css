@@ -47,8 +47,24 @@
      the legacy named ramps (--color-green-700 etc.) these re-points targeted, so
      they resolved to nothing at runtime — success/warning dots rendered
      transparent. Hub gap ledgered (docs/system-improvement-ledger.md). */
+  /* ===== THE BEACON STATUS-COLOR STANDARD (2026-08-03) =====
+     One hue family per meaning, carried across every Beacon surface (dashboard
+     pulses, critical cards, grid chips, flags). Set here because red vs orange
+     had drifted too close to read apart at dot size (Andy):
+
+       CRITICAL / OVERDUE    red    --color-danger   (#e5484d, red-9)
+       ATTENTION / URGENT /
+       IN PROGRESS           amber  --color-warning  (#f59e0b — moved off
+                                    orange #f2770e; ESA orange stays a BRAND
+                                    accent, never a severity)
+       ON TRACK / COMPLETE   green  --color-success  (#2e7571, $green-700)
+       QUIET / NOT STARTED   gray   --bcn-status-not-started (gray-300)
+       INFORMATIONAL         azure  --color-info     (#228be6)
+
+     Every status dot, chip, and tint derives from these five — no parallel
+     literals. The --bcn-status-* layer below re-points here. */
   --color-success: #2e7571;                 /* Beacon success = $green-700 (was #22c55e) */
-  --color-warning: #f2770e;                 /* Beacon warning = $orange-500 (was #f59e0b) */
+  --color-warning: #f59e0b;                 /* amber-500 — severity amber, distinct from red (was orange #f2770e) */
   --color-info:    #228be6;                 /* Beacon $info (standalone azure, not on the blue ramp) */
   --color-ai:       #699cc6;                /* Beacon ai = $blue-500 (hub default is copper) */
   --color-ai-hover: #4c75a9;                /* Beacon ai hover = $blue-700 */
@@ -145,11 +161,13 @@
   --bcn-flag-on-color:    #b05000;
   --bcn-flag-on-border:   #ffd9a8;
 
-  /* Implementation status palette (compliance tracking). */
+  /* Implementation status palette (compliance tracking) — re-pointed to the
+     status-color standard above (was a parallel set of near-miss literals:
+     #ef4444 beside danger #e5484d, #22c55e beside success #2e7571). */
   --bcn-status-not-started: var(--bcn-gray-300);
-  --bcn-status-in-progress: #f59e0b;
-  --bcn-status-completed:   #22c55e;
-  --bcn-status-overdue:     #ef4444;
+  --bcn-status-in-progress: var(--color-warning);
+  --bcn-status-completed:   var(--color-success);
+  --bcn-status-overdue:     var(--color-danger);
 
   /* Progress-report fill/background pairs. */
   --bcn-progress-not-started:    #444e86;

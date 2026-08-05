@@ -1,0 +1,276 @@
+---
+// <BcnModules> — Tracking / Monitoring / Reporting as the page's top row, each
+// module carrying its OWN critical work (product meeting, 2026-08-04). Two
+// decisions from that call shaped this component:
+//
+//   1. "Consider moving above components, or integrating critical status
+//      indicators directly into those modules rather than a separate 'Most
+//      Critical Now' section." → the standalone criticality card is gone; each
+//      module lists its urgent actions, and the module row moved above
+//      Components ("those numbers deserve being above components").
+//   2. "Actions as the spine: all urgency signals … should tie to action due
+//      dates by type." → every figure and row here is a PROJECT_ACTION of that
+//      module's type. A lapsed survey is a monitoring action; an agency report
+//      is a reporting action. Nothing is a bespoke "critical item" any more.
+//
+// Each card: the area's overdue / due-soon counts, its most urgent actions (cap
+// 2 + an overflow link), the area's named sub-surfaces, and the door itself.
+// Urgency color follows the Beacon status standard — red overdue, amber due
+// soon — which is also the "red and yellow circles that navigate" the meeting
+// asked for: every row is a link to the action.
+//
+// bcn-lego-checked: no esa-* lego is an "area module with rollup + entity rows +
+// sub-links" — esa-card is a static shell (used INSIDE nothing here because the
+// card needs a stretched portal link). Checked Beacon (prod exposes these as nav
+// sections, not dashboard modules). bcn-modules is the reusable home; glyphs are
+// esa-icon and the figures are esa-stat.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaStat from '@esa/ecology/esa-stat.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import { withBase } from '../../lib/base';
+import { MODULES } from '../../data/project-dashboard';
+import { rollupFor, daysOut, shortDate, type ProjectAction } from '../../data/project-actions';
+
+const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href);
+
+// Lucide inner markup, matching the app's side-nav glyphs.
+const ICONS: Record<string, string> = {
+  tracking:
+    '<path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"/><path d="M4 6h.01"/><path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"/><path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"/><path d="M12 18h.01"/><path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"/><circle cx="12" cy="12" r="2"/><path d="m13.41 10.59 5.66-5.66"/>',
+  monitoring:
+    '<path d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"/><circle cx="12" cy="8" r="2"/><path d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"/>',
+  reporting:
+    '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>',
+};
+
+const CAP = 2;
+// Timing renders from the action's own due date — overdue in days, otherwise the date.
+const timingOf = (a: ProjectAction) => {
+  const d = daysOut(a.dueDate);
+  return d < 0 ? `${Math.abs(d)}d overdue` : `Due ${shortDate(a.dueDate)}`;
+};
+
+const cards = MODULES.map((m) => {
+  const r = rollupFor(m.id);
+  return { module: m, rollup: r, shown: r.critical.slice(0, CAP), overflow: r.critical.length - CAP };
+});
+---
+
+<section class="bcn-mod" aria-label="Tracking, Monitoring, and Reporting">
+  <div class="bcn-mod__grid">
+    {
+      cards.map(({ module: m, rollup, shown, overflow }) => (
+        <div class="bcn-mod__card">
+          <a class="bcn-mod__portal" href={linkHref(m.href)} aria-label={m.cta}></a>
+
+          <div class="bcn-mod__head">
+            <span class="bcn-mod__glyph"><EsaIcon name={m.icon} size="md" paths={ICONS[m.icon]} /></span>
+            <span class="bcn-mod__name">{m.title}</span>
+          </div>
+
+          <div class="bcn-mod__rollup">
+            <EsaStat value={String(rollup.overdue.length)} label="Overdue" />
+            <EsaStat value={String(rollup.dueSoon.length)} label="Due in 14 days" />
+          </div>
+
+          {shown.length > 0 && (
+            <ul class="bcn-mod__actions">
+              {shown.map((a) => (
+                <li>
+                  <a class="bcn-mod__action" href={linkHref(a.href)} data-urgency={daysOut(a.dueDate) < 0 ? 'overdue' : 'due-soon'}>
+                    <span class="bcn-mod__dot" aria-hidden="true" />
+                    <span class="bcn-mod__action-body">
+                      <span class="bcn-mod__action-name">
+                        <BcnCommitmentBadge code={a.code} size="sm" />
+                        {a.name}
+                      </span>
+                      <span class="bcn-mod__action-meta">{a.where} · {timingOf(a)}</span>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {overflow > 0 && (
+            <a class="bcn-mod__more" href={linkHref(m.href)}>
+              {overflow} more overdue or due soon
+            </a>
+          )}
+
+          {m.links && (
+            <nav class="bcn-mod__links" aria-label={`${m.title} surfaces`}>
+              {m.links.map((l) => (
+                <a class="bcn-mod__link" href={linkHref(l.href)}>
+                  {l.label} <EsaIcon name="chevron-right" size="sm" />
+                </a>
+              ))}
+            </nav>
+          )}
+
+          <span class="bcn-mod__open">{m.cta} <EsaIcon name="chevron-right" size="sm" /></span>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  /* Three across in the main column; collapses to one on narrow viewports. */
+  .bcn-mod__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--spacing-400);
+  }
+  @media (max-width: 900px) {
+    .bcn-mod__grid { grid-template-columns: 1fr; }
+  }
+
+  /* A DIV carrying a stretched portal link — the action rows and sub-links can't
+     nest inside an <a>, but the whole card still acts as the door. */
+  .bcn-mod__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    padding: var(--spacing-400);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+  .bcn-mod__card:hover {
+    border-color: var(--color-border-strong);
+    box-shadow: var(--shadow-50, 0 1px 4px 0 rgba(0, 0, 0, 0.05));
+  }
+  .bcn-mod__portal {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-300);
+  }
+  .bcn-mod__portal:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+
+  .bcn-mod__head { display: flex; align-items: center; gap: var(--spacing-300); }
+  .bcn-mod__glyph {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: var(--radius-200);
+    background: var(--color-surface-sunken);
+    color: var(--color-text-secondary);
+  }
+  .bcn-mod__name {
+    font-size: var(--type-size-300);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+
+  .bcn-mod__rollup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-300) var(--spacing-500);
+    padding-bottom: var(--spacing-300);
+    border-bottom: 1px solid var(--color-border-light);
+    --stat-value-size: var(--type-size-400);
+    --stat-label-size: var(--type-size-150);
+    --stat-label-color: var(--color-text-tertiary);
+  }
+
+  /* The module's urgent ACTIONS — each row is the "red/yellow circle that
+     navigates" the review asked for. */
+  .bcn-mod__actions {
+    position: relative;
+    z-index: 1;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .bcn-mod__action {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-200);
+    text-decoration: none;
+    color: inherit;
+  }
+  .bcn-mod__dot {
+    width: 9px;
+    height: 9px;
+    margin-top: 5px;
+    border-radius: var(--radius-full);
+    background: var(--color-border-strong);
+    flex-shrink: 0;
+  }
+  [data-urgency='overdue'] .bcn-mod__dot { background: var(--color-danger); }
+  [data-urgency='due-soon'] .bcn-mod__dot { background: var(--color-warning); }
+
+  .bcn-mod__action-body { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+  .bcn-mod__action-name {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+    line-height: var(--line-height-tight);
+  }
+  .bcn-mod__action:hover .bcn-mod__action-name { color: var(--color-primary); }
+  .bcn-mod__action-name :global(.bcn-cbadge) { margin-right: var(--spacing-150); }
+  .bcn-mod__action-meta {
+    font-size: 0.8125rem; /* 13px — meta floor */
+    color: var(--color-text-tertiary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .bcn-mod__more {
+    position: relative;
+    z-index: 1;
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+  }
+  .bcn-mod__more:hover { color: var(--color-primary); }
+
+  /* Named sub-surfaces — quiet links riding above the portal. */
+  .bcn-mod__links {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+    padding-top: var(--spacing-300);
+    border-top: 1px solid var(--color-border-light);
+  }
+  .bcn-mod__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    align-self: flex-start;
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+  }
+  .bcn-mod__link:hover { color: var(--color-primary); }
+  .bcn-mod__link :global(.esa-icon) { color: var(--color-text-muted); }
+
+  .bcn-mod__open {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    margin-top: auto;
+    padding-top: var(--spacing-200);
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+  }
+  .bcn-mod__card:hover .bcn-mod__open { color: var(--color-primary-hover); }
+</style>

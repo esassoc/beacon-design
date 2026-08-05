@@ -1,0 +1,196 @@
+---
+// <BcnSeasonCard> — a season rendered on its year: faithful port of Beacon's
+// shared season-card (season-card.component.*), evolved onto the Ecology token
+// layer (Andy, round 6). The card draws a Jan-1 → Dec-31 timeline in three
+// segments; the season's ACTIVE span is teal, the rest hairline-gray, 8px dots
+// mark the boundaries, and a 2px orange tick marks today. Wrap-year seasons
+// (e.g. Nov 1 – Mar 31) invert the segments — active at both edges, the gray
+// middle spanning the off-season — exactly prod's wrapsYear math.
+//
+// All geometry derives from the ProjectSeason DTO's StartMonth/StartDay/
+// EndMonth/EndDay + the fixture's fixed TODAY (deterministic; never Date.now()).
+// Actions (Tracked badge, Edit) slot in from the consumer.
+//
+// bcn-lego-checked: no esa-* lego draws a season-on-a-year timeline — this IS the
+// Beacon prod pattern (shared/components/season-card) ported onto tokens; checked
+// Ecology (esa-progress-bar/esa-range-slider are the nearest and neither is a
+// year axis). bcn-season-card is the reusable home and an esa- promotion
+// candidate; every color reads the semantic layer.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+
+interface Props {
+  name: string;
+  startMonth: number;
+  startDay: number;
+  endMonth: number;
+  endDay: number;
+  /** ISO date the today-marker sits on (the fixture's fixed TODAY). */
+  today: string;
+}
+const { name, startMonth, startDay, endMonth, endDay, today } = Astro.props;
+
+// Day-of-year on a fixed 365-day year (non-leap — display geometry, not math).
+const CUM = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+const doy = (month: number, day: number) => CUM[month - 1] + day;
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const label = (month: number, day: number) => `${MONTHS[month - 1]} ${day}`;
+
+const startDoy = doy(startMonth, startDay);
+const endDoy = doy(endMonth, endDay);
+const wraps = startDoy > endDoy;
+
+// Segment widths (percent of the year). Non-wrap: gray | active | gray.
+// Wrap: active | gray | active — prod flips the palette, dots stay on the
+// middle segment's boundaries either way.
+const first = ((wraps ? endDoy : startDoy) / 365) * 100;
+const last = ((365 - (wraps ? startDoy : endDoy)) / 365) * 100;
+const middle = 100 - first - last;
+
+const [tYear, tMonth, tDay] = today.split('-').map(Number);
+void tYear;
+const todayPos = (doy(tMonth, tDay) / 365) * 100;
+
+// Labels under the middle segment's dots: [start, end] normally; when wrapping
+// the left dot IS the end and the right dot the start (prod's wraps-year order).
+const leftLabel = wraps ? label(endMonth, endDay) : label(startMonth, startDay);
+const rightLabel = wraps ? label(startMonth, startDay) : label(endMonth, endDay);
+
+const CALENDAR =
+  '<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/>';
+---
+
+<div class="bcn-season-card">
+  <div class="bcn-season-card__header">
+    <span class="bcn-season-card__ident">
+      <span class="bcn-season-card__icon"><EsaIcon name="calendar" size="sm" paths={CALENDAR} /></span>
+      <span class="bcn-season-card__title">{name}</span>
+      <span class="bcn-season-card__dates">{label(startMonth, startDay)} – {label(endMonth, endDay)}</span>
+    </span>
+    <span class="bcn-season-card__actions"><slot name="actions" /></span>
+  </div>
+
+  <div class="bcn-season-card__timeline" data-wraps={wraps ? 'true' : undefined}>
+    <div class="bcn-season-card__segments">
+      <span class="bcn-season-card__seg bcn-season-card__seg--first" style={`width: ${first}%;`}></span>
+      <span class="bcn-season-card__seg bcn-season-card__seg--middle" style={`width: ${middle}%;`}></span>
+      <span class="bcn-season-card__seg bcn-season-card__seg--last" style={`width: ${last}%;`}></span>
+      <span class="bcn-season-card__today" style={`left: ${todayPos}%;`} title="Today"></span>
+    </div>
+    <div class="bcn-season-card__labels" style={`left: ${first}%; width: ${middle}%;`}>
+      <span>{leftLabel}</span>
+      <span>{rightLabel}</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Slim/dense + off-white (Andy, round 7): tight padding + compact type so 6+
+     season cards fit a laptop viewport, parted from the panel's white body. */
+  .bcn-season-card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-150) var(--spacing-250) var(--spacing-250);
+    background: var(--color-surface-sunken);
+    border: 1px solid var(--color-border); /* mid gray (round 7) */
+    border-radius: var(--radius-200);
+  }
+
+  .bcn-season-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    margin-bottom: var(--spacing-250);
+  }
+  .bcn-season-card__ident {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    min-width: 0;
+  }
+  .bcn-season-card__icon {
+    display: inline-flex;
+    color: var(--color-text-muted);
+  }
+  .bcn-season-card__title {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  /* Prod's teal range read-out (#0a6562) — the same value as --bcn-teal-800. */
+  .bcn-season-card__dates {
+    font-size: 0.8125rem; /* 13px — the meta floor */
+    font-weight: var(--font-weight-medium);
+    color: var(--bcn-teal-800, var(--color-secondary-hover));
+    white-space: nowrap;
+  }
+  .bcn-season-card__actions {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    flex-shrink: 0;
+  }
+
+  /* ── The year timeline ── */
+  .bcn-season-card__segments {
+    display: flex;
+    position: relative;
+    width: 100%;
+  }
+  .bcn-season-card__seg {
+    height: 2px;
+  }
+  /* Non-wrap: middle is the active span; wrap flips the palette. Inactive
+     segments read border-strong — the light hairline vanished on the off-white
+     card (round 7). */
+  .bcn-season-card__seg--middle {
+    position: relative;
+    background: var(--color-secondary);
+  }
+  .bcn-season-card__seg--first,
+  .bcn-season-card__seg--last {
+    background: var(--color-border-strong);
+  }
+  [data-wraps] .bcn-season-card__seg--middle {
+    background: var(--color-border-strong);
+  }
+  [data-wraps] .bcn-season-card__seg--first,
+  [data-wraps] .bcn-season-card__seg--last {
+    background: var(--color-secondary);
+  }
+  /* Boundary dots ride the middle segment's ends (prod's ::before/::after). */
+  .bcn-season-card__seg--middle::before,
+  .bcn-season-card__seg--middle::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: var(--color-secondary);
+  }
+  .bcn-season-card__seg--middle::before { left: -4px; }
+  .bcn-season-card__seg--middle::after { right: -4px; }
+
+  /* Today — the 2px brand-orange tick (an informational marker, not a severity;
+     ESA orange is the brand accent, per the status-color standard). */
+  .bcn-season-card__today {
+    position: absolute;
+    top: -3px;
+    width: 2px;
+    height: 8px;
+    background: var(--color-orange-400, #f9a134);
+  }
+
+  /* Date labels under the middle segment's dots. */
+  .bcn-season-card__labels {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacing-200);
+    margin-top: var(--spacing-200);
+    font-size: 0.8125rem; /* 13px — the meta floor */
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+</style>

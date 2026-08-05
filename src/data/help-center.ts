@@ -323,10 +323,14 @@ export const HELP_ARTICLES: HelpArticle[] = [
       {
         kind: 'steps',
         items: [
-          'Open any component and click the star in its header.',
-          'Starred components appear on the project dashboard in the Components section.',
+          'Star a component from the all-components list, or from the star in its own header.',
+          'Starred components appear on the project dashboard in the Components section, below the project-wide row.',
           'Un-star from either place; the component itself is unaffected.',
         ],
+      },
+      {
+        kind: 'p',
+        text: 'Stars are yours alone — starring a component does not change what anyone else sees. The Components section always leads with a project-wide row for actions that belong to the project rather than to any one component.',
       },
     ],
     related: ['what-is-a-component', 'reading-critical-now'],
@@ -335,19 +339,49 @@ export const HELP_ARTICLES: HelpArticle[] = [
     id: 'reading-critical-now',
     kind: 'howto',
     category: 'tracking',
-    title: 'How “Most critical right now” is chosen',
-    summary: 'Why an item earns a spot at the top of the dashboard.',
+    title: 'How the dashboard decides what needs attention',
+    summary: 'Urgency comes from action due dates, shown in the zone that owns the work.',
     blocks: [
       {
         kind: 'p',
-        text: 'The dashboard’s critical surface is deliberately small. It elevates only items that are project-critical today — an overdue action on a critical-path component, a lapsed survey blocking ground disturbance, a report due to an agency this week.',
+        text: 'Everything urgent on the dashboard is an action with a due date. Each action belongs to one of the three zones by its type — tracking, monitoring, or reporting — so a lapsed survey is a monitoring action and an agency submittal is a reporting action. There is no separate list of critical items to maintain.',
       },
       {
         kind: 'p',
-        text: 'An item leaves the surface when its underlying condition clears — the work is completed, the report is filed, or a review resolves the block. There is nothing to configure; the surface reads the same signals shown in each zone.',
+        text: 'The Tracking, Monitoring, and Reporting modules each count their own overdue actions and the ones due within the next fourteen days, then list the most urgent of them. Red means past due; amber means due soon. Clicking any of them opens the action itself.',
+      },
+      {
+        kind: 'p',
+        text: 'An action leaves the surface when it is completed or its due date moves. There is nothing to configure — the modules read the same action records you work with in each zone.',
       },
     ],
-    related: ['starring-components', 'site-clearance-go-no-go'],
+    related: ['starring-components', 'reading-project-timeline'],
+  },
+  {
+    id: 'reading-project-timeline',
+    kind: 'howto',
+    category: 'tracking',
+    title: 'Reading the project timeline',
+    summary: 'The next 30, 60, or 90 days of due dates, seasons, and milestones.',
+    blocks: [
+      {
+        kind: 'p',
+        text: 'The timeline across the top of the dashboard plots three things on one date axis: action due dates, season windows, and project milestones. It opens a week before today so anything already overdue stays in view.',
+      },
+      {
+        kind: 'steps',
+        items: [
+          'Switch the window between 30, 60, and 90 days to look further ahead.',
+          'Click any mark — a dot, a season bar, or a milestone — to pin its details open.',
+          'Seasons show the ones starting or ending inside the window first; use “Show all” when a project carries many.',
+        ],
+      },
+      {
+        kind: 'p',
+        text: 'Action dots follow the same colors as the modules: red for past due, amber for due soon, gray for later. Milestones are shown in blue because they mark schedule rather than urgency.',
+      },
+    ],
+    related: ['reading-critical-now', 'starring-components'],
   },
 
   // ═══ Monitoring ═══
@@ -779,8 +813,8 @@ export const HELP_ROUTE_CONTEXTS: HelpRouteContext[] = [
   {
     pattern: '/prototypes/project-dashboard',
     page: 'Project Dashboard',
-    purpose: 'Your project homepage — what is most critical right now, your starred components, and front doors into every zone of Beacon.',
-    howtos: ['starring-components', 'reading-critical-now', 'five-minute-tour'],
+    purpose: 'Your project homepage — what is due and overdue across Tracking, Monitoring, and Reporting, the timeline ahead, your starred components, and front doors into every zone of Beacon.',
+    howtos: ['reading-critical-now', 'reading-project-timeline', 'starring-components', 'five-minute-tour'],
     terms: ['what-is-a-component', 'what-is-an-action'],
   },
   {

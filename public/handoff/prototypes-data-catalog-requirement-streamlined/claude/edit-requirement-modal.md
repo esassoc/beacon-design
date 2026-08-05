@@ -425,6 +425,34 @@ The upsert surface — a fixed-size TWO-PANE esa-dialog matching the family geom
 
 ## Styles
 ```css
+.esa-collapsible__summary .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary, #404040);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
   --_btn-padding-x: var(--form-padding-x-md, 16px);
@@ -499,40 +527,8 @@ The upsert surface — a fixed-size TWO-PANE esa-dialog matching the family geom
 .esa-button--appearance-fill .esa-button__native:hover:not(:disabled) {
   background: var(--_accent-hover);
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.bcn-reqref__key .esa-icon {
-  --_icon-size: 11px;
-  color: var(--color-text-tertiary);
-  flex-shrink: 0;
-}
-.bcn-reqref__footer .esa-button--color-ghost .esa-button__native {
-  color: var(--color-secondary);
-}
-.bcn-reqref__footer .esa-icon {
-  --_icon-size: 13px;
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
 }
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
@@ -581,9 +577,6 @@ The upsert surface — a fixed-size TWO-PANE esa-dialog matching the family geom
 }
 .esa-icon-link__label {
   display: inline-block;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
 }
 .bcn-action__badge {
   flex-shrink: 0;
@@ -817,9 +810,16 @@ The upsert surface — a fixed-size TWO-PANE esa-dialog matching the family geom
   justify-content: flex-end;
   width: 100%;
 }
-.esa-collapsible__summary .esa-icon {
+.bcn-reqref__key .esa-icon {
+  --_icon-size: 11px;
+  color: var(--color-text-tertiary);
   flex-shrink: 0;
-  color: var(--color-text-secondary, #404040);
+}
+.bcn-reqref__footer .esa-button--color-ghost .esa-button__native {
+  color: var(--color-secondary);
+}
+.bcn-reqref__footer .esa-icon {
+  --_icon-size: 13px;
 }
 .bcn-search-trigger .esa-icon {
   flex: none;

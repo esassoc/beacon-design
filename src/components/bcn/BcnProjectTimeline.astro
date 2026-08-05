@@ -1,0 +1,720 @@
+---
+// <BcnProjectTimeline> — the full-width timeline under the project header
+// (product meeting, 2026-08-04: "people have specifically asked, can you see
+// this in a calendar… milestones, season dates, action due dates"). The meeting
+// settled the scope: keep it "slim, high level" — a TIMELINE (a date axis with
+// lanes), not a month grid, with a 30 / 60 / 90-day window. A separate calendar
+// page was tried and cut (Andy, round 11) — this surface covers the need.
+//
+// Three lanes, each a real record set:
+//   Actions    — PROJECT_ACTIONS due dates, dotted by derived urgency
+//   Seasons    — ProjectSeason windows as bars (clipped to the window)
+//   Milestones — Milestone.EstimatedDate as diamonds, in the INFORMATIONAL azure
+//                of the Beacon status standard (they mark schedule, not severity)
+//
+// Round 10 refinements:
+//   · Marks open a CLICK-PINNED POPOVER (not a hover tooltip) carrying the record
+//     — actions render as an action-implementation card: commitment badge, name,
+//     component, due date + relative timing, status, and a link to the action.
+//   · Action dots carry a padded hit area far larger than the 11px dot.
+//   · A project can hold 10–15 seasons, so the lane shows the ones whose start or
+//     end falls INSIDE the window first (the ones changing), capped, with a
+//     show-all toggle. Bars carry their date range; the popover adds source and
+//     related species.
+//
+// The window always opens 7 days BEFORE today so overdue actions stay visible.
+// Every position derives from the fixed TODAY — never Date.now() — and the client
+// controller re-lays the same DOM on toggle, so switching windows never refetches.
+//
+// bcn-lego-checked: no esa-* lego is a multi-lane date timeline — esa-progress-bar
+// is a single ratio and esa-range-slider is an input; esa-popover anchors to a
+// static trigger, not to runtime-positioned marks (checked). Beacon prod has no
+// project timeline. The window toggle IS esa-button-toggle and the badge is
+// bcn-commitment-badge. bcn-project-timeline is the reusable home.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import { PROJECT_ACTIONS, daysOut, urgencyOf, shortDate } from '../../data/project-actions';
+import { MILESTONES, SEASON_GROUPS } from '../../data/project-data';
+import { withBase } from '../../lib/base';
+
+// Every item carries its raw dates; the controller positions them per window.
+const actions = PROJECT_ACTIONS.map((a) => ({
+  code: a.code,
+  name: a.name,
+  type: a.type,
+  where: a.where,
+  status: a.status,
+  day: daysOut(a.dueDate),
+  urgency: urgencyOf(a),
+  date: shortDate(a.dueDate),
+  href: a.href.startsWith('/') ? withBase(a.href) : a.href,
+}));
+
+const milestones = MILESTONES.map((m) => ({
+  name: m.name,
+  description: m.description,
+  day: daysOut(m.estimatedDate),
+  date: shortDate(m.estimatedDate),
+}));
+
+const seasons = SEASON_GROUPS.flatMap((g) =>
+  g.seasons.map((s) => ({
+    name: s.name,
+    group: g.group,
+    source: s.source,
+    species: s.species,
+    startMonth: s.startMonth,
+    startDay: s.startDay,
+    endMonth: s.endMonth,
+    endDay: s.endDay,
+  }))
+);
+
+const payload = { actions, milestones, seasons };
+---
+
+<EsaCard title="Timeline">
+  <div slot="actions" class="bcn-tl__head">
+    <esa-button-toggle id="bcn-tl-window" value="30" size="sm"></esa-button-toggle>
+  </div>
+
+  <div class="bcn-tl" data-bcn-timeline>
+    <!-- Axis -->
+    <div class="bcn-tl__row bcn-tl__row--axis">
+      <span class="bcn-tl__lane-label"></span>
+      <div class="bcn-tl__track" data-tl-axis>
+        <span class="bcn-tl__today" data-tl-today><span class="bcn-tl__today-flag">Today</span></span>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="bcn-tl__row">
+      <span class="bcn-tl__lane-label">Actions</span>
+      <div class="bcn-tl__track bcn-tl__track--items" data-tl-lane="actions">
+        <span class="bcn-tl__rule"></span>
+      </div>
+    </div>
+
+    <!-- Seasons -->
+    <div class="bcn-tl__row bcn-tl__row--bars">
+      <span class="bcn-tl__lane-label">Seasons</span>
+      <div class="bcn-tl__track bcn-tl__track--bars" data-tl-lane="seasons"></div>
+    </div>
+    <div class="bcn-tl__row bcn-tl__row--more">
+      <span class="bcn-tl__lane-label"></span>
+      <button class="bcn-tl__showall" type="button" data-tl-showall hidden></button>
+    </div>
+
+    <!-- Milestones -->
+    <div class="bcn-tl__row">
+      <span class="bcn-tl__lane-label">Milestones</span>
+      <div class="bcn-tl__track bcn-tl__track--items" data-tl-lane="milestones">
+        <span class="bcn-tl__rule"></span>
+      </div>
+    </div>
+
+    <p class="bcn-tl__empty" data-tl-empty hidden>Nothing scheduled in this window.</p>
+
+    <!-- One click-pinned popover, repositioned per mark. -->
+    <div class="bcn-tl__pop" data-tl-pop hidden role="dialog" aria-label="Timeline detail"></div>
+  </div>
+
+  <script type="application/json" data-tl-data set:html={JSON.stringify(payload)}></script>
+</EsaCard>
+
+<script>
+  import '@esa/ecology/esa-button-toggle';
+
+  interface TlAction {
+    code: string;
+    name: string;
+    type: string;
+    where: string;
+    status: string;
+    day: number;
+    urgency: string;
+    date: string;
+    href: string;
+  }
+  interface TlMilestone { name: string; description: string; day: number; date: string }
+  interface TlSeason {
+    name: string;
+    group: string;
+    source: string;
+    species: string[];
+    startMonth: number;
+    startDay: number;
+    endMonth: number;
+    endDay: number;
+  }
+
+  const root = document.querySelector<HTMLElement>('[data-bcn-timeline]');
+  if (root) {
+    const data = JSON.parse(
+      document.querySelector<HTMLElement>('[data-tl-data]')!.textContent || '{}'
+    ) as { actions: TlAction[]; milestones: TlMilestone[]; seasons: TlSeason[] };
+
+    // The window opens LOOKBACK days before today so overdue work stays visible.
+    const LOOKBACK = 7;
+    // Seasons shown before the show-all toggle (a project can carry 10–15).
+    const SEASON_CAP = 4;
+    let forward = 30;
+    let showAllSeasons = false;
+
+    const axis = root.querySelector<HTMLElement>('[data-tl-axis]')!;
+    const todayEl = root.querySelector<HTMLElement>('[data-tl-today]')!;
+    const emptyEl = root.querySelector<HTMLElement>('[data-tl-empty]')!;
+    const popEl = root.querySelector<HTMLElement>('[data-tl-pop]')!;
+    const showAllBtn = root.querySelector<HTMLButtonElement>('[data-tl-showall]')!;
+    const lanes = {
+      actions: root.querySelector<HTMLElement>('[data-tl-lane="actions"]')!,
+      seasons: root.querySelector<HTMLElement>('[data-tl-lane="seasons"]')!,
+      milestones: root.querySelector<HTMLElement>('[data-tl-lane="milestones"]')!,
+    };
+
+    const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    // TODAY, mirrored from the fixture — the axis's origin.
+    const TODAY = '2026-03-25';
+    const [ty, tm, td] = TODAY.split('-').map(Number);
+    const todayMs = Date.UTC(ty, tm - 1, td);
+    const labelFor = (day: number) => {
+      const d = new Date(todayMs + day * 86_400_000);
+      return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}`;
+    };
+    const esc = (s: string) =>
+      s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+    /**
+     * Seasons recur annually, so resolve the OCCURRENCE that overlaps this
+     * window — matching start and end as a pair (a wrap-year season like
+     * Nov 1 – Mar 31 belongs to the span straddling today, not to whichever
+     * single date lands nearest).
+     */
+    const dayOf = (yearShift: number, month: number, dayOfMonth: number) =>
+      Math.round((Date.UTC(ty + yearShift, month - 1, dayOfMonth) - todayMs) / 86_400_000);
+
+    const seasonSpan = (s: TlSeason, from: number, to: number): [number, number] | null => {
+      for (const shift of [-1, 0, 1]) {
+        const start = dayOf(shift, s.startMonth, s.startDay);
+        let end = dayOf(shift, s.endMonth, s.endDay);
+        if (end < start) end += 365; // wraps the year end
+        if (end >= from && start <= to) return [start, end];
+      }
+      return null;
+    };
+
+    const pct = (day: number) => ((day + LOOKBACK) / (LOOKBACK + forward)) * 100;
+
+    // ── The click-pinned popover ──────────────────────────────────────────────
+    // esa-card clips its body (overflow: hidden), so the popover is moved to
+    // document.body and positioned FIXED — otherwise it gets cut off at the card
+    // edge (Andy, round 11).
+    document.body.appendChild(popEl);
+    let pinned: HTMLElement | null = null;
+
+    function closePop(): void {
+      popEl.hidden = true;
+      pinned?.removeAttribute('data-pinned');
+      pinned = null;
+    }
+
+    function positionPop(mark: HTMLElement): void {
+      const m = mark.getBoundingClientRect();
+      const w = popEl.offsetWidth;
+      const h = popEl.offsetHeight;
+      const left = Math.max(8, Math.min(m.left + m.width / 2 - w / 2, window.innerWidth - w - 8));
+      // Flip above the mark when there isn't room below.
+      const below = m.bottom + 8;
+      const top = below + h > window.innerHeight - 8 ? Math.max(8, m.top - h - 8) : below;
+      popEl.style.left = `${left}px`;
+      popEl.style.top = `${top}px`;
+    }
+
+    function openPop(mark: HTMLElement, html: string): void {
+      if (pinned === mark) return closePop();
+      pinned?.removeAttribute('data-pinned');
+      pinned = mark;
+      mark.setAttribute('data-pinned', 'true');
+      popEl.innerHTML = html;
+      popEl.hidden = false;
+      positionPop(mark);
+    }
+
+    // Keep the pinned popover attached to its mark while the page moves.
+    const reposition = () => {
+      if (!popEl.hidden && pinned) positionPop(pinned);
+    };
+    window.addEventListener('scroll', reposition, { passive: true });
+    window.addEventListener('resize', reposition);
+
+    document.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement;
+      if (!popEl.hidden && !popEl.contains(t) && !t.closest('[data-tl-mark]')) closePop();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closePop();
+    });
+
+    // ── Popover bodies, one per record kind ───────────────────────────────────
+    const timingOf = (day: number, date: string) =>
+      day < 0
+        ? `<span class="bcn-tl__pop-late">${Math.abs(day)} day${Math.abs(day) === 1 ? '' : 's'} overdue</span>`
+        : `Due in ${day} day${day === 1 ? '' : 's'}`;
+
+    const actionPop = (a: TlAction) => `
+      <div class="bcn-tl__pop-head">
+        <span class="bcn-cbadge bcn-cbadge--sm">${esc(a.code)}</span>
+        <span class="bcn-tl__pop-type">${esc(a.type)}</span>
+      </div>
+      <p class="bcn-tl__pop-title">${esc(a.name)}</p>
+      <dl class="bcn-tl__pop-facts">
+        <div><dt>Component</dt><dd>${esc(a.where)}</dd></div>
+        <div><dt>Due date</dt><dd>${esc(a.date)} · ${timingOf(a.day, a.date)}</dd></div>
+        <div><dt>Status</dt><dd>${esc(a.status)}</dd></div>
+      </dl>
+      <a class="bcn-tl__pop-link" href="${a.href}">Open action</a>`;
+
+    const seasonPop = (s: TlSeason, span: [number, number]) => `
+      <div class="bcn-tl__pop-head">
+        <span class="bcn-tl__pop-type">${esc(s.group)}</span>
+      </div>
+      <p class="bcn-tl__pop-title">${esc(s.name)}</p>
+      <dl class="bcn-tl__pop-facts">
+        <div><dt>Window</dt><dd>${labelFor(span[0])} – ${labelFor(span[1])}</dd></div>
+        <div><dt>Source</dt><dd>${esc(s.source)}</dd></div>
+      </dl>
+      ${
+        s.species.length
+          ? `<div class="bcn-tl__pop-species">${s.species
+              .map((sp) => `<span class="bcn-tl__pop-chip">${esc(sp)}</span>`)
+              .join('')}</div>`
+          : ''
+      }`;
+
+    const milestonePop = (m: TlMilestone) => `
+      <div class="bcn-tl__pop-head"><span class="bcn-tl__pop-type">Milestone</span></div>
+      <p class="bcn-tl__pop-title">${esc(m.name)}</p>
+      <dl class="bcn-tl__pop-facts">
+        <div><dt>Estimated date</dt><dd>${esc(m.date)}</dd></div>
+        <div><dt>Description</dt><dd>${esc(m.description)}</dd></div>
+      </dl>`;
+
+    function render(): void {
+      closePop();
+      const from = -LOOKBACK;
+      const to = forward;
+      let shown = 0;
+
+      // ── Axis ticks ── skip day 0: the Today flag already labels it.
+      axis.querySelectorAll('.bcn-tl__tick').forEach((n) => n.remove());
+      const step = forward <= 30 ? 7 : forward <= 60 ? 14 : 30;
+      const days = [from];
+      for (let d = step; d <= to; d += step) days.push(d);
+      days.forEach((d) => {
+        const tick = document.createElement('span');
+        tick.className = 'bcn-tl__tick';
+        tick.style.left = `${pct(d)}%`;
+        tick.textContent = labelFor(d);
+        axis.appendChild(tick);
+      });
+      todayEl.style.left = `${pct(0)}%`;
+
+      // ── Actions ──
+      lanes.actions.querySelectorAll('.bcn-tl__item').forEach((n) => n.remove());
+      data.actions
+        .filter((a) => a.day >= from && a.day <= to)
+        .forEach((a) => {
+          const el = document.createElement('button');
+          el.className = 'bcn-tl__item';
+          el.type = 'button';
+          el.dataset.tlMark = 'action';
+          el.dataset.urgency = a.urgency;
+          el.style.left = `${pct(a.day)}%`;
+          el.setAttribute('aria-label', `${a.code} ${a.name}, due ${a.date}`);
+          el.innerHTML = '<span class="bcn-tl__dot"></span>';
+          el.addEventListener('click', () => openPop(el, actionPop(a)));
+          lanes.actions.appendChild(el);
+          shown++;
+        });
+
+      // ── Seasons ── the ones CHANGING in this window lead; the rest hide
+      //    behind the show-all toggle (a project can carry 10–15).
+      lanes.seasons.querySelectorAll('.bcn-tl__bar').forEach((n) => n.remove());
+      const inWindow = data.seasons
+        .map((s) => ({ s, span: seasonSpan(s, from, to) }))
+        .filter((x): x is { s: TlSeason; span: [number, number] } => x.span !== null);
+      // A boundary inside the window = the season starts or ends here.
+      const changing = inWindow.filter(({ span }) => span[0] >= from || span[1] <= to);
+      const ranked = [
+        ...changing.sort((a, b) => {
+          const aEdge = a.span[0] >= from ? a.span[0] : a.span[1];
+          const bEdge = b.span[0] >= from ? b.span[0] : b.span[1];
+          return aEdge - bEdge;
+        }),
+        ...inWindow.filter((x) => !changing.includes(x)),
+      ];
+      const visible = showAllSeasons ? ranked : ranked.slice(0, SEASON_CAP);
+
+      const ROW = 22;
+      visible.forEach(({ s, span }, i) => {
+        const a = Math.max(span[0], from);
+        const b = Math.min(span[1], to);
+        const bar = document.createElement('button');
+        bar.className = 'bcn-tl__bar';
+        bar.type = 'button';
+        bar.dataset.tlMark = 'season';
+        bar.style.left = `${pct(a)}%`;
+        bar.style.width = `${Math.max(pct(b) - pct(a), 1.5)}%`;
+        bar.style.top = `${i * ROW}px`;
+        bar.innerHTML =
+          `<span class="bcn-tl__bar-label">${esc(s.name)}</span>` +
+          `<span class="bcn-tl__bar-dates">${labelFor(span[0])} – ${labelFor(span[1])}</span>`;
+        bar.addEventListener('click', () => openPop(bar, seasonPop(s, span)));
+        lanes.seasons.appendChild(bar);
+        shown++;
+      });
+      lanes.seasons.style.height = `${Math.max(visible.length, 1) * ROW}px`;
+
+      const hidden = ranked.length - visible.length;
+      showAllBtn.hidden = ranked.length <= SEASON_CAP;
+      showAllBtn.textContent = showAllSeasons
+        ? 'Show fewer seasons'
+        : `Show all ${ranked.length} seasons`;
+      void hidden;
+
+      // ── Milestones ──
+      lanes.milestones.querySelectorAll('.bcn-tl__item').forEach((n) => n.remove());
+      data.milestones
+        .filter((m) => m.day >= from && m.day <= to)
+        .forEach((m) => {
+          const el = document.createElement('button');
+          el.className = 'bcn-tl__item bcn-tl__item--ms';
+          el.type = 'button';
+          el.dataset.tlMark = 'milestone';
+          el.style.left = `${pct(m.day)}%`;
+          el.setAttribute('aria-label', `${m.name}, ${m.date}`);
+          el.innerHTML = '<span class="bcn-tl__diamond"></span>';
+          el.addEventListener('click', () => openPop(el, milestonePop(m)));
+          lanes.milestones.appendChild(el);
+          shown++;
+        });
+
+      emptyEl.hidden = shown > 0;
+    }
+
+    showAllBtn.addEventListener('click', () => {
+      showAllSeasons = !showAllSeasons;
+      render();
+    });
+
+    const toggle = document.getElementById('bcn-tl-window') as HTMLElement & {
+      options: { value: string; label: string }[];
+      value: string;
+    };
+    if (toggle) {
+      toggle.options = [
+        { value: '30', label: '30 days' },
+        { value: '60', label: '60 days' },
+        { value: '90', label: '90 days' },
+      ];
+      toggle.value = '30';
+      toggle.addEventListener('change', (e) => {
+        forward = Number((e as CustomEvent).detail?.value ?? toggle.value ?? 30);
+        render();
+      });
+    }
+
+    render();
+  }
+</script>
+
+<style>
+  .bcn-tl__head {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-400);
+  }
+  .bcn-tl__full {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .bcn-tl__full:hover { color: var(--color-primary-hover); }
+
+  .bcn-tl {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-250);
+  }
+
+  .bcn-tl__row {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+  .bcn-tl__row--bars { align-items: start; }
+  .bcn-tl__row--more { margin-top: calc(var(--spacing-250) * -1); }
+  .bcn-tl__lane-label {
+    font-size: 0.8125rem; /* 13px — meta floor */
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+  }
+
+  .bcn-tl__track {
+    position: relative;
+    height: 30px;
+  }
+  .bcn-tl__row--axis .bcn-tl__track { height: 20px; }
+  /* Seasons: one row per bar — the controller sets the height. */
+  .bcn-tl__track--bars { height: 22px; }
+
+  .bcn-tl__rule {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: var(--color-border);
+  }
+
+  .bcn-tl__today {
+    position: absolute;
+    top: 0;
+    bottom: -170px; /* runs down through the lanes */
+    width: 2px;
+    background: var(--color-orange-400, #f9a134);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .bcn-tl__today-flag {
+    position: absolute;
+    top: -2px;
+    left: 4px;
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-orange-400, #f9a134);
+  }
+
+  .bcn-tl__showall {
+    justify-self: start;
+    padding: 0;
+    font-family: inherit;
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+  .bcn-tl__showall:hover { color: var(--color-primary-hover); }
+
+  .bcn-tl__empty {
+    margin: 0;
+    font-size: var(--type-size-150);
+    color: var(--color-text-tertiary);
+  }
+
+  /* ── JS-INJECTED NODES ──
+     The controller builds ticks, marks, and bars at runtime, and Astro's scoped
+     styles never reach nodes created after render. Everything below is :global(),
+     nested under the component root so it stays contained. */
+  .bcn-tl :global(.bcn-tl__tick) {
+    position: absolute;
+    top: 2px;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
+  /* Action / milestone marks — a padded hit area far larger than the glyph
+     (Andy, round 10: "make those dots bigger click targets"). */
+  .bcn-tl :global(.bcn-tl__item) {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    border-radius: var(--radius-full);
+  }
+  .bcn-tl :global(.bcn-tl__item:hover),
+  .bcn-tl :global(.bcn-tl__item[data-pinned]) {
+    background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  }
+  .bcn-tl :global(.bcn-tl__item:focus-visible) {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+
+  .bcn-tl :global(.bcn-tl__dot) {
+    display: block;
+    width: 11px;
+    height: 11px;
+    border-radius: var(--radius-full);
+    background: var(--color-border-strong);
+    border: 2px solid var(--color-surface);
+    box-shadow: 0 0 0 1px var(--color-border);
+  }
+  .bcn-tl :global([data-urgency='overdue'] .bcn-tl__dot) {
+    background: var(--color-danger);
+    box-shadow: none;
+  }
+  .bcn-tl :global([data-urgency='due-soon'] .bcn-tl__dot) {
+    background: var(--color-warning);
+    box-shadow: none;
+  }
+
+  /* Milestones read INFORMATIONAL azure per the Beacon status standard — they
+     mark schedule, not severity, so they must not borrow the urgency palette. */
+  .bcn-tl :global(.bcn-tl__diamond) {
+    display: block;
+    width: 11px;
+    height: 11px;
+    background: var(--color-info);
+    transform: rotate(45deg);
+  }
+
+  /* Season bars — the season-card's teal grammar, carrying their dates. */
+  .bcn-tl :global(.bcn-tl__bar) {
+    position: absolute;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: 0 var(--spacing-150);
+    background: color-mix(in srgb, var(--color-secondary) 16%, var(--color-surface));
+    border: 1px solid color-mix(in srgb, var(--color-secondary) 40%, var(--color-surface));
+    border-radius: var(--radius-100);
+    overflow: hidden;
+    cursor: pointer;
+    text-align: left;
+  }
+  .bcn-tl :global(.bcn-tl__bar:hover),
+  .bcn-tl :global(.bcn-tl__bar[data-pinned]) {
+    background: color-mix(in srgb, var(--color-secondary) 26%, var(--color-surface));
+  }
+  .bcn-tl :global(.bcn-tl__bar-label) {
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--bcn-teal-800, var(--color-secondary-hover));
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bcn-tl :global(.bcn-tl__bar-dates) {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+  }
+
+  /* ── The click-pinned popover ──
+     Moved to document.body (esa-card clips its body), so these selectors are
+     GLOBAL and unnested — the popover is no longer a descendant of .bcn-tl. */
+  :global(.bcn-tl__pop) {
+    position: fixed;
+    z-index: 5;
+    width: 19rem;
+    max-width: calc(100% - 16px);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-250);
+    padding: var(--spacing-350, var(--spacing-300)) var(--spacing-400);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    box-shadow: var(--shadow-300, 0 8px 24px -6px rgba(0, 0, 0, 0.18));
+  }
+  :global(.bcn-tl__pop[hidden]) { display: none; }
+
+  :global(.bcn-tl__pop-head) {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+  }
+  :global(.bcn-tl__pop-type) {
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-tertiary);
+    text-transform: capitalize;
+  }
+  :global(.bcn-tl__pop-title) {
+    margin: 0;
+    font-size: var(--type-size-200);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    line-height: var(--line-height-tight);
+  }
+  :global(.bcn-tl__pop-facts) {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  :global(.bcn-tl__pop-facts div) {
+    display: grid;
+    grid-template-columns: 6.5rem 1fr;
+    gap: var(--spacing-200);
+  }
+  :global(.bcn-tl__pop-facts dt) {
+    font-size: 0.8125rem;
+    color: var(--color-text-tertiary);
+  }
+  :global(.bcn-tl__pop-facts dd) {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--color-text-primary);
+  }
+  :global(.bcn-tl__pop-late) {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-danger);
+  }
+  :global(.bcn-tl__pop-species) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-150);
+  }
+  :global(.bcn-tl__pop-chip) {
+    padding: 1px var(--spacing-200);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    background: var(--color-surface-sunken);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-100);
+  }
+  :global(.bcn-tl__pop-link) {
+    align-self: flex-start;
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+  /* The popover's commitment badge is bcn-commitment-badge's markup, injected at
+     runtime — restate it here since the badge component's scoped CSS can't reach it. */
+  :global(.bcn-tl__pop .bcn-cbadge) {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-commitment);
+    background: color-mix(in srgb, var(--color-commitment) 12%, white);
+    border-radius: var(--radius-100);
+    font-size: 0.75rem;
+    padding: 1px var(--spacing-150);
+  }
+
+  @media (max-width: 720px) {
+    .bcn-tl__row { grid-template-columns: 4rem 1fr; }
+  }
+</style>

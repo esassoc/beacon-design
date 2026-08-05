@@ -12,15 +12,21 @@
 // Beacon (prod shows these on scattered tabs). bcn-project-facts is the reusable
 // home; it reinvents no primitive.
 import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
 import type { ProjectFact } from '../../data/project-dashboard';
+
+const PAPERCLIP =
+  '<path d="M13.234 20.252 21 12.3"/><path d="m16 6-8.414 8.586a2 2 0 0 0 0 2.828 2 2 0 0 0 2.828 0l8.414-8.586a4 4 0 0 0 0-5.656 4 4 0 0 0-5.656 0l-8.415 8.585a6 6 0 1 0 8.486 8.486"/>';
 
 interface Props {
   facts: ProjectFact[];
   /** The project description — moved here from the header (Andy, round 4), small type. */
   description?: string;
+  /** Project.Files — quiet attachment rows below the facts (Andy, round 6). */
+  files?: string[];
   title?: string;
 }
-const { facts, description, title = 'Project details' } = Astro.props;
+const { facts, description, files = [], title = 'Project details' } = Astro.props;
 ---
 
 <EsaCard title={title}>
@@ -35,6 +41,18 @@ const { facts, description, title = 'Project details' } = Astro.props;
       ))
     }
   </dl>
+  {
+    files.length > 0 && (
+      <ul class="bcn-pf__files">
+        {files.map((f) => (
+          <li class="bcn-pf__file">
+            <EsaIcon name="paperclip" size="sm" paths={PAPERCLIP} />
+            <span class="bcn-pf__file-name">{f}</span>
+          </li>
+        ))}
+      </ul>
+    )
+  }
 </EsaCard>
 
 <style>
@@ -67,5 +85,30 @@ const { facts, description, title = 'Project details' } = Astro.props;
     font-size: var(--type-size-200);
     font-weight: var(--font-weight-semibold);
     color: var(--color-text-primary);
+  }
+
+  /* Project.Files — quiet attachment rows, divided from the facts. */
+  .bcn-pf__files {
+    list-style: none;
+    margin: 0;
+    padding: var(--spacing-250) 0 0;
+    border-top: 1px solid var(--color-border-light);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .bcn-pf__file {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    color: var(--color-text-muted);
+    min-width: 0;
+  }
+  .bcn-pf__file-name {
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 </style>

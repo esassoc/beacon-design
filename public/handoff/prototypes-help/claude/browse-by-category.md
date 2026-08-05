@@ -215,6 +215,19 @@ The curated browse surface: one spacious card per category (seven), each a PREVI
 
 ## Styles
 ```css
+.type-section-title {
+  font-family: var(--font-display, var(--font-sans));
+  font-size: var(--type-size-500);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+}
+.type-card-title {
+  font-size: var(--type-size-400);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
 .bcn-kbc {
   display: flex;
   flex-direction: column;
@@ -298,19 +311,6 @@ The curated browse surface: one spacious card per category (seven), each a PREVI
 }
 .bcn-kbc__viewall-arrow {
   transition: transform 0.15s ease;
-}
-.type-section-title {
-  font-family: var(--font-display, var(--font-sans));
-  font-size: var(--type-size-500);
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-tight);
-  letter-spacing: var(--letter-spacing-tight);
-}
-.type-card-title {
-  font-size: var(--type-size-400);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-normal);
-  letter-spacing: var(--letter-spacing-normal);
 }
 ```
 

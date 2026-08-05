@@ -1,0 +1,217 @@
+---
+// <BcnProjectMap> — the project's footprint as an inset map in the right rail,
+// with an expand-to-modal for the real thing (Andy, round 9; product meeting
+// 2026-08-04: "we have a map and it's not very useful yet, but I think it can
+// be" / "we don't even have a footprint geometry").
+//
+// This answers the geometry problem with REAL data already in the repo:
+// src/data/dcp-geo.json is derived from the 231 real DCP geotech exploration
+// coordinates (the client KMZ) — a latitude-binned centerline through the
+// conveyance corridor, buffered ~2.4 km each side into a boundary polygon. It
+// stands in for the boundary a project will UPLOAD once the spatial-data epic
+// lands (KMZ / shapefile / GDB — Stewart's epic, agreed 2026-08-03), which is
+// why the card names its own source and offers the upload affordance. The map
+// shows the FOOTPRINT only — component markers were cut (round 12).
+//
+// The inset is non-interactive (no drag/zoom — it reads as a picture of the
+// project); the modal map is fully interactive with the same layers. ONE Leaflet
+// instance per surface, the modal's created lazily on first open so it measures
+// a visible container.
+//
+// bcn-lego-checked: the modal frame IS esa-dialog and the expand control IS
+// esa-icon-button; no esa-* lego renders a map (Ecology has no map component,
+// checked). Beacon prod has a map but as an Angular/Leaflet page, ported here in
+// the repo's established Leaflet idiom (site-clearance / permit-tracking +
+// styles/beacon-map.css). bcn-project-map is the reusable home.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import '../../styles/beacon-map.css';
+import geo from '../../data/dcp-geo.json';
+import { PROJECT, BOUNDARY_SOURCE } from '../../data/project-dashboard';
+
+const payload = { boundary: geo.boundary, alignment: geo.alignment };
+---
+
+<EsaCard title="Project area">
+  <!-- The lego doesn't forward `id`, so the host span carries it (repo idiom). -->
+  <span slot="actions" id="bcn-map-expand">
+    <EsaIconButton icon="expand" label="Expand map" size="sm" />
+  </span>
+
+  <div class="bcn-map">
+    <div class="bcn-map__inset" id="bcn-map-inset" role="img" aria-label={`${PROJECT.name} boundary map`}></div>
+    <!-- The boundary's SOURCE is a field, not a caption: today it names the
+         derivation, and once the spatial-data epic lands it names the uploaded
+         file (DCP_Boundary.kmz) in the same slot. -->
+    <p class="bcn-map__source">
+      <span class="bcn-map__source-label">Boundary source</span>
+      <span class="bcn-map__source-value">{BOUNDARY_SOURCE}</span>
+    </p>
+  </div>
+</EsaCard>
+
+<esa-dialog id="bcn-map-dialog" heading="Project area" size="lg" style="--z-modal: 1300; --z-modal-backdrop: 1250;">
+  <div class="bcn-map__full" id="bcn-map-full"></div>
+  <span slot="footer" class="bcn-map__foot">
+    <span class="bcn-map__legend">
+      <span class="bcn-map__key bcn-map__key--boundary"></span> Project boundary
+      <span class="bcn-map__key bcn-map__key--align"></span> Tunnel alignment
+    </span>
+    <EsaButton color="ghost" appearance="outline" size="sm">Upload boundary</EsaButton>
+  </span>
+</esa-dialog>
+
+<script type="application/json" id="bcn-map-data" set:html={JSON.stringify(payload)}></script>
+
+<script>
+  import L from 'leaflet';
+  import 'leaflet/dist/leaflet.css';
+  import '@esa/ecology/esa-dialog';
+
+  interface MapPayload {
+    boundary: { type: 'Polygon'; coordinates: number[][][] };
+    alignment: { type: 'LineString'; coordinates: number[][] };
+  }
+
+  const dataEl = document.getElementById('bcn-map-data');
+  if (dataEl) {
+    const data: MapPayload = JSON.parse(dataEl.textContent || '{}');
+
+    // Semantic tokens resolved once — Leaflet paths take literal colors.
+    const css = getComputedStyle(document.documentElement);
+    const teal = css.getPropertyValue('--color-secondary').trim() || '#00918b';
+    const primary = css.getPropertyValue('--color-primary').trim() || '#005862';
+
+    const basemap = () =>
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; OpenStreetMap &copy; CARTO',
+        maxZoom: 19,
+      });
+
+    /**
+     * Draw the boundary + alignment; returns the layer bounds. Component markers
+     * were removed (Andy, round 12) — four dots on a corridor read as noise, and
+     * the map's job here is the project's FOOTPRINT.
+     */
+    function draw(map: L.Map, interactive: boolean): L.LatLngBounds {
+      const boundary = L.geoJSON(data.boundary as never, {
+        style: { color: primary, weight: 1.5, fillColor: teal, fillOpacity: 0.12 },
+        interactive,
+      }).addTo(map);
+
+      L.geoJSON(data.alignment as never, {
+        style: { color: teal, weight: 2, dashArray: '4 4' },
+        interactive: false,
+      }).addTo(map);
+
+      return boundary.getBounds();
+    }
+
+    // Leaflet needs a view BEFORE any layer is added — seed with the corridor's
+    // center, then fit to the drawn bounds.
+    const SEED: [number, number] = [38.09, -121.47];
+
+    // ── Inset: a picture of the project, no interaction ──
+    const insetEl = document.getElementById('bcn-map-inset');
+    if (insetEl) {
+      const inset = L.map(insetEl, {
+        zoomControl: false,
+        attributionControl: false,
+        dragging: false,
+        scrollWheelZoom: false,
+        doubleClickZoom: false,
+        boxZoom: false,
+        keyboard: false,
+        touchZoom: false,
+      }).setView(SEED, 9);
+      basemap().addTo(inset);
+      inset.fitBounds(draw(inset, false), { padding: [10, 10] });
+    }
+
+    // ── Modal: the interactive map, built on first open ──
+    const dialog = document.getElementById('bcn-map-dialog') as HTMLElement & {
+      open: boolean;
+      show?: () => void;
+    };
+    let full: L.Map | null = null;
+    document.getElementById('bcn-map-expand')?.addEventListener('click', () => {
+      if (dialog.show) dialog.show();
+      else dialog.open = true;
+      requestAnimationFrame(() => {
+        if (!full) {
+          full = L.map('bcn-map-full', { zoomControl: true, scrollWheelZoom: true }).setView(SEED, 9);
+          basemap().addTo(full);
+          full.fitBounds(draw(full, true), { padding: [24, 24] });
+        } else {
+          full.invalidateSize();
+        }
+      });
+    });
+  }
+</script>
+
+<style>
+  .bcn-map { display: flex; flex-direction: column; gap: var(--spacing-200); }
+
+  /* Inset — a fixed band that reads as a picture of the project. */
+  .bcn-map__inset {
+    height: 180px;
+    border-radius: var(--radius-200);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+    background: var(--color-surface-sunken);
+  }
+  .bcn-map__source {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    margin: 0;
+    font-size: 0.8125rem; /* 13px — meta floor */
+  }
+  .bcn-map__source-label { color: var(--color-text-tertiary); }
+  .bcn-map__source-value {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+  }
+
+  /* Modal map — tall enough to actually read the corridor. */
+  .bcn-map__full {
+    height: min(70vh, 620px);
+    width: 100%;
+    border-radius: var(--radius-200);
+    overflow: hidden;
+  }
+
+  .bcn-map__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .bcn-map__legend {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+  }
+  .bcn-map__key {
+    width: 14px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .bcn-map__key--boundary {
+    background: color-mix(in srgb, var(--color-secondary) 20%, transparent);
+    border: 1px solid var(--color-primary);
+  }
+  .bcn-map__key--align {
+    height: 0;
+    border-top: 2px dashed var(--color-secondary);
+    border-radius: 0;
+  }
+  .bcn-map__key + .bcn-map__key { margin-left: var(--spacing-300); }
+</style>

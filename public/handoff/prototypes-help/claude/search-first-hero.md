@@ -737,30 +737,6 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
   -webkit-appearance: none;
   appearance: none;
 }
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-}
-.center {
-  --center-max: 72rem;
-  max-inline-size: var(--center-max);
-  margin-inline: auto;
-}
-.type-page-title {
-  font-family: var(--font-display, var(--font-sans));
-  font-size: var(--type-size-600);
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-tight);
-  letter-spacing: var(--letter-spacing-tight);
-}
-.type-body {
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-relaxed);
-  letter-spacing: var(--letter-spacing-normal);
-}
 .bcn-kb-hero {
   padding-block: var(--spacing-500) var(--spacing-400);
 }
@@ -842,6 +818,30 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
 }
 .bcn-kb-hero__whatsnew-arrow {
   transition: transform 0.15s ease;
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+.center {
+  --center-max: 72rem;
+  max-inline-size: var(--center-max);
+  margin-inline: auto;
+}
+.type-page-title {
+  font-family: var(--font-display, var(--font-sans));
+  font-size: var(--type-size-600);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+}
+.type-body {
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-relaxed);
+  letter-spacing: var(--letter-spacing-normal);
 }
 .bcn-search-trigger .esa-icon {
   flex: none;

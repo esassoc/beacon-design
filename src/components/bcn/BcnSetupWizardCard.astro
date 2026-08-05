@@ -1,0 +1,207 @@
+---
+// <BcnSetupWizardCard> — the Setup Wizard as a slim, full-width four-step card.
+// It sits outside the module row because it isn't a work area: it's the
+// project's SETUP PIPELINE, and it reads best in the wizard's own shape.
+//
+// Each step is COLOR-CODED to its entity from Beacon's setup ramp — Source
+// Documents navy, Commitments purple, Requirements magenta, Actions pink
+// (--color-source / --color-commitment / --color-requirement / --color-action,
+// already global tokens, and the same colors the wizard homepage numbers its
+// steps in). The step's tint, rule, and numeral all read that one token.
+//
+// Each step carries its own ROLLUP (Andy, round 11) — counts of real records at
+// that step: documents created; commitments created/approved; requirements
+// created/approved; and for Actions the un-triaged figure that matters most,
+// requirements not yet carried into any action. Never "actions to create" — how
+// many actions a requirement becomes isn't knowable until triage.
+//
+// bcn-lego-checked: no esa-* lego is a horizontal step pipeline — esa-progress-bar
+// is a single ratio, esa-breadcrumbs is path navigation, and the catalog has no
+// stepper (checked). Beacon prod has the wizard as a multi-page flow, not a card.
+// bcn-setup-wizard-card is the reusable home and an esa-stepper promotion
+// candidate; the CTA is esa-button and the mark is esa-icon.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import { WIZARD_STEPS, WIZARD_HREF } from '../../data/project-dashboard';
+import { withBase } from '../../lib/base';
+
+const COMPASS =
+  '<path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"/><circle cx="12" cy="12" r="10"/>';
+const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href);
+---
+
+<section class="bcn-swc" aria-label="Setup Wizard">
+  <div class="bcn-swc__head">
+    <span class="bcn-swc__mark"><EsaIcon name="compass" size="md" paths={COMPASS} /></span>
+    <span class="bcn-swc__title">Setup Wizard</span>
+    <span class="bcn-swc__cta">
+      <EsaButton color="primary" href={linkHref(WIZARD_HREF)}>Continue setup</EsaButton>
+    </span>
+  </div>
+
+  <ol class="bcn-swc__steps">
+    {
+      WIZARD_STEPS.map((s) => (
+        <li class="bcn-swc__step" style={`--_step: var(--color-${s.token});`}>
+          <a class="bcn-swc__link" href={linkHref(s.href)}>
+            <span class="bcn-swc__label-row">
+              <span class="bcn-swc__n">{s.n}</span>
+              <span class="bcn-swc__label">{s.label}</span>
+            </span>
+            <dl class="bcn-swc__stats">
+              {s.stats.map((st) => (
+                <div class="bcn-swc__stat">
+                  <dt>
+                    {st.attention && <span class="bcn-swc__attn" aria-hidden="true" />}
+                    {st.label}
+                  </dt>
+                  <dd>{st.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+</section>
+
+<style>
+  .bcn-swc {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    padding: var(--spacing-500);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-300);
+  }
+
+  .bcn-swc__head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+  /* Prod wizard identity: teal circular compass mark + the serif title voice. */
+  .bcn-swc__mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    border-radius: var(--radius-full);
+    background: var(--bcn-teal-600, var(--color-secondary));
+    color: var(--color-text-inverse);
+  }
+  .bcn-swc__title {
+    font-family: var(--font-decorative, var(--font-sans));
+    font-weight: var(--font-weight-bold);
+    font-size: var(--type-size-300);
+    color: var(--color-text-primary);
+  }
+  .bcn-swc__cta { margin-left: auto; flex-shrink: 0; }
+
+  /* The four steps, each tinted and numbered in its entity color. */
+  .bcn-swc__steps {
+    list-style: none;
+    margin: 0;
+    padding: var(--spacing-400) 0 0;
+    border-top: 1px solid var(--color-border-light);
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--spacing-400);
+  }
+  @media (max-width: 820px) {
+    .bcn-swc__steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  .bcn-swc__step { min-width: 0; }
+
+  /* NEUTRAL cards — definition and separation come from the card, and the
+     COLORED NUMERAL alone carries the step's color coding (a colored border as a
+     category indicator is a banned pattern; the numeral is a badge). */
+  .bcn-swc__link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    min-width: 0;
+    height: 100%;
+    padding: var(--spacing-400);
+    background: var(--color-surface-sunken);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 150ms ease;
+  }
+  .bcn-swc__link:hover { border-color: var(--color-border-strong); }
+  .bcn-swc__link:hover .bcn-swc__label { color: var(--_step); }
+
+  /* Two-line min-height so a wrapping label ("Source Documents") doesn't push
+     its stats out of line with the other steps. */
+  .bcn-swc__label-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-250);
+    min-width: 0;
+    min-height: 2.75rem;
+  }
+  .bcn-swc__n {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    border-radius: var(--radius-full);
+    background: var(--_step);
+    color: var(--color-text-inverse);
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-semibold);
+  }
+  .bcn-swc__label {
+    font-size: var(--type-size-200);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    line-height: var(--line-height-tight);
+  }
+
+  /* Per-entity rollup — label left, figure right, one row per stat. */
+  .bcn-swc__stats {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+  }
+  .bcn-swc__stat {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--spacing-200);
+  }
+  .bcn-swc__stat dt {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    font-size: 0.8125rem; /* 13px — meta floor */
+    color: var(--color-text-tertiary);
+    min-width: 0;
+  }
+  .bcn-swc__stat dd {
+    margin: 0;
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+  }
+  /* Amber marker on the figure that's waiting on someone. */
+  .bcn-swc__attn {
+    width: 7px;
+    height: 7px;
+    border-radius: var(--radius-full);
+    background: var(--color-warning);
+    flex-shrink: 0;
+  }
+</style>

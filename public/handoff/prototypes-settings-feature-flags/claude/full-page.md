@@ -2,11 +2,11 @@
 
 Re-implement this UI section faithfully on your stack. Keep the CSS custom-property
 names (`var(--…)`) so it stays themeable — the values below are the resolved
-`beacon` theme of the **prototypes-project-dashboard** design system (an ESA Ecology spoke).
+`beacon` theme of the **prototypes-settings-feature-flags** design system (an ESA Ecology spoke).
 
-- **Source prototype:** http://localhost:4399/beacon-design/prototypes/project-dashboard/
+- **Source prototype:** http://localhost:4399/beacon-design/prototypes/settings/feature-flags/
 - **Section element:** `<page>`
-- **Components:** esa-badge (hub), esa-button (hub), esa-card (hub), esa-icon (hub), esa-icon-button (hub), esa-stat (hub)
+- **Components:** esa-badge (hub), esa-card (hub), esa-icon (hub), esa-icon-button (hub)
 
 ## Markup (de-scoped, framework-free)
 ```html
@@ -39,7 +39,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         </svg>
       </button>
       <button type="button" class="tenant-trigger">
-        <span>DWR</span>
+        <span>AWS</span>
         <span class="esa-icon esa-icon--xs" aria-hidden="true">
           <svg
             width="14"
@@ -110,7 +110,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         </span>
         QA
       </span>
-      <a href="#esa-config" class="icon-button" aria-label="ESA-Config">
+      <a href="/beacon-design/prototypes/settings" class="icon-button" aria-label="ESA-Config">
         <span class="esa-icon esa-icon--md" aria-hidden="true">
           <svg
             width="20"
@@ -137,7 +137,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       </a>
       <a
         class="esa-icon-button esa-icon-button--md"
-        href="#admin"
+        href="/beacon-design/prototypes/settings"
         aria-label="Admin settings"
         title="Admin settings"
       >
@@ -314,7 +314,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               ></path>
             </svg>
           </span>
-          <span class="project-switcher__name">Delta Conveyance</span>
+          <span class="project-switcher__name">Raul</span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
             <svg
               width="16"
@@ -356,8 +356,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <span class="nav-section__title">Setup Wizard</span>
           </a>
         </div>
-        <div class="nav-section nav-section--active">
-          <button type="button" class="nav-section__header" aria-expanded="true">
+        <div class="nav-section nav-section--collapsed">
+          <button type="button" class="nav-section__header" aria-expanded="false">
             <span class="esa-icon esa-icon--sm" aria-hidden="true">
               <svg
                 width="16"
@@ -397,14 +397,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <li class="nav-item">
               <a href="#dashboard" class="nav-sublink active"> Dashboard </a>
             </li>
-            <li class="nav-item">
-              <a href="#source-documents" class="nav-sublink"> Source Documents </a>
-            </li>
-            <li class="nav-item"><a href="#commitments" class="nav-sublink"> Commitments </a></li>
-            <li class="nav-item"><a href="#requirements" class="nav-sublink"> Requirements </a></li>
-            <li class="nav-item">
-              <a href="#organize-actions" class="nav-sublink"> Organize Actions </a>
-            </li>
             <li class="nav-item"><a href="#action-lists" class="nav-sublink"> Action Lists </a></li>
             <li class="nav-item">
               <a href="#document-reviews" class="nav-sublink"> Document Reviews </a>
@@ -415,8 +407,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </ul>
         </div>
         <hr class="nav-divider" aria-hidden="true" />
-        <div class="nav-section">
-          <button type="button" class="nav-section__header" aria-expanded="true">
+        <div class="nav-section nav-section--collapsed">
+          <button type="button" class="nav-section__header" aria-expanded="false">
             <span class="esa-icon esa-icon--sm" aria-hidden="true">
               <svg
                 width="16"
@@ -473,8 +465,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             </li>
           </ul>
         </div>
-        <div class="nav-section">
-          <button type="button" class="nav-section__header" aria-expanded="true">
+        <div class="nav-section nav-section--collapsed">
+          <button type="button" class="nav-section__header" aria-expanded="false">
             <span class="esa-icon esa-icon--sm" aria-hidden="true">
               <svg
                 width="16"
@@ -566,8 +558,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             </li>
           </ul>
         </div>
-        <div class="nav-section">
-          <button type="button" class="nav-section__header" aria-expanded="true">
+        <div class="nav-section nav-section--collapsed">
+          <button type="button" class="nav-section__header" aria-expanded="false">
             <span class="esa-icon esa-icon--sm" aria-hidden="true">
               <svg
                 width="16"
@@ -617,8 +609,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </ul>
         </div>
         <hr class="nav-divider" aria-hidden="true" />
-        <div class="nav-section">
-          <button type="button" class="nav-section__header" aria-expanded="true">
+        <div class="nav-section nav-section--collapsed">
+          <button type="button" class="nav-section__header" aria-expanded="false">
             <span class="esa-icon esa-icon--sm" aria-hidden="true">
               <svg
                 width="16"
@@ -671,778 +663,988 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
     </nav>
     <!-- content -->
     <div class="modern-layout__content">
-      <div class="page-layout page-layout--bleed">
-        <div class="page-layout__bleed">
-          <section class="bcn-phome" aria-label="Delta Conveyance Project — project home">
-            <div class="bcn-phome__cover">
-              <img
-                class="bcn-phome__hero"
-                src="/beacon-design/images/dcp/hero.jpeg"
-                alt=""
-                aria-hidden="true"
-              />
-            </div>
-            <div class="bcn-phome__body">
-              <img
-                class="bcn-phome__seal"
-                src="/beacon-design/images/dcp/dwr-logo.png"
-                alt="DWR seal"
-              />
-              <div class="bcn-phome__id">
-                <div class="bcn-phome__idtop">
-                  <h1 class="bcn-phome__name">Delta Conveyance Project</h1>
-                  <span
-                    class="bcn-status-chip"
-                    data-status="phase"
-                    style="--_chip: var(--st-phase, var(--color-primary))"
-                  >
-                    <span class="bcn-status-chip__dot"></span>
-                    <span class="bcn-status-chip__label">Pre-Construction</span>
-                  </span>
-                </div>
-                <p class="bcn-phome__eyebrow">Department of Water Resources</p>
-              </div>
-            </div>
-          </section>
-        </div>
+      <div class="page-layout">
         <div class="page-layout__container">
+          <section class="page-layout__breadcrumbs">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+              <div class="breadcrumbs__items">
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+                    <path
+                      d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+                    ></path>
+                  </svg>
+                </span>
+                <a class="breadcrumb-item" href="/beacon-design/prototypes/settings"> Settings </a
+                ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path d="m9 18 6-6-6-6"></path>
+                  </svg>
+                </span>
+                <span class="breadcrumb-item" aria-current="page"> Feature Flags </span>
+              </div>
+            </nav>
+          </section>
+          <section class="page-layout__title">
+            <div class="page-layout__title-main"><h1>Feature Flags</h1></div>
+          </section>
           <section class="page-layout__content">
             <div
-              class="sidebar"
-              data-side="end"
+              class="bcn-settings-shell sidebar"
               data-gap="xl"
-              style="--sidebar-width: 16rem; --sidebar-content-min: 64%"
+              style="--sidebar-width: 15rem; --sidebar-content-min: 62%"
+              data-settings-shell=""
             >
-              <div class="stack" data-gap="lg">
-                <div class="esa-card">
-                  <div class="esa-card__header">
-                    <div class="esa-card__header-content">
-                      <div class="esa-card__titles">
-                        <h3 class="esa-card__title">Project data</h3>
-                      </div>
-                    </div>
-                    <div class="esa-card__actions"></div>
-                  </div>
-                  <div class="esa-card__body">
-                    <ul class="bcn-lrc">
-                      <li>
-                        <a class="bcn-lrc__row" href="#project-info">
-                          <span class="bcn-lrc__label">Project Info</span>
-                          <span class="bcn-lrc__right">
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path d="m9 18 6-6-6-6"></path>
-                              </svg>
-                            </span>
-                          </span>
-                        </a>
-                      </li>
-                      <li>
-                        <a class="bcn-lrc__row" href="#species">
-                          <span class="bcn-lrc__label">Species</span>
-                          <span class="bcn-lrc__right">
-                            <span class="bcn-lrc__meta">38</span>
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path d="m9 18 6-6-6-6"></path>
-                              </svg>
-                            </span>
-                          </span>
-                        </a>
-                      </li>
-                      <li>
-                        <a class="bcn-lrc__row" href="#milestones">
-                          <span class="bcn-lrc__label">Milestones</span>
-                          <span class="bcn-lrc__right">
-                            <span class="bcn-lrc__meta">12</span>
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path d="m9 18 6-6-6-6"></path>
-                              </svg>
-                            </span>
-                          </span>
-                        </a>
-                      </li>
-                      <li>
-                        <a class="bcn-lrc__row" href="#construction-activities">
-                          <span class="bcn-lrc__label">Construction Activities</span>
-                          <span class="bcn-lrc__right">
-                            <span class="bcn-lrc__meta">27</span>
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path d="m9 18 6-6-6-6"></path>
-                              </svg>
-                            </span>
-                          </span>
-                        </a>
-                      </li>
-                      <li>
-                        <a class="bcn-lrc__row" href="#seasons">
-                          <span class="bcn-lrc__label">Seasons</span>
-                          <span class="bcn-lrc__right">
-                            <span class="bcn-lrc__meta">4</span>
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path d="m9 18 6-6-6-6"></path>
-                              </svg>
-                            </span>
-                          </span>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="esa-card">
-                  <div class="esa-card__header">
-                    <div class="esa-card__header-content">
-                      <div class="esa-card__titles">
-                        <h3 class="esa-card__title">Project details</h3>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="esa-card__body">
-                    <p class="bcn-pf__desc">
-                      A new State Water Project conveyance facility — twin tunnels carrying water
-                      beneath the Delta from new North Delta intakes to the southern export
-                      facilities. Beacon is the system of record for every environmental commitment,
-                      monitoring observation, and compliance report across the project’s components.
-                    </p>
-                    <dl class="bcn-pf">
-                      <div class="bcn-pf__fact">
-                        <dt class="bcn-pf__label">Lead agency</dt>
-                        <dd class="bcn-pf__value">Department of Water Resources</dd>
-                      </div>
-                      <div class="bcn-pf__fact">
-                        <dt class="bcn-pf__label">Region</dt>
-                        <dd class="bcn-pf__value">Sacramento–San Joaquin Delta</dd>
-                      </div>
-                      <div class="bcn-pf__fact">
-                        <dt class="bcn-pf__label">Components</dt>
-                        <dd class="bcn-pf__value">24 tracked · 4 starred</dd>
-                      </div>
-                      <div class="bcn-pf__fact">
-                        <dt class="bcn-pf__label">Tracking since</dt>
-                        <dd class="bcn-pf__value">January 2024</dd>
-                      </div>
-                    </dl>
-                  </div>
-                </div>
-              </div>
-              <div class="stack" data-gap="xl">
-                <div class="esa-card">
-                  <div class="esa-card__header">
-                    <div class="esa-card__header-content">
-                      <div class="esa-card__titles">
-                        <h3 class="esa-card__title">Most critical right now</h3>
-                      </div>
-                    </div>
-                    <div class="esa-card__actions">
-                      <span class="bcn-count" aria-label="3 critical items">3</span>
-                    </div>
-                  </div>
-                  <div class="esa-card__body">
-                    <div class="bcn-crit">
-                      <ul class="bcn-crit__list">
-                        <li>
-                          <a
-                            class="bcn-crit__card"
-                            href="/beacon-design/prototypes/component-dashboard"
+              <div class="bcn-settings-shell__rail stack" data-gap="lg">
+                <div class="bcn-settings-shell__search">
+                  <div class="bcn-settings-search">
+                    <div class="bcn-settings-search__fieldwrap">
+                      <span class="bcn-settings-search__icon" aria-hidden="true">
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
                           >
-                            <span class="bcn-crit__icon" aria-hidden="true">
-                              <span class="esa-icon esa-icon--md" aria-hidden="true">
-                                <svg
-                                  width="20"
-                                  height="20"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path
-                                    d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"
-                                  ></path>
-                                  <circle cx="12" cy="12" r="3"></circle>
-                                </svg>
-                              </span>
-                            </span>
-                            <span class="bcn-crit__body">
-                              <span class="bcn-crit__type">Observation</span>
-                              <span class="bcn-crit__title">
-                                Nesting-bird resurvey lapsed — ground disturbance not cleared
-                              </span>
-                              <span class="bcn-crit__where">Bouldin Island Launch Shaft</span>
-                            </span>
-                            <span class="bcn-crit__right">
-                              <span class="bcn-crit__sev">
-                                <span
-                                  class="bcn-crit__sev-dot"
-                                  style="--_s: var(--color-danger)"
-                                  aria-hidden="true"
-                                ></span>
-                                Critical
-                              </span>
-                              <span class="bcn-crit__timing bcn-crit__timing--late">
-                                Survey expired Mar 24
-                              </span>
-                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path>
-                                </svg>
-                              </span>
-                            </span>
-                          </a>
-                        </li>
-                        <li>
-                          <a class="bcn-crit__card" href="#reporting">
-                            <span class="bcn-crit__icon" aria-hidden="true">
-                              <span class="esa-icon esa-icon--md" aria-hidden="true">
-                                <svg
-                                  width="20"
-                                  height="20"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
-                                  <path
-                                    d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
-                                  ></path>
-                                  <path d="M12 11h4"></path>
-                                  <path d="M12 16h4"></path>
-                                  <path d="M8 11h.01"></path>
-                                  <path d="M8 16h.01"></path>
-                                </svg>
-                              </span>
-                            </span>
-                            <span class="bcn-crit__body">
-                              <span class="bcn-crit__type">Report</span>
-                              <span class="bcn-crit__title">
-                                Q1 ITP compliance report to CDFW — 2 sections still incomplete
-                              </span>
-                              <span class="bcn-crit__where">Project-wide</span>
-                            </span>
-                            <span class="bcn-crit__right">
-                              <span class="bcn-crit__sev">
-                                <span
-                                  class="bcn-crit__sev-dot"
-                                  style="--_s: var(--color-danger)"
-                                  aria-hidden="true"
-                                ></span>
-                                Critical
-                              </span>
-                              <span class="bcn-crit__timing"> Due in 2 days · Apr 1 </span>
-                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path>
-                                </svg>
-                              </span>
-                            </span>
-                          </a>
-                        </li>
-                        <li>
-                          <a
-                            class="bcn-crit__card"
-                            href="/beacon-design/prototypes/component-dashboard"
-                          >
-                            <span class="bcn-crit__icon" aria-hidden="true">
-                              <span class="esa-icon esa-icon--md" aria-hidden="true">
-                                <svg
-                                  width="20"
-                                  height="20"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
-                                  <path d="M4 6h.01"></path>
-                                  <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
-                                  <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
-                                  <path d="M12 18h.01"></path>
-                                  <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
-                                  <circle cx="12" cy="12" r="2"></circle>
-                                  <path d="m13.41 10.59 5.66-5.66"></path>
-                                </svg>
-                              </span>
-                            </span>
-                            <span class="bcn-crit__body">
-                              <span class="bcn-crit__type">Action</span>
-                              <span class="bcn-crit__title">
-                                <span class="bcn-crit__code">BIO-14</span> Exclusion-fencing
-                                inspection overdue
-                              </span>
-                              <span class="bcn-crit__where">Intake B — North Delta</span>
-                            </span>
-                            <span class="bcn-crit__right">
-                              <span class="bcn-crit__sev">
-                                <span
-                                  class="bcn-crit__sev-dot"
-                                  style="--_s: var(--color-warning)"
-                                  aria-hidden="true"
-                                ></span>
-                                Urgent
-                              </span>
-                              <span class="bcn-crit__timing bcn-crit__timing--late">
-                                4 days overdue
-                              </span>
-                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="m9 18 6-6-6-6"></path>
-                                </svg>
-                              </span>
-                            </span>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <section class="bcn-stc" aria-label="Components">
-                  <header class="bcn-stc__head">
-                    <div class="bcn-stc__headings">
-                      <h2 class="bcn-stc__title type-section-title">Components</h2>
-                      <p class="bcn-stc__lede type-body-small">
-                        The components you've starred, with current Tracking, Monitoring, and
-                        Reporting status for each.
-                      </p>
-                    </div>
-                    <a class="bcn-stc__all" href="/beacon-design/prototypes/component-dashboard"
-                      >All 24 components
-                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          focusable="false"
-                        >
-                          <path d="m9 18 6-6-6-6"></path>
-                        </svg>
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.3-4.3"></path>
+                          </svg>
+                        </span>
                       </span>
-                    </a>
-                  </header>
-                  <div class="bcn-stc__list">
-                    <a class="bcn-stc__card" href="/beacon-design/prototypes/component-dashboard">
-                      <div class="bcn-stc__main">
-                        <div class="bcn-stc__card-head">
-                          <span class="bcn-stc__glyph"
-                            ><span class="esa-icon esa-icon--md" aria-hidden="true">
-                              <svg
-                                width="20"
-                                height="20"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"
-                                ></path>
-                                <path d="M3.29 7 12 12l8.71-5"></path>
-                                <path d="M12 22V12"></path>
-                              </svg>
-                            </span>
-                          </span>
-                          <span class="bcn-stc__ident">
-                            <span class="bcn-stc__name">Bouldin Island Launch Shaft</span>
-                            <span class="bcn-stc__type"
-                              >Tunnel launch shaft · Bouldin Island · Pre-Construction</span
-                            >
-                          </span>
-                        </div>
-                        <div class="bcn-stc__headline">
-                          <span
-                            class="bcn-stc__dot"
-                            style="--_c: var(--color-danger)"
-                            aria-hidden="true"
-                          ></span>
-                          <span class="bcn-stc__headline-text"
-                            >Resurvey lapsed — ground disturbance work blocked</span
+                      <esa-text-field
+                        class="bcn-settings-search__field"
+                        data-settings-search="true"
+                        size="md"
+                        type="text"
+                        placeholder="Search settings…"
+                        aria-label="Search settings"
+                        role="combobox"
+                        aria-controls="bcn-settings-results"
+                        aria-expanded="false"
+                        aria-autocomplete="list"
+                      ></esa-text-field>
+                    </div>
+                    <div class="bcn-settings-search__panel" data-settings-panel="" hidden="">
+                      <p class="bcn-settings-search__count">
+                        <span data-settings-count=""></span> <kbd>Esc</kbd>
+                      </p>
+                      <div
+                        class="bcn-settings-search__list"
+                        id="bcn-settings-results"
+                        data-settings-results=""
+                        role="listbox"
+                        aria-label="Settings search results"
+                      >
+                        <a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-0"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/tenant-profile"
+                          data-result=""
+                          data-label="Tenant Profile"
+                          data-match="tenant profile the tenant’s name, address, logo, and enabled modules."
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Tenant Profile</span
                           >
-                        </div>
-                      </div>
-                      <ul class="bcn-stc__pulse">
-                        <li class="bcn-stc__pulse-row">
-                          <span
-                            class="bcn-stc__dot"
-                            style="--_c: var(--color-warning)"
-                            aria-hidden="true"
-                          ></span>
-                          <span class="bcn-stc__pulse-area">Tracking</span>
-                          <span class="bcn-stc__pulse-note">3 overdue actions</span>
-                        </li>
-                        <li class="bcn-stc__pulse-row">
-                          <span
-                            class="bcn-stc__dot"
-                            style="--_c: var(--color-danger)"
-                            aria-hidden="true"
-                          ></span>
-                          <span class="bcn-stc__pulse-area">Monitoring</span>
-                          <span class="bcn-stc__pulse-note">Resurvey required</span>
-                        </li>
-                        <li class="bcn-stc__pulse-row">
-                          <span
-                            class="bcn-stc__dot"
-                            style="--_c: var(--color-success)"
-                            aria-hidden="true"
-                          ></span>
-                          <span class="bcn-stc__pulse-area">Reporting</span>
-                          <span class="bcn-stc__pulse-note">Reports current</span>
-                        </li>
-                      </ul> </a
-                    ><a class="bcn-stc__card" href="/beacon-design/prototypes/component-dashboard">
-                      <div class="bcn-stc__main">
-                        <div class="bcn-stc__card-head">
-                          <span class="bcn-stc__glyph"
-                            ><span class="esa-icon esa-icon--md" aria-hidden="true">
-                              <svg
-                                width="20"
-                                height="20"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"
-                                ></path>
-                                <path d="M3.29 7 12 12l8.71-5"></path>
-                                <path d="M12 22V12"></path>
-                              </svg>
-                            </span>
-                          </span>
-                          <span class="bcn-stc__ident">
-                            <span class="bcn-stc__name">Intake B — North Delta</span>
-                            <span class="bcn-stc__type"
-                              >Screened intake · Sacramento River · Pre-Construction</span
-                            >
-                          </span>
-                        </div>
-                        <div class="bcn-stc__headline">
-                          <span
-                            class="bcn-stc__dot"
-                            style="--_c: var(--color-warning)"
-                            aria-hidden="true"
-                          ></span>
-                          <span class="bcn-stc__headline-text"
-                            >Fencing inspection overdue — otherwise tracking well</span
+                          <span class="bcn-settings-search__result-meta">General</span> </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-1"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/tenant-profile#s-tenant-name"
+                          data-result=""
+                          data-label="Tenant name"
+                          data-match="tenant name the organization name shown in the top bar, on generated reports, and in notification emails. organization client name tenant profile"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Tenant name</span
                           >
-                        </div>
-                      </div>
-                      <ul class="bcn-stc__pulse">
-                        <li class="bcn-stc__pulse-row">
-                          <span
-                            class="bcn-stc__dot"
-                            style="--_c: var(--color-warning)"
-                            aria-hidden="true"
-                          ></span>
-                          <span class="bcn-stc__pulse-area">Tracking</span>
-                          <span class="bcn-stc__pulse-note">1 inspection overdue</span>
-                        </li>
-                        <li class="bcn-stc__pulse-row">
-                          <span
-                            class="bcn-stc__dot"
-                            style="--_c: var(--color-success)"
-                            aria-hidden="true"
-                          ></span>
-                          <span class="bcn-stc__pulse-area">Monitoring</span>
-                          <span class="bcn-stc__pulse-note">6 obs · 30d</span>
-                        </li>
-                        <li class="bcn-stc__pulse-row">
-                          <span
-                            class="bcn-stc__dot"
-                            style="--_c: var(--color-success)"
-                            aria-hidden="true"
-                          ></span>
-                          <span class="bcn-stc__pulse-area">Reporting</span>
-                          <span class="bcn-stc__pulse-note">Reports current</span>
-                        </li>
-                      </ul> </a
-                    ><a class="bcn-stc__card" href="/beacon-design/prototypes/component-dashboard">
-                      <div class="bcn-stc__main">
-                        <div class="bcn-stc__card-head">
-                          <span class="bcn-stc__glyph"
-                            ><span class="esa-icon esa-icon--md" aria-hidden="true">
-                              <svg
-                                width="20"
-                                height="20"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"
-                                ></path>
-                                <path d="M3.29 7 12 12l8.71-5"></path>
-                                <path d="M12 22V12"></path>
-                              </svg>
-                            </span>
-                          </span>
-                          <span class="bcn-stc__ident">
-                            <span class="bcn-stc__name">Southern Forebay &amp; Pumping Plant</span>
-                            <span class="bcn-stc__type"
-                              >Forebay · Byron Tract · Pre-Construction</span
-                            >
-                          </span>
-                        </div>
-                        <div class="bcn-stc__headline">
-                          <span
-                            class="bcn-stc__dot"
-                            style="--_c: var(--color-success)"
-                            aria-hidden="true"
-                          ></span>
-                          <span class="bcn-stc__headline-text">On schedule across all areas</span>
-                        </div>
-                      </div>
-                      <ul class="bcn-stc__pulse">
-                        <li class="bcn-stc__pulse-row">
-                          <span
-                            class="bcn-stc__dot"
-                            style="--_c: var(--color-success)"
-                            aria-hidden="true"
-                          ></span>
-                          <span class="bcn-stc__pulse-area">Tracking</span>
-                          <span class="bcn-stc__pulse-note">22 / 30 actions</span>
-                        </li>
-                        <li class="bcn-stc__pulse-row">
-                          <span
-                            class="bcn-stc__dot"
-                            style="--_c: var(--color-success)"
-                            aria-hidden="true"
-                          ></span>
-                          <span class="bcn-stc__pulse-area">Monitoring</span>
-                          <span class="bcn-stc__pulse-note">11 obs · 30d</span>
-                        </li>
-                        <li class="bcn-stc__pulse-row">
-                          <span
-                            class="bcn-stc__dot"
-                            style="--_c: var(--color-warning)"
-                            aria-hidden="true"
-                          ></span>
-                          <span class="bcn-stc__pulse-area">Reporting</span>
-                          <span class="bcn-stc__pulse-note">Q1 section due</span>
-                        </li>
-                      </ul> </a
-                    ><a class="bcn-stc__card" href="/beacon-design/prototypes/component-dashboard">
-                      <div class="bcn-stc__main">
-                        <div class="bcn-stc__card-head">
-                          <span class="bcn-stc__glyph"
-                            ><span class="esa-icon esa-icon--md" aria-hidden="true">
-                              <svg
-                                width="20"
-                                height="20"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path
-                                  d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"
-                                ></path>
-                                <path d="M3.29 7 12 12l8.71-5"></path>
-                                <path d="M12 22V12"></path>
-                              </svg>
-                            </span>
-                          </span>
-                          <span class="bcn-stc__ident">
-                            <span class="bcn-stc__name">Twin Cities Complex</span>
-                            <span class="bcn-stc__type">Tunnel shaft · Staging · On hold</span>
-                          </span>
-                        </div>
-                        <div class="bcn-stc__headline">
-                          <span
-                            class="bcn-stc__dot"
-                            style="--_c: var(--bcn-status-not-started)"
-                            aria-hidden="true"
-                          ></span>
-                          <span class="bcn-stc__headline-text"
-                            >Paused — revised haul-route agreement pending</span
+                          <span class="bcn-settings-search__result-meta"
+                            >General · Tenant Profile</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-2"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/tenant-profile#s-subdomain"
+                          data-result=""
+                          data-label="Subdomain"
+                          data-match="subdomain the address this tenant is reached at — dcp.beacon.esassoc.com. set by esa when the tenant is created. url address domain tenant profile"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Subdomain</span
                           >
-                        </div>
+                          <span class="bcn-settings-search__result-meta"
+                            >General · Tenant Profile</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-3"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/tenant-profile#s-tenant-logo"
+                          data-result=""
+                          data-label="Logo"
+                          data-match="logo shown in the top bar and on every generated report, in place of the default beacon mark. logo image brand tenant profile"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Logo</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >General · Tenant Profile</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-4"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/tenant-profile#s-tenant-modules"
+                          data-result=""
+                          data-label="Enabled modules"
+                          data-match="enabled modules modules control which product areas appear in the main menu. core is always enabled; esa turns the rest on and off as part of the tenant’s agreement. module licensing product area tenant profile"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Enabled modules</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >General · Tenant Profile</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-5"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/terminology"
+                          data-result=""
+                          data-label="Terminology"
+                          data-match="terminology aliases for the nine entities beacon names on screen. a term applies across the app for everyone on this tenant; leaving it blank uses the default."
+                          data-esa-only="true"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Terminology</span
+                          >
+                          <span class="bcn-settings-search__result-meta">General</span> </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-6"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/terminology#sec-entity-aliases"
+                          data-result=""
+                          data-label="Entity aliases"
+                          data-match="entity aliases both forms are required when a term is set — the singular and the plural appear in different places. terminology"
+                          data-esa-only="true"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Entity aliases</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >General · Terminology</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-7"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/labels-definitions"
+                          data-result=""
+                          data-label="Labels &amp; Definitions"
+                          data-match="labels &amp; definitions rich-text definitions shown as info tooltips next to fields throughout the app. the label itself is fixed — renaming the nouns beacon uses happens in terminology."
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Labels &amp; Definitions</span
+                          >
+                          <span class="bcn-settings-search__result-meta">General</span> </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-8"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/labels-definitions#sec-field-definitions"
+                          data-result=""
+                          data-label="Field definitions"
+                          data-match="field definitions a field with no definition shows no tooltip. labels &amp; definitions"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Field definitions</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >General · Labels &amp; Definitions</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-9"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/custom-fields"
+                          data-result=""
+                          data-label="Custom Fields"
+                          data-match="custom fields extra fields added to an entity’s form and detail page for this tenant, on top of the fields beacon ships."
+                          data-esa-only="true"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Custom Fields</span
+                          >
+                          <span class="bcn-settings-search__result-meta">General</span> </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-10"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/custom-fields#sec-custom-field-definitions"
+                          data-result=""
+                          data-label="Field definitions"
+                          data-match="field definitions a required field blocks the record from being saved until it has a value. custom fields"
+                          data-esa-only="true"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Field definitions</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >General · Custom Fields</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-11"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/custom-pages"
+                          data-result=""
+                          data-label="Custom Pages"
+                          data-match="custom pages tenant-authored pages with their own rich-text content, added to a section of the main menu."
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Custom Pages</span
+                          >
+                          <span class="bcn-settings-search__result-meta">General</span> </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-12"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/custom-pages#sec-custom-page-list"
+                          data-result=""
+                          data-label="Pages"
+                          data-match="pages a page appears in the menu section it is filed under, for the roles listed. custom pages"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Pages</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >General · Custom Pages</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-13"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/tenants"
+                          data-result=""
+                          data-label="Tenants"
+                          data-match="tenants every tenant on the platform, with its subdomain, enabled modules, user count, and creation date."
+                          data-esa-only="true"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Tenants</span
+                          >
+                          <span class="bcn-settings-search__result-meta">Platform</span> </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-14"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/feature-flags"
+                          data-result=""
+                          data-label="Feature Flags"
+                          data-match="feature flags per-tenant switches for product capabilities, in-progress rollouts, and default behavior."
+                          data-esa-only="true"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Feature Flags</span
+                          >
+                          <span class="bcn-settings-search__result-meta">Platform</span> </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-15"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/operations"
+                          data-result=""
+                          data-label="Operations"
+                          data-match="operations maintenance jobs esa runs against a single tenant or every tenant, and the record of each run."
+                          data-esa-only="true"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Operations</span
+                          >
+                          <span class="bcn-settings-search__result-meta">Platform</span> </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-16"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/users"
+                          data-result=""
+                          data-label="Users"
+                          data-match="users everyone who can sign in to this tenant. a user’s role controls what they can see and do."
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Users</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >People &amp; Access</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-17"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/users#sec-user-list"
+                          data-result=""
+                          data-label="Users"
+                          data-match="users an invited user is active as soon as they accept and sign in for the first time. users"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Users</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >People &amp; Access · Users</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-18"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/roles"
+                          data-result=""
+                          data-label="Roles"
+                          data-match="roles each role sets eleven per-area rights, from none to full, plus six administrative flags — impersonating a user, approving commitments, editing approved commitments, the two connection settings, and administering the tenant."
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Roles</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >People &amp; Access</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-19"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/roles#sec-role-list"
+                          data-result=""
+                          data-label="Roles"
+                          data-match="roles system roles ship with beacon and cannot be deleted; custom roles belong to this tenant. roles"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Roles</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >People &amp; Access · Roles</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-20"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/people"
+                          data-result=""
+                          data-label="People"
+                          data-match="people contact records used as notification recipients and assignees. people do not sign in — a person becomes a user only when invited on the users page."
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >People</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >People &amp; Access</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-21"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/people#sec-person-list"
+                          data-result=""
+                          data-label="People"
+                          data-match="people a person can be named on an action or a notification without ever signing in. people"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >People</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >People &amp; Access · People</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-22"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/organizations"
+                          data-result=""
+                          data-label="Organizations"
+                          data-match="organizations the agencies and firms people, commitments, and approvals are attributed to."
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Organizations</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >People &amp; Access</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-23"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/organizations#sec-organization-list"
+                          data-result=""
+                          data-label="Organizations"
+                          data-match="organizations an organization in use by a person or a commitment cannot be deleted. organizations"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Organizations</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >People &amp; Access · Organizations</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-24"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/notifications"
+                          data-result=""
+                          data-label="Notifications"
+                          data-match="notifications the reminder emails beacon sends for actions, and the signature appended to each one."
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Notifications</span
+                          >
+                          <span class="bcn-settings-search__result-meta">Tracking</span> </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-25"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/notifications#s-template-coming-up"
+                          data-result=""
+                          data-label="Coming up"
+                          data-match="coming up body of the advance reminder, sent the number of days before the due date configured on the action. reminder advance upcoming email notifications"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Coming up</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >Tracking · Notifications</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-26"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/notifications#s-template-due-today"
+                          data-result=""
+                          data-label="Due today"
+                          data-match="due today body of the reminder sent on the due date itself. reminder due email notifications"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Due today</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >Tracking · Notifications</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-27"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/notifications#s-template-past-due"
+                          data-result=""
+                          data-label="Past due"
+                          data-match="past due body of the reminder sent after the due date passes, repeating on the overdue interval set on the action. reminder overdue late email notifications"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Past due</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >Tracking · Notifications</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-28"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/notifications#s-signoff-text"
+                          data-result=""
+                          data-label="Sign-off text"
+                          data-match="sign-off text appended to the bottom of every notification email, above the logo. signature footer notifications"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Sign-off text</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >Tracking · Notifications</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-29"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/notifications#s-include-logo"
+                          data-result=""
+                          data-label="Include tenant logo"
+                          data-match="include tenant logo adds the logo set in tenant profile beneath the sign-off text. logo branding signature notifications"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Include tenant logo</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >Tracking · Notifications</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-30"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/notification-log"
+                          data-result=""
+                          data-label="Notification Log"
+                          data-match="notification log every notification email sent for this tenant, including the recipient and whether delivery succeeded."
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Notification Log</span
+                          >
+                          <span class="bcn-settings-search__result-meta">Tracking</span> </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-31"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/notification-log#sec-sent-notifications"
+                          data-result=""
+                          data-label="Sent"
+                          data-match="sent newest first. a failed message is not retried automatically — fix the address and resend from the action. notification log"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Sent</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >Tracking · Notification Log</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-32"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/site-clearance"
+                          data-result=""
+                          data-label="Site Clearance"
+                          data-match="site clearance the reviews a site must clear before work proceeds, and whether the system flags incomplete sites on its own."
+                          data-esa-only="true"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Site Clearance</span
+                          >
+                          <span class="bcn-settings-search__result-meta">Monitoring</span> </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-33"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/site-clearance#sec-review-kinds"
+                          data-result=""
+                          data-label="Review kinds"
+                          data-match="review kinds the list the kind dropdown on a clearance review reads from, in the order it offers them. a kind that has been used on a review is deactivated rather than deleted, so past reviews keep their kind. site clearance"
+                          data-esa-only="true"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Review kinds</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >Monitoring · Site Clearance</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-34"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/site-clearance#s-provisional-blocks"
+                          data-result=""
+                          data-label="Provisional blocks"
+                          data-match="provisional blocks the system flags sites whose reviews are incomplete; reviewers decide the final call. block go/no-go clearance detection site clearance"
+                          data-esa-only="true"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Provisional blocks</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >Monitoring · Site Clearance</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-35"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/report-types"
+                          data-result=""
+                          data-label="Report Types"
+                          data-match="report types the kinds of report this tenant files. scope is what a report is filed against — a project or a component; order controls how templates are grouped when a report is created."
+                          data-esa-only="true"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Report Types</span
+                          >
+                          <span class="bcn-settings-search__result-meta">Reporting</span> </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-36"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/report-types#sec-report-type-list"
+                          data-result=""
+                          data-label="Report types"
+                          data-match="report types undefined report types"
+                          data-esa-only="true"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Report types</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >Reporting · Report Types</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-37"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/report-templates"
+                          data-result=""
+                          data-label="Report Templates"
+                          data-match="report templates the layout each report is generated from. a template is an ordered stack of blocks — custom fields, rich text, table — text, table — commitments, and documents."
+                          data-esa-only="true"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Report Templates</span
+                          >
+                          <span class="bcn-settings-search__result-meta">Reporting</span> </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-38"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/report-templates#sec-template-list"
+                          data-result=""
+                          data-label="Templates"
+                          data-match="templates a report type can carry several templates; the author picks one when the report is created. report templates"
+                          data-esa-only="true"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Templates</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >Reporting · Report Templates</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-39"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/commitment-types"
+                          data-result=""
+                          data-label="Commitment Types"
+                          data-match="commitment types how a commitment functions. every commitment carries one type; a type in use must be reassigned before it can be deleted."
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Commitment Types</span
+                          >
+                          <span class="bcn-settings-search__result-meta">Data Catalog</span> </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-40"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/commitment-types#sec-commitment-type-list"
+                          data-result=""
+                          data-label="Commitment types"
+                          data-match="commitment types undefined commitment types"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Commitment types</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >Data Catalog · Commitment Types</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-41"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/phases"
+                          data-result=""
+                          data-label="Phases"
+                          data-match="phases the stage of the project a commitment applies to. sort order sets how phases are listed in filters and grids; a phase in use must be reassigned before it can be deleted."
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Phases</span
+                          >
+                          <span class="bcn-settings-search__result-meta">Data Catalog</span> </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-42"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/phases#sec-phase-list"
+                          data-result=""
+                          data-label="Phases"
+                          data-match="phases undefined phases"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Phases</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >Data Catalog · Phases</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-43"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/resource-categories"
+                          data-result=""
+                          data-label="Resource Categories"
+                          data-match="resource categories the environmental resource a commitment protects. a category in use must be reassigned before it can be deleted."
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Resource Categories</span
+                          >
+                          <span class="bcn-settings-search__result-meta">Data Catalog</span> </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-44"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/resource-categories#sec-resource-category-list"
+                          data-result=""
+                          data-label="Resource categories"
+                          data-match="resource categories undefined resource categories"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Resource categories</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >Data Catalog · Resource Categories</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-45"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/tags"
+                          data-result=""
+                          data-label="Tags"
+                          data-match="tags free-form labels applied on top of the fixed classifications. applies to sets which kind of record a tag can be attached to."
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Tags</span
+                          >
+                          <span class="bcn-settings-search__result-meta">Data Catalog</span> </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-46"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/tags#sec-tag-list"
+                          data-result=""
+                          data-label="Tags"
+                          data-match="tags anyone can create a tag while they work, so the list grows fast and unevenly. a tag stays on the list after the last record drops it — the count is how you find those. tags"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Tags</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >Data Catalog · Tags</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-47"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/data-catalog-display"
+                          data-result=""
+                          data-label="Data Catalog Display"
+                          data-match="data catalog display which columns the commitments grid shows, and which fields appear when commitments are compared."
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Data Catalog Display</span
+                          >
+                          <span class="bcn-settings-search__result-meta">Data Catalog</span> </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-48"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/data-catalog-display#s-grid-columns"
+                          data-result=""
+                          data-label="Columns"
+                          data-match="columns the columns shown on the commitments grid, in this order. an empty selection falls back to the system default layout. grid columns commitments data catalog display"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Columns</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >Data Catalog · Data Catalog Display</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-49"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/data-catalog-display#s-compare-fields"
+                          data-result=""
+                          data-label="Fields"
+                          data-match="fields the fields shown on each card when commitments are compared side by side. an empty selection falls back to the system default layout. compare cards commitments data catalog display"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Fields</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >Data Catalog · Data Catalog Display</span
+                          > </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-50"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/commitment-categories"
+                          data-result=""
+                          data-label="Commitment Categories"
+                          data-match="commitment categories category trees that group commitments for the external reporting api. each map carries its own endpoint and key."
+                          data-esa-only="true"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Commitment Categories</span
+                          >
+                          <span class="bcn-settings-search__result-meta">Data Catalog</span> </a
+                        ><a
+                          class="bcn-settings-search__result"
+                          id="bcn-set-r-51"
+                          role="option"
+                          aria-selected="false"
+                          href="/beacon-design/prototypes/settings/commitment-categories#sec-category-maps"
+                          data-result=""
+                          data-label="Category maps"
+                          data-match="category maps a map is scoped to one project; rolling the key invalidates the previous one immediately. commitment categories"
+                          data-esa-only="true"
+                          hidden=""
+                        >
+                          <span class="bcn-settings-search__result-label" data-result-label=""
+                            >Category maps</span
+                          >
+                          <span class="bcn-settings-search__result-meta"
+                            >Data Catalog · Commitment Categories</span
+                          >
+                        </a>
                       </div>
-                      <ul class="bcn-stc__pulse">
-                        <li class="bcn-stc__pulse-row">
-                          <span
-                            class="bcn-stc__dot"
-                            style="--_c: var(--bcn-status-not-started)"
-                            aria-hidden="true"
-                          ></span>
-                          <span class="bcn-stc__pulse-area">Tracking</span>
-                          <span class="bcn-stc__pulse-note">Work paused</span>
-                        </li>
-                        <li class="bcn-stc__pulse-row">
-                          <span
-                            class="bcn-stc__dot"
-                            style="--_c: var(--bcn-status-not-started)"
-                            aria-hidden="true"
-                          ></span>
-                          <span class="bcn-stc__pulse-area">Monitoring</span>
-                          <span class="bcn-stc__pulse-note">2 obs · 30d</span>
-                        </li>
-                        <li class="bcn-stc__pulse-row">
-                          <span
-                            class="bcn-stc__dot"
-                            style="--_c: var(--bcn-status-not-started)"
-                            aria-hidden="true"
-                          ></span>
-                          <span class="bcn-stc__pulse-area">Reporting</span>
-                          <span class="bcn-stc__pulse-note">Nothing due</span>
-                        </li>
-                      </ul>
-                    </a>
-                  </div>
-                </section>
-                <section class="bcn-tz" aria-label="Tracking">
-                  <header class="bcn-tz__head">
-                    <div class="bcn-tz__headings">
-                      <h2 class="bcn-tz__title type-section-title">Tracking</h2>
-                      <p class="bcn-tz__summary type-body">
-                        Every commitment and action tracked across the project.
+                      <p class="bcn-settings-search__more" data-settings-more="" hidden=""></p>
+                      <p class="bcn-settings-search__empty" data-settings-empty="" hidden="">
+                        No settings match “<span data-settings-query=""></span>”.
                       </p>
                     </div>
-                    <span
-                      class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md"
+                  </div>
+                  <script
+                    type="module"
+                    src="/beacon-design/_astro/BcnSettingsSearch.astro_astro_type_script_index_0_lang.Dy9bre6d.js"
+                  ></script>
+                </div>
+                <div class="bcn-settings-shell__nav-scroll">
+                  <nav class="bcn-settings-nav" aria-label="Settings">
+                    <section
+                      class="bcn-settings-nav__block bcn-settings-nav__block--esa"
+                      aria-labelledby="settings-aud-esa-admin"
                     >
-                      <a
-                        class="esa-button__native"
-                        href="/beacon-design/prototypes/requirement-tracker"
-                        role="button"
-                      >
-                        <span class="esa-button__label"> Open Tracking </span>
-                      </a>
-                    </span>
-                  </header>
-                  <div class="bcn-tz__cols">
-                    <div class="bcn-tz__rollup">
-                      <span class="bcn-tz__label">Across the project</span>
-                      <div class="bcn-tz__stats">
-                        <div class="esa-stat">
-                          <div class="esa-stat__value">31</div>
-                          <div class="esa-stat__label">Not started</div>
-                        </div>
-                        <div class="esa-stat">
-                          <div class="esa-stat__value">24</div>
-                          <div class="esa-stat__label">In progress</div>
-                        </div>
-                        <div class="esa-stat">
-                          <div class="esa-stat__value">87</div>
-                          <div class="esa-stat__label">Complete</div>
-                        </div>
-                      </div>
-                      <p class="bcn-tz__scope">across 24 components</p>
-                      <nav class="bcn-tz__sublinks" aria-label="Tracking views">
-                        <a
-                          class="bcn-tz__sublink"
-                          href="/beacon-design/prototypes/requirement-tracker"
-                        >
-                          Project Tracking
+                      <h2 class="type-body bcn-settings-nav__aud" id="settings-aud-esa-admin">
+                        <span class="bcn-settings-nav__aud-icon" aria-hidden="true">
                           <span class="esa-icon esa-icon--sm" aria-hidden="true">
                             <svg
                               width="16"
@@ -1455,252 +1657,795 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linejoin="round"
                               focusable="false"
                             >
-                              <path d="m9 18 6-6-6-6"></path>
+                              <path
+                                d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+                              ></path>
                             </svg>
                           </span>
-                        </a>
-                      </nav>
-                    </div>
-                    <div class="esa-card">
-                      <div class="esa-card__header">
-                        <div class="esa-card__header-content">
-                          <div class="esa-card__titles"><h3 class="esa-card__title">Lists</h3></div>
-                        </div>
-                        <div class="esa-card__actions">
-                          <span class="bcn-count" aria-label="3 lists">3</span>
-                        </div>
-                      </div>
-                      <div class="esa-card__body">
-                        <ul class="bcn-lrc">
-                          <li>
-                            <a class="bcn-lrc__row" href="#list-bio-mitigations">
-                              <span class="bcn-lrc__label">Active BIO mitigations</span>
-                              <span class="bcn-lrc__right">
-                                <span class="bcn-lrc__meta">12 actions</span>
+                        </span>
+                        ESA Admin
+                      </h2>
+                      <div class="bcn-settings-nav__group">
+                        <h3
+                          class="type-label bcn-settings-nav__zone"
+                          id="settings-zone-esa-admin-platform"
+                        >
+                          Platform
+                        </h3>
+                        <ul
+                          class="bcn-settings-nav__list"
+                          aria-labelledby="settings-zone-esa-admin-platform"
+                          role="list"
+                        >
+                          <li class="bcn-settings-nav__item">
+                            <a
+                              class="type-body-small bcn-settings-nav__link"
+                              href="/beacon-design/prototypes/settings/tenants"
+                            >
+                              <span class="bcn-settings-nav__page">Tenants</span>
+                              <span class="bcn-settings-nav__count" aria-label="19 records">
+                                19
                               </span>
                             </a>
                           </li>
-                          <li>
-                            <a class="bcn-lrc__row" href="#list-q2-reporting">
-                              <span class="bcn-lrc__label">Q2 reporting deadlines</span>
-                              <span class="bcn-lrc__right">
-                                <span class="bcn-lrc__meta">8 actions</span>
+                          <li class="bcn-settings-nav__item">
+                            <a
+                              class="type-body-small bcn-settings-nav__link"
+                              href="/beacon-design/prototypes/settings/feature-flags"
+                              aria-current="page"
+                            >
+                              <span class="bcn-settings-nav__page">Feature Flags</span>
+                              <span class="bcn-settings-nav__count" aria-label="14 records">
+                                14
                               </span>
                             </a>
                           </li>
-                          <li>
-                            <a class="bcn-lrc__row" href="#list-permit-conditions">
-                              <span class="bcn-lrc__label">North Delta permit conditions</span>
-                              <span class="bcn-lrc__right">
-                                <span class="bcn-lrc__meta">23 commitments</span>
+                          <li class="bcn-settings-nav__item">
+                            <a
+                              class="type-body-small bcn-settings-nav__link"
+                              href="/beacon-design/prototypes/settings/operations"
+                            >
+                              <span class="bcn-settings-nav__page">Operations</span>
+                              <span class="bcn-settings-nav__count" aria-label="5 records">
+                                5
                               </span>
                             </a>
                           </li>
                         </ul>
                       </div>
+                      <div class="bcn-settings-nav__group">
+                        <h3
+                          class="type-label bcn-settings-nav__zone"
+                          id="settings-zone-esa-admin-general"
+                        >
+                          General
+                        </h3>
+                        <ul
+                          class="bcn-settings-nav__list"
+                          aria-labelledby="settings-zone-esa-admin-general"
+                          role="list"
+                        >
+                          <li class="bcn-settings-nav__item">
+                            <a
+                              class="type-body-small bcn-settings-nav__link"
+                              href="/beacon-design/prototypes/settings/terminology"
+                            >
+                              <span class="bcn-settings-nav__page">Terminology</span>
+                            </a>
+                          </li>
+                          <li class="bcn-settings-nav__item">
+                            <a
+                              class="type-body-small bcn-settings-nav__link"
+                              href="/beacon-design/prototypes/settings/custom-fields"
+                            >
+                              <span class="bcn-settings-nav__page">Custom Fields</span>
+                              <span class="bcn-settings-nav__count" aria-label="6 records">
+                                6
+                              </span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="bcn-settings-nav__group">
+                        <h3
+                          class="type-label bcn-settings-nav__zone"
+                          id="settings-zone-esa-admin-monitoring"
+                        >
+                          Monitoring
+                        </h3>
+                        <ul
+                          class="bcn-settings-nav__list"
+                          aria-labelledby="settings-zone-esa-admin-monitoring"
+                          role="list"
+                        >
+                          <li class="bcn-settings-nav__item">
+                            <a
+                              class="type-body-small bcn-settings-nav__link"
+                              href="/beacon-design/prototypes/settings/site-clearance"
+                            >
+                              <span class="bcn-settings-nav__page">Site Clearance</span>
+                              <span class="bcn-settings-nav__count" aria-label="3 records">
+                                3
+                              </span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="bcn-settings-nav__group">
+                        <h3
+                          class="type-label bcn-settings-nav__zone"
+                          id="settings-zone-esa-admin-reporting"
+                        >
+                          Reporting
+                        </h3>
+                        <ul
+                          class="bcn-settings-nav__list"
+                          aria-labelledby="settings-zone-esa-admin-reporting"
+                          role="list"
+                        >
+                          <li class="bcn-settings-nav__item">
+                            <a
+                              class="type-body-small bcn-settings-nav__link"
+                              href="/beacon-design/prototypes/settings/report-types"
+                            >
+                              <span class="bcn-settings-nav__page">Report Types</span>
+                              <span class="bcn-settings-nav__count" aria-label="4 records">
+                                4
+                              </span>
+                            </a>
+                          </li>
+                          <li class="bcn-settings-nav__item">
+                            <a
+                              class="type-body-small bcn-settings-nav__link"
+                              href="/beacon-design/prototypes/settings/report-templates"
+                            >
+                              <span class="bcn-settings-nav__page">Report Templates</span>
+                              <span class="bcn-settings-nav__count" aria-label="4 records">
+                                4
+                              </span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="bcn-settings-nav__group">
+                        <h3
+                          class="type-label bcn-settings-nav__zone"
+                          id="settings-zone-esa-admin-data-catalog"
+                        >
+                          Data Catalog
+                        </h3>
+                        <ul
+                          class="bcn-settings-nav__list"
+                          aria-labelledby="settings-zone-esa-admin-data-catalog"
+                          role="list"
+                        >
+                          <li class="bcn-settings-nav__item">
+                            <a
+                              class="type-body-small bcn-settings-nav__link"
+                              href="/beacon-design/prototypes/settings/commitment-categories"
+                            >
+                              <span class="bcn-settings-nav__page">Commitment Categories</span>
+                              <span class="bcn-settings-nav__count" aria-label="3 records">
+                                3
+                              </span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </section>
+                    <section
+                      class="bcn-settings-nav__block"
+                      aria-labelledby="settings-aud-tenant-admin"
+                    >
+                      <h2 class="type-body bcn-settings-nav__aud" id="settings-aud-tenant-admin">
+                        <span class="bcn-settings-nav__aud-icon" aria-hidden="true">
+                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                            >
+                              <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
+                              <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
+                              <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
+                              <path d="M10 6h4"></path>
+                              <path d="M10 10h4"></path>
+                              <path d="M10 14h4"></path>
+                              <path d="M10 18h4"></path>
+                            </svg>
+                          </span>
+                        </span>
+                        Tenant Admin
+                      </h2>
+                      <div class="bcn-settings-nav__group">
+                        <h3
+                          class="type-label bcn-settings-nav__zone"
+                          id="settings-zone-tenant-admin-general"
+                        >
+                          General
+                        </h3>
+                        <ul
+                          class="bcn-settings-nav__list"
+                          aria-labelledby="settings-zone-tenant-admin-general"
+                          role="list"
+                        >
+                          <li class="bcn-settings-nav__item">
+                            <a
+                              class="type-body-small bcn-settings-nav__link"
+                              href="/beacon-design/prototypes/settings/tenant-profile"
+                            >
+                              <span class="bcn-settings-nav__page">Tenant Profile</span>
+                            </a>
+                          </li>
+                          <li class="bcn-settings-nav__item">
+                            <a
+                              class="type-body-small bcn-settings-nav__link"
+                              href="/beacon-design/prototypes/settings/labels-definitions"
+                            >
+                              <span class="bcn-settings-nav__page">Labels &amp; Definitions</span>
+                              <span class="bcn-settings-nav__count" aria-label="36 records">
+                                36
+                              </span>
+                            </a>
+                          </li>
+                          <li class="bcn-settings-nav__item">
+                            <a
+                              class="type-body-small bcn-settings-nav__link"
+                              href="/beacon-design/prototypes/settings/custom-pages"
+                            >
+                              <span class="bcn-settings-nav__page">Custom Pages</span>
+                              <span class="bcn-settings-nav__count" aria-label="2 records">
+                                2
+                              </span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="bcn-settings-nav__group">
+                        <h3
+                          class="type-label bcn-settings-nav__zone"
+                          id="settings-zone-tenant-admin-people-access"
+                        >
+                          People &amp; Access
+                        </h3>
+                        <ul
+                          class="bcn-settings-nav__list"
+                          aria-labelledby="settings-zone-tenant-admin-people-access"
+                          role="list"
+                        >
+                          <li class="bcn-settings-nav__item">
+                            <a
+                              class="type-body-small bcn-settings-nav__link"
+                              href="/beacon-design/prototypes/settings/users"
+                            >
+                              <span class="bcn-settings-nav__page">Users</span>
+                              <span class="bcn-settings-nav__count" aria-label="75 records">
+                                75
+                              </span>
+                            </a>
+                          </li>
+                          <li class="bcn-settings-nav__item">
+                            <a
+                              class="type-body-small bcn-settings-nav__link"
+                              href="/beacon-design/prototypes/settings/roles"
+                            >
+                              <span class="bcn-settings-nav__page">Roles</span>
+                              <span class="bcn-settings-nav__count" aria-label="4 records">
+                                4
+                              </span>
+                            </a>
+                          </li>
+                          <li class="bcn-settings-nav__item">
+                            <a
+                              class="type-body-small bcn-settings-nav__link"
+                              href="/beacon-design/prototypes/settings/people"
+                            >
+                              <span class="bcn-settings-nav__page">People</span>
+                              <span class="bcn-settings-nav__count" aria-label="0 records">
+                                0
+                              </span>
+                            </a>
+                          </li>
+                          <li class="bcn-settings-nav__item">
+                            <a
+                              class="type-body-small bcn-settings-nav__link"
+                              href="/beacon-design/prototypes/settings/organizations"
+                            >
+                              <span class="bcn-settings-nav__page">Organizations</span>
+                              <span class="bcn-settings-nav__count" aria-label="0 records">
+                                0
+                              </span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="bcn-settings-nav__group">
+                        <h3
+                          class="type-label bcn-settings-nav__zone"
+                          id="settings-zone-tenant-admin-tracking"
+                        >
+                          Tracking
+                        </h3>
+                        <ul
+                          class="bcn-settings-nav__list"
+                          aria-labelledby="settings-zone-tenant-admin-tracking"
+                          role="list"
+                        >
+                          <li class="bcn-settings-nav__item">
+                            <a
+                              class="type-body-small bcn-settings-nav__link"
+                              href="/beacon-design/prototypes/settings/notifications"
+                            >
+                              <span class="bcn-settings-nav__page">Notifications</span>
+                            </a>
+                          </li>
+                          <li class="bcn-settings-nav__item">
+                            <a
+                              class="type-body-small bcn-settings-nav__link"
+                              href="/beacon-design/prototypes/settings/notification-log"
+                            >
+                              <span class="bcn-settings-nav__page">Notification Log</span>
+                              <span class="bcn-settings-nav__count" aria-label="6 records">
+                                6
+                              </span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="bcn-settings-nav__group">
+                        <h3
+                          class="type-label bcn-settings-nav__zone"
+                          id="settings-zone-tenant-admin-data-catalog"
+                        >
+                          Data Catalog
+                        </h3>
+                        <ul
+                          class="bcn-settings-nav__list"
+                          aria-labelledby="settings-zone-tenant-admin-data-catalog"
+                          role="list"
+                        >
+                          <li class="bcn-settings-nav__item">
+                            <a
+                              class="type-body-small bcn-settings-nav__link"
+                              href="/beacon-design/prototypes/settings/commitment-types"
+                            >
+                              <span class="bcn-settings-nav__page">Commitment Types</span>
+                              <span class="bcn-settings-nav__count" aria-label="4 records">
+                                4
+                              </span>
+                            </a>
+                          </li>
+                          <li class="bcn-settings-nav__item">
+                            <a
+                              class="type-body-small bcn-settings-nav__link"
+                              href="/beacon-design/prototypes/settings/phases"
+                            >
+                              <span class="bcn-settings-nav__page">Phases</span>
+                              <span class="bcn-settings-nav__count" aria-label="6 records">
+                                6
+                              </span>
+                            </a>
+                          </li>
+                          <li class="bcn-settings-nav__item">
+                            <a
+                              class="type-body-small bcn-settings-nav__link"
+                              href="/beacon-design/prototypes/settings/resource-categories"
+                            >
+                              <span class="bcn-settings-nav__page">Resource Categories</span>
+                              <span class="bcn-settings-nav__count" aria-label="26 records">
+                                26
+                              </span>
+                            </a>
+                          </li>
+                          <li class="bcn-settings-nav__item">
+                            <a
+                              class="type-body-small bcn-settings-nav__link"
+                              href="/beacon-design/prototypes/settings/tags"
+                            >
+                              <span class="bcn-settings-nav__page">Tags</span>
+                              <span class="bcn-settings-nav__count" aria-label="320 records">
+                                320
+                              </span>
+                            </a>
+                          </li>
+                          <li class="bcn-settings-nav__item">
+                            <a
+                              class="type-body-small bcn-settings-nav__link"
+                              href="/beacon-design/prototypes/settings/data-catalog-display"
+                            >
+                              <span class="bcn-settings-nav__page">Data Catalog Display</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </section>
+                  </nav>
+                </div>
+              </div>
+              <div class="bcn-settings-shell__content" data-esa-surface="">
+                <div class="stack" data-gap="xl">
+                  <div class="stack" data-gap="lg">
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__header">
+                        <div class="esa-card__header-content">
+                          <div class="esa-card__titles">
+                            <h3 class="esa-card__title">Capability toggles</h3>
+                            <p class="esa-card__subtitle">
+                              Permanent switches for what this tenant sees.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="esa-card__body">
+                        <ul class="bcn-flag-list">
+                          <li>
+                            <div
+                              class="bcn-flag-row"
+                              data-bcn-flag-row=""
+                              data-flag-id="monitoring-dashboard"
+                              data-display-name="Monitoring Dashboard"
+                              data-enabled=""
+                            >
+                              <esa-switch-toggle
+                                class="bcn-flag-row__switch"
+                                data-bcn-flag-toggle="true"
+                                label="Monitoring Dashboard"
+                                size="sm"
+                                checked=""
+                                label-position="after"
+                              ></esa-switch-toggle>
+                              <p class="bcn-flag-row__name type-body">Monitoring Dashboard</p>
+                              <p class="bcn-flag-row__desc type-body-small">
+                                Shows the Monitoring product area — daily reports, observations, and
+                                surveys. Mirrors the Monitoring Dashboard module on the tenant’s
+                                profile.
+                              </p>
+                            </div>
+                            <script
+                              type="module"
+                              src="/beacon-design/_astro/BcnFlagRow.astro_astro_type_script_index_0_lang.BCBMZVLm.js"
+                            ></script>
+                          </li>
+                          <li>
+                            <div
+                              class="bcn-flag-row"
+                              data-bcn-flag-row=""
+                              data-flag-id="spatial-library"
+                              data-display-name="Spatial Library"
+                              data-enabled=""
+                            >
+                              <esa-switch-toggle
+                                class="bcn-flag-row__switch"
+                                data-bcn-flag-toggle="true"
+                                label="Spatial Library"
+                                size="sm"
+                                checked=""
+                                label-position="after"
+                              ></esa-switch-toggle>
+                              <p class="bcn-flag-row__name type-body">Spatial Library</p>
+                              <p class="bcn-flag-row__desc type-body-small">
+                                Shows the Spatial Library product area — uploaded map layers and
+                                work-area geometry. Mirrors the Spatial Library module on the
+                                tenant’s profile.
+                              </p>
+                            </div>
+                          </li>
+                          <li>
+                            <div
+                              class="bcn-flag-row"
+                              data-bcn-flag-row=""
+                              data-flag-id="reporting"
+                              data-display-name="Reporting"
+                              data-enabled=""
+                            >
+                              <esa-switch-toggle
+                                class="bcn-flag-row__switch"
+                                data-bcn-flag-toggle="true"
+                                label="Reporting"
+                                size="sm"
+                                checked=""
+                                label-position="after"
+                              ></esa-switch-toggle>
+                              <p class="bcn-flag-row__name type-body">Reporting</p>
+                              <p class="bcn-flag-row__desc type-body-small">
+                                Shows the Reporting product area — report types, templates, and
+                                generated reports. Mirrors the Reporting module on the tenant’s
+                                profile.
+                              </p>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__header">
+                        <div class="esa-card__header-content">
+                          <div class="esa-card__titles">
+                            <h3 class="esa-card__title">Rollout flags</h3>
+                            <p class="esa-card__subtitle">
+                              Temporary gates for in-flight work — removed when the feature reaches
+                              GA.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="esa-card__body">
+                        <ul class="bcn-flag-list">
+                          <li>
+                            <div
+                              class="bcn-flag-row"
+                              data-bcn-flag-row=""
+                              data-flag-id="tenant-ai-usage"
+                              data-display-name="Tenant AI Usage"
+                              data-enabled=""
+                            >
+                              <esa-switch-toggle
+                                class="bcn-flag-row__switch"
+                                data-bcn-flag-toggle="true"
+                                label="Tenant AI Usage"
+                                size="sm"
+                                checked=""
+                                label-position="after"
+                              ></esa-switch-toggle>
+                              <p class="bcn-flag-row__name type-body">Tenant AI Usage</p>
+                              <p class="bcn-flag-row__desc type-body-small">
+                                Gates every AI-assisted extraction and drafting endpoint for this
+                                tenant. Off means no tenant content is sent to a model.
+                              </p>
+                            </div>
+                          </li>
+                          <li>
+                            <div
+                              class="bcn-flag-row"
+                              data-bcn-flag-row=""
+                              data-flag-id="notifications"
+                              data-display-name="Notifications"
+                            >
+                              <esa-switch-toggle
+                                class="bcn-flag-row__switch"
+                                data-bcn-flag-toggle="true"
+                                label="Notifications"
+                                size="sm"
+                                label-position="after"
+                              ></esa-switch-toggle>
+                              <p class="bcn-flag-row__name type-body">Notifications</p>
+                              <p class="bcn-flag-row__desc type-body-small">
+                                Turns on action reminder emails, plus the Notifications settings
+                                page and the notification log.
+                              </p>
+                            </div>
+                          </li>
+                          <li>
+                            <div
+                              class="bcn-flag-row"
+                              data-bcn-flag-row=""
+                              data-flag-id="setup-wizard"
+                              data-display-name="Setup Wizard"
+                              data-enabled=""
+                            >
+                              <esa-switch-toggle
+                                class="bcn-flag-row__switch"
+                                data-bcn-flag-toggle="true"
+                                label="Setup Wizard"
+                                size="sm"
+                                checked=""
+                                label-position="after"
+                              ></esa-switch-toggle>
+                              <p class="bcn-flag-row__name type-body">Setup Wizard</p>
+                              <p class="bcn-flag-row__desc type-body-small">
+                                Turns on the guided first-run flow and its entry in the main menu.
+                              </p>
+                            </div>
+                          </li>
+                          <li>
+                            <div
+                              class="bcn-flag-row"
+                              data-bcn-flag-row=""
+                              data-flag-id="document-review"
+                              data-display-name="Document Review"
+                              data-enabled=""
+                            >
+                              <esa-switch-toggle
+                                class="bcn-flag-row__switch"
+                                data-bcn-flag-toggle="true"
+                                label="Document Review"
+                                size="sm"
+                                checked=""
+                                label-position="after"
+                              ></esa-switch-toggle>
+                              <p class="bcn-flag-row__name type-body">Document Review</p>
+                              <p class="bcn-flag-row__desc type-body-small">
+                                Turns on the Document Review area and its routes.
+                              </p>
+                            </div>
+                          </li>
+                          <li>
+                            <div
+                              class="bcn-flag-row"
+                              data-bcn-flag-row=""
+                              data-flag-id="configurable-data-catalog-display"
+                              data-display-name="Configurable Data Catalog Display"
+                              data-enabled=""
+                            >
+                              <esa-switch-toggle
+                                class="bcn-flag-row__switch"
+                                data-bcn-flag-toggle="true"
+                                label="Configurable Data Catalog Display"
+                                size="sm"
+                                checked=""
+                                label-position="after"
+                              ></esa-switch-toggle>
+                              <p class="bcn-flag-row__name type-body">
+                                Configurable Data Catalog Display
+                              </p>
+                              <p class="bcn-flag-row__desc type-body-small">
+                                Lets the tenant choose the commitments grid columns and compare-card
+                                fields instead of using the system default layout.
+                              </p>
+                            </div>
+                          </li>
+                          <li>
+                            <div
+                              class="bcn-flag-row"
+                              data-bcn-flag-row=""
+                              data-flag-id="permit-tracking"
+                              data-display-name="Permit Tracking"
+                            >
+                              <esa-switch-toggle
+                                class="bcn-flag-row__switch"
+                                data-bcn-flag-toggle="true"
+                                label="Permit Tracking"
+                                size="sm"
+                                label-position="after"
+                              ></esa-switch-toggle>
+                              <p class="bcn-flag-row__name type-body">Permit Tracking</p>
+                              <p class="bcn-flag-row__desc type-body-small">
+                                Turns on permit records and the views that track their conditions
+                                and expirations.
+                              </p>
+                            </div>
+                          </li>
+                          <li>
+                            <div
+                              class="bcn-flag-row"
+                              data-bcn-flag-row=""
+                              data-flag-id="streamlined-workflow-enabled"
+                              data-display-name="Streamlined Workflow Enabled"
+                            >
+                              <esa-switch-toggle
+                                class="bcn-flag-row__switch"
+                                data-bcn-flag-toggle="true"
+                                label="Streamlined Workflow Enabled"
+                                size="sm"
+                                label-position="after"
+                              ></esa-switch-toggle>
+                              <p class="bcn-flag-row__name type-body">
+                                Streamlined Workflow Enabled
+                              </p>
+                              <p class="bcn-flag-row__desc type-body-small">
+                                Turns on the streamlined path from commitment to tracked action.
+                                Removed once the workflow ships to every tenant.
+                              </p>
+                              <p class="bcn-flag-row__meta type-caption">Remove at GA (2026 R4)</p>
+                            </div>
+                          </li>
+                          <li>
+                            <div
+                              class="bcn-flag-row"
+                              data-bcn-flag-row=""
+                              data-flag-id="site-clearance"
+                              data-display-name="Site Clearance"
+                              data-enabled=""
+                            >
+                              <esa-switch-toggle
+                                class="bcn-flag-row__switch"
+                                data-bcn-flag-toggle="true"
+                                label="Site Clearance"
+                                size="sm"
+                                checked=""
+                                label-position="after"
+                              ></esa-switch-toggle>
+                              <p class="bcn-flag-row__name type-body">Site Clearance</p>
+                              <p class="bcn-flag-row__desc type-body-small">
+                                Turns on the go/no-go clearance map and the per-discipline reviews
+                                behind it.
+                              </p>
+                            </div>
+                          </li>
+                          <li>
+                            <div
+                              class="bcn-flag-row"
+                              data-bcn-flag-row=""
+                              data-flag-id="help-guidance"
+                              data-display-name="Help &amp; Guidance"
+                            >
+                              <esa-switch-toggle
+                                class="bcn-flag-row__switch"
+                                data-bcn-flag-toggle="true"
+                                label="Help &amp; Guidance"
+                                size="sm"
+                                label-position="after"
+                              ></esa-switch-toggle>
+                              <p class="bcn-flag-row__name type-body">Help &amp; Guidance</p>
+                              <p class="bcn-flag-row__desc type-body-small">
+                                Turns on the app-wide help bar and the guidance drawer. Removed once
+                                help ships to every tenant.
+                              </p>
+                              <p class="bcn-flag-row__meta type-caption">Remove at GA (2026 R3)</p>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__header">
+                        <div class="esa-card__header-content">
+                          <div class="esa-card__titles">
+                            <h3 class="esa-card__title">Default preferences</h3>
+                            <p class="esa-card__subtitle">
+                              Not gates: they set which behavior new records start with.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="esa-card__body">
+                        <ul class="bcn-flag-list">
+                          <li>
+                            <div
+                              class="bcn-flag-row"
+                              data-bcn-flag-row=""
+                              data-flag-id="components-default-off"
+                              data-display-name="Components Default Off"
+                            >
+                              <esa-switch-toggle
+                                class="bcn-flag-row__switch"
+                                data-bcn-flag-toggle="true"
+                                label="Components Default Off"
+                                size="sm"
+                                label-position="after"
+                              ></esa-switch-toggle>
+                              <p class="bcn-flag-row__name type-body">Components Default Off</p>
+                              <p class="bcn-flag-row__desc type-body-small">
+                                New projects start with components turned off. A default for new
+                                work, not a gate — projects that already use components are
+                                unaffected.
+                              </p>
+                            </div>
+                          </li>
+                          <li>
+                            <div
+                              class="bcn-flag-row"
+                              data-bcn-flag-row=""
+                              data-flag-id="streamlined-workflow-default-on"
+                              data-display-name="Streamlined Workflow Default On"
+                            >
+                              <esa-switch-toggle
+                                class="bcn-flag-row__switch"
+                                data-bcn-flag-toggle="true"
+                                label="Streamlined Workflow Default On"
+                                size="sm"
+                                label-position="after"
+                              ></esa-switch-toggle>
+                              <p class="bcn-flag-row__name type-body">
+                                Streamlined Workflow Default On
+                              </p>
+                              <p class="bcn-flag-row__desc type-body-small">
+                                Where the streamlined workflow is enabled, new work uses it by
+                                default. A default for new work, not a gate.
+                              </p>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
-                </section>
-                <section class="bcn-sd" aria-label="Other areas of the project">
-                  <h2 class="bcn-sd__title type-section-title">Explore the rest of Beacon</h2>
-                  <div class="bcn-sd__grid">
-                    <a class="bcn-sd__card" href="/beacon-design/prototypes/monitoring/dashboard">
-                      <div class="bcn-sd__head">
-                        <span class="bcn-sd__glyph">
-                          <span class="esa-icon esa-icon--md" aria-hidden="true">
-                            <svg
-                              width="20"
-                              height="20"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path
-                                d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"
-                              ></path>
-                              <circle cx="12" cy="8" r="2"></circle>
-                              <path
-                                d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"
-                              ></path>
-                            </svg>
-                          </span>
-                        </span>
-                        <span class="bcn-sd__name">Monitoring</span>
-                      </div>
-                      <p class="bcn-sd__summary">
-                        Field observations, surveys, and site clearance across every component.
-                      </p>
-                      <div class="bcn-sd__rollup">
-                        <div class="esa-stat">
-                          <div class="esa-stat__value">34</div>
-                          <div class="esa-stat__label">Active observations</div>
-                        </div>
-                        <div class="esa-stat">
-                          <div class="esa-stat__value">58</div>
-                          <div class="esa-stat__label">Logged in 30 days</div>
-                        </div>
-                      </div>
-                      <span class="bcn-sd__flag">
-                        <span
-                          class="bcn-sd__dot"
-                          style="--_c: var(--color-danger)"
-                          aria-hidden="true"
-                        ></span>
-                        2 critical observations
-                      </span>
-                      <span class="bcn-sd__open"
-                        >Open Monitoring
-                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            focusable="false"
-                          >
-                            <path d="m9 18 6-6-6-6"></path>
-                          </svg>
-                        </span>
-                      </span> </a
-                    ><a class="bcn-sd__card" href="#reporting">
-                      <div class="bcn-sd__head">
-                        <span class="bcn-sd__glyph">
-                          <span class="esa-icon esa-icon--md" aria-hidden="true">
-                            <svg
-                              width="20"
-                              height="20"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
-                              <path
-                                d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
-                              ></path>
-                              <path d="M12 11h4"></path>
-                              <path d="M12 16h4"></path>
-                              <path d="M8 11h.01"></path>
-                              <path d="M8 16h.01"></path>
-                            </svg>
-                          </span>
-                        </span>
-                        <span class="bcn-sd__name">Reporting</span>
-                      </div>
-                      <p class="bcn-sd__summary">
-                        Compliance reports and agency submissions generated from tracked data.
-                      </p>
-                      <div class="bcn-sd__rollup">
-                        <div class="esa-stat">
-                          <div class="esa-stat__value">4</div>
-                          <div class="esa-stat__label">Reports in progress</div>
-                        </div>
-                        <div class="esa-stat">
-                          <div class="esa-stat__value">9</div>
-                          <div class="esa-stat__label">Submitted this quarter</div>
-                        </div>
-                      </div>
-                      <span class="bcn-sd__flag">
-                        <span
-                          class="bcn-sd__dot"
-                          style="--_c: var(--color-danger)"
-                          aria-hidden="true"
-                        ></span>
-                        1 report due in 2 days
-                      </span>
-                      <span class="bcn-sd__open"
-                        >Open Reporting
-                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            focusable="false"
-                          >
-                            <path d="m9 18 6-6-6-6"></path>
-                          </svg>
-                        </span>
-                      </span> </a
-                    ><a class="bcn-sd__card" href="#setup-wizard">
-                      <div class="bcn-sd__head">
-                        <span class="bcn-sd__glyph bcn-sd__glyph--wizard">
-                          <span class="esa-icon esa-icon--md" aria-hidden="true">
-                            <svg
-                              width="20"
-                              height="20"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path
-                                d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
-                              ></path>
-                              <circle cx="12" cy="12" r="10"></circle>
-                            </svg>
-                          </span>
-                        </span>
-                        <span class="bcn-sd__name bcn-sd__name--serif">Setup Wizard</span>
-                      </div>
-                      <p class="bcn-sd__summary">From source documents to trackable actions.</p>
-                      <div class="bcn-sd__rollup">
-                        <div class="esa-stat">
-                          <div class="esa-stat__value">12</div>
-                          <div class="esa-stat__label">Requirements not part of an action</div>
-                        </div>
-                        <div class="esa-stat">
-                          <div class="esa-stat__value">3</div>
-                          <div class="esa-stat__label">Commitments without requirements</div>
-                        </div>
-                      </div>
-                      <span class="bcn-sd__flag">
-                        <span
-                          class="bcn-sd__dot"
-                          style="--_c: var(--color-warning)"
-                          aria-hidden="true"
-                        ></span>
-                        15 items need triage in the wizard
-                      </span>
-                      <span class="bcn-sd__open"
-                        >Open Setup Wizard
-                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            focusable="false"
-                          >
-                            <path d="m9 18 6-6-6-6"></path>
-                          </svg>
-                        </span>
-                      </span>
-                    </a>
-                  </div>
-                </section>
+                </div>
               </div>
             </div>
           </section>
@@ -2049,10 +2794,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               You are here
             </h2>
             <div class="bcn-gd__here">
-              <span class="bcn-gd__here-page" data-gd-page="">Project Dashboard</span>
+              <span class="bcn-gd__here-page" data-gd-page="">Settings</span>
               <span class="bcn-gd__here-purpose" data-gd-purpose=""
-                >Your project homepage — what is most critical right now, your starred components,
-                and front doors into every zone of Beacon.</span
+                >Every switch, list, and template that shapes how Beacon behaves for this tenant —
+                and the platform controls ESA runs across all tenants.</span
               >
             </div>
           </section>
@@ -2084,15 +2829,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <button
                 type="button"
                 class="bcn-gd-row"
-                data-article-id="starring-components"
+                data-article-id="managing-tenant-settings"
                 data-kind="howto"
-                data-title="Starring components on your dashboard"
-                data-summary="Pin the three-to-five components you actually work in."
+                data-title="Managing tenant settings"
+                data-summary="Configure the display labels, defaults, and enabled features that apply across a tenant."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">Starring components on your dashboard</span>
+                  <span class="bcn-gd-row__title">Managing tenant settings</span>
                   <span class="bcn-gd-row__sub"
-                    >Pin the three-to-five components you actually work in.</span
+                    >Configure the display labels, defaults, and enabled features that apply across
+                    a tenant.</span
                   >
                 </span>
                 <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -2113,15 +2859,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               ><button
                 type="button"
                 class="bcn-gd-row"
-                data-article-id="reading-critical-now"
+                data-article-id="managing-users-roles"
                 data-kind="howto"
-                data-title="How “Most critical right now” is chosen"
-                data-summary="Why an item earns a spot at the top of the dashboard."
+                data-title="Managing users and roles"
+                data-summary="Add users to a tenant and assign the roles that govern their access."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">How “Most critical right now” is chosen</span>
+                  <span class="bcn-gd-row__title">Managing users and roles</span>
                   <span class="bcn-gd-row__sub"
-                    >Why an item earns a spot at the top of the dashboard.</span
+                    >Add users to a tenant and assign the roles that govern their access.</span
                   >
                 </span>
                 <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -2142,15 +2888,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               ><button
                 type="button"
                 class="bcn-gd-row"
-                data-article-id="five-minute-tour"
+                data-article-id="configuring-notifications"
                 data-kind="howto"
-                data-title="A five-minute tour of Beacon"
-                data-summary="The four zones of the app and how a compliance obligation flows through them."
+                data-title="Configuring notifications"
+                data-summary="Set which compliance events generate notifications, and how each user receives them."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">A five-minute tour of Beacon</span>
+                  <span class="bcn-gd-row__title">Configuring notifications</span>
                   <span class="bcn-gd-row__sub"
-                    >The four zones of the app and how a compliance obligation flows through
+                    >Set which compliance events generate notifications, and how each user receives
                     them.</span
                   >
                 </span>
@@ -2197,16 +2943,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <button
                 type="button"
                 class="bcn-gd-row"
-                data-article-id="what-is-a-component"
+                data-article-id="feature-flag"
                 data-kind="glossary"
-                data-title="Component"
-                data-summary="A distinct place or package of work within a project, tracked independently."
+                data-title="Feature Flag"
+                data-summary="A tenant-level switch that enables or disables a Beacon capability."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">Component</span>
+                  <span class="bcn-gd-row__title">Feature Flag</span>
                   <span class="bcn-gd-row__sub"
-                    >A distinct place or package of work within a project, tracked
-                    independently.</span
+                    >A tenant-level switch that enables or disables a Beacon capability.</span
                   >
                 </span>
                 <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -2227,16 +2972,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               ><button
                 type="button"
                 class="bcn-gd-row"
-                data-article-id="what-is-an-action"
+                data-article-id="tenant"
                 data-kind="glossary"
-                data-title="Action"
-                data-summary="One trackable deliverable consolidating requirements that describe the same work."
+                data-title="Tenant"
+                data-summary="The client organization a Beacon workspace, its data, and its configuration are scoped to."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">Action</span>
+                  <span class="bcn-gd-row__title">Tenant</span>
                   <span class="bcn-gd-row__sub"
-                    >One trackable deliverable consolidating requirements that describe the same
-                    work.</span
+                    >The client organization a Beacon workspace, its data, and its configuration are
+                    scoped to.</span
                   >
                 </span>
                 <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -2296,16 +3041,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         ><button
           type="button"
           class="bcn-gd-row"
-          data-article-id="tenant"
+          data-article-id="work-area"
           data-kind="glossary"
-          data-title="Tenant"
-          data-summary="The client organization a Beacon workspace, its data, and its configuration are scoped to."
+          data-title="Work Area"
+          data-summary="The finest scope level — a subdivision of a component for field-level tracking."
         >
           <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Tenant</span>
+            <span class="bcn-gd-row__title">Work Area</span>
             <span class="bcn-gd-row__sub"
-              >The client organization a Beacon workspace, its data, and its configuration are
-              scoped to.</span
+              >The finest scope level — a subdivision of a component for field-level tracking.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -2326,15 +3070,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         ><button
           type="button"
           class="bcn-gd-row"
-          data-article-id="work-area"
-          data-kind="glossary"
-          data-title="Work Area"
-          data-summary="The finest scope level — a subdivision of a component for field-level tracking."
+          data-article-id="five-minute-tour"
+          data-kind="howto"
+          data-title="A five-minute tour of Beacon"
+          data-summary="The four zones of the app and how a compliance obligation flows through them."
         >
           <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Work Area</span>
+            <span class="bcn-gd-row__title">A five-minute tour of Beacon</span>
             <span class="bcn-gd-row__sub"
-              >The finest scope level — a subdivision of a component for field-level tracking.</span
+              >The four zones of the app and how a compliance obligation flows through them.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -2413,6 +3157,35 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         ><button
           type="button"
           class="bcn-gd-row"
+          data-article-id="what-is-a-component"
+          data-kind="glossary"
+          data-title="Component"
+          data-summary="A distinct place or package of work within a project, tracked independently."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Component</span>
+            <span class="bcn-gd-row__sub"
+              >A distinct place or package of work within a project, tracked independently.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
           data-article-id="permit"
           data-kind="glossary"
           data-title="Permit"
@@ -2452,6 +3225,64 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <span class="bcn-gd-row__title">Reading the Permit Tracking board</span>
             <span class="bcn-gd-row__sub"
               >Where each permit stands, what is blocking it, and what is due next.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="starring-components"
+          data-kind="howto"
+          data-title="Starring components on your dashboard"
+          data-summary="Pin the three-to-five components you actually work in."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Starring components on your dashboard</span>
+            <span class="bcn-gd-row__sub"
+              >Pin the three-to-five components you actually work in.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="reading-critical-now"
+          data-kind="howto"
+          data-title="How “Most critical right now” is chosen"
+          data-summary="Why an item earns a spot at the top of the dashboard."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">How “Most critical right now” is chosen</span>
+            <span class="bcn-gd-row__sub"
+              >Why an item earns a spot at the top of the dashboard.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -2826,6 +3657,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         ><button
           type="button"
           class="bcn-gd-row"
+          data-article-id="what-is-an-action"
+          data-kind="glossary"
+          data-title="Action"
+          data-summary="One trackable deliverable consolidating requirements that describe the same work."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Action</span>
+            <span class="bcn-gd-row__sub"
+              >One trackable deliverable consolidating requirements that describe the same
+              work.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
           data-article-id="tracing-lineage"
           data-kind="howto"
           data-title="Tracing a requirement back to its source"
@@ -2835,124 +3696,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <span class="bcn-gd-row__title">Tracing a requirement back to its source</span>
             <span class="bcn-gd-row__sub"
               >Follow the lineage from any requirement up to the exact document language.</span
-            >
-          </span>
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m9 18 6-6-6-6"></path>
-            </svg>
-          </span></button
-        ><button
-          type="button"
-          class="bcn-gd-row"
-          data-article-id="feature-flag"
-          data-kind="glossary"
-          data-title="Feature Flag"
-          data-summary="A tenant-level switch that enables or disables a Beacon capability."
-        >
-          <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Feature Flag</span>
-            <span class="bcn-gd-row__sub"
-              >A tenant-level switch that enables or disables a Beacon capability.</span
-            >
-          </span>
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m9 18 6-6-6-6"></path>
-            </svg>
-          </span></button
-        ><button
-          type="button"
-          class="bcn-gd-row"
-          data-article-id="managing-tenant-settings"
-          data-kind="howto"
-          data-title="Managing tenant settings"
-          data-summary="Configure the display labels, defaults, and enabled features that apply across a tenant."
-        >
-          <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Managing tenant settings</span>
-            <span class="bcn-gd-row__sub"
-              >Configure the display labels, defaults, and enabled features that apply across a
-              tenant.</span
-            >
-          </span>
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m9 18 6-6-6-6"></path>
-            </svg>
-          </span></button
-        ><button
-          type="button"
-          class="bcn-gd-row"
-          data-article-id="managing-users-roles"
-          data-kind="howto"
-          data-title="Managing users and roles"
-          data-summary="Add users to a tenant and assign the roles that govern their access."
-        >
-          <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Managing users and roles</span>
-            <span class="bcn-gd-row__sub"
-              >Add users to a tenant and assign the roles that govern their access.</span
-            >
-          </span>
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m9 18 6-6-6-6"></path>
-            </svg>
-          </span></button
-        ><button
-          type="button"
-          class="bcn-gd-row"
-          data-article-id="configuring-notifications"
-          data-kind="howto"
-          data-title="Configuring notifications"
-          data-summary="Set which compliance events generate notifications, and how each user receives them."
-        >
-          <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Configuring notifications</span>
-            <span class="bcn-gd-row__sub"
-              >Set which compliance events generate notifications, and how each user receives
-              them.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -4515,7 +5258,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </esa-side-dialog>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnGuidanceDrawer.astro_astro_type_script_index_0_lang.D06JsUes.js"
+    src="/beacon-design/_astro/BcnGuidanceDrawer.astro_astro_type_script_index_0_lang.z_ZYbuXf.js"
   ></script>
 </div>
 ```
@@ -4544,7 +5287,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --bcn-helpbar-fg: rgba(255, 255, 255, 0.92);
   --bcn-helpbar-fg-muted: rgba(255, 255, 255, 0.72);
   --bcn-helpbar-hover-bg: rgba(255, 255, 255, 0.1);
-  --bcn-teal-600: #0e807b;
   --card-bg: #fcfcfc;
   --card-border-color: #dcdcdc;
   --card-header-bg: transparent;
@@ -4555,33 +5297,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --color-accent: #f76b15;
   --color-border: #dcdcdc;
   --color-border-light: #efefef;
-  --color-commitment: #58508d;
-  --color-danger: #e5484d;
+  --color-border-strong: #bdbdbd;
   --color-primary: #005862;
-  --color-primary-hover: #00474f;
-  --color-primary-strong: #2a7e3b;
-  --color-secondary: #00918b;
-  --color-secondary-strong: #2a7e3b;
   --color-surface: #fcfcfc;
   --color-surface-sunken: #efefef;
   --color-text-inverse: #fcfcfc;
   --color-text-link: #005862;
-  --color-text-muted: #7c7c7c;
   --color-text-primary: #3d3d3d;
   --color-text-secondary: #525252;
   --color-text-tertiary: #656565;
   --font-decorative: "Besley", serif;
-  --font-display: "DM Sans", sans-serif;
-  --font-mono: "Roboto Mono", ui-monospace, monospace;
   --font-sans: "DM Sans", sans-serif;
   --font-weight-bold: 650;
   --font-weight-medium: 500;
   --font-weight-regular: 350;
   --font-weight-semibold: 550;
+  --form-bg: #fcfcfc;
+  --form-border-color: #dcdcdc;
+  --form-border-width: 1px;
   --form-font-size-md: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
   --form-height-md: 36px;
   --form-padding-x-md: 0.75rem;
+  --form-padding-y-md: 0.5rem;
+  --form-placeholder-color: #7c7c7c;
   --form-radius-md: 0.25rem;
+  --form-text-color: #3d3d3d;
   --icon-button-bg-hover: color-mix(in srgb, currentColor 14%, transparent);
   --icon-size-md: 20px;
   --icon-size-medium: 20px;
@@ -4589,10 +5329,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --icon-size-small: 16px;
   --icon-size-xs: 14px;
   --letter-spacing-normal: 0.01em;
-  --letter-spacing-tight: -0.01em;
   --line-height-normal: 1.6;
   --line-height-relaxed: 1.8;
-  --line-height-tight: 1.3;
   --popover-bg: #fcfcfc;
   --popover-border-color: #dcdcdc;
   --popover-color: #3d3d3d;
@@ -4602,8 +5340,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --radius-300: 0.5rem;
   --radius-400: 0.75rem;
   --radius-full: 9999px;
-  --shadow-100: 0 2px 12px 0 rgba(0, 0, 0, 0.04);
   --shadow-300: 0 6px 24px -6px rgba(0, 0, 0, 0.07);
+  --shadow-50: 0 1px 4px 0 rgba(0, 0, 0, 0.03);
   --side-dialog-width: 400px;
   --sidebar-width: 280px;
   --spacing-050: 0.125rem;
@@ -4616,6 +5354,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --spacing-500: 1.5rem;
   --spacing-600: 2rem;
   --spacing-700: 3rem;
+  --switch-toggle-label-color: #3d3d3d;
+  --switch-toggle-thumb-bg: #fcfcfc;
+  --switch-toggle-track-bg: #bdbdbd;
+  --switch-toggle-track-bg-checked: #005862;
   --transition-fast: 0.15s ease;
   --type-size-100: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
   --type-size-150: clamp(0.6875rem, 0.61rem + 0.38vw, 0.875rem);
@@ -4624,13 +5366,503 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --type-size-300: clamp(0.875rem, 0.77rem + 0.52vw, 1.125rem);
   --type-size-400: clamp(1rem, 0.88rem + 0.6vw, 1.25rem);
   --type-size-500: clamp(1.125rem, 0.98rem + 0.72vw, 1.5rem);
-  --type-size-600: clamp(1.375rem, 1.2rem + 0.88vw, 1.875rem);
-  --type-size-700: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem);
 }
 
+:host {
+  --_field-padding-y: var(--form-padding-y-md, 0.5rem);
+  --_field-padding-x: var(--form-padding-x-md, 0.75rem);
+  --_field-font-size: var(--form-font-size-md, 0.9375rem);
+  --_field-height: var(--form-height-md, 40px);
+  --_field-radius: var(--form-radius-md, 0.5rem);
+  --_field-border-color: var(--form-border-color, #e5e5e5);
+  --_label-font-size: var(--type-size-200, 0.9375rem);
+  display: block;
+  font-family: var(--font-sans, sans-serif);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+}
+.control {
+  display: flex;
+  align-items: stretch;
+  height: var(--_field-height);
+  background: var(--form-bg, #fff);
+  border: var(--form-border-width, 1px) solid var(--_field-border-color);
+  border-radius: var(--_field-radius);
+  box-sizing: border-box;
+  overflow: hidden;
+  transition:
+    border-color var(--transition-fast, 150ms ease),
+    box-shadow var(--transition-fast, 150ms ease);
+}
+.input {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  padding: var(--_field-padding-y) var(--_field-padding-x);
+  font-family: inherit;
+  font-size: var(--_field-font-size);
+  color: var(--form-text-color, #171717);
+  background: transparent;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+.input::placeholder {
+  color: var(--form-placeholder-color, #737373);
+}
+:host {
+  display: inline-block;
+}
+.esa-tooltip-anchor {
+  position: relative;
+  display: inline-flex;
+}
 html,
 .modern-layout__content {
   scroll-behavior: smooth;
+}
+.bcn-settings-shell__rail {
+  align-self: start;
+}
+.bcn-settings-search,
+.bcn-settings-search__fieldwrap {
+  position: relative;
+}
+.bcn-settings-search__icon {
+  position: absolute;
+  inset-inline-start: var(--spacing-250);
+  inset-block-start: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  z-index: 1;
+  color: var(--color-text-tertiary);
+  pointer-events: none;
+}
+.bcn-settings-search__field {
+  --form-padding-x-md: 2rem;
+  --form-border-color-focus: var(--color-text-link);
+  --focus-ring-color: var(--color-text-link);
+  display: block;
+}
+.bcn-settings-search__panel {
+  position: absolute;
+  inset-block-start: calc(100% + var(--spacing-100));
+  inset-inline: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  max-block-size: min(24rem, 60vh);
+  overflow-y: auto;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-100);
+  box-shadow: var(--shadow-300);
+}
+.bcn-settings-search__panel[hidden] {
+  display: none;
+}
+.bcn-settings-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-500, 1.5rem);
+}
+.bcn-settings-nav__block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400, 1rem);
+}
+.bcn-settings-nav__block--esa {
+  background: var(--bcn-helpbar-bg);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  border: 1px solid var(--bcn-helpbar-border);
+  border-radius: var(--radius-300, 0.5rem);
+  padding: var(--spacing-300, 0.75rem);
+}
+.bcn-settings-nav__aud {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200, 0.5rem);
+  margin: 0;
+  padding-inline: var(--spacing-300, 0.75rem);
+  padding-block-end: var(--spacing-200, 0.5rem);
+  border-block-end: 1px solid var(--color-border-light, var(--color-border));
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-text-primary);
+}
+.bcn-settings-nav__block--esa .bcn-settings-nav__aud {
+  color: #fff;
+}
+.bcn-settings-nav__block--esa .bcn-settings-nav__aud {
+  border-block-end-color: color-mix(in srgb, #ffffff 18%, transparent);
+}
+.bcn-settings-nav__aud-icon {
+  display: inline-flex;
+  flex: none;
+}
+.bcn-settings-nav__zone {
+  margin: 0 0 var(--spacing-100, 0.25rem);
+  padding-inline: var(--spacing-300, 0.75rem);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--color-text-tertiary);
+}
+.bcn-settings-nav__block--esa .bcn-settings-nav__zone {
+  color: color-mix(in srgb, #ffffff 78%, transparent);
+}
+.bcn-settings-nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.bcn-settings-nav__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-200, 0.5rem);
+  font-size: 0.8125rem;
+  padding: var(--spacing-150, 0.375rem) var(--spacing-300, 0.75rem);
+  border-radius: var(--radius-200, 0.5rem);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition:
+    background 0.1s ease,
+    color 0.1s ease;
+}
+.bcn-settings-nav__block--esa .bcn-settings-nav__link {
+  color: color-mix(in srgb, #ffffff 88%, transparent);
+}
+.bcn-settings-nav__page {
+  min-width: 0;
+}
+.bcn-settings-nav__count {
+  flex: none;
+  font-size: 0.6875rem;
+  line-height: 1.2;
+  padding: 1px 5px;
+  border-radius: var(--radius-100, 0.25rem);
+  background: var(--color-surface-sunken);
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.bcn-settings-nav__block--esa .bcn-settings-nav__count {
+  background: color-mix(in srgb, #ffffff 14%, transparent);
+  color: color-mix(in srgb, #ffffff 78%, transparent);
+}
+.bcn-settings-nav__link[aria-current="page"] {
+  background: var(--color-surface-sunken);
+  color: var(--color-text-primary);
+}
+.bcn-settings-nav__block--esa .bcn-settings-nav__link[aria-current="page"] {
+  background: color-mix(in srgb, #ffffff 18%, transparent);
+  color: #fff;
+}
+.bcn-settings-nav__link[aria-current="page"] .bcn-settings-nav__count {
+  color: inherit;
+  background: color-mix(in srgb, var(--color-text-primary) 10%, transparent);
+}
+.bcn-settings-nav__block--esa
+  .bcn-settings-nav__link[aria-current="page"]
+  .bcn-settings-nav__count {
+  background: color-mix(in srgb, #ffffff 20%, transparent);
+}
+.bcn-settings-nav__block + .bcn-settings-nav__block {
+  margin-block-start: var(--spacing-300, 0.75rem);
+}
+.bcn-settings-shell__content {
+  min-inline-size: 0;
+  --card-bg: #ffffff;
+}
+.bcn-settings-shell__content[data-esa-surface] .esa-card {
+  --card-header-bg: var(--bcn-helpbar-bg);
+  --card-header-color: #ffffff;
+  --card-header-border-color: transparent;
+}
+.bcn-settings-shell__content[data-esa-surface] .esa-card__header .esa-card__subtitle {
+  color: color-mix(in srgb, #ffffff 82%, transparent);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.bcn-flag-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.bcn-flag-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--spacing-400);
+  row-gap: var(--spacing-100);
+  align-items: center;
+  padding-block: var(--spacing-250);
+}
+.bcn-flag-row__switch {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+}
+.bcn-flag-row__name {
+  grid-column: 2;
+  grid-row: 1;
+}
+.bcn-flag-row__name {
+  margin: 0;
+  line-height: 1.4;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-flag-row__desc {
+  grid-column: 2;
+  grid-row: 2;
+}
+.bcn-flag-row__desc {
+  margin: 0;
+  line-height: 1.4;
+  color: var(--color-text-secondary);
+}
+.bcn-flag-list > li + li {
+  border-top: 1px solid var(--color-border-light);
+}
+.bcn-flag-row__meta {
+  grid-column: 2;
+  grid-row: 3;
+}
+.bcn-flag-row__meta {
+  margin: 0;
+  color: var(--color-text-tertiary);
+}
+.bcn-flag-row esa-switch-toggle::part(label) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.esa-card {
+  --_card-bg: var(--card-bg, var(--color-surface, #ffffff));
+  --_card-border: var(--card-border-color, var(--color-border, #e5e5e5));
+  --_card-radius: var(--card-radius, var(--radius-300, 0.5rem));
+  --_card-padding: var(--card-padding, var(--spacing-500, 1.5rem));
+  --_card-header-bg: var(--card-header-bg, transparent);
+  --_card-header-color: var(--card-header-color, var(--color-text-primary, #171717));
+  --_card-header-border: var(--card-header-border-color, var(--color-border-light, #efefef));
+  display: block;
+  background: var(--_card-bg);
+  border: 1px solid var(--_card-border);
+  border-radius: var(--_card-radius);
+  overflow: hidden;
+}
+.esa-card--outlined {
+  --_card-border: var(--color-border, #e5e5e5);
+}
+.esa-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-400, 1rem) var(--_card-padding);
+  background: var(--_card-header-bg);
+  color: var(--_card-header-color);
+  border-bottom: 1px solid var(--_card-header-border);
+  min-height: 56px;
+}
+.esa-card__header-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300, 0.75rem);
+}
+.esa-card__titles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050, 0.125rem);
+}
+.esa-card__title {
+  font-size: var(--type-size-250, 1.0625rem);
+  font-weight: 600;
+  margin: 0;
+  color: inherit;
+  font-family: var(--font-sans, "DM Sans", sans-serif);
+}
+.esa-card__subtitle {
+  font-size: var(--type-size-150, 0.8125rem);
+  color: var(--color-text-secondary, #525252);
+  margin: 0;
+}
+.esa-card__body {
+  padding: var(--_card-padding);
+}
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
+  box-sizing: border-box;
+}
+.page-layout__container {
+  display: flex;
+  flex-direction: column;
+}
+.page-layout section {
+  width: 100%;
+}
+.breadcrumbs {
+  padding: var(--spacing-400) 0;
+}
+.breadcrumbs__items {
+  display: flex;
+  gap: var(--spacing-100);
+  align-items: center;
+  flex-wrap: wrap;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.breadcrumb-item {
+  color: var(--bcn-gray-600);
+  text-transform: capitalize;
+  font-size: 0.875rem;
+}
+a.breadcrumb-item {
+  text-decoration: none;
+}
+.page-layout__title {
+  border-bottom: 1px solid var(--bcn-gray-200);
+  padding: var(--spacing-500) 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.page-layout__title-main {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+.page-layout__title h1 {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  font-family: var(--font-decorative);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--type-size-500);
+  margin: 0;
+  color: var(--bcn-gray-1000);
+}
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
+  position: relative;
+}
+:host {
+  --_width: var(--side-dialog-width, 400px);
+}
+:host {
+  --_track-w: 40px;
+  --_track-h: 22px;
+  --_thumb: 18px;
+  --_bg-off: var(--switch-toggle-track-bg, var(--color-border-strong, #d4d4d4));
+  --_bg-on: var(--switch-toggle-track-bg-checked, var(--color-primary, #43608a));
+  --_thumb-color: var(--switch-toggle-thumb-bg, var(--color-surface, #fff));
+  display: inline-block;
+}
+:host([size="sm"]) {
+  --_track-w: 32px;
+  --_track-h: 18px;
+  --_thumb: 14px;
+}
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-200, 0.5rem);
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--switch-toggle-label-color, var(--color-text-primary, #171717));
+  cursor: pointer;
+}
+.track {
+  position: relative;
+  flex: none;
+  width: var(--_track-w);
+  height: var(--_track-h);
+  border-radius: var(--radius-full, 9999px);
+  background: var(--_bg-off);
+  transition: background var(--transition-fast, 150ms ease);
+}
+:host([checked]) .track {
+  background: var(--_bg-on);
+}
+.thumb {
+  position: absolute;
+  top: 50%;
+  left: 2px;
+  width: var(--_thumb);
+  height: var(--_thumb);
+  transform: translateY(-50%);
+  border-radius: var(--radius-full, 9999px);
+  background: var(--_thumb-color);
+  box-shadow: var(--shadow-50, 0 1px 4px rgba(0, 0, 0, 0.2));
+  transition: left var(--transition-fast, 150ms ease);
+}
+:host([checked]) .thumb {
+  left: calc(var(--_track-w) - var(--_thumb) - 2px);
+}
+.label {
+  font-size: var(--type-size-200, 0.9375rem);
+  line-height: var(--line-height-normal, 1.6);
 }
 *,
 *:before,
@@ -4686,20 +5918,17 @@ img {
   flex-basis: var(--sidebar-width);
   flex-grow: 1;
 }
-.sidebar[data-side="end"] > :first-child {
-  order: 2;
+.type-body {
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-relaxed);
+  letter-spacing: var(--letter-spacing-normal);
 }
-.sidebar > :last-child {
-  flex-basis: 0;
-  flex-grow: 999;
-  min-inline-size: var(--sidebar-content-min);
-}
-.type-section-title {
-  font-family: var(--font-display, var(--font-sans));
-  font-size: var(--type-size-500);
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-tight);
-  letter-spacing: var(--letter-spacing-tight);
+.type-label {
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
 }
 .type-body-small {
   font-size: var(--type-size-150);
@@ -4707,89 +5936,16 @@ img {
   line-height: var(--line-height-normal);
   letter-spacing: var(--letter-spacing-normal);
 }
-.type-body {
-  font-size: var(--type-size-200);
+.sidebar > :last-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: var(--sidebar-content-min);
+}
+.type-caption {
+  font-size: var(--type-size-100);
   font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-relaxed);
+  line-height: var(--line-height-normal);
   letter-spacing: var(--letter-spacing-normal);
-}
-:host {
-  --_width: var(--side-dialog-width, 400px);
-}
-.esa-button {
-  --_btn-height: var(--form-height-md, 40px);
-  --_btn-padding-x: var(--form-padding-x-md, 16px);
-  --_btn-font-size: var(--form-font-size-md, 14px);
-  --_btn-radius: var(--form-radius-md, 6px);
-  --_accent: var(--color-primary, #46a758);
-  --_accent-hover: var(--color-primary-hover, #3e9b4f);
-  --_on: var(--color-text-inverse, #ffffff);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button--color-primary {
-  --_accent-text: var(--color-primary-strong);
-}
-.esa-button__native {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  height: var(--_btn-height);
-  padding-inline: var(--_btn-padding-x);
-  border: 1px solid transparent;
-  border-radius: var(--_btn-radius);
-  font-size: var(--_btn-font-size);
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: transparent;
-}
-.esa-button__label {
-  white-space: nowrap;
-}
-.page-layout {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
-}
-.page-layout--bleed {
-  padding: 0;
-}
-.page-layout__bleed {
-  width: 100%;
-}
-.page-layout__container {
-  display: flex;
-  flex-direction: column;
-}
-.page-layout--bleed .page-layout__container {
-  padding: 0 var(--spacing-600) var(--spacing-600);
-}
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
-  position: relative;
-}
-.page-layout section {
-  width: 100%;
 }
 :host {
   --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
@@ -4804,150 +5960,6 @@ img {
 .esa-popover-anchor {
   position: relative;
   display: inline-block;
-}
-.bcn-status-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-  padding: 2px var(--spacing-250);
-  border-radius: var(--radius-full);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  white-space: nowrap;
-  background: color-mix(in srgb, var(--_chip) 16%, transparent);
-  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
-}
-.bcn-status-chip__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: var(--radius-full);
-  background: var(--_chip);
-  flex-shrink: 0;
-}
-.esa-card {
-  --_card-bg: var(--card-bg, var(--color-surface, #ffffff));
-  --_card-border: var(--card-border-color, var(--color-border, #e5e5e5));
-  --_card-radius: var(--card-radius, var(--radius-300, 0.5rem));
-  --_card-padding: var(--card-padding, var(--spacing-500, 1.5rem));
-  --_card-header-bg: var(--card-header-bg, transparent);
-  --_card-header-color: var(--card-header-color, var(--color-text-primary, #171717));
-  --_card-header-border: var(--card-header-border-color, var(--color-border-light, #efefef));
-  display: block;
-  background: var(--_card-bg);
-  border: 1px solid var(--_card-border);
-  border-radius: var(--_card-radius);
-  overflow: hidden;
-}
-.esa-card__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--spacing-400, 1rem) var(--_card-padding);
-  background: var(--_card-header-bg);
-  color: var(--_card-header-color);
-  border-bottom: 1px solid var(--_card-header-border);
-  min-height: 56px;
-}
-.esa-card__header-content {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300, 0.75rem);
-}
-.esa-card__titles {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-050, 0.125rem);
-}
-.esa-card__title {
-  font-size: var(--type-size-250, 1.0625rem);
-  font-weight: 600;
-  margin: 0;
-  color: inherit;
-  font-family: var(--font-sans, "DM Sans", sans-serif);
-}
-.esa-card__actions {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200, 0.5rem);
-}
-.esa-card__body {
-  padding: var(--_card-padding);
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-stat {
-  --_stat-value-color: var(--stat-value-color, var(--color-text-primary, #171717));
-  --_stat-value-font: var(
-    --stat-value-font,
-    var(--font-display, var(--font-sans, "DM Sans", sans-serif))
-  );
-  --_stat-value-size: var(--stat-value-size, var(--type-size-700, 2.25rem));
-  --_stat-value-weight: var(--stat-value-weight, var(--font-weight-bold, 650));
-  --_stat-label-color: var(--stat-label-color, var(--color-text-secondary, #525252));
-  --_stat-label-size: var(--stat-label-size, var(--type-size-200, 0.9375rem));
-  --_stat-label-weight: var(--stat-label-weight, var(--font-weight-medium, 450));
-  --_stat-sub-color: var(--stat-sub-color, var(--color-text-muted, #737373));
-  --_stat-sub-size: var(--stat-sub-size, var(--type-size-150, 0.875rem));
-  --_stat-accent-color: var(--stat-accent-color, var(--color-secondary-strong, #3a7c59));
-  --_stat-gap: var(--stat-gap, var(--spacing-050, 0.125rem));
-  display: flex;
-  flex-direction: column;
-  gap: var(--_stat-gap);
-  background: transparent;
-}
-.esa-stat__value {
-  font-family: var(--_stat-value-font);
-  font-size: var(--_stat-value-size);
-  font-weight: var(--_stat-value-weight);
-  line-height: var(--line-height-tight, 1.3);
-  letter-spacing: var(--letter-spacing-tight, -0.01em);
-  color: var(--_stat-value-color);
-}
-.esa-stat__label {
-  font-size: var(--_stat-label-size);
-  font-weight: var(--_stat-label-weight);
-  line-height: var(--line-height-normal, 1.6);
-  color: var(--_stat-label-color);
 }
 :host {
   all: initial;
@@ -5156,576 +6168,6 @@ img {
 }
 .claude svg {
   flex: none;
-}
-.bcn-phome {
-  background: var(--color-surface);
-  border-bottom: 1px solid var(--color-border);
-}
-.bcn-phome__cover {
-  height: 132px;
-  overflow: hidden;
-  background: var(--color-surface-sunken);
-}
-.bcn-phome__hero {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.bcn-phome__body {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--spacing-500);
-  padding: 0 var(--spacing-600) var(--spacing-500);
-}
-.bcn-phome__seal {
-  flex-shrink: 0;
-  width: 92px;
-  height: 92px;
-  margin-top: -46px;
-  border-radius: var(--radius-full);
-  background: var(--color-surface);
-  border: 3px solid var(--color-surface);
-  object-fit: contain;
-  box-shadow: var(--shadow-100, 0 2px 12px 0 rgba(0, 0, 0, 0.08));
-}
-.bcn-phome__id {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
-  padding-top: var(--spacing-400);
-  min-width: 0;
-  flex: 1;
-}
-.bcn-phome__idtop {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  flex-wrap: wrap;
-}
-.bcn-phome__name {
-  margin: 0;
-  font-family: var(--font-decorative, var(--font-display, var(--font-sans)));
-  font-weight: var(--font-weight-bold);
-  font-size: var(--type-size-600);
-  line-height: var(--line-height-tight);
-  letter-spacing: var(--letter-spacing-tight);
-  color: var(--bcn-gray-1000, var(--color-text-primary));
-}
-.bcn-phome__eyebrow {
-  margin: 0 0 var(--spacing-200);
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-tertiary);
-}
-.bcn-lrc {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
-.bcn-lrc__row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-300);
-  padding: var(--spacing-250) 0;
-  text-decoration: none;
-  color: inherit;
-}
-.bcn-lrc__label {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-primary);
-  min-width: 0;
-}
-.bcn-lrc__right {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  flex-shrink: 0;
-}
-.bcn-lrc li + li .bcn-lrc__row {
-  border-top: 1px solid var(--color-border-light);
-}
-.bcn-lrc__meta {
-  font-size: var(--type-size-150);
-  color: var(--color-text-tertiary);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-.bcn-pf__desc {
-  margin: 0 0 var(--spacing-300);
-  font-size: var(--type-size-150);
-  line-height: var(--line-height-normal);
-  color: var(--color-text-secondary);
-}
-.bcn-pf {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-}
-.bcn-pf__fact {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: var(--spacing-250) 0;
-}
-.bcn-pf__label {
-  font-size: var(--type-size-150);
-  color: var(--color-text-tertiary);
-}
-.bcn-pf__value {
-  margin: 0;
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-pf__fact + .bcn-pf__fact {
-  border-top: 1px solid var(--color-border-light);
-}
-.bcn-count {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 18px;
-  height: 18px;
-  padding: 0 var(--spacing-100);
-  font-size: 0.8125rem;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-100);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-.bcn-crit {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-}
-.bcn-crit__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-}
-.bcn-crit__card {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: var(--spacing-400);
-  padding: var(--spacing-300) var(--spacing-400);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-300);
-  text-decoration: none;
-  color: inherit;
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease,
-    transform 0.15s ease;
-}
-.bcn-crit__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  flex-shrink: 0;
-  border-radius: var(--radius-200);
-  background: var(--color-surface-sunken);
-  color: var(--color-text-secondary);
-}
-.bcn-crit__body {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-.bcn-crit__type {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-secondary);
-}
-.bcn-crit__title {
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-crit__where {
-  font-size: var(--type-size-150);
-  color: var(--color-text-tertiary);
-}
-.bcn-crit__right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: var(--spacing-100);
-  flex-shrink: 0;
-  text-align: right;
-}
-.bcn-crit__sev {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-secondary);
-}
-.bcn-crit__sev-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: var(--radius-full);
-  background: var(--_s);
-  flex-shrink: 0;
-}
-.bcn-crit__timing {
-  font-size: var(--type-size-150);
-  color: var(--color-text-tertiary);
-  white-space: nowrap;
-}
-.bcn-crit__timing--late {
-  color: var(--color-danger);
-  font-weight: var(--font-weight-semibold);
-}
-.bcn-crit__code {
-  display: inline-block;
-  margin-right: var(--spacing-200);
-  padding: 1px var(--spacing-150);
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-  border-radius: var(--radius-100);
-  vertical-align: 1px;
-}
-.bcn-stc {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-}
-.bcn-stc__head {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: var(--spacing-400);
-  flex-wrap: wrap;
-}
-.bcn-stc__headings {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100);
-  min-width: 0;
-}
-.bcn-stc__title {
-  margin: 0;
-  color: var(--color-text-primary);
-}
-.bcn-stc__lede {
-  margin: 0;
-  color: var(--color-text-secondary);
-  max-width: 68ch;
-}
-.bcn-stc__all {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-100);
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-primary);
-  white-space: nowrap;
-}
-.bcn-stc__list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-}
-.bcn-stc__card {
-  display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-  align-items: center;
-  gap: var(--spacing-500);
-  padding: var(--spacing-400) var(--spacing-500);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-300);
-  text-decoration: none;
-  color: inherit;
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease,
-    transform 0.15s ease;
-}
-.bcn-stc__main {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-  min-width: 0;
-  padding-right: var(--spacing-500);
-  border-right: 1px solid var(--color-border-light);
-}
-.bcn-stc__card-head {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--spacing-300);
-}
-.bcn-stc__glyph {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  flex-shrink: 0;
-  border-radius: var(--radius-200);
-  background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface));
-  color: var(--color-primary);
-}
-.bcn-stc__ident {
-  min-width: 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.bcn-stc__name {
-  font-size: var(--type-size-250, 1.0625rem);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-  line-height: var(--line-height-tight);
-}
-.bcn-stc__type {
-  font-size: var(--type-size-150);
-  color: var(--color-text-tertiary);
-}
-.bcn-stc__headline {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-}
-.bcn-stc__dot {
-  width: 9px;
-  height: 9px;
-  border-radius: var(--radius-full);
-  background: var(--_c);
-  flex-shrink: 0;
-}
-.bcn-stc__headline-text {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-primary);
-}
-.bcn-stc__pulse {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
-}
-.bcn-stc__pulse-row {
-  display: grid;
-  grid-template-columns: auto 6rem 1fr;
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.bcn-stc__pulse-area {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-stc__pulse-note {
-  font-size: var(--type-size-150);
-  color: var(--color-text-tertiary);
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.bcn-tz {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-500);
-  padding: var(--spacing-500) var(--spacing-500) var(--spacing-600);
-  background: color-mix(in srgb, var(--color-primary) 6%, var(--color-surface));
-  border: 1px solid color-mix(in srgb, var(--color-primary) 18%, var(--color-surface));
-  border-radius: var(--radius-400, var(--radius-300));
-}
-.bcn-tz__head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--spacing-400);
-  flex-wrap: wrap;
-}
-.bcn-tz__headings {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150);
-  min-width: 0;
-}
-.bcn-tz__title {
-  margin: 0;
-  color: var(--color-text-primary);
-}
-.bcn-tz__summary {
-  margin: 0;
-  color: var(--color-text-secondary);
-  max-width: 62ch;
-}
-.bcn-tz__cols {
-  display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
-  gap: var(--spacing-500);
-  align-items: start;
-}
-.bcn-tz__rollup {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-  padding: var(--spacing-500);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-300);
-}
-.bcn-tz__label {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-secondary);
-}
-.bcn-tz__stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-500) var(--spacing-600);
-}
-.bcn-tz__scope {
-  margin: 0;
-  font-size: var(--type-size-150);
-  color: var(--color-text-tertiary);
-}
-.bcn-tz__sublinks {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-300) var(--spacing-500);
-  padding-top: var(--spacing-400);
-  border-top: 1px solid var(--color-border-light);
-}
-.bcn-tz__sublink {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-100);
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-primary);
-}
-.bcn-tz__sublink .esa-icon {
-  color: var(--color-text-muted);
-}
-.bcn-sd {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-}
-.bcn-sd__title {
-  margin: 0;
-  color: var(--color-text-primary);
-}
-.bcn-sd__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-  gap: var(--spacing-400);
-}
-.bcn-sd__card {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-  padding: var(--spacing-400);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-300);
-  text-decoration: none;
-  color: inherit;
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
-}
-.bcn-sd__head {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-}
-.bcn-sd__glyph {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  flex-shrink: 0;
-  border-radius: var(--radius-200);
-  background: var(--color-surface-sunken);
-  color: var(--color-text-secondary);
-}
-.bcn-sd__name {
-  font-size: var(--type-size-300);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-sd__summary {
-  margin: 0;
-  font-size: var(--type-size-150);
-  color: var(--color-text-secondary);
-  line-height: var(--line-height-normal);
-}
-.bcn-sd__rollup {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-300) var(--spacing-500);
-  margin: 0;
-  padding: var(--spacing-300) 0;
-  border-top: 1px solid var(--color-border-light);
-  border-bottom: 1px solid var(--color-border-light);
-  --stat-value-size: var(--type-size-400);
-  --stat-label-size: var(--type-size-150);
-  --stat-label-color: var(--color-text-tertiary);
-}
-.bcn-sd__flag {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
-}
-.bcn-sd__dot {
-  width: 9px;
-  height: 9px;
-  border-radius: var(--radius-full);
-  background: var(--_c);
-  flex-shrink: 0;
-}
-.bcn-sd__open {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-100);
-  margin-top: auto;
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-primary);
-}
-.bcn-sd__glyph--wizard {
-  border-radius: var(--radius-full);
-  background: var(--bcn-teal-600, var(--color-secondary));
-  color: var(--color-text-inverse);
-}
-.bcn-sd__name--serif {
-  font-family: var(--font-decorative, var(--font-sans));
-  font-weight: var(--font-weight-bold);
 }
 .modern-layout {
   display: flex;
@@ -6050,17 +6492,15 @@ img {
   overflow: hidden;
   transition: opacity 0.2s ease-in-out;
 }
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
-}
 .nav-section__header > .esa-icon:last-child {
   color: var(--bcn-gray-400);
   transition:
     transform 0.15s ease,
     opacity 0.2s ease-in-out;
   flex-shrink: 0;
+}
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
 }
 .nav-section__items {
   list-style: none;
@@ -6074,6 +6514,10 @@ img {
   transition:
     max-height 0.2s ease-in-out,
     opacity 0.2s ease-in-out;
+}
+.nav-section--collapsed .nav-section__items {
+  max-height: 0;
+  opacity: 0;
 }
 .nav-item {
   padding: 0 0 0 2.5rem;
@@ -6499,13 +6943,6 @@ img {
 .bcn-gd-article__panel[hidden] {
   display: none;
 }
-:host {
-  display: inline-block;
-}
-.esa-tooltip-anchor {
-  position: relative;
-  display: inline-flex;
-}
 ```
 
 ## Tokens
@@ -6531,7 +6968,6 @@ img {
 | `--bcn-helpbar-fg` | `rgba(255, 255, 255, .92)` | component |
 | `--bcn-helpbar-fg-muted` | `rgba(255, 255, 255, .72)` | component |
 | `--bcn-helpbar-hover-bg` | `rgba(255, 255, 255, .1)` | component |
-| `--bcn-teal-600` | `#0e807b` | component |
 | `--card-bg` | `#fcfcfc` | component |
 | `--card-border-color` | `#dcdcdc` | component |
 | `--card-header-bg` | `transparent` | component |
@@ -6542,33 +6978,31 @@ img {
 | `--color-accent` | `#f76b15` | semantic |
 | `--color-border` | `#dcdcdc` | semantic |
 | `--color-border-light` | `#efefef` | semantic |
-| `--color-commitment` | `#58508d` | component |
-| `--color-danger` | `#e5484d` | semantic |
+| `--color-border-strong` | `#bdbdbd` | semantic |
 | `--color-primary` | `#005862` | semantic |
-| `--color-primary-hover` | `#00474f` | semantic |
-| `--color-primary-strong` | `#2a7e3b` | semantic |
-| `--color-secondary` | `#00918b` | semantic |
-| `--color-secondary-strong` | `#2a7e3b` | semantic |
 | `--color-surface` | `#fcfcfc` | semantic |
 | `--color-surface-sunken` | `#efefef` | semantic |
 | `--color-text-inverse` | `#fcfcfc` | semantic |
 | `--color-text-link` | `#005862` | semantic |
-| `--color-text-muted` | `#7c7c7c` | semantic |
 | `--color-text-primary` | `#3d3d3d` | semantic |
 | `--color-text-secondary` | `#525252` | semantic |
 | `--color-text-tertiary` | `#656565` | semantic |
 | `--font-decorative` | `"Besley", serif` | component |
-| `--font-display` | `"DM Sans", sans-serif` | primitive |
-| `--font-mono` | `"Roboto Mono", ui-monospace, monospace` | primitive |
 | `--font-sans` | `"DM Sans", sans-serif` | primitive |
 | `--font-weight-bold` | `650` | primitive |
 | `--font-weight-medium` | `500` | primitive |
 | `--font-weight-regular` | `350` | primitive |
 | `--font-weight-semibold` | `550` | primitive |
+| `--form-bg` | `#fcfcfc` | component |
+| `--form-border-color` | `#dcdcdc` | component |
+| `--form-border-width` | `1px` | component |
 | `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | component |
 | `--form-height-md` | `36px` | component |
 | `--form-padding-x-md` | `.75rem` | component |
+| `--form-padding-y-md` | `.5rem` | component |
+| `--form-placeholder-color` | `#7c7c7c` | component |
 | `--form-radius-md` | `.25rem` | component |
+| `--form-text-color` | `#3d3d3d` | component |
 | `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
 | `--icon-size-md` | `20px` | primitive |
 | `--icon-size-medium` | `20px` | component |
@@ -6576,10 +7010,8 @@ img {
 | `--icon-size-small` | `16px` | component |
 | `--icon-size-xs` | `14px` | primitive |
 | `--letter-spacing-normal` | `.01em` | primitive |
-| `--letter-spacing-tight` | `-.01em` | primitive |
 | `--line-height-normal` | `1.6` | primitive |
 | `--line-height-relaxed` | `1.8` | primitive |
-| `--line-height-tight` | `1.3` | primitive |
 | `--popover-bg` | `#fcfcfc` | component |
 | `--popover-border-color` | `#dcdcdc` | component |
 | `--popover-color` | `#3d3d3d` | component |
@@ -6589,8 +7021,8 @@ img {
 | `--radius-300` | `.5rem` | primitive |
 | `--radius-400` | `.75rem` | primitive |
 | `--radius-full` | `9999px` | primitive |
-| `--shadow-100` | `0 2px 12px 0 rgba(0, 0, 0, .04)` | primitive |
 | `--shadow-300` | `0 6px 24px -6px rgba(0, 0, 0, .07)` | primitive |
+| `--shadow-50` | `0 1px 4px 0 rgba(0, 0, 0, .03)` | primitive |
 | `--side-dialog-width` | `400px` | component |
 | `--sidebar-width` | `280px` | semantic |
 | `--spacing-050` | `.125rem` | primitive |
@@ -6603,6 +7035,10 @@ img {
 | `--spacing-500` | `1.5rem` | primitive |
 | `--spacing-600` | `2rem` | primitive |
 | `--spacing-700` | `3rem` | primitive |
+| `--switch-toggle-label-color` | `#3d3d3d` | component |
+| `--switch-toggle-thumb-bg` | `#fcfcfc` | component |
+| `--switch-toggle-track-bg` | `#bdbdbd` | component |
+| `--switch-toggle-track-bg-checked` | `#005862` | component |
 | `--transition-fast` | `.15s ease` | primitive |
 | `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | primitive |
 | `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
@@ -6611,8 +7047,6 @@ img {
 | `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
 | `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
 | `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` | primitive |
-| `--type-size-600` | `clamp(1.375rem, 1.2rem + .88vw, 1.875rem)` | primitive |
-| `--type-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | primitive |
 
 ---
 _Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._

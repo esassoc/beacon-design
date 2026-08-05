@@ -110,7 +110,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         </span>
         QA
       </span>
-      <a href="#esa-config" class="icon-button" aria-label="ESA-Config">
+      <a href="/beacon-design/prototypes/settings" class="icon-button" aria-label="ESA-Config">
         <span class="esa-icon esa-icon--md" aria-hidden="true">
           <svg
             width="20"
@@ -137,7 +137,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       </a>
       <a
         class="esa-icon-button esa-icon-button--md"
-        href="#admin"
+        href="/beacon-design/prototypes/settings"
         aria-label="Admin settings"
         title="Admin settings"
       >
@@ -3762,7 +3762,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </esa-side-dialog>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnGuidanceDrawer.astro_astro_type_script_index_0_lang.D06JsUes.js"
+    src="/beacon-design/_astro/BcnGuidanceDrawer.astro_astro_type_script_index_0_lang.z_ZYbuXf.js"
   ></script>
 </div>
 ```
@@ -3849,6 +3849,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --type-size-500: clamp(1.125rem, 0.98rem + 0.72vw, 1.5rem);
 }
 
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
 :host {
   all: initial;
 }
@@ -4056,17 +4060,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 }
 .claude svg {
   flex: none;
-}
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
-}
-:host {
-  display: inline-block;
-}
-.esa-tooltip-anchor {
-  position: relative;
-  display: inline-flex;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
@@ -4909,6 +4902,9 @@ img {
 .bcn-gd-article__panel[hidden] {
   display: none;
 }
+:host {
+  --_width: var(--side-dialog-width, 400px);
+}
 .bcn-model-diagram {
   display: flex;
   flex-direction: column;
@@ -5123,6 +5119,13 @@ img {
   background: var(--color-surface-sunken);
 }
 :host {
+  display: inline-block;
+}
+.esa-tooltip-anchor {
+  position: relative;
+  display: inline-flex;
+}
+:host {
   --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
   --_popover-border: var(--popover-border-color, var(--color-border, #e5e5e5));
   --_popover-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
@@ -5135,9 +5138,6 @@ img {
 .esa-popover-anchor {
   position: relative;
   display: inline-block;
-}
-:host {
-  --_width: var(--side-dialog-width, 400px);
 }
 .page-layout {
   display: flex;

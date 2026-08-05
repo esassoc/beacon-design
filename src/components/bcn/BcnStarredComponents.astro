@@ -7,6 +7,21 @@
 // itself IS the portal — the whole card is the link (Andy, round 2: 1-col, and the
 // explicit "Open component dashboard" link removed).
 //
+// STARRING (Andy, 2026-08-03): stars are PER-USER — a personal lens, not a team
+// designation (dev: user-preference keyed user×component). The toggle lives on
+// these cards (unstar in place), on the component dashboard's header, and — for
+// the first slice, per the 2026-08-04 product meeting — as a star column in the
+// all-components list. A user with NO stars sees the N most active components
+// (open actions + recent observations) with a starring hint, so the homepage
+// centre is never empty.
+//
+// A PROJECT-WIDE row leads the list (2026-08-04): "is the project view inclusive
+// of components or not." Its pulses count actions with no component.
+//
+// The three pulses carry each component's story; the former headline row was
+// removed (round 10) along with the standalone criticality surface it echoed —
+// urgency now lives in the module that owns the work (bcn-modules).
+//
 // Composes the legos: EsaIcon (component glyph + header chevron). The card, its
 // two-column identity/pulse split, and the pulse rows are composition inside this
 // component; pulse dot colors are VALUE-driven from PULSE_META (the `--_c` idiom).
@@ -16,8 +31,12 @@
 // component list is a bare AG Grid). bcn-starred-components is the reusable home;
 // the glyphs are esa-icon and pulse color follows the theme via --_c.
 import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
 import { withBase } from '../../lib/base';
-import { PULSE_META, type StarredComponent } from '../../data/project-dashboard';
+import { PULSE_META, PROJECT, type StarredComponent, type MacroArea, type PulseStatus } from '../../data/project-dashboard';
+import { projectScopedByType, daysOut } from '../../data/project-actions';
+
+const MACRO_AREAS: MacroArea[] = ['tracking', 'monitoring', 'reporting'];
 
 interface Props {
   components: StarredComponent[];
@@ -29,37 +48,81 @@ const ALL_COMPONENTS_HREF = withBase('/prototypes/component-dashboard');
 
 const PACKAGE =
   '<path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M3.29 7 12 12l8.71-5"/><path d="M12 22V12"/>';
+const FOLDERS =
+  '<path d="M20 17a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3.9a2 2 0 0 1-1.69-.9l-.81-1.2a2 2 0 0 0-1.67-.9H8a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2z"/><path d="M2 8v11a2 2 0 0 0 2 2h14"/>';
+
+// The PROJECT-SCOPE row (product meeting, 2026-08-04): "is the project view
+// inclusive of components or not… should there always be just the project-scoped
+// one of these that's always there." Same card anatomy, folder glyph instead of
+// the component package, no star (it can't be unstarred — it's always present).
+const projectScopePulse = MACRO_AREAS.map((area) => {
+  const acts = projectScopedByType(area);
+  const overdue = acts.filter((a) => daysOut(a.dueDate) < 0);
+  return {
+    area,
+    label: area.charAt(0).toUpperCase() + area.slice(1),
+    status: (overdue.length ? 'attention' : acts.length ? 'on-track' : 'quiet') as PulseStatus,
+    note: acts.length === 0 ? 'No actions' : `${acts.length} action${acts.length === 1 ? '' : 's'}${overdue.length ? ` · ${overdue.length} overdue` : ''}`,
+  };
+});
 ---
 
 <section class="bcn-stc" aria-label="Components">
   <header class="bcn-stc__head">
+    <!-- No lede — the starred cards and their pulses are self-describing
+         (data-grounded review, 2026-08-03). -->
     <div class="bcn-stc__headings">
       <h2 class="bcn-stc__title type-section-title">Components</h2>
-      <p class="bcn-stc__lede type-body-small">
-        The components you've starred, with current Tracking, Monitoring, and
-        Reporting status for each.
-      </p>
     </div>
     <a class="bcn-stc__all" href={ALL_COMPONENTS_HREF}>All 24 components <EsaIcon name="chevron-right" size="sm" /></a>
   </header>
 
   <div class="bcn-stc__list">
+    <div class="bcn-stc__card bcn-stc__card--scope">
+      <a class="bcn-stc__portal" href={linkHref('/prototypes/requirement-tracker')} aria-label="Open project-scoped tracking"></a>
+      <div class="bcn-stc__main">
+        <div class="bcn-stc__card-head">
+          <span class="bcn-stc__glyph bcn-stc__glyph--scope"><EsaIcon name="folders" size="md" paths={FOLDERS} /></span>
+          <span class="bcn-stc__ident">
+            <span class="bcn-stc__name">Project-wide</span>
+            <!-- The identity line is the project record itself — the component
+                 rows carry Component.Description in this slot, so this one
+                 carries Project.Name rather than a definition of the scope. -->
+            <span class="bcn-stc__type">{PROJECT.name}</span>
+          </span>
+        </div>
+      </div>
+      <ul class="bcn-stc__pulse">
+        {
+          projectScopePulse.map((p) => (
+            <li class="bcn-stc__pulse-row">
+              <span class="bcn-stc__dot" style={`--_c: ${PULSE_META[p.status].hex};`} aria-hidden="true" />
+              <span class="bcn-stc__pulse-area">{p.label}</span>
+              <span class="bcn-stc__pulse-note">{p.note}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
     {
       components.map((c) => (
-        <a class="bcn-stc__card" href={linkHref(c.href)}>
+        <div class="bcn-stc__card">
+          <a class="bcn-stc__portal" href={linkHref(c.href)} aria-label={`Open the ${c.name} component dashboard`}></a>
+          <span class="bcn-stc__star" data-star-toggle>
+            <EsaIconButton icon="star" label={`Unstar ${c.name}`} size="sm" />
+          </span>
           <div class="bcn-stc__main">
             <div class="bcn-stc__card-head">
               <span class="bcn-stc__glyph"><EsaIcon name="package" size="md" paths={PACKAGE} /></span>
               <span class="bcn-stc__ident">
                 <span class="bcn-stc__name">{c.name}</span>
-                <span class="bcn-stc__type">{c.type} · {c.phaseLabel}</span>
+                <span class="bcn-stc__type">
+                  {c.description}{c.status !== 'Active' && ` · ${c.status}`}
+                </span>
               </span>
             </div>
 
-            <div class="bcn-stc__headline">
-              <span class="bcn-stc__dot" style={`--_c: ${PULSE_META[c.headlineStatus].hex};`} aria-hidden="true" />
-              <span class="bcn-stc__headline-text">{c.headline}</span>
-            </div>
           </div>
 
           <ul class="bcn-stc__pulse">
@@ -71,11 +134,25 @@ const PACKAGE =
               </li>
             ))}
           </ul>
-        </a>
+        </div>
       ))
     }
   </div>
 </section>
+
+<script>
+  // Star toggle — prototype behavior: pressed state flips in place (dev: writes the
+  // per-user star; an unstarred card leaves the set on next load).
+  document.querySelectorAll<HTMLElement>('[data-star-toggle]').forEach((wrap) => {
+    const btn = wrap.querySelector('button');
+    if (!btn) return;
+    btn.setAttribute('aria-pressed', 'true');
+    btn.addEventListener('click', () => {
+      const pressed = btn.getAttribute('aria-pressed') === 'true';
+      btn.setAttribute('aria-pressed', String(!pressed));
+    });
+  });
+</script>
 
 <style>
   .bcn-stc { display: flex; flex-direction: column; gap: var(--spacing-400); }
@@ -104,8 +181,11 @@ const PACKAGE =
   /* 1-col stacked (Andy, round 2). */
   .bcn-stc__list { display: flex; flex-direction: column; gap: var(--spacing-300); }
 
-  /* Full-width portal card: identity on the left, the T/M/R pulse on the right. */
+  /* Full-width portal card: identity on the left, the T/M/R pulse on the right.
+     A DIV carrying a stretched portal link + the star toggle (a link can't nest
+     an interactive star) — the whole card still acts as the link. */
   .bcn-stc__card {
+    position: relative;
     display: grid;
     grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
     align-items: center;
@@ -114,9 +194,29 @@ const PACKAGE =
     background: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-300);
-    text-decoration: none;
-    color: inherit;
     transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+  }
+  .bcn-stc__portal {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-300);
+  }
+  .bcn-stc__portal:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+  /* Star toggle — rides above the portal link; pressed = the user's star. */
+  .bcn-stc__star {
+    position: absolute;
+    top: var(--spacing-200);
+    right: var(--spacing-200);
+    z-index: 1;
+  }
+  .bcn-stc__star :global(button[aria-pressed='true']) {
+    color: var(--color-warning);
+  }
+  .bcn-stc__star :global(button[aria-pressed='true'] svg) {
+    fill: currentColor;
   }
   .bcn-stc__card:hover {
     border-color: var(--color-border-strong);
@@ -137,6 +237,12 @@ const PACKAGE =
   }
 
   .bcn-stc__card-head { display: flex; align-items: flex-start; gap: var(--spacing-300); }
+  /* The project-scope row reads as the project itself, not a component: neutral
+     glyph tile, no star. */
+  .bcn-stc__glyph--scope {
+    background: var(--color-surface-sunken) !important;
+    color: var(--color-text-secondary) !important;
+  }
   .bcn-stc__glyph {
     display: inline-flex;
     align-items: center;
@@ -159,17 +265,6 @@ const PACKAGE =
   }
   .bcn-stc__type { font-size: var(--type-size-150); color: var(--color-text-tertiary); }
 
-  .bcn-stc__headline {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-200);
-  }
-  .bcn-stc__headline-text {
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-text-primary);
-  }
-
   .bcn-stc__dot {
     width: 9px;
     height: 9px;
@@ -183,7 +278,7 @@ const PACKAGE =
   .bcn-stc__pulse {
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 0 var(--spacing-600) 0 0; /* clear the corner star */
     display: flex;
     flex-direction: column;
     gap: var(--spacing-200);

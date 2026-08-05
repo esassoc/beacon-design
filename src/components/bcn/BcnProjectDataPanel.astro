@@ -1,0 +1,714 @@
+---
+// <BcnProjectDataPanel> — the Project data rail's side panel: ONE esa-side-dialog
+// hosting the six project-data surfaces that REPLACE prod's project-details-layout
+// tab pages (Andy, 2026-08-03; list/edit split round 6; slim-card round 7). The
+// contract:
+//
+//   · URL — open state lives in ?data=<key> (pushState on open, stripped on close,
+//     honored on load and popstate), so the deep links prod's tab routes provided
+//     survive the page-to-panel move.
+//   · NARROW frame (~480px), SLIM CARDS (round 7): every entity renders as a
+//     dense card bespoke to its data — 6–8 visible per laptop screen. Species is
+//     cards too (the AG grid retired from this surface; the teal grid remains the
+//     Data Catalog / tracker idiom): common name · italic scientific · code chip,
+//     with a live search filter. Milestones LEAD WITH THE DATE (a date tile),
+//     sorted by EstimatedDate. Seasons are bcn-season-card (prod's year
+//     timeline). Spatial is read-only layer cards; the Spatial Library zone
+//     manages them.
+//   · LISTS ARE READ-ONLY; the ADD button lives in the PANEL HEADER (round 7) and
+//     per-row Edit buttons open the STACKED CHILD DRAWER — a second, narrow
+//     esa-side-dialog carrying that entity's form (the prod inline-create-panels,
+//     ported). Add Species opens prod's species-link panel (global-library
+//     multi-select).
+//   · Project Info opens straight into the editable form and ends in the
+//     delete-project danger zone (esa-confirm-dialog danger — prod-faithful).
+//
+// Composes the legos: esa-side-dialog ×2 (panel + child drawer), esa-text-field /
+// esa-textarea / esa-checkbox / esa-date-picker / esa-combobox (forms),
+// esa-confirm-dialog (delete), EsaButton / EsaIcon / EsaBadge, BcnSeasonCard,
+// BcnDangerZone.
+//
+// bcn-lego-checked: no esa-* lego is a "project data panel" — the frames ARE
+// esa-side-dialog and every control inside is an esa-* lego or bcn- component;
+// checked Beacon (these ARE the ported prod surfaces: project-species /
+// project-milestones / project-construction-activities / project-seasons /
+// spatial-library / project-upsert-dialog / inline-create-panels).
+// bcn-project-data-panel is the reusable home; its CSS is body-composition glue
+// (the slim entity cards) only.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnDangerZone from './BcnDangerZone.astro';
+import BcnSeasonCard from './BcnSeasonCard.astro';
+import {
+  SPECIES,
+  MILESTONES,
+  CONSTRUCTION_ACTIVITIES,
+  SEASON_GROUPS,
+  SEASON_COUNT,
+  SPATIAL_LAYERS,
+  PROJECT_INFO,
+} from '../../data/project-data';
+import { TODAY } from '../../data/project-dashboard';
+
+// Milestone date tile — the DATE is the card's primary datum (Andy, round 7).
+const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const dateTile = (iso: string) => {
+  const [y, m, d] = iso.split('-').map(Number);
+  return { md: `${MONTHS_SHORT[m - 1]} ${d}`, year: String(y) };
+};
+
+// THE SORT STANDARD (Andy, round 7): alphabetical everywhere — except
+// Milestones, which sort by EstimatedDate (the date IS the primary datum).
+const SPECIES_SORTED = [...SPECIES].sort((a, b) => a.commonName.localeCompare(b.commonName));
+const MILESTONES_SORTED = [...MILESTONES].sort((a, b) => a.estimatedDate.localeCompare(b.estimatedDate));
+const ACTIVITIES_SORTED = [...CONSTRUCTION_ACTIVITIES].sort((a, b) => a.name.localeCompare(b.name));
+const LAYERS_SORTED = [...SPATIAL_LAYERS].sort((a, b) => a.name.localeCompare(b.name));
+const SEASON_GROUPS_SORTED = SEASON_GROUPS.map((g) => ({
+  ...g,
+  seasons: [...g.seasons].sort((a, b) => a.name.localeCompare(b.name)),
+}));
+
+const PAPERCLIP =
+  '<path d="M13.234 20.252 21 12.3"/><path d="m16 6-8.414 8.586a2 2 0 0 0 0 2.828 2 2 0 0 0 2.828 0l8.414-8.586a4 4 0 0 0 0-5.656 4 4 0 0 0-5.656 0l-8.415 8.585a6 6 0 1 0 8.486 8.486"/>';
+const LAYERS =
+  '<path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/>';
+---
+
+<esa-side-dialog
+  id="pd-panel"
+  position="right"
+  style="--_width: min(480px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250; --backdrop-filter: blur(4px);"
+>
+  <!-- Panel FOOTER (round 8): the list screens' Add action — a normal primary
+       button, right-aligned. The controller re-slots this span off ('void') for
+       keys with no Add (Project Info, Spatial) so the lego's footer bar hides. -->
+  <span slot="footer" id="pd-addfoot" class="bcn-pdp__addfoot">
+    <span data-add-for="species" data-cd-open="species-add" hidden><EsaButton color="primary">Add Species</EsaButton></span>
+    <span data-add-for="milestones" data-cd-open="milestone" hidden><EsaButton color="primary">Add Milestone</EsaButton></span>
+    <span data-add-for="construction-activities" data-cd-open="activity" hidden><EsaButton color="primary">Add Activity</EsaButton></span>
+    <span data-add-for="seasons" data-cd-open="season" hidden><EsaButton color="primary">Add Season</EsaButton></span>
+  </span>
+
+  <!-- Species — slim cards (common · scientific · code) + live search -->
+  <section class="bcn-pdp" data-pd-body="species" data-pd-heading="Species" hidden>
+    <esa-text-field data-pd-filter placeholder={`Search ${SPECIES.length} species…`}></esa-text-field>
+    <ul class="bcn-pdp__cards">
+      {
+        SPECIES_SORTED.map((s) => (
+          <li class="bcn-pdp__card bcn-pdp__card--species" data-f>
+            <span class="bcn-pdp__card-main">
+              <span class="bcn-pdp__card-name">{s.commonName}</span>
+              <span class="bcn-pdp__card-sub bcn-pdp__card-sub--sci">{s.scientificName}</span>
+            </span>
+            <span class="bcn-pdp__code">{s.code}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- Milestones — the DATE leads: tile · name/description · Edit -->
+  <section class="bcn-pdp" data-pd-body="milestones" data-pd-heading="Milestones" hidden>
+    <esa-text-field data-pd-filter placeholder={`Search ${MILESTONES.length} milestones…`}></esa-text-field>
+    <ol class="bcn-pdp__cards">
+      {
+        MILESTONES_SORTED.map((m) => {
+          const t = dateTile(m.estimatedDate);
+          return (
+            <li class="bcn-pdp__card bcn-pdp__card--milestone" data-f data-cd-row data-name={m.name} data-date={m.estimatedDate} data-description={m.description}>
+              <span class="bcn-pdp__date-tile">
+                <span class="bcn-pdp__date-md">{t.md}</span>
+                <span class="bcn-pdp__date-year">{t.year}</span>
+              </span>
+              <span class="bcn-pdp__card-main">
+                <span class="bcn-pdp__card-name">{m.name}</span>
+                <span class="bcn-pdp__card-sub">{m.description}</span>
+              </span>
+              <span data-cd-edit="milestone" class="bcn-pdp__card-action"><EsaButton color="ghost" size="sm" icon="pencil" iconOnly aria-label={`Edit ${m.name}`} /></span>
+            </li>
+          );
+        })
+      }
+    </ol>
+  </section>
+
+  <!-- Construction Activities — name/description cards -->
+  <section class="bcn-pdp" data-pd-body="construction-activities" data-pd-heading="Construction Activities" hidden>
+    <esa-text-field data-pd-filter placeholder={`Search ${CONSTRUCTION_ACTIVITIES.length} activities…`}></esa-text-field>
+    <ol class="bcn-pdp__cards">
+      {
+        ACTIVITIES_SORTED.map((a) => (
+          <li class="bcn-pdp__card" data-f data-cd-row data-name={a.name} data-description={a.description}>
+            <span class="bcn-pdp__card-main">
+              <span class="bcn-pdp__card-name">{a.name}</span>
+              <span class="bcn-pdp__card-sub">{a.description}</span>
+            </span>
+            <span data-cd-edit="activity" class="bcn-pdp__card-action"><EsaButton color="ghost" size="sm" icon="pencil" iconOnly aria-label={`Edit ${a.name}`} /></span>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <!-- Seasons — bcn-season-card (year timeline), grouped by season type -->
+  <section class="bcn-pdp" data-pd-body="seasons" data-pd-heading="Seasons" hidden>
+    <esa-text-field data-pd-filter placeholder={`Search ${SEASON_COUNT} seasons…`}></esa-text-field>
+    {
+      SEASON_GROUPS_SORTED.map((g) => (
+        <div class="bcn-pdp__sgroup">
+          <h3 class="bcn-pdp__sgroup-title">{g.group}</h3>
+          <div class="bcn-pdp__scards">
+            {g.seasons.map((s) => (
+              <div
+                data-f
+                data-cd-row
+                data-name={s.name}
+                data-start={`${s.startMonth}/${s.startDay}`}
+                data-end={`${s.endMonth}/${s.endDay}`}
+              >
+                <BcnSeasonCard
+                  name={s.name}
+                  startMonth={s.startMonth}
+                  startDay={s.startDay}
+                  endMonth={s.endMonth}
+                  endDay={s.endDay}
+                  today={TODAY}
+                >
+                  <!-- Tracked badge removed (round 7); Tracked stays a stored
+                       field, surfaced in the edit form rather than card chrome. -->
+                  <Fragment slot="actions">
+                    <span data-cd-edit="season"><EsaButton color="ghost" size="sm" icon="pencil" iconOnly aria-label={`Edit ${s.name}`} /></span>
+                  </Fragment>
+                </BcnSeasonCard>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </section>
+
+  <!-- Spatial Data — read-only layer cards; the Spatial Library zone manages them -->
+  <section class="bcn-pdp" data-pd-body="spatial" data-pd-heading="Spatial Data" hidden>
+    <esa-text-field data-pd-filter placeholder={`Search ${SPATIAL_LAYERS.length} layers…`}></esa-text-field>
+    <ul class="bcn-pdp__cards">
+      {
+        LAYERS_SORTED.map((l) => (
+          <li class="bcn-pdp__card" data-f>
+            <span class="bcn-pdp__card-icon"><EsaIcon name="layers" size="sm" paths={LAYERS} /></span>
+            <span class="bcn-pdp__card-main">
+              <span class="bcn-pdp__card-name">{l.name}</span>
+              <span class="bcn-pdp__card-sub">{l.source}</span>
+            </span>
+            <span class="bcn-pdp__code">{l.geometry}</span>
+          </li>
+        ))
+      }
+    </ul>
+    <a class="bcn-pdp__zone-link" href="#spatial-library">
+      Open Spatial Library <EsaIcon name="chevron-right" size="sm" />
+    </a>
+  </section>
+
+  <!-- Project Info — straight into the editable form (prod project-upsert fields),
+       ending in the danger zone that gives delete-project its new home. -->
+  <section class="bcn-pdp" data-pd-body="project-info" data-pd-heading="Project Info" hidden>
+    <div class="bcn-pdp__form">
+      <esa-text-field label="Name" value={PROJECT_INFO.name} required></esa-text-field>
+      <div class="bcn-pdp__form-pair">
+        <esa-text-field label="Start Date" value={PROJECT_INFO.startDate} required></esa-text-field>
+        <esa-text-field label="End Date" value={PROJECT_INFO.endDate} required></esa-text-field>
+      </div>
+      <esa-switch-toggle label="Has Components" checked={PROJECT_INFO.hasComponents}></esa-switch-toggle>
+      <esa-textarea label="Description" value={PROJECT_INFO.description} rows={6}></esa-textarea>
+
+      <div class="bcn-pdp__files">
+        <span class="bcn-pdp__files-label">Files</span>
+        <ul class="bcn-pdp__file-list">
+          {
+            PROJECT_INFO.files.map((f) => (
+              <li class="bcn-pdp__file">
+                <EsaIcon name="paperclip" size="sm" paths={PAPERCLIP} />
+                <span class="bcn-pdp__file-name">{f}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <span><EsaButton color="ghost" appearance="outline" size="sm">Upload files</EsaButton></span>
+      </div>
+
+      <!-- Delete-project lives in the danger zone below, not this footer. -->
+      <div class="bcn-pdp__formfoot">
+        <span id="pd-info-cancel"><EsaButton color="ghost">Cancel</EsaButton></span>
+        <EsaButton color="primary">Save</EsaButton>
+      </div>
+    </div>
+
+    <div class="bcn-pdp__danger">
+      <BcnDangerZone
+        title="Delete this project"
+        description="Removes the project, its components, and all tracked compliance data from Beacon."
+      >
+        <span id="pd-delete-project"><EsaButton color="danger" appearance="soft">Delete project</EsaButton></span>
+      </BcnDangerZone>
+    </div>
+  </section>
+</esa-side-dialog>
+
+<!-- ── The stacked CHILD DRAWER — one narrow form per entity type (the prod
+     inline-create-panels, ported). Header Add and per-row Edit both land here. ── -->
+<esa-side-dialog
+  id="pd-child"
+  position="right"
+  style="--_width: min(420px, 90vw); --z-modal: 1350; --z-modal-backdrop: 1320;"
+>
+  <div class="bcn-pdp__cform" data-cd-body="species-add" hidden>
+    <p class="bcn-pdp__hint">Pick one or more species from the global library to add to this project.</p>
+    <esa-combobox id="cd-species-combo" label="Species" placeholder="Search species…" multiple required></esa-combobox>
+  </div>
+
+  <div class="bcn-pdp__cform" data-cd-body="milestone" hidden>
+    <esa-text-field id="cd-ms-name" label="Name" required></esa-text-field>
+    <esa-date-picker id="cd-ms-date" label="Estimated Date" help-text="Optional — leave blank if not yet known."></esa-date-picker>
+    <esa-textarea id="cd-ms-desc" label="Description" rows={4}></esa-textarea>
+  </div>
+
+  <div class="bcn-pdp__cform" data-cd-body="activity" hidden>
+    <esa-text-field id="cd-ca-name" label="Name" required></esa-text-field>
+    <esa-textarea id="cd-ca-desc" label="Description" rows={4}></esa-textarea>
+  </div>
+
+  <div class="bcn-pdp__cform" data-cd-body="season" hidden>
+    <esa-text-field id="cd-se-name" label="Name" required></esa-text-field>
+    <div class="bcn-pdp__form-pair">
+      <esa-text-field id="cd-se-start" label="Start (month/day)" placeholder="e.g. 2/1" required></esa-text-field>
+      <esa-text-field id="cd-se-end" label="End (month/day)" placeholder="e.g. 9/15" required></esa-text-field>
+    </div>
+    <div class="bcn-pdp__checks">
+      <esa-switch-toggle label="Nesting Birds"></esa-switch-toggle>
+      <esa-switch-toggle label="Biological Resources"></esa-switch-toggle>
+    </div>
+    <esa-combobox id="cd-se-species" label="Related Species" placeholder="Search species…" multiple></esa-combobox>
+    <esa-textarea id="cd-se-desc" label="Description" rows={3}></esa-textarea>
+  </div>
+
+  <!-- THE STANDARD EDIT-FORM FOOTER (round 8): Delete left · Cancel/Save right,
+       medium. Delete renders only in edit mode; species-add swaps Save → Add. -->
+  <span slot="footer" class="bcn-pdp__cfoot">
+    <span id="cd-delete" data-cd-close hidden><EsaButton color="danger" appearance="soft">Delete</EsaButton></span>
+    <span class="bcn-pdp__cfoot-right">
+      <span data-cd-close><EsaButton color="ghost">Cancel</EsaButton></span>
+      <span id="cd-save" data-cd-close><EsaButton color="primary">Save</EsaButton></span>
+      <span id="cd-add" data-cd-close hidden><EsaButton color="primary">Add</EsaButton></span>
+    </span>
+  </span>
+</esa-side-dialog>
+
+<esa-confirm-dialog
+  id="pd-delete-confirm"
+  variant="danger"
+  heading="Delete Project"
+  message="Are you sure you want to delete this project? Doing so will also delete every component, commitment, observation, and report tracked under it. This action cannot be undone."
+  confirm-label="Delete"
+  cancel-label="Cancel"
+  style="--z-modal: 1400; --z-modal-backdrop: 1350;"
+></esa-confirm-dialog>
+
+<script type="application/json" id="pd-species-data" set:html={JSON.stringify(SPECIES)}></script>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-confirm-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-switch-toggle';
+  import '@esa/ecology/esa-date-picker';
+  import '@esa/ecology/esa-combobox';
+
+  type PanelEl = HTMLElement & { show(): void; close(): void; open: boolean; heading: string };
+  type ConfirmEl = HTMLElement & { open: boolean };
+  type FieldEl = HTMLElement & { value: string };
+
+  const panel = document.getElementById('pd-panel') as PanelEl;
+  const bodies = Array.from(document.querySelectorAll<HTMLElement>('[data-pd-body]'));
+  const addFoot = document.getElementById('pd-addfoot')!;
+  const addButtons = Array.from(document.querySelectorAll<HTMLElement>('[data-add-for]'));
+  const ADDABLE = new Set(['species', 'milestones', 'construction-activities', 'seasons']);
+
+  // ── ?data= contract: open state ↔ URL (pushState / popstate / load) ──────────
+  let syncingHistory = false;
+
+  function openPanel(key: string, push = true): void {
+    const body = bodies.find((b) => b.dataset.pdBody === key);
+    if (!body) return;
+    bodies.forEach((b) => {
+      b.hidden = b !== body;
+    });
+    panel.heading = body.dataset.pdHeading || '';
+    // Footer Add: only list screens carry it — re-slotting to 'void' unassigns
+    // the span so the lego's footer bar collapses on Project Info / Spatial.
+    addFoot.slot = ADDABLE.has(key) ? 'footer' : 'void';
+    addButtons.forEach((btn) => {
+      btn.hidden = btn.dataset.addFor !== key;
+    });
+    panel.show();
+    if (push) history.pushState({ pdata: key }, '', `?data=${key}`);
+  }
+
+  // Esc / backdrop / × all funnel through the lego's close event — strip the param.
+  panel.addEventListener('close', () => {
+    if (child.open) child.close();
+    if (!syncingHistory && new URLSearchParams(location.search).has('data')) {
+      history.pushState({}, '', location.pathname);
+    }
+  });
+
+  window.addEventListener('popstate', () => {
+    const key = new URLSearchParams(location.search).get('data');
+    syncingHistory = true;
+    if (key) openPanel(key, false);
+    else panel.close();
+    syncingHistory = false;
+  });
+
+  // Rail links carry href="?data=<key>" — real, shareable hrefs; intercepted here.
+  document.querySelectorAll<HTMLAnchorElement>('a[href^="?data="]').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      const key = new URLSearchParams(a.search).get('data');
+      if (key) openPanel(key);
+    });
+  });
+
+  const initial = new URLSearchParams(location.search).get('data');
+  if (initial) openPanel(initial, false);
+
+  // ── The child drawer: header Add + per-row Edit land on the entity's form ────
+  const child = document.getElementById('pd-child') as PanelEl;
+  const childBodies = Array.from(document.querySelectorAll<HTMLElement>('[data-cd-body]'));
+  const CHILD_HEADINGS: Record<string, { add: string; edit: string }> = {
+    'species-add': { add: 'Add Species', edit: 'Add Species' },
+    milestone: { add: 'Add Milestone', edit: 'Edit Milestone' },
+    activity: { add: 'Add Activity', edit: 'Edit Activity' },
+    season: { add: 'Add Season', edit: 'Edit Season' },
+  };
+  const setField = (id: string, v?: string) => {
+    const el = document.getElementById(id) as FieldEl | null;
+    if (el) el.value = v ?? '';
+  };
+
+  function openChild(kind: string, mode: 'add' | 'edit', data: Record<string, string | undefined> = {}): void {
+    childBodies.forEach((b) => {
+      b.hidden = b.dataset.cdBody !== kind;
+    });
+    child.heading = CHILD_HEADINGS[kind]?.[mode] ?? '';
+    // The standard footer: Delete only when editing; species-add says Add.
+    document.getElementById('cd-delete')!.hidden = mode !== 'edit';
+    document.getElementById('cd-save')!.hidden = kind === 'species-add';
+    document.getElementById('cd-add')!.hidden = kind !== 'species-add';
+    if (kind === 'milestone') {
+      setField('cd-ms-name', data.name);
+      setField('cd-ms-date', data.date);
+      setField('cd-ms-desc', data.description);
+    } else if (kind === 'activity') {
+      setField('cd-ca-name', data.name);
+      setField('cd-ca-desc', data.description);
+    } else if (kind === 'season') {
+      setField('cd-se-name', data.name);
+      setField('cd-se-start', data.start);
+      setField('cd-se-end', data.end);
+    }
+    child.show();
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-cd-open]').forEach((t) =>
+    t.addEventListener('click', () => openChild(t.dataset.cdOpen!, 'add'))
+  );
+  document.querySelectorAll<HTMLElement>('[data-cd-edit]').forEach((t) =>
+    t.addEventListener('click', () => {
+      const row = t.closest<HTMLElement>('[data-cd-row]');
+      openChild(t.dataset.cdEdit!, 'edit', { ...row?.dataset });
+    })
+  );
+  document.querySelectorAll<HTMLElement>('[data-cd-close]').forEach((t) =>
+    t.addEventListener('click', () => child.close())
+  );
+
+  // ── The universal live filter (round 7: every panel searches) — each search
+  // field filters its own section's [data-f] cards by text. ────────────────────
+  document.querySelectorAll<FieldEl>('[data-pd-filter]').forEach((input) => {
+    const sect = input.closest<HTMLElement>('[data-pd-body]');
+    if (!sect) return;
+    const items = Array.from(sect.querySelectorAll<HTMLElement>('[data-f]'));
+    input.addEventListener('change', (e) => {
+      const q = ((e as CustomEvent).detail?.value ?? input.value ?? '').toLowerCase();
+      items.forEach((it) => {
+        it.hidden = !!q && !it.textContent!.toLowerCase().includes(q);
+      });
+    });
+  });
+
+  // The species pickers search the global library — fed from the fixture here.
+  interface SpeciesRow {
+    commonName: string;
+    scientificName: string;
+    code: string;
+  }
+  const speciesRows: SpeciesRow[] = JSON.parse(document.getElementById('pd-species-data')!.textContent || '[]');
+  const speciesOptions = speciesRows.map((r) => ({ label: r.commonName, value: r.code }));
+  for (const id of ['cd-species-combo', 'cd-se-species']) {
+    const combo = document.getElementById(id) as (HTMLElement & { options: unknown[] }) | null;
+    if (combo) combo.options = speciesOptions;
+  }
+
+  // ── Project Info: Cancel closes; Delete runs the danger confirm ───────────────
+  document.getElementById('pd-info-cancel')?.addEventListener('click', () => panel.close());
+  const deleteConfirm = document.getElementById('pd-delete-confirm') as ConfirmEl;
+  document.getElementById('pd-delete-project')?.addEventListener('click', () => (deleteConfirm.open = true));
+  deleteConfirm.addEventListener('confirm', () => panel.close());
+</script>
+
+<style>
+  /* Panel-body composition glue only — every control above is a lego. */
+  .bcn-pdp {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  /* display:flex above would silently beat the UA's [hidden] rule — restate it,
+     or every body renders stacked in the one panel. */
+  .bcn-pdp[hidden] {
+    display: none;
+  }
+
+  /* ── Panel footer: the list screens' Add action, right-aligned ── */
+  .bcn-pdp__addfoot {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  /* ── The standard edit-form footer: Delete left · Cancel/Save right ── */
+  .bcn-pdp__cfoot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+    width: 100%;
+  }
+  .bcn-pdp__cfoot-right {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    margin-left: auto;
+  }
+
+  /* ── Slim entity cards — dense (round 7: 6–8+ visible, compact type) and
+     OFF-WHITE so they part from the panel's white body (white-on-white read
+     flat). The tile/chip inside flips to white for the counter-contrast. ── */
+  .bcn-pdp__cards {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+  }
+  .bcn-pdp__card {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding: var(--spacing-200) var(--spacing-250);
+    background: var(--color-surface-sunken);
+    border: 1px solid var(--color-border); /* mid gray (round 7) — light read as none */
+    border-radius: var(--radius-200);
+  }
+  .bcn-pdp__card[hidden] {
+    display: none;
+  }
+  .bcn-pdp__card-main {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+    flex: 1;
+  }
+  .bcn-pdp__card-name {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    line-height: var(--line-height-tight);
+  }
+  .bcn-pdp__card-sub {
+    font-size: 0.8125rem; /* 13px — the meta floor */
+    color: var(--color-text-tertiary);
+    line-height: var(--line-height-tight);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-pdp__card-sub--sci {
+    font-style: italic;
+  }
+  .bcn-pdp__card-icon {
+    display: inline-flex;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+  }
+  .bcn-pdp__card-action {
+    flex-shrink: 0;
+  }
+  /* Species code / layer geometry — the quiet mono chip (white on the
+     off-white card). */
+  .bcn-pdp__code {
+    flex-shrink: 0;
+    padding: 1px var(--spacing-200);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-100);
+  }
+
+  /* Milestone date tile — the primary datum leads the card (white on off-white). */
+  .bcn-pdp__date-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex-shrink: 0;
+    width: 3.875rem;
+    padding: var(--spacing-100) 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-100);
+  }
+  .bcn-pdp__date-md {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    line-height: var(--line-height-tight);
+    white-space: nowrap;
+  }
+  .bcn-pdp__date-year {
+    font-size: 0.8125rem; /* 13px — the meta floor */
+    color: var(--color-text-tertiary);
+    line-height: var(--line-height-tight);
+  }
+
+  /* ── Seasons ── */
+  .bcn-pdp__sgroup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .bcn-pdp__sgroup + .bcn-pdp__sgroup {
+    margin-top: var(--spacing-200);
+  }
+  .bcn-pdp__sgroup-title {
+    margin: 0;
+    font-size: var(--type-size-200);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .bcn-pdp__scards {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+
+  /* ── Spatial zone link ── */
+  .bcn-pdp__zone-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    align-self: flex-start;
+    padding-top: var(--spacing-300);
+    border-top: 1px solid var(--color-border-light);
+    width: 100%;
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+  .bcn-pdp__zone-link:hover {
+    color: var(--color-primary-hover);
+  }
+
+  /* ── Forms (Project Info + the child drawer) ── */
+  .bcn-pdp__form,
+  .bcn-pdp__cform {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+  .bcn-pdp__cform[hidden] {
+    display: none;
+  }
+  .bcn-pdp__form-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-400);
+  }
+  @media (max-width: 560px) {
+    .bcn-pdp__form-pair {
+      grid-template-columns: 1fr;
+    }
+  }
+  .bcn-pdp__checks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-300) var(--spacing-500);
+  }
+  .bcn-pdp__hint {
+    margin: 0;
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+  }
+  .bcn-pdp__files {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .bcn-pdp__files-label {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+  }
+  .bcn-pdp__file-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-pdp__file {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-200) 0;
+    color: var(--color-text-secondary);
+  }
+  .bcn-pdp__file + .bcn-pdp__file {
+    border-top: 1px solid var(--color-border-light);
+  }
+  .bcn-pdp__file-name {
+    font-size: var(--type-size-200);
+    color: var(--color-text-primary);
+  }
+  .bcn-pdp__formfoot {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-300);
+    padding-top: var(--spacing-300);
+    border-top: 1px solid var(--color-border-light);
+  }
+  .bcn-pdp__danger {
+    padding-top: var(--spacing-500);
+    margin-top: var(--spacing-300);
+    border-top: 1px solid var(--color-border-light);
+  }
+</style>

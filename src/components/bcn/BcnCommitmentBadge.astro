@@ -1,0 +1,41 @@
+---
+// <BcnCommitmentBadge> — the standard commitment-ID chip: mono, semibold, the
+// commitment purple on a 12% tint. Extracted from BcnCommitmentRow (round 10)
+// so every surface that shows a commitment code renders the SAME badge — the
+// modules, the timeline popovers, and the tracker rows.
+//
+// bcn-lego-checked: esa-badge and esa-pill are the nearest legos but neither
+// carries the mono/entity-color treatment Beacon uses for commitment IDs (and
+// esa-badge fills solid). Checked Beacon — this IS the prod commitment-code
+// chip. bcn-commitment-badge is the reusable home; it reads only semantic
+// tokens (--color-commitment / --radius / --spacing).
+interface Props {
+  code: string;
+  /** `sm` for dense rows (timeline popovers, module lists). */
+  size?: 'sm' | 'md';
+}
+const { code, size = 'md' } = Astro.props;
+---
+
+<span class:list={['bcn-cbadge', `bcn-cbadge--${size}`]}>{code}</span>
+
+<style>
+  .bcn-cbadge {
+    display: inline-block;
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-commitment);
+    background: color-mix(in srgb, var(--color-commitment) 12%, white);
+    border-radius: var(--radius-100);
+    white-space: nowrap;
+  }
+  .bcn-cbadge--md {
+    font-size: var(--type-size-100);
+    padding: 1px var(--spacing-200);
+  }
+  .bcn-cbadge--sm {
+    font-size: 0.75rem;
+    padding: 1px var(--spacing-150);
+  }
+</style>

@@ -107,13 +107,6 @@ The Data tab is the tabular workspace: the requirement-tracker filter bar over t
 
 ## Styles
 ```css
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
@@ -202,9 +195,12 @@ The Data tab is the tabular workspace: the requirement-tracker filter bar over t
 .esa-icon-button--sm {
   --_ib-size: var(--form-height-sm, 32px);
 }
-.esa-collapsible__summary .esa-icon {
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
   flex-shrink: 0;
-  color: var(--color-text-secondary, #404040);
 }
 .bcn-search-trigger .esa-icon {
   flex: none;
@@ -241,17 +237,9 @@ The Data tab is the tabular workspace: the requirement-tracker filter bar over t
   color: var(--bcn-helpbar-fg-muted);
   --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
 }
-.bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
-}
 .comp-picker__trigger .esa-icon {
   color: var(--color-text-tertiary);
   flex-shrink: 0;
-}
-.wa__section .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary);
 }
 .bcn-filterbar {
   background: var(--color-surface);

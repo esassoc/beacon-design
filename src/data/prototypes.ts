@@ -161,7 +161,7 @@ export const prototypeGroups: PrototypeGroup[] = [
         slug: 'project-dashboard',
         title: 'Project Dashboard',
         description:
-          'The project homepage: a LinkedIn-profile-style header (cover band, logo monogram, project name as the H1, description, phase worn lightly) anchors identity; a criticality-elevated "most critical right now" surface elevates only project-wide critical items; starred components (3–5) are portal cards into their dashboards, each with a high-level Tracking · Monitoring · Reporting pulse; Tracking is the primary front door (Lists live there) with Monitoring, Reporting, and the Setup Wizard prominent but clearly secondary; a quiet utility rail carries project-data CRUD. No project-level phase filter or needs/all toggle. Composed in the beacon-design spoke from esa-* legos (app-shell, card, stat, badge, pill, icon, button) + bcn- section components.',
+          'The project homepage, built on ACTIONS AS THE SPINE: a profile-style header (cover band, org seal, project name, phase) with inline cover/logo editing; a 30/60/90-day timeline of action due dates, season windows, and milestones; Tracking · Monitoring · Reporting modules that each carry their own overdue and due-soon actions (criticality lives in the module that owns the work); a project-scope row leading the starred component cards; a slim four-step Setup Wizard card; and a rail with project-data side panels, the project boundary map, and project details. Revised against the 2026-08-04 product-meeting review.',
         route: '/prototypes/project-dashboard',
         createdAt: '2026-07-14',
         status: 'in-progress',

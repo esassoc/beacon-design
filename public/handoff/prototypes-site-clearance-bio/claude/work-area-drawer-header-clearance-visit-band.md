@@ -27,6 +27,16 @@ The top of the write drawer (esa-side-dialog, 640px): a header with the work-are
 
 ## Styles
 ```css
+.bcn-key-value {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.bcn-key-value__key {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--form-label-color);
+}
 .band {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -40,16 +50,6 @@ The top of the write drawer (esa-side-dialog, 640px): a header with the work-are
   font-size: var(--form-font-size-md);
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
-}
-.bcn-key-value {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.bcn-key-value__key {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  color: var(--form-label-color);
 }
 ```
 

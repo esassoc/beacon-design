@@ -1,43 +1,58 @@
 ---
-// Project Dashboard — the logged-in PROJECT HOMEPAGE. After sign-in the app lands
-// the user on a project and shows this page, so it is built to answer "where am I,
-// and what should I do next?": a profile-style header anchors the project's
-// identity; a criticality-elevated surface elevates only the most critical items
-// project-wide; starred components are portals into the active component
-// dashboards (dozens of components exist — starring is the lens); and the four
-// macro areas of Beacon are front doors — Tracking is the primary zone (Lists live
-// there), with Monitoring, Reporting, and the Setup Wizard prominent but clearly
-// secondary. Detail (per-component stats, milestones) belongs on the component
-// dashboards, not here. No project-level phase filter or needs/all toggle — phase
-// is worn lightly in the header and per-component context.
+// Project Dashboard — the logged-in PROJECT HOMEPAGE, revised against the
+// 2026-08-04 Beacon product meeting review. After sign-in the app lands the user
+// on a project and shows this page: "the front door of Beacon."
+//
+// The review's structural decisions, applied:
+//   · ACTIONS ARE THE SPINE — every urgency signal is an action due date carried
+//     by its type (tracking / monitoring / reporting), so the standalone "Most
+//     critical now" card dissolved into the modules that own the work.
+//   · MODULES MOVED UP — Tracking / Monitoring / Reporting sit above Components
+//     ("those numbers deserve being above components"), each carrying its own
+//     overdue / due-soon figures and its urgent actions.
+//   · TIMELINE — a slim 30/60/90-day window of action due dates, season windows,
+//     and milestones spans the page under the header; a full calendar opens
+//     elsewhere.
+//   · MAP — the project's real footprint in the rail, expandable to a modal;
+//     boundary geometry derived from the DCP geotech coordinates until the
+//     spatial-data epic lets projects upload one.
+//   · SETUP WIZARD — out of the module row and into its own slim four-step card,
+//     shaped like the wizard's own pipeline.
+//   · COMPONENTS — a project-scope row leads the starred components, answering
+//     "is the project view inclusive of components or not."
+//
+// Slice guidance from the same review (see the shaping brief): the Monitoring
+// and Reporting modules, and the red/yellow criticality treatment, are DEFERRED
+// past the first slice — "enough to ship without them." The prototype shows the
+// whole framework because the dashboard is meant to be a scaffolding each module
+// improves within over time.
 import AppShell from '../../layouts/AppShell.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import BcnProjectHeader from '../../components/bcn/BcnProjectHeader.astro';
-import BcnCriticalNow from '../../components/bcn/BcnCriticalNow.astro';
+import BcnProjectTimeline from '../../components/bcn/BcnProjectTimeline.astro';
+import BcnModules from '../../components/bcn/BcnModules.astro';
 import BcnStarredComponents from '../../components/bcn/BcnStarredComponents.astro';
-import BcnTrackingZone from '../../components/bcn/BcnTrackingZone.astro';
-import BcnSecondaryDoors from '../../components/bcn/BcnSecondaryDoors.astro';
+import BcnSetupWizardCard from '../../components/bcn/BcnSetupWizardCard.astro';
 import BcnLinkRowCard from '../../components/bcn/BcnLinkRowCard.astro';
+import BcnProjectMap from '../../components/bcn/BcnProjectMap.astro';
 import BcnProjectFacts from '../../components/bcn/BcnProjectFacts.astro';
-import {
-  PROJECT,
-  CRITICAL_NOW,
-  STARRED_COMPONENTS,
-  SECONDARY_DOORS,
-  PROJECT_UTILITIES,
-} from '../../data/project-dashboard';
+import BcnProjectDataPanel from '../../components/bcn/BcnProjectDataPanel.astro';
+import { PROJECT, STARRED_COMPONENTS, PROJECT_UTILITIES } from '../../data/project-dashboard';
+import { PROJECT_INFO } from '../../data/project-data';
 ---
 
 <!-- manifest:
-  layout: full-bleed header (PageLayout bleed slot), then stack(xl) > sidebar   # SPINE
+  layout: full-bleed header (PageLayout bleed slot), then stack(xl) > timeline + sidebar   # SPINE
   sections:
-    - profile header        -> bcn-project-header      # full-bleed identity (hero / DWR seal / name / phase)
-    - most critical now     -> bcn-critical-now         # criticality-elevated entity cards, project-wide
-    - components            -> bcn-starred-components    # starred component cards w/ Tracking·Monitoring·Reporting status
-    - tracking (primary)    -> bcn-tracking-zone         # primary front door; project-level action-status rollup + Lists
-    - secondary front doors -> bcn-secondary-doors       # Monitoring / Reporting / Setup — clearly secondary
-    - project data rail     -> bcn-link-row-card         # quiet project-data CRUD text links (shared row card)
-    - project details card  -> bcn-project-facts         # orienting facts, below Project data in the rail
+    - profile header        -> bcn-project-header      # full-bleed identity (hero / seal / name / phase) + hover image edit
+    - timeline              -> bcn-project-timeline    # full-width 30/60/90d: action due dates, season windows, milestones
+    - modules               -> bcn-modules             # Tracking / Monitoring / Reporting + their urgent actions (criticality lives here)
+    - components            -> bcn-starred-components  # project-scope row + starred component cards w/ T·M·R pulses
+    - setup wizard          -> bcn-setup-wizard-card   # slim four-step setup pipeline
+    - project data rail     -> bcn-link-row-card       # quiet project-data links; open the panel via ?data=<key>
+    - project map           -> bcn-project-map         # inset boundary map, expands to a modal
+    - project details card  -> bcn-project-facts       # Project-record fields + files
+    - project data panel    -> bcn-project-data-panel  # side panel replacing prod's project tab pages
 -->
 
 <AppShell
@@ -49,18 +64,24 @@ import {
   <PageLayout title={PROJECT.name} hideTitleRow bleedHeader>
     <BcnProjectHeader slot="bleed" project={PROJECT} />
 
-    <div class="sidebar" data-side="end" data-gap="xl" style="--sidebar-width: 16rem; --sidebar-content-min: 64%;">
-      <div class="stack" data-gap="lg">
-        <BcnLinkRowCard title="Project data" rows={PROJECT_UTILITIES} chevrons />
-        <BcnProjectFacts facts={PROJECT.facts} description={PROJECT.description} />
-      </div>
+    <div class="stack" data-gap="xl">
+      <BcnProjectTimeline />
 
-      <div class="stack" data-gap="xl">
-        <BcnCriticalNow items={CRITICAL_NOW} />
-        <BcnStarredComponents components={STARRED_COMPONENTS} />
-        <BcnTrackingZone />
-        <BcnSecondaryDoors doors={SECONDARY_DOORS} />
+      <div class="sidebar" data-side="end" data-gap="xl" style="--sidebar-width: 16rem; --sidebar-content-min: 64%;">
+        <div class="stack" data-gap="lg">
+          <BcnLinkRowCard title="Project data" rows={PROJECT_UTILITIES} chevrons />
+          <BcnProjectMap />
+          <BcnProjectFacts facts={PROJECT.facts} description={PROJECT.description} files={PROJECT_INFO.files} />
+        </div>
+
+        <div class="stack" data-gap="xl">
+          <BcnModules />
+          <BcnStarredComponents components={STARRED_COMPONENTS} />
+          <BcnSetupWizardCard />
+        </div>
       </div>
     </div>
   </PageLayout>
+
+  <BcnProjectDataPanel />
 </AppShell>

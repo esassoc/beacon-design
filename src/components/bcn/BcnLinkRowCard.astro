@@ -31,8 +31,10 @@ interface Props {
   countLabel?: string;
   /** Trailing chevron per row (the utility-rail look). */
   chevrons?: boolean;
+  /** Optional view-all link, divided from the rows (e.g. "All lists"). */
+  footer?: LinkRow;
 }
-const { title, rows, count = false, countLabel, chevrons = false } = Astro.props;
+const { title, rows, count = false, countLabel, chevrons = false, footer } = Astro.props;
 ---
 
 <EsaCard title={title}>
@@ -52,6 +54,13 @@ const { title, rows, count = false, countLabel, chevrons = false } = Astro.props
       ))
     }
   </ul>
+  {
+    footer && (
+      <a class="bcn-lrc__footer" href={footer.href}>
+        {footer.label} <EsaIcon name="chevron-right" size="sm" />
+      </a>
+    )
+  }
 </EsaCard>
 
 <style>
@@ -90,4 +99,20 @@ const { title, rows, count = false, countLabel, chevrons = false } = Astro.props
   }
   .bcn-lrc__chev { color: var(--color-text-muted); }
   .bcn-lrc__row:hover .bcn-lrc__chev { color: var(--color-primary); }
+
+  /* View-all footer — divided from the rows, the section-link voice. */
+  .bcn-lrc__footer {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    margin-top: var(--spacing-100);
+    padding-top: var(--spacing-250);
+    border-top: 1px solid var(--color-border-light);
+    width: 100%;
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+  .bcn-lrc__footer:hover { color: var(--color-primary-hover); }
 </style>
