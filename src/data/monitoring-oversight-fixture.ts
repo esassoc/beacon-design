@@ -17,7 +17,6 @@
 export const TENANT_NAME = 'Solterra Energy Partners';
 export const PROJECT_NAME = 'Cottonwood Solar + Storage Project';
 export const FIRST_PARTY_FIRM = 'Fieldstone Environmental Monitoring';
-export const ESA_ROLE_LABEL = 'Third-Party Compliance QA';
 
 // Fixture clock — every "days active" / "days to resolve" / trend bucket below
 // is computed from this anchor, not the real current date, so the page renders

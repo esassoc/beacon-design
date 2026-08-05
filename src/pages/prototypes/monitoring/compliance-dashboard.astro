@@ -13,7 +13,6 @@
 // here is real project data).
 import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
-import EsaPill from '@esa/ecology/esa-pill.astro';
 import BcnOversightHero from '../../../components/bcn/BcnOversightHero.astro';
 import BcnAttentionPanel from '../../../components/bcn/BcnAttentionPanel.astro';
 import BcnTrendPanel from '../../../components/bcn/BcnTrendPanel.astro';
@@ -21,10 +20,6 @@ import { withBase } from '../../../lib/base';
 import {
   PROJECT_NAME,
   TENANT_NAME,
-  FIRST_PARTY_FIRM,
-  ESA_ROLE_LABEL,
-  TODAY,
-  formatDate,
   SEVERITY_BREAKDOWN,
   NEEDS_ATTENTION_CATEGORY_BREAKDOWN,
   NON_COMPLIANCE_CATEGORY_BREAKDOWN,
@@ -113,13 +108,6 @@ const oversightNav = [
     icon="map"
     breadcrumbs={[{ label: PROJECT_NAME, href: '#project' }, { label: 'Monitoring Portal' }, { label: 'Compliance Dashboard' }]}
   >
-    <EsaPill slot="title-badge" label={ESA_ROLE_LABEL} removable={false} size="sm" />
-    <div slot="utilities">
-      <span class="type-body-small bcn-od-context">
-        First-party inspector: {FIRST_PARTY_FIRM} · as of {formatDate(TODAY)}
-      </span>
-    </div>
-
     <div class="stack" data-gap="xl">
       <BcnOversightHero
         severityBreakdown={SEVERITY_BREAKDOWN}
@@ -137,13 +125,3 @@ const oversightNav = [
     </div>
   </PageLayout>
 </AppShell>
-
-<style>
-  /* bcn-lego-checked: a single text line (context caption) in the page-header
-     utilities slot — the same slot monitoring/dashboard.astro uses for its "Edit
-     Connection" button. No primitive here, just a type-role text node. */
-  .bcn-od-context {
-    color: var(--color-text-tertiary);
-    white-space: nowrap;
-  }
-</style>

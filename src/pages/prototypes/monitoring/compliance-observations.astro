@@ -7,7 +7,6 @@
 // resolved. See src/data/monitoring-oversight-fixture.ts for the scenario.
 import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
-import EsaPill from '@esa/ecology/esa-pill.astro';
 import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import FilterContainer from '@esa/ecology/esa-filter-container.astro';
@@ -23,7 +22,6 @@ import {
   PROJECT_NAME,
   TENANT_NAME,
   FIRST_PARTY_FIRM,
-  ESA_ROLE_LABEL,
   TODAY,
   formatDate,
   daysActive,
@@ -117,8 +115,6 @@ const oversightNav = [
       { label: 'Observations' },
     ]}
   >
-    <EsaPill slot="title-badge" label={ESA_ROLE_LABEL} removable={false} size="sm" />
-
     <!-- ═══ Filter bar — carded (Tracker / Surveys / Permits & Studies parity) ═══
          bcn-lego-checked: the carded toolbar SHELL + "Filters"/"View" labels are
          page-composition glue (same .bcn-filterbar class already used by
