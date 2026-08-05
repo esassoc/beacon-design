@@ -269,10 +269,15 @@ ${placemarks}
   .bcn-apanel__list { list-style: none; padding: 0; margin: 0; }
   .bcn-apanel__row {
     display: grid;
-    grid-template-columns: 7.5rem auto minmax(0, 1fr) auto auto;
+    /* Category and area each get their OWN flexible share (not one 1fr next to
+       an uncapped auto) so neither column crowds the other, and the row gets
+       its own inline padding so content doesn't sit flush against the card's
+       edges. */
+    grid-template-columns: 7.5rem auto minmax(8rem, 1fr) minmax(9rem, 1fr) auto;
     align-items: center;
-    gap: var(--spacing-300);
+    gap: var(--spacing-400);
     padding-block: var(--spacing-150);
+    padding-inline: var(--spacing-200);
   }
   .bcn-apanel__list > li + li { border-top: 1px solid var(--color-border-light); }
 

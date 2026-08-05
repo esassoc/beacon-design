@@ -1,11 +1,12 @@
 ---
 // <BcnOversightHero> — the Compliance Dashboard's severity overview band.
 //
-// A clickable severity-breakdown donut (the PRIOR DAY's inspection sweep — "what
-// did yesterday's monitoring find") on the left, a legend of the same severities,
-// and two category bar charts — Needs Attention and Non-Compliance — on the
-// right, in the same top row. EVERY severity is a real link: the SVG ring
-// segment AND its legend row both point at
+// A clickable severity-breakdown donut of the CURRENT active set (same
+// ACTIVE_OBSERVATIONS backlog as everywhere else on the dashboard, so
+// needs-attention/non-compliance counts always match) on the left, a legend
+// of the same severities, and two category count lists — Needs Attention and
+// Non-Compliance — on the right, in the same top row. EVERY severity is a
+// real link: the SVG ring segment AND its legend row both point at
 // `${observationsHref}?severity=<severity>`, and the donut's center total links
 // to the unfiltered active list.
 //
@@ -18,11 +19,12 @@
 // permit-tracking and BcnMonitoringStats use) CANNOT carry one click target per
 // slice, so the ring here is stacked <circle> strokes (stroke-dasharray =
 // percent at r=15.915, circumference ~100) each wrapped in an SVG <a>. The two
-// category bars replicate the established BcnMonitoringStats horizontal
-// value-bar idiom (--_c custom property, group-max scaling) under this
-// component's own class names — "approved patterns are canon." Segment/bar
-// COLORS come from semantic token strings (var(--color-success) etc) via inline
-// style, never hardcoded. bcn-oversight-hero is the reusable home; the shell is
+// category lists are plain label+count rows (no bar viz — a bar track needs a
+// non-inline display that a bare <span> doesn't have by default, which is
+// exactly what silently broke it here before; a count list doesn't have that
+// failure mode and reads just as clearly at this width). Segment COLORS come
+// from semantic token strings (var(--color-success) etc) via inline style,
+// never hardcoded. bcn-oversight-hero is the reusable home; the shell is
 // esa-card.
 import EsaCard from '@esa/ecology/esa-card.astro';
 
@@ -45,7 +47,7 @@ interface Props {
   nonComplianceCategories: CategorySlice[];
   /** Target list route, already base-prefixed by the caller. */
   observationsHref: string;
-  /** Short label under the donut's center total, e.g. "Aug 4" — the sweep date. */
+  /** Short label under the donut's center total, e.g. "active". */
   asOfLabel: string;
   title?: string;
 }
@@ -79,104 +81,89 @@ const segments = severityBreakdown.map((slice) => {
   };
 });
 
-// ── Category bars: scale each list against its OWN max (the two lists have
-// different totals, so a shared max would make the smaller one unreadable).
-const barWidth = (value: number, items: CategorySlice[]) => {
-  const max = Math.max(1, ...items.map((i) => i.value));
-  return `${Math.max((value / max) * 100, 4).toFixed(1)}%`;
-};
 ---
 
 <EsaCard
   title={title}
-  subtitle="Prior day's inspection sweep by compliance severity — select a segment to open that filtered list"
+  subtitle="Active observations by compliance severity — select a segment to open that filtered list"
 >
   <div class="bcn-ohero cluster" data-gap="xl" data-align="start" data-justify="between">
     <!-- ── Clickable severity donut + legend ── -->
-    <div class="cluster" data-gap="lg" data-align="center">
-      <div class="bcn-ohero__donut">
-        <svg class="bcn-ohero__ring" viewBox="0 0 42 42" role="group" aria-label="Prior day's observations by severity">
-          <circle
-            class="bcn-ohero__track"
-            cx="21"
-            cy="21"
-            r="15.915"
-            fill="transparent"
-            stroke-width="6"
-          ></circle>
-          {segments.filter((s) => s.pct > 0).map((s) => (
-            <a
-              class="bcn-ohero__seg"
-              href={s.href}
-              aria-label={`${s.label}: ${s.value} (${s.share}%) — open the filtered list`}
-            >
-              <circle
-                cx="21"
-                cy="21"
-                r="15.915"
-                fill="transparent"
-                stroke-width="6"
-                stroke-dasharray={s.dasharray}
-                stroke-dashoffset={s.dashoffset}
-                style={`stroke: ${s.hex};`}
+    <section class="stack" data-gap="xs">
+      <h4 class="bcn-ohero__section-title type-card-title">Yesterday's Observations</h4>
+      <div class="cluster" data-gap="lg" data-align="center">
+        <div class="bcn-ohero__donut">
+          <svg class="bcn-ohero__ring" viewBox="0 0 42 42" role="group" aria-label="Active observations by severity">
+            <circle
+              class="bcn-ohero__track"
+              cx="21"
+              cy="21"
+              r="15.915"
+              fill="transparent"
+              stroke-width="6"
+            ></circle>
+            {segments.filter((s) => s.pct > 0).map((s) => (
+              <a
+                class="bcn-ohero__seg"
+                href={s.href}
+                aria-label={`${s.label}: ${s.value} (${s.share}%) — open the filtered list`}
               >
-                <title>{s.label}: {s.value} ({s.share}%)</title>
-              </circle>
-            </a>
+                <circle
+                  cx="21"
+                  cy="21"
+                  r="15.915"
+                  fill="transparent"
+                  stroke-width="6"
+                  stroke-dasharray={s.dasharray}
+                  stroke-dashoffset={s.dashoffset}
+                  style={`stroke: ${s.hex};`}
+                >
+                  <title>{s.label}: {s.value} ({s.share}%)</title>
+                </circle>
+              </a>
+            ))}
+          </svg>
+          <a class="bcn-ohero__hole" href={observationsHref}>
+            <span class="bcn-ohero__hole-value">{sliceTotal}</span>
+            <span class="bcn-ohero__hole-cap type-caption">{asOfLabel}</span>
+          </a>
+        </div>
+
+        <ul class="bcn-ohero__legend stack" data-gap="2xs">
+          {segments.map((s) => (
+            <li>
+              <a class="bcn-ohero__legend-row" href={s.href}>
+                <span class="bcn-ohero__dot" style={`--_c: ${s.hex};`}></span>
+                <span class="bcn-ohero__legend-label type-body-small">{s.label}</span>
+                <span class="bcn-ohero__legend-value type-label">{s.value}</span>
+              </a>
+            </li>
           ))}
-        </svg>
-        <a class="bcn-ohero__hole" href={observationsHref}>
-          <span class="bcn-ohero__hole-value">{sliceTotal}</span>
-          <span class="bcn-ohero__hole-cap type-caption">{asOfLabel}</span>
-        </a>
+        </ul>
       </div>
+    </section>
 
-      <ul class="bcn-ohero__legend stack" data-gap="2xs">
-        {segments.map((s) => (
-          <li>
-            <a class="bcn-ohero__legend-row" href={s.href}>
-              <span class="bcn-ohero__dot" style={`--_c: ${s.hex};`}></span>
-              <span class="bcn-ohero__legend-label type-body-small">{s.label}</span>
-              <span class="bcn-ohero__legend-value type-label">{s.value}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-
-    <!-- ── Two category bar charts, by severity ── -->
+    <!-- ── Two category count lists, by severity ── -->
     <div class="bcn-ohero__breakdowns cluster" data-gap="xl" data-align="start">
       <section class="stack" data-gap="xs">
-        <h4 class="bcn-ohero__breakdown-title type-label">Needs Attention by category</h4>
-        <ul class="bcn-ohero__bars stack" data-gap="xs">
+        <h4 class="bcn-ohero__section-title type-card-title">Needs Attention by Category</h4>
+        <ul class="bcn-ohero__counts stack" data-gap="2xs">
           {needsAttentionCategories.map((c) => (
-            <li class="bcn-ohero__bar-row">
-              <span class="bcn-ohero__bar-label type-body-small">{c.category}</span>
-              <span class="bcn-ohero__bar-track">
-                <span
-                  class="bcn-ohero__bar-fill"
-                  style={`--_c: var(--color-warning); width: ${barWidth(c.value, needsAttentionCategories)};`}
-                ></span>
-              </span>
-              <span class="bcn-ohero__bar-value type-label">{c.value}</span>
+            <li class="bcn-ohero__count-row">
+              <span class="bcn-ohero__count-label type-body-small">{c.category}</span>
+              <span class="bcn-ohero__count-value type-label">{c.value}</span>
             </li>
           ))}
         </ul>
       </section>
 
       <section class="stack" data-gap="xs">
-        <h4 class="bcn-ohero__breakdown-title type-label">Non-Compliance by category</h4>
-        <ul class="bcn-ohero__bars stack" data-gap="xs">
+        <h4 class="bcn-ohero__section-title type-card-title">Non-Compliance by Category</h4>
+        <ul class="bcn-ohero__counts stack" data-gap="2xs">
           {nonComplianceCategories.map((c) => (
-            <li class="bcn-ohero__bar-row">
-              <span class="bcn-ohero__bar-label type-body-small">{c.category}</span>
-              <span class="bcn-ohero__bar-track">
-                <span
-                  class="bcn-ohero__bar-fill"
-                  style={`--_c: var(--color-danger); width: ${barWidth(c.value, nonComplianceCategories)};`}
-                ></span>
-              </span>
-              <span class="bcn-ohero__bar-value type-label">{c.value}</span>
+            <li class="bcn-ohero__count-row">
+              <span class="bcn-ohero__count-label type-body-small">{c.category}</span>
+              <span class="bcn-ohero__count-value type-label">{c.value}</span>
             </li>
           ))}
         </ul>
@@ -193,9 +180,11 @@ const barWidth = (value: number, items: CategorySlice[]) => {
     flex: 1 1 26rem;
     min-inline-size: 0;
   }
-  .bcn-ohero__breakdown-title {
+  /* Shared by the donut's own heading and the two count-list headings — one
+     step up from .type-label so all three sections read with equal weight. */
+  .bcn-ohero__section-title {
     margin: 0;
-    color: var(--color-text-secondary);
+    color: var(--color-text-primary);
   }
 
   /* ── Donut: stacked circle strokes, each an <a>. Color from data (--_c / the
@@ -303,35 +292,26 @@ const barWidth = (value: number, items: CategorySlice[]) => {
     text-align: right;
   }
 
-  /* ── Category bars — the BcnMonitoringStats horizontal value-bar idiom,
-     replicated with this component's own class names ("approved patterns are
-     canon"); color comes from severity (warning/danger), not a single accent. ── */
-  .bcn-ohero__bars { list-style: none; padding: 0; margin: 0; }
-  .bcn-ohero__bar-row {
+  /* ── Category counts — a plain label+value list (no bar viz; see the
+     header comment for why). ── */
+  .bcn-ohero__counts { list-style: none; padding: 0; margin: 0; }
+  .bcn-ohero__count-row {
     display: grid;
-    grid-template-columns: minmax(6rem, 11rem) 1fr auto;
-    align-items: center;
+    grid-template-columns: minmax(6rem, 1fr) auto;
+    align-items: baseline;
     gap: var(--spacing-300);
+    padding-block: var(--spacing-100);
   }
-  .bcn-ohero__bar-label {
+  .bcn-ohero__count-row + .bcn-ohero__count-row {
+    border-top: 1px solid var(--color-border-light);
+  }
+  .bcn-ohero__count-label {
     color: var(--color-text-secondary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .bcn-ohero__bar-track {
-    height: 10px;
-    border-radius: var(--radius-full);
-    background: var(--color-surface-sunken);
-    overflow: hidden;
-  }
-  .bcn-ohero__bar-fill {
-    display: block;
-    height: 100%;
-    border-radius: var(--radius-full);
-    background: var(--_c, var(--color-primary));
-  }
-  .bcn-ohero__bar-value {
+  .bcn-ohero__count-value {
     color: var(--color-text-primary);
     font-variant-numeric: tabular-nums;
     text-align: right;

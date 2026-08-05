@@ -168,36 +168,27 @@ function categoryBreakdown(items: Observation[]): { category: ObservationCategor
 export const NEEDS_ATTENTION_CATEGORY_BREAKDOWN = categoryBreakdown(ACTIVE_OBSERVATIONS.filter((o) => o.severity === 'needs-attention'));
 export const NON_COMPLIANCE_CATEGORY_BREAKDOWN = categoryBreakdown(ACTIVE_OBSERVATIONS.filter((o) => o.severity === 'non-compliance'));
 
-// ── Prior day of monitoring — Fieldstone's most recent full-site inspection
-// round. Distinct from the tracked open-issue backlog above (OBSERVATIONS):
-// each visit checks every site area once and logs its current condition,
-// whether or not that area also has an older, still-open tracked issue. Feeds
-// ONLY the dashboard's severity donut — "what did yesterday's inspection find."
-export const PRIOR_MONITORING_DATE = '2026-08-04';
-
-interface DailyCheck { area: keyof typeof AREAS; category: ObservationCategory; severity: SeverityLevel; }
-const DAILY_SWEEP: DailyCheck[] = [
-  { area: 'northArray', category: 'Vegetation & Habitat Protection', severity: 'in-compliance' },
-  { area: 'southArray', category: 'Stormwater / BMP Maintenance', severity: 'non-compliance' },
-  { area: 'substation', category: 'Spill Prevention & Response', severity: 'in-compliance' },
-  { area: 'bess', category: 'Noise Management', severity: 'needs-attention' },
-  { area: 'omBuilding', category: 'Waste Management', severity: 'needs-attention' },
-  { area: 'accessRoad', category: 'Access & Traffic Control', severity: 'needs-attention' },
-  { area: 'laydownYard', category: 'Waste Management', severity: 'in-compliance' },
-  { area: 'washCrossing', category: 'Stormwater / BMP Maintenance', severity: 'in-compliance' },
-  { area: 'perimeterWest', category: 'Cultural Resources Protection', severity: 'non-compliance' },
-];
-
-/** Severity breakdown of the prior day's inspection sweep — the donut's data. */
-export const DAILY_SEVERITY_BREAKDOWN: SeveritySlice[] = SEVERITY_ORDER.map((severity) => ({
+/** Severity breakdown of the current active set — the donut's data. Sourced
+ * from the SAME ACTIVE_OBSERVATIONS backlog as OUTSTANDING and the two
+ * category breakdowns above, so needs-attention/non-compliance counts match
+ * everywhere on the dashboard (a separate day-of-sample would not). */
+export const SEVERITY_BREAKDOWN: SeveritySlice[] = SEVERITY_ORDER.map((severity) => ({
   severity,
   label: SEVERITY_META[severity].label,
   hex: SEVERITY_META[severity].hex,
-  value: DAILY_SWEEP.filter((d) => d.severity === severity).length,
+  value: ACTIVE_OBSERVATIONS.filter((o) => o.severity === severity).length,
 }));
 
-// ── 90-day weekly trend: observations opened vs. resolved, most-recent last ──
-export interface TrendWeek { weekStart: string; opened: number; resolved: number; }
+// ── 90-day weekly trend: needs-attention/non-compliance items (same scope as
+// OUTSTANDING and the category breakdowns — in-compliance isn't a tracked
+// "issue"), each counted ONCE under the week it was first reported, split by
+// its CURRENT status. This is a cohort/aging view, not an opened-vs-closed
+// event flow: a resolved item still appears under its original report week,
+// not its resolve week, so no observation is ever counted in two different
+// weeks or two different bars.
+export interface TrendWeek { weekStart: string; active: number; resolved: number; }
+
+const TREND_ITEMS = OBSERVATIONS.filter((o) => o.severity !== 'in-compliance');
 
 export const TREND_90D: TrendWeek[] = (() => {
   const weeks: TrendWeek[] = [];
@@ -206,16 +197,15 @@ export const TREND_90D: TrendWeek[] = (() => {
     const weekStartMs = start + w * 7 * 86_400_000;
     const weekEndMs = weekStartMs + 7 * 86_400_000;
     const weekStart = new Date(weekStartMs).toISOString().slice(0, 10);
-    const opened = OBSERVATIONS.filter((o) => {
+    const reportedInWeek = TREND_ITEMS.filter((o) => {
       const t = toUTC(o.reportedDate);
       return t >= weekStartMs && t < weekEndMs;
-    }).length;
-    const resolved = OBSERVATIONS.filter((o) => {
-      if (!o.resolvedDate) return false;
-      const t = toUTC(o.resolvedDate);
-      return t >= weekStartMs && t < weekEndMs;
-    }).length;
-    weeks.push({ weekStart, opened, resolved });
+    });
+    weeks.push({
+      weekStart,
+      active: reportedInWeek.filter((o) => o.status === 'active').length,
+      resolved: reportedInWeek.filter((o) => o.status === 'resolved').length,
+    });
   }
   return weeks;
 })();

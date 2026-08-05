@@ -1,11 +1,18 @@
 ---
-// <BcnTrendPanel> — the Compliance Oversight Dashboard's "90-Day Trend" panel.
+// <BcnTrendPanel> — the Compliance Dashboard's "90-Day Trend" panel.
 //
-// An esa-card shell carrying (1) a three-up esa-stat band (opened / resolved /
-// net change over the trailing 90 days) and (2) a compact grouped weekly
-// bar-chart: 13 columns, two thin bars per column (opened, resolved), all bars
-// scaled against ONE shared max across every week AND both series so heights
-// are comparable across the whole chart (never renormalized per week).
+// An esa-card shell carrying (1) a three-up esa-stat band (still active /
+// resolved / net change over the trailing 90 days) and (2) a compact grouped
+// weekly bar-chart: 13 columns, two thin bars per column, all bars scaled
+// against ONE shared max across every week AND both series so heights are
+// comparable across the whole chart (never renormalized per week).
+//
+// This is a COHORT/AGING view, not an opened-vs-closed event flow: the caller
+// counts each needs-attention/non-compliance observation exactly ONCE, under
+// the week it was first reported, split by its CURRENT status — so no
+// observation is ever counted in two different weeks or two different bars
+// (an earlier version bucketed "resolved" by resolve-date instead, which
+// double-counted every resolved item across two different bars).
 //
 // bcn-lego-checked: this is a bespoke time-series bar viz — there is NO esa-*
 // chart lego in Ecology (confirmed catalog check: esa-progress-bar is a single
@@ -24,7 +31,7 @@ import EsaStat from '@esa/ecology/esa-stat.astro';
 interface TrendWeek {
   /** Already formatted by the caller, e.g. 'Jul 6'. */
   label: string;
-  opened: number;
+  active: number;
   resolved: number;
 }
 
@@ -36,9 +43,9 @@ interface Props {
 const { weeks } = Astro.props;
 
 // ── Summary stats: derived here, not passed in.
-const openedTotal = weeks.reduce((sum, w) => sum + w.opened, 0);
+const activeTotal = weeks.reduce((sum, w) => sum + w.active, 0);
 const resolvedTotal = weeks.reduce((sum, w) => sum + w.resolved, 0);
-const netChange = openedTotal - resolvedTotal;
+const netChange = activeTotal - resolvedTotal;
 
 // The sign IS the information on net change, so it is always rendered
 // (U+2212 MINUS SIGN for the negative case; a bare unsigned number would lie).
@@ -51,13 +58,13 @@ const netCaption =
 // group-max technique from BcnMonitoringStats' barWidth(), turned vertical).
 // No minimum floor here — a floor would draw a bar for a zero week and lie;
 // non-zero bars instead get a 2px CSS min-height so a count of 1 stays visible.
-const chartMax = Math.max(1, ...weeks.flatMap((w) => [w.opened, w.resolved]));
+const chartMax = Math.max(1, ...weeks.flatMap((w) => [w.active, w.resolved]));
 const barHeight = (value: number) => `${((value / chartMax) * 100).toFixed(1)}%`;
 
 // Two fixed series — declared as data so the bar loop stays uniform and the
 // colors travel as token references, not literals.
 const series = [
-  { key: 'opened', label: 'Opened', color: 'var(--_c-opened)' },
+  { key: 'active', label: 'Active', color: 'var(--_c-active)' },
   { key: 'resolved', label: 'Resolved', color: 'var(--_c-resolved)' },
 ] as const;
 
@@ -70,7 +77,7 @@ const showTick = (i: number) => i % 2 === 0 || i === weeks.length - 1;
   <div class="bcn-trend stack" data-gap="lg">
     <!-- ── summary band ── -->
     <div class="bcn-trend__stats cluster" data-gap="xl" data-align="start">
-      <EsaStat value={openedTotal} label="Opened (90d)" sub={perWeek(openedTotal)} />
+      <EsaStat value={activeTotal} label="Still Active (90d)" sub={perWeek(activeTotal)} />
       <EsaStat value={resolvedTotal} label="Resolved (90d)" sub={perWeek(resolvedTotal)} />
       <EsaStat value={signed(netChange)} label="Net change" sub={netCaption} />
     </div>
@@ -96,7 +103,7 @@ const showTick = (i: number) => i % 2 === 0 || i === weeks.length - 1;
           {weeks.map((w) => (
             <div
               class="bcn-trend__col"
-              title={`${w.label} — ${w.opened} opened, ${w.resolved} resolved`}
+              title={`${w.label} — ${w.active} still active, ${w.resolved} resolved`}
             >
               <div class="bcn-trend__bars">
                 {series.map((s) => (
@@ -122,15 +129,15 @@ const showTick = (i: number) => i % 2 === 0 || i === weeks.length - 1;
            same data (and the visible-values relief the low-contrast amber
            series owes against a near-white surface). -->
       <table class="bcn-trend__table">
-        <caption>Observations opened and resolved by week, trailing 90 days</caption>
+        <caption>Needs-attention/non-compliance observations by week first reported, trailing 90 days</caption>
         <thead>
-          <tr><th scope="col">Week of</th><th scope="col">Opened</th><th scope="col">Resolved</th></tr>
+          <tr><th scope="col">Week of</th><th scope="col">Still Active</th><th scope="col">Resolved</th></tr>
         </thead>
         <tbody>
           {weeks.map((w) => (
             <tr>
               <th scope="row">{w.label}</th>
-              <td>{w.opened}</td>
+              <td>{w.active}</td>
               <td>{w.resolved}</td>
             </tr>
           ))}
@@ -143,9 +150,12 @@ const showTick = (i: number) => i % 2 === 0 || i === weeks.length - 1;
 <style>
   .bcn-trend {
     /* Series colors and plot geometry are the panel's theming hooks: private
-       --_* names reading a public token (or a documented literal) as fallback. */
-    --_c-opened: var(--bcn-trend-opened-color, var(--color-warning));
-    --_c-resolved: var(--bcn-trend-resolved-color, var(--color-success));
+       --_* names reading a public token (or a documented literal) as fallback.
+       Still-active reads the same warning/amber used for "Needs Attention"
+       chips and dots throughout this dashboard; resolved/closed reads a
+       neutral grey, since "resolved" isn't a severity. */
+    --_c-active: var(--bcn-trend-active-color, var(--color-warning));
+    --_c-resolved: var(--bcn-trend-resolved-color, var(--color-text-tertiary));
     --_plot-h: var(--bcn-trend-plot-height, 132px);
     --_bar-w: var(--bcn-trend-bar-width, 9px);
   }
