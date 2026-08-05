@@ -1,24 +1,21 @@
 ---
-// <BcnAttentionPanel> — the Compliance Oversight Dashboard's "Needs Attention &
-// Non-Compliance" panel. One esa-card holding four things the oversight lead asks
-// in sequence: WHICH kind of issue dominates (the category bars), WHERE the active
-// ones are (a non-interactive BcnObservationMap inset), WHAT is still outstanding
-// (the item list, worst-first, each linking straight into its Observations detail),
-// and HOW to take it off-platform (spreadsheet + KML exports).
+// <BcnAttentionPanel> — the Compliance Dashboard's "Needs Attention &
+// Non-Compliance" panel. One esa-card holding three things the compliance lead
+// asks in sequence: WHERE the active ones are (a non-interactive
+// BcnObservationMap inset), WHAT is still outstanding (the item list,
+// worst-first, each linking straight into its Observations detail), and HOW to
+// take it off-platform (spreadsheet + KML exports). The category breakdown
+// lives in bcn-oversight-hero instead (split by severity, next to the donut) —
+// this panel doesn't repeat it.
 //
 // Everything is handed in already sorted by the caller — this component never sorts,
 // filters, or reasons about severity; it only renders and derives the map pins.
 //
-// bcn-lego-checked: the category bars are the SAME bespoke horizontal value-bar viz
-// already justified in BcnMonitoringStats (no esa-* chart lego exists —
-// esa-progress-bar is a single fixed-variant bar, esa-stat/esa-card are static
-// blocks), replicated here exactly per "approved patterns are canon" with this
-// component's own class names and the same data-driven `--_c` custom property.
-// Checked Beacon prod (dashboard charts are bespoke CSS/SVG there too). Everything
-// else IS a lego: esa-card shell + actions/footer slots, esa-button for all four
-// actions (exports are plain client-side Blob downloads — no primitive gap),
-// esa-badge for the age, esa-empty-state for the zero case, bcn-status-chip for the
-// value-driven severity color, and bcn-observation-map for the inset.
+// bcn-lego-checked: everything here IS a lego: esa-card shell + actions/footer
+// slots, esa-button for all four actions (exports are plain client-side Blob
+// downloads — no primitive gap), esa-badge for the age, esa-empty-state for the
+// zero case, bcn-status-chip for the value-driven severity color, and
+// bcn-observation-map for the inset.
 import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
@@ -38,15 +35,9 @@ interface OutstandingItem {
   lat: number;
   lng: number;
 }
-interface CategorySlice {
-  category: string;
-  value: number;
-}
 interface Props {
   /** Already sorted worst-first by the caller. */
   outstanding: OutstandingItem[];
-  /** Already sorted descending by the caller. */
-  categoryBreakdown: CategorySlice[];
   /** Base route to the Observations list page. */
   observationsHref: string;
   /** Base filename (no extension) for the two exports. */
@@ -54,18 +45,12 @@ interface Props {
 }
 const {
   outstanding,
-  categoryBreakdown,
   observationsHref,
   exportFileBase = 'cottonwood-oversight-observations',
 } = Astro.props;
 
-// Bars: scale each value against the group max so the longest fills the track
-// (BcnMonitoringStats' idiom, verbatim).
-const barMax = Math.max(1, ...categoryBreakdown.map((c) => c.value));
-const barWidth = (value: number) => `${Math.max((value / barMax) * 100, 4).toFixed(1)}%`;
-
 // Map pins come straight off the outstanding items — the inset shows exactly the
-// rows in the list below it, colored by the same severity value.
+// rows in the list beside it, colored by the same severity value.
 const mapPins = outstanding.map((item) => ({
   id: item.id,
   lat: item.lat,
@@ -82,7 +67,7 @@ const severityHref = (severity: string) => `${observationsHref}?severity=${encod
 const attentionCount = outstanding.filter((i) => i.severity === 'needs-attention').length;
 const nonComplianceCount = outstanding.filter((i) => i.severity === 'non-compliance').length;
 
-const payload = { outstanding, categoryBreakdown, fileBase: exportFileBase };
+const payload = { outstanding, fileBase: exportFileBase };
 ---
 
 <EsaCard title="Needs Attention & Non-Compliance">
@@ -95,39 +80,24 @@ const payload = { outstanding, categoryBreakdown, fileBase: exportFileBase };
     </EsaButton>
   </Fragment>
 
-  <div class="stack" data-gap="lg">
-    <!-- Which category dominates (main) + where the active ones are (aside). -->
-    <div class="bcn-apanel__body sidebar" data-gap="lg" data-side="end">
-      <div class="bcn-apanel__inset stack" data-gap="xs">
-        <h4 class="bcn-apanel__heading type-label">Active issue locations</h4>
-        <BcnObservationMap
-          observations={mapPins}
-          mapId="attention-panel"
-          height="220px"
-          interactive={false}
-        />
-      </div>
-
-      <section class="stack" data-gap="xs">
-        <h4 class="bcn-apanel__heading type-label">Most common issue categories</h4>
-        <ul class="bcn-apanel__bars stack" data-gap="xs">
-          {categoryBreakdown.map((slice) => (
-            <li class="bcn-apanel__bar-row">
-              <span class="bcn-apanel__bar-label type-body-small">{slice.category}</span>
-              <span class="bcn-apanel__bar-track">
-                <span
-                  class="bcn-apanel__bar-fill"
-                  style={`--_c: var(--color-primary); width: ${barWidth(slice.value)};`}
-                ></span>
-              </span>
-              <span class="bcn-apanel__bar-value type-label">{slice.value}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
+  <!-- Where the active ones are (fixed aside) + what is still outstanding (fluid
+       main). The `sidebar` primitive gives its FIRST child the fixed
+       `--sidebar-width` basis and its LAST child the fluid flex-grow:999 — DOM
+       order sets those roles; `data-side="end"` only reorders them visually. So
+       the map goes first (fixed-width role) and the list goes last (fluid
+       role), and `data-side="end"` then draws the map on the right where it
+       reads as the aside. -->
+  <div class="bcn-apanel__body sidebar" data-gap="lg" data-side="end">
+    <div class="bcn-apanel__inset stack" data-gap="xs">
+      <h4 class="bcn-apanel__heading type-label">Active issue locations</h4>
+      <BcnObservationMap
+        observations={mapPins}
+        mapId="attention-panel"
+        height="260px"
+        interactive={false}
+      />
     </div>
 
-    <!-- What is still outstanding. -->
     <section class="bcn-apanel__outstanding stack" data-gap="sm">
       <h4 class="bcn-apanel__heading type-label">Outstanding items ({outstanding.length})</h4>
       {outstanding.length === 0 ? (
@@ -282,11 +252,12 @@ ${placemarks}
 
 <style>
   /* ── Composition glue: the map inset is the sidebar primitive's fixed-width
-     aside (data-side="end" renders it right of the bars, which stay first in
-     reading order). ── */
+     aside (data-side="end" renders it right of the outstanding list, which
+     stays first in reading order). ── */
   .bcn-apanel__body {
     --sidebar-width: 19rem;
     --sidebar-content-min: 52%;
+    align-items: stretch;
   }
 
   .bcn-apanel__heading {
@@ -294,43 +265,7 @@ ${placemarks}
     color: var(--color-text-secondary);
   }
 
-  /* ── Horizontal value bars — the BcnMonitoringStats idiom, color via --_c. ── */
-  .bcn-apanel__bars { list-style: none; padding: 0; margin: 0; }
-  .bcn-apanel__bar-row {
-    display: grid;
-    grid-template-columns: minmax(6rem, 12rem) 1fr auto;
-    align-items: center;
-    gap: var(--spacing-300);
-  }
-  .bcn-apanel__bar-label {
-    color: var(--color-text-secondary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .bcn-apanel__bar-track {
-    height: 10px;
-    border-radius: var(--radius-full);
-    background: var(--color-surface-sunken);
-    overflow: hidden;
-  }
-  .bcn-apanel__bar-fill {
-    display: block;
-    height: 100%;
-    border-radius: var(--radius-full);
-    background: var(--_c, var(--color-primary));
-  }
-  .bcn-apanel__bar-value {
-    color: var(--color-text-primary);
-    font-variant-numeric: tabular-nums;
-    text-align: right;
-  }
-
   /* ── Outstanding items ── */
-  .bcn-apanel__outstanding {
-    padding-top: var(--spacing-300);
-    border-top: 1px solid var(--color-border-light);
-  }
   .bcn-apanel__list { list-style: none; padding: 0; margin: 0; }
   .bcn-apanel__row {
     display: grid;

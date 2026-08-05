@@ -152,43 +152,49 @@ export const RESOLVED_OBSERVATIONS = OBSERVATIONS.filter((o) => o.status === 're
 
 export interface SeveritySlice { severity: SeverityLevel; label: string; hex: string; value: number; }
 
-/** Severity breakdown of the emphasized set — ACTIVE observations only. */
-export const SEVERITY_BREAKDOWN: SeveritySlice[] = SEVERITY_ORDER.map((severity) => ({
-  severity,
-  label: SEVERITY_META[severity].label,
-  hex: SEVERITY_META[severity].hex,
-  value: ACTIVE_OBSERVATIONS.filter((o) => o.severity === severity).length,
-}));
-
 const ATTENTION_ACTIVE = ACTIVE_OBSERVATIONS.filter((o) => o.severity !== 'in-compliance');
-
-/** Category breakdown of active needs-attention/non-compliance items — the "top issues" list. */
-export const CATEGORY_BREAKDOWN: { category: ObservationCategory; value: number }[] = (() => {
-  const counts = new Map<ObservationCategory, number>();
-  for (const o of ATTENTION_ACTIVE) counts.set(o.category, (counts.get(o.category) ?? 0) + 1);
-  return [...counts.entries()].map(([category, value]) => ({ category, value })).sort((a, b) => b.value - a.value);
-})();
-
-const ninetyDaysAgo = new Date(toUTC(TODAY) - 90 * 86_400_000).toISOString().slice(0, 10);
-
-export const KPIS = {
-  activeTotal: ACTIVE_OBSERVATIONS.length,
-  needsAttentionActive: ACTIVE_OBSERVATIONS.filter((o) => o.severity === 'needs-attention').length,
-  nonComplianceActive: ACTIVE_OBSERVATIONS.filter((o) => o.severity === 'non-compliance').length,
-  avgDaysActiveOpen: Math.round(
-    ATTENTION_ACTIVE.reduce((sum, o) => sum + daysActive(o), 0) / Math.max(1, ATTENTION_ACTIVE.length),
-  ),
-  resolvedLast90d: RESOLVED_OBSERVATIONS.filter((o) => o.resolvedDate! >= ninetyDaysAgo).length,
-  avgDaysToResolve: Math.round(
-    RESOLVED_OBSERVATIONS.reduce((sum, o) => sum + daysActive(o), 0) / Math.max(1, RESOLVED_OBSERVATIONS.length),
-  ),
-  esaReviewCoveragePct: Math.round((OBSERVATIONS.filter((o) => o.esaReviewed).length / OBSERVATIONS.length) * 100),
-};
 
 /** Outstanding items for the Attention panel — active, not-in-compliance, worst-first. */
 export const OUTSTANDING = ATTENTION_ACTIVE
   .slice()
   .sort((a, b) => (a.severity === b.severity ? daysActive(b) - daysActive(a) : a.severity === 'non-compliance' ? -1 : 1));
+
+/** Category breakdown of one severity's active items, worst-category-first. */
+function categoryBreakdown(items: Observation[]): { category: ObservationCategory; value: number }[] {
+  const counts = new Map<ObservationCategory, number>();
+  for (const o of items) counts.set(o.category, (counts.get(o.category) ?? 0) + 1);
+  return [...counts.entries()].map(([category, value]) => ({ category, value })).sort((a, b) => b.value - a.value);
+}
+export const NEEDS_ATTENTION_CATEGORY_BREAKDOWN = categoryBreakdown(ACTIVE_OBSERVATIONS.filter((o) => o.severity === 'needs-attention'));
+export const NON_COMPLIANCE_CATEGORY_BREAKDOWN = categoryBreakdown(ACTIVE_OBSERVATIONS.filter((o) => o.severity === 'non-compliance'));
+
+// ── Prior day of monitoring — Fieldstone's most recent full-site inspection
+// round. Distinct from the tracked open-issue backlog above (OBSERVATIONS):
+// each visit checks every site area once and logs its current condition,
+// whether or not that area also has an older, still-open tracked issue. Feeds
+// ONLY the dashboard's severity donut — "what did yesterday's inspection find."
+export const PRIOR_MONITORING_DATE = '2026-08-04';
+
+interface DailyCheck { area: keyof typeof AREAS; category: ObservationCategory; severity: SeverityLevel; }
+const DAILY_SWEEP: DailyCheck[] = [
+  { area: 'northArray', category: 'Vegetation & Habitat Protection', severity: 'in-compliance' },
+  { area: 'southArray', category: 'Stormwater / BMP Maintenance', severity: 'non-compliance' },
+  { area: 'substation', category: 'Spill Prevention & Response', severity: 'in-compliance' },
+  { area: 'bess', category: 'Noise Management', severity: 'needs-attention' },
+  { area: 'omBuilding', category: 'Waste Management', severity: 'needs-attention' },
+  { area: 'accessRoad', category: 'Access & Traffic Control', severity: 'needs-attention' },
+  { area: 'laydownYard', category: 'Waste Management', severity: 'in-compliance' },
+  { area: 'washCrossing', category: 'Stormwater / BMP Maintenance', severity: 'in-compliance' },
+  { area: 'perimeterWest', category: 'Cultural Resources Protection', severity: 'non-compliance' },
+];
+
+/** Severity breakdown of the prior day's inspection sweep — the donut's data. */
+export const DAILY_SEVERITY_BREAKDOWN: SeveritySlice[] = SEVERITY_ORDER.map((severity) => ({
+  severity,
+  label: SEVERITY_META[severity].label,
+  hex: SEVERITY_META[severity].hex,
+  value: DAILY_SWEEP.filter((d) => d.severity === severity).length,
+}));
 
 // ── 90-day weekly trend: observations opened vs. resolved, most-recent last ──
 export interface TrendWeek { weekStart: string; opened: number; resolved: number; }

@@ -1,6 +1,6 @@
 ---
-// Monitoring Portal → Compliance Oversight → Observations — the filterable
-// list/map view the Oversight Dashboard's donut segments and outstanding-item
+// Monitoring Portal → Compliance Dashboard → Observations — the filterable
+// list/map view the Compliance Dashboard's donut segments and outstanding-item
 // rows link into (?severity=<value> pre-filters; ?open=<id> auto-opens that
 // row's read-only detail on load). Every Fieldstone Environmental Monitoring
 // field observation on the Cottonwood Solar + Storage project, active and
@@ -58,7 +58,7 @@ const gridPayload = { rows: gridRows, severityMeta: SEVERITY_META, statusMeta: S
 // field before the dialog is ever shown).
 const seed = gridRows[0];
 
-// Same per-project nav as the Oversight Dashboard (see that page's header for why).
+// Same per-project nav as the Compliance Dashboard (see that page's header for why).
 const LAYOUT_DASHBOARD_PATHS =
   '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>';
 const MAP_PINNED_PATHS =
@@ -76,8 +76,8 @@ const oversightNav = [
     expanded: true,
     dividerAfter: true,
     items: [
-      { id: 'mp-oversight-dashboard', label: 'Oversight Dashboard', href: withBase('/prototypes/monitoring/oversight-dashboard') },
-      { id: 'mp-oversight-observations', label: 'Observations', href: withBase('/prototypes/monitoring/oversight-observations') },
+      { id: 'mp-compliance-dashboard', label: 'Compliance Dashboard', href: withBase('/prototypes/monitoring/compliance-dashboard') },
+      { id: 'mp-compliance-observations', label: 'Observations', href: withBase('/prototypes/monitoring/compliance-observations') },
     ],
   },
   {
@@ -104,7 +104,7 @@ const oversightNav = [
   title={`Observations — ${PROJECT_NAME}`}
   tenantName={TENANT_NAME}
   projectName={PROJECT_NAME}
-  activeNavId="mp-oversight-observations"
+  activeNavId="mp-compliance-observations"
   expandedSections={['monitoring']}
   navSections={oversightNav}
 >
@@ -113,7 +113,7 @@ const oversightNav = [
     icon="map"
     breadcrumbs={[
       { label: PROJECT_NAME, href: '#project' },
-      { label: 'Monitoring Portal', href: withBase('/prototypes/monitoring/oversight-dashboard') },
+      { label: 'Monitoring Portal', href: withBase('/prototypes/monitoring/compliance-dashboard') },
       { label: 'Observations' },
     ]}
   >

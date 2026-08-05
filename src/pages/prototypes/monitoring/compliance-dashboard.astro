@@ -1,6 +1,6 @@
 ---
-// Monitoring Portal → Compliance Oversight Dashboard — a differently-configured
-// variant of the Monitoring Portal dashboard for projects where ESA holds a
+// Monitoring Portal → Compliance Dashboard — a differently-configured variant
+// of the Monitoring Portal dashboard for projects where ESA holds a
 // THIRD-PARTY compliance-inspection role: a separate first-party contractor
 // (Fieldstone Environmental Monitoring) performs day-to-day field inspection,
 // and ESA spot-checks their logged observations rather than resolving issues
@@ -25,17 +25,18 @@ import {
   ESA_ROLE_LABEL,
   TODAY,
   formatDate,
-  SEVERITY_BREAKDOWN,
+  DAILY_SEVERITY_BREAKDOWN,
+  NEEDS_ATTENTION_CATEGORY_BREAKDOWN,
+  NON_COMPLIANCE_CATEGORY_BREAKDOWN,
+  PRIOR_MONITORING_DATE,
   SEVERITY_META,
-  KPIS,
   OUTSTANDING,
-  CATEGORY_BREAKDOWN,
   TREND_90D,
   AREAS,
   daysActive,
 } from '../../../data/monitoring-oversight-fixture';
 
-const observationsHref = withBase('/prototypes/monitoring/oversight-observations');
+const observationsHref = withBase('/prototypes/monitoring/compliance-observations');
 
 const outstandingForPanel = OUTSTANDING.map((o) => ({
   id: o.id,
@@ -49,8 +50,8 @@ const outstandingForPanel = OUTSTANDING.map((o) => ({
   lng: AREAS[o.area].lng,
 }));
 
-// Short "Jul 6" tick labels for the trend chart (formatDate's "Jul 6, 2026" is
-// too wide for 13 columns).
+// Short "Jul 6" tick labels (formatDate's "Jul 6, 2026" is too wide for 13
+// trend columns, and too long for the donut's center caption).
 const shortDate = (iso: string) => {
   const [, m, d] = iso.split('-').map(Number);
   const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -78,8 +79,8 @@ const oversightNav = [
     expanded: true,
     dividerAfter: true,
     items: [
-      { id: 'mp-oversight-dashboard', label: 'Oversight Dashboard', href: withBase('/prototypes/monitoring/oversight-dashboard') },
-      { id: 'mp-oversight-observations', label: 'Observations', href: withBase('/prototypes/monitoring/oversight-observations') },
+      { id: 'mp-compliance-dashboard', label: 'Compliance Dashboard', href: withBase('/prototypes/monitoring/compliance-dashboard') },
+      { id: 'mp-compliance-observations', label: 'Observations', href: withBase('/prototypes/monitoring/compliance-observations') },
     ],
   },
   {
@@ -95,23 +96,23 @@ const oversightNav = [
 <!-- manifest:
   layout: stack
   sections:
-    - kpi hero + donut      -> bcn-oversight-hero    # clickable severity donut + KPI band
-    - needs-attention panel -> bcn-attention-panel    # category/map/outstanding list + KMZ/CSV export
+    - severity overview     -> bcn-oversight-hero    # prior-day severity donut + needs-attention/non-compliance category bars
+    - needs-attention panel -> bcn-attention-panel    # outstanding list + map inset + KMZ/CSV export
     - trend panel           -> bcn-trend-panel        # 90-day opened-vs-resolved trend
 -->
 
 <AppShell
-  title={`Compliance Oversight Dashboard — ${PROJECT_NAME}`}
+  title={`Compliance Dashboard — ${PROJECT_NAME}`}
   tenantName={TENANT_NAME}
   projectName={PROJECT_NAME}
-  activeNavId="mp-oversight-dashboard"
+  activeNavId="mp-compliance-dashboard"
   expandedSections={['monitoring']}
   navSections={oversightNav}
 >
   <PageLayout
-    title="Compliance Oversight Dashboard"
+    title="Compliance Dashboard"
     icon="map"
-    breadcrumbs={[{ label: PROJECT_NAME, href: '#project' }, { label: 'Monitoring Portal' }, { label: 'Compliance Oversight' }]}
+    breadcrumbs={[{ label: PROJECT_NAME, href: '#project' }, { label: 'Monitoring Portal' }, { label: 'Compliance Dashboard' }]}
   >
     <EsaPill slot="title-badge" label={ESA_ROLE_LABEL} removable={false} size="sm" />
     <div slot="utilities">
@@ -121,10 +122,15 @@ const oversightNav = [
     </div>
 
     <div class="stack" data-gap="xl">
-      <BcnOversightHero severityBreakdown={SEVERITY_BREAKDOWN} kpis={KPIS} observationsHref={observationsHref} />
+      <BcnOversightHero
+        severityBreakdown={DAILY_SEVERITY_BREAKDOWN}
+        needsAttentionCategories={NEEDS_ATTENTION_CATEGORY_BREAKDOWN}
+        nonComplianceCategories={NON_COMPLIANCE_CATEGORY_BREAKDOWN}
+        observationsHref={observationsHref}
+        asOfLabel={shortDate(PRIOR_MONITORING_DATE)}
+      />
       <BcnAttentionPanel
         outstanding={outstandingForPanel}
-        categoryBreakdown={CATEGORY_BREAKDOWN}
         observationsHref={observationsHref}
         exportFileBase="cottonwood-oversight-observations"
       />
