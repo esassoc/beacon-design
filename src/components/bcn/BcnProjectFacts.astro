@@ -1,8 +1,14 @@
 ---
-// <BcnProjectFacts> — the sidebar "Project details" card: the orienting facts
-// (Lead agency, Region, Components, Tracking since) that lived in the profile
-// header until round 3, when Andy moved them to the right rail below Project data.
-// A quiet stack of label → value pairs.
+// <BcnProjectFacts> — the sidebar "Project details" card: the project record's
+// own fields, moved out of the profile header to the right rail below Project
+// data (round 3). A quiet stack of label → value pairs, plus the description and
+// Project.Files.
+//
+// EVERY LINE IS A PROJECT-RECORD FIELD. Lead agency, Region, Components, and
+// Tracking-since were shown here until round 6 and were CUT — none had a source
+// in the data model. That rule is why the card is short: a fact with no field
+// behind it does not belong on the surface. Resist re-adding derived or
+// decorative facts.
 //
 // Composes the legos: EsaCard (shell). The fact rows are the only composition
 // inside this component.

@@ -336,7 +336,8 @@ export const WIZARD_HREF = '#project-setup';
 // KMZ already in this repo) — a 0.05° latitude-binned centerline through the
 // corridor, buffered ~2.4 km each side. It stands in for the boundary a project
 // would UPLOAD once the spatial-data epic lands (KMZ / shapefile / GDB).
-// Component markers sit on that alignment.
+// The map shows the FOOTPRINT only — component markers were cut (round 12):
+// four dots on a corridor read as noise at this size.
 /**
  * The boundary's SOURCE, rendered as a field on the map card. Today it names the
  * derivation; once projects can upload geometry it names the uploaded file

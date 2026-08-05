@@ -3,11 +3,14 @@
 // It sits outside the module row because it isn't a work area: it's the
 // project's SETUP PIPELINE, and it reads best in the wizard's own shape.
 //
-// Each step is COLOR-CODED to its entity from Beacon's setup ramp — Source
+// Each step carries its entity color from Beacon's setup ramp — Source
 // Documents navy, Commitments purple, Requirements magenta, Actions pink
 // (--color-source / --color-commitment / --color-requirement / --color-action,
 // already global tokens, and the same colors the wizard homepage numbers its
-// steps in). The step's tint, rule, and numeral all read that one token.
+// steps in). The step CARD stays neutral (surface-sunken fill, standard border);
+// the round NUMERAL BADGE alone reads that token. A colored top rule was
+// proposed and rejected — a colored border as a category indicator is a banned
+// pattern house-wide, so category color belongs in a badge, not an edge.
 //
 // Each step carries its own ROLLUP (Andy, round 11) — counts of real records at
 // that step: documents created; commitments created/approved; requirements

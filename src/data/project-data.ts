@@ -4,14 +4,20 @@
 // from the project homepage; the panel contract is ?data=<key> in the URL, so the
 // deep links prod's tab routes provided survive the replacement (Andy, 2026-08-03).
 //
-// Each entity ports its PROD page's real editing pattern faithfully — they are NOT
-// all grids: Species is the teal beacon-grid (+ centered edit dialog); Milestones
-// and Construction Activities are numbered, drag-orderable form-row lists with a
-// bottom Add/Save pair; Seasons is a grouped list with per-season edit dialogs and
-// a Tracked marker. Project Info opens straight into the editable form (no read
-// view — Andy, 2026-08-03) and ends in the danger zone that gives delete-project
-// its new home (BcnDangerZone + esa-confirm-dialog danger variant, the Source
-// Document page's pattern).
+// THE PANEL STANDARD (round 6 — supersedes the earlier per-entity grid/form-row
+// treatments): every entity list is READ-ONLY slim off-white cards, bespoke to
+// its data, dense enough to show 6–8 at once, with a search field on every panel.
+// No grids, no inline form rows, no drag ordering. Sort is alphabetical
+// everywhere except Milestones, which sort by EstimatedDate. Add is a primary
+// button in the panel FOOTER; per-row Edit opens a stacked child drawer carrying
+// that entity's ported prod form (Delete left, Cancel/Save right; checkboxes
+// render as switches). Seasons render as the ported prod season-card and carry no
+// Tracked badge — the field stays, but it is an edit-form concern.
+//
+// Project Info opens straight into the editable form (no read view — Andy,
+// 2026-08-03) and ends in the danger zone that gives delete-project its new home
+// (BcnDangerZone + esa-confirm-dialog danger variant, the Source Document page's
+// pattern).
 //
 // Content is invented-but-credible Delta Conveyance material, DETERMINISTIC (no
 // Date.now()), and the row counts ARE the rail metas — the rail derives its
