@@ -1,0 +1,268 @@
+---
+// <BcnOversightHero> — the Compliance Oversight dashboard's hero / KPI band.
+//
+// A clickable severity-breakdown donut (ACTIVE observations only) on the left,
+// a legend of the same severities on the right of it, and a grid of supporting
+// KPI numbers beside them. EVERY severity is a real link: the SVG ring segment
+// AND its legend row both point at `${observationsHref}?severity=<severity>`,
+// and the donut's center total links to the unfiltered active list.
+//
+// bcn-lego-checked: NO esa-* chart lego exists anywhere in Ecology (checked the
+// full catalog — esa-progress-bar is a single fixed bar, esa-stat/esa-card are
+// static blocks, esa-badge/esa-pill are fixed-variant chips); Beacon prod draws
+// its dashboard donuts as bespoke SVG too. This generalizes the page-local
+// `exec-hero-band-kpis-donut` pattern in prototypes/permit-tracking.astro into a
+// reusable component, and upgrades it: a flat conic-gradient div (what both
+// permit-tracking and BcnMonitoringStats use) CANNOT carry one click target per
+// slice, so the ring here is stacked <circle> strokes (stroke-dasharray =
+// percent at r=15.915, circumference ~100) each wrapped in an SVG <a>. Segment
+// COLORS come from each datum's `hex` (semantic token strings like
+// var(--color-success)) via an inline style, never hardcoded. bcn-oversight-hero
+// is the reusable home; the shell is esa-card and every KPI number is esa-stat.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaStat from '@esa/ecology/esa-stat.astro';
+
+interface SeveritySlice {
+  severity: string;
+  label: string;
+  hex: string;
+  value: number;
+}
+
+interface Kpis {
+  activeTotal: number;
+  needsAttentionActive: number;
+  nonComplianceActive: number;
+  avgDaysActiveOpen: number;
+  resolvedLast90d: number;
+  avgDaysToResolve: number;
+  esaReviewCoveragePct: number;
+}
+
+interface Props {
+  /** Ordered in-compliance, needs-attention, non-compliance. */
+  severityBreakdown: SeveritySlice[];
+  kpis: Kpis;
+  /** Target list route, already base-prefixed by the caller. */
+  observationsHref: string;
+  title?: string;
+}
+
+const {
+  severityBreakdown,
+  kpis,
+  observationsHref,
+  title = 'Compliance Oversight',
+} = Astro.props;
+
+// ── Donut geometry. r = 15.915 → circumference ≈ 100, so stroke-dasharray and
+// stroke-dashoffset units ARE percentages. Each circle draws the full ring but
+// dashes away everything past its own share; the running offset (negative, to
+// advance clockwise) slides each share to where the previous one ended.
+const sliceTotal = severityBreakdown.reduce((sum, s) => sum + s.value, 0);
+let cumulative = 0;
+const segments = severityBreakdown.map((slice) => {
+  const pct = sliceTotal > 0 ? (slice.value / sliceTotal) * 100 : 0;
+  const offset = -cumulative;
+  cumulative += pct;
+  return {
+    ...slice,
+    pct,
+    dasharray: `${pct.toFixed(3)} ${(100 - pct).toFixed(3)}`,
+    dashoffset: offset.toFixed(3),
+    share: Math.round(pct),
+    href: `${observationsHref}?severity=${encodeURIComponent(slice.severity)}`,
+  };
+});
+
+const kpiStats: { value: string | number; label: string }[] = [
+  { value: kpis.needsAttentionActive, label: 'Needs attention' },
+  { value: kpis.nonComplianceActive, label: 'Non-compliance' },
+  { value: kpis.avgDaysActiveOpen, label: 'Avg. days open' },
+  { value: kpis.resolvedLast90d, label: 'Resolved (90d)' },
+  { value: kpis.avgDaysToResolve, label: 'Avg. days to resolve' },
+  { value: `${kpis.esaReviewCoveragePct}%`, label: 'ESA QC coverage' },
+];
+---
+
+<EsaCard
+  title={title}
+  subtitle="Active observations by compliance severity — select a segment to open that filtered list"
+>
+  <div class="bcn-ohero cluster" data-gap="xl" data-align="center" data-justify="between">
+    <!-- ── Clickable severity donut + legend ── -->
+    <div class="cluster" data-gap="lg" data-align="center">
+      <div class="bcn-ohero__donut">
+        <svg class="bcn-ohero__ring" viewBox="0 0 42 42" role="group" aria-label="Active observations by severity">
+          <circle
+            class="bcn-ohero__track"
+            cx="21"
+            cy="21"
+            r="15.915"
+            fill="transparent"
+            stroke-width="6"
+          ></circle>
+          {segments.filter((s) => s.pct > 0).map((s) => (
+            <a
+              class="bcn-ohero__seg"
+              href={s.href}
+              aria-label={`${s.label}: ${s.value} active (${s.share}%) — open the filtered list`}
+            >
+              <circle
+                cx="21"
+                cy="21"
+                r="15.915"
+                fill="transparent"
+                stroke-width="6"
+                stroke-dasharray={s.dasharray}
+                stroke-dashoffset={s.dashoffset}
+                style={`stroke: ${s.hex};`}
+              >
+                <title>{s.label}: {s.value} ({s.share}%)</title>
+              </circle>
+            </a>
+          ))}
+        </svg>
+        <a class="bcn-ohero__hole" href={observationsHref}>
+          <span class="bcn-ohero__hole-value">{kpis.activeTotal}</span>
+          <span class="bcn-ohero__hole-cap type-caption">active</span>
+        </a>
+      </div>
+
+      <ul class="bcn-ohero__legend stack" data-gap="2xs">
+        {segments.map((s) => (
+          <li>
+            <a class="bcn-ohero__legend-row" href={s.href}>
+              <span class="bcn-ohero__dot" style={`--_c: ${s.hex};`}></span>
+              <span class="bcn-ohero__legend-label type-body-small">{s.label}</span>
+              <span class="bcn-ohero__legend-value type-label">{s.value}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- ── Supporting KPIs (activeTotal lives in the donut hole, not repeated) ── -->
+    <div class="bcn-ohero__kpis grid" data-gap="lg">
+      {kpiStats.map((stat) => <EsaStat value={stat.value} label={stat.label} />)}
+    </div>
+  </div>
+</EsaCard>
+
+<style>
+  .bcn-ohero {
+    --_donut-size: 168px;
+  }
+  .bcn-ohero__kpis {
+    --grid-min: 8.5rem;
+    /* KPIs are supporting numbers, not the hero figure — one role quieter. */
+    --stat-value-size: var(--type-size-500);
+    flex: 1 1 22rem;
+    min-inline-size: 0;
+  }
+
+  /* ── Donut: stacked circle strokes, each an <a>. Color from data (--_c / the
+     per-segment inline stroke). ── */
+  .bcn-ohero__donut {
+    position: relative;
+    inline-size: var(--_donut-size);
+    block-size: var(--_donut-size);
+    flex-shrink: 0;
+  }
+  .bcn-ohero__ring {
+    inline-size: 100%;
+    block-size: 100%;
+    /* Start the first segment at 12 o'clock, donut-chart convention. */
+    transform: rotate(-90deg);
+    overflow: visible;
+  }
+  .bcn-ohero__track {
+    stroke: var(--color-surface-sunken);
+  }
+  .bcn-ohero__seg circle {
+    transition: stroke-width 120ms ease-out, opacity 120ms ease-out;
+  }
+  .bcn-ohero__seg:hover circle,
+  .bcn-ohero__seg:focus-visible circle {
+    stroke-width: 7.5;
+  }
+  .bcn-ohero__ring:hover .bcn-ohero__seg:not(:hover) circle {
+    opacity: 0.55;
+  }
+  .bcn-ohero__seg:focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset, 2px);
+  }
+
+  /* Center label — the active total, linking to the unfiltered list. */
+  .bcn-ohero__hole {
+    position: absolute;
+    inset: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1px;
+    border-radius: var(--radius-full);
+    background: var(--color-surface);
+    text-decoration: none;
+    color: var(--color-text-primary);
+  }
+  .bcn-ohero__hole-value {
+    font-family: var(--font-display, var(--font-sans));
+    font-size: var(--type-size-600);
+    font-weight: var(--font-weight-bold);
+    line-height: 1;
+  }
+  .bcn-ohero__hole-cap {
+    color: var(--color-text-tertiary);
+  }
+  .bcn-ohero__hole:hover .bcn-ohero__hole-value {
+    color: var(--color-primary-hover);
+  }
+  .bcn-ohero__hole:focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset, 2px);
+  }
+
+  /* ── Legend: each row is the same link as its segment, but a fat target. ── */
+  .bcn-ohero__legend {
+    list-style: none;
+    padding: 0;
+    min-inline-size: 0;
+  }
+  .bcn-ohero__legend-row {
+    display: grid;
+    grid-template-columns: 10px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-100) var(--spacing-200);
+    border-radius: var(--radius-200);
+    text-decoration: none;
+    color: var(--color-text-secondary);
+  }
+  .bcn-ohero__legend-row:hover {
+    background: var(--color-surface-sunken);
+    color: var(--color-text-primary);
+  }
+  .bcn-ohero__legend-row:focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset, 2px);
+  }
+  .bcn-ohero__dot {
+    inline-size: 10px;
+    block-size: 10px;
+    border-radius: var(--radius-full);
+    background: var(--_c);
+  }
+  .bcn-ohero__legend-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bcn-ohero__legend-value {
+    color: var(--color-text-primary);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+</style>

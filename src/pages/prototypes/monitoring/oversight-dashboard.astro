@@ -1,0 +1,144 @@
+---
+// Monitoring Portal → Compliance Oversight Dashboard — a differently-configured
+// variant of the Monitoring Portal dashboard for projects where ESA holds a
+// THIRD-PARTY compliance-inspection role: a separate first-party contractor
+// (Fieldstone Environmental Monitoring) performs day-to-day field inspection,
+// and ESA spot-checks their logged observations rather than resolving issues
+// directly. Demonstrates the Monitoring Portal's per-project configurability —
+// this project's nav/widget set differs from the Delta Conveyance Monitoring
+// Portal (monitoring/dashboard.astro) on purpose.
+//
+// Fixture data + the invented Cottonwood Solar + Storage scenario live in
+// src/data/monitoring-oversight-fixture.ts (see that file's header — nothing
+// here is real project data).
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import EsaPill from '@esa/ecology/esa-pill.astro';
+import BcnOversightHero from '../../../components/bcn/BcnOversightHero.astro';
+import BcnAttentionPanel from '../../../components/bcn/BcnAttentionPanel.astro';
+import BcnTrendPanel from '../../../components/bcn/BcnTrendPanel.astro';
+import { withBase } from '../../../lib/base';
+import {
+  PROJECT_NAME,
+  TENANT_NAME,
+  FIRST_PARTY_FIRM,
+  ESA_ROLE_LABEL,
+  TODAY,
+  formatDate,
+  SEVERITY_BREAKDOWN,
+  SEVERITY_META,
+  KPIS,
+  OUTSTANDING,
+  CATEGORY_BREAKDOWN,
+  TREND_90D,
+  AREAS,
+  daysActive,
+} from '../../../data/monitoring-oversight-fixture';
+
+const observationsHref = withBase('/prototypes/monitoring/oversight-observations');
+
+const outstandingForPanel = OUTSTANDING.map((o) => ({
+  id: o.id,
+  category: o.category,
+  severity: o.severity as 'needs-attention' | 'non-compliance',
+  severityLabel: SEVERITY_META[o.severity].label,
+  severityHex: SEVERITY_META[o.severity].hex,
+  daysActive: daysActive(o),
+  area: AREAS[o.area].label,
+  lat: AREAS[o.area].lat,
+  lng: AREAS[o.area].lng,
+}));
+
+// Short "Jul 6" tick labels for the trend chart (formatDate's "Jul 6, 2026" is
+// too wide for 13 columns).
+const shortDate = (iso: string) => {
+  const [, m, d] = iso.split('-').map(Number);
+  const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `${MONTHS[m - 1]} ${d}`;
+};
+const trendWeeks = TREND_90D.map((w) => ({ label: shortDate(w.weekStart), opened: w.opened, resolved: w.resolved }));
+
+// Per-project nav (side-nav-modern verbatim glyphs) — a leaner Monitoring group
+// than the Delta Conveyance portal's, illustrating that the Monitoring Portal's
+// tabs/widgets are configured per project, not fixed.
+const LAYOUT_DASHBOARD_PATHS =
+  '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>';
+const MAP_PINNED_PATHS =
+  '<path d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"/><circle cx="12" cy="8" r="2"/><path d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"/>';
+const SLIDERS_PATHS =
+  '<line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/>';
+
+const oversightNav = [
+  { id: 'project', title: 'Project', icon: 'layout-dashboard', iconPaths: LAYOUT_DASHBOARD_PATHS, link: true },
+  {
+    id: 'monitoring',
+    title: 'Monitoring',
+    icon: 'map-pinned',
+    iconPaths: MAP_PINNED_PATHS,
+    expanded: true,
+    dividerAfter: true,
+    items: [
+      { id: 'mp-oversight-dashboard', label: 'Oversight Dashboard', href: withBase('/prototypes/monitoring/oversight-dashboard') },
+      { id: 'mp-oversight-observations', label: 'Observations', href: withBase('/prototypes/monitoring/oversight-observations') },
+    ],
+  },
+  {
+    id: 'admin',
+    title: 'Admin',
+    icon: 'sliders-horizontal',
+    iconPaths: SLIDERS_PATHS,
+    items: [{ id: 'dashboard-widgets', label: 'Dashboard Widgets' }],
+  },
+];
+---
+
+<!-- manifest:
+  layout: stack
+  sections:
+    - kpi hero + donut      -> bcn-oversight-hero    # clickable severity donut + KPI band
+    - needs-attention panel -> bcn-attention-panel    # category/map/outstanding list + KMZ/CSV export
+    - trend panel           -> bcn-trend-panel        # 90-day opened-vs-resolved trend
+-->
+
+<AppShell
+  title={`Compliance Oversight Dashboard — ${PROJECT_NAME}`}
+  tenantName={TENANT_NAME}
+  projectName={PROJECT_NAME}
+  activeNavId="mp-oversight-dashboard"
+  expandedSections={['monitoring']}
+  navSections={oversightNav}
+>
+  <PageLayout
+    title="Compliance Oversight Dashboard"
+    icon="map"
+    breadcrumbs={[{ label: PROJECT_NAME, href: '#project' }, { label: 'Monitoring Portal' }, { label: 'Compliance Oversight' }]}
+  >
+    <EsaPill slot="title-badge" label={ESA_ROLE_LABEL} removable={false} size="sm" />
+    <div slot="utilities">
+      <span class="type-body-small bcn-od-context">
+        First-party inspector: {FIRST_PARTY_FIRM} · as of {formatDate(TODAY)}
+      </span>
+    </div>
+
+    <div class="stack" data-gap="xl">
+      <BcnOversightHero severityBreakdown={SEVERITY_BREAKDOWN} kpis={KPIS} observationsHref={observationsHref} />
+      <BcnAttentionPanel
+        outstanding={outstandingForPanel}
+        categoryBreakdown={CATEGORY_BREAKDOWN}
+        observationsHref={observationsHref}
+        exportFileBase="cottonwood-oversight-observations"
+      />
+      <BcnTrendPanel weeks={trendWeeks} />
+    </div>
+  </PageLayout>
+</AppShell>
+
+<style>
+  /* bcn-lego-checked: a single text line (context caption) in the page-header
+     utilities slot — the same slot monitoring/dashboard.astro uses for its "Edit
+     Connection" button. No primitive here, just a type-role text node. */
+  .bcn-od-context {
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+  }
+</style>

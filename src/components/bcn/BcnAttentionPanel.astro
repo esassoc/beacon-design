@@ -1,0 +1,373 @@
+---
+// <BcnAttentionPanel> — the Compliance Oversight Dashboard's "Needs Attention &
+// Non-Compliance" panel. One esa-card holding four things the oversight lead asks
+// in sequence: WHICH kind of issue dominates (the category bars), WHERE the active
+// ones are (a non-interactive BcnObservationMap inset), WHAT is still outstanding
+// (the item list, worst-first, each linking straight into its Observations detail),
+// and HOW to take it off-platform (spreadsheet + KML exports).
+//
+// Everything is handed in already sorted by the caller — this component never sorts,
+// filters, or reasons about severity; it only renders and derives the map pins.
+//
+// bcn-lego-checked: the category bars are the SAME bespoke horizontal value-bar viz
+// already justified in BcnMonitoringStats (no esa-* chart lego exists —
+// esa-progress-bar is a single fixed-variant bar, esa-stat/esa-card are static
+// blocks), replicated here exactly per "approved patterns are canon" with this
+// component's own class names and the same data-driven `--_c` custom property.
+// Checked Beacon prod (dashboard charts are bespoke CSS/SVG there too). Everything
+// else IS a lego: esa-card shell + actions/footer slots, esa-button for all four
+// actions (exports are plain client-side Blob downloads — no primitive gap),
+// esa-badge for the age, esa-empty-state for the zero case, bcn-status-chip for the
+// value-driven severity color, and bcn-observation-map for the inset.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import BcnStatusChip from './BcnStatusChip.astro';
+import BcnObservationMap from './BcnObservationMap.astro';
+
+interface OutstandingItem {
+  id: string;
+  category: string;
+  severity: 'needs-attention' | 'non-compliance';
+  severityLabel: string;
+  /** SSR color for the severity chip; may be a `var(--color-danger)` string. */
+  severityHex: string;
+  daysActive: number;
+  area: string;
+  lat: number;
+  lng: number;
+}
+interface CategorySlice {
+  category: string;
+  value: number;
+}
+interface Props {
+  /** Already sorted worst-first by the caller. */
+  outstanding: OutstandingItem[];
+  /** Already sorted descending by the caller. */
+  categoryBreakdown: CategorySlice[];
+  /** Base route to the Observations list page. */
+  observationsHref: string;
+  /** Base filename (no extension) for the two exports. */
+  exportFileBase?: string;
+}
+const {
+  outstanding,
+  categoryBreakdown,
+  observationsHref,
+  exportFileBase = 'cottonwood-oversight-observations',
+} = Astro.props;
+
+// Bars: scale each value against the group max so the longest fills the track
+// (BcnMonitoringStats' idiom, verbatim).
+const barMax = Math.max(1, ...categoryBreakdown.map((c) => c.value));
+const barWidth = (value: number) => `${Math.max((value / barMax) * 100, 4).toFixed(1)}%`;
+
+// Map pins come straight off the outstanding items — the inset shows exactly the
+// rows in the list below it, colored by the same severity value.
+const mapPins = outstanding.map((item) => ({
+  id: item.id,
+  lat: item.lat,
+  lng: item.lng,
+  label: `${item.id} — ${item.category}`,
+  hex: item.severityHex,
+}));
+
+// `?open=<id>` — the Observations page reads this on load and auto-opens the detail
+// dialog. `?severity=<severity>` pre-filters that list to one severity.
+const openHref = (id: string) => `${observationsHref}?open=${encodeURIComponent(id)}`;
+const severityHref = (severity: string) => `${observationsHref}?severity=${encodeURIComponent(severity)}`;
+
+const attentionCount = outstanding.filter((i) => i.severity === 'needs-attention').length;
+const nonComplianceCount = outstanding.filter((i) => i.severity === 'non-compliance').length;
+
+const payload = { outstanding, categoryBreakdown, fileBase: exportFileBase };
+---
+
+<EsaCard title="Needs Attention & Non-Compliance">
+  <Fragment slot="actions">
+    <EsaButton id="ap-export-csv" color="ghost" appearance="outline" size="sm" icon="arrow-down">
+      Export spreadsheet
+    </EsaButton>
+    <EsaButton id="ap-export-kml" color="ghost" appearance="outline" size="sm" icon="map-pin">
+      Export KMZ
+    </EsaButton>
+  </Fragment>
+
+  <div class="stack" data-gap="lg">
+    <!-- Which category dominates (main) + where the active ones are (aside). -->
+    <div class="bcn-apanel__body sidebar" data-gap="lg" data-side="end">
+      <div class="bcn-apanel__inset stack" data-gap="xs">
+        <h4 class="bcn-apanel__heading type-label">Active issue locations</h4>
+        <BcnObservationMap
+          observations={mapPins}
+          mapId="attention-panel"
+          height="220px"
+          interactive={false}
+        />
+      </div>
+
+      <section class="stack" data-gap="xs">
+        <h4 class="bcn-apanel__heading type-label">Most common issue categories</h4>
+        <ul class="bcn-apanel__bars stack" data-gap="xs">
+          {categoryBreakdown.map((slice) => (
+            <li class="bcn-apanel__bar-row">
+              <span class="bcn-apanel__bar-label type-body-small">{slice.category}</span>
+              <span class="bcn-apanel__bar-track">
+                <span
+                  class="bcn-apanel__bar-fill"
+                  style={`--_c: var(--color-primary); width: ${barWidth(slice.value)};`}
+                ></span>
+              </span>
+              <span class="bcn-apanel__bar-value type-label">{slice.value}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </div>
+
+    <!-- What is still outstanding. -->
+    <section class="bcn-apanel__outstanding stack" data-gap="sm">
+      <h4 class="bcn-apanel__heading type-label">Outstanding items ({outstanding.length})</h4>
+      {outstanding.length === 0 ? (
+        <EsaEmptyState
+          size="sm"
+          title="Nothing outstanding"
+          description="Every flagged observation has been resolved or closed out."
+        />
+      ) : (
+        <ul class="bcn-apanel__list stack" data-gap="2xs">
+          {outstanding.map((item) => (
+            <li class="bcn-apanel__row">
+              <a class="bcn-apanel__id" href={openHref(item.id)}>{item.id}</a>
+              <BcnStatusChip
+                status={item.severity}
+                label={item.severityLabel}
+                hex={item.severityHex}
+              />
+              <span class="bcn-apanel__category type-body-small">{item.category}</span>
+              <span class="bcn-apanel__area type-body-small">{item.area}</span>
+              <EsaBadge
+                value={`${item.daysActive}d active`}
+                variant={item.severity === 'non-compliance' ? 'danger' : 'warning'}
+                size="sm"
+              />
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+  </div>
+
+  <Fragment slot="footer">
+    <div class="cluster" data-gap="sm">
+      <EsaButton
+        color="ghost"
+        appearance="outline"
+        size="sm"
+        href={severityHref('needs-attention')}
+      >
+        All needs attention ({attentionCount})
+      </EsaButton>
+      <EsaButton
+        color="ghost"
+        appearance="outline"
+        size="sm"
+        href={severityHref('non-compliance')}
+      >
+        All non-compliance ({nonComplianceCount})
+      </EsaButton>
+    </div>
+  </Fragment>
+</EsaCard>
+
+<script type="application/json" id="ap-data" set:html={JSON.stringify(payload)}></script>
+
+<script>
+  // Exports are hand-built here (no grid on this panel to delegate to): the same
+  // Blob + URL.createObjectURL + temporary <a download> technique AG Grid's
+  // exportDataAsCsv uses on the table pages in this repo.
+  type Row = {
+    id: string;
+    category: string;
+    severity: string;
+    severityLabel: string;
+    daysActive: number;
+    area: string;
+    lat: number;
+    lng: number;
+  };
+
+  const node = document.getElementById('ap-data');
+  const data = JSON.parse(node?.textContent || '{}') as {
+    outstanding?: Row[];
+    fileBase?: string;
+  };
+  const rows = data.outstanding ?? [];
+  const fileBase = data.fileBase ?? 'oversight-observations';
+
+  function download(contents: string, filename: string, mime: string) {
+    const url = URL.createObjectURL(new Blob([contents], { type: mime }));
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  // RFC-4180: quote any field containing a comma, quote or newline; double the quotes.
+  function csvField(value: string | number) {
+    const s = String(value);
+    return /[",\r\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+  }
+
+  function toCsv(items: Row[]) {
+    const header = ['ID', 'Category', 'Severity', 'Area', 'Days Active'];
+    const lines = [header.join(',')];
+    for (const r of items) {
+      lines.push(
+        [r.id, r.category, r.severityLabel || r.severity, r.area, r.daysActive]
+          .map(csvField)
+          .join(','),
+      );
+    }
+    return lines.join('\r\n');
+  }
+
+  function xml(value: string | number) {
+    return String(value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;');
+  }
+
+  // A real KMZ is just this KML zipped; pulling in a zip library for a design
+  // prototype is unwarranted scope, and a bare .kml opens in Google Earth / ArcGIS
+  // / QGIS all the same.
+  function toKml(items: Row[]) {
+    const placemarks = items
+      .map(
+        (r) => `  <Placemark>
+    <name>${xml(r.id)}</name>
+    <description>Category: ${xml(r.category)}
+Severity: ${xml(r.severityLabel || r.severity)}
+Days active: ${xml(r.daysActive)}
+Work area: ${xml(r.area)}</description>
+    <Point><coordinates>${r.lng},${r.lat},0</coordinates></Point>
+  </Placemark>`,
+      )
+      .join('\n');
+    return `<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+  <name>${xml(fileBase)}</name>
+${placemarks}
+</Document>
+</kml>`;
+  }
+
+  document.getElementById('ap-export-csv')?.addEventListener('click', () => {
+    download(toCsv(rows), `${fileBase}.csv`, 'text/csv;charset=utf-8');
+  });
+
+  document.getElementById('ap-export-kml')?.addEventListener('click', () => {
+    download(toKml(rows), `${fileBase}.kml`, 'application/vnd.google-earth.kml+xml');
+  });
+</script>
+
+<style>
+  /* ── Composition glue: the map inset is the sidebar primitive's fixed-width
+     aside (data-side="end" renders it right of the bars, which stay first in
+     reading order). ── */
+  .bcn-apanel__body {
+    --sidebar-width: 19rem;
+    --sidebar-content-min: 52%;
+  }
+
+  .bcn-apanel__heading {
+    margin: 0;
+    color: var(--color-text-secondary);
+  }
+
+  /* ── Horizontal value bars — the BcnMonitoringStats idiom, color via --_c. ── */
+  .bcn-apanel__bars { list-style: none; padding: 0; margin: 0; }
+  .bcn-apanel__bar-row {
+    display: grid;
+    grid-template-columns: minmax(6rem, 12rem) 1fr auto;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+  .bcn-apanel__bar-label {
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bcn-apanel__bar-track {
+    height: 10px;
+    border-radius: var(--radius-full);
+    background: var(--color-surface-sunken);
+    overflow: hidden;
+  }
+  .bcn-apanel__bar-fill {
+    display: block;
+    height: 100%;
+    border-radius: var(--radius-full);
+    background: var(--_c, var(--color-primary));
+  }
+  .bcn-apanel__bar-value {
+    color: var(--color-text-primary);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+
+  /* ── Outstanding items ── */
+  .bcn-apanel__outstanding {
+    padding-top: var(--spacing-300);
+    border-top: 1px solid var(--color-border-light);
+  }
+  .bcn-apanel__list { list-style: none; padding: 0; margin: 0; }
+  .bcn-apanel__row {
+    display: grid;
+    grid-template-columns: 7.5rem auto minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding-block: var(--spacing-150);
+  }
+  .bcn-apanel__list > li + li { border-top: 1px solid var(--color-border-light); }
+
+  .bcn-apanel__id {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    white-space: nowrap;
+  }
+  .bcn-apanel__id:hover { color: var(--color-primary-hover); }
+
+  /* Dense data row: .type-body-small (14px), darkened rather than grayed out. */
+  .bcn-apanel__category,
+  .bcn-apanel__area {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-apanel__category { color: var(--color-text-primary); }
+  .bcn-apanel__area { color: var(--color-text-secondary); }
+
+  /* Narrow: the row wraps to id + chip on one line, the rest beneath. */
+  @media (max-width: 40rem) {
+    .bcn-apanel__row {
+      grid-template-columns: auto 1fr;
+      row-gap: var(--spacing-100);
+    }
+    .bcn-apanel__category { grid-column: 1 / -1; }
+    .bcn-apanel__area { grid-column: 1 / -1; }
+  }
+</style>

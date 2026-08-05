@@ -372,6 +372,26 @@ export const prototypeGroups: PrototypeGroup[] = [
         ticket: 'BCN-1265',
         status: 'in-progress',
       },
+      {
+        slug: 'monitoring-oversight-dashboard',
+        title: 'Compliance Oversight Dashboard',
+        description:
+          'A differently-configured Monitoring Portal dashboard for projects where the firm holds a third-party compliance-inspection role over a separate field inspector: a clickable severity donut (in-compliance / needs-attention / non-compliance), a KPI band, a needs-attention panel with a map inset plus spreadsheet/KMZ export, and a 90-day opened-vs-resolved trend — demonstrating the portal’s per-project widget configurability.',
+        route: '/prototypes/monitoring/oversight-dashboard',
+        createdAt: '2026-08-05',
+        status: 'in-progress',
+        tenant: 'platform',
+      },
+      {
+        slug: 'monitoring-oversight-observations',
+        title: 'Compliance Oversight — Observations',
+        description:
+          'The filterable list/map companion to the Oversight Dashboard: severity, category, and status facets, a List ↔ Map toggle, and a read-only detail panel per observation — the drill-down target for the dashboard’s donut segments and outstanding-item rows.',
+        route: '/prototypes/monitoring/oversight-observations',
+        createdAt: '2026-08-05',
+        status: 'in-progress',
+        tenant: 'platform',
+      },
     ],
   },
   {

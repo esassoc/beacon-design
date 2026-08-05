@@ -1,0 +1,248 @@
+---
+// <BcnObservationMap> — a PARAMETERIZED Leaflet map that plots point observations
+// colored by severity. Two surfaces, one component:
+//   1. a small non-interactive inset (`interactive={false}`) that reads as a
+//      picture of where the observations are — a dashboard panel preview;
+//   2. a taller fully-interactive map on the Observations list page, whose pins
+//      re-draw as the host re-filters the grid.
+//
+// It is deliberately DUMB: it owns the basemap, the pins, the tooltips and the
+// fit-to-bounds, and nothing else. A pin click dispatches
+// `bcn-observation-pin-click` on the container and stops there — the HOST decides
+// whether that opens a dialog, selects a grid row, or navigates. That's what makes
+// the same component safe to mount twice on one page.
+//
+// MULTI-INSTANCE CONTRACT (the detail that bites): an Astro `<script>` is hoisted
+// and bundled ONCE per page, not re-run per component instance, so props are NOT
+// visible to it as a closure. Every prop is therefore threaded through the DOM —
+// `data-*` attributes on the container plus a sibling
+// `<script type="application/json" data-bcn-obsmap-data={mapId}>` payload (the same
+// idiom as BcnProjectMap's `#bcn-map-data`). The module iterates every
+// `[data-bcn-obsmap]` on the page, reads each one's OWN attributes, and builds an
+// independent Leaflet map per container.
+//
+// bcn-lego-checked: Ecology has no map lego at all (`ls
+// node_modules/@esa/ecology/src/components/` — nothing map/geo/spatial); checked
+// Beacon prod (its map is an Angular/Leaflet page, no reusable ui-* control). The
+// repo's only other map, BcnProjectMap, is NOT parameterized — it hardcodes one
+// project's boundary/alignment GeoJSON and explicitly has no point-marker support
+// ("component markers were cut"), so it cannot be reused for severity pins. This
+// component borrows its Leaflet idiom (basemap tiles, inset-vs-interactive option
+// sets, token→literal color resolution, shared styles/beacon-map.css) and is the
+// reusable home for marker maps. The only CSS below is the map container's own
+// geometry, which no lego models.
+import '../../styles/beacon-map.css';
+
+export interface ObservationPin {
+  id: string;
+  lat: number;
+  lng: number;
+  label: string;
+  /** Fill color. May be a literal (`#b3261e`) OR a token reference
+   *  (`var(--color-danger)`) — the script resolves vars to a computed literal,
+   *  because Leaflet cannot take a raw `var(...)` string. */
+  hex: string;
+}
+
+interface Props {
+  observations: ObservationPin[];
+  /** Unique DOM id suffix — a page may host two instances, and Leaflet needs a
+   *  unique container per map. */
+  mapId: string;
+  /** CSS height for the map container. */
+  height?: string;
+  /** false = no drag / zoom / scroll — a "picture" inset. Pins stay clickable. */
+  interactive?: boolean;
+}
+
+const { observations, mapId, height = '260px', interactive = true } = Astro.props;
+
+const count = observations.length;
+const label =
+  count === 0
+    ? 'Observation map — no observations to show'
+    : `Observation map — ${count} observation${count === 1 ? '' : 's'} plotted by severity`;
+---
+
+<div
+  class="bcn-obsmap"
+  id={`bcn-obsmap-${mapId}`}
+  data-bcn-obsmap
+  data-map-id={mapId}
+  data-interactive={String(interactive)}
+  style={`height: ${height};`}
+  role={interactive ? 'region' : 'img'}
+  aria-label={label}
+>
+</div>
+
+<script
+  type="application/json"
+  data-bcn-obsmap-data={mapId}
+  set:html={JSON.stringify(observations)}
+></script>
+
+<script>
+  import L from 'leaflet';
+  import 'leaflet/dist/leaflet.css';
+
+  interface ObservationPin {
+    id: string;
+    lat: number;
+    lng: number;
+    label: string;
+    hex: string;
+  }
+
+  type ObsMapHost = HTMLElement & {
+    _bcnMap?: L.Map;
+    _bcnSetObservations?: (obs: ObservationPin[], opts?: { fit?: boolean }) => void;
+  };
+
+  /** Statewide California — the neutral view when there is nothing to fit. */
+  const EMPTY_VIEW: [number, number] = [37.6, -120.4];
+  const EMPTY_ZOOM = 5;
+  const PIN_FALLBACK = '#8a9099';
+
+  const rootStyle = () => getComputedStyle(document.documentElement);
+
+  /**
+   * Leaflet paths take LITERAL colors, so a `var(--color-danger)` prop has to be
+   * resolved first (same move BcnProjectMap makes for --color-secondary /
+   * --color-primary). Recurses because a semantic token may itself alias another
+   * var(), and honors an inline var() fallback.
+   */
+  function resolveColor(value: string, depth = 0): string {
+    const raw = (value || '').trim();
+    if (!raw || depth > 4) return PIN_FALLBACK;
+    const m = raw.match(/^var\(\s*(--[\w-]+)\s*(?:,\s*([\s\S]+))?\)$/);
+    if (!m) return raw;
+    const resolved = rootStyle().getPropertyValue(m[1]).trim();
+    if (resolved) return resolveColor(resolved, depth + 1);
+    return m[2] ? resolveColor(m[2], depth + 1) : PIN_FALLBACK;
+  }
+
+  const basemap = () =>
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap &copy; CARTO',
+      subdomains: 'abcd',
+      maxZoom: 19,
+    });
+
+  const INSET_OPTIONS: L.MapOptions = {
+    zoomControl: false,
+    attributionControl: false,
+    dragging: false,
+    scrollWheelZoom: false,
+    doubleClickZoom: false,
+    boxZoom: false,
+    keyboard: false,
+    touchZoom: false,
+  };
+
+  const LIVE_OPTIONS: L.MapOptions = { zoomControl: true, attributionControl: true };
+
+  function readPins(mapId: string): ObservationPin[] {
+    const el = document.querySelector(`[data-bcn-obsmap-data="${mapId}"]`);
+    if (!el) return [];
+    try {
+      const parsed = JSON.parse(el.textContent || '[]');
+      return Array.isArray(parsed) ? (parsed as ObservationPin[]) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function build(host: ObsMapHost) {
+    if (host.dataset.bcnObsmapReady === 'true') return;
+    host.dataset.bcnObsmapReady = 'true';
+
+    const mapId = host.dataset.mapId || '';
+    const interactive = host.dataset.interactive !== 'false';
+    const stroke = rootStyle().getPropertyValue('--color-surface').trim() || '#ffffff';
+
+    // A view must exist BEFORE any layer is added; fitBounds then takes over.
+    const map = L.map(host, interactive ? LIVE_OPTIONS : INSET_OPTIONS).setView(
+      EMPTY_VIEW,
+      EMPTY_ZOOM,
+    );
+    basemap().addTo(map);
+
+    // All pins live in one group so a re-filter is "clear the group, re-add".
+    const pins = L.layerGroup().addTo(map);
+
+    function setObservations(obs: ObservationPin[], opts: { fit?: boolean } = {}) {
+      pins.clearLayers();
+      for (const o of obs) {
+        const marker = L.circleMarker([o.lat, o.lng], {
+          radius: 7,
+          color: stroke,
+          weight: 2,
+          fillColor: resolveColor(o.hex),
+          fillOpacity: 0.9,
+        });
+        marker.bindTooltip(o.label, { sticky: true, direction: 'top' });
+        // The component never acts on a pin click — it ANNOUNCES it. The host
+        // listens on (or above) this container and decides what it means.
+        marker.on('click', () => {
+          host.dispatchEvent(
+            new CustomEvent('bcn-observation-pin-click', {
+              detail: { id: o.id },
+              bubbles: true,
+            }),
+          );
+        });
+        marker.addTo(pins);
+      }
+
+      if (opts.fit === false) return;
+      if (obs.length > 0) {
+        map.fitBounds(
+          L.latLngBounds(obs.map((o) => [o.lat, o.lng] as L.LatLngTuple)),
+          { padding: [16, 16], maxZoom: 14 },
+        );
+      } else {
+        map.setView(EMPTY_VIEW, EMPTY_ZOOM);
+      }
+    }
+
+    setObservations(readPins(mapId));
+
+    // Host handles: redraw pins on a re-filter without re-mounting the map.
+    host._bcnMap = map;
+    host._bcnSetObservations = setObservations;
+
+    // An inset can mount inside a container that is still settling (card grid,
+    // lazily shown panel) — one re-measure catches the common case.
+    requestAnimationFrame(() => map.invalidateSize());
+  }
+
+  document.querySelectorAll<ObsMapHost>('[data-bcn-obsmap]').forEach(build);
+</script>
+
+<style>
+  /* Container geometry only — a map's own chrome (rounded, clipped, sunken while
+     tiles load), matching BcnProjectMap's inset treatment. Height comes from the
+     `height` prop as an inline style. */
+  .bcn-obsmap {
+    width: 100%;
+    border-radius: var(--radius-200);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+    background: var(--color-surface-sunken);
+  }
+
+  /* Leaflet injects .leaflet-container itself, so it is out of Astro's scope. */
+  .bcn-obsmap :global(.leaflet-container) {
+    font-family: var(--font-sans, inherit);
+    background: var(--color-surface-sunken);
+  }
+
+  /* A picture must not offer a grab cursor it won't honor. */
+  .bcn-obsmap[data-interactive='false'] :global(.leaflet-container) {
+    cursor: default;
+  }
+  .bcn-obsmap :global(.leaflet-interactive) {
+    cursor: pointer;
+  }
+</style>
