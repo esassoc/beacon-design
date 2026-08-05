@@ -295,18 +295,39 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
           aria-selected="false"
           href="#article-reading-critical-now"
           data-result=""
-          data-title="How “Most critical right now” is chosen"
-          data-summary="Why an item earns a spot at the top of the dashboard."
+          data-title="How the dashboard decides what needs attention"
+          data-summary="Urgency comes from action due dates, shown in the zone that owns the work."
           hidden=""
         >
           <span class="bcn-kb-hero__result-top">
             <span class="bcn-kb-hero__result-title" data-result-title=""
-              >How “Most critical right now” is chosen</span
+              >How the dashboard decides what needs attention</span
             >
             <span class="bcn-kb-hero__result-cat">Tracking</span>
           </span>
           <span class="bcn-kb-hero__result-summary"
-            >Why an item earns a spot at the top of the dashboard.</span
+            >Urgency comes from action due dates, shown in the zone that owns the
+            work.</span
+          > </a
+        ><a
+          class="bcn-kb-hero__result"
+          id="kb-result-reading-project-timeline"
+          role="option"
+          aria-selected="false"
+          href="#article-reading-project-timeline"
+          data-result=""
+          data-title="Reading the project timeline"
+          data-summary="The next 30, 60, or 90 days of due dates, seasons, and milestones."
+          hidden=""
+        >
+          <span class="bcn-kb-hero__result-top">
+            <span class="bcn-kb-hero__result-title" data-result-title=""
+              >Reading the project timeline</span
+            >
+            <span class="bcn-kb-hero__result-cat">Tracking</span>
+          </span>
+          <span class="bcn-kb-hero__result-summary"
+            >The next 30, 60, or 90 days of due dates, seasons, and milestones.</span
           > </a
         ><a
           class="bcn-kb-hero__result"
@@ -737,88 +758,6 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
   -webkit-appearance: none;
   appearance: none;
 }
-.bcn-kb-hero {
-  padding-block: var(--spacing-500) var(--spacing-400);
-}
-.bcn-kb-hero__col {
-  --center-max: 44rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--spacing-400);
-  text-align: center;
-}
-.bcn-kb-hero__intro {
-  --gap: var(--spacing-200);
-  align-items: center;
-}
-.bcn-kb-hero__title {
-  color: var(--color-text-primary);
-}
-.bcn-kb-hero__lede {
-  max-inline-size: 34rem;
-  color: var(--color-text-secondary);
-}
-.bcn-kb-hero__search-wrap {
-  position: relative;
-  inline-size: 100%;
-  max-inline-size: 40rem;
-}
-.bcn-kb-hero__searchbar {
-  position: relative;
-  inline-size: 100%;
-}
-.bcn-kb-hero__search-icon {
-  position: absolute;
-  inset-inline-start: var(--spacing-400);
-  inset-block-start: 50%;
-  transform: translateY(-50%);
-  display: inline-flex;
-  color: var(--color-text-tertiary);
-  pointer-events: none;
-  z-index: 1;
-  --icon-size-md: 22px;
-}
-.bcn-kb-hero__search {
-  --form-height-lg: 3.5rem;
-  --form-font-size-lg: 1.1875rem;
-  --form-padding-x-lg: 3.25rem;
-  --form-radius-lg: var(--radius-300);
-  --form-border-color-focus: var(--color-text-link);
-  --focus-ring-color: var(--color-text-link);
-  inline-size: 100%;
-  text-align: start;
-}
-.bcn-kb-hero__results {
-  position: absolute;
-  inset-inline: 0;
-  inset-block-start: calc(100% + var(--spacing-150));
-  z-index: 30;
-  max-block-size: min(60vh, 30rem);
-  overflow-y: auto;
-  padding: var(--spacing-100);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-300);
-  box-shadow: var(--shadow-200, 0 8px 28px rgb(0 0 0 / 0.12));
-  text-align: start;
-}
-.bcn-kb-hero__results[hidden] {
-  display: none;
-}
-.bcn-kb-hero__whatsnew {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-100);
-  font-size: 0.9375rem;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
-  text-decoration: none;
-  transition: color 0.15s ease;
-}
-.bcn-kb-hero__whatsnew-arrow {
-  transition: transform 0.15s ease;
-}
 .stack {
   --gap: var(--spacing-400, 1rem);
   display: flex;
@@ -904,6 +843,88 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
 .bcn-gd__label .esa-icon {
   color: var(--color-text-tertiary);
   flex: none;
+}
+.bcn-kb-hero {
+  padding-block: var(--spacing-500) var(--spacing-400);
+}
+.bcn-kb-hero__col {
+  --center-max: 44rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-400);
+  text-align: center;
+}
+.bcn-kb-hero__intro {
+  --gap: var(--spacing-200);
+  align-items: center;
+}
+.bcn-kb-hero__title {
+  color: var(--color-text-primary);
+}
+.bcn-kb-hero__lede {
+  max-inline-size: 34rem;
+  color: var(--color-text-secondary);
+}
+.bcn-kb-hero__search-wrap {
+  position: relative;
+  inline-size: 100%;
+  max-inline-size: 40rem;
+}
+.bcn-kb-hero__searchbar {
+  position: relative;
+  inline-size: 100%;
+}
+.bcn-kb-hero__search-icon {
+  position: absolute;
+  inset-inline-start: var(--spacing-400);
+  inset-block-start: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  color: var(--color-text-tertiary);
+  pointer-events: none;
+  z-index: 1;
+  --icon-size-md: 22px;
+}
+.bcn-kb-hero__search {
+  --form-height-lg: 3.5rem;
+  --form-font-size-lg: 1.1875rem;
+  --form-padding-x-lg: 3.25rem;
+  --form-radius-lg: var(--radius-300);
+  --form-border-color-focus: var(--color-text-link);
+  --focus-ring-color: var(--color-text-link);
+  inline-size: 100%;
+  text-align: start;
+}
+.bcn-kb-hero__results {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: calc(100% + var(--spacing-150));
+  z-index: 30;
+  max-block-size: min(60vh, 30rem);
+  overflow-y: auto;
+  padding: var(--spacing-100);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+  box-shadow: var(--shadow-200, 0 8px 28px rgb(0 0 0 / 0.12));
+  text-align: start;
+}
+.bcn-kb-hero__results[hidden] {
+  display: none;
+}
+.bcn-kb-hero__whatsnew {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.bcn-kb-hero__whatsnew-arrow {
+  transition: transform 0.15s ease;
 }
 ```
 

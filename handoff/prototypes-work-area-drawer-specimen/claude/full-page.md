@@ -2387,10 +2387,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .esa-button--color-primary {
   --_accent-text: var(--color-primary-strong);
 }
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
-}
 *,
 *:before,
 *:after {
@@ -2630,6 +2626,10 @@ a {
 }
 .claude svg {
   flex: none;
+}
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
 }
 .bcn-status-chip {
   display: inline-flex;

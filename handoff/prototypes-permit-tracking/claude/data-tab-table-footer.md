@@ -223,6 +223,14 @@ The grid footer (Beacon's standard pattern): "Download as CSV" on the left, a li
 .esa-button__label {
   white-space: nowrap;
 }
+.esa-button--color-primary {
+  --_accent-text: var(--color-primary-strong);
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: transparent;
+}
 ```
 
 ## Tokens
@@ -236,6 +244,7 @@ The grid footer (Beacon's standard pattern): "Download as CSV" on the left, a li
 - `--color-border`: #dcdcdc _(semantic)_
 - `--color-primary`: #005862 _(semantic)_
 - `--color-primary-hover`: #00474f _(semantic)_
+- `--color-primary-strong`: #2a7e3b _(semantic)_
 - `--color-text-inverse`: #fcfcfc _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_

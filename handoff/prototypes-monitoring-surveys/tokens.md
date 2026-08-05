@@ -1,6 +1,6 @@
 # Token contract — prototypes-monitoring-surveys
 
-The 93 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 87 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -28,8 +28,6 @@ The 93 design tokens this page actually uses, resolved to their final values for
 | `--ag-internal-hover-color` | `rgba(0, 0, 0, 0)` |
 | `--ag-internal-moving-color` | `rgba(0, 0, 0, 0)` |
 | `--bcn-aldo` | `#08908b` |
-| `--bcn-aldo-100` | `#cfeceb` |
-| `--bcn-aldo-50` | `#e8f6f5` |
 | `--bcn-gray-100` | `#efefef` |
 | `--bcn-gray-1000` | `#000000` |
 | `--bcn-gray-200` | `#dcdcdc` |
@@ -87,7 +85,6 @@ The 93 design tokens this page actually uses, resolved to their final values for
 | `--icon-size-xs` | `14px` |
 | `--radius-100` | `.25rem` |
 | `--radius-200` | `.5rem` |
-| `--radius-300` | `.5rem` |
 | `--radius-400` | `.75rem` |
 | `--radius-full` | `9999px` |
 | `--shadow-300` | `0 6px 24px -6px rgba(0, 0, 0, .07)` |
@@ -105,9 +102,6 @@ The 93 design tokens this page actually uses, resolved to their final values for
 | `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
 | `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
-| `--type-size-250` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` |
-| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
-| `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
 | `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
 
 ## Component-scoped

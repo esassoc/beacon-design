@@ -20,7 +20,7 @@ The comprehensive list for one category: a quiet article count, then EVERY artic
 ## Markup
 ```html
 <section class="bcn-kbl" aria-label="Tracking articles">
-  <span class="bcn-kbl__count">6 articles</span>
+  <span class="bcn-kbl__count">7 articles</span>
   <ul class="bcn-kbl__list" role="list">
     <li class="bcn-kbl__row">
       <a class="bcn-kbl__link" href="#article-actions-vs-implementations"
@@ -63,10 +63,18 @@ The comprehensive list for one category: a quiet article count, then EVERY artic
     </li>
     <li class="bcn-kbl__row">
       <a class="bcn-kbl__link" href="#article-reading-critical-now"
-        >How “Most critical right now” is chosen</a
+        >How the dashboard decides what needs attention</a
       >
       <span class="bcn-kbl__summary"
-        >Why an item earns a spot at the top of the dashboard.</span
+        >Urgency comes from action due dates, shown in the zone that owns the work.</span
+      >
+    </li>
+    <li class="bcn-kbl__row">
+      <a class="bcn-kbl__link" href="#article-reading-project-timeline"
+        >Reading the project timeline</a
+      >
+      <span class="bcn-kbl__summary"
+        >The next 30, 60, or 90 days of due dates, seasons, and milestones.</span
       >
     </li>
   </ul>

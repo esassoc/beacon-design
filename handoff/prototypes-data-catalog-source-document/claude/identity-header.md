@@ -56,6 +56,9 @@ The document identity row: an H1 of the source-document name (the FEIR) with a S
 
 ## Styles
 ```css
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -92,9 +95,6 @@ The document identity row: an H1 of the source-document name (the FEIR) with a S
   color: var(--color-text-tertiary);
   flex: none;
 }
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
   --_ib-bg-hover: var(
@@ -119,6 +119,41 @@ The document identity row: an H1 of the source-document name (the FEIR) with a S
 .esa-collapsible__summary .esa-icon {
   flex-shrink: 0;
   color: var(--color-text-secondary, #404040);
+}
+.bcn-doc__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-400);
+  padding-bottom: var(--spacing-400);
+  border-bottom: 1px solid var(--color-border);
+}
+.bcn-doc__title {
+  margin: 0;
+  min-width: 0;
+  font-family: var(--font-decorative);
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.2;
+  color: var(--color-text-primary);
+}
+.bcn-doc__head-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  flex-shrink: 0;
+}
+.bcn-btn-ico {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+}
+.bcn-lineage__icon .esa-icon {
+  --_icon-size: 14px;
+}
+#download-coversheet .esa-button {
+  width: 100%;
+  justify-content: center;
 }
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
@@ -228,41 +263,6 @@ The document identity row: an H1 of the source-document name (the FEIR) with a S
 }
 .esa-icon--md {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.bcn-doc__head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--spacing-400);
-  padding-bottom: var(--spacing-400);
-  border-bottom: 1px solid var(--color-border);
-}
-.bcn-doc__title {
-  margin: 0;
-  min-width: 0;
-  font-family: var(--font-decorative);
-  font-size: 1.5rem;
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.2;
-  color: var(--color-text-primary);
-}
-.bcn-doc__head-actions {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  flex-shrink: 0;
-}
-.bcn-btn-ico {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-}
-.bcn-lineage__icon .esa-icon {
-  --_icon-size: 14px;
-}
-#download-coversheet .esa-button {
-  width: 100%;
-  justify-content: center;
 }
 ```
 

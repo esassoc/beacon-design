@@ -83,6 +83,10 @@ BcnCommitmentRow — one Condition-of-Approval measure relevant to the observati
   color: var(--bcn-helpbar-fg-muted);
   --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
 }
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
@@ -128,13 +132,6 @@ BcnCommitmentRow — one Condition-of-Approval measure relevant to the observati
   -webkit-appearance: none;
   appearance: none;
 }
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
-}
 .bcn-crow {
   display: flex;
   align-items: center;
@@ -172,6 +169,13 @@ BcnCommitmentRow — one Condition-of-Approval measure relevant to the observati
   flex-shrink: 0;
   display: inline-flex;
   color: var(--color-text-tertiary);
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
 }
 ```
 
