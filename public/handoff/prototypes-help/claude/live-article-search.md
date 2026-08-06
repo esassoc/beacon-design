@@ -226,18 +226,38 @@ The results dropdown anchored under the search field: matching articles as two-l
     aria-selected="false"
     href="#article-reading-critical-now"
     data-result=""
-    data-title="How “Most critical right now” is chosen"
-    data-summary="Why an item earns a spot at the top of the dashboard."
+    data-title="How the dashboard decides what needs attention"
+    data-summary="Urgency comes from action due dates, shown in the zone that owns the work."
     hidden=""
   >
     <span class="bcn-kb-hero__result-top">
       <span class="bcn-kb-hero__result-title" data-result-title=""
-        >How “Most critical right now” is chosen</span
+        >How the dashboard decides what needs attention</span
       >
       <span class="bcn-kb-hero__result-cat">Tracking</span>
     </span>
     <span class="bcn-kb-hero__result-summary"
-      >Why an item earns a spot at the top of the dashboard.</span
+      >Urgency comes from action due dates, shown in the zone that owns the work.</span
+    > </a
+  ><a
+    class="bcn-kb-hero__result"
+    id="kb-result-reading-project-timeline"
+    role="option"
+    aria-selected="false"
+    href="#article-reading-project-timeline"
+    data-result=""
+    data-title="Reading the project timeline"
+    data-summary="The next 30, 60, or 90 days of due dates, seasons, and milestones."
+    hidden=""
+  >
+    <span class="bcn-kb-hero__result-top">
+      <span class="bcn-kb-hero__result-title" data-result-title=""
+        >Reading the project timeline</span
+      >
+      <span class="bcn-kb-hero__result-cat">Tracking</span>
+    </span>
+    <span class="bcn-kb-hero__result-summary"
+      >The next 30, 60, or 90 days of due dates, seasons, and milestones.</span
     > </a
   ><a
     class="bcn-kb-hero__result is-active"

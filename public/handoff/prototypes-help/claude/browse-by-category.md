@@ -94,7 +94,7 @@ The curated browse surface: one spacious card per category (seven), each a PREVI
         </li>
       </ul>
       <div class="bcn-kbc__foot">
-        <span class="bcn-kbc__count"> 6 articles </span>
+        <span class="bcn-kbc__count"> 7 articles </span>
         <a class="bcn-kbc__viewall" href="/beacon-design/prototypes/help/tracking">
           View all<span class="bcn-kbc__viewall-arrow" aria-hidden="true">→</span>
         </a>

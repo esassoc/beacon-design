@@ -1,12 +1,12 @@
-# Migration and Survival Study
+# Full page
 
 Re-implement this UI section faithfully on your stack. Keep the CSS custom-property
 names (`var(--…)`) so it stays themeable — the values below are the resolved
-`beacon` theme of the **prototypes-fish-study-10.19.1** design system (an ESA Ecology spoke).
+`beacon` theme of the **prototypes-monitoring-compliance-dashboard** design system (an ESA Ecology spoke).
 
-- **Source prototype:** http://localhost:4399/beacon-design/prototypes/fish-study/10.19.1/
-- **Section element:** `<div>`
-- **Components:** esa-avatar (hub), esa-badge (hub), esa-button (hub), esa-collapsible (hub), esa-icon (hub), esa-icon-button (hub), esa-pill (hub)
+- **Source prototype:** http://localhost:4399/beacon-design/prototypes/monitoring/compliance-dashboard/
+- **Section element:** `<page>`
+- **Components:** esa-badge (hub), esa-button (hub), esa-card (hub), esa-icon (hub), esa-icon-button (hub), esa-stat (hub)
 
 ## Markup (de-scoped, framework-free)
 ```html
@@ -39,7 +39,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         </svg>
       </button>
       <button type="button" class="tenant-trigger">
-        <span>DWR</span>
+        <span>Solterra Energy Partners</span>
         <span class="esa-icon esa-icon--xs" aria-hidden="true">
           <svg
             width="14"
@@ -314,7 +314,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               ></path>
             </svg>
           </span>
-          <span class="project-switcher__name">Delta Conveyance</span>
+          <span class="project-switcher__name">Cottonwood Solar + Storage Project</span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
             <svg
               width="16"
@@ -333,8 +333,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         </button>
       </div>
       <div class="main-nav">
-        <div class="nav-section nav-section--collapsed">
-          <button type="button" class="nav-section__header" aria-expanded="false">
+        <div class="nav-section">
+          <a href="#project" class="nav-section__header nav-section__header--link">
             <span class="esa-icon esa-icon--sm" aria-hidden="true">
               <svg
                 width="16"
@@ -354,25 +354,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               </svg>
             </span>
             <span class="nav-section__title">Project</span>
-            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                focusable="false"
-              >
-                <path d="m6 9 6 6 6-6"></path>
-              </svg>
-            </span>
-          </button>
-          <ul class="nav-section__items">
-            <li class="nav-item"><a href="#dashboard" class="nav-sublink"> Dashboard </a></li>
-          </ul>
+          </a>
         </div>
         <div class="nav-section nav-section--active">
           <button type="button" class="nav-section__header" aria-expanded="true">
@@ -389,13 +371,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 focusable="false"
               >
                 <path
-                  d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"
+                  d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"
                 ></path>
-                <path d="M6.453 15h11.094"></path>
-                <path d="M8.5 2h7"></path>
+                <circle cx="12" cy="8" r="2"></circle>
+                <path
+                  d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"
+                ></path>
               </svg>
             </span>
-            <span class="nav-section__title">Studies</span>
+            <span class="nav-section__title">Monitoring</span>
             <span class="esa-icon esa-icon--sm" aria-hidden="true">
               <svg
                 width="16"
@@ -414,7 +398,20 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </button>
           <ul class="nav-section__items">
             <li class="nav-item">
-              <a href="#science-plan" class="nav-sublink active"> Science Plan </a>
+              <a
+                href="/beacon-design/prototypes/monitoring/compliance-dashboard"
+                class="nav-sublink active"
+              >
+                Compliance Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                href="/beacon-design/prototypes/monitoring/compliance-observations"
+                class="nav-sublink"
+              >
+                Observations
+              </a>
             </li>
           </ul>
         </div>
@@ -433,17 +430,18 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 stroke-linejoin="round"
                 focusable="false"
               >
-                <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
-                <path d="M4 6h.01"></path>
-                <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
-                <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
-                <path d="M12 18h.01"></path>
-                <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
-                <circle cx="12" cy="12" r="2"></circle>
-                <path d="m13.41 10.59 5.66-5.66"></path>
+                <line x1="21" x2="14" y1="4" y2="4"></line>
+                <line x1="10" x2="3" y1="4" y2="4"></line>
+                <line x1="21" x2="12" y1="12" y2="12"></line>
+                <line x1="8" x2="3" y1="12" y2="12"></line>
+                <line x1="21" x2="16" y1="20" y2="20"></line>
+                <line x1="12" x2="3" y1="20" y2="20"></line>
+                <line x1="14" x2="14" y1="2" y2="6"></line>
+                <line x1="8" x2="8" y1="10" y2="14"></line>
+                <line x1="16" x2="16" y1="18" y2="22"></line>
               </svg>
             </span>
-            <span class="nav-section__title">Tracking</span>
+            <span class="nav-section__title">Admin</span>
             <span class="esa-icon esa-icon--sm" aria-hidden="true">
               <svg
                 width="16"
@@ -462,7 +460,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </button>
           <ul class="nav-section__items">
             <li class="nav-item">
-              <a href="#project-tracking" class="nav-sublink"> Project Tracking </a>
+              <a href="#dashboard-widgets" class="nav-sublink"> Dashboard Widgets </a>
             </li>
           </ul>
         </div>
@@ -493,7 +491,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ></path>
                   </svg>
                 </span>
-                <a class="breadcrumb-item" href="#project"> Delta Conveyance </a
+                <a class="breadcrumb-item" href="#project"> Cottonwood Solar + Storage Project </a
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                   <svg
                     width="16"
@@ -509,8 +507,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <path d="m9 18 6-6-6-6"></path>
                   </svg>
                 </span>
-                <a class="breadcrumb-item" href="/beacon-design/prototypes/fish-studies">
-                  Science Plan </a
+                <span class="breadcrumb-item"> Monitoring Portal </span
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                   <svg
                     width="16"
@@ -526,7 +523,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <path d="m9 18 6-6-6-6"></path>
                   </svg>
                 </span>
-                <span class="breadcrumb-item" aria-current="page"> COA 10.19.1 </span>
+                <span class="breadcrumb-item" aria-current="page"> Compliance Dashboard </span>
               </div>
             </nav>
           </section>
@@ -546,1111 +543,1364 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     focusable="false"
                   >
                     <path
-                      d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"
+                      d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"
                     ></path>
-                    <path d="M6.453 15h11.094"></path>
-                    <path d="M8.5 2h7"></path>
+                    <path d="M15 5.764v15"></path>
+                    <path d="M9 3.236v15"></path>
                   </svg>
                 </span>
-                Migration and Survival Study
+                Compliance Dashboard
               </h1>
-              <span class="bcn-study__badges">
-                <span class="bcn-study__coa">COA 10.19.1</span>
-                <span
-                  class="bcn-status-chip"
-                  data-status="in-review"
-                  style="--_chip: var(--st-in-review, #e3c14d)"
-                >
-                  <span class="bcn-status-chip__dot"></span>
-                  <span class="bcn-status-chip__label">In Agency Review</span>
-                </span>
-                <span
-                  class="bcn-status-chip"
-                  data-status="planning"
-                  style="--_chip: var(--st-planning, #fc8d59)"
-                >
-                  <span class="bcn-status-chip__dot"></span>
-                  <span class="bcn-status-chip__label">Planning</span>
-                </span>
-              </span>
-            </div>
-            <div class="page-layout__utilities">
-              <div class="bcn-study__utils">
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button">
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
-                        <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                        <path d="M10 9H8"></path>
-                        <path d="M16 13H8"></path>
-                        <path d="M16 17H8"></path>
-                      </svg>
-                    </span>
-                    <span class="esa-button__label"> Generate sketch (.docx) </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button">
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="17 8 12 3 7 8"></polyline>
-                        <line x1="12" x2="12" y1="3" y2="15"></line>
-                      </svg>
-                    </span>
-                    <span class="esa-button__label"> Submit for CDFW review </span>
-                  </button>
-                </span>
-              </div>
             </div>
           </section>
           <section class="page-layout__content">
-            <div class="bcn-study">
-              <!-- ── Main column: sketch + agency review ── -->
-              <main class="bcn-study__main">
-                <article class="bcn-sketch">
-                  <!-- Field 1 — Focal Species -->
-                  <section class="bcn-sketch__field" data-field="focalSpeciesNote">
-                    <h3 class="bcn-sketch__h">Focal Species</h3>
-                    <div class="bcn-sketch__chips">
-                      <span class="esa-pill esa-pill--default esa-pill--sm">
-                        <span class="esa-pill__label">Winter-run Chinook salmon</span>
-                      </span>
-                      <span class="esa-pill esa-pill--default esa-pill--sm">
-                        <span class="esa-pill__label">Spring-run Chinook salmon</span>
-                      </span>
-                      <span class="esa-pill esa-pill--default esa-pill--sm">
-                        <span class="esa-pill__label">White sturgeon</span>
-                      </span>
+            <div class="stack" data-gap="xl">
+              <div class="esa-card">
+                <div class="esa-card__header">
+                  <div class="esa-card__header-content">
+                    <div class="esa-card__titles">
+                      <h3 class="esa-card__title">Severity Overview</h3>
+                      <p class="esa-card__subtitle">
+                        Active observations by compliance severity — select a segment to open that
+                        filtered list
+                      </p>
                     </div>
-                    <p class="bcn-sketch__p">
-                      Listed winter-run and spring-run Chinook salmon and white sturgeon
-                      out-migrants are the focal taxa. Salmonid smolts are tagged for reach-scale
-                      survival and routing; white sturgeon are tagged to characterize
-                      sub-adult/juvenile movement past the north Delta intakes.
-                    </p>
-                  </section>
-                  <!-- Field 2 — Project Effect Links -->
-                  <section class="bcn-sketch__field" data-field="projectEffectLinks">
-                    <h3 class="bcn-sketch__h">Project Effect Links</h3>
-                    <p class="bcn-sketch__p">
-                      Both near-field and far-field. Near-field: entrainment, impingement, and
-                      predation at the north Delta intakes (NDD) during construction and operations.
-                      Far-field: altered routing into the interior and southern Delta and reduced
-                      through-Delta survival driven by diversion-modified hydrodynamics. The study
-                      resolves the project effect at both scales so near-field intake performance
-                      and far-field routing can be attributed separately.
-                    </p>
-                  </section>
-                  <!-- Field 3 — Objectives, Research Questions & Hypotheses -->
-                  <section class="bcn-sketch__field" data-field="objectivesSummary">
-                    <h3 class="bcn-sketch__h">Objectives, Research Questions &amp; Hypotheses</h3>
-                    <p class="bcn-sketch__p">
-                      Establish a robust baseline of reach-specific survival and migratory routing
-                      for listed out-migrants before in-water construction, then track change
-                      through construction and operations. The study pairs a far-field
-                      survival/routing component with a near-field intake-behavior component so that
-                      any change in through-Delta survival can be attributed to its mechanism.
-                    </p>
-                    <ol class="bcn-sketch__rq">
-                      <li>
-                        What is the baseline reach-specific survival and routing of winter-run and
-                        spring-run Chinook salmon and white sturgeon out-migrants prior to in-water
-                        construction, and how does it change with project construction and
-                        operations?
-                      </li>
-                      <li>
-                        How does diversion at the north Delta intakes alter the probability of
-                        routing into the interior and southern Delta versus remaining on the
-                        mainstem Sacramento River corridor?
-                      </li>
-                      <li>
-                        What is fish survival and behavior in the near-field of the intakes —
-                        approach, residence, impingement, and predation — and how does it scale to
-                        reach-level survival?
-                      </li>
-                    </ol>
-                    <ul class="bcn-sketch__hyp">
-                      <li>
-                        H1: Through-reach survival of salmonid out-migrants declines measurably
-                        during active diversion relative to the preconstruction baseline.
-                      </li>
-                      <li>
-                        H2: Increased diversion fraction increases the probability of routing off
-                        the mainstem corridor into the interior Delta.
-                      </li>
-                    </ul>
-                  </section>
-                  <!-- Field 4 — Background -->
-                  <section class="bcn-sketch__field" data-field="background">
-                    <h3 class="bcn-sketch__h">Background</h3>
-                    <p class="bcn-sketch__p">
-                      Builds on enhanced acoustic-tagging work, the Delta Juvenile Fish Monitoring
-                      Program, and prior JSATS survival studies in the Sacramento–San Joaquin Delta.
-                      The study reach and tagging design are coordinated with the Predation Study
-                      (COA 10.19.2) and the Abundance and Distribution Study (COA 10.19.3) so the
-                      three share a common reach framework.
-                    </p>
-                  </section>
-                  <!-- Field 5 — Methods (Study Area + Components, or study-level methods) -->
-                  <section class="bcn-sketch__field" data-field="methods">
-                    <h3 class="bcn-sketch__h">Methods</h3>
-                    <p class="bcn-sketch__p">
-                      <span class="bcn-sketch__sub">Study area.</span> The Sacramento River from
-                      upstream release sites, through the legal Delta and the north Delta diversion
-                      reach, to Chipps Island at the western edge of the Delta.
-                    </p>
-                    <div class="bcn-sketch__components">
-                      <div class="bcn-sketch__component">
-                        <h4 class="bcn-sketch__component-h">
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                  </div>
+                </div>
+                <div class="esa-card__body">
+                  <div
+                    class="bcn-ohero cluster"
+                    data-gap="xl"
+                    data-align="start"
+                    data-justify="between"
+                  >
+                    <!-- ── Clickable severity donut + legend ── -->
+                    <section class="stack" data-gap="xs">
+                      <h4 class="bcn-ohero__section-title type-card-title">
+                        Yesterday's Observations
+                      </h4>
+                      <div class="cluster" data-gap="lg" data-align="center">
+                        <div class="bcn-ohero__donut">
+                          <svg
+                            class="bcn-ohero__ring"
+                            viewBox="0 0 42 42"
+                            role="group"
+                            aria-label="Active observations by severity"
+                          >
+                            <circle
+                              class="bcn-ohero__track"
+                              cx="21"
+                              cy="21"
+                              r="15.915"
+                              fill="transparent"
+                              stroke-width="6"
+                            ></circle>
+                            <a
+                              class="bcn-ohero__seg"
+                              href="/beacon-design/prototypes/monitoring/compliance-observations?severity=in-compliance"
+                              aria-label="In Compliance: 6 (38%) — open the filtered list"
                             >
-                              <path
-                                d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"
-                              ></path>
-                              <path d="M6.453 15h11.094"></path>
-                              <path d="M8.5 2h7"></path>
-                            </svg>
-                          </span>
-                          Far-Field Survival and Routing
+                              <circle
+                                cx="21"
+                                cy="21"
+                                r="15.915"
+                                fill="transparent"
+                                stroke-width="6"
+                                stroke-dasharray="37.500 62.500"
+                                stroke-dashoffset="0.000"
+                                style="stroke: var(--color-success)"
+                              >
+                                <title>In Compliance: 6 (38%)</title>
+                              </circle>
+                            </a>
+                            <a
+                              class="bcn-ohero__seg"
+                              href="/beacon-design/prototypes/monitoring/compliance-observations?severity=needs-attention"
+                              aria-label="Needs Attention: 7 (44%) — open the filtered list"
+                            >
+                              <circle
+                                cx="21"
+                                cy="21"
+                                r="15.915"
+                                fill="transparent"
+                                stroke-width="6"
+                                stroke-dasharray="43.750 56.250"
+                                stroke-dashoffset="-37.500"
+                                style="stroke: var(--color-warning)"
+                              >
+                                <title>Needs Attention: 7 (44%)</title>
+                              </circle>
+                            </a>
+                            <a
+                              class="bcn-ohero__seg"
+                              href="/beacon-design/prototypes/monitoring/compliance-observations?severity=non-compliance"
+                              aria-label="Non-Compliance: 3 (19%) — open the filtered list"
+                            >
+                              <circle
+                                cx="21"
+                                cy="21"
+                                r="15.915"
+                                fill="transparent"
+                                stroke-width="6"
+                                stroke-dasharray="18.750 81.250"
+                                stroke-dashoffset="-81.250"
+                                style="stroke: var(--color-danger)"
+                              >
+                                <title>Non-Compliance: 3 (19%)</title>
+                              </circle>
+                            </a>
+                          </svg>
+                          <a
+                            class="bcn-ohero__hole"
+                            href="/beacon-design/prototypes/monitoring/compliance-observations"
+                          >
+                            <span class="bcn-ohero__hole-value">16</span>
+                            <span class="bcn-ohero__hole-cap type-caption">active</span>
+                          </a>
+                        </div>
+                        <ul class="bcn-ohero__legend stack" data-gap="2xs">
+                          <li>
+                            <a
+                              class="bcn-ohero__legend-row"
+                              href="/beacon-design/prototypes/monitoring/compliance-observations?severity=in-compliance"
+                            >
+                              <span
+                                class="bcn-ohero__dot"
+                                style="--_c: var(--color-success)"
+                              ></span>
+                              <span class="bcn-ohero__legend-label type-body-small"
+                                >In Compliance</span
+                              >
+                              <span class="bcn-ohero__legend-value type-label">6</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-ohero__legend-row"
+                              href="/beacon-design/prototypes/monitoring/compliance-observations?severity=needs-attention"
+                            >
+                              <span
+                                class="bcn-ohero__dot"
+                                style="--_c: var(--color-warning)"
+                              ></span>
+                              <span class="bcn-ohero__legend-label type-body-small"
+                                >Needs Attention</span
+                              >
+                              <span class="bcn-ohero__legend-value type-label">7</span>
+                            </a>
+                          </li>
+                          <li>
+                            <a
+                              class="bcn-ohero__legend-row"
+                              href="/beacon-design/prototypes/monitoring/compliance-observations?severity=non-compliance"
+                            >
+                              <span class="bcn-ohero__dot" style="--_c: var(--color-danger)"></span>
+                              <span class="bcn-ohero__legend-label type-body-small"
+                                >Non-Compliance</span
+                              >
+                              <span class="bcn-ohero__legend-value type-label">3</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </section>
+                    <!-- ── Two category count lists, by severity ── -->
+                    <div class="bcn-ohero__breakdowns cluster" data-gap="xl" data-align="start">
+                      <section class="stack" data-gap="xs">
+                        <h4 class="bcn-ohero__section-title type-card-title">
+                          Needs Attention by Category
                         </h4>
-                        <div class="bcn-sketch__cols">
-                          <div>
-                            <span class="bcn-sketch__col-label">Methods / protocols</span>
-                            <ul class="bcn-sketch__list">
-                              <li>Telemetry System (JSATS array)</li>
-                              <li>Salmonid Tagging and Release</li>
-                              <li>Sturgeon Tagging and Release</li>
-                              <li>Array Maintenance and Data Management</li>
-                              <li>Survival Estimation</li>
-                            </ul>
+                        <ul class="bcn-ohero__counts stack" data-gap="2xs">
+                          <li class="bcn-ohero__count-row">
+                            <span class="bcn-ohero__count-label type-body-small"
+                              >Access &amp; Traffic Control</span
+                            >
+                            <span class="bcn-ohero__count-value type-label">2</span>
+                          </li>
+                          <li class="bcn-ohero__count-row">
+                            <span class="bcn-ohero__count-label type-body-small"
+                              >Erosion &amp; Sediment Control</span
+                            >
+                            <span class="bcn-ohero__count-value type-label">1</span>
+                          </li>
+                          <li class="bcn-ohero__count-row">
+                            <span class="bcn-ohero__count-label type-body-small"
+                              >Waste Management</span
+                            >
+                            <span class="bcn-ohero__count-value type-label">1</span>
+                          </li>
+                          <li class="bcn-ohero__count-row">
+                            <span class="bcn-ohero__count-label type-body-small"
+                              >Vegetation &amp; Habitat Protection</span
+                            >
+                            <span class="bcn-ohero__count-value type-label">1</span>
+                          </li>
+                          <li class="bcn-ohero__count-row">
+                            <span class="bcn-ohero__count-label type-body-small"
+                              >Noise Management</span
+                            >
+                            <span class="bcn-ohero__count-value type-label">1</span>
+                          </li>
+                          <li class="bcn-ohero__count-row">
+                            <span class="bcn-ohero__count-label type-body-small"
+                              >Stormwater / BMP Maintenance</span
+                            >
+                            <span class="bcn-ohero__count-value type-label">1</span>
+                          </li>
+                        </ul>
+                      </section>
+                      <section class="stack" data-gap="xs">
+                        <h4 class="bcn-ohero__section-title type-card-title">
+                          Non-Compliance by Category
+                        </h4>
+                        <ul class="bcn-ohero__counts stack" data-gap="2xs">
+                          <li class="bcn-ohero__count-row">
+                            <span class="bcn-ohero__count-label type-body-small"
+                              >Stormwater / BMP Maintenance</span
+                            >
+                            <span class="bcn-ohero__count-value type-label">1</span>
+                          </li>
+                          <li class="bcn-ohero__count-row">
+                            <span class="bcn-ohero__count-label type-body-small"
+                              >Spill Prevention &amp; Response</span
+                            >
+                            <span class="bcn-ohero__count-value type-label">1</span>
+                          </li>
+                          <li class="bcn-ohero__count-row">
+                            <span class="bcn-ohero__count-label type-body-small"
+                              >Cultural Resources Protection</span
+                            >
+                            <span class="bcn-ohero__count-value type-label">1</span>
+                          </li>
+                        </ul>
+                      </section>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="esa-card">
+                <div class="esa-card__header">
+                  <div class="esa-card__header-content">
+                    <div class="esa-card__titles">
+                      <h3 class="esa-card__title">Needs Attention &amp; Non-Compliance</h3>
+                    </div>
+                  </div>
+                  <div class="esa-card__actions">
+                    <span
+                      class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                    >
+                      <button class="esa-button__native" type="button" id="ap-export-csv">
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M12 5v14"></path>
+                            <path d="m19 12-7 7-7-7"></path>
+                          </svg>
+                        </span>
+                        <span class="esa-button__label"> Export spreadsheet </span>
+                      </button>
+                    </span>
+                    <span
+                      class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                    >
+                      <button class="esa-button__native" type="button" id="ap-export-kml">
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path
+                              d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
+                            ></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                          </svg>
+                        </span>
+                        <span class="esa-button__label"> Export KMZ </span>
+                      </button>
+                    </span>
+                  </div>
+                </div>
+                <div class="esa-card__body">
+                  <div class="bcn-apanel__body sidebar" data-gap="lg" data-side="end">
+                    <div class="bcn-apanel__inset stack" data-gap="xs">
+                      <h4 class="bcn-apanel__heading type-label">Active issue locations</h4>
+                      <div
+                        class="bcn-obsmap leaflet-container leaflet-touch leaflet-fade-anim"
+                        id="bcn-obsmap-attention-panel"
+                        data-bcn-obsmap=""
+                        data-map-id="attention-panel"
+                        data-interactive="false"
+                        style="height: 260px; position: relative"
+                        role="img"
+                        aria-label="Observation map — 10 observations plotted by severity"
+                        data-bcn-obsmap-ready="true"
+                      >
+                        <div
+                          class="leaflet-pane leaflet-map-pane"
+                          style="transform: translate3d(0px, 0px, 0px)"
+                        >
+                          <div class="leaflet-pane leaflet-tile-pane">
+                            <div class="leaflet-layer" style="z-index: 1; opacity: 1">
+                              <div
+                                class="leaflet-tile-container leaflet-zoom-animated"
+                                style="z-index: 19; transform: translate3d(0px, 0px, 0px) scale(1)"
+                              >
+                                <img
+                                  alt=""
+                                  src="https://b.basemaps.cartocdn.com/light_all/13/1379/3234.png"
+                                  class="leaflet-tile leaflet-tile-loaded"
+                                  style="
+                                    width: 256px;
+                                    height: 256px;
+                                    transform: translate3d(-126px, -137px, 0px);
+                                    opacity: 1;
+                                  "
+                                /><img
+                                  alt=""
+                                  src="https://c.basemaps.cartocdn.com/light_all/13/1380/3234.png"
+                                  class="leaflet-tile leaflet-tile-loaded"
+                                  style="
+                                    width: 256px;
+                                    height: 256px;
+                                    transform: translate3d(130px, -137px, 0px);
+                                    opacity: 1;
+                                  "
+                                /><img
+                                  alt=""
+                                  src="https://c.basemaps.cartocdn.com/light_all/13/1379/3235.png"
+                                  class="leaflet-tile leaflet-tile-loaded"
+                                  style="
+                                    width: 256px;
+                                    height: 256px;
+                                    transform: translate3d(-126px, 119px, 0px);
+                                    opacity: 1;
+                                  "
+                                /><img
+                                  alt=""
+                                  src="https://d.basemaps.cartocdn.com/light_all/13/1380/3235.png"
+                                  class="leaflet-tile leaflet-tile-loaded"
+                                  style="
+                                    width: 256px;
+                                    height: 256px;
+                                    transform: translate3d(130px, 119px, 0px);
+                                    opacity: 1;
+                                  "
+                                />
+                              </div>
+                            </div>
                           </div>
-                          <div>
-                            <span class="bcn-sketch__col-label">Performance metrics</span>
-                            <ul class="bcn-sketch__list">
-                              <li>Reach-specific survival</li>
-                              <li>Route-entrainment probabilities (interior vs. mainstem)</li>
-                              <li>Travel time through the diversion reach</li>
-                            </ul>
+                          <div class="leaflet-pane leaflet-overlay-pane">
+                            <svg
+                              pointer-events="none"
+                              class="leaflet-zoom-animated"
+                              width="364"
+                              height="310"
+                              viewBox="-30 -26 364 310"
+                              style="transform: translate3d(-30.1367px, -25.6938px, 0px) scale(1)"
+                            >
+                              <g>
+                                <path
+                                  class="leaflet-interactive"
+                                  stroke="#fcfcfc"
+                                  stroke-opacity="1"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  fill="#e5484d"
+                                  fill-opacity="0.9"
+                                  fill-rule="evenodd"
+                                  d="M51,91a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
+                                ></path>
+                                <path
+                                  class="leaflet-interactive"
+                                  stroke="#fcfcfc"
+                                  stroke-opacity="1"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  fill="#e5484d"
+                                  fill-opacity="0.9"
+                                  fill-rule="evenodd"
+                                  d="M126,181a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
+                                ></path>
+                                <path
+                                  class="leaflet-interactive"
+                                  stroke="#fcfcfc"
+                                  stroke-opacity="1"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  fill="#e5484d"
+                                  fill-opacity="0.9"
+                                  fill-rule="evenodd"
+                                  d="M162,226a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
+                                ></path>
+                                <path
+                                  class="leaflet-interactive"
+                                  stroke="#fcfcfc"
+                                  stroke-opacity="1"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  fill="#f59e0b"
+                                  fill-opacity="0.9"
+                                  fill-rule="evenodd"
+                                  d="M90,70a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
+                                ></path>
+                                <path
+                                  class="leaflet-interactive"
+                                  stroke="#fcfcfc"
+                                  stroke-opacity="1"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  fill="#f59e0b"
+                                  fill-opacity="0.9"
+                                  fill-rule="evenodd"
+                                  d="M238,201a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
+                                ></path>
+                                <path
+                                  class="leaflet-interactive"
+                                  stroke="#fcfcfc"
+                                  stroke-opacity="1"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  fill="#f59e0b"
+                                  fill-opacity="0.9"
+                                  fill-rule="evenodd"
+                                  d="M192,143a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
+                                ></path>
+                                <path
+                                  class="leaflet-interactive"
+                                  stroke="#fcfcfc"
+                                  stroke-opacity="1"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  fill="#f59e0b"
+                                  fill-opacity="0.9"
+                                  fill-rule="evenodd"
+                                  d="M212,134a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
+                                ></path>
+                                <path
+                                  class="leaflet-interactive"
+                                  stroke="#fcfcfc"
+                                  stroke-opacity="1"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  fill="#f59e0b"
+                                  fill-opacity="0.9"
+                                  fill-rule="evenodd"
+                                  d="M175,123a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
+                                ></path>
+                                <path
+                                  class="leaflet-interactive"
+                                  stroke="#fcfcfc"
+                                  stroke-opacity="1"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  fill="#f59e0b"
+                                  fill-opacity="0.9"
+                                  fill-rule="evenodd"
+                                  d="M90,70a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
+                                ></path>
+                                <path
+                                  class="leaflet-interactive"
+                                  stroke="#fcfcfc"
+                                  stroke-opacity="1"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  fill="#f59e0b"
+                                  fill-opacity="0.9"
+                                  fill-rule="evenodd"
+                                  d="M143,32a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0 "
+                                ></path>
+                              </g>
+                            </svg>
                           </div>
+                          <div class="leaflet-pane leaflet-shadow-pane"></div>
+                          <div class="leaflet-pane leaflet-marker-pane"></div>
+                          <div class="leaflet-pane leaflet-tooltip-pane"></div>
+                          <div class="leaflet-pane leaflet-popup-pane"></div>
+                          <div
+                            class="leaflet-proxy leaflet-zoom-animated"
+                            style="transform: translate3d(353302px, 828170px, 0px) scale(4096)"
+                          ></div>
+                        </div>
+                        <div class="leaflet-control-container">
+                          <div class="leaflet-top leaflet-left"></div>
+                          <div class="leaflet-top leaflet-right"></div>
+                          <div class="leaflet-bottom leaflet-left"></div>
+                          <div class="leaflet-bottom leaflet-right"></div>
                         </div>
                       </div>
-                      <div class="bcn-sketch__component">
-                        <h4 class="bcn-sketch__component-h">
-                          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                            <svg
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
-                            >
-                              <path
-                                d="M14 2v6a2 2 0 0 0 .245.96l5.51 10.08A2 2 0 0 1 18 22H6a2 2 0 0 1-1.755-2.96l5.51-10.08A2 2 0 0 0 10 8V2"
-                              ></path>
-                              <path d="M6.453 15h11.094"></path>
-                              <path d="M8.5 2h7"></path>
-                            </svg>
+                      <script type="application/json" data-bcn-obsmap-data="attention-panel">
+                        [
+                          {
+                            "id": "obs-0121",
+                            "lat": 35.3572,
+                            "lng": -119.3678,
+                            "label": "obs-0121 — Cultural Resources Protection",
+                            "hex": "var(--color-danger)"
+                          },
+                          {
+                            "id": "obs-0139",
+                            "lat": 35.3445,
+                            "lng": -119.3549,
+                            "label": "obs-0139 — Spill Prevention & Response",
+                            "hex": "var(--color-danger)"
+                          },
+                          {
+                            "id": "obs-0142",
+                            "lat": 35.3382,
+                            "lng": -119.3488,
+                            "label": "obs-0142 — Stormwater / BMP Maintenance",
+                            "hex": "var(--color-danger)"
+                          },
+                          {
+                            "id": "obs-0113",
+                            "lat": 35.3601,
+                            "lng": -119.3612,
+                            "label": "obs-0113 — Access & Traffic Control",
+                            "hex": "var(--color-warning)"
+                          },
+                          {
+                            "id": "obs-0118",
+                            "lat": 35.3418,
+                            "lng": -119.3357,
+                            "label": "obs-0118 — Stormwater / BMP Maintenance",
+                            "hex": "var(--color-warning)"
+                          },
+                          {
+                            "id": "obs-0126",
+                            "lat": 35.3499,
+                            "lng": -119.3437,
+                            "label": "obs-0126 — Noise Management",
+                            "hex": "var(--color-warning)"
+                          },
+                          {
+                            "id": "obs-0130",
+                            "lat": 35.3511,
+                            "lng": -119.3402,
+                            "label": "obs-0130 — Vegetation & Habitat Protection",
+                            "hex": "var(--color-warning)"
+                          },
+                          {
+                            "id": "obs-0136",
+                            "lat": 35.3527,
+                            "lng": -119.3465,
+                            "label": "obs-0136 — Waste Management",
+                            "hex": "var(--color-warning)"
+                          },
+                          {
+                            "id": "obs-0140",
+                            "lat": 35.3601,
+                            "lng": -119.3612,
+                            "label": "obs-0140 — Access & Traffic Control",
+                            "hex": "var(--color-warning)"
+                          },
+                          {
+                            "id": "obs-0144",
+                            "lat": 35.3654,
+                            "lng": -119.3521,
+                            "label": "obs-0144 — Erosion & Sediment Control",
+                            "hex": "var(--color-warning)"
+                          }
+                        ]
+                      </script>
+                      <script
+                        type="module"
+                        src="/beacon-design/_astro/BcnObservationMap.astro_astro_type_script_index_0_lang.CaGBcxyZ.js"
+                      ></script>
+                    </div>
+                    <section class="bcn-apanel__outstanding stack" data-gap="sm">
+                      <h4 class="bcn-apanel__heading type-label">Outstanding items (10)</h4>
+                      <ul class="bcn-apanel__list stack" data-gap="2xs">
+                        <li class="bcn-apanel__row">
+                          <a
+                            class="bcn-apanel__id"
+                            href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0121"
+                            >obs-0121</a
+                          >
+                          <span
+                            class="bcn-status-chip"
+                            data-status="non-compliance"
+                            style="--_chip: var(--st-non-compliance, var(--color-danger))"
+                          >
+                            <span class="bcn-status-chip__dot"></span>
+                            <span class="bcn-status-chip__label">Non-Compliance</span>
                           </span>
-                          Near-Field Behavior and Survival
-                        </h4>
-                        <div class="bcn-sketch__cols">
-                          <div>
-                            <span class="bcn-sketch__col-label">Methods / protocols</span>
-                            <ul class="bcn-sketch__list">
-                              <li>Telemetry System (fine-scale)</li>
-                              <li>Fish Tagging</li>
-                              <li>Near-/Intermediate-Field Hydrodynamics</li>
-                              <li>Movement Analysis</li>
-                            </ul>
-                          </div>
-                          <div>
-                            <span class="bcn-sketch__col-label">Performance metrics</span>
-                            <ul class="bcn-sketch__list">
-                              <li>Near-field survival at the intakes</li>
-                              <li>Approach and residence behavior at the screens</li>
-                              <li>Predation event rate in the near-field</li>
-                            </ul>
-                          </div>
-                        </div>
+                          <span class="bcn-apanel__category type-body-small"
+                            >Cultural Resources Protection</span
+                          >
+                          <span class="bcn-apanel__area type-body-small"
+                            >Perimeter Fence Line — West</span
+                          >
+                          <span class="esa-badge esa-badge--danger esa-badge--sm">
+                            <span class="esa-badge__text">25d active</span>
+                          </span>
+                        </li>
+                        <li class="bcn-apanel__row">
+                          <a
+                            class="bcn-apanel__id"
+                            href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0139"
+                            >obs-0139</a
+                          >
+                          <span
+                            class="bcn-status-chip"
+                            data-status="non-compliance"
+                            style="--_chip: var(--st-non-compliance, var(--color-danger))"
+                          >
+                            <span class="bcn-status-chip__dot"></span>
+                            <span class="bcn-status-chip__label">Non-Compliance</span>
+                          </span>
+                          <span class="bcn-apanel__category type-body-small"
+                            >Spill Prevention &amp; Response</span
+                          >
+                          <span class="bcn-apanel__area type-body-small"
+                            >Laydown / Staging Yard</span
+                          >
+                          <span class="esa-badge esa-badge--danger esa-badge--sm">
+                            <span class="esa-badge__text">12d active</span>
+                          </span>
+                        </li>
+                        <li class="bcn-apanel__row">
+                          <a
+                            class="bcn-apanel__id"
+                            href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0142"
+                            >obs-0142</a
+                          >
+                          <span
+                            class="bcn-status-chip"
+                            data-status="non-compliance"
+                            style="--_chip: var(--st-non-compliance, var(--color-danger))"
+                          >
+                            <span class="bcn-status-chip__dot"></span>
+                            <span class="bcn-status-chip__label">Non-Compliance</span>
+                          </span>
+                          <span class="bcn-apanel__category type-body-small"
+                            >Stormwater / BMP Maintenance</span
+                          >
+                          <span class="bcn-apanel__area type-body-small"
+                            >South Array — Block B</span
+                          >
+                          <span class="esa-badge esa-badge--danger esa-badge--sm">
+                            <span class="esa-badge__text">7d active</span>
+                          </span>
+                        </li>
+                        <li class="bcn-apanel__row">
+                          <a
+                            class="bcn-apanel__id"
+                            href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0113"
+                            >obs-0113</a
+                          >
+                          <span
+                            class="bcn-status-chip"
+                            data-status="needs-attention"
+                            style="--_chip: var(--st-needs-attention, var(--color-warning))"
+                          >
+                            <span class="bcn-status-chip__dot"></span>
+                            <span class="bcn-status-chip__label">Needs Attention</span>
+                          </span>
+                          <span class="bcn-apanel__category type-body-small"
+                            >Access &amp; Traffic Control</span
+                          >
+                          <span class="bcn-apanel__area type-body-small"
+                            >Main Access Road (Hwy 58 Spur)</span
+                          >
+                          <span class="esa-badge esa-badge--warning esa-badge--sm">
+                            <span class="esa-badge__text">33d active</span>
+                          </span>
+                        </li>
+                        <li class="bcn-apanel__row">
+                          <a
+                            class="bcn-apanel__id"
+                            href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0118"
+                            >obs-0118</a
+                          >
+                          <span
+                            class="bcn-status-chip"
+                            data-status="needs-attention"
+                            style="--_chip: var(--st-needs-attention, var(--color-warning))"
+                          >
+                            <span class="bcn-status-chip__dot"></span>
+                            <span class="bcn-status-chip__label">Needs Attention</span>
+                          </span>
+                          <span class="bcn-apanel__category type-body-small"
+                            >Stormwater / BMP Maintenance</span
+                          >
+                          <span class="bcn-apanel__area type-body-small"
+                            >Cottonwood Wash Crossing</span
+                          >
+                          <span class="esa-badge esa-badge--warning esa-badge--sm">
+                            <span class="esa-badge__text">28d active</span>
+                          </span>
+                        </li>
+                        <li class="bcn-apanel__row">
+                          <a
+                            class="bcn-apanel__id"
+                            href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0126"
+                            >obs-0126</a
+                          >
+                          <span
+                            class="bcn-status-chip"
+                            data-status="needs-attention"
+                            style="--_chip: var(--st-needs-attention, var(--color-warning))"
+                          >
+                            <span class="bcn-status-chip__dot"></span>
+                            <span class="bcn-status-chip__label">Needs Attention</span>
+                          </span>
+                          <span class="bcn-apanel__category type-body-small">Noise Management</span>
+                          <span class="bcn-apanel__area type-body-small">BESS Pad</span>
+                          <span class="esa-badge esa-badge--warning esa-badge--sm">
+                            <span class="esa-badge__text">22d active</span>
+                          </span>
+                        </li>
+                        <li class="bcn-apanel__row">
+                          <a
+                            class="bcn-apanel__id"
+                            href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0130"
+                            >obs-0130</a
+                          >
+                          <span
+                            class="bcn-status-chip"
+                            data-status="needs-attention"
+                            style="--_chip: var(--st-needs-attention, var(--color-warning))"
+                          >
+                            <span class="bcn-status-chip__dot"></span>
+                            <span class="bcn-status-chip__label">Needs Attention</span>
+                          </span>
+                          <span class="bcn-apanel__category type-body-small"
+                            >Vegetation &amp; Habitat Protection</span
+                          >
+                          <span class="bcn-apanel__area type-body-small">Substation Yard</span>
+                          <span class="esa-badge esa-badge--warning esa-badge--sm">
+                            <span class="esa-badge__text">20d active</span>
+                          </span>
+                        </li>
+                        <li class="bcn-apanel__row">
+                          <a
+                            class="bcn-apanel__id"
+                            href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0136"
+                            >obs-0136</a
+                          >
+                          <span
+                            class="bcn-status-chip"
+                            data-status="needs-attention"
+                            style="--_chip: var(--st-needs-attention, var(--color-warning))"
+                          >
+                            <span class="bcn-status-chip__dot"></span>
+                            <span class="bcn-status-chip__label">Needs Attention</span>
+                          </span>
+                          <span class="bcn-apanel__category type-body-small">Waste Management</span>
+                          <span class="bcn-apanel__area type-body-small"
+                            >O&amp;M Building Area</span
+                          >
+                          <span class="esa-badge esa-badge--warning esa-badge--sm">
+                            <span class="esa-badge__text">16d active</span>
+                          </span>
+                        </li>
+                        <li class="bcn-apanel__row">
+                          <a
+                            class="bcn-apanel__id"
+                            href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0140"
+                            >obs-0140</a
+                          >
+                          <span
+                            class="bcn-status-chip"
+                            data-status="needs-attention"
+                            style="--_chip: var(--st-needs-attention, var(--color-warning))"
+                          >
+                            <span class="bcn-status-chip__dot"></span>
+                            <span class="bcn-status-chip__label">Needs Attention</span>
+                          </span>
+                          <span class="bcn-apanel__category type-body-small"
+                            >Access &amp; Traffic Control</span
+                          >
+                          <span class="bcn-apanel__area type-body-small"
+                            >Main Access Road (Hwy 58 Spur)</span
+                          >
+                          <span class="esa-badge esa-badge--warning esa-badge--sm">
+                            <span class="esa-badge__text">9d active</span>
+                          </span>
+                        </li>
+                        <li class="bcn-apanel__row">
+                          <a
+                            class="bcn-apanel__id"
+                            href="/beacon-design/prototypes/monitoring/compliance-observations?open=obs-0144"
+                            >obs-0144</a
+                          >
+                          <span
+                            class="bcn-status-chip"
+                            data-status="needs-attention"
+                            style="--_chip: var(--st-needs-attention, var(--color-warning))"
+                          >
+                            <span class="bcn-status-chip__dot"></span>
+                            <span class="bcn-status-chip__label">Needs Attention</span>
+                          </span>
+                          <span class="bcn-apanel__category type-body-small"
+                            >Erosion &amp; Sediment Control</span
+                          >
+                          <span class="bcn-apanel__area type-body-small"
+                            >North Array — Block A</span
+                          >
+                          <span class="esa-badge esa-badge--warning esa-badge--sm">
+                            <span class="esa-badge__text">4d active</span>
+                          </span>
+                        </li>
+                      </ul>
+                    </section>
+                  </div>
+                </div>
+                <div class="esa-card__footer">
+                  <div class="cluster" data-gap="sm">
+                    <span
+                      class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                    >
+                      <a
+                        class="esa-button__native"
+                        href="/beacon-design/prototypes/monitoring/compliance-observations?severity=needs-attention"
+                        role="button"
+                      >
+                        <span class="esa-button__label"> All needs attention (7) </span>
+                      </a>
+                    </span>
+                    <span
+                      class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                    >
+                      <a
+                        class="esa-button__native"
+                        href="/beacon-design/prototypes/monitoring/compliance-observations?severity=non-compliance"
+                        role="button"
+                      >
+                        <span class="esa-button__label"> All non-compliance (3) </span>
+                      </a>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <script type="application/json" id="ap-data">
+                {
+                  "outstanding": [
+                    {
+                      "id": "obs-0121",
+                      "category": "Cultural Resources Protection",
+                      "severity": "non-compliance",
+                      "severityLabel": "Non-Compliance",
+                      "severityHex": "var(--color-danger)",
+                      "daysActive": 25,
+                      "area": "Perimeter Fence Line — West",
+                      "lat": 35.3572,
+                      "lng": -119.3678
+                    },
+                    {
+                      "id": "obs-0139",
+                      "category": "Spill Prevention & Response",
+                      "severity": "non-compliance",
+                      "severityLabel": "Non-Compliance",
+                      "severityHex": "var(--color-danger)",
+                      "daysActive": 12,
+                      "area": "Laydown / Staging Yard",
+                      "lat": 35.3445,
+                      "lng": -119.3549
+                    },
+                    {
+                      "id": "obs-0142",
+                      "category": "Stormwater / BMP Maintenance",
+                      "severity": "non-compliance",
+                      "severityLabel": "Non-Compliance",
+                      "severityHex": "var(--color-danger)",
+                      "daysActive": 7,
+                      "area": "South Array — Block B",
+                      "lat": 35.3382,
+                      "lng": -119.3488
+                    },
+                    {
+                      "id": "obs-0113",
+                      "category": "Access & Traffic Control",
+                      "severity": "needs-attention",
+                      "severityLabel": "Needs Attention",
+                      "severityHex": "var(--color-warning)",
+                      "daysActive": 33,
+                      "area": "Main Access Road (Hwy 58 Spur)",
+                      "lat": 35.3601,
+                      "lng": -119.3612
+                    },
+                    {
+                      "id": "obs-0118",
+                      "category": "Stormwater / BMP Maintenance",
+                      "severity": "needs-attention",
+                      "severityLabel": "Needs Attention",
+                      "severityHex": "var(--color-warning)",
+                      "daysActive": 28,
+                      "area": "Cottonwood Wash Crossing",
+                      "lat": 35.3418,
+                      "lng": -119.3357
+                    },
+                    {
+                      "id": "obs-0126",
+                      "category": "Noise Management",
+                      "severity": "needs-attention",
+                      "severityLabel": "Needs Attention",
+                      "severityHex": "var(--color-warning)",
+                      "daysActive": 22,
+                      "area": "BESS Pad",
+                      "lat": 35.3499,
+                      "lng": -119.3437
+                    },
+                    {
+                      "id": "obs-0130",
+                      "category": "Vegetation & Habitat Protection",
+                      "severity": "needs-attention",
+                      "severityLabel": "Needs Attention",
+                      "severityHex": "var(--color-warning)",
+                      "daysActive": 20,
+                      "area": "Substation Yard",
+                      "lat": 35.3511,
+                      "lng": -119.3402
+                    },
+                    {
+                      "id": "obs-0136",
+                      "category": "Waste Management",
+                      "severity": "needs-attention",
+                      "severityLabel": "Needs Attention",
+                      "severityHex": "var(--color-warning)",
+                      "daysActive": 16,
+                      "area": "O&M Building Area",
+                      "lat": 35.3527,
+                      "lng": -119.3465
+                    },
+                    {
+                      "id": "obs-0140",
+                      "category": "Access & Traffic Control",
+                      "severity": "needs-attention",
+                      "severityLabel": "Needs Attention",
+                      "severityHex": "var(--color-warning)",
+                      "daysActive": 9,
+                      "area": "Main Access Road (Hwy 58 Spur)",
+                      "lat": 35.3601,
+                      "lng": -119.3612
+                    },
+                    {
+                      "id": "obs-0144",
+                      "category": "Erosion & Sediment Control",
+                      "severity": "needs-attention",
+                      "severityLabel": "Needs Attention",
+                      "severityHex": "var(--color-warning)",
+                      "daysActive": 4,
+                      "area": "North Array — Block A",
+                      "lat": 35.3654,
+                      "lng": -119.3521
+                    }
+                  ],
+                  "fileBase": "cottonwood-oversight-observations"
+                }
+              </script>
+              <script type="module">
+                const d = document.getElementById("ap-data"),
+                  i = JSON.parse(d?.textContent || "{}"),
+                  s = i.outstanding ?? [],
+                  r = i.fileBase ?? "oversight-observations";
+                function l(t, o, e) {
+                  const n = URL.createObjectURL(new Blob([t], { type: e })),
+                    c = document.createElement("a");
+                  ((c.href = n),
+                    (c.download = o),
+                    document.body.appendChild(c),
+                    c.click(),
+                    c.remove(),
+                    URL.revokeObjectURL(n));
+                }
+                function m(t) {
+                  const o = String(t);
+                  return /[",\r\n]/.test(o) ? `"${o.replace(/"/g, '""')}"` : o;
+                }
+                function p(t) {
+                  const e = [["ID", "Category", "Severity", "Area", "Days Active"].join(",")];
+                  for (const n of t)
+                    e.push(
+                      [n.id, n.category, n.severityLabel || n.severity, n.area, n.daysActive]
+                        .map(m)
+                        .join(","),
+                    );
+                  return e.join(`\r
+`);
+                }
+                function a(t) {
+                  return String(t)
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&apos;");
+                }
+                function g(t) {
+                  const o = t.map(
+                    (e) => `  <Placemark>
+    <name>${a(e.id)}</name>
+    <description>Category: ${a(e.category)}
+Severity: ${a(e.severityLabel || e.severity)}
+Days active: ${a(e.daysActive)}
+Work area: ${a(e.area)}</description>
+    <Point><coordinates>${e.lng},${e.lat},0</coordinates></Point>
+  </Placemark>`,
+                  ).join(`
+`);
+                  return `<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+<Document>
+  <name>${a(r)}</name>
+${o}
+</Document>
+</kml>`;
+                }
+                document.getElementById("ap-export-csv")?.addEventListener("click", () => {
+                  l(p(s), `${r}.csv`, "text/csv;charset=utf-8");
+                });
+                document.getElementById("ap-export-kml")?.addEventListener("click", () => {
+                  l(g(s), `${r}.kml`, "application/vnd.google-earth.kml+xml");
+                });
+              </script>
+              <div class="esa-card">
+                <div class="esa-card__header">
+                  <div class="esa-card__header-content">
+                    <div class="esa-card__titles">
+                      <h3 class="esa-card__title">90-Day Trend</h3>
+                    </div>
+                  </div>
+                </div>
+                <div class="esa-card__body">
+                  <div class="bcn-trend stack" data-gap="lg">
+                    <!-- ── summary band ── -->
+                    <div class="bcn-trend__stats cluster" data-gap="xl" data-align="start">
+                      <div class="esa-stat">
+                        <div class="esa-stat__value">10</div>
+                        <div class="esa-stat__label">Still Active (90d)</div>
+                        <div class="esa-stat__sub">0.8/wk average</div>
+                      </div>
+                      <div class="esa-stat">
+                        <div class="esa-stat__value">7</div>
+                        <div class="esa-stat__label">Resolved (90d)</div>
+                        <div class="esa-stat__sub">0.5/wk average</div>
+                      </div>
+                      <div class="esa-stat">
+                        <div class="esa-stat__value">+3</div>
+                        <div class="esa-stat__label">Net change</div>
+                        <div class="esa-stat__sub">Backlog growing</div>
                       </div>
                     </div>
-                  </section>
-                  <!-- Field 6 — Performance Metrics (study-level; component metrics render above) -->
-                  <!-- Field 7 — Data Management -->
-                  <section class="bcn-sketch__field" data-field="dataManagement">
-                    <h3 class="bcn-sketch__h">Data Management</h3>
-                    <p class="bcn-sketch__p">
-                      JSATS detections, tagging records, and hydrodynamic covariates are ingested to
-                      the DCP fisheries data system on a standing schedule; detection efficiencies
-                      and array uptime are tracked per season. Survival and routing models, code,
-                      and derived estimates are versioned and archived with each interim and final
-                      report.
-                    </p>
-                  </section>
-                  <!-- Field 8 — Reporting Requirements -->
-                  <section class="bcn-sketch__field" data-field="reportingRequirements">
-                    <h3 class="bcn-sketch__h">Reporting Requirements</h3>
-                    <p class="bcn-sketch__p">
-                      Draft Study Plan and Final Study Plan to CDFW; Draft/Interim Reports each
-                      field season; Draft Final Report and Final Report. Baseline reporting due
-                      2030, prior to in-water construction.
-                    </p>
-                  </section>
-                </article>
-                <section class="bcn-review">
-                  <header class="bcn-review__head">
-                    <h3 class="bcn-review__title">
-                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          focusable="false"
-                        >
-                          <path d="M12 7v2"></path>
-                          <path d="M12 13h.01"></path>
-                          <path d="M11.7 3H5a2 2 0 0 0-2 2v16l4-4h12a2 2 0 0 0 2-2V8"></path>
-                        </svg>
-                      </span>
-                      Agency Review — CDFW
-                      <span class="esa-badge esa-badge--secondary esa-badge--sm">
-                        <span class="esa-badge__text">6</span>
-                      </span>
-                    </h3>
-                    <div class="bcn-review__counts">
-                      <span class="bcn-review__count" data-s="open">3 open</span>
-                      <span class="bcn-review__count" data-s="addressed">2 addressed</span>
-                      <span class="bcn-review__count" data-s="resolved">1 resolved</span>
-                    </div>
-                  </header>
-                  <div class="bcn-review__groups">
-                    <div class="bcn-review__group">
-                      <h4 class="bcn-review__field">
-                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            focusable="false"
-                          >
-                            <path
-                              d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
-                            ></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                          </svg>
-                        </span>
-                        Pinned to: Research Questions
-                      </h4>
-                      <ul class="bcn-review__list">
-                        <li class="bcn-review__item">
-                          <span class="bcn-review__node"
-                            ><span
-                              class="esa-avatar esa-avatar--sm esa-avatar--circle"
-                              style="--_avatar-hue: 82"
-                            >
-                              <span class="esa-avatar__initials">C</span>
-                            </span>
-                          </span>
-                          <div class="bcn-review__body">
-                            <div class="bcn-review__meta">
-                              <span class="bcn-review__author">CDFW</span>
-                              <span class="esa-badge esa-badge--warning esa-badge--sm">
-                                <span class="esa-badge__text">CDFW</span>
-                              </span>
-                              <span class="bcn-review__time">2026-02-10</span>
-                              <span class="bcn-review__tags">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
-                                  <span class="esa-pill__label">Rephrase research question</span>
-                                </span>
-                                <span
-                                  class="bcn-status-chip"
-                                  data-status="addressed"
-                                  style="--_chip: var(--st-addressed, #228be6)"
-                                >
-                                  <span class="bcn-status-chip__dot"></span>
-                                  <span class="bcn-status-chip__label">Addressed</span>
-                                </span>
-                              </span>
-                            </div>
-                            <p class="bcn-review__text">
-                              RQ1 should separate the baseline objective from the with-project
-                              objective so the preconstruction baseline can be approved and started
-                              independent of the construction-phase design.
-                            </p>
-                            <ul class="bcn-review__replies">
-                              <li class="bcn-review__reply">
-                                <span class="bcn-review__node bcn-review__node--reply"
-                                  ><span
-                                    class="esa-avatar esa-avatar--sm esa-avatar--circle"
-                                    style="--_avatar-hue: 233"
-                                  >
-                                    <span class="esa-avatar__initials">GM</span>
-                                  </span>
-                                </span>
-                                <div class="bcn-review__body">
-                                  <div class="bcn-review__meta">
-                                    <span class="bcn-review__author">Greenwood, Marin</span>
-                                    <span class="bcn-review__time">2026-02-24</span>
-                                  </div>
-                                  <p class="bcn-review__text">
-                                    Split into a baseline clause and a with-project clause within
-                                    RQ1; the baseline component can proceed on the 2027 field season
-                                    while the construction-phase design is finalized.
-                                  </p>
-                                </div>
-                              </li>
-                            </ul>
-                          </div>
+                    <!-- ── weekly grouped bar chart ── -->
+                    <div class="stack" data-gap="sm">
+                      <ul class="bcn-trend__legend cluster" data-gap="md">
+                        <li class="bcn-trend__legend-item">
+                          <span class="bcn-trend__dot" style="--_c: var(--_c-active)"></span>
+                          <span class="type-label">Active</span>
+                        </li>
+                        <li class="bcn-trend__legend-item">
+                          <span class="bcn-trend__dot" style="--_c: var(--_c-resolved)"></span>
+                          <span class="type-label">Resolved</span>
                         </li>
                       </ul>
-                    </div>
-                    <div class="bcn-review__group">
-                      <h4 class="bcn-review__field">
-                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            focusable="false"
-                          >
-                            <path
-                              d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
-                            ></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                          </svg>
-                        </span>
-                        Pinned to: Background
-                      </h4>
-                      <ul class="bcn-review__list">
-                        <li class="bcn-review__item">
-                          <span class="bcn-review__node"
-                            ><span
-                              class="esa-avatar esa-avatar--sm esa-avatar--circle"
-                              style="--_avatar-hue: 82"
-                            >
-                              <span class="esa-avatar__initials">C</span>
-                            </span>
-                          </span>
-                          <div class="bcn-review__body">
-                            <div class="bcn-review__meta">
-                              <span class="bcn-review__author">CDFW</span>
-                              <span class="esa-badge esa-badge--warning esa-badge--sm">
-                                <span class="esa-badge__text">CDFW</span>
-                              </span>
-                              <span class="bcn-review__time">2026-05-06</span>
-                              <span class="bcn-review__tags">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
-                                  <span class="esa-pill__label">Fix COA cross-reference</span>
-                                </span>
-                                <span
-                                  class="bcn-status-chip"
-                                  data-status="resolved"
-                                  style="--_chip: var(--st-resolved, #2e7571)"
-                                >
-                                  <span class="bcn-status-chip__dot"></span>
-                                  <span class="bcn-status-chip__label">Resolved</span>
-                                </span>
-                              </span>
+                      <div class="bcn-trend__chart" style="--_cols: 13">
+                        <div class="bcn-trend__yaxis type-caption" aria-hidden="true">
+                          <span>3</span> <span>0</span>
+                        </div>
+                        <div class="bcn-trend__plot" aria-hidden="true">
+                          <div class="bcn-trend__col" title="May 8 — 0 still active, 1 resolved">
+                            <div class="bcn-trend__bars">
+                              <span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-active); --_h: 0%"
+                                data-zero=""
+                              ></span
+                              ><span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-resolved); --_h: 33.3%"
+                              ></span>
                             </div>
-                            <p class="bcn-review__text">
-                              Background references COA 10.20.2 where the Abundance and Distribution
-                              Study (10.19.2/10.19.3) is meant — please correct the
-                              coordinating-study cross-reference.
-                            </p>
-                            <ul class="bcn-review__replies">
-                              <li class="bcn-review__reply">
-                                <span class="bcn-review__node bcn-review__node--reply"
-                                  ><span
-                                    class="esa-avatar esa-avatar--sm esa-avatar--circle"
-                                    style="--_avatar-hue: 233"
-                                  >
-                                    <span class="esa-avatar__initials">GM</span>
-                                  </span>
-                                </span>
-                                <div class="bcn-review__body">
-                                  <div class="bcn-review__meta">
-                                    <span class="bcn-review__author">Greenwood, Marin</span>
-                                    <span class="bcn-review__time">2026-05-12</span>
-                                  </div>
-                                  <p class="bcn-review__text">
-                                    Corrected to 10.19.2 (Predation) and 10.19.3 (Abundance and
-                                    Distribution); 10.20.2 reference removed.
-                                  </p>
-                                </div>
-                              </li>
-                            </ul>
                           </div>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="bcn-review__group">
-                      <h4 class="bcn-review__field">
-                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            focusable="false"
-                          >
-                            <path
-                              d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
-                            ></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                          </svg>
-                        </span>
-                        Pinned to: Methods
-                      </h4>
-                      <ul class="bcn-review__list">
-                        <li class="bcn-review__item">
-                          <span class="bcn-review__node"
-                            ><span
-                              class="esa-avatar esa-avatar--sm esa-avatar--circle"
-                              style="--_avatar-hue: 82"
-                            >
-                              <span class="esa-avatar__initials">C</span>
-                            </span>
-                          </span>
-                          <div class="bcn-review__body">
-                            <div class="bcn-review__meta">
-                              <span class="bcn-review__author">CDFW</span>
-                              <span class="esa-badge esa-badge--warning esa-badge--sm">
-                                <span class="esa-badge__text">CDFW</span>
-                              </span>
-                              <span class="bcn-review__time">2026-03-05</span>
-                              <span class="bcn-review__tags">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
-                                  <span class="esa-pill__label">Scope dispute</span>
-                                </span>
-                                <span
-                                  class="bcn-status-chip"
-                                  data-status="addressed"
-                                  style="--_chip: var(--st-addressed, #228be6)"
-                                >
-                                  <span class="bcn-status-chip__dot"></span>
-                                  <span class="bcn-status-chip__label">Addressed</span>
-                                </span>
-                              </span>
+                          <div class="bcn-trend__col" title="May 15 — 0 still active, 1 resolved">
+                            <div class="bcn-trend__bars">
+                              <span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-active); --_h: 0%"
+                                data-zero=""
+                              ></span
+                              ><span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-resolved); --_h: 33.3%"
+                              ></span>
                             </div>
-                            <p class="bcn-review__text">
-                              The near-field and far-field components appear to double-count
-                              survival in the immediate intake reach. Define the spatial boundary
-                              between components so reach-level survival is not attributed twice.
-                            </p>
-                            <ul class="bcn-review__replies">
-                              <li class="bcn-review__reply">
-                                <span class="bcn-review__node bcn-review__node--reply"
-                                  ><span
-                                    class="esa-avatar esa-avatar--sm esa-avatar--circle"
-                                    style="--_avatar-hue: 233"
-                                  >
-                                    <span class="esa-avatar__initials">GM</span>
-                                  </span>
-                                </span>
-                                <div class="bcn-review__body">
-                                  <div class="bcn-review__meta">
-                                    <span class="bcn-review__author">Greenwood, Marin</span>
-                                    <span class="bcn-review__time">2026-03-21</span>
-                                  </div>
-                                  <p class="bcn-review__text">
-                                    Added an explicit near-field/far-field boundary at the
-                                    downstream extent of the intake array; near-field survival is
-                                    reported as a conditional term and excluded from the far-field
-                                    reach estimate.
-                                  </p>
-                                </div>
-                              </li>
-                            </ul>
                           </div>
-                        </li>
-                        <li class="bcn-review__item">
-                          <span class="bcn-review__node"
-                            ><span
-                              class="esa-avatar esa-avatar--sm esa-avatar--circle"
-                              style="--_avatar-hue: 82"
-                            >
-                              <span class="esa-avatar__initials">C</span>
-                            </span>
-                          </span>
-                          <div class="bcn-review__body">
-                            <div class="bcn-review__meta">
-                              <span class="bcn-review__author">CDFW</span>
-                              <span class="esa-badge esa-badge--warning esa-badge--sm">
-                                <span class="esa-badge__text">CDFW</span>
-                              </span>
-                              <span class="bcn-review__time">2026-04-02</span>
-                              <span class="bcn-review__tags">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
-                                  <span class="esa-pill__label"
-                                    >Model peer-review / documentation</span
-                                  >
-                                </span>
-                                <span
-                                  class="bcn-status-chip"
-                                  data-status="open"
-                                  style="--_chip: var(--st-open, #f2770e)"
-                                >
-                                  <span class="bcn-status-chip__dot"></span>
-                                  <span class="bcn-status-chip__label">Open</span>
-                                </span>
-                              </span>
+                          <div class="bcn-trend__col" title="May 22 — 0 still active, 1 resolved">
+                            <div class="bcn-trend__bars">
+                              <span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-active); --_h: 0%"
+                                data-zero=""
+                              ></span
+                              ><span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-resolved); --_h: 33.3%"
+                              ></span>
                             </div>
-                            <p class="bcn-review__text">
-                              The survival-estimation and routing models must be independently
-                              peer-reviewed before the 2030 baseline reporting, including
-                              documentation of detection-efficiency assumptions and model structure.
-                            </p>
                           </div>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="bcn-review__group">
-                      <h4 class="bcn-review__field">
-                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            focusable="false"
-                          >
-                            <path
-                              d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
-                            ></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                          </svg>
-                        </span>
-                        Pinned to: Performance Metrics
-                      </h4>
-                      <ul class="bcn-review__list">
-                        <li class="bcn-review__item">
-                          <span class="bcn-review__node"
-                            ><span
-                              class="esa-avatar esa-avatar--sm esa-avatar--circle"
-                              style="--_avatar-hue: 82"
-                            >
-                              <span class="esa-avatar__initials">C</span>
-                            </span>
-                          </span>
-                          <div class="bcn-review__body">
-                            <div class="bcn-review__meta">
-                              <span class="bcn-review__author">CDFW</span>
-                              <span class="esa-badge esa-badge--warning esa-badge--sm">
-                                <span class="esa-badge__text">CDFW</span>
-                              </span>
-                              <span class="bcn-review__time">2026-02-10</span>
-                              <span class="bcn-review__tags">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
-                                  <span class="esa-pill__label">Add / adjust metric</span>
-                                </span>
-                                <span
-                                  class="bcn-status-chip"
-                                  data-status="open"
-                                  style="--_chip: var(--st-open, #f2770e)"
-                                >
-                                  <span class="bcn-status-chip__dot"></span>
-                                  <span class="bcn-status-chip__label">Open</span>
-                                </span>
-                              </span>
+                          <div class="bcn-trend__col" title="May 29 — 0 still active, 0 resolved">
+                            <div class="bcn-trend__bars">
+                              <span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-active); --_h: 0%"
+                                data-zero=""
+                              ></span
+                              ><span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-resolved); --_h: 0%"
+                                data-zero=""
+                              ></span>
                             </div>
-                            <p class="bcn-review__text">
-                              The far-field metric set must include reverse-flow frequency,
-                              magnitude, and duration as a routing covariate. Flow reversal at the
-                              junctions is a primary driver of interior-Delta entrainment and cannot
-                              be omitted.
-                            </p>
                           </div>
-                        </li>
-                      </ul>
-                    </div>
-                    <div class="bcn-review__group">
-                      <h4 class="bcn-review__field">
-                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            focusable="false"
-                          >
-                            <path
-                              d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"
-                            ></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                          </svg>
-                        </span>
-                        Pinned to: Reporting Requirements
-                      </h4>
-                      <ul class="bcn-review__list">
-                        <li class="bcn-review__item">
-                          <span class="bcn-review__node"
-                            ><span
-                              class="esa-avatar esa-avatar--sm esa-avatar--circle"
-                              style="--_avatar-hue: 82"
-                            >
-                              <span class="esa-avatar__initials">C</span>
-                            </span>
-                          </span>
-                          <div class="bcn-review__body">
-                            <div class="bcn-review__meta">
-                              <span class="bcn-review__author">CDFW</span>
-                              <span class="esa-badge esa-badge--warning esa-badge--sm">
-                                <span class="esa-badge__text">CDFW</span>
-                              </span>
-                              <span class="bcn-review__time">2026-04-02</span>
-                              <span class="bcn-review__tags">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
-                                  <span class="esa-pill__label">Governance / approval</span>
-                                </span>
-                                <span
-                                  class="bcn-status-chip"
-                                  data-status="open"
-                                  style="--_chip: var(--st-open, #f2770e)"
-                                >
-                                  <span class="bcn-status-chip__dot"></span>
-                                  <span class="bcn-status-chip__label">Open</span>
-                                </span>
-                              </span>
+                          <div class="bcn-trend__col" title="Jun 5 — 0 still active, 2 resolved">
+                            <div class="bcn-trend__bars">
+                              <span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-active); --_h: 0%"
+                                data-zero=""
+                              ></span
+                              ><span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-resolved); --_h: 66.7%"
+                              ></span>
                             </div>
-                            <p class="bcn-review__text">
-                              CDFW approval of the Final Study Plan is required before any tagging
-                              or array deployment begins. Please state the approval gate explicitly
-                              in the reporting requirements.
-                            </p>
                           </div>
-                        </li>
-                      </ul>
+                          <div class="bcn-trend__col" title="Jun 12 — 0 still active, 1 resolved">
+                            <div class="bcn-trend__bars">
+                              <span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-active); --_h: 0%"
+                                data-zero=""
+                              ></span
+                              ><span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-resolved); --_h: 33.3%"
+                              ></span>
+                            </div>
+                          </div>
+                          <div class="bcn-trend__col" title="Jun 19 — 0 still active, 1 resolved">
+                            <div class="bcn-trend__bars">
+                              <span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-active); --_h: 0%"
+                                data-zero=""
+                              ></span
+                              ><span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-resolved); --_h: 33.3%"
+                              ></span>
+                            </div>
+                          </div>
+                          <div class="bcn-trend__col" title="Jun 26 — 0 still active, 0 resolved">
+                            <div class="bcn-trend__bars">
+                              <span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-active); --_h: 0%"
+                                data-zero=""
+                              ></span
+                              ><span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-resolved); --_h: 0%"
+                                data-zero=""
+                              ></span>
+                            </div>
+                          </div>
+                          <div class="bcn-trend__col" title="Jul 3 — 2 still active, 0 resolved">
+                            <div class="bcn-trend__bars">
+                              <span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-active); --_h: 66.7%"
+                              ></span
+                              ><span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-resolved); --_h: 0%"
+                                data-zero=""
+                              ></span>
+                            </div>
+                          </div>
+                          <div class="bcn-trend__col" title="Jul 10 — 3 still active, 0 resolved">
+                            <div class="bcn-trend__bars">
+                              <span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-active); --_h: 100%"
+                              ></span
+                              ><span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-resolved); --_h: 0%"
+                                data-zero=""
+                              ></span>
+                            </div>
+                          </div>
+                          <div class="bcn-trend__col" title="Jul 17 — 1 still active, 0 resolved">
+                            <div class="bcn-trend__bars">
+                              <span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-active); --_h: 33.3%"
+                              ></span
+                              ><span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-resolved); --_h: 0%"
+                                data-zero=""
+                              ></span>
+                            </div>
+                          </div>
+                          <div class="bcn-trend__col" title="Jul 24 — 3 still active, 0 resolved">
+                            <div class="bcn-trend__bars">
+                              <span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-active); --_h: 100%"
+                              ></span
+                              ><span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-resolved); --_h: 0%"
+                                data-zero=""
+                              ></span>
+                            </div>
+                          </div>
+                          <div class="bcn-trend__col" title="Jul 31 — 1 still active, 0 resolved">
+                            <div class="bcn-trend__bars">
+                              <span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-active); --_h: 33.3%"
+                              ></span
+                              ><span
+                                class="bcn-trend__bar"
+                                style="--_c: var(--_c-resolved); --_h: 0%"
+                                data-zero=""
+                              ></span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="bcn-trend__ticks" aria-hidden="true">
+                          <span class="bcn-trend__tick type-caption">May 8</span
+                          ><span class="bcn-trend__tick type-caption"></span
+                          ><span class="bcn-trend__tick type-caption">May 22</span
+                          ><span class="bcn-trend__tick type-caption"></span
+                          ><span class="bcn-trend__tick type-caption">Jun 5</span
+                          ><span class="bcn-trend__tick type-caption"></span
+                          ><span class="bcn-trend__tick type-caption">Jun 19</span
+                          ><span class="bcn-trend__tick type-caption"></span
+                          ><span class="bcn-trend__tick type-caption">Jul 3</span
+                          ><span class="bcn-trend__tick type-caption"></span
+                          ><span class="bcn-trend__tick type-caption">Jul 17</span
+                          ><span class="bcn-trend__tick type-caption"></span
+                          ><span class="bcn-trend__tick type-caption">Jul 31</span>
+                        </div>
+                      </div>
+                      <!-- The plot is aria-hidden; this table is the accessible reading of the
+           same data (and the visible-values relief the low-contrast amber
+           series owes against a near-white surface). -->
+                      <table class="bcn-trend__table">
+                        <caption>
+                          Needs-attention/non-compliance observations by week first reported,
+                          trailing 90 days
+                        </caption>
+                        <thead>
+                          <tr>
+                            <th scope="col">Week of</th>
+                            <th scope="col">Still Active</th>
+                            <th scope="col">Resolved</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">May 8</th>
+                            <td>0</td>
+                            <td>1</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">May 15</th>
+                            <td>0</td>
+                            <td>1</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">May 22</th>
+                            <td>0</td>
+                            <td>1</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">May 29</th>
+                            <td>0</td>
+                            <td>0</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Jun 5</th>
+                            <td>0</td>
+                            <td>2</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Jun 12</th>
+                            <td>0</td>
+                            <td>1</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Jun 19</th>
+                            <td>0</td>
+                            <td>1</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Jun 26</th>
+                            <td>0</td>
+                            <td>0</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Jul 3</th>
+                            <td>2</td>
+                            <td>0</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Jul 10</th>
+                            <td>3</td>
+                            <td>0</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Jul 17</th>
+                            <td>1</td>
+                            <td>0</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Jul 24</th>
+                            <td>3</td>
+                            <td>0</td>
+                          </tr>
+                          <tr>
+                            <th scope="row">Jul 31</th>
+                            <td>1</td>
+                            <td>0</td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
-                </section>
-              </main>
-              <!-- ── Rail: structured facts (the crosswalk + roles + planning, per study) ── -->
-              <aside class="bcn-study__rail">
-                <details class="esa-collapsible" open="">
-                  <summary class="esa-collapsible__summary">
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <path d="M12 16v-4"></path>
-                        <path d="M12 8h.01"></path>
-                      </svg>
-                    </span>
-                    <span class="esa-collapsible__title">Details</span>
-                  </summary>
-                  <div class="esa-collapsible__body">
-                    <div class="bcn-key-value">
-                      <span class="bcn-key-value__key">Category</span>
-                      <span class="bcn-key-value__val"
-                        >Covered Species Monitoring &amp; Scientific Study</span
-                      >
-                    </div>
-                    <div class="bcn-key-value">
-                      <span class="bcn-key-value__key">Study type</span>
-                      <span class="bcn-key-value__val"
-                        >Fisheries Evaluation Studies — Biological Monitoring</span
-                      >
-                    </div>
-                    <div class="bcn-key-value">
-                      <span class="bcn-key-value__key">DCP lead</span>
-                      <span class="bcn-key-value__val">DWR-DISE</span>
-                    </div>
-                    <div class="bcn-key-value">
-                      <span class="bcn-key-value__key">Agency participants</span>
-                      <span class="bcn-key-value__val">CDFW</span>
-                    </div>
-                    <div class="bcn-key-value">
-                      <span class="bcn-key-value__key">Timeframe</span>
-                      <span class="bcn-key-value__val"
-                        >In-water preconstruction baseline monitoring, In-water construction
-                        monitoring, Phase 1 Operations Monitoring, and Phase 2 Operations
-                        Monitoring.</span
-                      >
-                    </div>
-                    <div class="bcn-study__kv">
-                      <span class="bcn-study__kv-label">DCP phases</span>
-                      <span class="bcn-study__chips">
-                        <span class="esa-pill esa-pill--default esa-pill--sm">
-                          <span class="esa-pill__label">Baseline</span>
-                        </span>
-                        <span class="esa-pill esa-pill--default esa-pill--sm">
-                          <span class="esa-pill__label">In-water construction</span>
-                        </span>
-                        <span class="esa-pill esa-pill--default esa-pill--sm">
-                          <span class="esa-pill__label">Phase 1 ops</span>
-                        </span>
-                        <span class="esa-pill esa-pill--default esa-pill--sm">
-                          <span class="esa-pill__label">Phase 2 ops</span>
-                        </span>
-                      </span>
-                    </div>
-                  </div>
-                </details>
-                <details class="esa-collapsible" open="">
-                  <summary class="esa-collapsible__summary">
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path d="M9 17H7A5 5 0 0 1 7 7h2"></path>
-                        <path d="M15 7h2a5 5 0 1 1 0 10h-2"></path>
-                        <line x1="8" x2="16" y1="12" y2="12"></line>
-                      </svg>
-                    </span>
-                    <span class="esa-collapsible__title">Dependencies &amp; references</span>
-                  </summary>
-                  <div class="esa-collapsible__body">
-                    <div class="bcn-study__kv">
-                      <span class="bcn-study__kv-label">Informed by</span>
-                      <span class="bcn-study__chips">
-                        <a
-                          class="bcn-study__coa-link"
-                          href="/beacon-design/prototypes/fish-study/10.20.1"
-                          >10.20.1</a
-                        >
-                      </span>
-                    </div>
-                    <div class="bcn-study__kv">
-                      <span class="bcn-study__kv-label">Informs</span>
-                      <span class="bcn-study__chips">
-                        <a
-                          class="bcn-study__coa-link"
-                          href="/beacon-design/prototypes/fish-study/10.19.2"
-                          >10.19.2</a
-                        ><a
-                          class="bcn-study__coa-link"
-                          href="/beacon-design/prototypes/fish-study/10.19.3"
-                          >10.19.3</a
-                        ><a
-                          class="bcn-study__coa-link"
-                          href="/beacon-design/prototypes/fish-study/10.21.5"
-                          >10.21.5</a
-                        ><a
-                          class="bcn-study__coa-link"
-                          href="/beacon-design/prototypes/fish-study/10.21.2"
-                          >10.21.2</a
-                        ><a
-                          class="bcn-study__coa-link"
-                          href="/beacon-design/prototypes/fish-study/10.21.7"
-                          >10.21.7</a
-                        ><span class="bcn-study__coa-ref">10.18.2</span
-                        ><a
-                          class="bcn-study__coa-link"
-                          href="/beacon-design/prototypes/fish-study/10.21.10"
-                          >10.21.10</a
-                        >
-                      </span>
-                    </div>
-                    <div class="bcn-study__kv">
-                      <span class="bcn-study__kv-label">ITP cross-references</span>
-                      <span class="bcn-study__chips">
-                        <span class="bcn-study__coa-ref">20.2.1</span
-                        ><span class="bcn-study__coa-ref">11.115</span
-                        ><span class="bcn-study__coa-ref">11.116</span
-                        ><span class="bcn-study__coa-ref">11.117</span
-                        ><span class="bcn-study__coa-ref">COA 7</span
-                        ><span class="bcn-study__coa-ref">COA 8</span
-                        ><span class="bcn-study__coa-ref">10.15</span>
-                      </span>
-                    </div>
-                  </div>
-                </details>
-                <details class="esa-collapsible" open="">
-                  <summary class="esa-collapsible__summary">
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
-                        <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                        <path d="M10 9H8"></path>
-                        <path d="M16 13H8"></path>
-                        <path d="M16 17H8"></path>
-                      </svg>
-                    </span>
-                    <span class="esa-collapsible__title">Deliverables (6)</span>
-                  </summary>
-                  <div class="esa-collapsible__body">
-                    <ul class="bcn-study__deliv">
-                      <li class="bcn-study__deliv-row">
-                        <span class="bcn-study__deliv-name">Draft Study Plan</span>
-                        <span
-                          class="bcn-status-chip"
-                          data-status="submitted"
-                          style="--_chip: var(--st-submitted, #e3c14d)"
-                        >
-                          <span class="bcn-status-chip__dot"></span>
-                          <span class="bcn-status-chip__label">Submitted</span>
-                        </span>
-                      </li>
-                      <li class="bcn-study__deliv-row">
-                        <span class="bcn-study__deliv-name">Final Study Plan</span>
-                        <span
-                          class="bcn-status-chip"
-                          data-status="in-progress"
-                          style="--_chip: var(--st-in-progress, #fc8d59)"
-                        >
-                          <span class="bcn-status-chip__dot"></span>
-                          <span class="bcn-status-chip__label">In Progress</span>
-                        </span>
-                      </li>
-                      <li class="bcn-study__deliv-row">
-                        <span class="bcn-study__deliv-name">Draft Interim Reports</span>
-                        <span
-                          class="bcn-status-chip"
-                          data-status="not-started"
-                          style="--_chip: var(--st-not-started, #d73027)"
-                        >
-                          <span class="bcn-status-chip__dot"></span>
-                          <span class="bcn-status-chip__label">Not Started</span>
-                        </span>
-                      </li>
-                      <li class="bcn-study__deliv-row">
-                        <span class="bcn-study__deliv-name">Interim Reports</span>
-                        <span
-                          class="bcn-status-chip"
-                          data-status="not-started"
-                          style="--_chip: var(--st-not-started, #d73027)"
-                        >
-                          <span class="bcn-status-chip__dot"></span>
-                          <span class="bcn-status-chip__label">Not Started</span>
-                        </span>
-                      </li>
-                      <li class="bcn-study__deliv-row">
-                        <span class="bcn-study__deliv-name">Draft Final Report</span>
-                        <span
-                          class="bcn-status-chip"
-                          data-status="not-started"
-                          style="--_chip: var(--st-not-started, #d73027)"
-                        >
-                          <span class="bcn-status-chip__dot"></span>
-                          <span class="bcn-status-chip__label">Not Started</span>
-                        </span>
-                      </li>
-                      <li class="bcn-study__deliv-row">
-                        <span class="bcn-study__deliv-name">Final Report</span>
-                        <span
-                          class="bcn-status-chip"
-                          data-status="not-started"
-                          style="--_chip: var(--st-not-started, #d73027)"
-                        >
-                          <span class="bcn-status-chip__dot"></span>
-                          <span class="bcn-status-chip__label">Not Started</span>
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                </details>
-                <details class="esa-collapsible">
-                  <summary class="esa-collapsible__summary">
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="9" cy="7" r="4"></circle>
-                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                      </svg>
-                    </span>
-                    <span class="esa-collapsible__title">Roles &amp; responsibilities</span>
-                  </summary>
-                  <div class="esa-collapsible__body">
-                    <ul class="bcn-study__roles">
-                      <li class="bcn-study__role-row">
-                        <span class="bcn-study__role-stream">Study / Plan Lead</span>
-                        <span class="bcn-study__role-org">
-                          DWR-DISE/DCO<span class="bcn-study__role-person">
-                            · Kevin, Javier, Chris G.</span
-                          >
-                          <span class="esa-badge esa-badge--secondary esa-badge--sm">
-                            <span class="esa-badge__text">tentative</span>
-                          </span>
-                        </span>
-                      </li>
-                      <li class="bcn-study__role-row">
-                        <span class="bcn-study__role-stream">Study / Plan Design</span>
-                        <span class="bcn-study__role-org">
-                          Consultant<span class="bcn-study__role-person"> · ESA/USGS</span>
-                          <span class="esa-badge esa-badge--secondary esa-badge--sm">
-                            <span class="esa-badge__text">tentative</span>
-                          </span>
-                        </span>
-                      </li>
-                      <li class="bcn-study__role-row">
-                        <span class="bcn-study__role-stream">Study / Plan Implementation</span>
-                        <span class="bcn-study__role-org">
-                          Consultant<span class="bcn-study__role-person"> · ESA/ICF/USGS</span>
-                          <span class="esa-badge esa-badge--secondary esa-badge--sm">
-                            <span class="esa-badge__text">tentative</span>
-                          </span>
-                        </span>
-                      </li>
-                      <li class="bcn-study__role-row">
-                        <span class="bcn-study__role-stream">Compliance / CEQA / Permitting</span>
-                        <span class="bcn-study__role-org">
-                          DCO/Consultant<span class="bcn-study__role-person"> · ESA/ICF</span>
-                          <span class="esa-badge esa-badge--secondary esa-badge--sm">
-                            <span class="esa-badge__text">tentative</span>
-                          </span>
-                        </span>
-                      </li>
-                      <li class="bcn-study__role-row">
-                        <span class="bcn-study__role-stream">Engineering</span>
-                        <span class="bcn-study__role-org"> DCA </span>
-                      </li>
-                      <li class="bcn-study__role-row">
-                        <span class="bcn-study__role-stream">Construction / Installation</span>
-                        <span class="bcn-study__role-org">
-                          DCA Contractor
-                          <span class="esa-badge esa-badge--secondary esa-badge--sm">
-                            <span class="esa-badge__text">tentative</span>
-                          </span>
-                        </span>
-                      </li>
-                    </ul>
-                  </div>
-                </details>
-                <details class="esa-collapsible">
-                  <summary class="esa-collapsible__summary">
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path d="m12 14 4-4"></path>
-                        <path d="M3.34 19a10 10 0 1 1 17.32 0"></path>
-                      </svg>
-                    </span>
-                    <span class="esa-collapsible__title">Planning</span>
-                  </summary>
-                  <div class="esa-collapsible__body">
-                    <div class="bcn-key-value">
-                      <span class="bcn-key-value__key">Study plan due</span>
-                      <span class="bcn-key-value__val">2026-08-01</span>
-                    </div>
-                    <div class="bcn-key-value">
-                      <span class="bcn-key-value__key">Complexity (1–10)</span>
-                      <span class="bcn-key-value__val">9</span>
-                    </div>
-                    <div class="bcn-key-value">
-                      <span class="bcn-key-value__key">Peak staff (FTE)</span>
-                      <span class="bcn-key-value__val">12</span>
-                    </div>
-                    <div class="bcn-key-value">
-                      <span class="bcn-key-value__key">Budget magnitude</span>
-                      <span class="bcn-key-value__val">$3–5M</span>
-                    </div>
-                  </div>
-                </details>
-              </aside>
+                </div>
+              </div>
             </div>
           </section>
         </div>
@@ -1998,10 +2248,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               You are here
             </h2>
             <div class="bcn-gd__here">
-              <span class="bcn-gd__here-page" data-gd-page="">Beacon</span>
+              <span class="bcn-gd__here-page" data-gd-page="">Monitoring</span>
               <span class="bcn-gd__here-purpose" data-gd-purpose=""
-                >Beacon turns a shelf of regulatory documents into a working compliance program —
-                cataloged, planned, executed, and proven.</span
+                >What is happening in the field — daily reports, observations, surveys, and the
+                compliance concerns they raise.</span
               >
             </div>
           </section>
@@ -2033,16 +2283,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <button
                 type="button"
                 class="bcn-gd-row"
-                data-article-id="five-minute-tour"
+                data-article-id="qc-field-surveys"
                 data-kind="howto"
-                data-title="A five-minute tour of Beacon"
-                data-summary="The four zones of the app and how a compliance obligation flows through them."
+                data-title="Reviewing field surveys before they count"
+                data-summary="Surveys sync from field apps, but only QC-approved records drive compliance."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">A five-minute tour of Beacon</span>
+                  <span class="bcn-gd-row__title">Reviewing field surveys before they count</span>
                   <span class="bcn-gd-row__sub"
-                    >The four zones of the app and how a compliance obligation flows through
-                    them.</span
+                    >Surveys sync from field apps, but only QC-approved records drive
+                    compliance.</span
                   >
                 </span>
                 <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -2063,16 +2313,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               ><button
                 type="button"
                 class="bcn-gd-row"
-                data-article-id="global-search-tips"
+                data-article-id="site-clearance-go-no-go"
                 data-kind="howto"
-                data-title="Finding anything with search"
-                data-summary="Press / anywhere to search commitments, requirements, actions, and documents."
+                data-title="Using Site Clearance go/no-go"
+                data-summary="Check whether a work site is clear for ground disturbance — and what is blocking it."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">Finding anything with search</span>
+                  <span class="bcn-gd-row__title">Using Site Clearance go/no-go</span>
                   <span class="bcn-gd-row__sub"
-                    >Press / anywhere to search commitments, requirements, actions, and
-                    documents.</span
+                    >Check whether a work site is clear for ground disturbance — and what is
+                    blocking it.</span
                   >
                 </span>
                 <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -2118,16 +2368,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <button
                 type="button"
                 class="bcn-gd-row"
-                data-article-id="what-is-an-action"
+                data-article-id="what-is-a-dmr"
                 data-kind="glossary"
-                data-title="Action"
-                data-summary="One trackable deliverable consolidating requirements that describe the same work."
+                data-title="Daily Monitoring Report"
+                data-summary="The structured field record of one day on site, and a direct source of evidence."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">Action</span>
+                  <span class="bcn-gd-row__title">Daily Monitoring Report</span>
                   <span class="bcn-gd-row__sub"
-                    >One trackable deliverable consolidating requirements that describe the same
-                    work.</span
+                    >The structured field record of one day on site, and a direct source of
+                    evidence.</span
                   >
                 </span>
                 <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -2148,16 +2398,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               ><button
                 type="button"
                 class="bcn-gd-row"
-                data-article-id="what-is-a-commitment"
+                data-article-id="what-is-an-observation"
                 data-kind="glossary"
-                data-title="Commitment"
-                data-summary="One discrete obligation, recorded in its source document’s original language."
+                data-title="Observation"
+                data-summary="One recorded field event — a species sighting, habitat condition, weather event, or BMP check."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">Commitment</span>
+                  <span class="bcn-gd-row__title">Observation</span>
                   <span class="bcn-gd-row__sub"
-                    >One discrete obligation, recorded in its source document’s original
-                    language.</span
+                    >One recorded field event — a species sighting, habitat condition, weather
+                    event, or BMP check.</span
                   >
                 </span>
                 <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -2178,16 +2428,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               ><button
                 type="button"
                 class="bcn-gd-row"
-                data-article-id="what-is-a-component"
+                data-article-id="monitoring-portal"
                 data-kind="glossary"
-                data-title="Component"
-                data-summary="A distinct place or package of work within a project, tracked independently."
+                data-title="Monitoring Portal"
+                data-summary="The section that reports commitment compliance from field observations."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">Component</span>
+                  <span class="bcn-gd-row__title">Monitoring Portal</span>
                   <span class="bcn-gd-row__sub"
-                    >A distinct place or package of work within a project, tracked
-                    independently.</span
+                    >The section that reports commitment compliance from field observations.</span
                   >
                 </span>
                 <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -2306,6 +2555,64 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         ><button
           type="button"
           class="bcn-gd-row"
+          data-article-id="five-minute-tour"
+          data-kind="howto"
+          data-title="A five-minute tour of Beacon"
+          data-summary="The four zones of the app and how a compliance obligation flows through them."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">A five-minute tour of Beacon</span>
+            <span class="bcn-gd-row__sub"
+              >The four zones of the app and how a compliance obligation flows through them.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="global-search-tips"
+          data-kind="howto"
+          data-title="Finding anything with search"
+          data-summary="Press / anywhere to search commitments, requirements, actions, and documents."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Finding anything with search</span>
+            <span class="bcn-gd-row__sub"
+              >Press / anywhere to search commitments, requirements, actions, and documents.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
           data-article-id="actions-vs-implementations"
           data-kind="glossary"
           data-title="Implementation"
@@ -2315,6 +2622,35 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <span class="bcn-gd-row__title">Implementation</span>
             <span class="bcn-gd-row__sub"
               >A single execution of a published action — the record teams work day to day.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="what-is-a-component"
+          data-kind="glossary"
+          data-title="Component"
+          data-summary="A distinct place or package of work within a project, tracked independently."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Component</span>
+            <span class="bcn-gd-row__sub"
+              >A distinct place or package of work within a project, tracked independently.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -2481,66 +2817,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         ><button
           type="button"
           class="bcn-gd-row"
-          data-article-id="what-is-a-dmr"
-          data-kind="glossary"
-          data-title="Daily Monitoring Report"
-          data-summary="The structured field record of one day on site, and a direct source of evidence."
-        >
-          <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Daily Monitoring Report</span>
-            <span class="bcn-gd-row__sub"
-              >The structured field record of one day on site, and a direct source of
-              evidence.</span
-            >
-          </span>
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m9 18 6-6-6-6"></path>
-            </svg>
-          </span></button
-        ><button
-          type="button"
-          class="bcn-gd-row"
-          data-article-id="what-is-an-observation"
-          data-kind="glossary"
-          data-title="Observation"
-          data-summary="One recorded field event — a species sighting, habitat condition, weather event, or BMP check."
-        >
-          <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Observation</span>
-            <span class="bcn-gd-row__sub"
-              >One recorded field event — a species sighting, habitat condition, weather event, or
-              BMP check.</span
-            >
-          </span>
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m9 18 6-6-6-6"></path>
-            </svg>
-          </span></button
-        ><button
-          type="button"
-          class="bcn-gd-row"
           data-article-id="survey"
           data-kind="glossary"
           data-title="Survey"
@@ -2580,94 +2856,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <span class="bcn-gd-row__title">Site Clearance</span>
             <span class="bcn-gd-row__sub"
               >The go/no-go determination of whether a site is clear for ground disturbance.</span
-            >
-          </span>
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m9 18 6-6-6-6"></path>
-            </svg>
-          </span></button
-        ><button
-          type="button"
-          class="bcn-gd-row"
-          data-article-id="monitoring-portal"
-          data-kind="glossary"
-          data-title="Monitoring Portal"
-          data-summary="The section that reports commitment compliance from field observations."
-        >
-          <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Monitoring Portal</span>
-            <span class="bcn-gd-row__sub"
-              >The section that reports commitment compliance from field observations.</span
-            >
-          </span>
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m9 18 6-6-6-6"></path>
-            </svg>
-          </span></button
-        ><button
-          type="button"
-          class="bcn-gd-row"
-          data-article-id="qc-field-surveys"
-          data-kind="howto"
-          data-title="Reviewing field surveys before they count"
-          data-summary="Surveys sync from field apps, but only QC-approved records drive compliance."
-        >
-          <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Reviewing field surveys before they count</span>
-            <span class="bcn-gd-row__sub"
-              >Surveys sync from field apps, but only QC-approved records drive compliance.</span
-            >
-          </span>
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m9 18 6-6-6-6"></path>
-            </svg>
-          </span></button
-        ><button
-          type="button"
-          class="bcn-gd-row"
-          data-article-id="site-clearance-go-no-go"
-          data-kind="howto"
-          data-title="Using Site Clearance go/no-go"
-          data-summary="Check whether a work site is clear for ground disturbance — and what is blocking it."
-        >
-          <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Using Site Clearance go/no-go</span>
-            <span class="bcn-gd-row__sub"
-              >Check whether a work site is clear for ground disturbance — and what is blocking
-              it.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -2777,6 +2965,35 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         ><button
           type="button"
           class="bcn-gd-row"
+          data-article-id="what-is-a-commitment"
+          data-kind="glossary"
+          data-title="Commitment"
+          data-summary="One discrete obligation, recorded in its source document’s original language."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Commitment</span>
+            <span class="bcn-gd-row__sub"
+              >One discrete obligation, recorded in its source document’s original language.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
           data-article-id="what-is-a-requirement"
           data-kind="glossary"
           data-title="Requirement"
@@ -2786,6 +3003,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <span class="bcn-gd-row__title">Requirement</span>
             <span class="bcn-gd-row__sub"
               >A specific, actionable sub-obligation broken out of a commitment.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="what-is-an-action"
+          data-kind="glossary"
+          data-title="Action"
+          data-summary="One trackable deliverable consolidating requirements that describe the same work."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Action</span>
+            <span class="bcn-gd-row__sub"
+              >One trackable deliverable consolidating requirements that describe the same
+              work.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -4567,6 +4814,620 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
+:root,
+[data-theme="beacon"] {
+  --badge-bg: #005862;
+  --badge-height-md: 28px;
+  --badge-height-sm: 22px;
+  --badge-radius: 0.25rem;
+  --badge-text-color: #fcfcfc;
+  --bcn-aldo: #08908b;
+  --bcn-aldo-100: #cfeceb;
+  --bcn-aldo-50: #e8f6f5;
+  --bcn-gray-100: #efefef;
+  --bcn-gray-1000: #000000;
+  --bcn-gray-200: #dcdcdc;
+  --bcn-gray-300: #bdbdbd;
+  --bcn-gray-400: #989898;
+  --bcn-gray-50: #fafafa;
+  --bcn-gray-500: #7c7c7c;
+  --bcn-gray-600: #656565;
+  --bcn-gray-900: #3d3d3d;
+  --bcn-gray-950: #292929;
+  --bcn-helpbar-bg: rgba(23, 25, 27, 0.78);
+  --bcn-helpbar-bg-solid: #1f2224;
+  --bcn-helpbar-border: rgba(255, 255, 255, 0.12);
+  --bcn-helpbar-divider: rgba(255, 255, 255, 0.16);
+  --bcn-helpbar-fg: rgba(255, 255, 255, 0.92);
+  --bcn-helpbar-fg-muted: rgba(255, 255, 255, 0.72);
+  --bcn-helpbar-hover-bg: rgba(255, 255, 255, 0.1);
+  --card-bg: #fcfcfc;
+  --card-border-color: #dcdcdc;
+  --card-footer-bg: #efefef;
+  --card-header-bg: transparent;
+  --card-header-border-color: #efefef;
+  --card-header-color: #3d3d3d;
+  --card-padding: 1.5rem;
+  --card-radius: 0.5rem;
+  --color-accent: #f76b15;
+  --color-border: #dcdcdc;
+  --color-border-light: #efefef;
+  --color-danger: #e5484d;
+  --color-primary: #005862;
+  --color-primary-hover: #00474f;
+  --color-secondary-strong: #2a7e3b;
+  --color-surface: #fcfcfc;
+  --color-surface-sunken: #efefef;
+  --color-text-inverse: #fcfcfc;
+  --color-text-link: #005862;
+  --color-text-muted: #7c7c7c;
+  --color-text-primary: #3d3d3d;
+  --color-text-secondary: #525252;
+  --color-text-tertiary: #656565;
+  --color-warning: #f59e0b;
+  --color-warning-on-fill: #4f3422;
+  --font-decorative: "Besley", serif;
+  --font-display: "DM Sans", sans-serif;
+  --font-sans: "DM Sans", sans-serif;
+  --font-weight-bold: 650;
+  --font-weight-medium: 500;
+  --font-weight-regular: 350;
+  --font-weight-semibold: 550;
+  --form-font-size-md: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
+  --form-font-size-sm: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
+  --form-height-md: 36px;
+  --form-height-sm: 28px;
+  --form-padding-x-md: 0.75rem;
+  --form-padding-x-sm: 0.625rem;
+  --form-radius-md: 0.25rem;
+  --form-radius-sm: 0.25rem;
+  --icon-button-bg-hover: color-mix(in srgb, currentColor 14%, transparent);
+  --icon-size-md: 20px;
+  --icon-size-medium: 20px;
+  --icon-size-sm: 16px;
+  --icon-size-small: 16px;
+  --icon-size-xs: 14px;
+  --letter-spacing-normal: 0.01em;
+  --letter-spacing-tight: -0.01em;
+  --line-height-normal: 1.6;
+  --line-height-tight: 1.3;
+  --popover-bg: #fcfcfc;
+  --popover-border-color: #dcdcdc;
+  --popover-color: #3d3d3d;
+  --popover-radius: 0.5rem;
+  --radius-100: 0.25rem;
+  --radius-200: 0.5rem;
+  --radius-300: 0.5rem;
+  --radius-400: 0.75rem;
+  --radius-full: 9999px;
+  --shadow-300: 0 6px 24px -6px rgba(0, 0, 0, 0.07);
+  --side-dialog-width: 400px;
+  --sidebar-width: 280px;
+  --spacing-050: 0.125rem;
+  --spacing-100: 0.25rem;
+  --spacing-150: 0.375rem;
+  --spacing-200: 0.5rem;
+  --spacing-250: 0.625rem;
+  --spacing-300: 0.75rem;
+  --spacing-400: 1rem;
+  --spacing-500: 1.5rem;
+  --spacing-600: 2rem;
+  --spacing-700: 3rem;
+  --transition-fast: 0.15s ease;
+  --type-size-100: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
+  --type-size-150: clamp(0.6875rem, 0.61rem + 0.38vw, 0.875rem);
+  --type-size-200: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
+  --type-size-250: clamp(0.8125rem, 0.71rem + 0.5vw, 1.0625rem);
+  --type-size-300: clamp(0.875rem, 0.77rem + 0.52vw, 1.125rem);
+  --type-size-400: clamp(1rem, 0.88rem + 0.6vw, 1.25rem);
+  --type-size-500: clamp(1.125rem, 0.98rem + 0.72vw, 1.5rem);
+  --type-size-600: clamp(1.375rem, 1.2rem + 0.88vw, 1.875rem);
+  --type-size-700: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem);
+}
+
+:host {
+  display: inline-block;
+}
+.esa-tooltip-anchor {
+  position: relative;
+  display: inline-flex;
+}
+.esa-button {
+  --_btn-height: var(--form-height-md, 40px);
+  --_btn-padding-x: var(--form-padding-x-md, 16px);
+  --_btn-font-size: var(--form-font-size-md, 14px);
+  --_btn-radius: var(--form-radius-md, 6px);
+  --_accent: var(--color-primary, #46a758);
+  --_accent-hover: var(--color-primary-hover, #3e9b4f);
+  --_on: var(--color-text-inverse, #ffffff);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button--sm {
+  --_btn-height: var(--form-height-sm, 32px);
+  --_btn-padding-x: var(--form-padding-x-sm, 12px);
+  --_btn-font-size: var(--form-font-size-sm, 12px);
+  --_btn-radius: var(--form-radius-sm, 4px);
+}
+.esa-button__native {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  height: var(--_btn-height);
+  padding-inline: var(--_btn-padding-x);
+  border: 1px solid transparent;
+  border-radius: var(--_btn-radius);
+  font-size: var(--_btn-font-size);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-button--sm .esa-button__native {
+  height: auto;
+  padding-block: var(--spacing-150, 6px);
+}
+.esa-button--appearance-outline .esa-button__native,
+.esa-button--appearance-dashed .esa-button__native {
+  background: transparent;
+  color: var(--_accent-text);
+  border-color: var(--_accent);
+}
+.esa-button--color-ghost .esa-button__native {
+  background: transparent;
+  color: var(--color-text-primary, #171717);
+  border-color: transparent;
+}
+.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border, #e5e5e5);
+}
+.esa-button__label {
+  white-space: nowrap;
+}
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-weight: var(--font-weight-regular, 350);
+  color: var(--color-text-primary, #3d3d3d);
+  background: var(--color-surface, #fff);
+  -webkit-font-smoothing: antialiased;
+}
+button {
+  font-family: inherit;
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+a {
+  color: var(--color-text-link, #005862);
+  text-decoration: none;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
+  margin: 0;
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+[data-gap="xl"] {
+  --gap: var(--spacing-600, 2rem);
+}
+.cluster {
+  --gap: var(--spacing-300, 0.75rem);
+  --align: center;
+  --justify: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+  align-items: var(--align);
+  justify-content: var(--justify);
+}
+[data-align="start"] {
+  --align: flex-start;
+}
+[data-justify="between"] {
+  --justify: space-between;
+}
+[data-gap="xs"] {
+  --gap: var(--spacing-200, 0.5rem);
+}
+.type-card-title {
+  font-size: var(--type-size-400);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+[data-gap="lg"] {
+  --gap: var(--spacing-500, 1.5rem);
+}
+[data-align="center"] {
+  --align: center;
+}
+.type-caption {
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+[data-gap="2xs"] {
+  --gap: var(--spacing-100, 0.25rem);
+}
+.type-body-small {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-label {
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.sidebar {
+  --gap: var(--spacing-500, 1.5rem);
+  --sidebar-width: 18rem;
+  --sidebar-content-min: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+}
+.sidebar > :first-child {
+  flex-basis: var(--sidebar-width);
+  flex-grow: 1;
+}
+.sidebar[data-side="end"] > :first-child {
+  order: 2;
+}
+[data-gap="sm"] {
+  --gap: var(--spacing-300, 0.75rem);
+}
+.sidebar > :last-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: var(--sidebar-content-min);
+}
+[data-gap="md"] {
+  --gap: var(--spacing-400, 1rem);
+}
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
+  box-sizing: border-box;
+}
+.page-layout__container {
+  display: flex;
+  flex-direction: column;
+}
+.page-layout section {
+  width: 100%;
+}
+.breadcrumbs {
+  padding: var(--spacing-400) 0;
+}
+.breadcrumbs__items {
+  display: flex;
+  gap: var(--spacing-100);
+  align-items: center;
+  flex-wrap: wrap;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.breadcrumb-item {
+  color: var(--bcn-gray-600);
+  text-transform: capitalize;
+  font-size: 0.875rem;
+}
+a.breadcrumb-item {
+  text-decoration: none;
+}
+.page-layout__title {
+  border-bottom: 1px solid var(--bcn-gray-200);
+  padding: var(--spacing-500) 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.page-layout__title-main {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+.page-layout__title h1 {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  font-family: var(--font-decorative);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--type-size-500);
+  margin: 0;
+  color: var(--bcn-gray-1000);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
+  position: relative;
+}
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
+.bcn-ohero {
+  --_donut-size: 168px;
+}
+.bcn-ohero__section-title {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+.bcn-ohero__donut {
+  position: relative;
+  inline-size: var(--_donut-size);
+  block-size: var(--_donut-size);
+  flex-shrink: 0;
+}
+.bcn-ohero__ring {
+  inline-size: 100%;
+  block-size: 100%;
+  transform: rotate(-90deg);
+  overflow: visible;
+}
+.bcn-ohero__track {
+  stroke: var(--color-surface-sunken);
+}
+.bcn-ohero__seg circle {
+  transition:
+    stroke-width 0.12s ease-out,
+    opacity 0.12s ease-out;
+}
+.bcn-ohero__hole {
+  position: absolute;
+  inset: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  text-decoration: none;
+  color: var(--color-text-primary);
+}
+.bcn-ohero__hole-value {
+  font-family: var(--font-display, var(--font-sans));
+  font-size: var(--type-size-600);
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+}
+.bcn-ohero__hole-cap {
+  color: var(--color-text-tertiary);
+}
+.bcn-ohero__legend {
+  list-style: none;
+  padding: 0;
+  min-inline-size: 0;
+}
+.bcn-ohero__legend-row {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--spacing-200);
+  padding: var(--spacing-100) var(--spacing-200);
+  border-radius: var(--radius-200);
+  text-decoration: none;
+  color: var(--color-text-secondary);
+}
+.bcn-ohero__dot {
+  inline-size: 10px;
+  block-size: 10px;
+  border-radius: var(--radius-full);
+  background: var(--_c);
+}
+.bcn-ohero__legend-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bcn-ohero__legend-value {
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.bcn-ohero__breakdowns {
+  flex: 1 1 26rem;
+  min-inline-size: 0;
+}
+.bcn-ohero__counts {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.bcn-ohero__count-row {
+  display: grid;
+  grid-template-columns: minmax(6rem, 1fr) auto;
+  align-items: baseline;
+  gap: var(--spacing-300);
+  padding-block: var(--spacing-100);
+}
+.bcn-ohero__count-label {
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bcn-ohero__count-value {
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.bcn-ohero__count-row + .bcn-ohero__count-row {
+  border-top: 1px solid var(--color-border-light);
+}
+.bcn-apanel__body {
+  --sidebar-width: 19rem;
+  --sidebar-content-min: 52%;
+  align-items: stretch;
+}
+.bcn-apanel__heading {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+.bcn-apanel__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.bcn-apanel__row {
+  display: grid;
+  grid-template-columns: 7.5rem auto minmax(8rem, 1fr) minmax(9rem, 1fr) auto;
+  align-items: center;
+  gap: var(--spacing-400);
+  padding-block: var(--spacing-150);
+  padding-inline: var(--spacing-200);
+}
+.bcn-apanel__id {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  white-space: nowrap;
+}
+.bcn-apanel__category,
+.bcn-apanel__area {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bcn-apanel__category {
+  color: var(--color-text-primary);
+}
+.bcn-apanel__area {
+  color: var(--color-text-secondary);
+}
+.bcn-apanel__list > li + li {
+  border-top: 1px solid var(--color-border-light);
+}
+.bcn-trend {
+  --_c-active: var(--bcn-trend-active-color, var(--color-warning));
+  --_c-resolved: var(--bcn-trend-resolved-color, var(--color-text-tertiary));
+  --_plot-h: var(--bcn-trend-plot-height, 132px);
+  --_bar-w: var(--bcn-trend-bar-width, 9px);
+}
+.bcn-trend .esa-stat__value {
+  font-variant-numeric: tabular-nums;
+}
+.bcn-trend__legend {
+  list-style: none;
+  padding: 0;
+}
+.bcn-trend__legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  color: var(--color-text-secondary);
+}
+.bcn-trend__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: var(--radius-full);
+  background: var(--_c);
+  flex-shrink: 0;
+}
+.bcn-trend__chart {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: var(--spacing-200);
+  row-gap: var(--spacing-100);
+}
+.bcn-trend__yaxis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: var(--_plot-h);
+  text-align: right;
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.bcn-trend__plot,
+.bcn-trend__ticks {
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: repeat(var(--_cols), minmax(0, 1fr));
+  gap: var(--spacing-150);
+}
+.bcn-trend__plot {
+  height: var(--_plot-h);
+  border-bottom: 1px solid var(--color-border);
+}
+.bcn-trend__col {
+  display: flex;
+  align-items: flex-end;
+  border-radius: var(--radius-100) var(--radius-100) 0 0;
+}
+.bcn-trend__bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 2px;
+  width: 100%;
+  height: 100%;
+}
+.bcn-trend__bar {
+  flex: 0 1 var(--_bar-w);
+  height: var(--_h);
+  background: var(--_c);
+  border-radius: var(--radius-100) var(--radius-100) 0 0;
+}
+.bcn-trend__bar:not([data-zero]) {
+  min-height: 2px;
+}
+.bcn-trend__tick {
+  color: var(--color-text-secondary);
+  text-align: center;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.bcn-trend__table {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
@@ -4591,17 +5452,30 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .esa-icon--md {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
 }
-.bcn-study__badges {
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-200);
-  flex-wrap: wrap;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
 }
-.bcn-study__coa {
-  font-family: var(--font-mono);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-tertiary);
+.bcn-obsmap {
+  width: 100%;
+  border-radius: var(--radius-200);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  background: var(--color-surface-sunken);
 }
 .bcn-status-chip {
   display: inline-flex;
@@ -4621,53 +5495,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   border-radius: var(--radius-full);
   background: var(--_chip);
   flex-shrink: 0;
-}
-.bcn-study__utils {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-200);
-}
-.bcn-study {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px;
-  gap: var(--spacing-600);
-  align-items: start;
-}
-.bcn-study__main {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-700);
-  min-width: 0;
-}
-.esa-pill {
-  --_pill-bg: var(--pill-bg, var(--color-surface-sunken, #efefef));
-  --_pill-text: var(--pill-text-color, var(--color-text-primary, #171717));
-  --_pill-border: var(--pill-border-color, var(--color-border-light, #efefef));
-  --_pill-height: var(--pill-height-md, 28px);
-  --_pill-font-size: 13px;
-  --_pill-padding-x: var(--spacing-200, 0.5rem);
-  --_pill-gap: var(--spacing-100, 0.25rem);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--_pill-gap);
-  height: var(--_pill-height);
-  padding-inline: var(--_pill-padding-x);
-  border: 1px solid var(--_pill-border);
-  border-radius: var(--pill-radius, var(--radius-full, 9999px));
-  background: var(--_pill-bg);
-  color: var(--_pill-text);
-  font-size: var(--_pill-font-size);
-  line-height: 1;
-  white-space: nowrap;
-  box-sizing: border-box;
-}
-.esa-pill--sm {
-  --_pill-height: var(--pill-height-sm, 22px);
-  --_pill-font-size: 11px;
-  --_pill-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-pill__label {
-  font-weight: 500;
 }
 .esa-badge {
   --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
@@ -4697,101 +5524,198 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --_badge-padding-x: var(--spacing-150, 0.375rem);
   --_badge-min-width: var(--badge-height-sm, 22px);
 }
-.esa-badge--secondary {
-  --_badge-bg: var(--color-secondary, #65ba74);
-  --_badge-text: var(--color-secondary-on-fill, #203c25);
-}
-.esa-avatar {
-  --_avatar-size: var(--avatar-size-md, 40px);
-  --_avatar-font-size: 16px;
-  --_avatar-radius: var(--avatar-radius, var(--radius-full, 9999px));
-  --_avatar-bg: var(--avatar-bg, hsl(var(--_avatar-hue, 200) 45% 65%));
-  --_avatar-text: var(--avatar-text-color, var(--color-text-inverse, #fff));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_avatar-size);
-  height: var(--_avatar-size);
-  border-radius: var(--_avatar-radius);
-  background: var(--_avatar-bg);
-  color: var(--_avatar-text);
-  font-size: var(--_avatar-font-size);
-  font-weight: 600;
-  overflow: hidden;
-  flex-shrink: 0;
-  user-select: none;
-  box-sizing: border-box;
-}
-.esa-avatar--sm {
-  --_avatar-size: var(--avatar-size-sm, 28px);
-  --_avatar-font-size: 11px;
-}
-.esa-avatar__initials {
-  line-height: 1;
-  letter-spacing: 0.02em;
+.esa-badge--danger {
+  --_badge-bg: var(--color-danger, #e5484d);
 }
 .esa-badge--warning {
   --_badge-bg: var(--color-warning, #ffc53d);
   --_badge-text: var(--color-warning-on-fill, #4f3422);
 }
-.bcn-study__rail {
+.esa-stat {
+  --_stat-value-color: var(--stat-value-color, var(--color-text-primary, #171717));
+  --_stat-value-font: var(
+    --stat-value-font,
+    var(--font-display, var(--font-sans, "DM Sans", sans-serif))
+  );
+  --_stat-value-size: var(--stat-value-size, var(--type-size-700, 2.25rem));
+  --_stat-value-weight: var(--stat-value-weight, var(--font-weight-bold, 650));
+  --_stat-label-color: var(--stat-label-color, var(--color-text-secondary, #525252));
+  --_stat-label-size: var(--stat-label-size, var(--type-size-200, 0.9375rem));
+  --_stat-label-weight: var(--stat-label-weight, var(--font-weight-medium, 450));
+  --_stat-sub-color: var(--stat-sub-color, var(--color-text-muted, #737373));
+  --_stat-sub-size: var(--stat-sub-size, var(--type-size-150, 0.875rem));
+  --_stat-accent-color: var(--stat-accent-color, var(--color-secondary-strong, #3a7c59));
+  --_stat-gap: var(--stat-gap, var(--spacing-050, 0.125rem));
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-300);
-  min-width: 0;
+  gap: var(--_stat-gap);
+  background: transparent;
 }
-.bcn-study__kv {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150);
+.esa-stat__value {
+  font-family: var(--_stat-value-font);
+  font-size: var(--_stat-value-size);
+  font-weight: var(--_stat-value-weight);
+  line-height: var(--line-height-tight, 1.3);
+  letter-spacing: var(--letter-spacing-tight, -0.01em);
+  color: var(--_stat-value-color);
 }
-.bcn-study__kv-label {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  color: var(--form-label-color);
+.esa-stat__label {
+  font-size: var(--_stat-label-size);
+  font-weight: var(--_stat-label-weight);
+  line-height: var(--line-height-normal, 1.6);
+  color: var(--_stat-label-color);
 }
-.bcn-study__chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-150);
+.esa-stat__sub {
+  font-size: var(--_stat-sub-size);
+  font-weight: var(--font-weight-regular, 350);
+  line-height: var(--line-height-normal, 1.6);
+  color: var(--_stat-sub-color);
 }
-.bcn-study__coa-link,
-.bcn-study__coa-ref {
-  display: inline-flex;
-  align-items: center;
-  font-family: var(--font-mono);
+.bcn-obsmap .leaflet-interactive {
+  cursor: pointer;
+}
+.leaflet-container {
+  overflow: hidden;
+}
+.leaflet-container {
+  -webkit-tap-highlight-color: transparent;
+}
+.leaflet-container {
+  background: #ddd;
+  outline-offset: 1px;
+}
+.leaflet-container {
+  font-family:
+    Helvetica Neue,
+    Arial,
+    Helvetica,
+    sans-serif;
+  font-size: 12px;
   font-size: 0.75rem;
-  font-weight: var(--font-weight-semibold);
-  padding: 1px var(--spacing-200);
-  border-radius: var(--radius-100);
-  background: var(--color-surface-sunken);
-  border: 1px solid var(--color-border);
+  line-height: 1.5;
 }
-.bcn-study__coa-link {
-  color: var(--color-primary);
-  text-decoration: none;
+.leaflet-pane,
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-tile-container,
+.leaflet-pane > svg,
+.leaflet-pane > canvas,
+.leaflet-zoom-box,
+.leaflet-image-layer,
+.leaflet-layer {
+  position: absolute;
+  left: 0;
+  top: 0;
 }
-.bcn-study__coa-ref {
-  color: var(--color-text-tertiary);
+.leaflet-pane {
+  z-index: 400;
 }
-.bcn-study__deliv,
-.bcn-study__roles {
-  list-style: none;
-  margin: 0;
+.leaflet-tile-pane {
+  z-index: 200;
+}
+.leaflet-overlay-pane {
+  z-index: 400;
+}
+.leaflet-shadow-pane {
+  z-index: 500;
+}
+.leaflet-marker-pane {
+  z-index: 600;
+}
+.leaflet-tooltip-pane {
+  z-index: 650;
+}
+.leaflet-popup-pane {
+  z-index: 700;
+}
+.leaflet-popup-pane,
+.leaflet-control {
+  cursor: auto;
+}
+.leaflet-zoom-animated {
+  -webkit-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  transform-origin: 0 0;
+}
+.leaflet-top,
+.leaflet-bottom {
+  position: absolute;
+  z-index: 1000;
+  pointer-events: none;
+}
+.leaflet-top {
+  top: 0;
+}
+.leaflet-left {
+  left: 0;
+}
+.leaflet-right {
+  right: 0;
+}
+.leaflet-bottom {
+  bottom: 0;
+}
+.leaflet-marker-icon,
+.leaflet-marker-shadow,
+.leaflet-image-layer,
+.leaflet-pane > svg path,
+.leaflet-tile-container {
+  pointer-events: none;
+}
+.leaflet-tile,
+.leaflet-marker-icon,
+.leaflet-marker-shadow {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.leaflet-tile {
+  filter: inherit;
+  visibility: hidden;
+}
+.leaflet-container .leaflet-marker-pane img,
+.leaflet-container .leaflet-shadow-pane img,
+.leaflet-container .leaflet-tile-pane img,
+.leaflet-container img.leaflet-image-layer,
+.leaflet-container .leaflet-tile {
+  max-width: none !important;
+  max-height: none !important;
+  width: auto;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
 }
-.bcn-study__deliv-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-200);
+.leaflet-container img.leaflet-tile {
+  mix-blend-mode: plus-lighter;
 }
-.bcn-study__deliv-name {
-  font-size: var(--type-size-100);
-  color: var(--color-text-primary);
+.leaflet-tile::selection {
+  background: transparent;
+}
+.leaflet-overlay-pane svg {
+  -moz-user-select: none;
+}
+.leaflet-map-pane svg {
+  z-index: 200;
+}
+svg.leaflet-zoom-animated {
+  will-change: transform;
+}
+.leaflet-container .leaflet-overlay-pane svg {
+  max-width: none !important;
+  max-height: none !important;
+}
+.leaflet-interactive {
+  cursor: pointer;
+}
+.leaflet-marker-icon.leaflet-interactive,
+.leaflet-image-layer.leaflet-interactive,
+.leaflet-pane > svg path.leaflet-interactive,
+svg.leaflet-image-layer.leaflet-interactive path {
+  pointer-events: visiblePainted;
+  pointer-events: auto;
+}
+.leaflet-tile-loaded {
+  visibility: inherit;
 }
 .modern-layout {
   display: flex;
@@ -5102,6 +6026,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   cursor: pointer;
   text-decoration: none;
 }
+.nav-section__header--link {
+  text-decoration: none;
+  color: var(--bcn-gray-950);
+}
 .nav-section__header > .esa-icon:first-child {
   flex-shrink: 0;
   color: var(--bcn-gray-950);
@@ -5112,15 +6040,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   overflow: hidden;
   transition: opacity 0.2s ease-in-out;
 }
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
 .nav-section__header > .esa-icon:last-child {
   color: var(--bcn-gray-400);
   transition:
     transform 0.15s ease,
     opacity 0.2s ease-in-out;
   flex-shrink: 0;
-}
-.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
-  transform: rotate(-90deg);
 }
 .nav-section__items {
   list-style: none;
@@ -5135,10 +6065,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
     max-height 0.2s ease-in-out,
     opacity 0.2s ease-in-out;
 }
-.nav-section--collapsed .nav-section__items {
-  max-height: 0;
-  opacity: 0;
-}
 .nav-item {
   padding: 0 0 0 2.5rem;
 }
@@ -5152,14 +6078,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   transition: all 0.15s ease;
   line-height: 1.2;
 }
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
-}
 .nav-sublink.active {
   background: #0000000a;
   color: var(--color-primary);
+}
+.nav-item + .nav-item {
+  margin-top: var(--spacing-050);
 }
 .nav-divider {
   flex-shrink: 0;
@@ -5167,6 +6091,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   margin: var(--spacing-200) 0;
   border: 0;
   background: var(--bcn-gray-200);
+}
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
+}
+.nav-section--collapsed .nav-section__items {
+  max-height: 0;
+  opacity: 0;
 }
 .modern-layout__content {
   flex: 1;
@@ -5432,6 +6363,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   display: flex;
   flex-direction: column;
 }
+[data-gd-chat] {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+}
+[data-gd-chat]:empty {
+  display: none;
+}
 .bcn-gd__foot {
   display: flex;
   flex-direction: column;
@@ -5551,485 +6490,295 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .bcn-gd-article__panel[hidden] {
   display: none;
 }
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
+.esa-card {
+  --_card-bg: var(--card-bg, var(--color-surface, #ffffff));
+  --_card-border: var(--card-border-color, var(--color-border, #e5e5e5));
+  --_card-radius: var(--card-radius, var(--radius-300, 0.5rem));
+  --_card-padding: var(--card-padding, var(--spacing-500, 1.5rem));
+  --_card-header-bg: var(--card-header-bg, transparent);
+  --_card-header-color: var(--card-header-color, var(--color-text-primary, #171717));
+  --_card-header-border: var(--card-header-border-color, var(--color-border-light, #efefef));
+  display: block;
+  background: var(--_card-bg);
+  border: 1px solid var(--_card-border);
+  border-radius: var(--_card-radius);
+  overflow: hidden;
 }
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
-  display: inline-flex;
+.esa-card__header {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
+  justify-content: space-between;
+  padding: var(--spacing-400, 1rem) var(--_card-padding);
+  background: var(--_card-header-bg);
+  color: var(--_card-header-color);
+  border-bottom: 1px solid var(--_card-header-border);
+  min-height: 56px;
+}
+.esa-card__header-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300, 0.75rem);
+}
+.esa-card__titles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050, 0.125rem);
+}
+.esa-card__title {
+  font-size: var(--type-size-250, 1.0625rem);
+  font-weight: 600;
+  margin: 0;
   color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
+  font-family: var(--font-sans, "DM Sans", sans-serif);
 }
-.esa-collapsible {
-  border: 1px solid var(--collapsible-border-color, var(--color-border, #e5e5e5));
-  border-radius: var(--collapsible-radius, var(--radius-300, 0.5rem));
-  background: var(--collapsible-bg, var(--color-surface, #fff));
+.esa-card__subtitle {
+  font-size: var(--type-size-150, 0.8125rem);
+  color: var(--color-text-secondary, #525252);
+  margin: 0;
 }
-.esa-collapsible__summary {
+.esa-card__body {
+  padding: var(--_card-padding);
+}
+.esa-card__actions {
   display: flex;
   align-items: center;
   gap: var(--spacing-200, 0.5rem);
-  padding: var(--spacing-300, 0.75rem) var(--collapsible-padding-x, var(--spacing-400, 1rem));
-  font-size: var(--type-size-150, 0.9375rem);
-  font-weight: var(--font-weight-semibold, 600);
-  color: var(--collapsible-title-color, var(--color-text-primary, #171717));
+}
+.esa-card__footer {
+  padding: var(--spacing-300, 0.75rem) var(--_card-padding);
+  border-top: 1px solid var(--_card-header-border);
+  background: var(--card-footer-bg, var(--color-surface-sunken, #efefef));
+}
+:host {
+  all: initial;
+}
+.host-root {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2147483000;
+  font-family: system-ui, sans-serif;
+}
+.host-root > * {
+  pointer-events: auto;
+}
+.launch {
+  position: fixed;
+  bottom: 22px;
+  left: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 19px;
+  border-radius: 999px;
+  color: #fff;
   cursor: pointer;
-  list-style: none;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border: 1px solid #3d6fd6;
+  background: linear-gradient(180deg, #1f6feb, #1551c4);
+  box-shadow:
+    0 10px 28px -8px rgba(31, 111, 235, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
 }
-.esa-collapsible__summary .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary, #404040);
+.launch svg {
+  flex: none;
 }
-.esa-collapsible__summary:after {
-  content: "";
-  width: 8px;
-  height: 8px;
-  border-right: 2px solid var(--color-text-tertiary, #737373);
-  border-bottom: 2px solid var(--color-text-tertiary, #737373);
-  transform: rotate(-45deg);
-  transition: transform 0.15s ease;
-  margin-left: auto;
-}
-.esa-collapsible[open] > .esa-collapsible__summary:after {
-  transform: rotate(45deg);
-}
-.esa-collapsible__body {
+.panel {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  bottom: 18px;
+  width: min(720px, 94vw);
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-400, 1rem);
-  padding: 0 var(--collapsible-padding-x, var(--spacing-400, 1rem)) var(--spacing-400, 1rem);
+  color: #ffffff;
+  border-radius: 16px;
+  background: linear-gradient(155deg, rgba(26, 31, 40, 0.74), rgba(11, 15, 21, 0.86));
+  backdrop-filter: blur(26px) saturate(150%);
+  -webkit-backdrop-filter: blur(26px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 28px 70px -18px rgba(0, 0, 0, 0.62),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  font-size: 12.5px;
+  overflow: hidden;
+  /* slide in from the right */
+  transform: translateX(calc(100% + 32px));
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.22s ease,
+    visibility 0s linear 0.3s;
 }
-.bcn-key-value {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.bcn-key-value__key {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  color: var(--form-label-color);
-}
-.bcn-key-value__val {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-sketch {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-600);
-}
-.bcn-sketch__field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
-}
-.bcn-sketch__h {
+.head {
   display: flex;
   align-items: center;
-  gap: var(--spacing-200);
-  margin: 0;
-  font-size: var(--type-size-300);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-  padding-bottom: var(--spacing-150);
-  border-bottom: 1px solid var(--color-border);
+  gap: 8px;
+  padding: 13px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
 }
-.bcn-sketch__chips {
+.head strong {
+  font-size: 14px;
+}
+.head .sub {
+  flex: 1;
+  color: #ccd5e0;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.x {
+  border: 0;
+  background: none;
+  color: #c4cdd8;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+.picker {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+.chips {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--spacing-150);
-  margin-bottom: var(--spacing-100);
+  gap: 6px;
 }
-.bcn-sketch__p {
+.chip {
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: #eef2f6;
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    border-color 0.12s ease,
+    background 0.12s ease,
+    color 0.12s ease;
+}
+.chip.on {
+  background: rgba(31, 111, 235, 0.28);
+  border-color: #4493f8;
+  color: #fff;
+  font-weight: 600;
+}
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 9px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+}
+.tabs button {
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: #ccd5e0;
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.tabs button.on {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+.body {
+  overflow: auto;
+  padding: 13px 16px;
+  flex: 1;
+}
+.hint {
   margin: 0;
-  font-size: var(--type-size-200);
+  color: #c4cdd8;
   line-height: 1.6;
-  color: var(--color-text-secondary);
 }
-.bcn-sketch__rq {
-  margin: var(--spacing-100) 0 0;
-  padding-left: var(--spacing-500);
+.footer {
+  position: relative;
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 11px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.18);
 }
-.bcn-sketch__rq li {
-  font-size: var(--type-size-200);
-  line-height: 1.5;
-  color: var(--color-text-primary);
+[hidden] {
+  display: none !important;
 }
-.bcn-sketch__hyp {
-  margin: var(--spacing-200) 0 0;
-  padding-left: var(--spacing-500);
+.cpreview {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: calc(100% + 8px);
+  background: rgba(13, 17, 23, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
+  box-shadow: 0 18px 50px -14px rgba(0, 0, 0, 0.7);
+  padding: 12px 14px;
+  max-height: 50vh;
+  overflow: auto;
 }
-.bcn-sketch__hyp li {
-  font-size: var(--type-size-200);
-  line-height: 1.5;
-  color: var(--color-text-secondary);
-  font-style: italic;
+.copy {
+  color: #eef2f6;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.05);
 }
-.bcn-sketch__sub {
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-sketch__components {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-}
-.bcn-sketch__component {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-  padding: var(--spacing-300) var(--spacing-400);
-  background: var(--color-surface);
-}
-.bcn-sketch__component-h {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  margin: 0 0 var(--spacing-200);
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-sketch__component-h .esa-icon {
-  color: var(--color-secondary);
-}
-.bcn-sketch__cols {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-400);
-}
-.bcn-sketch__col-label {
-  display: block;
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-tertiary);
-  margin-bottom: var(--spacing-150);
-}
-.bcn-sketch__list {
-  margin: 0;
-  padding-left: var(--spacing-500);
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100);
-}
-.bcn-sketch__list li {
-  font-size: var(--type-size-200);
-  line-height: 1.5;
-  color: var(--color-text-secondary);
-}
-.bcn-review {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-}
-.bcn-review__head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: var(--spacing-300);
-}
-.bcn-review__title {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  margin: 0;
-  font-size: var(--type-size-300);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-review__title .esa-icon {
-  color: var(--color-warning);
-  flex-shrink: 0;
-}
-.bcn-review__counts {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  font-size: var(--type-size-100);
-}
-.bcn-review__count {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-100);
-  color: var(--color-text-secondary);
-}
-.bcn-review__count:before {
-  content: "";
-  width: 8px;
-  height: 8px;
-  border-radius: var(--radius-full);
-}
-.bcn-review__count[data-s="open"]:before {
-  background: var(--color-warning);
-}
-.bcn-review__count[data-s="addressed"]:before {
-  background: var(--color-info);
-}
-.bcn-review__count[data-s="resolved"]:before {
-  background: var(--color-success);
-}
-.bcn-review__groups {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-500);
-}
-.bcn-review__group {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-}
-.bcn-review__field {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-150);
-  margin: 0;
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  color: var(--color-text-tertiary);
-}
-.bcn-review__field .esa-icon {
-  color: var(--color-text-muted);
-}
-.bcn-review__list,
-.bcn-review__replies {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.bcn-review__item {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-  background: var(--color-surface);
-}
-.bcn-review__body {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150);
-}
-.bcn-review__meta {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-200);
-}
-.bcn-review__author {
-  font-size: 0.875rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-review__time {
-  font-size: 0.75rem;
-  color: var(--color-text-tertiary);
-}
-.bcn-review__tags {
-  display: inline-flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-150);
-  margin-left: auto;
-}
-.bcn-review__text {
-  margin: 0;
-  font-size: var(--type-size-200);
-  line-height: 1.55;
-  color: var(--color-text-secondary);
-}
-.bcn-review__replies {
-  margin-top: var(--spacing-200);
-  padding-left: var(--spacing-400);
-  border-left: 2px solid var(--color-border);
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
-}
-.bcn-review__reply {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: var(--spacing-200);
-}
-.bcn-review__node--reply .esa-avatar {
-  --_avatar-bg: var(--color-secondary);
-}
-.bcn-review__item + .bcn-review__item {
-  margin-top: var(--spacing-200);
-}
-.esa-button {
-  --_btn-height: var(--form-height-md, 40px);
-  --_btn-padding-x: var(--form-padding-x-md, 16px);
-  --_btn-font-size: var(--form-font-size-md, 14px);
-  --_btn-radius: var(--form-radius-md, 6px);
-  --_accent: var(--color-primary, #46a758);
-  --_accent-hover: var(--color-primary-hover, #3e9b4f);
-  --_on: var(--color-text-inverse, #ffffff);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button--sm {
-  --_btn-height: var(--form-height-sm, 32px);
-  --_btn-padding-x: var(--form-padding-x-sm, 12px);
-  --_btn-font-size: var(--form-font-size-sm, 12px);
-  --_btn-radius: var(--form-radius-sm, 4px);
-}
-.esa-button__native {
+.footer button {
+  flex: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  height: var(--_btn-height);
-  padding-inline: var(--_btn-padding-x);
-  border: 1px solid transparent;
-  border-radius: var(--_btn-radius);
-  font-size: var(--_btn-font-size);
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
-  text-decoration: none;
+  gap: 7px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
   cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
 }
-.esa-button--sm .esa-button__native {
-  height: auto;
-  padding-block: var(--spacing-150, 6px);
+.claude {
+  color: #fff;
+  border: 1px solid #d97757;
+  background: linear-gradient(180deg, #e0805f, #c25e3c);
+  box-shadow:
+    0 6px 18px -6px rgba(217, 119, 87, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
-.esa-button--appearance-outline .esa-button__native,
-.esa-button--appearance-dashed .esa-button__native {
-  background: transparent;
-  color: var(--_accent-text);
-  border-color: var(--_accent);
+.claude svg {
+  flex: none;
 }
-.esa-button--color-ghost .esa-button__native {
-  background: transparent;
-  color: var(--color-text-primary, #171717);
-  border-color: transparent;
+:host {
+  --_width: var(--side-dialog-width, 400px);
 }
-.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border, #e5e5e5);
+:host {
+  --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
+  --_popover-border: var(--popover-border-color, var(--color-border, #e5e5e5));
+  --_popover-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+  --_popover-radius: var(--popover-radius, var(--radius-200, 0.5rem));
+  --_popover-padding: var(--spacing-300, 0.75rem);
+  --_popover-arrow-size: 8px;
+  --_popover-color: var(--popover-color, var(--color-text-primary, #171717));
+  display: inline-block;
 }
-.esa-button__label {
-  white-space: nowrap;
-}
-.esa-button--color-primary {
-  --_accent-text: var(--color-primary-strong);
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: transparent;
-}
-.page-layout {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
-}
-.page-layout__container {
-  display: flex;
-  flex-direction: column;
-}
-.page-layout section {
-  width: 100%;
-}
-.breadcrumbs {
-  padding: var(--spacing-400) 0;
-}
-.breadcrumbs__items {
-  display: flex;
-  gap: var(--spacing-100);
-  align-items: center;
-  flex-wrap: wrap;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.breadcrumb-item {
-  color: var(--bcn-gray-600);
-  text-transform: capitalize;
-  font-size: 0.875rem;
-}
-a.breadcrumb-item {
-  text-decoration: none;
-}
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
-.page-layout__title-main {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.page-layout__title h1 {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  font-family: var(--font-decorative);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--type-size-500);
-  margin: 0;
-  color: var(--bcn-gray-1000);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
-}
-.page-layout__utilities {
-  display: flex;
-  gap: var(--spacing-200);
-}
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
+.esa-popover-anchor {
   position: relative;
+  display: inline-block;
 }
 ```
 
 ## Tokens
 | Token | Value | Tier |
 |---|---|---|
-| `--avatar-bg` | `hsl(200 45% 65%)` | component |
-| `--avatar-radius` | `9999px` | component |
-| `--avatar-size-md` | `40px` | component |
-| `--avatar-size-sm` | `28px` | component |
-| `--avatar-text-color` | `#fcfcfc` | component |
 | `--badge-bg` | `#005862` | component |
 | `--badge-height-md` | `28px` | component |
 | `--badge-height-sm` | `22px` | component |
@@ -6055,21 +6804,21 @@ a.breadcrumb-item {
 | `--bcn-helpbar-fg` | `rgba(255, 255, 255, .92)` | component |
 | `--bcn-helpbar-fg-muted` | `rgba(255, 255, 255, .72)` | component |
 | `--bcn-helpbar-hover-bg` | `rgba(255, 255, 255, .1)` | component |
-| `--collapsible-bg` | `#fcfcfc` | component |
-| `--collapsible-border-color` | `#dcdcdc` | component |
-| `--collapsible-padding-x` | `1rem` | component |
-| `--collapsible-radius` | `.5rem` | component |
-| `--collapsible-title-color` | `#3d3d3d` | component |
+| `--card-bg` | `#fcfcfc` | component |
+| `--card-border-color` | `#dcdcdc` | component |
+| `--card-footer-bg` | `#efefef` | component |
+| `--card-header-bg` | `transparent` | component |
+| `--card-header-border-color` | `#efefef` | component |
+| `--card-header-color` | `#3d3d3d` | component |
+| `--card-padding` | `1.5rem` | component |
+| `--card-radius` | `.5rem` | component |
 | `--color-accent` | `#f76b15` | semantic |
 | `--color-border` | `#dcdcdc` | semantic |
 | `--color-border-light` | `#efefef` | semantic |
-| `--color-info` | `#228be6` | semantic |
+| `--color-danger` | `#e5484d` | semantic |
 | `--color-primary` | `#005862` | semantic |
 | `--color-primary-hover` | `#00474f` | semantic |
-| `--color-primary-strong` | `#2a7e3b` | semantic |
-| `--color-secondary` | `#00918b` | semantic |
-| `--color-secondary-on-fill` | `#203c25` | semantic |
-| `--color-success` | `#2e7571` | semantic |
+| `--color-secondary-strong` | `#2a7e3b` | semantic |
 | `--color-surface` | `#fcfcfc` | semantic |
 | `--color-surface-sunken` | `#efefef` | semantic |
 | `--color-text-inverse` | `#fcfcfc` | semantic |
@@ -6081,7 +6830,7 @@ a.breadcrumb-item {
 | `--color-warning` | `#f59e0b` | semantic |
 | `--color-warning-on-fill` | `#4f3422` | semantic |
 | `--font-decorative` | `"Besley", serif` | component |
-| `--font-mono` | `"Roboto Mono", ui-monospace, monospace` | primitive |
+| `--font-display` | `"DM Sans", sans-serif` | primitive |
 | `--font-sans` | `"DM Sans", sans-serif` | primitive |
 | `--font-weight-bold` | `650` | primitive |
 | `--font-weight-medium` | `500` | primitive |
@@ -6091,7 +6840,6 @@ a.breadcrumb-item {
 | `--form-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` | component |
 | `--form-height-md` | `36px` | component |
 | `--form-height-sm` | `28px` | component |
-| `--form-label-color` | `#525252` | component |
 | `--form-padding-x-md` | `.75rem` | component |
 | `--form-padding-x-sm` | `.625rem` | component |
 | `--form-radius-md` | `.25rem` | component |
@@ -6102,17 +6850,22 @@ a.breadcrumb-item {
 | `--icon-size-sm` | `16px` | primitive |
 | `--icon-size-small` | `16px` | component |
 | `--icon-size-xs` | `14px` | primitive |
-| `--pill-bg` | `#efefef` | component |
-| `--pill-border-color` | `#efefef` | component |
-| `--pill-height-md` | `28px` | component |
-| `--pill-height-sm` | `22px` | component |
-| `--pill-radius` | `.25rem` | component |
-| `--pill-text-color` | `#3d3d3d` | component |
+| `--letter-spacing-normal` | `.01em` | primitive |
+| `--letter-spacing-tight` | `-.01em` | primitive |
+| `--line-height-normal` | `1.6` | primitive |
+| `--line-height-tight` | `1.3` | primitive |
+| `--popover-bg` | `#fcfcfc` | component |
+| `--popover-border-color` | `#dcdcdc` | component |
+| `--popover-color` | `#3d3d3d` | component |
+| `--popover-radius` | `.5rem` | component |
 | `--radius-100` | `.25rem` | primitive |
 | `--radius-200` | `.5rem` | primitive |
 | `--radius-300` | `.5rem` | primitive |
 | `--radius-400` | `.75rem` | primitive |
 | `--radius-full` | `9999px` | primitive |
+| `--shadow-300` | `0 6px 24px -6px rgba(0, 0, 0, .07)` | primitive |
+| `--side-dialog-width` | `400px` | component |
+| `--sidebar-width` | `280px` | semantic |
 | `--spacing-050` | `.125rem` | primitive |
 | `--spacing-100` | `.25rem` | primitive |
 | `--spacing-150` | `.375rem` | primitive |
@@ -6131,6 +6884,8 @@ a.breadcrumb-item {
 | `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
 | `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
 | `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` | primitive |
+| `--type-size-600` | `clamp(1.375rem, 1.2rem + .88vw, 1.875rem)` | primitive |
+| `--type-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | primitive |
 
 ---
 _Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._

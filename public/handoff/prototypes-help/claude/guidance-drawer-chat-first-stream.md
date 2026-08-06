@@ -588,13 +588,45 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
         class="bcn-gd-row"
         data-article-id="reading-critical-now"
         data-kind="howto"
-        data-title="How “Most critical right now” is chosen"
-        data-summary="Why an item earns a spot at the top of the dashboard."
+        data-title="How the dashboard decides what needs attention"
+        data-summary="Urgency comes from action due dates, shown in the zone that owns the work."
       >
         <span class="bcn-gd-row__text">
-          <span class="bcn-gd-row__title">How “Most critical right now” is chosen</span>
+          <span class="bcn-gd-row__title"
+            >How the dashboard decides what needs attention</span
+          >
           <span class="bcn-gd-row__sub"
-            >Why an item earns a spot at the top of the dashboard.</span
+            >Urgency comes from action due dates, shown in the zone that owns the
+            work.</span
+          >
+        </span>
+        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+          >
+            <path d="m9 18 6-6-6-6"></path>
+          </svg>
+        </span></button
+      ><button
+        type="button"
+        class="bcn-gd-row"
+        data-article-id="reading-project-timeline"
+        data-kind="howto"
+        data-title="Reading the project timeline"
+        data-summary="The next 30, 60, or 90 days of due dates, seasons, and milestones."
+      >
+        <span class="bcn-gd-row__text">
+          <span class="bcn-gd-row__title">Reading the project timeline</span>
+          <span class="bcn-gd-row__sub"
+            >The next 30, 60, or 90 days of due dates, seasons, and milestones.</span
           >
         </span>
         <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -1148,6 +1180,51 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
 
 ## Styles
 ```css
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(
+    --icon-button-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -1488,51 +1565,6 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
   text-decoration: underline;
   text-underline-offset: 2px;
   cursor: pointer;
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(
-    --icon-button-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
 }
 ```
 

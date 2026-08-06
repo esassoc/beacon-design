@@ -3276,13 +3276,42 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           class="bcn-gd-row"
           data-article-id="reading-critical-now"
           data-kind="howto"
-          data-title="How “Most critical right now” is chosen"
-          data-summary="Why an item earns a spot at the top of the dashboard."
+          data-title="How the dashboard decides what needs attention"
+          data-summary="Urgency comes from action due dates, shown in the zone that owns the work."
         >
           <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">How “Most critical right now” is chosen</span>
+            <span class="bcn-gd-row__title">How the dashboard decides what needs attention</span>
             <span class="bcn-gd-row__sub"
-              >Why an item earns a spot at the top of the dashboard.</span
+              >Urgency comes from action due dates, shown in the zone that owns the work.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="reading-project-timeline"
+          data-kind="howto"
+          data-title="Reading the project timeline"
+          data-summary="The next 30, 60, or 90 days of due dates, seasons, and milestones."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Reading the project timeline</span>
+            <span class="bcn-gd-row__sub"
+              >The next 30, 60, or 90 days of due dates, seasons, and milestones.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -3773,7 +3802,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   <template data-gd-aldo-avatar=""
     ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-omctboch="">
       <span class="bcn-aldo-mark__glyph" data-astro-cid-omctboch="">
-        <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-6mqbuw4b="">
+        <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-zp3mhfgs="">
           <svg
             width="14"
             height="14"
@@ -3784,7 +3813,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             stroke-linecap="round"
             stroke-linejoin="round"
             focusable="false"
-            data-astro-cid-6mqbuw4b=""
+            data-astro-cid-zp3mhfgs=""
           >
             <path
               d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
@@ -4324,15 +4353,21 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             </p>
             <ol class="bcn-help-article__steps">
               <li class="bcn-help-article__step type-body">
-                Open any component and click the star in its header.
+                Star a component from the all-components list, or from the star in its own header.
               </li>
               <li class="bcn-help-article__step type-body">
-                Starred components appear on the project dashboard in the Components section.
+                Starred components appear on the project dashboard in the Components section, below
+                the project-wide row.
               </li>
               <li class="bcn-help-article__step type-body">
                 Un-star from either place; the component itself is unaffected.
               </li>
             </ol>
+            <p class="bcn-help-article__p type-body">
+              Stars are yours alone — starring a component does not change what anyone else sees.
+              The Components section always leads with a project-wide row for actions that belong to
+              the project rather than to any one component.
+            </p>
           </div>
           <nav class="bcn-help-article__related" aria-label="Related articles">
             <span class="bcn-help-article__related-label">Related</span>
@@ -4348,7 +4383,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <a
                   class="bcn-help-article__related-link"
                   href="/beacon-design/prototypes/help#article-reading-critical-now"
-                  >How “Most critical right now” is chosen</a
+                  >How the dashboard decides what needs attention</a
                 >
               </li>
             </ul>
@@ -4359,20 +4394,26 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         class="bcn-gd-article__panel"
         data-article-body="reading-critical-now"
         data-kind="howto"
-        data-title="How “Most critical right now” is chosen"
+        data-title="How the dashboard decides what needs attention"
         hidden=""
       >
         <article id="article-reading-critical-now" class="bcn-help-article">
           <div class="bcn-help-article__body">
             <p class="bcn-help-article__p type-body">
-              The dashboard’s critical surface is deliberately small. It elevates only items that
-              are project-critical today — an overdue action on a critical-path component, a lapsed
-              survey blocking ground disturbance, a report due to an agency this week.
+              Everything urgent on the dashboard is an action with a due date. Each action belongs
+              to one of the three zones by its type — tracking, monitoring, or reporting — so a
+              lapsed survey is a monitoring action and an agency submittal is a reporting action.
+              There is no separate list of critical items to maintain.
             </p>
             <p class="bcn-help-article__p type-body">
-              An item leaves the surface when its underlying condition clears — the work is
-              completed, the report is filed, or a review resolves the block. There is nothing to
-              configure; the surface reads the same signals shown in each zone.
+              The Tracking, Monitoring, and Reporting modules each count their own overdue actions
+              and the ones due within the next fourteen days, then list the most urgent of them. Red
+              means past due; amber means due soon. Clicking any of them opens the action itself.
+            </p>
+            <p class="bcn-help-article__p type-body">
+              An action leaves the surface when it is completed or its due date moves. There is
+              nothing to configure — the modules read the same action records you work with in each
+              zone.
             </p>
           </div>
           <nav class="bcn-help-article__related" aria-label="Related articles">
@@ -4388,8 +4429,61 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <li>
                 <a
                   class="bcn-help-article__related-link"
-                  href="/beacon-design/prototypes/help#article-site-clearance-go-no-go"
-                  >Using Site Clearance go/no-go</a
+                  href="/beacon-design/prototypes/help#article-reading-project-timeline"
+                  >Reading the project timeline</a
+                >
+              </li>
+            </ul>
+          </nav>
+        </article>
+      </div>
+      <div
+        class="bcn-gd-article__panel"
+        data-article-body="reading-project-timeline"
+        data-kind="howto"
+        data-title="Reading the project timeline"
+        hidden=""
+      >
+        <article id="article-reading-project-timeline" class="bcn-help-article">
+          <div class="bcn-help-article__body">
+            <p class="bcn-help-article__p type-body">
+              The timeline across the top of the dashboard plots three things on one date axis:
+              action due dates, season windows, and project milestones. It opens a week before today
+              so anything already overdue stays in view.
+            </p>
+            <ol class="bcn-help-article__steps">
+              <li class="bcn-help-article__step type-body">
+                Switch the window between 30, 60, and 90 days to look further ahead.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Click any mark — a dot, a season bar, or a milestone — to pin its details open.
+              </li>
+              <li class="bcn-help-article__step type-body">
+                Seasons show the ones starting or ending inside the window first; use “Show all”
+                when a project carries many.
+              </li>
+            </ol>
+            <p class="bcn-help-article__p type-body">
+              Action dots follow the same colors as the modules: red for past due, amber for due
+              soon, gray for later. Milestones are shown in blue because they mark schedule rather
+              than urgency.
+            </p>
+          </div>
+          <nav class="bcn-help-article__related" aria-label="Related articles">
+            <span class="bcn-help-article__related-label">Related</span>
+            <ul class="bcn-help-article__related-list">
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-reading-critical-now"
+                  >How the dashboard decides what needs attention</a
+                >
+              </li>
+              <li>
+                <a
+                  class="bcn-help-article__related-link"
+                  href="/beacon-design/prototypes/help#article-starring-components"
+                  >Starring components on your dashboard</a
                 >
               </li>
             </ul>
@@ -4662,7 +4756,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <a
                   class="bcn-help-article__related-link"
                   href="/beacon-design/prototypes/help#article-reading-critical-now"
-                  >How “Most critical right now” is chosen</a
+                  >How the dashboard decides what needs attention</a
                 >
               </li>
             </ul>
@@ -5258,7 +5352,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </esa-side-dialog>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnGuidanceDrawer.astro_astro_type_script_index_0_lang.z_ZYbuXf.js"
+    src="/beacon-design/_astro/BcnGuidanceDrawer.astro_astro_type_script_index_0_lang.CSA-_RD7.js"
   ></script>
 </div>
 ```
@@ -5368,58 +5462,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --type-size-500: clamp(1.125rem, 0.98rem + 0.72vw, 1.5rem);
 }
 
-:host {
-  --_field-padding-y: var(--form-padding-y-md, 0.5rem);
-  --_field-padding-x: var(--form-padding-x-md, 0.75rem);
-  --_field-font-size: var(--form-font-size-md, 0.9375rem);
-  --_field-height: var(--form-height-md, 40px);
-  --_field-radius: var(--form-radius-md, 0.5rem);
-  --_field-border-color: var(--form-border-color, #e5e5e5);
-  --_label-font-size: var(--type-size-200, 0.9375rem);
-  display: block;
-  font-family: var(--font-sans, sans-serif);
-}
-.field {
-  display: flex;
-  flex-direction: column;
-}
-.control {
-  display: flex;
-  align-items: stretch;
-  height: var(--_field-height);
-  background: var(--form-bg, #fff);
-  border: var(--form-border-width, 1px) solid var(--_field-border-color);
-  border-radius: var(--_field-radius);
-  box-sizing: border-box;
-  overflow: hidden;
-  transition:
-    border-color var(--transition-fast, 150ms ease),
-    box-shadow var(--transition-fast, 150ms ease);
-}
-.input {
-  flex: 1 1 auto;
-  min-width: 0;
-  width: 100%;
-  height: 100%;
-  padding: var(--_field-padding-y) var(--_field-padding-x);
-  font-family: inherit;
-  font-size: var(--_field-font-size);
-  color: var(--form-text-color, #171717);
-  background: transparent;
-  border: none;
-  outline: none;
-  box-sizing: border-box;
-}
-.input::placeholder {
-  color: var(--form-placeholder-color, #737373);
-}
-:host {
-  display: inline-block;
-}
-.esa-tooltip-anchor {
-  position: relative;
-  display: inline-flex;
-}
 html,
 .modern-layout__content {
   scroll-behavior: smooth;
@@ -5588,282 +5630,6 @@ html,
 .bcn-settings-shell__content[data-esa-surface] .esa-card__header .esa-card__subtitle {
   color: color-mix(in srgb, #ffffff 82%, transparent);
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.bcn-flag-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
-.bcn-flag-row {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  column-gap: var(--spacing-400);
-  row-gap: var(--spacing-100);
-  align-items: center;
-  padding-block: var(--spacing-250);
-}
-.bcn-flag-row__switch {
-  grid-column: 1;
-  grid-row: 1;
-  display: flex;
-  align-items: center;
-}
-.bcn-flag-row__name {
-  grid-column: 2;
-  grid-row: 1;
-}
-.bcn-flag-row__name {
-  margin: 0;
-  line-height: 1.4;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-flag-row__desc {
-  grid-column: 2;
-  grid-row: 2;
-}
-.bcn-flag-row__desc {
-  margin: 0;
-  line-height: 1.4;
-  color: var(--color-text-secondary);
-}
-.bcn-flag-list > li + li {
-  border-top: 1px solid var(--color-border-light);
-}
-.bcn-flag-row__meta {
-  grid-column: 2;
-  grid-row: 3;
-}
-.bcn-flag-row__meta {
-  margin: 0;
-  color: var(--color-text-tertiary);
-}
-.bcn-flag-row esa-switch-toggle::part(label) {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-.esa-card {
-  --_card-bg: var(--card-bg, var(--color-surface, #ffffff));
-  --_card-border: var(--card-border-color, var(--color-border, #e5e5e5));
-  --_card-radius: var(--card-radius, var(--radius-300, 0.5rem));
-  --_card-padding: var(--card-padding, var(--spacing-500, 1.5rem));
-  --_card-header-bg: var(--card-header-bg, transparent);
-  --_card-header-color: var(--card-header-color, var(--color-text-primary, #171717));
-  --_card-header-border: var(--card-header-border-color, var(--color-border-light, #efefef));
-  display: block;
-  background: var(--_card-bg);
-  border: 1px solid var(--_card-border);
-  border-radius: var(--_card-radius);
-  overflow: hidden;
-}
-.esa-card--outlined {
-  --_card-border: var(--color-border, #e5e5e5);
-}
-.esa-card__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--spacing-400, 1rem) var(--_card-padding);
-  background: var(--_card-header-bg);
-  color: var(--_card-header-color);
-  border-bottom: 1px solid var(--_card-header-border);
-  min-height: 56px;
-}
-.esa-card__header-content {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300, 0.75rem);
-}
-.esa-card__titles {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-050, 0.125rem);
-}
-.esa-card__title {
-  font-size: var(--type-size-250, 1.0625rem);
-  font-weight: 600;
-  margin: 0;
-  color: inherit;
-  font-family: var(--font-sans, "DM Sans", sans-serif);
-}
-.esa-card__subtitle {
-  font-size: var(--type-size-150, 0.8125rem);
-  color: var(--color-text-secondary, #525252);
-  margin: 0;
-}
-.esa-card__body {
-  padding: var(--_card-padding);
-}
-.page-layout {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
-}
-.page-layout__container {
-  display: flex;
-  flex-direction: column;
-}
-.page-layout section {
-  width: 100%;
-}
-.breadcrumbs {
-  padding: var(--spacing-400) 0;
-}
-.breadcrumbs__items {
-  display: flex;
-  gap: var(--spacing-100);
-  align-items: center;
-  flex-wrap: wrap;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.breadcrumb-item {
-  color: var(--bcn-gray-600);
-  text-transform: capitalize;
-  font-size: 0.875rem;
-}
-a.breadcrumb-item {
-  text-decoration: none;
-}
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
-.page-layout__title-main {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.page-layout__title h1 {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  font-family: var(--font-decorative);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--type-size-500);
-  margin: 0;
-  color: var(--bcn-gray-1000);
-}
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
-  position: relative;
-}
-:host {
-  --_width: var(--side-dialog-width, 400px);
-}
-:host {
-  --_track-w: 40px;
-  --_track-h: 22px;
-  --_thumb: 18px;
-  --_bg-off: var(--switch-toggle-track-bg, var(--color-border-strong, #d4d4d4));
-  --_bg-on: var(--switch-toggle-track-bg-checked, var(--color-primary, #43608a));
-  --_thumb-color: var(--switch-toggle-thumb-bg, var(--color-surface, #fff));
-  display: inline-block;
-}
-:host([size="sm"]) {
-  --_track-w: 32px;
-  --_track-h: 18px;
-  --_thumb: 14px;
-}
-.root {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-200, 0.5rem);
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  color: var(--switch-toggle-label-color, var(--color-text-primary, #171717));
-  cursor: pointer;
-}
-.track {
-  position: relative;
-  flex: none;
-  width: var(--_track-w);
-  height: var(--_track-h);
-  border-radius: var(--radius-full, 9999px);
-  background: var(--_bg-off);
-  transition: background var(--transition-fast, 150ms ease);
-}
-:host([checked]) .track {
-  background: var(--_bg-on);
-}
-.thumb {
-  position: absolute;
-  top: 50%;
-  left: 2px;
-  width: var(--_thumb);
-  height: var(--_thumb);
-  transform: translateY(-50%);
-  border-radius: var(--radius-full, 9999px);
-  background: var(--_thumb-color);
-  box-shadow: var(--shadow-50, 0 1px 4px rgba(0, 0, 0, 0.2));
-  transition: left var(--transition-fast, 150ms ease);
-}
-:host([checked]) .thumb {
-  left: calc(var(--_track-w) - var(--_thumb) - 2px);
-}
-.label {
-  font-size: var(--type-size-200, 0.9375rem);
-  line-height: var(--line-height-normal, 1.6);
-}
 *,
 *:before,
 *:after {
@@ -5948,18 +5714,49 @@ img {
   letter-spacing: var(--letter-spacing-normal);
 }
 :host {
-  --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
-  --_popover-border: var(--popover-border-color, var(--color-border, #e5e5e5));
-  --_popover-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
-  --_popover-radius: var(--popover-radius, var(--radius-200, 0.5rem));
-  --_popover-padding: var(--spacing-300, 0.75rem);
-  --_popover-arrow-size: 8px;
-  --_popover-color: var(--popover-color, var(--color-text-primary, #171717));
-  display: inline-block;
+  --_field-padding-y: var(--form-padding-y-md, 0.5rem);
+  --_field-padding-x: var(--form-padding-x-md, 0.75rem);
+  --_field-font-size: var(--form-font-size-md, 0.9375rem);
+  --_field-height: var(--form-height-md, 40px);
+  --_field-radius: var(--form-radius-md, 0.5rem);
+  --_field-border-color: var(--form-border-color, #e5e5e5);
+  --_label-font-size: var(--type-size-200, 0.9375rem);
+  display: block;
+  font-family: var(--font-sans, sans-serif);
 }
-.esa-popover-anchor {
-  position: relative;
-  display: inline-block;
+.field {
+  display: flex;
+  flex-direction: column;
+}
+.control {
+  display: flex;
+  align-items: stretch;
+  height: var(--_field-height);
+  background: var(--form-bg, #fff);
+  border: var(--form-border-width, 1px) solid var(--_field-border-color);
+  border-radius: var(--_field-radius);
+  box-sizing: border-box;
+  overflow: hidden;
+  transition:
+    border-color var(--transition-fast, 150ms ease),
+    box-shadow var(--transition-fast, 150ms ease);
+}
+.input {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  padding: var(--_field-padding-y) var(--_field-padding-x);
+  font-family: inherit;
+  font-size: var(--_field-font-size);
+  color: var(--form-text-color, #171717);
+  background: transparent;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+.input::placeholder {
+  color: var(--form-placeholder-color, #737373);
 }
 :host {
   all: initial;
@@ -6168,6 +5965,87 @@ img {
 }
 .claude svg {
   flex: none;
+}
+:host {
+  --_width: var(--side-dialog-width, 400px);
+}
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
+  box-sizing: border-box;
+}
+.page-layout__container {
+  display: flex;
+  flex-direction: column;
+}
+.page-layout section {
+  width: 100%;
+}
+.breadcrumbs {
+  padding: var(--spacing-400) 0;
+}
+.breadcrumbs__items {
+  display: flex;
+  gap: var(--spacing-100);
+  align-items: center;
+  flex-wrap: wrap;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.breadcrumb-item {
+  color: var(--bcn-gray-600);
+  text-transform: capitalize;
+  font-size: 0.875rem;
+}
+a.breadcrumb-item {
+  text-decoration: none;
+}
+.page-layout__title {
+  border-bottom: 1px solid var(--bcn-gray-200);
+  padding: var(--spacing-500) 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.page-layout__title-main {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+.page-layout__title h1 {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  font-family: var(--font-decorative);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--type-size-500);
+  margin: 0;
+  color: var(--bcn-gray-1000);
+}
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
+  position: relative;
+}
+:host {
+  --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
+  --_popover-border: var(--popover-border-color, var(--color-border, #e5e5e5));
+  --_popover-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+  --_popover-radius: var(--popover-radius, var(--radius-200, 0.5rem));
+  --_popover-padding: var(--spacing-300, 0.75rem);
+  --_popover-arrow-size: 8px;
+  --_popover-color: var(--popover-color, var(--color-text-primary, #171717));
+  display: inline-block;
+}
+.esa-popover-anchor {
+  position: relative;
+  display: inline-block;
 }
 .modern-layout {
   display: flex;
@@ -6942,6 +6820,222 @@ img {
 }
 .bcn-gd-article__panel[hidden] {
   display: none;
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.bcn-flag-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.bcn-flag-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--spacing-400);
+  row-gap: var(--spacing-100);
+  align-items: center;
+  padding-block: var(--spacing-250);
+}
+.bcn-flag-row__switch {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+}
+.bcn-flag-row__name {
+  grid-column: 2;
+  grid-row: 1;
+}
+.bcn-flag-row__name {
+  margin: 0;
+  line-height: 1.4;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-flag-row__desc {
+  grid-column: 2;
+  grid-row: 2;
+}
+.bcn-flag-row__desc {
+  margin: 0;
+  line-height: 1.4;
+  color: var(--color-text-secondary);
+}
+.bcn-flag-list > li + li {
+  border-top: 1px solid var(--color-border-light);
+}
+.bcn-flag-row__meta {
+  grid-column: 2;
+  grid-row: 3;
+}
+.bcn-flag-row__meta {
+  margin: 0;
+  color: var(--color-text-tertiary);
+}
+.bcn-flag-row esa-switch-toggle::part(label) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.esa-card {
+  --_card-bg: var(--card-bg, var(--color-surface, #ffffff));
+  --_card-border: var(--card-border-color, var(--color-border, #e5e5e5));
+  --_card-radius: var(--card-radius, var(--radius-300, 0.5rem));
+  --_card-padding: var(--card-padding, var(--spacing-500, 1.5rem));
+  --_card-header-bg: var(--card-header-bg, transparent);
+  --_card-header-color: var(--card-header-color, var(--color-text-primary, #171717));
+  --_card-header-border: var(--card-header-border-color, var(--color-border-light, #efefef));
+  display: block;
+  background: var(--_card-bg);
+  border: 1px solid var(--_card-border);
+  border-radius: var(--_card-radius);
+  overflow: hidden;
+}
+.esa-card--outlined {
+  --_card-border: var(--color-border, #e5e5e5);
+}
+.esa-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-400, 1rem) var(--_card-padding);
+  background: var(--_card-header-bg);
+  color: var(--_card-header-color);
+  border-bottom: 1px solid var(--_card-header-border);
+  min-height: 56px;
+}
+.esa-card__header-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300, 0.75rem);
+}
+.esa-card__titles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050, 0.125rem);
+}
+.esa-card__title {
+  font-size: var(--type-size-250, 1.0625rem);
+  font-weight: 600;
+  margin: 0;
+  color: inherit;
+  font-family: var(--font-sans, "DM Sans", sans-serif);
+}
+.esa-card__subtitle {
+  font-size: var(--type-size-150, 0.8125rem);
+  color: var(--color-text-secondary, #525252);
+  margin: 0;
+}
+.esa-card__body {
+  padding: var(--_card-padding);
+}
+:host {
+  --_track-w: 40px;
+  --_track-h: 22px;
+  --_thumb: 18px;
+  --_bg-off: var(--switch-toggle-track-bg, var(--color-border-strong, #d4d4d4));
+  --_bg-on: var(--switch-toggle-track-bg-checked, var(--color-primary, #43608a));
+  --_thumb-color: var(--switch-toggle-thumb-bg, var(--color-surface, #fff));
+  display: inline-block;
+}
+:host([size="sm"]) {
+  --_track-w: 32px;
+  --_track-h: 18px;
+  --_thumb: 14px;
+}
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-200, 0.5rem);
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: var(--switch-toggle-label-color, var(--color-text-primary, #171717));
+  cursor: pointer;
+}
+.track {
+  position: relative;
+  flex: none;
+  width: var(--_track-w);
+  height: var(--_track-h);
+  border-radius: var(--radius-full, 9999px);
+  background: var(--_bg-off);
+  transition: background var(--transition-fast, 150ms ease);
+}
+:host([checked]) .track {
+  background: var(--_bg-on);
+}
+.thumb {
+  position: absolute;
+  top: 50%;
+  left: 2px;
+  width: var(--_thumb);
+  height: var(--_thumb);
+  transform: translateY(-50%);
+  border-radius: var(--radius-full, 9999px);
+  background: var(--_thumb-color);
+  box-shadow: var(--shadow-50, 0 1px 4px rgba(0, 0, 0, 0.2));
+  transition: left var(--transition-fast, 150ms ease);
+}
+:host([checked]) .thumb {
+  left: calc(var(--_track-w) - var(--_thumb) - 2px);
+}
+.label {
+  font-size: var(--type-size-200, 0.9375rem);
+  line-height: var(--line-height-normal, 1.6);
+}
+:host {
+  display: inline-block;
+}
+.esa-tooltip-anchor {
+  position: relative;
+  display: inline-flex;
 }
 ```
 

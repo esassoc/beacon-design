@@ -13,7 +13,7 @@
 // Capture runs against `preview` (production output) per the handoff README.
 import { readFileSync, existsSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
 import { spawn, spawnSync } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { captureCurated } from './lib/capture-curated.mjs';
 
@@ -65,8 +65,16 @@ if (only.length) {
   targets = targets.filter((t) => only.includes(t.slug));
 }
 
+// On Windows, `npx` resolves to the `npx.cmd` shim. node's spawn/spawnSync can't
+// launch a .cmd directly: without `shell: true` it fails with ENOENT (the plain
+// name) or EINVAL (the .cmd name) — in both cases the process never starts, so
+// no build output ever appears before the throw below. Only .cmd files need the
+// shell; plain executables (node, git, …) don't and shouldn't pay for one.
+const WIN_SHELL = process.platform === 'win32';
+
 const run = (cmd, args, extraEnv = {}) => {
-  const r = spawnSync(cmd, args, { stdio: 'inherit', env: { ...process.env, ...extraEnv } });
+  const r = spawnSync(cmd, args, { stdio: 'inherit', shell: WIN_SHELL, env: { ...process.env, ...extraEnv } });
+  if (r.error) throw r.error;
   if (r.status !== 0) throw new Error(`${cmd} ${args.join(' ')} → exit ${r.status}`);
 };
 async function waitForServer(url, tries = 60) {
@@ -146,6 +154,7 @@ run('npx', ['astro', 'build'], { NODE_ENV: 'production' });
 const preview = spawn('npx', ['astro', 'preview', '--port', String(PORT)], {
   env: { ...process.env, NODE_ENV: 'production' },
   stdio: 'ignore',
+  shell: WIN_SHELL,
 });
 
 try {
@@ -157,7 +166,8 @@ try {
 
     if (existsSync(specPath)) {
       console.log(`\nhandoff:all — capturing ${slug} (curated)  →  ${url}`);
-      const spec = (await import(specPath)).default;
+      // A raw Windows path (C:\...) isn't a valid ESM specifier — import() needs a file:// URL there.
+      const spec = (await import(pathToFileURL(specPath).href)).default;
       const { theme, sections } = await captureCurated(url, spec.sections, tierIndex, classifyTokens);
       // Merge authored guidance onto each captured section by label.
       const byLabel = new Map(spec.sections.map((s) => [s.label, s]));

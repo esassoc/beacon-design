@@ -207,46 +207,6 @@ A quiet list of the project's own data — Project Info, Species, Milestones, Co
   color: var(--color-text-tertiary);
   flex: none;
 }
-.bcn-lrc {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
-.bcn-lrc__row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-300);
-  padding: var(--spacing-250) 0;
-  text-decoration: none;
-  color: inherit;
-}
-.bcn-lrc__label {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-primary);
-  min-width: 0;
-}
-.bcn-lrc__right {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  flex-shrink: 0;
-}
-.bcn-lrc li + li .bcn-lrc__row {
-  border-top: 1px solid var(--color-border-light);
-}
-.bcn-lrc__meta {
-  font-size: var(--type-size-150);
-  color: var(--color-text-tertiary);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-.bcn-mod__link .esa-icon {
-  color: var(--color-text-muted);
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
@@ -346,6 +306,46 @@ A quiet list of the project's own data — Project Info, Species, Milestones, Co
 }
 .esa-icon-button--sm {
   --_ib-size: var(--form-height-sm, 32px);
+}
+.bcn-lrc {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.bcn-lrc__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-300);
+  padding: var(--spacing-250) 0;
+  text-decoration: none;
+  color: inherit;
+}
+.bcn-lrc__label {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  min-width: 0;
+}
+.bcn-lrc__right {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  flex-shrink: 0;
+}
+.bcn-lrc li + li .bcn-lrc__row {
+  border-top: 1px solid var(--color-border-light);
+}
+.bcn-lrc__meta {
+  font-size: var(--type-size-150);
+  color: var(--color-text-tertiary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.bcn-mod__link .esa-icon {
+  color: var(--color-text-muted);
 }
 ```
 

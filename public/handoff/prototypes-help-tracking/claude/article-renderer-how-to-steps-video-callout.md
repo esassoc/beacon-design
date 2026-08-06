@@ -235,9 +235,6 @@ The shared renderer for ONE article, captured on the dataset's richest body so e
   line-height: var(--line-height-normal);
   letter-spacing: var(--letter-spacing-normal);
 }
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -424,6 +421,9 @@ The shared renderer for ONE article, captured on the dataset's richest body so e
   font-size: 0.9375rem;
   color: var(--color-text-link);
   text-decoration: none;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
 }
 ```
 

@@ -88,6 +88,47 @@ The Notifications rail module: rule-phrasing trigger rows (Coming up / Due / Pas
 
 ## Styles
 ```css
+.bcn-lineage__icon .esa-icon {
+  --_icon-size: 14px;
+}
+.bcn-triggers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+.bcn-trigger-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-250);
+  font-size: var(--form-font-size-md);
+}
+.bcn-trigger-row .esa-icon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+.bcn-trigger-row__name {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+}
+.bcn-trigger-row__rule {
+  margin-left: auto;
+  color: var(--color-text-secondary);
+  text-align: right;
+}
+.bcn-context__doc .esa-icon {
+  color: var(--color-text-tertiary);
+}
+.bcn-note .esa-icon {
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.bcn-ntoggle__title .esa-icon {
+  color: var(--color-text-primary);
+}
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
   --_ib-bg-hover: var(
@@ -136,13 +177,8 @@ The Notifications rail module: rule-phrasing trigger rows (Coming up / Due / Pas
 .esa-icon-link__label {
   display: inline-block;
 }
-.bcn-reqref__key .esa-icon {
-  --_icon-size: 11px;
-  color: var(--color-text-tertiary);
-  flex-shrink: 0;
-}
-.bcn-reqref__footer .esa-icon {
-  --_icon-size: 13px;
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
 }
 .bcn-search-trigger .esa-icon {
   flex: none;
@@ -180,53 +216,17 @@ The Notifications rail module: rule-phrasing trigger rows (Coming up / Due / Pas
   color: var(--color-text-tertiary);
   flex: none;
 }
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.bcn-lineage__icon .esa-icon {
-  --_icon-size: 14px;
-}
-.bcn-triggers {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
-}
-.bcn-trigger-row {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-250);
-  font-size: var(--form-font-size-md);
-}
-.bcn-trigger-row .esa-icon {
-  color: var(--color-primary);
-  flex-shrink: 0;
-}
-.bcn-trigger-row__name {
-  color: var(--color-text-primary);
-  font-weight: var(--font-weight-medium);
-}
-.bcn-trigger-row__rule {
-  margin-left: auto;
-  color: var(--color-text-secondary);
-  text-align: right;
-}
-.bcn-context__doc .esa-icon {
-  color: var(--color-text-tertiary);
-}
-.bcn-note .esa-icon {
-  color: var(--color-primary);
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-.bcn-ntoggle__title .esa-icon {
-  color: var(--color-text-primary);
-}
 .esa-collapsible__summary .esa-icon {
   flex-shrink: 0;
   color: var(--color-text-secondary, #404040);
+}
+.bcn-reqref__key .esa-icon {
+  --_icon-size: 11px;
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+}
+.bcn-reqref__footer .esa-icon {
+  --_icon-size: 13px;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));

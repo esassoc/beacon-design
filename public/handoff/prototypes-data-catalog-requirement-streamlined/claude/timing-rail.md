@@ -116,9 +116,6 @@ The Timing rail module (esa-collapsible): a single one-time deadline rule ("14 d
 .esa-icon-link__label {
   display: inline-block;
 }
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
 .esa-collapsible {
   border: 1px solid var(--collapsible-border-color, var(--color-border, #e5e5e5));
   border-radius: var(--collapsible-radius, var(--radius-300, 0.5rem));
@@ -160,29 +157,8 @@ The Timing rail module (esa-collapsible): a single one-time deadline rule ("14 d
   padding: 0 var(--collapsible-padding-x, var(--spacing-400, 1rem))
     var(--spacing-400, 1rem);
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
 }
 .bcn-search-trigger .esa-icon {
   flex: none;
@@ -241,6 +217,30 @@ The Timing rail module (esa-collapsible): a single one-time deadline rule ("14 d
 }
 .bcn-ntoggle__title .esa-icon {
   color: var(--color-text-primary);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
 }
 .bcn-reqref__key .esa-icon {
   --_icon-size: 11px;

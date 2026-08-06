@@ -562,16 +562,22 @@ A full article read WITHOUT leaving the conversation: a SECOND esa-side-dialog s
           </p>
           <ol class="bcn-help-article__steps">
             <li class="bcn-help-article__step type-body">
-              Open any component and click the star in its header.
+              Star a component from the all-components list, or from the star in its own
+              header.
             </li>
             <li class="bcn-help-article__step type-body">
               Starred components appear on the project dashboard in the Components
-              section.
+              section, below the project-wide row.
             </li>
             <li class="bcn-help-article__step type-body">
               Un-star from either place; the component itself is unaffected.
             </li>
           </ol>
+          <p class="bcn-help-article__p type-body">
+            Stars are yours alone — starring a component does not change what anyone else
+            sees. The Components section always leads with a project-wide row for actions
+            that belong to the project rather than to any one component.
+          </p>
         </div>
         <nav class="bcn-help-article__related" aria-label="Related articles">
           <span class="bcn-help-article__related-label">Related</span>
@@ -587,7 +593,7 @@ A full article read WITHOUT leaving the conversation: a SECOND esa-side-dialog s
               <a
                 class="bcn-help-article__related-link"
                 href="/beacon-design/prototypes/help#article-reading-critical-now"
-                >How “Most critical right now” is chosen</a
+                >How the dashboard decides what needs attention</a
               >
             </li>
           </ul>
@@ -598,21 +604,28 @@ A full article read WITHOUT leaving the conversation: a SECOND esa-side-dialog s
       class="bcn-gd-article__panel"
       data-article-body="reading-critical-now"
       data-kind="howto"
-      data-title="How “Most critical right now” is chosen"
+      data-title="How the dashboard decides what needs attention"
       hidden=""
     >
       <article id="article-reading-critical-now" class="bcn-help-article">
         <div class="bcn-help-article__body">
           <p class="bcn-help-article__p type-body">
-            The dashboard’s critical surface is deliberately small. It elevates only items
-            that are project-critical today — an overdue action on a critical-path
-            component, a lapsed survey blocking ground disturbance, a report due to an
-            agency this week.
+            Everything urgent on the dashboard is an action with a due date. Each action
+            belongs to one of the three zones by its type — tracking, monitoring, or
+            reporting — so a lapsed survey is a monitoring action and an agency submittal
+            is a reporting action. There is no separate list of critical items to
+            maintain.
           </p>
           <p class="bcn-help-article__p type-body">
-            An item leaves the surface when its underlying condition clears — the work is
-            completed, the report is filed, or a review resolves the block. There is
-            nothing to configure; the surface reads the same signals shown in each zone.
+            The Tracking, Monitoring, and Reporting modules each count their own overdue
+            actions and the ones due within the next fourteen days, then list the most
+            urgent of them. Red means past due; amber means due soon. Clicking any of them
+            opens the action itself.
+          </p>
+          <p class="bcn-help-article__p type-body">
+            An action leaves the surface when it is completed or its due date moves. There
+            is nothing to configure — the modules read the same action records you work
+            with in each zone.
           </p>
         </div>
         <nav class="bcn-help-article__related" aria-label="Related articles">
@@ -628,8 +641,62 @@ A full article read WITHOUT leaving the conversation: a SECOND esa-side-dialog s
             <li>
               <a
                 class="bcn-help-article__related-link"
-                href="/beacon-design/prototypes/help#article-site-clearance-go-no-go"
-                >Using Site Clearance go/no-go</a
+                href="/beacon-design/prototypes/help#article-reading-project-timeline"
+                >Reading the project timeline</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </article>
+    </div>
+    <div
+      class="bcn-gd-article__panel"
+      data-article-body="reading-project-timeline"
+      data-kind="howto"
+      data-title="Reading the project timeline"
+      hidden=""
+    >
+      <article id="article-reading-project-timeline" class="bcn-help-article">
+        <div class="bcn-help-article__body">
+          <p class="bcn-help-article__p type-body">
+            The timeline across the top of the dashboard plots three things on one date
+            axis: action due dates, season windows, and project milestones. It opens a
+            week before today so anything already overdue stays in view.
+          </p>
+          <ol class="bcn-help-article__steps">
+            <li class="bcn-help-article__step type-body">
+              Switch the window between 30, 60, and 90 days to look further ahead.
+            </li>
+            <li class="bcn-help-article__step type-body">
+              Click any mark — a dot, a season bar, or a milestone — to pin its details
+              open.
+            </li>
+            <li class="bcn-help-article__step type-body">
+              Seasons show the ones starting or ending inside the window first; use “Show
+              all” when a project carries many.
+            </li>
+          </ol>
+          <p class="bcn-help-article__p type-body">
+            Action dots follow the same colors as the modules: red for past due, amber for
+            due soon, gray for later. Milestones are shown in blue because they mark
+            schedule rather than urgency.
+          </p>
+        </div>
+        <nav class="bcn-help-article__related" aria-label="Related articles">
+          <span class="bcn-help-article__related-label">Related</span>
+          <ul class="bcn-help-article__related-list">
+            <li>
+              <a
+                class="bcn-help-article__related-link"
+                href="/beacon-design/prototypes/help#article-reading-critical-now"
+                >How the dashboard decides what needs attention</a
+              >
+            </li>
+            <li>
+              <a
+                class="bcn-help-article__related-link"
+                href="/beacon-design/prototypes/help#article-starring-components"
+                >Starring components on your dashboard</a
               >
             </li>
           </ul>
@@ -906,7 +973,7 @@ A full article read WITHOUT leaving the conversation: a SECOND esa-side-dialog s
               <a
                 class="bcn-help-article__related-link"
                 href="/beacon-design/prototypes/help#article-reading-critical-now"
-                >How “Most critical right now” is chosen</a
+                >How the dashboard decides what needs attention</a
               >
             </li>
           </ul>
@@ -1517,18 +1584,6 @@ A full article read WITHOUT leaving the conversation: a SECOND esa-side-dialog s
 
 ## Styles
 ```css
-.type-body {
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-relaxed);
-  letter-spacing: var(--letter-spacing-normal);
-}
-.type-caption {
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-normal);
-  letter-spacing: var(--letter-spacing-normal);
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
@@ -1629,19 +1684,15 @@ A full article read WITHOUT leaving the conversation: a SECOND esa-side-dialog s
   color: var(--bcn-helpbar-fg-muted);
   --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
 }
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
 .bcn-gd-article {
   --z-modal-backdrop: 1302;
   --z-modal: 1303;
   --side-dialog-width: 460px;
   --backdrop-filter: blur(2px);
-}
-.bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
-}
-.bcn-gd-row .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
 }
 .bcn-gd-article__head {
   display: flex;
@@ -1690,6 +1741,10 @@ A full article read WITHOUT leaving the conversation: a SECOND esa-side-dialog s
 }
 .bcn-gd-article__panel[hidden] {
   display: none;
+}
+.bcn-gd-row .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
 }
 .bcn-help-article {
   display: flex;
@@ -1836,6 +1891,18 @@ A full article read WITHOUT leaving the conversation: a SECOND esa-side-dialog s
   font-size: 0.9375rem;
   color: var(--color-text-link);
   text-decoration: none;
+}
+.type-body {
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-relaxed);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-caption {
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
 }
 ```
 

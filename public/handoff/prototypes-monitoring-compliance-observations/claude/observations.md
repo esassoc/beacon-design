@@ -1,12 +1,12 @@
-# Full page
+# Observations
 
 Re-implement this UI section faithfully on your stack. Keep the CSS custom-property
 names (`var(--…)`) so it stays themeable — the values below are the resolved
-`beacon` theme of the **prototypes-data-catalog-actions** design system (an ESA Ecology spoke).
+`beacon` theme of the **prototypes-monitoring-compliance-observations** design system (an ESA Ecology spoke).
 
-- **Source prototype:** http://localhost:4399/beacon-design/prototypes/data-catalog-actions/
-- **Section element:** `<page>`
-- **Components:** esa-badge (hub), esa-button (hub), esa-icon (hub), esa-icon-button (hub)
+- **Source prototype:** http://localhost:4399/beacon-design/prototypes/monitoring/compliance-observations/
+- **Section element:** `<div>`
+- **Components:** esa-badge (hub), esa-button (hub), esa-filter-clear-button (hub), esa-filter-container (hub), esa-icon (hub), esa-icon-button (hub)
 
 ## Markup (de-scoped, framework-free)
 ```html
@@ -39,7 +39,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         </svg>
       </button>
       <button type="button" class="tenant-trigger">
-        <span>Prologis</span>
+        <span>Solterra Energy Partners</span>
         <span class="esa-icon esa-icon--xs" aria-hidden="true">
           <svg
             width="14"
@@ -314,7 +314,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               ></path>
             </svg>
           </span>
-          <span class="project-switcher__name">Select a Project</span>
+          <span class="project-switcher__name">Cottonwood Solar + Storage Project</span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
             <svg
               width="16"
@@ -333,6 +333,29 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         </button>
       </div>
       <div class="main-nav">
+        <div class="nav-section">
+          <a href="#project" class="nav-section__header nav-section__header--link">
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <rect width="7" height="9" x="3" y="3" rx="1"></rect>
+                <rect width="7" height="5" x="14" y="3" rx="1"></rect>
+                <rect width="7" height="9" x="14" y="12" rx="1"></rect>
+                <rect width="7" height="5" x="3" y="16" rx="1"></rect>
+              </svg>
+            </span>
+            <span class="nav-section__title">Project</span>
+          </a>
+        </div>
         <div class="nav-section nav-section--active">
           <button type="button" class="nav-section__header" aria-expanded="true">
             <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -347,12 +370,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 stroke-linejoin="round"
                 focusable="false"
               >
-                <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
-                <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
-                <path d="M3 12A9 3 0 0 0 21 12"></path>
+                <path
+                  d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"
+                ></path>
+                <circle cx="12" cy="8" r="2"></circle>
+                <path
+                  d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"
+                ></path>
               </svg>
             </span>
-            <span class="nav-section__title">Data Catalog</span>
+            <span class="nav-section__title">Monitoring</span>
             <span class="esa-icon esa-icon--sm" aria-hidden="true">
               <svg
                 width="16"
@@ -370,20 +397,70 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             </span>
           </button>
           <ul class="nav-section__items">
-            <li class="nav-item"><a href="#dc-projects" class="nav-sublink"> Projects </a></li>
             <li class="nav-item">
-              <a href="#dc-source-documents" class="nav-sublink"> Source Documents </a>
+              <a
+                href="/beacon-design/prototypes/monitoring/compliance-dashboard"
+                class="nav-sublink"
+              >
+                Compliance Dashboard
+              </a>
             </li>
             <li class="nav-item">
-              <a href="#dc-commitments" class="nav-sublink"> Commitments </a>
+              <a
+                href="/beacon-design/prototypes/monitoring/compliance-observations"
+                class="nav-sublink active"
+              >
+                Observations
+              </a>
             </li>
+          </ul>
+        </div>
+        <hr class="nav-divider" aria-hidden="true" />
+        <div class="nav-section nav-section--collapsed">
+          <button type="button" class="nav-section__header" aria-expanded="false">
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <line x1="21" x2="14" y1="4" y2="4"></line>
+                <line x1="10" x2="3" y1="4" y2="4"></line>
+                <line x1="21" x2="12" y1="12" y2="12"></line>
+                <line x1="8" x2="3" y1="12" y2="12"></line>
+                <line x1="21" x2="16" y1="20" y2="20"></line>
+                <line x1="12" x2="3" y1="20" y2="20"></line>
+                <line x1="14" x2="14" y1="2" y2="6"></line>
+                <line x1="8" x2="8" y1="10" y2="14"></line>
+                <line x1="16" x2="16" y1="18" y2="22"></line>
+              </svg>
+            </span>
+            <span class="nav-section__title">Admin</span>
+            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="m6 9 6 6 6-6"></path>
+              </svg>
+            </span>
+          </button>
+          <ul class="nav-section__items">
             <li class="nav-item">
-              <a href="#dc-requirements" class="nav-sublink"> Requirements </a>
-            </li>
-            <li class="nav-item"><a href="#dc-actions" class="nav-sublink active"> Actions </a></li>
-            <li class="nav-item"><a href="#dc-components" class="nav-sublink"> Components </a></li>
-            <li class="nav-item">
-              <a href="#dc-evidence" class="nav-sublink"> Evidence of Compliance </a>
+              <a href="#dashboard-widgets" class="nav-sublink"> Dashboard Widgets </a>
             </li>
           </ul>
         </div>
@@ -414,7 +491,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ></path>
                   </svg>
                 </span>
-                <a class="breadcrumb-item" href="#data-catalog"> Data Catalog </a
+                <a class="breadcrumb-item" href="#project"> Cottonwood Solar + Storage Project </a
                 ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                   <svg
                     width="16"
@@ -430,149 +507,251 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <path d="m9 18 6-6-6-6"></path>
                   </svg>
                 </span>
-                <span class="breadcrumb-item" aria-current="page"> Actions </span>
+                <a
+                  class="breadcrumb-item"
+                  href="/beacon-design/prototypes/monitoring/compliance-dashboard"
+                >
+                  Monitoring Portal </a
+                ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path d="m9 18 6-6-6-6"></path>
+                  </svg>
+                </span>
+                <span class="breadcrumb-item" aria-current="page"> Observations </span>
               </div>
             </nav>
           </section>
           <section class="page-layout__title">
-            <div class="page-layout__title-main"><h1>Actions</h1></div>
+            <div class="page-layout__title-main">
+              <h1>
+                <span class="esa-icon esa-icon--md" aria-hidden="true">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path
+                      d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"
+                    ></path>
+                    <path d="M15 5.764v15"></path>
+                    <path d="M9 3.236v15"></path>
+                  </svg>
+                </span>
+                Observations
+              </h1>
+            </div>
           </section>
           <section class="page-layout__content">
-            <div class="grid-header">
-              <div class="grid-header__filter">
-                <esa-text-field
-                  id="dc-search"
-                  placeholder="Search grid…"
-                  size="sm"
-                ></esa-text-field>
-                <span id="dc-search-clear" hidden=""
-                  ><button
-                    class="esa-icon-button esa-icon-button--sm"
-                    type="button"
-                    aria-label="Clear search"
-                    title="Clear search"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path d="M18 6 6 18"></path>
-                        <path d="m6 6 12 12"></path>
-                      </svg>
-                    </span>
-                  </button>
-                </span>
-              </div>
-              <span id="dc-clear-filters"
-                ><span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button">
-                    <span class="esa-button__label"> Clear Filters </span>
-                  </button>
-                </span>
-              </span>
-            </div>
-            <div id="dc-grid" class="tracker-grid">
-              <div
-                class="ag-theme-buttonStyle-1 ag-theme-columnDropStyle-2 ag-theme-batchEditStyle-3 ag-theme-checkboxStyle-4 ag-theme-iconSet-5 ag-theme-tabStyle-6 ag-theme-inputStyle-7 ag-theme-columnDropStyle-2 ag-theme-part-8 ag-theme-params-1"
-                style="height: 100%; --ag-internal-row-border-width: 1px"
-              >
-                <div class="ag-measurement-container">
-                  <div style="width: var(--ag-list-item-height, 15538px)"></div>
-                  <div style="width: var(--ag-row-height, 15538px)"></div>
-                  <div style="width: var(--ag-header-height, 15538px)"></div>
-                  <div
-                    class="ag-measurement-element-border"
-                    style="--ag-internal-measurement-border: var(--ag-row-border, solid 15538px)"
-                  ></div>
-                  <div
-                    class="ag-measurement-element-border"
-                    style="
-                      --ag-internal-measurement-border: var(--ag-pinned-row-border, solid 15538px);
-                    "
-                  ></div>
-                  <div
-                    class="ag-measurement-element-border"
-                    style="
-                      --ag-internal-measurement-border: var(--ag-header-row-border, solid 15538px);
-                    "
-                  ></div>
+            <div class="bcn-filterbar">
+              <div class="bcn-filterbar__top">
+                <div class="bcn-filterbar__group">
+                  <span class="bcn-filterbar__label">View</span>
+                  <esa-button-toggle id="ov-view" size="sm"></esa-button-toggle>
                 </div>
+                <span class="bcn-filterbar__label">Filters</span>
                 <div
-                  class="ag-aria-description-container"
-                  aria-live="polite"
-                  aria-relevant="additions text"
-                  aria-atomic="true"
-                ></div>
-                <div
-                  class="ag-root-wrapper ag-layout-normal ag-ltr"
-                  role="presentation"
-                  grid-id="1"
+                  class="esa-filter-container"
+                  style="
+                    --_filter-container-gap: var(
+                      --filter-container-gap,
+                      var(--spacing-300, 0.75rem)
+                    );
+                    --_filter-container-row-gap: var(--spacing-200, 0.5rem);
+                  "
                 >
+                  <esa-filter-dropdown
+                    id="flt-severity"
+                    label="Severity"
+                    multiple=""
+                    size="sm"
+                  ></esa-filter-dropdown>
+                  <esa-filter-dropdown
+                    id="flt-category"
+                    label="Category"
+                    multiple=""
+                    size="sm"
+                  ></esa-filter-dropdown>
+                  <esa-filter-dropdown
+                    id="flt-status"
+                    label="Status"
+                    multiple=""
+                    size="sm"
+                  ></esa-filter-dropdown>
+                </div>
+                <span id="ov-clear-filters" class="bcn-filterbar__clear"
+                  ><button
+                    class="esa-filter-clear-button"
+                    type="button"
+                    data-esa-filter-clear=""
+                    aria-label="Clear all filters"
+                  >
+                    <svg
+                      class="esa-filter-clear-button__icon"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M13.013 3H2l8 9.46V19l4 2v-8.54l.9-1.055"></path>
+                      <path d="m22 3-5 5"></path>
+                      <path d="m17 3 5 5"></path></svg
+                    ><span class="esa-filter-clear-button__label">Clear all</span>
+                  </button>
+                  <script type="module">
+                    document.querySelectorAll("[data-esa-filter-clear]").forEach((e) => {
+                      e.addEventListener("click", () => {
+                        e.dispatchEvent(
+                          new CustomEvent("esa-filter-clear", { bubbles: !0, composed: !0 }),
+                        );
+                      });
+                    });
+                  </script></span
+                >
+                <div class="bcn-filterbar__search">
+                  <esa-text-field
+                    id="ov-search"
+                    placeholder="Search ID, category, area, inspector…"
+                    size="md"
+                  ></esa-text-field>
+                  <span id="ov-search-clear" hidden=""
+                    ><button
+                      class="esa-icon-button esa-icon-button--sm"
+                      type="button"
+                      aria-label="Clear search"
+                      title="Clear search"
+                    >
+                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path d="M18 6 6 18"></path>
+                          <path d="m6 6 12 12"></path>
+                        </svg>
+                      </span>
+                    </button>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div id="ov-list-pane">
+              <div id="ov-grid" class="ov-grid">
+                <div
+                  class="ag-theme-buttonStyle-1 ag-theme-columnDropStyle-2 ag-theme-batchEditStyle-3 ag-theme-checkboxStyle-4 ag-theme-iconSet-5 ag-theme-tabStyle-6 ag-theme-inputStyle-7 ag-theme-columnDropStyle-2 ag-theme-part-8 ag-theme-params-1"
+                  style="height: 100%; --ag-internal-row-border-width: 1px"
+                >
+                  <div class="ag-measurement-container">
+                    <div style="width: var(--ag-list-item-height, 15538px)"></div>
+                    <div style="width: var(--ag-row-height, 15538px)"></div>
+                    <div style="width: var(--ag-header-height, 15538px)"></div>
+                    <div
+                      class="ag-measurement-element-border"
+                      style="--ag-internal-measurement-border: var(--ag-row-border, solid 15538px)"
+                    ></div>
+                    <div
+                      class="ag-measurement-element-border"
+                      style="
+                        --ag-internal-measurement-border: var(
+                          --ag-pinned-row-border,
+                          solid 15538px
+                        );
+                      "
+                    ></div>
+                    <div
+                      class="ag-measurement-element-border"
+                      style="
+                        --ag-internal-measurement-border: var(
+                          --ag-header-row-border,
+                          solid 15538px
+                        );
+                      "
+                    ></div>
+                  </div>
                   <div
-                    class="ag-root-wrapper-body ag-layout-normal ag-focus-managed"
-                    data-ref="rootWrapperBody"
+                    class="ag-aria-description-container"
+                    aria-live="polite"
+                    aria-relevant="additions text"
+                    aria-atomic="true"
+                  ></div>
+                  <div
+                    class="ag-root-wrapper ag-layout-normal ag-ltr"
                     role="presentation"
+                    grid-id="1"
                   >
                     <div
-                      class="ag-tab-guard ag-tab-guard-top"
+                      class="ag-root-wrapper-body ag-layout-normal ag-focus-managed"
+                      data-ref="rootWrapperBody"
                       role="presentation"
-                      tabindex="0"
-                    ></div>
-                    <!--AG-GRID-BODY-->
-                    <div
-                      class="ag-root ag-unselectable ag-layout-normal ag-body-horizontal-content-no-gap ag-body-vertical-content-no-gap"
-                      data-ref="eGridRoot"
-                      role="grid"
-                      aria-colcount="8"
-                      aria-rowcount="131"
                     >
-                      <!--AG-HEADER-ROOT-->
                       <div
-                        class="ag-header ag-focus-managed ag-pivot-off ag-header-allow-overflow"
+                        class="ag-tab-guard ag-tab-guard-top"
                         role="presentation"
-                        style="height: 49px; min-height: 49px"
+                        tabindex="0"
+                      ></div>
+                      <!--AG-GRID-BODY-->
+                      <div
+                        class="ag-root ag-unselectable ag-layout-normal ag-body-horizontal-content-no-gap ag-body-vertical-content-no-gap"
+                        data-ref="eGridRoot"
+                        role="grid"
+                        aria-colcount="8"
+                        aria-rowcount="17"
                       >
+                        <!--AG-HEADER-ROOT-->
                         <div
-                          class="ag-pinned-left-header ag-hidden"
-                          role="rowgroup"
-                          aria-hidden="true"
-                          style="width: 0px; max-width: 0px; min-width: 0px"
-                        ></div>
-                        <div class="ag-header-viewport" role="rowgroup" tabindex="-1">
+                          class="ag-header ag-focus-managed ag-pivot-off ag-header-allow-overflow"
+                          role="presentation"
+                          style="height: 49px; min-height: 49px"
+                        >
                           <div
-                            class="ag-header-container"
-                            data-ref="eCenterContainer"
-                            role="presentation"
-                            style="width: 1710px"
+                            class="ag-pinned-left-header"
+                            role="rowgroup"
+                            style="width: 110px; max-width: 110px; min-width: 110px"
                           >
                             <div
                               class="ag-header-row ag-header-row-column"
                               role="row"
                               tabindex="0"
                               aria-rowindex="1"
-                              style="top: 0px; height: 48px; width: 1710px"
+                              style="top: 0px; height: 48px; width: 110px"
                             >
                               <div
                                 class="ag-header-cell ag-column-first ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed"
                                 role="columnheader"
-                                col-id="name"
+                                col-id="id"
                                 aria-colindex="1"
                                 tabindex="-1"
                                 aria-sort="none"
                                 style="
                                   top: 0px;
                                   height: 48px;
-                                  width: 360px;
+                                  width: 110px;
                                   touch-action: none;
                                   left: 0px;
                                 "
@@ -589,7 +768,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   data-ref="eHeaderCompWrapper"
                                   role="presentation"
                                 >
-                                  <div class="ag-cell-label-container" role="presentation">
+                                  <div
+                                    class="ag-cell-label-container ag-header-cell-sorted-none"
+                                    role="presentation"
+                                  >
                                     <span
                                       class="ag-header-icon ag-header-cell-filter-button"
                                       data-ref="eFilterButton"
@@ -605,607 +787,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                       data-ref="eLabel"
                                       role="presentation"
                                     >
-                                      <span class="ag-header-cell-text" data-ref="eText">Name</span>
-                                      <!--AG-SORT-INDICATOR--><span
-                                        class="ag-sort-indicator-container"
-                                        data-ref="eSortIndicator"
-                                      >
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-order ag-hidden"
-                                          data-ref="eSortOrder"
-                                          aria-hidden="true"
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-ascending-icon ag-hidden"
-                                          data-ref="eSortAsc"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-asc"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-descending-icon ag-hidden"
-                                          data-ref="eSortDesc"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-desc"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-mixed-icon ag-hidden"
-                                          data-ref="eSortMixed"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-none"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-absolute-ascending-icon ag-hidden"
-                                          data-ref="eSortAbsoluteAsc"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-aasc"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-absolute-descending-icon ag-hidden"
-                                          data-ref="eSortAbsoluteDesc"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-adesc"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-none-icon ag-hidden"
-                                          data-ref="eSortNone"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-none"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                class="ag-header-cell ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed"
-                                role="columnheader"
-                                col-id="project"
-                                aria-colindex="2"
-                                tabindex="-1"
-                                aria-sort="none"
-                                style="
-                                  top: 0px;
-                                  height: 48px;
-                                  width: 210px;
-                                  touch-action: none;
-                                  left: 360px;
-                                "
-                              >
-                                <div
-                                  class="ag-header-cell-resize"
-                                  data-ref="eResize"
-                                  role="presentation"
-                                  aria-hidden="false"
-                                  style="touch-action: none"
-                                ></div>
-                                <div
-                                  class="ag-header-cell-comp-wrapper"
-                                  data-ref="eHeaderCompWrapper"
-                                  role="presentation"
-                                >
-                                  <div class="ag-cell-label-container" role="presentation">
-                                    <span
-                                      class="ag-header-icon ag-header-cell-filter-button"
-                                      data-ref="eFilterButton"
-                                      aria-hidden="true"
-                                      ><span
-                                        class="ag-icon ag-icon-filter"
-                                        role="presentation"
-                                        unselectable="on"
-                                      ></span
-                                    ></span>
-                                    <div
-                                      class="ag-header-cell-label"
-                                      data-ref="eLabel"
-                                      role="presentation"
-                                    >
-                                      <span class="ag-header-cell-text" data-ref="eText"
-                                        >Project</span
-                                      >
-                                      <!--AG-SORT-INDICATOR--><span
-                                        class="ag-sort-indicator-container"
-                                        data-ref="eSortIndicator"
-                                      >
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-order ag-hidden"
-                                          data-ref="eSortOrder"
-                                          aria-hidden="true"
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-ascending-icon ag-hidden"
-                                          data-ref="eSortAsc"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-asc"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-descending-icon ag-hidden"
-                                          data-ref="eSortDesc"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-desc"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-mixed-icon ag-hidden"
-                                          data-ref="eSortMixed"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-none"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-absolute-ascending-icon ag-hidden"
-                                          data-ref="eSortAbsoluteAsc"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-aasc"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-absolute-descending-icon ag-hidden"
-                                          data-ref="eSortAbsoluteDesc"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-adesc"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-none-icon ag-hidden"
-                                          data-ref="eSortNone"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-none"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                class="ag-header-cell ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed"
-                                role="columnheader"
-                                col-id="commitment"
-                                aria-colindex="3"
-                                tabindex="-1"
-                                aria-sort="none"
-                                style="
-                                  top: 0px;
-                                  height: 48px;
-                                  width: 160px;
-                                  touch-action: none;
-                                  left: 570px;
-                                "
-                              >
-                                <div
-                                  class="ag-header-cell-resize"
-                                  data-ref="eResize"
-                                  role="presentation"
-                                  aria-hidden="false"
-                                  style="touch-action: none"
-                                ></div>
-                                <div
-                                  class="ag-header-cell-comp-wrapper"
-                                  data-ref="eHeaderCompWrapper"
-                                  role="presentation"
-                                >
-                                  <div class="ag-cell-label-container" role="presentation">
-                                    <span
-                                      class="ag-header-icon ag-header-cell-filter-button"
-                                      data-ref="eFilterButton"
-                                      aria-hidden="true"
-                                      ><span
-                                        class="ag-icon ag-icon-filter"
-                                        role="presentation"
-                                        unselectable="on"
-                                      ></span
-                                    ></span>
-                                    <div
-                                      class="ag-header-cell-label"
-                                      data-ref="eLabel"
-                                      role="presentation"
-                                    >
-                                      <span class="ag-header-cell-text" data-ref="eText"
-                                        >Commitment ID</span
-                                      >
-                                      <!--AG-SORT-INDICATOR--><span
-                                        class="ag-sort-indicator-container"
-                                        data-ref="eSortIndicator"
-                                      >
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-order ag-hidden"
-                                          data-ref="eSortOrder"
-                                          aria-hidden="true"
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-ascending-icon ag-hidden"
-                                          data-ref="eSortAsc"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-asc"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-descending-icon ag-hidden"
-                                          data-ref="eSortDesc"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-desc"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-mixed-icon ag-hidden"
-                                          data-ref="eSortMixed"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-none"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-absolute-ascending-icon ag-hidden"
-                                          data-ref="eSortAbsoluteAsc"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-aasc"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-absolute-descending-icon ag-hidden"
-                                          data-ref="eSortAbsoluteDesc"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-adesc"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-none-icon ag-hidden"
-                                          data-ref="eSortNone"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-none"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                class="ag-header-cell ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed"
-                                role="columnheader"
-                                col-id="sourceDoc"
-                                aria-colindex="4"
-                                tabindex="-1"
-                                aria-sort="none"
-                                style="
-                                  top: 0px;
-                                  height: 48px;
-                                  width: 180px;
-                                  touch-action: none;
-                                  left: 730px;
-                                "
-                              >
-                                <div
-                                  class="ag-header-cell-resize"
-                                  data-ref="eResize"
-                                  role="presentation"
-                                  aria-hidden="false"
-                                  style="touch-action: none"
-                                ></div>
-                                <div
-                                  class="ag-header-cell-comp-wrapper"
-                                  data-ref="eHeaderCompWrapper"
-                                  role="presentation"
-                                >
-                                  <div class="ag-cell-label-container" role="presentation">
-                                    <span
-                                      class="ag-header-icon ag-header-cell-filter-button"
-                                      data-ref="eFilterButton"
-                                      aria-hidden="true"
-                                      ><span
-                                        class="ag-icon ag-icon-filter"
-                                        role="presentation"
-                                        unselectable="on"
-                                      ></span
-                                    ></span>
-                                    <div
-                                      class="ag-header-cell-label"
-                                      data-ref="eLabel"
-                                      role="presentation"
-                                    >
-                                      <span class="ag-header-cell-text" data-ref="eText"
-                                        >Source Document</span
-                                      >
-                                      <!--AG-SORT-INDICATOR--><span
-                                        class="ag-sort-indicator-container"
-                                        data-ref="eSortIndicator"
-                                      >
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-order ag-hidden"
-                                          data-ref="eSortOrder"
-                                          aria-hidden="true"
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-ascending-icon ag-hidden"
-                                          data-ref="eSortAsc"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-asc"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-descending-icon ag-hidden"
-                                          data-ref="eSortDesc"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-desc"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-mixed-icon ag-hidden"
-                                          data-ref="eSortMixed"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-none"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-absolute-ascending-icon ag-hidden"
-                                          data-ref="eSortAbsoluteAsc"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-aasc"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-absolute-descending-icon ag-hidden"
-                                          data-ref="eSortAbsoluteDesc"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-adesc"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-none-icon ag-hidden"
-                                          data-ref="eSortNone"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-none"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                class="ag-header-cell ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed"
-                                role="columnheader"
-                                col-id="type"
-                                aria-colindex="5"
-                                tabindex="-1"
-                                aria-sort="none"
-                                style="
-                                  top: 0px;
-                                  height: 48px;
-                                  width: 190px;
-                                  touch-action: none;
-                                  left: 910px;
-                                "
-                              >
-                                <div
-                                  class="ag-header-cell-resize"
-                                  data-ref="eResize"
-                                  role="presentation"
-                                  aria-hidden="false"
-                                  style="touch-action: none"
-                                ></div>
-                                <div
-                                  class="ag-header-cell-comp-wrapper"
-                                  data-ref="eHeaderCompWrapper"
-                                  role="presentation"
-                                >
-                                  <div class="ag-cell-label-container" role="presentation">
-                                    <span
-                                      class="ag-header-icon ag-header-cell-filter-button"
-                                      data-ref="eFilterButton"
-                                      aria-hidden="true"
-                                      ><span
-                                        class="ag-icon ag-icon-filter"
-                                        role="presentation"
-                                        unselectable="on"
-                                      ></span
-                                    ></span>
-                                    <div
-                                      class="ag-header-cell-label"
-                                      data-ref="eLabel"
-                                      role="presentation"
-                                    >
-                                      <span class="ag-header-cell-text" data-ref="eText"
-                                        >Action Type</span
-                                      >
-                                      <!--AG-SORT-INDICATOR--><span
-                                        class="ag-sort-indicator-container"
-                                        data-ref="eSortIndicator"
-                                      >
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-order ag-hidden"
-                                          data-ref="eSortOrder"
-                                          aria-hidden="true"
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-ascending-icon ag-hidden"
-                                          data-ref="eSortAsc"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-asc"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-descending-icon ag-hidden"
-                                          data-ref="eSortDesc"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-desc"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-mixed-icon ag-hidden"
-                                          data-ref="eSortMixed"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-none"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-absolute-ascending-icon ag-hidden"
-                                          data-ref="eSortAbsoluteAsc"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-aasc"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-absolute-descending-icon ag-hidden"
-                                          data-ref="eSortAbsoluteDesc"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-adesc"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                        <span
-                                          class="ag-sort-indicator-icon ag-sort-none-icon ag-hidden"
-                                          data-ref="eSortNone"
-                                          aria-hidden="true"
-                                          ><span
-                                            class="ag-icon ag-icon-none"
-                                            role="presentation"
-                                            unselectable="on"
-                                          ></span
-                                        ></span>
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <div
-                                class="ag-header-cell ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed"
-                                role="columnheader"
-                                col-id="responsibleParty"
-                                aria-colindex="6"
-                                tabindex="-1"
-                                aria-sort="none"
-                                style="
-                                  top: 0px;
-                                  height: 48px;
-                                  width: 210px;
-                                  touch-action: none;
-                                  left: 1100px;
-                                "
-                              >
-                                <div
-                                  class="ag-header-cell-resize"
-                                  data-ref="eResize"
-                                  role="presentation"
-                                  aria-hidden="false"
-                                  style="touch-action: none"
-                                ></div>
-                                <div
-                                  class="ag-header-cell-comp-wrapper"
-                                  data-ref="eHeaderCompWrapper"
-                                  role="presentation"
-                                >
-                                  <div class="ag-cell-label-container" role="presentation">
-                                    <span
-                                      class="ag-header-icon ag-header-cell-filter-button"
-                                      data-ref="eFilterButton"
-                                      aria-hidden="true"
-                                      ><span
-                                        class="ag-icon ag-icon-filter"
-                                        role="presentation"
-                                        unselectable="on"
-                                      ></span
-                                    ></span>
-                                    <div
-                                      class="ag-header-cell-label"
-                                      data-ref="eLabel"
-                                      role="presentation"
-                                    >
-                                      <span class="ag-header-cell-text" data-ref="eText"
-                                        >Responsible Party</span
-                                      >
+                                      <span class="ag-header-cell-text" data-ref="eText">ID</span>
                                       <!--AG-SORT-INDICATOR--><span
                                         class="ag-sort-indicator-container"
                                         data-ref="eSortIndicator"
@@ -1282,87 +864,815 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               </div>
                             </div>
                           </div>
-                        </div>
-                        <div
-                          class="ag-pinned-right-header ag-hidden"
-                          role="rowgroup"
-                          aria-hidden="true"
-                          style="width: 0px; max-width: 0px; min-width: 0px"
-                        ></div>
-                      </div>
-                      <div
-                        class="ag-floating-top ag-invisible"
-                        data-ref="eTop"
-                        role="presentation"
-                        style="min-height: 0px; height: 0px; overflow-y: scroll"
-                      >
-                        <!--AG-ROW-CONTAINER-->
-                        <div
-                          class="ag-pinned-left-floating-top ag-hidden"
-                          data-ref="eContainer"
-                          role="rowgroup"
-                          aria-hidden="true"
-                          style="width: 0px; max-width: 0px; min-width: 0px"
-                        ></div>
-                        <!--AG-ROW-CONTAINER-->
-                        <div
-                          class="ag-viewport ag-floating-top-viewport"
-                          data-ref="eViewport"
-                          role="rowgroup"
-                        >
+                          <div class="ag-header-viewport" role="rowgroup" tabindex="-1">
+                            <div
+                              class="ag-header-container"
+                              data-ref="eCenterContainer"
+                              role="presentation"
+                              style="width: 1170px"
+                            >
+                              <div
+                                class="ag-header-row ag-header-row-column"
+                                role="row"
+                                tabindex="0"
+                                aria-rowindex="1"
+                                style="top: 0px; height: 48px; width: 1170px"
+                              >
+                                <div
+                                  class="ag-header-cell ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed"
+                                  role="columnheader"
+                                  col-id="category"
+                                  aria-colindex="2"
+                                  tabindex="-1"
+                                  aria-sort="none"
+                                  style="
+                                    top: 0px;
+                                    height: 48px;
+                                    width: 240px;
+                                    touch-action: none;
+                                    left: 0px;
+                                  "
+                                >
+                                  <div
+                                    class="ag-header-cell-resize"
+                                    data-ref="eResize"
+                                    role="presentation"
+                                    aria-hidden="false"
+                                    style="touch-action: none"
+                                  ></div>
+                                  <div
+                                    class="ag-header-cell-comp-wrapper"
+                                    data-ref="eHeaderCompWrapper"
+                                    role="presentation"
+                                  >
+                                    <div class="ag-cell-label-container" role="presentation">
+                                      <span
+                                        class="ag-header-icon ag-header-cell-filter-button"
+                                        data-ref="eFilterButton"
+                                        aria-hidden="true"
+                                        ><span
+                                          class="ag-icon ag-icon-filter"
+                                          role="presentation"
+                                          unselectable="on"
+                                        ></span
+                                      ></span>
+                                      <div
+                                        class="ag-header-cell-label"
+                                        data-ref="eLabel"
+                                        role="presentation"
+                                      >
+                                        <span class="ag-header-cell-text" data-ref="eText"
+                                          >Category</span
+                                        >
+                                        <!--AG-SORT-INDICATOR--><span
+                                          class="ag-sort-indicator-container"
+                                          data-ref="eSortIndicator"
+                                        >
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-order ag-hidden"
+                                            data-ref="eSortOrder"
+                                            aria-hidden="true"
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-ascending-icon ag-hidden"
+                                            data-ref="eSortAsc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-asc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-descending-icon ag-hidden"
+                                            data-ref="eSortDesc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-desc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-mixed-icon ag-hidden"
+                                            data-ref="eSortMixed"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-none"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-absolute-ascending-icon ag-hidden"
+                                            data-ref="eSortAbsoluteAsc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-aasc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-absolute-descending-icon ag-hidden"
+                                            data-ref="eSortAbsoluteDesc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-adesc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-none-icon ag-hidden"
+                                            data-ref="eSortNone"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-none"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div
+                                  class="ag-header-cell ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed"
+                                  role="columnheader"
+                                  col-id="severity"
+                                  aria-colindex="3"
+                                  tabindex="-1"
+                                  aria-sort="none"
+                                  style="
+                                    top: 0px;
+                                    height: 48px;
+                                    width: 170px;
+                                    touch-action: none;
+                                    left: 240px;
+                                  "
+                                >
+                                  <div
+                                    class="ag-header-cell-resize"
+                                    data-ref="eResize"
+                                    role="presentation"
+                                    aria-hidden="false"
+                                    style="touch-action: none"
+                                  ></div>
+                                  <div
+                                    class="ag-header-cell-comp-wrapper"
+                                    data-ref="eHeaderCompWrapper"
+                                    role="presentation"
+                                  >
+                                    <div class="ag-cell-label-container" role="presentation">
+                                      <span
+                                        class="ag-header-icon ag-header-cell-filter-button"
+                                        data-ref="eFilterButton"
+                                        aria-hidden="true"
+                                        ><span
+                                          class="ag-icon ag-icon-filter"
+                                          role="presentation"
+                                          unselectable="on"
+                                        ></span
+                                      ></span>
+                                      <div
+                                        class="ag-header-cell-label"
+                                        data-ref="eLabel"
+                                        role="presentation"
+                                      >
+                                        <span class="ag-header-cell-text" data-ref="eText"
+                                          >Severity</span
+                                        >
+                                        <!--AG-SORT-INDICATOR--><span
+                                          class="ag-sort-indicator-container"
+                                          data-ref="eSortIndicator"
+                                        >
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-order ag-hidden"
+                                            data-ref="eSortOrder"
+                                            aria-hidden="true"
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-ascending-icon ag-hidden"
+                                            data-ref="eSortAsc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-asc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-descending-icon ag-hidden"
+                                            data-ref="eSortDesc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-desc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-mixed-icon ag-hidden"
+                                            data-ref="eSortMixed"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-none"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-absolute-ascending-icon ag-hidden"
+                                            data-ref="eSortAbsoluteAsc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-aasc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-absolute-descending-icon ag-hidden"
+                                            data-ref="eSortAbsoluteDesc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-adesc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-none-icon ag-hidden"
+                                            data-ref="eSortNone"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-none"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div
+                                  class="ag-header-cell ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed"
+                                  role="columnheader"
+                                  col-id="status"
+                                  aria-colindex="4"
+                                  tabindex="-1"
+                                  aria-sort="none"
+                                  style="
+                                    top: 0px;
+                                    height: 48px;
+                                    width: 130px;
+                                    touch-action: none;
+                                    left: 410px;
+                                  "
+                                >
+                                  <div
+                                    class="ag-header-cell-resize"
+                                    data-ref="eResize"
+                                    role="presentation"
+                                    aria-hidden="false"
+                                    style="touch-action: none"
+                                  ></div>
+                                  <div
+                                    class="ag-header-cell-comp-wrapper"
+                                    data-ref="eHeaderCompWrapper"
+                                    role="presentation"
+                                  >
+                                    <div class="ag-cell-label-container" role="presentation">
+                                      <span
+                                        class="ag-header-icon ag-header-cell-filter-button"
+                                        data-ref="eFilterButton"
+                                        aria-hidden="true"
+                                        ><span
+                                          class="ag-icon ag-icon-filter"
+                                          role="presentation"
+                                          unselectable="on"
+                                        ></span
+                                      ></span>
+                                      <div
+                                        class="ag-header-cell-label"
+                                        data-ref="eLabel"
+                                        role="presentation"
+                                      >
+                                        <span class="ag-header-cell-text" data-ref="eText"
+                                          >Status</span
+                                        >
+                                        <!--AG-SORT-INDICATOR--><span
+                                          class="ag-sort-indicator-container"
+                                          data-ref="eSortIndicator"
+                                        >
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-order ag-hidden"
+                                            data-ref="eSortOrder"
+                                            aria-hidden="true"
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-ascending-icon ag-hidden"
+                                            data-ref="eSortAsc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-asc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-descending-icon ag-hidden"
+                                            data-ref="eSortDesc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-desc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-mixed-icon ag-hidden"
+                                            data-ref="eSortMixed"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-none"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-absolute-ascending-icon ag-hidden"
+                                            data-ref="eSortAbsoluteAsc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-aasc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-absolute-descending-icon ag-hidden"
+                                            data-ref="eSortAbsoluteDesc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-adesc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-none-icon ag-hidden"
+                                            data-ref="eSortNone"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-none"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div
+                                  class="ag-header-cell ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed"
+                                  role="columnheader"
+                                  col-id="area"
+                                  aria-colindex="5"
+                                  tabindex="-1"
+                                  aria-sort="none"
+                                  style="
+                                    top: 0px;
+                                    height: 48px;
+                                    width: 240px;
+                                    touch-action: none;
+                                    left: 540px;
+                                  "
+                                >
+                                  <div
+                                    class="ag-header-cell-resize"
+                                    data-ref="eResize"
+                                    role="presentation"
+                                    aria-hidden="false"
+                                    style="touch-action: none"
+                                  ></div>
+                                  <div
+                                    class="ag-header-cell-comp-wrapper"
+                                    data-ref="eHeaderCompWrapper"
+                                    role="presentation"
+                                  >
+                                    <div class="ag-cell-label-container" role="presentation">
+                                      <span
+                                        class="ag-header-icon ag-header-cell-filter-button"
+                                        data-ref="eFilterButton"
+                                        aria-hidden="true"
+                                        ><span
+                                          class="ag-icon ag-icon-filter"
+                                          role="presentation"
+                                          unselectable="on"
+                                        ></span
+                                      ></span>
+                                      <div
+                                        class="ag-header-cell-label"
+                                        data-ref="eLabel"
+                                        role="presentation"
+                                      >
+                                        <span class="ag-header-cell-text" data-ref="eText"
+                                          >Area</span
+                                        >
+                                        <!--AG-SORT-INDICATOR--><span
+                                          class="ag-sort-indicator-container"
+                                          data-ref="eSortIndicator"
+                                        >
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-order ag-hidden"
+                                            data-ref="eSortOrder"
+                                            aria-hidden="true"
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-ascending-icon ag-hidden"
+                                            data-ref="eSortAsc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-asc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-descending-icon ag-hidden"
+                                            data-ref="eSortDesc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-desc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-mixed-icon ag-hidden"
+                                            data-ref="eSortMixed"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-none"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-absolute-ascending-icon ag-hidden"
+                                            data-ref="eSortAbsoluteAsc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-aasc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-absolute-descending-icon ag-hidden"
+                                            data-ref="eSortAbsoluteDesc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-adesc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-none-icon ag-hidden"
+                                            data-ref="eSortNone"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-none"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div
+                                  class="ag-header-cell ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed"
+                                  role="columnheader"
+                                  col-id="reportedDate"
+                                  aria-colindex="6"
+                                  tabindex="-1"
+                                  aria-sort="none"
+                                  style="
+                                    top: 0px;
+                                    height: 48px;
+                                    width: 130px;
+                                    touch-action: none;
+                                    left: 780px;
+                                  "
+                                >
+                                  <div
+                                    class="ag-header-cell-resize"
+                                    data-ref="eResize"
+                                    role="presentation"
+                                    aria-hidden="false"
+                                    style="touch-action: none"
+                                  ></div>
+                                  <div
+                                    class="ag-header-cell-comp-wrapper"
+                                    data-ref="eHeaderCompWrapper"
+                                    role="presentation"
+                                  >
+                                    <div class="ag-cell-label-container" role="presentation">
+                                      <span
+                                        class="ag-header-icon ag-header-cell-filter-button"
+                                        data-ref="eFilterButton"
+                                        aria-hidden="true"
+                                        ><span
+                                          class="ag-icon ag-icon-filter"
+                                          role="presentation"
+                                          unselectable="on"
+                                        ></span
+                                      ></span>
+                                      <div
+                                        class="ag-header-cell-label"
+                                        data-ref="eLabel"
+                                        role="presentation"
+                                      >
+                                        <span class="ag-header-cell-text" data-ref="eText"
+                                          >Reported</span
+                                        >
+                                        <!--AG-SORT-INDICATOR--><span
+                                          class="ag-sort-indicator-container"
+                                          data-ref="eSortIndicator"
+                                        >
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-order ag-hidden"
+                                            data-ref="eSortOrder"
+                                            aria-hidden="true"
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-ascending-icon ag-hidden"
+                                            data-ref="eSortAsc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-asc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-descending-icon ag-hidden"
+                                            data-ref="eSortDesc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-desc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-mixed-icon ag-hidden"
+                                            data-ref="eSortMixed"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-none"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-absolute-ascending-icon ag-hidden"
+                                            data-ref="eSortAbsoluteAsc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-aasc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-absolute-descending-icon ag-hidden"
+                                            data-ref="eSortAbsoluteDesc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-adesc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-none-icon ag-hidden"
+                                            data-ref="eSortNone"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-none"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div
+                                  class="ag-header-cell ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed"
+                                  role="columnheader"
+                                  col-id="daysActive"
+                                  aria-colindex="7"
+                                  tabindex="-1"
+                                  aria-sort="none"
+                                  style="
+                                    top: 0px;
+                                    height: 48px;
+                                    width: 120px;
+                                    touch-action: none;
+                                    left: 910px;
+                                  "
+                                >
+                                  <div
+                                    class="ag-header-cell-resize"
+                                    data-ref="eResize"
+                                    role="presentation"
+                                    aria-hidden="false"
+                                    style="touch-action: none"
+                                  ></div>
+                                  <div
+                                    class="ag-header-cell-comp-wrapper"
+                                    data-ref="eHeaderCompWrapper"
+                                    role="presentation"
+                                  >
+                                    <div class="ag-cell-label-container" role="presentation">
+                                      <span
+                                        class="ag-header-icon ag-header-cell-filter-button"
+                                        data-ref="eFilterButton"
+                                        aria-hidden="true"
+                                        ><span
+                                          class="ag-icon ag-icon-filter"
+                                          role="presentation"
+                                          unselectable="on"
+                                        ></span
+                                      ></span>
+                                      <div
+                                        class="ag-header-cell-label"
+                                        data-ref="eLabel"
+                                        role="presentation"
+                                      >
+                                        <span class="ag-header-cell-text" data-ref="eText"
+                                          >Days Active</span
+                                        >
+                                        <!--AG-SORT-INDICATOR--><span
+                                          class="ag-sort-indicator-container"
+                                          data-ref="eSortIndicator"
+                                        >
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-order ag-hidden"
+                                            data-ref="eSortOrder"
+                                            aria-hidden="true"
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-ascending-icon ag-hidden"
+                                            data-ref="eSortAsc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-asc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-descending-icon ag-hidden"
+                                            data-ref="eSortDesc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-desc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-mixed-icon ag-hidden"
+                                            data-ref="eSortMixed"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-none"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-absolute-ascending-icon ag-hidden"
+                                            data-ref="eSortAbsoluteAsc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-aasc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-absolute-descending-icon ag-hidden"
+                                            data-ref="eSortAbsoluteDesc"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-adesc"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                          <span
+                                            class="ag-sort-indicator-icon ag-sort-none-icon ag-hidden"
+                                            data-ref="eSortNone"
+                                            aria-hidden="true"
+                                            ><span
+                                              class="ag-icon ag-icon-none"
+                                              role="presentation"
+                                              unselectable="on"
+                                            ></span
+                                          ></span>
+                                        </span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                           <div
-                            class="ag-floating-top-container"
-                            data-ref="eContainer"
-                            role="presentation"
-                            style="width: 1710px"
+                            class="ag-pinned-right-header ag-hidden"
+                            role="rowgroup"
+                            aria-hidden="true"
+                            style="width: 0px; max-width: 0px; min-width: 0px"
                           ></div>
                         </div>
-                        <!--AG-ROW-CONTAINER-->
                         <div
-                          class="ag-pinned-right-floating-top ag-hidden"
-                          data-ref="eContainer"
-                          role="rowgroup"
-                          aria-hidden="true"
-                          style="width: 0px; max-width: 0px; min-width: 0px"
-                        ></div>
-                        <!--AG-ROW-CONTAINER-->
-                        <div
-                          class="ag-floating-top-full-width-container"
-                          data-ref="eContainer"
-                          role="rowgroup"
-                        ></div>
-                      </div>
-                      <div class="ag-body ag-layout-normal" data-ref="eBody" role="presentation">
-                        <div
-                          class="ag-body-viewport ag-layout-normal ag-row-animation"
-                          data-ref="eBodyViewport"
+                          class="ag-floating-top ag-invisible"
+                          data-ref="eTop"
                           role="presentation"
-                          style="width: calc(100% + 16px)"
+                          style="min-height: 0px; height: 0px; overflow-y: scroll"
                         >
                           <!--AG-ROW-CONTAINER-->
                           <div
-                            class="ag-pinned-left-cols-container ag-hidden"
+                            class="ag-pinned-left-floating-top"
+                            data-ref="eContainer"
+                            role="rowgroup"
+                            aria-hidden="false"
+                            style="width: 110px; max-width: 110px; min-width: 110px"
+                          ></div>
+                          <!--AG-ROW-CONTAINER-->
+                          <div
+                            class="ag-viewport ag-floating-top-viewport"
+                            data-ref="eViewport"
+                            role="rowgroup"
+                          >
+                            <div
+                              class="ag-floating-top-container"
+                              data-ref="eContainer"
+                              role="presentation"
+                              style="width: 1170px"
+                            ></div>
+                          </div>
+                          <!--AG-ROW-CONTAINER-->
+                          <div
+                            class="ag-pinned-right-floating-top ag-hidden"
                             data-ref="eContainer"
                             role="rowgroup"
                             aria-hidden="true"
-                            style="height: 5720px; width: 0px; max-width: 0px; min-width: 0px"
+                            style="width: 0px; max-width: 0px; min-width: 0px"
                           ></div>
                           <!--AG-ROW-CONTAINER-->
                           <div
-                            class="ag-viewport ag-center-cols-viewport"
-                            data-ref="eViewport"
+                            class="ag-floating-top-full-width-container"
+                            data-ref="eContainer"
                             role="rowgroup"
-                            style="height: 5720px"
+                          ></div>
+                        </div>
+                        <div class="ag-body ag-layout-normal" data-ref="eBody" role="presentation">
+                          <div
+                            class="ag-body-viewport ag-layout-normal ag-row-animation"
+                            data-ref="eBodyViewport"
+                            role="presentation"
+                            style="width: calc(100% + 16px)"
                           >
+                            <!--AG-ROW-CONTAINER-->
                             <div
-                              class="ag-center-cols-container"
+                              class="ag-pinned-left-cols-container"
                               data-ref="eContainer"
-                              role="presentation"
-                              style="width: 1710px; height: 5720px"
+                              role="rowgroup"
+                              aria-hidden="false"
+                              style="
+                                height: 704px;
+                                width: 110px;
+                                max-width: 110px;
+                                min-width: 110px;
+                              "
                             >
                               <div
                                 role="row"
-                                comp-id="57"
+                                comp-id="61"
                                 tabindex="0"
                                 row-index="0"
                                 class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute ag-row-first"
@@ -1372,74 +1682,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <div
                                   role="gridcell"
-                                  comp-id="58"
-                                  col-id="name"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
+                                  comp-id="62"
+                                  col-id="id"
+                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
                                   tabindex="-1"
                                   aria-colindex="1"
-                                  style="left: 0px; width: 360px"
+                                  style="left: 0px; width: 110px"
                                 >
-                                  <a class="bcn-grid-name" href="#">Develop WEAP Training</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="59"
-                                  col-id="project"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="2"
-                                  style="left: 360px; width: 210px"
-                                >
-                                  <a class="bcn-grid-name" href="#">3600 Alameda Avenue Project</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="60"
-                                  col-id="commitment"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="3"
-                                  style="left: 570px; width: 160px"
-                                >
-                                  <a class="bcn-grid-name" href="#">MM-BIO-1</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="61"
-                                  col-id="sourceDoc"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="4"
-                                  style="left: 730px; width: 180px"
-                                >
-                                  <a class="bcn-grid-name" href="#">FEIR</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="62"
-                                  col-id="type"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="5"
-                                  style="left: 910px; width: 190px"
-                                >
-                                  Training &amp; Education
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="63"
-                                  col-id="responsibleParty"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="6"
-                                  style="left: 1100px; width: 210px"
-                                >
-                                  Project Biologist
+                                  <a class="bcn-grid-name" href="#">obs-0142</a>
                                 </div>
                               </div>
                               <div
                                 role="row"
-                                comp-id="64"
+                                comp-id="63"
                                 tabindex="0"
                                 row-index="1"
                                 class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
@@ -1449,76 +1704,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <div
                                   role="gridcell"
-                                  comp-id="65"
-                                  col-id="name"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
+                                  comp-id="64"
+                                  col-id="id"
+                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
                                   tabindex="-1"
                                   aria-colindex="1"
-                                  style="left: 0px; width: 360px"
+                                  style="left: 0px; width: 110px"
                                 >
-                                  <a class="bcn-grid-name" href="#"
-                                    >Provide WEAP Training to all Project personnel</a
-                                  >
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="66"
-                                  col-id="project"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="2"
-                                  style="left: 360px; width: 210px"
-                                >
-                                  <a class="bcn-grid-name" href="#">3600 Alameda Avenue Project</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="67"
-                                  col-id="commitment"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="3"
-                                  style="left: 570px; width: 160px"
-                                >
-                                  <a class="bcn-grid-name" href="#">MM-BIO-1</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="68"
-                                  col-id="sourceDoc"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="4"
-                                  style="left: 730px; width: 180px"
-                                >
-                                  <a class="bcn-grid-name" href="#">FEIR</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="69"
-                                  col-id="type"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="5"
-                                  style="left: 910px; width: 190px"
-                                >
-                                  Training &amp; Education
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="70"
-                                  col-id="responsibleParty"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="6"
-                                  style="left: 1100px; width: 210px"
-                                >
-                                  QSP / Inspector
+                                  <a class="bcn-grid-name" href="#">obs-0139</a>
                                 </div>
                               </div>
                               <div
                                 role="row"
-                                comp-id="71"
+                                comp-id="65"
                                 tabindex="0"
                                 row-index="2"
                                 class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
@@ -1528,77 +1726,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <div
                                   role="gridcell"
-                                  comp-id="72"
-                                  col-id="name"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
+                                  comp-id="66"
+                                  col-id="id"
+                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
                                   tabindex="-1"
                                   aria-colindex="1"
-                                  style="left: 0px; width: 360px"
+                                  style="left: 0px; width: 110px"
                                 >
-                                  <a class="bcn-grid-name" href="#"
-                                    >If bird nests are found, establish no-disturbance buffers
-                                    zones</a
-                                  >
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="73"
-                                  col-id="project"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="2"
-                                  style="left: 360px; width: 210px"
-                                >
-                                  <a class="bcn-grid-name" href="#">3600 Alameda Avenue Project</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="74"
-                                  col-id="commitment"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="3"
-                                  style="left: 570px; width: 160px"
-                                >
-                                  <a class="bcn-grid-name" href="#">MM-BIO-2</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="75"
-                                  col-id="sourceDoc"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="4"
-                                  style="left: 730px; width: 180px"
-                                >
-                                  <a class="bcn-grid-name" href="#">FEIR</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="76"
-                                  col-id="type"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="5"
-                                  style="left: 910px; width: 190px"
-                                >
-                                  Other
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="77"
-                                  col-id="responsibleParty"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="6"
-                                  style="left: 1100px; width: 210px"
-                                >
-                                  Cultural Resources Lead
+                                  <a class="bcn-grid-name" href="#">obs-0121</a>
                                 </div>
                               </div>
                               <div
                                 role="row"
-                                comp-id="78"
+                                comp-id="67"
                                 tabindex="0"
                                 row-index="3"
                                 class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
@@ -1608,77 +1748,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <div
                                   role="gridcell"
-                                  comp-id="79"
-                                  col-id="name"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
+                                  comp-id="68"
+                                  col-id="id"
+                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
                                   tabindex="-1"
                                   aria-colindex="1"
-                                  style="left: 0px; width: 360px"
+                                  style="left: 0px; width: 110px"
                                 >
-                                  <a class="bcn-grid-name" href="#"
-                                    >If work must occur within established no-disturbance buffer
-                                    zones</a
-                                  >
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="80"
-                                  col-id="project"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="2"
-                                  style="left: 360px; width: 210px"
-                                >
-                                  <a class="bcn-grid-name" href="#">3600 Alameda Avenue Project</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="81"
-                                  col-id="commitment"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="3"
-                                  style="left: 570px; width: 160px"
-                                >
-                                  <a class="bcn-grid-name" href="#">MM-BIO-2</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="82"
-                                  col-id="sourceDoc"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="4"
-                                  style="left: 730px; width: 180px"
-                                >
-                                  <a class="bcn-grid-name" href="#">FEIR</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="83"
-                                  col-id="type"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="5"
-                                  style="left: 910px; width: 190px"
-                                >
-                                  Other
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="84"
-                                  col-id="responsibleParty"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="6"
-                                  style="left: 1100px; width: 210px"
-                                >
-                                  Safety Officer
+                                  <a class="bcn-grid-name" href="#">obs-0144</a>
                                 </div>
                               </div>
                               <div
                                 role="row"
-                                comp-id="85"
+                                comp-id="69"
                                 tabindex="0"
                                 row-index="4"
                                 class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
@@ -1688,77 +1770,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <div
                                   role="gridcell"
-                                  comp-id="86"
-                                  col-id="name"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
+                                  comp-id="70"
+                                  col-id="id"
+                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
                                   tabindex="-1"
                                   aria-colindex="1"
-                                  style="left: 0px; width: 360px"
+                                  style="left: 0px; width: 110px"
                                 >
-                                  <a class="bcn-grid-name" href="#"
-                                    >Pre-construction survey for nesting raptors and other migratory
-                                    birds during nesting season</a
-                                  >
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="87"
-                                  col-id="project"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="2"
-                                  style="left: 360px; width: 210px"
-                                >
-                                  <a class="bcn-grid-name" href="#">3600 Alameda Avenue Project</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="88"
-                                  col-id="commitment"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="3"
-                                  style="left: 570px; width: 160px"
-                                >
-                                  <a class="bcn-grid-name" href="#">MM-BIO-2</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="89"
-                                  col-id="sourceDoc"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="4"
-                                  style="left: 730px; width: 180px"
-                                >
-                                  <a class="bcn-grid-name" href="#">FEIR</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="90"
-                                  col-id="type"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="5"
-                                  style="left: 910px; width: 190px"
-                                >
-                                  Survey
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="91"
-                                  col-id="responsibleParty"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="6"
-                                  style="left: 1100px; width: 210px"
-                                >
-                                  Environmental Lead
+                                  <a class="bcn-grid-name" href="#">obs-0140</a>
                                 </div>
                               </div>
                               <div
                                 role="row"
-                                comp-id="92"
+                                comp-id="71"
                                 tabindex="0"
                                 row-index="5"
                                 class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
@@ -1768,77 +1792,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <div
                                   role="gridcell"
-                                  comp-id="93"
-                                  col-id="name"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
+                                  comp-id="72"
+                                  col-id="id"
+                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
                                   tabindex="-1"
                                   aria-colindex="1"
-                                  style="left: 0px; width: 360px"
+                                  style="left: 0px; width: 110px"
                                 >
-                                  <a class="bcn-grid-name" href="#"
-                                    >Report of findings for construction within any no-disturbance
-                                    buffer zone</a
-                                  >
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="94"
-                                  col-id="project"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="2"
-                                  style="left: 360px; width: 210px"
-                                >
-                                  <a class="bcn-grid-name" href="#">3600 Alameda Avenue Project</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="95"
-                                  col-id="commitment"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="3"
-                                  style="left: 570px; width: 160px"
-                                >
-                                  <a class="bcn-grid-name" href="#">MM-BIO-2</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="96"
-                                  col-id="sourceDoc"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="4"
-                                  style="left: 730px; width: 180px"
-                                >
-                                  <a class="bcn-grid-name" href="#">FEIR</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="97"
-                                  col-id="type"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="5"
-                                  style="left: 910px; width: 190px"
-                                >
-                                  Reporting
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="98"
-                                  col-id="responsibleParty"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="6"
-                                  style="left: 1100px; width: 210px"
-                                >
-                                  Air Quality Lead
+                                  <a class="bcn-grid-name" href="#">obs-0136</a>
                                 </div>
                               </div>
                               <div
                                 role="row"
-                                comp-id="99"
+                                comp-id="73"
                                 tabindex="0"
                                 row-index="6"
                                 class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
@@ -1848,78 +1814,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <div
                                   role="gridcell"
-                                  comp-id="100"
-                                  col-id="name"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
+                                  comp-id="74"
+                                  col-id="id"
+                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
                                   tabindex="-1"
                                   aria-colindex="1"
-                                  style="left: 0px; width: 360px"
+                                  style="left: 0px; width: 110px"
                                 >
-                                  <a class="bcn-grid-name" href="#"
-                                    >Pre-construction habitat assessment of the Project area to
-                                    characterize potential bat habitat and identify potentially
-                                    active roost sites</a
-                                  >
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="101"
-                                  col-id="project"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="2"
-                                  style="left: 360px; width: 210px"
-                                >
-                                  <a class="bcn-grid-name" href="#">3600 Alameda Avenue Project</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="102"
-                                  col-id="commitment"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="3"
-                                  style="left: 570px; width: 160px"
-                                >
-                                  <a class="bcn-grid-name" href="#">MM-BIO-3</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="103"
-                                  col-id="sourceDoc"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="4"
-                                  style="left: 730px; width: 180px"
-                                >
-                                  <a class="bcn-grid-name" href="#">FEIR</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="104"
-                                  col-id="type"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="5"
-                                  style="left: 910px; width: 190px"
-                                >
-                                  Survey
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="105"
-                                  col-id="responsibleParty"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="6"
-                                  style="left: 1100px; width: 210px"
-                                >
-                                  Traffic Engineer
+                                  <a class="bcn-grid-name" href="#">obs-0130</a>
                                 </div>
                               </div>
                               <div
                                 role="row"
-                                comp-id="106"
+                                comp-id="75"
                                 tabindex="0"
                                 row-index="7"
                                 class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
@@ -1929,78 +1836,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <div
                                   role="gridcell"
-                                  comp-id="107"
-                                  col-id="name"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
+                                  comp-id="76"
+                                  col-id="id"
+                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
                                   tabindex="-1"
                                   aria-colindex="1"
-                                  style="left: 0px; width: 360px"
+                                  style="left: 0px; width: 110px"
                                 >
-                                  <a class="bcn-grid-name" href="#"
-                                    >If active bat roosts or evidence of roosting is identified
-                                    during pre-construction surveys, establish no-disturbance
-                                    buffer</a
-                                  >
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="108"
-                                  col-id="project"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="2"
-                                  style="left: 360px; width: 210px"
-                                >
-                                  <a class="bcn-grid-name" href="#">3600 Alameda Avenue Project</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="109"
-                                  col-id="commitment"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="3"
-                                  style="left: 570px; width: 160px"
-                                >
-                                  <a class="bcn-grid-name" href="#">MM-BIO-3</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="110"
-                                  col-id="sourceDoc"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="4"
-                                  style="left: 730px; width: 180px"
-                                >
-                                  <a class="bcn-grid-name" href="#">FEIR</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="111"
-                                  col-id="type"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="5"
-                                  style="left: 910px; width: 190px"
-                                >
-                                  Other
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="112"
-                                  col-id="responsibleParty"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="6"
-                                  style="left: 1100px; width: 210px"
-                                >
-                                  Construction Manager
+                                  <a class="bcn-grid-name" href="#">obs-0126</a>
                                 </div>
                               </div>
                               <div
                                 role="row"
-                                comp-id="113"
+                                comp-id="77"
                                 tabindex="0"
                                 row-index="8"
                                 class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
@@ -2010,78 +1858,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <div
                                   role="gridcell"
-                                  comp-id="114"
-                                  col-id="name"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
+                                  comp-id="78"
+                                  col-id="id"
+                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
                                   tabindex="-1"
                                   aria-colindex="1"
-                                  style="left: 0px; width: 360px"
+                                  style="left: 0px; width: 110px"
                                 >
-                                  <a class="bcn-grid-name" href="#"
-                                    >Measures if potential bat roosting habitat or potentially
-                                    active bat roosts are identified during the habitat
-                                    assessment</a
-                                  >
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="115"
-                                  col-id="project"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="2"
-                                  style="left: 360px; width: 210px"
-                                >
-                                  <a class="bcn-grid-name" href="#">3600 Alameda Avenue Project</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="116"
-                                  col-id="commitment"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="3"
-                                  style="left: 570px; width: 160px"
-                                >
-                                  <a class="bcn-grid-name" href="#">MM-BIO-3</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="117"
-                                  col-id="sourceDoc"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="4"
-                                  style="left: 730px; width: 180px"
-                                >
-                                  <a class="bcn-grid-name" href="#">FEIR</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="118"
-                                  col-id="type"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="5"
-                                  style="left: 910px; width: 190px"
-                                >
-                                  Other
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="119"
-                                  col-id="responsibleParty"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="6"
-                                  style="left: 1100px; width: 210px"
-                                >
-                                  Acoustical Consultant
+                                  <a class="bcn-grid-name" href="#">obs-0118</a>
                                 </div>
                               </div>
                               <div
                                 role="row"
-                                comp-id="120"
+                                comp-id="79"
                                 tabindex="0"
                                 row-index="9"
                                 class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
@@ -2091,77 +1880,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <div
                                   role="gridcell"
-                                  comp-id="121"
-                                  col-id="name"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
+                                  comp-id="80"
+                                  col-id="id"
+                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
                                   tabindex="-1"
                                   aria-colindex="1"
-                                  style="left: 0px; width: 360px"
+                                  style="left: 0px; width: 110px"
                                 >
-                                  <a class="bcn-grid-name" href="#"
-                                    >Pre-construction survey if avoidance or bat maternity roosting
-                                    season and winter torpor is infeasible</a
-                                  >
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="122"
-                                  col-id="project"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="2"
-                                  style="left: 360px; width: 210px"
-                                >
-                                  <a class="bcn-grid-name" href="#">3600 Alameda Avenue Project</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="123"
-                                  col-id="commitment"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="3"
-                                  style="left: 570px; width: 160px"
-                                >
-                                  <a class="bcn-grid-name" href="#">MM-BIO-3</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="124"
-                                  col-id="sourceDoc"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="4"
-                                  style="left: 730px; width: 180px"
-                                >
-                                  <a class="bcn-grid-name" href="#">FEIR</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="125"
-                                  col-id="type"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="5"
-                                  style="left: 910px; width: 190px"
-                                >
-                                  Survey
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="126"
-                                  col-id="responsibleParty"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="6"
-                                  style="left: 1100px; width: 210px"
-                                >
-                                  Hydrogeologist
+                                  <a class="bcn-grid-name" href="#">obs-0113</a>
                                 </div>
                               </div>
                               <div
                                 role="row"
-                                comp-id="127"
+                                comp-id="81"
                                 tabindex="0"
                                 row-index="10"
                                 class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
@@ -2171,74 +1902,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <div
                                   role="gridcell"
-                                  comp-id="128"
-                                  col-id="name"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
+                                  comp-id="82"
+                                  col-id="id"
+                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
                                   tabindex="-1"
                                   aria-colindex="1"
-                                  style="left: 0px; width: 360px"
+                                  style="left: 0px; width: 110px"
                                 >
-                                  <a class="bcn-grid-name" href="#">Blight</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="129"
-                                  col-id="project"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="2"
-                                  style="left: 360px; width: 210px"
-                                >
-                                  <a class="bcn-grid-name" href="#">3600 Alameda Avenue Project</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="130"
-                                  col-id="commitment"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="3"
-                                  style="left: 570px; width: 160px"
-                                >
-                                  <a class="bcn-grid-name" href="#">SCA AES-1</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="131"
-                                  col-id="sourceDoc"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="4"
-                                  style="left: 730px; width: 180px"
-                                >
-                                  <a class="bcn-grid-name" href="#">FEIR</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="132"
-                                  col-id="type"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="5"
-                                  style="left: 910px; width: 190px"
-                                >
-                                  Other
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="133"
-                                  col-id="responsibleParty"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="6"
-                                  style="left: 1100px; width: 210px"
-                                >
-                                  Project Biologist
+                                  <a class="bcn-grid-name" href="#">obs-0145</a>
                                 </div>
                               </div>
                               <div
                                 role="row"
-                                comp-id="134"
+                                comp-id="83"
                                 tabindex="0"
                                 row-index="11"
                                 class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
@@ -2248,76 +1924,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <div
                                   role="gridcell"
-                                  comp-id="135"
-                                  col-id="name"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
+                                  comp-id="84"
+                                  col-id="id"
+                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
                                   tabindex="-1"
                                   aria-colindex="1"
-                                  style="left: 0px; width: 360px"
+                                  style="left: 0px; width: 110px"
                                 >
-                                  <a class="bcn-grid-name" href="#"
-                                    >Best management practices for graffiti</a
-                                  >
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="136"
-                                  col-id="project"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="2"
-                                  style="left: 360px; width: 210px"
-                                >
-                                  <a class="bcn-grid-name" href="#">3600 Alameda Avenue Project</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="137"
-                                  col-id="commitment"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="3"
-                                  style="left: 570px; width: 160px"
-                                >
-                                  <a class="bcn-grid-name" href="#">SCA AES-2</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="138"
-                                  col-id="sourceDoc"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="4"
-                                  style="left: 730px; width: 180px"
-                                >
-                                  <a class="bcn-grid-name" href="#">FEIR</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="139"
-                                  col-id="type"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="5"
-                                  style="left: 910px; width: 190px"
-                                >
-                                  Avoidance &amp; BMPs
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="140"
-                                  col-id="responsibleParty"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="6"
-                                  style="left: 1100px; width: 210px"
-                                >
-                                  QSP / Inspector
+                                  <a class="bcn-grid-name" href="#">obs-0143</a>
                                 </div>
                               </div>
                               <div
                                 role="row"
-                                comp-id="141"
+                                comp-id="85"
                                 tabindex="0"
                                 row-index="12"
                                 class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
@@ -2327,74 +1946,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <div
                                   role="gridcell"
-                                  comp-id="142"
-                                  col-id="name"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
+                                  comp-id="86"
+                                  col-id="id"
+                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
                                   tabindex="-1"
                                   aria-colindex="1"
-                                  style="left: 0px; width: 360px"
+                                  style="left: 0px; width: 110px"
                                 >
-                                  <a class="bcn-grid-name" href="#">Graffiti removal</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="143"
-                                  col-id="project"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="2"
-                                  style="left: 360px; width: 210px"
-                                >
-                                  <a class="bcn-grid-name" href="#">3600 Alameda Avenue Project</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="144"
-                                  col-id="commitment"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="3"
-                                  style="left: 570px; width: 160px"
-                                >
-                                  <a class="bcn-grid-name" href="#">SCA AES-2</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="145"
-                                  col-id="sourceDoc"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="4"
-                                  style="left: 730px; width: 180px"
-                                >
-                                  <a class="bcn-grid-name" href="#">FEIR</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="146"
-                                  col-id="type"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="5"
-                                  style="left: 910px; width: 190px"
-                                >
-                                  Other
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="147"
-                                  col-id="responsibleParty"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="6"
-                                  style="left: 1100px; width: 210px"
-                                >
-                                  Cultural Resources Lead
+                                  <a class="bcn-grid-name" href="#">obs-0137</a>
                                 </div>
                               </div>
                               <div
                                 role="row"
-                                comp-id="148"
+                                comp-id="87"
                                 tabindex="0"
                                 row-index="13"
                                 class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
@@ -2404,74 +1968,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <div
                                   role="gridcell"
-                                  comp-id="149"
-                                  col-id="name"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
+                                  comp-id="88"
+                                  col-id="id"
+                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
                                   tabindex="-1"
                                   aria-colindex="1"
-                                  style="left: 0px; width: 360px"
+                                  style="left: 0px; width: 110px"
                                 >
-                                  <a class="bcn-grid-name" href="#">Landscape Installation</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="150"
-                                  col-id="project"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="2"
-                                  style="left: 360px; width: 210px"
-                                >
-                                  <a class="bcn-grid-name" href="#">3600 Alameda Avenue Project</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="151"
-                                  col-id="commitment"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="3"
-                                  style="left: 570px; width: 160px"
-                                >
-                                  <a class="bcn-grid-name" href="#">SCA AES-3</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="152"
-                                  col-id="sourceDoc"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="4"
-                                  style="left: 730px; width: 180px"
-                                >
-                                  <a class="bcn-grid-name" href="#">FEIR</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="153"
-                                  col-id="type"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="5"
-                                  style="left: 910px; width: 190px"
-                                >
-                                  Other
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="154"
-                                  col-id="responsibleParty"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="6"
-                                  style="left: 1100px; width: 210px"
-                                >
-                                  Safety Officer
+                                  <a class="bcn-grid-name" href="#">obs-0132</a>
                                 </div>
                               </div>
                               <div
                                 role="row"
-                                comp-id="155"
+                                comp-id="89"
                                 tabindex="0"
                                 row-index="14"
                                 class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
@@ -2481,2002 +1990,2459 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <div
                                   role="gridcell"
-                                  comp-id="156"
-                                  col-id="name"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
+                                  comp-id="90"
+                                  col-id="id"
+                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
                                   tabindex="-1"
                                   aria-colindex="1"
-                                  style="left: 0px; width: 360px"
+                                  style="left: 0px; width: 110px"
                                 >
-                                  <a class="bcn-grid-name" href="#">Landscape Maintenance</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="157"
-                                  col-id="project"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="2"
-                                  style="left: 360px; width: 210px"
-                                >
-                                  <a class="bcn-grid-name" href="#">3600 Alameda Avenue Project</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="158"
-                                  col-id="commitment"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="3"
-                                  style="left: 570px; width: 160px"
-                                >
-                                  <a class="bcn-grid-name" href="#">SCA AES-3</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="159"
-                                  col-id="sourceDoc"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="4"
-                                  style="left: 730px; width: 180px"
-                                >
-                                  <a class="bcn-grid-name" href="#">FEIR</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="160"
-                                  col-id="type"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="5"
-                                  style="left: 910px; width: 190px"
-                                >
-                                  Other
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="161"
-                                  col-id="responsibleParty"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="6"
-                                  style="left: 1100px; width: 210px"
-                                >
-                                  Environmental Lead
+                                  <a class="bcn-grid-name" href="#">obs-0125</a>
                                 </div>
                               </div>
                               <div
                                 role="row"
-                                comp-id="162"
+                                comp-id="91"
                                 tabindex="0"
                                 row-index="15"
-                                class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                                class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute ag-row-last"
                                 aria-rowindex="17"
                                 row-id="15"
                                 style="transform: translateY(660px); height: 44px"
                               >
                                 <div
                                   role="gridcell"
-                                  comp-id="163"
-                                  col-id="name"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
+                                  comp-id="92"
+                                  col-id="id"
+                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
                                   tabindex="-1"
                                   aria-colindex="1"
-                                  style="left: 0px; width: 360px"
+                                  style="left: 0px; width: 110px"
                                 >
-                                  <a class="bcn-grid-name" href="#">Landscape Plan</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="164"
-                                  col-id="project"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="2"
-                                  style="left: 360px; width: 210px"
-                                >
-                                  <a class="bcn-grid-name" href="#">3600 Alameda Avenue Project</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="165"
-                                  col-id="commitment"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="3"
-                                  style="left: 570px; width: 160px"
-                                >
-                                  <a class="bcn-grid-name" href="#">SCA AES-3</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="166"
-                                  col-id="sourceDoc"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="4"
-                                  style="left: 730px; width: 180px"
-                                >
-                                  <a class="bcn-grid-name" href="#">FEIR</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="167"
-                                  col-id="type"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="5"
-                                  style="left: 910px; width: 190px"
-                                >
-                                  Plan
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="168"
-                                  col-id="responsibleParty"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="6"
-                                  style="left: 1100px; width: 210px"
-                                >
-                                  Air Quality Lead
-                                </div>
-                              </div>
-                              <div
-                                role="row"
-                                comp-id="169"
-                                tabindex="0"
-                                row-index="16"
-                                class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
-                                aria-rowindex="18"
-                                row-id="16"
-                                style="transform: translateY(704px); height: 44px"
-                              >
-                                <div
-                                  role="gridcell"
-                                  comp-id="170"
-                                  col-id="name"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
-                                  tabindex="-1"
-                                  aria-colindex="1"
-                                  style="left: 0px; width: 360px"
-                                >
-                                  <a class="bcn-grid-name" href="#">Exterior lighting fixtures</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="171"
-                                  col-id="project"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="2"
-                                  style="left: 360px; width: 210px"
-                                >
-                                  <a class="bcn-grid-name" href="#">3600 Alameda Avenue Project</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="172"
-                                  col-id="commitment"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="3"
-                                  style="left: 570px; width: 160px"
-                                >
-                                  <a class="bcn-grid-name" href="#">SCA AES-4</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="173"
-                                  col-id="sourceDoc"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="4"
-                                  style="left: 730px; width: 180px"
-                                >
-                                  <a class="bcn-grid-name" href="#">FEIR</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="174"
-                                  col-id="type"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="5"
-                                  style="left: 910px; width: 190px"
-                                >
-                                  Design
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="175"
-                                  col-id="responsibleParty"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="6"
-                                  style="left: 1100px; width: 210px"
-                                >
-                                  Traffic Engineer
-                                </div>
-                              </div>
-                              <div
-                                role="row"
-                                comp-id="176"
-                                tabindex="0"
-                                row-index="17"
-                                class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
-                                aria-rowindex="19"
-                                row-id="17"
-                                style="transform: translateY(748px); height: 44px"
-                              >
-                                <div
-                                  role="gridcell"
-                                  comp-id="177"
-                                  col-id="name"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
-                                  tabindex="-1"
-                                  aria-colindex="1"
-                                  style="left: 0px; width: 360px"
-                                >
-                                  <a class="bcn-grid-name" href="#"
-                                    >Dust control measures - complaints</a
-                                  >
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="178"
-                                  col-id="project"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="2"
-                                  style="left: 360px; width: 210px"
-                                >
-                                  <a class="bcn-grid-name" href="#">3600 Alameda Avenue Project</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="179"
-                                  col-id="commitment"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="3"
-                                  style="left: 570px; width: 160px"
-                                >
-                                  <a class="bcn-grid-name" href="#">SCA AIR-1</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="180"
-                                  col-id="sourceDoc"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="4"
-                                  style="left: 730px; width: 180px"
-                                >
-                                  <a class="bcn-grid-name" href="#">FEIR</a>
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="181"
-                                  col-id="type"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="5"
-                                  style="left: 910px; width: 190px"
-                                >
-                                  Monitoring
-                                </div>
-                                <div
-                                  role="gridcell"
-                                  comp-id="182"
-                                  col-id="responsibleParty"
-                                  class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                                  tabindex="-1"
-                                  aria-colindex="6"
-                                  style="left: 1100px; width: 210px"
-                                >
-                                  Construction Manager
+                                  <a class="bcn-grid-name" href="#">obs-0117</a>
                                 </div>
                               </div>
                             </div>
+                            <!--AG-ROW-CONTAINER-->
+                            <div
+                              class="ag-viewport ag-center-cols-viewport"
+                              data-ref="eViewport"
+                              role="rowgroup"
+                              style="height: 704px"
+                            >
+                              <div
+                                class="ag-center-cols-container"
+                                data-ref="eContainer"
+                                role="presentation"
+                                style="width: 1170px; height: 704px"
+                              >
+                                <div
+                                  role="row"
+                                  comp-id="101"
+                                  tabindex="0"
+                                  row-index="0"
+                                  class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute ag-row-first"
+                                  aria-rowindex="2"
+                                  row-id="0"
+                                  style="transform: translateY(0px); height: 44px"
+                                >
+                                  <div
+                                    role="gridcell"
+                                    comp-id="102"
+                                    col-id="category"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="2"
+                                    style="left: 0px; width: 240px"
+                                  >
+                                    Stormwater / BMP Maintenance
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="103"
+                                    col-id="severity"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="3"
+                                    style="left: 240px; width: 170px"
+                                  >
+                                    <span class="bcn-grid-chip" style="--_chip: var(--color-danger)"
+                                      ><span class="bcn-grid-chip__dot"></span>Non-Compliance</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="104"
+                                    col-id="status"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="4"
+                                    style="left: 410px; width: 130px"
+                                  >
+                                    <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                                      ><span class="bcn-grid-chip__dot"></span>Active</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="105"
+                                    col-id="area"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="5"
+                                    style="left: 540px; width: 240px"
+                                  >
+                                    South Array — Block B
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="106"
+                                    col-id="reportedDate"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="6"
+                                    style="left: 780px; width: 130px"
+                                  >
+                                    Jul 29, 2026
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="107"
+                                    col-id="daysActive"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="7"
+                                    style="left: 910px; width: 120px"
+                                  >
+                                    7d
+                                  </div>
+                                </div>
+                                <div
+                                  role="row"
+                                  comp-id="108"
+                                  tabindex="0"
+                                  row-index="1"
+                                  class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                                  aria-rowindex="3"
+                                  row-id="1"
+                                  style="transform: translateY(44px); height: 44px"
+                                >
+                                  <div
+                                    role="gridcell"
+                                    comp-id="109"
+                                    col-id="category"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="2"
+                                    style="left: 0px; width: 240px"
+                                  >
+                                    Spill Prevention &amp; Response
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="110"
+                                    col-id="severity"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="3"
+                                    style="left: 240px; width: 170px"
+                                  >
+                                    <span class="bcn-grid-chip" style="--_chip: var(--color-danger)"
+                                      ><span class="bcn-grid-chip__dot"></span>Non-Compliance</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="111"
+                                    col-id="status"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="4"
+                                    style="left: 410px; width: 130px"
+                                  >
+                                    <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                                      ><span class="bcn-grid-chip__dot"></span>Active</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="112"
+                                    col-id="area"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="5"
+                                    style="left: 540px; width: 240px"
+                                  >
+                                    Laydown / Staging Yard
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="113"
+                                    col-id="reportedDate"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="6"
+                                    style="left: 780px; width: 130px"
+                                  >
+                                    Jul 24, 2026
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="114"
+                                    col-id="daysActive"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="7"
+                                    style="left: 910px; width: 120px"
+                                  >
+                                    12d
+                                  </div>
+                                </div>
+                                <div
+                                  role="row"
+                                  comp-id="115"
+                                  tabindex="0"
+                                  row-index="2"
+                                  class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                                  aria-rowindex="4"
+                                  row-id="2"
+                                  style="transform: translateY(88px); height: 44px"
+                                >
+                                  <div
+                                    role="gridcell"
+                                    comp-id="116"
+                                    col-id="category"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="2"
+                                    style="left: 0px; width: 240px"
+                                  >
+                                    Cultural Resources Protection
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="117"
+                                    col-id="severity"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="3"
+                                    style="left: 240px; width: 170px"
+                                  >
+                                    <span class="bcn-grid-chip" style="--_chip: var(--color-danger)"
+                                      ><span class="bcn-grid-chip__dot"></span>Non-Compliance</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="118"
+                                    col-id="status"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="4"
+                                    style="left: 410px; width: 130px"
+                                  >
+                                    <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                                      ><span class="bcn-grid-chip__dot"></span>Active</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="119"
+                                    col-id="area"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="5"
+                                    style="left: 540px; width: 240px"
+                                  >
+                                    Perimeter Fence Line — West
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="120"
+                                    col-id="reportedDate"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="6"
+                                    style="left: 780px; width: 130px"
+                                  >
+                                    Jul 11, 2026
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="121"
+                                    col-id="daysActive"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="7"
+                                    style="left: 910px; width: 120px"
+                                  >
+                                    25d
+                                  </div>
+                                </div>
+                                <div
+                                  role="row"
+                                  comp-id="122"
+                                  tabindex="0"
+                                  row-index="3"
+                                  class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                                  aria-rowindex="5"
+                                  row-id="3"
+                                  style="transform: translateY(132px); height: 44px"
+                                >
+                                  <div
+                                    role="gridcell"
+                                    comp-id="123"
+                                    col-id="category"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="2"
+                                    style="left: 0px; width: 240px"
+                                  >
+                                    Erosion &amp; Sediment Control
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="124"
+                                    col-id="severity"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="3"
+                                    style="left: 240px; width: 170px"
+                                  >
+                                    <span
+                                      class="bcn-grid-chip"
+                                      style="--_chip: var(--color-warning)"
+                                      ><span class="bcn-grid-chip__dot"></span>Needs Attention</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="125"
+                                    col-id="status"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="4"
+                                    style="left: 410px; width: 130px"
+                                  >
+                                    <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                                      ><span class="bcn-grid-chip__dot"></span>Active</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="126"
+                                    col-id="area"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="5"
+                                    style="left: 540px; width: 240px"
+                                  >
+                                    North Array — Block A
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="127"
+                                    col-id="reportedDate"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="6"
+                                    style="left: 780px; width: 130px"
+                                  >
+                                    Aug 1, 2026
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="128"
+                                    col-id="daysActive"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="7"
+                                    style="left: 910px; width: 120px"
+                                  >
+                                    4d
+                                  </div>
+                                </div>
+                                <div
+                                  role="row"
+                                  comp-id="129"
+                                  tabindex="0"
+                                  row-index="4"
+                                  class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                                  aria-rowindex="6"
+                                  row-id="4"
+                                  style="transform: translateY(176px); height: 44px"
+                                >
+                                  <div
+                                    role="gridcell"
+                                    comp-id="130"
+                                    col-id="category"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="2"
+                                    style="left: 0px; width: 240px"
+                                  >
+                                    Access &amp; Traffic Control
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="131"
+                                    col-id="severity"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="3"
+                                    style="left: 240px; width: 170px"
+                                  >
+                                    <span
+                                      class="bcn-grid-chip"
+                                      style="--_chip: var(--color-warning)"
+                                      ><span class="bcn-grid-chip__dot"></span>Needs Attention</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="132"
+                                    col-id="status"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="4"
+                                    style="left: 410px; width: 130px"
+                                  >
+                                    <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                                      ><span class="bcn-grid-chip__dot"></span>Active</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="133"
+                                    col-id="area"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="5"
+                                    style="left: 540px; width: 240px"
+                                  >
+                                    Main Access Road (Hwy 58 Spur)
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="134"
+                                    col-id="reportedDate"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="6"
+                                    style="left: 780px; width: 130px"
+                                  >
+                                    Jul 27, 2026
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="135"
+                                    col-id="daysActive"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="7"
+                                    style="left: 910px; width: 120px"
+                                  >
+                                    9d
+                                  </div>
+                                </div>
+                                <div
+                                  role="row"
+                                  comp-id="136"
+                                  tabindex="0"
+                                  row-index="5"
+                                  class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                                  aria-rowindex="7"
+                                  row-id="5"
+                                  style="transform: translateY(220px); height: 44px"
+                                >
+                                  <div
+                                    role="gridcell"
+                                    comp-id="137"
+                                    col-id="category"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="2"
+                                    style="left: 0px; width: 240px"
+                                  >
+                                    Waste Management
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="138"
+                                    col-id="severity"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="3"
+                                    style="left: 240px; width: 170px"
+                                  >
+                                    <span
+                                      class="bcn-grid-chip"
+                                      style="--_chip: var(--color-warning)"
+                                      ><span class="bcn-grid-chip__dot"></span>Needs Attention</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="139"
+                                    col-id="status"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="4"
+                                    style="left: 410px; width: 130px"
+                                  >
+                                    <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                                      ><span class="bcn-grid-chip__dot"></span>Active</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="140"
+                                    col-id="area"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="5"
+                                    style="left: 540px; width: 240px"
+                                  >
+                                    O&amp;M Building Area
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="141"
+                                    col-id="reportedDate"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="6"
+                                    style="left: 780px; width: 130px"
+                                  >
+                                    Jul 20, 2026
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="142"
+                                    col-id="daysActive"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="7"
+                                    style="left: 910px; width: 120px"
+                                  >
+                                    16d
+                                  </div>
+                                </div>
+                                <div
+                                  role="row"
+                                  comp-id="143"
+                                  tabindex="0"
+                                  row-index="6"
+                                  class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                                  aria-rowindex="8"
+                                  row-id="6"
+                                  style="transform: translateY(264px); height: 44px"
+                                >
+                                  <div
+                                    role="gridcell"
+                                    comp-id="144"
+                                    col-id="category"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="2"
+                                    style="left: 0px; width: 240px"
+                                  >
+                                    Vegetation &amp; Habitat Protection
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="145"
+                                    col-id="severity"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="3"
+                                    style="left: 240px; width: 170px"
+                                  >
+                                    <span
+                                      class="bcn-grid-chip"
+                                      style="--_chip: var(--color-warning)"
+                                      ><span class="bcn-grid-chip__dot"></span>Needs Attention</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="146"
+                                    col-id="status"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="4"
+                                    style="left: 410px; width: 130px"
+                                  >
+                                    <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                                      ><span class="bcn-grid-chip__dot"></span>Active</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="147"
+                                    col-id="area"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="5"
+                                    style="left: 540px; width: 240px"
+                                  >
+                                    Substation Yard
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="148"
+                                    col-id="reportedDate"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="6"
+                                    style="left: 780px; width: 130px"
+                                  >
+                                    Jul 16, 2026
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="149"
+                                    col-id="daysActive"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="7"
+                                    style="left: 910px; width: 120px"
+                                  >
+                                    20d
+                                  </div>
+                                </div>
+                                <div
+                                  role="row"
+                                  comp-id="150"
+                                  tabindex="0"
+                                  row-index="7"
+                                  class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                                  aria-rowindex="9"
+                                  row-id="7"
+                                  style="transform: translateY(308px); height: 44px"
+                                >
+                                  <div
+                                    role="gridcell"
+                                    comp-id="151"
+                                    col-id="category"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="2"
+                                    style="left: 0px; width: 240px"
+                                  >
+                                    Noise Management
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="152"
+                                    col-id="severity"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="3"
+                                    style="left: 240px; width: 170px"
+                                  >
+                                    <span
+                                      class="bcn-grid-chip"
+                                      style="--_chip: var(--color-warning)"
+                                      ><span class="bcn-grid-chip__dot"></span>Needs Attention</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="153"
+                                    col-id="status"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="4"
+                                    style="left: 410px; width: 130px"
+                                  >
+                                    <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                                      ><span class="bcn-grid-chip__dot"></span>Active</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="154"
+                                    col-id="area"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="5"
+                                    style="left: 540px; width: 240px"
+                                  >
+                                    BESS Pad
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="155"
+                                    col-id="reportedDate"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="6"
+                                    style="left: 780px; width: 130px"
+                                  >
+                                    Jul 14, 2026
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="156"
+                                    col-id="daysActive"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="7"
+                                    style="left: 910px; width: 120px"
+                                  >
+                                    22d
+                                  </div>
+                                </div>
+                                <div
+                                  role="row"
+                                  comp-id="157"
+                                  tabindex="0"
+                                  row-index="8"
+                                  class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                                  aria-rowindex="10"
+                                  row-id="8"
+                                  style="transform: translateY(352px); height: 44px"
+                                >
+                                  <div
+                                    role="gridcell"
+                                    comp-id="158"
+                                    col-id="category"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="2"
+                                    style="left: 0px; width: 240px"
+                                  >
+                                    Stormwater / BMP Maintenance
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="159"
+                                    col-id="severity"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="3"
+                                    style="left: 240px; width: 170px"
+                                  >
+                                    <span
+                                      class="bcn-grid-chip"
+                                      style="--_chip: var(--color-warning)"
+                                      ><span class="bcn-grid-chip__dot"></span>Needs Attention</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="160"
+                                    col-id="status"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="4"
+                                    style="left: 410px; width: 130px"
+                                  >
+                                    <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                                      ><span class="bcn-grid-chip__dot"></span>Active</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="161"
+                                    col-id="area"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="5"
+                                    style="left: 540px; width: 240px"
+                                  >
+                                    Cottonwood Wash Crossing
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="162"
+                                    col-id="reportedDate"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="6"
+                                    style="left: 780px; width: 130px"
+                                  >
+                                    Jul 8, 2026
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="163"
+                                    col-id="daysActive"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="7"
+                                    style="left: 910px; width: 120px"
+                                  >
+                                    28d
+                                  </div>
+                                </div>
+                                <div
+                                  role="row"
+                                  comp-id="164"
+                                  tabindex="0"
+                                  row-index="9"
+                                  class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                                  aria-rowindex="11"
+                                  row-id="9"
+                                  style="transform: translateY(396px); height: 44px"
+                                >
+                                  <div
+                                    role="gridcell"
+                                    comp-id="165"
+                                    col-id="category"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="2"
+                                    style="left: 0px; width: 240px"
+                                  >
+                                    Access &amp; Traffic Control
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="166"
+                                    col-id="severity"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="3"
+                                    style="left: 240px; width: 170px"
+                                  >
+                                    <span
+                                      class="bcn-grid-chip"
+                                      style="--_chip: var(--color-warning)"
+                                      ><span class="bcn-grid-chip__dot"></span>Needs Attention</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="167"
+                                    col-id="status"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="4"
+                                    style="left: 410px; width: 130px"
+                                  >
+                                    <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                                      ><span class="bcn-grid-chip__dot"></span>Active</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="168"
+                                    col-id="area"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="5"
+                                    style="left: 540px; width: 240px"
+                                  >
+                                    Main Access Road (Hwy 58 Spur)
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="169"
+                                    col-id="reportedDate"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="6"
+                                    style="left: 780px; width: 130px"
+                                  >
+                                    Jul 3, 2026
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="170"
+                                    col-id="daysActive"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="7"
+                                    style="left: 910px; width: 120px"
+                                  >
+                                    33d
+                                  </div>
+                                </div>
+                                <div
+                                  role="row"
+                                  comp-id="171"
+                                  tabindex="0"
+                                  row-index="10"
+                                  class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                                  aria-rowindex="12"
+                                  row-id="10"
+                                  style="transform: translateY(440px); height: 44px"
+                                >
+                                  <div
+                                    role="gridcell"
+                                    comp-id="172"
+                                    col-id="category"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="2"
+                                    style="left: 0px; width: 240px"
+                                  >
+                                    Vegetation &amp; Habitat Protection
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="173"
+                                    col-id="severity"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="3"
+                                    style="left: 240px; width: 170px"
+                                  >
+                                    <span
+                                      class="bcn-grid-chip"
+                                      style="--_chip: var(--color-success)"
+                                      ><span class="bcn-grid-chip__dot"></span>In Compliance</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="174"
+                                    col-id="status"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="4"
+                                    style="left: 410px; width: 130px"
+                                  >
+                                    <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                                      ><span class="bcn-grid-chip__dot"></span>Active</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="175"
+                                    col-id="area"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="5"
+                                    style="left: 540px; width: 240px"
+                                  >
+                                    North Array — Block A
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="176"
+                                    col-id="reportedDate"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="6"
+                                    style="left: 780px; width: 130px"
+                                  >
+                                    Aug 3, 2026
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="177"
+                                    col-id="daysActive"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="7"
+                                    style="left: 910px; width: 120px"
+                                  >
+                                    2d
+                                  </div>
+                                </div>
+                                <div
+                                  role="row"
+                                  comp-id="178"
+                                  tabindex="0"
+                                  row-index="11"
+                                  class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                                  aria-rowindex="13"
+                                  row-id="11"
+                                  style="transform: translateY(484px); height: 44px"
+                                >
+                                  <div
+                                    role="gridcell"
+                                    comp-id="179"
+                                    col-id="category"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="2"
+                                    style="left: 0px; width: 240px"
+                                  >
+                                    Stormwater / BMP Maintenance
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="180"
+                                    col-id="severity"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="3"
+                                    style="left: 240px; width: 170px"
+                                  >
+                                    <span
+                                      class="bcn-grid-chip"
+                                      style="--_chip: var(--color-success)"
+                                      ><span class="bcn-grid-chip__dot"></span>In Compliance</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="181"
+                                    col-id="status"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="4"
+                                    style="left: 410px; width: 130px"
+                                  >
+                                    <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                                      ><span class="bcn-grid-chip__dot"></span>Active</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="182"
+                                    col-id="area"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="5"
+                                    style="left: 540px; width: 240px"
+                                  >
+                                    North Array — Block A
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="183"
+                                    col-id="reportedDate"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="6"
+                                    style="left: 780px; width: 130px"
+                                  >
+                                    Jul 30, 2026
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="184"
+                                    col-id="daysActive"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="7"
+                                    style="left: 910px; width: 120px"
+                                  >
+                                    6d
+                                  </div>
+                                </div>
+                                <div
+                                  role="row"
+                                  comp-id="185"
+                                  tabindex="0"
+                                  row-index="12"
+                                  class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                                  aria-rowindex="14"
+                                  row-id="12"
+                                  style="transform: translateY(528px); height: 44px"
+                                >
+                                  <div
+                                    role="gridcell"
+                                    comp-id="186"
+                                    col-id="category"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="2"
+                                    style="left: 0px; width: 240px"
+                                  >
+                                    Waste Management
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="187"
+                                    col-id="severity"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="3"
+                                    style="left: 240px; width: 170px"
+                                  >
+                                    <span
+                                      class="bcn-grid-chip"
+                                      style="--_chip: var(--color-success)"
+                                      ><span class="bcn-grid-chip__dot"></span>In Compliance</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="188"
+                                    col-id="status"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="4"
+                                    style="left: 410px; width: 130px"
+                                  >
+                                    <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                                      ><span class="bcn-grid-chip__dot"></span>Active</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="189"
+                                    col-id="area"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="5"
+                                    style="left: 540px; width: 240px"
+                                  >
+                                    Laydown / Staging Yard
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="190"
+                                    col-id="reportedDate"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="6"
+                                    style="left: 780px; width: 130px"
+                                  >
+                                    Jul 21, 2026
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="191"
+                                    col-id="daysActive"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="7"
+                                    style="left: 910px; width: 120px"
+                                  >
+                                    15d
+                                  </div>
+                                </div>
+                                <div
+                                  role="row"
+                                  comp-id="192"
+                                  tabindex="0"
+                                  row-index="13"
+                                  class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                                  aria-rowindex="15"
+                                  row-id="13"
+                                  style="transform: translateY(572px); height: 44px"
+                                >
+                                  <div
+                                    role="gridcell"
+                                    comp-id="193"
+                                    col-id="category"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="2"
+                                    style="left: 0px; width: 240px"
+                                  >
+                                    Noise Management
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="194"
+                                    col-id="severity"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="3"
+                                    style="left: 240px; width: 170px"
+                                  >
+                                    <span
+                                      class="bcn-grid-chip"
+                                      style="--_chip: var(--color-success)"
+                                      ><span class="bcn-grid-chip__dot"></span>In Compliance</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="195"
+                                    col-id="status"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="4"
+                                    style="left: 410px; width: 130px"
+                                  >
+                                    <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                                      ><span class="bcn-grid-chip__dot"></span>Active</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="196"
+                                    col-id="area"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="5"
+                                    style="left: 540px; width: 240px"
+                                  >
+                                    BESS Pad
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="197"
+                                    col-id="reportedDate"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="6"
+                                    style="left: 780px; width: 130px"
+                                  >
+                                    Jul 17, 2026
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="198"
+                                    col-id="daysActive"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="7"
+                                    style="left: 910px; width: 120px"
+                                  >
+                                    19d
+                                  </div>
+                                </div>
+                                <div
+                                  role="row"
+                                  comp-id="199"
+                                  tabindex="0"
+                                  row-index="14"
+                                  class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                                  aria-rowindex="16"
+                                  row-id="14"
+                                  style="transform: translateY(616px); height: 44px"
+                                >
+                                  <div
+                                    role="gridcell"
+                                    comp-id="200"
+                                    col-id="category"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="2"
+                                    style="left: 0px; width: 240px"
+                                  >
+                                    Cultural Resources Protection
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="201"
+                                    col-id="severity"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="3"
+                                    style="left: 240px; width: 170px"
+                                  >
+                                    <span
+                                      class="bcn-grid-chip"
+                                      style="--_chip: var(--color-success)"
+                                      ><span class="bcn-grid-chip__dot"></span>In Compliance</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="202"
+                                    col-id="status"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="4"
+                                    style="left: 410px; width: 130px"
+                                  >
+                                    <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                                      ><span class="bcn-grid-chip__dot"></span>Active</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="203"
+                                    col-id="area"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="5"
+                                    style="left: 540px; width: 240px"
+                                  >
+                                    Perimeter Fence Line — West
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="204"
+                                    col-id="reportedDate"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="6"
+                                    style="left: 780px; width: 130px"
+                                  >
+                                    Jul 13, 2026
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="205"
+                                    col-id="daysActive"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="7"
+                                    style="left: 910px; width: 120px"
+                                  >
+                                    23d
+                                  </div>
+                                </div>
+                                <div
+                                  role="row"
+                                  comp-id="206"
+                                  tabindex="0"
+                                  row-index="15"
+                                  class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute ag-row-last"
+                                  aria-rowindex="17"
+                                  row-id="15"
+                                  style="transform: translateY(660px); height: 44px"
+                                >
+                                  <div
+                                    role="gridcell"
+                                    comp-id="207"
+                                    col-id="category"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="2"
+                                    style="left: 0px; width: 240px"
+                                  >
+                                    Spill Prevention &amp; Response
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="208"
+                                    col-id="severity"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="3"
+                                    style="left: 240px; width: 170px"
+                                  >
+                                    <span
+                                      class="bcn-grid-chip"
+                                      style="--_chip: var(--color-success)"
+                                      ><span class="bcn-grid-chip__dot"></span>In Compliance</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="209"
+                                    col-id="status"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                                    tabindex="-1"
+                                    aria-colindex="4"
+                                    style="left: 410px; width: 130px"
+                                  >
+                                    <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                                      ><span class="bcn-grid-chip__dot"></span>Active</span
+                                    >
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="210"
+                                    col-id="area"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="5"
+                                    style="left: 540px; width: 240px"
+                                  >
+                                    Substation Yard
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="211"
+                                    col-id="reportedDate"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="6"
+                                    style="left: 780px; width: 130px"
+                                  >
+                                    Jul 7, 2026
+                                  </div>
+                                  <div
+                                    role="gridcell"
+                                    comp-id="212"
+                                    col-id="daysActive"
+                                    class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                                    tabindex="-1"
+                                    aria-colindex="7"
+                                    style="left: 910px; width: 120px"
+                                  >
+                                    29d
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <!--AG-ROW-CONTAINER-->
+                            <div
+                              class="ag-pinned-right-cols-container ag-hidden"
+                              data-ref="eContainer"
+                              role="rowgroup"
+                              aria-hidden="true"
+                              style="height: 704px; width: 0px; max-width: 0px; min-width: 0px"
+                            ></div>
+                            <!--AG-ROW-CONTAINER-->
+                            <div
+                              class="ag-full-width-container"
+                              data-ref="eContainer"
+                              role="rowgroup"
+                              style="height: 704px"
+                            ></div>
                           </div>
-                          <!--AG-ROW-CONTAINER-->
+                          <!--AG-FAKE-VERTICAL-SCROLL-->
                           <div
-                            class="ag-pinned-right-cols-container ag-hidden"
-                            data-ref="eContainer"
-                            role="rowgroup"
+                            class="ag-body-vertical-scroll ag-scrollbar-invisible"
                             aria-hidden="true"
-                            style="height: 5720px; width: 0px; max-width: 0px; min-width: 0px"
-                          ></div>
-                          <!--AG-ROW-CONTAINER-->
-                          <div
-                            class="ag-full-width-container"
-                            data-ref="eContainer"
-                            role="rowgroup"
-                            style="height: 5720px"
-                          ></div>
-                        </div>
-                        <!--AG-FAKE-VERTICAL-SCROLL-->
-                        <div
-                          class="ag-body-vertical-scroll ag-scrollbar-invisible"
-                          aria-hidden="true"
-                          style="width: 16px; max-width: 16px; min-width: 16px"
-                        >
-                          <div
-                            class="ag-body-vertical-scroll-viewport"
-                            data-ref="eViewport"
                             style="width: 16px; max-width: 16px; min-width: 16px"
                           >
                             <div
-                              class="ag-body-vertical-scroll-container"
+                              class="ag-body-vertical-scroll-viewport"
+                              data-ref="eViewport"
+                              style="width: 16px; max-width: 16px; min-width: 16px"
+                            >
+                              <div
+                                class="ag-body-vertical-scroll-container"
+                                data-ref="eContainer"
+                                style="height: 704px; width: 16px; max-width: 16px; min-width: 16px"
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="ag-sticky-top"
+                          data-ref="eStickyTop"
+                          role="presentation"
+                          style="top: 49px; height: 0px; width: calc(100% + 0px)"
+                        >
+                          <!--AG-ROW-CONTAINER-->
+                          <div
+                            class="ag-pinned-left-sticky-top"
+                            data-ref="eContainer"
+                            role="rowgroup"
+                            aria-hidden="false"
+                            style="width: 110px; max-width: 110px; min-width: 110px"
+                          ></div>
+                          <!--AG-ROW-CONTAINER-->
+                          <div
+                            class="ag-viewport ag-sticky-top-viewport"
+                            data-ref="eViewport"
+                            role="rowgroup"
+                          >
+                            <div
+                              class="ag-sticky-top-container"
                               data-ref="eContainer"
-                              style="height: 5720px; width: 16px; max-width: 16px; min-width: 16px"
+                              role="presentation"
+                              style="width: 1170px"
+                            ></div>
+                          </div>
+                          <!--AG-ROW-CONTAINER-->
+                          <div
+                            class="ag-pinned-right-sticky-top ag-hidden"
+                            data-ref="eContainer"
+                            role="rowgroup"
+                            aria-hidden="true"
+                            style="width: 0px; max-width: 0px; min-width: 0px"
+                          ></div>
+                          <!--AG-ROW-CONTAINER-->
+                          <div
+                            class="ag-sticky-top-full-width-container"
+                            data-ref="eContainer"
+                            role="rowgroup"
+                          ></div>
+                        </div>
+                        <div
+                          class="ag-sticky-bottom ag-invisible"
+                          data-ref="eStickyBottom"
+                          role="presentation"
+                          style="bottom: 0px; height: 0px; width: calc(100% + 0px)"
+                        >
+                          <!--AG-ROW-CONTAINER-->
+                          <div
+                            class="ag-pinned-left-sticky-bottom"
+                            data-ref="eContainer"
+                            role="rowgroup"
+                            aria-hidden="false"
+                            style="width: 110px; max-width: 110px; min-width: 110px"
+                          ></div>
+                          <!--AG-ROW-CONTAINER-->
+                          <div
+                            class="ag-viewport ag-sticky-bottom-viewport"
+                            data-ref="eViewport"
+                            role="rowgroup"
+                          >
+                            <div
+                              class="ag-sticky-bottom-container"
+                              data-ref="eContainer"
+                              role="presentation"
+                              style="width: 1170px"
+                            ></div>
+                          </div>
+                          <!--AG-ROW-CONTAINER-->
+                          <div
+                            class="ag-pinned-right-sticky-bottom ag-hidden"
+                            data-ref="eContainer"
+                            role="rowgroup"
+                            aria-hidden="true"
+                            style="width: 0px; max-width: 0px; min-width: 0px"
+                          ></div>
+                          <!--AG-ROW-CONTAINER-->
+                          <div
+                            class="ag-sticky-bottom-full-width-container"
+                            data-ref="eContainer"
+                            role="rowgroup"
+                          ></div>
+                        </div>
+                        <div
+                          class="ag-floating-bottom ag-invisible"
+                          data-ref="eBottom"
+                          role="presentation"
+                          style="min-height: 0px; height: 0px; overflow-y: scroll"
+                        >
+                          <!--AG-ROW-CONTAINER-->
+                          <div
+                            class="ag-pinned-left-floating-bottom"
+                            data-ref="eContainer"
+                            role="rowgroup"
+                            aria-hidden="false"
+                            style="width: 110px; max-width: 110px; min-width: 110px"
+                          ></div>
+                          <!--AG-ROW-CONTAINER-->
+                          <div
+                            class="ag-viewport ag-floating-bottom-viewport"
+                            data-ref="eViewport"
+                            role="rowgroup"
+                          >
+                            <div
+                              class="ag-floating-bottom-container"
+                              data-ref="eContainer"
+                              role="presentation"
+                              style="width: 1170px"
+                            ></div>
+                          </div>
+                          <!--AG-ROW-CONTAINER-->
+                          <div
+                            class="ag-pinned-right-floating-bottom ag-hidden"
+                            data-ref="eContainer"
+                            role="rowgroup"
+                            aria-hidden="true"
+                            style="width: 0px; max-width: 0px; min-width: 0px"
+                          ></div>
+                          <!--AG-ROW-CONTAINER-->
+                          <div
+                            class="ag-floating-bottom-full-width-container"
+                            data-ref="eContainer"
+                            role="rowgroup"
+                          ></div>
+                        </div>
+                        <!--AG-FAKE-HORIZONTAL-SCROLL-->
+                        <div
+                          class="ag-body-horizontal-scroll ag-scrollbar-invisible"
+                          aria-hidden="true"
+                          style="bottom: 0px; height: 16px; max-height: 16px; min-height: 16px"
+                        >
+                          <div
+                            class="ag-horizontal-left-spacer"
+                            data-ref="eLeftSpacer"
+                            style="width: 110px; max-width: 110px; min-width: 110px"
+                          ></div>
+                          <div
+                            class="ag-body-horizontal-scroll-viewport"
+                            data-ref="eViewport"
+                            style="height: 16px; max-height: 16px; min-height: 16px"
+                          >
+                            <div
+                              class="ag-body-horizontal-scroll-container"
+                              data-ref="eContainer"
+                              style="
+                                width: 1170px;
+                                height: 16px;
+                                max-height: 16px;
+                                min-height: 16px;
+                              "
+                            ></div>
+                          </div>
+                          <div
+                            class="ag-horizontal-right-spacer ag-scroller-corner"
+                            data-ref="eRightSpacer"
+                            style="width: 0px; max-width: 0px; min-width: 0px"
+                          ></div>
+                        </div>
+                        <!--AG-OVERLAY-WRAPPER-->
+                        <div class="ag-overlay ag-hidden" role="presentation">
+                          <div class="ag-overlay-panel" role="presentation">
+                            <div
+                              class="ag-overlay-wrapper ag-layout-normal"
+                              data-ref="eOverlayWrapper"
+                              role="presentation"
+                              style="padding-top: 0px"
                             ></div>
                           </div>
                         </div>
                       </div>
                       <div
-                        class="ag-sticky-top"
-                        data-ref="eStickyTop"
+                        class="ag-tab-guard ag-tab-guard-bottom"
                         role="presentation"
-                        style="top: 49px; height: 0px; width: calc(100% + 0px)"
-                      >
-                        <!--AG-ROW-CONTAINER-->
-                        <div
-                          class="ag-pinned-left-sticky-top ag-hidden"
-                          data-ref="eContainer"
-                          role="rowgroup"
-                          aria-hidden="true"
-                          style="width: 0px; max-width: 0px; min-width: 0px"
-                        ></div>
-                        <!--AG-ROW-CONTAINER-->
-                        <div
-                          class="ag-viewport ag-sticky-top-viewport"
-                          data-ref="eViewport"
-                          role="rowgroup"
-                        >
-                          <div
-                            class="ag-sticky-top-container"
-                            data-ref="eContainer"
-                            role="presentation"
-                            style="width: 1710px"
-                          ></div>
-                        </div>
-                        <!--AG-ROW-CONTAINER-->
-                        <div
-                          class="ag-pinned-right-sticky-top ag-hidden"
-                          data-ref="eContainer"
-                          role="rowgroup"
-                          aria-hidden="true"
-                          style="width: 0px; max-width: 0px; min-width: 0px"
-                        ></div>
-                        <!--AG-ROW-CONTAINER-->
-                        <div
-                          class="ag-sticky-top-full-width-container"
-                          data-ref="eContainer"
-                          role="rowgroup"
-                        ></div>
-                      </div>
-                      <div
-                        class="ag-sticky-bottom ag-invisible"
-                        data-ref="eStickyBottom"
-                        role="presentation"
-                        style="bottom: 0px; height: 0px; width: calc(100% + 0px)"
-                      >
-                        <!--AG-ROW-CONTAINER-->
-                        <div
-                          class="ag-pinned-left-sticky-bottom ag-hidden"
-                          data-ref="eContainer"
-                          role="rowgroup"
-                          aria-hidden="true"
-                          style="width: 0px; max-width: 0px; min-width: 0px"
-                        ></div>
-                        <!--AG-ROW-CONTAINER-->
-                        <div
-                          class="ag-viewport ag-sticky-bottom-viewport"
-                          data-ref="eViewport"
-                          role="rowgroup"
-                        >
-                          <div
-                            class="ag-sticky-bottom-container"
-                            data-ref="eContainer"
-                            role="presentation"
-                            style="width: 1710px"
-                          ></div>
-                        </div>
-                        <!--AG-ROW-CONTAINER-->
-                        <div
-                          class="ag-pinned-right-sticky-bottom ag-hidden"
-                          data-ref="eContainer"
-                          role="rowgroup"
-                          aria-hidden="true"
-                          style="width: 0px; max-width: 0px; min-width: 0px"
-                        ></div>
-                        <!--AG-ROW-CONTAINER-->
-                        <div
-                          class="ag-sticky-bottom-full-width-container"
-                          data-ref="eContainer"
-                          role="rowgroup"
-                        ></div>
-                      </div>
-                      <div
-                        class="ag-floating-bottom ag-invisible"
-                        data-ref="eBottom"
-                        role="presentation"
-                        style="min-height: 0px; height: 0px; overflow-y: scroll"
-                      >
-                        <!--AG-ROW-CONTAINER-->
-                        <div
-                          class="ag-pinned-left-floating-bottom ag-hidden"
-                          data-ref="eContainer"
-                          role="rowgroup"
-                          aria-hidden="true"
-                          style="width: 0px; max-width: 0px; min-width: 0px"
-                        ></div>
-                        <!--AG-ROW-CONTAINER-->
-                        <div
-                          class="ag-viewport ag-floating-bottom-viewport"
-                          data-ref="eViewport"
-                          role="rowgroup"
-                        >
-                          <div
-                            class="ag-floating-bottom-container"
-                            data-ref="eContainer"
-                            role="presentation"
-                            style="width: 1710px"
-                          ></div>
-                        </div>
-                        <!--AG-ROW-CONTAINER-->
-                        <div
-                          class="ag-pinned-right-floating-bottom ag-hidden"
-                          data-ref="eContainer"
-                          role="rowgroup"
-                          aria-hidden="true"
-                          style="width: 0px; max-width: 0px; min-width: 0px"
-                        ></div>
-                        <!--AG-ROW-CONTAINER-->
-                        <div
-                          class="ag-floating-bottom-full-width-container"
-                          data-ref="eContainer"
-                          role="rowgroup"
-                        ></div>
-                      </div>
-                      <!--AG-FAKE-HORIZONTAL-SCROLL-->
-                      <div
-                        class="ag-body-horizontal-scroll ag-scrollbar-invisible"
-                        aria-hidden="true"
-                        style="bottom: 0px; height: 16px; max-height: 16px; min-height: 16px"
-                      >
-                        <div
-                          class="ag-horizontal-left-spacer ag-scroller-corner"
-                          data-ref="eLeftSpacer"
-                          style="width: 0px; max-width: 0px; min-width: 0px"
-                        ></div>
-                        <div
-                          class="ag-body-horizontal-scroll-viewport"
-                          data-ref="eViewport"
-                          style="height: 16px; max-height: 16px; min-height: 16px"
-                        >
-                          <div
-                            class="ag-body-horizontal-scroll-container"
-                            data-ref="eContainer"
-                            style="width: 1710px; height: 16px; max-height: 16px; min-height: 16px"
-                          ></div>
-                        </div>
-                        <div
-                          class="ag-horizontal-right-spacer ag-scroller-corner"
-                          data-ref="eRightSpacer"
-                          style="width: 0px; max-width: 0px; min-width: 0px"
-                        ></div>
-                      </div>
-                      <!--AG-OVERLAY-WRAPPER-->
-                      <div class="ag-overlay ag-hidden" role="presentation">
-                        <div class="ag-overlay-panel" role="presentation">
-                          <div
-                            class="ag-overlay-wrapper ag-layout-normal"
-                            data-ref="eOverlayWrapper"
-                            role="presentation"
-                            style="padding-top: 0px"
-                          ></div>
-                        </div>
-                      </div>
+                        tabindex="0"
+                      ></div>
                     </div>
+                    <!--AG-PAGINATION-->
                     <div
-                      class="ag-tab-guard ag-tab-guard-bottom"
-                      role="presentation"
-                      tabindex="0"
-                    ></div>
-                  </div>
-                  <!--AG-PAGINATION-->
-                  <div
-                    class="ag-paging-panel ag-unselectable ag-focus-managed ag-hidden"
-                    id="ag-29"
-                    aria-hidden="true"
-                  >
-                    <div
-                      class="ag-tab-guard ag-tab-guard-top"
-                      role="presentation"
-                      tabindex="0"
-                    ></div>
-                    <span class="ag-paging-page-size"
-                      ><div
-                        class="ag-picker-field ag-labeled ag-label-align-left ag-select"
+                      class="ag-paging-panel ag-unselectable ag-focus-managed ag-hidden"
+                      id="ag-29"
+                      aria-hidden="true"
+                    >
+                      <div
+                        class="ag-tab-guard ag-tab-guard-top"
                         role="presentation"
-                      >
-                        <div
-                          data-ref="eLabel"
-                          class="ag-label"
-                          aria-hidden="false"
-                          id="ag-31-label"
-                        >
-                          Page Size:
-                        </div>
-                        <div
-                          class="ag-wrapper ag-picker-field-wrapper ag-picker-collapsed"
-                          data-ref="eWrapper"
-                          tabindex="0"
-                          aria-expanded="false"
-                          role="combobox"
-                          aria-controls="ag-select-list-32"
-                          aria-label="Page Size"
+                        tabindex="0"
+                      ></div>
+                      <span class="ag-paging-page-size"
+                        ><div
+                          class="ag-picker-field ag-labeled ag-label-align-left ag-select"
+                          role="presentation"
                         >
                           <div
-                            class="ag-picker-field-display"
-                            data-ref="eDisplayField"
-                            id="ag-31-display"
+                            data-ref="eLabel"
+                            class="ag-label"
+                            aria-hidden="false"
+                            id="ag-31-label"
                           >
-                            100
+                            Page Size:
                           </div>
-                          <div class="ag-picker-field-icon" data-ref="eIcon" aria-hidden="true">
-                            <span
-                              class="ag-icon ag-icon-small-down"
-                              role="presentation"
-                              unselectable="on"
-                            ></span>
-                          </div>
-                        </div></div></span
-                    ><span class="ag-paging-row-summary-panel">
-                      <span
-                        class="ag-paging-row-summary-panel-number"
-                        data-ref="lbFirstRowOnPage"
-                        id="ag-29-first-row"
-                        >1</span
-                      >
-                      <span id="ag-29-to">to</span>
-                      <span
-                        class="ag-paging-row-summary-panel-number"
-                        data-ref="lbLastRowOnPage"
-                        id="ag-29-last-row"
-                        >0</span
-                      >
-                      <span id="ag-29-of">of</span>
-                      <span
-                        class="ag-paging-row-summary-panel-number"
-                        data-ref="lbRecordCount"
-                        id="ag-29-row-count"
-                        >0</span
-                      > </span
-                    ><span class="ag-paging-page-summary-panel" role="presentation">
-                      <div
-                        class="ag-button ag-paging-button ag-disabled"
-                        data-ref="btFirst"
-                        role="button"
-                        aria-label="First Page"
-                        tabindex="0"
-                        aria-disabled="true"
-                      >
+                          <div
+                            class="ag-wrapper ag-picker-field-wrapper ag-picker-collapsed"
+                            data-ref="eWrapper"
+                            tabindex="0"
+                            aria-expanded="false"
+                            role="combobox"
+                            aria-controls="ag-select-list-32"
+                            aria-label="Page Size"
+                          >
+                            <div
+                              class="ag-picker-field-display"
+                              data-ref="eDisplayField"
+                              id="ag-31-display"
+                            >
+                              100
+                            </div>
+                            <div class="ag-picker-field-icon" data-ref="eIcon" aria-hidden="true">
+                              <span
+                                class="ag-icon ag-icon-small-down"
+                                role="presentation"
+                                unselectable="on"
+                              ></span>
+                            </div>
+                          </div></div></span
+                      ><span class="ag-paging-row-summary-panel">
                         <span
-                          class="ag-icon ag-icon-first"
-                          role="presentation"
-                          unselectable="on"
-                        ></span>
-                      </div>
-                      <div
-                        class="ag-button ag-paging-button ag-disabled"
-                        data-ref="btPrevious"
-                        role="button"
-                        aria-label="Previous Page"
-                        tabindex="0"
-                        aria-disabled="true"
-                      >
-                        <span
-                          class="ag-icon ag-icon-previous"
-                          role="presentation"
-                          unselectable="on"
-                        ></span>
-                      </div>
-                      <span class="ag-paging-description">
-                        <span id="ag-29-start-page">Page</span>
-                        <span
-                          class="ag-paging-number"
-                          data-ref="lbCurrent"
-                          id="ag-29-start-page-number"
+                          class="ag-paging-row-summary-panel-number"
+                          data-ref="lbFirstRowOnPage"
+                          id="ag-29-first-row"
                           >1</span
                         >
-                        <span id="ag-29-of-page">of</span>
-                        <span class="ag-paging-number" data-ref="lbTotal" id="ag-29-of-page-number"
-                          >1</span
+                        <span id="ag-29-to">to</span>
+                        <span
+                          class="ag-paging-row-summary-panel-number"
+                          data-ref="lbLastRowOnPage"
+                          id="ag-29-last-row"
+                          >0</span
                         >
+                        <span id="ag-29-of">of</span>
+                        <span
+                          class="ag-paging-row-summary-panel-number"
+                          data-ref="lbRecordCount"
+                          id="ag-29-row-count"
+                          >0</span
+                        > </span
+                      ><span class="ag-paging-page-summary-panel" role="presentation">
+                        <div
+                          class="ag-button ag-paging-button ag-disabled"
+                          data-ref="btFirst"
+                          role="button"
+                          aria-label="First Page"
+                          tabindex="0"
+                          aria-disabled="true"
+                        >
+                          <span
+                            class="ag-icon ag-icon-first"
+                            role="presentation"
+                            unselectable="on"
+                          ></span>
+                        </div>
+                        <div
+                          class="ag-button ag-paging-button ag-disabled"
+                          data-ref="btPrevious"
+                          role="button"
+                          aria-label="Previous Page"
+                          tabindex="0"
+                          aria-disabled="true"
+                        >
+                          <span
+                            class="ag-icon ag-icon-previous"
+                            role="presentation"
+                            unselectable="on"
+                          ></span>
+                        </div>
+                        <span class="ag-paging-description">
+                          <span id="ag-29-start-page">Page</span>
+                          <span
+                            class="ag-paging-number"
+                            data-ref="lbCurrent"
+                            id="ag-29-start-page-number"
+                            >1</span
+                          >
+                          <span id="ag-29-of-page">of</span>
+                          <span
+                            class="ag-paging-number"
+                            data-ref="lbTotal"
+                            id="ag-29-of-page-number"
+                            >1</span
+                          >
+                        </span>
+                        <div
+                          class="ag-button ag-paging-button ag-disabled"
+                          data-ref="btNext"
+                          role="button"
+                          aria-label="Next Page"
+                          tabindex="0"
+                          aria-disabled="true"
+                        >
+                          <span
+                            class="ag-icon ag-icon-next"
+                            role="presentation"
+                            unselectable="on"
+                          ></span>
+                        </div>
+                        <div
+                          class="ag-button ag-paging-button ag-disabled"
+                          data-ref="btLast"
+                          role="button"
+                          aria-label="Last Page"
+                          tabindex="0"
+                          aria-disabled="true"
+                        >
+                          <span
+                            class="ag-icon ag-icon-last"
+                            role="presentation"
+                            unselectable="on"
+                          ></span>
+                        </div>
                       </span>
                       <div
-                        class="ag-button ag-paging-button ag-disabled"
-                        data-ref="btNext"
-                        role="button"
-                        aria-label="Next Page"
+                        class="ag-tab-guard ag-tab-guard-bottom"
+                        role="presentation"
                         tabindex="0"
-                        aria-disabled="true"
-                      >
-                        <span
-                          class="ag-icon ag-icon-next"
-                          role="presentation"
-                          unselectable="on"
-                        ></span>
-                      </div>
-                      <div
-                        class="ag-button ag-paging-button ag-disabled"
-                        data-ref="btLast"
-                        role="button"
-                        aria-label="Last Page"
-                        tabindex="0"
-                        aria-disabled="true"
-                      >
-                        <span
-                          class="ag-icon ag-icon-last"
-                          role="presentation"
-                          unselectable="on"
-                        ></span>
-                      </div>
-                    </span>
-                    <div
-                      class="ag-tab-guard ag-tab-guard-bottom"
-                      role="presentation"
-                      tabindex="0"
-                    ></div>
+                      ></div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="table-footer">
-              <span id="dc-download"
-                ><span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button">
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        focusable="false"
-                      >
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="7 10 12 15 17 10"></polyline>
-                        <line x1="12" x2="12" y1="15" y2="3"></line>
-                      </svg>
-                    </span>
-                    <span class="esa-button__label"> Download as CSV </span>
-                  </button>
+              <div class="table-footer">
+                <span id="ov-download"
+                  ><span
+                    class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                  >
+                    <button class="esa-button__native" type="button">
+                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                          <polyline points="7 10 12 15 17 10"></polyline>
+                          <line x1="12" x2="12" y1="15" y2="3"></line>
+                        </svg>
+                      </span>
+                      <span class="esa-button__label"> Download as CSV </span>
+                    </button>
+                  </span>
                 </span>
-              </span>
-              <div class="row-count-data">
-                Total Records: <span id="dc-total">130</span>
-                <span id="dc-filtered" class="filtered-rows-count" hidden=""></span>
+                <div class="row-count-data">
+                  Total Records: <span id="ov-total">28</span>
+                  <span id="ov-filtered" class="filtered-rows-count">Filtered Records: 16</span>
+                </div>
               </div>
+            </div>
+            <div id="ov-map-pane" hidden="">
+              <div
+                class="bcn-obsmap leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+                id="bcn-obsmap-observations-full"
+                data-bcn-obsmap=""
+                data-map-id="observations-full"
+                data-interactive="true"
+                style="height: min(70vh, 620px); position: relative"
+                role="region"
+                aria-label="Observation map — no observations to show"
+                data-bcn-obsmap-ready="true"
+                tabindex="0"
+              >
+                <div
+                  class="leaflet-pane leaflet-map-pane"
+                  style="transform: translate3d(0px, 0px, 0px)"
+                >
+                  <div class="leaflet-pane leaflet-tile-pane">
+                    <div class="leaflet-layer" style="z-index: 1; opacity: 1">
+                      <div
+                        class="leaflet-tile-container leaflet-zoom-animated"
+                        style="z-index: 19; transform: translate3d(0px, 0px, 0px) scale(1)"
+                      >
+                        <img
+                          alt=""
+                          src="https://b.basemaps.cartocdn.com/light_all/5/5/12.png"
+                          class="leaflet-tile leaflet-tile-loaded"
+                          style="
+                            width: 256px;
+                            height: 256px;
+                            transform: translate3d(-76px, -99px, 0px);
+                            opacity: 1;
+                          "
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="leaflet-pane leaflet-overlay-pane"></div>
+                  <div class="leaflet-pane leaflet-shadow-pane"></div>
+                  <div class="leaflet-pane leaflet-marker-pane"></div>
+                  <div class="leaflet-pane leaflet-tooltip-pane"></div>
+                  <div class="leaflet-pane leaflet-popup-pane"></div>
+                  <div
+                    class="leaflet-proxy leaflet-zoom-animated"
+                    style="transform: translate3d(1356.23px, 3171.41px, 0px) scale(16)"
+                  ></div>
+                </div>
+                <div class="leaflet-control-container">
+                  <div class="leaflet-top leaflet-left">
+                    <div class="leaflet-control-zoom leaflet-bar leaflet-control">
+                      <a
+                        class="leaflet-control-zoom-in"
+                        href="#"
+                        title="Zoom in"
+                        role="button"
+                        aria-label="Zoom in"
+                        aria-disabled="false"
+                        ><span aria-hidden="true">+</span></a
+                      ><a
+                        class="leaflet-control-zoom-out"
+                        href="#"
+                        title="Zoom out"
+                        role="button"
+                        aria-label="Zoom out"
+                        aria-disabled="false"
+                        ><span aria-hidden="true">−</span></a
+                      >
+                    </div>
+                  </div>
+                  <div class="leaflet-top leaflet-right"></div>
+                  <div class="leaflet-bottom leaflet-left"></div>
+                  <div class="leaflet-bottom leaflet-right">
+                    <div class="leaflet-control-attribution leaflet-control">
+                      <a
+                        href="https://leafletjs.com"
+                        title="A JavaScript library for interactive maps"
+                        ><svg
+                          aria-hidden="true"
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="12"
+                          height="8"
+                          viewBox="0 0 12 8"
+                          class="leaflet-attribution-flag"
+                        >
+                          <path fill="#4C7BE1" d="M0 0h12v4H0z"></path>
+                          <path fill="#FFD500" d="M0 4h12v3H0z"></path>
+                          <path fill="#E0BC00" d="M0 7h12v1H0z"></path>
+                        </svg>
+                        Leaflet</a
+                      >
+                      <span aria-hidden="true">|</span> © OpenStreetMap © CARTO
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <script type="application/json" data-bcn-obsmap-data="observations-full">
+                []
+              </script>
+              <script
+                type="module"
+                src="/beacon-design/_astro/BcnObservationMap.astro_astro_type_script_index_0_lang.CaGBcxyZ.js"
+              ></script>
             </div>
           </section>
         </div>
       </div>
-      <script type="application/json" id="dc-grid-data">
+      <esa-side-dialog
+        id="ov-detail"
+        size="md"
+        style="--_width: 520px; --z-modal: 1200; --z-modal-backdrop: 1150"
+        position="right"
+      >
+        <div slot="header" class="bcn-detail__head">
+          <div class="bcn-detail__title-row">
+            <h2 id="ov-detail-title" class="bcn-detail__title">obs-0142</h2>
+          </div>
+        </div>
+        <div class="bcn-detail__body">
+          <div id="ov-detail-chips" class="bcn-detail__chips">
+            <span id="ov-detail-severity-chip"
+              ><span
+                class="bcn-status-chip"
+                data-status="non-compliance"
+                style="--_chip: var(--st-non-compliance, var(--color-danger))"
+              >
+                <span class="bcn-status-chip__dot"></span>
+                <span class="bcn-status-chip__label">Non-Compliance</span>
+              </span>
+            </span>
+            <span id="ov-detail-status-chip"
+              ><span
+                class="bcn-status-chip"
+                data-status="active"
+                style="--_chip: var(--st-active, var(--color-info))"
+              >
+                <span class="bcn-status-chip__dot"></span>
+                <span class="bcn-status-chip__label">Active</span>
+              </span>
+            </span>
+          </div>
+          <div class="bcn-detail__grid">
+            <span id="ov-detail-category"
+              ><div class="bcn-key-value">
+                <span class="bcn-key-value__key">Category</span>
+                <span class="bcn-key-value__val">Stormwater / BMP Maintenance</span>
+              </div>
+            </span>
+            <span id="ov-detail-area"
+              ><div class="bcn-key-value">
+                <span class="bcn-key-value__key">Area</span>
+                <span class="bcn-key-value__val">South Array — Block B</span>
+              </div>
+            </span>
+            <span id="ov-detail-inspector"
+              ><div class="bcn-key-value">
+                <span class="bcn-key-value__key">Inspector</span>
+                <span class="bcn-key-value__val"
+                  >R. Delgado (Fieldstone Environmental Monitoring)</span
+                >
+              </div>
+            </span>
+            <span id="ov-detail-reported"
+              ><div class="bcn-key-value">
+                <span class="bcn-key-value__key">Reported</span>
+                <span class="bcn-key-value__val">Jul 29, 2026</span>
+              </div>
+            </span>
+            <span id="ov-detail-resolved"
+              ><div class="bcn-key-value">
+                <span class="bcn-key-value__key">Resolved</span>
+                <span class="bcn-key-value__val">—</span>
+              </div>
+            </span>
+            <span id="ov-detail-age"
+              ><div class="bcn-key-value">
+                <span class="bcn-key-value__key">Days active</span>
+                <span class="bcn-key-value__val">7d</span>
+              </div>
+            </span>
+            <span id="ov-detail-reviewed"
+              ><div class="bcn-key-value">
+                <span class="bcn-key-value__key">ESA QC reviewed</span>
+                <span class="bcn-key-value__val">Yes</span>
+              </div>
+            </span>
+          </div>
+          <span id="ov-detail-description"
+            ><div class="bcn-key-value">
+              <span class="bcn-key-value__key">Description</span>
+              <span class="bcn-key-value__val"
+                >Silt fence down for ~40 ft along the Block B swale after last week's wind event;
+                sediment tracking toward the wash crossing.</span
+              >
+            </div>
+          </span>
+        </div>
+      </esa-side-dialog>
+      <script type="application/json" id="ov-grid-data">
         {
           "rows": [
             {
-              "name": "Develop WEAP Training",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "MM-BIO-1",
-              "sourceDoc": "FEIR",
-              "type": "Training & Education",
-              "responsibleParty": "Project Biologist",
-              "resourceCategory": "Biological Resources",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Provide WEAP Training to all Project personnel",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "MM-BIO-1",
-              "sourceDoc": "FEIR",
-              "type": "Training & Education",
-              "responsibleParty": "QSP / Inspector",
-              "resourceCategory": "Biological Resources",
-              "phase": "Construction"
-            },
-            {
-              "name": "If bird nests are found, establish no-disturbance buffers zones",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "MM-BIO-2",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Cultural Resources Lead",
-              "resourceCategory": "Biological Resources",
-              "phase": "Construction"
-            },
-            {
-              "name": "If work must occur within established no-disturbance buffer zones",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "MM-BIO-2",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Safety Officer",
-              "resourceCategory": "Biological Resources",
-              "phase": "Construction"
-            },
-            {
-              "name": "Pre-construction survey for nesting raptors and other migratory birds during nesting season",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "MM-BIO-2",
-              "sourceDoc": "FEIR",
-              "type": "Survey",
-              "responsibleParty": "Environmental Lead",
-              "resourceCategory": "Biological Resources",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Report of findings for construction within any no-disturbance buffer zone",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "MM-BIO-2",
-              "sourceDoc": "FEIR",
-              "type": "Reporting",
-              "responsibleParty": "Air Quality Lead",
-              "resourceCategory": "Biological Resources",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Pre-construction habitat assessment of the Project area to characterize potential bat habitat and identify potentially active roost sites",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "MM-BIO-3",
-              "sourceDoc": "FEIR",
-              "type": "Survey",
-              "responsibleParty": "Traffic Engineer",
-              "resourceCategory": "Biological Resources",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "If active bat roosts or evidence of roosting is identified during pre-construction surveys, establish no-disturbance buffer",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "MM-BIO-3",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Construction Manager",
-              "resourceCategory": "Biological Resources",
-              "phase": "Construction"
-            },
-            {
-              "name": "Measures if potential bat roosting habitat or potentially active bat roosts are identified during the habitat assessment",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "MM-BIO-3",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Acoustical Consultant",
-              "resourceCategory": "Biological Resources",
-              "phase": "Construction"
-            },
-            {
-              "name": "Pre-construction survey if avoidance or bat maternity roosting season and winter torpor is infeasible",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "MM-BIO-3",
-              "sourceDoc": "FEIR",
-              "type": "Survey",
-              "responsibleParty": "Hydrogeologist",
-              "resourceCategory": "Biological Resources",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Blight",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AES-1",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Project Biologist",
-              "resourceCategory": "Aesthetics",
-              "phase": "Post-Construction"
-            },
-            {
-              "name": "Best management practices for graffiti",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AES-2",
-              "sourceDoc": "FEIR",
-              "type": "Avoidance & BMPs",
-              "responsibleParty": "QSP / Inspector",
-              "resourceCategory": "Aesthetics",
-              "phase": "Construction"
-            },
-            {
-              "name": "Graffiti removal",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AES-2",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Cultural Resources Lead",
-              "resourceCategory": "Aesthetics",
-              "phase": "Construction"
-            },
-            {
-              "name": "Landscape Installation",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AES-3",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Safety Officer",
-              "resourceCategory": "Aesthetics",
-              "phase": "Construction"
-            },
-            {
-              "name": "Landscape Maintenance",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AES-3",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Environmental Lead",
-              "resourceCategory": "Aesthetics",
-              "phase": "Post-Construction"
-            },
-            {
-              "name": "Landscape Plan",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AES-3",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Air Quality Lead",
-              "resourceCategory": "Aesthetics",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Exterior lighting fixtures",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AES-4",
-              "sourceDoc": "FEIR",
-              "type": "Design",
-              "responsibleParty": "Traffic Engineer",
-              "resourceCategory": "Aesthetics",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Dust control measures - complaints",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-1",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "Construction Manager",
-              "resourceCategory": "Air Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "Dust control measures - erosion",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-1",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "Acoustical Consultant",
-              "resourceCategory": "Air Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "Dust control measures - paving",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-1",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "Hydrogeologist",
-              "resourceCategory": "Air Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "Dust control measures - simultaneous activities",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-1",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "Project Biologist",
-              "resourceCategory": "Air Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "Dust control measures - street sweeping",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-1",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "QSP / Inspector",
-              "resourceCategory": "Air Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "Dust control measures - truck cover",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-1",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "Cultural Resources Lead",
-              "resourceCategory": "Air Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "Dust control measures - unpaved road access",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-1",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "Safety Officer",
-              "resourceCategory": "Air Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "Dust control measures - vegetative ground cover",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-1",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "Environmental Lead",
-              "resourceCategory": "Air Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "Dust control measures - vehicle speeds",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-1",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "Air Quality Lead",
-              "resourceCategory": "Air Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "Dust control measures - watering",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-1",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "Traffic Engineer",
-              "resourceCategory": "Air Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "Dust control measures - wind",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-1",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "Construction Manager",
-              "resourceCategory": "Air Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "Basic control measures for criteria air pollutants - construction equipment",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-2",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "Acoustical Consultant",
-              "resourceCategory": "Air Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "Basic control measures for criteria air pollutants - idling time",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-2",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "Hydrogeologist",
-              "resourceCategory": "Air Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "Basic control measures for criteria air pollutants - portable equipment",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-2",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "Project Biologist",
-              "resourceCategory": "Air Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "Basic control measures for criteria air pollutants - VOC coating",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-2",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "QSP / Inspector",
-              "resourceCategory": "Air Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "Construction emissions minimization plan",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-2",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "Cultural Resources Lead",
-              "resourceCategory": "Air Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "Enhanced controls - construction",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-2",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "Safety Officer",
-              "resourceCategory": "Air Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "Enhanced controls - operation",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-2",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Environmental Lead",
-              "resourceCategory": "Air Quality",
-              "phase": "Post-Construction"
-            },
-            {
-              "name": "Construction emissions minimization plan",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-3",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Air Quality Lead",
-              "resourceCategory": "Air Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "Diesel particulate matter reduction measures",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-3",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "Traffic Engineer",
-              "resourceCategory": "Air Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "On-site stationary sources of air pollution",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-4",
-              "sourceDoc": "FEIR",
-              "type": "Design",
-              "responsibleParty": "Construction Manager",
-              "resourceCategory": "Air Quality",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Diesel truck emission reduction measures",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-5",
-              "sourceDoc": "FEIR",
-              "type": "Design",
-              "responsibleParty": "Acoustical Consultant",
-              "resourceCategory": "Air Quality",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Truck fleet emission standards",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-5",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Hydrogeologist",
-              "resourceCategory": "Air Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "Truck loading docks",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-5",
-              "sourceDoc": "FEIR",
-              "type": "Design",
-              "responsibleParty": "Project Biologist",
-              "resourceCategory": "Air Quality",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Asbestos in structures",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA AIR-6",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "QSP / Inspector",
-              "resourceCategory": "Air Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "Bird collision reduction plan - antennas",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA BIO-1",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Cultural Resources Lead",
-              "resourceCategory": "Biological Resources",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Bird collision reduction plan - bird-friendly attractants",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA BIO-1",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Safety Officer",
-              "resourceCategory": "Biological Resources",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Bird collision reduction plan - bird-friendly glazing treatments",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA BIO-1",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Environmental Lead",
-              "resourceCategory": "Biological Resources",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Bird collision reduction plan - building operation and management manual",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA BIO-1",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Air Quality Lead",
-              "resourceCategory": "Biological Resources",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Bird collision reduction plan - light pollution",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA BIO-1",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Traffic Engineer",
-              "resourceCategory": "Biological Resources",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Bird collision reduction plan - lighting",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA BIO-1",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Construction Manager",
-              "resourceCategory": "Biological Resources",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Bird collision reduction plan - mirrors",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA BIO-1",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Acoustical Consultant",
-              "resourceCategory": "Biological Resources",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Pre-removal survey",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA BIO-2",
-              "sourceDoc": "FEIR",
-              "type": "Survey",
-              "responsibleParty": "Hydrogeologist",
-              "resourceCategory": "Biological Resources",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Tree removal during breeding season",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA BIO-2",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Project Biologist",
-              "resourceCategory": "Biological Resources",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Tree permit",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA BIO-3",
-              "sourceDoc": "FEIR",
-              "type": "Approval & Consultation",
-              "responsibleParty": "QSP / Inspector",
-              "resourceCategory": "Biological Resources",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Tree protection",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA BIO-3",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Cultural Resources Lead",
-              "resourceCategory": "Biological Resources",
-              "phase": "Construction"
-            },
-            {
-              "name": "Tree replacement",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA BIO-3",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Safety Officer",
-              "resourceCategory": "Biological Resources",
-              "phase": "Construction"
-            },
-            {
-              "name": "Data recovery of archaeological resources",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA CUL-1",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Environmental Lead",
-              "resourceCategory": "Cultural Resources",
-              "phase": "Construction"
-            },
-            {
-              "name": "Discovery of cultural resources",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA CUL-1",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Air Quality Lead",
-              "resourceCategory": "Cultural Resources",
-              "phase": "Construction"
-            },
-            {
-              "name": "Human remains",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA CUL-2",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Traffic Engineer",
-              "resourceCategory": "Cultural Resources",
-              "phase": "Construction"
-            },
-            {
-              "name": "Construction related permits",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA GEO-1",
-              "sourceDoc": "FEIR",
-              "type": "Approval & Consultation",
-              "responsibleParty": "Construction Manager",
-              "resourceCategory": "Geology, Soils, and Paleontological Resources",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Geotechnical report",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA GEO-2",
-              "sourceDoc": "FEIR",
-              "type": "Reporting",
-              "responsibleParty": "Acoustical Consultant",
-              "resourceCategory": "Geology, Soils, and Paleontological Resources",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Annual report",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA GHG-1",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Hydrogeologist",
-              "resourceCategory": "Greenhouse Gas Emissions",
-              "phase": "Post-Construction"
-            },
-            {
-              "name": "Corrective procedure",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA GHG-1",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Project Biologist",
-              "resourceCategory": "Greenhouse Gas Emissions",
-              "phase": "Post-Construction"
-            },
-            {
-              "name": "Greenhouse gas reduction plan",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA GHG-1",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "QSP / Inspector",
-              "resourceCategory": "Greenhouse Gas Emissions",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Greenhouse gas reduction plan implementation after construction",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA GHG-1",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Cultural Resources Lead",
-              "resourceCategory": "Greenhouse Gas Emissions",
-              "phase": "Post-Construction"
-            },
-            {
-              "name": "Greenhouse gas reduction plan implementation during construction",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA GHG-1",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Safety Officer",
-              "resourceCategory": "Greenhouse Gas Emissions",
-              "phase": "Construction"
-            },
-            {
-              "name": "BMPs - chemical products",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA HAZ-1",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "Environmental Lead",
-              "resourceCategory": "Hazards and Hazardous Materials",
-              "phase": "Construction"
-            },
-            {
-              "name": "BMPs - construction equipment",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA HAZ-1",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "Air Quality Lead",
-              "resourceCategory": "Hazards and Hazardous Materials",
-              "phase": "Construction"
-            },
-            {
-              "name": "BMPs - contamination",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA HAZ-1",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "Traffic Engineer",
-              "resourceCategory": "Hazards and Hazardous Materials",
-              "phase": "Construction"
-            },
-            {
-              "name": "BMPs - lead",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA HAZ-1",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "Construction Manager",
-              "resourceCategory": "Hazards and Hazardous Materials",
-              "phase": "Construction"
-            },
-            {
-              "name": "BMPs - groundwater",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA HAZ-2",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "Acoustical Consultant",
-              "resourceCategory": "Hazards and Hazardous Materials",
-              "phase": "Construction"
-            },
-            {
-              "name": "BMPs - soils",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA HAZ-2",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "Hydrogeologist",
-              "resourceCategory": "Hazards and Hazardous Materials",
-              "phase": "Construction"
-            },
-            {
-              "name": "Environmental site assessment",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA HAZ-2",
-              "sourceDoc": "FEIR",
-              "type": "Reporting",
-              "responsibleParty": "Project Biologist",
-              "resourceCategory": "Hazards and Hazardous Materials",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Hazardous building materials assessment",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA HAZ-2",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "QSP / Inspector",
-              "resourceCategory": "Hazards and Hazardous Materials",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Health and safety plan",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA HAZ-2",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Cultural Resources Lead",
-              "resourceCategory": "Hazards and Hazardous Materials",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Hazardous materials business plan",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA HAZ-3",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Safety Officer",
-              "resourceCategory": "Hazards and Hazardous Materials",
-              "phase": "Post-Construction"
-            },
-            {
-              "name": "State construction general permit",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA HYD-1",
-              "sourceDoc": "FEIR",
-              "type": "Approval & Consultation",
-              "responsibleParty": "Environmental Lead",
-              "resourceCategory": "Hydrology and Water Quality",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Maintenance agreement",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA HYD-2",
-              "sourceDoc": "FEIR",
-              "type": "Approval & Consultation",
-              "responsibleParty": "Air Quality Lead",
-              "resourceCategory": "Hazards and Hazardous Materials",
-              "phase": "Post-Construction"
-            },
-            {
-              "name": "Post-construction stormwater management plan",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA HYD-2",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Traffic Engineer",
-              "resourceCategory": "Hazards and Hazardous Materials",
-              "phase": "Post-Construction"
-            },
-            {
-              "name": "Vegetation management after construction",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA HYD-3",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Construction Manager",
-              "resourceCategory": "Hydrology and Water Quality",
-              "phase": "Post-Construction"
-            },
-            {
-              "name": "Vegetation management during construction",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA HYD-3",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Acoustical Consultant",
-              "resourceCategory": "Hydrology and Water Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "Vegetation management pre-construction",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA HYD-3",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Hydrogeologist",
-              "resourceCategory": "Hydrology and Water Quality",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Construction BMPs",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA HYD-4",
-              "sourceDoc": "FEIR",
-              "type": "Monitoring",
-              "responsibleParty": "Project Biologist",
-              "resourceCategory": "Hydrology and Water Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "Creek landscaping",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA HYD-4",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "QSP / Inspector",
-              "resourceCategory": "Hydrology and Water Quality",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Creek protection plan",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA HYD-4",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Cultural Resources Lead",
-              "resourceCategory": "Hydrology and Water Quality",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Creek protection plan implementation - after construction",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA HYD-4",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Safety Officer",
-              "resourceCategory": "Hydrology and Water Quality",
-              "phase": "Post-Construction"
-            },
-            {
-              "name": "Creek protection plan implementation - during construction",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA HYD-4",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Environmental Lead",
-              "resourceCategory": "Hydrology and Water Quality",
-              "phase": "Construction"
-            },
-            {
-              "name": "Post construction BMPs",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA HYD-4",
-              "sourceDoc": "FEIR",
-              "type": "Avoidance & BMPs",
-              "responsibleParty": "Air Quality Lead",
-              "resourceCategory": "Hydrology and Water Quality",
-              "phase": "Post-Construction"
-            },
-            {
-              "name": "BCDC approval",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA HYD-5",
-              "sourceDoc": "FEIR",
-              "type": "Approval & Consultation",
-              "responsibleParty": "Traffic Engineer",
-              "resourceCategory": "Hydrology and Water Quality",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Construction activity outside of the days and hours restrictions",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA NOI-1",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Construction Manager",
-              "resourceCategory": "Noise",
-              "phase": "Construction"
-            },
-            {
-              "name": "Construction hours - Saturday",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA NOI-1",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Acoustical Consultant",
-              "resourceCategory": "Noise",
-              "phase": "Construction"
-            },
-            {
-              "name": "Construction hours - Sunday and holidays",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA NOI-1",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Hydrogeologist",
-              "resourceCategory": "Noise",
-              "phase": "Construction"
-            },
-            {
-              "name": "Construction hours - weekdays",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA NOI-1",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Project Biologist",
-              "resourceCategory": "Noise",
-              "phase": "Construction"
-            },
-            {
-              "name": "Noise reduction measures - construction",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA NOI-2",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "QSP / Inspector",
-              "resourceCategory": "Noise",
-              "phase": "Construction"
-            },
-            {
-              "name": "Noise reduction measures - equipment and trucks",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA NOI-2",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Cultural Resources Lead",
-              "resourceCategory": "Noise",
-              "phase": "Construction"
-            },
-            {
-              "name": "Noise reduction measures - impact tools",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA NOI-2",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Safety Officer",
-              "resourceCategory": "Noise",
-              "phase": "Construction"
-            },
-            {
-              "name": "Noise reduction measures - power poles",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA NOI-2",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Environmental Lead",
-              "resourceCategory": "Noise",
-              "phase": "Construction"
-            },
-            {
-              "name": "Noise reduction measures - stationary sources",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA NOI-2",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Air Quality Lead",
-              "resourceCategory": "Noise",
-              "phase": "Construction"
-            },
-            {
-              "name": "Construction noise management plan",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA NOI-3",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Traffic Engineer",
-              "resourceCategory": "Noise",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Public notification",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA NOI-3",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Construction Manager",
-              "resourceCategory": "Noise",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Site-specific noise attenuation measures",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA NOI-4",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Acoustical Consultant",
-              "resourceCategory": "Noise",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Noise complaints - receiving, responding to, tracking",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA NOI-5",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Hydrogeologist",
-              "resourceCategory": "Noise",
-              "phase": "Construction"
-            },
-            {
-              "name": "Noise complaints - signage",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA NOI-5",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Project Biologist",
-              "resourceCategory": "Noise",
-              "phase": "Construction"
-            },
-            {
-              "name": "Operational noise",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA NOI-6",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "QSP / Inspector",
-              "resourceCategory": "Noise",
-              "phase": "Post-Construction"
-            },
-            {
-              "name": "Vibration analysis",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA NOI-7",
-              "sourceDoc": "FEIR",
-              "type": "Analysis",
-              "responsibleParty": "Cultural Resources Lead",
-              "resourceCategory": "Noise",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Jobs/Housing Impact Fee.",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA POP-1",
-              "sourceDoc": "FEIR",
-              "type": "Financial",
-              "responsibleParty": "Safety Officer",
-              "resourceCategory": "Public Services and Recreation",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Capital improvements impact fee",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA PUB-1",
-              "sourceDoc": "FEIR",
-              "type": "Financial",
-              "responsibleParty": "Environmental Lead",
-              "resourceCategory": "Public Services and Recreation",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Bicycle and pedestrian access plan",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA REC-1",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Air Quality Lead",
-              "resourceCategory": "Public Services and Recreation",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Implementation of bicycle and pedestrian enhancements",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA REC-1",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Traffic Engineer",
-              "resourceCategory": "Public Services and Recreation",
-              "phase": "Construction"
-            },
-            {
-              "name": "Obstruction permit",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA TRANS-1",
-              "sourceDoc": "FEIR",
-              "type": "Approval & Consultation",
-              "responsibleParty": "Construction Manager",
-              "resourceCategory": "Transportation and Traffic",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Repair of damage to public right-of-ways",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA TRANS-1",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Acoustical Consultant",
-              "resourceCategory": "Transportation and Traffic",
-              "phase": "Construction"
-            },
-            {
-              "name": "Traffic control plan",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA TRANS-1",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Hydrogeologist",
-              "resourceCategory": "Transportation and Traffic",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Traffic control plan implementation",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA TRANS-1",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Project Biologist",
-              "resourceCategory": "Transportation and Traffic",
-              "phase": "Construction"
-            },
-            {
-              "name": "Bicycle parking",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA TRANS-2",
-              "sourceDoc": "FEIR",
-              "type": "Design",
-              "responsibleParty": "QSP / Inspector",
-              "resourceCategory": "Transportation and Traffic",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "TDM - operational strategies",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA TRANS-3",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Cultural Resources Lead",
-              "resourceCategory": "Transportation and Traffic",
-              "phase": "Post-Construction"
-            },
-            {
-              "name": "TDM implementation - physical improvements",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA TRANS-3",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Safety Officer",
-              "resourceCategory": "Transportation and Traffic",
-              "phase": "Construction"
-            },
-            {
-              "name": "Transportation and parking demand management plan",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA TRANS-3",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Environmental Lead",
-              "resourceCategory": "Transportation and Traffic",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "ADA-accessible parking spaces",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA TRANS-4",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Air Quality Lead",
-              "resourceCategory": "Transportation and Traffic",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "PEV-capable parking spaces",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA TRANS-4",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Traffic Engineer",
-              "resourceCategory": "Transportation and Traffic",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "PEV-ready parking spaces",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA TRANS-4",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Construction Manager",
-              "resourceCategory": "Transportation and Traffic",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Transportation impact fee",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA TRANS-5",
-              "sourceDoc": "FEIR",
-              "type": "Financial",
-              "responsibleParty": "Acoustical Consultant",
-              "resourceCategory": "Transportation and Traffic",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Construction and Demolition Waste Reduction and Recycling Plan",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA UTIL-1",
-              "sourceDoc": "FEIR",
-              "type": "Plan",
-              "responsibleParty": "Hydrogeologist",
-              "resourceCategory": "Utilities and Service Systems",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Recycling collection space",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA UTIL-2",
-              "sourceDoc": "FEIR",
-              "type": "Design",
-              "responsibleParty": "Project Biologist",
-              "resourceCategory": "Utilities and Service Systems",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "California Green Building Standards",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA UTIL-3",
-              "sourceDoc": "FEIR",
-              "type": "Design",
-              "responsibleParty": "QSP / Inspector",
-              "resourceCategory": "Utilities and Service Systems",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "California Green Building Standards after construction",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA UTIL-3",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Cultural Resources Lead",
-              "resourceCategory": "Utilities and Service Systems",
-              "phase": "Post-Construction"
-            },
-            {
-              "name": "California Green Building Standards during construction",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA UTIL-3",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Safety Officer",
-              "resourceCategory": "Utilities and Service Systems",
-              "phase": "Construction"
-            },
-            {
-              "name": "Sanitary Sewer Impact Analysis",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA UTIL-4",
-              "sourceDoc": "FEIR",
-              "type": "Analysis",
-              "responsibleParty": "Environmental Lead",
-              "resourceCategory": "Utilities and Service Systems",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Sanitary Sewer Impact Fee",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA UTIL-4",
-              "sourceDoc": "FEIR",
-              "type": "Financial",
-              "responsibleParty": "Air Quality Lead",
-              "resourceCategory": "Utilities and Service Systems",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Storm drain system design",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA UTIL-5",
-              "sourceDoc": "FEIR",
-              "type": "Design",
-              "responsibleParty": "Traffic Engineer",
-              "resourceCategory": "Utilities and Service Systems",
-              "phase": "Pre-Construction"
-            },
-            {
-              "name": "Underground utilities",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA UTIL-6",
-              "sourceDoc": "FEIR",
-              "type": "Design",
-              "responsibleParty": "Construction Manager",
-              "resourceCategory": "Utilities and Service Systems",
-              "phase": "Construction"
-            },
-            {
-              "name": "Water Efficient Landscape Ordinance",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA UTIL-7",
-              "sourceDoc": "FEIR",
-              "type": "Design",
-              "responsibleParty": "Acoustical Consultant",
-              "resourceCategory": "Utilities and Service Systems",
-              "phase": "Pre-Construction"
-            },
+              "id": "obs-0142",
+              "category": "Stormwater / BMP Maintenance",
+              "severity": "non-compliance",
+              "severityLabel": "Non-Compliance",
+              "status": "active",
+              "statusLabel": "Active",
+              "reportedDate": "2026-07-29",
+              "resolvedDate": "",
+              "daysActive": 7,
+              "area": "South Array — Block B",
+              "lat": 35.3382,
+              "lng": -119.3488,
+              "inspector": "R. Delgado",
+              "esaReviewed": true,
+              "description": "Silt fence down for ~40 ft along the Block B swale after last week's wind event; sediment tracking toward the wash crossing."
+            },
+            {
+              "id": "obs-0139",
+              "category": "Spill Prevention & Response",
+              "severity": "non-compliance",
+              "severityLabel": "Non-Compliance",
+              "status": "active",
+              "statusLabel": "Active",
+              "reportedDate": "2026-07-24",
+              "resolvedDate": "",
+              "daysActive": 12,
+              "area": "Laydown / Staging Yard",
+              "lat": 35.3445,
+              "lng": -119.3549,
+              "inspector": "K. Osei",
+              "esaReviewed": true,
+              "description": "Hydraulic fluid drip pan missing under a staged excavator; secondary containment not in place per SWPPP requirements."
+            },
+            {
+              "id": "obs-0121",
+              "category": "Cultural Resources Protection",
+              "severity": "non-compliance",
+              "severityLabel": "Non-Compliance",
+              "status": "active",
+              "statusLabel": "Active",
+              "reportedDate": "2026-07-11",
+              "resolvedDate": "",
+              "daysActive": 25,
+              "area": "Perimeter Fence Line — West",
+              "lat": 35.3572,
+              "lng": -119.3678,
+              "inspector": "T. Whitfield",
+              "esaReviewed": false,
+              "description": "Ground disturbance observed outside the approved limits near the west ESA-monitored buffer; work halted pending cultural monitor review."
+            },
+            {
+              "id": "obs-0144",
+              "category": "Erosion & Sediment Control",
+              "severity": "needs-attention",
+              "severityLabel": "Needs Attention",
+              "status": "active",
+              "statusLabel": "Active",
+              "reportedDate": "2026-08-01",
+              "resolvedDate": "",
+              "daysActive": 4,
+              "area": "North Array — Block A",
+              "lat": 35.3654,
+              "lng": -119.3521,
+              "inspector": "J. Park",
+              "esaReviewed": false,
+              "description": "Check dam in the Block A drainage showing early sediment buildup; not yet at capacity but trending toward it."
+            },
+            {
+              "id": "obs-0140",
+              "category": "Access & Traffic Control",
+              "severity": "needs-attention",
+              "severityLabel": "Needs Attention",
+              "status": "active",
+              "statusLabel": "Active",
+              "reportedDate": "2026-07-27",
+              "resolvedDate": "",
+              "daysActive": 9,
+              "area": "Main Access Road (Hwy 58 Spur)",
+              "lat": 35.3601,
+              "lng": -119.3612,
+              "inspector": "R. Delgado",
+              "esaReviewed": true,
+              "description": "Speed-limit signage missing at the Hwy 58 spur turnoff; construction traffic observed exceeding the 15-mph site limit."
+            },
+            {
+              "id": "obs-0136",
+              "category": "Waste Management",
+              "severity": "needs-attention",
+              "severityLabel": "Needs Attention",
+              "status": "active",
+              "statusLabel": "Active",
+              "reportedDate": "2026-07-20",
+              "resolvedDate": "",
+              "daysActive": 16,
+              "area": "O&M Building Area",
+              "lat": 35.3527,
+              "lng": -119.3465,
+              "inspector": "K. Osei",
+              "esaReviewed": false,
+              "description": "Solid-waste dumpster left uncovered overnight near the O&M building; no spillage observed but a repeat item."
+            },
             {
-              "name": "Water Efficient Landscape Ordinance installation",
-              "project": "3600 Alameda Avenue Project",
-              "commitment": "SCA UTIL-7",
-              "sourceDoc": "FEIR",
-              "type": "Other",
-              "responsibleParty": "Hydrogeologist",
-              "resourceCategory": "Utilities and Service Systems",
-              "phase": "Construction"
+              "id": "obs-0130",
+              "category": "Vegetation & Habitat Protection",
+              "severity": "needs-attention",
+              "severityLabel": "Needs Attention",
+              "status": "active",
+              "statusLabel": "Active",
+              "reportedDate": "2026-07-16",
+              "resolvedDate": "",
+              "daysActive": 20,
+              "area": "Substation Yard",
+              "lat": 35.3511,
+              "lng": -119.3402,
+              "inspector": "T. Whitfield",
+              "esaReviewed": true,
+              "description": "Exclusion fencing around the burrowing owl buffer near the substation yard sagging in two panels; owls not observed active this visit."
+            },
+            {
+              "id": "obs-0126",
+              "category": "Noise Management",
+              "severity": "needs-attention",
+              "severityLabel": "Needs Attention",
+              "status": "active",
+              "statusLabel": "Active",
+              "reportedDate": "2026-07-14",
+              "resolvedDate": "",
+              "daysActive": 22,
+              "area": "BESS Pad",
+              "lat": 35.3499,
+              "lng": -119.3437,
+              "inspector": "J. Park",
+              "esaReviewed": false,
+              "description": "BESS commissioning generator running outside the approved 7am–7pm construction noise window by roughly 45 minutes."
+            },
+            {
+              "id": "obs-0118",
+              "category": "Stormwater / BMP Maintenance",
+              "severity": "needs-attention",
+              "severityLabel": "Needs Attention",
+              "status": "active",
+              "statusLabel": "Active",
+              "reportedDate": "2026-07-08",
+              "resolvedDate": "",
+              "daysActive": 28,
+              "area": "Cottonwood Wash Crossing",
+              "lat": 35.3418,
+              "lng": -119.3357,
+              "inspector": "R. Delgado",
+              "esaReviewed": true,
+              "description": "Rock check structure at the wash crossing partially displaced; still functional, recommend re-bedding before the next storm."
+            },
+            {
+              "id": "obs-0113",
+              "category": "Access & Traffic Control",
+              "severity": "needs-attention",
+              "severityLabel": "Needs Attention",
+              "status": "active",
+              "statusLabel": "Active",
+              "reportedDate": "2026-07-03",
+              "resolvedDate": "",
+              "daysActive": 33,
+              "area": "Main Access Road (Hwy 58 Spur)",
+              "lat": 35.3601,
+              "lng": -119.3612,
+              "inspector": "K. Osei",
+              "esaReviewed": false,
+              "description": "Wildlife crossing signage obscured by roadside dust accumulation along the access road."
+            },
+            {
+              "id": "obs-0145",
+              "category": "Vegetation & Habitat Protection",
+              "severity": "in-compliance",
+              "severityLabel": "In Compliance",
+              "status": "active",
+              "statusLabel": "Active",
+              "reportedDate": "2026-08-03",
+              "resolvedDate": "",
+              "daysActive": 2,
+              "area": "North Array — Block A",
+              "lat": 35.3654,
+              "lng": -119.3521,
+              "inspector": "J. Park",
+              "esaReviewed": true,
+              "description": "Weekly burrowing owl buffer check — no active burrows within 250 ft of active construction; exclusion fencing intact."
+            },
+            {
+              "id": "obs-0143",
+              "category": "Stormwater / BMP Maintenance",
+              "severity": "in-compliance",
+              "severityLabel": "In Compliance",
+              "status": "active",
+              "statusLabel": "Active",
+              "reportedDate": "2026-07-30",
+              "resolvedDate": "",
+              "daysActive": 6,
+              "area": "North Array — Block A",
+              "lat": 35.3654,
+              "lng": -119.3521,
+              "inspector": "R. Delgado",
+              "esaReviewed": false,
+              "description": "Block A BMP inspection — all silt fence and check dams intact and functioning as designed."
+            },
+            {
+              "id": "obs-0137",
+              "category": "Waste Management",
+              "severity": "in-compliance",
+              "severityLabel": "In Compliance",
+              "status": "active",
+              "statusLabel": "Active",
+              "reportedDate": "2026-07-21",
+              "resolvedDate": "",
+              "daysActive": 15,
+              "area": "Laydown / Staging Yard",
+              "lat": 35.3445,
+              "lng": -119.3549,
+              "inspector": "K. Osei",
+              "esaReviewed": true,
+              "description": "Weekly waste-staging audit — all containers covered and labeled correctly; no discharge observed."
+            },
+            {
+              "id": "obs-0132",
+              "category": "Noise Management",
+              "severity": "in-compliance",
+              "severityLabel": "In Compliance",
+              "status": "active",
+              "statusLabel": "Active",
+              "reportedDate": "2026-07-17",
+              "resolvedDate": "",
+              "daysActive": 19,
+              "area": "BESS Pad",
+              "lat": 35.3499,
+              "lng": -119.3437,
+              "inspector": "T. Whitfield",
+              "esaReviewed": false,
+              "description": "BESS pad construction noise monitoring — readings within the approved daytime limit at the nearest receptor."
+            },
+            {
+              "id": "obs-0125",
+              "category": "Cultural Resources Protection",
+              "severity": "in-compliance",
+              "severityLabel": "In Compliance",
+              "status": "active",
+              "statusLabel": "Active",
+              "reportedDate": "2026-07-13",
+              "resolvedDate": "",
+              "daysActive": 23,
+              "area": "Perimeter Fence Line — West",
+              "lat": 35.3572,
+              "lng": -119.3678,
+              "inspector": "T. Whitfield",
+              "esaReviewed": true,
+              "description": "Monthly cultural monitor walk of the west buffer — no ground disturbance observed within the exclusion area."
+            },
+            {
+              "id": "obs-0117",
+              "category": "Spill Prevention & Response",
+              "severity": "in-compliance",
+              "severityLabel": "In Compliance",
+              "status": "active",
+              "statusLabel": "Active",
+              "reportedDate": "2026-07-07",
+              "resolvedDate": "",
+              "daysActive": 29,
+              "area": "Substation Yard",
+              "lat": 35.3511,
+              "lng": -119.3402,
+              "inspector": "J. Park",
+              "esaReviewed": false,
+              "description": "Substation yard spill-kit inventory check — fully stocked, inspection tags current."
+            },
+            {
+              "id": "obs-0108",
+              "category": "Spill Prevention & Response",
+              "severity": "non-compliance",
+              "severityLabel": "Non-Compliance",
+              "status": "resolved",
+              "statusLabel": "Resolved",
+              "reportedDate": "2026-06-18",
+              "resolvedDate": "2026-06-25",
+              "daysActive": 7,
+              "area": "O&M Building Area",
+              "lat": 35.3527,
+              "lng": -119.3465,
+              "inspector": "K. Osei",
+              "esaReviewed": true,
+              "description": "Fuel storage secondary containment cracked at the O&M building; contractor replaced containment and re-inspected."
+            },
+            {
+              "id": "obs-0101",
+              "category": "Erosion & Sediment Control",
+              "severity": "non-compliance",
+              "severityLabel": "Non-Compliance",
+              "status": "resolved",
+              "statusLabel": "Resolved",
+              "reportedDate": "2026-06-05",
+              "resolvedDate": "2026-06-16",
+              "daysActive": 11,
+              "area": "Cottonwood Wash Crossing",
+              "lat": 35.3418,
+              "lng": -119.3357,
+              "inspector": "R. Delgado",
+              "esaReviewed": true,
+              "description": "Sediment discharge into the Cottonwood Wash after a storm event; emergency BMP repair and turbidity monitoring closed the item."
+            },
+            {
+              "id": "obs-0092",
+              "category": "Cultural Resources Protection",
+              "severity": "non-compliance",
+              "severityLabel": "Non-Compliance",
+              "status": "resolved",
+              "statusLabel": "Resolved",
+              "reportedDate": "2026-05-19",
+              "resolvedDate": "2026-05-30",
+              "daysActive": 11,
+              "area": "Perimeter Fence Line — West",
+              "lat": 35.3572,
+              "lng": -119.3678,
+              "inspector": "T. Whitfield",
+              "esaReviewed": true,
+              "description": "Unauthorized staging within 50 ft of the west cultural buffer; materials relocated and buffer re-flagged."
+            },
+            {
+              "id": "obs-0084",
+              "category": "Waste Management",
+              "severity": "non-compliance",
+              "severityLabel": "Non-Compliance",
+              "status": "resolved",
+              "statusLabel": "Resolved",
+              "reportedDate": "2026-05-04",
+              "resolvedDate": "2026-05-11",
+              "daysActive": 7,
+              "area": "Laydown / Staging Yard",
+              "lat": 35.3445,
+              "lng": -119.3549,
+              "inspector": "K. Osei",
+              "esaReviewed": false,
+              "description": "Improper disposal of solvent-soaked rags in a general waste bin; hazardous-waste protocol re-briefed to crews."
+            },
+            {
+              "id": "obs-0110",
+              "category": "Access & Traffic Control",
+              "severity": "needs-attention",
+              "severityLabel": "Needs Attention",
+              "status": "resolved",
+              "statusLabel": "Resolved",
+              "reportedDate": "2026-06-22",
+              "resolvedDate": "2026-06-27",
+              "daysActive": 5,
+              "area": "Main Access Road (Hwy 58 Spur)",
+              "lat": 35.3601,
+              "lng": -119.3612,
+              "inspector": "J. Park",
+              "esaReviewed": true,
+              "description": "Missing wildlife-crossing signage at the access road bend; signage reinstalled."
+            },
+            {
+              "id": "obs-0103",
+              "category": "Vegetation & Habitat Protection",
+              "severity": "needs-attention",
+              "severityLabel": "Needs Attention",
+              "status": "resolved",
+              "statusLabel": "Resolved",
+              "reportedDate": "2026-06-09",
+              "resolvedDate": "2026-06-19",
+              "daysActive": 10,
+              "area": "Substation Yard",
+              "lat": 35.3511,
+              "lng": -119.3402,
+              "inspector": "T. Whitfield",
+              "esaReviewed": false,
+              "description": "Exclusion fencing gap near the substation buffer; repaired and re-tensioned."
+            },
+            {
+              "id": "obs-0096",
+              "category": "Noise Management",
+              "severity": "needs-attention",
+              "severityLabel": "Needs Attention",
+              "status": "resolved",
+              "statusLabel": "Resolved",
+              "reportedDate": "2026-05-27",
+              "resolvedDate": "2026-06-03",
+              "daysActive": 7,
+              "area": "BESS Pad",
+              "lat": 35.3499,
+              "lng": -119.3437,
+              "inspector": "J. Park",
+              "esaReviewed": true,
+              "description": "BESS generator running past the approved noise window on two consecutive evenings; schedule corrected."
+            },
+            {
+              "id": "obs-0088",
+              "category": "Stormwater / BMP Maintenance",
+              "severity": "needs-attention",
+              "severityLabel": "Needs Attention",
+              "status": "resolved",
+              "statusLabel": "Resolved",
+              "reportedDate": "2026-05-08",
+              "resolvedDate": "2026-05-15",
+              "daysActive": 7,
+              "area": "South Array — Block B",
+              "lat": 35.3382,
+              "lng": -119.3488,
+              "inspector": "R. Delgado",
+              "esaReviewed": false,
+              "description": "Silt fence sagging along the Block B perimeter; re-staked and inspected."
+            },
+            {
+              "id": "obs-0079",
+              "category": "Waste Management",
+              "severity": "needs-attention",
+              "severityLabel": "Needs Attention",
+              "status": "resolved",
+              "statusLabel": "Resolved",
+              "reportedDate": "2026-04-21",
+              "resolvedDate": "2026-04-29",
+              "daysActive": 8,
+              "area": "O&M Building Area",
+              "lat": 35.3527,
+              "lng": -119.3465,
+              "inspector": "K. Osei",
+              "esaReviewed": true,
+              "description": "Uncovered dumpster near O&M building; covered lid installed and secured."
+            },
+            {
+              "id": "obs-0106",
+              "category": "Cultural Resources Protection",
+              "severity": "in-compliance",
+              "severityLabel": "In Compliance",
+              "status": "resolved",
+              "statusLabel": "Resolved",
+              "reportedDate": "2026-06-15",
+              "resolvedDate": "2026-07-13",
+              "daysActive": 28,
+              "area": "Perimeter Fence Line — West",
+              "lat": 35.3572,
+              "lng": -119.3678,
+              "inspector": "T. Whitfield",
+              "esaReviewed": false,
+              "description": "Monthly cultural monitor walk — clear; superseded by the following month's check."
+            },
+            {
+              "id": "obs-0090",
+              "category": "Spill Prevention & Response",
+              "severity": "in-compliance",
+              "severityLabel": "In Compliance",
+              "status": "resolved",
+              "statusLabel": "Resolved",
+              "reportedDate": "2026-05-14",
+              "resolvedDate": "2026-07-07",
+              "daysActive": 54,
+              "area": "Substation Yard",
+              "lat": 35.3511,
+              "lng": -119.3402,
+              "inspector": "J. Park",
+              "esaReviewed": false,
+              "description": "Substation spill-kit check — fully stocked; superseded by the following quarter's check."
+            },
+            {
+              "id": "obs-0075",
+              "category": "Waste Management",
+              "severity": "in-compliance",
+              "severityLabel": "In Compliance",
+              "status": "resolved",
+              "statusLabel": "Resolved",
+              "reportedDate": "2026-04-16",
+              "resolvedDate": "2026-07-21",
+              "daysActive": 96,
+              "area": "Laydown / Staging Yard",
+              "lat": 35.3445,
+              "lng": -119.3549,
+              "inspector": "K. Osei",
+              "esaReviewed": true,
+              "description": "Waste-staging audit — clear; superseded by the following month's check."
             }
           ],
-          "detailHref": "/beacon-design/prototypes/data-catalog-action"
+          "severityMeta": {
+            "in-compliance": { "label": "In Compliance", "hex": "var(--color-success)" },
+            "needs-attention": { "label": "Needs Attention", "hex": "var(--color-warning)" },
+            "non-compliance": { "label": "Non-Compliance", "hex": "var(--color-danger)" }
+          },
+          "statusMeta": {
+            "active": { "label": "Active", "hex": "var(--color-info)" },
+            "resolved": { "label": "Resolved", "hex": "var(--color-text-tertiary)" }
+          }
         }
       </script>
     </div>
@@ -4822,10 +4788,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               You are here
             </h2>
             <div class="bcn-gd__here">
-              <span class="bcn-gd__here-page" data-gd-page="">Actions</span>
+              <span class="bcn-gd__here-page" data-gd-page="">Monitoring</span>
               <span class="bcn-gd__here-purpose" data-gd-purpose=""
-                >Consolidated, trackable units of compliance work — requirements that describe the
-                same task, planned as one deliverable.</span
+                >What is happening in the field — daily reports, observations, surveys, and the
+                compliance concerns they raise.</span
               >
             </div>
           </section>
@@ -4857,16 +4823,46 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <button
                 type="button"
                 class="bcn-gd-row"
-                data-article-id="tracing-lineage"
+                data-article-id="qc-field-surveys"
                 data-kind="howto"
-                data-title="Tracing a requirement back to its source"
-                data-summary="Follow the lineage from any requirement up to the exact document language."
+                data-title="Reviewing field surveys before they count"
+                data-summary="Surveys sync from field apps, but only QC-approved records drive compliance."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">Tracing a requirement back to its source</span>
+                  <span class="bcn-gd-row__title">Reviewing field surveys before they count</span>
                   <span class="bcn-gd-row__sub"
-                    >Follow the lineage from any requirement up to the exact document
-                    language.</span
+                    >Surveys sync from field apps, but only QC-approved records drive
+                    compliance.</span
+                  >
+                </span>
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path d="m9 18 6-6-6-6"></path>
+                  </svg>
+                </span></button
+              ><button
+                type="button"
+                class="bcn-gd-row"
+                data-article-id="site-clearance-go-no-go"
+                data-kind="howto"
+                data-title="Using Site Clearance go/no-go"
+                data-summary="Check whether a work site is clear for ground disturbance — and what is blocking it."
+              >
+                <span class="bcn-gd-row__text">
+                  <span class="bcn-gd-row__title">Using Site Clearance go/no-go</span>
+                  <span class="bcn-gd-row__sub"
+                    >Check whether a work site is clear for ground disturbance — and what is
+                    blocking it.</span
                   >
                 </span>
                 <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -4912,16 +4908,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <button
                 type="button"
                 class="bcn-gd-row"
-                data-article-id="what-is-an-action"
+                data-article-id="what-is-a-dmr"
                 data-kind="glossary"
-                data-title="Action"
-                data-summary="One trackable deliverable consolidating requirements that describe the same work."
+                data-title="Daily Monitoring Report"
+                data-summary="The structured field record of one day on site, and a direct source of evidence."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">Action</span>
+                  <span class="bcn-gd-row__title">Daily Monitoring Report</span>
                   <span class="bcn-gd-row__sub"
-                    >One trackable deliverable consolidating requirements that describe the same
-                    work.</span
+                    >The structured field record of one day on site, and a direct source of
+                    evidence.</span
                   >
                 </span>
                 <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -4942,16 +4938,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               ><button
                 type="button"
                 class="bcn-gd-row"
-                data-article-id="actions-vs-implementations"
+                data-article-id="what-is-an-observation"
                 data-kind="glossary"
-                data-title="Implementation"
-                data-summary="A single execution of a published action — the record teams work day to day."
+                data-title="Observation"
+                data-summary="One recorded field event — a species sighting, habitat condition, weather event, or BMP check."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">Implementation</span>
+                  <span class="bcn-gd-row__title">Observation</span>
                   <span class="bcn-gd-row__sub"
-                    >A single execution of a published action — the record teams work day to
-                    day.</span
+                    >One recorded field event — a species sighting, habitat condition, weather
+                    event, or BMP check.</span
                   >
                 </span>
                 <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -4972,16 +4968,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               ><button
                 type="button"
                 class="bcn-gd-row"
-                data-article-id="project-vs-component-scope"
+                data-article-id="monitoring-portal"
                 data-kind="glossary"
-                data-title="Scope"
-                data-summary="The setting that determines whether work is tracked once, or once per location."
+                data-title="Monitoring Portal"
+                data-summary="The section that reports commitment compliance from field observations."
               >
                 <span class="bcn-gd-row__text">
-                  <span class="bcn-gd-row__title">Scope</span>
+                  <span class="bcn-gd-row__title">Monitoring Portal</span>
                   <span class="bcn-gd-row__sub"
-                    >The setting that determines whether work is tracked once, or once per
-                    location.</span
+                    >The section that reports commitment compliance from field observations.</span
                   >
                 </span>
                 <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -5010,6 +5005,35 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
          rows into the two sections above; the rest stay here (hidden). -->
       <div class="bcn-gd__pool" data-gd-pool="" hidden="">
         <button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="project-vs-component-scope"
+          data-kind="glossary"
+          data-title="Scope"
+          data-summary="The setting that determines whether work is tracked once, or once per location."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Scope</span>
+            <span class="bcn-gd-row__sub"
+              >The setting that determines whether work is tracked once, or once per location.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
           type="button"
           class="bcn-gd-row"
           data-article-id="tenant"
@@ -5109,6 +5133,35 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <span class="bcn-gd-row__title">Finding anything with search</span>
             <span class="bcn-gd-row__sub"
               >Press / anywhere to search commitments, requirements, actions, and documents.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="actions-vs-implementations"
+          data-kind="glossary"
+          data-title="Implementation"
+          data-summary="A single execution of a published action — the record teams work day to day."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Implementation</span>
+            <span class="bcn-gd-row__sub"
+              >A single execution of a published action — the record teams work day to day.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -5304,66 +5357,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         ><button
           type="button"
           class="bcn-gd-row"
-          data-article-id="what-is-a-dmr"
-          data-kind="glossary"
-          data-title="Daily Monitoring Report"
-          data-summary="The structured field record of one day on site, and a direct source of evidence."
-        >
-          <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Daily Monitoring Report</span>
-            <span class="bcn-gd-row__sub"
-              >The structured field record of one day on site, and a direct source of
-              evidence.</span
-            >
-          </span>
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m9 18 6-6-6-6"></path>
-            </svg>
-          </span></button
-        ><button
-          type="button"
-          class="bcn-gd-row"
-          data-article-id="what-is-an-observation"
-          data-kind="glossary"
-          data-title="Observation"
-          data-summary="One recorded field event — a species sighting, habitat condition, weather event, or BMP check."
-        >
-          <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Observation</span>
-            <span class="bcn-gd-row__sub"
-              >One recorded field event — a species sighting, habitat condition, weather event, or
-              BMP check.</span
-            >
-          </span>
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m9 18 6-6-6-6"></path>
-            </svg>
-          </span></button
-        ><button
-          type="button"
-          class="bcn-gd-row"
           data-article-id="survey"
           data-kind="glossary"
           data-title="Survey"
@@ -5403,94 +5396,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <span class="bcn-gd-row__title">Site Clearance</span>
             <span class="bcn-gd-row__sub"
               >The go/no-go determination of whether a site is clear for ground disturbance.</span
-            >
-          </span>
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m9 18 6-6-6-6"></path>
-            </svg>
-          </span></button
-        ><button
-          type="button"
-          class="bcn-gd-row"
-          data-article-id="monitoring-portal"
-          data-kind="glossary"
-          data-title="Monitoring Portal"
-          data-summary="The section that reports commitment compliance from field observations."
-        >
-          <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Monitoring Portal</span>
-            <span class="bcn-gd-row__sub"
-              >The section that reports commitment compliance from field observations.</span
-            >
-          </span>
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m9 18 6-6-6-6"></path>
-            </svg>
-          </span></button
-        ><button
-          type="button"
-          class="bcn-gd-row"
-          data-article-id="qc-field-surveys"
-          data-kind="howto"
-          data-title="Reviewing field surveys before they count"
-          data-summary="Surveys sync from field apps, but only QC-approved records drive compliance."
-        >
-          <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Reviewing field surveys before they count</span>
-            <span class="bcn-gd-row__sub"
-              >Surveys sync from field apps, but only QC-approved records drive compliance.</span
-            >
-          </span>
-          <span class="esa-icon esa-icon--sm" aria-hidden="true">
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              focusable="false"
-            >
-              <path d="m9 18 6-6-6-6"></path>
-            </svg>
-          </span></button
-        ><button
-          type="button"
-          class="bcn-gd-row"
-          data-article-id="site-clearance-go-no-go"
-          data-kind="howto"
-          data-title="Using Site Clearance go/no-go"
-          data-summary="Check whether a work site is clear for ground disturbance — and what is blocking it."
-        >
-          <span class="bcn-gd-row__text">
-            <span class="bcn-gd-row__title">Using Site Clearance go/no-go</span>
-            <span class="bcn-gd-row__sub"
-              >Check whether a work site is clear for ground disturbance — and what is blocking
-              it.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -5638,6 +5543,65 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <span class="bcn-gd-row__title">Requirement</span>
             <span class="bcn-gd-row__sub"
               >A specific, actionable sub-obligation broken out of a commitment.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="what-is-an-action"
+          data-kind="glossary"
+          data-title="Action"
+          data-summary="One trackable deliverable consolidating requirements that describe the same work."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Action</span>
+            <span class="bcn-gd-row__sub"
+              >One trackable deliverable consolidating requirements that describe the same
+              work.</span
+            >
+          </span>
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="m9 18 6-6-6-6"></path>
+            </svg>
+          </span></button
+        ><button
+          type="button"
+          class="bcn-gd-row"
+          data-article-id="tracing-lineage"
+          data-kind="howto"
+          data-title="Tracing a requirement back to its source"
+          data-summary="Follow the lineage from any requirement up to the exact document language."
+        >
+          <span class="bcn-gd-row__text">
+            <span class="bcn-gd-row__title">Tracing a requirement back to its source</span>
+            <span class="bcn-gd-row__sub"
+              >Follow the lineage from any requirement up to the exact document language.</span
             >
           </span>
           <span class="esa-icon esa-icon--sm" aria-hidden="true">
@@ -7390,116 +7354,124 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
-:root,
-[data-theme="beacon"] {
-  --ag-internal-hover-color: rgba(0, 0, 0, 0);
-  --ag-internal-moving-color: rgba(0, 0, 0, 0);
-  --bcn-aldo: #08908b;
-  --bcn-aldo-100: #cfeceb;
-  --bcn-aldo-50: #e8f6f5;
-  --bcn-gray-100: #efefef;
-  --bcn-gray-1000: #000000;
-  --bcn-gray-200: #dcdcdc;
-  --bcn-gray-300: #bdbdbd;
-  --bcn-gray-400: #989898;
-  --bcn-gray-50: #fafafa;
-  --bcn-gray-500: #7c7c7c;
-  --bcn-gray-600: #656565;
-  --bcn-gray-900: #3d3d3d;
-  --bcn-gray-950: #292929;
-  --bcn-helpbar-bg: rgba(23, 25, 27, .78);
-  --bcn-helpbar-bg-solid: #1f2224;
-  --bcn-helpbar-border: rgba(255, 255, 255, .12);
-  --bcn-helpbar-divider: rgba(255, 255, 255, .16);
-  --bcn-helpbar-fg: rgba(255, 255, 255, .92);
-  --bcn-helpbar-fg-muted: rgba(255, 255, 255, .72);
-  --bcn-helpbar-hover-bg: rgba(255, 255, 255, .1);
-  --color-accent: #f76b15;
-  --color-background: #fafafa;
-  --color-border: #dcdcdc;
-  --color-primary: #005862;
-  --color-primary-hover: #00474f;
-  --color-surface: #fcfcfc;
-  --color-surface-sunken: #efefef;
-  --color-text-inverse: #fcfcfc;
-  --color-text-link: #005862;
-  --color-text-primary: #3d3d3d;
-  --color-text-secondary: #525252;
-  --color-text-tertiary: #656565;
-  --font-decorative: "Besley", serif;
-  --font-sans: "DM Sans", sans-serif;
-  --font-weight-bold: 650;
-  --font-weight-medium: 500;
-  --font-weight-regular: 350;
-  --font-weight-semibold: 550;
-  --form-bg: #fcfcfc;
-  --form-border-color: #dcdcdc;
-  --form-border-width: 1px;
-  --form-font-size-md: clamp(.75rem, .66rem + .44vw, .9375rem);
-  --form-font-size-sm: clamp(.625rem, .56rem + .32vw, .75rem);
-  --form-height-md: 36px;
-  --form-height-sm: 28px;
-  --form-padding-x-md: .75rem;
-  --form-padding-x-sm: .625rem;
-  --form-padding-y-md: .5rem;
-  --form-padding-y-sm: .375rem;
-  --form-placeholder-color: #7c7c7c;
-  --form-radius-md: .25rem;
-  --form-radius-sm: .25rem;
-  --form-text-color: #3d3d3d;
-  --icon-button-bg-hover: color-mix(in srgb, currentColor 14%, transparent);
-  --icon-size-md: 20px;
-  --icon-size-medium: 20px;
-  --icon-size-sm: 16px;
-  --icon-size-small: 16px;
-  --icon-size-xs: 14px;
-  --popover-bg: #fcfcfc;
-  --popover-border-color: #dcdcdc;
-  --popover-color: #3d3d3d;
-  --popover-radius: .5rem;
-  --radius-100: .25rem;
-  --radius-200: .5rem;
-  --radius-300: .5rem;
-  --radius-400: .75rem;
-  --radius-full: 9999px;
-  --shadow-300: 0 6px 24px -6px rgba(0, 0, 0, .07);
-  --side-dialog-width: 400px;
-  --spacing-050: .125rem;
-  --spacing-100: .25rem;
-  --spacing-150: .375rem;
-  --spacing-200: .5rem;
-  --spacing-250: .625rem;
-  --spacing-300: .75rem;
-  --spacing-400: 1rem;
-  --spacing-500: 1.5rem;
-  --spacing-600: 2rem;
-  --spacing-700: 3rem;
-  --transition-fast: .15s ease;
-  --type-size-100: clamp(.625rem, .56rem + .32vw, .75rem);
-  --type-size-150: clamp(.6875rem, .61rem + .38vw, .875rem);
-  --type-size-200: clamp(.75rem, .66rem + .44vw, .9375rem);
-  --type-size-250: clamp(.8125rem, .71rem + .5vw, 1.0625rem);
-  --type-size-300: clamp(.875rem, .77rem + .52vw, 1.125rem);
-  --type-size-400: clamp(1rem, .88rem + .6vw, 1.25rem);
-  --type-size-500: clamp(1.125rem, .98rem + .72vw, 1.5rem);
-}
-
-:where(.ag-theme-tabStyle-6) {
-.ag-tabs-header{background-color:var(--ag-tab-bar-background-color);border-bottom:var(--ag-tab-bar-border);display:flex;flex:1;gap:var(--ag-tab-spacing);padding:var(--ag-tab-bar-top-padding) var(--ag-tab-bar-horizontal-padding) 0}
-.ag-tabs-header-wrapper{display:flex}
-.ag-tabs-close-button-wrapper{align-items:center;border:0;display:flex;padding:var(--ag-spacing)}
-:where(.ag-ltr) .ag-tabs-close-button-wrapper{border-right:solid var(--ag-border-width) var(--ag-border-color)}
-:where(.ag-rtl) .ag-tabs-close-button-wrapper{border-left:solid var(--ag-border-width) var(--ag-border-color)}
-.ag-tabs-close-button{background-color:unset;border:0;cursor:pointer;padding:0}
-.ag-tab{align-items:center;background-color:var(--ag-tab-background-color);border-left:var(--ag-tab-selected-border-width) solid transparent;border-right:var(--ag-tab-selected-border-width) solid transparent;color:var(--ag-tab-text-color);cursor:pointer;display:flex;flex:1;justify-content:center;padding:var(--ag-tab-top-padding) var(--ag-tab-horizontal-padding) var(--ag-tab-bottom-padding);position:relative}
-.ag-tab:hover{background-color:var(--ag-tab-hover-background-color);color:var(--ag-tab-hover-text-color)}
-.ag-tab.ag-tab-selected{background-color:var(--ag-tab-selected-background-color);color:var(--ag-tab-selected-text-color)}
-:where(.ag-ltr) .ag-tab.ag-tab-selected:where(:not(:first-of-type)){border-left-color:var(--ag-tab-selected-border-color)}
-:where(.ag-rtl) .ag-tab.ag-tab-selected:where(:not(:first-of-type)){border-right-color:var(--ag-tab-selected-border-color)}
-:where(.ag-ltr) .ag-tab.ag-tab-selected:where(:not(:last-of-type)){border-right-color:var(--ag-tab-selected-border-color)}
-:where(.ag-rtl) .ag-tab.ag-tab-selected:where(:not(:last-of-type)){border-left-color:var(--ag-tab-selected-border-color)}
-.ag-tab:after{background-color:var(--ag-tab-selected-underline-color);bottom:0;content:"";display:block;height:var(--ag-tab-selected-underline-width);left:0;opacity:0;position:absolute;right:0;transition:opacity var(--ag-tab-selected-underline-transition-duration)}
-.ag-tab.ag-tab-selected:after{opacity:1}
+html,.modern-layout__content{scroll-behavior:smooth}
+.esa-button{--_btn-height: var(--form-height-md, 40px);--_btn-padding-x: var(--form-padding-x-md, 16px);--_btn-font-size: var(--form-font-size-md, 14px);--_btn-radius: var(--form-radius-md, 6px);--_accent: var(--color-primary, #46a758);--_accent-hover: var(--color-primary-hover, #3e9b4f);--_on: var(--color-text-inverse, #ffffff);--_accent-text: var(--_accent);--_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);--_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);display:inline-block}
+.esa-button--sm{--_btn-height: var(--form-height-sm, 32px);--_btn-padding-x: var(--form-padding-x-sm, 12px);--_btn-font-size: var(--form-font-size-sm, 12px);--_btn-radius: var(--form-radius-sm, 4px)}
+.esa-button__native{display:inline-flex;align-items:center;justify-content:center;gap:var(--spacing-200, 8px);width:100%;height:var(--_btn-height);padding-inline:var(--_btn-padding-x);border:1px solid transparent;border-radius:var(--_btn-radius);font-size:var(--_btn-font-size);font-family:var(--font-sans, system-ui, sans-serif);font-weight:var(--font-weight-medium, 500);line-height:1;text-decoration:none;cursor:pointer;transition:background var(--transition-fast, .15s ease),border-color var(--transition-fast, .15s ease);-webkit-appearance:none;appearance:none}
+.esa-button--sm .esa-button__native{height:auto;padding-block:var(--spacing-150, 6px)}
+.esa-button--appearance-outline .esa-button__native,.esa-button--appearance-dashed .esa-button__native{background:transparent;color:var(--_accent-text);border-color:var(--_accent)}
+.esa-button--color-ghost .esa-button__native{background:transparent;color:var(--color-text-primary, #171717);border-color:transparent}
+.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native{border-color:var(--color-border, #e5e5e5)}
+.esa-button__label{white-space:nowrap}
+.ag-aria-description-container{border:0;clip-path:inset(50%);height:1px;overflow:hidden;padding:0;position:absolute;white-space:nowrap;width:1px;z-index:9999}
+:where(.ag-ltr){direction:ltr;.ag-body,.ag-body-horizontal-scroll,.ag-body-viewport,.ag-floating-bottom,.ag-floating-top,.ag-header,.ag-sticky-bottom,.ag-sticky-top{flex-direction:row}
+.ag-root-wrapper{border:var(--ag-wrapper-border);border-radius:var(--ag-wrapper-border-radius);container-type:inline-size;display:flex;flex-direction:column;overflow:hidden;position:relative;&.ag-layout-normal{content-visibility:auto;height:100%}
+&.ag-layout-normal{content-visibility:auto;height:100%}
+.ag-root-wrapper-body{display:flex;flex-direction:row;&.ag-layout-normal{flex:1 1 auto;height:0;min-height:0}
+&.ag-layout-normal{flex:1 1 auto;height:0;min-height:0}
+.ag-unselectable{-webkit-user-select:none;-moz-user-select:none;user-select:none}
+.ag-root{display:flex;flex-direction:column;position:relative;&.ag-layout-auto-height,&.ag-layout-normal{flex:1 1 auto;overflow:hidden;width:0}
+&.ag-layout-normal{height:100%}
+&.ag-layout-auto-height,&.ag-layout-normal{flex:1 1 auto;overflow:hidden;width:0}
+&.ag-layout-normal{height:100%}
+.ag-body,.ag-body-horizontal-scroll,.ag-body-viewport,.ag-floating-bottom,.ag-floating-top,.ag-header,.ag-sticky-bottom,.ag-sticky-top{flex-direction:row}
+.ag-header{background-color:var(--ag-header-background-color);border-bottom:var(--ag-header-row-border);color:var(--ag-header-text-color);display:flex;font-family:var(--ag-header-font-family);font-size:var(--ag-header-font-size);font-weight:var(--ag-header-font-weight);overflow:hidden;white-space:nowrap;width:100%}
+.ag-body-horizontal-scroll-viewport,.ag-body-vertical-scroll-viewport,.ag-body-viewport,.ag-center-cols-viewport,.ag-floating-bottom-viewport,.ag-floating-top-viewport,.ag-header-viewport,.ag-sticky-bottom-viewport,.ag-sticky-top-viewport{flex:1 1 auto;height:100%;min-width:0;overflow:hidden;position:relative}
+.ag-body-viewport,.ag-center-cols-viewport,.ag-floating-bottom-viewport,.ag-floating-top-viewport,.ag-header-viewport,.ag-sticky-bottom-viewport,.ag-sticky-top-viewport{overflow-x:auto;-ms-overflow-style:none!important;scrollbar-width:none!important}
+.ag-body-container,.ag-body-horizontal-scroll-container,.ag-body-vertical-scroll-container,.ag-center-cols-container,.ag-floating-bottom-container,.ag-floating-bottom-full-width-container,.ag-floating-top-container,.ag-full-width-container,.ag-header-container,.ag-pinned-left-cols-container,.ag-pinned-left-sticky-bottom,.ag-pinned-right-cols-container,.ag-pinned-right-sticky-bottom,.ag-sticky-bottom-container,.ag-sticky-top-container{position:relative}
+.ag-floating-bottom-container,.ag-floating-top-container,.ag-header-container,.ag-pinned-left-floating-bottom,.ag-pinned-left-floating-top,.ag-pinned-right-floating-bottom,.ag-pinned-right-floating-top,.ag-sticky-bottom-container,.ag-sticky-top-container{height:100%;white-space:nowrap}
+.ag-floating-top{display:flex;overflow:hidden;position:relative;white-space:nowrap;width:100%}
+.ag-body,.ag-floating-bottom,.ag-floating-top{background-color:var(--ag-data-background-color)}
+.ag-viewport{position:relative}
+.ag-floating-bottom-container,.ag-floating-top-container,.ag-sticky-bottom-container,.ag-sticky-top-container{min-height:1px}
+.ag-floating-bottom-full-width-container,.ag-floating-top-full-width-container,.ag-full-width-container,.ag-sticky-bottom-full-width-container,.ag-sticky-top-full-width-container{pointer-events:none;position:absolute;top:0}
+:where(.ag-ltr) .ag-floating-bottom-full-width-container,:where(.ag-ltr) .ag-floating-top-full-width-container,:where(.ag-ltr) .ag-full-width-container,:where(.ag-ltr) .ag-sticky-bottom-full-width-container,:where(.ag-ltr) .ag-sticky-top-full-width-container{left:0}
+.ag-floating-bottom-full-width-container,.ag-floating-top-full-width-container{display:inline-block;height:100%;overflow:hidden;width:100%}
+.ag-body{display:flex;flex:1 1 auto;flex-direction:row!important;min-height:0;position:relative}
+.ag-body-viewport{display:flex;overflow-x:hidden;&:where(.ag-layout-normal){overflow-y:auto;-webkit-overflow-scrolling:touch}
+&:where(.ag-layout-normal){overflow-y:auto;-webkit-overflow-scrolling:touch}
+.ag-center-cols-viewport{min-height:100%;width:100%}
+.ag-center-cols-container,.ag-pinned-right-cols-container{display:block}
+.ag-full-width-container{width:100%}
+.ag-body-horizontal-scroll,.ag-body-vertical-scroll{display:flex;min-height:0;min-width:0;position:relative;&:where(.ag-scrollbar-invisible){bottom:0;position:absolute;&:where(.ag-apple-scrollbar){opacity:0;transition:opacity .4s;visibility:hidden;&:where(.ag-scrollbar-active),&:where(.ag-scrollbar-scrolling){opacity:1;visibility:visible}
+.ag-body-vertical-scroll{height:100%;&:where(.ag-scrollbar-invisible){top:0;z-index:10}
+:where(.ag-ltr) .ag-body-vertical-scroll{&:where(.ag-scrollbar-invisible){right:0}
+.ag-body-vertical-scroll-viewport{overflow-y:scroll}
+.ag-body-vertical-scroll-container{width:100%}
+.ag-sticky-bottom,.ag-sticky-top{background-color:var(--ag-data-background-color);display:flex;height:0;overflow:hidden;position:absolute;width:100%;z-index:1}
+.ag-sticky-bottom{box-sizing:content-box!important;:where(.ag-pinned-left-sticky-bottom),:where(.ag-pinned-right-sticky-bottom),:where(.ag-sticky-bottom-container){border-top:var(--ag-row-border);box-sizing:border-box}
+:where(.ag-pinned-left-sticky-bottom),:where(.ag-pinned-right-sticky-bottom),:where(.ag-sticky-bottom-container){border-top:var(--ag-row-border);box-sizing:border-box}
+.ag-floating-bottom{display:flex;overflow:hidden;position:relative;white-space:nowrap;width:100%}
+.ag-body-horizontal-scroll{width:100%;&:where(.ag-scrollbar-invisible){left:0;right:0}
+.ag-horizontal-left-spacer,.ag-horizontal-right-spacer{height:100%;min-width:0;overflow-x:scroll;&:where(.ag-scroller-corner){overflow-x:hidden}
+&:where(.ag-scroller-corner){overflow-x:hidden}
+.ag-body-horizontal-scroll-viewport{overflow-x:scroll}
+.ag-body-horizontal-scroll-container{height:100%}
+.ag-header-row{height:var(--ag-header-height);position:absolute}
+.ag-header-row:where(:not(.ag-header-row-column-group)){overflow:hidden}
+:where(.ag-header-cell:not(.ag-right-aligned-header)){.ag-header-col-ref{color:var(--ag-subtle-text-color)}
+:where(.ag-ltr) :where(.ag-header-cell:not(.ag-right-aligned-header)){.ag-header-col-ref{margin-right:var(--ag-spacing)}
+.ag-header-label-icon,.ag-header-menu-icon{margin-left:var(--ag-spacing)}
+.ag-header-cell{display:inline-flex;overflow:hidden}
+.ag-header-cell,.ag-header-group-cell{align-items:center;gap:var(--ag-cell-widget-spacing);height:100%;padding:0 var(--ag-cell-horizontal-padding);position:absolute}
+.ag-header-cell:where(:not(.ag-floating-filter)):before,.ag-header-group-cell:before{background-image:linear-gradient(var(--ag-internal-hover-color),var(--ag-internal-hover-color)),linear-gradient(var(--ag-internal-moving-color),var(--ag-internal-moving-color));content:"";inset:0;position:absolute;--ag-internal-moving-color:transparent;--ag-internal-hover-color:transparent;transition:--ag-internal-moving-color var(--ag-header-cell-background-transition-duration),--ag-internal-hover-color var(--ag-header-cell-background-transition-duration)}
+:where(.ag-header-cell:not(.ag-floating-filter)>*,.ag-header-group-cell>*){position:relative;z-index:1}
+.ag-header-cell-resize{align-items:center;cursor:ew-resize;display:flex;height:100%;position:absolute;top:0;width:8px;z-index:2}
+:where(.ag-ltr) .ag-header-cell-resize{right:-3px}
+.ag-header-cell-resize:after{background-color:var(--ag-header-column-resize-handle-color);content:"";height:var(--ag-header-column-resize-handle-height);position:absolute;top:calc(50% - var(--ag-header-column-resize-handle-height)*.5);width:var(--ag-header-column-resize-handle-width);z-index:1}
+:where(.ag-ltr) .ag-header-cell-resize:after{left:calc(50% - var(--ag-header-column-resize-handle-width))}
+.ag-header-cell-comp-wrapper{width:100%}
+:where(.ag-header-cell:not(.ag-header-cell-auto-height)) .ag-header-cell-comp-wrapper{align-items:center;display:flex;height:100%}
+.ag-cell-label-container{align-items:center;display:flex;flex-direction:row-reverse;height:100%;justify-content:space-between;width:100%}
+.ag-floating-filter-button-button,.ag-header-cell-filter-button,.ag-header-cell-menu-button,.ag-header-expand-icon,.ag-panel-title-bar-button,:where(.ag-header-cell-sortable) .ag-header-cell-label,:where(.ag-header-group-cell-selectable) .ag-header-cell-comp-wrapper{cursor:pointer}
+.ag-header-cell-filter-button,:where(.ag-header-cell.ag-header-active) .ag-header-cell-menu-button{opacity:1}
+.ag-chart-menu-icon,.ag-chart-settings-next,.ag-chart-settings-prev,.ag-column-group-icons,.ag-column-select-header-icon,.ag-filter-toolpanel-expand,.ag-floating-filter-button-button,.ag-group-title-bar-icon,.ag-header-cell-filter-button,.ag-header-cell-menu-button,.ag-header-expand-icon,.ag-panel-title-bar-button,.ag-panel-title-bar-button-icon,.ag-set-filter-group-icons,:where(.ag-group-contracted) .ag-icon,:where(.ag-group-expanded) .ag-icon{background-color:var(--ag-icon-button-background-color);border-radius:var(--ag-icon-button-border-radius);box-shadow:0 0 0 var(--ag-icon-button-background-spread) var(--ag-icon-button-background-color);color:var(--ag-icon-button-color)}
+.ag-header-cell-label,.ag-header-group-cell-label{align-items:center;align-self:stretch;display:flex;flex:1 1 auto;overflow:hidden;padding:5px 0}
+.ag-header-cell-label{text-overflow:ellipsis}
+.ag-header-cell-text,.ag-header-group-text{overflow:hidden;text-overflow:ellipsis}
+.ag-header-cell-text{overflow-wrap:break-word}
+.ag-sort-indicator-container{display:flex;gap:var(--ag-spacing)}
+:where(.ag-ltr) .ag-sort-indicator-icon{padding-left:var(--ag-spacing)}
+.ag-header-cell:after,.ag-header-group-cell:where(:not(.ag-header-span-height.ag-header-group-cell-no-group)):after{content:"";height:var(--ag-header-column-border-height);position:absolute;top:calc(50% - var(--ag-header-column-border-height)*.5);z-index:1}
+:where(.ag-ltr) .ag-header-cell:after,:where(.ag-ltr) .ag-header-group-cell:where(:not(.ag-header-span-height.ag-header-group-cell-no-group)):after{border-right:var(--ag-header-column-border);right:0}
+:where(.ag-header.ag-header-allow-overflow) .ag-header-row{overflow:visible}
+:where(.ag-row-animation) .ag-row{transition:transform .4s,top .4s,opacity .2s;&:where(.ag-after-created){transition:transform .4s,top .4s,height .4s,opacity .2s}
+.ag-row-position-absolute{position:absolute}
+.ag-row,.ag-spanned-row{color:var(--ag-cell-text-color);font-family:var(--ag-cell-font-family);font-size:var(--ag-cell-font-size);font-weight:var(--ag-cell-font-weight);white-space:nowrap;--ag-internal-content-line-height:calc(min(var(--ag-row-height), var(--ag-line-height, 1000px)) - var(--ag-internal-row-border-width, 1px) - 2px)}
+.ag-row{background-color:var(--ag-data-background-color);border-bottom:var(--ag-row-border);height:var(--ag-row-height);width:100%;&.ag-row-editing-invalid{background-color:var(--ag-full-row-edit-invalid-background-color)}
+.ag-cell{display:inline-block;height:100%;position:absolute;white-space:nowrap;&:focus-visible{box-shadow:none}
+.ag-cell-value{flex:1 1 auto}
+.ag-cell,.ag-full-width-row .ag-cell-wrapper.ag-row-group{border:1px solid transparent;line-height:var(--ag-internal-content-line-height);-webkit-font-smoothing:subpixel-antialiased}
+:where(.ag-ltr) .ag-cell{border-right:var(--ag-column-border)}
+.ag-cell-value:not(.ag-allow-overflow),.ag-group-value{overflow:hidden;text-overflow:ellipsis}
+:where(.ag-ltr) .ag-cell:not(.ag-cell-inline-editing),:where(.ag-ltr) .ag-full-width-row .ag-cell-wrapper.ag-row-group{padding-left:calc(var(--ag-cell-horizontal-padding) - 1px + var(--ag-row-group-indent-size)*var(--ag-indentation-level));padding-right:calc(var(--ag-cell-horizontal-padding) - 1px)}
+.ag-row-odd{background-color:var(--ag-odd-row-background-color)}
+&:where(.ag-scrollbar-invisible){bottom:0;position:absolute;&:where(.ag-apple-scrollbar){opacity:0;transition:opacity .4s;visibility:hidden;&:where(.ag-scrollbar-active),&:where(.ag-scrollbar-scrolling){opacity:1;visibility:visible}
+&:where(.ag-scrollbar-invisible){top:0;z-index:10}
+&:where(.ag-scrollbar-invisible){right:0}
+:where(.ag-body-vertical-content-no-gap>div>div>div,.ag-body-vertical-content-no-gap>div>div>div>div)>.ag-row-last{border-bottom-color:transparent}
+&:where(.ag-scrollbar-invisible){left:0;right:0}
+:where(.ag-theme-buttonStyle-1) {
+:where(.ag-button){background:none;border:none;color:inherit;cursor:pointer;font-family:inherit;font-size:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;margin:0;padding:0;text-indent:inherit;text-shadow:inherit;text-transform:inherit;word-spacing:inherit;&:disabled{cursor:default}
+.ag-paging-panel{align-items:center;border-top:var(--ag-footer-row-border);display:flex;flex-wrap:wrap-reverse;gap:calc(var(--ag-spacing)*4);justify-content:flex-end;min-height:var(--ag-pagination-panel-height);padding:calc(var(--ag-spacing)*.5) var(--ag-cell-horizontal-padding);row-gap:calc(var(--ag-spacing)*.5);@container (width < 600px){justify-content:center}
+:where(.ag-theme-inputStyle-7) {
+:where(.ag-input-field-input[type=number]:not(.ag-number-field-input-stepper)){-webkit-appearance:textfield;-moz-appearance:textfield;appearance:textfield;&::-webkit-inner-spin-button,&::-webkit-outer-spin-button{-webkit-appearance:none;appearance:none;margin:0}
+:where(.ag-ltr) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding-left:var(--ag-input-padding-start)}
+&:where(.ag-ltr,.ag-rtl) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding:0 var(--ag-input-padding-start)}
+:where(.ag-ltr) :where(.ag-column-select-header-filter-wrapper),:where(.ag-ltr) :where(.ag-filter-add-select),:where(.ag-ltr) :where(.ag-filter-filter),:where(.ag-ltr) :where(.ag-filter-toolpanel-search),:where(.ag-ltr) :where(.ag-floating-filter-search-icon),:where(.ag-ltr) :where(.ag-mini-filter){.ag-input-wrapper:before{margin-left:var(--ag-spacing)}
+.page-layout{display:flex;flex-direction:column;min-height:calc(100vh - 52px);padding:var(--spacing-600);background:var(--bcn-gray-50);box-sizing:border-box}
+.page-layout__container{display:flex;flex-direction:column}
+.page-layout section{width:100%}
+.breadcrumbs{padding:var(--spacing-400) 0}
+.breadcrumbs__items{display:flex;gap:var(--spacing-100);align-items:center;flex-wrap:wrap}
+.breadcrumbs__items .esa-icon{color:var(--bcn-gray-400)}
+.breadcrumb-item{color:var(--bcn-gray-600);text-transform:capitalize;font-size:.875rem}
+a.breadcrumb-item{text-decoration:none}
+.page-layout__title{border-bottom:1px solid var(--bcn-gray-200);padding:var(--spacing-500) 0;display:flex;align-items:center;justify-content:space-between;box-sizing:border-box}
+.page-layout__title-main{display:flex;align-items:center;gap:var(--spacing-200);min-width:0}
+.page-layout__title h1{display:flex;align-items:center;gap:var(--spacing-200);font-family:var(--font-decorative);font-weight:var(--font-weight-bold);font-size:var(--type-size-500);margin:0;color:var(--bcn-gray-1000)}
+.page-layout__title h1 .esa-icon{color:var(--bcn-gray-1000);flex-shrink:0}
+.page-layout__content{padding:var(--spacing-500) 0;min-height:70vh;position:relative}
 :has(> :where(.ag-theme-params-1)):not(:where(.ag-theme-params-1)) {
 	--ag-inherited-accent-color: var(--ag-accent-color);
 	--ag-inherited-advanced-filter-builder-button-bar-border: var(--ag-advanced-filter-builder-button-bar-border);
@@ -7806,66 +7778,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 	--ag-inherited-background-color: var(--ag-background-color);
 	--ag-inherited-browser-color-scheme: var(--ag-browser-color-scheme);
 	--ag-inherited-chrome-background-color: var(--ag-chrome-background-color);
-}
-:where([data-ag-theme-mode="dark"]) & {
-	--ag-inherited-advanced-filter-builder-column-pill-color: var(--ag-advanced-filter-builder-column-pill-color);
-	--ag-inherited-advanced-filter-builder-join-pill-color: var(--ag-advanced-filter-builder-join-pill-color);
-	--ag-inherited-advanced-filter-builder-option-pill-color: var(--ag-advanced-filter-builder-option-pill-color);
-	--ag-inherited-advanced-filter-builder-value-pill-color: var(--ag-advanced-filter-builder-value-pill-color);
-	--ag-inherited-background-color: var(--ag-background-color);
-	--ag-inherited-browser-color-scheme: var(--ag-browser-color-scheme);
-	--ag-inherited-card-shadow: var(--ag-card-shadow);
-	--ag-inherited-cell-batch-edit-background-color: var(--ag-cell-batch-edit-background-color);
-	--ag-inherited-cell-batch-edit-text-color: var(--ag-cell-batch-edit-text-color);
-	--ag-inherited-checkbox-unchecked-border-color: var(--ag-checkbox-unchecked-border-color);
-	--ag-inherited-chrome-background-color: var(--ag-chrome-background-color);
-	--ag-inherited-column-panel-apply-button-color: var(--ag-column-panel-apply-button-color);
-	--ag-inherited-filter-panel-apply-button-color: var(--ag-filter-panel-apply-button-color);
-	--ag-inherited-find-active-match-color: var(--ag-find-active-match-color);
-	--ag-inherited-find-match-color: var(--ag-find-match-color);
-	--ag-inherited-formula-token-1-color: var(--ag-formula-token-1-color);
-	--ag-inherited-formula-token-2-color: var(--ag-formula-token-2-color);
-	--ag-inherited-formula-token-3-color: var(--ag-formula-token-3-color);
-	--ag-inherited-formula-token-4-color: var(--ag-formula-token-4-color);
-	--ag-inherited-formula-token-5-color: var(--ag-formula-token-5-color);
-	--ag-inherited-formula-token-6-color: var(--ag-formula-token-6-color);
-	--ag-inherited-formula-token-7-color: var(--ag-formula-token-7-color);
-	--ag-inherited-menu-background-color: var(--ag-menu-background-color);
-	--ag-inherited-popup-shadow: var(--ag-popup-shadow);
-	--ag-inherited-row-batch-edit-background-color: var(--ag-row-batch-edit-background-color);
-	--ag-inherited-row-batch-edit-text-color: var(--ag-row-batch-edit-text-color);
-	--ag-inherited-selected-row-background-color: var(--ag-selected-row-background-color);
-	--ag-inherited-toggle-button-off-background-color: var(--ag-toggle-button-off-background-color);
-}
-:where([data-ag-theme-mode="dark-blue"]) & {
-	--ag-inherited-advanced-filter-builder-column-pill-color: var(--ag-advanced-filter-builder-column-pill-color);
-	--ag-inherited-advanced-filter-builder-join-pill-color: var(--ag-advanced-filter-builder-join-pill-color);
-	--ag-inherited-advanced-filter-builder-option-pill-color: var(--ag-advanced-filter-builder-option-pill-color);
-	--ag-inherited-advanced-filter-builder-value-pill-color: var(--ag-advanced-filter-builder-value-pill-color);
-	--ag-inherited-background-color: var(--ag-background-color);
-	--ag-inherited-browser-color-scheme: var(--ag-browser-color-scheme);
-	--ag-inherited-card-shadow: var(--ag-card-shadow);
-	--ag-inherited-cell-batch-edit-background-color: var(--ag-cell-batch-edit-background-color);
-	--ag-inherited-cell-batch-edit-text-color: var(--ag-cell-batch-edit-text-color);
-	--ag-inherited-checkbox-unchecked-border-color: var(--ag-checkbox-unchecked-border-color);
-	--ag-inherited-chrome-background-color: var(--ag-chrome-background-color);
-	--ag-inherited-column-panel-apply-button-color: var(--ag-column-panel-apply-button-color);
-	--ag-inherited-filter-panel-apply-button-color: var(--ag-filter-panel-apply-button-color);
-	--ag-inherited-find-active-match-color: var(--ag-find-active-match-color);
-	--ag-inherited-find-match-color: var(--ag-find-match-color);
-	--ag-inherited-formula-token-1-color: var(--ag-formula-token-1-color);
-	--ag-inherited-formula-token-2-color: var(--ag-formula-token-2-color);
-	--ag-inherited-formula-token-3-color: var(--ag-formula-token-3-color);
-	--ag-inherited-formula-token-4-color: var(--ag-formula-token-4-color);
-	--ag-inherited-formula-token-5-color: var(--ag-formula-token-5-color);
-	--ag-inherited-formula-token-6-color: var(--ag-formula-token-6-color);
-	--ag-inherited-formula-token-7-color: var(--ag-formula-token-7-color);
-	--ag-inherited-menu-background-color: var(--ag-menu-background-color);
-	--ag-inherited-popup-shadow: var(--ag-popup-shadow);
-	--ag-inherited-row-batch-edit-background-color: var(--ag-row-batch-edit-background-color);
-	--ag-inherited-row-batch-edit-text-color: var(--ag-row-batch-edit-text-color);
-	--ag-inherited-selected-row-background-color: var(--ag-selected-row-background-color);
-	--ag-inherited-toggle-button-off-background-color: var(--ag-toggle-button-off-background-color);
 }
 :where(.ag-theme-params-1) {
 	--ag-accent-color: var(--ag-inherited-accent-color, #f9a134);
@@ -8174,137 +8086,63 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 	--ag-browser-color-scheme: var(--ag-inherited-browser-color-scheme, light);
 	--ag-chrome-background-color: var(--ag-inherited-chrome-background-color, color-mix(in srgb, var(--ag-background-color), var(--ag-foreground-color) 2%));
 }
-:where([data-ag-theme-mode="dark"]) & {
-	--ag-advanced-filter-builder-column-pill-color: var(--ag-inherited-advanced-filter-builder-column-pill-color, #355f2d);
-	--ag-advanced-filter-builder-join-pill-color: var(--ag-inherited-advanced-filter-builder-join-pill-color, #7a3a37);
-	--ag-advanced-filter-builder-option-pill-color: var(--ag-inherited-advanced-filter-builder-option-pill-color, #5a3168);
-	--ag-advanced-filter-builder-value-pill-color: var(--ag-inherited-advanced-filter-builder-value-pill-color, #374c86);
-	--ag-background-color: var(--ag-inherited-background-color, hsl(217, 0%, 17%));
-	--ag-browser-color-scheme: var(--ag-inherited-browser-color-scheme, dark);
-	--ag-card-shadow: var(--ag-inherited-card-shadow, 0 1px 4px 1px #000A);
-	--ag-cell-batch-edit-background-color: var(--ag-inherited-cell-batch-edit-background-color, rgba(220 181 139 / 16%));
-	--ag-cell-batch-edit-text-color: var(--ag-inherited-cell-batch-edit-text-color, #f3d0b3);
-	--ag-checkbox-unchecked-border-color: var(--ag-inherited-checkbox-unchecked-border-color, color-mix(in srgb, var(--ag-background-color), var(--ag-foreground-color) 40%));
-	--ag-chrome-background-color: var(--ag-inherited-chrome-background-color, color-mix(in srgb, var(--ag-background-color), var(--ag-foreground-color) 5%));
-	--ag-column-panel-apply-button-color: var(--ag-inherited-column-panel-apply-button-color, var(--ag-foreground-color));
-	--ag-filter-panel-apply-button-color: var(--ag-inherited-filter-panel-apply-button-color, var(--ag-foreground-color));
-	--ag-find-active-match-color: var(--ag-inherited-find-active-match-color, var(--ag-background-color));
-	--ag-find-match-color: var(--ag-inherited-find-match-color, var(--ag-background-color));
-	--ag-formula-token-1-color: var(--ag-inherited-formula-token-1-color, #4da3e5);
-	--ag-formula-token-2-color: var(--ag-inherited-formula-token-2-color, #f55864);
-	--ag-formula-token-3-color: var(--ag-inherited-formula-token-3-color, #b688f2);
-	--ag-formula-token-4-color: var(--ag-inherited-formula-token-4-color, #24bb4a);
-	--ag-formula-token-5-color: var(--ag-inherited-formula-token-5-color, #e772ba);
-	--ag-formula-token-6-color: var(--ag-inherited-formula-token-6-color, #f69b5f);
-	--ag-formula-token-7-color: var(--ag-inherited-formula-token-7-color, #a3e6ff);
-	--ag-menu-background-color: var(--ag-inherited-menu-background-color, color-mix(in srgb, var(--ag-background-color), var(--ag-foreground-color) 10%));
-	--ag-popup-shadow: var(--ag-inherited-popup-shadow, 0 0px 20px #000A);
-	--ag-row-batch-edit-background-color: var(--ag-inherited-row-batch-edit-background-color, color-mix(in srgb, var(--ag-background-color), var(--ag-foreground-color) 10%));
-	--ag-row-batch-edit-text-color: var(--ag-inherited-row-batch-edit-text-color, var(--ag-cell-batch-edit-text-color));
-	--ag-selected-row-background-color: var(--ag-inherited-selected-row-background-color, color-mix(in srgb, transparent, var(--ag-accent-color) 20%));
-	--ag-toggle-button-off-background-color: var(--ag-inherited-toggle-button-off-background-color, color-mix(in srgb, var(--ag-background-color), var(--ag-foreground-color) 40%));
-}
-:where([data-ag-theme-mode="dark-blue"]) & {
-	--ag-advanced-filter-builder-column-pill-color: var(--ag-inherited-advanced-filter-builder-column-pill-color, #355f2d);
-	--ag-advanced-filter-builder-join-pill-color: var(--ag-inherited-advanced-filter-builder-join-pill-color, #7a3a37);
-	--ag-advanced-filter-builder-option-pill-color: var(--ag-inherited-advanced-filter-builder-option-pill-color, #5a3168);
-	--ag-advanced-filter-builder-value-pill-color: var(--ag-inherited-advanced-filter-builder-value-pill-color, #374c86);
-	--ag-background-color: var(--ag-inherited-background-color, #1f2836);
-	--ag-browser-color-scheme: var(--ag-inherited-browser-color-scheme, dark);
-	--ag-card-shadow: var(--ag-inherited-card-shadow, 0 1px 4px 1px #000A);
-	--ag-cell-batch-edit-background-color: var(--ag-inherited-cell-batch-edit-background-color, rgba(220 181 139 / 16%));
-	--ag-cell-batch-edit-text-color: var(--ag-inherited-cell-batch-edit-text-color, #f3d0b3);
-	--ag-checkbox-unchecked-border-color: var(--ag-inherited-checkbox-unchecked-border-color, color-mix(in srgb, var(--ag-background-color), var(--ag-foreground-color) 40%));
-	--ag-chrome-background-color: var(--ag-inherited-chrome-background-color, color-mix(in srgb, var(--ag-background-color), var(--ag-foreground-color) 5%));
-	--ag-column-panel-apply-button-color: var(--ag-inherited-column-panel-apply-button-color, var(--ag-foreground-color));
-	--ag-filter-panel-apply-button-color: var(--ag-inherited-filter-panel-apply-button-color, var(--ag-foreground-color));
-	--ag-find-active-match-color: var(--ag-inherited-find-active-match-color, var(--ag-background-color));
-	--ag-find-match-color: var(--ag-inherited-find-match-color, var(--ag-background-color));
-	--ag-formula-token-1-color: var(--ag-inherited-formula-token-1-color, #4da3e5);
-	--ag-formula-token-2-color: var(--ag-inherited-formula-token-2-color, #f55864);
-	--ag-formula-token-3-color: var(--ag-inherited-formula-token-3-color, #b688f2);
-	--ag-formula-token-4-color: var(--ag-inherited-formula-token-4-color, #24bb4a);
-	--ag-formula-token-5-color: var(--ag-inherited-formula-token-5-color, #e772ba);
-	--ag-formula-token-6-color: var(--ag-inherited-formula-token-6-color, #f69b5f);
-	--ag-formula-token-7-color: var(--ag-inherited-formula-token-7-color, #a3e6ff);
-	--ag-menu-background-color: var(--ag-inherited-menu-background-color, color-mix(in srgb, var(--ag-background-color), var(--ag-foreground-color) 10%));
-	--ag-popup-shadow: var(--ag-inherited-popup-shadow, 0 0px 20px #000A);
-	--ag-row-batch-edit-background-color: var(--ag-inherited-row-batch-edit-background-color, color-mix(in srgb, var(--ag-background-color), var(--ag-foreground-color) 10%));
-	--ag-row-batch-edit-text-color: var(--ag-inherited-row-batch-edit-text-color, var(--ag-cell-batch-edit-text-color));
-	--ag-selected-row-background-color: var(--ag-inherited-selected-row-background-color, color-mix(in srgb, transparent, var(--ag-accent-color) 20%));
-	--ag-toggle-button-off-background-color: var(--ag-inherited-toggle-button-off-background-color, color-mix(in srgb, var(--ag-background-color), var(--ag-foreground-color) 40%));
-}
-.ag-paging-panel{align-items:center;border-top:var(--ag-footer-row-border);display:flex;flex-wrap:wrap-reverse;gap:calc(var(--ag-spacing)*4);justify-content:flex-end;min-height:var(--ag-pagination-panel-height);padding:calc(var(--ag-spacing)*.5) var(--ag-cell-horizontal-padding);row-gap:calc(var(--ag-spacing)*.5);@container (width < 600px){justify-content:center}
-:host {
-      --_field-padding-y: var(--form-padding-y-md, 0.5rem);
-      --_field-padding-x: var(--form-padding-x-md, 0.75rem);
-      --_field-font-size: var(--form-font-size-md, 0.9375rem);
-      --_field-height: var(--form-height-md, 40px);
-      --_field-radius: var(--form-radius-md, 0.5rem);
-      --_field-border-color: var(--form-border-color, #e5e5e5);
-      --_label-font-size: var(--type-size-200, 0.9375rem);
-      display: block;
-      font-family: var(--font-sans, sans-serif);
-    }
-:host([size='sm']) {
-      --_field-padding-y: var(--form-padding-y-sm, 0.375rem);
-      --_field-padding-x: var(--form-padding-x-sm, 0.5rem);
-      --_field-font-size: var(--form-font-size-sm, 0.875rem);
-      --_field-height: var(--form-height-sm, 32px);
-      --_field-radius: var(--form-radius-sm, 0.25rem);
-      --_label-font-size: var(--type-size-150, 0.875rem);
-    }
-.field {
-      display: flex;
-      flex-direction: column;
-    }
-.control {
-      display: flex;
-      align-items: stretch;
-      height: var(--_field-height);
-      background: var(--form-bg, #fff);
-      border: var(--form-border-width, 1px) solid var(--_field-border-color);
-      border-radius: var(--_field-radius);
-      box-sizing: border-box;
-      overflow: hidden;
-      transition:
-        border-color var(--transition-fast, 150ms ease),
-        box-shadow var(--transition-fast, 150ms ease);
-    }
-.input {
-      flex: 1 1 auto;
-      min-width: 0;
-      width: 100%;
-      height: 100%;
-      padding: var(--_field-padding-y) var(--_field-padding-x);
-      font-family: inherit;
-      font-size: var(--_field-font-size);
-      color: var(--form-text-color, #171717);
-      background: transparent;
-      border: none;
-      outline: none;
-      box-sizing: border-box;
-    }
-.input::placeholder {
-      color: var(--form-placeholder-color, #737373);
-    }
-:where(.ag-theme-inputStyle-7) {
-:where(.ag-input-field-input[type=number]:not(.ag-number-field-input-stepper)){-webkit-appearance:textfield;-moz-appearance:textfield;appearance:textfield;&::-webkit-inner-spin-button,&::-webkit-outer-spin-button{-webkit-appearance:none;appearance:none;margin:0}
-.ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){background-color:var(--ag-input-background-color);border:var(--ag-input-border);border-radius:var(--ag-input-border-radius);color:var(--ag-input-text-color);font-family:inherit;font-size:inherit;line-height:inherit;margin:0;min-height:var(--ag-input-height);padding:0;&:where(:disabled){background-color:var(--ag-input-disabled-background-color);border:var(--ag-input-disabled-border);color:var(--ag-input-disabled-text-color)}
-&:where(:focus){background-color:var(--ag-input-focus-background-color);border:var(--ag-input-focus-border);box-shadow:var(--ag-input-focus-shadow);color:var(--ag-input-focus-text-color);outline:none}
-&:where(:invalid){background-color:var(--ag-input-invalid-background-color);border:var(--ag-input-invalid-border);color:var(--ag-input-invalid-text-color)}
-&:where(.invalid){background-color:var(--ag-input-invalid-background-color);border:var(--ag-input-invalid-border);color:var(--ag-input-invalid-text-color)}
-&::-moz-placeholder{color:var(--ag-input-placeholder-text-color)}
-&::placeholder{color:var(--ag-input-placeholder-text-color)}
-:where(.ag-ltr) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding-left:var(--ag-input-padding-start)}
-:where(.ag-rtl) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding-right:var(--ag-input-padding-start)}
-&:where(.ag-ltr,.ag-rtl) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding:0 var(--ag-input-padding-start)}
-:where(.ag-column-select-header-filter-wrapper),:where(.ag-filter-add-select),:where(.ag-filter-filter),:where(.ag-filter-toolpanel-search),:where(.ag-floating-filter-search-icon),:where(.ag-mini-filter){.ag-input-wrapper:before{background-color:currentcolor;color:var(--ag-input-icon-color);content:"";display:block;height:12px;-webkit-mask-image:url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBkPSJNNS4zIDlhMy43IDMuNyAwIDEgMCAwLTcuNSAzLjcgMy43IDAgMCAwIDAgNy41Wk0xMC41IDEwLjUgOC4zIDguMiIvPjwvc3ZnPg==");mask-image:url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBkPSJNNS4zIDlhMy43IDMuNyAwIDEgMCAwLTcuNSAzLjcgMy43IDAgMCAwIDAgNy41Wk0xMC41IDEwLjUgOC4zIDguMiIvPjwvc3ZnPg==");-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;opacity:.5;position:absolute;width:12px}
-:where(.ag-ltr) :where(.ag-column-select-header-filter-wrapper),:where(.ag-ltr) :where(.ag-filter-add-select),:where(.ag-ltr) :where(.ag-filter-filter),:where(.ag-ltr) :where(.ag-filter-toolpanel-search),:where(.ag-ltr) :where(.ag-floating-filter-search-icon),:where(.ag-ltr) :where(.ag-mini-filter){.ag-input-wrapper:before{margin-left:var(--ag-spacing)}
-.ag-number-field-input,.ag-text-field-input{padding-left:calc(var(--ag-spacing)*1.5 + 12px)}
-:where(.ag-rtl) :where(.ag-column-select-header-filter-wrapper),:where(.ag-rtl) :where(.ag-filter-add-select),:where(.ag-rtl) :where(.ag-filter-filter),:where(.ag-rtl) :where(.ag-filter-toolpanel-search),:where(.ag-rtl) :where(.ag-floating-filter-search-icon),:where(.ag-rtl) :where(.ag-mini-filter){.ag-input-wrapper:before{margin-right:var(--ag-spacing)}
-.ag-number-field-input,.ag-text-field-input{padding-right:calc(var(--ag-spacing)*1.5 + 12px)}
-.ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){&:focus{box-shadow:var(--ag-focus-shadow);&:where(.invalid),&:where(:invalid){box-shadow:var(--ag-focus-error-shadow)}
+:where(.ag-theme-checkboxStyle-4) {
+.ag-checkbox-input-wrapper,.ag-radio-button-input-wrapper{background-color:var(--ag-checkbox-unchecked-background-color);border:solid var(--ag-checkbox-border-width) var(--ag-checkbox-unchecked-border-color);flex:none;height:var(--ag-icon-size);position:relative;width:var(--ag-icon-size);&:where(.ag-checked){background-color:var(--ag-checkbox-checked-background-color);border-color:var(--ag-checkbox-checked-border-color)}
+&:where(.ag-disabled){filter:grayscale();opacity:.5}
+.ag-cell-editing-error .ag-checkbox-input-wrapper:focus-within{box-shadow:var(--ag-focus-error-shadow)}
+.esa-icon{--_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));display:inline-flex;align-items:center;justify-content:center;width:var(--_icon-size);height:var(--_icon-size);line-height:1;color:inherit}
+.esa-icon--xs{--_icon-size: var(--icon-size-xs, 14px)}
+.esa-icon svg{display:block;width:var(--_icon-size);height:var(--_icon-size)}
+.esa-icon--sm{--_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px))}
+.esa-icon--md{--_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px))}
+.esa-icon-button{--_ib-size: var(--form-height-md, 40px);--_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));display:inline-flex;align-items:center;justify-content:center;width:var(--_ib-size);height:var(--_ib-size);padding:0;border:0;border-radius:var(--radius-200, 8px);background:transparent;color:inherit;cursor:pointer;transition:background var(--transition-fast, .15s ease);-webkit-appearance:none;appearance:none}
+.bcn-filterbar{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-200);margin-bottom:var(--spacing-400)}
+.bcn-filterbar__top{display:flex;align-items:center;gap:var(--spacing-300);padding:var(--spacing-300) var(--spacing-400);flex-wrap:wrap}
+.bcn-filterbar__group{display:inline-flex;align-items:center;gap:var(--spacing-200);padding-right:var(--spacing-300);border-right:1px solid var(--color-border-light)}
+.bcn-filterbar__label{font-size:var(--type-size-150);font-weight:var(--font-weight-semibold);color:var(--color-text-tertiary);white-space:nowrap}
+.bcn-filterbar__clear{margin-left:var(--spacing-100)}
+.bcn-filterbar__search{margin-left:auto;display:inline-flex;align-items:center;gap:var(--spacing-150);min-width:280px}
+.bcn-filterbar__search esa-text-field{flex:1}
+.ov-grid{width:100%;height:calc(100vh - 460px);min-height:480px}
+.table-footer{display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-400);padding:var(--spacing-200) var(--spacing-400);background:var(--color-background);border:1px solid var(--color-border);border-top:0;border-radius:0 0 var(--radius-100) var(--radius-100)}
+.row-count-data{display:flex;align-items:center;gap:var(--spacing-400);font-size:var(--type-size-100);color:var(--color-text-secondary);font-variant-numeric:tabular-nums}
+.filtered-rows-count{color:var(--color-text-tertiary)}
+.filtered-rows-count[hidden]{display:none}
+.bcn-detail__head{display:flex;flex-direction:column;gap:var(--spacing-150);min-width:0;padding:var(--spacing-400) var(--spacing-500);flex:1}
+.bcn-detail__title-row{display:flex;align-items:center;flex-wrap:wrap;gap:var(--spacing-200);min-width:0}
+.bcn-detail__title{margin:0;font-family:var(--font-decorative);font-size:1.125rem;font-weight:var(--font-weight-semibold);color:var(--color-text-primary);line-height:1.3}
+.bcn-detail__chips{display:flex;gap:var(--spacing-200);margin-bottom:var(--spacing-400)}
+.bcn-status-chip{display:inline-flex;align-items:center;gap:var(--spacing-150);padding:2px var(--spacing-250);border-radius:var(--radius-full);font-size:var(--type-size-100);font-weight:var(--font-weight-semibold);white-space:nowrap;background:color-mix(in srgb,var(--_chip) 16%,transparent);color:color-mix(in srgb,var(--_chip) 72%,#1a1a1a)}
+.bcn-status-chip__dot{width:8px;height:8px;border-radius:var(--radius-full);background:var(--_chip);flex-shrink:0}
+.bcn-detail__grid{display:flex;flex-direction:column;gap:var(--spacing-400);margin-bottom:var(--spacing-400)}
+.bcn-key-value{display:flex;flex-direction:column;gap:2px}
+.bcn-key-value__key{font-size:var(--form-font-size-md);font-weight:var(--font-weight-medium);color:var(--form-label-color)}
+.bcn-key-value__val{font-size:var(--form-font-size-md);font-weight:var(--font-weight-semibold);color:var(--color-text-primary)}
+.bcn-obsmap{width:100%;border-radius:var(--radius-200);border:1px solid var(--color-border);overflow:hidden;background:var(--color-surface-sunken)}
+.ag-cell.bcn-grid-status-cell{display:flex;align-items:center}
+.bcn-grid-name{color:var(--color-text-link);font-weight:var(--font-weight-regular);text-decoration:underline}
+.bcn-grid-chip{display:inline-flex;align-items:center;gap:var(--spacing-150);padding:1px var(--spacing-200);border-radius:var(--radius-100);font-size:.8125rem;line-height:1.5;font-weight:var(--font-weight-semibold);white-space:nowrap;background:color-mix(in srgb,var(--_chip) 16%,transparent);color:color-mix(in srgb,var(--_chip) 70%,var(--color-text-primary))}
+.bcn-grid-chip__dot{width:7px;height:7px;border-radius:50%;background:var(--_chip);flex-shrink:0}
+.esa-filter-container{display:flex;flex-wrap:wrap;align-items:center;gap:var(--_filter-container-row-gap, .5rem) var(--_filter-container-gap, .75rem)}
+.esa-filter-clear-button{--_clear-text: var(--filter-clear-color, var(--color-primary-strong, #3a7c59));--_clear-text-hover: var(--filter-clear-color-hover, var(--color-primary-strong, #3a7c59));--_clear-font-size: var(--type-size-150, .875rem);--_clear-icon-size: 18px;display:inline-flex;align-items:center;gap:var(--spacing-100, .25rem);padding:var(--spacing-100, .25rem) var(--spacing-200, .5rem);border:none;border-radius:var(--radius-100, .25rem);background:transparent;color:var(--_clear-text);font-family:var(--font-sans, inherit);font-size:var(--_clear-font-size);font-weight:var(--font-weight-medium, 450);cursor:pointer;text-decoration:underline;text-underline-offset:2px;transition:color var(--transition-fast, .15s ease),background var(--transition-fast, .15s ease)}
+.esa-filter-clear-button__icon{width:var(--_clear-icon-size);height:var(--_clear-icon-size);flex:none}
+.esa-filter-clear-button__label{white-space:nowrap}
+:where(.ag-theme-part-8) {
+.ag-icon-filter::before { mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolygon%20points%3D%2222%203%202%203%2010%2012.46%2010%2019%2014%2021%2014%2012.46%2022%203%22%2F%3E%3C%2Fsvg%3E"); }
+;
+.ag-icon-filterActive::before { mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolygon%20points%3D%2222%203%202%203%2010%2012.46%2010%2019%2014%2021%2014%2012.46%2022%203%22%2F%3E%3C%2Fsvg%3E"); }
+.ag-icon-filter::before { mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolygon%20points%3D%2222%203%202%203%2010%2012.46%2010%2019%2014%2021%2014%2012.46%2022%203%22%2F%3E%3C%2Fsvg%3E"); }
+.ag-measurement-container{height:0;overflow:hidden;visibility:hidden;width:0}
+.ag-measurement-element-border{display:inline-block}
+.ag-measurement-element-border:before{border-left:var(--ag-internal-measurement-border);content:"";display:block}
+.ag-chart,.ag-dnd-ghost,.ag-external,.ag-popup,.ag-root-wrapper{cursor:default;line-height:normal;white-space:normal;-webkit-font-smoothing:antialiased;background-color:var(--ag-wrapper-background-color);color:var(--ag-text-color);color-scheme:var(--ag-browser-color-scheme);font-family:var(--ag-font-family);font-size:var(--ag-font-size);font-weight:var(--ag-font-weight);--ag-indentation-level:0}
+.ag-tab-guard{display:block;height:0;position:absolute;width:0}
+.ag-tab-guard-top{top:1px}
+.ag-invisible{visibility:hidden!important}
+.ag-hidden{display:none!important}
+.ag-tab-guard-bottom{bottom:1px}
+.ag-icon{background-position:50%;background-repeat:no-repeat;background-size:contain;color:var(--ag-icon-color);display:block;height:var(--ag-icon-size);position:relative;-webkit-user-select:none;-moz-user-select:none;user-select:none;width:var(--ag-icon-size)}
+:where(.ag-icon):before{align-items:center;background-color:currentcolor;color:inherit;content:"";display:flex;font-family:inherit;font-size:var(--ag-icon-size);font-style:normal;font-variant:normal;height:var(--ag-icon-size);justify-content:center;line-height:var(--ag-icon-size);-webkit-mask-size:contain;mask-size:contain;text-transform:none;width:var(--ag-icon-size)}
 .modern-layout{display:flex;flex-direction:column;height:100vh}
 .topbar{position:fixed;top:0;left:0;right:0;height:52px;background:var(--bcn-gray-100);border-bottom:1px solid var(--bcn-gray-300);z-index:1100;display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:0 var(--spacing-200)}
 .topbar{padding:0 var(--spacing-400)}
@@ -8340,15 +8178,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .main-nav{flex:1;overflow-y:auto;overflow-x:visible;padding:0 var(--spacing-400);display:flex;flex-direction:column;gap:var(--spacing-050);transition:padding .2s ease-in-out;scrollbar-width:none;-ms-overflow-style:none}
 .nav-section{display:flex;flex-direction:column;position:relative}
 .nav-section__header{display:flex;align-items:center;gap:var(--spacing-300);padding:var(--spacing-250) var(--spacing-200);color:var(--bcn-gray-950);font-size:.9375rem;font-weight:550;border:none;background:transparent;border-radius:var(--spacing-050);transition:all .15s ease;white-space:nowrap;width:100%;text-align:left;cursor:pointer;text-decoration:none}
-.nav-section__header:hover .esa-icon,.nav-section--active .nav-section__header,.nav-section--active .nav-section__header .esa-icon{color:var(--color-primary)}
+.nav-section__header--link{text-decoration:none;color:var(--bcn-gray-950)}
 .nav-section__header>.esa-icon:first-child{flex-shrink:0;color:var(--bcn-gray-950);transition:color .15s ease}
 .nav-section__title{flex:1;overflow:hidden;transition:opacity .2s ease-in-out}
+.nav-section__header:hover .esa-icon,.nav-section--active .nav-section__header,.nav-section--active .nav-section__header .esa-icon{color:var(--color-primary)}
 .nav-section__header>.esa-icon:last-child{color:var(--bcn-gray-400);transition:transform .15s ease,opacity .2s ease-in-out;flex-shrink:0}
 .nav-section__items{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;overflow:hidden;max-height:500px;opacity:1;transition:max-height .2s ease-in-out,opacity .2s ease-in-out}
 .nav-item{padding:0 0 0 2.5rem}
 .nav-sublink{display:block;padding:var(--spacing-200);color:var(--bcn-gray-950);text-decoration:none;border-radius:var(--spacing-050);font-size:.8125rem;transition:all .15s ease;line-height:1.2}
 .nav-item+.nav-item{margin-top:var(--spacing-050)}
 .nav-sublink.active{background:#0000000a;color:var(--color-primary)}
+.nav-divider{flex-shrink:0;height:1px;margin:var(--spacing-200) 0;border:0;background:var(--bcn-gray-200)}
+.nav-section--collapsed .nav-section__header>.esa-icon:last-child{transform:rotate(-90deg)}
+.nav-section--collapsed .nav-section__items{max-height:0;opacity:0}
 .modern-layout__content{flex:1;overflow-y:auto;min-width:0}
 .bcn-omni{position:fixed;inset:0;z-index:1300;display:flex;align-items:center;justify-content:center;padding:var(--spacing-500)}
 .bcn-omni[hidden]{display:none}
@@ -8389,8 +8231,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .bcn-gd__here-page{font-size:var(--type-size-250);font-weight:var(--font-weight-semibold);color:var(--color-text-primary)}
 .bcn-gd__here-purpose{font-size:var(--type-size-150);color:var(--color-text-secondary);line-height:1.5}
 .bcn-gd__rows{display:flex;flex-direction:column}
-[data-gd-chat]{display:flex;flex-direction:column;gap:var(--spacing-400)}
-[data-gd-chat]:empty{display:none}
 .bcn-gd__foot{display:flex;flex-direction:column;gap:var(--spacing-250)}
 .bcn-gd__browse{align-self:flex-end;display:inline-flex;align-items:center;gap:var(--spacing-150);font-size:var(--type-size-150);font-weight:var(--font-weight-medium);color:var(--color-primary);text-decoration:none}
 .bcn-gd-composer{display:flex;align-items:flex-end;gap:var(--spacing-200);padding:var(--spacing-150) var(--spacing-150) var(--spacing-150) var(--spacing-300);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-300);transition:border-color .15s ease,box-shadow .15s ease}
@@ -8405,7 +8245,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .bcn-gd-article__title{font-family:var(--font-decorative);font-size:var(--type-size-300);font-weight:var(--font-weight-semibold);color:var(--color-text-primary);line-height:1.25}
 .bcn-gd-article__kind{flex:none;padding:1px 6px;border-radius:var(--radius-100);border:1px solid var(--color-border);background:var(--color-surface);font-size:var(--type-size-100);font-weight:var(--font-weight-medium);color:var(--color-text-secondary);line-height:1.5;white-space:nowrap}
 .bcn-gd-article__panel[hidden]{display:none}
-:host { --_width: var(--side-dialog-width, 400px); }
+:where(.ag-theme-tabStyle-6) {
+.ag-tabs-header{background-color:var(--ag-tab-bar-background-color);border-bottom:var(--ag-tab-bar-border);display:flex;flex:1;gap:var(--ag-tab-spacing);padding:var(--ag-tab-bar-top-padding) var(--ag-tab-bar-horizontal-padding) 0}
+:where(.ag-ltr) .ag-tabs-close-button-wrapper{border-right:solid var(--ag-border-width) var(--ag-border-color)}
+:where(.ag-ltr) .ag-tab.ag-tab-selected:where(:not(:first-of-type)){border-left-color:var(--ag-tab-selected-border-color)}
+:where(.ag-ltr) .ag-tab.ag-tab-selected:where(:not(:last-of-type)){border-right-color:var(--ag-tab-selected-border-color)}
+.ag-overlay{inset:0;pointer-events:none;position:absolute;z-index:2}
+.leaflet-container{overflow:hidden}
+.leaflet-container{-webkit-tap-highlight-color:transparent}
+.leaflet-container{background:#ddd;outline-offset:1px}
+.leaflet-container{font-family:Helvetica Neue,Arial,Helvetica,sans-serif;font-size:12px;font-size:.75rem;line-height:1.5}
 :where(.ag-theme-iconSet-5) {
 .ag-icon-aggregation::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M18%207V4H6l6%208-6%208h12v-3%22%2F%3E%3C%2Fsvg%3E'); }
 .ag-icon-arrows::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpolyline%20points%3D%225%209%202%2012%205%2015%22%2F%3E%3Cpolyline%20points%3D%229%205%2012%202%2015%205%22%2F%3E%3Cpolyline%20points%3D%2215%2019%2012%2022%209%2019%22%2F%3E%3Cpolyline%20points%3D%2219%209%2022%2012%2019%2015%22%2F%3E%3Cline%20x1%3D%222%22%20x2%3D%2222%22%20y1%3D%2212%22%20y2%3D%2212%22%2F%3E%3Cline%20x1%3D%2212%22%20x2%3D%2212%22%20y1%3D%222%22%20y2%3D%2222%22%2F%3E%3C%2Fsvg%3E'); }
@@ -8481,246 +8330,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .ag-sticky-bottom-full-width-container,.ag-sticky-top-full-width-container{height:100%;overflow:hidden;width:100%}
 .ag-body-horizontal-scroll:not(.ag-scrollbar-invisible){.ag-horizontal-left-spacer:not(.ag-scroller-corner){border-right:var(--ag-pinned-column-border)}
 .ag-horizontal-right-spacer:not(.ag-scroller-corner){border-left:var(--ag-pinned-column-border)}
+.ag-horizontal-left-spacer:not(.ag-scroller-corner){border-right:var(--ag-pinned-column-border)}
+.ag-pinned-left-header .ag-header-cell-resize{right:-3px}
+.ag-pinned-left-header .ag-header-cell-resize:after{left:calc(50% - var(--ag-header-column-resize-handle-width))}
+.ag-cell.ag-cell-last-left-pinned:not(.ag-cell-range-right,.ag-cell-range-single-cell,.ag-cell-focus:not(.ag-cell-range-selected):focus-within){border-right:var(--ag-pinned-column-border)}
 :where(.ag-theme-batchEditStyle-3) {
 .ag-cell-batch-edit{background-color:var(--ag-cell-batch-edit-background-color);color:var(--ag-cell-batch-edit-text-color);display:inherit}
 .ag-row-batch-edit{background-color:var(--ag-row-batch-edit-background-color);color:var(--ag-row-batch-edit-text-color)}
-:where(.ag-theme-part-8) {
-.ag-icon-filter::before { mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolygon%20points%3D%2222%203%202%203%2010%2012.46%2010%2019%2014%2021%2014%2012.46%2022%203%22%2F%3E%3C%2Fsvg%3E"); }
-;
-.ag-icon-filterActive::before { mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolygon%20points%3D%2222%203%202%203%2010%2012.46%2010%2019%2014%2021%2014%2012.46%2022%203%22%2F%3E%3C%2Fsvg%3E"); }
-.ag-icon-filter::before { mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolygon%20points%3D%2222%203%202%203%2010%2012.46%2010%2019%2014%2021%2014%2012.46%2022%203%22%2F%3E%3C%2Fsvg%3E"); }
 :where(.ag-theme-columnDropStyle-2) {
 .ag-column-drop-vertical-empty-message{align-items:center;border:dashed var(--ag-border-width);border-color:var(--ag-border-color);display:flex;inset:0;justify-content:center;margin:calc(var(--ag-spacing)*1.5) calc(var(--ag-spacing)*2);overflow:hidden;padding:calc(var(--ag-spacing)*2);position:absolute}
-.esa-button{--_btn-height: var(--form-height-md, 40px);--_btn-padding-x: var(--form-padding-x-md, 16px);--_btn-font-size: var(--form-font-size-md, 14px);--_btn-radius: var(--form-radius-md, 6px);--_accent: var(--color-primary, #46a758);--_accent-hover: var(--color-primary-hover, #3e9b4f);--_on: var(--color-text-inverse, #ffffff);--_accent-text: var(--_accent);--_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);--_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);display:inline-block}
-.esa-button--sm{--_btn-height: var(--form-height-sm, 32px);--_btn-padding-x: var(--form-padding-x-sm, 12px);--_btn-font-size: var(--form-font-size-sm, 12px);--_btn-radius: var(--form-radius-sm, 4px)}
-.esa-button__native{display:inline-flex;align-items:center;justify-content:center;gap:var(--spacing-200, 8px);width:100%;height:var(--_btn-height);padding-inline:var(--_btn-padding-x);border:1px solid transparent;border-radius:var(--_btn-radius);font-size:var(--_btn-font-size);font-family:var(--font-sans, system-ui, sans-serif);font-weight:var(--font-weight-medium, 500);line-height:1;text-decoration:none;cursor:pointer;transition:background var(--transition-fast, .15s ease),border-color var(--transition-fast, .15s ease);-webkit-appearance:none;appearance:none}
-.esa-button--sm .esa-button__native{height:auto;padding-block:var(--spacing-150, 6px)}
-.esa-button--appearance-outline .esa-button__native,.esa-button--appearance-dashed .esa-button__native{background:transparent;color:var(--_accent-text);border-color:var(--_accent)}
-.esa-button--color-ghost .esa-button__native{background:transparent;color:var(--color-text-primary, #171717);border-color:transparent}
-.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native{border-color:var(--color-border, #e5e5e5)}
-.esa-button__label{white-space:nowrap}
-:host {
-      --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
-      --_popover-border: var(--popover-border-color, var(--color-border, #e5e5e5));
-      --_popover-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
-      --_popover-radius: var(--popover-radius, var(--radius-200, 0.5rem));
-      --_popover-padding: var(--spacing-300, 0.75rem);
-      --_popover-arrow-size: 8px;
-      --_popover-color: var(--popover-color, var(--color-text-primary, #171717));
-      display: inline-block;
-    }
-.esa-popover-anchor {
-      position: relative;
-      display: inline-block;
-    }
-:where([class^=ag-]),:where([class^=ag-]):after,:where([class^=ag-]):before{box-sizing:border-box}
-.ag-measurement-container{height:0;overflow:hidden;visibility:hidden;width:0}
-.ag-measurement-element-border{display:inline-block}
-.ag-measurement-element-border:before{border-left:var(--ag-internal-measurement-border);content:"";display:block}
-.ag-chart,.ag-dnd-ghost,.ag-external,.ag-popup,.ag-root-wrapper{cursor:default;line-height:normal;white-space:normal;-webkit-font-smoothing:antialiased;background-color:var(--ag-wrapper-background-color);color:var(--ag-text-color);color-scheme:var(--ag-browser-color-scheme);font-family:var(--ag-font-family);font-size:var(--ag-font-size);font-weight:var(--ag-font-weight);--ag-indentation-level:0}
-.ag-tab-guard{display:block;height:0;position:absolute;width:0}
-.ag-tab-guard-top{top:1px}
-.ag-invisible{visibility:hidden!important}
-.ag-hidden{display:none!important}
-.ag-tab-guard-bottom{bottom:1px}
-.ag-icon{background-position:50%;background-repeat:no-repeat;background-size:contain;color:var(--ag-icon-color);display:block;height:var(--ag-icon-size);position:relative;-webkit-user-select:none;-moz-user-select:none;user-select:none;width:var(--ag-icon-size)}
-:where(.ag-icon):before{align-items:center;background-color:currentcolor;color:inherit;content:"";display:flex;font-family:inherit;font-size:var(--ag-icon-size);font-style:normal;font-variant:normal;height:var(--ag-icon-size);justify-content:center;line-height:var(--ag-icon-size);-webkit-mask-size:contain;mask-size:contain;text-transform:none;width:var(--ag-icon-size)}
-:where(.ag-theme-checkboxStyle-4) {
-.ag-checkbox-input-wrapper,.ag-radio-button-input-wrapper{background-color:var(--ag-checkbox-unchecked-background-color);border:solid var(--ag-checkbox-border-width) var(--ag-checkbox-unchecked-border-color);flex:none;height:var(--ag-icon-size);position:relative;width:var(--ag-icon-size);&:where(.ag-checked){background-color:var(--ag-checkbox-checked-background-color);border-color:var(--ag-checkbox-checked-border-color)}
-&:where(.ag-checked):after{background-color:var(--ag-checkbox-checked-shape-color)}
-&:where(.ag-disabled){filter:grayscale();opacity:.5}
-.ag-checkbox-input,.ag-radio-button-input{-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer;display:block;height:var(--ag-icon-size);margin:0;opacity:0;width:var(--ag-icon-size)}
-.ag-checkbox-input-wrapper:after,.ag-radio-button-input-wrapper:after{content:"";display:block;inset:0;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;pointer-events:none;position:absolute}
-.ag-checkbox-input-wrapper:where(:focus-within,:active),.ag-radio-button-input-wrapper:where(:focus-within,:active){box-shadow:var(--ag-focus-shadow)}
-.ag-checkbox-input-wrapper{border-radius:var(--ag-checkbox-border-radius);&:where(.ag-checked):after{-webkit-mask-image:var(--ag-checkbox-checked-shape-image);mask-image:var(--ag-checkbox-checked-shape-image)}
-&:where(.ag-indeterminate){background-color:var(--ag-checkbox-indeterminate-background-color);border-color:var(--ag-checkbox-indeterminate-border-color)}
-&:where(.ag-indeterminate):after{background-color:var(--ag-checkbox-indeterminate-shape-color);-webkit-mask-image:var(--ag-checkbox-indeterminate-shape-image);mask-image:var(--ag-checkbox-indeterminate-shape-image)}
-.ag-cell-editing-error .ag-checkbox-input-wrapper:focus-within{box-shadow:var(--ag-focus-error-shadow)}
-.ag-radio-button-input-wrapper{border-radius:100%;&:where(.ag-checked):after{-webkit-mask-image:var(--ag-radio-checked-shape-image);mask-image:var(--ag-radio-checked-shape-image)}
-:where(.ag-theme-buttonStyle-1) {
-:where(.ag-button){background:none;border:none;color:inherit;cursor:pointer;font-family:inherit;font-size:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;margin:0;padding:0;text-indent:inherit;text-shadow:inherit;text-transform:inherit;word-spacing:inherit;&:disabled{cursor:default}
-&:focus-visible{box-shadow:var(--ag-focus-shadow);outline:none}
-.ag-standard-button{-webkit-appearance:none;-moz-appearance:none;appearance:none;background-color:var(--ag-button-background-color);border:var(--ag-button-border);border-radius:var(--ag-button-border-radius);color:var(--ag-button-text-color);cursor:pointer;font-weight:var(--ag-button-font-weight);padding:var(--ag-button-vertical-padding) var(--ag-button-horizontal-padding);&:active{background-color:var(--ag-button-active-background-color);border:var(--ag-button-active-border);color:var(--ag-button-active-text-color)}
-&:disabled{background-color:var(--ag-button-disabled-background-color);border:var(--ag-button-disabled-border);color:var(--ag-button-disabled-text-color)}
-.ag-standard-button:hover{background-color:var(--ag-button-hover-background-color);border:var(--ag-button-hover-border);color:var(--ag-button-hover-text-color)}
-html,.modern-layout__content{scroll-behavior:smooth}
-.ag-aria-description-container{border:0;clip-path:inset(50%);height:1px;overflow:hidden;padding:0;position:absolute;white-space:nowrap;width:1px;z-index:9999}
-:where(.ag-ltr){direction:ltr;.ag-body,.ag-body-horizontal-scroll,.ag-body-viewport,.ag-floating-bottom,.ag-floating-top,.ag-header,.ag-sticky-bottom,.ag-sticky-top{flex-direction:row}
-.ag-root-wrapper{border:var(--ag-wrapper-border);border-radius:var(--ag-wrapper-border-radius);container-type:inline-size;display:flex;flex-direction:column;overflow:hidden;position:relative;&.ag-layout-normal{content-visibility:auto;height:100%}
-&.ag-layout-normal{content-visibility:auto;height:100%}
-.ag-root-wrapper-body{display:flex;flex-direction:row;&.ag-layout-normal{flex:1 1 auto;height:0;min-height:0}
-&.ag-layout-normal{flex:1 1 auto;height:0;min-height:0}
-.ag-unselectable{-webkit-user-select:none;-moz-user-select:none;user-select:none}
-.ag-root{display:flex;flex-direction:column;position:relative;&.ag-layout-auto-height,&.ag-layout-normal{flex:1 1 auto;overflow:hidden;width:0}
-&.ag-layout-normal{height:100%}
-&.ag-layout-auto-height,&.ag-layout-normal{flex:1 1 auto;overflow:hidden;width:0}
-&.ag-layout-normal{height:100%}
-.ag-body,.ag-body-horizontal-scroll,.ag-body-viewport,.ag-floating-bottom,.ag-floating-top,.ag-header,.ag-sticky-bottom,.ag-sticky-top{flex-direction:row}
-.ag-header{background-color:var(--ag-header-background-color);border-bottom:var(--ag-header-row-border);color:var(--ag-header-text-color);display:flex;font-family:var(--ag-header-font-family);font-size:var(--ag-header-font-size);font-weight:var(--ag-header-font-weight);overflow:hidden;white-space:nowrap;width:100%}
-.ag-body-horizontal-scroll-viewport,.ag-body-vertical-scroll-viewport,.ag-body-viewport,.ag-center-cols-viewport,.ag-floating-bottom-viewport,.ag-floating-top-viewport,.ag-header-viewport,.ag-sticky-bottom-viewport,.ag-sticky-top-viewport{flex:1 1 auto;height:100%;min-width:0;overflow:hidden;position:relative}
-.ag-body-viewport,.ag-center-cols-viewport,.ag-floating-bottom-viewport,.ag-floating-top-viewport,.ag-header-viewport,.ag-sticky-bottom-viewport,.ag-sticky-top-viewport{overflow-x:auto;-ms-overflow-style:none!important;scrollbar-width:none!important}
-.ag-body-container,.ag-body-horizontal-scroll-container,.ag-body-vertical-scroll-container,.ag-center-cols-container,.ag-floating-bottom-container,.ag-floating-bottom-full-width-container,.ag-floating-top-container,.ag-full-width-container,.ag-header-container,.ag-pinned-left-cols-container,.ag-pinned-left-sticky-bottom,.ag-pinned-right-cols-container,.ag-pinned-right-sticky-bottom,.ag-sticky-bottom-container,.ag-sticky-top-container{position:relative}
-.ag-floating-bottom-container,.ag-floating-top-container,.ag-header-container,.ag-pinned-left-floating-bottom,.ag-pinned-left-floating-top,.ag-pinned-right-floating-bottom,.ag-pinned-right-floating-top,.ag-sticky-bottom-container,.ag-sticky-top-container{height:100%;white-space:nowrap}
-.ag-floating-top{display:flex;overflow:hidden;position:relative;white-space:nowrap;width:100%}
-.ag-body,.ag-floating-bottom,.ag-floating-top{background-color:var(--ag-data-background-color)}
-.ag-viewport{position:relative}
-.ag-floating-bottom-container,.ag-floating-top-container,.ag-sticky-bottom-container,.ag-sticky-top-container{min-height:1px}
-.ag-floating-bottom-full-width-container,.ag-floating-top-full-width-container,.ag-full-width-container,.ag-sticky-bottom-full-width-container,.ag-sticky-top-full-width-container{pointer-events:none;position:absolute;top:0}
-:where(.ag-ltr) .ag-floating-bottom-full-width-container,:where(.ag-ltr) .ag-floating-top-full-width-container,:where(.ag-ltr) .ag-full-width-container,:where(.ag-ltr) .ag-sticky-bottom-full-width-container,:where(.ag-ltr) .ag-sticky-top-full-width-container{left:0}
-.ag-floating-bottom-full-width-container,.ag-floating-top-full-width-container{display:inline-block;height:100%;overflow:hidden;width:100%}
-.ag-body{display:flex;flex:1 1 auto;flex-direction:row!important;min-height:0;position:relative}
-.ag-body-viewport{display:flex;overflow-x:hidden;&:where(.ag-layout-normal){overflow-y:auto;-webkit-overflow-scrolling:touch}
-&:where(.ag-layout-normal){overflow-y:auto;-webkit-overflow-scrolling:touch}
-.ag-center-cols-viewport{min-height:100%;width:100%}
-.ag-center-cols-container,.ag-pinned-right-cols-container{display:block}
-.ag-full-width-container{width:100%}
-.ag-body-horizontal-scroll,.ag-body-vertical-scroll{display:flex;min-height:0;min-width:0;position:relative;&:where(.ag-scrollbar-invisible){bottom:0;position:absolute;&:where(.ag-apple-scrollbar){opacity:0;transition:opacity .4s;visibility:hidden;&:where(.ag-scrollbar-active),&:where(.ag-scrollbar-scrolling){opacity:1;visibility:visible}
-.ag-body-vertical-scroll{height:100%;&:where(.ag-scrollbar-invisible){top:0;z-index:10}
-:where(.ag-ltr) .ag-body-vertical-scroll{&:where(.ag-scrollbar-invisible){right:0}
-.ag-body-vertical-scroll-viewport{overflow-y:scroll}
-.ag-body-vertical-scroll-container{width:100%}
-.ag-sticky-bottom,.ag-sticky-top{background-color:var(--ag-data-background-color);display:flex;height:0;overflow:hidden;position:absolute;width:100%;z-index:1}
-.ag-sticky-bottom{box-sizing:content-box!important;:where(.ag-pinned-left-sticky-bottom),:where(.ag-pinned-right-sticky-bottom),:where(.ag-sticky-bottom-container){border-top:var(--ag-row-border);box-sizing:border-box}
-:where(.ag-pinned-left-sticky-bottom),:where(.ag-pinned-right-sticky-bottom),:where(.ag-sticky-bottom-container){border-top:var(--ag-row-border);box-sizing:border-box}
-.ag-floating-bottom{display:flex;overflow:hidden;position:relative;white-space:nowrap;width:100%}
-.ag-body-horizontal-scroll{width:100%;&:where(.ag-scrollbar-invisible){left:0;right:0}
-.ag-horizontal-left-spacer,.ag-horizontal-right-spacer{height:100%;min-width:0;overflow-x:scroll;&:where(.ag-scroller-corner){overflow-x:hidden}
-&:where(.ag-scroller-corner){overflow-x:hidden}
-.ag-body-horizontal-scroll-viewport{overflow-x:scroll}
-.ag-body-horizontal-scroll-container{height:100%}
-.ag-header-row{height:var(--ag-header-height);position:absolute}
-.ag-header-row:where(:not(.ag-header-row-column-group)){overflow:hidden}
-:where(.ag-header.ag-header-allow-overflow) .ag-header-row{overflow:visible}
-:where(.ag-header-cell:not(.ag-right-aligned-header)){.ag-header-col-ref{color:var(--ag-subtle-text-color)}
-:where(.ag-ltr) :where(.ag-header-cell:not(.ag-right-aligned-header)){.ag-header-col-ref{margin-right:var(--ag-spacing)}
-.ag-header-label-icon,.ag-header-menu-icon{margin-left:var(--ag-spacing)}
-.ag-header-cell{display:inline-flex;overflow:hidden}
-.ag-header-cell,.ag-header-group-cell{align-items:center;gap:var(--ag-cell-widget-spacing);height:100%;padding:0 var(--ag-cell-horizontal-padding);position:absolute}
-.ag-header-cell:where(:not(.ag-floating-filter)):before,.ag-header-group-cell:before{background-image:linear-gradient(var(--ag-internal-hover-color),var(--ag-internal-hover-color)),linear-gradient(var(--ag-internal-moving-color),var(--ag-internal-moving-color));content:"";inset:0;position:absolute;--ag-internal-moving-color:transparent;--ag-internal-hover-color:transparent;transition:--ag-internal-moving-color var(--ag-header-cell-background-transition-duration),--ag-internal-hover-color var(--ag-header-cell-background-transition-duration)}
-:where(.ag-header-cell:not(.ag-floating-filter)>*,.ag-header-group-cell>*){position:relative;z-index:1}
-.ag-header-cell-resize{align-items:center;cursor:ew-resize;display:flex;height:100%;position:absolute;top:0;width:8px;z-index:2}
-:where(.ag-ltr) .ag-header-cell-resize{right:-3px}
-.ag-header-cell-resize:after{background-color:var(--ag-header-column-resize-handle-color);content:"";height:var(--ag-header-column-resize-handle-height);position:absolute;top:calc(50% - var(--ag-header-column-resize-handle-height)*.5);width:var(--ag-header-column-resize-handle-width);z-index:1}
-:where(.ag-ltr) .ag-header-cell-resize:after{left:calc(50% - var(--ag-header-column-resize-handle-width))}
-.ag-header-cell-comp-wrapper{width:100%}
-:where(.ag-header-cell:not(.ag-header-cell-auto-height)) .ag-header-cell-comp-wrapper{align-items:center;display:flex;height:100%}
-.ag-cell-label-container{align-items:center;display:flex;flex-direction:row-reverse;height:100%;justify-content:space-between;width:100%}
-.ag-floating-filter-button-button,.ag-header-cell-filter-button,.ag-header-cell-menu-button,.ag-header-expand-icon,.ag-panel-title-bar-button,:where(.ag-header-cell-sortable) .ag-header-cell-label,:where(.ag-header-group-cell-selectable) .ag-header-cell-comp-wrapper{cursor:pointer}
-.ag-header-cell-filter-button,:where(.ag-header-cell.ag-header-active) .ag-header-cell-menu-button{opacity:1}
-.ag-chart-menu-icon,.ag-chart-settings-next,.ag-chart-settings-prev,.ag-column-group-icons,.ag-column-select-header-icon,.ag-filter-toolpanel-expand,.ag-floating-filter-button-button,.ag-group-title-bar-icon,.ag-header-cell-filter-button,.ag-header-cell-menu-button,.ag-header-expand-icon,.ag-panel-title-bar-button,.ag-panel-title-bar-button-icon,.ag-set-filter-group-icons,:where(.ag-group-contracted) .ag-icon,:where(.ag-group-expanded) .ag-icon{background-color:var(--ag-icon-button-background-color);border-radius:var(--ag-icon-button-border-radius);box-shadow:0 0 0 var(--ag-icon-button-background-spread) var(--ag-icon-button-background-color);color:var(--ag-icon-button-color)}
-.ag-header-cell-label,.ag-header-group-cell-label{align-items:center;align-self:stretch;display:flex;flex:1 1 auto;overflow:hidden;padding:5px 0}
-.ag-header-cell-label{text-overflow:ellipsis}
-.ag-header-cell-text,.ag-header-group-text{overflow:hidden;text-overflow:ellipsis}
-.ag-header-cell-text{overflow-wrap:break-word}
-.ag-sort-indicator-container{display:flex;gap:var(--ag-spacing)}
-:where(.ag-ltr) .ag-sort-indicator-icon{padding-left:var(--ag-spacing)}
-.ag-header-cell:after,.ag-header-group-cell:where(:not(.ag-header-span-height.ag-header-group-cell-no-group)):after{content:"";height:var(--ag-header-column-border-height);position:absolute;top:calc(50% - var(--ag-header-column-border-height)*.5);z-index:1}
-:where(.ag-ltr) .ag-header-cell:after,:where(.ag-ltr) .ag-header-group-cell:where(:not(.ag-header-span-height.ag-header-group-cell-no-group)):after{border-right:var(--ag-header-column-border);right:0}
-:where(.ag-row-animation) .ag-row{transition:transform .4s,top .4s,opacity .2s;&:where(.ag-after-created){transition:transform .4s,top .4s,height .4s,opacity .2s}
-.ag-row-position-absolute{position:absolute}
-.ag-row,.ag-spanned-row{color:var(--ag-cell-text-color);font-family:var(--ag-cell-font-family);font-size:var(--ag-cell-font-size);font-weight:var(--ag-cell-font-weight);white-space:nowrap;--ag-internal-content-line-height:calc(min(var(--ag-row-height), var(--ag-line-height, 1000px)) - var(--ag-internal-row-border-width, 1px) - 2px)}
-.ag-row{background-color:var(--ag-data-background-color);border-bottom:var(--ag-row-border);height:var(--ag-row-height);width:100%;&.ag-row-editing-invalid{background-color:var(--ag-full-row-edit-invalid-background-color)}
-.ag-cell{display:inline-block;height:100%;position:absolute;white-space:nowrap;&:focus-visible{box-shadow:none}
-.ag-cell-value{flex:1 1 auto}
-.ag-cell,.ag-full-width-row .ag-cell-wrapper.ag-row-group{border:1px solid transparent;line-height:var(--ag-internal-content-line-height);-webkit-font-smoothing:subpixel-antialiased}
-:where(.ag-ltr) .ag-cell{border-right:var(--ag-column-border)}
-.ag-cell-value:not(.ag-allow-overflow),.ag-group-value{overflow:hidden;text-overflow:ellipsis}
-:where(.ag-ltr) .ag-cell:not(.ag-cell-inline-editing),:where(.ag-ltr) .ag-full-width-row .ag-cell-wrapper.ag-row-group{padding-left:calc(var(--ag-cell-horizontal-padding) - 1px + var(--ag-row-group-indent-size)*var(--ag-indentation-level));padding-right:calc(var(--ag-cell-horizontal-padding) - 1px)}
-.ag-row-odd{background-color:var(--ag-odd-row-background-color)}
-&:where(.ag-scrollbar-invisible){bottom:0;position:absolute;&:where(.ag-apple-scrollbar){opacity:0;transition:opacity .4s;visibility:hidden;&:where(.ag-scrollbar-active),&:where(.ag-scrollbar-scrolling){opacity:1;visibility:visible}
-&:where(.ag-scrollbar-invisible){top:0;z-index:10}
-&:where(.ag-scrollbar-invisible){right:0}
-&:where(.ag-scrollbar-invisible){left:0;right:0}
-:host { display: inline-block; }
-.esa-tooltip-anchor {
-      position: relative;
-      display: inline-flex;
-    }
-*,*:before,*:after{box-sizing:border-box}
-body{margin:0;font-family:var(--font-sans, system-ui, sans-serif);font-weight:var(--font-weight-regular, 350);color:var(--color-text-primary, #3d3d3d);background:var(--color-surface, #fff);-webkit-font-smoothing:antialiased}
-button{font-family:inherit;cursor:pointer;background:none;border:0}
-a{color:var(--color-text-link, #005862);text-decoration:none}
-img{display:block;max-width:100%}
-:where(h1,h2,h3,h4,h5,h6,p,figure,blockquote,dl,dd,ul,ol,pre){margin:0}
-.esa-icon{--_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));display:inline-flex;align-items:center;justify-content:center;width:var(--_icon-size);height:var(--_icon-size);line-height:1;color:inherit}
-.esa-icon--xs{--_icon-size: var(--icon-size-xs, 14px)}
-.esa-icon svg{display:block;width:var(--_icon-size);height:var(--_icon-size)}
-.esa-icon--sm{--_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px))}
-.esa-icon--md{--_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px))}
-.esa-icon-button{--_ib-size: var(--form-height-md, 40px);--_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));display:inline-flex;align-items:center;justify-content:center;width:var(--_ib-size);height:var(--_ib-size);padding:0;border:0;border-radius:var(--radius-200, 8px);background:transparent;color:inherit;cursor:pointer;transition:background var(--transition-fast, .15s ease);-webkit-appearance:none;appearance:none}
-.grid-header{display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-400);margin-bottom:var(--spacing-300)}
-.grid-header__filter{display:inline-flex;align-items:center;gap:var(--spacing-150);min-width:280px}
-.grid-header__filter esa-text-field{flex:1}
-.tracker-grid{width:100%;height:calc(100vh - 360px);min-height:400px}
-.table-footer{display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-400);padding:var(--spacing-200) var(--spacing-400);background:var(--color-background);border:1px solid var(--color-border);border-top:0;border-radius:0 0 var(--radius-100) var(--radius-100)}
-.row-count-data{display:flex;align-items:center;gap:var(--spacing-400);font-size:var(--type-size-100);color:var(--color-text-secondary);font-variant-numeric:tabular-nums}
-.filtered-rows-count{color:var(--color-text-tertiary)}
-.filtered-rows-count[hidden]{display:none}
-.ag-row{cursor:pointer}
-.bcn-grid-name{color:var(--color-text-link);font-weight:var(--font-weight-regular);text-decoration:underline}
-:host { all: initial; }
-.host-root { position: fixed; inset: 0; pointer-events: none; z-index: 2147483000;
-    font-family: system-ui, sans-serif; }
-.host-root > * { pointer-events: auto; }
-.launch { position: fixed; bottom: 22px; left: 22px; display: inline-flex; align-items: center; gap: 9px;
-    padding: 13px 19px; border-radius: 999px; color: #fff; cursor: pointer; font-size: 15px; font-weight: 600;
-    letter-spacing: .01em; border: 1px solid #3d6fd6;
-    background: linear-gradient(180deg, #1f6feb, #1551c4);
-    box-shadow: 0 10px 28px -8px rgba(31,111,235,.65), inset 0 1px 0 rgba(255,255,255,.18);
-    transition: transform .15s ease, box-shadow .15s ease, filter .15s ease; }
-.launch svg { flex: none; }
-.panel { position: fixed; top: 18px; right: 18px; bottom: 18px; width: min(720px, 94vw);
-    display: flex; flex-direction: column; color: #ffffff; border-radius: 16px;
-    background: linear-gradient(155deg, rgba(26,31,40,.74), rgba(11,15,21,.86));
-    backdrop-filter: blur(26px) saturate(150%); -webkit-backdrop-filter: blur(26px) saturate(150%);
-    border: 1px solid rgba(255,255,255,.15);
-    box-shadow: 0 28px 70px -18px rgba(0,0,0,.62), inset 0 1px 0 rgba(255,255,255,.10);
-    font-size: 12.5px; overflow: hidden;
-    /* slide in from the right */
-    transform: translateX(calc(100% + 32px)); opacity: 0; visibility: hidden;
-    transition: transform .3s cubic-bezier(.4,0,.2,1), opacity .22s ease, visibility 0s linear .3s; }
-.head { display: flex; align-items: center; gap: 8px; padding: 13px 16px; border-bottom: 1px solid rgba(255,255,255,.09); }
-.head strong { font-size: 14px; }
-.head .sub { flex: 1; color: #ccd5e0; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.x { border: 0; background: none; color: #c4cdd8; font-size: 20px; line-height: 1; cursor: pointer; }
-.picker { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,.09); }
-.chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.chip { padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.04);
-    color: #eef2f6; font: inherit; font-size: 12.5px; cursor: pointer; white-space: nowrap;
-    transition: border-color .12s ease, background .12s ease, color .12s ease; }
-.chip.on { background: rgba(31,111,235,.28); border-color: #4493f8; color: #fff; font-weight: 600; }
-.tabs { display: flex; gap: 4px; padding: 9px 14px; border-bottom: 1px solid rgba(255,255,255,.09); }
-.tabs button { padding: 5px 12px; border: 0; border-radius: 6px; background: none; color: #ccd5e0;
-    font: inherit; font-size: 12.5px; cursor: pointer; }
-.tabs button.on { background: rgba(255,255,255,.12); color: #fff; }
-.body { overflow: auto; padding: 13px 16px; flex: 1; }
-.hint { margin: 0; color: #c4cdd8; line-height: 1.6; }
-.footer { position: relative; display: flex; justify-content: flex-end; gap: 8px; padding: 11px 16px;
-    border-top: 1px solid rgba(255,255,255,.10); background: rgba(0,0,0,.18); }
-[hidden] { display: none !important; }
-.cpreview { position: absolute; left: 16px; right: 16px; bottom: calc(100% + 8px);
-    background: rgba(13,17,23,.96); border: 1px solid rgba(255,255,255,.16); border-radius: 12px;
-    box-shadow: 0 18px 50px -14px rgba(0,0,0,.7); padding: 12px 14px; max-height: 50vh; overflow: auto; }
-.copy { color: #eef2f6; border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.05); }
-.footer button { flex: none; display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-    padding: 8px 14px; border-radius: 8px; font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer; }
-.claude { color: #fff; border: 1px solid #d97757;
-    background: linear-gradient(180deg, #e0805f, #c25e3c);
-    box-shadow: 0 6px 18px -6px rgba(217,119,87,.6), inset 0 1px 0 rgba(255,255,255,.2); }
-.claude svg { flex: none; }
-.page-layout{display:flex;flex-direction:column;min-height:calc(100vh - 52px);padding:var(--spacing-600);background:var(--bcn-gray-50);box-sizing:border-box}
-.page-layout__container{display:flex;flex-direction:column}
-.page-layout section{width:100%}
-.breadcrumbs{padding:var(--spacing-400) 0}
-.breadcrumbs__items{display:flex;gap:var(--spacing-100);align-items:center;flex-wrap:wrap}
-.breadcrumbs__items .esa-icon{color:var(--bcn-gray-400)}
-.breadcrumb-item{color:var(--bcn-gray-600);text-transform:capitalize;font-size:.875rem}
-a.breadcrumb-item{text-decoration:none}
-.page-layout__title{border-bottom:1px solid var(--bcn-gray-200);padding:var(--spacing-500) 0;display:flex;align-items:center;justify-content:space-between;box-sizing:border-box}
-.page-layout__title-main{display:flex;align-items:center;gap:var(--spacing-200);min-width:0}
-.page-layout__title h1{display:flex;align-items:center;gap:var(--spacing-200);font-family:var(--font-decorative);font-weight:var(--font-weight-bold);font-size:var(--type-size-500);margin:0;color:var(--bcn-gray-1000)}
-.page-layout__content{padding:var(--spacing-500) 0;min-height:70vh;position:relative}
-.ag-overlay{inset:0;pointer-events:none;position:absolute;z-index:2}
 ```
 
 ## Tokens
@@ -8751,8 +8369,10 @@ a.breadcrumb-item{text-decoration:none}
 | `--color-accent` | `#f76b15` | semantic |
 | `--color-background` | `#fafafa` | semantic |
 | `--color-border` | `#dcdcdc` | semantic |
+| `--color-border-light` | `#efefef` | semantic |
 | `--color-primary` | `#005862` | semantic |
 | `--color-primary-hover` | `#00474f` | semantic |
+| `--color-primary-strong` | `#2a7e3b` | semantic |
 | `--color-surface` | `#fcfcfc` | semantic |
 | `--color-surface-sunken` | `#efefef` | semantic |
 | `--color-text-inverse` | `#fcfcfc` | semantic |
@@ -8760,44 +8380,34 @@ a.breadcrumb-item{text-decoration:none}
 | `--color-text-primary` | `#3d3d3d` | semantic |
 | `--color-text-secondary` | `#525252` | semantic |
 | `--color-text-tertiary` | `#656565` | semantic |
+| `--filter-clear-color` | `#7c7c7c` | component |
+| `--filter-clear-color-hover` | `#ce2c31` | component |
 | `--font-decorative` | `"Besley", serif` | component |
 | `--font-sans` | `"DM Sans", sans-serif` | primitive |
 | `--font-weight-bold` | `650` | primitive |
 | `--font-weight-medium` | `500` | primitive |
 | `--font-weight-regular` | `350` | primitive |
 | `--font-weight-semibold` | `550` | primitive |
-| `--form-bg` | `#fcfcfc` | component |
-| `--form-border-color` | `#dcdcdc` | component |
-| `--form-border-width` | `1px` | component |
 | `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | component |
 | `--form-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` | component |
 | `--form-height-md` | `36px` | component |
 | `--form-height-sm` | `28px` | component |
+| `--form-label-color` | `#525252` | component |
 | `--form-padding-x-md` | `.75rem` | component |
 | `--form-padding-x-sm` | `.625rem` | component |
-| `--form-padding-y-md` | `.5rem` | component |
-| `--form-padding-y-sm` | `.375rem` | component |
-| `--form-placeholder-color` | `#7c7c7c` | component |
 | `--form-radius-md` | `.25rem` | component |
 | `--form-radius-sm` | `.25rem` | component |
-| `--form-text-color` | `#3d3d3d` | component |
 | `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
 | `--icon-size-md` | `20px` | primitive |
 | `--icon-size-medium` | `20px` | component |
 | `--icon-size-sm` | `16px` | primitive |
 | `--icon-size-small` | `16px` | component |
 | `--icon-size-xs` | `14px` | primitive |
-| `--popover-bg` | `#fcfcfc` | component |
-| `--popover-border-color` | `#dcdcdc` | component |
-| `--popover-color` | `#3d3d3d` | component |
-| `--popover-radius` | `.5rem` | component |
 | `--radius-100` | `.25rem` | primitive |
 | `--radius-200` | `.5rem` | primitive |
 | `--radius-300` | `.5rem` | primitive |
 | `--radius-400` | `.75rem` | primitive |
 | `--radius-full` | `9999px` | primitive |
-| `--shadow-300` | `0 6px 24px -6px rgba(0, 0, 0, .07)` | primitive |
-| `--side-dialog-width` | `400px` | component |
 | `--spacing-050` | `.125rem` | primitive |
 | `--spacing-100` | `.25rem` | primitive |
 | `--spacing-150` | `.375rem` | primitive |
