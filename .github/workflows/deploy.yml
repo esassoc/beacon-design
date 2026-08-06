@@ -1,0 +1,100 @@
+# Regenerate handoff bundles and publish the site, on a uniform runner.
+#
+# Why this exists: handoff capture drives a real Chromium over every prototype
+# route, so its cost and its OUTPUT both tracked whoever ran it — an older laptop
+# took minutes and could disagree with a faster machine on the same commit, and the
+# Windows path failed outright until scripts/gen-handoff.mjs was fixed. Running it
+# here means contributors never need Chromium locally to ship a prototype.
+#
+# SETUP: just confirm Settings → Pages → Source is "Deploy from a branch", branch
+# `gh-pages` — which it already is, since that branch is what serves the live site.
+#
+# No secret is needed. esassoc/ecology is a PUBLIC repo, so actions/checkout clones
+# it unauthenticated. If it is ever made private, add a read-only PAT as
+# ECOLOGY_TOKEN and pass it as `token:` on that checkout step.
+name: Deploy
+
+# Every merge to main deploys. workflow_dispatch stays enabled so the site can also
+# be republished on demand — useful when a prototype's authored guidance changes and
+# you want it live without a code commit.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# A second push while one deploy is mid-flight would race the gh-pages push.
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the spoke
+        uses: actions/checkout@v4
+        with:
+          path: beacon-design
+
+      # Must land beside the spoke: the file: deps resolve through ../ecology.
+      # Public repo — no token required.
+      - name: Check out the ecology hub
+        uses: actions/checkout@v4
+        with:
+          repository: esassoc/ecology
+          path: ecology
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: beacon-design/package-lock.json
+
+      # The hub's own install is what puts playwright and prettier on disk.
+      - name: Install hub dependencies
+        working-directory: ecology
+        run: npm ci || npm install
+
+      - name: Install spoke dependencies
+        working-directory: beacon-design
+        run: npm ci
+
+      - name: Install Chromium
+        working-directory: ecology
+        run: npx playwright install --with-deps chromium
+
+      # Full regeneration: a fresh checkout has no bundles, since manifests and
+      # assets are gitignored and only claude/*.md is committed.
+      - name: Regenerate handoff bundles
+        working-directory: beacon-design
+        run: npm run handoff:all
+
+      # Runs AFTER regeneration so the bundle-existence check sees real manifests.
+      # This is the gate that makes authored guidance non-optional: a prototype
+      # added without a spec fails the deploy here instead of silently shipping on
+      # the fallback capture with no intent / decisions / gotchas / acceptance.
+      - name: Check handoff guidance
+        working-directory: beacon-design
+        run: npm run handoff:check
+
+      - name: Build
+        working-directory: beacon-design
+        run: npm run build
+
+      - name: Publish to gh-pages
+        working-directory: beacon-design
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          npx gh-pages -d dist --dotfiles \
+            -r "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+
+# Deliberately NOT committing regenerated claude/*.md back to the repo. The 24
+# routes still on the hub's whole-page fallback capture are not reproducible — that
+# path selects CSS by Chrome rule-usage coverage, which varies run to run — so a
+# commit-back would push a churning diff on every single deploy. Once those routes
+# have curated specs (the guidance gate above pushes exactly that way) they move to
+# the deterministic path, and committing the docs back becomes worth doing.
