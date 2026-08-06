@@ -4,8 +4,16 @@
 // DOM, in DOM order, guessed labels). That can't reach Sidebar/Results inside
 // <main>, can't separate them, and includes a useless full page. This captures a
 // SPEC's declared selectors instead — any depth, authored labels — while reusing
-// the hub's proven techniques (Chrome rule-usage coverage for used CSS, de-scope,
-// per-element token resolution, CSS-partition-by-class) so output matches the hub.
+// the hub's de-scope, per-element token resolution, and CSS-partition-by-class.
+//
+// It deliberately does NOT use the hub's Chrome rule-usage coverage pass. Coverage
+// answers "what did this render exercise," which is a function of paint timing, not
+// of the page: the same route captured twice on ONE machine emitted different
+// bundles, and a slower machine disagreed with a faster one on the same commit.
+// Rules are enumerated from the stylesheets and narrowed by the class-partition
+// filter instead — a pure function of the markup, so the same page always produces
+// the same bytes. It also keeps :hover/:focus rules the renderer never exercised,
+// which a handoff artifact wants. See docs/system-improvement-ledger.md.
 //
 // The two hub helpers we need are trivial and stable, so they're inlined rather
 // than deep-imported past the package's exports map. Token tier classification is
@@ -53,27 +61,36 @@ const fmt = async (src, parser) => {
   }
 };
 
-// Reconstruct the used CSS rules from a coverage pass: de-scoped, de-duped, with
-// token-definition (:root) blocks dropped so tree-shaking isn't defeated.
-async function usedRules(client, ruleUsage) {
-  const sheetText = new Map();
-  for (const r of ruleUsage) {
-    if (!r.used || sheetText.has(r.styleSheetId)) continue;
-    sheetText.set(
-      r.styleSheetId,
-      (await client.send('CSS.getStyleSheetText', { styleSheetId: r.styleSheetId })).text
-    );
+// Every style rule on the page, de-scoped, de-duped, with token-definition (:root)
+// blocks dropped so tree-shaking isn't defeated. Narrowing to what a section
+// actually needs is the class-partition filter's job, downstream.
+//
+// `headers` is what CSS.styleSheetAdded reported for the current navigation. Their
+// ARRIVAL order is not stable — sheets adopted by a web component register whenever
+// that component upgrades — so sheets are ordered by a content-derived key instead.
+// Within a sheet, rules keep source order, which is what the cascade uses to break
+// ties between equal-specificity rules; reordering those would change rendering.
+async function allRules(client, headers) {
+  const sheets = [];
+  for (const h of headers) {
+    let text;
+    try {
+      text = (await client.send('CSS.getStyleSheetText', { styleSheetId: h.styleSheetId })).text;
+    } catch {
+      continue; // sheet detached between being announced and being read
+    }
+    if (text) sheets.push({ url: h.sourceURL || '', text });
   }
+  sheets.sort((a, b) => a.url.localeCompare(b.url) || a.text.localeCompare(b.text));
+
   const seen = new Set();
   const rules = [];
-  for (const r of ruleUsage) {
-    if (!r.used) continue;
-    const key = `${r.styleSheetId}:${r.startOffset}:${r.endOffset}`;
-    if (seen.has(key)) continue;
-    seen.add(key);
-    const raw = descopeCss(sheetText.get(r.styleSheetId).slice(r.startOffset, r.endOffset));
-    for (const rule of splitRules(raw)) if (!isTokenDefSelector(rule.selector)) rules.push(rule);
-  }
+  for (const { text } of sheets)
+    for (const rule of splitRules(descopeCss(text))) {
+      if (isTokenDefSelector(rule.selector) || seen.has(rule.text)) continue;
+      seen.add(rule.text); // identical rule text is idempotent — the first wins
+      rules.push(rule);
+    }
   return rules;
 }
 
@@ -84,8 +101,15 @@ async function runApply(page, ops) {
     if (op.click) await page.click(op.click);
     else if (op.fill) await page.fill(op.fill[0], op.fill[1]);
     else if (op.clear) await page.fill(op.clear, '');
-    else if (op.clickText)
-      await page.locator(op.clickText[0]).getByRole('button', { name: op.clickText[1] }).first().click();
+    else if (op.clickText) {
+      // Optional third element is the ARIA role, defaulting to button. Segmented
+      // legos (esa-button-toggle) render role="radio", so a button-only lookup
+      // never finds them — and their controls live in shadow DOM, which the
+      // inspector's DOM twin has to pierce explicitly. Two-element recipes are
+      // unchanged.
+      const [sel, name, role = 'button'] = op.clickText;
+      await page.locator(sel).getByRole(role, { name }).first().click();
+    }
     else if (op.key) await page.keyboard.press(op.key);
     await page.waitForTimeout(80);
   }
@@ -112,37 +136,58 @@ const READ_SECTION = ({ sel }) => {
  * empty / people / projects results) are real, distinct captures, not one snapshot.
  *
  * A section reaches its state via `apply` — a serializable op recipe (click / fill
- * / clear / clickText / key) replayed after a fresh load. Each state gets its own
- * CSS-coverage pass, so the captured styles match that state exactly. The same
- * recipe ships in the manifest and drives the live app from the inspector.
+ * / clear / clickText / key) replayed after a fresh load. The same recipe ships in
+ * the manifest and drives the live app from the inspector.
  *
+ * Takes a browser rather than launching one: a full run captures dozens of routes,
+ * and a cold Chromium start per route was the single largest cost in the pipeline —
+ * punishing on slower hardware most of all. Each call still gets its own context,
+ * so concurrent captures can't see each other's storage or navigation.
+ *
+ * @param {import('playwright').Browser} browser
  * @param {string} baseUrl
  * @param {{label:string, selector:string, apply?:object[]}[]} specSections
  * @param {{semantic:Set,primitive:Set,component:Set}} tierIndex
  * @param {(names:string[],values:object,index:object)=>{contract:any[]}} classifyTokens
  * @returns {Promise<{theme:string|null, sections:any[]}>}
  */
-export async function captureCurated(baseUrl, specSections, tierIndex, classifyTokens) {
-  const browser = await chromium.launch();
-  const page = await browser.newPage();
+export async function captureCurated(browser, baseUrl, specSections, tierIndex, classifyTokens) {
+  const context = await browser.newContext();
+  try {
+    return await captureIn(context, baseUrl, specSections, tierIndex, classifyTokens);
+  } finally {
+    await context.close();
+  }
+}
+
+async function captureIn(context, baseUrl, specSections, tierIndex, classifyTokens) {
+  const page = await context.newPage();
   const client = await page.context().newCDPSession(page);
   await client.send('DOM.enable');
   await client.send('CSS.enable');
 
+  // Chrome announces every stylesheet it parses; collect the headers per navigation.
+  let headers = [];
+  client.on('CSS.styleSheetAdded', ({ header }) => headers.push(header));
+
+  // Captures run concurrently, so per-section progress is collected and returned
+  // for the caller to print as one block rather than interleaved with other routes'.
+  const logs = [];
   const sections = [];
   for (const spec of specSections) {
-    // Fresh load per section, then replay its recipe — each state is independent,
-    // with its own coverage pass so the captured CSS matches that exact state.
-    await client.send('CSS.startRuleUsageTracking');
+    // Fresh load per section, then replay its recipe — each state is independent.
+    headers = [];
     await page.goto(baseUrl, { waitUntil: 'networkidle' });
     await runApply(page, spec.apply);
-    await page.waitForTimeout(200); // let the post-recipe render settle
-    const { ruleUsage } = await client.send('CSS.stopRuleUsageTracking');
-    const rules = await usedRules(client, ruleUsage);
+    // Settles the DOM the recipe just drove. Unlike the coverage pass this replaced,
+    // the CAPTURED CSS no longer depends on this landing in time — only the markup
+    // does, and that is settled once the recipe's handlers have run.
+    await page.waitForTimeout(200);
+    const rules = await allRules(client, headers);
 
     const cap = await page.evaluate(READ_SECTION, { sel: spec.selector });
     if (!cap) {
-      console.warn(`  ! selector not found, skipping "${spec.label}" (${spec.selector})`);
+      logs.push(`  ! selector not found, skipping "${spec.label}" (${spec.selector})`);
       continue;
     }
 
@@ -155,7 +200,7 @@ export async function captureCurated(baseUrl, specSections, tierIndex, classifyT
     const tokenNames = [...new Set([...css.matchAll(/var\(\s*(--[\w-]+)/g)].map((m) => m[1]))].sort();
     const tokens = classifyTokens(tokenNames, cap.values, tierIndex).contract;
 
-    console.log(`  · ${spec.label}: ${cap.html.length}b html, ${tokens.length} tokens`);
+    logs.push(`  · ${spec.label}: ${cap.html.length}b html, ${tokens.length} tokens`);
     sections.push({
       label: spec.label,
       tag: cap.tag,
@@ -166,6 +211,9 @@ export async function captureCurated(baseUrl, specSections, tierIndex, classifyT
   }
 
   const theme = await page.evaluate(() => document.documentElement.getAttribute('data-theme'));
-  await browser.close();
-  return { theme, sections };
+  return { theme, sections, logs };
 }
+
+// One browser for a whole run. Callers own the lifecycle so a batch of captures
+// shares a single Chromium start.
+export const launchBrowser = () => chromium.launch();

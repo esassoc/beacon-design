@@ -15,7 +15,9 @@
 interface Token { name: string; value: string; tier: string }
 interface Guide { intent?: string; decisions?: string[]; gotchas?: string[]; acceptance?: string[] }
 interface ApplyOp {
-  click?: string; fill?: [string, string]; clear?: string; clickText?: [string, string]; key?: string;
+  // clickText: [containerSelector, visibleText, ariaRole?] — role defaults to button.
+  click?: string; fill?: [string, string]; clear?: string;
+  clickText?: [string, string] | [string, string, string]; key?: string;
 }
 interface Section {
   index?: number; label: string; tag?: string; selector?: string; apply?: ApplyOp[];
@@ -38,9 +40,14 @@ function runApplyDom(ops?: ApplyOp[]) {
     else if (op.fill) setInput(op.fill[0], op.fill[1]);
     else if (op.clear) setInput(op.clear, '');
     else if (op.clickText) {
-      const c = document.querySelector(op.clickText[0]);
-      [...(c?.querySelectorAll('button') ?? [])]
-        .find((b) => b.textContent?.trim().includes(op.clickText![1]))
+      const [sel, text, role] = op.clickText;
+      const host = document.querySelector(sel);
+      // esa-* legos render their controls inside a shadow root, which querySelectorAll
+      // on the host cannot see — look there first, fall back to light DOM.
+      const scope: ParentNode | null = host?.shadowRoot ?? host;
+      const q = role ? `[role="${role}"]` : 'button';
+      [...(scope?.querySelectorAll<HTMLElement>(q) ?? [])]
+        .find((b) => b.textContent?.trim().includes(text))
         ?.click();
     } else if (op.key) document.dispatchEvent(new KeyboardEvent('keydown', { key: op.key, bubbles: true }));
   }

@@ -15,7 +15,10 @@ import { readFileSync, existsSync, mkdirSync, writeFileSync, rmSync } from 'node
 import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { setTimeout as sleep } from 'node:timers/promises';
-import { captureCurated } from './lib/capture-curated.mjs';
+import { dirname } from 'node:path';
+import { cpus } from 'node:os';
+import { captureCurated, launchBrowser } from './lib/capture-curated.mjs';
+import { routeKey, globalFingerprint } from './lib/route-deps.mjs';
 
 const PORT = 4399;
 const BASE = '/beacon-design/'; // production base — must match astro.config.mjs
@@ -53,7 +56,9 @@ if (!targets.length) {
 // capture runs against the production preview), but it skips ~40 browser captures and
 // keeps the diff to the routes you actually changed. Unknown slugs FAIL rather than
 // silently capturing nothing.
-const only = process.argv.slice(2);
+const argv = process.argv.slice(2);
+const CHANGED_ONLY = argv.includes('--changed');
+const only = argv.filter((a) => !a.startsWith('--'));
 if (only.length) {
   const known = new Set(targets.map((t) => t.slug));
   const unknown = only.filter((s) => !known.has(s));
@@ -77,6 +82,41 @@ const run = (cmd, args, extraEnv = {}) => {
   if (r.error) throw r.error;
   if (r.status !== 0) throw new Error(`${cmd} ${args.join(' ')} → exit ${r.status}`);
 };
+
+// Same contract as run(), but awaitable so several can be in flight at once.
+const runAsync = (cmd, args, extraEnv = {}) =>
+  new Promise((resolve, reject) => {
+    const p = spawn(cmd, args, { stdio: 'inherit', shell: WIN_SHELL, env: { ...process.env, ...extraEnv } });
+    p.on('error', reject);
+    p.on('close', (code) =>
+      code === 0 ? resolve() : reject(new Error(`${cmd} ${args.join(' ')} → exit ${code}`))
+    );
+  });
+
+// Captures are independent — nothing downstream of one feeds another — so they run
+// concurrently. Leave headroom: each worker drives a browser context (or, for the
+// fallback path, a whole child process), and saturating every core makes the page
+// itself render slower, which is the one thing this pipeline is sensitive to.
+const CONCURRENCY = Math.max(1, Math.min(6, (cpus().length || 4) - 2));
+
+async function pool(items, limit, worker) {
+  const results = new Array(items.length);
+  let next = 0;
+  await Promise.all(
+    Array.from({ length: Math.min(limit, items.length) }, async () => {
+      for (let i = next++; i < items.length; i = next++) {
+        try {
+          results[i] = { ok: true, value: await worker(items[i]) };
+        } catch (err) {
+          // One bad route must not cost the other 34 their captures — collect and
+          // carry on, then fail the run at the end with everything that broke.
+          results[i] = { ok: false, err };
+        }
+      }
+    })
+  );
+  return results;
+}
 async function waitForServer(url, tries = 60) {
   for (let i = 0; i < tries; i++) {
     try {
@@ -147,6 +187,38 @@ function writeCuratedBundle(dirSlug, name, url, theme, sections) {
 // `slug` is only our spec-file key; the route is the source of truth for the dir name.
 const bundleSlug = (route) => route.replace(/^\/+|\/+$/g, '').replace(/\//g, '-');
 
+// --- change detection ---------------------------------------------------------
+// Keys record the inputs each bundle was last built from. A route whose key still
+// matches cannot produce different output — captures are deterministic now, which
+// is what makes skipping them safe. Before that, every run rewrote every bundle
+// regardless, so "unchanged" was not an observable state.
+const CACHE = root('node_modules/.cache/handoff-keys.json');
+const readCache = () => {
+  try {
+    return JSON.parse(readFileSync(CACHE, 'utf8'));
+  } catch {
+    return {};
+  }
+};
+const cache = readCache();
+const fingerprint = globalFingerprint();
+const keyFor = (t) => routeKey({ route: t.route, specPath: root(`src/data/handoff/${t.slug}.mjs`) }, fingerprint);
+
+if (CHANGED_ONLY) {
+  const before = targets.length;
+  targets = targets.filter((t) => {
+    // A bundle can also be missing outright — manifests are gitignored, so a fresh
+    // clone has keys for nothing and correctly captures everything.
+    const built = existsSync(root(`public/handoff/${bundleSlug(t.route)}/manifest.json`));
+    return !built || cache[t.slug] !== keyFor(t);
+  });
+  console.log(`handoff — ${targets.length} of ${before} route(s) changed since last capture`);
+  if (!targets.length) {
+    console.log('handoff — nothing to do.');
+    process.exit(0);
+  }
+}
+
 // ------------------------------------------------------------------------------
 console.log(`handoff:all — ${targets.length} route(s): ${targets.map((t) => t.slug).join(', ')}`);
 run('npx', ['astro', 'build'], { NODE_ENV: 'production' });
@@ -157,18 +229,31 @@ const preview = spawn('npx', ['astro', 'preview', '--port', String(PORT)], {
   shell: WIN_SHELL,
 });
 
+// One Chromium for every curated capture in the run. Launching per route was the
+// pipeline's largest single cost, and cold-start is exactly what slow machines
+// punish hardest. The whole-page fallback still shells out to the hub CLI, which
+// owns its own browser — see the ledger.
+const browser = await launchBrowser();
+let results;
 try {
   await waitForServer(`${ORIGIN}${BASE}`);
-  for (const { slug, route } of targets) {
+  console.log(`handoff:all — capturing ${targets.length} route(s), ${CONCURRENCY} at a time\n`);
+
+  results = await pool(targets, CONCURRENCY, async ({ slug, route }) => {
     const url = `${ORIGIN}${BASE}${route.replace(/^\/+|\/+$/g, '')}/`;
     const dirSlug = bundleSlug(route); // what the inspector will look for at runtime
     const specPath = root(`src/data/handoff/${slug}.mjs`);
 
     if (existsSync(specPath)) {
-      console.log(`\nhandoff:all — capturing ${slug} (curated)  →  ${url}`);
       // A raw Windows path (C:\...) isn't a valid ESM specifier — import() needs a file:// URL there.
       const spec = (await import(pathToFileURL(specPath).href)).default;
-      const { theme, sections } = await captureCurated(url, spec.sections, tierIndex, classifyTokens);
+      const { theme, sections, logs } = await captureCurated(
+        browser,
+        url,
+        spec.sections,
+        tierIndex,
+        classifyTokens
+      );
       // Merge authored guidance onto each captured section by label.
       const byLabel = new Map(spec.sections.map((s) => [s.label, s]));
       for (const s of sections) {
@@ -177,14 +262,42 @@ try {
         s.apply = spc.apply; // recipe the inspector replays to drive the live app
         s.guide = guideOf(spc);
       }
+      // Print as one block — workers interleave, so streaming would shuffle routes.
+      console.log([`${slug} (curated) → ${url}`, ...logs].join('\n'));
       writeCuratedBundle(dirSlug, slug, url, theme, sections);
     } else {
-      console.log(`\nhandoff:all — capturing ${slug} (whole-page fallback)  →  ${url}`);
-      run('node', ['node_modules/@esa/handoff/bin/handoff.mjs', url, '--name', dirSlug, '--out', 'public/handoff']);
+      console.log(`${slug} (whole-page fallback) → ${url}`);
+      await runAsync('node', [
+        'node_modules/@esa/handoff/bin/handoff.mjs',
+        url,
+        '--name',
+        dirSlug,
+        '--out',
+        'public/handoff',
+      ]);
     }
-  }
+    return slug;
+  });
 } finally {
+  await browser.close();
   preview.kill();
 }
 
-console.log('\nhandoff:all — done. Bundles in public/handoff/. Run `npm run deploy` to publish.');
+// Record keys only for routes that actually captured. A failed route keeps its old
+// key (or none), so the next --changed run retries it instead of assuming it is done.
+mkdirSync(dirname(CACHE), { recursive: true });
+targets.forEach((t, i) => {
+  if (results[i].ok) cache[t.slug] = keyFor(t);
+});
+writeFileSync(CACHE, JSON.stringify(cache, null, 2));
+
+const failed = targets.filter((_, i) => !results[i].ok);
+if (failed.length) {
+  console.error(`\nhandoff:all — ${failed.length} of ${targets.length} route(s) FAILED:`);
+  for (const [i, t] of targets.entries())
+    if (!results[i].ok) console.error(`  ✗ ${t.slug}: ${results[i].err.message}`);
+  console.error('The other bundles were written — rerun with just the failed slugs to retry.');
+  process.exit(1);
+}
+
+console.log(`\nhandoff:all — done, ${targets.length} bundle(s) in public/handoff/.`);
