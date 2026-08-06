@@ -1,0 +1,349 @@
+---
+// <BcnEvidenceStaging> — the LEFT half of the evidence drawer: the evidence you are about
+// to attach. Top to bottom:
+//   · SEARCH existing evidence — level with the Actions column's search, so both halves of
+//     the workspace open the same way and the eye reads straight across.
+//   · The STAGED list — whatever you have chosen, from either source, in one card shape.
+//   · The DROPZONE, pinned to the bottom — adding something new is the last stop down, and
+//     it never scrolls out of reach.
+//
+// An earlier pass put these behind an Upload-new / Use-existing toggle. Both are now
+// always present: they are two ways to answer the same question ("what am I filing?"), and
+// making the user declare which one first was a mode where none was needed.
+//
+// THE FILE / EVIDENCE HAND-WAVE. A file is not an Evidence of Compliance; a file goes
+// into an EOC container that can hold several. That distinction is real in the data model
+// and useless to the person doing the work, so this panel hides it the same way Beacon
+// already hides action vs. action implementation: one CARD is "one piece of evidence", and
+// the container is never named anywhere in the UI. Drop three files together and they
+// arrive as one card; drop a fourth later and it is its own card.
+//
+// The grouping is SHOWN, never narrated. An earlier pass carried a "Kept together as one
+// item / Separate" line on every card and a hint under the dropzone; both were cut. The
+// card already demonstrates the rule by being one card with three files in it — saying so
+// as well only draws attention to the seam we are trying to make invisible. If splitting
+// or merging turns out to be a real need, it belongs on the card's actions, not in prose.
+//
+// Every card is pre-rendered from the fixture and hidden; the drawer's client script shows
+// the ones a given entry preset stages. Astro is compile-time, so pre-render-and-toggle is
+// the same strategy BcnGuidanceDrawer uses for its article pool.
+//
+// bcn-lego-checked: esa-file-upload IS the dropzone (checked first — it is exactly the
+// drag/drop + browse + size-validation control this needs, and the cautionary table names
+// hand-rolled dropzones specifically);
+// esa-card is every staged card's chrome; esa-file-list renders the files inside a card;
+// esa-combobox is the existing-record picker; esa-icon-button is remove;
+// esa-empty-state is the nothing-staged state. Checked Ecology for a
+// "staged upload group" component and Beacon prod for an equivalent (the closest is the
+// per-action evidence list, which BcnEvidenceList already ports) — neither has one, because
+// the grouping semantics are specific to this drawer. bcn-evidence-staging is the reusable
+// home; its own CSS is the panel frame plus the card's meta rows.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaPill from '@esa/ecology/esa-pill.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import BcnEvidenceSearch from './BcnEvidenceSearch.astro';
+import { STAGED_ITEMS, EXISTING_ITEMS } from '../../data/evidence-drawer';
+import { scopeIcon } from '../../data/global-search';
+
+const ALL_ITEMS = [...STAGED_ITEMS, ...EXISTING_ITEMS];
+---
+
+<section class="bcn-ev-staging" aria-labelledby="bcn-ev-staging-title">
+  <header class="bcn-ev-staging__head">
+    <h3 class="bcn-ev-staging__title" id="bcn-ev-staging-title">
+      <EsaIcon name="paperclip" paths={scopeIcon('evidence')} size="sm" />
+      Evidence
+    </h3>
+  </header>
+
+  <!-- Search sits at the top, level with the Actions column's search: both halves of the
+       workspace start the same way — "find the thing" — and the eye reads across. -->
+  <div class="bcn-ev-staging__search">
+    <BcnEvidenceSearch
+      hook="existing"
+      label="Search evidence already in Beacon"
+      placeholder="Search evidence already in Beacon"
+    />
+  </div>
+
+  <div class="bcn-ev-staging__scroll">
+    <!-- ── Staged cards (pre-rendered pool; the script reveals the staged ones) ── -->
+    <ul class="bcn-ev-staging__list" data-staging-list>
+      {ALL_ITEMS.map((item) => (
+        <li class="bcn-ev-staging__item" data-staging-item={item.id} data-origin={item.origin} hidden>
+          <EsaCard padding="compact" variant="outlined">
+            <div class="bcn-ev-card">
+              <span class="bcn-ev-card__glyph" aria-hidden="true">
+                <EsaIcon name="paperclip" paths={scopeIcon('evidence')} size="sm" />
+              </span>
+              <div class="bcn-ev-card__body">
+              <div class="bcn-ev-card__top">
+                <p class="bcn-ev-card__title">{item.title}</p>
+                <span class="bcn-ev-card__count">
+                  {item.files.length === 1 ? '1 file' : `${item.files.length} files`}
+                </span>
+                <span class="bcn-ev-card__remove" data-staging-remove={item.id}>
+                  <EsaIconButton icon="x" label={`Remove ${item.title}`} size="sm" />
+                </span>
+              </div>
+              <ul class="bcn-ev-card__files">
+                {item.files.map((f) => (
+                  <li>
+                    <EsaPill label={f.name} size="sm" removable={false} />
+                  </li>
+                ))}
+              </ul>
+              </div>
+            </div>
+          </EsaCard>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Nothing staged yet. -->
+    <div class="bcn-ev-staging__empty" data-staging-empty>
+      <EsaEmptyState
+        title="Nothing added yet"
+        description="Search above for evidence already in Beacon, or drop a file below."
+        size="sm"
+      />
+    </div>
+  </div>
+
+  <!-- The dropzone anchors the bottom of the column: search finds what exists, the list
+       holds what you have chosen, and adding something NEW is the last thing on the way
+       down. Pinned rather than scrolled, so it is always a target.
+       Collapsible, and OPEN by default — collapsing is for reclaiming room once you have
+       staged a lot, not a state anyone should have to discover the uploader from. The
+       controller re-opens it on every drawer open, and on a file drag entering the drawer
+       (see evidence-drawer.ts) so a collapsed panel can never swallow a drop. -->
+  <div class="bcn-ev-staging__drop" data-staging-upload>
+    <EsaCollapsible title="Upload Evidence" icon="upload" open flush>
+      <esa-file-upload
+        label="Drop files here, or browse"
+        multiple
+        max-size-mb={50}
+        data-staging-dropzone></esa-file-upload>
+    </EsaCollapsible>
+  </div>
+</section>
+
+<style>
+  /* Panel frame — a column that owns its own scroll so the drawer's footprint never moves. */
+  .bcn-ev-staging {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    height: 100%;
+    background: var(--color-surface);
+  }
+  /* min-height is load-bearing: the Actions header is taller because it carries a button,
+     and the two searches below only read as one row if BOTH headers resolve to the same
+     box. Keep this value in sync with .bcn-ev-targets__head. */
+  .bcn-ev-staging__head {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+    min-height: 60px;
+    padding: var(--spacing-350, 0.875rem) var(--spacing-400);
+  }
+  /* A section header INSIDE a drawer, one step under the drawer title — the same tier the
+     work-area drawers use for their in-drawer section headings. */
+  .bcn-ev-staging__title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin: 0;
+    font-size: var(--type-size-250);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.25;
+    color: var(--color-text-primary);
+  }
+  /* The glyph is subordinate to its heading — quieter tone, and it marks the section, not
+     any item inside it. */
+  .bcn-ev-staging__title :global(.esa-icon) {
+    flex: none;
+    color: var(--color-text-tertiary);
+  }
+  /* Mirrors .bcn-ev-targets__search so the two search fields sit on one line — the top
+     value must stay identical in both, or the fields drift apart. */
+  .bcn-ev-staging__search {
+    flex: none;
+    padding: 0 var(--spacing-400);
+  }
+
+  /* The search belongs to the header, not the list: no gap above it, a clear one below.
+     Keep the top padding in sync with .bcn-ev-targets__scroll. */
+  .bcn-ev-staging__scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: var(--spacing-400) var(--spacing-400) var(--spacing-400);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+
+  /* Pinned to the bottom of the column — never scrolls away. A sunken panel that runs the
+     FULL column width: no padding on this box, so the tone reaches both edges and the
+     region reads as a distinct place rather than a floating card. The inset lives on the
+     disclosure's own rows instead. */
+  .bcn-ev-staging__drop {
+    flex: none;
+    padding: 0;
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+  }
+  /* The disclosure runs flush (no card chrome) — the dropzone inside already draws its own
+     dashed edge, and nesting that in a bordered card is two boxes for one control. But
+     flush also ZEROES the horizontal padding, and we still want the panel's contents on
+     the column's gutter (level with the search field and the staged cards above) while the
+     panel's own background runs edge to edge.
+     The long selector is deliberate: Astro scopes every compound in the lego's own style
+     block, so `.esa-collapsible--flush > .esa-collapsible__summary` lands at (0,4,0) and a
+     simple descendant rule here loses to it. Naming both classes clears it honestly —
+     `--collapsible-padding-x` is not an option because flush hardcodes past the hook. */
+  .bcn-ev-staging__drop :global(.esa-collapsible.esa-collapsible--flush > .esa-collapsible__summary),
+  .bcn-ev-staging__drop :global(.esa-collapsible.esa-collapsible--flush > .esa-collapsible__body) {
+    padding-inline: var(--spacing-400);
+  }
+  /* Tighter than the lego default so the collapsed state is a slim bar, not a block.
+     The BAR keeps the column's light surface — the dropzone's own dashed edge below is the
+     only line the panel needs, so the bar carries no rule of its own. The panel's top
+     border already separates it from the scrolling list. */
+  .bcn-ev-staging__drop :global(.esa-collapsible__summary) {
+    padding-block: var(--spacing-350, 0.875rem);
+    background: var(--color-surface);
+  }
+  .bcn-ev-staging__drop :global(.esa-collapsible__body) {
+    padding-block: var(--spacing-300);
+  }
+  /* The tone belongs to the DROP TARGET itself, nothing around it: it is what tells you
+     where to let go, so it stops exactly at the dashed edge. Neutral gray, per the house
+     rule that containers stay neutral — a green fill was tried and read as brand colour on
+     a container rather than a state. */
+  .bcn-ev-staging__drop esa-file-upload {
+    --form-bg: var(--color-surface-sunken);
+  }
+  .bcn-ev-staging__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-ev-staging__list:not(:has(> li:not([hidden]))) {
+    display: none;
+  }
+  .bcn-ev-staging__item[hidden] {
+    display: none;
+  }
+  /* The empty state hides as soon as anything is staged. */
+  .bcn-ev-staging__empty[hidden] {
+    display: none;
+  }
+
+  /* ── A staged card — a title line and a row of file pills, nothing else.
+     A staged item is something you have already decided on; the list's job is to let you
+     confirm what is in it and drop what should not be, not to display the record. The
+     description and the per-file sizes were cut for that reason. The count rides beside
+     the title in lighter text so the heading answers "how much is in here" without a
+     second line, and the files themselves are pills. ── */
+  .bcn-ev-card {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-300);
+  }
+  /* Circular tinted glyph leading the card — ported from permit-tracking's .exec__kpi-icon
+     (32px, --radius-full, a color-mix tint of the subject colour with a matching glyph).
+     Same geometry and same tint recipe, pointed at the evidence entity's own colour so the
+     card carries the entity, not a decoration. */
+  .bcn-ev-card__glyph {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+    color: var(--color-primary);
+  }
+  .bcn-ev-card__body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+  }
+  /* Centre, not baseline: the pill is a box, not text, so baseline-aligning it hangs it
+     low against the title. Everything on this row centres on the row instead. */
+  .bcn-ev-card__top {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+  }
+  .bcn-ev-card__title {
+    min-width: 0;
+    margin: 0;
+    font-size: var(--type-size-200, 0.9375rem);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.35;
+    color: var(--color-text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  /* Quiet italic beside the title — a quantity, not a name, and deliberately NOT a pill:
+     the pills below are the files themselves, so giving the count that same shape made it
+     read as one of them. */
+  .bcn-ev-card__count {
+    flex: none;
+    margin-right: auto;
+    font-size: var(--type-size-150, 0.875rem);
+    font-style: italic;
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+  }
+  .bcn-ev-card__remove {
+    flex: none;
+    color: var(--color-text-tertiary);
+  }
+
+  /* The files as pills. A bullet-separated run was tried and read as one long string —
+     these names are all near-identical prefixes and dates, so the eye needs the pill
+     boundary to tell where one ends and the next begins. They wrap, so a many-file item
+     grows by a row rather than by a line per file. */
+  .bcn-ev-card__files {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-150);
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+  }
+  /* Long file names must not force the card wider than its column. */
+  .bcn-ev-card__files :global(.esa-pill) {
+    max-width: 100%;
+  }
+  .bcn-ev-card__files :global(.esa-pill__label) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* esa-file-upload fills the panel width. */
+  .bcn-ev-staging esa-file-upload {
+    display: block;
+  }
+  .bcn-ev-staging esa-combobox {
+    display: block;
+  }
+</style>

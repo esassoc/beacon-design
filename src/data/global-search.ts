@@ -95,6 +95,16 @@ export const SCOPES: SearchScope[] = [
   },
 ];
 
+/**
+ * The committed glyph for an entity type, by scope id — e.g. scopeIcon('evidence') is the
+ * paperclip the palette and the search page already show for Evidence of Compliance.
+ *
+ * SCOPES is the spoke's one place where each Beacon entity has a settled icon, so any
+ * other surface that needs to mark an entity reads it from here rather than choosing its
+ * own. Returns inner Lucide markup for esa-icon's `paths`, or '' for an unknown id.
+ */
+export const scopeIcon = (id: string): string => SCOPES.find((s) => s.id === id)?.icon ?? '';
+
 // Route constants — every result lands on a real prototype surface.
 const R = {
   sourceDoc: '/prototypes/data-catalog-source-document',

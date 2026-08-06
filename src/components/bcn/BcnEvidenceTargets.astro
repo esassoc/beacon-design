@@ -1,0 +1,372 @@
+---
+// <BcnEvidenceTargets> — the RIGHT half of the evidence drawer: the actions the staged
+// evidence will be stamped onto.
+//
+// ONE LIST, TWO SOURCES. Rows you searched for and rows the match utility proposed live in
+// the SAME list — Andrew was explicit that suggestions should not sit in a separate panel
+// you promote from. A proposed row is marked "Suggested" with the one-line reason it was
+// picked, and keeping it drops the marker; dismissing it removes it. That is the whole
+// "suggests / approves" contract, made reviewable: you can see why a row is here and
+// disagree with it.
+//
+// SCOPE IS ABSOLUTE. The list only ever contains actions in the drawer's active component.
+// Cross-component association is not a thing you can do by accident here, because nothing
+// from another component is reachable. Changing the component in the drawer header reloads
+// this side.
+//
+// LESS CERTAIN. The second confidence tier lives in a collapsed group under the list, not
+// in it — visible if you want it, out of the way if you don't. Promoting a row moves it up
+// into the main list.
+//
+// VOCABULARY. "Actions", never "implementations" (prod hides that distinction). "Find
+// matches", "Suggested", "Less certain" — never "AI", no persona, no sparkle glyphs. The
+// utility is plumbing, and it is styled like plumbing.
+//
+// WHY THE CODE CHIP IS NOT COLOUR-CODED BY ACTION TYPE. It was tried. Beacon colour-codes
+// by ENTITY, not by flavour: the theme ships one four-colour entity ramp (--color-source →
+// --color-commitment → --color-requirement → --color-action, ported verbatim from prod's
+// Setup Wizard), and BcnCommitmentBadge exists specifically so every surface showing a
+// commitment code renders the SAME chip in the commitment colour. Tinting these by
+// monitoring / tracking / reporting would put a second, conflicting meaning on the one
+// element that already has a settled one, and would break the cross-surface match with the
+// modules, the timeline popovers and the tracker rows. Frequency and period stay plain
+// meta text for the same reason — they are descriptive, not stateful, and Beacon reserves
+// coloured chips for entity identity (BcnCommitmentBadge) and status (BcnStatusChip).
+//
+// Every row for every component is pre-rendered and hidden; the client script reveals the
+// ones in scope and in the list. Astro is compile-time, so this is the same
+// pre-render-and-toggle strategy BcnGuidanceDrawer uses.
+//
+// bcn-lego-checked: esa-combobox IS the action search (checked first — autocomplete with
+// in-panel filtering and multi-select is exactly its job); esa-button drives Find matches;
+// esa-collapsible is the Less-certain group; esa-icon-button is dismiss/promote; esa-badge
+// is the quiet 4px "Suggested" marker and the code chip; esa-empty-state is the
+// nothing-selected state; esa-loading-spinner is the working state. Checked Ecology for a
+// "selected records" list component and Beacon prod for an equivalent — neither exists;
+// prod's association UI is the per-action evidence panel, which is the surface this replaces.
+// bcn-evidence-targets is the reusable home; its own CSS is the panel frame and the row.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
+import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import BcnEvidenceSearch from './BcnEvidenceSearch.astro';
+import { ACTIONS, FREQUENCY_LABEL } from '../../data/evidence-drawer';
+import { scopeIcon } from '../../data/global-search';
+---
+
+<section class="bcn-ev-targets" aria-labelledby="bcn-ev-targets-title">
+  <header class="bcn-ev-targets__head">
+    <div class="bcn-ev-targets__headline">
+      <h3 class="bcn-ev-targets__title" id="bcn-ev-targets-title">
+        <EsaIcon name="square-check-big" paths={scopeIcon('actions')} size="sm" />
+        Actions
+      </h3>
+      <p class="bcn-ev-targets__scope type-body-small">
+        in <strong data-targets-scope>—</strong>
+      </p>
+    </div>
+    <span class="bcn-ev-targets__find" data-targets-find>
+      <EsaButton color="ghost" appearance="outline" size="sm">Find matches</EsaButton>
+    </span>
+  </header>
+
+  <div class="bcn-ev-targets__search">
+    <BcnEvidenceSearch
+      hook="targets"
+      label="Search actions in this component"
+      placeholder="Search actions in this component"
+    />
+  </div>
+
+  <div class="bcn-ev-targets__scroll">
+    <!-- Working state for Find matches — replaced by rows the moment it resolves. -->
+    <div class="bcn-ev-targets__working" data-targets-working hidden>
+      <EsaLoadingSpinner size="sm" />
+      <span class="type-body-small">Reading the evidence and checking actions in this component…</span>
+    </div>
+
+    <!-- Find matches must never finish silently. A utility that runs and then does nothing
+         visible reads as broken, and the two ways it legitimately finds nothing — no
+         evidence staged, and nothing new in scope — are different answers that deserve
+         different sentences. -->
+    <p class="bcn-ev-targets__notice type-body-small" data-targets-notice hidden></p>
+
+    <!-- The one list: searched rows and suggested rows together. -->
+    <ul class="bcn-ev-targets__list" data-targets-list>
+      {ACTIONS.map((a) => (
+        <li
+          class="bcn-ev-targets__item"
+          data-target-row={a.id}
+          data-component={a.componentId}
+          data-tier="manual"
+          hidden
+        >
+          <EsaCard padding="compact" variant="outlined">
+            <div class="bcn-ev-row">
+              <span class="bcn-ev-row__code"><BcnCommitmentBadge code={a.code} size="sm" /></span>
+              <div class="bcn-ev-row__main">
+                <p class="bcn-ev-row__name">{a.name}</p>
+                <p class="bcn-ev-row__meta type-body-small">
+                  {FREQUENCY_LABEL[a.frequency]} · {a.period} ·{' '}
+                  {a.evidenceCount === 0
+                    ? 'No evidence yet'
+                    : a.evidenceCount === 1
+                      ? '1 piece of evidence'
+                      : `${a.evidenceCount} pieces of evidence`}
+                </p>
+                <p class="bcn-ev-row__why type-body-small" data-target-why hidden></p>
+              </div>
+              <div class="bcn-ev-row__side">
+                <span class="bcn-ev-row__mark" data-target-mark hidden>
+                  <EsaBadge value="Suggested" size="sm" />
+                </span>
+                <span class="bcn-ev-row__dismiss" data-target-dismiss={a.id}>
+                  <EsaIconButton icon="x" label={`Remove ${a.name}`} size="sm" />
+                </span>
+              </div>
+            </div>
+          </EsaCard>
+        </li>
+      ))}
+    </ul>
+
+    <!-- Nothing on the list yet. -->
+    <div class="bcn-ev-targets__empty" data-targets-empty>
+      <EsaEmptyState
+        title="No actions selected"
+        description="Search above to add one, or run Find matches once you have added evidence."
+        size="sm"
+      />
+    </div>
+
+    <!-- Tier two: shown only after Find matches has run and found some. -->
+    <div class="bcn-ev-targets__maybe" data-targets-maybe hidden>
+      <EsaCollapsible title="Less certain" flush>
+        <p class="bcn-ev-targets__maybelede type-body-small" data-targets-maybecount></p>
+        <ul class="bcn-ev-targets__maybelist" data-targets-maybelist>
+          {ACTIONS.map((a) => (
+            <li class="bcn-ev-targets__item" data-maybe-row={a.id} hidden>
+              <EsaCard padding="compact" variant="outlined">
+              <div class="bcn-ev-row bcn-ev-row--maybe">
+              <span class="bcn-ev-row__code"><BcnCommitmentBadge code={a.code} size="sm" /></span>
+              <div class="bcn-ev-row__main">
+                <p class="bcn-ev-row__name">{a.name}</p>
+                <p class="bcn-ev-row__why type-body-small" data-maybe-why></p>
+              </div>
+              <div class="bcn-ev-row__side">
+                <span data-maybe-add={a.id}>
+                  <EsaButton color="ghost" appearance="outline" size="sm">Add</EsaButton>
+                </span>
+              </div>
+              </div>
+              </EsaCard>
+            </li>
+          ))}
+        </ul>
+      </EsaCollapsible>
+    </div>
+  </div>
+
+</section>
+
+<style>
+  .bcn-ev-targets {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    height: 100%;
+    background: var(--color-surface);
+  }
+  /* min-height keeps this level with .bcn-ev-staging__head so the two column searches
+     land on one line. Keep the two values in sync. */
+  .bcn-ev-targets__head {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-300);
+    min-height: 60px;
+    padding: var(--spacing-350, 0.875rem) var(--spacing-400);
+  }
+  .bcn-ev-targets__headline {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-200);
+    min-width: 0;
+  }
+  /* Matches BcnEvidenceStaging's header exactly — the two panels are peers, so their
+     headings must resolve to the same rendered size, not just the same intent. */
+  .bcn-ev-targets__title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    margin: 0;
+    font-size: var(--type-size-250);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.25;
+    color: var(--color-text-primary);
+  }
+  .bcn-ev-targets__title :global(.esa-icon) {
+    flex: none;
+    color: var(--color-text-tertiary);
+  }
+  .bcn-ev-targets__scope {
+    margin: 0;
+    min-width: 0;
+    color: var(--color-text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-ev-targets__scope strong {
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  /* Keep the top value in sync with .bcn-ev-staging__search — the two fields sit on one
+     line across the seam. */
+  .bcn-ev-targets__search {
+    flex: none;
+    padding: 0 var(--spacing-400);
+  }
+
+  /* The search belongs to the header, not the list: no gap above it, a clear one below.
+     Keep the top padding in sync with .bcn-ev-staging__scroll. */
+  .bcn-ev-targets__scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: var(--spacing-400) var(--spacing-400) var(--spacing-400);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+
+  .bcn-ev-targets__working {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-250, 0.625rem);
+    padding: var(--spacing-300);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-200);
+    background: var(--color-background);
+    color: var(--color-text-secondary);
+  }
+  .bcn-ev-targets__working[hidden] {
+    display: none;
+  }
+
+  .bcn-ev-targets__notice {
+    margin: 0;
+    padding: var(--spacing-250, 0.625rem) var(--spacing-300);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-200);
+    background: var(--color-background);
+    color: var(--color-text-secondary);
+  }
+  .bcn-ev-targets__notice[hidden] {
+    display: none;
+  }
+
+  .bcn-ev-targets__maybelede {
+    margin: 0 0 var(--spacing-200);
+    color: var(--color-text-secondary);
+  }
+  /* Same gap as the staged-evidence list on the other side. */
+  .bcn-ev-targets__list,
+  .bcn-ev-targets__maybelist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-ev-targets__list:not(:has(> li:not([hidden]))) {
+    display: none;
+  }
+  .bcn-ev-targets__empty[hidden],
+  .bcn-ev-targets__maybe[hidden] {
+    display: none;
+  }
+
+  /* ── A row, inside a card — same shell as an evidence card on the other side, so the two
+     halves of the workspace read as one thing being joined to another. Cards in a gapped
+     stack, not divider rows: an item you have chosen is an object, and the card edge is
+     what makes it feel selectable and dismissible. ── */
+  .bcn-ev-targets__item[hidden] {
+    display: none;
+  }
+  .bcn-ev-row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-300);
+  }
+  .bcn-ev-row__main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  /* The commitment code leads the row, mirroring the circular glyph that leads an evidence
+     card — both columns open with "what kind of thing is this". It is BcnCommitmentBadge,
+     NOT a locally styled chip: that component was extracted precisely so every surface
+     showing a commitment code renders the same badge (the modules, the timeline popovers,
+     the tracker rows), and its colour is the ENTITY colour. See the component note on why
+     it is not colour-coded by action type. */
+  .bcn-ev-row__code {
+    flex: none;
+    /* Optical: line the chip up with the cap-height of the name beside it. */
+    margin-top: 2px;
+  }
+  /* The suggestion marker — the one thing on the row that says "a machine put this here,
+     check it". Quiet 4px badge, tinted away from the entity colours so it cannot be
+     mistaken for one. */
+  .bcn-ev-row__mark :global(.esa-badge) {
+    --badge-bg: var(--color-info-subtle);
+    --badge-text-color: var(--color-text-primary);
+    border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
+    font-weight: var(--font-weight-medium);
+  }
+  .bcn-ev-row__name {
+    margin: 0;
+    min-width: 0;
+    font-size: var(--type-size-200, 0.9375rem);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.35;
+    color: var(--color-text-primary);
+  }
+  .bcn-ev-row__meta {
+    margin: 0;
+    color: var(--color-text-secondary);
+  }
+  /* The reason a suggested row is here — the reviewable half of "suggests / approves". */
+  .bcn-ev-row__why {
+    margin: 2px 0 0;
+    color: var(--color-text-secondary);
+    font-style: italic;
+  }
+  .bcn-ev-row__why[hidden] {
+    display: none;
+  }
+  .bcn-ev-row__side {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    color: var(--color-text-tertiary);
+  }
+  .bcn-ev-row__mark[hidden] {
+    display: none;
+  }
+  .bcn-ev-row--maybe {
+    align-items: center;
+  }
+
+</style>

@@ -1,0 +1,214 @@
+---
+// <BcnEvidenceDrawer> — "Attach Evidence of Compliance", the global workspace mounted
+// app-wide in the AppShell beside the guidance drawer. Opens from the bottom, covers most
+// of the screen, and joins two things: evidence on the left, actions on the right.
+//
+// The name leads with the VERB and then names the record type in full: a bare "Evidence"
+// would describe a place to look at records, and Beacon has those already (the data
+// catalog, the per-action list). This surface exists to make a CONNECTION, so it is named
+// for the connection — and "of Compliance" is the entity's real name in the product, so
+// the title matches what the rest of the app calls the thing.
+//
+// It is composed, not authored: the bottom-drawer PATTERN is <BcnBottomDrawer> and the two
+// halves are <BcnEvidenceStaging> and <BcnEvidenceTargets>. This file is the shell — the
+// header (title + scope), the split body, and the footer that states the join and commits
+// it.
+//
+// ONE SURFACE, NO TABS. An earlier pass carried a second tab for the monitoring-record
+// triage backlog; it was cut so the drawer does exactly one thing. Triage is a separate
+// question — a queue in the tens is plausibly its own page, not a tab inside a drawer —
+// and it will get designed on its own terms rather than as a lodger here.
+//
+// THE SCOPE PICKER IS THE HEADER'S JOB, not the right panel's. Andrew's model is that the
+// system has ONE active component at a time, remembered across sessions, with no null
+// state — the same fact the monitoring portal and report center already pick per-surface.
+// Putting it in the drawer header says it governs the whole workspace, and the client
+// script persists it to localStorage.
+//
+// Wiring is by data-* hook, composed BLIND against siblings: the bottom bar's
+// [data-evidence-trigger] and any page's [data-evidence-open="<preset>"] open this drawer;
+// neither knows anything about it beyond the hook. Same convention BcnHelpBar uses.
+//
+// bcn-lego-checked: BcnBottomDrawer is the pattern (itself the documented esa-side-dialog
+// gap — left/right only, no height hook); esa-select is the component scope picker;
+// esa-button is the footer commit and cancel. The two panels are their own bcn-*
+// components. Checked Ecology for a split/two-pane layout lego — the `.sidebar` primitive
+// is for a fixed-width aside beside flexible content, not two co-equal scrolling halves
+// with a divider — and Beacon prod, which has no two-pane workspace. bcn-evidence-drawer
+// is the reusable home; its own CSS is the header row, the split, and the footer bar.
+import BcnBottomDrawer from './BcnBottomDrawer.astro';
+import BcnEvidenceStaging from './BcnEvidenceStaging.astro';
+import BcnEvidenceTargets from './BcnEvidenceTargets.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+---
+
+<BcnBottomDrawer id="bcn-evidence-drawer" heading="Attach Evidence of Compliance" showCloseButton={true}>
+  <!-- ── Header: what this is, and what it is scoped to ── -->
+  <div slot="header" class="bcn-ev__head">
+    <h2 class="bcn-ev__title">Attach Evidence of Compliance</h2>
+    <div class="bcn-ev__scope">
+      {/* No visible label — the component name reads as what it is, and the title above
+          already establishes what the drawer is scoped to. aria-label keeps the control
+          named for screen readers now that the visible text is gone. */}
+      <esa-select
+        data-evidence-component
+        size="sm"
+        searchable
+        aria-label="Component this evidence belongs to"></esa-select>
+    </div>
+  </div>
+
+  <!-- ── Body: the two-pane workspace ── -->
+  <div class="bcn-ev__panels">
+    <div class="bcn-ev__pane bcn-ev__pane--left">
+      <BcnEvidenceStaging />
+    </div>
+    <!-- The seam is a 1px grid track — the rule itself, nothing more. The arrow FLOATS on
+         top of it (absolute, centred on the panels box), so it costs the layout no width
+         and either column can run right up to the line. -->
+    <div class="bcn-ev__joint" aria-hidden="true"></div>
+    <span class="bcn-ev__jointmark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
+    </span>
+    <div class="bcn-ev__pane bcn-ev__pane--right">
+      <BcnEvidenceTargets />
+    </div>
+  </div>
+
+  <!-- ── Footer: commit it. The two panels already say what is being joined, so the
+       footer only carries the actions — Attach is enabled once both sides have something. -->
+  <div slot="footer" class="bcn-ev__foot">
+    <div class="bcn-ev__actions">
+      <span data-evidence-attach>
+        <EsaButton color="primary" size="sm" disabled>Attach evidence</EsaButton>
+      </span>
+      <span data-drawer-close>
+        <EsaButton color="ghost" appearance="outline" size="sm">Cancel</EsaButton>
+      </span>
+    </div>
+  </div>
+</BcnBottomDrawer>
+
+<script>
+  // Register the legos this drawer composes (each guards its own define), then hand off
+  // to the controller.
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-combobox';
+  import '@esa/ecology/esa-file-upload';
+  import { initEvidenceDrawer } from './evidence-drawer';
+  initEvidenceDrawer();
+</script>
+
+<style>
+  /* Drawer geometry, and a layer above modals so this can cover an open dialog. Both are
+     hooks BcnBottomDrawer exposes.
+     The brief opened at 90 × 80; this is 96 × 92, because there is genuinely a lot to hold
+     — two scrolling lists side by side, each with its own header, search and footer. What
+     stays behind is the top bar plus a hairline of page, which is all the context the
+     drawer needs to still read as an overlay rather than a route. The footprint is FIXED:
+     it does not grow as you stage evidence or add actions. */
+  :global(#bcn-evidence-drawer) {
+    --bcn-bottom-drawer-width: 96vw;
+    --bcn-bottom-drawer-height: 92vh;
+    --bcn-bottom-drawer-z: 1400;
+  }
+
+  /* ── Header: one row — the drawer does one thing, so it needs one line of chrome. ── */
+  .bcn-ev__head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-500);
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+  /* Drawer title at the house drawer size — --type-size-400 semibold, the same value
+     esa-side-dialog's own .title uses and the same one the guidance drawer and the
+     work-area drawers already carry. NOT the page-title role: this is drawer chrome, not
+     a page, and at --type-size-600 it read like a route heading. */
+  .bcn-ev__title {
+    margin: 0;
+    font-size: var(--type-size-400);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.2;
+    color: var(--color-text-primary);
+  }
+  .bcn-ev__scope {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+  }
+  .bcn-ev__scope esa-select {
+    display: block;
+    min-width: 300px;
+  }
+
+  /* ── Body ── */
+  /* The seam is a 1px TRACK, not a gutter: it costs the columns nothing but the rule, so
+     each panel owns the whole distance to the line and decides its own inset. `relative`
+     is what the floating arrow is positioned against. */
+  .bcn-ev__panels {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+  }
+  .bcn-ev__pane {
+    min-width: 0;
+    min-height: 0;
+  }
+
+  /* The seam itself — the whole 1px track IS the rule. --color-border, not
+     --color-border-light: it meets the header and footer rules BcnBottomDrawer draws, and
+     three edges of the same drawer should be one weight. */
+  .bcn-ev__joint {
+    background: var(--color-border);
+  }
+  /* The join direction, floating over the seam — the drawer's one bit of illustration,
+     because "these two things become one" is the whole feature. Out of flow, so it takes
+     no width from either column; pointer-events:none so it can never eat a click on a row
+     that runs underneath it. Its opaque fill is what punches it through the rule. */
+  .bcn-ev__jointmark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-full);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-tertiary);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ── Footer: Windows order — primary left of Cancel inside a right-aligned group. ── */
+  .bcn-ev__foot {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--spacing-500);
+  }
+  .bcn-ev__actions {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-250, 0.625rem);
+  }
+
+  /* Narrow viewports: the split becomes a stack, and the seam turns horizontal — still a
+     1px track, still with the arrow floating over it, now pointing down. */
+  @media (max-width: 900px) {
+    .bcn-ev__panels {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1px 1fr;
+      overflow-y: auto;
+    }
+    .bcn-ev__jointmark {
+      transform: translate(-50%, -50%) rotate(90deg);
+    }
+  }
+</style>

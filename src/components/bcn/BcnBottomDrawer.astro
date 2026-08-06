@@ -1,0 +1,192 @@
+---
+// <BcnBottomDrawer> — Beacon's BOTTOM drawer pattern: a work surface that rises from the
+// bottom edge of the viewport and dominates the screen (90vw × 80vh by default), rather
+// than sliding in from the side. It is app-shell furniture — the left nav, the top bar,
+// and now a bottom affordance — and it deliberately layers ABOVE modals so it can cover an
+// open dialog, while staying below toasts.
+//
+// Slots: "header" (left of the close button), default (the body), "footer".
+// Geometry hooks, set by the host: --bcn-bottom-drawer-width / -height / -inset, and
+// --bcn-bottom-drawer-z (backdrop; the panel sits one above it).
+//
+// Behavior lives in ./bottom-drawer.ts (open/close, focus trap, Esc, focus restore,
+// keep-mounted slide-out); this file owns the shell markup and the skin. Call
+// registerBottomDrawer() from the host's client script, then drive it with .show() /
+// .close() / .toggle() on the <bcn-bottom-drawer> element.
+//
+// bcn-lego-checked: esa-side-dialog IS the drawer lego and was checked first — it is the
+// right component for every drawer Beacon ships today, but it declares
+// `position: 'left' | 'right'` only, and its panel hard-wires top/bottom to the inset with
+// --side-dialog-width as its single geometry hook. There is no height property, so a
+// bottom-anchored 80vh panel cannot be produced by configuring it; esa-dialog is a centered
+// modal with the same problem and the wrong entrance. Checked Beacon prod: ui-side-dialog is
+// the same left/right side sheet, and there is no bottom sheet. So this is a genuine lego
+// gap, filed as a request for `position="bottom"` + `--side-dialog-height` on
+// esa-side-dialog; when that lands this component is deleted and the markup becomes
+// <esa-side-dialog position="bottom">. Until then bcn-bottom-drawer is the reusable home,
+// and it mirrors the lego's committed mechanics and token contract verbatim so the swap is
+// a rename. The close control IS esa-icon-button; the shell chrome is the only owned CSS.
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+
+interface Props {
+  /** Accessible name for the dialog. Rendered as the fallback heading when no header slot. */
+  heading: string;
+  /** DOM id, so hosts and triggers can find this drawer. */
+  id: string;
+  /** Hide the built-in close button when the header slot provides its own. */
+  showCloseButton?: boolean;
+}
+const { heading, id, showCloseButton = true } = Astro.props;
+const hasHeader = Astro.slots.has('header');
+const hasFooter = Astro.slots.has('footer');
+---
+
+<bcn-bottom-drawer id={id} class="bcn-bottom-drawer">
+  <div class="bcn-bottom-drawer__backdrop" data-drawer-backdrop></div>
+  <div
+    class="bcn-bottom-drawer__panel"
+    data-drawer-panel
+    role="dialog"
+    aria-modal="true"
+    aria-label={heading}
+    tabindex="-1"
+  >
+    <header class="bcn-bottom-drawer__head">
+      <div class="bcn-bottom-drawer__headslot">
+        {hasHeader ? <slot name="header" /> : <h2 class="type-card-title">{heading}</h2>}
+      </div>
+      {showCloseButton && (
+        <span class="bcn-bottom-drawer__close" data-drawer-close>
+          <EsaIconButton icon="x" label="Close" size="md" />
+        </span>
+      )}
+    </header>
+
+    <div class="bcn-bottom-drawer__body"><slot /></div>
+
+    {hasFooter && (
+      <footer class="bcn-bottom-drawer__foot"><slot name="footer" /></footer>
+    )}
+  </div>
+</bcn-bottom-drawer>
+
+<style>
+  /* Geometry defaults — every one is a hook the host can re-point. 90vw × 80vh is the
+     brief: the drawer should be the one thing you are looking at. The footprint is FIXED
+     and never resizes on interaction (design-principles: major work surfaces hold a
+     stable frame). */
+  .bcn-bottom-drawer {
+    --_width: var(--bcn-bottom-drawer-width, 90vw);
+    --_height: var(--bcn-bottom-drawer-height, 80vh);
+    --_inset: var(--bcn-bottom-drawer-inset, 0px);
+    --_z: var(--bcn-bottom-drawer-z, 1400);
+    display: contents;
+  }
+
+  /* Closed and not animating out → nothing in the DOM tree paints or takes hits. */
+  .bcn-bottom-drawer:not([open]):not([closing]) .bcn-bottom-drawer__backdrop,
+  .bcn-bottom-drawer:not([open]):not([closing]) .bcn-bottom-drawer__panel {
+    display: none;
+  }
+
+  /* Scrim covers the ENTIRE viewport, app header included. */
+  .bcn-bottom-drawer__backdrop {
+    position: fixed;
+    inset: 0;
+    background: var(--color-backdrop, rgba(0, 0, 0, 0.5));
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+    z-index: var(--_z);
+    animation: bcn-bd-fade 150ms ease;
+  }
+
+  .bcn-bottom-drawer__panel {
+    position: fixed;
+    left: 50%;
+    bottom: var(--_inset);
+    transform: translateX(-50%);
+    width: min(var(--_width), calc(100vw - var(--_inset) * 2));
+    height: var(--_height);
+    display: flex;
+    flex-direction: column;
+    background: var(--color-surface);
+    /* Rises from the bottom edge — only the top corners round. */
+    border-radius: var(--radius-300) var(--radius-300) 0 0;
+    box-shadow: 0 -12px 48px -12px rgba(0, 0, 0, 0.32);
+    z-index: calc(var(--_z) + 1);
+    outline: none;
+    overflow: hidden;
+    animation: bcn-bd-up 240ms ease;
+  }
+  /* Exit keeps its end state so the panel doesn't flash back before unmounting. */
+  .bcn-bottom-drawer[closing]:not([open]) .bcn-bottom-drawer__panel {
+    animation: bcn-bd-down 200ms ease forwards;
+  }
+  .bcn-bottom-drawer[closing]:not([open]) .bcn-bottom-drawer__backdrop {
+    animation: bcn-bd-fade-out 150ms ease forwards;
+  }
+
+  .bcn-bottom-drawer__head {
+    flex: none;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    padding: var(--spacing-400) var(--spacing-500);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .bcn-bottom-drawer__headslot {
+    flex: 1;
+    min-width: 0;
+  }
+  .bcn-bottom-drawer__close {
+    flex: none;
+    color: var(--color-text-secondary);
+  }
+
+  .bcn-bottom-drawer__body {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .bcn-bottom-drawer__foot {
+    flex: none;
+    padding: var(--spacing-300) var(--spacing-500);
+    border-top: 1px solid var(--color-border);
+    background: var(--color-surface);
+  }
+
+  @keyframes bcn-bd-fade {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes bcn-bd-fade-out {
+    to {
+      opacity: 0;
+    }
+  }
+  @keyframes bcn-bd-up {
+    from {
+      transform: translateX(-50%) translateY(calc(100% + var(--_inset)));
+    }
+  }
+  @keyframes bcn-bd-down {
+    to {
+      transform: translateX(-50%) translateY(calc(100% + var(--_inset)));
+    }
+  }
+
+  /* Honor a reduced-motion preference — the drawer still appears and dismisses, it just
+     doesn't travel. */
+  @media (prefers-reduced-motion: reduce) {
+    .bcn-bottom-drawer__panel,
+    .bcn-bottom-drawer[closing]:not([open]) .bcn-bottom-drawer__panel,
+    .bcn-bottom-drawer__backdrop,
+    .bcn-bottom-drawer[closing]:not([open]) .bcn-bottom-drawer__backdrop {
+      animation-duration: 1ms;
+    }
+  }
+</style>

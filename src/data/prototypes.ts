@@ -467,6 +467,24 @@ export const prototypeGroups: PrototypeGroup[] = [
     ],
   },
   {
+    slug: 'evidence',
+    tenant: 'dcp',
+    title: 'Evidence',
+    description:
+      'Connecting evidence of compliance to the actions it proves — a global workspace instead of a filing cabinet you have to navigate into.',
+    pages: [
+      {
+        slug: 'evidence-drawer',
+        title: 'Attach Evidence of Compliance',
+        description:
+          'A new drawer pattern: a global workspace that rises from the BOTTOM of the viewport at 96 × 92 and layers above dialogs, joining evidence on the left to actions on the right. Files dropped together stay one piece of evidence (the container is never named); the action list is hard-scoped to one component with no null state, remembered across sessions; and a Find-matches utility drops suggested actions into the same list you search, each with the reason it was picked and a dismiss. Four entry points: cold from the bottom bar, from one action, from a bulk selection, and from evidence already in Beacon.',
+        route: '/prototypes/evidence-drawer',
+        createdAt: '2026-08-06',
+        status: 'in-progress',
+      },
+    ],
+  },
+  {
     slug: 'help-guidance',
     tenant: 'platform',
     title: 'Help & Guidance',
