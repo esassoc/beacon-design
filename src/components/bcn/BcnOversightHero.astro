@@ -90,7 +90,11 @@ const segments = severityBreakdown.map((slice) => {
   <div class="bcn-ohero cluster" data-gap="xl" data-align="start" data-justify="between">
     <!-- ── Clickable severity donut + legend ── -->
     <section class="stack" data-gap="xs">
-      <h4 class="bcn-ohero__section-title type-card-title">Yesterday's Observations</h4>
+      <!-- Names the set the donut plots. Must agree with the card subtitle above and
+           with asOfLabel in the donut hole: this read "Yesterday's Observations" after
+           the donut moved from a prior-day sweep to the current active backlog, so the
+           heading contradicted both the caption beneath it and the data. -->
+      <h4 class="bcn-ohero__section-title type-card-title">Active Observations</h4>
       <div class="cluster" data-gap="lg" data-align="center">
         <div class="bcn-ohero__donut">
           <svg class="bcn-ohero__ring" viewBox="0 0 42 42" role="group" aria-label="Active observations by severity">
