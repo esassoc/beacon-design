@@ -89,6 +89,74 @@ A burn-up chart: cumulative route-miles cleared to date (the actual trail from f
 .exec__burnup-chart {
   width: 100%;
 }
+.bu-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+.bu-grid {
+  stroke: var(--color-border-light);
+  stroke-width: 1;
+}
+.bu-target {
+  stroke: var(--color-text-tertiary);
+  stroke-width: 1.5;
+  stroke-dasharray: 2 3;
+}
+.bu-proj {
+  fill: none;
+  stroke: var(--st-cleared);
+  stroke-width: 2;
+  stroke-dasharray: 5 4;
+  stroke-linejoin: round;
+  opacity: 0.75;
+}
+.bu-today {
+  stroke: var(--color-primary);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  opacity: 0.6;
+}
+.bu-area {
+  fill: color-mix(in srgb, var(--st-cleared) 14%, transparent);
+  stroke: none;
+}
+.bu-actual {
+  fill: none;
+  stroke: var(--st-cleared);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.bu-dot {
+  fill: var(--st-cleared);
+  stroke: var(--color-surface);
+  stroke-width: 1.5;
+}
+.bu-ylabel {
+  fill: var(--color-text-tertiary);
+  font-size: 12.5px;
+  text-anchor: end;
+  dominant-baseline: middle;
+}
+.bu-xlabel {
+  fill: var(--color-text-tertiary);
+  font-size: 12.5px;
+  text-anchor: middle;
+}
+.bu-todaylabel {
+  fill: var(--color-primary);
+  font-size: 13.5px;
+  font-weight: 600;
+  text-anchor: middle;
+}
+.bu-nowlabel {
+  fill: var(--st-cleared);
+  font-size: 13.5px;
+  font-weight: 700;
+  text-anchor: middle;
+}
 .exec__burnup-legend {
   list-style: none;
   margin: 0;
@@ -121,74 +189,6 @@ A burn-up chart: cumulative route-miles cleared to date (the actual trail from f
 .exec__burnup-key--target {
   border-top-color: var(--color-text-tertiary);
   border-top-style: dotted;
-}
-.bu-svg {
-  width: 100%;
-  height: auto;
-  display: block;
-  overflow: visible;
-}
-.bu-grid {
-  stroke: var(--color-border-light);
-  stroke-width: 1;
-}
-.bu-ylabel {
-  fill: var(--color-text-tertiary);
-  font-size: 12.5px;
-  text-anchor: end;
-  dominant-baseline: middle;
-}
-.bu-xlabel {
-  fill: var(--color-text-tertiary);
-  font-size: 12.5px;
-  text-anchor: middle;
-}
-.bu-target {
-  stroke: var(--color-text-tertiary);
-  stroke-width: 1.5;
-  stroke-dasharray: 2 3;
-}
-.bu-proj {
-  fill: none;
-  stroke: var(--st-cleared);
-  stroke-width: 2;
-  stroke-dasharray: 5 4;
-  stroke-linejoin: round;
-  opacity: 0.75;
-}
-.bu-area {
-  fill: color-mix(in srgb, var(--st-cleared) 14%, transparent);
-  stroke: none;
-}
-.bu-actual {
-  fill: none;
-  stroke: var(--st-cleared);
-  stroke-width: 2.5;
-  stroke-linejoin: round;
-  stroke-linecap: round;
-}
-.bu-dot {
-  fill: var(--st-cleared);
-  stroke: var(--color-surface);
-  stroke-width: 1.5;
-}
-.bu-today {
-  stroke: var(--color-primary);
-  stroke-width: 1;
-  stroke-dasharray: 3 3;
-  opacity: 0.6;
-}
-.bu-todaylabel {
-  fill: var(--color-primary);
-  font-size: 13.5px;
-  font-weight: 600;
-  text-anchor: middle;
-}
-.bu-nowlabel {
-  fill: var(--st-cleared);
-  font-size: 13.5px;
-  font-weight: 700;
-  text-anchor: middle;
 }
 ```
 

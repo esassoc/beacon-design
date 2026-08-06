@@ -1,19 +1,21 @@
-# Data tab — filter bar
+# Filter bar (facets + view toggle)
 
-The Data tab's filter bar, ported from the requirement-tracker idiom: a View toggle that PIVOTS the grid between Permits and Segments, a keyword search, and Status + Level filter dropdowns in an esa-filter-container, with a clear-all. It drives whichever grid is active.
+The carded toolbar over the results: a List/Map view toggle, three multi-select facets (Severity, Category, Status), a clear-filters control, and a free-text search across ID, category, area, and inspector. It is the same filter-bar shell the Requirement Tracker, Surveys, and Permits & Studies pages use, so the whole spoke reads as one product.
 
 ## Key decisions
-- View is an esa-button-toggle pivot (Permits | Segments) that swaps the visible grid pane, not two separate screens — same filter bar serves both.
-- Filters are esa-filter-dropdown (multiple) inside esa-filter-container with an esa-filter-clear-button — the shared Beacon filter-bar composition, not bespoke selects.
-- Search has its own inline clear (esa-icon-button x), shown only when there is a query.
-- The Level dropdown is wrapped (#flt-level-wrap) so it can be hidden in the Segments pivot where agency level is not a column.
+- The carded shell and the "View" / "Filters" labels are page-composition glue reusing the shared .bcn-filterbar class. Every CONTROL inside is a lego — esa-button-toggle, esa-filter-dropdown x3 inside esa-filter-container, esa-filter-clear-button, esa-text-field. Nothing here is a new primitive.
+- View is a segmented esa-button-toggle (List | Map), not tabs and not navigation — the two views are peer lenses over the same filtered set, switched in place.
+- All three facets are multi-select, because a compliance lead filters "needs attention OR non-compliance" far more often than a single severity.
+- Arriving with ?severity= from the dashboard pre-selects that facet, so the drill-down lands on a filtered list whose controls visibly reflect why it is filtered.
 
 ## Gotchas
-- This whole tab is LAZY: the AG Grids are created only when the Data tab is first activated (ensureGrids). The filter bar is light-DOM markup so it exists earlier, but the grids it controls do not — capture/recipes must activate the tab first.
-- The pivot must re-point the filter bar at the active grid (status/level options differ between permits and segments); do not keep two stale filter states.
+- Filters apply to BOTH views. Switching List to Map must carry the active filter set, and the map must re-pin to the filtered rows — a map showing every observation under an active filter is the failure mode to watch for.
+- The search-clear affordance is hidden until there is a query; keep it hidden rather than disabled, or the toolbar gains a permanently dead control.
 
 ## Done when
-- View toggles the grid between Permits and Segments; Status/Level dropdowns and search filter the active grid; clear resets all; search-clear shows only with a query.
+- Selecting facet values narrows the grid and updates the footer count; clearing restores the full set.
+- Landing with ?severity= shows that facet already applied, with the value visible in the dropdown.
+- Switching to Map preserves every active filter and re-pins the map to exactly the rows the grid was showing.
 
 ## Markup
 ```html
@@ -21,15 +23,75 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
   <div class="bcn-filterbar__top">
     <div class="bcn-filterbar__group">
       <span class="bcn-filterbar__label">View</span>
-      <esa-button-toggle id="pivot-toggle" value="permits" size="md"></esa-button-toggle>
+      <esa-button-toggle id="ov-view" size="sm"></esa-button-toggle>
     </div>
+    <span class="bcn-filterbar__label">Filters</span>
+    <div
+      class="esa-filter-container"
+      style="
+        --_filter-container-gap: var(--filter-container-gap, var(--spacing-300, 0.75rem));
+        --_filter-container-row-gap: var(--spacing-200, 0.5rem);
+      "
+    >
+      <esa-filter-dropdown
+        id="flt-severity"
+        label="Severity"
+        multiple=""
+        size="sm"
+      ></esa-filter-dropdown>
+      <esa-filter-dropdown
+        id="flt-category"
+        label="Category"
+        multiple=""
+        size="sm"
+      ></esa-filter-dropdown>
+      <esa-filter-dropdown
+        id="flt-status"
+        label="Status"
+        multiple=""
+        size="sm"
+      ></esa-filter-dropdown>
+    </div>
+    <span id="ov-clear-filters" class="bcn-filterbar__clear"
+      ><button
+        class="esa-filter-clear-button"
+        type="button"
+        data-esa-filter-clear=""
+        aria-label="Clear all filters"
+      >
+        <svg
+          class="esa-filter-clear-button__icon"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M13.013 3H2l8 9.46V19l4 2v-8.54l.9-1.055"></path>
+          <path d="m22 3-5 5"></path>
+          <path d="m17 3 5 5"></path></svg
+        ><span class="esa-filter-clear-button__label">Clear all</span>
+      </button>
+      <script type="module">
+        document.querySelectorAll("[data-esa-filter-clear]").forEach((e) => {
+          e.addEventListener("click", () => {
+            e.dispatchEvent(
+              new CustomEvent("esa-filter-clear", { bubbles: !0, composed: !0 }),
+            );
+          });
+        });
+      </script></span
+    >
     <div class="bcn-filterbar__search">
       <esa-text-field
-        id="pt-search"
-        placeholder="Search permits…"
+        id="ov-search"
+        placeholder="Search ID, category, area, inspector…"
         size="md"
       ></esa-text-field>
-      <span id="pt-search-clear" hidden=""
+      <span id="ov-search-clear" hidden=""
         ><button
           class="esa-icon-button esa-icon-button--sm"
           type="button"
@@ -55,55 +117,6 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
         </button>
       </span>
     </div>
-  </div>
-  <div class="bcn-filterbar__bottom">
-    <span class="bcn-filterbar__label">Filters</span>
-    <div
-      class="esa-filter-container"
-      style="
-        --_filter-container-gap: var(--filter-container-gap, var(--spacing-300, 0.75rem));
-        --_filter-container-row-gap: var(--spacing-200, 0.5rem);
-      "
-    >
-      <esa-filter-dropdown
-        id="flt-status"
-        label="Status"
-        multiple=""
-        size="sm"
-      ></esa-filter-dropdown>
-      <span id="flt-level-wrap"
-        ><esa-filter-dropdown
-          id="flt-level"
-          label="Level"
-          multiple=""
-          size="sm"
-        ></esa-filter-dropdown
-      ></span>
-    </div>
-    <span id="pt-clear-filters" class="bcn-filterbar__clear"
-      ><button
-        class="esa-filter-clear-button"
-        type="button"
-        data-esa-filter-clear=""
-        aria-label="Clear all filters"
-      >
-        <svg
-          class="esa-filter-clear-button__icon"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          aria-hidden="true"
-        >
-          <path d="M13.013 3H2l8 9.46V19l4 2v-8.54l.9-1.055"></path>
-          <path d="m22 3-5 5"></path>
-          <path d="m17 3 5 5"></path></svg
-        ><span class="esa-filter-clear-button__label">Clear all</span>
-      </button></span
-    >
   </div>
 </div>
 ```
@@ -166,96 +179,6 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
-.bcn-filterbar {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-  margin-bottom: var(--spacing-400);
-}
-.bcn-filterbar__top {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-400);
-  padding: var(--spacing-300) var(--spacing-400);
-  flex-wrap: wrap;
-}
-.bcn-filterbar__bottom {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300) var(--spacing-400);
-  border-top: 1px solid var(--color-border);
-  flex-wrap: wrap;
-}
-.bcn-filterbar__group {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-300);
-}
-.bcn-filterbar__label {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-tertiary);
-  white-space: nowrap;
-}
-.bcn-filterbar__search {
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-  min-width: 300px;
-}
-.bcn-filterbar__search esa-text-field {
-  flex: 1;
-}
-.bcn-filterbar__clear {
-  margin-left: auto;
-}
-.sd-permit__btn .esa-icon {
-  color: var(--color-text-tertiary);
-  flex-shrink: 0;
-}
-.pd__section-head .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary);
-}
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(
-    --icon-button-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-icon-button--xs {
-  --_ib-size: var(--form-height-xs, 28px);
-}
-.esa-icon-button--sm {
-  --_ib-size: var(--form-height-sm, 32px);
-}
-.esa-icon-button--lg {
-  --_ib-size: var(--form-height-lg, 48px);
-}
-.esa-icon-button:hover {
-  background: var(--_ib-bg-hover);
-}
-.esa-icon-button:focus-visible {
-  outline: var(--focus-ring-width) solid currentColor;
-  outline-offset: var(--focus-ring-offset, 2px);
-}
 .esa-filter-container {
   display: flex;
   flex-wrap: wrap;
@@ -303,6 +226,82 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
 }
 .esa-filter-clear-button__label {
   white-space: nowrap;
+}
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(
+    --icon-button-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-icon-button--xs {
+  --_ib-size: var(--form-height-xs, 28px);
+}
+.esa-icon-button--sm {
+  --_ib-size: var(--form-height-sm, 32px);
+}
+.esa-icon-button--lg {
+  --_ib-size: var(--form-height-lg, 48px);
+}
+.esa-icon-button:hover {
+  background: var(--_ib-bg-hover);
+}
+.esa-icon-button:focus-visible {
+  outline: var(--focus-ring-width) solid currentColor;
+  outline-offset: var(--focus-ring-offset, 2px);
+}
+.bcn-filterbar {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+  margin-bottom: var(--spacing-400);
+}
+.bcn-filterbar__top {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-400);
+  flex-wrap: wrap;
+}
+.bcn-filterbar__group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  padding-right: var(--spacing-300);
+  border-right: 1px solid var(--color-border-light);
+}
+.bcn-filterbar__label {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+}
+.bcn-filterbar__clear {
+  margin-left: var(--spacing-100);
+}
+.bcn-filterbar__search {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  min-width: 280px;
+}
+.bcn-filterbar__search esa-text-field {
+  flex: 1;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
@@ -352,6 +351,7 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
 - `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
 - `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
 - `--color-border`: #dcdcdc _(semantic)_
+- `--color-border-light`: #efefef _(semantic)_
 - `--color-danger`: #e5484d _(semantic)_
 - `--color-hover-overlay`: rgba(0, 0, 0, .03) _(primitive)_
 - `--color-primary`: #005862 _(semantic)_

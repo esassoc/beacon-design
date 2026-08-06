@@ -1180,73 +1180,9 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
 
 ## Styles
 ```css
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(
-    --icon-button-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
-}
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
 }
 .bcn-aldo-mark {
   display: inline-flex;
@@ -1258,12 +1194,18 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
   color: var(--color-text-inverse);
   line-height: 0;
 }
+.bcn-aldo-mark[data-size="sm"] {
+  width: 20px;
+  height: 20px;
+  --icon-size-xs: 12px;
+}
 .bcn-aldo-mark[data-size="md"] {
   width: 40px;
   height: 40px;
 }
-.bcn-aldo-mark[data-animated] {
-  animation: bcn-aldo-pulse 2s ease-in-out infinite;
+.bcn-aldo-mark[data-size="lg"] {
+  width: 64px;
+  height: 64px;
 }
 .bcn-aldo-mark__glyph {
   display: inline-flex;
@@ -1271,46 +1213,27 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
   justify-content: center;
   line-height: 0;
 }
+.bcn-aldo-mark[data-animated] {
+  animation: bcn-aldo-pulse 2s ease-in-out infinite;
+}
 .bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
   animation: bcn-aldo-spin 8s linear infinite;
-}
-.bcn-aldo-mark[data-size="sm"] {
-  width: 20px;
-  height: 20px;
-  --icon-size-xs: 12px;
 }
 .bcn-help-bar .esa-icon-button {
   color: var(--bcn-helpbar-fg-muted);
   --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
 }
-.bcn-gd {
-  --z-modal-backdrop: 1300;
-  --z-modal: 1301;
-  --side-dialog-width: 460px;
-  --backdrop-filter: blur(2px);
-}
-.bcn-gd__header {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  min-width: 0;
-}
-.bcn-gd__title {
-  font-family: var(--font-decorative);
-  font-size: var(--type-size-400);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-  line-height: 1.2;
-}
-.bcn-gd__stream {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-500);
+.bcn-help-bar .esa-icon-button:hover,
+.bcn-help-bar .esa-icon-button:focus-visible {
+  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd-msg {
   display: flex;
   gap: var(--spacing-300);
   align-items: flex-start;
+}
+.bcn-gd-msg--user {
+  justify-content: flex-end;
 }
 .bcn-gd-msg__avatar {
   flex: none;
@@ -1322,209 +1245,6 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
   display: flex;
   flex-direction: column;
   gap: var(--spacing-500);
-}
-.bcn-gd__section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-}
-.bcn-gd__label {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  margin: 0;
-  font-size: var(--type-size-250);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-text-primary);
-}
-.bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
-}
-.bcn-gd__here {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: var(--spacing-300) var(--spacing-400);
-  background: var(--bcn-aldo-50);
-  border: 1px solid var(--bcn-aldo-100);
-  border-radius: var(--radius-200);
-}
-.bcn-gd__here-page {
-  font-size: var(--type-size-250);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-gd__here-purpose {
-  font-size: var(--type-size-150);
-  color: var(--color-text-secondary);
-  line-height: 1.5;
-}
-.bcn-gd__rows {
-  display: flex;
-  flex-direction: column;
-}
-.bcn-gd__foot {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-250);
-}
-.bcn-gd__browse {
-  align-self: flex-end;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-primary);
-  text-decoration: none;
-}
-.bcn-gd-composer {
-  display: flex;
-  align-items: flex-end;
-  gap: var(--spacing-200);
-  padding: var(--spacing-150) var(--spacing-150) var(--spacing-150) var(--spacing-300);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-300);
-  transition:
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
-}
-.bcn-gd-composer__input {
-  flex: 1;
-  min-width: 0;
-  border: 0;
-  outline: 0;
-  background: transparent;
-  resize: none;
-  font-family: inherit;
-  font-size: var(--type-size-200);
-  line-height: 1.5;
-  color: var(--color-text-primary);
-  padding: 6px 0;
-  overflow-y: hidden;
-}
-.bcn-gd-composer__input::placeholder {
-  color: var(--color-text-tertiary);
-}
-.bcn-gd-composer__send {
-  flex: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border: 0;
-  border-radius: var(--radius-full);
-  background: var(--bcn-aldo);
-  color: var(--color-text-inverse);
-  cursor: pointer;
-  transition:
-    background 0.15s ease,
-    color 0.15s ease;
-}
-.bcn-gd-composer__send:disabled {
-  background: var(--color-surface-sunken);
-  color: var(--color-text-tertiary);
-  cursor: default;
-}
-.bcn-gd-article {
-  --z-modal-backdrop: 1302;
-  --z-modal: 1303;
-  --side-dialog-width: 460px;
-  --backdrop-filter: blur(2px);
-}
-.bcn-gd-article__head {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.bcn-gd-article__back {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-100);
-  align-self: flex-start;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  font: inherit;
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
-  cursor: pointer;
-}
-.bcn-gd-article__titlerow {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.bcn-gd-article__title {
-  font-family: var(--font-decorative);
-  font-size: var(--type-size-300);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-  line-height: 1.25;
-}
-.bcn-gd-article__kind {
-  flex: none;
-  padding: 1px 6px;
-  border-radius: var(--radius-100);
-  border: 1px solid var(--color-border);
-  background: var(--color-surface);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
-  line-height: 1.5;
-  white-space: nowrap;
-}
-.bcn-gd-article__panel[hidden] {
-  display: none;
-}
-.bcn-gd-row {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  width: 100%;
-  padding: var(--spacing-300) var(--spacing-100);
-  border: 0;
-  border-bottom: 1px solid var(--color-border-light);
-  background: transparent;
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-.bcn-gd-row__text {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-  flex: 1;
-}
-.bcn-gd-row__title {
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-  line-height: 1.35;
-}
-.bcn-gd-row__sub {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-regular);
-  color: var(--color-text-secondary);
-  line-height: 1.4;
-}
-.bcn-gd-row .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
-}
-.bcn-gd-composer:focus-within {
-  border-color: var(--bcn-aldo);
-  box-shadow: 0 0 0 3px var(--bcn-aldo-50);
-}
-.bcn-gd-msg--user {
-  justify-content: flex-end;
 }
 .bcn-gd-msg__bubble {
   max-width: 88%;
@@ -1566,19 +1286,384 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
   text-underline-offset: 2px;
   cursor: pointer;
 }
+.bcn-gd-msg__browse {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.bcn-gd {
+  --z-modal-backdrop: 1300;
+  --z-modal: 1301;
+  --side-dialog-width: 460px;
+  --backdrop-filter: blur(2px);
+}
+.bcn-gd-article {
+  --z-modal-backdrop: 1302;
+  --z-modal: 1303;
+  --side-dialog-width: 460px;
+  --backdrop-filter: blur(2px);
+}
+.bcn-gd__header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  min-width: 0;
+}
+.bcn-gd__title {
+  font-family: var(--font-decorative);
+  font-size: var(--type-size-400);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: 1.2;
+}
+.bcn-gd__stream {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-500);
+}
+.bcn-gd__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+}
+.bcn-gd__section[hidden] {
+  display: none;
+}
+.bcn-gd__label {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  margin: 0;
+  font-size: var(--type-size-250);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.bcn-gd__here {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--spacing-300) var(--spacing-400);
+  background: var(--bcn-aldo-50);
+  border: 1px solid var(--bcn-aldo-100);
+  border-radius: var(--radius-200);
+}
+.bcn-gd__here-page {
+  font-size: var(--type-size-250);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-gd__here-purpose {
+  font-size: var(--type-size-150);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+.bcn-gd__rows {
+  display: flex;
+  flex-direction: column;
+}
+.bcn-gd-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  width: 100%;
+  padding: var(--spacing-300) var(--spacing-100);
+  border: 0;
+  border-bottom: 1px solid var(--color-border-light);
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.bcn-gd-row:hover {
+  background: var(--color-surface-sunken);
+}
+.bcn-gd-row__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+.bcn-gd-row__title {
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: 1.35;
+}
+.bcn-gd-row__sub {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+.bcn-gd-row .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.bcn-gd__foot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-250);
+}
+.bcn-gd__browse {
+  align-self: flex-end;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  text-decoration: none;
+}
+.bcn-gd__browse:hover {
+  text-decoration: underline;
+}
+.bcn-gd-composer {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--spacing-200);
+  padding: var(--spacing-150) var(--spacing-150) var(--spacing-150) var(--spacing-300);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.bcn-gd-composer:focus-within {
+  border-color: var(--bcn-aldo);
+  box-shadow: 0 0 0 3px var(--bcn-aldo-50);
+}
+.bcn-gd-composer__input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  resize: none;
+  font-family: inherit;
+  font-size: var(--type-size-200);
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  padding: 6px 0;
+  overflow-y: hidden;
+}
+.bcn-gd-composer__input::placeholder {
+  color: var(--color-text-tertiary);
+}
+.bcn-gd-composer__send {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--bcn-aldo);
+  color: var(--color-text-inverse);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+.bcn-gd-composer__send:hover:not(:disabled) {
+  background: var(--bcn-aldo-600);
+}
+.bcn-gd-composer__send:disabled {
+  background: var(--color-surface-sunken);
+  color: var(--color-text-tertiary);
+  cursor: default;
+}
+.bcn-gd-article__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+.bcn-gd-article__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+.bcn-gd-article__back:hover {
+  color: var(--color-text-primary);
+}
+.bcn-gd-article__titlerow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+.bcn-gd-article__title {
+  font-family: var(--font-decorative);
+  font-size: var(--type-size-300);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: 1.25;
+}
+.bcn-gd-article__kind {
+  flex: none;
+  padding: 1px 6px;
+  border-radius: var(--radius-100);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.bcn-gd-article__kind[data-kind="glossary"] {
+  color: var(--bcn-aldo-600);
+  border-color: var(--bcn-aldo-100);
+  background: var(--bcn-aldo-50);
+}
+.bcn-gd-article__panel[hidden] {
+  display: none;
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.user-panel__item .esa-icon {
+  color: var(--bcn-gray-500);
+}
+.user-panel__item--danger .esa-icon {
+  color: var(--color-danger);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
+}
+.side-nav.collapsed .nav-section__header > .esa-icon:last-child {
+  display: none;
+}
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(
+    --icon-button-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-icon-button--xs {
+  --_ib-size: var(--form-height-xs, 28px);
+}
+.esa-icon-button--sm {
+  --_ib-size: var(--form-height-sm, 32px);
+}
+.esa-icon-button--lg {
+  --_ib-size: var(--form-height-lg, 48px);
+}
+.esa-icon-button:hover {
+  background: var(--_ib-bg-hover);
+}
+.esa-icon-button:focus-visible {
+  outline: var(--focus-ring-width) solid currentColor;
+  outline-offset: var(--focus-ring-offset, 2px);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
 ```
 
 ## Tokens
 - `--bcn-aldo`: #08908b _(component)_
 - `--bcn-aldo-100`: #cfeceb _(component)_
 - `--bcn-aldo-50`: #e8f6f5 _(component)_
+- `--bcn-aldo-600`: #06736f _(component)_
+- `--bcn-gray-1000`: #000000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
+- `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
 - `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
 - `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
 - `--color-border`: #dcdcdc _(semantic)_
 - `--color-border-light`: #efefef _(semantic)_
+- `--color-danger`: #e5484d _(semantic)_
 - `--color-primary`: #005862 _(semantic)_
 - `--color-surface`: #fcfcfc _(semantic)_
 - `--color-surface-sunken`: #efefef _(semantic)_
@@ -1586,17 +1671,25 @@ The Aldo drawer, modeled as a CHAT-FIRST conversation rather than a help panel. 
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
+- `--focus-ring-offset`: 2px _(primitive)_
+- `--focus-ring-width`: 2px _(primitive)_
 - `--font-decorative`: "Besley", serif _(component)_
 - `--font-weight-bold`: 650 _(primitive)_
 - `--font-weight-medium`: 500 _(primitive)_
 - `--font-weight-regular`: 350 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
+- `--form-height-lg`: 44px _(component)_
 - `--form-height-md`: 36px _(component)_
+- `--form-height-sm`: 28px _(component)_
+- `--form-height-xs`: 24px _(component)_
 - `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
+- `--icon-size-large`: 24px _(component)_
+- `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_
 - `--icon-size-small`: 16px _(component)_
+- `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_

@@ -11216,43 +11216,6 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
 
 ## Styles
 ```css
-.esa-empty-state {
-  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
-  --_empty-title-size: 16px;
-  --_empty-desc-size: 14px;
-  --_empty-gap: var(--empty-state-gap, var(--spacing-200, 0.5rem));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
-  gap: var(--_empty-gap);
-}
-.esa-empty-state__icon {
-  color: var(--empty-state-icon-color, var(--color-text-muted, #737373));
-  margin-bottom: var(--spacing-100, 0.25rem);
-  display: inline-flex;
-}
-.esa-empty-state__icon svg {
-  width: var(--_empty-icon-size);
-  height: var(--_empty-icon-size);
-}
-.esa-empty-state__title {
-  margin: 0;
-  font-size: var(--_empty-title-size);
-  font-weight: 600;
-  color: var(--empty-state-title-color, var(--color-text-primary, #171717));
-}
-.esa-empty-state__description {
-  margin: 0;
-  font-size: var(--_empty-desc-size);
-  color: var(--empty-state-description-color, var(--color-text-secondary, #525252));
-  max-width: 360px;
-}
-.esa-empty-state__actions {
-  margin-top: var(--spacing-200, 0.5rem);
-}
 .bcn-sr {
   display: flex;
   flex-direction: column;
@@ -11266,6 +11229,10 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-300);
+}
+.bcn-sr__search:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-subtle);
 }
 .bcn-sr__search-icon {
   display: inline-flex;
@@ -11289,6 +11256,11 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
 .bcn-sr__input::placeholder {
   color: var(--color-text-tertiary);
 }
+.bcn-sr__count {
+  margin: 0;
+  font-size: var(--type-size-150);
+  color: var(--color-text-secondary);
+}
 .bcn-sr__split {
   display: flex;
   align-items: flex-start;
@@ -11302,6 +11274,15 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
   display: flex;
   flex-direction: column;
   gap: 1px;
+}
+.bcn-sr__main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+  border-left: 1px solid var(--color-border);
+  padding-left: var(--spacing-500);
 }
 .bcn-sr__scope {
   display: flex;
@@ -11321,6 +11302,10 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
     background 0.12s ease,
     color 0.12s ease;
 }
+.bcn-sr__scope:hover {
+  background: var(--color-surface-sunken);
+  color: var(--color-text-primary);
+}
 .bcn-sr__scope--active {
   background: var(--color-primary);
   color: var(--color-text-inverse);
@@ -11339,19 +11324,16 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
   font-variant-numeric: tabular-nums;
   opacity: 0.8;
 }
-.bcn-sr__main {
-  flex: 1 1 auto;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-  border-left: 1px solid var(--color-border);
-  padding-left: var(--spacing-500);
+.bcn-sr--idle .bcn-sr__scope {
+  color: var(--color-text-tertiary);
+  cursor: default;
 }
-.bcn-sr__count {
-  margin: 0;
-  font-size: var(--type-size-150);
-  color: var(--color-text-secondary);
+.bcn-sr--idle .bcn-sr__scope:hover {
+  background: transparent;
+  color: var(--color-text-tertiary);
+}
+.bcn-sr--idle .bcn-sr__scope-count {
+  display: none;
 }
 .bcn-sr__landing {
   padding: var(--spacing-700) 0;
@@ -11369,6 +11351,9 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
   display: flex;
   flex-direction: column;
   gap: var(--spacing-150);
+}
+.bcn-sr__group[hidden] {
+  display: none;
 }
 .bcn-sr__group-head {
   display: flex;
@@ -11408,6 +11393,12 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
   text-decoration: none;
   transition: background 0.12s ease;
 }
+.bcn-sr__row:hover {
+  background: var(--color-surface-sunken);
+}
+.bcn-sr__row[hidden] {
+  display: none;
+}
 .bcn-sr__row-head {
   display: flex;
   align-items: center;
@@ -11419,6 +11410,17 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
   align-items: center;
   gap: var(--spacing-200);
   min-width: 0;
+}
+.bcn-sr__row-code {
+  flex: none;
+  padding: 1px 6px;
+  border-radius: var(--radius-100);
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+  white-space: nowrap;
+  color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 12%, white);
 }
 .bcn-sr__row-title {
   flex: 0 1 auto;
@@ -11442,49 +11444,8 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
   color: var(--color-text-primary);
   text-align: left;
 }
-.bcn-sr__row-snippet[hidden] {
-  display: none;
-}
-.bcn-sr__row-code {
-  flex: none;
-  padding: 1px 6px;
-  border-radius: var(--radius-100);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.4;
-  white-space: nowrap;
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-}
-.bcn-sr__empty[hidden] {
-  display: none;
-}
-.bcn-sr--idle .bcn-sr__scope {
-  color: var(--color-text-tertiary);
-  cursor: default;
-}
-.bcn-sr--idle .bcn-sr__scope-count {
-  display: none;
-}
-.bcn-sr__search:focus-within {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-primary-subtle);
-}
-.bcn-sr__group[hidden] {
-  display: none;
-}
 .bcn-sr__row-snippet p {
   margin: 0;
-}
-.bcn-sr__row-title mark,
-.bcn-sr__row-snippet mark {
-  background: #fde047;
-  color: var(--color-text-primary);
-  border-radius: 2px;
-  padding: 0 1px;
-}
-.bcn-sr__row[hidden] {
-  display: none;
 }
 .bcn-sr__row-snippet p + p {
   margin-top: 0.85em;
@@ -11498,6 +11459,77 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
   font-style: normal;
   color: var(--color-text-tertiary);
 }
+.bcn-sr__row-snippet[hidden] {
+  display: none;
+}
+.bcn-sr__row-title mark,
+.bcn-sr__row-snippet mark {
+  background: #fde047;
+  color: var(--color-text-primary);
+  border-radius: 2px;
+  padding: 0 1px;
+}
+.bcn-sr__empty[hidden] {
+  display: none;
+}
+.esa-empty-state {
+  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
+  --_empty-title-size: 16px;
+  --_empty-desc-size: 14px;
+  --_empty-gap: var(--empty-state-gap, var(--spacing-200, 0.5rem));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
+  gap: var(--_empty-gap);
+}
+.esa-empty-state--xs {
+  --_empty-icon-size: var(--empty-state-icon-size-xs, 24px);
+  --_empty-title-size: 13px;
+  --_empty-desc-size: 11px;
+  padding: var(--spacing-300, 0.75rem) var(--spacing-200, 0.5rem);
+}
+.esa-empty-state--sm {
+  --_empty-icon-size: var(--empty-state-icon-size-sm, 32px);
+  --_empty-title-size: 14px;
+  --_empty-desc-size: 12px;
+  padding: var(--spacing-400, 1rem) var(--spacing-300, 0.75rem);
+}
+.esa-empty-state--lg {
+  --_empty-icon-size: var(--empty-state-icon-size-lg, 64px);
+  --_empty-title-size: 20px;
+  --_empty-desc-size: 16px;
+  padding: var(--spacing-800, 4rem) var(--spacing-400, 1rem);
+}
+.esa-empty-state__icon {
+  color: var(--empty-state-icon-color, var(--color-text-muted, #737373));
+  margin-bottom: var(--spacing-100, 0.25rem);
+  display: inline-flex;
+}
+.esa-empty-state__icon svg {
+  width: var(--_empty-icon-size);
+  height: var(--_empty-icon-size);
+}
+.esa-empty-state__title {
+  margin: 0;
+  font-size: var(--_empty-title-size);
+  font-weight: 600;
+  color: var(--empty-state-title-color, var(--color-text-primary, #171717));
+}
+.esa-empty-state__description {
+  margin: 0;
+  font-size: var(--_empty-desc-size);
+  color: var(--empty-state-description-color, var(--color-text-secondary, #525252));
+  max-width: 360px;
+}
+.esa-empty-state__actions {
+  margin-top: var(--spacing-200, 0.5rem);
+}
+.esa-empty-state__actions:empty {
+  display: none;
+}
 ```
 
 ## Tokens
@@ -11507,6 +11539,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
 - `--color-primary`: #005862 _(semantic)_
 - `--color-primary-subtle`: #effefb _(semantic)_
 - `--color-surface`: #fcfcfc _(semantic)_
+- `--color-surface-sunken`: #efefef _(semantic)_
 - `--color-text-inverse`: #fcfcfc _(semantic)_
 - `--color-text-muted`: #7c7c7c _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
@@ -11515,7 +11548,10 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
 - `--empty-state-description-color`: #525252 _(component)_
 - `--empty-state-gap`: .5rem _(component)_
 - `--empty-state-icon-color`: #7c7c7c _(component)_
+- `--empty-state-icon-size-lg`: 64px _(component)_
 - `--empty-state-icon-size-md`: 48px _(component)_
+- `--empty-state-icon-size-sm`: 32px _(component)_
+- `--empty-state-icon-size-xs`: 24px _(component)_
 - `--empty-state-title-color`: #3d3d3d _(component)_
 - `--font-decorative`: "Besley", serif _(component)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
@@ -11532,6 +11568,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--spacing-600`: 2rem _(primitive)_
 - `--spacing-700`: 3rem _(primitive)_
+- `--spacing-800`: 4rem _(primitive)_
 - `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
 - `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
 - `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_

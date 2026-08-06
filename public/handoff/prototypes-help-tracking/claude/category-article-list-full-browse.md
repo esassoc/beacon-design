@@ -106,6 +106,9 @@ The comprehensive list for one category: a quiet article count, then EVERY artic
   gap: var(--spacing-050);
   padding-block: var(--spacing-300);
 }
+.bcn-kbl__row + .bcn-kbl__row {
+  border-top: 1px solid var(--color-border-light);
+}
 .bcn-kbl__link {
   font-size: 1rem;
   font-weight: var(--font-weight-medium);
@@ -115,22 +118,31 @@ The comprehensive list for one category: a quiet article count, then EVERY artic
   transition: color 0.12s ease;
   width: fit-content;
 }
+.bcn-kbl__link:hover {
+  color: var(--color-text-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.bcn-kbl__link:focus-visible {
+  outline: 2px solid var(--color-text-link);
+  outline-offset: 2px;
+  border-radius: var(--radius-100);
+}
 .bcn-kbl__summary {
   font-size: 0.875rem;
   line-height: 1.45;
   color: var(--color-text-secondary);
 }
-.bcn-kbl__row + .bcn-kbl__row {
-  border-top: 1px solid var(--color-border-light);
-}
 ```
 
 ## Tokens
 - `--color-border-light`: #efefef _(semantic)_
+- `--color-text-link`: #005862 _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
 - `--font-weight-medium`: 500 _(primitive)_
+- `--radius-100`: .25rem _(primitive)_
 - `--spacing-050`: .125rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_

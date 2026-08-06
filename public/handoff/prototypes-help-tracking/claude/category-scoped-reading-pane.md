@@ -407,32 +407,304 @@ The same reading pane the help home uses, but SCOPED to this category and landin
 
 ## Styles
 ```css
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-help-bar .esa-icon-button:hover,
+.bcn-help-bar .esa-icon-button:focus-visible {
+  color: var(--bcn-helpbar-fg);
+}
+.bcn-help-article {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-500);
+}
+.bcn-help-article--compact {
+  gap: var(--spacing-400);
+}
+.bcn-help-article__head {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  flex-wrap: wrap;
+}
+.bcn-help-article__title {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+.bcn-help-article__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+}
+.bcn-help-article--compact .bcn-help-article__body {
+  gap: var(--spacing-300);
+}
+.bcn-help-article__p {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+.bcn-help-article__steps {
+  list-style: none;
+  counter-reset: bcn-step;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+}
+.bcn-help-article__step {
+  counter-increment: bcn-step;
+  display: grid;
+  grid-template-columns: 1.625rem 1fr;
+  align-items: start;
+  gap: var(--spacing-300);
+  margin: 0;
+  color: var(--color-text-primary);
+}
+.bcn-help-article__step:before {
+  content: counter(bcn-step);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
+  width: 1.625rem;
+  height: 1.625rem;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-sunken);
+  color: var(--color-text-primary);
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-semibold);
   line-height: 1;
-  color: inherit;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
+.bcn-help-article__callout {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: var(--spacing-300);
+  padding: var(--spacing-400);
+  border-radius: var(--radius-200);
+  border: 1px solid var(--color-border-light);
+  background: var(--color-surface-sunken);
 }
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
+.bcn-help-article--compact .bcn-help-article__callout {
+  padding: var(--spacing-300);
 }
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+.bcn-help-article__callout-icon {
+  display: inline-flex;
+  margin-top: 1px;
+  color: var(--color-text-secondary);
 }
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+.bcn-help-article__callout-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.bcn-help-article__callout-label {
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+}
+.bcn-help-article__callout-text {
+  margin: 0;
+  color: var(--color-text-primary);
+}
+.bcn-help-article__figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+.bcn-help-article__figure-frame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-200);
+  min-height: 8.5rem;
+  padding: var(--spacing-500);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-200);
+  background: var(--color-surface-sunken);
+  text-align: center;
+}
+.bcn-help-article__figure-icon {
+  color: var(--color-text-tertiary);
+}
+.bcn-help-article__figure-label {
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+.bcn-help-article__video {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+.bcn-help-article__video-frame {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-200);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: color-mix(
+    in srgb,
+    var(--color-text-primary) 8%,
+    var(--color-surface-sunken)
+  );
+}
+.bcn-help-article__video-play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  box-shadow: 0 1px 4px #0000002e;
+  padding-left: 3px;
+}
+.bcn-help-article__video-duration {
+  position: absolute;
+  right: var(--spacing-200);
+  bottom: var(--spacing-200);
+}
+.bcn-help-article__video-label,
+.bcn-help-article__caption {
+  font-size: max(0.8125rem, var(--type-size-100));
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+.bcn-help-article__related {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: var(--spacing-150) var(--spacing-300);
+  padding-top: var(--spacing-300);
+  border-top: 1px solid var(--color-border-light);
+}
+.bcn-help-article__related-label {
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+}
+.bcn-help-article__related-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-100) var(--spacing-300);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bcn-help-article__related-link {
+  font-size: 0.9375rem;
+  color: var(--color-text-link);
+  text-decoration: none;
+}
+.bcn-help-article__related-link:hover {
+  color: var(--color-text-link-hover);
+  text-decoration: underline;
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.bcn-gd-row .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.user-panel__item .esa-icon {
+  color: var(--bcn-gray-500);
+}
+.user-panel__item--danger .esa-icon {
+  color: var(--color-danger);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
+}
+.side-nav.collapsed .nav-section__header > .esa-icon:last-child {
+  display: none;
+}
+.type-card-title {
+  font-size: var(--type-size-400);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-body-large {
+  font-size: var(--type-size-300);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-relaxed);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-body {
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-relaxed);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-body-small {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-caption {
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.bcn-kb__pane {
+  min-block-size: 60vh;
+  padding-block-start: var(--spacing-600);
+  border-top: 1px solid var(--color-border);
+  scroll-margin-top: var(--spacing-400);
+}
+.bcn-kb__pane:not(:has(> .bcn-kb__article:not([hidden]))) {
+  min-block-size: 0;
+  padding-block-start: 0;
+  border-top: 0;
+}
+.bcn-kb__article {
+  max-inline-size: 70ch;
+}
+.bcn-kb__article[hidden] {
+  display: none;
 }
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
@@ -455,22 +727,51 @@ The same reading pane the help home uses, but SCOPED to this category and landin
   -webkit-appearance: none;
   appearance: none;
 }
-.bcn-kb__pane {
-  min-block-size: 60vh;
-  padding-block-start: var(--spacing-600);
-  border-top: 1px solid var(--color-border);
-  scroll-margin-top: var(--spacing-400);
+.esa-icon-button--xs {
+  --_ib-size: var(--form-height-xs, 28px);
 }
-.bcn-kb__pane:not(:has(> .bcn-kb__article:not([hidden]))) {
-  min-block-size: 0;
-  padding-block-start: 0;
-  border-top: 0;
+.esa-icon-button--sm {
+  --_ib-size: var(--form-height-sm, 32px);
 }
-.bcn-kb__article {
-  max-inline-size: 70ch;
+.esa-icon-button--lg {
+  --_ib-size: var(--form-height-lg, 48px);
 }
-.bcn-kb__article[hidden] {
-  display: none;
+.esa-icon-button:hover {
+  background: var(--_ib-bg-hover);
+}
+.esa-icon-button:focus-visible {
+  outline: var(--focus-ring-width) solid currentColor;
+  outline-offset: var(--focus-ring-offset, 2px);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
 }
 .esa-badge {
   --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
@@ -494,112 +795,142 @@ The same reading pane the help home uses, but SCOPED to this category and landin
   white-space: nowrap;
   box-sizing: border-box;
 }
+.esa-badge--xs {
+  --_badge-height: var(--badge-height-xs, 18px);
+  --_badge-font-size: 10px;
+  --_badge-padding-x: var(--spacing-100, 0.25rem);
+  --_badge-min-width: var(--badge-height-xs, 18px);
+}
 .esa-badge--sm {
   --_badge-height: var(--badge-height-sm, 22px);
   --_badge-font-size: 11px;
   --_badge-padding-x: var(--spacing-150, 0.375rem);
   --_badge-min-width: var(--badge-height-sm, 22px);
 }
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
+.esa-badge--lg {
+  --_badge-height: var(--badge-height-lg, 34px);
+  --_badge-font-size: 14px;
+  --_badge-padding-x: var(--spacing-300, 0.75rem);
+  --_badge-min-width: var(--badge-height-lg, 34px);
 }
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
+.esa-badge--secondary {
+  --_badge-bg: var(--color-secondary, #65ba74);
+  --_badge-text: var(--color-secondary-on-fill, #203c25);
 }
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
+.esa-badge--success {
+  --_badge-bg: var(--color-success, #bdee63);
+  --_badge-text: var(--color-success-on-fill, #37401c);
 }
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
+.esa-badge--warning {
+  --_badge-bg: var(--color-warning, #ffc53d);
+  --_badge-text: var(--color-warning-on-fill, #4f3422);
 }
-.nav-section__header > .esa-icon:last-child {
+.esa-badge--danger {
+  --_badge-bg: var(--color-danger, #e5484d);
+}
+.esa-badge--info {
+  --_badge-bg: var(--color-info, #0090ff);
+}
+.esa-badge--dot {
+  width: 8px;
+  height: 8px;
+  min-width: 8px;
+  padding: 0;
+  border-radius: var(--radius-full, 9999px);
+}
+.esa-badge--dot.esa-badge--primary {
+  --_badge-bg: var(--color-primary-hover, #3e9b4f);
+}
+.esa-badge--dot.esa-badge--secondary {
+  --_badge-bg: var(--color-secondary-hover, #46a758);
+}
+.esa-badge--dot.esa-badge--success {
+  --_badge-bg: var(--color-success-hover, #b0e64c);
+}
+.esa-badge--dot.esa-badge--warning {
+  --_badge-bg: var(--color-warning-hover, #ffba18);
+}
+.esa-badge--dot.esa-badge--danger {
+  --_badge-bg: var(--color-danger-hover, #dc3e42);
+}
+.esa-badge--dot.esa-badge--info {
+  --_badge-bg: var(--color-info-hover, #0588f0);
+}
+.breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
   flex-shrink: 0;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
-}
-.bcn-help-article {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-500);
-}
-.bcn-help-article__head {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  flex-wrap: wrap;
-}
-.bcn-help-article__title {
-  margin: 0;
-  color: var(--color-text-primary);
-}
-.bcn-help-article__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-}
-.bcn-help-article__p {
-  margin: 0;
-  color: var(--color-text-primary);
-}
-.type-card-title {
-  font-size: var(--type-size-400);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-normal);
-  letter-spacing: var(--letter-spacing-normal);
-}
-.type-body {
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-relaxed);
-  letter-spacing: var(--letter-spacing-normal);
 }
 ```
 
 ## Tokens
 - `--badge-bg`: #005862 _(component)_
+- `--badge-height-lg`: 34px _(component)_
 - `--badge-height-md`: 28px _(component)_
 - `--badge-height-sm`: 22px _(component)_
+- `--badge-height-xs`: 18px _(component)_
 - `--badge-radius`: .25rem _(component)_
 - `--badge-text-color`: #fcfcfc _(component)_
+- `--bcn-gray-1000`: #000000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
+- `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
 - `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
 - `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
 - `--color-border`: #dcdcdc _(semantic)_
+- `--color-border-light`: #efefef _(semantic)_
+- `--color-border-strong`: #bdbdbd _(semantic)_
+- `--color-danger`: #e5484d _(semantic)_
+- `--color-danger-hover`: #dc3e42 _(semantic)_
+- `--color-info`: #228be6 _(semantic)_
+- `--color-info-hover`: #0588f0 _(semantic)_
 - `--color-primary`: #005862 _(semantic)_
+- `--color-primary-hover`: #00474f _(semantic)_
+- `--color-secondary`: #00918b _(semantic)_
+- `--color-secondary-hover`: #0a6562 _(semantic)_
+- `--color-secondary-on-fill`: #203c25 _(semantic)_
+- `--color-success`: #2e7571 _(semantic)_
+- `--color-success-hover`: #b0e64c _(semantic)_
+- `--color-success-on-fill`: #37401c _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
+- `--color-surface-sunken`: #efefef _(semantic)_
 - `--color-text-inverse`: #fcfcfc _(semantic)_
+- `--color-text-link`: #005862 _(semantic)_
+- `--color-text-link-hover`: #00474f _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
+- `--color-warning`: #f59e0b _(semantic)_
+- `--color-warning-hover`: #ffba18 _(semantic)_
+- `--color-warning-on-fill`: #4f3422 _(semantic)_
+- `--focus-ring-offset`: 2px _(primitive)_
+- `--focus-ring-width`: 2px _(primitive)_
 - `--font-weight-medium`: 500 _(primitive)_
 - `--font-weight-regular`: 350 _(primitive)_
+- `--font-weight-semibold`: 550 _(primitive)_
+- `--form-height-lg`: 44px _(component)_
 - `--form-height-md`: 36px _(component)_
+- `--form-height-sm`: 28px _(component)_
+- `--form-height-xs`: 24px _(component)_
 - `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
+- `--icon-size-large`: 24px _(component)_
+- `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_
 - `--icon-size-small`: 16px _(component)_
+- `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--letter-spacing-normal`: .01em _(primitive)_
 - `--line-height-normal`: 1.6 _(primitive)_
 - `--line-height-relaxed`: 1.8 _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
+- `--radius-full`: 9999px _(primitive)_
+- `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
@@ -607,5 +938,8 @@ The same reading pane the help home uses, but SCOPED to this category and landin
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--spacing-600`: 2rem _(primitive)_
 - `--transition-fast`: .15s ease _(primitive)_
+- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
+- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
 - `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
+- `--type-size-300`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(primitive)_
 - `--type-size-400`: clamp(1rem, .88rem + .6vw, 1.25rem) _(primitive)_

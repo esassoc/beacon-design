@@ -57,6 +57,14 @@ The slim sticky rail that makes a long changelog navigable: one row per release 
 
 ## Styles
 ```css
+.bcn-omni-rail__item.is-active {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-weight: var(--font-weight-semibold);
+}
+.bcn-omni-row.is-active {
+  background: var(--color-surface-sunken);
+}
 .bcn-release-nav {
   position: sticky;
   top: var(--spacing-500, 1.5rem);
@@ -93,6 +101,21 @@ The slim sticky rail that makes a long changelog navigable: one row per release 
     background 0.1s ease,
     color 0.1s ease;
 }
+.bcn-release-nav__link:hover {
+  background: var(--color-surface-sunken);
+}
+.bcn-release-nav__link:hover .bcn-release-nav__version {
+  color: var(--color-text-primary);
+}
+.bcn-release-nav__link:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid
+    var(--focus-ring-color, var(--color-text-link, #005862));
+  outline-offset: 2px;
+}
+.bcn-release-nav__link.is-active .bcn-release-nav__version {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
 .bcn-release-nav__version {
   display: inline-flex;
   align-items: baseline;
@@ -103,10 +126,6 @@ The slim sticky rail that makes a long changelog navigable: one row per release 
   color: var(--color-text-tertiary);
   line-height: 1.3;
   transition: color 0.1s ease;
-}
-.bcn-release-nav__link.is-active .bcn-release-nav__version {
-  color: var(--color-text-primary);
-  font-weight: 600;
 }
 .bcn-release-nav__latest {
   flex: none;
@@ -127,10 +146,15 @@ The slim sticky rail that makes a long changelog navigable: one row per release 
 ```
 
 ## Tokens
+- `--color-primary`: #005862 _(semantic)_
 - `--color-surface-sunken`: #efefef _(semantic)_
+- `--color-text-inverse`: #fcfcfc _(semantic)_
+- `--color-text-link`: #005862 _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
+- `--focus-ring-color`: #65ba74 _(primitive)_
+- `--focus-ring-width`: 2px _(primitive)_
 - `--font-decorative`: "Besley", serif _(component)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
 - `--font-weight-medium`: 500 _(primitive)_

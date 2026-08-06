@@ -129,12 +129,39 @@ The Map tab is the hero (default of the 3-tab esa-tab-layout: Map · Data · Act
   flex: none;
   color: var(--color-text-tertiary);
 }
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-help-bar .esa-icon-button:hover,
+.bcn-help-bar .esa-icon-button:focus-visible {
+  color: var(--bcn-helpbar-fg);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.bcn-gd-row .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
 .topbar__right .esa-icon-button {
   color: var(--color-text-secondary);
+}
+.user-panel__item .esa-icon {
+  color: var(--bcn-gray-500);
+}
+.user-panel__item--danger .esa-icon {
+  color: var(--color-danger);
 }
 .project-switcher__trigger > .esa-icon:first-child {
   flex-shrink: 0;
   color: var(--bcn-gray-500);
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
 }
 .nav-section__header > .esa-icon:first-child {
   flex-shrink: 0;
@@ -151,49 +178,62 @@ The Map tab is the hero (default of the 3-tab esa-tab-layout: Map · Data · Act
 .nav-section--collapsed .nav-section__header > .esa-icon:last-child {
   transform: rotate(-90deg);
 }
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
+.side-nav.collapsed .nav-section__header > .esa-icon:last-child {
+  display: none;
 }
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+.map-filterbar {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--spacing-300);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
 }
-.bcn-gd__label .esa-icon {
+.map-filterbar__row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  flex-wrap: wrap;
+  padding: var(--spacing-250) var(--spacing-400);
+}
+.map-filterbar__row + .map-filterbar__row {
+  border-top: 1px solid var(--color-border);
+}
+.map-filterbar__label {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text-tertiary);
-  flex: none;
+  white-space: nowrap;
 }
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
+.map-filterbar__goto {
+  margin-left: auto;
+  display: flex;
+  gap: var(--spacing-200);
 }
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
+.map-filterbar__goto esa-combobox {
+  --form-height-sm: 32px;
+  --form-font-size-sm: var(--type-size-150);
+}
+.map-filterbar__buffer {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+}
+.comp-picker__trigger .esa-icon {
+  color: var(--color-text-tertiary);
   flex-shrink: 0;
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
+.map-filterbar {
+  display: none;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
+.wa__section .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
 }
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+.esa-collapsible__summary .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary, #404040);
 }
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
@@ -215,6 +255,22 @@ The Map tab is the hero (default of the 3-tab esa-tab-layout: Map · Data · Act
   transition: background var(--transition-fast, 0.15s ease);
   -webkit-appearance: none;
   appearance: none;
+}
+.esa-icon-button--xs {
+  --_ib-size: var(--form-height-xs, 28px);
+}
+.esa-icon-button--sm {
+  --_ib-size: var(--form-height-sm, 32px);
+}
+.esa-icon-button--lg {
+  --_ib-size: var(--form-height-lg, 48px);
+}
+.esa-icon-button:hover {
+  background: var(--_ib-bg-hover);
+}
+.esa-icon-button:focus-visible {
+  outline: var(--focus-ring-width) solid currentColor;
+  outline-offset: var(--focus-ring-offset, 2px);
 }
 .esa-filter-container {
   display: flex;
@@ -248,6 +304,14 @@ The Map tab is the hero (default of the 3-tab esa-tab-layout: Map · Data · Act
     color var(--transition-fast, 0.15s ease),
     background var(--transition-fast, 0.15s ease);
 }
+.esa-filter-clear-button:hover {
+  color: var(--_clear-text-hover);
+  background: var(--color-hover-overlay, rgba(0, 0, 0, 0.03));
+}
+.esa-filter-clear-button:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset, 2px);
+}
 .esa-filter-clear-button__icon {
   width: var(--_clear-icon-size);
   height: var(--_clear-icon-size);
@@ -256,59 +320,42 @@ The Map tab is the hero (default of the 3-tab esa-tab-layout: Map · Data · Act
 .esa-filter-clear-button__label {
   white-space: nowrap;
 }
-.esa-icon-button--sm {
-  --_ib-size: var(--form-height-sm, 32px);
-}
-.esa-collapsible__summary .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary, #404040);
-}
-.comp-picker__trigger .esa-icon {
-  color: var(--color-text-tertiary);
-  flex-shrink: 0;
-}
-.map-filterbar {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: var(--spacing-300);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-}
-.map-filterbar__row {
-  display: flex;
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
   align-items: center;
-  gap: var(--spacing-300);
-  flex-wrap: wrap;
-  padding: var(--spacing-250) var(--spacing-400);
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
 }
-.map-filterbar__label {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-tertiary);
-  white-space: nowrap;
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
 }
-.map-filterbar__goto {
-  margin-left: auto;
-  display: flex;
-  gap: var(--spacing-200);
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
 }
-.map-filterbar__goto esa-combobox {
-  --form-height-sm: 32px;
-  --form-font-size-sm: var(--type-size-150);
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
 }
-.map-filterbar__row + .map-filterbar__row {
-  border-top: 1px solid var(--color-border);
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
 }
-.map-filterbar__buffer {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
 }
-.wa__section .esa-icon {
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
   flex-shrink: 0;
-  color: var(--color-text-secondary);
 }
 ```
 
@@ -317,9 +364,12 @@ The Map tab is the hero (default of the 3-tab esa-tab-layout: Map · Data · Act
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
+- `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
 - `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
 - `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
 - `--color-border`: #dcdcdc _(semantic)_
+- `--color-danger`: #e5484d _(semantic)_
+- `--color-hover-overlay`: rgba(0, 0, 0, .03) _(primitive)_
 - `--color-primary`: #005862 _(semantic)_
 - `--color-primary-strong`: #2a7e3b _(semantic)_
 - `--color-surface`: #fcfcfc _(semantic)_
@@ -327,16 +377,24 @@ The Map tab is the hero (default of the 3-tab esa-tab-layout: Map · Data · Act
 - `--color-text-tertiary`: #656565 _(semantic)_
 - `--filter-clear-color`: #7c7c7c _(component)_
 - `--filter-clear-color-hover`: #ce2c31 _(component)_
+- `--focus-ring-color`: #65ba74 _(primitive)_
+- `--focus-ring-offset`: 2px _(primitive)_
+- `--focus-ring-width`: 2px _(primitive)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
 - `--font-weight-medium`: 500 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
+- `--form-height-lg`: 44px _(component)_
 - `--form-height-md`: 36px _(component)_
 - `--form-height-sm`: 28px _(component)_
+- `--form-height-xs`: 24px _(component)_
 - `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
+- `--icon-size-large`: 24px _(component)_
+- `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_
 - `--icon-size-small`: 16px _(component)_
+- `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_

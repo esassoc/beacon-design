@@ -468,6 +468,62 @@ One release in the stream: a quiet meta line ("Latest" + the long date) above th
 
 ## Styles
 ```css
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-help-bar .esa-icon-button:hover,
+.bcn-help-bar .esa-icon-button:focus-visible {
+  color: var(--bcn-helpbar-fg);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.bcn-gd-row .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.user-panel__item .esa-icon {
+  color: var(--bcn-gray-500);
+}
+.user-panel__item--danger .esa-icon {
+  color: var(--color-danger);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
+}
+.side-nav.collapsed .nav-section__header > .esa-icon:last-child {
+  display: none;
+}
 .bcn-release-nav {
   position: sticky;
   top: var(--spacing-500, 1.5rem);
@@ -504,6 +560,21 @@ One release in the stream: a quiet meta line ("Latest" + the long date) above th
     background 0.1s ease,
     color 0.1s ease;
 }
+.bcn-release-nav__link:hover {
+  background: var(--color-surface-sunken);
+}
+.bcn-release-nav__link:hover .bcn-release-nav__version {
+  color: var(--color-text-primary);
+}
+.bcn-release-nav__link:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid
+    var(--focus-ring-color, var(--color-text-link, #005862));
+  outline-offset: 2px;
+}
+.bcn-release-nav__link.is-active .bcn-release-nav__version {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
 .bcn-release-nav__version {
   display: inline-flex;
   align-items: baseline;
@@ -514,10 +585,6 @@ One release in the stream: a quiet meta line ("Latest" + the long date) above th
   color: var(--color-text-tertiary);
   line-height: 1.3;
   transition: color 0.1s ease;
-}
-.bcn-release-nav__link.is-active .bcn-release-nav__version {
-  color: var(--color-text-primary);
-  font-weight: 600;
 }
 .bcn-release-nav__latest {
   flex: none;
@@ -545,6 +612,9 @@ One release in the stream: a quiet meta line ("Latest" + the long date) above th
   inline-size: 100%;
   scroll-margin-top: var(--spacing-500);
   padding-block: var(--spacing-800);
+}
+.bcn-release + .bcn-release {
+  border-top: 1px solid var(--color-border-light);
 }
 .bcn-release:first-child {
   padding-block-start: var(--spacing-500);
@@ -608,6 +678,11 @@ One release in the stream: a quiet meta line ("Latest" + the long date) above th
   color: inherit;
   text-decoration: none;
 }
+.bcn-release__headline-link:hover {
+  color: var(--color-text-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
 .bcn-release__headline-text {
   margin: 0;
   max-inline-size: 42rem;
@@ -615,17 +690,8 @@ One release in the stream: a quiet meta line ("Latest" + the long date) above th
   line-height: var(--line-height-normal);
   color: var(--color-text-secondary);
 }
-.bcn-release strong {
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-release code {
-  font-family: var(--font-mono);
-  font-size: 0.875em;
-  padding: 1px 5px;
-  border-radius: var(--radius-100);
-  background: var(--color-surface-sunken);
-  color: var(--color-text-primary);
+.bcn-release__group + .bcn-release__group {
+  margin-block-start: var(--spacing-700);
 }
 .bcn-release__group-title {
   margin: 0 0 var(--spacing-400);
@@ -658,11 +724,52 @@ One release in the stream: a quiet meta line ("Latest" + the long date) above th
   line-height: 1.4;
   color: var(--color-text-primary);
 }
+.bcn-release__flag {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--spacing-100);
+  padding: 2px var(--spacing-200);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-100);
+  background: var(--color-surface);
+  font-size: 0.8125rem;
+  color: var(--color-text-tertiary);
+}
+.bcn-release__flag code {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+.bcn-release__applies {
+  font-size: 0.8125rem;
+  color: var(--color-text-tertiary);
+}
 .bcn-release__blocks {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-400);
   max-inline-size: 42rem;
+}
+.bcn-release__p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
+}
+.bcn-release__bullets {
+  margin: 0;
+  padding-inline-start: var(--spacing-500);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+.bcn-release__bullet {
+  font-size: 1rem;
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
+}
+.bcn-release__bullet::marker {
+  color: var(--color-text-tertiary);
 }
 .bcn-release__callout {
   display: grid;
@@ -685,50 +792,6 @@ One release in the stream: a quiet meta line ("Latest" + the long date) above th
   line-height: var(--line-height-normal);
   color: var(--color-text-primary);
 }
-.bcn-release__p {
-  margin: 0;
-  font-size: 1rem;
-  line-height: var(--line-height-normal);
-  color: var(--color-text-primary);
-}
-.bcn-release__group + .bcn-release__group {
-  margin-block-start: var(--spacing-700);
-}
-.bcn-release__applies {
-  font-size: 0.8125rem;
-  color: var(--color-text-tertiary);
-}
-.bcn-release__flag {
-  display: inline-flex;
-  align-items: baseline;
-  gap: var(--spacing-100);
-  padding: 2px var(--spacing-200);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-100);
-  background: var(--color-surface);
-  font-size: 0.8125rem;
-  color: var(--color-text-tertiary);
-}
-.bcn-release__flag code {
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-}
-.bcn-release__bullets {
-  margin: 0;
-  padding-inline-start: var(--spacing-500);
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
-}
-.bcn-release__bullet {
-  font-size: 1rem;
-  line-height: var(--line-height-normal);
-  color: var(--color-text-primary);
-}
-.bcn-release__bullet::marker {
-  color: var(--color-text-tertiary);
-}
 .bcn-release__fixes {
   margin-block-start: var(--spacing-600);
 }
@@ -739,67 +802,36 @@ One release in the stream: a quiet meta line ("Latest" + the long date) above th
   color: var(--color-text-secondary);
   list-style-position: inside;
 }
-.bcn-release + .bcn-release {
-  border-top: 1px solid var(--color-border-light);
+.bcn-release__fixes-summary:hover {
+  color: var(--color-text-primary);
 }
-.bcn-search-trigger .esa-icon {
-  flex: none;
+.bcn-release__fixes-list {
+  margin: var(--spacing-300) 0 0;
+  padding-inline-start: var(--spacing-500);
+  max-inline-size: 42rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+.bcn-release__fix {
+  font-size: 0.875rem;
+  line-height: var(--line-height-normal);
   color: var(--color-text-tertiary);
 }
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
+.bcn-release__fix::marker {
+  color: var(--color-border-strong);
 }
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
+.bcn-release strong {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
 }
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+.bcn-release code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  padding: 1px 5px;
+  border-radius: var(--radius-100);
+  background: var(--color-surface-sunken);
+  color: var(--color-text-primary);
 }
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
@@ -822,6 +854,59 @@ One release in the stream: a quiet meta line ("Latest" + the long date) above th
   -webkit-appearance: none;
   appearance: none;
 }
+.esa-icon-button--xs {
+  --_ib-size: var(--form-height-xs, 28px);
+}
+.esa-icon-button--sm {
+  --_ib-size: var(--form-height-sm, 32px);
+}
+.esa-icon-button--lg {
+  --_ib-size: var(--form-height-lg, 48px);
+}
+.esa-icon-button:hover {
+  background: var(--_ib-bg-hover);
+}
+.esa-icon-button:focus-visible {
+  outline: var(--focus-ring-width) solid currentColor;
+  outline-offset: var(--focus-ring-offset, 2px);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
 ```
 
 ## Tokens
@@ -829,27 +914,41 @@ One release in the stream: a quiet meta line ("Latest" + the long date) above th
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
+- `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
 - `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
 - `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
 - `--color-border`: #dcdcdc _(semantic)_
 - `--color-border-light`: #efefef _(semantic)_
+- `--color-border-strong`: #bdbdbd _(semantic)_
+- `--color-danger`: #e5484d _(semantic)_
+- `--color-primary`: #005862 _(semantic)_
 - `--color-surface`: #fcfcfc _(semantic)_
 - `--color-surface-sunken`: #efefef _(semantic)_
+- `--color-text-link`: #005862 _(semantic)_
 - `--color-text-muted`: #7c7c7c _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
+- `--focus-ring-color`: #65ba74 _(primitive)_
+- `--focus-ring-offset`: 2px _(primitive)_
+- `--focus-ring-width`: 2px _(primitive)_
 - `--font-decorative`: "Besley", serif _(component)_
 - `--font-mono`: "Roboto Mono", ui-monospace, monospace _(primitive)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
 - `--font-weight-medium`: 500 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
+- `--form-height-lg`: 44px _(component)_
 - `--form-height-md`: 36px _(component)_
+- `--form-height-sm`: 28px _(component)_
+- `--form-height-xs`: 24px _(component)_
 - `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
+- `--icon-size-large`: 24px _(component)_
+- `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_
 - `--icon-size-small`: 16px _(component)_
+- `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--line-height-normal`: 1.6 _(primitive)_
 - `--radius-100`: .25rem _(primitive)_

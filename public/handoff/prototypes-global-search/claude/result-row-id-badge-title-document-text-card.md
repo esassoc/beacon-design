@@ -52,6 +52,12 @@ One result row: a head line of a purple commitment-ID badge + a semibold title, 
   text-decoration: none;
   transition: background 0.12s ease;
 }
+.bcn-sr__row:hover {
+  background: var(--color-surface-sunken);
+}
+.bcn-sr__row[hidden] {
+  display: none;
+}
 .bcn-sr__row-head {
   display: flex;
   align-items: center;
@@ -63,6 +69,17 @@ One result row: a head line of a purple commitment-ID badge + a semibold title, 
   align-items: center;
   gap: var(--spacing-200);
   min-width: 0;
+}
+.bcn-sr__row-code {
+  flex: none;
+  padding: 1px 6px;
+  border-radius: var(--radius-100);
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+  white-space: nowrap;
+  color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 12%, white);
 }
 .bcn-sr__row-title {
   flex: 0 1 auto;
@@ -86,32 +103,8 @@ One result row: a head line of a purple commitment-ID badge + a semibold title, 
   color: var(--color-text-primary);
   text-align: left;
 }
-.bcn-sr__row-snippet[hidden] {
-  display: none;
-}
-.bcn-sr__row-code {
-  flex: none;
-  padding: 1px 6px;
-  border-radius: var(--radius-100);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.4;
-  white-space: nowrap;
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-}
 .bcn-sr__row-snippet p {
   margin: 0;
-}
-.bcn-sr__row-title mark,
-.bcn-sr__row-snippet mark {
-  background: #fde047;
-  color: var(--color-text-primary);
-  border-radius: 2px;
-  padding: 0 1px;
-}
-.bcn-sr__row[hidden] {
-  display: none;
 }
 .bcn-sr__row-snippet p + p {
   margin-top: 0.85em;
@@ -125,12 +118,23 @@ One result row: a head line of a purple commitment-ID badge + a semibold title, 
   font-style: normal;
   color: var(--color-text-tertiary);
 }
+.bcn-sr__row-snippet[hidden] {
+  display: none;
+}
+.bcn-sr__row-title mark,
+.bcn-sr__row-snippet mark {
+  background: #fde047;
+  color: var(--color-text-primary);
+  border-radius: 2px;
+  padding: 0 1px;
+}
 ```
 
 ## Tokens
 - `--color-border`: #dcdcdc _(semantic)_
 - `--color-commitment`: #58508d _(component)_
 - `--color-surface`: #fcfcfc _(semantic)_
+- `--color-surface-sunken`: #efefef _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
 - `--font-decorative`: "Besley", serif _(component)_

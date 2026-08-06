@@ -2396,110 +2396,6 @@ The global-search command palette — a fixed overlay centered both vertically a
 
 ## Styles
 ```css
-.bcn-omni__panel {
-  position: relative;
-  z-index: 1;
-  width: 860px;
-  max-width: 100%;
-  height: min(680px, 84vh);
-  display: flex;
-  flex-direction: column;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-400, 12px);
-  overflow: hidden;
-  box-shadow: 0 24px 64px #141e2852;
-  animation: bcn-omni-enter 0.14s ease-out;
-}
-.bcn-omni__searchrow {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  flex: none;
-  padding: var(--spacing-300) var(--spacing-500);
-  border-bottom: 1px solid var(--color-border);
-}
-.bcn-omni__searchicon {
-  display: inline-flex;
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.bcn-omni__searchicon svg {
-  width: 22px;
-  height: 22px;
-}
-.bcn-omni__inputwrap {
-  position: relative;
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  align-items: center;
-}
-.bcn-omni__ghost {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  display: flex;
-  align-items: center;
-  font-family: inherit;
-  font-size: var(--type-size-400, 1.25rem);
-  line-height: 1.4;
-  color: var(--color-text-tertiary);
-  white-space: pre;
-  overflow: hidden;
-  pointer-events: none;
-}
-.bcn-omni__input {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  min-width: 0;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  outline: 0;
-  background: transparent;
-  font-family: inherit;
-  font-size: var(--type-size-400, 1.25rem);
-  line-height: 1.4;
-  color: var(--color-text-primary);
-}
-.bcn-omni__input::placeholder {
-  color: var(--color-text-tertiary);
-}
-.bcn-omni__clear {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 26px;
-  height: 26px;
-  flex: none;
-  border: 0;
-  border-radius: var(--radius-full);
-  background: var(--color-surface-sunken);
-  color: var(--color-text-secondary);
-  cursor: pointer;
-}
-.bcn-omni__clear[hidden] {
-  display: none;
-}
-.bcn-omni__split {
-  display: flex;
-  flex: 1 1 auto;
-  min-height: 0;
-}
-.bcn-omni__rail {
-  box-sizing: border-box;
-  flex: none;
-  width: 208px;
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  padding: var(--spacing-200);
-  border-right: 1px solid var(--color-border);
-  overflow-y: auto;
-  scrollbar-width: none;
-}
 .bcn-omni-rail__item {
   display: flex;
   align-items: center;
@@ -2518,6 +2414,15 @@ The global-search command palette — a fixed overlay centered both vertically a
     background 0.1s,
     color 0.1s;
 }
+.bcn-omni-rail__item:not(:disabled):hover {
+  background: var(--color-surface-sunken);
+  color: var(--color-text-primary);
+}
+.bcn-omni-rail__item.is-active {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-weight: var(--font-weight-semibold);
+}
 .bcn-omni-rail__item:disabled {
   color: var(--color-text-tertiary);
   cursor: default;
@@ -2528,57 +2433,6 @@ The global-search command palette — a fixed overlay centered both vertically a
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-.bcn-omni__body {
-  flex: 1 1 auto;
-  min-width: 0;
-  overflow-y: auto;
-  padding: var(--spacing-200) 0;
-}
-.bcn-omni__body.is-landing {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing-400);
-}
-.bcn-omni__showall {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-200);
-  flex: none;
-  width: 100%;
-  padding: var(--spacing-300);
-  border: 0;
-  background: var(--color-primary);
-  color: var(--color-text-inverse);
-  font-family: inherit;
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-semibold);
-  cursor: pointer;
-}
-.bcn-omni__showall[hidden] {
-  display: none;
-}
-.bcn-omni__footer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-400);
-  flex: none;
-  padding: var(--spacing-250) var(--spacing-500);
-  border-top: 1px solid var(--color-border);
-  font-size: var(--type-size-150);
-  color: var(--color-text-tertiary);
-}
-.bcn-omni__footer span {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.bcn-omni-rail__item.is-active {
-  background: var(--color-primary);
-  color: var(--color-text-inverse);
-  font-weight: var(--font-weight-semibold);
 }
 .bcn-omni-rail__c {
   flex: none;
@@ -2672,12 +2526,177 @@ The global-search command palette — a fixed overlay centered both vertically a
   border-radius: 2px;
   padding: 0 1px;
 }
+.bcn-omni__panel {
+  position: relative;
+  z-index: 1;
+  width: 860px;
+  max-width: 100%;
+  height: min(680px, 84vh);
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-400, 12px);
+  overflow: hidden;
+  box-shadow: 0 24px 64px #141e2852;
+  animation: bcn-omni-enter 0.14s ease-out;
+}
+.bcn-omni__searchrow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  flex: none;
+  padding: var(--spacing-300) var(--spacing-500);
+  border-bottom: 1px solid var(--color-border);
+}
+.bcn-omni__searchicon {
+  display: inline-flex;
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.bcn-omni__searchicon svg {
+  width: 22px;
+  height: 22px;
+}
+.bcn-omni__inputwrap {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+.bcn-omni__input {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: var(--type-size-400, 1.25rem);
+  line-height: 1.4;
+  color: var(--color-text-primary);
+}
+.bcn-omni__input::placeholder {
+  color: var(--color-text-tertiary);
+}
+.bcn-omni__ghost {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  font-family: inherit;
+  font-size: var(--type-size-400, 1.25rem);
+  line-height: 1.4;
+  color: var(--color-text-tertiary);
+  white-space: pre;
+  overflow: hidden;
+  pointer-events: none;
+}
+.bcn-omni__ghost-pad {
+  color: transparent;
+  white-space: pre;
+}
+.bcn-omni__clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex: none;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-sunken);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+.bcn-omni__clear[hidden] {
+  display: none;
+}
+.bcn-omni__clear:hover {
+  background: var(--color-border);
+}
+.bcn-omni__split {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.bcn-omni__rail {
+  box-sizing: border-box;
+  flex: none;
+  width: 208px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: var(--spacing-200);
+  border-right: 1px solid var(--color-border);
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.bcn-omni__rail::-webkit-scrollbar {
+  display: none;
+}
+.bcn-omni__body {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-y: auto;
+  padding: var(--spacing-200) 0;
+}
+.bcn-omni__body.is-landing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-400);
+}
+.bcn-omni__showall {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-200);
+  flex: none;
+  width: 100%;
+  padding: var(--spacing-300);
+  border: 0;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-family: inherit;
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+}
+.bcn-omni__showall[hidden] {
+  display: none;
+}
+.bcn-omni__showall:hover {
+  background: var(--color-primary-hover, var(--color-primary));
+  filter: brightness(0.96);
+}
+.bcn-omni__footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-400);
+  flex: none;
+  padding: var(--spacing-250) var(--spacing-500);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--type-size-150);
+  color: var(--color-text-tertiary);
+}
+.bcn-omni__footer span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
 ```
 
 ## Tokens
 - `--color-border`: #dcdcdc _(semantic)_
 - `--color-commitment`: #58508d _(component)_
 - `--color-primary`: #005862 _(semantic)_
+- `--color-primary-hover`: #00474f _(semantic)_
 - `--color-surface`: #fcfcfc _(semantic)_
 - `--color-surface-sunken`: #efefef _(semantic)_
 - `--color-text-inverse`: #fcfcfc _(semantic)_

@@ -103,22 +103,44 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
   flex: none;
   color: var(--color-text-tertiary);
 }
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-help-bar .esa-icon-button:hover,
+.bcn-help-bar .esa-icon-button:focus-visible {
+  color: var(--bcn-helpbar-fg);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.bcn-gd-row .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
 .topbar__right .esa-icon-button {
   color: var(--color-text-secondary);
+}
+.user-panel__item .esa-icon {
+  color: var(--bcn-gray-500);
+}
+.user-panel__item--danger .esa-icon {
+  color: var(--color-danger);
 }
 .project-switcher__trigger > .esa-icon:first-child {
   flex-shrink: 0;
   color: var(--bcn-gray-500);
 }
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
 .nav-section__header:hover .esa-icon,
 .nav-section--active .nav-section__header,
 .nav-section--active .nav-section__header .esa-icon {
   color: var(--color-primary);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
 }
 .nav-section__header > .esa-icon:last-child {
   color: var(--bcn-gray-400);
@@ -127,13 +149,11 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
     opacity 0.2s ease-in-out;
   flex-shrink: 0;
 }
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
 }
-.bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
+.side-nav.collapsed .nav-section__header > .esa-icon:last-child {
+  display: none;
 }
 .bcn-phome {
   background: var(--color-surface);
@@ -150,6 +170,12 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+.bcn-phome__body {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-500);
+  padding: 0 var(--spacing-600) var(--spacing-500);
 }
 .bcn-phome__edit {
   position: absolute;
@@ -172,15 +198,23 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
   top: var(--spacing-300);
   right: var(--spacing-600);
 }
-.bcn-phome__body {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--spacing-500);
-  padding: 0 var(--spacing-600) var(--spacing-500);
+.bcn-phome__cover:hover .bcn-phome__edit--cover,
+.bcn-phome__edit--cover:focus-visible {
+  opacity: 1;
 }
 .bcn-phome__sealwrap {
   position: relative;
   flex-shrink: 0;
+}
+.bcn-phome__edit--logo {
+  right: 0;
+  bottom: 0;
+  padding: var(--spacing-150);
+  border-radius: var(--radius-full);
+}
+.bcn-phome__sealwrap:hover .bcn-phome__edit--logo,
+.bcn-phome__edit--logo:focus-visible {
+  opacity: 1;
 }
 .bcn-phome__seal {
   display: block;
@@ -193,12 +227,6 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
   border: 3px solid var(--color-surface);
   object-fit: contain;
   box-shadow: var(--shadow-100, 0 2px 12px 0 rgba(0, 0, 0, 0.08));
-}
-.bcn-phome__edit--logo {
-  right: 0;
-  bottom: 0;
-  padding: var(--spacing-150);
-  border-radius: var(--radius-full);
 }
 .bcn-phome__id {
   display: flex;
@@ -251,30 +279,6 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
   background: var(--_chip);
   flex-shrink: 0;
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
   --_ib-bg-hover: var(
@@ -296,8 +300,58 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
   -webkit-appearance: none;
   appearance: none;
 }
+.esa-icon-button--xs {
+  --_ib-size: var(--form-height-xs, 28px);
+}
 .esa-icon-button--sm {
   --_ib-size: var(--form-height-sm, 32px);
+}
+.esa-icon-button--lg {
+  --_ib-size: var(--form-height-lg, 48px);
+}
+.esa-icon-button:hover {
+  background: var(--_ib-bg-hover);
+}
+.esa-icon-button:focus-visible {
+  outline: var(--focus-ring-width) solid currentColor;
+  outline-offset: var(--focus-ring-offset, 2px);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
 }
 ```
 
@@ -306,9 +360,11 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
+- `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
 - `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
 - `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
 - `--color-border`: #dcdcdc _(semantic)_
+- `--color-danger`: #e5484d _(semantic)_
 - `--color-primary`: #005862 _(semantic)_
 - `--color-surface`: #fcfcfc _(semantic)_
 - `--color-surface-sunken`: #efefef _(semantic)_
@@ -316,19 +372,26 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
+- `--focus-ring-offset`: 2px _(primitive)_
+- `--focus-ring-width`: 2px _(primitive)_
 - `--font-decorative`: "Besley", serif _(component)_
 - `--font-display`: "DM Sans", sans-serif _(primitive)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
 - `--font-weight-bold`: 650 _(primitive)_
 - `--font-weight-medium`: 500 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
+- `--form-height-lg`: 44px _(component)_
 - `--form-height-md`: 36px _(component)_
 - `--form-height-sm`: 28px _(component)_
+- `--form-height-xs`: 24px _(component)_
 - `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
+- `--icon-size-large`: 24px _(component)_
+- `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_
 - `--icon-size-small`: 16px _(component)_
+- `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--letter-spacing-tight`: -.01em _(primitive)_
 - `--line-height-tight`: 1.3 _(primitive)_

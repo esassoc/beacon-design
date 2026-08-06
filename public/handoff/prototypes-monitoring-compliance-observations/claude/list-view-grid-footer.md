@@ -1,25 +1,25 @@
-# Data tab — Permits / Segments grids
+# List view (grid + footer)
 
-The data workspace: Permits × Segments as AG Grids built on the shared beacon-grid kit (the same theme + status-cell renderer as requirement-tracker), so the prototype reads as the real Beacon app. Permit rows open the EDITABLE drawer; segment rows open the read-only dossier.
+The default view: the observation set in the shared AG Grid kit already used by Surveys and Permits & Studies, over a footer carrying a CSV download and the record count. Clicking any row opens that observation in the read-only detail panel.
 
 ## Key decisions
-- beaconTheme + makeStatusRenderer from src/lib/beacon-grid — the single grid kit shared across Tracking pages; columns mirror the live Beacon views.
-- Two grids behind one pivot (panes #pane-permits / #pane-segments); the inactive pane is hidden, not destroyed.
-- Row click is the open affordance: onRowClicked → openPermit (permits) / openSegment (segments). Permits are the write surface; segments are read-only (status derived).
-- Permits grid rows are checkbox-selectable to feed the bulk status bar.
+- AG Grid, not a bespoke table — the kit is already the house grid on two other trackers, and the column/sort/resize behaviour comes free and consistent.
+- Row click opens the detail panel rather than navigating. The list is the workspace; the detail is a peek, so you can review several observations without losing your filter and scroll position.
+- The footer shows a total AND, when filtering is active, a separate filtered count — so a narrow result set never reads as a small dataset.
 
 ## Gotchas
-- Grids are LAZY (ensureGrids on first Data activation) — the recipe switches tabs before the grid exists; in Angular, instantiate on tab init and call sizeColumnsToFit on reveal.
-- Editing here re-derives the whole store — a permit status change in the grid must repaint the map, mileage, timeline, insights, and exec rollup, not just the cell.
-- Keep the two grids on the shared beacon-grid kit; do not hand-roll a second table style.
+- The CSV download must export the FILTERED rows, not the whole dataset — exporting everything from a filtered view is a quiet data-accuracy bug that looks like it worked.
+- Row click is wired through the grid API (onRowClicked), not per-row DOM listeners; rows are virtualised, so DOM-level handlers will silently stop working as you scroll.
 
 ## Done when
-- Permits and Segments render as themed AG Grids matching the Beacon grid kit; clicking a permit row opens the editor, a segment row opens the dossier; the pivot swaps panes.
+- The grid lists observations with the filter bar applied; the footer total matches the visible row count.
+- Clicking any row opens the detail panel for that observation without leaving the list.
+- Download as CSV produces a file containing exactly the currently filtered rows.
 
 ## Markup
 ```html
-<div class="bcn-view-pane" id="pane-permits">
-  <div id="grid-permits" class="pt-grid">
+<div id="ov-list-pane">
+  <div id="ov-grid" class="ov-grid">
     <div
       class="ag-theme-buttonStyle-1 ag-theme-columnDropStyle-2 ag-theme-batchEditStyle-3 ag-theme-checkboxStyle-4 ag-theme-iconSet-5 ag-theme-tabStyle-6 ag-theme-inputStyle-7 ag-theme-columnDropStyle-2 ag-theme-part-8 ag-theme-params-1"
       style="height: 100%; --ag-internal-row-border-width: 1px"
@@ -72,8 +72,7 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
             data-ref="eGridRoot"
             role="grid"
             aria-colcount="8"
-            aria-multiselectable="true"
-            aria-rowcount="16"
+            aria-rowcount="17"
           >
             <!--AG-HEADER-ROOT-->
             <div
@@ -82,140 +81,158 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
               style="height: 49px; min-height: 49px"
             >
               <div
-                class="ag-pinned-left-header ag-hidden"
+                class="ag-pinned-left-header"
                 role="rowgroup"
-                aria-hidden="true"
-                style="width: 0px; max-width: 0px; min-width: 0px"
-              ></div>
+                style="width: 110px; max-width: 110px; min-width: 110px"
+              >
+                <div
+                  class="ag-header-row ag-header-row-column"
+                  role="row"
+                  tabindex="0"
+                  aria-rowindex="1"
+                  style="top: 0px; height: 48px; width: 110px"
+                >
+                  <div
+                    class="ag-header-cell ag-column-first ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed"
+                    role="columnheader"
+                    col-id="id"
+                    aria-colindex="1"
+                    tabindex="-1"
+                    aria-sort="none"
+                    style="
+                      top: 0px;
+                      height: 48px;
+                      width: 110px;
+                      touch-action: none;
+                      left: 0px;
+                    "
+                  >
+                    <div
+                      class="ag-header-cell-resize"
+                      data-ref="eResize"
+                      role="presentation"
+                      aria-hidden="false"
+                      style="touch-action: none"
+                    ></div>
+                    <div
+                      class="ag-header-cell-comp-wrapper"
+                      data-ref="eHeaderCompWrapper"
+                      role="presentation"
+                    >
+                      <div
+                        class="ag-cell-label-container ag-header-cell-sorted-none"
+                        role="presentation"
+                      >
+                        <span
+                          class="ag-header-icon ag-header-cell-filter-button"
+                          data-ref="eFilterButton"
+                          aria-hidden="true"
+                          ><span
+                            class="ag-icon ag-icon-filter"
+                            role="presentation"
+                            unselectable="on"
+                          ></span
+                        ></span>
+                        <div
+                          class="ag-header-cell-label"
+                          data-ref="eLabel"
+                          role="presentation"
+                        >
+                          <span class="ag-header-cell-text" data-ref="eText">ID</span>
+                          <!--AG-SORT-INDICATOR--><span
+                            class="ag-sort-indicator-container"
+                            data-ref="eSortIndicator"
+                          >
+                            <span
+                              class="ag-sort-indicator-icon ag-sort-order ag-hidden"
+                              data-ref="eSortOrder"
+                              aria-hidden="true"
+                            ></span>
+                            <span
+                              class="ag-sort-indicator-icon ag-sort-ascending-icon ag-hidden"
+                              data-ref="eSortAsc"
+                              aria-hidden="true"
+                              ><span
+                                class="ag-icon ag-icon-asc"
+                                role="presentation"
+                                unselectable="on"
+                              ></span
+                            ></span>
+                            <span
+                              class="ag-sort-indicator-icon ag-sort-descending-icon ag-hidden"
+                              data-ref="eSortDesc"
+                              aria-hidden="true"
+                              ><span
+                                class="ag-icon ag-icon-desc"
+                                role="presentation"
+                                unselectable="on"
+                              ></span
+                            ></span>
+                            <span
+                              class="ag-sort-indicator-icon ag-sort-mixed-icon ag-hidden"
+                              data-ref="eSortMixed"
+                              aria-hidden="true"
+                              ><span
+                                class="ag-icon ag-icon-none"
+                                role="presentation"
+                                unselectable="on"
+                              ></span
+                            ></span>
+                            <span
+                              class="ag-sort-indicator-icon ag-sort-absolute-ascending-icon ag-hidden"
+                              data-ref="eSortAbsoluteAsc"
+                              aria-hidden="true"
+                              ><span
+                                class="ag-icon ag-icon-aasc"
+                                role="presentation"
+                                unselectable="on"
+                              ></span
+                            ></span>
+                            <span
+                              class="ag-sort-indicator-icon ag-sort-absolute-descending-icon ag-hidden"
+                              data-ref="eSortAbsoluteDesc"
+                              aria-hidden="true"
+                              ><span
+                                class="ag-icon ag-icon-adesc"
+                                role="presentation"
+                                unselectable="on"
+                              ></span
+                            ></span>
+                            <span
+                              class="ag-sort-indicator-icon ag-sort-none-icon ag-hidden"
+                              data-ref="eSortNone"
+                              aria-hidden="true"
+                              ><span
+                                class="ag-icon ag-icon-none"
+                                role="presentation"
+                                unselectable="on"
+                              ></span
+                            ></span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="ag-header-viewport" role="rowgroup" tabindex="-1">
                 <div
                   class="ag-header-container"
                   data-ref="eCenterContainer"
                   role="presentation"
-                  style="width: 1100px"
+                  style="width: 1170px"
                 >
                   <div
                     class="ag-header-row ag-header-row-column"
                     role="row"
                     tabindex="0"
                     aria-rowindex="1"
-                    style="top: 0px; height: 48px; width: 1100px"
+                    style="top: 0px; height: 48px; width: 1170px"
                   >
-                    <div
-                      class="ag-header-cell ag-column-first ag-header-parent-hidden ag-focus-managed"
-                      role="columnheader"
-                      col-id="ag-Grid-SelectionColumn"
-                      aria-colindex="1"
-                      tabindex="-1"
-                      style="top: 0px; height: 48px; width: 50px; left: 0px"
-                    >
-                      <div
-                        class="ag-header-cell-resize ag-hidden"
-                        data-ref="eResize"
-                        role="presentation"
-                        aria-hidden="true"
-                      ></div>
-                      <div
-                        role="presentation"
-                        class="ag-labeled ag-label-align-right ag-checkbox ag-input-field ag-header-select-all"
-                      >
-                        <div
-                          class="ag-input-field-label ag-label ag-hidden ag-checkbox-label"
-                          data-ref="eLabel"
-                          aria-hidden="true"
-                          role="presentation"
-                          id="ag-40-label"
-                        ></div>
-                        <div
-                          class="ag-wrapper ag-input-wrapper ag-checkbox-input-wrapper"
-                          data-ref="eWrapper"
-                          role="presentation"
-                        >
-                          <input
-                            class="ag-input-field-input ag-checkbox-input"
-                            data-ref="eInput"
-                            type="checkbox"
-                            id="ag-40-input"
-                            tabindex="-1"
-                            aria-label="Column with Header Selection"
-                          />
-                        </div>
-                      </div>
-                      <div
-                        class="ag-header-cell-comp-wrapper"
-                        data-ref="eHeaderCompWrapper"
-                        role="presentation"
-                      >
-                        <div class="ag-cell-label-container" role="presentation">
-                          <div
-                            class="ag-header-cell-label"
-                            data-ref="eLabel"
-                            role="presentation"
-                          >
-                            <span class="ag-header-cell-text" data-ref="eText"></span>
-                            <span
-                              class="ag-header-icon ag-header-label-icon ag-filter-icon ag-hidden"
-                              data-ref="eFilter"
-                              aria-hidden="true"
-                              ><span
-                                class="ag-icon ag-icon-filter"
-                                role="presentation"
-                                unselectable="on"
-                              ></span
-                            ></span>
-                            <!--AG-SORT-INDICATOR--><span
-                              class="ag-sort-indicator-container"
-                              data-ref="eSortIndicator"
-                            >
-                              <span
-                                class="ag-sort-indicator-icon ag-sort-order ag-hidden"
-                                data-ref="eSortOrder"
-                                aria-hidden="true"
-                              ></span>
-                              <span
-                                class="ag-sort-indicator-icon ag-sort-ascending-icon ag-hidden"
-                                data-ref="eSortAsc"
-                                aria-hidden="true"
-                              ></span>
-                              <span
-                                class="ag-sort-indicator-icon ag-sort-descending-icon ag-hidden"
-                                data-ref="eSortDesc"
-                                aria-hidden="true"
-                              ></span>
-                              <span
-                                class="ag-sort-indicator-icon ag-sort-mixed-icon ag-hidden"
-                                data-ref="eSortMixed"
-                                aria-hidden="true"
-                                ><span
-                                  class="ag-icon ag-icon-none"
-                                  role="presentation"
-                                  unselectable="on"
-                                ></span
-                              ></span>
-                              <span
-                                class="ag-sort-indicator-icon ag-sort-absolute-ascending-icon ag-hidden"
-                                data-ref="eSortAbsoluteAsc"
-                                aria-hidden="true"
-                              ></span>
-                              <span
-                                class="ag-sort-indicator-icon ag-sort-absolute-descending-icon ag-hidden"
-                                data-ref="eSortAbsoluteDesc"
-                                aria-hidden="true"
-                              ></span>
-                              <span
-                                class="ag-sort-indicator-icon ag-sort-none-icon ag-hidden"
-                                data-ref="eSortNone"
-                                aria-hidden="true"
-                              ></span>
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                     <div
                       class="ag-header-cell ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed"
                       role="columnheader"
-                      col-id="name"
+                      col-id="category"
                       aria-colindex="2"
                       tabindex="-1"
                       aria-sort="none"
@@ -224,7 +241,7 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
                         height: 48px;
                         width: 240px;
                         touch-action: none;
-                        left: 50px;
+                        left: 0px;
                       "
                     >
                       <div
@@ -256,7 +273,127 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
                             role="presentation"
                           >
                             <span class="ag-header-cell-text" data-ref="eText"
-                              >Permit</span
+                              >Category</span
+                            >
+                            <!--AG-SORT-INDICATOR--><span
+                              class="ag-sort-indicator-container"
+                              data-ref="eSortIndicator"
+                            >
+                              <span
+                                class="ag-sort-indicator-icon ag-sort-order ag-hidden"
+                                data-ref="eSortOrder"
+                                aria-hidden="true"
+                              ></span>
+                              <span
+                                class="ag-sort-indicator-icon ag-sort-ascending-icon ag-hidden"
+                                data-ref="eSortAsc"
+                                aria-hidden="true"
+                                ><span
+                                  class="ag-icon ag-icon-asc"
+                                  role="presentation"
+                                  unselectable="on"
+                                ></span
+                              ></span>
+                              <span
+                                class="ag-sort-indicator-icon ag-sort-descending-icon ag-hidden"
+                                data-ref="eSortDesc"
+                                aria-hidden="true"
+                                ><span
+                                  class="ag-icon ag-icon-desc"
+                                  role="presentation"
+                                  unselectable="on"
+                                ></span
+                              ></span>
+                              <span
+                                class="ag-sort-indicator-icon ag-sort-mixed-icon ag-hidden"
+                                data-ref="eSortMixed"
+                                aria-hidden="true"
+                                ><span
+                                  class="ag-icon ag-icon-none"
+                                  role="presentation"
+                                  unselectable="on"
+                                ></span
+                              ></span>
+                              <span
+                                class="ag-sort-indicator-icon ag-sort-absolute-ascending-icon ag-hidden"
+                                data-ref="eSortAbsoluteAsc"
+                                aria-hidden="true"
+                                ><span
+                                  class="ag-icon ag-icon-aasc"
+                                  role="presentation"
+                                  unselectable="on"
+                                ></span
+                              ></span>
+                              <span
+                                class="ag-sort-indicator-icon ag-sort-absolute-descending-icon ag-hidden"
+                                data-ref="eSortAbsoluteDesc"
+                                aria-hidden="true"
+                                ><span
+                                  class="ag-icon ag-icon-adesc"
+                                  role="presentation"
+                                  unselectable="on"
+                                ></span
+                              ></span>
+                              <span
+                                class="ag-sort-indicator-icon ag-sort-none-icon ag-hidden"
+                                data-ref="eSortNone"
+                                aria-hidden="true"
+                                ><span
+                                  class="ag-icon ag-icon-none"
+                                  role="presentation"
+                                  unselectable="on"
+                                ></span
+                              ></span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="ag-header-cell ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed"
+                      role="columnheader"
+                      col-id="severity"
+                      aria-colindex="3"
+                      tabindex="-1"
+                      aria-sort="none"
+                      style="
+                        top: 0px;
+                        height: 48px;
+                        width: 170px;
+                        touch-action: none;
+                        left: 240px;
+                      "
+                    >
+                      <div
+                        class="ag-header-cell-resize"
+                        data-ref="eResize"
+                        role="presentation"
+                        aria-hidden="false"
+                        style="touch-action: none"
+                      ></div>
+                      <div
+                        class="ag-header-cell-comp-wrapper"
+                        data-ref="eHeaderCompWrapper"
+                        role="presentation"
+                      >
+                        <div class="ag-cell-label-container" role="presentation">
+                          <span
+                            class="ag-header-icon ag-header-cell-filter-button"
+                            data-ref="eFilterButton"
+                            aria-hidden="true"
+                            ><span
+                              class="ag-icon ag-icon-filter"
+                              role="presentation"
+                              unselectable="on"
+                            ></span
+                          ></span>
+                          <div
+                            class="ag-header-cell-label"
+                            data-ref="eLabel"
+                            role="presentation"
+                          >
+                            <span class="ag-header-cell-text" data-ref="eText"
+                              >Severity</span
                             >
                             <!--AG-SORT-INDICATOR--><span
                               class="ag-sort-indicator-container"
@@ -336,15 +473,15 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
                       class="ag-header-cell ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed"
                       role="columnheader"
                       col-id="status"
-                      aria-colindex="3"
+                      aria-colindex="4"
                       tabindex="-1"
                       aria-sort="none"
                       style="
                         top: 0px;
                         height: 48px;
-                        width: 160px;
+                        width: 130px;
                         touch-action: none;
-                        left: 290px;
+                        left: 410px;
                       "
                     >
                       <div
@@ -455,136 +592,16 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
                     <div
                       class="ag-header-cell ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed"
                       role="columnheader"
-                      col-id="estDate"
-                      aria-colindex="4"
-                      tabindex="-1"
-                      aria-sort="none"
-                      style="
-                        top: 0px;
-                        height: 48px;
-                        width: 130px;
-                        touch-action: none;
-                        left: 450px;
-                      "
-                    >
-                      <div
-                        class="ag-header-cell-resize"
-                        data-ref="eResize"
-                        role="presentation"
-                        aria-hidden="false"
-                        style="touch-action: none"
-                      ></div>
-                      <div
-                        class="ag-header-cell-comp-wrapper"
-                        data-ref="eHeaderCompWrapper"
-                        role="presentation"
-                      >
-                        <div class="ag-cell-label-container" role="presentation">
-                          <span
-                            class="ag-header-icon ag-header-cell-filter-button"
-                            data-ref="eFilterButton"
-                            aria-hidden="true"
-                            ><span
-                              class="ag-icon ag-icon-filter"
-                              role="presentation"
-                              unselectable="on"
-                            ></span
-                          ></span>
-                          <div
-                            class="ag-header-cell-label"
-                            data-ref="eLabel"
-                            role="presentation"
-                          >
-                            <span class="ag-header-cell-text" data-ref="eText"
-                              >Est. Approval</span
-                            >
-                            <!--AG-SORT-INDICATOR--><span
-                              class="ag-sort-indicator-container"
-                              data-ref="eSortIndicator"
-                            >
-                              <span
-                                class="ag-sort-indicator-icon ag-sort-order ag-hidden"
-                                data-ref="eSortOrder"
-                                aria-hidden="true"
-                              ></span>
-                              <span
-                                class="ag-sort-indicator-icon ag-sort-ascending-icon ag-hidden"
-                                data-ref="eSortAsc"
-                                aria-hidden="true"
-                                ><span
-                                  class="ag-icon ag-icon-asc"
-                                  role="presentation"
-                                  unselectable="on"
-                                ></span
-                              ></span>
-                              <span
-                                class="ag-sort-indicator-icon ag-sort-descending-icon ag-hidden"
-                                data-ref="eSortDesc"
-                                aria-hidden="true"
-                                ><span
-                                  class="ag-icon ag-icon-desc"
-                                  role="presentation"
-                                  unselectable="on"
-                                ></span
-                              ></span>
-                              <span
-                                class="ag-sort-indicator-icon ag-sort-mixed-icon ag-hidden"
-                                data-ref="eSortMixed"
-                                aria-hidden="true"
-                                ><span
-                                  class="ag-icon ag-icon-none"
-                                  role="presentation"
-                                  unselectable="on"
-                                ></span
-                              ></span>
-                              <span
-                                class="ag-sort-indicator-icon ag-sort-absolute-ascending-icon ag-hidden"
-                                data-ref="eSortAbsoluteAsc"
-                                aria-hidden="true"
-                                ><span
-                                  class="ag-icon ag-icon-aasc"
-                                  role="presentation"
-                                  unselectable="on"
-                                ></span
-                              ></span>
-                              <span
-                                class="ag-sort-indicator-icon ag-sort-absolute-descending-icon ag-hidden"
-                                data-ref="eSortAbsoluteDesc"
-                                aria-hidden="true"
-                                ><span
-                                  class="ag-icon ag-icon-adesc"
-                                  role="presentation"
-                                  unselectable="on"
-                                ></span
-                              ></span>
-                              <span
-                                class="ag-sort-indicator-icon ag-sort-none-icon ag-hidden"
-                                data-ref="eSortNone"
-                                aria-hidden="true"
-                                ><span
-                                  class="ag-icon ag-icon-none"
-                                  role="presentation"
-                                  unselectable="on"
-                                ></span
-                              ></span>
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="ag-header-cell ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed"
-                      role="columnheader"
-                      col-id="agency"
+                      col-id="area"
                       aria-colindex="5"
                       tabindex="-1"
                       aria-sort="none"
                       style="
                         top: 0px;
                         height: 48px;
-                        width: 200px;
+                        width: 240px;
                         touch-action: none;
-                        left: 580px;
+                        left: 540px;
                       "
                     >
                       <div
@@ -615,9 +632,7 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
                             data-ref="eLabel"
                             role="presentation"
                           >
-                            <span class="ag-header-cell-text" data-ref="eText"
-                              >Agency</span
-                            >
+                            <span class="ag-header-cell-text" data-ref="eText">Area</span>
                             <!--AG-SORT-INDICATOR--><span
                               class="ag-sort-indicator-container"
                               data-ref="eSortIndicator"
@@ -695,14 +710,14 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
                     <div
                       class="ag-header-cell ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed"
                       role="columnheader"
-                      col-id="agencyLevel"
+                      col-id="reportedDate"
                       aria-colindex="6"
                       tabindex="-1"
                       aria-sort="none"
                       style="
                         top: 0px;
                         height: 48px;
-                        width: 90px;
+                        width: 130px;
                         touch-action: none;
                         left: 780px;
                       "
@@ -736,7 +751,7 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
                             role="presentation"
                           >
                             <span class="ag-header-cell-text" data-ref="eText"
-                              >Level</span
+                              >Reported</span
                             >
                             <!--AG-SORT-INDICATOR--><span
                               class="ag-sort-indicator-container"
@@ -815,134 +830,16 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
                     <div
                       class="ag-header-cell ag-header-parent-hidden ag-header-cell-sortable ag-focus-managed"
                       role="columnheader"
-                      col-id="type"
+                      col-id="daysActive"
                       aria-colindex="7"
                       tabindex="-1"
                       aria-sort="none"
                       style="
                         top: 0px;
                         height: 48px;
-                        width: 130px;
+                        width: 120px;
                         touch-action: none;
-                        left: 870px;
-                      "
-                    >
-                      <div
-                        class="ag-header-cell-resize"
-                        data-ref="eResize"
-                        role="presentation"
-                        aria-hidden="false"
-                        style="touch-action: none"
-                      ></div>
-                      <div
-                        class="ag-header-cell-comp-wrapper"
-                        data-ref="eHeaderCompWrapper"
-                        role="presentation"
-                      >
-                        <div class="ag-cell-label-container" role="presentation">
-                          <span
-                            class="ag-header-icon ag-header-cell-filter-button"
-                            data-ref="eFilterButton"
-                            aria-hidden="true"
-                            ><span
-                              class="ag-icon ag-icon-filter"
-                              role="presentation"
-                              unselectable="on"
-                            ></span
-                          ></span>
-                          <div
-                            class="ag-header-cell-label"
-                            data-ref="eLabel"
-                            role="presentation"
-                          >
-                            <span class="ag-header-cell-text" data-ref="eText">Type</span>
-                            <!--AG-SORT-INDICATOR--><span
-                              class="ag-sort-indicator-container"
-                              data-ref="eSortIndicator"
-                            >
-                              <span
-                                class="ag-sort-indicator-icon ag-sort-order ag-hidden"
-                                data-ref="eSortOrder"
-                                aria-hidden="true"
-                              ></span>
-                              <span
-                                class="ag-sort-indicator-icon ag-sort-ascending-icon ag-hidden"
-                                data-ref="eSortAsc"
-                                aria-hidden="true"
-                                ><span
-                                  class="ag-icon ag-icon-asc"
-                                  role="presentation"
-                                  unselectable="on"
-                                ></span
-                              ></span>
-                              <span
-                                class="ag-sort-indicator-icon ag-sort-descending-icon ag-hidden"
-                                data-ref="eSortDesc"
-                                aria-hidden="true"
-                                ><span
-                                  class="ag-icon ag-icon-desc"
-                                  role="presentation"
-                                  unselectable="on"
-                                ></span
-                              ></span>
-                              <span
-                                class="ag-sort-indicator-icon ag-sort-mixed-icon ag-hidden"
-                                data-ref="eSortMixed"
-                                aria-hidden="true"
-                                ><span
-                                  class="ag-icon ag-icon-none"
-                                  role="presentation"
-                                  unselectable="on"
-                                ></span
-                              ></span>
-                              <span
-                                class="ag-sort-indicator-icon ag-sort-absolute-ascending-icon ag-hidden"
-                                data-ref="eSortAbsoluteAsc"
-                                aria-hidden="true"
-                                ><span
-                                  class="ag-icon ag-icon-aasc"
-                                  role="presentation"
-                                  unselectable="on"
-                                ></span
-                              ></span>
-                              <span
-                                class="ag-sort-indicator-icon ag-sort-absolute-descending-icon ag-hidden"
-                                data-ref="eSortAbsoluteDesc"
-                                aria-hidden="true"
-                                ><span
-                                  class="ag-icon ag-icon-adesc"
-                                  role="presentation"
-                                  unselectable="on"
-                                ></span
-                              ></span>
-                              <span
-                                class="ag-sort-indicator-icon ag-sort-none-icon ag-hidden"
-                                data-ref="eSortNone"
-                                aria-hidden="true"
-                                ><span
-                                  class="ag-icon ag-icon-none"
-                                  role="presentation"
-                                  unselectable="on"
-                                ></span
-                              ></span>
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="ag-header-cell ag-column-last ag-header-parent-hidden ag-header-cell-sortable ag-right-aligned-header ag-focus-managed"
-                      role="columnheader"
-                      col-id="segments"
-                      aria-colindex="8"
-                      tabindex="-1"
-                      aria-sort="none"
-                      style="
-                        top: 0px;
-                        height: 48px;
-                        width: 100px;
-                        touch-action: none;
-                        left: 1000px;
+                        left: 910px;
                       "
                     >
                       <div
@@ -974,7 +871,7 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
                             role="presentation"
                           >
                             <span class="ag-header-cell-text" data-ref="eText"
-                              >Segments</span
+                              >Days Active</span
                             >
                             <!--AG-SORT-INDICATOR--><span
                               class="ag-sort-indicator-container"
@@ -1068,11 +965,11 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
             >
               <!--AG-ROW-CONTAINER-->
               <div
-                class="ag-pinned-left-floating-top ag-hidden"
+                class="ag-pinned-left-floating-top"
                 data-ref="eContainer"
                 role="rowgroup"
-                aria-hidden="true"
-                style="width: 0px; max-width: 0px; min-width: 0px"
+                aria-hidden="false"
+                style="width: 110px; max-width: 110px; min-width: 110px"
               ></div>
               <!--AG-ROW-CONTAINER-->
               <div
@@ -1084,7 +981,7 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
                   class="ag-floating-top-container"
                   data-ref="eContainer"
                   role="presentation"
-                  style="width: 1100px"
+                  style="width: 1170px"
                 ></div>
               </div>
               <!--AG-ROW-CONTAINER-->
@@ -1111,1169 +1008,897 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
               >
                 <!--AG-ROW-CONTAINER-->
                 <div
-                  class="ag-pinned-left-cols-container ag-hidden"
+                  class="ag-pinned-left-cols-container"
                   data-ref="eContainer"
                   role="rowgroup"
-                  aria-hidden="true"
-                  style="height: 660px; width: 0px; max-width: 0px; min-width: 0px"
-                ></div>
+                  aria-hidden="false"
+                  style="height: 704px; width: 110px; max-width: 110px; min-width: 110px"
+                >
+                  <div
+                    role="row"
+                    comp-id="61"
+                    tabindex="0"
+                    row-index="0"
+                    class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute ag-row-first"
+                    aria-rowindex="2"
+                    row-id="0"
+                    style="transform: translateY(0px); height: 44px"
+                  >
+                    <div
+                      role="gridcell"
+                      comp-id="62"
+                      col-id="id"
+                      class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
+                      tabindex="-1"
+                      aria-colindex="1"
+                      style="left: 0px; width: 110px"
+                    >
+                      <a class="bcn-grid-name" href="#">obs-0142</a>
+                    </div>
+                  </div>
+                  <div
+                    role="row"
+                    comp-id="63"
+                    tabindex="0"
+                    row-index="1"
+                    class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                    aria-rowindex="3"
+                    row-id="1"
+                    style="transform: translateY(44px); height: 44px"
+                  >
+                    <div
+                      role="gridcell"
+                      comp-id="64"
+                      col-id="id"
+                      class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
+                      tabindex="-1"
+                      aria-colindex="1"
+                      style="left: 0px; width: 110px"
+                    >
+                      <a class="bcn-grid-name" href="#">obs-0139</a>
+                    </div>
+                  </div>
+                  <div
+                    role="row"
+                    comp-id="65"
+                    tabindex="0"
+                    row-index="2"
+                    class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                    aria-rowindex="4"
+                    row-id="2"
+                    style="transform: translateY(88px); height: 44px"
+                  >
+                    <div
+                      role="gridcell"
+                      comp-id="66"
+                      col-id="id"
+                      class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
+                      tabindex="-1"
+                      aria-colindex="1"
+                      style="left: 0px; width: 110px"
+                    >
+                      <a class="bcn-grid-name" href="#">obs-0121</a>
+                    </div>
+                  </div>
+                  <div
+                    role="row"
+                    comp-id="67"
+                    tabindex="0"
+                    row-index="3"
+                    class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                    aria-rowindex="5"
+                    row-id="3"
+                    style="transform: translateY(132px); height: 44px"
+                  >
+                    <div
+                      role="gridcell"
+                      comp-id="68"
+                      col-id="id"
+                      class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
+                      tabindex="-1"
+                      aria-colindex="1"
+                      style="left: 0px; width: 110px"
+                    >
+                      <a class="bcn-grid-name" href="#">obs-0144</a>
+                    </div>
+                  </div>
+                  <div
+                    role="row"
+                    comp-id="69"
+                    tabindex="0"
+                    row-index="4"
+                    class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                    aria-rowindex="6"
+                    row-id="4"
+                    style="transform: translateY(176px); height: 44px"
+                  >
+                    <div
+                      role="gridcell"
+                      comp-id="70"
+                      col-id="id"
+                      class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
+                      tabindex="-1"
+                      aria-colindex="1"
+                      style="left: 0px; width: 110px"
+                    >
+                      <a class="bcn-grid-name" href="#">obs-0140</a>
+                    </div>
+                  </div>
+                  <div
+                    role="row"
+                    comp-id="71"
+                    tabindex="0"
+                    row-index="5"
+                    class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                    aria-rowindex="7"
+                    row-id="5"
+                    style="transform: translateY(220px); height: 44px"
+                  >
+                    <div
+                      role="gridcell"
+                      comp-id="72"
+                      col-id="id"
+                      class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
+                      tabindex="-1"
+                      aria-colindex="1"
+                      style="left: 0px; width: 110px"
+                    >
+                      <a class="bcn-grid-name" href="#">obs-0136</a>
+                    </div>
+                  </div>
+                  <div
+                    role="row"
+                    comp-id="73"
+                    tabindex="0"
+                    row-index="6"
+                    class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                    aria-rowindex="8"
+                    row-id="6"
+                    style="transform: translateY(264px); height: 44px"
+                  >
+                    <div
+                      role="gridcell"
+                      comp-id="74"
+                      col-id="id"
+                      class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
+                      tabindex="-1"
+                      aria-colindex="1"
+                      style="left: 0px; width: 110px"
+                    >
+                      <a class="bcn-grid-name" href="#">obs-0130</a>
+                    </div>
+                  </div>
+                  <div
+                    role="row"
+                    comp-id="75"
+                    tabindex="0"
+                    row-index="7"
+                    class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                    aria-rowindex="9"
+                    row-id="7"
+                    style="transform: translateY(308px); height: 44px"
+                  >
+                    <div
+                      role="gridcell"
+                      comp-id="76"
+                      col-id="id"
+                      class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
+                      tabindex="-1"
+                      aria-colindex="1"
+                      style="left: 0px; width: 110px"
+                    >
+                      <a class="bcn-grid-name" href="#">obs-0126</a>
+                    </div>
+                  </div>
+                  <div
+                    role="row"
+                    comp-id="77"
+                    tabindex="0"
+                    row-index="8"
+                    class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                    aria-rowindex="10"
+                    row-id="8"
+                    style="transform: translateY(352px); height: 44px"
+                  >
+                    <div
+                      role="gridcell"
+                      comp-id="78"
+                      col-id="id"
+                      class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
+                      tabindex="-1"
+                      aria-colindex="1"
+                      style="left: 0px; width: 110px"
+                    >
+                      <a class="bcn-grid-name" href="#">obs-0118</a>
+                    </div>
+                  </div>
+                  <div
+                    role="row"
+                    comp-id="79"
+                    tabindex="0"
+                    row-index="9"
+                    class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                    aria-rowindex="11"
+                    row-id="9"
+                    style="transform: translateY(396px); height: 44px"
+                  >
+                    <div
+                      role="gridcell"
+                      comp-id="80"
+                      col-id="id"
+                      class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
+                      tabindex="-1"
+                      aria-colindex="1"
+                      style="left: 0px; width: 110px"
+                    >
+                      <a class="bcn-grid-name" href="#">obs-0113</a>
+                    </div>
+                  </div>
+                  <div
+                    role="row"
+                    comp-id="81"
+                    tabindex="0"
+                    row-index="10"
+                    class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                    aria-rowindex="12"
+                    row-id="10"
+                    style="transform: translateY(440px); height: 44px"
+                  >
+                    <div
+                      role="gridcell"
+                      comp-id="82"
+                      col-id="id"
+                      class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
+                      tabindex="-1"
+                      aria-colindex="1"
+                      style="left: 0px; width: 110px"
+                    >
+                      <a class="bcn-grid-name" href="#">obs-0145</a>
+                    </div>
+                  </div>
+                  <div
+                    role="row"
+                    comp-id="83"
+                    tabindex="0"
+                    row-index="11"
+                    class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                    aria-rowindex="13"
+                    row-id="11"
+                    style="transform: translateY(484px); height: 44px"
+                  >
+                    <div
+                      role="gridcell"
+                      comp-id="84"
+                      col-id="id"
+                      class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
+                      tabindex="-1"
+                      aria-colindex="1"
+                      style="left: 0px; width: 110px"
+                    >
+                      <a class="bcn-grid-name" href="#">obs-0143</a>
+                    </div>
+                  </div>
+                  <div
+                    role="row"
+                    comp-id="85"
+                    tabindex="0"
+                    row-index="12"
+                    class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                    aria-rowindex="14"
+                    row-id="12"
+                    style="transform: translateY(528px); height: 44px"
+                  >
+                    <div
+                      role="gridcell"
+                      comp-id="86"
+                      col-id="id"
+                      class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
+                      tabindex="-1"
+                      aria-colindex="1"
+                      style="left: 0px; width: 110px"
+                    >
+                      <a class="bcn-grid-name" href="#">obs-0137</a>
+                    </div>
+                  </div>
+                  <div
+                    role="row"
+                    comp-id="87"
+                    tabindex="0"
+                    row-index="13"
+                    class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                    aria-rowindex="15"
+                    row-id="13"
+                    style="transform: translateY(572px); height: 44px"
+                  >
+                    <div
+                      role="gridcell"
+                      comp-id="88"
+                      col-id="id"
+                      class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
+                      tabindex="-1"
+                      aria-colindex="1"
+                      style="left: 0px; width: 110px"
+                    >
+                      <a class="bcn-grid-name" href="#">obs-0132</a>
+                    </div>
+                  </div>
+                  <div
+                    role="row"
+                    comp-id="89"
+                    tabindex="0"
+                    row-index="14"
+                    class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                    aria-rowindex="16"
+                    row-id="14"
+                    style="transform: translateY(616px); height: 44px"
+                  >
+                    <div
+                      role="gridcell"
+                      comp-id="90"
+                      col-id="id"
+                      class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
+                      tabindex="-1"
+                      aria-colindex="1"
+                      style="left: 0px; width: 110px"
+                    >
+                      <a class="bcn-grid-name" href="#">obs-0125</a>
+                    </div>
+                  </div>
+                  <div
+                    role="row"
+                    comp-id="91"
+                    tabindex="0"
+                    row-index="15"
+                    class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute ag-row-last"
+                    aria-rowindex="17"
+                    row-id="15"
+                    style="transform: translateY(660px); height: 44px"
+                  >
+                    <div
+                      role="gridcell"
+                      comp-id="92"
+                      col-id="id"
+                      class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-cell-last-left-pinned ag-column-first"
+                      tabindex="-1"
+                      aria-colindex="1"
+                      style="left: 0px; width: 110px"
+                    >
+                      <a class="bcn-grid-name" href="#">obs-0117</a>
+                    </div>
+                  </div>
+                </div>
                 <!--AG-ROW-CONTAINER-->
                 <div
                   class="ag-viewport ag-center-cols-viewport"
                   data-ref="eViewport"
                   role="rowgroup"
-                  style="height: 660px"
+                  style="height: 704px"
                 >
                   <div
                     class="ag-center-cols-container"
                     data-ref="eContainer"
                     role="presentation"
-                    style="width: 1100px; height: 660px"
+                    style="width: 1170px; height: 704px"
                   >
                     <div
                       role="row"
-                      comp-id="61"
+                      comp-id="101"
                       tabindex="0"
                       row-index="0"
                       class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute ag-row-first"
                       aria-rowindex="2"
-                      aria-selected="false"
                       row-id="0"
                       style="transform: translateY(0px); height: 44px"
                     >
                       <div
                         role="gridcell"
-                        comp-id="62"
-                        col-id="ag-Grid-SelectionColumn"
-                        class="ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
-                        tabindex="-1"
-                        aria-colindex="1"
-                        style="left: 0px; width: 50px"
-                      >
-                        <div class="ag-cell-wrapper" role="presentation">
-                          <div class="ag-selection-checkbox" role="presentation">
-                            <!--AG-CHECKBOX-->
-                            <div
-                              role="presentation"
-                              data-ref="eCheckbox"
-                              class="ag-labeled ag-label-align-right ag-checkbox ag-input-field"
-                            >
-                              <div
-                                class="ag-input-field-label ag-label ag-hidden ag-checkbox-label"
-                                data-ref="eLabel"
-                                aria-hidden="true"
-                                role="presentation"
-                                id="ag-64-label"
-                              ></div>
-                              <div
-                                class="ag-wrapper ag-input-wrapper ag-checkbox-input-wrapper"
-                                data-ref="eWrapper"
-                                role="presentation"
-                              >
-                                <input
-                                  class="ag-input-field-input ag-checkbox-input"
-                                  data-ref="eInput"
-                                  type="checkbox"
-                                  id="ag-64-input"
-                                  tabindex="-1"
-                                  aria-label="Press Space to toggle row selection (unchecked)"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <span class="ag-cell-value" role="presentation"></span>
-                        </div>
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="65"
-                        col-id="name"
+                        comp-id="102"
+                        col-id="category"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="2"
-                        style="left: 50px; width: 240px"
+                        style="left: 0px; width: 240px"
                       >
-                        Nationwide Permit (Section 404)
+                        Stormwater / BMP Maintenance
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="66"
-                        col-id="status"
+                        comp-id="103"
+                        col-id="severity"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
                         aria-colindex="3"
-                        style="left: 290px; width: 160px"
+                        style="left: 240px; width: 170px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--st-cleared)"
-                          ><span class="bcn-grid-chip__dot"></span>Issued</span
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-danger)"
+                          ><span class="bcn-grid-chip__dot"></span>Non-Compliance</span
                         >
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="67"
-                        col-id="estDate"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        comp-id="104"
+                        col-id="status"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
                         aria-colindex="4"
-                        style="left: 450px; width: 130px"
+                        style="left: 410px; width: 130px"
                       >
-                        May 28, 2026
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                          ><span class="bcn-grid-chip__dot"></span>Active</span
+                        >
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="68"
-                        col-id="agency"
+                        comp-id="105"
+                        col-id="area"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="5"
-                        style="left: 580px; width: 200px"
+                        style="left: 540px; width: 240px"
                       >
-                        US Army Corps of Engineers
+                        South Array — Block B
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="69"
-                        col-id="agencyLevel"
+                        comp-id="106"
+                        col-id="reportedDate"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="6"
-                        style="left: 780px; width: 90px"
+                        style="left: 780px; width: 130px"
                       >
-                        Federal
+                        Jul 29, 2026
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="70"
-                        col-id="type"
+                        comp-id="107"
+                        col-id="daysActive"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="7"
-                        style="left: 870px; width: 130px"
+                        style="left: 910px; width: 120px"
                       >
-                        Section 404
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="292"
-                        col-id="segments"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-last ag-right-aligned-cell"
-                        tabindex="-1"
-                        aria-colindex="8"
-                        style="left: 1000px; width: 100px"
-                      >
-                        10
+                        7d
                       </div>
                     </div>
                     <div
                       role="row"
-                      comp-id="71"
+                      comp-id="108"
                       tabindex="0"
                       row-index="1"
                       class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
                       aria-rowindex="3"
-                      aria-selected="false"
                       row-id="1"
                       style="transform: translateY(44px); height: 44px"
                     >
                       <div
                         role="gridcell"
-                        comp-id="72"
-                        col-id="ag-Grid-SelectionColumn"
-                        class="ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
-                        tabindex="-1"
-                        aria-colindex="1"
-                        style="left: 0px; width: 50px"
-                      >
-                        <div class="ag-cell-wrapper" role="presentation">
-                          <div class="ag-selection-checkbox" role="presentation">
-                            <!--AG-CHECKBOX-->
-                            <div
-                              role="presentation"
-                              data-ref="eCheckbox"
-                              class="ag-labeled ag-label-align-right ag-checkbox ag-input-field"
-                            >
-                              <div
-                                class="ag-input-field-label ag-label ag-hidden ag-checkbox-label"
-                                data-ref="eLabel"
-                                aria-hidden="true"
-                                role="presentation"
-                                id="ag-74-label"
-                              ></div>
-                              <div
-                                class="ag-wrapper ag-input-wrapper ag-checkbox-input-wrapper"
-                                data-ref="eWrapper"
-                                role="presentation"
-                              >
-                                <input
-                                  class="ag-input-field-input ag-checkbox-input"
-                                  data-ref="eInput"
-                                  type="checkbox"
-                                  id="ag-74-input"
-                                  tabindex="-1"
-                                  aria-label="Press Space to toggle row selection (unchecked)"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <span class="ag-cell-value" role="presentation"></span>
-                        </div>
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="75"
-                        col-id="name"
+                        comp-id="109"
+                        col-id="category"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="2"
-                        style="left: 50px; width: 240px"
+                        style="left: 0px; width: 240px"
                       >
-                        Refuge Right-of-Way (SF-299)
+                        Spill Prevention &amp; Response
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="76"
-                        col-id="status"
+                        comp-id="110"
+                        col-id="severity"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
                         aria-colindex="3"
-                        style="left: 290px; width: 160px"
+                        style="left: 240px; width: 170px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--st-cleared)"
-                          ><span class="bcn-grid-chip__dot"></span>Issued</span
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-danger)"
+                          ><span class="bcn-grid-chip__dot"></span>Non-Compliance</span
                         >
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="77"
-                        col-id="estDate"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        comp-id="111"
+                        col-id="status"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
                         aria-colindex="4"
-                        style="left: 450px; width: 130px"
+                        style="left: 410px; width: 130px"
                       >
-                        May 30, 2026
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                          ><span class="bcn-grid-chip__dot"></span>Active</span
+                        >
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="78"
-                        col-id="agency"
+                        comp-id="112"
+                        col-id="area"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="5"
-                        style="left: 580px; width: 200px"
+                        style="left: 540px; width: 240px"
                       >
-                        US Fish &amp; Wildlife Service
+                        Laydown / Staging Yard
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="79"
-                        col-id="agencyLevel"
+                        comp-id="113"
+                        col-id="reportedDate"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="6"
-                        style="left: 780px; width: 90px"
+                        style="left: 780px; width: 130px"
                       >
-                        Federal
+                        Jul 24, 2026
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="80"
-                        col-id="type"
+                        comp-id="114"
+                        col-id="daysActive"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="7"
-                        style="left: 870px; width: 130px"
+                        style="left: 910px; width: 120px"
                       >
-                        Right-of-Way
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="293"
-                        col-id="segments"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-last ag-right-aligned-cell"
-                        tabindex="-1"
-                        aria-colindex="8"
-                        style="left: 1000px; width: 100px"
-                      >
-                        0
+                        12d
                       </div>
                     </div>
                     <div
                       role="row"
-                      comp-id="81"
+                      comp-id="115"
                       tabindex="0"
                       row-index="2"
                       class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
                       aria-rowindex="4"
-                      aria-selected="false"
                       row-id="2"
                       style="transform: translateY(88px); height: 44px"
                     >
                       <div
                         role="gridcell"
-                        comp-id="82"
-                        col-id="ag-Grid-SelectionColumn"
-                        class="ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
-                        tabindex="-1"
-                        aria-colindex="1"
-                        style="left: 0px; width: 50px"
-                      >
-                        <div class="ag-cell-wrapper" role="presentation">
-                          <div class="ag-selection-checkbox" role="presentation">
-                            <!--AG-CHECKBOX-->
-                            <div
-                              role="presentation"
-                              data-ref="eCheckbox"
-                              class="ag-labeled ag-label-align-right ag-checkbox ag-input-field"
-                            >
-                              <div
-                                class="ag-input-field-label ag-label ag-hidden ag-checkbox-label"
-                                data-ref="eLabel"
-                                aria-hidden="true"
-                                role="presentation"
-                                id="ag-84-label"
-                              ></div>
-                              <div
-                                class="ag-wrapper ag-input-wrapper ag-checkbox-input-wrapper"
-                                data-ref="eWrapper"
-                                role="presentation"
-                              >
-                                <input
-                                  class="ag-input-field-input ag-checkbox-input"
-                                  data-ref="eInput"
-                                  type="checkbox"
-                                  id="ag-84-input"
-                                  tabindex="-1"
-                                  aria-label="Press Space to toggle row selection (unchecked)"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <span class="ag-cell-value" role="presentation"></span>
-                        </div>
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="85"
-                        col-id="name"
+                        comp-id="116"
+                        col-id="category"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="2"
-                        style="left: 50px; width: 240px"
+                        style="left: 0px; width: 240px"
                       >
-                        Utility Accommodation Permit
+                        Cultural Resources Protection
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="86"
-                        col-id="status"
+                        comp-id="117"
+                        col-id="severity"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
                         aria-colindex="3"
-                        style="left: 290px; width: 160px"
+                        style="left: 240px; width: 170px"
                       >
-                        <span
-                          class="bcn-grid-chip"
-                          style="--_chip: var(--st-in-preparation)"
-                          ><span class="bcn-grid-chip__dot"></span>In Preparation</span
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-danger)"
+                          ><span class="bcn-grid-chip__dot"></span>Non-Compliance</span
                         >
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="87"
-                        col-id="estDate"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        comp-id="118"
+                        col-id="status"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
                         aria-colindex="4"
-                        style="left: 450px; width: 130px"
+                        style="left: 410px; width: 130px"
                       >
-                        Jul 20, 2026
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                          ><span class="bcn-grid-chip__dot"></span>Active</span
+                        >
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="88"
-                        col-id="agency"
+                        comp-id="119"
+                        col-id="area"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="5"
-                        style="left: 580px; width: 200px"
+                        style="left: 540px; width: 240px"
                       >
-                        WSDOT
+                        Perimeter Fence Line — West
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="89"
-                        col-id="agencyLevel"
+                        comp-id="120"
+                        col-id="reportedDate"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="6"
-                        style="left: 780px; width: 90px"
+                        style="left: 780px; width: 130px"
                       >
-                        State
+                        Jul 11, 2026
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="90"
-                        col-id="type"
+                        comp-id="121"
+                        col-id="daysActive"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="7"
-                        style="left: 870px; width: 130px"
+                        style="left: 910px; width: 120px"
                       >
-                        Utility
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="294"
-                        col-id="segments"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-last ag-right-aligned-cell"
-                        tabindex="-1"
-                        aria-colindex="8"
-                        style="left: 1000px; width: 100px"
-                      >
-                        1
+                        25d
                       </div>
                     </div>
                     <div
                       role="row"
-                      comp-id="91"
+                      comp-id="122"
                       tabindex="0"
                       row-index="3"
                       class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
                       aria-rowindex="5"
-                      aria-selected="false"
                       row-id="3"
                       style="transform: translateY(132px); height: 44px"
                     >
                       <div
                         role="gridcell"
-                        comp-id="92"
-                        col-id="ag-Grid-SelectionColumn"
-                        class="ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
-                        tabindex="-1"
-                        aria-colindex="1"
-                        style="left: 0px; width: 50px"
-                      >
-                        <div class="ag-cell-wrapper" role="presentation">
-                          <div class="ag-selection-checkbox" role="presentation">
-                            <!--AG-CHECKBOX-->
-                            <div
-                              role="presentation"
-                              data-ref="eCheckbox"
-                              class="ag-labeled ag-label-align-right ag-checkbox ag-input-field"
-                            >
-                              <div
-                                class="ag-input-field-label ag-label ag-hidden ag-checkbox-label"
-                                data-ref="eLabel"
-                                aria-hidden="true"
-                                role="presentation"
-                                id="ag-94-label"
-                              ></div>
-                              <div
-                                class="ag-wrapper ag-input-wrapper ag-checkbox-input-wrapper"
-                                data-ref="eWrapper"
-                                role="presentation"
-                              >
-                                <input
-                                  class="ag-input-field-input ag-checkbox-input"
-                                  data-ref="eInput"
-                                  type="checkbox"
-                                  id="ag-94-input"
-                                  tabindex="-1"
-                                  aria-label="Press Space to toggle row selection (unchecked)"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <span class="ag-cell-value" role="presentation"></span>
-                        </div>
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="95"
-                        col-id="name"
+                        comp-id="123"
+                        col-id="category"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="2"
-                        style="left: 50px; width: 240px"
+                        style="left: 0px; width: 240px"
                       >
-                        Water Quality Certification (401)
+                        Erosion &amp; Sediment Control
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="96"
-                        col-id="status"
+                        comp-id="124"
+                        col-id="severity"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
                         aria-colindex="3"
-                        style="left: 290px; width: 160px"
+                        style="left: 240px; width: 170px"
                       >
-                        <span
-                          class="bcn-grid-chip"
-                          style="--_chip: var(--st-under-review)"
-                          ><span class="bcn-grid-chip__dot"></span>Under Review</span
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-warning)"
+                          ><span class="bcn-grid-chip__dot"></span>Needs Attention</span
                         >
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="97"
-                        col-id="estDate"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        comp-id="125"
+                        col-id="status"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
                         aria-colindex="4"
-                        style="left: 450px; width: 130px"
+                        style="left: 410px; width: 130px"
                       >
-                        Aug 30, 2026
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                          ><span class="bcn-grid-chip__dot"></span>Active</span
+                        >
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="98"
-                        col-id="agency"
+                        comp-id="126"
+                        col-id="area"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="5"
-                        style="left: 580px; width: 200px"
+                        style="left: 540px; width: 240px"
                       >
-                        WA Dept. of Ecology
+                        North Array — Block A
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="99"
-                        col-id="agencyLevel"
+                        comp-id="127"
+                        col-id="reportedDate"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="6"
-                        style="left: 780px; width: 90px"
+                        style="left: 780px; width: 130px"
                       >
-                        State
+                        Aug 1, 2026
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="100"
-                        col-id="type"
+                        comp-id="128"
+                        col-id="daysActive"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="7"
-                        style="left: 870px; width: 130px"
+                        style="left: 910px; width: 120px"
                       >
-                        401 Certification
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="295"
-                        col-id="segments"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-last ag-right-aligned-cell"
-                        tabindex="-1"
-                        aria-colindex="8"
-                        style="left: 1000px; width: 100px"
-                      >
-                        2
+                        4d
                       </div>
                     </div>
                     <div
                       role="row"
-                      comp-id="101"
+                      comp-id="129"
                       tabindex="0"
                       row-index="4"
                       class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
                       aria-rowindex="6"
-                      aria-selected="false"
                       row-id="4"
                       style="transform: translateY(176px); height: 44px"
                     >
                       <div
                         role="gridcell"
-                        comp-id="102"
-                        col-id="ag-Grid-SelectionColumn"
-                        class="ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
-                        tabindex="-1"
-                        aria-colindex="1"
-                        style="left: 0px; width: 50px"
-                      >
-                        <div class="ag-cell-wrapper" role="presentation">
-                          <div class="ag-selection-checkbox" role="presentation">
-                            <!--AG-CHECKBOX-->
-                            <div
-                              role="presentation"
-                              data-ref="eCheckbox"
-                              class="ag-labeled ag-label-align-right ag-checkbox ag-input-field"
-                            >
-                              <div
-                                class="ag-input-field-label ag-label ag-hidden ag-checkbox-label"
-                                data-ref="eLabel"
-                                aria-hidden="true"
-                                role="presentation"
-                                id="ag-104-label"
-                              ></div>
-                              <div
-                                class="ag-wrapper ag-input-wrapper ag-checkbox-input-wrapper"
-                                data-ref="eWrapper"
-                                role="presentation"
-                              >
-                                <input
-                                  class="ag-input-field-input ag-checkbox-input"
-                                  data-ref="eInput"
-                                  type="checkbox"
-                                  id="ag-104-input"
-                                  tabindex="-1"
-                                  aria-label="Press Space to toggle row selection (unchecked)"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <span class="ag-cell-value" role="presentation"></span>
-                        </div>
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="105"
-                        col-id="name"
+                        comp-id="130"
+                        col-id="category"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="2"
-                        style="left: 50px; width: 240px"
+                        style="left: 0px; width: 240px"
                       >
-                        Construction Stormwater (NPDES)
+                        Access &amp; Traffic Control
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="106"
-                        col-id="status"
+                        comp-id="131"
+                        col-id="severity"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
                         aria-colindex="3"
-                        style="left: 290px; width: 160px"
+                        style="left: 240px; width: 170px"
                       >
-                        <span
-                          class="bcn-grid-chip"
-                          style="--_chip: var(--st-in-preparation)"
-                          ><span class="bcn-grid-chip__dot"></span>In Preparation</span
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-warning)"
+                          ><span class="bcn-grid-chip__dot"></span>Needs Attention</span
                         >
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="107"
-                        col-id="estDate"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        comp-id="132"
+                        col-id="status"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
                         aria-colindex="4"
-                        style="left: 450px; width: 130px"
+                        style="left: 410px; width: 130px"
                       >
-                        Jul 15, 2026
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                          ><span class="bcn-grid-chip__dot"></span>Active</span
+                        >
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="108"
-                        col-id="agency"
+                        comp-id="133"
+                        col-id="area"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="5"
-                        style="left: 580px; width: 200px"
+                        style="left: 540px; width: 240px"
                       >
-                        WA Dept. of Ecology
+                        Main Access Road (Hwy 58 Spur)
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="109"
-                        col-id="agencyLevel"
+                        comp-id="134"
+                        col-id="reportedDate"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="6"
-                        style="left: 780px; width: 90px"
+                        style="left: 780px; width: 130px"
                       >
-                        State
+                        Jul 27, 2026
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="110"
-                        col-id="type"
+                        comp-id="135"
+                        col-id="daysActive"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="7"
-                        style="left: 870px; width: 130px"
+                        style="left: 910px; width: 120px"
                       >
-                        NPDES
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="296"
-                        col-id="segments"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-last ag-right-aligned-cell"
-                        tabindex="-1"
-                        aria-colindex="8"
-                        style="left: 1000px; width: 100px"
-                      >
-                        2
+                        9d
                       </div>
                     </div>
                     <div
                       role="row"
-                      comp-id="111"
+                      comp-id="136"
                       tabindex="0"
                       row-index="5"
                       class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
                       aria-rowindex="7"
-                      aria-selected="false"
                       row-id="5"
                       style="transform: translateY(220px); height: 44px"
                     >
                       <div
                         role="gridcell"
-                        comp-id="112"
-                        col-id="ag-Grid-SelectionColumn"
-                        class="ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
-                        tabindex="-1"
-                        aria-colindex="1"
-                        style="left: 0px; width: 50px"
-                      >
-                        <div class="ag-cell-wrapper" role="presentation">
-                          <div class="ag-selection-checkbox" role="presentation">
-                            <!--AG-CHECKBOX-->
-                            <div
-                              role="presentation"
-                              data-ref="eCheckbox"
-                              class="ag-labeled ag-label-align-right ag-checkbox ag-input-field"
-                            >
-                              <div
-                                class="ag-input-field-label ag-label ag-hidden ag-checkbox-label"
-                                data-ref="eLabel"
-                                aria-hidden="true"
-                                role="presentation"
-                                id="ag-114-label"
-                              ></div>
-                              <div
-                                class="ag-wrapper ag-input-wrapper ag-checkbox-input-wrapper"
-                                data-ref="eWrapper"
-                                role="presentation"
-                              >
-                                <input
-                                  class="ag-input-field-input ag-checkbox-input"
-                                  data-ref="eInput"
-                                  type="checkbox"
-                                  id="ag-114-input"
-                                  tabindex="-1"
-                                  aria-label="Press Space to toggle row selection (unchecked)"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <span class="ag-cell-value" role="presentation"></span>
-                        </div>
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="115"
-                        col-id="name"
+                        comp-id="137"
+                        col-id="category"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="2"
-                        style="left: 50px; width: 240px"
+                        style="left: 0px; width: 240px"
                       >
-                        Hydraulic Project Approval (HPA)
+                        Waste Management
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="116"
-                        col-id="status"
+                        comp-id="138"
+                        col-id="severity"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
                         aria-colindex="3"
-                        style="left: 290px; width: 160px"
+                        style="left: 240px; width: 170px"
                       >
-                        <span
-                          class="bcn-grid-chip"
-                          style="--_chip: var(--st-under-review)"
-                          ><span class="bcn-grid-chip__dot"></span>Under Review</span
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-warning)"
+                          ><span class="bcn-grid-chip__dot"></span>Needs Attention</span
                         >
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="117"
-                        col-id="estDate"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        comp-id="139"
+                        col-id="status"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
                         aria-colindex="4"
-                        style="left: 450px; width: 130px"
+                        style="left: 410px; width: 130px"
                       >
-                        Aug 10, 2026
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                          ><span class="bcn-grid-chip__dot"></span>Active</span
+                        >
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="118"
-                        col-id="agency"
+                        comp-id="140"
+                        col-id="area"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="5"
-                        style="left: 580px; width: 200px"
+                        style="left: 540px; width: 240px"
                       >
-                        WA Dept. of Fish &amp; Wildlife
+                        O&amp;M Building Area
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="119"
-                        col-id="agencyLevel"
+                        comp-id="141"
+                        col-id="reportedDate"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="6"
-                        style="left: 780px; width: 90px"
+                        style="left: 780px; width: 130px"
                       >
-                        State
+                        Jul 20, 2026
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="120"
-                        col-id="type"
+                        comp-id="142"
+                        col-id="daysActive"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="7"
-                        style="left: 870px; width: 130px"
+                        style="left: 910px; width: 120px"
                       >
-                        HPA
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="297"
-                        col-id="segments"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-last ag-right-aligned-cell"
-                        tabindex="-1"
-                        aria-colindex="8"
-                        style="left: 1000px; width: 100px"
-                      >
-                        2
+                        16d
                       </div>
                     </div>
                     <div
                       role="row"
-                      comp-id="121"
+                      comp-id="143"
                       tabindex="0"
                       row-index="6"
                       class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
                       aria-rowindex="8"
-                      aria-selected="false"
                       row-id="6"
                       style="transform: translateY(264px); height: 44px"
                     >
                       <div
                         role="gridcell"
-                        comp-id="122"
-                        col-id="ag-Grid-SelectionColumn"
-                        class="ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
-                        tabindex="-1"
-                        aria-colindex="1"
-                        style="left: 0px; width: 50px"
-                      >
-                        <div class="ag-cell-wrapper" role="presentation">
-                          <div class="ag-selection-checkbox" role="presentation">
-                            <!--AG-CHECKBOX-->
-                            <div
-                              role="presentation"
-                              data-ref="eCheckbox"
-                              class="ag-labeled ag-label-align-right ag-checkbox ag-input-field"
-                            >
-                              <div
-                                class="ag-input-field-label ag-label ag-hidden ag-checkbox-label"
-                                data-ref="eLabel"
-                                aria-hidden="true"
-                                role="presentation"
-                                id="ag-124-label"
-                              ></div>
-                              <div
-                                class="ag-wrapper ag-input-wrapper ag-checkbox-input-wrapper"
-                                data-ref="eWrapper"
-                                role="presentation"
-                              >
-                                <input
-                                  class="ag-input-field-input ag-checkbox-input"
-                                  data-ref="eInput"
-                                  type="checkbox"
-                                  id="ag-124-input"
-                                  tabindex="-1"
-                                  aria-label="Press Space to toggle row selection (unchecked)"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <span class="ag-cell-value" role="presentation"></span>
-                        </div>
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="125"
-                        col-id="name"
+                        comp-id="144"
+                        col-id="category"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="2"
-                        style="left: 50px; width: 240px"
+                        style="left: 0px; width: 240px"
                       >
-                        Aquatic Lands Use Authorization
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="126"
-                        col-id="status"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
-                        tabindex="-1"
-                        aria-colindex="3"
-                        style="left: 290px; width: 160px"
-                      >
-                        <span class="bcn-grid-chip" style="--_chip: var(--st-cleared)"
-                          ><span class="bcn-grid-chip__dot"></span>Issued</span
-                        >
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="127"
-                        col-id="estDate"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                        tabindex="-1"
-                        aria-colindex="4"
-                        style="left: 450px; width: 130px"
-                      >
-                        Jun 1, 2026
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="128"
-                        col-id="agency"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                        tabindex="-1"
-                        aria-colindex="5"
-                        style="left: 580px; width: 200px"
-                      >
-                        WA Dept. of Natural Resources
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="129"
-                        col-id="agencyLevel"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                        tabindex="-1"
-                        aria-colindex="6"
-                        style="left: 780px; width: 90px"
-                      >
-                        State
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="130"
-                        col-id="type"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                        tabindex="-1"
-                        aria-colindex="7"
-                        style="left: 870px; width: 130px"
-                      >
-                        Aquatic Lands
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="298"
-                        col-id="segments"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-last ag-right-aligned-cell"
-                        tabindex="-1"
-                        aria-colindex="8"
-                        style="left: 1000px; width: 100px"
-                      >
-                        3
-                      </div>
-                    </div>
-                    <div
-                      role="row"
-                      comp-id="131"
-                      tabindex="0"
-                      row-index="7"
-                      class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
-                      aria-rowindex="9"
-                      aria-selected="false"
-                      row-id="7"
-                      style="transform: translateY(308px); height: 44px"
-                    >
-                      <div
-                        role="gridcell"
-                        comp-id="132"
-                        col-id="ag-Grid-SelectionColumn"
-                        class="ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
-                        tabindex="-1"
-                        aria-colindex="1"
-                        style="left: 0px; width: 50px"
-                      >
-                        <div class="ag-cell-wrapper" role="presentation">
-                          <div class="ag-selection-checkbox" role="presentation">
-                            <!--AG-CHECKBOX-->
-                            <div
-                              role="presentation"
-                              data-ref="eCheckbox"
-                              class="ag-labeled ag-label-align-right ag-checkbox ag-input-field"
-                            >
-                              <div
-                                class="ag-input-field-label ag-label ag-hidden ag-checkbox-label"
-                                data-ref="eLabel"
-                                aria-hidden="true"
-                                role="presentation"
-                                id="ag-134-label"
-                              ></div>
-                              <div
-                                class="ag-wrapper ag-input-wrapper ag-checkbox-input-wrapper"
-                                data-ref="eWrapper"
-                                role="presentation"
-                              >
-                                <input
-                                  class="ag-input-field-input ag-checkbox-input"
-                                  data-ref="eInput"
-                                  type="checkbox"
-                                  id="ag-134-input"
-                                  tabindex="-1"
-                                  aria-label="Press Space to toggle row selection (unchecked)"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <span class="ag-cell-value" role="presentation"></span>
-                        </div>
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="135"
-                        col-id="name"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                        tabindex="-1"
-                        aria-colindex="2"
-                        style="left: 50px; width: 240px"
-                      >
-                        SEPA Environmental Review
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="136"
-                        col-id="status"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
-                        tabindex="-1"
-                        aria-colindex="3"
-                        style="left: 290px; width: 160px"
-                      >
-                        <span class="bcn-grid-chip" style="--_chip: var(--st-cleared)"
-                          ><span class="bcn-grid-chip__dot"></span>Issued</span
-                        >
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="137"
-                        col-id="estDate"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                        tabindex="-1"
-                        aria-colindex="4"
-                        style="left: 450px; width: 130px"
-                      >
-                        Apr 22, 2026
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="138"
-                        col-id="agency"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                        tabindex="-1"
-                        aria-colindex="5"
-                        style="left: 580px; width: 200px"
-                      >
-                        Walla Walla County (Lead Agency)
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="139"
-                        col-id="agencyLevel"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                        tabindex="-1"
-                        aria-colindex="6"
-                        style="left: 780px; width: 90px"
-                      >
-                        Local
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="140"
-                        col-id="type"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                        tabindex="-1"
-                        aria-colindex="7"
-                        style="left: 870px; width: 130px"
-                      >
-                        SEPA
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="299"
-                        col-id="segments"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-last ag-right-aligned-cell"
-                        tabindex="-1"
-                        aria-colindex="8"
-                        style="left: 1000px; width: 100px"
-                      >
-                        8
-                      </div>
-                    </div>
-                    <div
-                      role="row"
-                      comp-id="141"
-                      tabindex="0"
-                      row-index="8"
-                      class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
-                      aria-rowindex="10"
-                      aria-selected="false"
-                      row-id="8"
-                      style="transform: translateY(352px); height: 44px"
-                    >
-                      <div
-                        role="gridcell"
-                        comp-id="142"
-                        col-id="ag-Grid-SelectionColumn"
-                        class="ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
-                        tabindex="-1"
-                        aria-colindex="1"
-                        style="left: 0px; width: 50px"
-                      >
-                        <div class="ag-cell-wrapper" role="presentation">
-                          <div class="ag-selection-checkbox" role="presentation">
-                            <!--AG-CHECKBOX-->
-                            <div
-                              role="presentation"
-                              data-ref="eCheckbox"
-                              class="ag-labeled ag-label-align-right ag-checkbox ag-input-field"
-                            >
-                              <div
-                                class="ag-input-field-label ag-label ag-hidden ag-checkbox-label"
-                                data-ref="eLabel"
-                                aria-hidden="true"
-                                role="presentation"
-                                id="ag-144-label"
-                              ></div>
-                              <div
-                                class="ag-wrapper ag-input-wrapper ag-checkbox-input-wrapper"
-                                data-ref="eWrapper"
-                                role="presentation"
-                              >
-                                <input
-                                  class="ag-input-field-input ag-checkbox-input"
-                                  data-ref="eInput"
-                                  type="checkbox"
-                                  id="ag-144-input"
-                                  tabindex="-1"
-                                  aria-label="Press Space to toggle row selection (unchecked)"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <span class="ag-cell-value" role="presentation"></span>
-                        </div>
+                        Vegetation &amp; Habitat Protection
                       </div>
                       <div
                         role="gridcell"
                         comp-id="145"
-                        col-id="name"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        col-id="severity"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
-                        aria-colindex="2"
-                        style="left: 50px; width: 240px"
+                        aria-colindex="3"
+                        style="left: 240px; width: 170px"
                       >
-                        County Right-of-Way Permit
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-warning)"
+                          ><span class="bcn-grid-chip__dot"></span>Needs Attention</span
+                        >
                       </div>
                       <div
                         role="gridcell"
@@ -2281,875 +1906,774 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
                         col-id="status"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
-                        aria-colindex="3"
-                        style="left: 290px; width: 160px"
+                        aria-colindex="4"
+                        style="left: 410px; width: 130px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--st-cleared)"
-                          ><span class="bcn-grid-chip__dot"></span>Issued</span
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                          ><span class="bcn-grid-chip__dot"></span>Active</span
                         >
                       </div>
                       <div
                         role="gridcell"
                         comp-id="147"
-                        col-id="estDate"
+                        col-id="area"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
-                        aria-colindex="4"
-                        style="left: 450px; width: 130px"
+                        aria-colindex="5"
+                        style="left: 540px; width: 240px"
                       >
-                        Jun 2, 2026
+                        Substation Yard
                       </div>
                       <div
                         role="gridcell"
                         comp-id="148"
-                        col-id="agency"
+                        col-id="reportedDate"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
-                        aria-colindex="5"
-                        style="left: 580px; width: 200px"
+                        aria-colindex="6"
+                        style="left: 780px; width: 130px"
                       >
-                        Walla Walla County Public Works
+                        Jul 16, 2026
                       </div>
                       <div
                         role="gridcell"
                         comp-id="149"
-                        col-id="agencyLevel"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                        tabindex="-1"
-                        aria-colindex="6"
-                        style="left: 780px; width: 90px"
-                      >
-                        Local
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="150"
-                        col-id="type"
+                        col-id="daysActive"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="7"
-                        style="left: 870px; width: 130px"
+                        style="left: 910px; width: 120px"
                       >
-                        Right-of-Way
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="300"
-                        col-id="segments"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-last ag-right-aligned-cell"
-                        tabindex="-1"
-                        aria-colindex="8"
-                        style="left: 1000px; width: 100px"
-                      >
-                        4
+                        20d
                       </div>
                     </div>
                     <div
                       role="row"
-                      comp-id="151"
+                      comp-id="150"
+                      tabindex="0"
+                      row-index="7"
+                      class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                      aria-rowindex="9"
+                      row-id="7"
+                      style="transform: translateY(308px); height: 44px"
+                    >
+                      <div
+                        role="gridcell"
+                        comp-id="151"
+                        col-id="category"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        tabindex="-1"
+                        aria-colindex="2"
+                        style="left: 0px; width: 240px"
+                      >
+                        Noise Management
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="152"
+                        col-id="severity"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                        tabindex="-1"
+                        aria-colindex="3"
+                        style="left: 240px; width: 170px"
+                      >
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-warning)"
+                          ><span class="bcn-grid-chip__dot"></span>Needs Attention</span
+                        >
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="153"
+                        col-id="status"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                        tabindex="-1"
+                        aria-colindex="4"
+                        style="left: 410px; width: 130px"
+                      >
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                          ><span class="bcn-grid-chip__dot"></span>Active</span
+                        >
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="154"
+                        col-id="area"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        tabindex="-1"
+                        aria-colindex="5"
+                        style="left: 540px; width: 240px"
+                      >
+                        BESS Pad
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="155"
+                        col-id="reportedDate"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        tabindex="-1"
+                        aria-colindex="6"
+                        style="left: 780px; width: 130px"
+                      >
+                        Jul 14, 2026
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="156"
+                        col-id="daysActive"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        tabindex="-1"
+                        aria-colindex="7"
+                        style="left: 910px; width: 120px"
+                      >
+                        22d
+                      </div>
+                    </div>
+                    <div
+                      role="row"
+                      comp-id="157"
+                      tabindex="0"
+                      row-index="8"
+                      class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                      aria-rowindex="10"
+                      row-id="8"
+                      style="transform: translateY(352px); height: 44px"
+                    >
+                      <div
+                        role="gridcell"
+                        comp-id="158"
+                        col-id="category"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        tabindex="-1"
+                        aria-colindex="2"
+                        style="left: 0px; width: 240px"
+                      >
+                        Stormwater / BMP Maintenance
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="159"
+                        col-id="severity"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                        tabindex="-1"
+                        aria-colindex="3"
+                        style="left: 240px; width: 170px"
+                      >
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-warning)"
+                          ><span class="bcn-grid-chip__dot"></span>Needs Attention</span
+                        >
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="160"
+                        col-id="status"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                        tabindex="-1"
+                        aria-colindex="4"
+                        style="left: 410px; width: 130px"
+                      >
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                          ><span class="bcn-grid-chip__dot"></span>Active</span
+                        >
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="161"
+                        col-id="area"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        tabindex="-1"
+                        aria-colindex="5"
+                        style="left: 540px; width: 240px"
+                      >
+                        Cottonwood Wash Crossing
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="162"
+                        col-id="reportedDate"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        tabindex="-1"
+                        aria-colindex="6"
+                        style="left: 780px; width: 130px"
+                      >
+                        Jul 8, 2026
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="163"
+                        col-id="daysActive"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        tabindex="-1"
+                        aria-colindex="7"
+                        style="left: 910px; width: 120px"
+                      >
+                        28d
+                      </div>
+                    </div>
+                    <div
+                      role="row"
+                      comp-id="164"
                       tabindex="0"
                       row-index="9"
                       class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
                       aria-rowindex="11"
-                      aria-selected="false"
                       row-id="9"
                       style="transform: translateY(396px); height: 44px"
                     >
                       <div
                         role="gridcell"
-                        comp-id="152"
-                        col-id="ag-Grid-SelectionColumn"
-                        class="ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
-                        tabindex="-1"
-                        aria-colindex="1"
-                        style="left: 0px; width: 50px"
-                      >
-                        <div class="ag-cell-wrapper" role="presentation">
-                          <div class="ag-selection-checkbox" role="presentation">
-                            <!--AG-CHECKBOX-->
-                            <div
-                              role="presentation"
-                              data-ref="eCheckbox"
-                              class="ag-labeled ag-label-align-right ag-checkbox ag-input-field"
-                            >
-                              <div
-                                class="ag-input-field-label ag-label ag-hidden ag-checkbox-label"
-                                data-ref="eLabel"
-                                aria-hidden="true"
-                                role="presentation"
-                                id="ag-154-label"
-                              ></div>
-                              <div
-                                class="ag-wrapper ag-input-wrapper ag-checkbox-input-wrapper"
-                                data-ref="eWrapper"
-                                role="presentation"
-                              >
-                                <input
-                                  class="ag-input-field-input ag-checkbox-input"
-                                  data-ref="eInput"
-                                  type="checkbox"
-                                  id="ag-154-input"
-                                  tabindex="-1"
-                                  aria-label="Press Space to toggle row selection (unchecked)"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <span class="ag-cell-value" role="presentation"></span>
-                        </div>
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="155"
-                        col-id="name"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                        tabindex="-1"
-                        aria-colindex="2"
-                        style="left: 50px; width: 240px"
-                      >
-                        Franchise Agreement
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="156"
-                        col-id="status"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
-                        tabindex="-1"
-                        aria-colindex="3"
-                        style="left: 290px; width: 160px"
-                      >
-                        <span class="bcn-grid-chip" style="--_chip: var(--st-not-started)"
-                          ><span class="bcn-grid-chip__dot"></span>Not Started</span
-                        >
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="157"
-                        col-id="estDate"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                        tabindex="-1"
-                        aria-colindex="4"
-                        style="left: 450px; width: 130px"
-                      >
-                        Oct 15, 2026
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="158"
-                        col-id="agency"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                        tabindex="-1"
-                        aria-colindex="5"
-                        style="left: 580px; width: 200px"
-                      >
-                        Walla Walla County
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="159"
-                        col-id="agencyLevel"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                        tabindex="-1"
-                        aria-colindex="6"
-                        style="left: 780px; width: 90px"
-                      >
-                        Local
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="160"
-                        col-id="type"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                        tabindex="-1"
-                        aria-colindex="7"
-                        style="left: 870px; width: 130px"
-                      >
-                        Franchise
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="301"
-                        col-id="segments"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-last ag-right-aligned-cell"
-                        tabindex="-1"
-                        aria-colindex="8"
-                        style="left: 1000px; width: 100px"
-                      >
-                        3
-                      </div>
-                    </div>
-                    <div
-                      role="row"
-                      comp-id="161"
-                      tabindex="0"
-                      row-index="10"
-                      class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
-                      aria-rowindex="12"
-                      aria-selected="false"
-                      row-id="10"
-                      style="transform: translateY(440px); height: 44px"
-                    >
-                      <div
-                        role="gridcell"
-                        comp-id="162"
-                        col-id="ag-Grid-SelectionColumn"
-                        class="ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
-                        tabindex="-1"
-                        aria-colindex="1"
-                        style="left: 0px; width: 50px"
-                      >
-                        <div class="ag-cell-wrapper" role="presentation">
-                          <div class="ag-selection-checkbox" role="presentation">
-                            <!--AG-CHECKBOX-->
-                            <div
-                              role="presentation"
-                              data-ref="eCheckbox"
-                              class="ag-labeled ag-label-align-right ag-checkbox ag-input-field"
-                            >
-                              <div
-                                class="ag-input-field-label ag-label ag-hidden ag-checkbox-label"
-                                data-ref="eLabel"
-                                aria-hidden="true"
-                                role="presentation"
-                                id="ag-164-label"
-                              ></div>
-                              <div
-                                class="ag-wrapper ag-input-wrapper ag-checkbox-input-wrapper"
-                                data-ref="eWrapper"
-                                role="presentation"
-                              >
-                                <input
-                                  class="ag-input-field-input ag-checkbox-input"
-                                  data-ref="eInput"
-                                  type="checkbox"
-                                  id="ag-164-input"
-                                  tabindex="-1"
-                                  aria-label="Press Space to toggle row selection (unchecked)"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <span class="ag-cell-value" role="presentation"></span>
-                        </div>
-                      </div>
-                      <div
-                        role="gridcell"
                         comp-id="165"
-                        col-id="name"
+                        col-id="category"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="2"
-                        style="left: 50px; width: 240px"
+                        style="left: 0px; width: 240px"
                       >
-                        Shoreline Substantial Development / CUP
+                        Access &amp; Traffic Control
                       </div>
                       <div
                         role="gridcell"
                         comp-id="166"
-                        col-id="status"
+                        col-id="severity"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
                         aria-colindex="3"
-                        style="left: 290px; width: 160px"
+                        style="left: 240px; width: 170px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--st-submitted)"
-                          ><span class="bcn-grid-chip__dot"></span>Submitted</span
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-warning)"
+                          ><span class="bcn-grid-chip__dot"></span>Needs Attention</span
                         >
                       </div>
                       <div
                         role="gridcell"
                         comp-id="167"
-                        col-id="estDate"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        col-id="status"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
                         aria-colindex="4"
-                        style="left: 450px; width: 130px"
+                        style="left: 410px; width: 130px"
                       >
-                        Sep 5, 2026
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                          ><span class="bcn-grid-chip__dot"></span>Active</span
+                        >
                       </div>
                       <div
                         role="gridcell"
                         comp-id="168"
-                        col-id="agency"
+                        col-id="area"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="5"
-                        style="left: 580px; width: 200px"
+                        style="left: 540px; width: 240px"
                       >
-                        Walla Walla County
+                        Main Access Road (Hwy 58 Spur)
                       </div>
                       <div
                         role="gridcell"
                         comp-id="169"
-                        col-id="agencyLevel"
+                        col-id="reportedDate"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="6"
-                        style="left: 780px; width: 90px"
+                        style="left: 780px; width: 130px"
                       >
-                        Local
+                        Jul 3, 2026
                       </div>
                       <div
                         role="gridcell"
                         comp-id="170"
-                        col-id="type"
+                        col-id="daysActive"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="7"
-                        style="left: 870px; width: 130px"
+                        style="left: 910px; width: 120px"
                       >
-                        Shoreline
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="302"
-                        col-id="segments"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-last ag-right-aligned-cell"
-                        tabindex="-1"
-                        aria-colindex="8"
-                        style="left: 1000px; width: 100px"
-                      >
-                        1
+                        33d
                       </div>
                     </div>
                     <div
                       role="row"
                       comp-id="171"
                       tabindex="0"
+                      row-index="10"
+                      class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
+                      aria-rowindex="12"
+                      row-id="10"
+                      style="transform: translateY(440px); height: 44px"
+                    >
+                      <div
+                        role="gridcell"
+                        comp-id="172"
+                        col-id="category"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        tabindex="-1"
+                        aria-colindex="2"
+                        style="left: 0px; width: 240px"
+                      >
+                        Vegetation &amp; Habitat Protection
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="173"
+                        col-id="severity"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                        tabindex="-1"
+                        aria-colindex="3"
+                        style="left: 240px; width: 170px"
+                      >
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                          ><span class="bcn-grid-chip__dot"></span>In Compliance</span
+                        >
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="174"
+                        col-id="status"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
+                        tabindex="-1"
+                        aria-colindex="4"
+                        style="left: 410px; width: 130px"
+                      >
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                          ><span class="bcn-grid-chip__dot"></span>Active</span
+                        >
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="175"
+                        col-id="area"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        tabindex="-1"
+                        aria-colindex="5"
+                        style="left: 540px; width: 240px"
+                      >
+                        North Array — Block A
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="176"
+                        col-id="reportedDate"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        tabindex="-1"
+                        aria-colindex="6"
+                        style="left: 780px; width: 130px"
+                      >
+                        Aug 3, 2026
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="177"
+                        col-id="daysActive"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        tabindex="-1"
+                        aria-colindex="7"
+                        style="left: 910px; width: 120px"
+                      >
+                        2d
+                      </div>
+                    </div>
+                    <div
+                      role="row"
+                      comp-id="178"
+                      tabindex="0"
                       row-index="11"
                       class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
                       aria-rowindex="13"
-                      aria-selected="false"
                       row-id="11"
                       style="transform: translateY(484px); height: 44px"
                     >
                       <div
                         role="gridcell"
-                        comp-id="172"
-                        col-id="ag-Grid-SelectionColumn"
-                        class="ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
-                        tabindex="-1"
-                        aria-colindex="1"
-                        style="left: 0px; width: 50px"
-                      >
-                        <div class="ag-cell-wrapper" role="presentation">
-                          <div class="ag-selection-checkbox" role="presentation">
-                            <!--AG-CHECKBOX-->
-                            <div
-                              role="presentation"
-                              data-ref="eCheckbox"
-                              class="ag-labeled ag-label-align-right ag-checkbox ag-input-field"
-                            >
-                              <div
-                                class="ag-input-field-label ag-label ag-hidden ag-checkbox-label"
-                                data-ref="eLabel"
-                                aria-hidden="true"
-                                role="presentation"
-                                id="ag-174-label"
-                              ></div>
-                              <div
-                                class="ag-wrapper ag-input-wrapper ag-checkbox-input-wrapper"
-                                data-ref="eWrapper"
-                                role="presentation"
-                              >
-                                <input
-                                  class="ag-input-field-input ag-checkbox-input"
-                                  data-ref="eInput"
-                                  type="checkbox"
-                                  id="ag-174-input"
-                                  tabindex="-1"
-                                  aria-label="Press Space to toggle row selection (unchecked)"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <span class="ag-cell-value" role="presentation"></span>
-                        </div>
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="175"
-                        col-id="name"
+                        comp-id="179"
+                        col-id="category"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="2"
-                        style="left: 50px; width: 240px"
+                        style="left: 0px; width: 240px"
                       >
-                        Right-of-Way &amp; Utility Permit
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="176"
-                        col-id="status"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
-                        tabindex="-1"
-                        aria-colindex="3"
-                        style="left: 290px; width: 160px"
-                      >
-                        <span
-                          class="bcn-grid-chip"
-                          style="--_chip: var(--st-under-review)"
-                          ><span class="bcn-grid-chip__dot"></span>Under Review</span
-                        >
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="177"
-                        col-id="estDate"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                        tabindex="-1"
-                        aria-colindex="4"
-                        style="left: 450px; width: 130px"
-                      >
-                        Aug 20, 2026
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="178"
-                        col-id="agency"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                        tabindex="-1"
-                        aria-colindex="5"
-                        style="left: 580px; width: 200px"
-                      >
-                        Oregon DOT
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="179"
-                        col-id="agencyLevel"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                        tabindex="-1"
-                        aria-colindex="6"
-                        style="left: 780px; width: 90px"
-                      >
-                        State
+                        Stormwater / BMP Maintenance
                       </div>
                       <div
                         role="gridcell"
                         comp-id="180"
-                        col-id="type"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        col-id="severity"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
-                        aria-colindex="7"
-                        style="left: 870px; width: 130px"
+                        aria-colindex="3"
+                        style="left: 240px; width: 170px"
                       >
-                        Right-of-Way
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                          ><span class="bcn-grid-chip__dot"></span>In Compliance</span
+                        >
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="303"
-                        col-id="segments"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-last ag-right-aligned-cell"
+                        comp-id="181"
+                        col-id="status"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
-                        aria-colindex="8"
-                        style="left: 1000px; width: 100px"
+                        aria-colindex="4"
+                        style="left: 410px; width: 130px"
                       >
-                        3
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                          ><span class="bcn-grid-chip__dot"></span>Active</span
+                        >
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="182"
+                        col-id="area"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        tabindex="-1"
+                        aria-colindex="5"
+                        style="left: 540px; width: 240px"
+                      >
+                        North Array — Block A
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="183"
+                        col-id="reportedDate"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        tabindex="-1"
+                        aria-colindex="6"
+                        style="left: 780px; width: 130px"
+                      >
+                        Jul 30, 2026
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="184"
+                        col-id="daysActive"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        tabindex="-1"
+                        aria-colindex="7"
+                        style="left: 910px; width: 120px"
+                      >
+                        6d
                       </div>
                     </div>
                     <div
                       role="row"
-                      comp-id="181"
+                      comp-id="185"
                       tabindex="0"
                       row-index="12"
                       class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
                       aria-rowindex="14"
-                      aria-selected="false"
                       row-id="12"
                       style="transform: translateY(528px); height: 44px"
                     >
                       <div
                         role="gridcell"
-                        comp-id="182"
-                        col-id="ag-Grid-SelectionColumn"
-                        class="ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
-                        tabindex="-1"
-                        aria-colindex="1"
-                        style="left: 0px; width: 50px"
-                      >
-                        <div class="ag-cell-wrapper" role="presentation">
-                          <div class="ag-selection-checkbox" role="presentation">
-                            <!--AG-CHECKBOX-->
-                            <div
-                              role="presentation"
-                              data-ref="eCheckbox"
-                              class="ag-labeled ag-label-align-right ag-checkbox ag-input-field"
-                            >
-                              <div
-                                class="ag-input-field-label ag-label ag-hidden ag-checkbox-label"
-                                data-ref="eLabel"
-                                aria-hidden="true"
-                                role="presentation"
-                                id="ag-184-label"
-                              ></div>
-                              <div
-                                class="ag-wrapper ag-input-wrapper ag-checkbox-input-wrapper"
-                                data-ref="eWrapper"
-                                role="presentation"
-                              >
-                                <input
-                                  class="ag-input-field-input ag-checkbox-input"
-                                  data-ref="eInput"
-                                  type="checkbox"
-                                  id="ag-184-input"
-                                  tabindex="-1"
-                                  aria-label="Press Space to toggle row selection (unchecked)"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <span class="ag-cell-value" role="presentation"></span>
-                        </div>
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="185"
-                        col-id="name"
+                        comp-id="186"
+                        col-id="category"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="2"
-                        style="left: 50px; width: 240px"
+                        style="left: 0px; width: 240px"
                       >
-                        Removal–Fill Permit
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="186"
-                        col-id="status"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
-                        tabindex="-1"
-                        aria-colindex="3"
-                        style="left: 290px; width: 160px"
-                      >
-                        <span
-                          class="bcn-grid-chip"
-                          style="--_chip: var(--st-in-preparation)"
-                          ><span class="bcn-grid-chip__dot"></span>In Preparation</span
-                        >
+                        Waste Management
                       </div>
                       <div
                         role="gridcell"
                         comp-id="187"
-                        col-id="estDate"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        col-id="severity"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
-                        aria-colindex="4"
-                        style="left: 450px; width: 130px"
+                        aria-colindex="3"
+                        style="left: 240px; width: 170px"
                       >
-                        Sep 25, 2026
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                          ><span class="bcn-grid-chip__dot"></span>In Compliance</span
+                        >
                       </div>
                       <div
                         role="gridcell"
                         comp-id="188"
-                        col-id="agency"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        col-id="status"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
-                        aria-colindex="5"
-                        style="left: 580px; width: 200px"
+                        aria-colindex="4"
+                        style="left: 410px; width: 130px"
                       >
-                        Oregon Dept. of State Lands
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                          ><span class="bcn-grid-chip__dot"></span>Active</span
+                        >
                       </div>
                       <div
                         role="gridcell"
                         comp-id="189"
-                        col-id="agencyLevel"
+                        col-id="area"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
-                        aria-colindex="6"
-                        style="left: 780px; width: 90px"
+                        aria-colindex="5"
+                        style="left: 540px; width: 240px"
                       >
-                        State
+                        Laydown / Staging Yard
                       </div>
                       <div
                         role="gridcell"
                         comp-id="190"
-                        col-id="type"
+                        col-id="reportedDate"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
-                        aria-colindex="7"
-                        style="left: 870px; width: 130px"
+                        aria-colindex="6"
+                        style="left: 780px; width: 130px"
                       >
-                        Removal–Fill
+                        Jul 21, 2026
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="304"
-                        col-id="segments"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-last ag-right-aligned-cell"
+                        comp-id="191"
+                        col-id="daysActive"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
-                        aria-colindex="8"
-                        style="left: 1000px; width: 100px"
+                        aria-colindex="7"
+                        style="left: 910px; width: 120px"
                       >
-                        3
+                        15d
                       </div>
                     </div>
                     <div
                       role="row"
-                      comp-id="191"
+                      comp-id="192"
                       tabindex="0"
                       row-index="13"
                       class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
                       aria-rowindex="15"
-                      aria-selected="false"
                       row-id="13"
                       style="transform: translateY(572px); height: 44px"
                     >
                       <div
                         role="gridcell"
-                        comp-id="192"
-                        col-id="ag-Grid-SelectionColumn"
-                        class="ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
-                        tabindex="-1"
-                        aria-colindex="1"
-                        style="left: 0px; width: 50px"
-                      >
-                        <div class="ag-cell-wrapper" role="presentation">
-                          <div class="ag-selection-checkbox" role="presentation">
-                            <!--AG-CHECKBOX-->
-                            <div
-                              role="presentation"
-                              data-ref="eCheckbox"
-                              class="ag-labeled ag-label-align-right ag-checkbox ag-input-field"
-                            >
-                              <div
-                                class="ag-input-field-label ag-label ag-hidden ag-checkbox-label"
-                                data-ref="eLabel"
-                                aria-hidden="true"
-                                role="presentation"
-                                id="ag-194-label"
-                              ></div>
-                              <div
-                                class="ag-wrapper ag-input-wrapper ag-checkbox-input-wrapper"
-                                data-ref="eWrapper"
-                                role="presentation"
-                              >
-                                <input
-                                  class="ag-input-field-input ag-checkbox-input"
-                                  data-ref="eInput"
-                                  type="checkbox"
-                                  id="ag-194-input"
-                                  tabindex="-1"
-                                  aria-label="Press Space to toggle row selection (unchecked)"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <span class="ag-cell-value" role="presentation"></span>
-                        </div>
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="195"
-                        col-id="name"
+                        comp-id="193"
+                        col-id="category"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="2"
-                        style="left: 50px; width: 240px"
+                        style="left: 0px; width: 240px"
                       >
-                        County Right-of-Way Permit
+                        Noise Management
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="196"
-                        col-id="status"
+                        comp-id="194"
+                        col-id="severity"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
                         aria-colindex="3"
-                        style="left: 290px; width: 160px"
+                        style="left: 240px; width: 170px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--st-submitted)"
-                          ><span class="bcn-grid-chip__dot"></span>Submitted</span
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                          ><span class="bcn-grid-chip__dot"></span>In Compliance</span
                         >
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="197"
-                        col-id="estDate"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        comp-id="195"
+                        col-id="status"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
                         aria-colindex="4"
-                        style="left: 450px; width: 130px"
+                        style="left: 410px; width: 130px"
                       >
-                        Sep 10, 2026
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                          ><span class="bcn-grid-chip__dot"></span>Active</span
+                        >
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="196"
+                        col-id="area"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        tabindex="-1"
+                        aria-colindex="5"
+                        style="left: 540px; width: 240px"
+                      >
+                        BESS Pad
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="197"
+                        col-id="reportedDate"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        tabindex="-1"
+                        aria-colindex="6"
+                        style="left: 780px; width: 130px"
+                      >
+                        Jul 17, 2026
                       </div>
                       <div
                         role="gridcell"
                         comp-id="198"
-                        col-id="agency"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                        tabindex="-1"
-                        aria-colindex="5"
-                        style="left: 580px; width: 200px"
-                      >
-                        Umatilla County Public Works
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="199"
-                        col-id="agencyLevel"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
-                        tabindex="-1"
-                        aria-colindex="6"
-                        style="left: 780px; width: 90px"
-                      >
-                        Local
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="200"
-                        col-id="type"
+                        col-id="daysActive"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="7"
-                        style="left: 870px; width: 130px"
+                        style="left: 910px; width: 120px"
                       >
-                        Right-of-Way
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="305"
-                        col-id="segments"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-last ag-right-aligned-cell"
-                        tabindex="-1"
-                        aria-colindex="8"
-                        style="left: 1000px; width: 100px"
-                      >
-                        5
+                        19d
                       </div>
                     </div>
                     <div
                       role="row"
-                      comp-id="201"
+                      comp-id="199"
                       tabindex="0"
                       row-index="14"
-                      class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute ag-row-last"
+                      class="ag-row-even ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute"
                       aria-rowindex="16"
-                      aria-selected="false"
                       row-id="14"
                       style="transform: translateY(616px); height: 44px"
                     >
                       <div
                         role="gridcell"
-                        comp-id="202"
-                        col-id="ag-Grid-SelectionColumn"
-                        class="ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-first"
-                        tabindex="-1"
-                        aria-colindex="1"
-                        style="left: 0px; width: 50px"
-                      >
-                        <div class="ag-cell-wrapper" role="presentation">
-                          <div class="ag-selection-checkbox" role="presentation">
-                            <!--AG-CHECKBOX-->
-                            <div
-                              role="presentation"
-                              data-ref="eCheckbox"
-                              class="ag-labeled ag-label-align-right ag-checkbox ag-input-field"
-                            >
-                              <div
-                                class="ag-input-field-label ag-label ag-hidden ag-checkbox-label"
-                                data-ref="eLabel"
-                                aria-hidden="true"
-                                role="presentation"
-                                id="ag-204-label"
-                              ></div>
-                              <div
-                                class="ag-wrapper ag-input-wrapper ag-checkbox-input-wrapper"
-                                data-ref="eWrapper"
-                                role="presentation"
-                              >
-                                <input
-                                  class="ag-input-field-input ag-checkbox-input"
-                                  data-ref="eInput"
-                                  type="checkbox"
-                                  id="ag-204-input"
-                                  tabindex="-1"
-                                  aria-label="Press Space to toggle row selection (unchecked)"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <span class="ag-cell-value" role="presentation"></span>
-                        </div>
-                      </div>
-                      <div
-                        role="gridcell"
-                        comp-id="205"
-                        col-id="name"
+                        comp-id="200"
+                        col-id="category"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
                         aria-colindex="2"
-                        style="left: 50px; width: 240px"
+                        style="left: 0px; width: 240px"
                       >
-                        County Right-of-Way Permit
+                        Cultural Resources Protection
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="206"
-                        col-id="status"
+                        comp-id="201"
+                        col-id="severity"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
                         aria-colindex="3"
-                        style="left: 290px; width: 160px"
+                        style="left: 240px; width: 170px"
                       >
-                        <span class="bcn-grid-chip" style="--_chip: var(--st-not-started)"
-                          ><span class="bcn-grid-chip__dot"></span>Not Started</span
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                          ><span class="bcn-grid-chip__dot"></span>In Compliance</span
                         >
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="207"
-                        col-id="estDate"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        comp-id="202"
+                        col-id="status"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
                         aria-colindex="4"
-                        style="left: 450px; width: 130px"
+                        style="left: 410px; width: 130px"
                       >
-                        Nov 1, 2026
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                          ><span class="bcn-grid-chip__dot"></span>Active</span
+                        >
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="203"
+                        col-id="area"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        tabindex="-1"
+                        aria-colindex="5"
+                        style="left: 540px; width: 240px"
+                      >
+                        Perimeter Fence Line — West
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="204"
+                        col-id="reportedDate"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        tabindex="-1"
+                        aria-colindex="6"
+                        style="left: 780px; width: 130px"
+                      >
+                        Jul 13, 2026
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="205"
+                        col-id="daysActive"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        tabindex="-1"
+                        aria-colindex="7"
+                        style="left: 910px; width: 120px"
+                      >
+                        23d
+                      </div>
+                    </div>
+                    <div
+                      role="row"
+                      comp-id="206"
+                      tabindex="0"
+                      row-index="15"
+                      class="ag-row-odd ag-row-no-focus ag-row ag-row-level-0 ag-row-position-absolute ag-row-last"
+                      aria-rowindex="17"
+                      row-id="15"
+                      style="transform: translateY(660px); height: 44px"
+                    >
+                      <div
+                        role="gridcell"
+                        comp-id="207"
+                        col-id="category"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        tabindex="-1"
+                        aria-colindex="2"
+                        style="left: 0px; width: 240px"
+                      >
+                        Spill Prevention &amp; Response
                       </div>
                       <div
                         role="gridcell"
                         comp-id="208"
-                        col-id="agency"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        col-id="severity"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
-                        aria-colindex="5"
-                        style="left: 580px; width: 200px"
+                        aria-colindex="3"
+                        style="left: 240px; width: 170px"
                       >
-                        Benton County Public Works
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-success)"
+                          ><span class="bcn-grid-chip__dot"></span>In Compliance</span
+                        >
                       </div>
                       <div
                         role="gridcell"
                         comp-id="209"
-                        col-id="agencyLevel"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        col-id="status"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height bcn-grid-status-cell"
                         tabindex="-1"
-                        aria-colindex="6"
-                        style="left: 780px; width: 90px"
+                        aria-colindex="4"
+                        style="left: 410px; width: 130px"
                       >
-                        Local
+                        <span class="bcn-grid-chip" style="--_chip: var(--color-info)"
+                          ><span class="bcn-grid-chip__dot"></span>Active</span
+                        >
                       </div>
                       <div
                         role="gridcell"
                         comp-id="210"
-                        col-id="type"
+                        col-id="area"
                         class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
-                        aria-colindex="7"
-                        style="left: 870px; width: 130px"
+                        aria-colindex="5"
+                        style="left: 540px; width: 240px"
                       >
-                        Right-of-Way
+                        Substation Yard
                       </div>
                       <div
                         role="gridcell"
-                        comp-id="306"
-                        col-id="segments"
-                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height ag-column-last ag-right-aligned-cell"
+                        comp-id="211"
+                        col-id="reportedDate"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
                         tabindex="-1"
-                        aria-colindex="8"
-                        style="left: 1000px; width: 100px"
+                        aria-colindex="6"
+                        style="left: 780px; width: 130px"
                       >
-                        3
+                        Jul 7, 2026
+                      </div>
+                      <div
+                        role="gridcell"
+                        comp-id="212"
+                        col-id="daysActive"
+                        class="ag-cell-value ag-cell ag-cell-not-inline-editing ag-cell-normal-height"
+                        tabindex="-1"
+                        aria-colindex="7"
+                        style="left: 910px; width: 120px"
+                      >
+                        29d
                       </div>
                     </div>
                   </div>
@@ -3160,14 +2684,14 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
                   data-ref="eContainer"
                   role="rowgroup"
                   aria-hidden="true"
-                  style="height: 660px; width: 0px; max-width: 0px; min-width: 0px"
+                  style="height: 704px; width: 0px; max-width: 0px; min-width: 0px"
                 ></div>
                 <!--AG-ROW-CONTAINER-->
                 <div
                   class="ag-full-width-container"
                   data-ref="eContainer"
                   role="rowgroup"
-                  style="height: 660px"
+                  style="height: 704px"
                 ></div>
               </div>
               <!--AG-FAKE-VERTICAL-SCROLL-->
@@ -3184,7 +2708,7 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
                   <div
                     class="ag-body-vertical-scroll-container"
                     data-ref="eContainer"
-                    style="height: 660px; width: 16px; max-width: 16px; min-width: 16px"
+                    style="height: 704px; width: 16px; max-width: 16px; min-width: 16px"
                   ></div>
                 </div>
               </div>
@@ -3197,11 +2721,11 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
             >
               <!--AG-ROW-CONTAINER-->
               <div
-                class="ag-pinned-left-sticky-top ag-hidden"
+                class="ag-pinned-left-sticky-top"
                 data-ref="eContainer"
                 role="rowgroup"
-                aria-hidden="true"
-                style="width: 0px; max-width: 0px; min-width: 0px"
+                aria-hidden="false"
+                style="width: 110px; max-width: 110px; min-width: 110px"
               ></div>
               <!--AG-ROW-CONTAINER-->
               <div
@@ -3213,7 +2737,7 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
                   class="ag-sticky-top-container"
                   data-ref="eContainer"
                   role="presentation"
-                  style="width: 1100px"
+                  style="width: 1170px"
                 ></div>
               </div>
               <!--AG-ROW-CONTAINER-->
@@ -3239,11 +2763,11 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
             >
               <!--AG-ROW-CONTAINER-->
               <div
-                class="ag-pinned-left-sticky-bottom ag-hidden"
+                class="ag-pinned-left-sticky-bottom"
                 data-ref="eContainer"
                 role="rowgroup"
-                aria-hidden="true"
-                style="width: 0px; max-width: 0px; min-width: 0px"
+                aria-hidden="false"
+                style="width: 110px; max-width: 110px; min-width: 110px"
               ></div>
               <!--AG-ROW-CONTAINER-->
               <div
@@ -3255,7 +2779,7 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
                   class="ag-sticky-bottom-container"
                   data-ref="eContainer"
                   role="presentation"
-                  style="width: 1100px"
+                  style="width: 1170px"
                 ></div>
               </div>
               <!--AG-ROW-CONTAINER-->
@@ -3281,11 +2805,11 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
             >
               <!--AG-ROW-CONTAINER-->
               <div
-                class="ag-pinned-left-floating-bottom ag-hidden"
+                class="ag-pinned-left-floating-bottom"
                 data-ref="eContainer"
                 role="rowgroup"
-                aria-hidden="true"
-                style="width: 0px; max-width: 0px; min-width: 0px"
+                aria-hidden="false"
+                style="width: 110px; max-width: 110px; min-width: 110px"
               ></div>
               <!--AG-ROW-CONTAINER-->
               <div
@@ -3297,7 +2821,7 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
                   class="ag-floating-bottom-container"
                   data-ref="eContainer"
                   role="presentation"
-                  style="width: 1100px"
+                  style="width: 1170px"
                 ></div>
               </div>
               <!--AG-ROW-CONTAINER-->
@@ -3317,14 +2841,14 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
             </div>
             <!--AG-FAKE-HORIZONTAL-SCROLL-->
             <div
-              class="ag-body-horizontal-scroll ag-apple-scrollbar ag-scrollbar-scrolling ag-scrollbar-invisible"
+              class="ag-body-horizontal-scroll ag-apple-scrollbar ag-scrollbar-invisible"
               aria-hidden="true"
               style="bottom: 0px; height: 16px; max-height: 16px; min-height: 16px"
             >
               <div
-                class="ag-horizontal-left-spacer ag-scroller-corner"
+                class="ag-horizontal-left-spacer"
                 data-ref="eLeftSpacer"
-                style="width: 0px; max-width: 0px; min-width: 0px"
+                style="width: 110px; max-width: 110px; min-width: 110px"
               ></div>
               <div
                 class="ag-body-horizontal-scroll-viewport"
@@ -3334,7 +2858,7 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
                 <div
                   class="ag-body-horizontal-scroll-container"
                   data-ref="eContainer"
-                  style="width: 1100px; height: 16px; max-height: 16px; min-height: 16px"
+                  style="width: 1170px; height: 16px; max-height: 16px; min-height: 16px"
                 ></div>
               </div>
               <div
@@ -3510,6 +3034,38 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
       </div>
     </div>
   </div>
+  <div class="table-footer">
+    <span id="ov-download"
+      ><span
+        class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+      >
+        <button class="esa-button__native" type="button">
+          <span class="esa-icon esa-icon--sm" aria-hidden="true">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" x2="12" y1="15" y2="3"></line>
+            </svg>
+          </span>
+          <span class="esa-button__label"> Download as CSV </span>
+        </button>
+      </span>
+    </span>
+    <div class="row-count-data">
+      Total Records: <span id="ov-total">28</span>
+      <span id="ov-filtered" class="filtered-rows-count">Filtered Records: 16</span>
+    </div>
+  </div>
 </div>
 ```
 
@@ -3528,10 +3084,6 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
 :where(.ag-theme-checkboxStyle-4) {
 .ag-checkbox-input-wrapper,.ag-radio-button-input-wrapper{background-color:var(--ag-checkbox-unchecked-background-color);border:solid var(--ag-checkbox-border-width) var(--ag-checkbox-unchecked-border-color);flex:none;height:var(--ag-icon-size);position:relative;width:var(--ag-icon-size);&:where(.ag-checked){background-color:var(--ag-checkbox-checked-background-color);border-color:var(--ag-checkbox-checked-border-color)}
 &:where(.ag-disabled){filter:grayscale();opacity:.5}
-.ag-checkbox-input,.ag-radio-button-input{-webkit-appearance:none;-moz-appearance:none;appearance:none;cursor:pointer;display:block;height:var(--ag-icon-size);margin:0;opacity:0;width:var(--ag-icon-size)}
-.ag-checkbox-input-wrapper:after,.ag-radio-button-input-wrapper:after{content:"";display:block;inset:0;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;pointer-events:none;position:absolute}
-.ag-checkbox-input-wrapper:where(:focus-within,:active),.ag-radio-button-input-wrapper:where(:focus-within,:active){box-shadow:var(--ag-focus-shadow)}
-.ag-checkbox-input-wrapper{border-radius:var(--ag-checkbox-border-radius);&:where(.ag-checked):after{-webkit-mask-image:var(--ag-checkbox-checked-shape-image);mask-image:var(--ag-checkbox-checked-shape-image)}
 .ag-cell-editing-error .ag-checkbox-input-wrapper:focus-within{box-shadow:var(--ag-focus-error-shadow)}
 :where(.ag-theme-columnDropStyle-2) {
 .ag-column-drop-vertical-empty-message{align-items:center;border:dashed var(--ag-border-width);border-color:var(--ag-border-color);display:flex;inset:0;justify-content:center;margin:calc(var(--ag-spacing)*1.5) calc(var(--ag-spacing)*2);overflow:hidden;padding:calc(var(--ag-spacing)*2);position:absolute}
@@ -3603,12 +3155,9 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
 .ag-icon-un-pin::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20class%3D%22ag-icon%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M8%2011a.75.75%200%200%200-.75.75v3.333a.75.75%200%201%200%201.5%200V11.75A.75.75%200%200%200%208%2011Z%22%2F%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M13.11%201.436a.75.75%200%200%200-1.22-.872l-10%2014a.75.75%200%201%200%201.22.872L5.207%2012.5h7.376a.75.75%200%200%200%20.75-.75v-1.174a2.08%202.08%200%200%200-1.153-1.863l-1.185-.599-.005-.002a.58.58%200%200%201-.323-.522V5.165a2.083%202.083%200%200%200%201.854-2.904l.589-.825Zm-3.943%205.52v.634a2.08%202.08%200%200%200%201.153%201.863l1.185.6.005.002a.58.58%200%200%201%20.323.522V11H6.28l2.887-4.044ZM9.277%201H5.25a2.084%202.084%200%200%200-.083%204.165v1.676l1.5-2.132v-.292a.75.75%200%200%200-.75-.75H5.25a.584.584%200%200%201%200-1.167h2.972L9.277%201Z%22%2F%3E%3C%2Fsvg%3E'); }
 :where(.ag-theme-inputStyle-7) {
 :where(.ag-input-field-input[type=number]:not(.ag-number-field-input-stepper)){-webkit-appearance:textfield;-moz-appearance:textfield;appearance:textfield;&::-webkit-inner-spin-button,&::-webkit-outer-spin-button{-webkit-appearance:none;appearance:none;margin:0}
-.ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){background-color:var(--ag-input-background-color);border:var(--ag-input-border);border-radius:var(--ag-input-border-radius);color:var(--ag-input-text-color);font-family:inherit;font-size:inherit;line-height:inherit;margin:0;min-height:var(--ag-input-height);padding:0;&:where(:disabled){background-color:var(--ag-input-disabled-background-color);border:var(--ag-input-disabled-border);color:var(--ag-input-disabled-text-color)}
 :where(.ag-ltr) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding-left:var(--ag-input-padding-start)}
-:where(.ag-rtl) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding-right:var(--ag-input-padding-start)}
 &:where(.ag-ltr,.ag-rtl) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding:0 var(--ag-input-padding-start)}
 :where(.ag-ltr) :where(.ag-column-select-header-filter-wrapper),:where(.ag-ltr) :where(.ag-filter-add-select),:where(.ag-ltr) :where(.ag-filter-filter),:where(.ag-ltr) :where(.ag-filter-toolpanel-search),:where(.ag-ltr) :where(.ag-floating-filter-search-icon),:where(.ag-ltr) :where(.ag-mini-filter){.ag-input-wrapper:before{margin-left:var(--ag-spacing)}
-.ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){&:focus{box-shadow:var(--ag-focus-shadow);&:where(.invalid),&:where(:invalid){box-shadow:var(--ag-focus-error-shadow)}
 :where(.ag-theme-params-1) {
 	--ag-accent-color: var(--ag-inherited-accent-color, #f9a134);
 	--ag-advanced-filter-builder-button-bar-border: var(--ag-inherited-advanced-filter-builder-button-bar-border, solid var(--ag-border-width) var(--ag-border-color));
@@ -4241,8 +3790,6 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
 .ag-measurement-element-border{display:inline-block}
 .ag-measurement-element-border:before{border-left:var(--ag-internal-measurement-border);content:"";display:block}
 .ag-input-wrapper,.ag-picker-field-wrapper{align-items:center;display:flex;flex:1 1 auto;line-height:normal;position:relative}
-.ag-input-field{align-items:center;display:flex;flex-direction:row}
-.ag-input-field-input:where(:not([type=checkbox],[type=radio])){flex:1 1 auto;min-width:0;width:100%}
 .ag-chart,.ag-dnd-ghost,.ag-external,.ag-popup,.ag-root-wrapper{cursor:default;line-height:normal;white-space:normal;-webkit-font-smoothing:antialiased;background-color:var(--ag-wrapper-background-color);color:var(--ag-text-color);color-scheme:var(--ag-browser-color-scheme);font-family:var(--ag-font-family);font-size:var(--ag-font-size);font-weight:var(--ag-font-weight);--ag-indentation-level:0}
 :where(.ag-icon):before{align-items:center;background-color:currentcolor;color:inherit;content:"";display:flex;font-family:inherit;font-size:var(--ag-icon-size);font-style:normal;font-variant:normal;height:var(--ag-icon-size);justify-content:center;line-height:var(--ag-icon-size);-webkit-mask-size:contain;mask-size:contain;text-transform:none;width:var(--ag-icon-size)}
 .ag-icon{background-position:50%;background-repeat:no-repeat;background-size:contain;color:var(--ag-icon-color);display:block;height:var(--ag-icon-size);position:relative;-webkit-user-select:none;-moz-user-select:none;user-select:none;width:var(--ag-icon-size)}
@@ -4298,7 +3845,6 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
 .ag-sticky-bottom,.ag-sticky-top{background-color:var(--ag-data-background-color);display:flex;height:0;overflow:hidden;position:absolute;width:100%;z-index:1}
 .ag-sticky-bottom{box-sizing:content-box!important;:where(.ag-pinned-left-sticky-bottom),:where(.ag-pinned-right-sticky-bottom),:where(.ag-sticky-bottom-container){border-top:var(--ag-row-border);box-sizing:border-box}
 .ag-cell-label-container{align-items:center;display:flex;flex-direction:row-reverse;height:100%;justify-content:space-between;width:100%}
-:where(.ag-right-aligned-header){.ag-cell-label-container{flex-direction:row}
 .ag-header-cell-text{text-align:end}
 :where(.ag-ltr){direction:ltr;.ag-body,.ag-body-horizontal-scroll,.ag-body-viewport,.ag-floating-bottom,.ag-floating-top,.ag-header,.ag-sticky-bottom,.ag-sticky-top{flex-direction:row}
 .ag-icon-contracted,.ag-icon-expanded,.ag-icon-tree-closed{display:block}
@@ -4346,9 +3892,7 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
 .ag-row-hover.ag-row-selected:before{background-color:var(--ag-row-hover-color);background-image:linear-gradient(var(--ag-selected-row-background-color),var(--ag-selected-row-background-color))}
 .ag-row.ag-full-width-row.ag-row-group>*{position:relative}
 .ag-header-range-highlight{background-color:var(--ag-range-header-highlight-color)}
-.ag-right-aligned-cell{font-variant-numeric:tabular-nums}
 :where(.ag-ltr) .ag-right-aligned-cell{text-align:right}
-:where(.ag-rtl) .ag-right-aligned-cell{text-align:left}
 .ag-right-aligned-cell .ag-cell-value,.ag-right-aligned-cell .ag-group-value{margin-left:auto}
 :where(.ag-ltr) .ag-cell:not(.ag-cell-inline-editing),:where(.ag-ltr) .ag-full-width-row .ag-cell-wrapper.ag-row-group{padding-left:calc(var(--ag-cell-horizontal-padding) - 1px + var(--ag-row-group-indent-size)*var(--ag-indentation-level));padding-right:calc(var(--ag-cell-horizontal-padding) - 1px)}
 :where(.ag-rtl) .ag-cell:not(.ag-cell-inline-editing),:where(.ag-rtl) .ag-full-width-row .ag-cell-wrapper.ag-row-group{padding-left:calc(var(--ag-cell-horizontal-padding) - 1px);padding-right:calc(var(--ag-cell-horizontal-padding) - 1px + var(--ag-row-group-indent-size)*var(--ag-indentation-level))}
@@ -4356,7 +3900,6 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
 .ag-row-dragging{cursor:move;opacity:.5}
 .ag-overlay-exporting-wrapper,.ag-overlay-loading-wrapper,.ag-overlay-modal-wrapper{background-color:var(--ag-modal-overlay-background-color)}
 :where(.ag-ltr) .ag-right-aligned-cell .ag-skeleton-effect{margin-left:auto}
-:where(.ag-rtl) .ag-right-aligned-cell .ag-skeleton-effect{margin-right:auto}
 :where(.ag-ltr) .ag-loading{padding-left:var(--ag-cell-horizontal-padding)}
 :where(.ag-ltr) .ag-loading-icon{padding-right:var(--ag-cell-widget-spacing)}
 .ag-header{background-color:var(--ag-header-background-color);border-bottom:var(--ag-header-row-border);color:var(--ag-header-text-color);display:flex;font-family:var(--ag-header-font-family);font-size:var(--ag-header-font-size);font-weight:var(--ag-header-font-weight);overflow:hidden;white-space:nowrap;width:100%}
@@ -4429,7 +3972,6 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
 .ag-cell-inline-editing{border:var(--ag-cell-editing-border)!important;border-radius:var(--ag-border-radius);box-shadow:var(--ag-cell-editing-shadow);padding:0;z-index:1;.ag-cell-edit-wrapper,.ag-cell-editor,.ag-cell-wrapper,:where(.ag-cell-editor) .ag-input-field-input,:where(.ag-cell-editor) .ag-wrapper{height:100%;line-height:normal;min-height:100%;width:100%}
 &.ag-cell-editing-error{border-color:var(--ag-invalid-color)!important}
 :where(.ag-ltr) .ag-checkbox-edit{padding-left:var(--ag-cell-horizontal-padding)}
-:where(.ag-rtl) .ag-checkbox-edit{padding-right:var(--ag-cell-horizontal-padding)}
 :where(.ag-row.ag-row-editing-invalid .ag-cell-inline-editing){opacity:.8}
 .ag-label{white-space:nowrap}
 :where(.ag-ltr) .ag-label{margin-right:var(--ag-spacing)}
@@ -4489,24 +4031,164 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
 .ag-select-list-item-text{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 :where(.ag-ltr) .ag-set-filter-item{padding-left:calc(var(--ag-widget-container-horizontal-padding) + var(--ag-indentation-level)*var(--ag-set-filter-indent-size))}
 :where(.ag-ltr) .ag-set-filter-group-icons{margin-right:var(--ag-widget-container-horizontal-padding)}
-:where(.ag-input-field-input[type=date]),:where(.ag-input-field-input[type=datetime-local]){width:1px}
-.ag-set-floating-filter-input :where(.ag-input-field-input)[disabled]{pointer-events:none}
 :where(.ag-filter-select) .ag-picker-field-wrapper{width:0}
 :where(.ag-ltr) .ag-filter-condition-operator-or{margin-left:calc(var(--ag-spacing)*2)}
 :where(.ag-ltr) .ag-set-filter-add-group-indent{margin-left:calc(var(--ag-icon-size) + var(--ag-widget-container-horizontal-padding))}
 :where(.ag-ltr) .ag-filter-apply-panel-button{margin-left:calc(var(--ag-spacing)*2)}
-#flt-level-wrap[hidden],.bcn-view-pane[hidden]{display:none}
-.pt-grid{width:100%;height:calc(100vh - 430px);min-height:520px}
-#grid-permits .ag-row,#grid-segments .ag-row{cursor:pointer}
+.esa-button{--_btn-height: var(--form-height-md, 40px);--_btn-padding-x: var(--form-padding-x-md, 16px);--_btn-font-size: var(--form-font-size-md, 14px);--_btn-radius: var(--form-radius-md, 6px);--_accent: var(--color-primary, #46a758);--_accent-hover: var(--color-primary-hover, #3e9b4f);--_on: var(--color-text-inverse, #ffffff);--_accent-text: var(--_accent);--_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);--_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);display:inline-block}
+.esa-button--xs{--_btn-height: var(--form-height-xs, 28px);--_btn-padding-x: var(--form-padding-x-xs, 8px);--_btn-font-size: var(--form-font-size-xs, 11px);--_btn-radius: var(--form-radius-xs, 4px)}
+.esa-button--sm{--_btn-height: var(--form-height-sm, 32px);--_btn-padding-x: var(--form-padding-x-sm, 12px);--_btn-font-size: var(--form-font-size-sm, 12px);--_btn-radius: var(--form-radius-sm, 4px)}
+.esa-button--lg{--_btn-height: var(--form-height-lg, 48px);--_btn-padding-x: var(--form-padding-x-lg, 20px);--_btn-font-size: var(--form-font-size-lg, 16px);--_btn-radius: var(--form-radius-lg, 8px)}
+.esa-button--sm .esa-button__native{height:auto;padding-block:var(--spacing-150, 6px)}
+.esa-button--sm.esa-button--icon-only .esa-button__native{height:var(--form-height-sm, 32px);padding-block:0}
+.esa-button--color-primary{--_accent-text: var(--color-primary-strong)}
+.esa-button--color-secondary{--_accent: var(--color-secondary);--_accent-hover: var(--color-secondary-hover);--_on: var(--color-secondary-on-fill, var(--color-gray-12));--_accent-text: var(--color-secondary-strong)}
+.esa-button--color-danger{--_accent: var(--color-danger);--_accent-hover: var(--color-danger-hover);--_accent-text: var(--color-danger-strong)}
+.esa-button--color-success{--_accent: var(--color-success);--_accent-hover: var(--color-success-hover);--_on: var(--color-success-on-fill);--_accent-text: var(--color-success-strong)}
+.esa-button--color-warning{--_accent: var(--color-warning);--_accent-hover: var(--color-warning-hover);--_on: var(--button-on-warning, var(--color-gray-12));--_accent-text: var(--color-warning-strong)}
+.esa-button--color-info{--_accent: var(--color-info);--_accent-hover: var(--color-info-hover);--_accent-text: var(--color-info-strong)}
+.esa-button--color-ai{--_accent: var(--color-ai);--_accent-hover: var(--color-ai-hover);--_accent-text: var(--color-ai-strong)}
+.esa-button--appearance-fill .esa-button__native{background:var(--_accent);color:var(--_on);border-color:transparent}
+.esa-button--appearance-fill .esa-button__native:hover:not(:disabled){background:var(--_accent-hover)}
+.esa-button--appearance-fill.esa-button--active .esa-button__native{background:var(--_accent-hover)}
+.esa-button--appearance-outline .esa-button__native,.esa-button--appearance-dashed .esa-button__native{background:transparent;color:var(--_accent-text);border-color:var(--_accent)}
+.esa-button--appearance-dashed .esa-button__native{border-style:dashed}
+.esa-button--appearance-outline .esa-button__native:hover:not(:disabled),.esa-button--appearance-dashed .esa-button__native:hover:not(:disabled){background:var(--_btn-tint-hover)}
+.esa-button--appearance-outline.esa-button--active .esa-button__native,.esa-button--appearance-dashed.esa-button--active .esa-button__native{background:var(--_btn-tint-active)}
+.esa-button--appearance-soft .esa-button__native{background:color-mix(in srgb,var(--color-surface-sunken, #efefef) 45%,var(--color-surface, #fff));color:var(--_accent-text);border-color:var(--color-border-strong, #d4d4d4)}
+.esa-button--appearance-soft .esa-button__native:hover:not(:disabled),.esa-button--appearance-soft.esa-button--active .esa-button__native{background:var(--_accent);color:var(--_on);border-color:var(--_accent)}
+.esa-button--color-ghost .esa-button__native{background:transparent;color:var(--color-text-primary, #171717);border-color:transparent}
+.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native{border-color:var(--color-border, #e5e5e5)}
+.esa-button--color-ghost .esa-button__native:hover:not(:disabled),.esa-button--color-ghost.esa-button--active .esa-button__native{background:var(--color-surface-sunken, #efefef)}
+.esa-button__native{display:inline-flex;align-items:center;justify-content:center;gap:var(--spacing-200, 8px);width:100%;height:var(--_btn-height);padding-inline:var(--_btn-padding-x);border:1px solid transparent;border-radius:var(--_btn-radius);font-size:var(--_btn-font-size);font-family:var(--font-sans, system-ui, sans-serif);font-weight:var(--font-weight-medium, 500);line-height:1;text-decoration:none;cursor:pointer;transition:background var(--transition-fast, .15s ease),border-color var(--transition-fast, .15s ease);-webkit-appearance:none;appearance:none}
+.esa-button__native:focus-visible{outline:var(--focus-ring-width) solid var(--focus-ring-color);outline-offset:var(--focus-ring-offset, 2px)}
+.esa-button--disabled{opacity:.5;cursor:not-allowed;pointer-events:none}
+.esa-button--icon-only .esa-button__native{padding-inline:0;width:var(--_btn-height)}
+.esa-button__label{white-space:nowrap}
+.esa-button__label--hidden{visibility:hidden;width:0;overflow:hidden}
+.esa-button__spinner{display:inline-block;width:1em;height:1em;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:esa-button-spin .6s linear infinite}
+.bcn-search-trigger .esa-icon{flex:none;color:var(--color-text-tertiary)}
+.bcn-help-bar .esa-icon-button{color:var(--bcn-helpbar-fg-muted);--icon-button-bg-hover: var(--bcn-helpbar-hover-bg)}
+.bcn-help-bar .esa-icon-button:hover,.bcn-help-bar .esa-icon-button:focus-visible{color:var(--bcn-helpbar-fg)}
+.bcn-gd__label .esa-icon{color:var(--color-text-tertiary);flex:none}
+.bcn-gd-row .esa-icon{color:var(--color-text-tertiary);flex:none}
+.topbar__right .esa-icon-button{color:var(--color-text-secondary)}
+.user-panel__item .esa-icon{color:var(--bcn-gray-500)}
+.user-panel__item--danger .esa-icon{color:var(--color-danger)}
+.project-switcher__trigger>.esa-icon:first-child{flex-shrink:0;color:var(--bcn-gray-500)}
+.nav-section__header:hover .esa-icon,.nav-section--active .nav-section__header,.nav-section--active .nav-section__header .esa-icon{color:var(--color-primary)}
+.nav-section__header>.esa-icon:first-child{flex-shrink:0;color:var(--bcn-gray-950);transition:color .15s ease}
+.nav-section__header>.esa-icon:last-child{color:var(--bcn-gray-400);transition:transform .15s ease,opacity .2s ease-in-out;flex-shrink:0}
+.nav-section--collapsed .nav-section__header>.esa-icon:last-child{transform:rotate(-90deg)}
+.side-nav.collapsed .nav-section__header>.esa-icon:last-child{display:none}
+.esa-icon-button{--_ib-size: var(--form-height-md, 40px);--_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));display:inline-flex;align-items:center;justify-content:center;width:var(--_ib-size);height:var(--_ib-size);padding:0;border:0;border-radius:var(--radius-200, 8px);background:transparent;color:inherit;cursor:pointer;transition:background var(--transition-fast, .15s ease);-webkit-appearance:none;appearance:none}
+.esa-icon-button--xs{--_ib-size: var(--form-height-xs, 28px)}
+.esa-icon-button--sm{--_ib-size: var(--form-height-sm, 32px)}
+.esa-icon-button--lg{--_ib-size: var(--form-height-lg, 48px)}
+.esa-icon-button:hover{background:var(--_ib-bg-hover)}
+.esa-icon-button:focus-visible{outline:var(--focus-ring-width) solid currentColor;outline-offset:var(--focus-ring-offset, 2px)}
+.ov-grid{width:100%;height:calc(100vh - 460px);min-height:480px}
+.table-footer{display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-400);padding:var(--spacing-200) var(--spacing-400);background:var(--color-background);border:1px solid var(--color-border);border-top:0;border-radius:0 0 var(--radius-100) var(--radius-100)}
+.row-count-data{display:flex;align-items:center;gap:var(--spacing-400);font-size:var(--type-size-100);color:var(--color-text-secondary);font-variant-numeric:tabular-nums}
+.filtered-rows-count{color:var(--color-text-tertiary)}
+.filtered-rows-count[hidden]{display:none}
 .ag-cell.bcn-grid-status-cell{display:flex;align-items:center}
-.bcn-grid-chip{display:inline-flex;align-items:center;gap:var(--spacing-150);padding:1px var(--spacing-200);border-radius:var(--radius-100);font-size:.75rem;line-height:1.5;font-weight:var(--font-weight-semibold);white-space:nowrap;background:color-mix(in srgb,var(--_chip) 16%,transparent);color:color-mix(in srgb,var(--_chip) 70%,#1a1a1a)}
+.bcn-grid-chip{display:inline-flex;align-items:center;gap:var(--spacing-150);padding:1px var(--spacing-200);border-radius:var(--radius-100);font-size:.8125rem;line-height:1.5;font-weight:var(--font-weight-semibold);white-space:nowrap;background:color-mix(in srgb,var(--_chip) 16%,transparent);color:color-mix(in srgb,var(--_chip) 70%,var(--color-text-primary))}
 .bcn-grid-chip__dot{width:7px;height:7px;border-radius:50%;background:var(--_chip);flex-shrink:0}
+.bcn-grid-name{color:var(--color-text-link);font-weight:var(--font-weight-regular);text-decoration:underline}
+.bcn-grid-name:hover{color:var(--color-primary-hover)}
+.esa-icon{--_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));display:inline-flex;align-items:center;justify-content:center;width:var(--_icon-size);height:var(--_icon-size);line-height:1;color:inherit}
+.esa-icon--xs{--_icon-size: var(--icon-size-xs, 14px)}
+.esa-icon--sm{--_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px))}
+.esa-icon--md{--_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px))}
+.esa-icon--lg{--_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px))}
+.esa-icon--xl{--_icon-size: var(--icon-size-xl, 28px)}
+.esa-icon svg{display:block;width:var(--_icon-size);height:var(--_icon-size)}
+.breadcrumbs__items .esa-icon{color:var(--bcn-gray-400)}
+.page-layout__title h1 .esa-icon{color:var(--bcn-gray-1000);flex-shrink:0}
 ```
 
 ## Tokens
 - `--ag-internal-hover-color`: rgba(0, 0, 0, 0) _(component)_
 - `--ag-internal-moving-color`: rgba(0, 0, 0, 0) _(component)_
+- `--bcn-gray-1000`: #000000 _(component)_
+- `--bcn-gray-400`: #989898 _(component)_
+- `--bcn-gray-500`: #7c7c7c _(component)_
+- `--bcn-gray-950`: #292929 _(component)_
+- `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
+- `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
+- `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
+- `--button-on-warning`: #ffffff _(component)_
+- `--color-ai`: #699cc6 _(semantic)_
+- `--color-ai-hover`: #4c75a9 _(semantic)_
+- `--color-ai-strong`: #7d5e54 _(semantic)_
+- `--color-background`: #fafafa _(semantic)_
+- `--color-border`: #dcdcdc _(semantic)_
+- `--color-border-strong`: #bdbdbd _(semantic)_
+- `--color-danger`: #e5484d _(semantic)_
+- `--color-danger-hover`: #dc3e42 _(semantic)_
+- `--color-danger-strong`: #ce2c31 _(semantic)_
+- `--color-gray-12`: #202020 _(primitive)_
+- `--color-info`: #228be6 _(semantic)_
+- `--color-info-hover`: #0588f0 _(semantic)_
+- `--color-info-strong`: #0d74ce _(semantic)_
+- `--color-primary`: #005862 _(semantic)_
+- `--color-primary-hover`: #00474f _(semantic)_
+- `--color-primary-strong`: #2a7e3b _(semantic)_
+- `--color-secondary`: #00918b _(semantic)_
+- `--color-secondary-hover`: #0a6562 _(semantic)_
+- `--color-secondary-on-fill`: #203c25 _(semantic)_
+- `--color-secondary-strong`: #2a7e3b _(semantic)_
+- `--color-success`: #2e7571 _(semantic)_
+- `--color-success-hover`: #b0e64c _(semantic)_
+- `--color-success-on-fill`: #37401c _(semantic)_
+- `--color-success-strong`: #5c7c2f _(semantic)_
+- `--color-surface`: #fcfcfc _(semantic)_
+- `--color-surface-sunken`: #efefef _(semantic)_
+- `--color-text-inverse`: #fcfcfc _(semantic)_
+- `--color-text-link`: #005862 _(semantic)_
+- `--color-text-primary`: #3d3d3d _(semantic)_
+- `--color-text-secondary`: #525252 _(semantic)_
+- `--color-text-tertiary`: #656565 _(semantic)_
+- `--color-warning`: #f59e0b _(semantic)_
+- `--color-warning-hover`: #ffba18 _(semantic)_
+- `--color-warning-strong`: #ab6400 _(semantic)_
+- `--focus-ring-color`: #65ba74 _(primitive)_
+- `--focus-ring-offset`: 2px _(primitive)_
+- `--focus-ring-width`: 2px _(primitive)_
+- `--font-sans`: "DM Sans", sans-serif _(primitive)_
+- `--font-weight-medium`: 500 _(primitive)_
+- `--font-weight-regular`: 350 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
+- `--form-font-size-lg`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(component)_
+- `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
+- `--form-font-size-sm`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
+- `--form-font-size-xs`: clamp(.5rem, .44rem + .3vw, .625rem) _(component)_
+- `--form-height-lg`: 44px _(component)_
+- `--form-height-md`: 36px _(component)_
+- `--form-height-sm`: 28px _(component)_
+- `--form-height-xs`: 24px _(component)_
+- `--form-padding-x-lg`: 1rem _(component)_
+- `--form-padding-x-md`: .75rem _(component)_
+- `--form-padding-x-sm`: .625rem _(component)_
+- `--form-padding-x-xs`: .5rem _(component)_
+- `--form-radius-lg`: .25rem _(component)_
+- `--form-radius-md`: .25rem _(component)_
+- `--form-radius-sm`: .25rem _(component)_
+- `--form-radius-xs`: .25rem _(component)_
+- `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
+- `--icon-size-large`: 24px _(component)_
+- `--icon-size-lg`: 24px _(primitive)_
+- `--icon-size-md`: 20px _(primitive)_
+- `--icon-size-medium`: 20px _(component)_
+- `--icon-size-sm`: 16px _(primitive)_
+- `--icon-size-small`: 16px _(component)_
+- `--icon-size-xl`: 28px _(primitive)_
+- `--icon-size-xs`: 14px _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
+- `--radius-200`: .5rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
+- `--spacing-400`: 1rem _(primitive)_
+- `--transition-fast`: .15s ease _(primitive)_
+- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_

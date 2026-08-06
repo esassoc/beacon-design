@@ -126,108 +126,61 @@ BcnObservationCard — the heart of the reframe. Each card's parent is ONE obser
 
 ## Styles
 ```css
-.bcn-obs {
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-300);
-  background: var(--color-surface);
-  overflow: hidden;
-}
-.bcn-obs__summary {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-250);
-  padding: var(--spacing-300) var(--spacing-400);
-  cursor: pointer;
-  list-style: none;
-}
-.bcn-obs__chev {
-  display: inline-flex;
-  flex-shrink: 0;
+.bcn-search-trigger .esa-icon {
+  flex: none;
   color: var(--color-text-tertiary);
-  transition: transform 0.15s ease;
 }
-.bcn-obs__concern-icon {
-  display: inline-flex;
-  flex-shrink: 0;
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-help-bar .esa-icon-button:hover,
+.bcn-help-bar .esa-icon-button:focus-visible {
+  color: var(--bcn-helpbar-fg);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.bcn-gd-row .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.user-panel__item .esa-icon {
+  color: var(--bcn-gray-500);
+}
+.user-panel__item--danger .esa-icon {
   color: var(--color-danger);
 }
-.bcn-obs__name {
+.project-switcher__trigger > .esa-icon:first-child {
   flex-shrink: 0;
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
+  color: var(--bcn-gray-500);
 }
-.bcn-obs__id {
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
+.nav-section__header > .esa-icon:first-child {
   flex-shrink: 0;
-  font-family: var(--font-mono);
-  font-size: var(--type-size-100);
-  color: var(--color-text-secondary);
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
 }
-.bcn-obs__meta {
-  font-size: var(--type-size-100);
-  color: var(--color-text-tertiary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.bcn-obs__spacer {
-  flex: 1 1 var(--spacing-300);
-}
-.bcn-obs__badge {
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
   flex-shrink: 0;
-  font-family: var(--font-mono);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-secondary);
-  background: color-mix(in srgb, var(--color-secondary) 12%, white);
-  padding: 1px var(--spacing-200);
-  border-radius: var(--radius-100);
 }
-.bcn-obs[hidden] {
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
+}
+.side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
-}
-.bcn-obs__summary:hover {
-  background: var(--color-surface-sunken);
-}
-.bcn-obs[open] > .bcn-obs__summary .bcn-obs__chev {
-  transform: rotate(90deg);
-}
-.bcn-obs__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-  padding: var(--spacing-400);
-  background: var(--color-surface);
-  border-top: 1px solid var(--color-border-light);
-}
-.bcn-obs__desc {
-  margin: 0;
-  font-size: var(--type-size-200);
-  line-height: 1.5;
-  color: var(--color-text-secondary);
-}
-.bcn-obs__detail-link {
-  color: var(--color-text-link);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  font-weight: var(--font-weight-medium);
-  white-space: nowrap;
-}
-.bcn-obs__section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-}
-.bcn-obs__h {
-  margin: 0;
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-obs__rows {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100);
 }
 .bcn-crow {
   display: flex;
@@ -241,6 +194,14 @@ BcnObservationCard — the heart of the reframe. Each card's parent is ONE obser
   transition:
     border-color 0.15s ease,
     background 0.15s ease;
+}
+.bcn-crow:hover {
+  border-color: var(--color-border-strong);
+  background: var(--color-surface-sunken);
+}
+.bcn-crow:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 .bcn-crow__code {
   flex-shrink: 0;
@@ -267,29 +228,130 @@ BcnObservationCard — the heart of the reframe. Each card's parent is ONE obser
   display: inline-flex;
   color: var(--color-text-tertiary);
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
+.bcn-crow:hover .bcn-crow__open {
+  color: var(--color-secondary);
+}
+.bcn-obs {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+  background: var(--color-surface);
+  overflow: hidden;
+}
+.bcn-obs[hidden] {
+  display: none;
+}
+.bcn-obs__summary {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
+  gap: var(--spacing-250);
+  padding: var(--spacing-300) var(--spacing-400);
+  cursor: pointer;
+  list-style: none;
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
+.bcn-obs__summary::-webkit-details-marker {
+  display: none;
 }
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
+.bcn-obs__summary:hover {
+  background: var(--color-surface-sunken);
 }
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+.bcn-obs__chev {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--color-text-tertiary);
+  transition: transform 0.15s ease;
 }
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+.bcn-obs[open] > .bcn-obs__summary .bcn-obs__chev {
+  transform: rotate(90deg);
+}
+.bcn-obs__concern-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--color-danger);
+}
+.bcn-obs__badge {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-secondary);
+  background: color-mix(in srgb, var(--color-secondary) 12%, white);
+  padding: 1px var(--spacing-200);
+  border-radius: var(--radius-100);
+}
+.bcn-obs__name {
+  flex-shrink: 0;
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-obs__id {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: var(--type-size-100);
+  color: var(--color-text-secondary);
+}
+.bcn-obs__meta {
+  font-size: var(--type-size-100);
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bcn-obs__spacer {
+  flex: 1 1 var(--spacing-300);
+}
+.bcn-obs__fledge {
+  flex-shrink: 0;
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-secondary);
+  white-space: nowrap;
+}
+.bcn-obs__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+  padding: var(--spacing-400);
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border-light);
+}
+.bcn-obs__desc {
+  margin: 0;
+  font-size: var(--type-size-200);
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+.bcn-obs__detail-link {
+  color: var(--color-text-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: var(--font-weight-medium);
+  white-space: nowrap;
+}
+.bcn-obs__detail-link:hover {
+  color: var(--color-primary-hover);
+}
+.bcn-obs__fledge-panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+  padding: var(--spacing-300) var(--spacing-400);
+}
+.bcn-obs__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+}
+.bcn-obs__h {
+  margin: 0;
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-obs__rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
 }
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
@@ -312,51 +374,51 @@ BcnObservationCard — the heart of the reframe. Each card's parent is ONE obser
   -webkit-appearance: none;
   appearance: none;
 }
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
+.esa-icon-button--xs {
+  --_ib-size: var(--form-height-xs, 28px);
 }
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
+.esa-icon-button--sm {
+  --_ib-size: var(--form-height-sm, 32px);
 }
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
+.esa-icon-button--lg {
+  --_ib-size: var(--form-height-lg, 48px);
 }
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
+.esa-icon-button:hover {
+  background: var(--_ib-bg-hover);
 }
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
+.esa-icon-button:focus-visible {
+  outline: var(--focus-ring-width) solid currentColor;
+  outline-offset: var(--focus-ring-offset, 2px);
 }
-.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
-  transform: rotate(-90deg);
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
 }
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
 }
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
 }
-.bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
 }
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
 }
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
 }
 .bcn-status-chip {
   display: inline-flex;
@@ -377,6 +439,13 @@ BcnObservationCard — the heart of the reframe. Each card's parent is ONE obser
   background: var(--_chip);
   flex-shrink: 0;
 }
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
 ```
 
 ## Tokens
@@ -384,13 +453,16 @@ BcnObservationCard — the heart of the reframe. Each card's parent is ONE obser
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
+- `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
 - `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
 - `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
 - `--color-border`: #dcdcdc _(semantic)_
 - `--color-border-light`: #efefef _(semantic)_
+- `--color-border-strong`: #bdbdbd _(semantic)_
 - `--color-commitment`: #58508d _(component)_
 - `--color-danger`: #e5484d _(semantic)_
 - `--color-primary`: #005862 _(semantic)_
+- `--color-primary-hover`: #00474f _(semantic)_
 - `--color-secondary`: #00918b _(semantic)_
 - `--color-surface`: #fcfcfc _(semantic)_
 - `--color-surface-sunken`: #efefef _(semantic)_
@@ -398,15 +470,23 @@ BcnObservationCard — the heart of the reframe. Each card's parent is ONE obser
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
+- `--focus-ring-offset`: 2px _(primitive)_
+- `--focus-ring-width`: 2px _(primitive)_
 - `--font-mono`: "Roboto Mono", ui-monospace, monospace _(primitive)_
 - `--font-weight-medium`: 500 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
+- `--form-height-lg`: 44px _(component)_
 - `--form-height-md`: 36px _(component)_
+- `--form-height-sm`: 28px _(component)_
+- `--form-height-xs`: 24px _(component)_
 - `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
+- `--icon-size-large`: 24px _(component)_
+- `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_
 - `--icon-size-small`: 16px _(component)_
+- `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_

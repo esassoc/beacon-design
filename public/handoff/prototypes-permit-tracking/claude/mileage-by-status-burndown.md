@@ -138,6 +138,9 @@ A SECONDARY supporting figure under the map: a single full-width stacked bar of 
   font-size: 0.875rem;
   color: var(--color-text-secondary);
 }
+.burndown__legend-item[data-empty="true"] {
+  opacity: 0.4;
+}
 .burndown__swatch {
   width: 12px;
   height: 12px;

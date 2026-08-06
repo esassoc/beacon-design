@@ -333,98 +333,34 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
 
 ## Styles
 ```css
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(
-    --icon-button-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-icon-button--sm {
-  --_ib-size: var(--form-height-sm, 32px);
-}
-.esa-icon-link {
-  --_il-font: var(--icon-link-font-size-md, 1rem);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--icon-link-gap, var(--spacing-150, 6px));
-  padding: 0;
-  margin: 0;
-  border: 0;
-  background: none;
-  color: inherit;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: var(--_il-font);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
-  text-decoration: none;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.esa-icon-link--sm {
-  --_il-font: var(--icon-link-font-size-sm, 0.875rem);
-}
-.esa-icon-link--medium {
-  font-weight: var(--font-weight-medium, 500);
-}
-.esa-icon-link__label {
-  display: inline-block;
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--color-secondary) !important;
-}
-.bcn-disc__head .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary);
-}
-.bcn-disc__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-disc__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
-.bcn-evidence-card__lead .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-tertiary);
-  transition: transform 0.15s ease;
-}
-.bcn-evidence-card__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-evidence-card__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
-}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
 }
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-help-bar .esa-icon-button:hover,
+.bcn-help-bar .esa-icon-button:focus-visible {
+  color: var(--bcn-helpbar-fg);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.bcn-gd-row .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
 .topbar__right .esa-icon-button {
   color: var(--color-text-secondary);
+}
+.user-panel__item .esa-icon {
+  color: var(--bcn-gray-500);
+}
+.user-panel__item--danger .esa-icon {
+  color: var(--color-danger);
 }
 .side-nav {
   width: 280px;
@@ -438,10 +374,17 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
   border-right: 1px solid var(--bcn-gray-200);
   flex-shrink: 0;
 }
+.side-nav.collapsed {
+  width: 72px;
+  max-width: 72px;
+}
 .sidebar-header {
   flex-shrink: 0;
   padding: var(--spacing-300) var(--spacing-400);
   transition: padding 0.2s ease-in-out;
+}
+.side-nav.collapsed .sidebar-header {
+  padding: var(--spacing-300) var(--spacing-200);
 }
 .site-logo {
   display: inline-flex;
@@ -451,6 +394,9 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
   text-decoration: none;
   transition: background 0.15s ease;
 }
+.site-logo:hover {
+  background: #0000000a;
+}
 .site-logo__img {
   width: var(--spacing-700);
   height: 3.75rem;
@@ -458,11 +404,20 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
   object-position: left center;
   transition: all 0.2s ease-in-out;
 }
+.side-nav.collapsed .site-logo__img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  object-position: left center;
+}
 .project-switcher-container {
   flex-shrink: 0;
   padding: 0 var(--spacing-400) var(--spacing-300);
   transition: padding 0.2s ease-in-out;
   min-width: 0;
+}
+.side-nav.collapsed .project-switcher-container {
+  padding: 0 var(--spacing-200);
 }
 .project-switcher__trigger {
   display: flex;
@@ -481,6 +436,10 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
   font-size: 0.875rem;
   font-weight: 500;
 }
+.project-switcher__trigger:hover {
+  border-color: var(--bcn-gray-300);
+  background: var(--bcn-gray-0);
+}
 .project-switcher__trigger > .esa-icon:first-child {
   flex-shrink: 0;
   color: var(--bcn-gray-500);
@@ -492,6 +451,14 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.side-nav.collapsed .project-switcher__trigger {
+  justify-content: center;
+  padding: var(--spacing-200);
+}
+.side-nav.collapsed .project-switcher__name,
+.side-nav.collapsed .project-switcher__chevron {
+  display: none;
 }
 .main-nav {
   flex: 1;
@@ -505,10 +472,23 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
+.main-nav::-webkit-scrollbar {
+  display: none;
+}
+.side-nav.collapsed .main-nav {
+  padding: 0 var(--spacing-200);
+}
 .nav-section {
   display: flex;
   flex-direction: column;
   position: relative;
+}
+.nav-divider {
+  flex-shrink: 0;
+  height: 1px;
+  margin: var(--spacing-200) 0;
+  border: 0;
+  background: var(--bcn-gray-200);
 }
 .nav-section__header {
   display: flex;
@@ -532,15 +512,19 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
   text-decoration: none;
   color: var(--bcn-gray-950);
 }
+.nav-section__header:hover {
+  background: #0000000a;
+  color: var(--color-primary);
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
 .nav-section__header > .esa-icon:first-child {
   flex-shrink: 0;
   color: var(--bcn-gray-950);
   transition: color 0.15s ease;
-}
-.nav-section__title {
-  flex: 1;
-  overflow: hidden;
-  transition: opacity 0.2s ease-in-out;
 }
 .nav-section__header > .esa-icon:last-child {
   color: var(--bcn-gray-400);
@@ -551,6 +535,21 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
 }
 .nav-section--collapsed .nav-section__header > .esa-icon:last-child {
   transform: rotate(-90deg);
+}
+.nav-section__title {
+  flex: 1;
+  overflow: hidden;
+  transition: opacity 0.2s ease-in-out;
+}
+.side-nav.collapsed .nav-section__title {
+  display: none;
+}
+.side-nav.collapsed .nav-section__header > .esa-icon:last-child {
+  display: none;
+}
+.side-nav.collapsed .nav-section__header {
+  justify-content: center;
+  padding: var(--spacing-250) var(--spacing-200);
 }
 .nav-section__items {
   list-style: none;
@@ -569,8 +568,14 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
   max-height: 0;
   opacity: 0;
 }
+.side-nav.collapsed .nav-section__items {
+  display: none;
+}
 .nav-item {
   padding: 0 0 0 2.5rem;
+}
+.nav-item + .nav-item {
+  margin-top: var(--spacing-050);
 }
 .nav-sublink {
   display: block;
@@ -582,32 +587,51 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
   transition: all 0.15s ease;
   line-height: 1.2;
 }
-.nav-divider {
-  flex-shrink: 0;
-  height: 1px;
-  margin: var(--spacing-200) 0;
-  border: 0;
-  background: var(--bcn-gray-200);
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
+.nav-sublink:hover {
+  background: #0000000a;
 }
 .nav-sublink.active {
   background: #0000000a;
   color: var(--color-primary);
 }
-.nav-item + .nav-item {
-  margin-top: var(--spacing-050);
+.bcn-disc__head .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
 }
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+.bcn-disc__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
 }
-.bcn-gd__label .esa-icon {
+.bcn-disc__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
+.bcn-evidence-card__lead .esa-icon {
+  flex-shrink: 0;
   color: var(--color-text-tertiary);
-  flex: none;
+  transition: transform 0.15s ease;
+}
+.bcn-evidence-card.is-expanded .bcn-evidence-card__lead .esa-icon {
+  transform: rotate(90deg);
+}
+.bcn-evidence-card__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-evidence-card__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--color-secondary) !important;
+}
+.bcn-list-link .esa-icon {
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+}
+.esa-collapsible__summary .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary, #404040);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
@@ -622,16 +646,22 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
 .esa-icon--xs {
   --_icon-size: var(--icon-size-xs, 14px);
 }
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
 .esa-icon--sm {
   --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
 }
 .esa-icon--md {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
 }
 .bcn-reqref__key .esa-icon {
   --_icon-size: 11px;
@@ -645,39 +675,143 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
   --_icon-size: 12px;
   opacity: 0.75;
 }
-.esa-collapsible__summary .esa-icon {
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(
+    --icon-button-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-icon-button--xs {
+  --_ib-size: var(--form-height-xs, 28px);
+}
+.esa-icon-button--sm {
+  --_ib-size: var(--form-height-sm, 32px);
+}
+.esa-icon-button--lg {
+  --_ib-size: var(--form-height-lg, 48px);
+}
+.esa-icon-button:hover {
+  background: var(--_ib-bg-hover);
+}
+.esa-icon-button:focus-visible {
+  outline: var(--focus-ring-width) solid currentColor;
+  outline-offset: var(--focus-ring-offset, 2px);
+}
+.esa-icon-link {
+  --_il-font: var(--icon-link-font-size-md, 1rem);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--icon-link-gap, var(--spacing-150, 6px));
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: var(--_il-font);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.esa-icon-link--sm {
+  --_il-font: var(--icon-link-font-size-sm, 0.875rem);
+}
+.esa-icon-link--regular {
+  font-weight: var(--font-weight-regular, 400);
+}
+.esa-icon-link--medium {
+  font-weight: var(--font-weight-medium, 500);
+}
+.esa-icon-link--semibold {
+  font-weight: var(--font-weight-semibold, 600);
+}
+.esa-icon-link:hover {
+  text-decoration: underline;
+}
+.esa-icon-link:focus-visible {
+  outline: var(--focus-ring-width) solid currentColor;
+  outline-offset: var(--focus-ring-offset, 2px);
+  border-radius: var(--radius-100, 4px);
+}
+.esa-icon-link.is-active {
+  font-weight: var(--font-weight-semibold, 600);
+}
+.esa-icon-link__label {
+  display: inline-block;
+}
+summary.esa-icon-link {
+  list-style: none;
+}
+summary.esa-icon-link::-webkit-details-marker {
+  display: none;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
   flex-shrink: 0;
-  color: var(--color-text-secondary, #404040);
 }
 ```
 
 ## Tokens
+- `--bcn-gray-0`: #ffffff _(component)_
 - `--bcn-gray-1000`: #000000 _(component)_
 - `--bcn-gray-200`: #dcdcdc _(component)_
+- `--bcn-gray-300`: #bdbdbd _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-50`: #fafafa _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
+- `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
 - `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
 - `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
+- `--color-danger`: #e5484d _(semantic)_
 - `--color-primary`: #005862 _(semantic)_
 - `--color-secondary`: #00918b _(semantic)_
 - `--color-surface`: #fcfcfc _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
+- `--focus-ring-offset`: 2px _(primitive)_
+- `--focus-ring-width`: 2px _(primitive)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
 - `--font-weight-medium`: 500 _(primitive)_
+- `--font-weight-regular`: 350 _(primitive)_
+- `--font-weight-semibold`: 550 _(primitive)_
+- `--form-height-lg`: 44px _(component)_
 - `--form-height-md`: 36px _(component)_
 - `--form-height-sm`: 28px _(component)_
+- `--form-height-xs`: 24px _(component)_
 - `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
 - `--icon-link-font-size-md`: 1rem _(component)_
 - `--icon-link-font-size-sm`: .875rem _(component)_
 - `--icon-link-gap`: .375rem _(component)_
+- `--icon-size-large`: 24px _(component)_
+- `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_
 - `--icon-size-small`: 16px _(component)_
+- `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
+- `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
 - `--spacing-050`: .125rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_

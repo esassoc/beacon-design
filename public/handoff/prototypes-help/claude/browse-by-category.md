@@ -242,12 +242,6 @@ The curated browse surface: one spacious card per category (seven), each a PREVI
   grid-template-columns: 1fr;
   gap: var(--spacing-400);
 }
-.bcn-kbc__grid {
-  grid-template-columns: repeat(2, 1fr);
-}
-.bcn-kbc__grid {
-  grid-template-columns: repeat(3, 1fr);
-}
 .bcn-kbc__card {
   display: flex;
   flex-direction: column;
@@ -284,6 +278,16 @@ The curated browse surface: one spacious card per category (seven), each a PREVI
   text-decoration: none;
   transition: color 0.12s ease;
 }
+.bcn-kbc__featured-link:hover {
+  color: var(--color-text-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.bcn-kbc__featured-link:focus-visible {
+  outline: 2px solid var(--color-text-link);
+  outline-offset: 2px;
+  border-radius: var(--radius-100);
+}
 .bcn-kbc__foot {
   display: flex;
   align-items: baseline;
@@ -309,8 +313,19 @@ The curated browse surface: one spacious card per category (seven), each a PREVI
   white-space: nowrap;
   transition: color 0.15s ease;
 }
+.bcn-kbc__viewall:hover {
+  color: var(--color-text-link-hover);
+}
+.bcn-kbc__viewall:focus-visible {
+  outline: 2px solid var(--color-text-link);
+  outline-offset: 2px;
+  border-radius: var(--radius-100);
+}
 .bcn-kbc__viewall-arrow {
   transition: transform 0.15s ease;
+}
+.bcn-kbc__viewall:hover .bcn-kbc__viewall-arrow {
+  transform: translate(2px);
 }
 ```
 
@@ -319,6 +334,7 @@ The curated browse surface: one spacious card per category (seven), each a PREVI
 - `--color-border-light`: #efefef _(semantic)_
 - `--color-surface`: #fcfcfc _(semantic)_
 - `--color-text-link`: #005862 _(semantic)_
+- `--color-text-link-hover`: #00474f _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
@@ -330,6 +346,7 @@ The curated browse surface: one spacious card per category (seven), each a PREVI
 - `--letter-spacing-tight`: -.01em _(primitive)_
 - `--line-height-normal`: 1.6 _(primitive)_
 - `--line-height-tight`: 1.3 _(primitive)_
+- `--radius-100`: .25rem _(primitive)_
 - `--radius-300`: .5rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_

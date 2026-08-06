@@ -457,11 +457,6 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
   position: relative;
   height: 18px;
 }
-.ctb__rows {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
 .ctb-tick {
   position: absolute;
   top: 0;
@@ -474,6 +469,11 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
   color: var(--color-primary);
   font-weight: var(--font-weight-semibold);
 }
+.ctb__rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 .ctb-row {
   display: grid;
   grid-template-columns: 190px 1fr 260px;
@@ -482,6 +482,9 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
   padding: var(--spacing-200) 0;
   border-top: 1px solid var(--color-border-light);
   cursor: pointer;
+}
+.ctb-row:hover {
+  background: var(--grid-row-bg-hover);
 }
 .ctb-row__name {
   display: flex;
@@ -547,6 +550,7 @@ A horizontal timeline of segments ordered by projected clear-to-build date again
 - `--color-text-tertiary`: #656565 _(semantic)_
 - `--font-weight-regular`: 350 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
+- `--grid-row-bg-hover`: #f0f0f0 _(component)_
 - `--radius-300`: .5rem _(primitive)_
 - `--radius-full`: 9999px _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_

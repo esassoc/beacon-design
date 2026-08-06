@@ -134,6 +134,11 @@ The left insight card: a census of permits grouped by permitting-ladder status (
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
 }
+.ins-card__sub {
+  margin: calc(-1 * var(--spacing-100)) 0 0;
+  font-size: 0.8125rem;
+  color: var(--color-text-tertiary);
+}
 .ins-list {
   list-style: none;
   margin: 0;
@@ -141,16 +146,23 @@ The left insight card: a census of permits grouped by permitting-ladder status (
   display: flex;
   flex-direction: column;
 }
-.ins-card__sub {
-  margin: calc(-1 * var(--spacing-100)) 0 0;
-  font-size: 0.8125rem;
-  color: var(--color-text-tertiary);
-}
 .ins-row {
   display: flex;
   align-items: center;
   gap: var(--spacing-250);
   padding: var(--spacing-200) 0;
+}
+.ins-row + .ins-row {
+  border-top: 1px solid var(--color-border-light);
+}
+.ins-row[data-ins-permit] {
+  cursor: pointer;
+  margin: 0 calc(-1 * var(--spacing-200));
+  padding-inline: var(--spacing-200);
+  border-radius: var(--radius-200);
+}
+.ins-row[data-ins-permit]:hover {
+  background: var(--grid-row-bg-hover);
 }
 .ins-dot {
   width: 9px;
@@ -167,12 +179,9 @@ The left insight card: a census of permits grouped by permitting-ladder status (
   font-size: 0.875rem;
   color: var(--color-text-primary);
 }
-.ins-bar {
-  flex: 0 0 72px;
-  height: 6px;
-  border-radius: var(--radius-full);
-  background: var(--bcn-gray-100);
-  overflow: hidden;
+.ins-row__sub {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
 }
 .ins-row__val {
   display: flex;
@@ -185,18 +194,12 @@ The left insight card: a census of permits grouped by permitting-ladder status (
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
-.ins-row + .ins-row {
-  border-top: 1px solid var(--color-border-light);
-}
-.ins-row[data-ins-permit] {
-  cursor: pointer;
-  margin: 0 calc(-1 * var(--spacing-200));
-  padding-inline: var(--spacing-200);
-  border-radius: var(--radius-200);
-}
-.ins-row__sub {
-  font-size: 0.75rem;
-  color: var(--color-text-tertiary);
+.ins-bar {
+  flex: 0 0 72px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--bcn-gray-100);
+  overflow: hidden;
 }
 ```
 
@@ -208,6 +211,7 @@ The left insight card: a census of permits grouped by permitting-ladder status (
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
 - `--font-weight-semibold`: 550 _(primitive)_
+- `--grid-row-bg-hover`: #f0f0f0 _(component)_
 - `--radius-200`: .5rem _(primitive)_
 - `--radius-300`: .5rem _(primitive)_
 - `--radius-full`: 9999px _(primitive)_

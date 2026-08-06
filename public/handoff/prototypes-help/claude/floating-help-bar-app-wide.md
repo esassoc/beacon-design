@@ -189,73 +189,9 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
 
 ## Styles
 ```css
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(
-    --icon-button-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
-}
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
 }
 .bcn-aldo-mark {
   display: inline-flex;
@@ -267,18 +203,27 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
   color: var(--color-text-inverse);
   line-height: 0;
 }
+.bcn-aldo-mark[data-size="sm"] {
+  width: 20px;
+  height: 20px;
+  --icon-size-xs: 12px;
+}
 .bcn-aldo-mark[data-size="md"] {
   width: 40px;
   height: 40px;
 }
-.bcn-aldo-mark[data-animated] {
-  animation: bcn-aldo-pulse 2s ease-in-out infinite;
+.bcn-aldo-mark[data-size="lg"] {
+  width: 64px;
+  height: 64px;
 }
 .bcn-aldo-mark__glyph {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   line-height: 0;
+}
+.bcn-aldo-mark[data-animated] {
+  animation: bcn-aldo-pulse 2s ease-in-out infinite;
 }
 .bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
   animation: bcn-aldo-spin 8s linear infinite;
@@ -318,10 +263,12 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
   cursor: pointer;
   transition: background var(--transition-fast, 0.15s ease);
 }
-.bcn-aldo-mark[data-size="sm"] {
-  width: 20px;
-  height: 20px;
-  --icon-size-xs: 12px;
+.bcn-help-bar__guidance:hover {
+  background: var(--bcn-helpbar-hover-bg);
+}
+.bcn-help-bar__guidance:focus-visible {
+  outline: 2px solid var(--bcn-helpbar-fg);
+  outline-offset: 2px;
 }
 .bcn-help-bar__guidance-label {
   white-space: nowrap;
@@ -341,6 +288,10 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
   color: var(--bcn-helpbar-fg-muted);
   --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
 }
+.bcn-help-bar .esa-icon-button:hover,
+.bcn-help-bar .esa-icon-button:focus-visible {
+  color: var(--bcn-helpbar-fg);
+}
 .bcn-help-bar__whatsnew {
   position: relative;
   display: inline-flex;
@@ -355,6 +306,9 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
   background: var(--bcn-aldo);
   box-shadow: 0 0 0 2px var(--bcn-helpbar-bg-solid);
   pointer-events: none;
+}
+.bcn-help-bar__dot[hidden] {
+  display: none;
 }
 .bcn-help-bar__panel {
   width: 340px;
@@ -397,6 +351,13 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
   text-decoration: none;
   transition: background var(--transition-fast, 0.15s ease);
 }
+.bcn-help-bar__panel-link:hover {
+  background: var(--color-surface-sunken);
+}
+.bcn-help-bar__panel-link:focus-visible {
+  outline: 2px solid var(--color-text-link);
+  outline-offset: 2px;
+}
 .bcn-help-bar__panel-item-title {
   margin: 0 0 2px;
   font-family: var(--font-decorative);
@@ -426,17 +387,143 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
   color: var(--color-text-link);
   text-decoration: none;
 }
+.bcn-help-bar__panel-all:hover {
+  text-decoration: underline;
+}
+.bcn-help-bar__panel-all:focus-visible {
+  outline: 2px solid var(--color-text-link);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
 .bcn-help-bar__panel-all-arrow {
   transition: transform 0.15s ease;
+}
+.bcn-help-bar__panel-all:hover .bcn-help-bar__panel-all-arrow {
+  transform: translate(2px);
 }
 .bcn-gd__label .esa-icon {
   color: var(--color-text-tertiary);
   flex: none;
 }
+.bcn-gd-row .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.user-panel__item .esa-icon {
+  color: var(--bcn-gray-500);
+}
+.user-panel__item--danger .esa-icon {
+  color: var(--color-danger);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
+}
+.side-nav.collapsed .nav-section__header > .esa-icon:last-child {
+  display: none;
+}
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(
+    --icon-button-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-icon-button--xs {
+  --_ib-size: var(--form-height-xs, 28px);
+}
+.esa-icon-button--sm {
+  --_ib-size: var(--form-height-sm, 32px);
+}
+.esa-icon-button--lg {
+  --_ib-size: var(--form-height-lg, 48px);
+}
+.esa-icon-button:hover {
+  background: var(--_ib-bg-hover);
+}
+.esa-icon-button:focus-visible {
+  outline: var(--focus-ring-width) solid currentColor;
+  outline-offset: var(--focus-ring-offset, 2px);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
 ```
 
 ## Tokens
 - `--bcn-aldo`: #08908b _(component)_
+- `--bcn-gray-1000`: #000000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
@@ -448,21 +535,32 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
 - `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
 - `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
 - `--color-border`: #dcdcdc _(semantic)_
+- `--color-danger`: #e5484d _(semantic)_
+- `--color-primary`: #005862 _(semantic)_
+- `--color-surface-sunken`: #efefef _(semantic)_
 - `--color-text-inverse`: #fcfcfc _(semantic)_
 - `--color-text-link`: #005862 _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
+- `--focus-ring-offset`: 2px _(primitive)_
+- `--focus-ring-width`: 2px _(primitive)_
 - `--font-decorative`: "Besley", serif _(component)_
 - `--font-weight-medium`: 500 _(primitive)_
 - `--font-weight-regular`: 350 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
+- `--form-height-lg`: 44px _(component)_
 - `--form-height-md`: 36px _(component)_
+- `--form-height-sm`: 28px _(component)_
+- `--form-height-xs`: 24px _(component)_
 - `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
+- `--icon-size-large`: 24px _(component)_
+- `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_
 - `--icon-size-small`: 16px _(component)_
+- `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
 - `--radius-400`: .75rem _(primitive)_
