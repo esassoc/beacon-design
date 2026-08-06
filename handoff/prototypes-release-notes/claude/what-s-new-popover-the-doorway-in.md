@@ -119,6 +119,13 @@ The app-wide entry point to this page: a popover anchored above the floating hel
   text-decoration: none;
   transition: background var(--transition-fast, 0.15s ease);
 }
+.bcn-help-bar__panel-link:hover {
+  background: var(--color-surface-sunken);
+}
+.bcn-help-bar__panel-link:focus-visible {
+  outline: 2px solid var(--color-text-link);
+  outline-offset: 2px;
+}
 .bcn-help-bar__panel-item-title {
   margin: 0 0 2px;
   font-family: var(--font-decorative);
@@ -148,11 +155,19 @@ The app-wide entry point to this page: a popover anchored above the floating hel
   color: var(--color-text-link);
   text-decoration: none;
 }
+.bcn-help-bar__panel-all:hover {
+  text-decoration: underline;
+}
+.bcn-help-bar__panel-all:focus-visible {
+  outline: 2px solid var(--color-text-link);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
 .bcn-help-bar__panel-all-arrow {
   transition: transform 0.15s ease;
 }
-.bcn-help-bar__panel-link:hover {
-  background: var(--color-surface-sunken);
+.bcn-help-bar__panel-all:hover .bcn-help-bar__panel-all-arrow {
+  transform: translate(2px);
 }
 ```
 

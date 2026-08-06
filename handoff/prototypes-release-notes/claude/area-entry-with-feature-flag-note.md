@@ -57,18 +57,6 @@ One change inside an area group: the entry title, optional deployment notes (a f
   line-height: 1.4;
   color: var(--color-text-primary);
 }
-.bcn-release__blocks {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-  max-inline-size: 42rem;
-}
-.bcn-release__p {
-  margin: 0;
-  font-size: 1rem;
-  line-height: var(--line-height-normal);
-  color: var(--color-text-primary);
-}
 .bcn-release__flag {
   display: inline-flex;
   align-items: baseline;
@@ -84,6 +72,18 @@ One change inside an area group: the entry title, optional deployment notes (a f
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   color: var(--color-text-secondary);
+}
+.bcn-release__blocks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+  max-inline-size: 42rem;
+}
+.bcn-release__p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
 }
 ```
 

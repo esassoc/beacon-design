@@ -67,12 +67,39 @@ The way back up. A category page is the only nested route in the knowledge base,
   flex: none;
   color: var(--color-text-tertiary);
 }
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-help-bar .esa-icon-button:hover,
+.bcn-help-bar .esa-icon-button:focus-visible {
+  color: var(--bcn-helpbar-fg);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.bcn-gd-row .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
 .topbar__right .esa-icon-button {
   color: var(--color-text-secondary);
+}
+.user-panel__item .esa-icon {
+  color: var(--bcn-gray-500);
+}
+.user-panel__item--danger .esa-icon {
+  color: var(--color-danger);
 }
 .project-switcher__trigger > .esa-icon:first-child {
   flex-shrink: 0;
   color: var(--bcn-gray-500);
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
 }
 .nav-section__header > .esa-icon:first-child {
   flex-shrink: 0;
@@ -86,57 +113,11 @@ The way back up. A category page is the only nested route in the knowledge base,
     opacity 0.2s ease-in-out;
   flex-shrink: 0;
 }
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
 }
-.bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
-}
-.breadcrumbs {
-  padding: var(--spacing-400) 0;
-}
-.breadcrumbs__items {
-  display: flex;
-  gap: var(--spacing-100);
-  align-items: center;
-  flex-wrap: wrap;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.breadcrumb-item {
-  color: var(--bcn-gray-600);
-  text-transform: capitalize;
-  font-size: 0.875rem;
-}
-a.breadcrumb-item {
-  text-decoration: none;
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+.side-nav.collapsed .nav-section__header > .esa-icon:last-child {
+  display: none;
 }
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
@@ -159,23 +140,108 @@ a.breadcrumb-item {
   -webkit-appearance: none;
   appearance: none;
 }
+.esa-icon-button--xs {
+  --_ib-size: var(--form-height-xs, 28px);
+}
+.esa-icon-button--sm {
+  --_ib-size: var(--form-height-sm, 32px);
+}
+.esa-icon-button--lg {
+  --_ib-size: var(--form-height-lg, 48px);
+}
+.esa-icon-button:hover {
+  background: var(--_ib-bg-hover);
+}
+.esa-icon-button:focus-visible {
+  outline: var(--focus-ring-width) solid currentColor;
+  outline-offset: var(--focus-ring-offset, 2px);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.breadcrumbs {
+  padding: var(--spacing-400) 0;
+}
+.breadcrumbs__items {
+  display: flex;
+  gap: var(--spacing-100);
+  align-items: center;
+  flex-wrap: wrap;
+}
+.breadcrumb-item {
+  color: var(--bcn-gray-600);
+  text-transform: capitalize;
+  font-size: 0.875rem;
+}
+a.breadcrumb-item {
+  text-decoration: none;
+}
+a.breadcrumb-item:hover {
+  text-decoration: underline;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
 ```
 
 ## Tokens
+- `--bcn-gray-1000`: #000000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
 - `--bcn-gray-600`: #656565 _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
+- `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
 - `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
 - `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
+- `--color-danger`: #e5484d _(semantic)_
+- `--color-primary`: #005862 _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
+- `--focus-ring-offset`: 2px _(primitive)_
+- `--focus-ring-width`: 2px _(primitive)_
+- `--form-height-lg`: 44px _(component)_
 - `--form-height-md`: 36px _(component)_
+- `--form-height-sm`: 28px _(component)_
+- `--form-height-xs`: 24px _(component)_
 - `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
+- `--icon-size-large`: 24px _(component)_
+- `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_
 - `--icon-size-small`: 16px _(component)_
+- `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_

@@ -230,6 +230,19 @@ A slim, full-width band plotting the next 30 / 60 / 90 days on one date axis, in
   align-items: center;
   gap: var(--spacing-400);
 }
+.bcn-tl__full {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.bcn-tl__full:hover {
+  color: var(--color-primary-hover);
+}
 .bcn-tl {
   position: relative;
   display: flex;
@@ -242,6 +255,12 @@ A slim, full-width band plotting the next 30 / 60 / 90 days on one date axis, in
   align-items: center;
   gap: var(--spacing-300);
 }
+.bcn-tl__row--bars {
+  align-items: start;
+}
+.bcn-tl__row--more {
+  margin-top: calc(var(--spacing-250) * -1);
+}
 .bcn-tl__lane-label {
   font-size: 0.8125rem;
   font-weight: var(--font-weight-semibold);
@@ -253,6 +272,17 @@ A slim, full-width band plotting the next 30 / 60 / 90 days on one date axis, in
 }
 .bcn-tl__row--axis .bcn-tl__track {
   height: 20px;
+}
+.bcn-tl__track--bars {
+  height: 22px;
+}
+.bcn-tl__rule {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: var(--color-border);
 }
 .bcn-tl__today {
   position: absolute;
@@ -271,23 +301,6 @@ A slim, full-width band plotting the next 30 / 60 / 90 days on one date axis, in
   font-weight: var(--font-weight-semibold);
   color: var(--color-orange-400, #f9a134);
 }
-.bcn-tl__rule {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  height: 1px;
-  background: var(--color-border);
-}
-.bcn-tl__row--bars {
-  align-items: start;
-}
-.bcn-tl__track--bars {
-  height: 22px;
-}
-.bcn-tl__row--more {
-  margin-top: calc(var(--spacing-250) * -1);
-}
 .bcn-tl__showall {
   justify-self: start;
   padding: 0;
@@ -299,27 +312,13 @@ A slim, full-width band plotting the next 30 / 60 / 90 days on one date axis, in
   border: 0;
   cursor: pointer;
 }
+.bcn-tl__showall:hover {
+  color: var(--color-primary-hover);
+}
 .bcn-tl__empty {
   margin: 0;
   font-size: var(--type-size-150);
   color: var(--color-text-tertiary);
-}
-.bcn-tl__pop {
-  position: fixed;
-  z-index: 5;
-  width: 19rem;
-  max-width: calc(100% - 16px);
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-250);
-  padding: var(--spacing-350, var(--spacing-300)) var(--spacing-400);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-  box-shadow: var(--shadow-300, 0 8px 24px -6px rgba(0, 0, 0, 0.18));
-}
-.bcn-tl__pop[hidden] {
-  display: none;
 }
 .bcn-tl .bcn-tl__tick {
   position: absolute;
@@ -343,6 +342,14 @@ A slim, full-width band plotting the next 30 / 60 / 90 days on one date axis, in
   cursor: pointer;
   border-radius: var(--radius-full);
 }
+.bcn-tl .bcn-tl__item:hover,
+.bcn-tl .bcn-tl__item[data-pinned] {
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+}
+.bcn-tl .bcn-tl__item:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
 .bcn-tl .bcn-tl__dot {
   display: block;
   width: 11px;
@@ -360,6 +367,13 @@ A slim, full-width band plotting the next 30 / 60 / 90 days on one date axis, in
   background: var(--color-warning);
   box-shadow: none;
 }
+.bcn-tl .bcn-tl__diamond {
+  display: block;
+  width: 11px;
+  height: 11px;
+  background: var(--color-info);
+  transform: rotate(45deg);
+}
 .bcn-tl .bcn-tl__bar {
   position: absolute;
   height: 18px;
@@ -373,6 +387,10 @@ A slim, full-width band plotting the next 30 / 60 / 90 days on one date axis, in
   overflow: hidden;
   cursor: pointer;
   text-align: left;
+}
+.bcn-tl .bcn-tl__bar:hover,
+.bcn-tl .bcn-tl__bar[data-pinned] {
+  background: color-mix(in srgb, var(--color-secondary) 26%, var(--color-surface));
 }
 .bcn-tl .bcn-tl__bar-label {
   font-size: 0.75rem;
@@ -388,37 +406,128 @@ A slim, full-width band plotting the next 30 / 60 / 90 days on one date axis, in
   color: var(--color-text-tertiary);
   white-space: nowrap;
 }
-.bcn-tl .bcn-tl__diamond {
-  display: block;
-  width: 11px;
-  height: 11px;
-  background: var(--color-info);
-  transform: rotate(45deg);
+.bcn-tl__pop {
+  position: fixed;
+  z-index: 5;
+  width: 19rem;
+  max-width: calc(100% - 16px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-250);
+  padding: var(--spacing-350, var(--spacing-300)) var(--spacing-400);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+  box-shadow: var(--shadow-300, 0 8px 24px -6px rgba(0, 0, 0, 0.18));
+}
+.bcn-tl__pop[hidden] {
+  display: none;
+}
+.bcn-tl__pop-head {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+}
+.bcn-tl__pop-type {
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-tertiary);
+  text-transform: capitalize;
+}
+.bcn-tl__pop-title {
+  margin: 0;
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  line-height: var(--line-height-tight);
+}
+.bcn-tl__pop-facts {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+.bcn-tl__pop-facts div {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr;
+  gap: var(--spacing-200);
+}
+.bcn-tl__pop-facts dt {
+  font-size: 0.8125rem;
+  color: var(--color-text-tertiary);
+}
+.bcn-tl__pop-facts dd {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-text-primary);
+}
+.bcn-tl__pop-late {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-danger);
+}
+.bcn-tl__pop-species {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-150);
+}
+.bcn-tl__pop-chip {
+  padding: 1px var(--spacing-200);
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-100);
+}
+.bcn-tl__pop-link {
+  align-self: flex-start;
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  text-decoration: none;
+}
+.bcn-tl__pop .bcn-cbadge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 12%, white);
+  border-radius: var(--radius-100);
+  font-size: 0.75rem;
+  padding: 1px var(--spacing-150);
 }
 ```
 
 ## Tokens
 - `--bcn-teal-800`: #0a6562 _(component)_
 - `--color-border`: #dcdcdc _(semantic)_
+- `--color-border-light`: #efefef _(semantic)_
 - `--color-border-strong`: #bdbdbd _(semantic)_
+- `--color-commitment`: #58508d _(component)_
 - `--color-danger`: #e5484d _(semantic)_
 - `--color-info`: #228be6 _(semantic)_
 - `--color-primary`: #005862 _(semantic)_
+- `--color-primary-hover`: #00474f _(semantic)_
 - `--color-secondary`: #00918b _(semantic)_
 - `--color-secondary-hover`: #0a6562 _(semantic)_
 - `--color-surface`: #fcfcfc _(semantic)_
+- `--color-surface-sunken`: #efefef _(semantic)_
 - `--color-text-muted`: #7c7c7c _(semantic)_
+- `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
 - `--color-warning`: #f59e0b _(semantic)_
+- `--font-mono`: "Roboto Mono", ui-monospace, monospace _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
+- `--line-height-tight`: 1.3 _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
 - `--radius-full`: 9999px _(primitive)_
 - `--shadow-300`: 0 6px 24px -6px rgba(0, 0, 0, .07) _(primitive)_
+- `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
+- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_

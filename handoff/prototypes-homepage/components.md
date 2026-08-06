@@ -4,5 +4,5 @@ The component blocks composing this page. Hub (`esa-*`) components are the share
 
 | Component | Origin | Source |
 |---|---|---|
-| `esa-button` | hub | — |
-| `esa-icon` | hub | — |
+| `esa-button` | hub | src/components/esa-button.astro |
+| `esa-icon` | hub | src/components/esa-icon.astro |

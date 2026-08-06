@@ -618,6 +618,14 @@ The results dropdown anchored under the search field: matching articles as two-l
 
 ## Styles
 ```css
+.bcn-omni-rail__item.is-active {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-weight: var(--font-weight-semibold);
+}
+.bcn-omni-row.is-active {
+  background: var(--color-surface-sunken);
+}
 .bcn-kb-hero__results {
   position: absolute;
   inset-inline: 0;
@@ -667,6 +675,12 @@ The results dropdown anchored under the search field: matching articles as two-l
 .bcn-kb-hero__result:hover .bcn-kb-hero__result-title {
   color: var(--color-text-link);
 }
+.bcn-kb-hero__result-title mark {
+  background: color-mix(in srgb, var(--color-text-primary) 12%, transparent);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 1px;
+}
 .bcn-kb-hero__result-cat {
   flex: none;
   font-size: 0.8125rem;
@@ -678,12 +692,6 @@ The results dropdown anchored under the search field: matching articles as two-l
   color: var(--color-text-secondary);
   line-height: 1.4;
 }
-.bcn-kb-hero__result-title mark {
-  background: color-mix(in srgb, var(--color-text-primary) 12%, transparent);
-  color: inherit;
-  border-radius: 2px;
-  padding: 0 1px;
-}
 .bcn-kb-hero__no-results {
   margin: 0;
   padding: var(--spacing-300);
@@ -694,13 +702,16 @@ The results dropdown anchored under the search field: matching articles as two-l
 
 ## Tokens
 - `--color-border`: #dcdcdc _(semantic)_
+- `--color-primary`: #005862 _(semantic)_
 - `--color-surface`: #fcfcfc _(semantic)_
 - `--color-surface-sunken`: #efefef _(semantic)_
+- `--color-text-inverse`: #fcfcfc _(semantic)_
 - `--color-text-link`: #005862 _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
 - `--font-weight-medium`: 500 _(primitive)_
+- `--font-weight-semibold`: 550 _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
 - `--radius-300`: .5rem _(primitive)_
 - `--shadow-200`: 0 4px 20px -4px rgba(0, 0, 0, .06) _(primitive)_

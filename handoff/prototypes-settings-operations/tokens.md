@@ -1,6 +1,6 @@
 # Token contract — prototypes-settings-operations
 
-The 117 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 120 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -78,6 +78,9 @@ The 117 design tokens this page actually uses, resolved to their final values fo
 | `--form-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--form-height-md` | `36px` |
 | `--form-height-sm` | `28px` |
+| `--form-label-color` | `#525252` |
+| `--form-label-font-weight` | `500` |
+| `--form-label-gap` | `.25rem` |
 | `--form-padding-x-md` | `.75rem` |
 | `--form-padding-x-sm` | `.625rem` |
 | `--form-padding-y-md` | `.5rem` |
@@ -141,6 +144,7 @@ Defined per-component (not at `:root`); see the component's own rule in `styles.
 - `--align`
 - `--dialog-footer-bg`
 - `--dialog-header-bg`
+- `--form-label-font-size`
 - `--gap`
 - `--grid-min`
 - `--justify`

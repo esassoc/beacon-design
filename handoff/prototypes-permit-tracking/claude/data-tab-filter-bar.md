@@ -110,36 +110,114 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
 
 ## Styles
 ```css
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
 }
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-help-bar .esa-icon-button:hover,
+.bcn-help-bar .esa-icon-button:focus-visible {
+  color: var(--bcn-helpbar-fg);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.bcn-gd-row .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.user-panel__item .esa-icon {
+  color: var(--bcn-gray-500);
+}
+.user-panel__item--danger .esa-icon {
+  color: var(--color-danger);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
   flex-shrink: 0;
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
+}
+.side-nav.collapsed .nav-section__header > .esa-icon:last-child {
+  display: none;
+}
+.bcn-filterbar {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+  margin-bottom: var(--spacing-400);
+}
+.bcn-filterbar__top {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-400);
+  padding: var(--spacing-300) var(--spacing-400);
+  flex-wrap: wrap;
+}
+.bcn-filterbar__bottom {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-400);
+  border-top: 1px solid var(--color-border);
+  flex-wrap: wrap;
+}
+.bcn-filterbar__group {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
+  gap: var(--spacing-300);
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
+.bcn-filterbar__label {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
 }
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
+.bcn-filterbar__search {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  min-width: 300px;
 }
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+.bcn-filterbar__search esa-text-field {
+  flex: 1;
 }
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+.bcn-filterbar__clear {
+  margin-left: auto;
+}
+.sd-permit__btn .esa-icon {
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+}
+.pd__section-head .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
 }
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
@@ -161,6 +239,22 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
   transition: background var(--transition-fast, 0.15s ease);
   -webkit-appearance: none;
   appearance: none;
+}
+.esa-icon-button--xs {
+  --_ib-size: var(--form-height-xs, 28px);
+}
+.esa-icon-button--sm {
+  --_ib-size: var(--form-height-sm, 32px);
+}
+.esa-icon-button--lg {
+  --_ib-size: var(--form-height-lg, 48px);
+}
+.esa-icon-button:hover {
+  background: var(--_ib-bg-hover);
+}
+.esa-icon-button:focus-visible {
+  outline: var(--focus-ring-width) solid currentColor;
+  outline-offset: var(--focus-ring-offset, 2px);
 }
 .esa-filter-container {
   display: flex;
@@ -194,6 +288,14 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
     color var(--transition-fast, 0.15s ease),
     background var(--transition-fast, 0.15s ease);
 }
+.esa-filter-clear-button:hover {
+  color: var(--_clear-text-hover);
+  background: var(--color-hover-overlay, rgba(0, 0, 0, 0.03));
+}
+.esa-filter-clear-button:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset, 2px);
+}
 .esa-filter-clear-button__icon {
   width: var(--_clear-icon-size);
   height: var(--_clear-icon-size);
@@ -202,90 +304,42 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
 .esa-filter-clear-button__label {
   white-space: nowrap;
 }
-.pd__section-head .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary);
-}
-.bcn-filterbar {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-  margin-bottom: var(--spacing-400);
-}
-.bcn-filterbar__top {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-400);
-  padding: var(--spacing-300) var(--spacing-400);
-  flex-wrap: wrap;
-}
-.bcn-filterbar__group {
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-300);
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
 }
-.bcn-filterbar__label {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-tertiary);
-  white-space: nowrap;
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
 }
-.bcn-filterbar__search {
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-  min-width: 300px;
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
 }
-.bcn-filterbar__search esa-text-field {
-  flex: 1;
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
 }
-.bcn-filterbar__bottom {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300) var(--spacing-400);
-  border-top: 1px solid var(--color-border);
-  flex-wrap: wrap;
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
 }
-.bcn-filterbar__clear {
-  margin-left: auto;
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
 }
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
 }
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
-}
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header > .esa-icon:last-child {
+.breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
   flex-shrink: 0;
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
 }
 ```
 
@@ -294,9 +348,12 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
+- `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
 - `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
 - `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
 - `--color-border`: #dcdcdc _(semantic)_
+- `--color-danger`: #e5484d _(semantic)_
+- `--color-hover-overlay`: rgba(0, 0, 0, .03) _(primitive)_
 - `--color-primary`: #005862 _(semantic)_
 - `--color-primary-strong`: #2a7e3b _(semantic)_
 - `--color-surface`: #fcfcfc _(semantic)_
@@ -304,15 +361,24 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
 - `--color-text-tertiary`: #656565 _(semantic)_
 - `--filter-clear-color`: #7c7c7c _(component)_
 - `--filter-clear-color-hover`: #ce2c31 _(component)_
+- `--focus-ring-color`: #65ba74 _(primitive)_
+- `--focus-ring-offset`: 2px _(primitive)_
+- `--focus-ring-width`: 2px _(primitive)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
 - `--font-weight-medium`: 500 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
+- `--form-height-lg`: 44px _(component)_
 - `--form-height-md`: 36px _(component)_
+- `--form-height-sm`: 28px _(component)_
+- `--form-height-xs`: 24px _(component)_
 - `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
+- `--icon-size-large`: 24px _(component)_
+- `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_
 - `--icon-size-small`: 16px _(component)_
+- `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_

@@ -158,6 +158,9 @@ The census figure below the map (Map tab ONLY — never repeated on Data or Acti
   font-size: 0.875rem;
   color: var(--color-text-secondary);
 }
+.readiness__legend-item[data-empty="true"] {
+  opacity: 0.4;
+}
 .readiness__swatch {
   width: 12px;
   height: 12px;
@@ -171,6 +174,10 @@ The census figure below the map (Map tab ONLY — never repeated on Data or Acti
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
   font-variant-numeric: tabular-nums;
+}
+.readiness {
+  break-inside: avoid;
+  border-color: var(--color-border, #ccc);
 }
 ```
 

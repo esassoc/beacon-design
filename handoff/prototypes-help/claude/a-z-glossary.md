@@ -115,16 +115,28 @@ Every glossary-kind article as a bare term link, sorted A–Z and flowing into n
   text-decoration: none;
   transition: color 0.12s ease;
 }
+.bcn-kbg__link:hover {
+  color: var(--color-text-link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.bcn-kbg__link:focus-visible {
+  outline: 2px solid var(--color-text-link);
+  outline-offset: 2px;
+  border-radius: var(--radius-100);
+}
 ```
 
 ## Tokens
 - `--color-border`: #dcdcdc _(semantic)_
+- `--color-text-link`: #005862 _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--font-display`: "DM Sans", sans-serif _(primitive)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
 - `--letter-spacing-tight`: -.01em _(primitive)_
 - `--line-height-tight`: 1.3 _(primitive)_
+- `--radius-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_

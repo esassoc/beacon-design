@@ -51,12 +51,22 @@ The top of the write drawer (esa-side-dialog, 640px): a header with the work-are
   font-weight: var(--font-weight-medium);
   color: var(--form-label-color);
 }
+.bcn-key-value__val {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-key-value__hint {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+}
 ```
 
 ## Tokens
 - `--color-background`: #fafafa _(semantic)_
 - `--color-border`: #dcdcdc _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
+- `--color-text-tertiary`: #656565 _(semantic)_
 - `--font-weight-medium`: 500 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
 - `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_

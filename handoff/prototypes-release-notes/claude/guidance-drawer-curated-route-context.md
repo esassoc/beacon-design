@@ -200,25 +200,6 @@ Aldo's opening message on THIS route — the route-aware half of the guidance dr
   flex: none;
   color: var(--color-text-tertiary);
 }
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
-}
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
-}
 .bcn-aldo-mark {
   display: inline-flex;
   align-items: center;
@@ -234,24 +215,41 @@ Aldo's opening message on THIS route — the route-aware half of the guidance dr
   height: 20px;
   --icon-size-xs: 12px;
 }
+.bcn-aldo-mark[data-size="md"] {
+  width: 40px;
+  height: 40px;
+}
+.bcn-aldo-mark[data-size="lg"] {
+  width: 64px;
+  height: 64px;
+}
 .bcn-aldo-mark__glyph {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   line-height: 0;
 }
+.bcn-aldo-mark[data-animated] {
+  animation: bcn-aldo-pulse 2s ease-in-out infinite;
+}
+.bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
+  animation: bcn-aldo-spin 8s linear infinite;
+}
 .bcn-help-bar .esa-icon-button {
   color: var(--bcn-helpbar-fg-muted);
   --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
 }
-.bcn-aldo-mark[data-size="md"] {
-  width: 40px;
-  height: 40px;
+.bcn-help-bar .esa-icon-button:hover,
+.bcn-help-bar .esa-icon-button:focus-visible {
+  color: var(--bcn-helpbar-fg);
 }
 .bcn-gd-msg {
   display: flex;
   gap: var(--spacing-300);
   align-items: flex-start;
+}
+.bcn-gd-msg--user {
+  justify-content: flex-end;
 }
 .bcn-gd-msg__avatar {
   flex: none;
@@ -264,10 +262,60 @@ Aldo's opening message on THIS route — the route-aware half of the guidance dr
   flex-direction: column;
   gap: var(--spacing-500);
 }
+.bcn-gd-msg__bubble {
+  max-width: 88%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+  padding: var(--spacing-250) var(--spacing-300);
+  border-radius: var(--radius-300);
+  font-size: var(--type-size-150);
+  line-height: 1.5;
+}
+.bcn-gd-msg--user .bcn-gd-msg__bubble {
+  background: var(--color-surface-sunken);
+  color: var(--color-text-primary);
+  white-space: pre-wrap;
+}
+.bcn-gd-msg--aldo .bcn-gd-msg__bubble {
+  background: var(--bcn-aldo-50);
+  color: var(--color-text-primary);
+}
+.bcn-gd-msg__text {
+  margin: 0;
+}
+.bcn-gd-msg__links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+}
+.bcn-gd-msg__link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.bcn-gd-msg__browse {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
 .bcn-gd__section {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-300);
+}
+.bcn-gd__section[hidden] {
+  display: none;
 }
 .bcn-gd__label {
   display: flex;
@@ -305,10 +353,6 @@ Aldo's opening message on THIS route — the route-aware half of the guidance dr
   display: flex;
   flex-direction: column;
 }
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
-}
 .bcn-gd-row {
   display: flex;
   align-items: center;
@@ -321,6 +365,9 @@ Aldo's opening message on THIS route — the route-aware half of the guidance dr
   font: inherit;
   text-align: left;
   cursor: pointer;
+}
+.bcn-gd-row:hover {
+  background: var(--color-surface-sunken);
 }
 .bcn-gd-row__text {
   display: flex;
@@ -345,33 +392,41 @@ Aldo's opening message on THIS route — the route-aware half of the guidance dr
   color: var(--color-text-tertiary);
   flex: none;
 }
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.user-panel__item .esa-icon {
+  color: var(--bcn-gray-500);
+}
+.user-panel__item--danger .esa-icon {
+  color: var(--color-danger);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
   flex-shrink: 0;
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
 }
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+.side-nav.collapsed .nav-section__header > .esa-icon:last-child {
+  display: none;
 }
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
@@ -394,8 +449,58 @@ Aldo's opening message on THIS route — the route-aware half of the guidance dr
   -webkit-appearance: none;
   appearance: none;
 }
+.esa-icon-button--xs {
+  --_ib-size: var(--form-height-xs, 28px);
+}
+.esa-icon-button--sm {
+  --_ib-size: var(--form-height-sm, 32px);
+}
+.esa-icon-button--lg {
+  --_ib-size: var(--form-height-lg, 48px);
+}
 .esa-icon-button:hover {
   background: var(--_ib-bg-hover);
+}
+.esa-icon-button:focus-visible {
+  outline: var(--focus-ring-width) solid currentColor;
+  outline-offset: var(--focus-ring-offset, 2px);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
 }
 ```
 
@@ -411,24 +516,38 @@ Aldo's opening message on THIS route — the route-aware half of the guidance dr
 - `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
 - `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
 - `--color-border-light`: #efefef _(semantic)_
+- `--color-danger`: #e5484d _(semantic)_
+- `--color-primary`: #005862 _(semantic)_
+- `--color-surface-sunken`: #efefef _(semantic)_
 - `--color-text-inverse`: #fcfcfc _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
+- `--focus-ring-offset`: 2px _(primitive)_
+- `--focus-ring-width`: 2px _(primitive)_
 - `--font-weight-bold`: 650 _(primitive)_
+- `--font-weight-medium`: 500 _(primitive)_
 - `--font-weight-regular`: 350 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
+- `--form-height-lg`: 44px _(component)_
 - `--form-height-md`: 36px _(component)_
+- `--form-height-sm`: 28px _(component)_
+- `--form-height-xs`: 24px _(component)_
 - `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
+- `--icon-size-large`: 24px _(component)_
+- `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_
 - `--icon-size-small`: 16px _(component)_
+- `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
+- `--radius-300`: .5rem _(primitive)_
 - `--radius-full`: 9999px _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
+- `--spacing-250`: .625rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_

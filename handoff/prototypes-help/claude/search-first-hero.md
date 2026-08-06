@@ -713,6 +713,136 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
 
 ## Styles
 ```css
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.bcn-aldo-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: var(--radius-full);
+  background: var(--bcn-aldo);
+  color: var(--color-text-inverse);
+  line-height: 0;
+}
+.bcn-aldo-mark[data-size="sm"] {
+  width: 20px;
+  height: 20px;
+  --icon-size-xs: 12px;
+}
+.bcn-aldo-mark[data-size="md"] {
+  width: 40px;
+  height: 40px;
+}
+.bcn-aldo-mark[data-size="lg"] {
+  width: 64px;
+  height: 64px;
+}
+.bcn-aldo-mark__glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+.bcn-aldo-mark[data-animated] {
+  animation: bcn-aldo-pulse 2s ease-in-out infinite;
+}
+.bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
+  animation: bcn-aldo-spin 8s linear infinite;
+}
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-help-bar .esa-icon-button:hover,
+.bcn-help-bar .esa-icon-button:focus-visible {
+  color: var(--bcn-helpbar-fg);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.bcn-gd-row .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.user-panel__item .esa-icon {
+  color: var(--bcn-gray-500);
+}
+.user-panel__item--danger .esa-icon {
+  color: var(--color-danger);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
+}
+.side-nav.collapsed .nav-section__header > .esa-icon:last-child {
+  display: none;
+}
+.center {
+  --center-max: 72rem;
+  max-inline-size: var(--center-max);
+  margin-inline: auto;
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+.stack[data-split] > [data-split] {
+  margin-block-end: auto;
+}
+.type-page-title {
+  font-family: var(--font-display, var(--font-sans));
+  font-size: var(--type-size-600);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+}
+.type-body-large {
+  font-size: var(--type-size-300);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-relaxed);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-body {
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-relaxed);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-body-small {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
 .bcn-kb-hero {
   padding-block: var(--spacing-500) var(--spacing-400);
 }
@@ -744,6 +874,16 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
   position: relative;
   inline-size: 100%;
 }
+.bcn-kb-hero__search {
+  --form-height-lg: 3.5rem;
+  --form-font-size-lg: 1.1875rem;
+  --form-padding-x-lg: 3.25rem;
+  --form-radius-lg: var(--radius-300);
+  --form-border-color-focus: var(--color-text-link);
+  --focus-ring-color: var(--color-text-link);
+  inline-size: 100%;
+  text-align: start;
+}
 .bcn-kb-hero__search-icon {
   position: absolute;
   inset-inline-start: var(--spacing-400);
@@ -754,16 +894,6 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
   pointer-events: none;
   z-index: 1;
   --icon-size-md: 22px;
-}
-.bcn-kb-hero__search {
-  --form-height-lg: 3.5rem;
-  --form-font-size-lg: 1.1875rem;
-  --form-padding-x-lg: 3.25rem;
-  --form-radius-lg: var(--radius-300);
-  --form-border-color-focus: var(--color-text-link);
-  --focus-ring-color: var(--color-text-link);
-  inline-size: 100%;
-  text-align: start;
 }
 .bcn-kb-hero__results {
   position: absolute;
@@ -782,6 +912,61 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
 .bcn-kb-hero__results[hidden] {
   display: none;
 }
+.bcn-kb-hero__result {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--spacing-200) var(--spacing-300);
+  border-radius: var(--radius-200);
+  text-decoration: none;
+  color: inherit;
+}
+.bcn-kb-hero__result[hidden] {
+  display: none;
+}
+.bcn-kb-hero__result:hover,
+.bcn-kb-hero__result.is-active {
+  background: var(--color-surface-sunken);
+}
+.bcn-kb-hero__result-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-300);
+}
+.bcn-kb-hero__result-title {
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  line-height: 1.35;
+}
+.bcn-kb-hero__result.is-active .bcn-kb-hero__result-title,
+.bcn-kb-hero__result:hover .bcn-kb-hero__result-title {
+  color: var(--color-text-link);
+}
+.bcn-kb-hero__result-title mark {
+  background: color-mix(in srgb, var(--color-text-primary) 12%, transparent);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+.bcn-kb-hero__result-cat {
+  flex: none;
+  font-size: 0.8125rem;
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+}
+.bcn-kb-hero__result-summary {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+.bcn-kb-hero__no-results {
+  margin: 0;
+  padding: var(--spacing-300);
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+}
 .bcn-kb-hero__whatsnew {
   display: inline-flex;
   align-items: center;
@@ -792,56 +977,19 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
   text-decoration: none;
   transition: color 0.15s ease;
 }
+.bcn-kb-hero__whatsnew:hover {
+  color: var(--color-text-link-hover);
+}
+.bcn-kb-hero__whatsnew:focus-visible {
+  outline: 2px solid var(--color-text-link);
+  outline-offset: 2px;
+  border-radius: var(--radius-100);
+}
 .bcn-kb-hero__whatsnew-arrow {
   transition: transform 0.15s ease;
 }
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-}
-.center {
-  --center-max: 72rem;
-  max-inline-size: var(--center-max);
-  margin-inline: auto;
-}
-.type-page-title {
-  font-family: var(--font-display, var(--font-sans));
-  font-size: var(--type-size-600);
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-tight);
-  letter-spacing: var(--letter-spacing-tight);
-}
-.type-body {
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-relaxed);
-  letter-spacing: var(--letter-spacing-normal);
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+.bcn-kb-hero__whatsnew:hover .bcn-kb-hero__whatsnew-arrow {
+  transform: translate(2px);
 }
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
@@ -864,101 +1012,108 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
   -webkit-appearance: none;
   appearance: none;
 }
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
+.esa-icon-button--xs {
+  --_ib-size: var(--form-height-xs, 28px);
 }
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
+.esa-icon-button--sm {
+  --_ib-size: var(--form-height-sm, 32px);
 }
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
+.esa-icon-button--lg {
+  --_ib-size: var(--form-height-lg, 48px);
 }
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
+.esa-icon-button:hover {
+  background: var(--_ib-bg-hover);
 }
-.nav-section__header > .esa-icon:last-child {
+.esa-icon-button:focus-visible {
+  outline: var(--focus-ring-width) solid currentColor;
+  outline-offset: var(--focus-ring-offset, 2px);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
   flex-shrink: 0;
-}
-.bcn-aldo-mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  border-radius: var(--radius-full);
-  background: var(--bcn-aldo);
-  color: var(--color-text-inverse);
-  line-height: 0;
-}
-.bcn-aldo-mark[data-size="md"] {
-  width: 40px;
-  height: 40px;
-}
-.bcn-aldo-mark[data-animated] {
-  animation: bcn-aldo-pulse 2s ease-in-out infinite;
-}
-.bcn-aldo-mark__glyph {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 0;
-}
-.bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
-  animation: bcn-aldo-spin 8s linear infinite;
-}
-.bcn-aldo-mark[data-size="sm"] {
-  width: 20px;
-  height: 20px;
-  --icon-size-xs: 12px;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
 }
 ```
 
 ## Tokens
 - `--bcn-aldo`: #08908b _(component)_
+- `--bcn-gray-1000`: #000000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
+- `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
 - `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
 - `--bcn-helpbar-hover-bg`: rgba(255, 255, 255, .1) _(component)_
 - `--color-border`: #dcdcdc _(semantic)_
+- `--color-danger`: #e5484d _(semantic)_
+- `--color-primary`: #005862 _(semantic)_
 - `--color-surface`: #fcfcfc _(semantic)_
+- `--color-surface-sunken`: #efefef _(semantic)_
 - `--color-text-inverse`: #fcfcfc _(semantic)_
 - `--color-text-link`: #005862 _(semantic)_
+- `--color-text-link-hover`: #00474f _(semantic)_
 - `--color-text-primary`: #3d3d3d _(semantic)_
 - `--color-text-secondary`: #525252 _(semantic)_
 - `--color-text-tertiary`: #656565 _(semantic)_
+- `--focus-ring-offset`: 2px _(primitive)_
+- `--focus-ring-width`: 2px _(primitive)_
 - `--font-display`: "DM Sans", sans-serif _(primitive)_
 - `--font-sans`: "DM Sans", sans-serif _(primitive)_
 - `--font-weight-medium`: 500 _(primitive)_
 - `--font-weight-regular`: 350 _(primitive)_
 - `--font-weight-semibold`: 550 _(primitive)_
+- `--form-height-lg`: 44px _(component)_
 - `--form-height-md`: 36px _(component)_
+- `--form-height-sm`: 28px _(component)_
+- `--form-height-xs`: 24px _(component)_
 - `--gap`: 3rem _(component)_
 - `--icon-button-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
+- `--icon-size-large`: 24px _(component)_
+- `--icon-size-lg`: 24px _(primitive)_
 - `--icon-size-md`: 20px _(primitive)_
 - `--icon-size-medium`: 20px _(component)_
 - `--icon-size-sm`: 16px _(primitive)_
 - `--icon-size-small`: 16px _(component)_
+- `--icon-size-xl`: 28px _(primitive)_
 - `--icon-size-xs`: 14px _(primitive)_
 - `--letter-spacing-normal`: .01em _(primitive)_
 - `--letter-spacing-tight`: -.01em _(primitive)_
+- `--line-height-normal`: 1.6 _(primitive)_
 - `--line-height-relaxed`: 1.8 _(primitive)_
 - `--line-height-tight`: 1.3 _(primitive)_
+- `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
 - `--radius-300`: .5rem _(primitive)_
 - `--radius-full`: 9999px _(primitive)_
@@ -966,8 +1121,11 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
+- `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--transition-fast`: .15s ease _(primitive)_
+- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
 - `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
+- `--type-size-300`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(primitive)_
 - `--type-size-600`: clamp(1.375rem, 1.2rem + .88vw, 1.875rem) _(primitive)_

@@ -1,6 +1,6 @@
 # Token contract — prototypes-fish-studies
 
-The 92 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 108 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -15,6 +15,7 @@ The 92 design tokens this page actually uses, resolved to their final values for
 | `--color-primary-hover` | `#00474f` |
 | `--color-primary-strong` | `#2a7e3b` |
 | `--color-primary-subtle` | `#effefb` |
+| `--color-secondary` | `#00918b` |
 | `--color-surface` | `#fcfcfc` |
 | `--color-surface-elevated` | `#fcfcfc` |
 | `--color-surface-sunken` | `#efefef` |
@@ -31,6 +32,8 @@ The 92 design tokens this page actually uses, resolved to their final values for
 | Token | Value |
 |---|---|
 | `--bcn-aldo` | `#08908b` |
+| `--bcn-aldo-100` | `#cfeceb` |
+| `--bcn-aldo-50` | `#e8f6f5` |
 | `--bcn-gray-100` | `#efefef` |
 | `--bcn-gray-1000` | `#000000` |
 | `--bcn-gray-200` | `#dcdcdc` |
@@ -48,6 +51,7 @@ The 92 design tokens this page actually uses, resolved to their final values for
 | `--bcn-helpbar-fg` | `rgba(255, 255, 255, .92)` |
 | `--bcn-helpbar-fg-muted` | `rgba(255, 255, 255, .72)` |
 | `--bcn-helpbar-hover-bg` | `rgba(255, 255, 255, .1)` |
+| `--bcn-status-not-started` | `#bdbdbd` |
 | `--color-commitment` | `#58508d` |
 | `--dialog-bg` | `#fcfcfc` |
 | `--dialog-border-color` | `#efefef` |
@@ -60,13 +64,21 @@ The 92 design tokens this page actually uses, resolved to their final values for
 | `--form-border-color` | `#dcdcdc` |
 | `--form-border-width` | `1px` |
 | `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--form-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--form-height-md` | `36px` |
+| `--form-height-sm` | `28px` |
+| `--form-label-color` | `#525252` |
 | `--form-padding-x-md` | `.75rem` |
+| `--form-padding-x-sm` | `.625rem` |
 | `--form-padding-y-md` | `.5rem` |
 | `--form-placeholder-color` | `#7c7c7c` |
 | `--form-radius-md` | `.25rem` |
+| `--form-radius-sm` | `.25rem` |
 | `--form-text-color` | `#3d3d3d` |
 | `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` |
+| `--icon-link-font-size-md` | `1rem` |
+| `--icon-link-font-size-sm` | `.875rem` |
+| `--icon-link-gap` | `.375rem` |
 | `--icon-size-medium` | `20px` |
 | `--icon-size-small` | `16px` |
 | `--popover-bg` | `#fcfcfc` |
@@ -90,6 +102,7 @@ The 92 design tokens this page actually uses, resolved to their final values for
 | `--icon-size-xs` | `14px` |
 | `--radius-100` | `.25rem` |
 | `--radius-200` | `.5rem` |
+| `--radius-300` | `.5rem` |
 | `--radius-400` | `.75rem` |
 | `--radius-full` | `9999px` |
 | `--shadow-300` | `0 6px 24px -6px rgba(0, 0, 0, .07)` |
@@ -107,6 +120,9 @@ The 92 design tokens this page actually uses, resolved to their final values for
 | `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
 | `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--type-size-250` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` |
+| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
+| `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
 | `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
 
 ## Component-scoped
