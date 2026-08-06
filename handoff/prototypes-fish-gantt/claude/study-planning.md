@@ -8789,12 +8789,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           type="button"
                           aria-label="Add child"
                           title="Add child"
-                          data-astro-cid-7jyuj5q3="true"
+                          data-astro-cid-hco6g2x7="true"
                         >
                           <span
                             class="esa-icon esa-icon--xs"
                             aria-hidden="true"
-                            data-astro-cid-6mqbuw4b=""
+                            data-astro-cid-zp3mhfgs=""
                           >
                             <svg
                               width="14"
@@ -8806,7 +8806,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-6mqbuw4b=""
+                              data-astro-cid-zp3mhfgs=""
                             >
                               <path d="M5 12h14"></path>
                               <path d="M12 5v14"></path>
@@ -28452,7 +28452,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <section class="bcn-edit__section bcn-edit__actions" data-astro-cid-ftn3fswp="">
                   <span
                     class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                    data-astro-cid-5o3qss3d=""
+                    data-astro-cid-wok7o4i5=""
                   >
                     <a
                       class="esa-button__native"
@@ -28460,12 +28460,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       role="button"
                       data-wb-details="true"
                       data-astro-cid-ftn3fswp="true"
-                      data-astro-cid-5o3qss3d=""
+                      data-astro-cid-wok7o4i5=""
                     >
                       <span
                         class="esa-icon esa-icon--sm"
                         aria-hidden="true"
-                        data-astro-cid-6mqbuw4b=""
+                        data-astro-cid-zp3mhfgs=""
                       >
                         <svg
                           width="16"
@@ -28477,14 +28477,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           stroke-linecap="round"
                           stroke-linejoin="round"
                           focusable="false"
-                          data-astro-cid-6mqbuw4b=""
+                          data-astro-cid-zp3mhfgs=""
                         >
                           <path d="M15 3h6v6"></path>
                           <path d="M10 14 21 3"></path>
                           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                         </svg>
                       </span>
-                      <span class="esa-button__label" data-astro-cid-5o3qss3d="">
+                      <span class="esa-button__label" data-astro-cid-wok7o4i5="">
                         View full details
                       </span>
                     </a>
@@ -28575,19 +28575,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <section class="bcn-edit__section bcn-edit__actions" data-astro-cid-ftn3fswp="">
                   <span
                     class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                    data-astro-cid-5o3qss3d=""
+                    data-astro-cid-wok7o4i5=""
                   >
                     <button
                       class="esa-button__native"
                       type="button"
                       data-wb-add="true"
                       data-astro-cid-ftn3fswp="true"
-                      data-astro-cid-5o3qss3d=""
+                      data-astro-cid-wok7o4i5=""
                     >
                       <span
                         class="esa-icon esa-icon--sm"
                         aria-hidden="true"
-                        data-astro-cid-6mqbuw4b=""
+                        data-astro-cid-zp3mhfgs=""
                       >
                         <svg
                           width="16"
@@ -28599,20 +28599,20 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           stroke-linecap="round"
                           stroke-linejoin="round"
                           focusable="false"
-                          data-astro-cid-6mqbuw4b=""
+                          data-astro-cid-zp3mhfgs=""
                         >
                           <path d="M5 12h14"></path>
                           <path d="M12 5v14"></path>
                         </svg>
                       </span>
-                      <span class="esa-button__label" data-astro-cid-5o3qss3d="">
+                      <span class="esa-button__label" data-astro-cid-wok7o4i5="">
                         Add sub-study
                       </span>
                     </button>
                   </span>
                   <span
                     class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                    data-astro-cid-5o3qss3d=""
+                    data-astro-cid-wok7o4i5=""
                   >
                     <a
                       class="esa-button__native"
@@ -28620,12 +28620,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       role="button"
                       data-wb-details="true"
                       data-astro-cid-ftn3fswp="true"
-                      data-astro-cid-5o3qss3d=""
+                      data-astro-cid-wok7o4i5=""
                     >
                       <span
                         class="esa-icon esa-icon--sm"
                         aria-hidden="true"
-                        data-astro-cid-6mqbuw4b=""
+                        data-astro-cid-zp3mhfgs=""
                       >
                         <svg
                           width="16"
@@ -28637,14 +28637,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           stroke-linecap="round"
                           stroke-linejoin="round"
                           focusable="false"
-                          data-astro-cid-6mqbuw4b=""
+                          data-astro-cid-zp3mhfgs=""
                         >
                           <path d="M15 3h6v6"></path>
                           <path d="M10 14 21 3"></path>
                           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                         </svg>
                       </span>
-                      <span class="esa-button__label" data-astro-cid-5o3qss3d="">
+                      <span class="esa-button__label" data-astro-cid-wok7o4i5="">
                         View full details
                       </span>
                     </a>
@@ -28843,12 +28843,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       type="button"
                       aria-label="Remove assignment"
                       title="Remove assignment"
-                      data-astro-cid-7jyuj5q3="true"
+                      data-astro-cid-hco6g2x7="true"
                     >
                       <span
                         class="esa-icon esa-icon--sm"
                         aria-hidden="true"
-                        data-astro-cid-6mqbuw4b=""
+                        data-astro-cid-zp3mhfgs=""
                       >
                         <svg
                           width="16"
@@ -28860,7 +28860,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           stroke-linecap="round"
                           stroke-linejoin="round"
                           focusable="false"
-                          data-astro-cid-6mqbuw4b=""
+                          data-astro-cid-zp3mhfgs=""
                         >
                           <path d="M3 6h18"></path>
                           <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
@@ -30277,7 +30277,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   <template data-gd-aldo-avatar=""
     ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-omctboch="">
       <span class="bcn-aldo-mark__glyph" data-astro-cid-omctboch="">
-        <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-6mqbuw4b="">
+        <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-zp3mhfgs="">
           <svg
             width="14"
             height="14"
@@ -30288,7 +30288,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             stroke-linecap="round"
             stroke-linejoin="round"
             focusable="false"
-            data-astro-cid-6mqbuw4b=""
+            data-astro-cid-zp3mhfgs=""
           >
             <path
               d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
@@ -31906,67 +31906,6 @@ a.breadcrumb-item {
   min-height: 70vh;
   position: relative;
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-icon-button--xs {
-  --_ib-size: var(--form-height-xs, 28px);
-}
-.bcn-rrep {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-}
-.bcn-rrep__list {
-  display: flex;
-  flex-direction: column;
-}
-.bcn-rrep__add {
-  align-self: flex-start;
-}
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
-}
 .bcn-gantt-coa {
   font-family: var(--font-mono);
   font-size: var(--type-size-100);
@@ -32535,6 +32474,30 @@ html,
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
 }
+.bcn-wb__dialog-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-200);
+  width: 100%;
+}
+.bcn-wb__dialog-cancel,
+.bcn-wb__dialog-move {
+  padding: var(--spacing-200) var(--spacing-400);
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--radius-200);
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+}
+.bcn-wb__dialog-cancel {
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+}
+.bcn-wb__dialog-move {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border-color: var(--color-primary);
+}
 .bcn-node-head {
   display: flex;
   align-items: center;
@@ -32651,6 +32614,160 @@ html,
   justify-content: flex-end;
   gap: var(--spacing-200);
   width: 100%;
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-icon-button--xs {
+  --_ib-size: var(--form-height-xs, 28px);
+}
+.bcn-rrep {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+}
+.bcn-rrep__list {
+  display: flex;
+  flex-direction: column;
+}
+.bcn-rrep__add {
+  align-self: flex-start;
+}
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
+.esa-button {
+  --_btn-height: var(--form-height-md, 40px);
+  --_btn-padding-x: var(--form-padding-x-md, 16px);
+  --_btn-font-size: var(--form-font-size-md, 14px);
+  --_btn-radius: var(--form-radius-md, 6px);
+  --_accent: var(--color-primary, #46a758);
+  --_accent-hover: var(--color-primary-hover, #3e9b4f);
+  --_on: var(--color-text-inverse, #ffffff);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button__native {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  height: var(--_btn-height);
+  padding-inline: var(--_btn-padding-x);
+  border: 1px solid transparent;
+  border-radius: var(--_btn-radius);
+  font-size: var(--_btn-font-size);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-button--appearance-outline .esa-button__native,
+.esa-button--appearance-dashed .esa-button__native {
+  background: transparent;
+  color: var(--_accent-text);
+  border-color: var(--_accent);
+}
+.esa-button--color-ghost .esa-button__native {
+  background: transparent;
+  color: var(--color-text-primary, #171717);
+  border-color: transparent;
+}
+.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border, #e5e5e5);
+}
+.esa-button__label {
+  white-space: nowrap;
+}
+.esa-button--sm {
+  --_btn-height: var(--form-height-sm, 32px);
+  --_btn-padding-x: var(--form-padding-x-sm, 12px);
+  --_btn-font-size: var(--form-font-size-sm, 12px);
+  --_btn-radius: var(--form-radius-sm, 4px);
+}
+.esa-button--sm .esa-button__native {
+  height: auto;
+  padding-block: var(--spacing-150, 6px);
+}
+.esa-button--appearance-dashed .esa-button__native {
+  border-style: dashed;
+}
+.esa-button--color-danger {
+  --_accent: var(--color-danger);
+  --_accent-hover: var(--color-danger-hover);
+  --_accent-text: var(--color-danger-strong);
+}
+.esa-button--appearance-soft .esa-button__native {
+  background: color-mix(
+    in srgb,
+    var(--color-surface-sunken, #efefef) 45%,
+    var(--color-surface, #fff)
+  );
+  color: var(--_accent-text);
+  border-color: var(--color-border-strong, #d4d4d4);
+}
+.esa-button--color-primary {
+  --_accent-text: var(--color-primary-strong);
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: transparent;
+}
+.esa-button--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 .modern-layout {
   display: flex;
@@ -33412,99 +33529,6 @@ html,
 }
 .bcn-gd-article__panel[hidden] {
   display: none;
-}
-.esa-button {
-  --_btn-height: var(--form-height-md, 40px);
-  --_btn-padding-x: var(--form-padding-x-md, 16px);
-  --_btn-font-size: var(--form-font-size-md, 14px);
-  --_btn-radius: var(--form-radius-md, 6px);
-  --_accent: var(--color-primary, #46a758);
-  --_accent-hover: var(--color-primary-hover, #3e9b4f);
-  --_on: var(--color-text-inverse, #ffffff);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button__native {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  height: var(--_btn-height);
-  padding-inline: var(--_btn-padding-x);
-  border: 1px solid transparent;
-  border-radius: var(--_btn-radius);
-  font-size: var(--_btn-font-size);
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-button--appearance-outline .esa-button__native,
-.esa-button--appearance-dashed .esa-button__native {
-  background: transparent;
-  color: var(--_accent-text);
-  border-color: var(--_accent);
-}
-.esa-button--color-ghost .esa-button__native {
-  background: transparent;
-  color: var(--color-text-primary, #171717);
-  border-color: transparent;
-}
-.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border, #e5e5e5);
-}
-.esa-button__label {
-  white-space: nowrap;
-}
-.esa-button--sm {
-  --_btn-height: var(--form-height-sm, 32px);
-  --_btn-padding-x: var(--form-padding-x-sm, 12px);
-  --_btn-font-size: var(--form-font-size-sm, 12px);
-  --_btn-radius: var(--form-radius-sm, 4px);
-}
-.esa-button--sm .esa-button__native {
-  height: auto;
-  padding-block: var(--spacing-150, 6px);
-}
-.esa-button--appearance-dashed .esa-button__native {
-  border-style: dashed;
-}
-.esa-button--color-danger {
-  --_accent: var(--color-danger);
-  --_accent-hover: var(--color-danger-hover);
-  --_accent-text: var(--color-danger-strong);
-}
-.esa-button--appearance-soft .esa-button__native {
-  background: color-mix(
-    in srgb,
-    var(--color-surface-sunken, #efefef) 45%,
-    var(--color-surface, #fff)
-  );
-  color: var(--_accent-text);
-  border-color: var(--color-border-strong, #d4d4d4);
-}
-.esa-button--color-primary {
-  --_accent-text: var(--color-primary-strong);
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: transparent;
-}
-.esa-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
 }
 ```
 

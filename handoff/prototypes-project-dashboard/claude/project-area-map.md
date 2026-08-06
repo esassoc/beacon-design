@@ -34,6 +34,10 @@ The project's footprint as an inset map in the rail, expandable to a modal. The 
         <div class="leaflet-layer" style="z-index: 1; opacity: 1">
           <div
             class="leaflet-tile-container leaflet-zoom-animated"
+            style="z-index: 18; transform: translate3d(225px, 47px, 0px) scale(0.5)"
+          ></div>
+          <div
+            class="leaflet-tile-container leaflet-zoom-animated"
             style="z-index: 19; transform: translate3d(225px, 47px, 0px) scale(1)"
           >
             <img
@@ -152,6 +156,71 @@ The project's footprint as an inset map in the rail, expandable to a modal. The 
 
 ## Styles
 ```css
+.bcn-map {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+.bcn-map__inset {
+  height: 180px;
+  border-radius: var(--radius-200);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  background: var(--color-surface-sunken);
+}
+.bcn-map__source {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: 0;
+  font-size: 0.8125rem;
+}
+.bcn-map__source-label {
+  color: var(--color-text-tertiary);
+}
+.bcn-map__source-value {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+.bcn-map__full {
+  height: min(70vh, 620px);
+  width: 100%;
+  border-radius: var(--radius-200);
+  overflow: hidden;
+}
+.bcn-map__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-400);
+  width: 100%;
+  flex-wrap: wrap;
+}
+.bcn-map__legend {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  font-size: var(--type-size-150);
+  color: var(--color-text-secondary);
+}
+.bcn-map__key {
+  width: 14px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.bcn-map__key--boundary {
+  background: color-mix(in srgb, var(--color-secondary) 20%, transparent);
+  border: 1px solid var(--color-primary);
+}
+.bcn-map__key--align {
+  height: 0;
+  border-top: 2px dashed var(--color-secondary);
+  border-radius: 0;
+}
+.bcn-map__key + .bcn-map__key {
+  margin-left: var(--spacing-300);
+}
 .leaflet-container {
   overflow: hidden;
 }
@@ -241,6 +310,11 @@ The project's footprint as an inset map in the rail, expandable to a modal. The 
 .leaflet-tile-container {
   pointer-events: none;
 }
+.leaflet-zoom-anim .leaflet-zoom-animated {
+  -webkit-transition: -webkit-transform 0.25s cubic-bezier(0, 0, 0.25, 1);
+  -moz-transition: -moz-transform 0.25s cubic-bezier(0, 0, 0.25, 1);
+  transition: transform 0.25s cubic-bezier(0, 0, 0.25, 1);
+}
 .leaflet-tile,
 .leaflet-marker-icon,
 .leaflet-marker-shadow {
@@ -253,9 +327,6 @@ The project's footprint as an inset map in the rail, expandable to a modal. The 
   filter: inherit;
   visibility: hidden;
 }
-.leaflet-tile-loaded {
-  visibility: inherit;
-}
 .leaflet-container .leaflet-marker-pane img,
 .leaflet-container .leaflet-shadow-pane img,
 .leaflet-container .leaflet-tile-pane img,
@@ -265,6 +336,12 @@ The project's footprint as an inset map in the rail, expandable to a modal. The 
   max-height: none !important;
   width: auto;
   padding: 0;
+}
+.leaflet-zoom-anim .leaflet-tile,
+.leaflet-pan-anim .leaflet-tile {
+  -webkit-transition: none;
+  -moz-transition: none;
+  transition: none;
 }
 .leaflet-container img.leaflet-tile {
   mix-blend-mode: plus-lighter;
@@ -285,81 +362,8 @@ svg.leaflet-zoom-animated {
   max-width: none !important;
   max-height: none !important;
 }
-.leaflet-zoom-anim .leaflet-zoom-animated {
-  -webkit-transition: -webkit-transform 0.25s cubic-bezier(0, 0, 0.25, 1);
-  -moz-transition: -moz-transform 0.25s cubic-bezier(0, 0, 0.25, 1);
-  transition: transform 0.25s cubic-bezier(0, 0, 0.25, 1);
-}
-.leaflet-zoom-anim .leaflet-tile,
-.leaflet-pan-anim .leaflet-tile {
-  -webkit-transition: none;
-  -moz-transition: none;
-  transition: none;
-}
-.bcn-map {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
-}
-.bcn-map__inset {
-  height: 180px;
-  border-radius: var(--radius-200);
-  border: 1px solid var(--color-border);
-  overflow: hidden;
-  background: var(--color-surface-sunken);
-}
-.bcn-map__source {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  margin: 0;
-  font-size: 0.8125rem;
-}
-.bcn-map__source-label {
-  color: var(--color-text-tertiary);
-}
-.bcn-map__source-value {
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
-}
-.bcn-map__full {
-  height: min(70vh, 620px);
-  width: 100%;
-  border-radius: var(--radius-200);
-  overflow: hidden;
-}
-.bcn-map__foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-400);
-  width: 100%;
-  flex-wrap: wrap;
-}
-.bcn-map__legend {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  font-size: var(--type-size-150);
-  color: var(--color-text-secondary);
-}
-.bcn-map__key {
-  width: 14px;
-  height: 10px;
-  border-radius: 2px;
-  flex-shrink: 0;
-}
-.bcn-map__key--boundary {
-  background: color-mix(in srgb, var(--color-secondary) 20%, transparent);
-  border: 1px solid var(--color-primary);
-}
-.bcn-map__key--align {
-  height: 0;
-  border-top: 2px dashed var(--color-secondary);
-  border-radius: 0;
-}
-.bcn-map__key + .bcn-map__key {
-  margin-left: var(--spacing-300);
+.leaflet-tile-loaded {
+  visibility: inherit;
 }
 ```
 

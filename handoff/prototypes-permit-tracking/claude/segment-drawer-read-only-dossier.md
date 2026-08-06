@@ -263,38 +263,6 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
 
 ## Styles
 ```css
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
-}
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
 .sd__header {
   flex: 1;
   min-width: 0;
@@ -351,6 +319,10 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
   display: flex;
   flex-direction: column;
   gap: var(--spacing-200);
+}
+.pd__section-head .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
 }
 .sd-permit__btn {
   display: flex;
@@ -419,12 +391,41 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
   color: var(--color-text-tertiary);
   flex-shrink: 0;
 }
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
 }
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.project-switcher__trigger > .esa-icon:first-child {
   flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
@@ -517,6 +518,13 @@ The read-only segment dossier (esa-side-dialog, 640px), reachable from BOTH tabs
   --_badge-font-size: 11px;
   --_badge-padding-x: var(--spacing-150, 0.375rem);
   --_badge-min-width: var(--badge-height-sm, 22px);
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
 }
 ```
 

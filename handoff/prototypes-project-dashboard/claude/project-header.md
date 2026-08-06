@@ -99,25 +99,6 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
 
 ## Styles
 ```css
-.bcn-status-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-  padding: 2px var(--spacing-250);
-  border-radius: var(--radius-full);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  white-space: nowrap;
-  background: color-mix(in srgb, var(--_chip) 16%, transparent);
-  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
-}
-.bcn-status-chip__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: var(--radius-full);
-  background: var(--_chip);
-  flex-shrink: 0;
-}
 .bcn-phome {
   background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
@@ -215,6 +196,61 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
 .bcn-mod__link .esa-icon {
   color: var(--color-text-muted);
 }
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.bcn-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  padding: 2px var(--spacing-250);
+  border-radius: var(--radius-full);
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+  background: color-mix(in srgb, var(--_chip) 16%, transparent);
+  color: color-mix(in srgb, var(--_chip) 72%, #1a1a1a);
+}
+.bcn-status-chip__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--_chip);
+  flex-shrink: 0;
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
@@ -262,42 +298,6 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
 }
 .esa-icon-button--sm {
   --_ib-size: var(--form-height-sm, 32px);
-}
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
-}
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
 }
 ```
 

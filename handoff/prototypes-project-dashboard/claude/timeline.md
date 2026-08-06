@@ -271,14 +271,6 @@ A slim, full-width band plotting the next 30 / 60 / 90 days on one date axis, in
   font-weight: var(--font-weight-semibold);
   color: var(--color-orange-400, #f9a134);
 }
-.bcn-tl .bcn-tl__tick {
-  position: absolute;
-  top: 2px;
-  transform: translate(-50%);
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
-  white-space: nowrap;
-}
 .bcn-tl__rule {
   position: absolute;
   left: 0;
@@ -286,6 +278,56 @@ A slim, full-width band plotting the next 30 / 60 / 90 days on one date axis, in
   top: 50%;
   height: 1px;
   background: var(--color-border);
+}
+.bcn-tl__row--bars {
+  align-items: start;
+}
+.bcn-tl__track--bars {
+  height: 22px;
+}
+.bcn-tl__row--more {
+  margin-top: calc(var(--spacing-250) * -1);
+}
+.bcn-tl__showall {
+  justify-self: start;
+  padding: 0;
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.bcn-tl__empty {
+  margin: 0;
+  font-size: var(--type-size-150);
+  color: var(--color-text-tertiary);
+}
+.bcn-tl__pop {
+  position: fixed;
+  z-index: 5;
+  width: 19rem;
+  max-width: calc(100% - 16px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-250);
+  padding: var(--spacing-350, var(--spacing-300)) var(--spacing-400);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+  box-shadow: var(--shadow-300, 0 8px 24px -6px rgba(0, 0, 0, 0.18));
+}
+.bcn-tl__pop[hidden] {
+  display: none;
+}
+.bcn-tl .bcn-tl__tick {
+  position: absolute;
+  top: 2px;
+  transform: translate(-50%);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
 }
 .bcn-tl .bcn-tl__item {
   position: absolute;
@@ -318,12 +360,6 @@ A slim, full-width band plotting the next 30 / 60 / 90 days on one date axis, in
   background: var(--color-warning);
   box-shadow: none;
 }
-.bcn-tl__row--bars {
-  align-items: start;
-}
-.bcn-tl__track--bars {
-  height: 22px;
-}
 .bcn-tl .bcn-tl__bar {
   position: absolute;
   height: 18px;
@@ -352,48 +388,12 @@ A slim, full-width band plotting the next 30 / 60 / 90 days on one date axis, in
   color: var(--color-text-tertiary);
   white-space: nowrap;
 }
-.bcn-tl__row--more {
-  margin-top: calc(var(--spacing-250) * -1);
-}
-.bcn-tl__showall {
-  justify-self: start;
-  padding: 0;
-  font-family: inherit;
-  font-size: 0.8125rem;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-primary);
-  background: none;
-  border: 0;
-  cursor: pointer;
-}
 .bcn-tl .bcn-tl__diamond {
   display: block;
   width: 11px;
   height: 11px;
   background: var(--color-info);
   transform: rotate(45deg);
-}
-.bcn-tl__empty {
-  margin: 0;
-  font-size: var(--type-size-150);
-  color: var(--color-text-tertiary);
-}
-.bcn-tl__pop {
-  position: fixed;
-  z-index: 5;
-  width: 19rem;
-  max-width: calc(100% - 16px);
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-250);
-  padding: var(--spacing-350, var(--spacing-300)) var(--spacing-400);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-  box-shadow: var(--shadow-300, 0 8px 24px -6px rgba(0, 0, 0, 0.18));
-}
-.bcn-tl__pop[hidden] {
-  display: none;
 }
 ```
 

@@ -59,6 +59,51 @@ The Map tab is the hero (default of the 3-tab esa-tab-layout: Map · Data · Exe
 
 ## Styles
 ```css
+.map-filterbar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-400);
+  flex-wrap: wrap;
+  margin-bottom: var(--spacing-300);
+  padding: var(--spacing-250) var(--spacing-400);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+}
+.map-filterbar__group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-300);
+}
+.map-filterbar__label {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+}
+.map-filterbar__divider {
+  width: 1px;
+  align-self: stretch;
+  background: var(--color-border);
+  margin: 0 var(--spacing-100);
+}
+.map-filterbar__actions {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-200);
+}
+.pd__section-head .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -210,51 +255,6 @@ The Map tab is the hero (default of the 3-tab esa-tab-layout: Map · Data · Exe
   background: var(--_accent);
   color: var(--_on);
   border-color: transparent;
-}
-.map-filterbar {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-400);
-  flex-wrap: wrap;
-  margin-bottom: var(--spacing-300);
-  padding: var(--spacing-250) var(--spacing-400);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-}
-.map-filterbar__group {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-300);
-}
-.map-filterbar__label {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-tertiary);
-  white-space: nowrap;
-}
-.map-filterbar__divider {
-  width: 1px;
-  align-self: stretch;
-  background: var(--color-border);
-  margin: 0 var(--spacing-100);
-}
-.map-filterbar__actions {
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-200);
-}
-.pd__section-head .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary);
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
 }
 ```
 

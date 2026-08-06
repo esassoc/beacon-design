@@ -333,85 +333,6 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
 
 ## Styles
 ```css
-.page-layout__title h1 .esa-icon {
-  color: var(--color-secondary) !important;
-}
-.bcn-disc__head .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-secondary);
-}
-.bcn-disc__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-disc__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
-.bcn-evidence-card__lead .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-tertiary);
-  transition: transform 0.15s ease;
-}
-.bcn-evidence-card__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-evidence-card__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(
-    --icon-button-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-icon-button--sm {
-  --_ib-size: var(--form-height-sm, 32px);
-}
-.esa-icon-link {
-  --_il-font: var(--icon-link-font-size-md, 1rem);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--icon-link-gap, var(--spacing-150, 6px));
-  padding: 0;
-  margin: 0;
-  border: 0;
-  background: none;
-  color: inherit;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-size: var(--_il-font);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
-  text-decoration: none;
-  cursor: pointer;
-  white-space: nowrap;
-}
-.esa-icon-link--sm {
-  --_il-font: var(--icon-link-font-size-sm, 0.875rem);
-}
-.esa-icon-link--medium {
-  font-weight: var(--font-weight-medium, 500);
-}
-.esa-icon-link__label {
-  display: inline-block;
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
@@ -648,6 +569,85 @@ The Prologis-specific, trimmed sidenav — what their tenant sees under the plan
 .page-layout__title h1 .esa-icon {
   color: var(--bcn-gray-1000);
   flex-shrink: 0;
+}
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(
+    --icon-button-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-icon-button--sm {
+  --_ib-size: var(--form-height-sm, 32px);
+}
+.esa-icon-link {
+  --_il-font: var(--icon-link-font-size-md, 1rem);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--icon-link-gap, var(--spacing-150, 6px));
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-size: var(--_il-font);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.esa-icon-link--sm {
+  --_il-font: var(--icon-link-font-size-sm, 0.875rem);
+}
+.esa-icon-link--medium {
+  font-weight: var(--font-weight-medium, 500);
+}
+.esa-icon-link__label {
+  display: inline-block;
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--color-secondary) !important;
+}
+.bcn-disc__head .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-secondary);
+}
+.bcn-disc__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-disc__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
+.bcn-evidence-card__lead .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-tertiary);
+  transition: transform 0.15s ease;
+}
+.bcn-evidence-card__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-evidence-card__actions .esa-icon {
+  width: 15px;
+  height: 15px;
 }
 ```
 

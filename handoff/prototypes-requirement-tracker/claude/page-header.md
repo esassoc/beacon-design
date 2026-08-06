@@ -52,36 +52,33 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
 
 ## Styles
 ```css
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
-.page-layout__title-main {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.page-layout__title h1 {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  font-family: var(--font-decorative);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--type-size-500);
-  margin: 0;
-  color: var(--bcn-gray-1000);
-}
 .page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
+  color: var(--color-secondary) !important;
+}
+.bcn-disc__head .esa-icon {
   flex-shrink: 0;
+  color: var(--color-text-secondary);
+}
+.bcn-disc__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-disc__actions .esa-icon {
+  width: 15px;
+  height: 15px;
+}
+.bcn-evidence-card__lead .esa-icon {
+  flex-shrink: 0;
+  color: var(--color-text-tertiary);
+  transition: transform 0.15s ease;
+}
+.bcn-evidence-card__actions .esa-icon-button {
+  width: 26px;
+  height: 26px;
+}
+.bcn-evidence-card__actions .esa-icon {
+  width: 15px;
+  height: 15px;
 }
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
@@ -243,33 +240,36 @@ The project title row: an H1 reading the project name ("3600 Alameda") with a gr
   color: var(--color-text-tertiary);
   flex: none;
 }
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title {
+  border-bottom: 1px solid var(--bcn-gray-200);
+  padding: var(--spacing-500) 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.page-layout__title-main {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+.page-layout__title h1 {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  font-family: var(--font-decorative);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--type-size-500);
+  margin: 0;
+  color: var(--bcn-gray-1000);
+}
 .page-layout__title h1 .esa-icon {
-  color: var(--color-secondary) !important;
-}
-.bcn-disc__head .esa-icon {
+  color: var(--bcn-gray-1000);
   flex-shrink: 0;
-  color: var(--color-text-secondary);
-}
-.bcn-disc__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-disc__actions .esa-icon {
-  width: 15px;
-  height: 15px;
-}
-.bcn-evidence-card__lead .esa-icon {
-  flex-shrink: 0;
-  color: var(--color-text-tertiary);
-  transition: transform 0.15s ease;
-}
-.bcn-evidence-card__actions .esa-icon-button {
-  width: 26px;
-  height: 26px;
-}
-.bcn-evidence-card__actions .esa-icon {
-  width: 15px;
-  height: 15px;
 }
 ```
 

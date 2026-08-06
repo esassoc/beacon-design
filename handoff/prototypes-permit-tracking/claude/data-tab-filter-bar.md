@@ -110,6 +110,13 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
 
 ## Styles
 ```css
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
@@ -194,13 +201,6 @@ The Data tab's filter bar, ported from the requirement-tracker idiom: a View tog
 }
 .esa-filter-clear-button__label {
   white-space: nowrap;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
 }
 .pd__section-head .esa-icon {
   flex-shrink: 0;

@@ -92,13 +92,6 @@ The global-search affordance in the app bar: a button STYLED as a search input â
   -webkit-appearance: none;
   appearance: none;
 }
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
-}
 .bcn-search-trigger {
   display: flex;
   align-items: center;
@@ -175,6 +168,13 @@ The global-search affordance in the app bar: a button STYLED as a search input â
 .bcn-gd__label .esa-icon {
   color: var(--color-text-tertiary);
   flex: none;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
 }
 ```
 

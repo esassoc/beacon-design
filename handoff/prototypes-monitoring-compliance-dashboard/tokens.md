@@ -1,6 +1,6 @@
-# Token contract — prototypes-settings
+# Token contract — prototypes-monitoring-compliance-dashboard
 
-The 103 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 107 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -9,8 +9,10 @@ The 103 design tokens this page actually uses, resolved to their final values fo
 | `--color-accent` | `#f76b15` |
 | `--color-border` | `#dcdcdc` |
 | `--color-border-light` | `#efefef` |
+| `--color-danger` | `#e5484d` |
 | `--color-primary` | `#005862` |
-| `--color-secondary` | `#00918b` |
+| `--color-primary-hover` | `#00474f` |
+| `--color-secondary-strong` | `#2a7e3b` |
 | `--color-surface` | `#fcfcfc` |
 | `--color-surface-sunken` | `#efefef` |
 | `--color-text-inverse` | `#fcfcfc` |
@@ -19,12 +21,19 @@ The 103 design tokens this page actually uses, resolved to their final values fo
 | `--color-text-primary` | `#3d3d3d` |
 | `--color-text-secondary` | `#525252` |
 | `--color-text-tertiary` | `#656565` |
+| `--color-warning` | `#f59e0b` |
+| `--color-warning-on-fill` | `#4f3422` |
 | `--sidebar-width` | `280px` |
 
 ## Component
 
 | Token | Value |
 |---|---|
+| `--badge-bg` | `#005862` |
+| `--badge-height-md` | `28px` |
+| `--badge-height-sm` | `22px` |
+| `--badge-radius` | `.25rem` |
+| `--badge-text-color` | `#fcfcfc` |
 | `--bcn-aldo` | `#08908b` |
 | `--bcn-aldo-100` | `#cfeceb` |
 | `--bcn-aldo-50` | `#e8f6f5` |
@@ -47,28 +56,21 @@ The 103 design tokens this page actually uses, resolved to their final values fo
 | `--bcn-helpbar-hover-bg` | `rgba(255, 255, 255, .1)` |
 | `--card-bg` | `#fcfcfc` |
 | `--card-border-color` | `#dcdcdc` |
+| `--card-footer-bg` | `#efefef` |
 | `--card-header-bg` | `transparent` |
 | `--card-header-border-color` | `#efefef` |
 | `--card-header-color` | `#3d3d3d` |
 | `--card-padding` | `1.5rem` |
 | `--card-radius` | `.5rem` |
-| `--empty-state-description-color` | `#525252` |
-| `--empty-state-gap` | `.5rem` |
-| `--empty-state-icon-color` | `#7c7c7c` |
-| `--empty-state-icon-size-lg` | `64px` |
-| `--empty-state-icon-size-md` | `48px` |
-| `--empty-state-title-color` | `#3d3d3d` |
 | `--font-decorative` | `"Besley", serif` |
-| `--form-bg` | `#fcfcfc` |
-| `--form-border-color` | `#dcdcdc` |
-| `--form-border-width` | `1px` |
 | `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
+| `--form-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--form-height-md` | `36px` |
+| `--form-height-sm` | `28px` |
 | `--form-padding-x-md` | `.75rem` |
-| `--form-padding-y-md` | `.5rem` |
-| `--form-placeholder-color` | `#7c7c7c` |
+| `--form-padding-x-sm` | `.625rem` |
 | `--form-radius-md` | `.25rem` |
-| `--form-text-color` | `#3d3d3d` |
+| `--form-radius-sm` | `.25rem` |
 | `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` |
 | `--icon-size-medium` | `20px` |
 | `--icon-size-small` | `16px` |
@@ -82,6 +84,7 @@ The 103 design tokens this page actually uses, resolved to their final values fo
 
 | Token | Value |
 |---|---|
+| `--font-display` | `"DM Sans", sans-serif` |
 | `--font-sans` | `"DM Sans", sans-serif` |
 | `--font-weight-bold` | `650` |
 | `--font-weight-medium` | `500` |
@@ -89,11 +92,11 @@ The 103 design tokens this page actually uses, resolved to their final values fo
 | `--font-weight-semibold` | `550` |
 | `--icon-size-md` | `20px` |
 | `--icon-size-sm` | `16px` |
-| `--icon-size-xl` | `28px` |
 | `--icon-size-xs` | `14px` |
 | `--letter-spacing-normal` | `.01em` |
+| `--letter-spacing-tight` | `-.01em` |
 | `--line-height-normal` | `1.6` |
-| `--line-height-relaxed` | `1.8` |
+| `--line-height-tight` | `1.3` |
 | `--radius-100` | `.25rem` |
 | `--radius-200` | `.5rem` |
 | `--radius-300` | `.5rem` |
@@ -110,7 +113,6 @@ The 103 design tokens this page actually uses, resolved to their final values fo
 | `--spacing-500` | `1.5rem` |
 | `--spacing-600` | `2rem` |
 | `--spacing-700` | `3rem` |
-| `--spacing-800` | `4rem` |
 | `--transition-fast` | `.15s ease` |
 | `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` |
@@ -119,10 +121,29 @@ The 103 design tokens this page actually uses, resolved to their final values fo
 | `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` |
 | `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` |
 | `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` |
+| `--type-size-600` | `clamp(1.375rem, 1.2rem + .88vw, 1.875rem)` |
+| `--type-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` |
 
 ## Component-scoped
 
 Defined per-component (not at `:root`); see the component's own rule in `styles.css`.
 
+- `--align`
+- `--bcn-trend-active-color`
+- `--bcn-trend-bar-width`
+- `--bcn-trend-plot-height`
+- `--bcn-trend-resolved-color`
 - `--gap`
+- `--justify`
 - `--sidebar-content-min`
+- `--stat-accent-color`
+- `--stat-gap`
+- `--stat-label-color`
+- `--stat-label-size`
+- `--stat-label-weight`
+- `--stat-sub-color`
+- `--stat-sub-size`
+- `--stat-value-color`
+- `--stat-value-font`
+- `--stat-value-size`
+- `--stat-value-weight`

@@ -4,10 +4,10 @@ The component blocks composing this page. Hub (`esa-*`) components are the share
 
 | Component | Origin | Source |
 |---|---|---|
-| `esa-avatar` | hub | src/components/esa-avatar.astro |
-| `esa-badge` | hub | src/components/esa-badge.astro |
-| `esa-button` | hub | src/components/esa-button.astro |
-| `esa-collapsible` | hub | src/components/esa-collapsible.astro |
-| `esa-icon` | hub | src/components/esa-icon.astro |
-| `esa-icon-button` | hub | src/components/esa-icon-button.astro |
-| `esa-pill` | hub | src/components/esa-pill.astro |
+| `esa-avatar` | hub | — |
+| `esa-badge` | hub | — |
+| `esa-button` | hub | — |
+| `esa-collapsible` | hub | — |
+| `esa-icon` | hub | — |
+| `esa-icon-button` | hub | — |
+| `esa-pill` | hub | — |

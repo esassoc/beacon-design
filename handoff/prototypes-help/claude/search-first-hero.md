@@ -713,137 +713,6 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
 
 ## Styles
 ```css
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(
-    --icon-button-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-}
-.center {
-  --center-max: 72rem;
-  max-inline-size: var(--center-max);
-  margin-inline: auto;
-}
-.type-page-title {
-  font-family: var(--font-display, var(--font-sans));
-  font-size: var(--type-size-600);
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-tight);
-  letter-spacing: var(--letter-spacing-tight);
-}
-.type-body {
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-relaxed);
-  letter-spacing: var(--letter-spacing-normal);
-}
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
-}
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
-}
-.bcn-aldo-mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  border-radius: var(--radius-full);
-  background: var(--bcn-aldo);
-  color: var(--color-text-inverse);
-  line-height: 0;
-}
-.bcn-aldo-mark[data-size="md"] {
-  width: 40px;
-  height: 40px;
-}
-.bcn-aldo-mark[data-animated] {
-  animation: bcn-aldo-pulse 2s ease-in-out infinite;
-}
-.bcn-aldo-mark__glyph {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 0;
-}
-.bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
-  animation: bcn-aldo-spin 8s linear infinite;
-}
-.bcn-aldo-mark[data-size="sm"] {
-  width: 20px;
-  height: 20px;
-  --icon-size-xs: 12px;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
-}
 .bcn-kb-hero {
   padding-block: var(--spacing-500) var(--spacing-400);
 }
@@ -925,6 +794,137 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
 }
 .bcn-kb-hero__whatsnew-arrow {
   transition: transform 0.15s ease;
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+.center {
+  --center-max: 72rem;
+  max-inline-size: var(--center-max);
+  margin-inline: auto;
+}
+.type-page-title {
+  font-family: var(--font-display, var(--font-sans));
+  font-size: var(--type-size-600);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+}
+.type-body {
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-relaxed);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(
+    --icon-button-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+.bcn-aldo-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: var(--radius-full);
+  background: var(--bcn-aldo);
+  color: var(--color-text-inverse);
+  line-height: 0;
+}
+.bcn-aldo-mark[data-size="md"] {
+  width: 40px;
+  height: 40px;
+}
+.bcn-aldo-mark[data-animated] {
+  animation: bcn-aldo-pulse 2s ease-in-out infinite;
+}
+.bcn-aldo-mark__glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+}
+.bcn-aldo-mark[data-animated] .bcn-aldo-mark__glyph {
+  animation: bcn-aldo-spin 8s linear infinite;
+}
+.bcn-aldo-mark[data-size="sm"] {
+  width: 20px;
+  height: 20px;
+  --icon-size-xs: 12px;
+}
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
 }
 ```
 

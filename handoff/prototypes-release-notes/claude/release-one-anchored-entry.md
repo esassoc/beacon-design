@@ -742,41 +742,6 @@ One release in the stream: a quiet meta line ("Latest" + the long date) above th
 .bcn-release + .bcn-release {
   border-top: 1px solid var(--color-border-light);
 }
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
-}
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
-}
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
-}
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
@@ -821,6 +786,41 @@ One release in the stream: a quiet meta line ("Latest" + the long date) above th
   transition: background var(--transition-fast, 0.15s ease);
   -webkit-appearance: none;
   appearance: none;
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
 }
 ```
 

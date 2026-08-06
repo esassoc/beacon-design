@@ -48,6 +48,13 @@ BcnCommitmentRow — one Condition-of-Approval measure relevant to the observati
 
 ## Styles
 ```css
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -169,13 +176,6 @@ BcnCommitmentRow — one Condition-of-Approval measure relevant to the observati
   flex-shrink: 0;
   display: inline-flex;
   color: var(--color-text-tertiary);
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
 }
 ```
 
