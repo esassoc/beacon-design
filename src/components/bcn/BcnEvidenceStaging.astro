@@ -52,7 +52,7 @@ import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import BcnEvidenceSearch from './BcnEvidenceSearch.astro';
 import BcnDisclosureToggle from './BcnDisclosureToggle.astro';
 import BcnCountChip from './BcnCountChip.astro';
-import { STAGED_ITEMS, EXISTING_ITEMS, NEW_SLOTS } from '../../data/evidence-drawer';
+import { STAGED_ITEMS, EXISTING_ITEMS, NEW_SLOTS, WARN_ICON } from '../../data/evidence-drawer';
 import { scopeIcon } from '../../data/global-search';
 
 // NEW_SLOTS ride the same map so a record created at runtime gets a real card built from
@@ -109,6 +109,14 @@ const GRIP =
             <span class="bcn-ev-card__count" data-draft-count>
               <EsaPill label="" size="sm" removable={false} />
             </span>
+            <!-- A draft is unsaved BY DEFINITION — it exists only until Save commits it — so
+                 this is static rather than toggled. Same glyph, wording and pink as the
+                 drawer footer's marker: one condition, stated the same way wherever it
+                 appears. -->
+            <span class="bcn-ev-draft__unsaved">
+              <EsaIcon name="triangle-alert" paths={WARN_ICON} size="sm" />
+              Unsaved
+            </span>
           </div>
           <p class="bcn-ev-draft__notes" data-draft-notes></p>
 
@@ -117,9 +125,14 @@ const GRIP =
             <ul class="bcn-ev-draft__files" data-draft-files></ul>
           </div>
 
+          <!-- Windows order — primary left of Cancel inside a right-aligned group, the same
+               arrangement the drawer footer uses. -->
           <footer class="bcn-ev-draft__foot">
             <span data-draft-add>
-              <EsaButton color="primary" size="sm">Add</EsaButton>
+              <EsaButton color="primary" size="sm">Save</EsaButton>
+            </span>
+            <span data-draft-cancel>
+              <EsaButton color="ghost" appearance="outline" size="sm">Cancel</EsaButton>
             </span>
           </footer>
         </div>
@@ -383,6 +396,20 @@ const GRIP =
     gap: var(--spacing-200);
     min-width: 0;
   }
+  /* Pushed to the card's top-right by the auto margin — it labels the CARD, not the title
+     beside it, so it sits at the far edge rather than trailing the words. */
+  .bcn-ev-draft__unsaved {
+    --bcn-unsaved: var(--color-action);
+    flex: none;
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    color: var(--bcn-unsaved);
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
+  }
   .bcn-ev-draft__title {
     margin: 0;
     /* --type-size-150 (14px), the same as the staged cards. This card was written before the
@@ -464,6 +491,7 @@ const GRIP =
   .bcn-ev-draft__foot {
     display: flex;
     justify-content: flex-end;
+    gap: var(--spacing-250, 0.625rem);
     margin-top: var(--spacing-100);
     padding-top: var(--spacing-200);
     border-top: 1px solid var(--color-border-light);

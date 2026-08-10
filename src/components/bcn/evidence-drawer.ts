@@ -137,7 +137,8 @@ export function initEvidenceDrawer(): void {
   const phaseSelect = drawer.querySelector<OptionsEl>('[data-targets-phase]');
   const typeSelect = drawer.querySelector<OptionsEl>('[data-targets-type]');
   const saveWrap = drawer.querySelector<HTMLElement>('[data-evidence-save]');
-  const unsavedBadge = drawer.querySelector<HTMLElement>('[data-evidence-unsaved]');
+  const pendingCard = drawer.querySelector<HTMLElement>('[data-targets-pending]');
+  const pendingText = drawer.querySelector<HTMLElement>('[data-targets-pending-text]');
   const confirmDialog = drawer.querySelector<HTMLElement & { open: boolean }>('[data-evidence-confirm]');
   const rowTemplate = drawer.querySelector<HTMLTemplateElement>('[data-attached-row]');
 
@@ -240,6 +241,7 @@ export function initEvidenceDrawer(): void {
     [...associations.entries()].some(([actionId, m]) =>
       [...m.keys()].some((evidenceId) => !saved.has(pairKey(actionId, evidenceId))),
     );
+
 
   /** Does THIS action hold anything outstanding — an attachment not yet saved, or a
       detachment not yet committed? Drives the card's pink dot. */
@@ -428,8 +430,11 @@ export function initEvidenceDrawer(): void {
     const notes = li.querySelector('.bcn-ev-card__desc');
     if (notes) notes.textContent = rec.notes;
 
-    const countBadge = li.querySelector('.bcn-ev-card__count .esa-badge');
-    if (countBadge) countBadge.textContent = rec.files.length === 1 ? '1 file' : `${rec.files.length} files`;
+    // .esa-PILL, not .esa-badge: the staged cards' file count is an esa-pill. Against a
+    // badge selector this silently matched nothing, so a created card kept the "0 files" its
+    // empty shell was built with while its pills below showed the real ones.
+    const countPill = li.querySelector('.bcn-ev-card__count .esa-pill');
+    if (countPill) countPill.textContent = plural(rec.files.length, 'file', 'files');
 
     const files = li.querySelector('.bcn-ev-card__files');
     if (files && pillTpl) {
@@ -537,7 +542,46 @@ export function initEvidenceDrawer(): void {
     if (btn) btn.disabled = !ready;
     // The look lives on the wrapper class, the state on the native button — both or neither.
     saveWrap?.querySelector('.esa-button')?.classList.toggle('esa-button--disabled', !ready);
-    if (unsavedBadge) unsavedBadge.hidden = !ready;
+    renderPending();
+  };
+
+  /** The outstanding-changes card under the Actions column. Counts the JOINS, not the
+      cards: "3 pieces of evidence to 2 actions" is what a save would write, and the same
+      evidence landing on two actions is two joins but one piece of evidence — so the two
+      numbers are counted over different sets rather than one being derived from the other.
+      Removals get their own clause instead of being folded into the additions, because
+      "adding 2" is a different promise from "removing 2" and a net figure would state
+      neither. Driven off hasUnsaved(), so a draft on the Add New tab — which has its own
+      marker and is committed by its own Save — never appears here. */
+  const renderPending = (): void => {
+    if (!pendingCard) return;
+    pendingCard.hidden = !hasUnsaved();
+    if (!hasUnsaved() || !pendingText) return;
+
+    const addedEvidence = new Set<string>();
+    const touchedActions = new Set<string>();
+    for (const [actionId, m] of associations.entries()) {
+      for (const evidenceId of m.keys()) {
+        if (saved.has(pairKey(actionId, evidenceId))) continue;
+        addedEvidence.add(evidenceId);
+        touchedActions.add(actionId);
+      }
+    }
+
+    const parts: string[] = [];
+    if (addedEvidence.size > 0) {
+      parts.push(
+        `Adding ${plural(addedEvidence.size, 'piece', 'pieces')} of evidence to ${plural(
+          touchedActions.size,
+          'action',
+          'actions',
+        )}.`,
+      );
+    }
+    if (removed.size > 0) {
+      parts.push(`Removing ${plural(removed.size, 'attachment', 'attachments')}.`);
+    }
+    pendingText.textContent = parts.join(' ');
   };
 
   /** Commit everything on screen. The drawer deliberately STAYS OPEN: this surface is for
@@ -882,6 +926,14 @@ export function initEvidenceDrawer(): void {
 
     if (el.closest('[data-draft-add]')) {
       addDraft();
+      return;
+    }
+
+    if (el.closest('[data-draft-cancel]')) {
+      // Throw the draft away wholesale. Nothing was committed, so there is nothing to undo
+      // and no guard to raise — and emptying it hands the tab back to the dropzone.
+      draftFiles = [];
+      renderAll();
       return;
     }
 

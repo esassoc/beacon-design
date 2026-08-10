@@ -40,12 +40,7 @@ import BcnBottomDrawer from './BcnBottomDrawer.astro';
 import BcnEvidenceStaging from './BcnEvidenceStaging.astro';
 import BcnEvidenceTargets from './BcnEvidenceTargets.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaIcon from '@esa/ecology/esa-icon.astro';
 
-// Lucide `triangle-alert` — the platform's warning glyph (it is in Beacon's own ui-icon
-// registry, so this is the mark the app already uses to mean "attention", not a new one).
-const WARN_ICON =
-  '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>';
 ---
 
 <BcnBottomDrawer id="bcn-evidence-drawer" heading="Add Evidence of Compliance" showCloseButton={true}>
@@ -82,14 +77,6 @@ const WARN_ICON =
        footer only carries the actions — Attach is enabled once both sides have something. -->
   <div slot="footer" class="bcn-ev__foot">
     <div class="bcn-ev__actions">
-      <!-- Beside the button that resolves it, not across the footer from it: the badge
-           states what is outstanding and Save acts on it, so they belong to one another.
-           `value` is how esa-badge takes its text — as slot content it renders EMPTY, which
-           is what an earlier pass shipped. -->
-      <span class="bcn-ev__unsaved" data-evidence-unsaved hidden>
-        <EsaIcon name="triangle-alert" paths={WARN_ICON} size="sm" />
-        Unsaved changes
-      </span>
       <span data-evidence-save>
         <EsaButton color="primary" size="md" disabled>Save</EsaButton>
       </span>
@@ -221,32 +208,6 @@ const WARN_ICON =
     align-items: center;
     justify-content: flex-end;
     gap: var(--spacing-500);
-  }
-  .bcn-ev__unsaved[hidden] {
-    display: none;
-  }
-  /* UNSAVED PINK — the Setup Wizard's --color-action (#d45087) on a light tint, the same
-     border + color-mix pairing actions-step.component.scss uses for its own live states.
-     Named through a local variable rather than reaching for --color-action at each site,
-     because here the colour means "not saved yet", not "this is an Action". Worth knowing:
-     --color-action IS Beacon's Action-entity colour, and this drawer is full of actions, so
-     the two meanings do share a hue. It reads because nothing else in the drawer is pink —
-     the drop states moved to teal earlier for exactly that reason. */
-  /* No chip chrome — the glyph and the colour ARE the treatment. A bordered pill in the
-     footer competed with the two buttons beside it for the same "act on me" reading; this
-     states a condition instead, and the buttons remain the only things that look pressable. */
-  .bcn-ev__unsaved {
-    --bcn-unsaved: var(--color-action);
-    flex: none;
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-150);
-    color: var(--bcn-unsaved);
-    font-size: var(--type-size-150, 0.875rem);
-    font-weight: var(--font-weight-medium);
-    /* Its own breathing room on the right, on top of the action row gap — a warning butted
-       up against the button that resolves it reads as part of the button. */
-    margin-right: var(--spacing-300);
   }
   .bcn-ev__actions {
     flex: none;

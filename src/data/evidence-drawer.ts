@@ -818,3 +818,13 @@ export const NEW_SLOTS: EvidenceItem[] = [1, 2, 3, 4].map((n) => ({
   origin: 'upload' as const,
   files: [],
 }));
+
+/**
+ * Lucide `triangle-alert` — the platform's warning mark (it is in Beacon's own ui-icon
+ * registry, so this is the glyph the app already uses to mean "attention").
+ *
+ * Lives in the fixture rather than in a component because BOTH the drawer footer and the
+ * draft card draw it, and the two must be the same mark.
+ */
+export const WARN_ICON =
+  '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>';

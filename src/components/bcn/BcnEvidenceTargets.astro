@@ -62,6 +62,7 @@ import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
 import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
 import BcnDisclosureToggle from './BcnDisclosureToggle.astro';
 import BcnCountChip from './BcnCountChip.astro';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
 
 import BcnEvidenceSearch from './BcnEvidenceSearch.astro';
 import { ACTIONS, TYPE_LABEL, phaseName } from '../../data/evidence-drawer';
@@ -234,6 +235,17 @@ import { scopeIcon } from '../../data/global-search';
 
   </div>
 
+
+  <!-- ── What is outstanding ─────────────────────────────────────────────────
+       Pinned BELOW the scroll rather than inside it: it summarises the whole
+       column, so it must not scroll away from the changes it is counting. Shown
+       only while associations are unsaved; the Add New tab's draft has its own
+       marker and is not counted here. -->
+  <div class="bcn-ev-targets__pending" data-targets-pending hidden>
+    <EsaAlertBox variant="warning" title="Unsaved changes">
+      <span data-targets-pending-text></span>
+    </EsaAlertBox>
+  </div>
 </section>
 
 <style>
@@ -357,6 +369,28 @@ import { scopeIcon } from '../../data/global-search';
 
   /* The search belongs to the header, not the list: no gap above it, a clear one below.
      Keep the top padding in sync with .bcn-ev-staging__scroll. */
+  /* PINK, via the semantic tokens esa-alert-box's own warning variant reads — not by
+     reaching into its private --_alert-* internals, and not by hand-building a callout.
+     The named variants assign those internals directly (the same bypass esa-badge and
+     esa-card have), so --alert-box-bg would be ignored; re-pointing the three warning
+     tokens instead keeps the lego intact and gets its triangle glyph for free. Scoped to
+     this wrapper, so warning colours are unchanged everywhere else.
+     The values are the pair the unsaved sub-list rows already use, so "unsaved" looks the
+     same whether it is one attachment or the summary of all of them. */
+  .bcn-ev-targets__pending {
+    --bcn-unsaved: var(--color-action);
+    --color-warning-subtle: color-mix(in srgb, var(--bcn-unsaved) 6%, transparent);
+    --color-warning-border: color-mix(in srgb, var(--bcn-unsaved) 45%, transparent);
+    --color-warning-strong: var(--bcn-unsaved);
+    flex: none;
+    padding: 0 var(--spacing-400) var(--spacing-400);
+    /* Tighter than the lego default (12/16). --alert-box-padding is a real hook and, unlike
+       the colour tokens above, the named variants do not touch it. */
+    --alert-box-padding: var(--spacing-250, 0.625rem) var(--spacing-300);
+  }
+  .bcn-ev-targets__pending[hidden] {
+    display: none;
+  }
   .bcn-ev-targets__scroll {
     flex: 1;
     min-height: 0;
