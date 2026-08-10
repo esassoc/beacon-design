@@ -75,8 +75,8 @@ const hookAttr = hook ? { [hook]: '' } : {};
   .bcn-countchip__stack {
     position: relative;
     display: inline-flex;
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
   }
   .bcn-countchip__icon {
     display: inline-flex;
@@ -95,8 +95,8 @@ const hookAttr = hook ? { [hook]: '' } : {};
      so it reads as sitting ON the glyph rather than inside it. */
   .bcn-countchip__num {
     position: absolute;
-    right: -4px;
-    bottom: -3px;
+    right: -5px;
+    bottom: -4px;
     display: inline-flex;
   }
   /* A CIRCLE, via the lego's own radius hook rather than a hand-drawn chip. The house badge
@@ -117,14 +117,17 @@ const hookAttr = hook ? { [hook]: '' } : {};
        --color-border (#dcdcdc) — still grey, still quiet, but definite against the card. */
     --badge-bg: var(--color-border);
     --badge-text-color: var(--color-text-secondary);
-    min-width: 15px;
-    height: 15px;
-    padding: 0 3px;
+    min-width: 19px;
+    height: 19px;
+    padding: 0 4px;
     box-sizing: border-box;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
+    /* 13px, the house floor for the smallest text — NOT the 10px a notification bubble
+       conventionally uses. The bubble is sized to the type rather than the type shrunk to
+       the bubble, which is why it is 19px rather than 15. */
+    font-size: 0.8125rem;
     font-variant-numeric: tabular-nums;
     line-height: 1;
     /* A ring in the card's own surface colour punches the bubble out of the glyph beneath
