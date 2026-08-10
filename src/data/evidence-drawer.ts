@@ -67,10 +67,49 @@ export const FREQUENCY_LABEL: Record<ActionFrequency, string> = {
   ongoing: 'Ongoing',
 };
 
+// ── Phase ────────────────────────────────────────────────────────────────────
+// "The stage of the project a commitment applies to" — a real Beacon lookup, not an
+// invention: these are the six rows and the sort order from the Phases settings
+// collection (see settings-registry.ts). The Setup Wizard's Actions step filters by the
+// same dimension, so filtering by it here matches what the app already does.
+
+export type PhaseId =
+  | 'planning'
+  | 'preconstruction'
+  | 'construction'
+  | 'postconstruction'
+  | 'operations'
+  | 'restoration';
+
+export interface Phase {
+  id: PhaseId;
+  name: string;
+}
+
+/** Sort order is the point — listed as the project runs, never alphabetically. */
+export const PHASES: Phase[] = [
+  { id: 'planning', name: 'Implementation Planning' },
+  { id: 'preconstruction', name: 'Pre-Construction' },
+  { id: 'construction', name: 'Construction' },
+  { id: 'postconstruction', name: 'Post-Construction' },
+  { id: 'operations', name: 'Operations' },
+  { id: 'restoration', name: 'Restoration' },
+];
+
+export const phaseName = (id: PhaseId): string =>
+  PHASES.find((p) => p.id === id)?.name ?? '';
+
 export interface EvidenceAction {
   id: string;
-  /** Commitment code — the quiet chip prefixing the name. */
+  /** The PRIMARY commitment code — the chip shown on the card. */
   code: string;
+  /**
+   * Further commitments this action's requirements were drawn from. An action is a
+   * collection of requirements, and those requirements can come from more than one
+   * commitment — so a card can legitimately carry several codes. Only the primary shows;
+   * the rest sit behind a "+ n more" tag.
+   */
+  otherCodes?: string[];
   /** Action.Name — the record's own name, never a narrated sentence. */
   name: string;
   /** The module facet, shared with ./project-actions.ts. Narrows what evidence can land. */
@@ -80,7 +119,9 @@ export interface EvidenceAction {
   period: string;
   /** Component id this action's implementation belongs to. */
   componentId: string;
-  /** Evidence already attached — the "is this covered?" signal on the row. */
+  /** Project stage this action applies to — the second filter dimension. */
+  phase: PhaseId;
+  /** Evidence already attached BEFORE this session — the "is this covered?" signal. */
   evidenceCount: number;
 }
 
@@ -100,6 +141,7 @@ export const ACTIONS: EvidenceAction[] = [
     frequency: 'recurring',
     period: 'Nesting season 2026',
     componentId: C_FOREBAY,
+    phase: 'preconstruction',
     evidenceCount: 2,
   },
   {
@@ -110,6 +152,7 @@ export const ACTIONS: EvidenceAction[] = [
     frequency: 'as-needed',
     period: 'Jul 2026 occurrence',
     componentId: C_FOREBAY,
+    phase: 'construction',
     evidenceCount: 0,
   },
   {
@@ -120,6 +163,7 @@ export const ACTIONS: EvidenceAction[] = [
     frequency: 'recurring',
     period: 'Active season 2026',
     componentId: C_FOREBAY,
+    phase: 'preconstruction',
     evidenceCount: 1,
   },
   {
@@ -130,36 +174,43 @@ export const ACTIONS: EvidenceAction[] = [
     frequency: 'one-time',
     period: 'Before ground disturbance',
     componentId: C_FOREBAY,
+    phase: 'planning',
     evidenceCount: 3,
   },
   {
     id: 'act-worker-training',
     code: 'BIO-2.3',
+    otherCodes: ['BIO-6.4', 'CUL-1.2'],
     name: 'Worker environmental awareness training',
     type: 'tracking',
     frequency: 'recurring',
     period: 'Q3 2026 crews',
     componentId: C_FOREBAY,
+    phase: 'preconstruction',
     evidenceCount: 4,
   },
   {
     id: 'act-daily-biological-monitoring',
     code: 'BIO-8.4',
+    otherCodes: ['BIO-4.5', 'BIO-6.1', 'CUL-3.3'],
     name: 'Daily biological monitoring during ground disturbance',
     type: 'monitoring',
     frequency: 'ongoing',
     period: 'Jul 2026',
     componentId: C_FOREBAY,
+    phase: 'construction',
     evidenceCount: 18,
   },
   {
     id: 'act-monthly-compliance-report',
     code: 'REP-3.1',
+    otherCodes: ['REP-3.4', 'REP-5.1', 'ADM-2.2'],
     name: 'Monthly compliance monitoring report',
     type: 'reporting',
     frequency: 'recurring',
     period: 'Jul 2026',
     componentId: C_FOREBAY,
+    phase: 'construction',
     evidenceCount: 1,
   },
   {
@@ -170,6 +221,7 @@ export const ACTIONS: EvidenceAction[] = [
     frequency: 'recurring',
     period: 'Jul 2026',
     componentId: C_FOREBAY,
+    phase: 'construction',
     evidenceCount: 5,
   },
   {
@@ -180,16 +232,19 @@ export const ACTIONS: EvidenceAction[] = [
     frequency: 'ongoing',
     period: 'Jul 2026',
     componentId: C_FOREBAY,
+    phase: 'construction',
     evidenceCount: 9,
   },
   {
     id: 'act-swppp-inspection',
     code: 'WQ-5.2',
+    otherCodes: ['WQ-5.5'],
     name: 'SWPPP qualified-personnel site inspection',
     type: 'monitoring',
     frequency: 'recurring',
     period: 'Jul 2026',
     componentId: C_FOREBAY,
+    phase: 'construction',
     evidenceCount: 6,
   },
   {
@@ -200,6 +255,7 @@ export const ACTIONS: EvidenceAction[] = [
     frequency: 'as-needed',
     period: 'Jul 2026 occurrence',
     componentId: C_FOREBAY,
+    phase: 'construction',
     evidenceCount: 0,
   },
   {
@@ -210,6 +266,7 @@ export const ACTIONS: EvidenceAction[] = [
     frequency: 'one-time',
     period: 'Before hauling begins',
     componentId: C_FOREBAY,
+    phase: 'planning',
     evidenceCount: 1,
   },
 
@@ -222,6 +279,7 @@ export const ACTIONS: EvidenceAction[] = [
     frequency: 'recurring',
     period: 'Q3 2026',
     componentId: C_INTAKE_B,
+    phase: 'construction',
     evidenceCount: 2,
   },
   {
@@ -232,16 +290,19 @@ export const ACTIONS: EvidenceAction[] = [
     frequency: 'recurring',
     period: 'Jul–Oct 2026',
     componentId: C_INTAKE_B,
+    phase: 'construction',
     evidenceCount: 0,
   },
   {
     id: 'act-ib-turbidity-monitoring',
     code: 'WQ-2.4',
+    otherCodes: ['WQ-2.6', 'FSH-3.1'],
     name: 'Turbidity monitoring during in-water construction',
     type: 'monitoring',
     frequency: 'ongoing',
     period: 'Jul 2026',
     componentId: C_INTAKE_B,
+    phase: 'construction',
     evidenceCount: 12,
   },
   {
@@ -252,6 +313,7 @@ export const ACTIONS: EvidenceAction[] = [
     frequency: 'recurring',
     period: 'Q3 2026 crews',
     componentId: C_INTAKE_B,
+    phase: 'preconstruction',
     evidenceCount: 2,
   },
   {
@@ -262,6 +324,7 @@ export const ACTIONS: EvidenceAction[] = [
     frequency: 'recurring',
     period: 'Jul 2026',
     componentId: C_INTAKE_B,
+    phase: 'construction',
     evidenceCount: 1,
   },
   {
@@ -272,6 +335,7 @@ export const ACTIONS: EvidenceAction[] = [
     frequency: 'as-needed',
     period: 'Aug 2026 occurrence',
     componentId: C_INTAKE_B,
+    phase: 'construction',
     evidenceCount: 0,
   },
 
@@ -284,6 +348,7 @@ export const ACTIONS: EvidenceAction[] = [
     frequency: 'recurring',
     period: 'Jul 2026',
     componentId: C_TWIN,
+    phase: 'construction',
     evidenceCount: 3,
   },
   {
@@ -294,6 +359,7 @@ export const ACTIONS: EvidenceAction[] = [
     frequency: 'one-time',
     period: 'Before hauling begins',
     componentId: C_TWIN,
+    phase: 'planning',
     evidenceCount: 0,
   },
   {
@@ -304,6 +370,7 @@ export const ACTIONS: EvidenceAction[] = [
     frequency: 'recurring',
     period: 'Q3 2026 crews',
     componentId: C_TWIN,
+    phase: 'preconstruction',
     evidenceCount: 1,
   },
   {
@@ -314,6 +381,7 @@ export const ACTIONS: EvidenceAction[] = [
     frequency: 'as-needed',
     period: 'Jul 2026 occurrence',
     componentId: C_TWIN,
+    phase: 'preconstruction',
     evidenceCount: 0,
   },
 ];
@@ -322,6 +390,23 @@ export const ACTIONS: EvidenceAction[] = [
     nothing outside the component is ever reachable from the drawer. */
 export const actionsFor = (componentId: string): EvidenceAction[] =>
   ACTIONS.filter((a) => a.componentId === componentId);
+
+/** Display labels for the action TYPE facet — Beacon's three work areas. */
+export const TYPE_LABEL: Record<ActionType, string> = {
+  tracking: 'Tracking',
+  monitoring: 'Monitoring',
+  reporting: 'Reporting',
+};
+
+export const ACTION_TYPES: ActionType[] = ['tracking', 'monitoring', 'reporting'];
+
+/** Actions in scope, narrowed by phase and type. An empty value means "all". */
+export const actionsIn = (
+  componentId: string,
+  phase: PhaseId | '',
+  type: ActionType | '' = ''
+): EvidenceAction[] =>
+  actionsFor(componentId).filter((a) => (!phase || a.phase === phase) && (!type || a.type === type));
 
 export const actionById = (id: string): EvidenceAction | undefined =>
   ACTIONS.find((a) => a.id === id);
@@ -591,6 +676,10 @@ export const SUGGESTIONS: EvidenceSuggestion[] = [
   },
 ];
 
+/** Any evidence record by id, whichever pool it came from. */
+export const itemById = (id: string): EvidenceItem | undefined =>
+  [...STAGED_ITEMS, ...EXISTING_ITEMS].find((i) => i.id === id);
+
 /** Suggestions for a set of staged items, in tier order — the utility's answer. */
 export const suggestionsFor = (itemIds: string[], tier: SuggestionTier): EvidenceSuggestion[] =>
   SUGGESTIONS.filter((s) => itemIds.includes(s.itemId) && s.tier === tier);
@@ -672,3 +761,60 @@ export const BULK_PRESELECTED = presetById('bulk').actionIds;
 
 // ── The single-action entry point's mocked dialog ────────────────────────────
 export const SINGLE_ACTION_ID = presetById('single-action').actionIds[0];
+
+// ── Uploading: the draft card on the Add New tab ─────────────────────────────
+// A browser cannot be handed a real OS file drop deterministically, and the house rule is
+// that a demo renders identically every run — so a drop pulls the NEXT file off this queue
+// instead of reading the drop event. The four belong together on purpose: they are one
+// monitoring event arriving as four artefacts, which is exactly the "several files, one
+// piece of evidence" case the drawer exists to make possible.
+export const INCOMING_FILES: EvidenceFile[] = [
+  { name: 'IB-turbidity-log-2026-07-22.xlsx', size: '86 KB' },
+  { name: 'IB-turbidity-field-notes-2026-07-22.pdf', size: '1.2 MB' },
+  { name: 'IB-probe-calibration-2026-07-22.pdf', size: '244 KB' },
+  { name: 'IB-turbidity-photos-2026-07-22.zip', size: '14.3 MB' },
+];
+
+/**
+ * What the suggestion utility proposes for a draft, from the files it holds.
+ *
+ * DETERMINISTIC — same files in, same words out, every run. The title is fixed by the first
+ * file (the thing that decided what this record is); the description grows as more files
+ * join, because the point of the card is to show the utility reading the SET rather than
+ * one attachment. No "AI" anywhere in what it returns: this is a proposal the human edits.
+ */
+export const draftSuggestion = (files: EvidenceFile[]): { title: string; notes: string } => {
+  if (files.length === 0) return { title: '', notes: '' };
+  const base = 'Intake B turbidity monitoring — Jul 22';
+  const parts: string[] = ['Continuous turbidity readings at the Intake B cofferdam, 06:00–18:00.'];
+  if (files.some((f) => f.name.includes('field-notes'))) {
+    parts.push('Field notes record two exceedances of the 15 NTU trigger, both cleared within the hour.');
+  }
+  if (files.some((f) => f.name.includes('calibration'))) {
+    parts.push('Probe calibration certificate covers the monitoring window.');
+  }
+  if (files.some((f) => f.name.includes('photos'))) {
+    parts.push('Photo set documents the turbidity curtain at each reading.');
+  }
+  return { title: base, notes: parts.join(' ') };
+};
+
+/**
+ * Empty card shells for records the user creates during the session.
+ *
+ * The evidence cards are Astro — compiled at build time — so a record invented at RUNTIME
+ * has no card to live in. Rather than hand-assemble one from lego markup in JavaScript
+ * (which bypasses the design system and no gate can see), the list renders these shells
+ * through the SAME map as every other card and the controller fills them in. One definition
+ * of the card, no duplicated markup.
+ *
+ * Four is the ceiling because INCOMING_FILES holds four files, so four is the most separate
+ * records this prototype can produce.
+ */
+export const NEW_SLOTS: EvidenceItem[] = [1, 2, 3, 4].map((n) => ({
+  id: `ev-new-${n}`,
+  title: '',
+  notes: '',
+  origin: 'upload' as const,
+  files: [],
+}));

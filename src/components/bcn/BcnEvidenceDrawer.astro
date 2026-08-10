@@ -40,22 +40,19 @@ import BcnBottomDrawer from './BcnBottomDrawer.astro';
 import BcnEvidenceStaging from './BcnEvidenceStaging.astro';
 import BcnEvidenceTargets from './BcnEvidenceTargets.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+
+// Lucide `triangle-alert` — the platform's warning glyph (it is in Beacon's own ui-icon
+// registry, so this is the mark the app already uses to mean "attention", not a new one).
+const WARN_ICON =
+  '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/>';
 ---
 
-<BcnBottomDrawer id="bcn-evidence-drawer" heading="Attach Evidence of Compliance" showCloseButton={true}>
-  <!-- ── Header: what this is, and what it is scoped to ── -->
+<BcnBottomDrawer id="bcn-evidence-drawer" heading="Add Evidence of Compliance" showCloseButton={true}>
+  <!-- ── Header: what this is. The scope and phase filters moved into the Actions
+       column, since they govern that column and nothing else. ── -->
   <div slot="header" class="bcn-ev__head">
-    <h2 class="bcn-ev__title">Attach Evidence of Compliance</h2>
-    <div class="bcn-ev__scope">
-      {/* No visible label — the component name reads as what it is, and the title above
-          already establishes what the drawer is scoped to. aria-label keeps the control
-          named for screen readers now that the visible text is gone. */}
-      <esa-select
-        data-evidence-component
-        size="sm"
-        searchable
-        aria-label="Component this evidence belongs to"></esa-select>
-    </div>
+    <h2 class="bcn-ev__title">Add Evidence of Compliance</h2>
   </div>
 
   <!-- ── Body: the two-pane workspace ── -->
@@ -63,27 +60,41 @@ import EsaButton from '@esa/ecology/esa-button.astro';
     <div class="bcn-ev__pane bcn-ev__pane--left">
       <BcnEvidenceStaging />
     </div>
-    <!-- The seam is a 1px grid track — the rule itself, nothing more. The arrow FLOATS on
-         top of it (absolute, centred on the panels box), so it costs the layout no width
-         and either column can run right up to the line. -->
+    <!-- The seam is a 1px grid track — the rule itself, nothing more. It costs the layout
+         no width, so either column can run right up to the line. -->
     <div class="bcn-ev__joint" aria-hidden="true"></div>
-    <span class="bcn-ev__jointmark" aria-hidden="true">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
-    </span>
     <div class="bcn-ev__pane bcn-ev__pane--right">
       <BcnEvidenceTargets />
     </div>
   </div>
 
+  <!-- Re-scoping the action list strands anything joined but not attached, so both filters
+       ask first. A real guard, not a mocked one: cancelling restores the control. -->
+  <esa-confirm-dialog
+    data-evidence-confirm
+    heading="Discard these associations?"
+    message="Evidence you have attached in this session has not been saved. Changing the component or phase re-scopes the action list and discards it."
+    variant="warning"
+    confirm-label="Discard and change"
+    cancel-label="Keep working"></esa-confirm-dialog>
+
   <!-- ── Footer: commit it. The two panels already say what is being joined, so the
        footer only carries the actions — Attach is enabled once both sides have something. -->
   <div slot="footer" class="bcn-ev__foot">
     <div class="bcn-ev__actions">
-      <span data-evidence-attach>
-        <EsaButton color="primary" size="sm" disabled>Attach evidence</EsaButton>
+      <!-- Beside the button that resolves it, not across the footer from it: the badge
+           states what is outstanding and Save acts on it, so they belong to one another.
+           `value` is how esa-badge takes its text — as slot content it renders EMPTY, which
+           is what an earlier pass shipped. -->
+      <span class="bcn-ev__unsaved" data-evidence-unsaved hidden>
+        <EsaIcon name="triangle-alert" paths={WARN_ICON} size="sm" />
+        Unsaved changes
+      </span>
+      <span data-evidence-save>
+        <EsaButton color="primary" size="md" disabled>Save</EsaButton>
       </span>
       <span data-drawer-close>
-        <EsaButton color="ghost" appearance="outline" size="sm">Cancel</EsaButton>
+        <EsaButton color="ghost" appearance="outline" size="md">Cancel</EsaButton>
       </span>
     </div>
   </div>
@@ -95,6 +106,10 @@ import EsaButton from '@esa/ecology/esa-button.astro';
   import '@esa/ecology/esa-select';
   import '@esa/ecology/esa-combobox';
   import '@esa/ecology/esa-file-upload';
+  import '@esa/ecology/esa-tab-layout';
+  import '@esa/ecology/esa-confirm-dialog';
+  import '@esa/ecology/esa-popover';
+  import '@esa/ecology/esa-tooltip';
   import { initEvidenceDrawer } from './evidence-drawer';
   initEvidenceDrawer();
 </script>
@@ -111,6 +126,51 @@ import EsaButton from '@esa/ecology/esa-button.astro';
     --bcn-bottom-drawer-width: 96vw;
     --bcn-bottom-drawer-height: 92vh;
     --bcn-bottom-drawer-z: 1400;
+
+    /* FOCUS TREATMENT for every control in the drawer — the search fields, the three
+       filter selects, the tabs, the buttons. Declared HERE, once, because these are
+       inherited custom properties: a copy per control is how the four existing bcn-*
+       workarounds for this same bug ended up disagreeing with each other.
+       Why it is needed: the hub wires focus to --color-border-focus → --color-grass-8
+       (#65ba74), a chain Beacon's theme has no hook into, so every field in the app
+       focuses GREEN. These three values are the verbatim port of prod's own input focus
+       (Beacon.Web/src/scss/variables/_form-inputs.scss:25-28) —
+           $input-border-color-focus: $secondary;                     // teal-500 #00918b
+           $focus-ring-width: 2px;
+           $focus-ring-color: color.change($secondary, $alpha: 0.3);
+       — and prod applies them as border-color + `box-shadow: 0 0 0 $focus-ring-width
+       $focus-ring-color`, which is exactly the pair the esa-* form legos read. The 30%
+       alpha is load-bearing: a solid ring reads as an error state at a glance.
+       The real fix is re-pointing --color-border-focus in theme-beacon.css, which would
+       correct every surface at once and let the bcn-* workarounds be deleted. */
+    --form-border-color-focus: var(--color-secondary);
+    --focus-ring-color: color-mix(in srgb, var(--color-secondary) 30%, transparent);
+    --focus-ring-width: 2px;
+
+    /* Same family of leak, different token: the legos colour SELECTED/active option text
+       with --color-primary-strong, whose hub default is #3a7c59 — green again — and which
+       Beacon also never re-points. Ten legos read it, so it is not specific to the select.
+       Prod's own selected option (ui-search-select.component.scss:217) is `background:
+       $teal-100` with NO colour override — it tints the row and leaves the text alone. The
+       nearest single token that serves every role this variable plays here (selected rows,
+       match highlights, chips) is --color-primary, so the accent reads deep teal on the
+       teal-tinted row rather than green on it. */
+    --color-primary-strong: var(--color-primary);
+
+    /* Distance from each column's hairline down to its search field. Declared here because
+       the two columns reach it from opposite directions — the left inherits the tab panel's
+       own padding, the right sets its own — and the fields must land on ONE line across the
+       seam. A value per column is how they drifted 4px apart last time. */
+    --bcn-ev-search-gap: var(--spacing-250, 0.625rem);
+
+    /* CARD DENSITY for both lists. Set once here so the two columns compress together —
+       cards of different sizes either side of the seam read as a mistake.
+       NOTE the cards pass no `padding` prop on purpose: esa-card's named padding variants
+       (compact/spacious) assign their internal --_card-padding DIRECTLY, which bypasses
+       --card-padding entirely, so `padding="compact"` would silently ignore this. Default
+       padding is the only variant that reads the hook. Same bypass esa-badge's named
+       variants have. */
+    --card-padding: var(--spacing-200, 0.5rem);
   }
 
   /* ── Header: one row — the drawer does one thing, so it needs one line of chrome. ── */
@@ -132,26 +192,16 @@ import EsaButton from '@esa/ecology/esa-button.astro';
     line-height: 1.2;
     color: var(--color-text-primary);
   }
-  .bcn-ev__scope {
-    display: flex;
-    align-items: center;
-    min-width: 0;
-  }
-  .bcn-ev__scope esa-select {
-    display: block;
-    min-width: 300px;
-  }
 
   /* ── Body ── */
   /* The seam is a 1px TRACK, not a gutter: it costs the columns nothing but the rule, so
      each panel owns the whole distance to the line and decides its own inset. `relative`
      is what the floating arrow is positioned against. */
   .bcn-ev__panels {
-    position: relative;
     flex: 1;
     min-height: 0;
     display: grid;
-    grid-template-columns: 1fr 1px 1fr;
+    grid-template-columns: minmax(300px, 0.72fr) 1px 1fr;
   }
   .bcn-ev__pane {
     min-width: 0;
@@ -164,26 +214,6 @@ import EsaButton from '@esa/ecology/esa-button.astro';
   .bcn-ev__joint {
     background: var(--color-border);
   }
-  /* The join direction, floating over the seam — the drawer's one bit of illustration,
-     because "these two things become one" is the whole feature. Out of flow, so it takes
-     no width from either column; pointer-events:none so it can never eat a click on a row
-     that runs underneath it. Its opaque fill is what punches it through the rule. */
-  .bcn-ev__jointmark {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: grid;
-    place-items: center;
-    width: 28px;
-    height: 28px;
-    border-radius: var(--radius-full);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    color: var(--color-text-tertiary);
-    pointer-events: none;
-    z-index: 1;
-  }
 
   /* ── Footer: Windows order — primary left of Cancel inside a right-aligned group. ── */
   .bcn-ev__foot {
@@ -191,6 +221,32 @@ import EsaButton from '@esa/ecology/esa-button.astro';
     align-items: center;
     justify-content: flex-end;
     gap: var(--spacing-500);
+  }
+  .bcn-ev__unsaved[hidden] {
+    display: none;
+  }
+  /* UNSAVED PINK — the Setup Wizard's --color-action (#d45087) on a light tint, the same
+     border + color-mix pairing actions-step.component.scss uses for its own live states.
+     Named through a local variable rather than reaching for --color-action at each site,
+     because here the colour means "not saved yet", not "this is an Action". Worth knowing:
+     --color-action IS Beacon's Action-entity colour, and this drawer is full of actions, so
+     the two meanings do share a hue. It reads because nothing else in the drawer is pink —
+     the drop states moved to teal earlier for exactly that reason. */
+  /* No chip chrome — the glyph and the colour ARE the treatment. A bordered pill in the
+     footer competed with the two buttons beside it for the same "act on me" reading; this
+     states a condition instead, and the buttons remain the only things that look pressable. */
+  .bcn-ev__unsaved {
+    --bcn-unsaved: var(--color-action);
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    color: var(--bcn-unsaved);
+    font-size: var(--type-size-150, 0.875rem);
+    font-weight: var(--font-weight-medium);
+    /* Its own breathing room on the right, on top of the action row gap — a warning butted
+       up against the button that resolves it reads as part of the button. */
+    margin-right: var(--spacing-300);
   }
   .bcn-ev__actions {
     flex: none;
@@ -200,15 +256,12 @@ import EsaButton from '@esa/ecology/esa-button.astro';
   }
 
   /* Narrow viewports: the split becomes a stack, and the seam turns horizontal — still a
-     1px track, still with the arrow floating over it, now pointing down. */
+     1px track, now horizontal. */
   @media (max-width: 900px) {
     .bcn-ev__panels {
       grid-template-columns: 1fr;
       grid-template-rows: 1fr 1px 1fr;
       overflow-y: auto;
-    }
-    .bcn-ev__jointmark {
-      transform: translate(-50%, -50%) rotate(90deg);
     }
   }
 </style>

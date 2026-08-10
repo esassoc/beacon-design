@@ -20,7 +20,8 @@
 // which is a real semantic token the lego already reads — no shadow-DOM reach-in, no
 // restyled internals. Checked Ecology for a search-field lego (esa-text-field has the same
 // gap; esa-search-panel and esa-entity-search are full overlay surfaces, not fields) and
-// Beacon prod is not on this machine to check. bcn-evidence-search is the reusable home.
+// checked Beacon prod, whose search inputs are the same pattern (an overlaid glyph on a
+// padded field). bcn-evidence-search is the reusable home.
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 
 interface Props {
@@ -64,6 +65,18 @@ const { placeholder, hook, label } = Astro.props;
     /* Re-point the field's horizontal padding so the text clears the overlaid glyph. This
        is the lego's own semantic form token, scoped to this wrapper. */
     --form-padding-x-md: 2.25rem;
+    /* A slightly tighter field. --form-padding-y-md alone would NOT have done it: the lego
+       also sets an explicit height from --form-height-md (36px), which wins over the
+       padding, so the padding change would have been invisible. Both move together here.
+       Scoped to this component, so both columns' fields stay identical and nothing else
+       in the drawer changes size. */
+    --form-height-md: 32px;
+    --form-padding-y-md: var(--spacing-150);
+    /* NO focus-colour override here on purpose. The hub focuses fields GREEN (see the note
+       on #bcn-evidence-drawer in BcnEvidenceDrawer.astro); the correction is declared once
+       on the drawer shell and inherited, so this field and the filter selects beside it
+       cannot drift apart. Mounted outside that shell this component would inherit whatever
+       the surrounding surface sets — which is the correct behaviour for a shared field. */
   }
   /* The glyph is decoration on a field, so it takes no pointer events — clicks fall
      through to the input behind it. */

@@ -1,26 +1,33 @@
 ---
-// <BcnEvidenceTargets> — the RIGHT half of the evidence drawer: the actions the staged
-// evidence will be stamped onto.
+// <BcnEvidenceTargets> — the RIGHT column of the evidence drawer, and the DROP TARGET.
+// Each action is a card that holds the evidence proving it.
 //
-// ONE LIST, TWO SOURCES. Rows you searched for and rows the match utility proposed live in
-// the SAME list — Andrew was explicit that suggestions should not sit in a separate panel
-// you promote from. A proposed row is marked "Suggested" with the one-line reason it was
-// picked, and keeping it drops the marker; dismissing it removes it. That is the whole
-// "suggests / approves" contract, made reviewable: you can see why a row is here and
-// disagree with it.
+// THE JOIN IS A DRAG. Evidence is dragged from the left column onto an action card, which
+// appends it to that card's sub-list. This replaces the earlier model where suggestions
+// added whole action ROWS and the join was implied by both lists being populated — the
+// association is now an explicit, visible act with a visible result.
 //
-// SCOPE IS ABSOLUTE. The list only ever contains actions in the drawer's active component.
-// Cross-component association is not a thing you can do by accident here, because nothing
-// from another component is reachable. Changing the component in the drawer header reloads
-// this side.
+// Ported from the Setup Wizard's Actions step (project-setup/actions-step), the app's
+// existing drag-to-associate surface: a tinted receiving card, the source
+// row dimmed while it travels, an attached sub-list with per-row remove, and a hint line
+// that doubles as the empty state.
 //
-// LESS CERTAIN. The second confidence tier lives in a collapsed group under the list, not
-// in it — visible if you want it, out of the way if you don't. Promoting a row moves it up
-// into the main list.
+// NO DOUBLE-ATTACH. An action already holding the dragged evidence is dimmed and inert for
+// the duration of that drag, so the rule is visible before you try rather than enforced
+// after you drop.
+//
+// SUGGESTIONS ATTACH, THEY DO NOT PROPOSE. Find matches (in the evidence column's footer)
+// may pull new action cards into this list, and attaches the relevant evidence to them.
+// The "Suggested" marker sits on the individual ATTACHMENT, not on the card: the action was
+// not suggested, this particular pairing was.
+//
+// SCOPE IS ABSOLUTE. The list only ever contains actions in the active component, and now
+// also narrows by phase. Both filters live in this column's header because they govern
+// this column and nothing else, and both are guarded while associations are unsaved.
 //
 // VOCABULARY. "Actions", never "implementations" (prod hides that distinction). "Find
-// matches", "Suggested", "Less certain" — never "AI", no persona, no sparkle glyphs. The
-// utility is plumbing, and it is styled like plumbing.
+// matches", "Suggested" — never "AI", no persona, no sparkle glyphs. The utility is
+// plumbing, and it is styled like plumbing.
 //
 // WHY THE CODE CHIP IS NOT COLOUR-CODED BY ACTION TYPE. It was tried. Beacon colour-codes
 // by ENTITY, not by flavour: the theme ships one four-colour entity ramp (--color-source →
@@ -37,43 +44,63 @@
 // ones in scope and in the list. Astro is compile-time, so this is the same
 // pre-render-and-toggle strategy BcnGuidanceDrawer uses.
 //
-// bcn-lego-checked: esa-combobox IS the action search (checked first — autocomplete with
-// in-panel filtering and multi-select is exactly its job); esa-button drives Find matches;
-// esa-collapsible is the Less-certain group; esa-icon-button is dismiss/promote; esa-badge
-// is the quiet 4px "Suggested" marker and the code chip; esa-empty-state is the
-// nothing-selected state; esa-loading-spinner is the working state. Checked Ecology for a
-// "selected records" list component and Beacon prod for an equivalent — neither exists;
-// prod's association UI is the per-action evidence panel, which is the surface this replaces.
-// bcn-evidence-targets is the reusable home; its own CSS is the panel frame and the row.
-import EsaButton from '@esa/ecology/esa-button.astro';
+// bcn-lego-checked: esa-select drives both filters; esa-card is every action card's
+// chrome; esa-icon-button removes a card and removes an attachment; esa-badge is the quiet
+// "Suggested" marker on an attachment; esa-empty-state is the nothing-selected state;
+// esa-loading-spinner is the working state; bcn-commitment-badge is the code chip and
+// bcn-evidence-search the field. Checked Ecology for a drag-to-associate lego — none
+// exists — and Beacon prod, whose own implementation is Angular CDK (cdkDropList), not
+// portable here; the HTML5 drag API is the equivalent and the VISUAL contract is copied
+// from it exactly. bcn-evidence-targets is the reusable home; its own CSS is the panel
+// frame, the card, the drop states and the attached sub-list.
 import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
 import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import EsaLoadingSpinner from '@esa/ecology/esa-loading-spinner.astro';
-import EsaCollapsible from '@esa/ecology/esa-collapsible.astro';
 import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import BcnDisclosureToggle from './BcnDisclosureToggle.astro';
+import BcnCountChip from './BcnCountChip.astro';
+
 import BcnEvidenceSearch from './BcnEvidenceSearch.astro';
-import { ACTIONS, FREQUENCY_LABEL } from '../../data/evidence-drawer';
+import { ACTIONS, TYPE_LABEL, phaseName } from '../../data/evidence-drawer';
 import { scopeIcon } from '../../data/global-search';
 ---
 
 <section class="bcn-ev-targets" aria-labelledby="bcn-ev-targets-title">
   <header class="bcn-ev-targets__head">
-    <div class="bcn-ev-targets__headline">
-      <h3 class="bcn-ev-targets__title" id="bcn-ev-targets-title">
-        <EsaIcon name="square-check-big" paths={scopeIcon('actions')} size="sm" />
-        Actions
-      </h3>
-      <p class="bcn-ev-targets__scope type-body-small">
-        in <strong data-targets-scope>—</strong>
-      </p>
-    </div>
-    <span class="bcn-ev-targets__find" data-targets-find>
-      <EsaButton color="ghost" appearance="outline" size="sm">Find matches</EsaButton>
-    </span>
+    <h3 class="bcn-ev-targets__title" id="bcn-ev-targets-title">
+      <EsaIcon name="radar" paths={scopeIcon('actions')} size="sm" />
+      Actions
+      <span class="bcn-ev-targets__count" data-targets-count aria-hidden="true"></span>
+    </h3>
   </header>
+
+  <!-- The three facets on a ruled row, NOT in a card: its bottom border is the same
+       hairline the Evidence column's tab strip draws, at the same height, so the two
+       columns share one line across the seam instead of each starting differently.
+       The scope lives HERE, not in the drawer header: it governs this column and nothing
+       else. Component and Phase are the dimensions the Setup Wizard's Actions step filters
+       on; all three are guarded while associations are unsaved (see evidence-drawer.ts). -->
+  <div class="bcn-ev-targets__filters">
+    <span class="bcn-ev-targets__filter">
+      <span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-component">Component</span>
+      <esa-select
+        data-evidence-component
+        size="sm"
+        searchable
+        aria-labelledby="bcn-ev-flabel-component"></esa-select>
+    </span>
+    <span class="bcn-ev-targets__filter">
+      <span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-phase">Phase</span>
+      <esa-select data-targets-phase size="sm" aria-labelledby="bcn-ev-flabel-phase"></esa-select>
+    </span>
+    <span class="bcn-ev-targets__filter">
+      <span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-type">Type</span>
+      <esa-select data-targets-type size="sm" aria-labelledby="bcn-ev-flabel-type"></esa-select>
+    </span>
+  </div>
 
   <div class="bcn-ev-targets__search">
     <BcnEvidenceSearch
@@ -106,34 +133,95 @@ import { scopeIcon } from '../../data/global-search';
           data-tier="manual"
           hidden
         >
-          <EsaCard padding="compact" variant="outlined">
+          <EsaCard variant="outlined">
             <div class="bcn-ev-row">
-              <span class="bcn-ev-row__code"><BcnCommitmentBadge code={a.code} size="sm" /></span>
-              <div class="bcn-ev-row__main">
-                <p class="bcn-ev-row__name">{a.name}</p>
-                <p class="bcn-ev-row__meta type-body-small">
-                  {FREQUENCY_LABEL[a.frequency]} · {a.period} ·{' '}
-                  {a.evidenceCount === 0
-                    ? 'No evidence yet'
-                    : a.evidenceCount === 1
-                      ? '1 piece of evidence'
-                      : `${a.evidenceCount} pieces of evidence`}
-                </p>
-                <p class="bcn-ev-row__why type-body-small" data-target-why hidden></p>
+              <div class="bcn-ev-row__head">
+                <div class="bcn-ev-row__main">
+                <div class="bcn-ev-row__titlerow">
+                  <BcnDisclosureToggle hook="data-card-toggle" value={a.id} label={`Collapse ${a.name}`} />
+                  <!-- Unsaved marker for the CARD, shown when anything about this
+                       action's evidence is outstanding — an addition OR a removal. A removal
+                       leaves no row behind to carry the pink treatment, so without this the
+                       card would look settled while still holding a pending change. -->
+                  <span class="bcn-ev-row__dot" data-action-unsaved hidden aria-hidden="true"></span>
+                  <span class="bcn-ev-row__name">{a.name}</span>
+                  <span class="bcn-ev-row__codes">
+                    <BcnCommitmentBadge code={a.code} size="sm" />
+                    {(a.otherCodes?.length ?? 0) > 0 && (
+                      <esa-popover class="bcn-ev-row__morepop" position="bottom" trigger="hover" offset={6}>
+                        <span class="bcn-ev-row__more">
+                          <BcnCommitmentBadge
+                            code={`+ ${a.otherCodes!.length} more`}
+                            size="sm"
+                            tone="neutral"
+                          />
+                        </span>
+                        <div slot="content" class="bcn-ev-row__poplist">
+                          <p class="bcn-ev-row__poptitle type-caption">Commitments</p>
+                          <ul>
+                            {[a.code, ...(a.otherCodes ?? [])].map((c) => (
+                              <li><BcnCommitmentBadge code={c} size="sm" /></li>
+                            ))}
+                          </ul>
+                        </div>
+                      </esa-popover>
+                    )}
+                    <!-- Right of the codes, INSIDE the same group: the count belongs to this
+                         action's identity line, and grouping it with the codes means it
+                         wraps with them rather than stranding itself when the row is tight. -->
+                    <BcnCountChip
+                      name="paperclip"
+                      paths={scopeIcon('evidence')}
+                      count={0}
+                      label="No evidence attached yet"
+                      hook="data-action-evcount"
+                    />
+                  </span>
+                  <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+                  <span class="bcn-ev-row__tags">
+                    <EsaBadge value={TYPE_LABEL[a.type]} size="sm" />
+                    <EsaBadge value={phaseName(a.phase)} size="sm" />
+                  </span>
+                </div>
+                </div>
+                <div class="bcn-ev-row__side">
+                  <span class="bcn-ev-row__dismiss" data-target-dismiss={a.id}>
+                    <EsaIconButton icon="x" label={`Remove ${a.name}`} size="sm" />
+                  </span>
+                </div>
               </div>
-              <div class="bcn-ev-row__side">
-                <span class="bcn-ev-row__mark" data-target-mark hidden>
-                  <EsaBadge value="Suggested" size="sm" />
-                </span>
-                <span class="bcn-ev-row__dismiss" data-target-dismiss={a.id}>
-                  <EsaIconButton icon="x" label={`Remove ${a.name}`} size="sm" />
-                </span>
+
+              <!-- The collapsible body sits BELOW the head rather than inside it, so the
+                   list runs the card's full width — under the dismiss button — and is
+                   indented on the left to start where the title starts, not where the
+                   chevron does. -->
+              <div class="bcn-ev-row__body" data-card-body>
+                <ul class="bcn-ev-attached" data-attached-list={a.id}></ul>
+                <p class="bcn-ev-row__hint type-body-small" data-attached-hint>
+                  Drag evidence here to attach it.
+                </p>
               </div>
             </div>
           </EsaCard>
         </li>
       ))}
     </ul>
+
+    <!-- An attached-evidence row, pre-rendered from the LEGOS once and cloned per
+         attachment by the controller. Astro's legos are compile-time, so a template is how
+         a runtime-built list still gets real esa-badge / esa-icon-button markup instead of
+         hand-written copies of it (the same trick BcnGuidanceDrawer uses for its avatar). -->
+    <template data-attached-row>
+      <li class="bcn-ev-attached__row">
+        <span class="bcn-ev-attached__name"></span>
+        <span class="bcn-ev-attached__mark" hidden>
+          <EsaBadge value="Suggested" size="sm" />
+        </span>
+        <span class="bcn-ev-attached__remove">
+          <EsaIconButton icon="x" label="Remove this evidence from the action" size="sm" />
+        </span>
+      </li>
+    </template>
 
     <!-- Nothing on the list yet. -->
     <div class="bcn-ev-targets__empty" data-targets-empty>
@@ -144,60 +232,110 @@ import { scopeIcon } from '../../data/global-search';
       />
     </div>
 
-    <!-- Tier two: shown only after Find matches has run and found some. -->
-    <div class="bcn-ev-targets__maybe" data-targets-maybe hidden>
-      <EsaCollapsible title="Less certain" flush>
-        <p class="bcn-ev-targets__maybelede type-body-small" data-targets-maybecount></p>
-        <ul class="bcn-ev-targets__maybelist" data-targets-maybelist>
-          {ACTIONS.map((a) => (
-            <li class="bcn-ev-targets__item" data-maybe-row={a.id} hidden>
-              <EsaCard padding="compact" variant="outlined">
-              <div class="bcn-ev-row bcn-ev-row--maybe">
-              <span class="bcn-ev-row__code"><BcnCommitmentBadge code={a.code} size="sm" /></span>
-              <div class="bcn-ev-row__main">
-                <p class="bcn-ev-row__name">{a.name}</p>
-                <p class="bcn-ev-row__why type-body-small" data-maybe-why></p>
-              </div>
-              <div class="bcn-ev-row__side">
-                <span data-maybe-add={a.id}>
-                  <EsaButton color="ghost" appearance="outline" size="sm">Add</EsaButton>
-                </span>
-              </div>
-              </div>
-              </EsaCard>
-            </li>
-          ))}
-        </ul>
-      </EsaCollapsible>
-    </div>
   </div>
 
 </section>
 
 <style>
+  /* The column sits one value BELOW the evidence side — the same sunken gray the file
+     dropzone uses. It reads as the surface things are filed INTO, and it makes the white
+     action cards on it read as objects rather than as regions of the panel. */
   .bcn-ev-targets {
     display: flex;
     flex-direction: column;
     min-height: 0;
     height: 100%;
-    background: var(--color-surface);
+    background: var(--color-surface-sunken);
   }
-  /* min-height keeps this level with .bcn-ev-staging__head so the two column searches
-     land on one line. Keep the two values in sync. */
+  /* Title only now — the filters moved into the bar below, so this matches the Evidence
+     column's header box exactly. Keep min-height in sync with .bcn-ev-staging__head. */
   .bcn-ev-targets__head {
     flex: none;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: var(--spacing-300);
     min-height: 60px;
     padding: var(--spacing-350, 0.875rem) var(--spacing-400);
   }
-  .bcn-ev-targets__headline {
+  /* The ruled filter row. --color-border is the same token esa-tab-layout draws its
+     underline with, and the padding matches the tab strip's, so the two hairlines are one
+     continuous line across the seam. */
+  .bcn-ev-targets__filters {
+    /* The row tucks UP into the header's slack by --_lift and grows by the same amount, so
+       the controls sit nearer the title while the rule stays exactly on the tab line. The
+       lift is spent above; what it buys is breathing room below the controls. The header
+       itself does not move, so the two column titles stay level across the seam. */
+    --_lift: var(--spacing-050, 0.125rem);
+    flex: none;
     display: flex;
-    align-items: baseline;
+    align-items: flex-start;
+    /* NOWRAP is structural, not cosmetic: this row's height is what puts its hairline on
+       the Evidence column's tab line, and a wrapped row is a taller row. The boxes below
+       are all allowed to shrink, so a narrow drawer compresses them instead of wrapping. */
+    flex-wrap: nowrap;
+    gap: var(--spacing-400);
+    margin: calc(var(--_lift) * -1) var(--spacing-400) 0;
+    /* Height from the TAB LEGO'S OWN token (its strip is one tab tall plus the 1px rule),
+       not a measured pixel — if the tab size changes, this line follows it. */
+    min-height: calc(var(--tab-layout-height-sm, 36px) + 1px + var(--_lift));
+    box-sizing: border-box;
+    border-bottom: 1px solid var(--color-border);
+  }
+  /* The search sits BELOW the filter card, between it and the list it searches. */
+  .bcn-ev-targets__search {
+    flex: none;
+    /* The shared gap (see #bcn-evidence-drawer) — the left column reaches the same distance
+       by pulling up out of the tab panel's padding, so both fields land on one line. */
+    padding: var(--bcn-ev-search-gap) var(--spacing-400) 0;
+  }
+  /* Label BESIDE the control, not above it — the same inline treatment permit-tracking's
+     filter bar uses (.bcn-filterbar__group / __label). Stacking esa-select's own `label`
+     would add a row to this header and break its alignment with the Evidence column's. */
+  .bcn-ev-targets__filter {
+    display: inline-flex;
+    align-items: center;
     gap: var(--spacing-200);
     min-width: 0;
+  }
+  .bcn-ev-targets__flabel {
+    flex: none;
+    /* 13px is a DELIBERATE hard-code, not a missing token: the scale steps 14px
+       (--type-size-150) straight to 12px (--type-size-100), and 12px is under the floor
+       design-principles sets for the smallest legible meta text. 13px is that floor exactly
+       — the smallest these can go and still be inside the system.
+       Colour steps UP as the size steps down (tertiary → secondary), per the same rule:
+       "never fainter: darken as you shrink". A 13px tertiary label is the combination the
+       house style specifically warns against. */
+    font-size: 0.8125rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+  }
+  /* Each box is sized by FLEX BASIS, not min-width: esa-select's intrinsic width is wider
+     than its shortest option, so a min-width floor could not make Type narrower — only a
+     basis can. min-width:0 everywhere is what lets them compress rather than wrap. */
+  .bcn-ev-targets__filter esa-select {
+    display: block;
+    flex: 0 0 var(--_filter-box);
+    min-width: 0;
+  }
+  /* Component names are the long ones here — "Southern Forebay & Pumping Plant" is twice
+     the width of any phase or type — so this box gets a bigger floor AND the row's leftover
+     width, while Phase and Type stay at their content size. The other two are closed
+     vocabularies with short labels; only this one grows with the project. */
+  /* All three boxes are the SAME width — one fixed track, so they are equal by construction
+     rather than by three sizes that happen to agree. A flex BASIS was tried first and did
+     not hold: the boxes sit in three separate inline-flex containers, so they shrank
+     unevenly against their own labels instead of settling on the basis. A fixed width is
+     the only thing that makes "same width" actually true here. */
+  .bcn-ev-targets__filters {
+    --_filter-box: 200px;
+  }
+  /* Count of actions in view — the same signal the wizard's column header carries. */
+  .bcn-ev-targets__count {
+    font-size: var(--type-size-150, 0.875rem);
+    font-weight: var(--font-weight-regular);
+    color: var(--color-text-tertiary);
   }
   /* Matches BcnEvidenceStaging's header exactly — the two panels are peers, so their
      headings must resolve to the same rendered size, not just the same intent. */
@@ -215,25 +353,7 @@ import { scopeIcon } from '../../data/global-search';
     flex: none;
     color: var(--color-text-tertiary);
   }
-  .bcn-ev-targets__scope {
-    margin: 0;
-    min-width: 0;
-    color: var(--color-text-secondary);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .bcn-ev-targets__scope strong {
-    color: var(--color-text-primary);
-    font-weight: var(--font-weight-semibold);
-  }
 
-  /* Keep the top value in sync with .bcn-ev-staging__search — the two fields sit on one
-     line across the seam. */
-  .bcn-ev-targets__search {
-    flex: none;
-    padding: 0 var(--spacing-400);
-  }
 
   /* The search belongs to the header, not the list: no gap above it, a clear one below.
      Keep the top padding in sync with .bcn-ev-staging__scroll. */
@@ -273,13 +393,8 @@ import { scopeIcon } from '../../data/global-search';
     display: none;
   }
 
-  .bcn-ev-targets__maybelede {
-    margin: 0 0 var(--spacing-200);
-    color: var(--color-text-secondary);
-  }
   /* Same gap as the staged-evidence list on the other side. */
-  .bcn-ev-targets__list,
-  .bcn-ev-targets__maybelist {
+  .bcn-ev-targets__list {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -290,8 +405,7 @@ import { scopeIcon } from '../../data/global-search';
   .bcn-ev-targets__list:not(:has(> li:not([hidden]))) {
     display: none;
   }
-  .bcn-ev-targets__empty[hidden],
-  .bcn-ev-targets__maybe[hidden] {
+  .bcn-ev-targets__empty[hidden] {
     display: none;
   }
 
@@ -302,10 +416,148 @@ import { scopeIcon } from '../../data/global-search';
   .bcn-ev-targets__item[hidden] {
     display: none;
   }
+  /* The card is a COLUMN: a head row, then a full-width body beneath it. */
   .bcn-ev-row {
     display: flex;
-    align-items: flex-start;
+    flex-direction: column;
+  }
+  /* CENTRE, not flex-start: the dismiss button is taller than the title row, so aligning
+     to the top left the extra height below the title and a collapsed card sat lopsided —
+     more space beneath the title than above it. */
+  .bcn-ev-row__head {
+    display: flex;
+    align-items: center;
     gap: var(--spacing-300);
+  }
+  /* Indented to the title's left edge — the chevron's 20px plus the title row's gap — so
+     the attached evidence reads as belonging to the action named above it. */
+  .bcn-ev-row__body {
+    padding-left: calc(20px + var(--spacing-300));
+  }
+
+  /* ── Drop states, ported from the Setup Wizard's actions-step.component.scss ──
+     The wizard tints its drop target with --color-action (#d45087, pink), and this
+     DELIBERATELY diverges from that port. In the wizard the thing being dragged IS an
+     action, so the action entity colour names the payload. Here the payload is EVIDENCE and
+     the action is only the destination, so the entity colour would be naming the wrong half
+     of the interaction — it read as a stray pink with nothing else on the surface to
+     justify it.
+     --color-secondary (#00918b), not --color-primary (#005862): design-principles reserves
+     saturated brand for the single primary action, which on this surface is the Attach
+     button in the footer. A transient drop state should not compete with it. */
+  .bcn-ev-targets__item[data-receiving] :global(.esa-card) {
+    border-color: var(--color-secondary);
+    background: color-mix(in srgb, var(--color-secondary) 5%, transparent);
+  }
+  /* Already holds the evidence being dragged — a valid target for something else, but not
+     for this. Dimmed and inert rather than hidden, so the list does not reflow mid-drag. */
+  .bcn-ev-targets__item[data-blocked] :global(.esa-card) {
+    opacity: 0.45;
+  }
+  .bcn-ev-targets__item[data-blocked] {
+    pointer-events: none;
+  }
+
+  /* ── The attached evidence sub-list ── */
+  .bcn-ev-attached {
+    list-style: none;
+    margin: var(--spacing-250, 0.625rem) 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+  }
+  .bcn-ev-attached:empty {
+    display: none;
+  }
+  .bcn-ev-attached__row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-050) var(--spacing-200);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-200);
+    background: var(--color-background);
+    font-size: 0.8125rem;
+    color: var(--color-text-primary);
+  }
+  /* UNSAVED — the Setup Wizard's pink (--color-action #d45087) as a border plus a light
+     color-mix fill, the same pairing actions-step.component.scss uses for its own live
+     states. The row is the right place for it: a card can hold saved and unsaved evidence
+     at once, so the treatment has to be per-attachment, not per-card.
+     Named through --bcn-unsaved at the point of use because here the colour means "not
+     saved", not "this is an Action" — the two meanings share a hue, and nothing else in the
+     drawer is pink, which is what lets it read. */
+  .bcn-ev-attached__row[data-unsaved] {
+    --bcn-unsaved: var(--color-action);
+    border-color: color-mix(in srgb, var(--bcn-unsaved) 45%, transparent);
+    background: color-mix(in srgb, var(--bcn-unsaved) 6%, transparent);
+  }
+  .bcn-ev-attached__name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  /* The suggestion marker now lives HERE, on the individual attachment the utility made,
+     not on the action card. The action was not suggested — this particular pairing was. */
+  .bcn-ev-attached__mark :global(.esa-badge) {
+    --badge-bg: var(--color-info-subtle);
+    --badge-text-color: var(--color-text-primary);
+    border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
+    font-weight: var(--font-weight-medium);
+  }
+  /* The detach button is what SETS this row's height — at size="sm" it is 28px, more than
+     the text and padding together, so trimming the padding alone barely moved the row. The
+     button reads the shared form-size token, so re-pointing --form-height-sm here brings it
+     down with the rest instead of leaving one control at the old scale.
+     24px is still a comfortable pointer target on a dense desktop data surface; it is below
+     the 44px touch guideline, which this list is not designed for. */
+  .bcn-ev-attached__remove {
+    flex: none;
+    color: var(--color-text-tertiary);
+    --form-height-sm: 24px;
+  }
+
+  /* The invitation, shown only while the card holds nothing — and drawn as a real drop
+     zone rather than a line of prose. Ported from the wizard's .actions-panel__create-zone:
+     dashed edge at rest over a 3% tint, centred. It reads as somewhere you can put
+     something, which is exactly what it is. The wizard's tint is the action entity colour;
+     this uses --color-secondary for the reason given at the drop states above. */
+  /* Always dashed while the list is empty — the zone reads as somewhere you can put
+     something whether or not a drag is in flight. (A drag-only variant was tried; it made
+     the empty card look inert until you were already committed to a drag.) */
+  .bcn-ev-row__hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: var(--spacing-200) 0 0;
+    padding: var(--spacing-200);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-200);
+    /* No fill. The dashed edge alone says "put something here"; a tint on top of it was
+       doing the same job twice, and on the column's sunken gray it read as a stray wash
+       rather than as an affordance. */
+    background: none;
+    color: var(--color-text-tertiary);
+    /* Italic — it is an instruction about what to do with the empty space, not a label for
+       something that is there. */
+    font-style: italic;
+    transition:
+      background 120ms ease,
+      border-color 120ms ease;
+  }
+  .bcn-ev-row__hint[hidden] {
+    display: none;
+  }
+  /* Receiving: the edge STAYS DASHED and only takes the colour. The wizard swaps to solid
+     here, and this deliberately does not — dashed is what marks the thing as a drop zone,
+     so dropping it at the moment you are actually dragging over the zone removes the cue
+     exactly when it is being used. Colour alone carries the state change. */
+  .bcn-ev-targets__item[data-receiving] .bcn-ev-row__hint {
+    border-color: var(--color-secondary);
+    background: color-mix(in srgb, var(--color-secondary) 8%, transparent);
   }
   .bcn-ev-row__main {
     flex: 1;
@@ -314,16 +566,87 @@ import { scopeIcon } from '../../data/global-search';
     flex-direction: column;
     gap: 2px;
   }
-  /* The commitment code leads the row, mirroring the circular glyph that leads an evidence
-     card — both columns open with "what kind of thing is this". It is BcnCommitmentBadge,
-     NOT a locally styled chip: that component was extracted precisely so every surface
-     showing a commitment code renders the same badge (the modules, the timeline popovers,
-     the tracker rows), and its colour is the ENTITY colour. See the component note on why
-     it is not colour-coded by action type. */
-  .bcn-ev-row__code {
+  /* Title row: the name, then the commitment code(s) on the RIGHT. The code used to lead
+     the card; moving it right lets the action NAME start every row, which is what you scan
+     down the column for. */
+  /* A DIV, not a <p> — the popover's content is a <div slot="content">, and a paragraph
+     cannot contain one: the parser auto-closes the <p> and hoists the div out of the
+     popover entirely, silently orphaning it from its slot. */
+  .bcn-ev-row__titlerow {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-200) var(--spacing-300);
+    margin: 0;
+    min-width: 0;
+  }
+  /* The spacer is what right-aligns the type/phase tags while they share the title's line.
+     A margin-left:auto would do that too, but it would ALSO shove them right once they
+     wrap — this way they simply start the next line at the left, which is what reads. */
+  .bcn-ev-row__spacer {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  /* The disclosure — the wizard's action-card chevron, rotated when shut. A real button so
+     it is keyboard-reachable and announces its state; the card's other controls sit outside
+     it, so nothing has to fight for the click. */
+  /* The disclosure chevron is <BcnDisclosureToggle> — shared with the evidence cards on
+     the other side of the seam, which is why its size, hit area and rotation are not
+     defined here. It rotates off its own aria-expanded, so this file sets no state on it. */
+  .bcn-ev-targets__item[data-collapsed] .bcn-ev-row__body {
+    display: none;
+  }
+  .bcn-ev-row__dot {
+    --bcn-unsaved: var(--color-action);
     flex: none;
-    /* Optical: line the chip up with the cap-height of the name beside it. */
-    margin-top: 2px;
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    background: var(--bcn-unsaved);
+  }
+  .bcn-ev-row__dot[hidden] {
+    display: none;
+  }
+  .bcn-ev-row__codes {
+    flex: none;
+    margin-right: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+  }
+  .bcn-ev-row__morepop {
+    display: inline-flex;
+  }
+  /* esa-card clips to its rounded corners, which swallowed the popover whole. The card has
+     no bleeding content of its own, so letting it overflow costs nothing and lets the panel
+     escape. The scrolling column still clips at ITS edges, which is why the popover opens
+     downward — the tag sits at the top of every card, so there is always room below. */
+  .bcn-ev-targets__item :global(.esa-card) {
+    overflow: visible;
+  }
+  /* Hovering it does something, so it should not read as inert text. */
+  .bcn-ev-row__more {
+    display: inline-flex;
+    cursor: default;
+  }
+  /* Narrow on purpose: the tag it hangs off sits at the right edge of the column, and the
+     scrolling column clips anything wider. A stacked list keeps the panel to the width of
+     one code chip, which always fits. */
+  .bcn-ev-row__poplist {
+    min-width: 0;
+  }
+  .bcn-ev-row__poptitle {
+    margin: 0 0 var(--spacing-200);
+    color: var(--color-text-tertiary);
+  }
+  .bcn-ev-row__poplist ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-150);
   }
   /* The suggestion marker — the one thing on the row that says "a machine put this here,
      check it". Quiet 4px badge, tinted away from the entity colours so it cannot be
@@ -334,17 +657,38 @@ import { scopeIcon } from '../../data/global-search';
     border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
     font-weight: var(--font-weight-medium);
   }
+  /* Shrink-to-content, not flex:1 — the codes sit immediately after the name rather than
+     being pushed to the far edge. The name still truncates first when a row runs long. */
+  /* min-width is what makes the wrap happen: the name shrinks and truncates down to about
+     this much, and only then do the trailing tags drop to their own line. Without a floor
+     the name would shrink to nothing and the tags would never wrap. */
   .bcn-ev-row__name {
-    margin: 0;
-    min-width: 0;
-    font-size: var(--type-size-200, 0.9375rem);
+    flex: 0 1 auto;
+    min-width: 22ch;
+    /* 14px, the dense-surface base — these are scan-and-pick lists, not prose. Stepped down
+       from --type-size-200 (15px) with the card padding, so the row gets tighter as a whole
+       rather than just losing its margins. */
+    font-size: var(--type-size-150, 0.875rem);
     font-weight: var(--font-weight-semibold);
     line-height: 1.35;
     color: var(--color-text-primary);
   }
-  .bcn-ev-row__meta {
-    margin: 0;
-    color: var(--color-text-secondary);
+
+  /* ── Tags, styled from the wizard's .action-card__tag: a quiet 4px tag on gray-100 with
+     gray-700 ink, 0.75rem / 500. NOT a full pill — the house rule is badge ≠ pill, and the
+     wizard's own tag is the 4px shape. esa-badge's DEFAULT variant is used because only it
+     reads --badge-bg / --badge-text-color; the named variants hardcode their fill. ── */
+  .bcn-ev-row__tags {
+    display: flex;
+    align-items: center;
+    flex: none;
+    gap: var(--spacing-150);
+    min-width: 0;
+  }
+  .bcn-ev-row__tags :global(.esa-badge) {
+    --badge-bg: var(--bcn-gray-100);
+    --badge-text-color: var(--bcn-gray-700);
+    font-weight: var(--font-weight-medium);
   }
   /* The reason a suggested row is here — the reviewable half of "suggests / approves". */
   .bcn-ev-row__why {
@@ -364,9 +708,6 @@ import { scopeIcon } from '../../data/global-search';
   }
   .bcn-ev-row__mark[hidden] {
     display: none;
-  }
-  .bcn-ev-row--maybe {
-    align-items: center;
   }
 
 </style>

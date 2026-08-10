@@ -1,0 +1,146 @@
+---
+// <BcnCountChip> — an entity glyph carrying a small circular count that overlaps its
+// bottom-right corner, the way a notification bubble sits on an icon. Used on both sides of
+// the evidence drawer, and deliberately ONE component because the two are read across the
+// seam from each other — the evidence cards count actions, the action cards count evidence —
+// and the pair only makes sense if they are visibly the same control with different glyphs.
+//
+// It replaces prose ("on 3 actions"), which cost a line of text per card to say a number.
+// The glyph carries the noun and the bubble carries the value, so the whole thing occupies
+// one icon's worth of space in a dense list. The words still exist: esa-tooltip spells the
+// count out on hover, and the same sentence is the accessible name.
+//
+// Renders NOTHING at zero. A bubble showing "0" is noise on every card that has not been
+// touched yet, which in this drawer is most of them.
+//
+// bcn-lego-checked: esa-tooltip IS the hover behaviour (composed here, not reimplemented)
+// and esa-icon draws the glyph. The bubble is esa-badge with its OWN radius hook re-pointed
+// to full — a count bubble is neither the house badge (a 4px rectangular chip) nor a pill (a
+// full-radius chip that sizes to its label), because it must be a circle overlapping another
+// element, which no lego positions. Checked Beacon: prod has no icon-with-count-bubble
+// primitive; its tracker rows put the count inline. bcn-count-chip is the reusable home.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+
+interface Props {
+  /** Inner Lucide markup — read from SCOPES via scopeIcon() so the glyph matches the rest
+   *  of the spoke rather than being chosen here. */
+  paths: string;
+  /** Registry name, for the icon's own semantics. */
+  name: string;
+  /** The number. Zero renders nothing at all. */
+  count: number;
+  /** Spelled out on hover and for screen readers, e.g. "On 3 actions". */
+  label: string;
+  /** Hook the controller updates, e.g. `data-staging-attached`. */
+  hook?: string;
+}
+const { paths, name, count, label, hook } = Astro.props;
+const hookAttr = hook ? { [hook]: '' } : {};
+---
+
+<esa-tooltip class="bcn-countchip" text={label} position="below" {...hookAttr} hidden={count === 0}>
+  <span class="bcn-countchip__stack">
+    <span class="bcn-countchip__icon" aria-hidden="true">
+      <EsaIcon name={name} paths={paths} size="md" />
+    </span>
+    <span class="bcn-countchip__num" aria-hidden="true">
+      <EsaBadge value={count} size="xs" />
+    </span>
+    <span class="bcn-countchip__sr">{label}</span>
+  </span>
+</esa-tooltip>
+
+<style>
+  .bcn-countchip {
+    flex: none;
+    display: inline-flex;
+    /* A lead-in of its own, on top of whatever gap the host row provides. The chip always
+       follows something it is NOT part of — the file count on an evidence card, the
+       commitment codes on an action card — and at the row gap alone it read as the tail of
+       that group rather than as its own fact. Carried by the component so both sides of the
+       drawer get the same distance; the hosts differ in row gap (8px vs 6px), so leaving it
+       to them would have made the two disagree. */
+    margin-left: var(--spacing-150);
+  }
+  .bcn-countchip[hidden] {
+    display: none;
+  }
+  /* BELOW, not above. Both lists scroll, and the chip sits on each card's TITLE row — so
+     upward the tooltip escapes the top of the scrolling column on the first card, while
+     downward it opens over the card's own body, which is always there. Same reasoning the
+     commitment popover on the action cards already follows. */
+  /* The positioning context for the bubble. Sized to the icon, so the bubble hangs off the
+     GLYPH rather than off whatever box the host happens to give this. */
+  .bcn-countchip__stack {
+    position: relative;
+    display: inline-flex;
+    width: 22px;
+    height: 22px;
+  }
+  .bcn-countchip__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: var(--color-text-tertiary);
+    /* 18px — a step OFF the scale on purpose. esa-icon jumps sm(16) to md(20), and 16 was
+       too small here (it was the previous setting) while 20 is a shade too heavy beside a
+       15px bubble. Re-pointed through the lego own --icon-size-md rather than styling the
+       svg, and scoped to this chip so nothing else moves. */
+    --icon-size-md: 18px;
+  }
+  /* The bubble: overlapping the icon's bottom-right, pushed out by a third of its own size
+     so it reads as sitting ON the glyph rather than inside it. */
+  .bcn-countchip__num {
+    position: absolute;
+    right: -4px;
+    bottom: -3px;
+    display: inline-flex;
+  }
+  /* A CIRCLE, via the lego's own radius hook rather than a hand-drawn chip. The house badge
+     is a 4px rectangle by design, which is right for a label and wrong for a counter, so
+     this is the one metric overridden — everything else (type, weight, fill) stays the
+     lego's. min-width = height keeps single digits perfectly round; double digits stretch to
+     a stadium, which is the conventional behaviour for a counter. */
+  .bcn-countchip__num :global(.esa-badge) {
+    --badge-radius: var(--radius-full);
+    /* GRAY, not the brand fill esa-badge defaults to. A count of attachments is neutral
+       information, not a status or a call to action, and design-principles reserves
+       saturated colour for the single primary action — which in this drawer is Save.
+       Re-pointed through --badge-bg / --badge-text-color, which only the DEFAULT variant
+       reads: the named variants (success, info, …) assign the badge's internal fill
+       directly and would silently ignore both. */
+    /* SOLID, no outline. Without a border the fill has to carry the shape on its own, so
+       it steps from --color-surface-sunken (#efefef, which needed the border to read) to
+       --color-border (#dcdcdc) — still grey, still quiet, but definite against the card. */
+    --badge-bg: var(--color-border);
+    --badge-text-color: var(--color-text-secondary);
+    min-width: 15px;
+    height: 15px;
+    padding: 0 3px;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    /* A ring in the card's own surface colour punches the bubble out of the glyph beneath
+       it — without it the two shapes merge at small sizes. */
+    box-shadow: 0 0 0 1.5px var(--color-surface);
+  }
+  /* The visible chip is a glyph and a digit; this is the sentence it stands for. */
+  .bcn-countchip__sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>

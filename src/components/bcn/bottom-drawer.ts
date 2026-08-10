@@ -28,7 +28,10 @@ const FOCUSABLE =
   'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
 
 /** Matches the slide-out duration in BcnBottomDrawer's CSS. */
-const EXIT_MS = 200;
+/** Must match the exit animation in BcnBottomDrawer.astro (bcn-bd-down). The element stays
+ *  mounted for exactly this long so the slide-out can finish — set it SHORTER than the
+ *  animation and the panel is torn out mid-travel, which reads as the drawer vanishing. */
+const EXIT_MS = 220;
 
 export class BcnBottomDrawer extends HTMLElement {
   static observedAttributes = ['open'];
