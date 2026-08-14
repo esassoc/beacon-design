@@ -199,6 +199,15 @@ const STATUS_OPTIONS = JSON.stringify(
   <!-- ── Footprint layers — read-only picks from the project's spatial layers; the
        per-row switch controls what this component draws. ── -->
   <section class="bcn-cdp" data-cdp-body="layers" data-cdp-heading="Footprint layers" hidden>
+    {/* Confirms the rail's figure, in the same "N of M" form the milestones panel
+        uses — the rail counts what is SHOWN, the panel lists every layer picked for
+        this component, and without this line those two numbers look like a bug. */}
+    <BcnKeyValue label="Shown on the map">
+      <span>
+        <span data-cdp-visible-count>{COMPONENT_LAYERS.filter((l) => l.visible).length}</span> of{' '}
+        {COMPONENT_LAYERS.length}
+      </span>
+    </BcnKeyValue>
     {
       LAYERS_SORTED.length === 0 ? (
         <EsaEmptyState title="No layers selected" description="Add layers to the project in the Spatial Library, then pick them here." />
@@ -214,7 +223,15 @@ const STATUS_OPTIONS = JSON.stringify(
               {/* The switch's accessible name is its own label, clipped via ::part
                   below — the row already shows the layer name, and repeating
                   "Visible" on every row would be chrome. */}
-              <esa-switch-toggle size="sm" checked={l.visible} label={`Show ${l.name}`}></esa-switch-toggle>
+              {/* `checked={false}` would render as checked="false" — Astro cannot know
+                  a CUSTOM element's attribute is boolean, and Lit's boolean converter
+                  reads any present attribute as true, so every switch came up on.
+                  `|| undefined` is what actually omits the attribute. */}
+              <esa-switch-toggle
+                size="sm"
+                checked={l.visible || undefined}
+                label={`Show ${l.name}`}
+              ></esa-switch-toggle>
             </li>
           ))}
         </ul>

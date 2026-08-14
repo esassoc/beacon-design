@@ -132,6 +132,24 @@ export function setupComponentDataPanel(root: HTMLElement): ComponentDataPanelCo
 
   repaint();
 
+  // ── Layers: keep the "N of M shown" figure true as switches flip ───────────
+  // The rail row shows the same figure, so a stale one here would put two numbers
+  // about the same thing on screen disagreeing.
+  const visibleCountEl = root.querySelector<HTMLElement>('[data-cdp-visible-count]');
+  if (visibleCountEl) {
+    const switches = Array.from(
+      root.querySelectorAll<HTMLElement & { checked?: boolean }>('[data-cdp-body="layers"] esa-switch-toggle'),
+    );
+    const paintVisible = () => {
+      visibleCountEl.textContent = String(switches.filter((s) => s.checked).length);
+    };
+    // esa-switch-toggle's change is composed, so one delegated listener covers all.
+    root.addEventListener('change', (event) => {
+      const target = event.target as HTMLElement | null;
+      if (target?.tagName?.toLowerCase() === 'esa-switch-toggle') paintVisible();
+    });
+  }
+
   // ── esa-select takes its selection as a PROPERTY (no `value` attribute) ─────
   root.querySelectorAll<HTMLElement>('[data-cdp-select-value]').forEach((el) => {
     (el as unknown as { value: string }).value = el.dataset.cdpSelectValue || '';

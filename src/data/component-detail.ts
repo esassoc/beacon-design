@@ -381,11 +381,23 @@ export interface ComponentDataMeta {
   meta?: string;
 }
 
+/**
+ * THE COUNT RULE for this rail, fixed at review (2026-08-13): a BARE number is
+ * how many things the panel contains, and anything narrower must say what it is
+ * narrowing — "N of M". Footprint layers broke it by showing only the VISIBLE
+ * layers as a bare 2 while its panel listed 4, which reads as a bug rather than
+ * as a fact about visibility. Both rows that count a subset now use the same
+ * explicit form, so a reader never has to guess which of the two a number means.
+ */
 export const COMPONENT_DATA_META: ComponentDataMeta[] = [
   { key: 'component-info', label: 'Component info' },
   { key: 'milestones', label: 'Milestones', meta: `${MILESTONE_OVERRIDE_COUNT} of ${COMPONENT_MILESTONES.length}` },
   { key: 'sources', label: 'Source documents', meta: String(COMPONENT.sources.length) },
-  { key: 'layers', label: 'Footprint layers', meta: String(COMPONENT_LAYERS.filter((l) => l.visible).length) },
+  {
+    key: 'layers',
+    label: 'Footprint layers',
+    meta: `${COMPONENT_LAYERS.filter((l) => l.visible).length} of ${COMPONENT_LAYERS.length}`,
+  },
 ];
 
 export const COMPONENT_UTILITIES = COMPONENT_DATA_META.map((m) => ({
