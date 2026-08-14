@@ -1,0 +1,456 @@
+---
+// Monitoring Portal → Compliance Dashboard → Daily Reports — Fieldstone
+// Environmental Monitoring's field-inspector activity log, one row per site
+// visit. Formatted as a grid to match the real Monitoring Portal's existing
+// Daily Reports tab (Date / Monitor / Status / Work Areas / Report columns,
+// search + column filters, CSV export) rather than inventing a new shape.
+//
+// Fixture data (SITE_VISITS / DAILY_REPORTS) lives in
+// src/data/monitoring-oversight-fixture.ts — see that file's header for the
+// invented Cottonwood Solar + Storage scenario.
+import AppShell from '../../../layouts/AppShell.astro';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import FilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
+import BcnKeyValue from '../../../components/bcn/BcnKeyValue.astro';
+import BcnStatusChip from '../../../components/bcn/BcnStatusChip.astro';
+import { withBase } from '../../../lib/base';
+import {
+  PROJECT_NAME,
+  TENANT_NAME,
+  FIRST_PARTY_FIRM,
+  DAILY_REPORTS,
+  REPORT_STATUS_META,
+  formatDate,
+} from '../../../data/monitoring-oversight-fixture';
+
+const gridRows = DAILY_REPORTS.map((r) => ({
+  id: r.id,
+  date: r.date,
+  inspector: r.inspector,
+  status: r.status,
+  statusLabel: REPORT_STATUS_META[r.status].label,
+  areas: r.areaLabels.join(', '),
+  fileName: r.reportFileName,
+  summary: r.summary,
+  observations: r.observations,
+}));
+
+const gridPayload = { rows: gridRows, statusMeta: REPORT_STATUS_META, firm: FIRST_PARTY_FIRM };
+
+// First row seeds the detail dialog's SSR markup (openDetail() overwrites every
+// field before the dialog is ever shown).
+const seed = gridRows[0];
+
+// Same per-project nav as the other two pages (see compliance-dashboard.astro
+// for why this is hand-written per page rather than shared).
+const LAYOUT_DASHBOARD_PATHS =
+  '<rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/>';
+const MAP_PINNED_PATHS =
+  '<path d="M18 8c0 3.613-3.869 7.429-5.393 8.795a1 1 0 0 1-1.214 0C9.87 15.429 6 11.613 6 8a6 6 0 0 1 12 0"/><circle cx="12" cy="8" r="2"/><path d="M8.714 14h-3.71a1 1 0 0 0-.948.683l-2.004 6A1 1 0 0 0 3 22h18a1 1 0 0 0 .948-1.316l-2-6a1 1 0 0 0-.949-.684h-3.712"/>';
+const SLIDERS_PATHS =
+  '<line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/>';
+
+const oversightNav = [
+  { id: 'project', title: 'Project', icon: 'layout-dashboard', iconPaths: LAYOUT_DASHBOARD_PATHS, link: true },
+  {
+    id: 'monitoring',
+    title: 'Monitoring',
+    icon: 'map-pinned',
+    iconPaths: MAP_PINNED_PATHS,
+    expanded: true,
+    dividerAfter: true,
+    items: [
+      { id: 'mp-compliance-dashboard', label: 'Compliance Dashboard', href: withBase('/prototypes/monitoring/compliance-dashboard') },
+      { id: 'mp-compliance-observations', label: 'Observations', href: withBase('/prototypes/monitoring/compliance-observations') },
+      { id: 'mp-daily-reports', label: 'Daily Reports', href: withBase('/prototypes/monitoring/daily-reports') },
+    ],
+  },
+  {
+    id: 'admin',
+    title: 'Admin',
+    icon: 'sliders-horizontal',
+    iconPaths: SLIDERS_PATHS,
+    items: [{ id: 'dashboard-widgets', label: 'Dashboard Widgets' }],
+  },
+];
+---
+
+<!-- manifest:
+  layout: stack
+  sections:
+    - filter bar   -> esa-filter-container   # search + clear filters (column facets are the grid's own native per-column filters)
+    - reports grid -> beacon-grid             # AG Grid — Date/Monitor/Status/Work Areas/Report columns
+    - detail panel -> esa-side-dialog          # read-only report detail (BcnKeyValue + BcnStatusChip), opened via the Date link
+-->
+
+<AppShell
+  title={`Daily Reports — ${PROJECT_NAME}`}
+  tenantName={TENANT_NAME}
+  projectName={PROJECT_NAME}
+  activeNavId="mp-daily-reports"
+  expandedSections={['monitoring']}
+  navSections={oversightNav}
+>
+  <PageLayout
+    title="Daily Reports"
+    icon="map"
+    breadcrumbs={[
+      { label: PROJECT_NAME, href: '#project' },
+      { label: 'Monitoring Portal', href: withBase('/prototypes/monitoring/compliance-dashboard') },
+      { label: 'Daily Reports' },
+    ]}
+  >
+    <!-- ═══ Filter bar — carded (Observations / Surveys / Permits & Studies parity) ═══
+         bcn-lego-checked: the carded toolbar SHELL is page-composition glue
+         (same .bcn-filterbar class used elsewhere); the search field and clear
+         button are legos. Per-column facets (Date/Monitor/Status/Work Areas)
+         are the grid's own native column filters (defaultColDef.filter), not a
+         separate esa-filter-dropdown row — matching the reference Daily
+         Reports tab, which has no facet bar either. -->
+    <div class="bcn-filterbar">
+      <div class="bcn-filterbar__top">
+        <div class="bcn-filterbar__search">
+          <esa-text-field id="dr-search" placeholder="Search grid…" size="md"></esa-text-field>
+          <span id="dr-search-clear" hidden><EsaIconButton icon="x" label="Clear search" size="sm" /></span>
+        </div>
+        <span id="dr-clear-filters"><FilterClearButton /></span>
+      </div>
+    </div>
+
+    <div id="dr-grid" class="dr-grid"></div>
+    <div class="table-footer">
+      <span id="dr-download"><EsaButton color="ghost" appearance="outline" size="sm" icon="download">Download as CSV</EsaButton></span>
+      <div class="row-count-data">
+        Total Records: <span id="dr-total">0</span>
+        <span id="dr-filtered" class="filtered-rows-count" hidden></span>
+      </div>
+    </div>
+  </PageLayout>
+
+  <!-- ═══ Detail panel — esa-side-dialog lego, read-only (BcnKeyValue/BcnStatusChip) ═══
+       bcn-lego-checked: same idiom as compliance-observations.astro's detail
+       dialog — header pill/chip row + key-value grid are page-composition
+       glue around reused bcn-* components. -->
+  <esa-side-dialog id="dr-detail" size="md" style="--_width: 520px; --z-modal: 1200; --z-modal-backdrop: 1150;">
+    <div slot="header" class="bcn-detail__head">
+      <div class="bcn-detail__title-row">
+        <h2 id="dr-detail-title" class="bcn-detail__title">{formatDate(seed.date)}</h2>
+      </div>
+    </div>
+
+    <div class="bcn-detail__body">
+      <div id="dr-detail-chips" class="bcn-detail__chips">
+        <span id="dr-detail-status-chip"><BcnStatusChip status={seed.status} label={seed.statusLabel} hex={REPORT_STATUS_META[seed.status].hex} /></span>
+      </div>
+      <div class="bcn-detail__grid">
+        <span id="dr-detail-monitor"><BcnKeyValue label="Monitor" value={`${seed.inspector} (${FIRST_PARTY_FIRM})`} /></span>
+        <span id="dr-detail-areas"><BcnKeyValue label="Work Areas" value={seed.areas} /></span>
+      </div>
+      <span id="dr-detail-summary"><BcnKeyValue label="Summary" value={seed.summary} /></span>
+      <div id="dr-detail-observations" class="bcn-dr-detail__observations"></div>
+      <div class="bcn-dr-detail__download">
+        <span id="dr-detail-download-btn"><EsaButton color="ghost" appearance="outline" size="sm" icon="download">Download Report</EsaButton></span>
+      </div>
+    </div>
+  </esa-side-dialog>
+
+  <script type="application/json" id="dr-grid-data" set:html={JSON.stringify(gridPayload)}></script>
+</AppShell>
+
+<script>
+  import { createGrid, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
+  import type { GridApi, GridOptions, ColDef, ICellRendererParams } from 'ag-grid-community';
+  import { beaconTheme, makeStatusRenderer, linkRenderer } from '../../../lib/beacon-grid';
+  import { formatDate } from '../../../data/monitoring-oversight-fixture';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-side-dialog';
+
+  ModuleRegistry.registerModules([AllCommunityModule]);
+
+  interface ObservationRow { id: string; category: string; severityLabel: string; description: string; }
+  interface Row {
+    id: string;
+    date: string;
+    inspector: string;
+    status: string;
+    statusLabel: string;
+    areas: string;
+    fileName: string;
+    summary: string;
+    observations: ObservationRow[];
+  }
+  interface Payload {
+    rows: Row[];
+    statusMeta: Record<string, { label: string; hex: string }>;
+    firm: string;
+  }
+
+  const payload: Payload = JSON.parse(document.getElementById('dr-grid-data')!.textContent || '{}');
+  const { rows, statusMeta, firm } = payload;
+
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+
+  // Compact numeric date ("8/14/26") matching the reference Daily Reports tab —
+  // distinct from this fixture's usual "Aug 14, 2026" (formatDate), which is
+  // used for the detail dialog's friendlier heading instead.
+  function shortNumericDate(iso: string): string {
+    const [y, m, d] = iso.split('-').map(Number);
+    return `${m}/${d}/${String(y).slice(2)}`;
+  }
+
+  // ── Report download (same technique as the CSV/KMZ exports elsewhere on
+  // this dashboard — a real generated file, not a dead link) ──
+  function download(contents: string, filename: string) {
+    const url = URL.createObjectURL(new Blob([contents], { type: 'text/plain;charset=utf-8' }));
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  function buildReportText(r: Row): string {
+    const lines = [
+      'DAILY MONITORING REPORT',
+      'Cottonwood Solar + Storage Project',
+      `Date: ${formatDate(r.date)}`,
+      `Monitor: ${r.inspector} (${firm})`,
+      `Areas visited: ${r.areas}`,
+      '',
+      r.summary,
+    ];
+    if (r.observations.length > 0) {
+      lines.push('', 'Observations:');
+      for (const o of r.observations) lines.push(`- [${o.severityLabel}] ${o.category}: ${o.description}`);
+    }
+    return lines.join('\n');
+  }
+
+  function downloadReport(r: Row) {
+    download(buildReportText(r), r.fileName);
+  }
+
+  function downloadCellRenderer(p: ICellRendererParams<Row>) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'bcn-grid-download-btn';
+    btn.setAttribute('aria-label', `Download report — ${p.data!.date}, ${p.data!.inspector}`);
+    btn.innerHTML =
+      '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>';
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation(); // don't also open the detail dialog
+      downloadReport(p.data!);
+    });
+    return btn;
+  }
+
+  // ── Columns ──────────────────────────────────────────────────────────────
+  const columnDefs: ColDef<Row>[] = [
+    {
+      field: 'date',
+      headerName: 'Date',
+      width: 130,
+      sort: 'desc',
+      cellRenderer: linkRenderer,
+      valueFormatter: (p) => shortNumericDate(p.value),
+    },
+    { field: 'inspector', headerName: 'Monitor', width: 150 },
+    {
+      field: 'status',
+      headerName: 'Status',
+      width: 130,
+      cellRenderer: makeStatusRenderer(statusMeta),
+      cellClass: 'bcn-grid-status-cell',
+      filterValueGetter: (p) => statusMeta[p.data!.status]?.label,
+    },
+    { field: 'areas', headerName: 'Work Areas', flex: 1, minWidth: 260 },
+    {
+      field: 'id',
+      headerName: 'Report',
+      width: 90,
+      cellRenderer: downloadCellRenderer,
+      sortable: false,
+      filter: false,
+      resizable: false,
+    },
+  ];
+
+  const gridOptions: GridOptions<Row> = {
+    theme: beaconTheme,
+    rowData: rows,
+    columnDefs,
+    defaultColDef: { sortable: true, resizable: true, filter: true, suppressHeaderMenuButton: true, tooltipValueGetter: (p) => p.value },
+    tooltipShowDelay: 0,
+    tooltipShowMode: 'whenTruncated',
+    onFirstDataRendered: updateCounts,
+    onFilterChanged: updateCounts,
+    onRowClicked: (e) => e.data && openDetail(e.data),
+  };
+
+  const api: GridApi<Row> = createGrid($('dr-grid'), gridOptions);
+
+  // ── Footer counts ──
+  const totalEl = $('dr-total');
+  const filteredEl = $('dr-filtered');
+  function updateCounts() {
+    totalEl.textContent = String(rows.length);
+    const shown = api.getDisplayedRowCount();
+    if (shown < rows.length) {
+      filteredEl.hidden = false;
+      filteredEl.textContent = `Filtered Records: ${shown}`;
+    } else {
+      filteredEl.hidden = true;
+    }
+  }
+
+  // ── Search → AG Grid quick filter ──
+  const search = $('dr-search') as HTMLElement & { value: string };
+  const searchClear = $('dr-search-clear');
+  search.addEventListener('change', (e) => {
+    const v = (e as CustomEvent).detail?.value ?? search.value ?? '';
+    api.setGridOption('quickFilterText', String(v));
+    searchClear.hidden = !v;
+  });
+  searchClear.addEventListener('click', () => {
+    search.value = '';
+    api.setGridOption('quickFilterText', '');
+    searchClear.hidden = true;
+  });
+
+  // ── Clear filters (column filters only — there's no separate facet state) ──
+  $('dr-clear-filters').addEventListener('esa-filter-clear', () => {
+    search.value = '';
+    api.setGridOption('quickFilterText', '');
+    searchClear.hidden = true;
+    api.setFilterModel(null);
+  });
+
+  // ── Download CSV ──
+  $('dr-download').addEventListener('click', () => api.exportDataAsCsv({ fileName: 'cottonwood-daily-reports.csv' }));
+
+  // ── Detail dialog (read-only) ──
+  const detailDialog = $('dr-detail') as HTMLElement & { show(): void; close(): void };
+  const statusChipWrap = $('dr-detail-status-chip');
+
+  function setChip(wrap: HTMLElement, status: string, label: string, hex: string) {
+    const chip = wrap.querySelector('.bcn-status-chip') as HTMLElement;
+    if (!chip) return;
+    chip.dataset.status = status;
+    chip.style.setProperty('--_chip', hex);
+    const labelEl = chip.querySelector('.bcn-status-chip__label');
+    if (labelEl) labelEl.textContent = label;
+  }
+
+  function setKV(id: string, value: string) {
+    const wrap = $(id);
+    const val = wrap.querySelector('.bcn-key-value__val');
+    if (val) val.textContent = value || '—';
+  }
+
+  let activeRow: Row | null = null;
+
+  function openDetail(row: Row) {
+    activeRow = row;
+    $('dr-detail-title').textContent = formatDate(row.date);
+    setChip(statusChipWrap, row.status, row.statusLabel, statusMeta[row.status]?.hex ?? '#8a9099');
+    setKV('dr-detail-monitor', `${row.inspector} (${firm})`);
+    setKV('dr-detail-areas', row.areas);
+    setKV('dr-detail-summary', row.summary);
+
+    const obsHost = $('dr-detail-observations');
+    obsHost.innerHTML = row.observations.length
+      ? row.observations
+          .map(
+            (o) =>
+              `<div class="bcn-dr-detail__obs-row"><span class="bcn-dr-detail__obs-severity">${o.severityLabel}</span><span class="bcn-dr-detail__obs-category">${o.category}</span><p class="bcn-dr-detail__obs-desc">${o.description}</p></div>`,
+          )
+          .join('')
+      : '';
+
+    detailDialog.show();
+  }
+
+  $('dr-detail-download-btn').addEventListener('click', () => {
+    if (activeRow) downloadReport(activeRow);
+  });
+</script>
+
+<style>
+  /* bcn-lego-checked: PAGE-COMPOSITION GLUE ONLY, replicating the established
+     filter-bar / grid-footer shell and detail-dialog header/body glue already
+     used on compliance-observations.astro. The download button in the grid's
+     "Report" column and the detail dialog's observation rows are AG-Grid-
+     injected / dynamically-built DOM (outside Astro's scope), styled :global
+     the same way this repo's other grids style their injected cells. */
+
+  .bcn-filterbar { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-200); margin-bottom: var(--spacing-400); }
+  .bcn-filterbar__top { display: flex; align-items: center; gap: var(--spacing-300); padding: var(--spacing-300) var(--spacing-400); flex-wrap: wrap; }
+  .bcn-filterbar__search { display: inline-flex; align-items: center; gap: var(--spacing-150); min-width: 280px; }
+  .bcn-filterbar__search :global(esa-text-field) { flex: 1; }
+
+  /* Grid host + footer */
+  .dr-grid { width: 100%; height: calc(100vh - 360px); min-height: 480px; }
+  .table-footer { display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-400); padding: var(--spacing-200) var(--spacing-400); background: var(--color-background); border: 1px solid var(--color-border); border-top: 0; border-radius: 0 0 var(--radius-100) var(--radius-100); }
+  .row-count-data { display: flex; align-items: center; gap: var(--spacing-400); font-size: var(--type-size-100); color: var(--color-text-secondary); font-variant-numeric: tabular-nums; }
+  .filtered-rows-count { color: var(--color-text-tertiary); }
+  .filtered-rows-count[hidden] { display: none; }
+
+  /* AG Grid injected cells (global) */
+  :global(.ag-cell.bcn-grid-status-cell) { display: flex; align-items: center; }
+  :global(.bcn-grid-chip) { display: inline-flex; align-items: center; gap: var(--spacing-150); padding: 1px var(--spacing-200); border-radius: var(--radius-100); font-size: 0.8125rem; line-height: 1.5; font-weight: var(--font-weight-semibold); white-space: nowrap; background: color-mix(in srgb, var(--_chip) 16%, transparent); color: color-mix(in srgb, var(--_chip) 70%, var(--color-text-primary)); }
+  :global(.bcn-grid-chip__dot) { width: 7px; height: 7px; border-radius: 50%; background: var(--_chip); flex-shrink: 0; }
+  :global(.bcn-grid-name) { color: var(--color-text-link); font-weight: var(--font-weight-regular); text-decoration: underline; }
+  :global(.bcn-grid-name:hover) { color: var(--color-primary-hover); }
+  :global(.bcn-grid-download-btn) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-100);
+    background: var(--color-surface);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    padding: 0;
+  }
+  :global(.bcn-grid-download-btn:hover) { background: var(--color-surface-sunken); color: var(--color-text-primary); }
+
+  /* Detail panel header + body glue */
+  .bcn-detail__head { display: flex; flex-direction: column; gap: var(--spacing-150); min-width: 0; padding: var(--spacing-400) var(--spacing-500); flex: 1; }
+  .bcn-detail__title-row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--spacing-200); min-width: 0; }
+  .bcn-detail__title { margin: 0; font-family: var(--font-decorative); font-size: 1.125rem; font-weight: var(--font-weight-semibold); color: var(--color-text-primary); line-height: 1.3; }
+  .bcn-detail__chips { display: flex; gap: var(--spacing-200); margin-bottom: var(--spacing-400); }
+  .bcn-detail__grid { display: flex; flex-direction: column; gap: var(--spacing-400); margin-bottom: var(--spacing-400); }
+  .bcn-detail__body :global(esa-side-dialog) { display: block; }
+
+  .bcn-dr-detail__observations { display: flex; flex-direction: column; }
+  .bcn-dr-detail__obs-row {
+    padding: var(--spacing-300) 0;
+    border-top: 1px solid var(--color-border-light);
+  }
+  :global(.bcn-dr-detail__obs-severity) {
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+  }
+  :global(.bcn-dr-detail__obs-category) {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    margin-left: var(--spacing-150);
+  }
+  :global(.bcn-dr-detail__obs-desc) {
+    margin: var(--spacing-100) 0 0;
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+  }
+  .bcn-dr-detail__download {
+    padding-top: var(--spacing-300);
+    border-top: 1px solid var(--color-border-light);
+  }
+</style>

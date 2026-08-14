@@ -15,7 +15,7 @@ import AppShell from '../../../layouts/AppShell.astro';
 import PageLayout from '../../../layouts/PageLayout.astro';
 import BcnOversightHero from '../../../components/bcn/BcnOversightHero.astro';
 import BcnAttentionPanel from '../../../components/bcn/BcnAttentionPanel.astro';
-import BcnTrendPanel from '../../../components/bcn/BcnTrendPanel.astro';
+import BcnTimelineExplorer from '../../../components/bcn/BcnTimelineExplorer.astro';
 import { withBase } from '../../../lib/base';
 import {
   PROJECT_NAME,
@@ -25,7 +25,8 @@ import {
   NON_COMPLIANCE_CATEGORY_BREAKDOWN,
   SEVERITY_META,
   OUTSTANDING,
-  TREND_90D,
+  TREND_WEEK_STARTS,
+  CATEGORY_TREND,
   AREAS,
   daysActive,
 } from '../../../data/monitoring-oversight-fixture';
@@ -44,14 +45,14 @@ const outstandingForPanel = OUTSTANDING.map((o) => ({
   lng: AREAS[o.area].lng,
 }));
 
-// Short "Jul 6" tick labels for the trend chart (formatDate's "Jul 6, 2026" is
+// Short "Jul 6" tick labels for the trend tiles (formatDate's "Jul 6, 2026" is
 // too wide for 13 columns).
 const shortDate = (iso: string) => {
   const [, m, d] = iso.split('-').map(Number);
   const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   return `${MONTHS[m - 1]} ${d}`;
 };
-const trendWeeks = TREND_90D.map((w) => ({ label: shortDate(w.weekStart), active: w.active, resolved: w.resolved }));
+const trendWeekLabels = TREND_WEEK_STARTS.map(shortDate);
 
 // Per-project nav (side-nav-modern verbatim glyphs) — a leaner Monitoring group
 // than the Delta Conveyance portal's, illustrating that the Monitoring Portal's
@@ -75,6 +76,7 @@ const oversightNav = [
     items: [
       { id: 'mp-compliance-dashboard', label: 'Compliance Dashboard', href: withBase('/prototypes/monitoring/compliance-dashboard') },
       { id: 'mp-compliance-observations', label: 'Observations', href: withBase('/prototypes/monitoring/compliance-observations') },
+      { id: 'mp-daily-reports', label: 'Daily Reports', href: withBase('/prototypes/monitoring/daily-reports') },
     ],
   },
   {
@@ -92,7 +94,7 @@ const oversightNav = [
   sections:
     - severity overview     -> bcn-oversight-hero    # active severity donut + needs-attention/non-compliance category counts
     - needs-attention panel -> bcn-attention-panel    # outstanding list + map inset + KMZ/CSV export
-    - trend panel           -> bcn-trend-panel        # 90-day active-vs-resolved cohort trend
+    - timeline explorer     -> bcn-timeline-explorer   # 30/60/90-day category trend grid
 -->
 
 <AppShell
@@ -121,7 +123,7 @@ const oversightNav = [
         observationsHref={observationsHref}
         exportFileBase="cottonwood-oversight-observations"
       />
-      <BcnTrendPanel weeks={trendWeeks} />
+      <BcnTimelineExplorer weekLabels={trendWeekLabels} categories={CATEGORY_TREND} />
     </div>
   </PageLayout>
 </AppShell>
