@@ -89,22 +89,27 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
       <EsaButton color="ghost" appearance="outline" size="sm" icon="upload" data-wa-import>Bulk import</EsaButton>
     </div>
 
-    <!-- Toolbar: the grid chrome and the bulk bar occupy the SAME cell, so selecting
-         a row swaps the bar in place instead of pushing the grid down. -->
+    <!-- Toolbar: ONE row. The bulk group joins the chrome on the right rather than
+         covering it (review, 2026-08-13) — the first pass overlaid both in a single
+         grid cell to keep the grid from shifting, which did keep it still but took
+         the search field away exactly when a user filtering down to a set wants to
+         narrow it further. Selecting rows and searching are not alternatives, so
+         they no longer compete for the same space. Being hidden rather than
+         height-reserved, the bulk group still costs no vertical space when idle. -->
     <div class="bcn-wa__toolbar">
       <div class="repel bcn-wa__chrome" data-wa-chrome>
         <div class="cluster bcn-wa__search" data-gap="xs">
           <esa-text-field data-wa-search placeholder="Search grid…" size="sm"></esa-text-field>
           <span data-wa-search-clear hidden><EsaIconButton icon="x" label="Clear search" size="sm" /></span>
         </div>
-        <EsaButton color="ghost" appearance="outline" size="sm" data-wa-clear-filters>Clear Filters</EsaButton>
-      </div>
 
-      <div class="repel bcn-wa__bulk" data-wa-bulk hidden>
-        <span class="bcn-wa__bulk-count" data-wa-bulk-count aria-live="polite"></span>
-        <div class="cluster" data-gap="xs">
-          <EsaButton color="danger" appearance="soft" size="sm" icon="trash-2" data-wa-delete>Delete</EsaButton>
-          <EsaButton color="ghost" appearance="outline" size="sm" data-wa-bulk-clear>Clear selection</EsaButton>
+        <div class="cluster bcn-wa__right" data-gap="sm" data-align="center">
+          <div class="cluster bcn-wa__bulk" data-wa-bulk data-gap="xs" data-align="center" hidden>
+            <span class="bcn-wa__bulk-count" data-wa-bulk-count aria-live="polite"></span>
+            <EsaButton color="danger" appearance="soft" size="sm" icon="trash-2" data-wa-delete>Delete</EsaButton>
+            <EsaButton color="ghost" appearance="outline" size="sm" data-wa-bulk-clear>Clear selection</EsaButton>
+          </div>
+          <EsaButton color="ghost" appearance="outline" size="sm" data-wa-clear-filters>Clear Filters</EsaButton>
         </div>
       </div>
     </div>
@@ -263,16 +268,14 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
       }
     }
 
-    const chrome = pick<HTMLElement>('[data-wa-chrome]');
     const bulk = pick<HTMLElement>('[data-wa-bulk]');
     const bulkCount = pick('[data-wa-bulk-count]');
     function updateBulkBar() {
       const n = api.getSelectedRows().length;
+      // `hidden` (not visibility) so the group leaves the tab order and the a11y
+      // tree entirely — no reachable invisible control. The search field beside it
+      // is untouched: it stays visible and usable while rows are selected.
       bulk.hidden = n === 0;
-      // The chrome keeps its BOX while the bulk bar owns the row (the two share the
-      // toolbar cell, so the grid never moves); visibility:hidden also takes it out of
-      // the tab order and the a11y tree, so no invisible control is reachable.
-      chrome.classList.toggle('bcn-wa__chrome--muted', n > 0);
       bulkCount.textContent = `${n} ${n === 1 ? singular : plural} selected`;
     }
 
@@ -366,13 +369,14 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
     font-variant-numeric: tabular-nums;
   }
 
-  /* ── Toolbar: chrome and bulk bar share ONE cell, so the grid never shifts ─ */
+  /* ── Toolbar: ONE row — search on the left, bulk group + Clear Filters on the
+        right. The bulk group appears beside the chrome, never over it. ────────── */
   .bcn-wa__toolbar {
-    display: grid;
     margin-bottom: var(--spacing-300);
   }
-  .bcn-wa__toolbar > * {
-    grid-area: 1 / 1;
+  .bcn-wa__chrome {
+    flex-wrap: wrap;
+    row-gap: var(--spacing-200);
   }
   .bcn-wa__search {
     min-width: 280px;
@@ -380,13 +384,14 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
   .bcn-wa__search :global(esa-text-field) {
     flex: 1;
   }
-  /* The chrome stays laid out (it holds the row's height) but reads as handed-off. */
-  .bcn-wa__chrome--muted {
-    visibility: hidden;
+  .bcn-wa__right {
+    flex-wrap: wrap;
+    row-gap: var(--spacing-200);
   }
 
+  /* A tint inline with the content marks the selection state — not a colored edge. */
   .bcn-wa__bulk {
-    padding: var(--spacing-100) var(--spacing-300);
+    padding: var(--spacing-100) var(--spacing-250);
     background: var(--color-primary-subtle);
     border: 1px solid var(--color-primary-border);
     border-radius: var(--radius-200);

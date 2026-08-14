@@ -43,27 +43,15 @@ import { withBase } from '../../lib/base';
 import { PULSE_META, type AreaPulse } from '../../data/project-dashboard';
 import type { ComponentRecord } from '../../data/component-detail';
 
-/**
- * Structurally the fixture's SIBLINGS shape — declared here rather than
- * `typeof SIBLINGS` so the header doesn't take a runtime import on the fixture
- * just to borrow a type.
- */
-interface ComponentSiblings {
-  indexHref: string;
-  prev?: { name: string; href: string };
-  next?: { name: string; href: string };
-}
-
 interface Props {
   component: ComponentRecord;
   /** Exactly three, in Tracking / Monitoring / Reporting order. */
   pulse: AreaPulse[];
-  /** Prev / next / index wayfinding — landing three levels down needs a way sideways. */
-  siblings?: ComponentSiblings;
   /** Rendered as pressed when the user has starred this component (per-user starring, BCN-1576). */
   starred?: boolean;
 }
-const { component, pulse, siblings, starred = false } = Astro.props;
+// No `siblings` prop: wayfinding moved to the breadcrumb bar (see the markup note).
+const { component, pulse, starred = false } = Astro.props;
 
 const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href);
 
@@ -91,36 +79,12 @@ const starLabel = starred ? `Unstar ${component.name}` : `Star ${component.name}
 ---
 
 <section class="bcn-chd" aria-label={`${component.name} — component home`}>
-  <!-- Eyebrow line: the way back UP the tree on the left, sideways on the right. -->
-  <div class="bcn-chd__nav">
-    <a class="bcn-chd__up" href={linkHref(component.project.href)}>
-      <EsaIcon name="chevron-left" size="sm" />
-      {component.project.name}
-    </a>
-
-    {
-      siblings && (
-        <nav class="bcn-chd__siblings" aria-label="Other components">
-          {siblings.prev && (
-            <a class="bcn-chd__sib" href={linkHref(siblings.prev.href)} rel="prev">
-              <EsaIcon name="chevron-left" size="sm" />
-              <span class="bcn-chd__sib-name">{siblings.prev.name}</span>
-            </a>
-          )}
-          <a class="bcn-chd__sib bcn-chd__sib--index" href={linkHref(siblings.indexHref)}>
-            All components
-          </a>
-          {siblings.next && (
-            <a class="bcn-chd__sib" href={linkHref(siblings.next.href)} rel="next">
-              <span class="bcn-chd__sib-name">{siblings.next.name}</span>
-              <EsaIcon name="chevron-right" size="sm" />
-            </a>
-          )}
-        </nav>
-      )
-    }
-  </div>
-
+  <!-- WAYFINDING MOVED OUT (review, 2026-08-13). Both the way back up the tree and
+       the prev/next walk now live in the breadcrumb bar above this band: the trail
+       carries the hierarchy (project › All Components › this one) and bcn-sibling-nav
+       sits at its end, which is where prod puts record navigation — breadcrumbs.component
+       imports <commitment-navigation>. Keeping a second copy here would give one
+       action two affordances on one screen. -->
   <div class="bcn-chd__id">
     <!-- The mark IS the cover here. Editing it stays on the page (product
          meeting, 2026-08-04: "mouse over that header area … a little change
@@ -218,61 +182,8 @@ const starLabel = starred ? `Unstar ${component.name}` : `Star ${component.name}
     border-bottom: 1px solid var(--color-border);
   }
 
-  /* ── Eyebrow / wayfinding ────────────────────────────────────────────────── */
-  .bcn-chd__nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--spacing-400);
-    flex-wrap: wrap;
-    min-width: 0;
-  }
-  .bcn-chd__up {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-100);
-    margin-left: calc(var(--spacing-100) * -1);
-    font-size: var(--type-size-150);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-primary);
-  }
-  .bcn-chd__up:hover {
-    color: var(--color-primary-hover);
-  }
-
-  .bcn-chd__siblings {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-300);
-    min-width: 0;
-  }
-  .bcn-chd__sib {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-100);
-    max-width: 20ch;
-    font-size: var(--type-size-150);
-    color: var(--color-text-tertiary);
-  }
-  .bcn-chd__sib:hover {
-    color: var(--color-text-primary);
-  }
-  .bcn-chd__sib--index {
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-secondary);
-  }
-  .bcn-chd__sib-name {
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  @media (max-width: 720px) {
-    /* Prev/next names are the first thing to go; "All components" survives. */
-    .bcn-chd__sib:not(.bcn-chd__sib--index) .bcn-chd__sib-name {
-      display: none;
-    }
-  }
+  /* The eyebrow / wayfinding rules that lived here are gone with the markup —
+     the breadcrumb bar owns both the way up and the prev/next walk now. */
 
   /* ── Identity row: mark, name, actions — vertically centred ──────────────── */
   .bcn-chd__id {

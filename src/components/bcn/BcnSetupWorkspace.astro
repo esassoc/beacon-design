@@ -422,12 +422,15 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
 </script>
 
 <style>
-  /* ── Drawer geometry. A STABLE GENEROUS FOOTPRINT: ~86vh tall (the lego's own
-       --side-dialog-inset knob at 7vh top and bottom) and wide, because this is a work
-       surface, not a slim rail panel. Neither dimension moves when the user filters or
-       selects — the panes scroll inside a frame that never resizes. ── */
+  /* ── Drawer geometry. FLUSH to the right edge, full height (review, 2026-08-13):
+       this first shipped inset 7vh top and bottom, chasing the ~86vh stable-footprint
+       rule, which made it read as a floating panel. Every other drawer in Beacon comes
+       in flush against the edge, and approved patterns are canon — an inset drawer here
+       would be a new treatment introduced by accident rather than on purpose. The
+       stability the rule is actually protecting is preserved: the frame is a fixed
+       width and full height, and the panes scroll INSIDE it, so nothing moves when the
+       user filters or selects. Wide, because this is a work surface, not a slim rail. ── */
   .bcn-sw {
-    --side-dialog-inset: 7vh;
     --side-dialog-width-lg: 1180px;
     --z-modal-backdrop: 1300;
     --z-modal: 1301;

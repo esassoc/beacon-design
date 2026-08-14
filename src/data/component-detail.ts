@@ -20,6 +20,7 @@ import sites from './geotech-sites.json';
 import { TODAY, sig, type AreaPulse, type Module } from './project-dashboard';
 import { PROJECT_ACTIONS, rollupOver, type ActionType, type ModuleRollup, type ProjectAction } from './project-actions';
 import { MILESTONES } from './project-data';
+import { DENSE } from './component-dashboard';
 import type { EntityMark } from './entity-marks';
 
 export { TODAY };
@@ -178,6 +179,60 @@ export const WORK_AREA_COUNT = WORK_AREAS.length;
 
 /** Total disturbance across the component's work areas — a real sum, not a label. */
 export const WORK_AREA_ACRES = Math.round(WORK_AREAS.reduce((n, w) => n + w.measureValue, 0) * 10) / 10;
+
+// ── Work-area dialogs: custom fields + a staged import file ─────────────────
+// The Create and Bulk Import dialogs are ports of prod's `work-area-upsert-dialog`
+// and `work-area-bulk-import-dialog`, so they need the two things those dialogs
+// read: the tenant's WorkArea custom-field definitions, and a parsed file to map.
+
+/** CustomFieldDefinition rows for WorkArea — tenant-defined, so this is a lookup. */
+export interface CustomFieldDef {
+  id: string;
+  label: string;
+  type: 'text' | 'number' | 'date' | 'select';
+  options?: string[];
+}
+export const WORK_AREA_CUSTOM_FIELDS: CustomFieldDef[] = [
+  { id: 'cf-method', label: 'Exploration method', type: 'select', options: ['Boring', 'CPT', 'Water Quality Test'] },
+  { id: 'cf-depth', label: 'Depth (ft)', type: 'number' },
+  { id: 'cf-apn', label: 'Parcel APN', type: 'text' },
+  { id: 'cf-dcpn', label: 'DCPN', type: 'text' },
+  { id: 'cf-county', label: 'County', type: 'select', options: ['SACRAMENTO', 'SAN JOAQUIN', 'CONTRA COSTA', 'ALAMEDA'] },
+  { id: 'cf-tep', label: 'Entry agreement', type: 'text' },
+];
+
+/**
+ * A parsed upload, standing in for what `parse-shapefile` returns. Columns are the
+ * raw header names a real geotech export carries — deliberately NOT already matching
+ * Beacon's field names, because the whole point of the mapping step is that they
+ * never do. Rows are real sites from the corridor that this component does not yet
+ * track, so importing them is a plausible act rather than a duplicate.
+ */
+export const IMPORT_FIXTURE = {
+  fileName: 'DCP_Geotech_Bouldin_Phase2.zip',
+  kind: 'shapefile' as const,
+  columns: ['SITE_ID', 'METHOD', 'DEPTH_FT', 'APN', 'DCPN', 'COUNTY', 'TEP_BATCH'],
+  rows: (sites.features as unknown as SiteFeature[])
+    .filter((f) => {
+      const [lon, lat] = f.geometry.coordinates;
+      // The reach immediately north of this component — adjacent, not overlapping.
+      return lat > BOULDIN_BOX.latMax && lat <= 38.3 && lon >= BOULDIN_BOX.lonMin && lon <= BOULDIN_BOX.lonMax;
+    })
+    .slice(0, 14)
+    .map((f) => {
+      const p = f.properties;
+      return {
+        SITE_ID: p.id,
+        METHOD: p.method,
+        DEPTH_FT: String(p.depthFt),
+        APN: p.parcelApn,
+        DCPN: p.dcpn,
+        COUNTY: p.county,
+        TEP_BATCH: p.entryAgreement,
+        hasGeometry: true,
+      };
+    }),
+};
 
 // ── Component-scoped actions ────────────────────────────────────────────────
 /** The component's slice of the one project action set. */
@@ -363,11 +418,42 @@ export const COMPONENT_UTILITIES = COMPONENT_DATA_META.map((m) => ({
   href: `?data=${m.key}`,
 }));
 
-// ── Sibling components — the prev/next wayfinding on the header ─────────────
+// ── Sibling components — the prev/next walk in the breadcrumb bar ───────────
 // Andy's tree: project → component index → component detail. Landing three
-// levels down without a way sideways is a dead end.
+// levels down with no way sideways is a dead end, so the breadcrumb bar carries
+// prev/next, matching prod's `<commitment-navigation>` which lives in that same bar.
+//
+// TWO THINGS THIS SET HAS TO SETTLE, both raised at review:
+//
+// ORDER — "next" is meaningless unless it agrees with a list the user has seen.
+// This is sorted ALPHABETICALLY, which is the components index's stable ordering.
+// It deliberately does NOT follow the index grid's default needs-attention sort:
+// that ordering changes as work becomes overdue, so yesterday's "next" would be a
+// different component today, and a back-and-forth walk could revisit or skip. A
+// stable sequence is worth more here than a smart one.
+//
+// ACCESS — Component is `IAmComponentScoped`, and BeaconDbContext applies a global
+// filter (`!_componentScopeActive || _inScopeComponentIDs.Contains(...)`) stamped
+// per request by ComponentScopeMiddleware from the user's organization grants
+// (BCN-1367/1368). Any list the client can obtain is therefore ALREADY the in-scope
+// set, so prev/next cannot walk into a component the user may not see and needs no
+// permission logic of its own. The house rule is see-all-unless-scoped: no grants
+// means unrestricted, never fail-closed. In this fixture every component is in
+// scope; a scoped user would simply get a shorter list and a smaller "N of M".
+export interface SiblingComponent {
+  name: string;
+  href: string;
+}
+
+/** Every component the user may see, in the index's stable order. */
+export const SIBLING_COMPONENTS: SiblingComponent[] = [...DENSE]
+  .map((c) => ({ name: c.name, href: '/prototypes/component-dashboard' }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+export const SIBLING_INDEX = SIBLING_COMPONENTS.findIndex((c) => c.name === COMPONENT_NAME);
+
 export const SIBLINGS = {
   indexHref: '/prototypes/components',
-  prev: { name: 'Twin Cities Complex', href: '/prototypes/component-dashboard' },
-  next: { name: 'Intake B — North Delta', href: '/prototypes/component-dashboard' },
+  items: SIBLING_COMPONENTS,
+  currentIndex: SIBLING_INDEX,
 };
