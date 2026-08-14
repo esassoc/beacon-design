@@ -1,6 +1,6 @@
 # Token contract — prototypes-component-dashboard
 
-The 111 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 113 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -16,6 +16,7 @@ The 111 design tokens this page actually uses, resolved to their final values fo
 | `--color-primary-hover` | `#00474f` |
 | `--color-primary-strong` | `#2a7e3b` |
 | `--color-primary-subtle` | `#effefb` |
+| `--color-secondary` | `#00918b` |
 | `--color-secondary-strong` | `#2a7e3b` |
 | `--color-success` | `#2e7571` |
 | `--color-surface` | `#fcfcfc` |
@@ -88,6 +89,7 @@ The 111 design tokens this page actually uses, resolved to their final values fo
 
 | Token | Value |
 |---|---|
+| `--color-backdrop` | `rgba(0, 0, 0, .5)` |
 | `--font-display` | `"DM Sans", sans-serif` |
 | `--font-sans` | `"DM Sans", sans-serif` |
 | `--font-weight-bold` | `650` |
@@ -133,6 +135,10 @@ The 111 design tokens this page actually uses, resolved to their final values fo
 Defined per-component (not at `:root`); see the component's own rule in `styles.css`.
 
 - `--align`
+- `--bcn-bottom-drawer-height`
+- `--bcn-bottom-drawer-inset`
+- `--bcn-bottom-drawer-width`
+- `--bcn-bottom-drawer-z`
 - `--gap`
 - `--justify`
 - `--stat-accent-color`

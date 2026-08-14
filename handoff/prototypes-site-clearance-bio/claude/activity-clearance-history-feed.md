@@ -772,64 +772,6 @@ The component-level clearance history: a single-column, date-grouped feed of rec
 .wa__activity .entry + .entry {
   border-top: 1px solid var(--color-border-light);
 }
-.esa-empty-state {
-  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
-  --_empty-title-size: 16px;
-  --_empty-desc-size: 14px;
-  --_empty-gap: var(--empty-state-gap, var(--spacing-200, 0.5rem));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
-  gap: var(--_empty-gap);
-}
-.esa-empty-state--xs {
-  --_empty-icon-size: var(--empty-state-icon-size-xs, 24px);
-  --_empty-title-size: 13px;
-  --_empty-desc-size: 11px;
-  padding: var(--spacing-300, 0.75rem) var(--spacing-200, 0.5rem);
-}
-.esa-empty-state--sm {
-  --_empty-icon-size: var(--empty-state-icon-size-sm, 32px);
-  --_empty-title-size: 14px;
-  --_empty-desc-size: 12px;
-  padding: var(--spacing-400, 1rem) var(--spacing-300, 0.75rem);
-}
-.esa-empty-state--lg {
-  --_empty-icon-size: var(--empty-state-icon-size-lg, 64px);
-  --_empty-title-size: 20px;
-  --_empty-desc-size: 16px;
-  padding: var(--spacing-800, 4rem) var(--spacing-400, 1rem);
-}
-.esa-empty-state__icon {
-  color: var(--empty-state-icon-color, var(--color-text-muted, #737373));
-  margin-bottom: var(--spacing-100, 0.25rem);
-  display: inline-flex;
-}
-.esa-empty-state__icon svg {
-  width: var(--_empty-icon-size);
-  height: var(--_empty-icon-size);
-}
-.esa-empty-state__title {
-  margin: 0;
-  font-size: var(--_empty-title-size);
-  font-weight: 600;
-  color: var(--empty-state-title-color, var(--color-text-primary, #171717));
-}
-.esa-empty-state__description {
-  margin: 0;
-  font-size: var(--_empty-desc-size);
-  color: var(--empty-state-description-color, var(--color-text-secondary, #525252));
-  max-width: 360px;
-}
-.esa-empty-state__actions {
-  margin-top: var(--spacing-200, 0.5rem);
-}
-.esa-empty-state__actions:empty {
-  display: none;
-}
 .esa-filter-container {
   display: flex;
   flex-wrap: wrap;
@@ -896,6 +838,64 @@ The component-level clearance history: a single-column, date-grouped feed of rec
   border-radius: var(--radius-full);
   background: var(--_chip);
   flex-shrink: 0;
+}
+.esa-empty-state {
+  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
+  --_empty-title-size: 16px;
+  --_empty-desc-size: 14px;
+  --_empty-gap: var(--empty-state-gap, var(--spacing-200, 0.5rem));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
+  gap: var(--_empty-gap);
+}
+.esa-empty-state--xs {
+  --_empty-icon-size: var(--empty-state-icon-size-xs, 24px);
+  --_empty-title-size: 13px;
+  --_empty-desc-size: 11px;
+  padding: var(--spacing-300, 0.75rem) var(--spacing-200, 0.5rem);
+}
+.esa-empty-state--sm {
+  --_empty-icon-size: var(--empty-state-icon-size-sm, 32px);
+  --_empty-title-size: 14px;
+  --_empty-desc-size: 12px;
+  padding: var(--spacing-400, 1rem) var(--spacing-300, 0.75rem);
+}
+.esa-empty-state--lg {
+  --_empty-icon-size: var(--empty-state-icon-size-lg, 64px);
+  --_empty-title-size: 20px;
+  --_empty-desc-size: 16px;
+  padding: var(--spacing-800, 4rem) var(--spacing-400, 1rem);
+}
+.esa-empty-state__icon {
+  color: var(--empty-state-icon-color, var(--color-text-muted, #737373));
+  margin-bottom: var(--spacing-100, 0.25rem);
+  display: inline-flex;
+}
+.esa-empty-state__icon svg {
+  width: var(--_empty-icon-size);
+  height: var(--_empty-icon-size);
+}
+.esa-empty-state__title {
+  margin: 0;
+  font-size: var(--_empty-title-size);
+  font-weight: 600;
+  color: var(--empty-state-title-color, var(--color-text-primary, #171717));
+}
+.esa-empty-state__description {
+  margin: 0;
+  font-size: var(--_empty-desc-size);
+  color: var(--empty-state-description-color, var(--color-text-secondary, #525252));
+  max-width: 360px;
+}
+.esa-empty-state__actions {
+  margin-top: var(--spacing-200, 0.5rem);
+}
+.esa-empty-state__actions:empty {
+  display: none;
 }
 ```
 

@@ -768,6 +768,20 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
   color: var(--color-text-tertiary);
   flex: none;
 }
+.bcn-disclosure .esa-icon {
+  transition: transform 0.15s ease;
+}
+.bcn-disclosure[aria-expanded="false"] .esa-icon {
+  transform: rotate(-90deg);
+}
+.bcn-ev-staging__title .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.bcn-ev-targets__title .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
 .topbar__right .esa-icon-button {
   color: var(--color-text-secondary);
 }
@@ -991,6 +1005,36 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
 .bcn-kb-hero__whatsnew:hover .bcn-kb-hero__whatsnew-arrow {
   transform: translate(2px);
 }
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
   --_ib-bg-hover: var(
@@ -1027,36 +1071,6 @@ The front door to the knowledge base: the animated Aldo mark, the page title, a 
 .esa-icon-button:focus-visible {
   outline: var(--focus-ring-width) solid currentColor;
   outline-offset: var(--focus-ring-offset, 2px);
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

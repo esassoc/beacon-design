@@ -1862,6 +1862,53 @@ A full article read WITHOUT leaving the conversation: a SECOND esa-side-dialog s
 .bcn-gd-article__panel[hidden] {
   display: none;
 }
+.bcn-disclosure .esa-icon {
+  transition: transform 0.15s ease;
+}
+.bcn-disclosure[aria-expanded="false"] .esa-icon {
+  transform: rotate(-90deg);
+}
+.bcn-countchip__num .esa-badge {
+  --badge-radius: var(--radius-full);
+  --badge-bg: var(--color-border);
+  --badge-text-color: var(--color-text-secondary);
+  min-width: 19px;
+  height: 19px;
+  padding: 0 4px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  box-shadow: 0 0 0 1.5px var(--color-surface);
+}
+.bcn-ev-staging__title .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.bcn-ev-targets__title .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.bcn-ev-attached__mark .esa-badge {
+  --badge-bg: var(--color-info-subtle);
+  --badge-text-color: var(--color-text-primary);
+  border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
+  font-weight: var(--font-weight-medium);
+}
+.bcn-ev-row__mark .esa-badge {
+  --badge-bg: var(--color-info-subtle);
+  --badge-text-color: var(--color-text-primary);
+  border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
+  font-weight: var(--font-weight-medium);
+}
+.bcn-ev-row__tags .esa-badge {
+  --badge-bg: var(--bcn-gray-100);
+  --badge-text-color: var(--bcn-gray-700);
+  font-weight: var(--font-weight-medium);
+}
 .topbar__right .esa-icon-button {
   color: var(--color-text-secondary);
 }
@@ -1922,6 +1969,36 @@ A full article read WITHOUT leaving the conversation: a SECOND esa-side-dialog s
   line-height: var(--line-height-normal);
   letter-spacing: var(--letter-spacing-normal);
 }
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
   --_ib-bg-hover: var(
@@ -1958,36 +2035,6 @@ A full article read WITHOUT leaving the conversation: a SECOND esa-side-dialog s
 .esa-icon-button:focus-visible {
   outline: var(--focus-ring-width) solid currentColor;
   outline-offset: var(--focus-ring-offset, 2px);
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
 }
 .esa-badge {
   --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
@@ -2092,9 +2139,11 @@ A full article read WITHOUT leaving the conversation: a SECOND esa-side-dialog s
 - `--bcn-aldo-100`: #cfeceb _(component)_
 - `--bcn-aldo-50`: #e8f6f5 _(component)_
 - `--bcn-aldo-600`: #06736f _(component)_
+- `--bcn-gray-100`: #efefef _(component)_
 - `--bcn-gray-1000`: #000000 _(component)_
 - `--bcn-gray-400`: #989898 _(component)_
 - `--bcn-gray-500`: #7c7c7c _(component)_
+- `--bcn-gray-700`: #525252 _(component)_
 - `--bcn-gray-950`: #292929 _(component)_
 - `--bcn-helpbar-fg`: rgba(255, 255, 255, .92) _(component)_
 - `--bcn-helpbar-fg-muted`: rgba(255, 255, 255, .72) _(component)_
@@ -2106,6 +2155,7 @@ A full article read WITHOUT leaving the conversation: a SECOND esa-side-dialog s
 - `--color-danger-hover`: #dc3e42 _(semantic)_
 - `--color-info`: #228be6 _(semantic)_
 - `--color-info-hover`: #0588f0 _(semantic)_
+- `--color-info-subtle`: #f4faff _(semantic)_
 - `--color-primary`: #005862 _(semantic)_
 - `--color-primary-hover`: #00474f _(semantic)_
 - `--color-secondary`: #00918b _(semantic)_

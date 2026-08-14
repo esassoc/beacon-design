@@ -6,7 +6,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 - **Source prototype:** http://localhost:4399/beacon-design/prototypes/data-catalog-actions/
 - **Section element:** `<page>`
-- **Components:** esa-badge (hub), esa-button (hub), esa-icon (hub), esa-icon-button (hub)
+- **Components:** esa-alert-box (hub), esa-badge (hub), esa-button (hub), esa-card (hub), esa-empty-state (hub), esa-icon (hub), esa-icon-button (hub), esa-loading-spinner (hub), esa-pill (hub)
 
 ## Markup (de-scoped, framework-free)
 ```html
@@ -2799,7 +2799,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </div>
                         <!--AG-FAKE-VERTICAL-SCROLL-->
                         <div
-                          class="ag-body-vertical-scroll ag-apple-scrollbar ag-scrollbar-invisible"
+                          class="ag-body-vertical-scroll ag-scrollbar-invisible"
                           aria-hidden="true"
                           style="width: 16px; max-width: 16px; min-width: 16px"
                         >
@@ -2944,7 +2944,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </div>
                       <!--AG-FAKE-HORIZONTAL-SCROLL-->
                       <div
-                        class="ag-body-horizontal-scroll ag-apple-scrollbar ag-scrollbar-invisible"
+                        class="ag-body-horizontal-scroll ag-scrollbar-invisible"
                         aria-hidden="true"
                         style="bottom: 0px; height: 16px; max-height: 16px; min-height: 16px"
                       >
@@ -4568,7 +4568,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.vImwuuMB.js"
+    src="/beacon-design/_astro/BcnOmniSearch.astro_astro_type_script_index_0_lang.BrpLbMy2.js"
   ></script>
   <!-- Aldo — help & guidance, app-wide like the palette above: the floating
          bottom-center utility bar and the route-aware guidance drawer it opens.
@@ -4612,18 +4612,27 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       <span class="bcn-help-bar__guidance-label">Guidance</span>
     </button>
     <span class="bcn-help-bar__divider" aria-hidden="true"></span>
-    <!-- Search — icon-only; the tooltip host also carries the omni-search open hook. -->
+    <!-- Attach Evidence of Compliance — icon-only; the tooltip host carries the drawer's open hook.
+       GLYPH NOTE: the spoke's committed evidence glyph is the paperclip in global-search's
+       SCOPES (what the ⌘K palette shows for Evidence of Compliance), but esa-icon-button
+       forwards only a registry `name` — no custom `paths` — and the hub registry has no
+       paperclip. Using 'file-text' until paperclip is registered in the hub, the same
+       constraint and the same fix as 'notepad-text' below.
+       This slot used to hold a duplicate Search button. It was replaced (product meeting
+       2026-08-04): search already has the top bar's own field and ⌘K, and this bar is
+       where Beacon's bottom affordances live, which is where the global evidence drawer
+       belongs. -->
     <esa-tooltip
       class="bcn-help-bar__tooltip"
-      text="Search"
+      text="Attach Evidence of Compliance"
       position="above"
-      data-omni-trigger="true"
+      data-evidence-trigger="true"
     >
       <button
         class="esa-icon-button esa-icon-button--md"
         type="button"
-        aria-label="Search"
-        title="Search"
+        aria-label="Attach Evidence of Compliance"
+        title="Attach Evidence of Compliance"
       >
         <span class="esa-icon esa-icon--md" aria-hidden="true">
           <svg
@@ -4637,8 +4646,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             stroke-linejoin="round"
             focusable="false"
           >
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.3-4.3"></path>
+            <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+            <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+            <path d="M10 9H8"></path>
+            <path d="M16 13H8"></path>
+            <path d="M16 17H8"></path>
           </svg>
         </span>
       </button>
@@ -5833,7 +5845,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   <template data-gd-aldo-avatar=""
     ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-omctboch="">
       <span class="bcn-aldo-mark__glyph" data-astro-cid-omctboch="">
-        <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-6mqbuw4b="">
+        <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-md4nwazs="">
           <svg
             width="14"
             height="14"
@@ -5844,7 +5856,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             stroke-linecap="round"
             stroke-linejoin="round"
             focusable="false"
-            data-astro-cid-6mqbuw4b=""
+            data-astro-cid-md4nwazs=""
           >
             <path
               d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
@@ -7385,6 +7397,6484 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
     type="module"
     src="/beacon-design/_astro/BcnGuidanceDrawer.astro_astro_type_script_index_0_lang.CSA-_RD7.js"
   ></script>
+  <!-- The global evidence workspace — the bar's third affordance. App-shell
+         furniture by design: it opens from ANY page, rises from the bottom, and
+         layers above dialogs (see BcnBottomDrawer for the stack). Same root
+         placement as the drawers above, for the same reason. -->
+  <bcn-bottom-drawer id="bcn-evidence-drawer" class="bcn-bottom-drawer">
+    <div class="bcn-bottom-drawer__backdrop" data-drawer-backdrop=""></div>
+    <div
+      class="bcn-bottom-drawer__panel"
+      data-drawer-panel=""
+      role="dialog"
+      aria-modal="true"
+      aria-label="Add Evidence of Compliance"
+      tabindex="-1"
+    >
+      <header class="bcn-bottom-drawer__head">
+        <div class="bcn-bottom-drawer__headslot">
+          <div class="bcn-ev__head"><h2 class="bcn-ev__title">Add Evidence of Compliance</h2></div>
+        </div>
+        <span class="bcn-bottom-drawer__close" data-drawer-close="">
+          <button
+            class="esa-icon-button esa-icon-button--md"
+            type="button"
+            aria-label="Close"
+            title="Close"
+          >
+            <span class="esa-icon esa-icon--md" aria-hidden="true">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="M18 6 6 18"></path>
+                <path d="m6 6 12 12"></path>
+              </svg>
+            </span>
+          </button>
+        </span>
+      </header>
+      <div class="bcn-bottom-drawer__body">
+        <div class="bcn-ev__panels">
+          <div class="bcn-ev__pane bcn-ev__pane--left">
+            <section class="bcn-ev-staging" aria-labelledby="bcn-ev-staging-title">
+              <header class="bcn-ev-staging__head">
+                <h3 class="bcn-ev-staging__title" id="bcn-ev-staging-title">
+                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path
+                        d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                      ></path>
+                    </svg>
+                  </span>
+                  Evidence
+                </h3>
+              </header>
+              <!-- Two tabs: intake, then the list you drag from. The controller sets the labels and
+       keeps a count badge on the list tab, so uploading on tab 1 has visible consequences
+       even though it leaves you where you are. -->
+              <div class="bcn-ev-staging__tabs">
+                <esa-tab-layout
+                  data-staging-tabs="true"
+                  appearance="underline"
+                  size="sm"
+                  variant="underline"
+                ></esa-tab-layout>
+              </div>
+              <!-- ── Tab 1 · Upload ────────────────────────────────────────────────────── -->
+              <div
+                class="bcn-ev-staging__panel bcn-ev-staging__panel--upload"
+                data-staging-panel="upload"
+              >
+                <!-- The zone owns the WHOLE tab while it is the only thing to do here, and yields the
+         moment there is a draft to show. No standing caption underneath: an empty tab whose
+         one affordance fills it does not need to be told what it is for. -->
+                <div class="bcn-ev-staging__drop" data-upload-zone="">
+                  <esa-file-upload
+                    label="Drop files here, or browse"
+                    multiple="true"
+                    max-size-mb="50"
+                    data-staging-dropzone="true"
+                    data-bcn-chrome-trimmed="true"
+                  ></esa-file-upload>
+                </div>
+                <!-- ── The draft ──────────────────────────────────────────────────────────
+         One card, however many files land in it — this IS the "several files, one piece of
+         evidence" model, made by the act of dropping rather than explained in copy. Always
+         expanded: a draft you are still assembling has nothing worth hiding, so it carries
+         no disclosure toggle at all. -->
+                <div class="bcn-ev-staging__draft" data-draft="" hidden="">
+                  <div class="esa-card esa-card--outlined">
+                    <div class="esa-card__body">
+                      <div class="bcn-ev-draft">
+                        <div class="bcn-ev-draft__titlerow">
+                          <h4 class="bcn-ev-draft__title" data-draft-title=""></h4>
+                          <!-- Reuses bcn-ev-card__count, the staged cards' class, rather than a draft-only
+                 copy: the border-only pill is already defined once there, and a second
+                 definition is how the two would drift. -->
+                          <span class="bcn-ev-card__count" data-draft-count="">
+                            <span class="esa-pill esa-pill--default esa-pill--sm">
+                              <span class="esa-pill__label"></span>
+                            </span>
+                          </span>
+                          <!-- A draft is unsaved BY DEFINITION — it exists only until Save commits it — so
+                 this is static rather than toggled. Same glyph, wording and pink as the
+                 drawer footer's marker: one condition, stated the same way wherever it
+                 appears. -->
+                          <span class="bcn-ev-draft__unsaved">
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path
+                                  d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                                ></path>
+                                <path d="M12 9v4"></path>
+                                <path d="M12 17h.01"></path>
+                              </svg>
+                            </span>
+                            Unsaved
+                          </span>
+                        </div>
+                        <p class="bcn-ev-draft__notes" data-draft-notes=""></p>
+                        <div class="bcn-ev-draft__filesrow">
+                          <p class="bcn-ev-draft__fileslabel">Files</p>
+                          <ul class="bcn-ev-draft__files" data-draft-files=""></ul>
+                        </div>
+                        <!-- Windows order — primary left of Cancel inside a right-aligned group, the same
+               arrangement the drawer footer uses. -->
+                        <footer class="bcn-ev-draft__foot">
+                          <span data-draft-add="">
+                            <span
+                              class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--sm"
+                            >
+                              <button class="esa-button__native" type="button">
+                                <span class="esa-button__label"> Save </span>
+                              </button>
+                            </span>
+                          </span>
+                          <span data-draft-cancel="">
+                            <span
+                              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                            >
+                              <button class="esa-button__native" type="button">
+                                <span class="esa-button__label"> Cancel </span>
+                              </button>
+                            </span>
+                          </span>
+                        </footer>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- One file pill, for filling in a NEW_SLOTS card at runtime. Cloned, never
+         hand-written, so runtime-built markup still comes from the legos. -->
+                <template data-file-pill="">
+                  <li data-astro-cid-xyosy2wp="">
+                    <span
+                      class="esa-pill esa-pill--default esa-pill--sm"
+                      data-astro-cid-heggk5tk=""
+                    >
+                      <span class="esa-pill__label" data-astro-cid-heggk5tk=""></span>
+                    </span>
+                  </li>
+                </template>
+                <!-- One draft file row, same bridge: <template> + clone, because Astro legos are
+         compile-time and cannot be constructed from JS. -->
+                <template data-draft-file-row="">
+                  <li class="bcn-ev-draft__file" data-astro-cid-xyosy2wp="">
+                    <span class="bcn-ev-draft__filename" data-astro-cid-xyosy2wp=""></span>
+                    <span class="bcn-ev-draft__filesize" data-astro-cid-xyosy2wp=""></span>
+                    <span class="bcn-ev-draft__fileremove" data-astro-cid-xyosy2wp="">
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Remove this file from the evidence"
+                        title="Remove this file from the evidence"
+                        data-astro-cid-q5zfyfab="true"
+                      >
+                        <span
+                          class="esa-icon esa-icon--sm"
+                          aria-hidden="true"
+                          data-astro-cid-md4nwazs=""
+                        >
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                            data-astro-cid-md4nwazs=""
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
+                    </span>
+                  </li>
+                </template>
+              </div>
+              <!-- ── Tab 2 · The list — the one drag source ────────────────────────────── -->
+              <div
+                class="bcn-ev-staging__panel bcn-ev-staging__panel--list"
+                data-staging-panel="list"
+                hidden=""
+              >
+                <div class="bcn-ev-staging__search">
+                  <div class="bcn-ev-search">
+                    <span class="bcn-ev-search__icon" aria-hidden="true">
+                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          focusable="false"
+                        >
+                          <circle cx="11" cy="11" r="8"></circle>
+                          <path d="m21 21-4.3-4.3"></path>
+                        </svg>
+                      </span>
+                    </span>
+                    <esa-combobox
+                      data-staging-existing="true"
+                      mode="autocomplete"
+                      size="md"
+                      aria-label="Search evidence already in Beacon"
+                      placeholder="Search evidence already in Beacon"
+                    ></esa-combobox>
+                  </div>
+                </div>
+                <div class="bcn-ev-staging__scroll">
+                  <!-- Pre-rendered pool; the script reveals the staged ones. Each card is a DRAG
+           SOURCE — grabbed by its grip, exactly as the Setup Wizard's requirement rows
+           are. `draggable` is set by the controller, not here, so a card whose evidence
+           is already on every action in view can have it withdrawn. -->
+                  <ul class="bcn-ev-staging__list" data-staging-list="">
+                    <li
+                      class="bcn-ev-staging__item"
+                      data-staging-item="ev-staged-swha"
+                      data-origin="upload"
+                      hidden=""
+                      data-collapsed=""
+                    >
+                      <div class="esa-card esa-card--outlined">
+                        <div class="esa-card__body">
+                          <div class="bcn-ev-card">
+                            <span
+                              class="bcn-ev-card__grip"
+                              data-staging-grip="ev-staged-swha"
+                              aria-hidden="true"
+                              title="Drag onto an action"
+                              draggable="true"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <circle cx="9" cy="12" r="1"></circle>
+                                  <circle cx="9" cy="5" r="1"></circle>
+                                  <circle cx="9" cy="19" r="1"></circle>
+                                  <circle cx="15" cy="12" r="1"></circle>
+                                  <circle cx="15" cy="5" r="1"></circle>
+                                  <circle cx="15" cy="19" r="1"></circle>
+                                </svg>
+                              </span>
+                            </span>
+                            <div class="bcn-ev-card__top">
+                              <p class="bcn-ev-card__title">
+                                <!-- The record's own page, in a NEW TAB: this drawer is a workspace you
+                         are part-way through, and navigating away from it would discard the
+                         staging list. Route shape matches prod's
+                         evidence-of-compliance/:evidenceOfComplianceID. -->
+                                <a
+                                  class="bcn-ev-card__titlelink"
+                                  href="/evidence-of-compliance/ev-staged-swha"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  >Swainson’s hawk nest survey — Jul 14</a
+                                >
+                              </p>
+                              <span class="bcn-ev-card__count">
+                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span class="esa-pill__label">3 files</span>
+                                </span>
+                              </span>
+                              <esa-tooltip
+                                class="bcn-countchip"
+                                text="On 0 actions"
+                                position="below"
+                                data-staging-attached=""
+                                hidden=""
+                              >
+                                <span class="bcn-countchip__stack">
+                                  <span class="bcn-countchip__icon" aria-hidden="true">
+                                    <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                      <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                                        <path d="M4 6h.01"></path>
+                                        <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                                        <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                                        <path d="M12 18h.01"></path>
+                                        <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                                        <circle cx="12" cy="12" r="2"></circle>
+                                        <path d="m13.41 10.59 5.66-5.66"></path>
+                                      </svg>
+                                    </span>
+                                  </span>
+                                  <span class="bcn-countchip__num" aria-hidden="true">
+                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                      >0</span
+                                    >
+                                  </span>
+                                  <span class="bcn-countchip__sr">On 0 actions</span>
+                                </span>
+                              </esa-tooltip>
+                              <span
+                                class="bcn-ev-card__remove"
+                                data-staging-remove="ev-staged-swha"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Swainson’s hawk nest survey — Jul 14"
+                                  title="Remove Swainson’s hawk nest survey — Jul 14"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                            <span class="bcn-ev-card__toggle">
+                              <button
+                                type="button"
+                                class="bcn-disclosure"
+                                aria-expanded="false"
+                                aria-label="Expand Swainson’s hawk nest survey — Jul 14"
+                                data-evidence-toggle="ev-staged-swha"
+                              >
+                                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m6 9 6 6 6-6"></path>
+                                  </svg>
+                                </span>
+                              </button>
+                            </span>
+                            <!-- The description stays visible SHUT — clamped to one line — because it is
+                     what tells two similarly-titled records apart in a scanned list. Only
+                     the file names are actually hidden. -->
+                            <p class="bcn-ev-card__desc">
+                              Two active nests recorded along the northern levee; surveyed by C.
+                              Anderson.
+                            </p>
+                            <!-- Expanded only: the label and the rule above it turn the pills from "more
+                     text on this card" into a named section, which is what they are — the
+                     parts inside this one piece of evidence. The whole row hides when the
+                     card shuts, so a collapsed card is still title + count + one line. -->
+                            <div class="bcn-ev-card__filesrow">
+                              <p class="bcn-ev-card__fileslabel">Files</p>
+                              <ul class="bcn-ev-card__files">
+                                <li>
+                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                    <span class="esa-pill__label"
+                                      >SWHA-nest-survey-2026-07-14.pdf</span
+                                    >
+                                  </span>
+                                </li>
+                                <li>
+                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                    <span class="esa-pill__label"
+                                      >SWHA-nest-locations-2026-07-14.kmz</span
+                                    >
+                                  </span>
+                                </li>
+                                <li>
+                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                    <span class="esa-pill__label"
+                                      >SWHA-survey-photos-2026-07-14.zip</span
+                                    >
+                                  </span>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li
+                      class="bcn-ev-staging__item"
+                      data-staging-item="ev-staged-training"
+                      data-origin="upload"
+                      hidden=""
+                      data-collapsed=""
+                    >
+                      <div class="esa-card esa-card--outlined">
+                        <div class="esa-card__body">
+                          <div class="bcn-ev-card">
+                            <span
+                              class="bcn-ev-card__grip"
+                              data-staging-grip="ev-staged-training"
+                              aria-hidden="true"
+                              title="Drag onto an action"
+                              draggable="true"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <circle cx="9" cy="12" r="1"></circle>
+                                  <circle cx="9" cy="5" r="1"></circle>
+                                  <circle cx="9" cy="19" r="1"></circle>
+                                  <circle cx="15" cy="12" r="1"></circle>
+                                  <circle cx="15" cy="5" r="1"></circle>
+                                  <circle cx="15" cy="19" r="1"></circle>
+                                </svg>
+                              </span>
+                            </span>
+                            <div class="bcn-ev-card__top">
+                              <p class="bcn-ev-card__title">
+                                <!-- The record's own page, in a NEW TAB: this drawer is a workspace you
+                         are part-way through, and navigating away from it would discard the
+                         staging list. Route shape matches prod's
+                         evidence-of-compliance/:evidenceOfComplianceID. -->
+                                <a
+                                  class="bcn-ev-card__titlelink"
+                                  href="/evidence-of-compliance/ev-staged-training"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  >Worker training roster — Jul 16</a
+                                >
+                              </p>
+                              <span class="bcn-ev-card__count">
+                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span class="esa-pill__label">1 file</span>
+                                </span>
+                              </span>
+                              <esa-tooltip
+                                class="bcn-countchip"
+                                text="On 0 actions"
+                                position="below"
+                                data-staging-attached=""
+                                hidden=""
+                              >
+                                <span class="bcn-countchip__stack">
+                                  <span class="bcn-countchip__icon" aria-hidden="true">
+                                    <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                      <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                                        <path d="M4 6h.01"></path>
+                                        <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                                        <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                                        <path d="M12 18h.01"></path>
+                                        <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                                        <circle cx="12" cy="12" r="2"></circle>
+                                        <path d="m13.41 10.59 5.66-5.66"></path>
+                                      </svg>
+                                    </span>
+                                  </span>
+                                  <span class="bcn-countchip__num" aria-hidden="true">
+                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                      >0</span
+                                    >
+                                  </span>
+                                  <span class="bcn-countchip__sr">On 0 actions</span>
+                                </span>
+                              </esa-tooltip>
+                              <span
+                                class="bcn-ev-card__remove"
+                                data-staging-remove="ev-staged-training"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Worker training roster — Jul 16"
+                                  title="Remove Worker training roster — Jul 16"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                            <span class="bcn-ev-card__toggle">
+                              <button
+                                type="button"
+                                class="bcn-disclosure"
+                                aria-expanded="false"
+                                aria-label="Expand Worker training roster — Jul 16"
+                                data-evidence-toggle="ev-staged-training"
+                              >
+                                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m6 9 6 6 6-6"></path>
+                                  </svg>
+                                </span>
+                              </button>
+                            </span>
+                            <!-- The description stays visible SHUT — clamped to one line — because it is
+                     what tells two similarly-titled records apart in a scanned list. Only
+                     the file names are actually hidden. -->
+                            <p class="bcn-ev-card__desc">
+                              34 crew signatures against the Q3 awareness curriculum.
+                            </p>
+                            <!-- Expanded only: the label and the rule above it turn the pills from "more
+                     text on this card" into a named section, which is what they are — the
+                     parts inside this one piece of evidence. The whole row hides when the
+                     card shuts, so a collapsed card is still title + count + one line. -->
+                            <div class="bcn-ev-card__filesrow">
+                              <p class="bcn-ev-card__fileslabel">Files</p>
+                              <ul class="bcn-ev-card__files">
+                                <li>
+                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                    <span class="esa-pill__label"
+                                      >WEAP-training-roster-2026-07-16.pdf</span
+                                    >
+                                  </span>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li
+                      class="bcn-ev-staging__item"
+                      data-staging-item="ev-exist-ggs-survey"
+                      data-origin="existing"
+                      hidden=""
+                      data-collapsed=""
+                    >
+                      <div class="esa-card esa-card--outlined">
+                        <div class="esa-card__body">
+                          <div class="bcn-ev-card">
+                            <span
+                              class="bcn-ev-card__grip"
+                              data-staging-grip="ev-exist-ggs-survey"
+                              aria-hidden="true"
+                              title="Drag onto an action"
+                              draggable="true"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <circle cx="9" cy="12" r="1"></circle>
+                                  <circle cx="9" cy="5" r="1"></circle>
+                                  <circle cx="9" cy="19" r="1"></circle>
+                                  <circle cx="15" cy="12" r="1"></circle>
+                                  <circle cx="15" cy="5" r="1"></circle>
+                                  <circle cx="15" cy="19" r="1"></circle>
+                                </svg>
+                              </span>
+                            </span>
+                            <div class="bcn-ev-card__top">
+                              <p class="bcn-ev-card__title">
+                                <!-- The record's own page, in a NEW TAB: this drawer is a workspace you
+                         are part-way through, and navigating away from it would discard the
+                         staging list. Route shape matches prod's
+                         evidence-of-compliance/:evidenceOfComplianceID. -->
+                                <a
+                                  class="bcn-ev-card__titlelink"
+                                  href="/evidence-of-compliance/ev-exist-ggs-survey"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  >Giant garter snake preconstruction survey — Jun 29</a
+                                >
+                              </p>
+                              <span class="bcn-ev-card__count">
+                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span class="esa-pill__label">1 file</span>
+                                </span>
+                              </span>
+                              <esa-tooltip
+                                class="bcn-countchip"
+                                text="On 0 actions"
+                                position="below"
+                                data-staging-attached=""
+                                hidden=""
+                              >
+                                <span class="bcn-countchip__stack">
+                                  <span class="bcn-countchip__icon" aria-hidden="true">
+                                    <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                      <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                                        <path d="M4 6h.01"></path>
+                                        <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                                        <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                                        <path d="M12 18h.01"></path>
+                                        <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                                        <circle cx="12" cy="12" r="2"></circle>
+                                        <path d="m13.41 10.59 5.66-5.66"></path>
+                                      </svg>
+                                    </span>
+                                  </span>
+                                  <span class="bcn-countchip__num" aria-hidden="true">
+                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                      >0</span
+                                    >
+                                  </span>
+                                  <span class="bcn-countchip__sr">On 0 actions</span>
+                                </span>
+                              </esa-tooltip>
+                              <span
+                                class="bcn-ev-card__remove"
+                                data-staging-remove="ev-exist-ggs-survey"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Giant garter snake preconstruction survey — Jun 29"
+                                  title="Remove Giant garter snake preconstruction survey — Jun 29"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                            <span class="bcn-ev-card__toggle">
+                              <button
+                                type="button"
+                                class="bcn-disclosure"
+                                aria-expanded="false"
+                                aria-label="Expand Giant garter snake preconstruction survey — Jun 29"
+                                data-evidence-toggle="ev-exist-ggs-survey"
+                              >
+                                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m6 9 6 6 6-6"></path>
+                                  </svg>
+                                </span>
+                              </button>
+                            </span>
+                            <!-- The description stays visible SHUT — clamped to one line — because it is
+                     what tells two similarly-titled records apart in a scanned list. Only
+                     the file names are actually hidden. -->
+                            <p class="bcn-ev-card__desc">
+                              No individuals observed; upland refugia mapped along the north levee
+                              toe.
+                            </p>
+                            <!-- Expanded only: the label and the rule above it turn the pills from "more
+                     text on this card" into a named section, which is what they are — the
+                     parts inside this one piece of evidence. The whole row hides when the
+                     card shuts, so a collapsed card is still title + count + one line. -->
+                            <div class="bcn-ev-card__filesrow">
+                              <p class="bcn-ev-card__fileslabel">Files</p>
+                              <ul class="bcn-ev-card__files">
+                                <li>
+                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                    <span class="esa-pill__label"
+                                      >GGS-preconstruction-survey-2026-06-29.pdf</span
+                                    >
+                                  </span>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li
+                      class="bcn-ev-staging__item"
+                      data-staging-item="ev-exist-biologist-quals"
+                      data-origin="existing"
+                      hidden=""
+                      data-collapsed=""
+                    >
+                      <div class="esa-card esa-card--outlined">
+                        <div class="esa-card__body">
+                          <div class="bcn-ev-card">
+                            <span
+                              class="bcn-ev-card__grip"
+                              data-staging-grip="ev-exist-biologist-quals"
+                              aria-hidden="true"
+                              title="Drag onto an action"
+                              draggable="true"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <circle cx="9" cy="12" r="1"></circle>
+                                  <circle cx="9" cy="5" r="1"></circle>
+                                  <circle cx="9" cy="19" r="1"></circle>
+                                  <circle cx="15" cy="12" r="1"></circle>
+                                  <circle cx="15" cy="5" r="1"></circle>
+                                  <circle cx="15" cy="19" r="1"></circle>
+                                </svg>
+                              </span>
+                            </span>
+                            <div class="bcn-ev-card__top">
+                              <p class="bcn-ev-card__title">
+                                <!-- The record's own page, in a NEW TAB: this drawer is a workspace you
+                         are part-way through, and navigating away from it would discard the
+                         staging list. Route shape matches prod's
+                         evidence-of-compliance/:evidenceOfComplianceID. -->
+                                <a
+                                  class="bcn-ev-card__titlelink"
+                                  href="/evidence-of-compliance/ev-exist-biologist-quals"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  >Qualified biologist statements of qualification</a
+                                >
+                              </p>
+                              <span class="bcn-ev-card__count">
+                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span class="esa-pill__label">4 files</span>
+                                </span>
+                              </span>
+                              <esa-tooltip
+                                class="bcn-countchip"
+                                text="On 0 actions"
+                                position="below"
+                                data-staging-attached=""
+                                hidden=""
+                              >
+                                <span class="bcn-countchip__stack">
+                                  <span class="bcn-countchip__icon" aria-hidden="true">
+                                    <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                      <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                                        <path d="M4 6h.01"></path>
+                                        <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                                        <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                                        <path d="M12 18h.01"></path>
+                                        <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                                        <circle cx="12" cy="12" r="2"></circle>
+                                        <path d="m13.41 10.59 5.66-5.66"></path>
+                                      </svg>
+                                    </span>
+                                  </span>
+                                  <span class="bcn-countchip__num" aria-hidden="true">
+                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                      >0</span
+                                    >
+                                  </span>
+                                  <span class="bcn-countchip__sr">On 0 actions</span>
+                                </span>
+                              </esa-tooltip>
+                              <span
+                                class="bcn-ev-card__remove"
+                                data-staging-remove="ev-exist-biologist-quals"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Qualified biologist statements of qualification"
+                                  title="Remove Qualified biologist statements of qualification"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                            <span class="bcn-ev-card__toggle">
+                              <button
+                                type="button"
+                                class="bcn-disclosure"
+                                aria-expanded="false"
+                                aria-label="Expand Qualified biologist statements of qualification"
+                                data-evidence-toggle="ev-exist-biologist-quals"
+                              >
+                                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m6 9 6 6 6-6"></path>
+                                  </svg>
+                                </span>
+                              </button>
+                            </span>
+                            <!-- The description stays visible SHUT — clamped to one line — because it is
+                     what tells two similarly-titled records apart in a scanned list. Only
+                     the file names are actually hidden. -->
+                            <p class="bcn-ev-card__desc">
+                              Four approved biologists covering avian, herpetological and botanical
+                              scopes.
+                            </p>
+                            <!-- Expanded only: the label and the rule above it turn the pills from "more
+                     text on this card" into a named section, which is what they are — the
+                     parts inside this one piece of evidence. The whole row hides when the
+                     card shuts, so a collapsed card is still title + count + one line. -->
+                            <div class="bcn-ev-card__filesrow">
+                              <p class="bcn-ev-card__fileslabel">Files</p>
+                              <ul class="bcn-ev-card__files">
+                                <li>
+                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                    <span class="esa-pill__label">SOQ-C-Anderson.pdf</span>
+                                  </span>
+                                </li>
+                                <li>
+                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                    <span class="esa-pill__label">SOQ-M-Okafor.pdf</span>
+                                  </span>
+                                </li>
+                                <li>
+                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                    <span class="esa-pill__label">SOQ-R-Delgado.pdf</span>
+                                  </span>
+                                </li>
+                                <li>
+                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                    <span class="esa-pill__label">SOQ-J-Whitfield.pdf</span>
+                                  </span>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li
+                      class="bcn-ev-staging__item"
+                      data-staging-item="ev-exist-noise-readings"
+                      data-origin="existing"
+                      hidden=""
+                      data-collapsed=""
+                    >
+                      <div class="esa-card esa-card--outlined">
+                        <div class="esa-card__body">
+                          <div class="bcn-ev-card">
+                            <span
+                              class="bcn-ev-card__grip"
+                              data-staging-grip="ev-exist-noise-readings"
+                              aria-hidden="true"
+                              title="Drag onto an action"
+                              draggable="true"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <circle cx="9" cy="12" r="1"></circle>
+                                  <circle cx="9" cy="5" r="1"></circle>
+                                  <circle cx="9" cy="19" r="1"></circle>
+                                  <circle cx="15" cy="12" r="1"></circle>
+                                  <circle cx="15" cy="5" r="1"></circle>
+                                  <circle cx="15" cy="19" r="1"></circle>
+                                </svg>
+                              </span>
+                            </span>
+                            <div class="bcn-ev-card__top">
+                              <p class="bcn-ev-card__title">
+                                <!-- The record's own page, in a NEW TAB: this drawer is a workspace you
+                         are part-way through, and navigating away from it would discard the
+                         staging list. Route shape matches prod's
+                         evidence-of-compliance/:evidenceOfComplianceID. -->
+                                <a
+                                  class="bcn-ev-card__titlelink"
+                                  href="/evidence-of-compliance/ev-exist-noise-readings"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  >Noise level readings — week of Jul 6</a
+                                >
+                              </p>
+                              <span class="bcn-ev-card__count">
+                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span class="esa-pill__label">1 file</span>
+                                </span>
+                              </span>
+                              <esa-tooltip
+                                class="bcn-countchip"
+                                text="On 0 actions"
+                                position="below"
+                                data-staging-attached=""
+                                hidden=""
+                              >
+                                <span class="bcn-countchip__stack">
+                                  <span class="bcn-countchip__icon" aria-hidden="true">
+                                    <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                      <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                                        <path d="M4 6h.01"></path>
+                                        <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                                        <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                                        <path d="M12 18h.01"></path>
+                                        <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                                        <circle cx="12" cy="12" r="2"></circle>
+                                        <path d="m13.41 10.59 5.66-5.66"></path>
+                                      </svg>
+                                    </span>
+                                  </span>
+                                  <span class="bcn-countchip__num" aria-hidden="true">
+                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                      >0</span
+                                    >
+                                  </span>
+                                  <span class="bcn-countchip__sr">On 0 actions</span>
+                                </span>
+                              </esa-tooltip>
+                              <span
+                                class="bcn-ev-card__remove"
+                                data-staging-remove="ev-exist-noise-readings"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Noise level readings — week of Jul 6"
+                                  title="Remove Noise level readings — week of Jul 6"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                            <span class="bcn-ev-card__toggle">
+                              <button
+                                type="button"
+                                class="bcn-disclosure"
+                                aria-expanded="false"
+                                aria-label="Expand Noise level readings — week of Jul 6"
+                                data-evidence-toggle="ev-exist-noise-readings"
+                              >
+                                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m6 9 6 6 6-6"></path>
+                                  </svg>
+                                </span>
+                              </button>
+                            </span>
+                            <!-- The description stays visible SHUT — clamped to one line — because it is
+                     what tells two similarly-titled records apart in a scanned list. Only
+                     the file names are actually hidden. -->
+                            <p class="bcn-ev-card__desc">
+                              Five sensitive receptors, all below the 75 dBA construction threshold.
+                            </p>
+                            <!-- Expanded only: the label and the rule above it turn the pills from "more
+                     text on this card" into a named section, which is what they are — the
+                     parts inside this one piece of evidence. The whole row hides when the
+                     card shuts, so a collapsed card is still title + count + one line. -->
+                            <div class="bcn-ev-card__filesrow">
+                              <p class="bcn-ev-card__fileslabel">Files</p>
+                              <ul class="bcn-ev-card__files">
+                                <li>
+                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                    <span class="esa-pill__label"
+                                      >noise-readings-2026-07-06.xlsx</span
+                                    >
+                                  </span>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li
+                      class="bcn-ev-staging__item"
+                      data-staging-item="ev-exist-swppp-inspection"
+                      data-origin="existing"
+                      hidden=""
+                      data-collapsed=""
+                    >
+                      <div class="esa-card esa-card--outlined">
+                        <div class="esa-card__body">
+                          <div class="bcn-ev-card">
+                            <span
+                              class="bcn-ev-card__grip"
+                              data-staging-grip="ev-exist-swppp-inspection"
+                              aria-hidden="true"
+                              title="Drag onto an action"
+                              draggable="true"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <circle cx="9" cy="12" r="1"></circle>
+                                  <circle cx="9" cy="5" r="1"></circle>
+                                  <circle cx="9" cy="19" r="1"></circle>
+                                  <circle cx="15" cy="12" r="1"></circle>
+                                  <circle cx="15" cy="5" r="1"></circle>
+                                  <circle cx="15" cy="19" r="1"></circle>
+                                </svg>
+                              </span>
+                            </span>
+                            <div class="bcn-ev-card__top">
+                              <p class="bcn-ev-card__title">
+                                <!-- The record's own page, in a NEW TAB: this drawer is a workspace you
+                         are part-way through, and navigating away from it would discard the
+                         staging list. Route shape matches prod's
+                         evidence-of-compliance/:evidenceOfComplianceID. -->
+                                <a
+                                  class="bcn-ev-card__titlelink"
+                                  href="/evidence-of-compliance/ev-exist-swppp-inspection"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  >SWPPP inspection report — Jul 9</a
+                                >
+                              </p>
+                              <span class="bcn-ev-card__count">
+                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span class="esa-pill__label">1 file</span>
+                                </span>
+                              </span>
+                              <esa-tooltip
+                                class="bcn-countchip"
+                                text="On 0 actions"
+                                position="below"
+                                data-staging-attached=""
+                                hidden=""
+                              >
+                                <span class="bcn-countchip__stack">
+                                  <span class="bcn-countchip__icon" aria-hidden="true">
+                                    <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                      <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                                        <path d="M4 6h.01"></path>
+                                        <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                                        <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                                        <path d="M12 18h.01"></path>
+                                        <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                                        <circle cx="12" cy="12" r="2"></circle>
+                                        <path d="m13.41 10.59 5.66-5.66"></path>
+                                      </svg>
+                                    </span>
+                                  </span>
+                                  <span class="bcn-countchip__num" aria-hidden="true">
+                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                      >0</span
+                                    >
+                                  </span>
+                                  <span class="bcn-countchip__sr">On 0 actions</span>
+                                </span>
+                              </esa-tooltip>
+                              <span
+                                class="bcn-ev-card__remove"
+                                data-staging-remove="ev-exist-swppp-inspection"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove SWPPP inspection report — Jul 9"
+                                  title="Remove SWPPP inspection report — Jul 9"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                            <span class="bcn-ev-card__toggle">
+                              <button
+                                type="button"
+                                class="bcn-disclosure"
+                                aria-expanded="false"
+                                aria-label="Expand SWPPP inspection report — Jul 9"
+                                data-evidence-toggle="ev-exist-swppp-inspection"
+                              >
+                                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m6 9 6 6 6-6"></path>
+                                  </svg>
+                                </span>
+                              </button>
+                            </span>
+                            <!-- The description stays visible SHUT — clamped to one line — because it is
+                     what tells two similarly-titled records apart in a scanned list. Only
+                     the file names are actually hidden. -->
+                            <p class="bcn-ev-card__desc">
+                              Two corrective actions logged at the southern stockpile; both closed
+                              Jul 11.
+                            </p>
+                            <!-- Expanded only: the label and the rule above it turn the pills from "more
+                     text on this card" into a named section, which is what they are — the
+                     parts inside this one piece of evidence. The whole row hides when the
+                     card shuts, so a collapsed card is still title + count + one line. -->
+                            <div class="bcn-ev-card__filesrow">
+                              <p class="bcn-ev-card__fileslabel">Files</p>
+                              <ul class="bcn-ev-card__files">
+                                <li>
+                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                    <span class="esa-pill__label"
+                                      >SWPPP-inspection-2026-07-09.pdf</span
+                                    >
+                                  </span>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li
+                      class="bcn-ev-staging__item"
+                      data-staging-item="ev-exist-dust-log"
+                      data-origin="existing"
+                      hidden=""
+                      data-collapsed=""
+                    >
+                      <div class="esa-card esa-card--outlined">
+                        <div class="esa-card__body">
+                          <div class="bcn-ev-card">
+                            <span
+                              class="bcn-ev-card__grip"
+                              data-staging-grip="ev-exist-dust-log"
+                              aria-hidden="true"
+                              title="Drag onto an action"
+                              draggable="true"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <circle cx="9" cy="12" r="1"></circle>
+                                  <circle cx="9" cy="5" r="1"></circle>
+                                  <circle cx="9" cy="19" r="1"></circle>
+                                  <circle cx="15" cy="12" r="1"></circle>
+                                  <circle cx="15" cy="5" r="1"></circle>
+                                  <circle cx="15" cy="19" r="1"></circle>
+                                </svg>
+                              </span>
+                            </span>
+                            <div class="bcn-ev-card__top">
+                              <p class="bcn-ev-card__title">
+                                <!-- The record's own page, in a NEW TAB: this drawer is a workspace you
+                         are part-way through, and navigating away from it would discard the
+                         staging list. Route shape matches prod's
+                         evidence-of-compliance/:evidenceOfComplianceID. -->
+                                <a
+                                  class="bcn-ev-card__titlelink"
+                                  href="/evidence-of-compliance/ev-exist-dust-log"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  >Dust control log — Jul 2026</a
+                                >
+                              </p>
+                              <span class="bcn-ev-card__count">
+                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span class="esa-pill__label">1 file</span>
+                                </span>
+                              </span>
+                              <esa-tooltip
+                                class="bcn-countchip"
+                                text="On 0 actions"
+                                position="below"
+                                data-staging-attached=""
+                                hidden=""
+                              >
+                                <span class="bcn-countchip__stack">
+                                  <span class="bcn-countchip__icon" aria-hidden="true">
+                                    <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                      <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                                        <path d="M4 6h.01"></path>
+                                        <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                                        <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                                        <path d="M12 18h.01"></path>
+                                        <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                                        <circle cx="12" cy="12" r="2"></circle>
+                                        <path d="m13.41 10.59 5.66-5.66"></path>
+                                      </svg>
+                                    </span>
+                                  </span>
+                                  <span class="bcn-countchip__num" aria-hidden="true">
+                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                      >0</span
+                                    >
+                                  </span>
+                                  <span class="bcn-countchip__sr">On 0 actions</span>
+                                </span>
+                              </esa-tooltip>
+                              <span
+                                class="bcn-ev-card__remove"
+                                data-staging-remove="ev-exist-dust-log"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Dust control log — Jul 2026"
+                                  title="Remove Dust control log — Jul 2026"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                            <span class="bcn-ev-card__toggle">
+                              <button
+                                type="button"
+                                class="bcn-disclosure"
+                                aria-expanded="false"
+                                aria-label="Expand Dust control log — Jul 2026"
+                                data-evidence-toggle="ev-exist-dust-log"
+                              >
+                                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m6 9 6 6 6-6"></path>
+                                  </svg>
+                                </span>
+                              </button>
+                            </span>
+                            <!-- The description stays visible SHUT — clamped to one line — because it is
+                     what tells two similarly-titled records apart in a scanned list. Only
+                     the file names are actually hidden. -->
+                            <p class="bcn-ev-card__desc">
+                              Daily watering passes and wind-speed shutdowns for the month to date.
+                            </p>
+                            <!-- Expanded only: the label and the rule above it turn the pills from "more
+                     text on this card" into a named section, which is what they are — the
+                     parts inside this one piece of evidence. The whole row hides when the
+                     card shuts, so a collapsed card is still title + count + one line. -->
+                            <div class="bcn-ev-card__filesrow">
+                              <p class="bcn-ev-card__fileslabel">Files</p>
+                              <ul class="bcn-ev-card__files">
+                                <li>
+                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                    <span class="esa-pill__label"
+                                      >dust-control-log-2026-07.pdf</span
+                                    >
+                                  </span>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li
+                      class="bcn-ev-staging__item"
+                      data-staging-item="ev-exist-haul-agreement"
+                      data-origin="existing"
+                      hidden=""
+                      data-collapsed=""
+                    >
+                      <div class="esa-card esa-card--outlined">
+                        <div class="esa-card__body">
+                          <div class="bcn-ev-card">
+                            <span
+                              class="bcn-ev-card__grip"
+                              data-staging-grip="ev-exist-haul-agreement"
+                              aria-hidden="true"
+                              title="Drag onto an action"
+                              draggable="true"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <circle cx="9" cy="12" r="1"></circle>
+                                  <circle cx="9" cy="5" r="1"></circle>
+                                  <circle cx="9" cy="19" r="1"></circle>
+                                  <circle cx="15" cy="12" r="1"></circle>
+                                  <circle cx="15" cy="5" r="1"></circle>
+                                  <circle cx="15" cy="19" r="1"></circle>
+                                </svg>
+                              </span>
+                            </span>
+                            <div class="bcn-ev-card__top">
+                              <p class="bcn-ev-card__title">
+                                <!-- The record's own page, in a NEW TAB: this drawer is a workspace you
+                         are part-way through, and navigating away from it would discard the
+                         staging list. Route shape matches prod's
+                         evidence-of-compliance/:evidenceOfComplianceID. -->
+                                <a
+                                  class="bcn-ev-card__titlelink"
+                                  href="/evidence-of-compliance/ev-exist-haul-agreement"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  >Executed haul route maintenance agreement</a
+                                >
+                              </p>
+                              <span class="bcn-ev-card__count">
+                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span class="esa-pill__label">1 file</span>
+                                </span>
+                              </span>
+                              <esa-tooltip
+                                class="bcn-countchip"
+                                text="On 0 actions"
+                                position="below"
+                                data-staging-attached=""
+                                hidden=""
+                              >
+                                <span class="bcn-countchip__stack">
+                                  <span class="bcn-countchip__icon" aria-hidden="true">
+                                    <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                      <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                                        <path d="M4 6h.01"></path>
+                                        <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                                        <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                                        <path d="M12 18h.01"></path>
+                                        <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                                        <circle cx="12" cy="12" r="2"></circle>
+                                        <path d="m13.41 10.59 5.66-5.66"></path>
+                                      </svg>
+                                    </span>
+                                  </span>
+                                  <span class="bcn-countchip__num" aria-hidden="true">
+                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                      >0</span
+                                    >
+                                  </span>
+                                  <span class="bcn-countchip__sr">On 0 actions</span>
+                                </span>
+                              </esa-tooltip>
+                              <span
+                                class="bcn-ev-card__remove"
+                                data-staging-remove="ev-exist-haul-agreement"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Executed haul route maintenance agreement"
+                                  title="Remove Executed haul route maintenance agreement"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                            <span class="bcn-ev-card__toggle">
+                              <button
+                                type="button"
+                                class="bcn-disclosure"
+                                aria-expanded="false"
+                                aria-label="Expand Executed haul route maintenance agreement"
+                                data-evidence-toggle="ev-exist-haul-agreement"
+                              >
+                                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m6 9 6 6 6-6"></path>
+                                  </svg>
+                                </span>
+                              </button>
+                            </span>
+                            <!-- The description stays visible SHUT — clamped to one line — because it is
+                     what tells two similarly-titled records apart in a scanned list. Only
+                     the file names are actually hidden. -->
+                            <p class="bcn-ev-card__desc">
+                              Countersigned by the county public works director.
+                            </p>
+                            <!-- Expanded only: the label and the rule above it turn the pills from "more
+                     text on this card" into a named section, which is what they are — the
+                     parts inside this one piece of evidence. The whole row hides when the
+                     card shuts, so a collapsed card is still title + count + one line. -->
+                            <div class="bcn-ev-card__filesrow">
+                              <p class="bcn-ev-card__fileslabel">Files</p>
+                              <ul class="bcn-ev-card__files">
+                                <li>
+                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                    <span class="esa-pill__label"
+                                      >haul-route-agreement-executed.pdf</span
+                                    >
+                                  </span>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li
+                      class="bcn-ev-staging__item"
+                      data-staging-item="ev-exist-cultural-brief"
+                      data-origin="existing"
+                      hidden=""
+                      data-collapsed=""
+                    >
+                      <div class="esa-card esa-card--outlined">
+                        <div class="esa-card__body">
+                          <div class="bcn-ev-card">
+                            <span
+                              class="bcn-ev-card__grip"
+                              data-staging-grip="ev-exist-cultural-brief"
+                              aria-hidden="true"
+                              title="Drag onto an action"
+                              draggable="true"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <circle cx="9" cy="12" r="1"></circle>
+                                  <circle cx="9" cy="5" r="1"></circle>
+                                  <circle cx="9" cy="19" r="1"></circle>
+                                  <circle cx="15" cy="12" r="1"></circle>
+                                  <circle cx="15" cy="5" r="1"></circle>
+                                  <circle cx="15" cy="19" r="1"></circle>
+                                </svg>
+                              </span>
+                            </span>
+                            <div class="bcn-ev-card__top">
+                              <p class="bcn-ev-card__title">
+                                <!-- The record's own page, in a NEW TAB: this drawer is a workspace you
+                         are part-way through, and navigating away from it would discard the
+                         staging list. Route shape matches prod's
+                         evidence-of-compliance/:evidenceOfComplianceID. -->
+                                <a
+                                  class="bcn-ev-card__titlelink"
+                                  href="/evidence-of-compliance/ev-exist-cultural-brief"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  >Cultural resources monitoring brief — Jul 8</a
+                                >
+                              </p>
+                              <span class="bcn-ev-card__count">
+                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span class="esa-pill__label">1 file</span>
+                                </span>
+                              </span>
+                              <esa-tooltip
+                                class="bcn-countchip"
+                                text="On 0 actions"
+                                position="below"
+                                data-staging-attached=""
+                                hidden=""
+                              >
+                                <span class="bcn-countchip__stack">
+                                  <span class="bcn-countchip__icon" aria-hidden="true">
+                                    <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                      <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                                        <path d="M4 6h.01"></path>
+                                        <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                                        <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                                        <path d="M12 18h.01"></path>
+                                        <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                                        <circle cx="12" cy="12" r="2"></circle>
+                                        <path d="m13.41 10.59 5.66-5.66"></path>
+                                      </svg>
+                                    </span>
+                                  </span>
+                                  <span class="bcn-countchip__num" aria-hidden="true">
+                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                      >0</span
+                                    >
+                                  </span>
+                                  <span class="bcn-countchip__sr">On 0 actions</span>
+                                </span>
+                              </esa-tooltip>
+                              <span
+                                class="bcn-ev-card__remove"
+                                data-staging-remove="ev-exist-cultural-brief"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Cultural resources monitoring brief — Jul 8"
+                                  title="Remove Cultural resources monitoring brief — Jul 8"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                            <span class="bcn-ev-card__toggle">
+                              <button
+                                type="button"
+                                class="bcn-disclosure"
+                                aria-expanded="false"
+                                aria-label="Expand Cultural resources monitoring brief — Jul 8"
+                                data-evidence-toggle="ev-exist-cultural-brief"
+                              >
+                                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m6 9 6 6 6-6"></path>
+                                  </svg>
+                                </span>
+                              </button>
+                            </span>
+                            <!-- The description stays visible SHUT — clamped to one line — because it is
+                     what tells two similarly-titled records apart in a scanned list. Only
+                     the file names are actually hidden. -->
+                            <p class="bcn-ev-card__desc">
+                              No cultural material encountered during the utility trench excavation.
+                            </p>
+                            <!-- Expanded only: the label and the rule above it turn the pills from "more
+                     text on this card" into a named section, which is what they are — the
+                     parts inside this one piece of evidence. The whole row hides when the
+                     card shuts, so a collapsed card is still title + count + one line. -->
+                            <div class="bcn-ev-card__filesrow">
+                              <p class="bcn-ev-card__fileslabel">Files</p>
+                              <ul class="bcn-ev-card__files">
+                                <li>
+                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                    <span class="esa-pill__label"
+                                      >cultural-monitoring-brief-2026-07-08.pdf</span
+                                    >
+                                  </span>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li
+                      class="bcn-ev-staging__item"
+                      data-staging-item="ev-exist-nesting-bird-sweep"
+                      data-origin="existing"
+                      hidden=""
+                      data-collapsed=""
+                    >
+                      <div class="esa-card esa-card--outlined">
+                        <div class="esa-card__body">
+                          <div class="bcn-ev-card">
+                            <span
+                              class="bcn-ev-card__grip"
+                              data-staging-grip="ev-exist-nesting-bird-sweep"
+                              aria-hidden="true"
+                              title="Drag onto an action"
+                              draggable="true"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <circle cx="9" cy="12" r="1"></circle>
+                                  <circle cx="9" cy="5" r="1"></circle>
+                                  <circle cx="9" cy="19" r="1"></circle>
+                                  <circle cx="15" cy="12" r="1"></circle>
+                                  <circle cx="15" cy="5" r="1"></circle>
+                                  <circle cx="15" cy="19" r="1"></circle>
+                                </svg>
+                              </span>
+                            </span>
+                            <div class="bcn-ev-card__top">
+                              <p class="bcn-ev-card__title">
+                                <!-- The record's own page, in a NEW TAB: this drawer is a workspace you
+                         are part-way through, and navigating away from it would discard the
+                         staging list. Route shape matches prod's
+                         evidence-of-compliance/:evidenceOfComplianceID. -->
+                                <a
+                                  class="bcn-ev-card__titlelink"
+                                  href="/evidence-of-compliance/ev-exist-nesting-bird-sweep"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  >Nesting bird sweep — Jun 22</a
+                                >
+                              </p>
+                              <span class="bcn-ev-card__count">
+                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span class="esa-pill__label">2 files</span>
+                                </span>
+                              </span>
+                              <esa-tooltip
+                                class="bcn-countchip"
+                                text="On 0 actions"
+                                position="below"
+                                data-staging-attached=""
+                                hidden=""
+                              >
+                                <span class="bcn-countchip__stack">
+                                  <span class="bcn-countchip__icon" aria-hidden="true">
+                                    <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                      <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                                        <path d="M4 6h.01"></path>
+                                        <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                                        <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                                        <path d="M12 18h.01"></path>
+                                        <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                                        <circle cx="12" cy="12" r="2"></circle>
+                                        <path d="m13.41 10.59 5.66-5.66"></path>
+                                      </svg>
+                                    </span>
+                                  </span>
+                                  <span class="bcn-countchip__num" aria-hidden="true">
+                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                      >0</span
+                                    >
+                                  </span>
+                                  <span class="bcn-countchip__sr">On 0 actions</span>
+                                </span>
+                              </esa-tooltip>
+                              <span
+                                class="bcn-ev-card__remove"
+                                data-staging-remove="ev-exist-nesting-bird-sweep"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Nesting bird sweep — Jun 22"
+                                  title="Remove Nesting bird sweep — Jun 22"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                            <span class="bcn-ev-card__toggle">
+                              <button
+                                type="button"
+                                class="bcn-disclosure"
+                                aria-expanded="false"
+                                aria-label="Expand Nesting bird sweep — Jun 22"
+                                data-evidence-toggle="ev-exist-nesting-bird-sweep"
+                              >
+                                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m6 9 6 6 6-6"></path>
+                                  </svg>
+                                </span>
+                              </button>
+                            </span>
+                            <!-- The description stays visible SHUT — clamped to one line — because it is
+                     what tells two similarly-titled records apart in a scanned list. Only
+                     the file names are actually hidden. -->
+                            <p class="bcn-ev-card__desc">
+                              Two mourning dove nests flagged with 50-ft buffers; released Jul 6.
+                            </p>
+                            <!-- Expanded only: the label and the rule above it turn the pills from "more
+                     text on this card" into a named section, which is what they are — the
+                     parts inside this one piece of evidence. The whole row hides when the
+                     card shuts, so a collapsed card is still title + count + one line. -->
+                            <div class="bcn-ev-card__filesrow">
+                              <p class="bcn-ev-card__fileslabel">Files</p>
+                              <ul class="bcn-ev-card__files">
+                                <li>
+                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                    <span class="esa-pill__label"
+                                      >nesting-bird-sweep-2026-06-22.pdf</span
+                                    >
+                                  </span>
+                                </li>
+                                <li>
+                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                    <span class="esa-pill__label"
+                                      >nest-buffer-map-2026-06-22.pdf</span
+                                    >
+                                  </span>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li
+                      class="bcn-ev-staging__item"
+                      data-staging-item="ev-new-1"
+                      data-origin="upload"
+                      hidden=""
+                      data-collapsed=""
+                    >
+                      <div class="esa-card esa-card--outlined">
+                        <div class="esa-card__body">
+                          <div class="bcn-ev-card">
+                            <span
+                              class="bcn-ev-card__grip"
+                              data-staging-grip="ev-new-1"
+                              aria-hidden="true"
+                              title="Drag onto an action"
+                              draggable="true"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <circle cx="9" cy="12" r="1"></circle>
+                                  <circle cx="9" cy="5" r="1"></circle>
+                                  <circle cx="9" cy="19" r="1"></circle>
+                                  <circle cx="15" cy="12" r="1"></circle>
+                                  <circle cx="15" cy="5" r="1"></circle>
+                                  <circle cx="15" cy="19" r="1"></circle>
+                                </svg>
+                              </span>
+                            </span>
+                            <div class="bcn-ev-card__top">
+                              <p class="bcn-ev-card__title">
+                                <!-- The record's own page, in a NEW TAB: this drawer is a workspace you
+                         are part-way through, and navigating away from it would discard the
+                         staging list. Route shape matches prod's
+                         evidence-of-compliance/:evidenceOfComplianceID. -->
+                                <a
+                                  class="bcn-ev-card__titlelink"
+                                  href="/evidence-of-compliance/ev-new-1"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                ></a>
+                              </p>
+                              <span class="bcn-ev-card__count">
+                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span class="esa-pill__label">0 files</span>
+                                </span>
+                              </span>
+                              <esa-tooltip
+                                class="bcn-countchip"
+                                text="On 0 actions"
+                                position="below"
+                                data-staging-attached=""
+                                hidden=""
+                              >
+                                <span class="bcn-countchip__stack">
+                                  <span class="bcn-countchip__icon" aria-hidden="true">
+                                    <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                      <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                                        <path d="M4 6h.01"></path>
+                                        <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                                        <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                                        <path d="M12 18h.01"></path>
+                                        <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                                        <circle cx="12" cy="12" r="2"></circle>
+                                        <path d="m13.41 10.59 5.66-5.66"></path>
+                                      </svg>
+                                    </span>
+                                  </span>
+                                  <span class="bcn-countchip__num" aria-hidden="true">
+                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                      >0</span
+                                    >
+                                  </span>
+                                  <span class="bcn-countchip__sr">On 0 actions</span>
+                                </span>
+                              </esa-tooltip>
+                              <span class="bcn-ev-card__remove" data-staging-remove="ev-new-1">
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove "
+                                  title="Remove "
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                            <span class="bcn-ev-card__toggle">
+                              <button
+                                type="button"
+                                class="bcn-disclosure"
+                                aria-expanded="false"
+                                aria-label="Expand "
+                                data-evidence-toggle="ev-new-1"
+                              >
+                                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m6 9 6 6 6-6"></path>
+                                  </svg>
+                                </span>
+                              </button>
+                            </span>
+                            <!-- The description stays visible SHUT — clamped to one line — because it is
+                     what tells two similarly-titled records apart in a scanned list. Only
+                     the file names are actually hidden. -->
+                            <p class="bcn-ev-card__desc"></p>
+                            <!-- Expanded only: the label and the rule above it turn the pills from "more
+                     text on this card" into a named section, which is what they are — the
+                     parts inside this one piece of evidence. The whole row hides when the
+                     card shuts, so a collapsed card is still title + count + one line. -->
+                            <div class="bcn-ev-card__filesrow">
+                              <p class="bcn-ev-card__fileslabel">Files</p>
+                              <ul class="bcn-ev-card__files"></ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li
+                      class="bcn-ev-staging__item"
+                      data-staging-item="ev-new-2"
+                      data-origin="upload"
+                      hidden=""
+                      data-collapsed=""
+                    >
+                      <div class="esa-card esa-card--outlined">
+                        <div class="esa-card__body">
+                          <div class="bcn-ev-card">
+                            <span
+                              class="bcn-ev-card__grip"
+                              data-staging-grip="ev-new-2"
+                              aria-hidden="true"
+                              title="Drag onto an action"
+                              draggable="true"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <circle cx="9" cy="12" r="1"></circle>
+                                  <circle cx="9" cy="5" r="1"></circle>
+                                  <circle cx="9" cy="19" r="1"></circle>
+                                  <circle cx="15" cy="12" r="1"></circle>
+                                  <circle cx="15" cy="5" r="1"></circle>
+                                  <circle cx="15" cy="19" r="1"></circle>
+                                </svg>
+                              </span>
+                            </span>
+                            <div class="bcn-ev-card__top">
+                              <p class="bcn-ev-card__title">
+                                <!-- The record's own page, in a NEW TAB: this drawer is a workspace you
+                         are part-way through, and navigating away from it would discard the
+                         staging list. Route shape matches prod's
+                         evidence-of-compliance/:evidenceOfComplianceID. -->
+                                <a
+                                  class="bcn-ev-card__titlelink"
+                                  href="/evidence-of-compliance/ev-new-2"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                ></a>
+                              </p>
+                              <span class="bcn-ev-card__count">
+                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span class="esa-pill__label">0 files</span>
+                                </span>
+                              </span>
+                              <esa-tooltip
+                                class="bcn-countchip"
+                                text="On 0 actions"
+                                position="below"
+                                data-staging-attached=""
+                                hidden=""
+                              >
+                                <span class="bcn-countchip__stack">
+                                  <span class="bcn-countchip__icon" aria-hidden="true">
+                                    <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                      <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                                        <path d="M4 6h.01"></path>
+                                        <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                                        <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                                        <path d="M12 18h.01"></path>
+                                        <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                                        <circle cx="12" cy="12" r="2"></circle>
+                                        <path d="m13.41 10.59 5.66-5.66"></path>
+                                      </svg>
+                                    </span>
+                                  </span>
+                                  <span class="bcn-countchip__num" aria-hidden="true">
+                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                      >0</span
+                                    >
+                                  </span>
+                                  <span class="bcn-countchip__sr">On 0 actions</span>
+                                </span>
+                              </esa-tooltip>
+                              <span class="bcn-ev-card__remove" data-staging-remove="ev-new-2">
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove "
+                                  title="Remove "
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                            <span class="bcn-ev-card__toggle">
+                              <button
+                                type="button"
+                                class="bcn-disclosure"
+                                aria-expanded="false"
+                                aria-label="Expand "
+                                data-evidence-toggle="ev-new-2"
+                              >
+                                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m6 9 6 6 6-6"></path>
+                                  </svg>
+                                </span>
+                              </button>
+                            </span>
+                            <!-- The description stays visible SHUT — clamped to one line — because it is
+                     what tells two similarly-titled records apart in a scanned list. Only
+                     the file names are actually hidden. -->
+                            <p class="bcn-ev-card__desc"></p>
+                            <!-- Expanded only: the label and the rule above it turn the pills from "more
+                     text on this card" into a named section, which is what they are — the
+                     parts inside this one piece of evidence. The whole row hides when the
+                     card shuts, so a collapsed card is still title + count + one line. -->
+                            <div class="bcn-ev-card__filesrow">
+                              <p class="bcn-ev-card__fileslabel">Files</p>
+                              <ul class="bcn-ev-card__files"></ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li
+                      class="bcn-ev-staging__item"
+                      data-staging-item="ev-new-3"
+                      data-origin="upload"
+                      hidden=""
+                      data-collapsed=""
+                    >
+                      <div class="esa-card esa-card--outlined">
+                        <div class="esa-card__body">
+                          <div class="bcn-ev-card">
+                            <span
+                              class="bcn-ev-card__grip"
+                              data-staging-grip="ev-new-3"
+                              aria-hidden="true"
+                              title="Drag onto an action"
+                              draggable="true"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <circle cx="9" cy="12" r="1"></circle>
+                                  <circle cx="9" cy="5" r="1"></circle>
+                                  <circle cx="9" cy="19" r="1"></circle>
+                                  <circle cx="15" cy="12" r="1"></circle>
+                                  <circle cx="15" cy="5" r="1"></circle>
+                                  <circle cx="15" cy="19" r="1"></circle>
+                                </svg>
+                              </span>
+                            </span>
+                            <div class="bcn-ev-card__top">
+                              <p class="bcn-ev-card__title">
+                                <!-- The record's own page, in a NEW TAB: this drawer is a workspace you
+                         are part-way through, and navigating away from it would discard the
+                         staging list. Route shape matches prod's
+                         evidence-of-compliance/:evidenceOfComplianceID. -->
+                                <a
+                                  class="bcn-ev-card__titlelink"
+                                  href="/evidence-of-compliance/ev-new-3"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                ></a>
+                              </p>
+                              <span class="bcn-ev-card__count">
+                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span class="esa-pill__label">0 files</span>
+                                </span>
+                              </span>
+                              <esa-tooltip
+                                class="bcn-countchip"
+                                text="On 0 actions"
+                                position="below"
+                                data-staging-attached=""
+                                hidden=""
+                              >
+                                <span class="bcn-countchip__stack">
+                                  <span class="bcn-countchip__icon" aria-hidden="true">
+                                    <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                      <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                                        <path d="M4 6h.01"></path>
+                                        <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                                        <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                                        <path d="M12 18h.01"></path>
+                                        <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                                        <circle cx="12" cy="12" r="2"></circle>
+                                        <path d="m13.41 10.59 5.66-5.66"></path>
+                                      </svg>
+                                    </span>
+                                  </span>
+                                  <span class="bcn-countchip__num" aria-hidden="true">
+                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                      >0</span
+                                    >
+                                  </span>
+                                  <span class="bcn-countchip__sr">On 0 actions</span>
+                                </span>
+                              </esa-tooltip>
+                              <span class="bcn-ev-card__remove" data-staging-remove="ev-new-3">
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove "
+                                  title="Remove "
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                            <span class="bcn-ev-card__toggle">
+                              <button
+                                type="button"
+                                class="bcn-disclosure"
+                                aria-expanded="false"
+                                aria-label="Expand "
+                                data-evidence-toggle="ev-new-3"
+                              >
+                                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m6 9 6 6 6-6"></path>
+                                  </svg>
+                                </span>
+                              </button>
+                            </span>
+                            <!-- The description stays visible SHUT — clamped to one line — because it is
+                     what tells two similarly-titled records apart in a scanned list. Only
+                     the file names are actually hidden. -->
+                            <p class="bcn-ev-card__desc"></p>
+                            <!-- Expanded only: the label and the rule above it turn the pills from "more
+                     text on this card" into a named section, which is what they are — the
+                     parts inside this one piece of evidence. The whole row hides when the
+                     card shuts, so a collapsed card is still title + count + one line. -->
+                            <div class="bcn-ev-card__filesrow">
+                              <p class="bcn-ev-card__fileslabel">Files</p>
+                              <ul class="bcn-ev-card__files"></ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    <li
+                      class="bcn-ev-staging__item"
+                      data-staging-item="ev-new-4"
+                      data-origin="upload"
+                      hidden=""
+                      data-collapsed=""
+                    >
+                      <div class="esa-card esa-card--outlined">
+                        <div class="esa-card__body">
+                          <div class="bcn-ev-card">
+                            <span
+                              class="bcn-ev-card__grip"
+                              data-staging-grip="ev-new-4"
+                              aria-hidden="true"
+                              title="Drag onto an action"
+                              draggable="true"
+                            >
+                              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  stroke-width="2"
+                                  stroke-linecap="round"
+                                  stroke-linejoin="round"
+                                  focusable="false"
+                                >
+                                  <circle cx="9" cy="12" r="1"></circle>
+                                  <circle cx="9" cy="5" r="1"></circle>
+                                  <circle cx="9" cy="19" r="1"></circle>
+                                  <circle cx="15" cy="12" r="1"></circle>
+                                  <circle cx="15" cy="5" r="1"></circle>
+                                  <circle cx="15" cy="19" r="1"></circle>
+                                </svg>
+                              </span>
+                            </span>
+                            <div class="bcn-ev-card__top">
+                              <p class="bcn-ev-card__title">
+                                <!-- The record's own page, in a NEW TAB: this drawer is a workspace you
+                         are part-way through, and navigating away from it would discard the
+                         staging list. Route shape matches prod's
+                         evidence-of-compliance/:evidenceOfComplianceID. -->
+                                <a
+                                  class="bcn-ev-card__titlelink"
+                                  href="/evidence-of-compliance/ev-new-4"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                ></a>
+                              </p>
+                              <span class="bcn-ev-card__count">
+                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span class="esa-pill__label">0 files</span>
+                                </span>
+                              </span>
+                              <esa-tooltip
+                                class="bcn-countchip"
+                                text="On 0 actions"
+                                position="below"
+                                data-staging-attached=""
+                                hidden=""
+                              >
+                                <span class="bcn-countchip__stack">
+                                  <span class="bcn-countchip__icon" aria-hidden="true">
+                                    <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                      <svg
+                                        width="20"
+                                        height="20"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                                        <path d="M4 6h.01"></path>
+                                        <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                                        <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                                        <path d="M12 18h.01"></path>
+                                        <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                                        <circle cx="12" cy="12" r="2"></circle>
+                                        <path d="m13.41 10.59 5.66-5.66"></path>
+                                      </svg>
+                                    </span>
+                                  </span>
+                                  <span class="bcn-countchip__num" aria-hidden="true">
+                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                      >0</span
+                                    >
+                                  </span>
+                                  <span class="bcn-countchip__sr">On 0 actions</span>
+                                </span>
+                              </esa-tooltip>
+                              <span class="bcn-ev-card__remove" data-staging-remove="ev-new-4">
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove "
+                                  title="Remove "
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                            <span class="bcn-ev-card__toggle">
+                              <button
+                                type="button"
+                                class="bcn-disclosure"
+                                aria-expanded="false"
+                                aria-label="Expand "
+                                data-evidence-toggle="ev-new-4"
+                              >
+                                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="m6 9 6 6 6-6"></path>
+                                  </svg>
+                                </span>
+                              </button>
+                            </span>
+                            <!-- The description stays visible SHUT — clamped to one line — because it is
+                     what tells two similarly-titled records apart in a scanned list. Only
+                     the file names are actually hidden. -->
+                            <p class="bcn-ev-card__desc"></p>
+                            <!-- Expanded only: the label and the rule above it turn the pills from "more
+                     text on this card" into a named section, which is what they are — the
+                     parts inside this one piece of evidence. The whole row hides when the
+                     card shuts, so a collapsed card is still title + count + one line. -->
+                            <div class="bcn-ev-card__filesrow">
+                              <p class="bcn-ev-card__fileslabel">Files</p>
+                              <ul class="bcn-ev-card__files"></ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                  <!-- Nothing staged yet. -->
+                  <div class="bcn-ev-staging__empty" data-staging-empty="">
+                    <div class="esa-empty-state esa-empty-state--sm">
+                      <h3 class="esa-empty-state__title">Nothing added yet</h3>
+                      <p class="esa-empty-state__description">
+                        Search above for evidence already in Beacon, or upload a file on the Add New
+                        tab.
+                      </p>
+                      <div class="esa-empty-state__actions"></div>
+                    </div>
+                  </div>
+                </div>
+                <!-- The match utility lives with the evidence it reads, not with the actions it
+         proposes — and only on this tab, since it has nothing to read from the uploader. -->
+                <footer class="bcn-ev-staging__foot">
+                  <span class="bcn-ev-staging__find" data-targets-find="">
+                    <span
+                      class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                    >
+                      <button class="esa-button__native" type="button">
+                        <span class="esa-button__label"> Find matches </span>
+                      </button>
+                    </span>
+                  </span>
+                </footer>
+              </div>
+            </section>
+          </div>
+          <!-- The seam is a 1px grid track — the rule itself, nothing more. It costs the layout
+         no width, so either column can run right up to the line. -->
+          <div class="bcn-ev__joint" aria-hidden="true"></div>
+          <div class="bcn-ev__pane bcn-ev__pane--right">
+            <section class="bcn-ev-targets" aria-labelledby="bcn-ev-targets-title">
+              <header class="bcn-ev-targets__head">
+                <h3 class="bcn-ev-targets__title" id="bcn-ev-targets-title">
+                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      focusable="false"
+                    >
+                      <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                      <path d="M4 6h.01"></path>
+                      <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                      <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                      <path d="M12 18h.01"></path>
+                      <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                      <circle cx="12" cy="12" r="2"></circle>
+                      <path d="m13.41 10.59 5.66-5.66"></path>
+                    </svg>
+                  </span>
+                  Actions
+                  <span
+                    class="bcn-ev-targets__count"
+                    data-targets-count=""
+                    aria-hidden="true"
+                  ></span>
+                </h3>
+              </header>
+              <!-- The three facets on a ruled row, NOT in a card: its bottom border is the same
+       hairline the Evidence column's tab strip draws, at the same height, so the two
+       columns share one line across the seam instead of each starting differently.
+       The scope lives HERE, not in the drawer header: it governs this column and nothing
+       else. Component and Phase are the dimensions the Setup Wizard's Actions step filters
+       on; all three are guarded while associations are unsaved (see evidence-drawer.ts). -->
+              <div class="bcn-ev-targets__filters">
+                <span class="bcn-ev-targets__filter">
+                  <span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-component">Component</span>
+                  <esa-select
+                    data-evidence-component="true"
+                    size="sm"
+                    searchable="true"
+                    aria-labelledby="bcn-ev-flabel-component"
+                  ></esa-select>
+                </span>
+                <span class="bcn-ev-targets__filter">
+                  <span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-phase">Phase</span>
+                  <esa-select
+                    data-targets-phase="true"
+                    size="sm"
+                    aria-labelledby="bcn-ev-flabel-phase"
+                  ></esa-select>
+                </span>
+                <span class="bcn-ev-targets__filter">
+                  <span class="bcn-ev-targets__flabel" id="bcn-ev-flabel-type">Type</span>
+                  <esa-select
+                    data-targets-type="true"
+                    size="sm"
+                    aria-labelledby="bcn-ev-flabel-type"
+                  ></esa-select>
+                </span>
+              </div>
+              <div class="bcn-ev-targets__search">
+                <div class="bcn-ev-search">
+                  <span class="bcn-ev-search__icon" aria-hidden="true">
+                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        focusable="false"
+                      >
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.3-4.3"></path>
+                      </svg>
+                    </span>
+                  </span>
+                  <esa-combobox
+                    data-targets-search="true"
+                    mode="autocomplete"
+                    size="md"
+                    aria-label="Search actions in this component"
+                    placeholder="Search actions in this component"
+                  ></esa-combobox>
+                </div>
+              </div>
+              <div class="bcn-ev-targets__scroll">
+                <!-- Working state for Find matches — replaced by rows the moment it resolves. -->
+                <div class="bcn-ev-targets__working" data-targets-working="" hidden="">
+                  <span class="esa-loading-spinner esa-loading-spinner--sm">
+                    <span
+                      class="esa-loading-spinner__ring"
+                      role="status"
+                      aria-label="Loading"
+                    ></span>
+                  </span>
+                  <span class="type-body-small"
+                    >Reading the evidence and checking actions in this component…</span
+                  >
+                </div>
+                <!-- Find matches must never finish silently. A utility that runs and then does nothing
+         visible reads as broken, and the two ways it legitimately finds nothing — no
+         evidence staged, and nothing new in scope — are different answers that deserve
+         different sentences. -->
+                <p
+                  class="bcn-ev-targets__notice type-body-small"
+                  data-targets-notice=""
+                  hidden=""
+                ></p>
+                <!-- The one list: searched rows and suggested rows together. -->
+                <ul class="bcn-ev-targets__list" data-targets-list="">
+                  <li
+                    class="bcn-ev-targets__item"
+                    data-target-row="act-swha-preconstruction-survey"
+                    data-component="southern-forebay-pumping-plant"
+                    data-tier="manual"
+                    hidden=""
+                  >
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__body">
+                        <div class="bcn-ev-row">
+                          <div class="bcn-ev-row__head">
+                            <div class="bcn-ev-row__main">
+                              <div class="bcn-ev-row__titlerow">
+                                <button
+                                  type="button"
+                                  class="bcn-disclosure"
+                                  aria-expanded="true"
+                                  aria-label="Collapse Preconstruction Swainson’s hawk nest survey"
+                                  data-card-toggle="act-swha-preconstruction-survey"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                                <!-- Unsaved marker for the CARD, shown when anything about this
+                       action's evidence is outstanding — an addition OR a removal. A removal
+                       leaves no row behind to carry the pink treatment, so without this the
+                       card would look settled while still holding a pending change. -->
+                                <span
+                                  class="bcn-ev-row__dot"
+                                  data-action-unsaved=""
+                                  hidden=""
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="bcn-ev-row__name"
+                                  >Preconstruction Swainson’s hawk nest survey</span
+                                >
+                                <span class="bcn-ev-row__codes">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-4.2</span>
+                                  <!-- Right of the codes, INSIDE the same group: the count belongs to this
+                         action's identity line, and grouping it with the codes means it
+                         wraps with them rather than stranding itself when the row is tight. -->
+                                  <esa-tooltip
+                                    class="bcn-countchip"
+                                    text="No evidence attached yet"
+                                    position="below"
+                                    data-action-evcount=""
+                                    hidden="true"
+                                  >
+                                    <span class="bcn-countchip__stack">
+                                      <span class="bcn-countchip__icon" aria-hidden="true">
+                                        <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                          <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                                            ></path>
+                                          </svg>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__num" aria-hidden="true">
+                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                          <span class="esa-badge__text">0</span>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__sr"
+                                        >No evidence attached yet</span
+                                      >
+                                    </span>
+                                  </esa-tooltip>
+                                </span>
+                                <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+                                <span class="bcn-ev-row__tags">
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Pre-Construction</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="bcn-ev-row__side">
+                              <span
+                                class="bcn-ev-row__dismiss"
+                                data-target-dismiss="act-swha-preconstruction-survey"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Preconstruction Swainson’s hawk nest survey"
+                                  title="Remove Preconstruction Swainson’s hawk nest survey"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                          <!-- The collapsible body sits BELOW the head rather than inside it, so the
+                   list runs the card's full width — under the dismiss button — and is
+                   indented on the left to start where the title starts, not where the
+                   chevron does. -->
+                          <div class="bcn-ev-row__body" data-card-body="">
+                            <ul
+                              class="bcn-ev-attached"
+                              data-attached-list="act-swha-preconstruction-survey"
+                            ></ul>
+                            <p class="bcn-ev-row__hint type-body-small" data-attached-hint="">
+                              Drag evidence here to attach it.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="bcn-ev-targets__item"
+                    data-target-row="act-swha-buffer-monitoring"
+                    data-component="southern-forebay-pumping-plant"
+                    data-tier="manual"
+                    hidden=""
+                  >
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__body">
+                        <div class="bcn-ev-row">
+                          <div class="bcn-ev-row__head">
+                            <div class="bcn-ev-row__main">
+                              <div class="bcn-ev-row__titlerow">
+                                <button
+                                  type="button"
+                                  class="bcn-disclosure"
+                                  aria-expanded="true"
+                                  aria-label="Collapse Swainson’s hawk active-nest buffer monitoring"
+                                  data-card-toggle="act-swha-buffer-monitoring"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                                <!-- Unsaved marker for the CARD, shown when anything about this
+                       action's evidence is outstanding — an addition OR a removal. A removal
+                       leaves no row behind to carry the pink treatment, so without this the
+                       card would look settled while still holding a pending change. -->
+                                <span
+                                  class="bcn-ev-row__dot"
+                                  data-action-unsaved=""
+                                  hidden=""
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="bcn-ev-row__name"
+                                  >Swainson’s hawk active-nest buffer monitoring</span
+                                >
+                                <span class="bcn-ev-row__codes">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-4.5</span>
+                                  <!-- Right of the codes, INSIDE the same group: the count belongs to this
+                         action's identity line, and grouping it with the codes means it
+                         wraps with them rather than stranding itself when the row is tight. -->
+                                  <esa-tooltip
+                                    class="bcn-countchip"
+                                    text="No evidence attached yet"
+                                    position="below"
+                                    data-action-evcount=""
+                                    hidden="true"
+                                  >
+                                    <span class="bcn-countchip__stack">
+                                      <span class="bcn-countchip__icon" aria-hidden="true">
+                                        <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                          <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                                            ></path>
+                                          </svg>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__num" aria-hidden="true">
+                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                          <span class="esa-badge__text">0</span>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__sr"
+                                        >No evidence attached yet</span
+                                      >
+                                    </span>
+                                  </esa-tooltip>
+                                </span>
+                                <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+                                <span class="bcn-ev-row__tags">
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="bcn-ev-row__side">
+                              <span
+                                class="bcn-ev-row__dismiss"
+                                data-target-dismiss="act-swha-buffer-monitoring"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Swainson’s hawk active-nest buffer monitoring"
+                                  title="Remove Swainson’s hawk active-nest buffer monitoring"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                          <!-- The collapsible body sits BELOW the head rather than inside it, so the
+                   list runs the card's full width — under the dismiss button — and is
+                   indented on the left to start where the title starts, not where the
+                   chevron does. -->
+                          <div class="bcn-ev-row__body" data-card-body="">
+                            <ul
+                              class="bcn-ev-attached"
+                              data-attached-list="act-swha-buffer-monitoring"
+                            ></ul>
+                            <p class="bcn-ev-row__hint type-body-small" data-attached-hint="">
+                              Drag evidence here to attach it.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="bcn-ev-targets__item"
+                    data-target-row="act-ggs-preconstruction-survey"
+                    data-component="southern-forebay-pumping-plant"
+                    data-tier="manual"
+                    hidden=""
+                  >
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__body">
+                        <div class="bcn-ev-row">
+                          <div class="bcn-ev-row__head">
+                            <div class="bcn-ev-row__main">
+                              <div class="bcn-ev-row__titlerow">
+                                <button
+                                  type="button"
+                                  class="bcn-disclosure"
+                                  aria-expanded="true"
+                                  aria-label="Collapse Giant garter snake preconstruction survey"
+                                  data-card-toggle="act-ggs-preconstruction-survey"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                                <!-- Unsaved marker for the CARD, shown when anything about this
+                       action's evidence is outstanding — an addition OR a removal. A removal
+                       leaves no row behind to carry the pink treatment, so without this the
+                       card would look settled while still holding a pending change. -->
+                                <span
+                                  class="bcn-ev-row__dot"
+                                  data-action-unsaved=""
+                                  hidden=""
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="bcn-ev-row__name"
+                                  >Giant garter snake preconstruction survey</span
+                                >
+                                <span class="bcn-ev-row__codes">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-6.1</span>
+                                  <!-- Right of the codes, INSIDE the same group: the count belongs to this
+                         action's identity line, and grouping it with the codes means it
+                         wraps with them rather than stranding itself when the row is tight. -->
+                                  <esa-tooltip
+                                    class="bcn-countchip"
+                                    text="No evidence attached yet"
+                                    position="below"
+                                    data-action-evcount=""
+                                    hidden="true"
+                                  >
+                                    <span class="bcn-countchip__stack">
+                                      <span class="bcn-countchip__icon" aria-hidden="true">
+                                        <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                          <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                                            ></path>
+                                          </svg>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__num" aria-hidden="true">
+                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                          <span class="esa-badge__text">0</span>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__sr"
+                                        >No evidence attached yet</span
+                                      >
+                                    </span>
+                                  </esa-tooltip>
+                                </span>
+                                <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+                                <span class="bcn-ev-row__tags">
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Pre-Construction</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="bcn-ev-row__side">
+                              <span
+                                class="bcn-ev-row__dismiss"
+                                data-target-dismiss="act-ggs-preconstruction-survey"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Giant garter snake preconstruction survey"
+                                  title="Remove Giant garter snake preconstruction survey"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                          <!-- The collapsible body sits BELOW the head rather than inside it, so the
+                   list runs the card's full width — under the dismiss button — and is
+                   indented on the left to start where the title starts, not where the
+                   chevron does. -->
+                          <div class="bcn-ev-row__body" data-card-body="">
+                            <ul
+                              class="bcn-ev-attached"
+                              data-attached-list="act-ggs-preconstruction-survey"
+                            ></ul>
+                            <p class="bcn-ev-row__hint type-body-small" data-attached-hint="">
+                              Drag evidence here to attach it.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="bcn-ev-targets__item"
+                    data-target-row="act-qualified-biologist"
+                    data-component="southern-forebay-pumping-plant"
+                    data-tier="manual"
+                    hidden=""
+                  >
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__body">
+                        <div class="bcn-ev-row">
+                          <div class="bcn-ev-row__head">
+                            <div class="bcn-ev-row__main">
+                              <div class="bcn-ev-row__titlerow">
+                                <button
+                                  type="button"
+                                  class="bcn-disclosure"
+                                  aria-expanded="true"
+                                  aria-label="Collapse Retain qualified biologist for covered species"
+                                  data-card-toggle="act-qualified-biologist"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                                <!-- Unsaved marker for the CARD, shown when anything about this
+                       action's evidence is outstanding — an addition OR a removal. A removal
+                       leaves no row behind to carry the pink treatment, so without this the
+                       card would look settled while still holding a pending change. -->
+                                <span
+                                  class="bcn-ev-row__dot"
+                                  data-action-unsaved=""
+                                  hidden=""
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="bcn-ev-row__name"
+                                  >Retain qualified biologist for covered species</span
+                                >
+                                <span class="bcn-ev-row__codes">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-1.1</span>
+                                  <!-- Right of the codes, INSIDE the same group: the count belongs to this
+                         action's identity line, and grouping it with the codes means it
+                         wraps with them rather than stranding itself when the row is tight. -->
+                                  <esa-tooltip
+                                    class="bcn-countchip"
+                                    text="No evidence attached yet"
+                                    position="below"
+                                    data-action-evcount=""
+                                    hidden="true"
+                                  >
+                                    <span class="bcn-countchip__stack">
+                                      <span class="bcn-countchip__icon" aria-hidden="true">
+                                        <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                          <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                                            ></path>
+                                          </svg>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__num" aria-hidden="true">
+                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                          <span class="esa-badge__text">0</span>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__sr"
+                                        >No evidence attached yet</span
+                                      >
+                                    </span>
+                                  </esa-tooltip>
+                                </span>
+                                <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+                                <span class="bcn-ev-row__tags">
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Tracking</span>
+                                  </span>
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Implementation Planning</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="bcn-ev-row__side">
+                              <span
+                                class="bcn-ev-row__dismiss"
+                                data-target-dismiss="act-qualified-biologist"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Retain qualified biologist for covered species"
+                                  title="Remove Retain qualified biologist for covered species"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                          <!-- The collapsible body sits BELOW the head rather than inside it, so the
+                   list runs the card's full width — under the dismiss button — and is
+                   indented on the left to start where the title starts, not where the
+                   chevron does. -->
+                          <div class="bcn-ev-row__body" data-card-body="">
+                            <ul
+                              class="bcn-ev-attached"
+                              data-attached-list="act-qualified-biologist"
+                            ></ul>
+                            <p class="bcn-ev-row__hint type-body-small" data-attached-hint="">
+                              Drag evidence here to attach it.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="bcn-ev-targets__item"
+                    data-target-row="act-worker-training"
+                    data-component="southern-forebay-pumping-plant"
+                    data-tier="manual"
+                    hidden=""
+                  >
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__body">
+                        <div class="bcn-ev-row">
+                          <div class="bcn-ev-row__head">
+                            <div class="bcn-ev-row__main">
+                              <div class="bcn-ev-row__titlerow">
+                                <button
+                                  type="button"
+                                  class="bcn-disclosure"
+                                  aria-expanded="true"
+                                  aria-label="Collapse Worker environmental awareness training"
+                                  data-card-toggle="act-worker-training"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                                <!-- Unsaved marker for the CARD, shown when anything about this
+                       action's evidence is outstanding — an addition OR a removal. A removal
+                       leaves no row behind to carry the pink treatment, so without this the
+                       card would look settled while still holding a pending change. -->
+                                <span
+                                  class="bcn-ev-row__dot"
+                                  data-action-unsaved=""
+                                  hidden=""
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="bcn-ev-row__name"
+                                  >Worker environmental awareness training</span
+                                >
+                                <span class="bcn-ev-row__codes">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-2.3</span>
+                                  <esa-popover
+                                    class="bcn-ev-row__morepop"
+                                    position="bottom"
+                                    trigger="hover"
+                                    offset="6"
+                                    appearance="default"
+                                  >
+                                    <span class="bcn-ev-row__more">
+                                      <span class="bcn-cbadge bcn-cbadge--sm bcn-cbadge--neutral"
+                                        >+ 2 more</span
+                                      >
+                                    </span>
+                                    <div slot="content" class="bcn-ev-row__poplist">
+                                      <p class="bcn-ev-row__poptitle type-caption">Commitments</p>
+                                      <ul>
+                                        <li>
+                                          <span class="bcn-cbadge bcn-cbadge--sm">BIO-2.3</span>
+                                        </li>
+                                        <li>
+                                          <span class="bcn-cbadge bcn-cbadge--sm">BIO-6.4</span>
+                                        </li>
+                                        <li>
+                                          <span class="bcn-cbadge bcn-cbadge--sm">CUL-1.2</span>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </esa-popover>
+                                  <!-- Right of the codes, INSIDE the same group: the count belongs to this
+                         action's identity line, and grouping it with the codes means it
+                         wraps with them rather than stranding itself when the row is tight. -->
+                                  <esa-tooltip
+                                    class="bcn-countchip"
+                                    text="No evidence attached yet"
+                                    position="below"
+                                    data-action-evcount=""
+                                    hidden="true"
+                                  >
+                                    <span class="bcn-countchip__stack">
+                                      <span class="bcn-countchip__icon" aria-hidden="true">
+                                        <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                          <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                                            ></path>
+                                          </svg>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__num" aria-hidden="true">
+                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                          <span class="esa-badge__text">0</span>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__sr"
+                                        >No evidence attached yet</span
+                                      >
+                                    </span>
+                                  </esa-tooltip>
+                                </span>
+                                <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+                                <span class="bcn-ev-row__tags">
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Tracking</span>
+                                  </span>
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Pre-Construction</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="bcn-ev-row__side">
+                              <span
+                                class="bcn-ev-row__dismiss"
+                                data-target-dismiss="act-worker-training"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Worker environmental awareness training"
+                                  title="Remove Worker environmental awareness training"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                          <!-- The collapsible body sits BELOW the head rather than inside it, so the
+                   list runs the card's full width — under the dismiss button — and is
+                   indented on the left to start where the title starts, not where the
+                   chevron does. -->
+                          <div class="bcn-ev-row__body" data-card-body="">
+                            <ul
+                              class="bcn-ev-attached"
+                              data-attached-list="act-worker-training"
+                            ></ul>
+                            <p class="bcn-ev-row__hint type-body-small" data-attached-hint="">
+                              Drag evidence here to attach it.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="bcn-ev-targets__item"
+                    data-target-row="act-daily-biological-monitoring"
+                    data-component="southern-forebay-pumping-plant"
+                    data-tier="manual"
+                    hidden=""
+                  >
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__body">
+                        <div class="bcn-ev-row">
+                          <div class="bcn-ev-row__head">
+                            <div class="bcn-ev-row__main">
+                              <div class="bcn-ev-row__titlerow">
+                                <button
+                                  type="button"
+                                  class="bcn-disclosure"
+                                  aria-expanded="true"
+                                  aria-label="Collapse Daily biological monitoring during ground disturbance"
+                                  data-card-toggle="act-daily-biological-monitoring"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                                <!-- Unsaved marker for the CARD, shown when anything about this
+                       action's evidence is outstanding — an addition OR a removal. A removal
+                       leaves no row behind to carry the pink treatment, so without this the
+                       card would look settled while still holding a pending change. -->
+                                <span
+                                  class="bcn-ev-row__dot"
+                                  data-action-unsaved=""
+                                  hidden=""
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="bcn-ev-row__name"
+                                  >Daily biological monitoring during ground disturbance</span
+                                >
+                                <span class="bcn-ev-row__codes">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-8.4</span>
+                                  <esa-popover
+                                    class="bcn-ev-row__morepop"
+                                    position="bottom"
+                                    trigger="hover"
+                                    offset="6"
+                                    appearance="default"
+                                  >
+                                    <span class="bcn-ev-row__more">
+                                      <span class="bcn-cbadge bcn-cbadge--sm bcn-cbadge--neutral"
+                                        >+ 3 more</span
+                                      >
+                                    </span>
+                                    <div slot="content" class="bcn-ev-row__poplist">
+                                      <p class="bcn-ev-row__poptitle type-caption">Commitments</p>
+                                      <ul>
+                                        <li>
+                                          <span class="bcn-cbadge bcn-cbadge--sm">BIO-8.4</span>
+                                        </li>
+                                        <li>
+                                          <span class="bcn-cbadge bcn-cbadge--sm">BIO-4.5</span>
+                                        </li>
+                                        <li>
+                                          <span class="bcn-cbadge bcn-cbadge--sm">BIO-6.1</span>
+                                        </li>
+                                        <li>
+                                          <span class="bcn-cbadge bcn-cbadge--sm">CUL-3.3</span>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </esa-popover>
+                                  <!-- Right of the codes, INSIDE the same group: the count belongs to this
+                         action's identity line, and grouping it with the codes means it
+                         wraps with them rather than stranding itself when the row is tight. -->
+                                  <esa-tooltip
+                                    class="bcn-countchip"
+                                    text="No evidence attached yet"
+                                    position="below"
+                                    data-action-evcount=""
+                                    hidden="true"
+                                  >
+                                    <span class="bcn-countchip__stack">
+                                      <span class="bcn-countchip__icon" aria-hidden="true">
+                                        <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                          <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                                            ></path>
+                                          </svg>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__num" aria-hidden="true">
+                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                          <span class="esa-badge__text">0</span>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__sr"
+                                        >No evidence attached yet</span
+                                      >
+                                    </span>
+                                  </esa-tooltip>
+                                </span>
+                                <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+                                <span class="bcn-ev-row__tags">
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="bcn-ev-row__side">
+                              <span
+                                class="bcn-ev-row__dismiss"
+                                data-target-dismiss="act-daily-biological-monitoring"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Daily biological monitoring during ground disturbance"
+                                  title="Remove Daily biological monitoring during ground disturbance"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                          <!-- The collapsible body sits BELOW the head rather than inside it, so the
+                   list runs the card's full width — under the dismiss button — and is
+                   indented on the left to start where the title starts, not where the
+                   chevron does. -->
+                          <div class="bcn-ev-row__body" data-card-body="">
+                            <ul
+                              class="bcn-ev-attached"
+                              data-attached-list="act-daily-biological-monitoring"
+                            ></ul>
+                            <p class="bcn-ev-row__hint type-body-small" data-attached-hint="">
+                              Drag evidence here to attach it.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="bcn-ev-targets__item"
+                    data-target-row="act-monthly-compliance-report"
+                    data-component="southern-forebay-pumping-plant"
+                    data-tier="manual"
+                    hidden=""
+                  >
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__body">
+                        <div class="bcn-ev-row">
+                          <div class="bcn-ev-row__head">
+                            <div class="bcn-ev-row__main">
+                              <div class="bcn-ev-row__titlerow">
+                                <button
+                                  type="button"
+                                  class="bcn-disclosure"
+                                  aria-expanded="true"
+                                  aria-label="Collapse Monthly compliance monitoring report"
+                                  data-card-toggle="act-monthly-compliance-report"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                                <!-- Unsaved marker for the CARD, shown when anything about this
+                       action's evidence is outstanding — an addition OR a removal. A removal
+                       leaves no row behind to carry the pink treatment, so without this the
+                       card would look settled while still holding a pending change. -->
+                                <span
+                                  class="bcn-ev-row__dot"
+                                  data-action-unsaved=""
+                                  hidden=""
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="bcn-ev-row__name"
+                                  >Monthly compliance monitoring report</span
+                                >
+                                <span class="bcn-ev-row__codes">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">REP-3.1</span>
+                                  <esa-popover
+                                    class="bcn-ev-row__morepop"
+                                    position="bottom"
+                                    trigger="hover"
+                                    offset="6"
+                                    appearance="default"
+                                  >
+                                    <span class="bcn-ev-row__more">
+                                      <span class="bcn-cbadge bcn-cbadge--sm bcn-cbadge--neutral"
+                                        >+ 3 more</span
+                                      >
+                                    </span>
+                                    <div slot="content" class="bcn-ev-row__poplist">
+                                      <p class="bcn-ev-row__poptitle type-caption">Commitments</p>
+                                      <ul>
+                                        <li>
+                                          <span class="bcn-cbadge bcn-cbadge--sm">REP-3.1</span>
+                                        </li>
+                                        <li>
+                                          <span class="bcn-cbadge bcn-cbadge--sm">REP-3.4</span>
+                                        </li>
+                                        <li>
+                                          <span class="bcn-cbadge bcn-cbadge--sm">REP-5.1</span>
+                                        </li>
+                                        <li>
+                                          <span class="bcn-cbadge bcn-cbadge--sm">ADM-2.2</span>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </esa-popover>
+                                  <!-- Right of the codes, INSIDE the same group: the count belongs to this
+                         action's identity line, and grouping it with the codes means it
+                         wraps with them rather than stranding itself when the row is tight. -->
+                                  <esa-tooltip
+                                    class="bcn-countchip"
+                                    text="No evidence attached yet"
+                                    position="below"
+                                    data-action-evcount=""
+                                    hidden="true"
+                                  >
+                                    <span class="bcn-countchip__stack">
+                                      <span class="bcn-countchip__icon" aria-hidden="true">
+                                        <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                          <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                                            ></path>
+                                          </svg>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__num" aria-hidden="true">
+                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                          <span class="esa-badge__text">0</span>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__sr"
+                                        >No evidence attached yet</span
+                                      >
+                                    </span>
+                                  </esa-tooltip>
+                                </span>
+                                <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+                                <span class="bcn-ev-row__tags">
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Reporting</span>
+                                  </span>
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="bcn-ev-row__side">
+                              <span
+                                class="bcn-ev-row__dismiss"
+                                data-target-dismiss="act-monthly-compliance-report"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Monthly compliance monitoring report"
+                                  title="Remove Monthly compliance monitoring report"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                          <!-- The collapsible body sits BELOW the head rather than inside it, so the
+                   list runs the card's full width — under the dismiss button — and is
+                   indented on the left to start where the title starts, not where the
+                   chevron does. -->
+                          <div class="bcn-ev-row__body" data-card-body="">
+                            <ul
+                              class="bcn-ev-attached"
+                              data-attached-list="act-monthly-compliance-report"
+                            ></ul>
+                            <p class="bcn-ev-row__hint type-body-small" data-attached-hint="">
+                              Drag evidence here to attach it.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="bcn-ev-targets__item"
+                    data-target-row="act-noise-monitoring"
+                    data-component="southern-forebay-pumping-plant"
+                    data-tier="manual"
+                    hidden=""
+                  >
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__body">
+                        <div class="bcn-ev-row">
+                          <div class="bcn-ev-row__head">
+                            <div class="bcn-ev-row__main">
+                              <div class="bcn-ev-row__titlerow">
+                                <button
+                                  type="button"
+                                  class="bcn-disclosure"
+                                  aria-expanded="true"
+                                  aria-label="Collapse Construction noise level monitoring at sensitive receptors"
+                                  data-card-toggle="act-noise-monitoring"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                                <!-- Unsaved marker for the CARD, shown when anything about this
+                       action's evidence is outstanding — an addition OR a removal. A removal
+                       leaves no row behind to carry the pink treatment, so without this the
+                       card would look settled while still holding a pending change. -->
+                                <span
+                                  class="bcn-ev-row__dot"
+                                  data-action-unsaved=""
+                                  hidden=""
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="bcn-ev-row__name"
+                                  >Construction noise level monitoring at sensitive receptors</span
+                                >
+                                <span class="bcn-ev-row__codes">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">NOI-2.2</span>
+                                  <!-- Right of the codes, INSIDE the same group: the count belongs to this
+                         action's identity line, and grouping it with the codes means it
+                         wraps with them rather than stranding itself when the row is tight. -->
+                                  <esa-tooltip
+                                    class="bcn-countchip"
+                                    text="No evidence attached yet"
+                                    position="below"
+                                    data-action-evcount=""
+                                    hidden="true"
+                                  >
+                                    <span class="bcn-countchip__stack">
+                                      <span class="bcn-countchip__icon" aria-hidden="true">
+                                        <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                          <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                                            ></path>
+                                          </svg>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__num" aria-hidden="true">
+                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                          <span class="esa-badge__text">0</span>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__sr"
+                                        >No evidence attached yet</span
+                                      >
+                                    </span>
+                                  </esa-tooltip>
+                                </span>
+                                <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+                                <span class="bcn-ev-row__tags">
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="bcn-ev-row__side">
+                              <span
+                                class="bcn-ev-row__dismiss"
+                                data-target-dismiss="act-noise-monitoring"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Construction noise level monitoring at sensitive receptors"
+                                  title="Remove Construction noise level monitoring at sensitive receptors"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                          <!-- The collapsible body sits BELOW the head rather than inside it, so the
+                   list runs the card's full width — under the dismiss button — and is
+                   indented on the left to start where the title starts, not where the
+                   chevron does. -->
+                          <div class="bcn-ev-row__body" data-card-body="">
+                            <ul
+                              class="bcn-ev-attached"
+                              data-attached-list="act-noise-monitoring"
+                            ></ul>
+                            <p class="bcn-ev-row__hint type-body-small" data-attached-hint="">
+                              Drag evidence here to attach it.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="bcn-ev-targets__item"
+                    data-target-row="act-dust-control-inspection"
+                    data-component="southern-forebay-pumping-plant"
+                    data-tier="manual"
+                    hidden=""
+                  >
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__body">
+                        <div class="bcn-ev-row">
+                          <div class="bcn-ev-row__head">
+                            <div class="bcn-ev-row__main">
+                              <div class="bcn-ev-row__titlerow">
+                                <button
+                                  type="button"
+                                  class="bcn-disclosure"
+                                  aria-expanded="true"
+                                  aria-label="Collapse Fugitive dust control inspection"
+                                  data-card-toggle="act-dust-control-inspection"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                                <!-- Unsaved marker for the CARD, shown when anything about this
+                       action's evidence is outstanding — an addition OR a removal. A removal
+                       leaves no row behind to carry the pink treatment, so without this the
+                       card would look settled while still holding a pending change. -->
+                                <span
+                                  class="bcn-ev-row__dot"
+                                  data-action-unsaved=""
+                                  hidden=""
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="bcn-ev-row__name"
+                                  >Fugitive dust control inspection</span
+                                >
+                                <span class="bcn-ev-row__codes">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">AIR-1.4</span>
+                                  <!-- Right of the codes, INSIDE the same group: the count belongs to this
+                         action's identity line, and grouping it with the codes means it
+                         wraps with them rather than stranding itself when the row is tight. -->
+                                  <esa-tooltip
+                                    class="bcn-countchip"
+                                    text="No evidence attached yet"
+                                    position="below"
+                                    data-action-evcount=""
+                                    hidden="true"
+                                  >
+                                    <span class="bcn-countchip__stack">
+                                      <span class="bcn-countchip__icon" aria-hidden="true">
+                                        <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                          <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                                            ></path>
+                                          </svg>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__num" aria-hidden="true">
+                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                          <span class="esa-badge__text">0</span>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__sr"
+                                        >No evidence attached yet</span
+                                      >
+                                    </span>
+                                  </esa-tooltip>
+                                </span>
+                                <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+                                <span class="bcn-ev-row__tags">
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="bcn-ev-row__side">
+                              <span
+                                class="bcn-ev-row__dismiss"
+                                data-target-dismiss="act-dust-control-inspection"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Fugitive dust control inspection"
+                                  title="Remove Fugitive dust control inspection"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                          <!-- The collapsible body sits BELOW the head rather than inside it, so the
+                   list runs the card's full width — under the dismiss button — and is
+                   indented on the left to start where the title starts, not where the
+                   chevron does. -->
+                          <div class="bcn-ev-row__body" data-card-body="">
+                            <ul
+                              class="bcn-ev-attached"
+                              data-attached-list="act-dust-control-inspection"
+                            ></ul>
+                            <p class="bcn-ev-row__hint type-body-small" data-attached-hint="">
+                              Drag evidence here to attach it.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="bcn-ev-targets__item"
+                    data-target-row="act-swppp-inspection"
+                    data-component="southern-forebay-pumping-plant"
+                    data-tier="manual"
+                    hidden=""
+                  >
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__body">
+                        <div class="bcn-ev-row">
+                          <div class="bcn-ev-row__head">
+                            <div class="bcn-ev-row__main">
+                              <div class="bcn-ev-row__titlerow">
+                                <button
+                                  type="button"
+                                  class="bcn-disclosure"
+                                  aria-expanded="true"
+                                  aria-label="Collapse SWPPP qualified-personnel site inspection"
+                                  data-card-toggle="act-swppp-inspection"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                                <!-- Unsaved marker for the CARD, shown when anything about this
+                       action's evidence is outstanding — an addition OR a removal. A removal
+                       leaves no row behind to carry the pink treatment, so without this the
+                       card would look settled while still holding a pending change. -->
+                                <span
+                                  class="bcn-ev-row__dot"
+                                  data-action-unsaved=""
+                                  hidden=""
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="bcn-ev-row__name"
+                                  >SWPPP qualified-personnel site inspection</span
+                                >
+                                <span class="bcn-ev-row__codes">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">WQ-5.2</span>
+                                  <esa-popover
+                                    class="bcn-ev-row__morepop"
+                                    position="bottom"
+                                    trigger="hover"
+                                    offset="6"
+                                    appearance="default"
+                                  >
+                                    <span class="bcn-ev-row__more">
+                                      <span class="bcn-cbadge bcn-cbadge--sm bcn-cbadge--neutral"
+                                        >+ 1 more</span
+                                      >
+                                    </span>
+                                    <div slot="content" class="bcn-ev-row__poplist">
+                                      <p class="bcn-ev-row__poptitle type-caption">Commitments</p>
+                                      <ul>
+                                        <li>
+                                          <span class="bcn-cbadge bcn-cbadge--sm">WQ-5.2</span>
+                                        </li>
+                                        <li>
+                                          <span class="bcn-cbadge bcn-cbadge--sm">WQ-5.5</span>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </esa-popover>
+                                  <!-- Right of the codes, INSIDE the same group: the count belongs to this
+                         action's identity line, and grouping it with the codes means it
+                         wraps with them rather than stranding itself when the row is tight. -->
+                                  <esa-tooltip
+                                    class="bcn-countchip"
+                                    text="No evidence attached yet"
+                                    position="below"
+                                    data-action-evcount=""
+                                    hidden="true"
+                                  >
+                                    <span class="bcn-countchip__stack">
+                                      <span class="bcn-countchip__icon" aria-hidden="true">
+                                        <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                          <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                                            ></path>
+                                          </svg>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__num" aria-hidden="true">
+                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                          <span class="esa-badge__text">0</span>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__sr"
+                                        >No evidence attached yet</span
+                                      >
+                                    </span>
+                                  </esa-tooltip>
+                                </span>
+                                <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+                                <span class="bcn-ev-row__tags">
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="bcn-ev-row__side">
+                              <span
+                                class="bcn-ev-row__dismiss"
+                                data-target-dismiss="act-swppp-inspection"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove SWPPP qualified-personnel site inspection"
+                                  title="Remove SWPPP qualified-personnel site inspection"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                          <!-- The collapsible body sits BELOW the head rather than inside it, so the
+                   list runs the card's full width — under the dismiss button — and is
+                   indented on the left to start where the title starts, not where the
+                   chevron does. -->
+                          <div class="bcn-ev-row__body" data-card-body="">
+                            <ul
+                              class="bcn-ev-attached"
+                              data-attached-list="act-swppp-inspection"
+                            ></ul>
+                            <p class="bcn-ev-row__hint type-body-small" data-attached-hint="">
+                              Drag evidence here to attach it.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="bcn-ev-targets__item"
+                    data-target-row="act-cultural-monitoring"
+                    data-component="southern-forebay-pumping-plant"
+                    data-tier="manual"
+                    hidden=""
+                  >
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__body">
+                        <div class="bcn-ev-row">
+                          <div class="bcn-ev-row__head">
+                            <div class="bcn-ev-row__main">
+                              <div class="bcn-ev-row__titlerow">
+                                <button
+                                  type="button"
+                                  class="bcn-disclosure"
+                                  aria-expanded="true"
+                                  aria-label="Collapse Archaeological monitoring during excavation"
+                                  data-card-toggle="act-cultural-monitoring"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                                <!-- Unsaved marker for the CARD, shown when anything about this
+                       action's evidence is outstanding — an addition OR a removal. A removal
+                       leaves no row behind to carry the pink treatment, so without this the
+                       card would look settled while still holding a pending change. -->
+                                <span
+                                  class="bcn-ev-row__dot"
+                                  data-action-unsaved=""
+                                  hidden=""
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="bcn-ev-row__name"
+                                  >Archaeological monitoring during excavation</span
+                                >
+                                <span class="bcn-ev-row__codes">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">CUL-3.3</span>
+                                  <!-- Right of the codes, INSIDE the same group: the count belongs to this
+                         action's identity line, and grouping it with the codes means it
+                         wraps with them rather than stranding itself when the row is tight. -->
+                                  <esa-tooltip
+                                    class="bcn-countchip"
+                                    text="No evidence attached yet"
+                                    position="below"
+                                    data-action-evcount=""
+                                    hidden="true"
+                                  >
+                                    <span class="bcn-countchip__stack">
+                                      <span class="bcn-countchip__icon" aria-hidden="true">
+                                        <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                          <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                                            ></path>
+                                          </svg>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__num" aria-hidden="true">
+                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                          <span class="esa-badge__text">0</span>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__sr"
+                                        >No evidence attached yet</span
+                                      >
+                                    </span>
+                                  </esa-tooltip>
+                                </span>
+                                <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+                                <span class="bcn-ev-row__tags">
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="bcn-ev-row__side">
+                              <span
+                                class="bcn-ev-row__dismiss"
+                                data-target-dismiss="act-cultural-monitoring"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Archaeological monitoring during excavation"
+                                  title="Remove Archaeological monitoring during excavation"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                          <!-- The collapsible body sits BELOW the head rather than inside it, so the
+                   list runs the card's full width — under the dismiss button — and is
+                   indented on the left to start where the title starts, not where the
+                   chevron does. -->
+                          <div class="bcn-ev-row__body" data-card-body="">
+                            <ul
+                              class="bcn-ev-attached"
+                              data-attached-list="act-cultural-monitoring"
+                            ></ul>
+                            <p class="bcn-ev-row__hint type-body-small" data-attached-hint="">
+                              Drag evidence here to attach it.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="bcn-ev-targets__item"
+                    data-target-row="act-haul-route-agreement"
+                    data-component="southern-forebay-pumping-plant"
+                    data-tier="manual"
+                    hidden=""
+                  >
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__body">
+                        <div class="bcn-ev-row">
+                          <div class="bcn-ev-row__head">
+                            <div class="bcn-ev-row__main">
+                              <div class="bcn-ev-row__titlerow">
+                                <button
+                                  type="button"
+                                  class="bcn-disclosure"
+                                  aria-expanded="true"
+                                  aria-label="Collapse Execute haul route maintenance agreement"
+                                  data-card-toggle="act-haul-route-agreement"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                                <!-- Unsaved marker for the CARD, shown when anything about this
+                       action's evidence is outstanding — an addition OR a removal. A removal
+                       leaves no row behind to carry the pink treatment, so without this the
+                       card would look settled while still holding a pending change. -->
+                                <span
+                                  class="bcn-ev-row__dot"
+                                  data-action-unsaved=""
+                                  hidden=""
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="bcn-ev-row__name"
+                                  >Execute haul route maintenance agreement</span
+                                >
+                                <span class="bcn-ev-row__codes">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">TRA-2.1</span>
+                                  <!-- Right of the codes, INSIDE the same group: the count belongs to this
+                         action's identity line, and grouping it with the codes means it
+                         wraps with them rather than stranding itself when the row is tight. -->
+                                  <esa-tooltip
+                                    class="bcn-countchip"
+                                    text="No evidence attached yet"
+                                    position="below"
+                                    data-action-evcount=""
+                                    hidden="true"
+                                  >
+                                    <span class="bcn-countchip__stack">
+                                      <span class="bcn-countchip__icon" aria-hidden="true">
+                                        <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                          <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                                            ></path>
+                                          </svg>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__num" aria-hidden="true">
+                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                          <span class="esa-badge__text">0</span>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__sr"
+                                        >No evidence attached yet</span
+                                      >
+                                    </span>
+                                  </esa-tooltip>
+                                </span>
+                                <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+                                <span class="bcn-ev-row__tags">
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Tracking</span>
+                                  </span>
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Implementation Planning</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="bcn-ev-row__side">
+                              <span
+                                class="bcn-ev-row__dismiss"
+                                data-target-dismiss="act-haul-route-agreement"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Execute haul route maintenance agreement"
+                                  title="Remove Execute haul route maintenance agreement"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                          <!-- The collapsible body sits BELOW the head rather than inside it, so the
+                   list runs the card's full width — under the dismiss button — and is
+                   indented on the left to start where the title starts, not where the
+                   chevron does. -->
+                          <div class="bcn-ev-row__body" data-card-body="">
+                            <ul
+                              class="bcn-ev-attached"
+                              data-attached-list="act-haul-route-agreement"
+                            ></ul>
+                            <p class="bcn-ev-row__hint type-body-small" data-attached-hint="">
+                              Drag evidence here to attach it.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="bcn-ev-targets__item"
+                    data-target-row="act-ib-fish-screen-inspection"
+                    data-component="intake-b-north-delta"
+                    data-tier="manual"
+                    hidden=""
+                  >
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__body">
+                        <div class="bcn-ev-row">
+                          <div class="bcn-ev-row__head">
+                            <div class="bcn-ev-row__main">
+                              <div class="bcn-ev-row__titlerow">
+                                <button
+                                  type="button"
+                                  class="bcn-disclosure"
+                                  aria-expanded="true"
+                                  aria-label="Collapse Fish screen criteria compliance inspection"
+                                  data-card-toggle="act-ib-fish-screen-inspection"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                                <!-- Unsaved marker for the CARD, shown when anything about this
+                       action's evidence is outstanding — an addition OR a removal. A removal
+                       leaves no row behind to carry the pink treatment, so without this the
+                       card would look settled while still holding a pending change. -->
+                                <span
+                                  class="bcn-ev-row__dot"
+                                  data-action-unsaved=""
+                                  hidden=""
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="bcn-ev-row__name"
+                                  >Fish screen criteria compliance inspection</span
+                                >
+                                <span class="bcn-ev-row__codes">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">FSH-2.1</span>
+                                  <!-- Right of the codes, INSIDE the same group: the count belongs to this
+                         action's identity line, and grouping it with the codes means it
+                         wraps with them rather than stranding itself when the row is tight. -->
+                                  <esa-tooltip
+                                    class="bcn-countchip"
+                                    text="No evidence attached yet"
+                                    position="below"
+                                    data-action-evcount=""
+                                    hidden="true"
+                                  >
+                                    <span class="bcn-countchip__stack">
+                                      <span class="bcn-countchip__icon" aria-hidden="true">
+                                        <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                          <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                                            ></path>
+                                          </svg>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__num" aria-hidden="true">
+                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                          <span class="esa-badge__text">0</span>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__sr"
+                                        >No evidence attached yet</span
+                                      >
+                                    </span>
+                                  </esa-tooltip>
+                                </span>
+                                <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+                                <span class="bcn-ev-row__tags">
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="bcn-ev-row__side">
+                              <span
+                                class="bcn-ev-row__dismiss"
+                                data-target-dismiss="act-ib-fish-screen-inspection"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Fish screen criteria compliance inspection"
+                                  title="Remove Fish screen criteria compliance inspection"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                          <!-- The collapsible body sits BELOW the head rather than inside it, so the
+                   list runs the card's full width — under the dismiss button — and is
+                   indented on the left to start where the title starts, not where the
+                   chevron does. -->
+                          <div class="bcn-ev-row__body" data-card-body="">
+                            <ul
+                              class="bcn-ev-attached"
+                              data-attached-list="act-ib-fish-screen-inspection"
+                            ></ul>
+                            <p class="bcn-ev-row__hint type-body-small" data-attached-hint="">
+                              Drag evidence here to attach it.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="bcn-ev-targets__item"
+                    data-target-row="act-ib-inwater-work-window"
+                    data-component="intake-b-north-delta"
+                    data-tier="manual"
+                    hidden=""
+                  >
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__body">
+                        <div class="bcn-ev-row">
+                          <div class="bcn-ev-row__head">
+                            <div class="bcn-ev-row__main">
+                              <div class="bcn-ev-row__titlerow">
+                                <button
+                                  type="button"
+                                  class="bcn-disclosure"
+                                  aria-expanded="true"
+                                  aria-label="Collapse In-water work window conformance record"
+                                  data-card-toggle="act-ib-inwater-work-window"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                                <!-- Unsaved marker for the CARD, shown when anything about this
+                       action's evidence is outstanding — an addition OR a removal. A removal
+                       leaves no row behind to carry the pink treatment, so without this the
+                       card would look settled while still holding a pending change. -->
+                                <span
+                                  class="bcn-ev-row__dot"
+                                  data-action-unsaved=""
+                                  hidden=""
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="bcn-ev-row__name"
+                                  >In-water work window conformance record</span
+                                >
+                                <span class="bcn-ev-row__codes">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">FSH-1.3</span>
+                                  <!-- Right of the codes, INSIDE the same group: the count belongs to this
+                         action's identity line, and grouping it with the codes means it
+                         wraps with them rather than stranding itself when the row is tight. -->
+                                  <esa-tooltip
+                                    class="bcn-countchip"
+                                    text="No evidence attached yet"
+                                    position="below"
+                                    data-action-evcount=""
+                                    hidden="true"
+                                  >
+                                    <span class="bcn-countchip__stack">
+                                      <span class="bcn-countchip__icon" aria-hidden="true">
+                                        <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                          <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                                            ></path>
+                                          </svg>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__num" aria-hidden="true">
+                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                          <span class="esa-badge__text">0</span>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__sr"
+                                        >No evidence attached yet</span
+                                      >
+                                    </span>
+                                  </esa-tooltip>
+                                </span>
+                                <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+                                <span class="bcn-ev-row__tags">
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Tracking</span>
+                                  </span>
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="bcn-ev-row__side">
+                              <span
+                                class="bcn-ev-row__dismiss"
+                                data-target-dismiss="act-ib-inwater-work-window"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove In-water work window conformance record"
+                                  title="Remove In-water work window conformance record"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                          <!-- The collapsible body sits BELOW the head rather than inside it, so the
+                   list runs the card's full width — under the dismiss button — and is
+                   indented on the left to start where the title starts, not where the
+                   chevron does. -->
+                          <div class="bcn-ev-row__body" data-card-body="">
+                            <ul
+                              class="bcn-ev-attached"
+                              data-attached-list="act-ib-inwater-work-window"
+                            ></ul>
+                            <p class="bcn-ev-row__hint type-body-small" data-attached-hint="">
+                              Drag evidence here to attach it.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="bcn-ev-targets__item"
+                    data-target-row="act-ib-turbidity-monitoring"
+                    data-component="intake-b-north-delta"
+                    data-tier="manual"
+                    hidden=""
+                  >
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__body">
+                        <div class="bcn-ev-row">
+                          <div class="bcn-ev-row__head">
+                            <div class="bcn-ev-row__main">
+                              <div class="bcn-ev-row__titlerow">
+                                <button
+                                  type="button"
+                                  class="bcn-disclosure"
+                                  aria-expanded="true"
+                                  aria-label="Collapse Turbidity monitoring during in-water construction"
+                                  data-card-toggle="act-ib-turbidity-monitoring"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                                <!-- Unsaved marker for the CARD, shown when anything about this
+                       action's evidence is outstanding — an addition OR a removal. A removal
+                       leaves no row behind to carry the pink treatment, so without this the
+                       card would look settled while still holding a pending change. -->
+                                <span
+                                  class="bcn-ev-row__dot"
+                                  data-action-unsaved=""
+                                  hidden=""
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="bcn-ev-row__name"
+                                  >Turbidity monitoring during in-water construction</span
+                                >
+                                <span class="bcn-ev-row__codes">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">WQ-2.4</span>
+                                  <esa-popover
+                                    class="bcn-ev-row__morepop"
+                                    position="bottom"
+                                    trigger="hover"
+                                    offset="6"
+                                    appearance="default"
+                                  >
+                                    <span class="bcn-ev-row__more">
+                                      <span class="bcn-cbadge bcn-cbadge--sm bcn-cbadge--neutral"
+                                        >+ 2 more</span
+                                      >
+                                    </span>
+                                    <div slot="content" class="bcn-ev-row__poplist">
+                                      <p class="bcn-ev-row__poptitle type-caption">Commitments</p>
+                                      <ul>
+                                        <li>
+                                          <span class="bcn-cbadge bcn-cbadge--sm">WQ-2.4</span>
+                                        </li>
+                                        <li>
+                                          <span class="bcn-cbadge bcn-cbadge--sm">WQ-2.6</span>
+                                        </li>
+                                        <li>
+                                          <span class="bcn-cbadge bcn-cbadge--sm">FSH-3.1</span>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </esa-popover>
+                                  <!-- Right of the codes, INSIDE the same group: the count belongs to this
+                         action's identity line, and grouping it with the codes means it
+                         wraps with them rather than stranding itself when the row is tight. -->
+                                  <esa-tooltip
+                                    class="bcn-countchip"
+                                    text="No evidence attached yet"
+                                    position="below"
+                                    data-action-evcount=""
+                                    hidden="true"
+                                  >
+                                    <span class="bcn-countchip__stack">
+                                      <span class="bcn-countchip__icon" aria-hidden="true">
+                                        <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                          <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                                            ></path>
+                                          </svg>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__num" aria-hidden="true">
+                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                          <span class="esa-badge__text">0</span>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__sr"
+                                        >No evidence attached yet</span
+                                      >
+                                    </span>
+                                  </esa-tooltip>
+                                </span>
+                                <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+                                <span class="bcn-ev-row__tags">
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="bcn-ev-row__side">
+                              <span
+                                class="bcn-ev-row__dismiss"
+                                data-target-dismiss="act-ib-turbidity-monitoring"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Turbidity monitoring during in-water construction"
+                                  title="Remove Turbidity monitoring during in-water construction"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                          <!-- The collapsible body sits BELOW the head rather than inside it, so the
+                   list runs the card's full width — under the dismiss button — and is
+                   indented on the left to start where the title starts, not where the
+                   chevron does. -->
+                          <div class="bcn-ev-row__body" data-card-body="">
+                            <ul
+                              class="bcn-ev-attached"
+                              data-attached-list="act-ib-turbidity-monitoring"
+                            ></ul>
+                            <p class="bcn-ev-row__hint type-body-small" data-attached-hint="">
+                              Drag evidence here to attach it.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="bcn-ev-targets__item"
+                    data-target-row="act-ib-worker-training"
+                    data-component="intake-b-north-delta"
+                    data-tier="manual"
+                    hidden=""
+                  >
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__body">
+                        <div class="bcn-ev-row">
+                          <div class="bcn-ev-row__head">
+                            <div class="bcn-ev-row__main">
+                              <div class="bcn-ev-row__titlerow">
+                                <button
+                                  type="button"
+                                  class="bcn-disclosure"
+                                  aria-expanded="true"
+                                  aria-label="Collapse Worker environmental awareness training"
+                                  data-card-toggle="act-ib-worker-training"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                                <!-- Unsaved marker for the CARD, shown when anything about this
+                       action's evidence is outstanding — an addition OR a removal. A removal
+                       leaves no row behind to carry the pink treatment, so without this the
+                       card would look settled while still holding a pending change. -->
+                                <span
+                                  class="bcn-ev-row__dot"
+                                  data-action-unsaved=""
+                                  hidden=""
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="bcn-ev-row__name"
+                                  >Worker environmental awareness training</span
+                                >
+                                <span class="bcn-ev-row__codes">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-2.3</span>
+                                  <!-- Right of the codes, INSIDE the same group: the count belongs to this
+                         action's identity line, and grouping it with the codes means it
+                         wraps with them rather than stranding itself when the row is tight. -->
+                                  <esa-tooltip
+                                    class="bcn-countchip"
+                                    text="No evidence attached yet"
+                                    position="below"
+                                    data-action-evcount=""
+                                    hidden="true"
+                                  >
+                                    <span class="bcn-countchip__stack">
+                                      <span class="bcn-countchip__icon" aria-hidden="true">
+                                        <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                          <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                                            ></path>
+                                          </svg>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__num" aria-hidden="true">
+                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                          <span class="esa-badge__text">0</span>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__sr"
+                                        >No evidence attached yet</span
+                                      >
+                                    </span>
+                                  </esa-tooltip>
+                                </span>
+                                <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+                                <span class="bcn-ev-row__tags">
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Tracking</span>
+                                  </span>
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Pre-Construction</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="bcn-ev-row__side">
+                              <span
+                                class="bcn-ev-row__dismiss"
+                                data-target-dismiss="act-ib-worker-training"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Worker environmental awareness training"
+                                  title="Remove Worker environmental awareness training"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                          <!-- The collapsible body sits BELOW the head rather than inside it, so the
+                   list runs the card's full width — under the dismiss button — and is
+                   indented on the left to start where the title starts, not where the
+                   chevron does. -->
+                          <div class="bcn-ev-row__body" data-card-body="">
+                            <ul
+                              class="bcn-ev-attached"
+                              data-attached-list="act-ib-worker-training"
+                            ></ul>
+                            <p class="bcn-ev-row__hint type-body-small" data-attached-hint="">
+                              Drag evidence here to attach it.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="bcn-ev-targets__item"
+                    data-target-row="act-ib-monthly-compliance-report"
+                    data-component="intake-b-north-delta"
+                    data-tier="manual"
+                    hidden=""
+                  >
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__body">
+                        <div class="bcn-ev-row">
+                          <div class="bcn-ev-row__head">
+                            <div class="bcn-ev-row__main">
+                              <div class="bcn-ev-row__titlerow">
+                                <button
+                                  type="button"
+                                  class="bcn-disclosure"
+                                  aria-expanded="true"
+                                  aria-label="Collapse Monthly compliance monitoring report"
+                                  data-card-toggle="act-ib-monthly-compliance-report"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                                <!-- Unsaved marker for the CARD, shown when anything about this
+                       action's evidence is outstanding — an addition OR a removal. A removal
+                       leaves no row behind to carry the pink treatment, so without this the
+                       card would look settled while still holding a pending change. -->
+                                <span
+                                  class="bcn-ev-row__dot"
+                                  data-action-unsaved=""
+                                  hidden=""
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="bcn-ev-row__name"
+                                  >Monthly compliance monitoring report</span
+                                >
+                                <span class="bcn-ev-row__codes">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">REP-3.1</span>
+                                  <!-- Right of the codes, INSIDE the same group: the count belongs to this
+                         action's identity line, and grouping it with the codes means it
+                         wraps with them rather than stranding itself when the row is tight. -->
+                                  <esa-tooltip
+                                    class="bcn-countchip"
+                                    text="No evidence attached yet"
+                                    position="below"
+                                    data-action-evcount=""
+                                    hidden="true"
+                                  >
+                                    <span class="bcn-countchip__stack">
+                                      <span class="bcn-countchip__icon" aria-hidden="true">
+                                        <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                          <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                                            ></path>
+                                          </svg>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__num" aria-hidden="true">
+                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                          <span class="esa-badge__text">0</span>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__sr"
+                                        >No evidence attached yet</span
+                                      >
+                                    </span>
+                                  </esa-tooltip>
+                                </span>
+                                <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+                                <span class="bcn-ev-row__tags">
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Reporting</span>
+                                  </span>
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="bcn-ev-row__side">
+                              <span
+                                class="bcn-ev-row__dismiss"
+                                data-target-dismiss="act-ib-monthly-compliance-report"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Monthly compliance monitoring report"
+                                  title="Remove Monthly compliance monitoring report"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                          <!-- The collapsible body sits BELOW the head rather than inside it, so the
+                   list runs the card's full width — under the dismiss button — and is
+                   indented on the left to start where the title starts, not where the
+                   chevron does. -->
+                          <div class="bcn-ev-row__body" data-card-body="">
+                            <ul
+                              class="bcn-ev-attached"
+                              data-attached-list="act-ib-monthly-compliance-report"
+                            ></ul>
+                            <p class="bcn-ev-row__hint type-body-small" data-attached-hint="">
+                              Drag evidence here to attach it.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="bcn-ev-targets__item"
+                    data-target-row="act-ib-pile-driving-hydroacoustic"
+                    data-component="intake-b-north-delta"
+                    data-tier="manual"
+                    hidden=""
+                  >
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__body">
+                        <div class="bcn-ev-row">
+                          <div class="bcn-ev-row__head">
+                            <div class="bcn-ev-row__main">
+                              <div class="bcn-ev-row__titlerow">
+                                <button
+                                  type="button"
+                                  class="bcn-disclosure"
+                                  aria-expanded="true"
+                                  aria-label="Collapse Hydroacoustic monitoring during pile driving"
+                                  data-card-toggle="act-ib-pile-driving-hydroacoustic"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                                <!-- Unsaved marker for the CARD, shown when anything about this
+                       action's evidence is outstanding — an addition OR a removal. A removal
+                       leaves no row behind to carry the pink treatment, so without this the
+                       card would look settled while still holding a pending change. -->
+                                <span
+                                  class="bcn-ev-row__dot"
+                                  data-action-unsaved=""
+                                  hidden=""
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="bcn-ev-row__name"
+                                  >Hydroacoustic monitoring during pile driving</span
+                                >
+                                <span class="bcn-ev-row__codes">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">FSH-4.2</span>
+                                  <!-- Right of the codes, INSIDE the same group: the count belongs to this
+                         action's identity line, and grouping it with the codes means it
+                         wraps with them rather than stranding itself when the row is tight. -->
+                                  <esa-tooltip
+                                    class="bcn-countchip"
+                                    text="No evidence attached yet"
+                                    position="below"
+                                    data-action-evcount=""
+                                    hidden="true"
+                                  >
+                                    <span class="bcn-countchip__stack">
+                                      <span class="bcn-countchip__icon" aria-hidden="true">
+                                        <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                          <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                                            ></path>
+                                          </svg>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__num" aria-hidden="true">
+                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                          <span class="esa-badge__text">0</span>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__sr"
+                                        >No evidence attached yet</span
+                                      >
+                                    </span>
+                                  </esa-tooltip>
+                                </span>
+                                <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+                                <span class="bcn-ev-row__tags">
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="bcn-ev-row__side">
+                              <span
+                                class="bcn-ev-row__dismiss"
+                                data-target-dismiss="act-ib-pile-driving-hydroacoustic"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Hydroacoustic monitoring during pile driving"
+                                  title="Remove Hydroacoustic monitoring during pile driving"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                          <!-- The collapsible body sits BELOW the head rather than inside it, so the
+                   list runs the card's full width — under the dismiss button — and is
+                   indented on the left to start where the title starts, not where the
+                   chevron does. -->
+                          <div class="bcn-ev-row__body" data-card-body="">
+                            <ul
+                              class="bcn-ev-attached"
+                              data-attached-list="act-ib-pile-driving-hydroacoustic"
+                            ></ul>
+                            <p class="bcn-ev-row__hint type-body-small" data-attached-hint="">
+                              Drag evidence here to attach it.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="bcn-ev-targets__item"
+                    data-target-row="act-tc-rtm-stockpile-inspection"
+                    data-component="twin-cities-complex"
+                    data-tier="manual"
+                    hidden=""
+                  >
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__body">
+                        <div class="bcn-ev-row">
+                          <div class="bcn-ev-row__head">
+                            <div class="bcn-ev-row__main">
+                              <div class="bcn-ev-row__titlerow">
+                                <button
+                                  type="button"
+                                  class="bcn-disclosure"
+                                  aria-expanded="true"
+                                  aria-label="Collapse Reusable tunnel material stockpile inspection"
+                                  data-card-toggle="act-tc-rtm-stockpile-inspection"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                                <!-- Unsaved marker for the CARD, shown when anything about this
+                       action's evidence is outstanding — an addition OR a removal. A removal
+                       leaves no row behind to carry the pink treatment, so without this the
+                       card would look settled while still holding a pending change. -->
+                                <span
+                                  class="bcn-ev-row__dot"
+                                  data-action-unsaved=""
+                                  hidden=""
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="bcn-ev-row__name"
+                                  >Reusable tunnel material stockpile inspection</span
+                                >
+                                <span class="bcn-ev-row__codes">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">WQ-7.1</span>
+                                  <!-- Right of the codes, INSIDE the same group: the count belongs to this
+                         action's identity line, and grouping it with the codes means it
+                         wraps with them rather than stranding itself when the row is tight. -->
+                                  <esa-tooltip
+                                    class="bcn-countchip"
+                                    text="No evidence attached yet"
+                                    position="below"
+                                    data-action-evcount=""
+                                    hidden="true"
+                                  >
+                                    <span class="bcn-countchip__stack">
+                                      <span class="bcn-countchip__icon" aria-hidden="true">
+                                        <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                          <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                                            ></path>
+                                          </svg>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__num" aria-hidden="true">
+                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                          <span class="esa-badge__text">0</span>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__sr"
+                                        >No evidence attached yet</span
+                                      >
+                                    </span>
+                                  </esa-tooltip>
+                                </span>
+                                <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+                                <span class="bcn-ev-row__tags">
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Construction</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="bcn-ev-row__side">
+                              <span
+                                class="bcn-ev-row__dismiss"
+                                data-target-dismiss="act-tc-rtm-stockpile-inspection"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Reusable tunnel material stockpile inspection"
+                                  title="Remove Reusable tunnel material stockpile inspection"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                          <!-- The collapsible body sits BELOW the head rather than inside it, so the
+                   list runs the card's full width — under the dismiss button — and is
+                   indented on the left to start where the title starts, not where the
+                   chevron does. -->
+                          <div class="bcn-ev-row__body" data-card-body="">
+                            <ul
+                              class="bcn-ev-attached"
+                              data-attached-list="act-tc-rtm-stockpile-inspection"
+                            ></ul>
+                            <p class="bcn-ev-row__hint type-body-small" data-attached-hint="">
+                              Drag evidence here to attach it.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="bcn-ev-targets__item"
+                    data-target-row="act-tc-haul-route-agreement"
+                    data-component="twin-cities-complex"
+                    data-tier="manual"
+                    hidden=""
+                  >
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__body">
+                        <div class="bcn-ev-row">
+                          <div class="bcn-ev-row__head">
+                            <div class="bcn-ev-row__main">
+                              <div class="bcn-ev-row__titlerow">
+                                <button
+                                  type="button"
+                                  class="bcn-disclosure"
+                                  aria-expanded="true"
+                                  aria-label="Collapse Execute haul route maintenance agreement"
+                                  data-card-toggle="act-tc-haul-route-agreement"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                                <!-- Unsaved marker for the CARD, shown when anything about this
+                       action's evidence is outstanding — an addition OR a removal. A removal
+                       leaves no row behind to carry the pink treatment, so without this the
+                       card would look settled while still holding a pending change. -->
+                                <span
+                                  class="bcn-ev-row__dot"
+                                  data-action-unsaved=""
+                                  hidden=""
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="bcn-ev-row__name"
+                                  >Execute haul route maintenance agreement</span
+                                >
+                                <span class="bcn-ev-row__codes">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">TRA-2.1</span>
+                                  <!-- Right of the codes, INSIDE the same group: the count belongs to this
+                         action's identity line, and grouping it with the codes means it
+                         wraps with them rather than stranding itself when the row is tight. -->
+                                  <esa-tooltip
+                                    class="bcn-countchip"
+                                    text="No evidence attached yet"
+                                    position="below"
+                                    data-action-evcount=""
+                                    hidden="true"
+                                  >
+                                    <span class="bcn-countchip__stack">
+                                      <span class="bcn-countchip__icon" aria-hidden="true">
+                                        <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                          <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                                            ></path>
+                                          </svg>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__num" aria-hidden="true">
+                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                          <span class="esa-badge__text">0</span>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__sr"
+                                        >No evidence attached yet</span
+                                      >
+                                    </span>
+                                  </esa-tooltip>
+                                </span>
+                                <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+                                <span class="bcn-ev-row__tags">
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Tracking</span>
+                                  </span>
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Implementation Planning</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="bcn-ev-row__side">
+                              <span
+                                class="bcn-ev-row__dismiss"
+                                data-target-dismiss="act-tc-haul-route-agreement"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Execute haul route maintenance agreement"
+                                  title="Remove Execute haul route maintenance agreement"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                          <!-- The collapsible body sits BELOW the head rather than inside it, so the
+                   list runs the card's full width — under the dismiss button — and is
+                   indented on the left to start where the title starts, not where the
+                   chevron does. -->
+                          <div class="bcn-ev-row__body" data-card-body="">
+                            <ul
+                              class="bcn-ev-attached"
+                              data-attached-list="act-tc-haul-route-agreement"
+                            ></ul>
+                            <p class="bcn-ev-row__hint type-body-small" data-attached-hint="">
+                              Drag evidence here to attach it.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="bcn-ev-targets__item"
+                    data-target-row="act-tc-worker-training"
+                    data-component="twin-cities-complex"
+                    data-tier="manual"
+                    hidden=""
+                  >
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__body">
+                        <div class="bcn-ev-row">
+                          <div class="bcn-ev-row__head">
+                            <div class="bcn-ev-row__main">
+                              <div class="bcn-ev-row__titlerow">
+                                <button
+                                  type="button"
+                                  class="bcn-disclosure"
+                                  aria-expanded="true"
+                                  aria-label="Collapse Worker environmental awareness training"
+                                  data-card-toggle="act-tc-worker-training"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                                <!-- Unsaved marker for the CARD, shown when anything about this
+                       action's evidence is outstanding — an addition OR a removal. A removal
+                       leaves no row behind to carry the pink treatment, so without this the
+                       card would look settled while still holding a pending change. -->
+                                <span
+                                  class="bcn-ev-row__dot"
+                                  data-action-unsaved=""
+                                  hidden=""
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="bcn-ev-row__name"
+                                  >Worker environmental awareness training</span
+                                >
+                                <span class="bcn-ev-row__codes">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-2.3</span>
+                                  <!-- Right of the codes, INSIDE the same group: the count belongs to this
+                         action's identity line, and grouping it with the codes means it
+                         wraps with them rather than stranding itself when the row is tight. -->
+                                  <esa-tooltip
+                                    class="bcn-countchip"
+                                    text="No evidence attached yet"
+                                    position="below"
+                                    data-action-evcount=""
+                                    hidden="true"
+                                  >
+                                    <span class="bcn-countchip__stack">
+                                      <span class="bcn-countchip__icon" aria-hidden="true">
+                                        <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                          <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                                            ></path>
+                                          </svg>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__num" aria-hidden="true">
+                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                          <span class="esa-badge__text">0</span>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__sr"
+                                        >No evidence attached yet</span
+                                      >
+                                    </span>
+                                  </esa-tooltip>
+                                </span>
+                                <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+                                <span class="bcn-ev-row__tags">
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Tracking</span>
+                                  </span>
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Pre-Construction</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="bcn-ev-row__side">
+                              <span
+                                class="bcn-ev-row__dismiss"
+                                data-target-dismiss="act-tc-worker-training"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Worker environmental awareness training"
+                                  title="Remove Worker environmental awareness training"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                          <!-- The collapsible body sits BELOW the head rather than inside it, so the
+                   list runs the card's full width — under the dismiss button — and is
+                   indented on the left to start where the title starts, not where the
+                   chevron does. -->
+                          <div class="bcn-ev-row__body" data-card-body="">
+                            <ul
+                              class="bcn-ev-attached"
+                              data-attached-list="act-tc-worker-training"
+                            ></ul>
+                            <p class="bcn-ev-row__hint type-body-small" data-attached-hint="">
+                              Drag evidence here to attach it.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li
+                    class="bcn-ev-targets__item"
+                    data-target-row="act-tc-nesting-bird-survey"
+                    data-component="twin-cities-complex"
+                    data-tier="manual"
+                    hidden=""
+                  >
+                    <div class="esa-card esa-card--outlined">
+                      <div class="esa-card__body">
+                        <div class="bcn-ev-row">
+                          <div class="bcn-ev-row__head">
+                            <div class="bcn-ev-row__main">
+                              <div class="bcn-ev-row__titlerow">
+                                <button
+                                  type="button"
+                                  class="bcn-disclosure"
+                                  aria-expanded="true"
+                                  aria-label="Collapse Nesting bird survey before vegetation removal"
+                                  data-card-toggle="act-tc-nesting-bird-survey"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                                <!-- Unsaved marker for the CARD, shown when anything about this
+                       action's evidence is outstanding — an addition OR a removal. A removal
+                       leaves no row behind to carry the pink treatment, so without this the
+                       card would look settled while still holding a pending change. -->
+                                <span
+                                  class="bcn-ev-row__dot"
+                                  data-action-unsaved=""
+                                  hidden=""
+                                  aria-hidden="true"
+                                ></span>
+                                <span class="bcn-ev-row__name"
+                                  >Nesting bird survey before vegetation removal</span
+                                >
+                                <span class="bcn-ev-row__codes">
+                                  <span class="bcn-cbadge bcn-cbadge--sm">BIO-5.2</span>
+                                  <!-- Right of the codes, INSIDE the same group: the count belongs to this
+                         action's identity line, and grouping it with the codes means it
+                         wraps with them rather than stranding itself when the row is tight. -->
+                                  <esa-tooltip
+                                    class="bcn-countchip"
+                                    text="No evidence attached yet"
+                                    position="below"
+                                    data-action-evcount=""
+                                    hidden="true"
+                                  >
+                                    <span class="bcn-countchip__stack">
+                                      <span class="bcn-countchip__icon" aria-hidden="true">
+                                        <span class="esa-icon esa-icon--md" aria-hidden="true">
+                                          <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            focusable="false"
+                                          >
+                                            <path
+                                              d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                                            ></path>
+                                          </svg>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__num" aria-hidden="true">
+                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                          <span class="esa-badge__text">0</span>
+                                        </span>
+                                      </span>
+                                      <span class="bcn-countchip__sr"
+                                        >No evidence attached yet</span
+                                      >
+                                    </span>
+                                  </esa-tooltip>
+                                </span>
+                                <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
+                                <span class="bcn-ev-row__tags">
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Monitoring</span>
+                                  </span>
+                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                    <span class="esa-badge__text">Pre-Construction</span>
+                                  </span>
+                                </span>
+                              </div>
+                            </div>
+                            <div class="bcn-ev-row__side">
+                              <span
+                                class="bcn-ev-row__dismiss"
+                                data-target-dismiss="act-tc-nesting-bird-survey"
+                              >
+                                <button
+                                  class="esa-icon-button esa-icon-button--sm"
+                                  type="button"
+                                  aria-label="Remove Nesting bird survey before vegetation removal"
+                                  title="Remove Nesting bird survey before vegetation removal"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M18 6 6 18"></path>
+                                      <path d="m6 6 12 12"></path>
+                                    </svg>
+                                  </span>
+                                </button>
+                              </span>
+                            </div>
+                          </div>
+                          <!-- The collapsible body sits BELOW the head rather than inside it, so the
+                   list runs the card's full width — under the dismiss button — and is
+                   indented on the left to start where the title starts, not where the
+                   chevron does. -->
+                          <div class="bcn-ev-row__body" data-card-body="">
+                            <ul
+                              class="bcn-ev-attached"
+                              data-attached-list="act-tc-nesting-bird-survey"
+                            ></ul>
+                            <p class="bcn-ev-row__hint type-body-small" data-attached-hint="">
+                              Drag evidence here to attach it.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+                <!-- An attached-evidence row, pre-rendered from the LEGOS once and cloned per
+         attachment by the controller. Astro's legos are compile-time, so a template is how
+         a runtime-built list still gets real esa-badge / esa-icon-button markup instead of
+         hand-written copies of it (the same trick BcnGuidanceDrawer uses for its avatar). -->
+                <template data-attached-row="">
+                  <li class="bcn-ev-attached__row" data-astro-cid-5nz34ayf="">
+                    <span class="bcn-ev-attached__name" data-astro-cid-5nz34ayf=""></span>
+                    <span class="bcn-ev-attached__mark" hidden="" data-astro-cid-5nz34ayf="">
+                      <span
+                        class="esa-badge esa-badge--primary esa-badge--sm"
+                        data-astro-cid-gz52qnjf=""
+                      >
+                        <span class="esa-badge__text" data-astro-cid-gz52qnjf="">Suggested</span>
+                      </span>
+                    </span>
+                    <span class="bcn-ev-attached__remove" data-astro-cid-5nz34ayf="">
+                      <button
+                        class="esa-icon-button esa-icon-button--sm"
+                        type="button"
+                        aria-label="Remove this evidence from the action"
+                        title="Remove this evidence from the action"
+                        data-astro-cid-q5zfyfab="true"
+                      >
+                        <span
+                          class="esa-icon esa-icon--sm"
+                          aria-hidden="true"
+                          data-astro-cid-md4nwazs=""
+                        >
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                            data-astro-cid-md4nwazs=""
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span>
+                      </button>
+                    </span>
+                  </li>
+                </template>
+                <!-- Nothing on the list yet. -->
+                <div class="bcn-ev-targets__empty" data-targets-empty="">
+                  <div class="esa-empty-state esa-empty-state--sm">
+                    <h3 class="esa-empty-state__title">No actions selected</h3>
+                    <p class="esa-empty-state__description">
+                      Search above to add one, or run Find matches once you have added evidence.
+                    </p>
+                    <div class="esa-empty-state__actions"></div>
+                  </div>
+                </div>
+              </div>
+              <!-- ── What is outstanding ─────────────────────────────────────────────────
+       Pinned BELOW the scroll rather than inside it: it summarises the whole
+       column, so it must not scroll away from the changes it is counting. Shown
+       only while associations are unsaved; the Add New tab's draft has its own
+       marker and is not counted here. -->
+              <div class="bcn-ev-targets__pending" data-targets-pending="" hidden="">
+                <div class="esa-alert-box esa-alert-box--warning">
+                  <div class="esa-alert-box__icon">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"
+                      ></path>
+                      <path d="M12 9v4"></path>
+                      <path d="M12 17h.01"></path>
+                    </svg>
+                  </div>
+                  <div class="esa-alert-box__body">
+                    <strong class="esa-alert-box__title">Unsaved changes</strong>
+                    <div class="esa-alert-box__message">
+                      <span data-targets-pending-text=""></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+        <esa-confirm-dialog
+          data-evidence-confirm="true"
+          heading="Discard these associations?"
+          message="Evidence you have attached in this session has not been saved. Changing the component or phase re-scopes the action list and discards it."
+          variant="warning"
+          confirm-label="Discard and change"
+          cancel-label="Keep working"
+        ></esa-confirm-dialog>
+      </div>
+      <footer class="bcn-bottom-drawer__foot">
+        <div class="bcn-ev__foot">
+          <div class="bcn-ev__actions">
+            <span data-evidence-save="">
+              <span
+                class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md esa-button--disabled"
+              >
+                <button class="esa-button__native" type="button" disabled="">
+                  <span class="esa-button__label"> Save </span>
+                </button>
+              </span>
+            </span>
+            <span data-drawer-close="">
+              <span
+                class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
+              >
+                <button class="esa-button__native" type="button">
+                  <span class="esa-button__label"> Cancel </span>
+                </button>
+              </span>
+            </span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </bcn-bottom-drawer>
+  <script
+    type="module"
+    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.DYWgdQnP.js"
+  ></script>
 </div>
 ```
 
@@ -7415,10 +13905,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --bcn-helpbar-fg-muted: rgba(255, 255, 255, .72);
   --bcn-helpbar-hover-bg: rgba(255, 255, 255, .1);
   --color-accent: #f76b15;
+  --color-backdrop: rgba(0, 0, 0, .5);
   --color-background: #fafafa;
   --color-border: #dcdcdc;
   --color-primary: #005862;
   --color-primary-hover: #00474f;
+  --color-secondary: #00918b;
   --color-surface: #fcfcfc;
   --color-surface-sunken: #efefef;
   --color-text-inverse: #fcfcfc;
@@ -7484,75 +13976,110 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --type-size-500: clamp(1.125rem, .98rem + .72vw, 1.5rem);
 }
 
-:host {
-      --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
-      --_popover-border: var(--popover-border-color, var(--color-border, #e5e5e5));
-      --_popover-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
-      --_popover-radius: var(--popover-radius, var(--radius-200, 0.5rem));
-      --_popover-padding: var(--spacing-300, 0.75rem);
-      --_popover-arrow-size: 8px;
-      --_popover-color: var(--popover-color, var(--color-text-primary, #171717));
-      display: inline-block;
-    }
-.esa-popover-anchor {
-      position: relative;
-      display: inline-block;
-    }
-:where(.ag-theme-part-8) {
-.ag-icon-filter::before { mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolygon%20points%3D%2222%203%202%203%2010%2012.46%2010%2019%2014%2021%2014%2012.46%2022%203%22%2F%3E%3C%2Fsvg%3E"); }
-;
-.ag-icon-filterActive::before { mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolygon%20points%3D%2222%203%202%203%2010%2012.46%2010%2019%2014%2021%2014%2012.46%2022%203%22%2F%3E%3C%2Fsvg%3E"); }
-.ag-icon-filter::before { mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolygon%20points%3D%2222%203%202%203%2010%2012.46%2010%2019%2014%2021%2014%2012.46%2022%203%22%2F%3E%3C%2Fsvg%3E"); }
-:host { all: initial; }
-.host-root { position: fixed; inset: 0; pointer-events: none; z-index: 2147483000;
-    font-family: system-ui, sans-serif; }
-.host-root > * { pointer-events: auto; }
-.launch { position: fixed; bottom: 22px; left: 22px; display: inline-flex; align-items: center; gap: 9px;
-    padding: 13px 19px; border-radius: 999px; color: #fff; cursor: pointer; font-size: 15px; font-weight: 600;
-    letter-spacing: .01em; border: 1px solid #3d6fd6;
-    background: linear-gradient(180deg, #1f6feb, #1551c4);
-    box-shadow: 0 10px 28px -8px rgba(31,111,235,.65), inset 0 1px 0 rgba(255,255,255,.18);
-    transition: transform .15s ease, box-shadow .15s ease, filter .15s ease; }
-.launch svg { flex: none; }
-.panel { position: fixed; top: 18px; right: 18px; bottom: 18px; width: min(720px, 94vw);
-    display: flex; flex-direction: column; color: #ffffff; border-radius: 16px;
-    background: linear-gradient(155deg, rgba(26,31,40,.74), rgba(11,15,21,.86));
-    backdrop-filter: blur(26px) saturate(150%); -webkit-backdrop-filter: blur(26px) saturate(150%);
-    border: 1px solid rgba(255,255,255,.15);
-    box-shadow: 0 28px 70px -18px rgba(0,0,0,.62), inset 0 1px 0 rgba(255,255,255,.10);
-    font-size: 12.5px; overflow: hidden;
-    /* slide in from the right */
-    transform: translateX(calc(100% + 32px)); opacity: 0; visibility: hidden;
-    transition: transform .3s cubic-bezier(.4,0,.2,1), opacity .22s ease, visibility 0s linear .3s; }
-.head { display: flex; align-items: center; gap: 8px; padding: 13px 16px; border-bottom: 1px solid rgba(255,255,255,.09); }
-.head strong { font-size: 14px; }
-.head .sub { flex: 1; color: #ccd5e0; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.x { border: 0; background: none; color: #c4cdd8; font-size: 20px; line-height: 1; cursor: pointer; }
-.picker { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,.09); }
-.chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.chip { padding: 5px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.04);
-    color: #eef2f6; font: inherit; font-size: 12.5px; cursor: pointer; white-space: nowrap;
-    transition: border-color .12s ease, background .12s ease, color .12s ease; }
-.chip.on { background: rgba(31,111,235,.28); border-color: #4493f8; color: #fff; font-weight: 600; }
-.tabs { display: flex; gap: 4px; padding: 9px 14px; border-bottom: 1px solid rgba(255,255,255,.09); }
-.tabs button { padding: 5px 12px; border: 0; border-radius: 6px; background: none; color: #ccd5e0;
-    font: inherit; font-size: 12.5px; cursor: pointer; }
-.tabs button.on { background: rgba(255,255,255,.12); color: #fff; }
-.body { overflow: auto; padding: 13px 16px; flex: 1; }
-.hint { margin: 0; color: #c4cdd8; line-height: 1.6; }
-.footer { position: relative; display: flex; justify-content: flex-end; gap: 8px; padding: 11px 16px;
-    border-top: 1px solid rgba(255,255,255,.10); background: rgba(0,0,0,.18); }
-[hidden] { display: none !important; }
-.cpreview { position: absolute; left: 16px; right: 16px; bottom: calc(100% + 8px);
-    background: rgba(13,17,23,.96); border: 1px solid rgba(255,255,255,.16); border-radius: 12px;
-    box-shadow: 0 18px 50px -14px rgba(0,0,0,.7); padding: 12px 14px; max-height: 50vh; overflow: auto; }
-.copy { color: #eef2f6; border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.05); }
-.footer button { flex: none; display: inline-flex; align-items: center; justify-content: center; gap: 7px;
-    padding: 8px 14px; border-radius: 8px; font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer; }
-.claude { color: #fff; border: 1px solid #d97757;
-    background: linear-gradient(180deg, #e0805f, #c25e3c);
-    box-shadow: 0 6px 18px -6px rgba(217,119,87,.6), inset 0 1px 0 rgba(255,255,255,.2); }
-.claude svg { flex: none; }
+:where([class^=ag-]),:where([class^=ag-]):after,:where([class^=ag-]):before{box-sizing:border-box}
+.ag-measurement-container{height:0;overflow:hidden;visibility:hidden;width:0}
+.ag-measurement-element-border{display:inline-block}
+.ag-measurement-element-border:before{border-left:var(--ag-internal-measurement-border);content:"";display:block}
+.ag-chart,.ag-dnd-ghost,.ag-external,.ag-popup,.ag-root-wrapper{cursor:default;line-height:normal;white-space:normal;-webkit-font-smoothing:antialiased;background-color:var(--ag-wrapper-background-color);color:var(--ag-text-color);color-scheme:var(--ag-browser-color-scheme);font-family:var(--ag-font-family);font-size:var(--ag-font-size);font-weight:var(--ag-font-weight);--ag-indentation-level:0}
+.ag-tab-guard{display:block;height:0;position:absolute;width:0}
+.ag-tab-guard-top{top:1px}
+.ag-invisible{visibility:hidden!important}
+.ag-hidden{display:none!important}
+.ag-tab-guard-bottom{bottom:1px}
+.ag-icon{background-position:50%;background-repeat:no-repeat;background-size:contain;color:var(--ag-icon-color);display:block;height:var(--ag-icon-size);position:relative;-webkit-user-select:none;-moz-user-select:none;user-select:none;width:var(--ag-icon-size)}
+:where(.ag-icon):before{align-items:center;background-color:currentcolor;color:inherit;content:"";display:flex;font-family:inherit;font-size:var(--ag-icon-size);font-style:normal;font-variant:normal;height:var(--ag-icon-size);justify-content:center;line-height:var(--ag-icon-size);-webkit-mask-size:contain;mask-size:contain;text-transform:none;width:var(--ag-icon-size)}
+:host { --_width: var(--side-dialog-width, 400px); }
+.ag-pinned-left-header,.ag-pinned-right-header{display:inline-block;height:100%;overflow:hidden;position:relative}
+.ag-pinned-left-header{border-right:var(--ag-pinned-column-border)}
+.ag-pinned-right-header{border-left:var(--ag-pinned-column-border)}
+.ag-pinned-left-floating-bottom,.ag-pinned-left-floating-top,.ag-pinned-right-floating-bottom,.ag-pinned-right-floating-top{min-width:0;overflow:hidden;position:relative}
+.ag-pinned-left-sticky-top,.ag-pinned-right-sticky-top{height:100%;overflow:hidden;position:relative}
+.ag-sticky-bottom-full-width-container,.ag-sticky-top-full-width-container{height:100%;overflow:hidden;width:100%}
+.ag-body-horizontal-scroll:not(.ag-scrollbar-invisible){.ag-horizontal-left-spacer:not(.ag-scroller-corner){border-right:var(--ag-pinned-column-border)}
+.ag-horizontal-right-spacer:not(.ag-scroller-corner){border-left:var(--ag-pinned-column-border)}
+.esa-icon{--_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));display:inline-flex;align-items:center;justify-content:center;width:var(--_icon-size);height:var(--_icon-size);line-height:1;color:inherit}
+.esa-icon--xs{--_icon-size: var(--icon-size-xs, 14px)}
+.esa-icon svg{display:block;width:var(--_icon-size);height:var(--_icon-size)}
+.esa-icon--sm{--_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px))}
+.esa-icon--md{--_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px))}
+.esa-icon-button{--_ib-size: var(--form-height-md, 40px);--_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));display:inline-flex;align-items:center;justify-content:center;width:var(--_ib-size);height:var(--_ib-size);padding:0;border:0;border-radius:var(--radius-200, 8px);background:transparent;color:inherit;cursor:pointer;transition:background var(--transition-fast, .15s ease);-webkit-appearance:none;appearance:none}
+.grid-header{display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-400);margin-bottom:var(--spacing-300)}
+.grid-header__filter{display:inline-flex;align-items:center;gap:var(--spacing-150);min-width:280px}
+.grid-header__filter esa-text-field{flex:1}
+.tracker-grid{width:100%;height:calc(100vh - 360px);min-height:400px}
+.table-footer{display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-400);padding:var(--spacing-200) var(--spacing-400);background:var(--color-background);border:1px solid var(--color-border);border-top:0;border-radius:0 0 var(--radius-100) var(--radius-100)}
+.row-count-data{display:flex;align-items:center;gap:var(--spacing-400);font-size:var(--type-size-100);color:var(--color-text-secondary);font-variant-numeric:tabular-nums}
+.filtered-rows-count{color:var(--color-text-tertiary)}
+.filtered-rows-count[hidden]{display:none}
+.ag-row{cursor:pointer}
+.bcn-grid-name{color:var(--color-text-link);font-weight:var(--font-weight-regular);text-decoration:underline}
+:where(.ag-theme-iconSet-5) {
+.ag-icon-aggregation::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M18%207V4H6l6%208-6%208h12v-3%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-arrows::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpolyline%20points%3D%225%209%202%2012%205%2015%22%2F%3E%3Cpolyline%20points%3D%229%205%2012%202%2015%205%22%2F%3E%3Cpolyline%20points%3D%2215%2019%2012%2022%209%2019%22%2F%3E%3Cpolyline%20points%3D%2219%209%2022%2012%2019%2015%22%2F%3E%3Cline%20x1%3D%222%22%20x2%3D%2222%22%20y1%3D%2212%22%20y2%3D%2212%22%2F%3E%3Cline%20x1%3D%2212%22%20x2%3D%2212%22%20y1%3D%222%22%20y2%3D%2222%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-asc::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m5%2012%207-7%207%207%22%2F%3E%3Cpath%20d%3D%22M12%2019V5%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-cancel::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m18%206-12%2012%22%2F%3E%3Cpath%20d%3D%22m6%206%2012%2012%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-chart::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cline%20x1%3D%2218%22%20x2%3D%2218%22%20y1%3D%2220%22%20y2%3D%2210%22%2F%3E%3Cline%20x1%3D%2212%22%20x2%3D%2212%22%20y1%3D%2220%22%20y2%3D%224%22%2F%3E%3Cline%20x1%3D%226%22%20x2%3D%226%22%20y1%3D%2220%22%20y2%3D%2214%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-color-picker::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m19%2011-8-8-8.6%208.6a2%202%200%200%200%200%202.8l5.2%205.2c.8.8%202%20.8%202.8%200L19%2011Z%22%2F%3E%3Cpath%20d%3D%22m5%202%205%205%22%2F%3E%3Cpath%20d%3D%22M2%2013h15%22%2F%3E%3Cpath%20d%3D%22M22%2020a2%202%200%201%201-4%200c0-1.6%201.7-2.4%202-4%20.3%201.6%202%202.4%202%204Z%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-columns::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M9%203H5a2%202%200%200%200-2%202v4m6-6h10a2%202%200%200%201%202%202v4M9%203v18m0%200h10a2%202%200%200%200%202-2V9M9%2021H5a2%202%200%200%201-2-2V9m0%200h18%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-contracted::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m9%2018%206-6-6-6%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-copy::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Crect%20width%3D%2214%22%20height%3D%2214%22%20x%3D%228%22%20y%3D%228%22%20rx%3D%222%22%20ry%3D%222%22%2F%3E%3Cpath%20d%3D%22M4%2016c-1.1%200-2-.9-2-2V4c0-1.1.9-2%202-2h10c1.1%200%202%20.9%202%202%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-cross::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M18%206%206%2018%22%2F%3E%3Cpath%20d%3D%22m6%206%2012%2012%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-csv::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M14.5%202H6a2%202%200%200%200-2%202v16a2%202%200%200%200%202%202h12a2%202%200%200%200%202-2V7.5L14.5%202z%22%2F%3E%3Cpolyline%20points%3D%2214%202%2014%208%2020%208%22%2F%3E%3Cpath%20d%3D%22M8%2013h2%22%2F%3E%3Cpath%20d%3D%22M8%2017h2%22%2F%3E%3Cpath%20d%3D%22M14%2013h2%22%2F%3E%3Cpath%20d%3D%22M14%2017h2%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-cut::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Ccircle%20cx%3D%226%22%20cy%3D%226%22%20r%3D%223%22%2F%3E%3Cpath%20d%3D%22M8.12%208.12%2012%2012%22%2F%3E%3Cpath%20d%3D%22M20%204%208.12%2015.88%22%2F%3E%3Ccircle%20cx%3D%226%22%20cy%3D%2218%22%20r%3D%223%22%2F%3E%3Cpath%20d%3D%22M14.8%2014.8%2020%2020%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-desc::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M12%205v14%22%2F%3E%3Cpath%20d%3D%22m19%2012-7%207-7-7%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-down::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M12%205v14%22%2F%3E%3Cpath%20d%3D%22m19%2012-7%207-7-7%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-excel::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M14.5%202H6a2%202%200%200%200-2%202v16a2%202%200%200%200%202%202h12a2%202%200%200%200%202-2V7.5L14.5%202z%22%2F%3E%3Cpolyline%20points%3D%2214%202%2014%208%2020%208%22%2F%3E%3Cpath%20d%3D%22M8%2013h2%22%2F%3E%3Cpath%20d%3D%22M8%2017h2%22%2F%3E%3Cpath%20d%3D%22M14%2013h2%22%2F%3E%3Cpath%20d%3D%22M14%2017h2%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-expanded::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m15%2018-6-6%206-6%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-eye::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M2%2012s3-7%2010-7%2010%207%2010%207-3%207-10%207-10-7-10-7Z%22%2F%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%223%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-eye-slash::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M9.88%209.88a3%203%200%201%200%204.24%204.24%22%2F%3E%3Cpath%20d%3D%22M10.73%205.08A10.43%2010.43%200%200%201%2012%205c7%200%2010%207%2010%207a13.16%2013.16%200%200%201-1.67%202.68%22%2F%3E%3Cpath%20d%3D%22M6.61%206.61A13.526%2013.526%200%200%200%202%2012s3%207%2010%207a9.74%209.74%200%200%200%205.39-1.61%22%2F%3E%3Cline%20x1%3D%222%22%20x2%3D%2222%22%20y1%3D%222%22%20y2%3D%2222%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-filter::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M3%206h18%22%2F%3E%3Cpath%20d%3D%22M7%2012h10%22%2F%3E%3Cpath%20d%3D%22M10%2018h4%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-first::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m17%2018-6-6%206-6%22%2F%3E%3Cpath%20d%3D%22M7%206v12%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-grip::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Ccircle%20cx%3D%225%22%20cy%3D%228%22%20r%3D%220.5%22%2F%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%228%22%20r%3D%220.5%22%2F%3E%3Ccircle%20cx%3D%2219%22%20cy%3D%228%22%20r%3D%220.5%22%2F%3E%3Ccircle%20cx%3D%225%22%20cy%3D%2216%22%20r%3D%220.5%22%2F%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2216%22%20r%3D%220.5%22%2F%3E%3Ccircle%20cx%3D%2219%22%20cy%3D%2216%22%20r%3D%220.5%22%2F%3E%3Cg%20stroke%3D%22none%22%20fill%3D%22currentColor%22%3E%3Ccircle%20cx%3D%225%22%20cy%3D%228%22%20r%3D%221%22%2F%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%228%22%20r%3D%221%22%2F%3E%3Ccircle%20cx%3D%2219%22%20cy%3D%228%22%20r%3D%221%22%2F%3E%3Ccircle%20cx%3D%225%22%20cy%3D%2216%22%20r%3D%221%22%2F%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2216%22%20r%3D%221%22%2F%3E%3Ccircle%20cx%3D%2219%22%20cy%3D%2216%22%20r%3D%221%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E'); }
+.ag-icon-group::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M16%2012H3%22%2F%3E%3Cpath%20d%3D%22M16%2018H3%22%2F%3E%3Cpath%20d%3D%22M10%206H3%22%2F%3E%3Cpath%20d%3D%22M21%2018V8a2%202%200%200%200-2-2h-5%22%2F%3E%3Cpath%20d%3D%22m16%208-2-2%202-2%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-last::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m7%2018%206-6-6-6%22%2F%3E%3Cpath%20d%3D%22M17%206v12%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-left::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m12%2019-7-7%207-7%22%2F%3E%3Cpath%20d%3D%22M19%2012H5%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-linked::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M9%2017H7A5%205%200%200%201%207%207h2%22%2F%3E%3Cpath%20d%3D%22M15%207h2a5%205%200%201%201%200%2010h-2%22%2F%3E%3Cline%20x1%3D%228%22%20x2%3D%2216%22%20y1%3D%2212%22%20y2%3D%2212%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-loading::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cline%20x1%3D%2212%22%20x2%3D%2212%22%20y1%3D%222%22%20y2%3D%226%22%2F%3E%3Cline%20x1%3D%2212%22%20x2%3D%2212%22%20y1%3D%2218%22%20y2%3D%2222%22%2F%3E%3Cline%20x1%3D%224.93%22%20x2%3D%227.76%22%20y1%3D%224.93%22%20y2%3D%227.76%22%2F%3E%3Cline%20x1%3D%2216.24%22%20x2%3D%2219.07%22%20y1%3D%2216.24%22%20y2%3D%2219.07%22%2F%3E%3Cline%20x1%3D%222%22%20x2%3D%226%22%20y1%3D%2212%22%20y2%3D%2212%22%2F%3E%3Cline%20x1%3D%2218%22%20x2%3D%2222%22%20y1%3D%2212%22%20y2%3D%2212%22%2F%3E%3Cline%20x1%3D%224.93%22%20x2%3D%227.76%22%20y1%3D%2219.07%22%20y2%3D%2216.24%22%2F%3E%3Cline%20x1%3D%2216.24%22%20x2%3D%2219.07%22%20y1%3D%227.76%22%20y2%3D%224.93%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-maximize::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpolyline%20points%3D%2215%203%2021%203%2021%209%22%2F%3E%3Cpolyline%20points%3D%229%2021%203%2021%203%2015%22%2F%3E%3Cline%20x1%3D%2221%22%20x2%3D%2214%22%20y1%3D%223%22%20y2%3D%2210%22%2F%3E%3Cline%20x1%3D%223%22%20x2%3D%2210%22%20y1%3D%2221%22%20y2%3D%2214%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-menu::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cline%20x1%3D%224%22%20x2%3D%2220%22%20y1%3D%2212%22%20y2%3D%2212%22%2F%3E%3Cline%20x1%3D%224%22%20x2%3D%2220%22%20y1%3D%226%22%20y2%3D%226%22%2F%3E%3Cline%20x1%3D%224%22%20x2%3D%2220%22%20y1%3D%2218%22%20y2%3D%2218%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-menu-alt::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%225%22%20r%3D%220.75%22%20fill%3D%22%23D9D9D9%22%2F%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%220.75%22%20fill%3D%22%23D9D9D9%22%2F%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2219%22%20r%3D%220.75%22%20fill%3D%22%23D9D9D9%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-minimize::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpolyline%20points%3D%224%2014%2010%2014%2010%2020%22%2F%3E%3Cpolyline%20points%3D%2220%2010%2014%2010%2014%204%22%2F%3E%3Cline%20x1%3D%2214%22%20x2%3D%2221%22%20y1%3D%2210%22%20y2%3D%223%22%2F%3E%3Cline%20x1%3D%223%22%20x2%3D%2210%22%20y1%3D%2221%22%20y2%3D%2214%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-minus::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%2210%22%2F%3E%3Cpath%20d%3D%22M8%2012h8%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-next::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m9%2018%206-6-6-6%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-none::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m7%2015%205%205%205-5%22%2F%3E%3Cpath%20d%3D%22m7%209%205-5%205%205%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-not-allowed::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%2210%22%2F%3E%3Cpath%20d%3D%22m4.9%204.9%2014.2%2014.2%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-paste::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M15%202H9a1%201%200%200%200-1%201v2c0%20.6.4%201%201%201h6c.6%200%201-.4%201-1V3c0-.6-.4-1-1-1Z%22%2F%3E%3Cpath%20d%3D%22M8%204H6a2%202%200%200%200-2%202v14a2%202%200%200%200%202%202h12a2%202%200%200%200%202-2M16%204h2a2%202%200%200%201%202%202v2M11%2014h10%22%2F%3E%3Cpath%20d%3D%22m17%2010%204%204-4%204%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-pin::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cline%20x1%3D%2212%22%20x2%3D%2212%22%20y1%3D%2217%22%20y2%3D%2222%22%2F%3E%3Cpath%20d%3D%22M5%2017h14v-1.76a2%202%200%200%200-1.11-1.79l-1.78-.9A2%202%200%200%201%2015%2010.76V6h1a2%202%200%200%200%200-4H8a2%202%200%200%200%200%204h1v4.76a2%202%200%200%201-1.11%201.79l-1.78.9A2%202%200%200%200%205%2015.24Z%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-pivot::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M15%203v18%22%2F%3E%3Crect%20width%3D%2218%22%20height%3D%2218%22%20x%3D%223%22%20y%3D%223%22%20rx%3D%222%22%2F%3E%3Cpath%20d%3D%22M21%209H3%22%2F%3E%3Cpath%20d%3D%22M21%2015H3%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-plus::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%2210%22%2F%3E%3Cpath%20d%3D%22M8%2012h8%22%2F%3E%3Cpath%20d%3D%22M12%208v8%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-previous::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m15%2018-6-6%206-6%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-right::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M5%2012h14%22%2F%3E%3Cpath%20d%3D%22m12%205%207%207-7%207%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-save::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M12%2017V3%22%2F%3E%3Cpath%20d%3D%22m6%2011%206%206%206-6%22%2F%3E%3Cpath%20d%3D%22M19%2021H5%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-search::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Ccircle%20cx%3D%2211%22%20cy%3D%2211%22%20r%3D%228%22%2F%3E%3Cpath%20d%3D%22m21%2021-4.3-4.3%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-settings::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M20%207h-9%22%2F%3E%3Cpath%20d%3D%22M14%2017H5%22%2F%3E%3Ccircle%20cx%3D%2217%22%20cy%3D%2217%22%20r%3D%223%22%2F%3E%3Ccircle%20cx%3D%227%22%20cy%3D%227%22%20r%3D%223%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-small-left::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m15%2018-6-6%206-6%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-small-right::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m9%2018%206-6-6-6%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-tick::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M20%206%209%2017l-5-5%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-tree-closed::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m9%2018%206-6-6-6%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-tree-indeterminate::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M5%2012h14%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-tree-open::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-unlinked::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M9%2017H7A5%205%200%200%201%207%207%22%2F%3E%3Cpath%20d%3D%22M15%207h2a5%205%200%200%201%204%208%22%2F%3E%3Cline%20x1%3D%228%22%20x2%3D%2212%22%20y1%3D%2212%22%20y2%3D%2212%22%2F%3E%3Cline%20x1%3D%222%22%20x2%3D%2222%22%20y1%3D%222%22%20y2%3D%2222%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-up::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m5%2012%207-7%207%207%22%2F%3E%3Cpath%20d%3D%22M12%2019V5%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-aasc::before { mask-image: url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M13.2012%208.07928C13.6346%208.0793%2014.0128%208.15365%2014.3359%208.30193C14.6609%208.45018%2014.9141%208.65595%2015.0947%208.9201C15.2754%209.18439%2015.3683%209.49109%2015.374%209.83904H14.1904C14.1676%209.60898%2014.0695%209.4303%2013.8965%209.30291C13.7235%209.1756%2013.4889%209.1115%2013.1924%209.1115C12.9909%209.1115%2012.8204%209.1404%2012.6816%209.19744C12.543%209.25255%2012.4364%209.32917%2012.3623%209.42791C12.2901%209.52678%2012.2539%209.63933%2012.2539%209.76482C12.2501%209.8692%2012.272%209.9604%2012.3193%2010.0383C12.3688%2010.1162%2012.4369%2010.1843%2012.5225%2010.2414C12.6079%2010.2964%2012.7064%2010.3451%2012.8184%2010.3869C12.9304%2010.4268%2013.0505%2010.4609%2013.1777%2010.4894L13.7031%2010.6144C13.9578%2010.6715%2014.1914%2010.7479%2014.4043%2010.8429C14.6173%2010.938%2014.8021%2011.0547%2014.958%2011.1935C15.1138%2011.3323%2015.2348%2011.4957%2015.3203%2011.6838C15.4077%2011.8719%2015.4522%2012.088%2015.4541%2012.3312C15.4522%2012.6885%2015.3611%2012.9986%2015.1807%2013.2609C15.0019%2013.5214%2014.7427%2013.7248%2014.4043%2013.8693C14.0678%2014.0118%2013.6617%2014.0832%2013.1865%2014.0832C12.7153%2014.0832%2012.3048%2014.0107%2011.9551%2013.8664C11.6071%2013.7219%2011.3345%2013.5071%2011.1387%2013.2238C10.9449%2012.9387%2010.8435%2012.5862%2010.834%2012.1662H12.0283C12.0416%2012.362%2012.0984%2012.5252%2012.1973%2012.6564C12.298%2012.7857%2012.4323%2012.8838%2012.5996%2012.9504C12.7688%2013.0149%2012.96%2013.047%2013.1729%2013.047C13.3817%2013.047%2013.563%2013.0169%2013.7168%2012.9562C13.8727%2012.8954%2013.9935%2012.8106%2014.0791%2012.7023C14.1647%2012.5939%2014.208%2012.469%2014.208%2012.3283C14.2079%2012.1974%2014.1686%2012.0875%2014.0908%2011.9982C14.0148%2011.9089%2013.9022%2011.8324%2013.7539%2011.7697C13.6076%2011.707%2013.4276%2011.6501%2013.2148%2011.5988L12.5791%2011.4387C12.0869%2011.3189%2011.6982%2011.1318%2011.4131%2010.8771C11.128%2010.6224%2010.9855%2010.2793%2010.9873%209.84783C10.9854%209.49418%2011.0804%209.18439%2011.2705%208.9201C11.4625%208.65603%2011.7261%208.45015%2012.0605%208.30193C12.3951%208.15369%2012.7754%208.07928%2013.2012%208.07928Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M5.8125%2014.0002H4.48926L4.05664%2012.6681H1.94824L1.51465%2014.0002H0.19043L2.20703%208.15935H3.79883L5.8125%2014.0002ZM2.26172%2011.7043H3.74316L3.02539%209.49334H2.98047L2.26172%2011.7043Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M8.45215%208.15935C8.88165%208.15935%209.24031%208.22251%209.52734%208.34978C9.81445%208.47717%2010.0303%208.65477%2010.1748%208.88103C10.3192%209.10536%2010.3916%209.36368%2010.3916%209.65642C10.3916%209.88452%2010.3461%2010.085%2010.2549%2010.258C10.1637%2010.4289%2010.0384%2010.5696%209.87891%2010.6799C9.72117%2010.7882%209.54024%2010.8657%209.33691%2010.9113V10.9679C9.55917%2010.9775%209.76716%2011.0406%209.96094%2011.1564C10.1568%2011.2724%2010.3158%2011.4356%2010.4375%2011.6447C10.5591%2011.8519%2010.6201%2012.099%2010.6201%2012.3859C10.6201%2012.6958%2010.5427%2012.9727%2010.3887%2013.216C10.2366%2013.4573%2010.0113%2013.6486%209.71289%2013.7892C9.41443%2013.9299%209.04655%2014.0002%208.60938%2014.0002H6.11426V8.15935H8.45215ZM7.34863%2012.9904H8.35547C8.69943%2012.9904%208.95057%2012.9252%209.1084%2012.7941C9.26621%2012.661%209.34473%2012.4834%209.34473%2012.2629C9.34468%2012.1014%209.30643%2011.9587%209.22852%2011.8351C9.15056%2011.7116%209.03903%2011.6145%208.89453%2011.5441C8.75195%2011.4738%208.58148%2011.4387%208.38379%2011.4387H7.34863V12.9904ZM7.34863%2010.6037H8.26465C8.43369%2010.6036%208.58376%2010.5737%208.71484%2010.5148C8.84793%2010.454%208.95227%2010.3683%209.02832%2010.258C9.10628%2010.1477%209.14551%2010.0155%209.14551%209.8615C9.14546%209.65055%209.07008%209.48001%208.91992%209.35076C8.77165%209.22169%208.56064%209.15741%208.28711%209.1574H7.34863V10.6037Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20d%3D%22M7.16602%200.377127C7.44584%200.189493%207.82551%200.20905%208.08496%200.442557L11.418%203.44256C11.7257%203.71966%2011.7507%204.19428%2011.4736%204.50213C11.1966%204.80961%2010.7228%204.83441%2010.415%204.55779L7.60938%202.03338L5.11328%204.53045C4.82042%204.82326%204.34562%204.82322%204.05273%204.53045C3.75986%204.23757%203.75989%203.7628%204.05273%203.4699L7.05273%200.4699L7.16602%200.377127Z%22%20fill%3D%22black%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-adesc::before { mask-image: url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M10.3867%2011.4697C10.6796%2011.1771%2011.1544%2011.1769%2011.4473%2011.4697C11.7399%2011.7626%2011.7399%2012.2374%2011.4473%2012.5303L8.44727%2015.5303L8.33398%2015.623C8.05425%2015.8106%207.67449%2015.7909%207.41504%2015.5576L4.08203%2012.5576C3.77415%2012.2805%203.74927%2011.8059%204.02637%2011.498C4.30342%2011.1907%204.77722%2011.1657%205.08496%2011.4424L7.89062%2013.9668L10.3867%2011.4697Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20d%3D%22M13.2012%203.0791C13.6346%203.07912%2014.0128%203.1535%2014.3359%203.30176C14.6611%203.45006%2014.9141%203.65661%2015.0947%203.9209C15.2752%204.18513%2015.3683%204.49104%2015.374%204.83887H14.1904C14.1676%204.60882%2014.0695%204.43012%2013.8965%204.30273C13.7235%204.17546%2013.4889%204.11133%2013.1924%204.11133C12.9909%204.11133%2012.8204%204.14023%2012.6816%204.19727C12.5431%204.25236%2012.4364%204.32902%2012.3623%204.42773C12.2901%204.52659%2012.2539%204.63919%2012.2539%204.76465C12.2501%204.86901%2012.272%204.96023%2012.3193%205.03809C12.3688%205.11604%2012.4369%205.18417%2012.5225%205.24121C12.6079%205.29623%2012.7064%205.34496%2012.8184%205.38672C12.9304%205.42661%2013.0505%205.46075%2013.1777%205.48926L13.7031%205.61426C13.9578%205.67128%2014.1914%205.74776%2014.4043%205.84277C14.6172%205.93784%2014.8021%206.05457%2014.958%206.19336C15.1139%206.33216%2015.2348%206.49633%2015.3203%206.68457C15.4076%206.8727%2015.4522%207.08885%2015.4541%207.33203C15.4521%207.68929%2015.3612%207.99944%2015.1807%208.26172C15.0019%208.52216%2014.7427%208.72465%2014.4043%208.86914C14.0678%209.01165%2013.6617%209.08301%2013.1865%209.08301C12.7153%209.08299%2012.3048%209.01057%2011.9551%208.86621C11.6072%208.72173%2011.3345%208.50786%2011.1387%208.22461C10.9447%207.9394%2010.8435%207.58622%2010.834%207.16602H12.0283C12.0416%207.36176%2012.0985%207.52509%2012.1973%207.65625C12.298%207.78554%2012.4323%207.88365%2012.5996%207.9502C12.7688%208.01477%2012.96%208.04785%2013.1729%208.04785C13.3817%208.04781%2013.5629%208.01678%2013.7168%207.95605C13.8727%207.89522%2013.9935%207.81051%2014.0791%207.70215C14.1646%207.59387%2014.2079%207.46965%2014.208%207.3291C14.208%207.19796%2014.1687%207.08739%2014.0908%206.99805C14.0148%206.90868%2013.9022%206.83228%2013.7539%206.76953C13.6076%206.70685%2013.4276%206.64993%2013.2148%206.59863L12.5791%206.43848C12.0868%206.31871%2011.6982%206.13163%2011.4131%205.87695C11.1279%205.62221%2010.9855%205.27916%2010.9873%204.84766C10.9854%204.49404%2011.0804%204.18517%2011.2705%203.9209C11.4625%203.65661%2011.7259%203.45006%2012.0605%203.30176C12.3951%203.15353%2012.7754%203.0791%2013.2012%203.0791Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M5.8125%209H4.48926L4.05664%207.66797H1.94824L1.51465%209H0.19043L2.20703%203.15918H3.79883L5.8125%209ZM2.26172%206.7041H3.74316L3.02539%204.49414H2.98047L2.26172%206.7041Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M8.45215%203.15918C8.88181%203.15918%209.24025%203.22322%209.52734%203.35059C9.81445%203.47798%2010.0303%203.6546%2010.1748%203.88086C10.3193%204.10518%2010.3916%204.36351%2010.3916%204.65625C10.3916%204.88432%2010.3461%205.08484%2010.2549%205.25781C10.1636%205.4289%2010.0386%205.57039%209.87891%205.68066C9.72118%205.78898%209.54022%205.86549%209.33691%205.91113V5.96875C9.55913%205.9783%209.76719%206.04044%209.96094%206.15625C10.1568%206.27223%2010.3158%206.43538%2010.4375%206.64453C10.5591%206.85173%2010.6201%207.09875%2010.6201%207.38574C10.6201%207.69567%2010.5427%207.97245%2010.3887%208.21582C10.2366%208.45719%2010.0113%208.64841%209.71289%208.78906C9.41442%208.9297%209.04658%208.99999%208.60938%209H6.11426V3.15918H8.45215ZM7.34863%207.99023H8.35547C8.69948%207.99023%208.95057%207.92504%209.1084%207.79395C9.26621%207.66085%209.34473%207.48325%209.34473%207.2627C9.34466%207.10125%209.3064%206.95844%209.22852%206.83496C9.15056%206.71143%209.03899%206.61427%208.89453%206.54395C8.75196%206.47365%208.58145%206.43848%208.38379%206.43848H7.34863V7.99023ZM7.34863%205.60352H8.26465C8.43369%205.60347%208.58376%205.57354%208.71484%205.51465C8.84791%205.45381%208.95228%205.36807%209.02832%205.25781C9.10623%205.14755%209.14551%205.01529%209.14551%204.86133C9.14542%204.65046%209.07002%204.48078%208.91992%204.35156C8.77163%204.22228%208.56087%204.15724%208.28711%204.15723H7.34863V5.60352Z%22%20fill%3D%22black%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-chevron-down::before { mask-image: url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12%206L8%2010L4%206%22%20stroke%3D%22currentColor%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-chevron-left::before { mask-image: url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M10%2012L6%208L10%204%22%20stroke%3D%22currentColor%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-chevron-right::before { mask-image: url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M6%2012L10%208L6%204%22%20stroke%3D%22currentColor%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-chevron-up::before { mask-image: url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M4%2010L8%206L12%2010%22%20stroke%3D%22currentColor%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-column-arrow::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M0%2026C0%2028.2092%201.79086%2030%204%2030H14C16.2091%2030%2018%2028.2092%2018%2026V15H25.8786L24.4394%2016.4393C23.8536%2017.0251%2023.8536%2017.9749%2024.4394%2018.5607C25.0252%2019.1464%2025.9748%2019.1464%2026.5606%2018.5607L30.5606%2014.5607C31.1464%2013.9749%2031.1464%2013.0251%2030.5606%2012.4393L26.5606%208.43934C25.9748%207.85356%2025.0252%207.85356%2024.4394%208.43934C23.8536%209.02512%2023.8536%209.97488%2024.4394%2010.5607L25.8786%2012H18V6C18%203.79086%2016.2091%202%2014%202H4C1.79086%202%200%203.79086%200%206V26ZM14%205H10.5V12H15V6C15%205.44772%2014.5523%205%2014%205ZM4%205H7.5V12H3V6C3%205.44772%203.44772%205%204%205ZM10.5%2015H15V26C15%2026.5522%2014.5523%2027%2014%2027H10.5V15ZM4%2027H7.5V15H3V26C3%2026.5522%203.44772%2027%204%2027Z%22%20fill%3D%22currentColor%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-edit::before { mask-image: url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M3.5%2010.6262V12.5012H5.375L10.905%206.97122L9.03%205.09622L3.5%2010.6262ZM12.355%205.52122C12.4014%205.47497%2012.4381%205.42002%2012.4632%205.35953C12.4883%205.29905%2012.5012%205.23421%2012.5012%205.16872C12.5012%205.10324%2012.4883%205.0384%2012.4632%204.97791C12.4381%204.91742%2012.4014%204.86248%2012.355%204.81622L11.185%203.64622C11.1387%203.59987%2011.0838%203.5631%2011.0233%203.53801C10.9628%203.51291%2010.898%203.5%2010.8325%203.5C10.767%203.5%2010.7022%203.51291%2010.6417%203.53801C10.5812%203.5631%2010.5263%203.59987%2010.48%203.64622L9.565%204.56122L11.44%206.43622L12.355%205.52122Z%22%20fill%3D%22currentColor%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-filter-add::before { mask-image: url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5.12126%207.75L10.8517%207.75%22%20stroke%3D%22currentColor%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M6.65934%2011.748L9.32778%2011.748%22%20stroke%3D%22currentColor%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M12.2943%201.04872V6.19184M14.9886%203.74341H9.68478%22%20stroke%3D%22currentColor%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M8.25488%203C8.04799%203.18323%207.91706%203.45099%207.91699%203.74902C7.91713%204.04868%208.04988%204.31681%208.25879%204.5H2C1.58579%204.5%201.25%204.16421%201.25%203.75C1.25%203.33579%201.58579%203%202%203H8.25488Z%22%20fill%3D%22currentColor%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-pinned-bottom::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20class%3D%22ag-icon%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M3.47%2012.28A.75.75%200%200%201%204%2011h8a.75.75%200%200%201%200%201.5H4a.75.75%200%200%201-.53-.22ZM12.731%205.256a.75.75%200%200%201-.2.524l-4%204a.75.75%200%200%201-1.06%200l-4-4a.75.75%200%201%201%201.06-1.06l2.72%202.72V2a.75.75%200%200%201%201.5%200v5.44l2.72-2.72a.75.75%200%200%201%201.26.536Z%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-pinned-top::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M12.53%203.72A.75.75%200%200%201%2012%205H4a.75.75%200%200%201%200-1.5h8a.75.75%200%200%201%20.53.22ZM3.269%2010.744a.75.75%200%200%201%20.2-.524l4-4a.75.75%200%200%201%201.06%200l4%204a.75.75%200%201%201-1.06%201.06L8.75%208.56V14a.75.75%200%200%201-1.5%200V8.56l-2.72%202.72a.75.75%200%200%201-1.26-.536Z%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-small-down::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22black%22%20stroke%3D%22none%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M7.334%2010.667%2016%2021.334l8.667-10.667H7.334Z%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-small-up::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22black%22%20stroke%3D%22none%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M7.334%2021.333%2016%2010.666l8.667%2010.667H7.334Z%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-un-pin::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20class%3D%22ag-icon%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M8%2011a.75.75%200%200%200-.75.75v3.333a.75.75%200%201%200%201.5%200V11.75A.75.75%200%200%200%208%2011Z%22%2F%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M13.11%201.436a.75.75%200%200%200-1.22-.872l-10%2014a.75.75%200%201%200%201.22.872L5.207%2012.5h7.376a.75.75%200%200%200%20.75-.75v-1.174a2.08%202.08%200%200%200-1.153-1.863l-1.185-.599-.005-.002a.58.58%200%200%201-.323-.522V5.165a2.083%202.083%200%200%200%201.854-2.904l.589-.825Zm-3.943%205.52v.634a2.08%202.08%200%200%200%201.153%201.863l1.185.6.005.002a.58.58%200%200%201%20.323.522V11H6.28l2.887-4.044ZM9.277%201H5.25a2.084%202.084%200%200%200-.083%204.165v1.676l1.5-2.132v-.292a.75.75%200%200%200-.75-.75H5.25a.584.584%200%200%201%200-1.167h2.972L9.277%201Z%22%2F%3E%3C%2Fsvg%3E'); }
+.ag-icon-filter::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M3%206h18%22%2F%3E%3Cpath%20d%3D%22M7%2012h10%22%2F%3E%3Cpath%20d%3D%22M10%2018h4%22%2F%3E%3C%2Fsvg%3E'); }
 .ag-aria-description-container{border:0;clip-path:inset(50%);height:1px;overflow:hidden;padding:0;position:absolute;white-space:nowrap;width:1px;z-index:9999}
 :where(.ag-ltr){direction:ltr;.ag-body,.ag-body-horizontal-scroll,.ag-body-viewport,.ag-floating-bottom,.ag-floating-top,.ag-header,.ag-sticky-bottom,.ag-sticky-top{flex-direction:row}
 .ag-root-wrapper{border:var(--ag-wrapper-border);border-radius:var(--ag-wrapper-border-radius);container-type:inline-size;display:flex;flex-direction:column;overflow:hidden;position:relative;&.ag-layout-normal{content-visibility:auto;height:100%}
@@ -7637,31 +14164,65 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 :where(.ag-ltr) .ag-cell:not(.ag-cell-inline-editing),:where(.ag-ltr) .ag-full-width-row .ag-cell-wrapper.ag-row-group{padding-left:calc(var(--ag-cell-horizontal-padding) - 1px + var(--ag-row-group-indent-size)*var(--ag-indentation-level));padding-right:calc(var(--ag-cell-horizontal-padding) - 1px)}
 .ag-row-odd{background-color:var(--ag-odd-row-background-color)}
 &:where(.ag-scrollbar-invisible){bottom:0;position:absolute;&:where(.ag-apple-scrollbar){opacity:0;transition:opacity .4s;visibility:hidden;&:where(.ag-scrollbar-active),&:where(.ag-scrollbar-scrolling){opacity:1;visibility:visible}
-&:where(.ag-apple-scrollbar){opacity:0;transition:opacity .4s;visibility:hidden;&:where(.ag-scrollbar-active),&:where(.ag-scrollbar-scrolling){opacity:1;visibility:visible}
 &:where(.ag-scrollbar-invisible){top:0;z-index:10}
 &:where(.ag-scrollbar-invisible){right:0}
-&:where(.ag-scrollbar-active),&:where(.ag-scrollbar-scrolling){opacity:1;visibility:visible}
 &:where(.ag-scrollbar-invisible){left:0;right:0}
-:host { display: inline-block; }
-.esa-tooltip-anchor {
-      position: relative;
-      display: inline-flex;
-    }
-.page-layout{display:flex;flex-direction:column;min-height:calc(100vh - 52px);padding:var(--spacing-600);background:var(--bcn-gray-50);box-sizing:border-box}
-.page-layout__container{display:flex;flex-direction:column}
-.page-layout section{width:100%}
-.breadcrumbs{padding:var(--spacing-400) 0}
-.breadcrumbs__items{display:flex;gap:var(--spacing-100);align-items:center;flex-wrap:wrap}
-.breadcrumbs__items .esa-icon{color:var(--bcn-gray-400)}
-.breadcrumb-item{color:var(--bcn-gray-600);text-transform:capitalize;font-size:.875rem}
-a.breadcrumb-item{text-decoration:none}
-.page-layout__title{border-bottom:1px solid var(--bcn-gray-200);padding:var(--spacing-500) 0;display:flex;align-items:center;justify-content:space-between;box-sizing:border-box}
-.page-layout__title-main{display:flex;align-items:center;gap:var(--spacing-200);min-width:0}
-.page-layout__title h1{display:flex;align-items:center;gap:var(--spacing-200);font-family:var(--font-decorative);font-weight:var(--font-weight-bold);font-size:var(--type-size-500);margin:0;color:var(--bcn-gray-1000)}
-.page-layout__content{padding:var(--spacing-500) 0;min-height:70vh;position:relative}
+*,*:before,*:after{box-sizing:border-box}
+body{margin:0;font-family:var(--font-sans, system-ui, sans-serif);font-weight:var(--font-weight-regular, 350);color:var(--color-text-primary, #3d3d3d);background:var(--color-surface, #fff);-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer;background:none;border:0}
+a{color:var(--color-text-link, #005862);text-decoration:none}
+img{display:block;max-width:100%}
+:where(h1,h2,h3,h4,h5,h6,p,figure,blockquote,dl,dd,ul,ol,pre){margin:0}
 :where(.ag-theme-batchEditStyle-3) {
 .ag-cell-batch-edit{background-color:var(--ag-cell-batch-edit-background-color);color:var(--ag-cell-batch-edit-text-color);display:inherit}
 .ag-row-batch-edit{background-color:var(--ag-row-batch-edit-background-color);color:var(--ag-row-batch-edit-text-color)}
+:where(.ag-theme-tabStyle-6) {
+.ag-tabs-header{background-color:var(--ag-tab-bar-background-color);border-bottom:var(--ag-tab-bar-border);display:flex;flex:1;gap:var(--ag-tab-spacing);padding:var(--ag-tab-bar-top-padding) var(--ag-tab-bar-horizontal-padding) 0}
+.ag-tabs-header-wrapper{display:flex}
+.ag-tabs-close-button-wrapper{align-items:center;border:0;display:flex;padding:var(--ag-spacing)}
+:where(.ag-ltr) .ag-tabs-close-button-wrapper{border-right:solid var(--ag-border-width) var(--ag-border-color)}
+:where(.ag-rtl) .ag-tabs-close-button-wrapper{border-left:solid var(--ag-border-width) var(--ag-border-color)}
+.ag-tabs-close-button{background-color:unset;border:0;cursor:pointer;padding:0}
+.ag-tab{align-items:center;background-color:var(--ag-tab-background-color);border-left:var(--ag-tab-selected-border-width) solid transparent;border-right:var(--ag-tab-selected-border-width) solid transparent;color:var(--ag-tab-text-color);cursor:pointer;display:flex;flex:1;justify-content:center;padding:var(--ag-tab-top-padding) var(--ag-tab-horizontal-padding) var(--ag-tab-bottom-padding);position:relative}
+.ag-tab:hover{background-color:var(--ag-tab-hover-background-color);color:var(--ag-tab-hover-text-color)}
+.ag-tab.ag-tab-selected{background-color:var(--ag-tab-selected-background-color);color:var(--ag-tab-selected-text-color)}
+:where(.ag-ltr) .ag-tab.ag-tab-selected:where(:not(:first-of-type)){border-left-color:var(--ag-tab-selected-border-color)}
+:where(.ag-rtl) .ag-tab.ag-tab-selected:where(:not(:first-of-type)){border-right-color:var(--ag-tab-selected-border-color)}
+:where(.ag-ltr) .ag-tab.ag-tab-selected:where(:not(:last-of-type)){border-right-color:var(--ag-tab-selected-border-color)}
+:where(.ag-rtl) .ag-tab.ag-tab-selected:where(:not(:last-of-type)){border-left-color:var(--ag-tab-selected-border-color)}
+.ag-tab:after{background-color:var(--ag-tab-selected-underline-color);bottom:0;content:"";display:block;height:var(--ag-tab-selected-underline-width);left:0;opacity:0;position:absolute;right:0;transition:opacity var(--ag-tab-selected-underline-transition-duration)}
+.ag-tab.ag-tab-selected:after{opacity:1}
+:where(.ag-theme-inputStyle-7) {
+:where(.ag-input-field-input[type=number]:not(.ag-number-field-input-stepper)){-webkit-appearance:textfield;-moz-appearance:textfield;appearance:textfield;&::-webkit-inner-spin-button,&::-webkit-outer-spin-button{-webkit-appearance:none;appearance:none;margin:0}
+.ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){background-color:var(--ag-input-background-color);border:var(--ag-input-border);border-radius:var(--ag-input-border-radius);color:var(--ag-input-text-color);font-family:inherit;font-size:inherit;line-height:inherit;margin:0;min-height:var(--ag-input-height);padding:0;&:where(:disabled){background-color:var(--ag-input-disabled-background-color);border:var(--ag-input-disabled-border);color:var(--ag-input-disabled-text-color)}
+&:where(:focus){background-color:var(--ag-input-focus-background-color);border:var(--ag-input-focus-border);box-shadow:var(--ag-input-focus-shadow);color:var(--ag-input-focus-text-color);outline:none}
+&:where(:invalid){background-color:var(--ag-input-invalid-background-color);border:var(--ag-input-invalid-border);color:var(--ag-input-invalid-text-color)}
+&:where(.invalid){background-color:var(--ag-input-invalid-background-color);border:var(--ag-input-invalid-border);color:var(--ag-input-invalid-text-color)}
+&::-moz-placeholder{color:var(--ag-input-placeholder-text-color)}
+&::placeholder{color:var(--ag-input-placeholder-text-color)}
+:where(.ag-ltr) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding-left:var(--ag-input-padding-start)}
+:where(.ag-rtl) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding-right:var(--ag-input-padding-start)}
+&:where(.ag-ltr,.ag-rtl) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding:0 var(--ag-input-padding-start)}
+:where(.ag-column-select-header-filter-wrapper),:where(.ag-filter-add-select),:where(.ag-filter-filter),:where(.ag-filter-toolpanel-search),:where(.ag-floating-filter-search-icon),:where(.ag-mini-filter){.ag-input-wrapper:before{background-color:currentcolor;color:var(--ag-input-icon-color);content:"";display:block;height:12px;-webkit-mask-image:url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBkPSJNNS4zIDlhMy43IDMuNyAwIDEgMCAwLTcuNSAzLjcgMy43IDAgMCAwIDAgNy41Wk0xMC41IDEwLjUgOC4zIDguMiIvPjwvc3ZnPg==");mask-image:url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBkPSJNNS4zIDlhMy43IDMuNyAwIDEgMCAwLTcuNSAzLjcgMy43IDAgMCAwIDAgNy41Wk0xMC41IDEwLjUgOC4zIDguMiIvPjwvc3ZnPg==");-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;opacity:.5;position:absolute;width:12px}
+:where(.ag-ltr) :where(.ag-column-select-header-filter-wrapper),:where(.ag-ltr) :where(.ag-filter-add-select),:where(.ag-ltr) :where(.ag-filter-filter),:where(.ag-ltr) :where(.ag-filter-toolpanel-search),:where(.ag-ltr) :where(.ag-floating-filter-search-icon),:where(.ag-ltr) :where(.ag-mini-filter){.ag-input-wrapper:before{margin-left:var(--ag-spacing)}
+.ag-number-field-input,.ag-text-field-input{padding-left:calc(var(--ag-spacing)*1.5 + 12px)}
+:where(.ag-rtl) :where(.ag-column-select-header-filter-wrapper),:where(.ag-rtl) :where(.ag-filter-add-select),:where(.ag-rtl) :where(.ag-filter-filter),:where(.ag-rtl) :where(.ag-filter-toolpanel-search),:where(.ag-rtl) :where(.ag-floating-filter-search-icon),:where(.ag-rtl) :where(.ag-mini-filter){.ag-input-wrapper:before{margin-right:var(--ag-spacing)}
+.ag-number-field-input,.ag-text-field-input{padding-right:calc(var(--ag-spacing)*1.5 + 12px)}
+.ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){&:focus{box-shadow:var(--ag-focus-shadow);&:where(.invalid),&:where(:invalid){box-shadow:var(--ag-focus-error-shadow)}
+.ag-overlay{inset:0;pointer-events:none;position:absolute;z-index:2}
+:where(.ag-theme-buttonStyle-1) {
+:where(.ag-button){background:none;border:none;color:inherit;cursor:pointer;font-family:inherit;font-size:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;margin:0;padding:0;text-indent:inherit;text-shadow:inherit;text-transform:inherit;word-spacing:inherit;&:disabled{cursor:default}
+&:focus-visible{box-shadow:var(--ag-focus-shadow);outline:none}
+.ag-standard-button{-webkit-appearance:none;-moz-appearance:none;appearance:none;background-color:var(--ag-button-background-color);border:var(--ag-button-border);border-radius:var(--ag-button-border-radius);color:var(--ag-button-text-color);cursor:pointer;font-weight:var(--ag-button-font-weight);padding:var(--ag-button-vertical-padding) var(--ag-button-horizontal-padding);&:active{background-color:var(--ag-button-active-background-color);border:var(--ag-button-active-border);color:var(--ag-button-active-text-color)}
+&:disabled{background-color:var(--ag-button-disabled-background-color);border:var(--ag-button-disabled-border);color:var(--ag-button-disabled-text-color)}
+.ag-standard-button:hover{background-color:var(--ag-button-hover-background-color);border:var(--ag-button-hover-border);color:var(--ag-button-hover-text-color)}
+:where(.ag-theme-columnDropStyle-2) {
+.ag-column-drop-vertical-empty-message{align-items:center;border:dashed var(--ag-border-width);border-color:var(--ag-border-color);display:flex;inset:0;justify-content:center;margin:calc(var(--ag-spacing)*1.5) calc(var(--ag-spacing)*2);overflow:hidden;padding:calc(var(--ag-spacing)*2);position:absolute}
+:where(.ag-theme-part-8) {
+.ag-icon-filter::before { mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolygon%20points%3D%2222%203%202%203%2010%2012.46%2010%2019%2014%2021%2014%2012.46%2022%203%22%2F%3E%3C%2Fsvg%3E"); }
+;
+.ag-icon-filterActive::before { mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolygon%20points%3D%2222%203%202%203%2010%2012.46%2010%2019%2014%2021%2014%2012.46%2022%203%22%2F%3E%3C%2Fsvg%3E"); }
+.ag-icon-filter::before { mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolygon%20points%3D%2222%203%202%203%2010%2012.46%2010%2019%2014%2021%2014%2012.46%2022%203%22%2F%3E%3C%2Fsvg%3E"); }
 :where(.ag-theme-checkboxStyle-4) {
 .ag-checkbox-input-wrapper,.ag-radio-button-input-wrapper{background-color:var(--ag-checkbox-unchecked-background-color);border:solid var(--ag-checkbox-border-width) var(--ag-checkbox-unchecked-border-color);flex:none;height:var(--ag-icon-size);position:relative;width:var(--ag-icon-size);&:where(.ag-checked){background-color:var(--ag-checkbox-checked-background-color);border-color:var(--ag-checkbox-checked-border-color)}
 &:where(.ag-checked):after{background-color:var(--ag-checkbox-checked-shape-color)}
@@ -7674,35 +14235,7 @@ a.breadcrumb-item{text-decoration:none}
 &:where(.ag-indeterminate):after{background-color:var(--ag-checkbox-indeterminate-shape-color);-webkit-mask-image:var(--ag-checkbox-indeterminate-shape-image);mask-image:var(--ag-checkbox-indeterminate-shape-image)}
 .ag-cell-editing-error .ag-checkbox-input-wrapper:focus-within{box-shadow:var(--ag-focus-error-shadow)}
 .ag-radio-button-input-wrapper{border-radius:100%;&:where(.ag-checked):after{-webkit-mask-image:var(--ag-radio-checked-shape-image);mask-image:var(--ag-radio-checked-shape-image)}
-.ag-overlay{inset:0;pointer-events:none;position:absolute;z-index:2}
-:host { --_width: var(--side-dialog-width, 400px); }
-.esa-button{--_btn-height: var(--form-height-md, 40px);--_btn-padding-x: var(--form-padding-x-md, 16px);--_btn-font-size: var(--form-font-size-md, 14px);--_btn-radius: var(--form-radius-md, 6px);--_accent: var(--color-primary, #46a758);--_accent-hover: var(--color-primary-hover, #3e9b4f);--_on: var(--color-text-inverse, #ffffff);--_accent-text: var(--_accent);--_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);--_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);display:inline-block}
-.esa-button--sm{--_btn-height: var(--form-height-sm, 32px);--_btn-padding-x: var(--form-padding-x-sm, 12px);--_btn-font-size: var(--form-font-size-sm, 12px);--_btn-radius: var(--form-radius-sm, 4px)}
-.esa-button__native{display:inline-flex;align-items:center;justify-content:center;gap:var(--spacing-200, 8px);width:100%;height:var(--_btn-height);padding-inline:var(--_btn-padding-x);border:1px solid transparent;border-radius:var(--_btn-radius);font-size:var(--_btn-font-size);font-family:var(--font-sans, system-ui, sans-serif);font-weight:var(--font-weight-medium, 500);line-height:1;text-decoration:none;cursor:pointer;transition:background var(--transition-fast, .15s ease),border-color var(--transition-fast, .15s ease);-webkit-appearance:none;appearance:none}
-.esa-button--sm .esa-button__native{height:auto;padding-block:var(--spacing-150, 6px)}
-.esa-button--appearance-outline .esa-button__native,.esa-button--appearance-dashed .esa-button__native{background:transparent;color:var(--_accent-text);border-color:var(--_accent)}
-.esa-button--color-ghost .esa-button__native{background:transparent;color:var(--color-text-primary, #171717);border-color:transparent}
-.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native{border-color:var(--color-border, #e5e5e5)}
-.esa-button__label{white-space:nowrap}
-:where(.ag-theme-buttonStyle-1) {
-:where(.ag-button){background:none;border:none;color:inherit;cursor:pointer;font-family:inherit;font-size:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;margin:0;padding:0;text-indent:inherit;text-shadow:inherit;text-transform:inherit;word-spacing:inherit;&:disabled{cursor:default}
-&:focus-visible{box-shadow:var(--ag-focus-shadow);outline:none}
-.ag-standard-button{-webkit-appearance:none;-moz-appearance:none;appearance:none;background-color:var(--ag-button-background-color);border:var(--ag-button-border);border-radius:var(--ag-button-border-radius);color:var(--ag-button-text-color);cursor:pointer;font-weight:var(--ag-button-font-weight);padding:var(--ag-button-vertical-padding) var(--ag-button-horizontal-padding);&:active{background-color:var(--ag-button-active-background-color);border:var(--ag-button-active-border);color:var(--ag-button-active-text-color)}
-&:disabled{background-color:var(--ag-button-disabled-background-color);border:var(--ag-button-disabled-border);color:var(--ag-button-disabled-text-color)}
-.ag-standard-button:hover{background-color:var(--ag-button-hover-background-color);border:var(--ag-button-hover-border);color:var(--ag-button-hover-text-color)}
-html,.modern-layout__content{scroll-behavior:smooth}
-:where([class^=ag-]),:where([class^=ag-]):after,:where([class^=ag-]):before{box-sizing:border-box}
-.ag-measurement-container{height:0;overflow:hidden;visibility:hidden;width:0}
-.ag-measurement-element-border{display:inline-block}
-.ag-measurement-element-border:before{border-left:var(--ag-internal-measurement-border);content:"";display:block}
-.ag-chart,.ag-dnd-ghost,.ag-external,.ag-popup,.ag-root-wrapper{cursor:default;line-height:normal;white-space:normal;-webkit-font-smoothing:antialiased;background-color:var(--ag-wrapper-background-color);color:var(--ag-text-color);color-scheme:var(--ag-browser-color-scheme);font-family:var(--ag-font-family);font-size:var(--ag-font-size);font-weight:var(--ag-font-weight);--ag-indentation-level:0}
-.ag-tab-guard{display:block;height:0;position:absolute;width:0}
-.ag-tab-guard-top{top:1px}
-.ag-invisible{visibility:hidden!important}
-.ag-hidden{display:none!important}
-.ag-tab-guard-bottom{bottom:1px}
-.ag-icon{background-position:50%;background-repeat:no-repeat;background-size:contain;color:var(--ag-icon-color);display:block;height:var(--ag-icon-size);position:relative;-webkit-user-select:none;-moz-user-select:none;user-select:none;width:var(--ag-icon-size)}
-:where(.ag-icon):before{align-items:center;background-color:currentcolor;color:inherit;content:"";display:flex;font-family:inherit;font-size:var(--ag-icon-size);font-style:normal;font-variant:normal;height:var(--ag-icon-size);justify-content:center;line-height:var(--ag-icon-size);-webkit-mask-size:contain;mask-size:contain;text-transform:none;width:var(--ag-icon-size)}
+.ag-paging-panel{align-items:center;border-top:var(--ag-footer-row-border);display:flex;flex-wrap:wrap-reverse;gap:calc(var(--ag-spacing)*4);justify-content:flex-end;min-height:var(--ag-pagination-panel-height);padding:calc(var(--ag-spacing)*.5) var(--ag-cell-horizontal-padding);row-gap:calc(var(--ag-spacing)*.5);@container (width < 600px){justify-content:center}
 .modern-layout{display:flex;flex-direction:column;height:100vh}
 .topbar{position:fixed;top:0;left:0;right:0;height:52px;background:var(--bcn-gray-100);border-bottom:1px solid var(--bcn-gray-300);z-index:1100;display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:0 var(--spacing-200)}
 .topbar{padding:0 var(--spacing-400)}
@@ -7803,122 +14336,90 @@ html,.modern-layout__content{scroll-behavior:smooth}
 .bcn-gd-article__title{font-family:var(--font-decorative);font-size:var(--type-size-300);font-weight:var(--font-weight-semibold);color:var(--color-text-primary);line-height:1.25}
 .bcn-gd-article__kind{flex:none;padding:1px 6px;border-radius:var(--radius-100);border:1px solid var(--color-border);background:var(--color-surface);font-size:var(--type-size-100);font-weight:var(--font-weight-medium);color:var(--color-text-secondary);line-height:1.5;white-space:nowrap}
 .bcn-gd-article__panel[hidden]{display:none}
-:where(.ag-theme-iconSet-5) {
-.ag-icon-aggregation::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M18%207V4H6l6%208-6%208h12v-3%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-arrows::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpolyline%20points%3D%225%209%202%2012%205%2015%22%2F%3E%3Cpolyline%20points%3D%229%205%2012%202%2015%205%22%2F%3E%3Cpolyline%20points%3D%2215%2019%2012%2022%209%2019%22%2F%3E%3Cpolyline%20points%3D%2219%209%2022%2012%2019%2015%22%2F%3E%3Cline%20x1%3D%222%22%20x2%3D%2222%22%20y1%3D%2212%22%20y2%3D%2212%22%2F%3E%3Cline%20x1%3D%2212%22%20x2%3D%2212%22%20y1%3D%222%22%20y2%3D%2222%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-asc::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m5%2012%207-7%207%207%22%2F%3E%3Cpath%20d%3D%22M12%2019V5%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-cancel::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m18%206-12%2012%22%2F%3E%3Cpath%20d%3D%22m6%206%2012%2012%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-chart::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cline%20x1%3D%2218%22%20x2%3D%2218%22%20y1%3D%2220%22%20y2%3D%2210%22%2F%3E%3Cline%20x1%3D%2212%22%20x2%3D%2212%22%20y1%3D%2220%22%20y2%3D%224%22%2F%3E%3Cline%20x1%3D%226%22%20x2%3D%226%22%20y1%3D%2220%22%20y2%3D%2214%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-color-picker::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m19%2011-8-8-8.6%208.6a2%202%200%200%200%200%202.8l5.2%205.2c.8.8%202%20.8%202.8%200L19%2011Z%22%2F%3E%3Cpath%20d%3D%22m5%202%205%205%22%2F%3E%3Cpath%20d%3D%22M2%2013h15%22%2F%3E%3Cpath%20d%3D%22M22%2020a2%202%200%201%201-4%200c0-1.6%201.7-2.4%202-4%20.3%201.6%202%202.4%202%204Z%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-columns::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M9%203H5a2%202%200%200%200-2%202v4m6-6h10a2%202%200%200%201%202%202v4M9%203v18m0%200h10a2%202%200%200%200%202-2V9M9%2021H5a2%202%200%200%201-2-2V9m0%200h18%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-contracted::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m9%2018%206-6-6-6%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-copy::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Crect%20width%3D%2214%22%20height%3D%2214%22%20x%3D%228%22%20y%3D%228%22%20rx%3D%222%22%20ry%3D%222%22%2F%3E%3Cpath%20d%3D%22M4%2016c-1.1%200-2-.9-2-2V4c0-1.1.9-2%202-2h10c1.1%200%202%20.9%202%202%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-cross::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M18%206%206%2018%22%2F%3E%3Cpath%20d%3D%22m6%206%2012%2012%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-csv::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M14.5%202H6a2%202%200%200%200-2%202v16a2%202%200%200%200%202%202h12a2%202%200%200%200%202-2V7.5L14.5%202z%22%2F%3E%3Cpolyline%20points%3D%2214%202%2014%208%2020%208%22%2F%3E%3Cpath%20d%3D%22M8%2013h2%22%2F%3E%3Cpath%20d%3D%22M8%2017h2%22%2F%3E%3Cpath%20d%3D%22M14%2013h2%22%2F%3E%3Cpath%20d%3D%22M14%2017h2%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-cut::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Ccircle%20cx%3D%226%22%20cy%3D%226%22%20r%3D%223%22%2F%3E%3Cpath%20d%3D%22M8.12%208.12%2012%2012%22%2F%3E%3Cpath%20d%3D%22M20%204%208.12%2015.88%22%2F%3E%3Ccircle%20cx%3D%226%22%20cy%3D%2218%22%20r%3D%223%22%2F%3E%3Cpath%20d%3D%22M14.8%2014.8%2020%2020%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-desc::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M12%205v14%22%2F%3E%3Cpath%20d%3D%22m19%2012-7%207-7-7%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-down::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M12%205v14%22%2F%3E%3Cpath%20d%3D%22m19%2012-7%207-7-7%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-excel::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M14.5%202H6a2%202%200%200%200-2%202v16a2%202%200%200%200%202%202h12a2%202%200%200%200%202-2V7.5L14.5%202z%22%2F%3E%3Cpolyline%20points%3D%2214%202%2014%208%2020%208%22%2F%3E%3Cpath%20d%3D%22M8%2013h2%22%2F%3E%3Cpath%20d%3D%22M8%2017h2%22%2F%3E%3Cpath%20d%3D%22M14%2013h2%22%2F%3E%3Cpath%20d%3D%22M14%2017h2%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-expanded::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m15%2018-6-6%206-6%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-eye::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M2%2012s3-7%2010-7%2010%207%2010%207-3%207-10%207-10-7-10-7Z%22%2F%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%223%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-eye-slash::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M9.88%209.88a3%203%200%201%200%204.24%204.24%22%2F%3E%3Cpath%20d%3D%22M10.73%205.08A10.43%2010.43%200%200%201%2012%205c7%200%2010%207%2010%207a13.16%2013.16%200%200%201-1.67%202.68%22%2F%3E%3Cpath%20d%3D%22M6.61%206.61A13.526%2013.526%200%200%200%202%2012s3%207%2010%207a9.74%209.74%200%200%200%205.39-1.61%22%2F%3E%3Cline%20x1%3D%222%22%20x2%3D%2222%22%20y1%3D%222%22%20y2%3D%2222%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-filter::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M3%206h18%22%2F%3E%3Cpath%20d%3D%22M7%2012h10%22%2F%3E%3Cpath%20d%3D%22M10%2018h4%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-first::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m17%2018-6-6%206-6%22%2F%3E%3Cpath%20d%3D%22M7%206v12%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-grip::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Ccircle%20cx%3D%225%22%20cy%3D%228%22%20r%3D%220.5%22%2F%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%228%22%20r%3D%220.5%22%2F%3E%3Ccircle%20cx%3D%2219%22%20cy%3D%228%22%20r%3D%220.5%22%2F%3E%3Ccircle%20cx%3D%225%22%20cy%3D%2216%22%20r%3D%220.5%22%2F%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2216%22%20r%3D%220.5%22%2F%3E%3Ccircle%20cx%3D%2219%22%20cy%3D%2216%22%20r%3D%220.5%22%2F%3E%3Cg%20stroke%3D%22none%22%20fill%3D%22currentColor%22%3E%3Ccircle%20cx%3D%225%22%20cy%3D%228%22%20r%3D%221%22%2F%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%228%22%20r%3D%221%22%2F%3E%3Ccircle%20cx%3D%2219%22%20cy%3D%228%22%20r%3D%221%22%2F%3E%3Ccircle%20cx%3D%225%22%20cy%3D%2216%22%20r%3D%221%22%2F%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2216%22%20r%3D%221%22%2F%3E%3Ccircle%20cx%3D%2219%22%20cy%3D%2216%22%20r%3D%221%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E'); }
-.ag-icon-group::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M16%2012H3%22%2F%3E%3Cpath%20d%3D%22M16%2018H3%22%2F%3E%3Cpath%20d%3D%22M10%206H3%22%2F%3E%3Cpath%20d%3D%22M21%2018V8a2%202%200%200%200-2-2h-5%22%2F%3E%3Cpath%20d%3D%22m16%208-2-2%202-2%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-last::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m7%2018%206-6-6-6%22%2F%3E%3Cpath%20d%3D%22M17%206v12%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-left::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m12%2019-7-7%207-7%22%2F%3E%3Cpath%20d%3D%22M19%2012H5%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-linked::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M9%2017H7A5%205%200%200%201%207%207h2%22%2F%3E%3Cpath%20d%3D%22M15%207h2a5%205%200%201%201%200%2010h-2%22%2F%3E%3Cline%20x1%3D%228%22%20x2%3D%2216%22%20y1%3D%2212%22%20y2%3D%2212%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-loading::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cline%20x1%3D%2212%22%20x2%3D%2212%22%20y1%3D%222%22%20y2%3D%226%22%2F%3E%3Cline%20x1%3D%2212%22%20x2%3D%2212%22%20y1%3D%2218%22%20y2%3D%2222%22%2F%3E%3Cline%20x1%3D%224.93%22%20x2%3D%227.76%22%20y1%3D%224.93%22%20y2%3D%227.76%22%2F%3E%3Cline%20x1%3D%2216.24%22%20x2%3D%2219.07%22%20y1%3D%2216.24%22%20y2%3D%2219.07%22%2F%3E%3Cline%20x1%3D%222%22%20x2%3D%226%22%20y1%3D%2212%22%20y2%3D%2212%22%2F%3E%3Cline%20x1%3D%2218%22%20x2%3D%2222%22%20y1%3D%2212%22%20y2%3D%2212%22%2F%3E%3Cline%20x1%3D%224.93%22%20x2%3D%227.76%22%20y1%3D%2219.07%22%20y2%3D%2216.24%22%2F%3E%3Cline%20x1%3D%2216.24%22%20x2%3D%2219.07%22%20y1%3D%227.76%22%20y2%3D%224.93%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-maximize::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpolyline%20points%3D%2215%203%2021%203%2021%209%22%2F%3E%3Cpolyline%20points%3D%229%2021%203%2021%203%2015%22%2F%3E%3Cline%20x1%3D%2221%22%20x2%3D%2214%22%20y1%3D%223%22%20y2%3D%2210%22%2F%3E%3Cline%20x1%3D%223%22%20x2%3D%2210%22%20y1%3D%2221%22%20y2%3D%2214%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-menu::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cline%20x1%3D%224%22%20x2%3D%2220%22%20y1%3D%2212%22%20y2%3D%2212%22%2F%3E%3Cline%20x1%3D%224%22%20x2%3D%2220%22%20y1%3D%226%22%20y2%3D%226%22%2F%3E%3Cline%20x1%3D%224%22%20x2%3D%2220%22%20y1%3D%2218%22%20y2%3D%2218%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-menu-alt::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%225%22%20r%3D%220.75%22%20fill%3D%22%23D9D9D9%22%2F%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%220.75%22%20fill%3D%22%23D9D9D9%22%2F%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2219%22%20r%3D%220.75%22%20fill%3D%22%23D9D9D9%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-minimize::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpolyline%20points%3D%224%2014%2010%2014%2010%2020%22%2F%3E%3Cpolyline%20points%3D%2220%2010%2014%2010%2014%204%22%2F%3E%3Cline%20x1%3D%2214%22%20x2%3D%2221%22%20y1%3D%2210%22%20y2%3D%223%22%2F%3E%3Cline%20x1%3D%223%22%20x2%3D%2210%22%20y1%3D%2221%22%20y2%3D%2214%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-minus::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%2210%22%2F%3E%3Cpath%20d%3D%22M8%2012h8%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-next::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m9%2018%206-6-6-6%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-none::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m7%2015%205%205%205-5%22%2F%3E%3Cpath%20d%3D%22m7%209%205-5%205%205%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-not-allowed::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%2210%22%2F%3E%3Cpath%20d%3D%22m4.9%204.9%2014.2%2014.2%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-paste::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M15%202H9a1%201%200%200%200-1%201v2c0%20.6.4%201%201%201h6c.6%200%201-.4%201-1V3c0-.6-.4-1-1-1Z%22%2F%3E%3Cpath%20d%3D%22M8%204H6a2%202%200%200%200-2%202v14a2%202%200%200%200%202%202h12a2%202%200%200%200%202-2M16%204h2a2%202%200%200%201%202%202v2M11%2014h10%22%2F%3E%3Cpath%20d%3D%22m17%2010%204%204-4%204%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-pin::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cline%20x1%3D%2212%22%20x2%3D%2212%22%20y1%3D%2217%22%20y2%3D%2222%22%2F%3E%3Cpath%20d%3D%22M5%2017h14v-1.76a2%202%200%200%200-1.11-1.79l-1.78-.9A2%202%200%200%201%2015%2010.76V6h1a2%202%200%200%200%200-4H8a2%202%200%200%200%200%204h1v4.76a2%202%200%200%201-1.11%201.79l-1.78.9A2%202%200%200%200%205%2015.24Z%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-pivot::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M15%203v18%22%2F%3E%3Crect%20width%3D%2218%22%20height%3D%2218%22%20x%3D%223%22%20y%3D%223%22%20rx%3D%222%22%2F%3E%3Cpath%20d%3D%22M21%209H3%22%2F%3E%3Cpath%20d%3D%22M21%2015H3%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-plus::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%2210%22%2F%3E%3Cpath%20d%3D%22M8%2012h8%22%2F%3E%3Cpath%20d%3D%22M12%208v8%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-previous::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m15%2018-6-6%206-6%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-right::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M5%2012h14%22%2F%3E%3Cpath%20d%3D%22m12%205%207%207-7%207%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-save::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M12%2017V3%22%2F%3E%3Cpath%20d%3D%22m6%2011%206%206%206-6%22%2F%3E%3Cpath%20d%3D%22M19%2021H5%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-search::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Ccircle%20cx%3D%2211%22%20cy%3D%2211%22%20r%3D%228%22%2F%3E%3Cpath%20d%3D%22m21%2021-4.3-4.3%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-settings::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M20%207h-9%22%2F%3E%3Cpath%20d%3D%22M14%2017H5%22%2F%3E%3Ccircle%20cx%3D%2217%22%20cy%3D%2217%22%20r%3D%223%22%2F%3E%3Ccircle%20cx%3D%227%22%20cy%3D%227%22%20r%3D%223%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-small-left::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m15%2018-6-6%206-6%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-small-right::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m9%2018%206-6-6-6%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-tick::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M20%206%209%2017l-5-5%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-tree-closed::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m9%2018%206-6-6-6%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-tree-indeterminate::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M5%2012h14%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-tree-open::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m6%209%206%206%206-6%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-unlinked::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M9%2017H7A5%205%200%200%201%207%207%22%2F%3E%3Cpath%20d%3D%22M15%207h2a5%205%200%200%201%204%208%22%2F%3E%3Cline%20x1%3D%228%22%20x2%3D%2212%22%20y1%3D%2212%22%20y2%3D%2212%22%2F%3E%3Cline%20x1%3D%222%22%20x2%3D%2222%22%20y1%3D%222%22%20y2%3D%2222%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-up::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22m5%2012%207-7%207%207%22%2F%3E%3Cpath%20d%3D%22M12%2019V5%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-aasc::before { mask-image: url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M13.2012%208.07928C13.6346%208.0793%2014.0128%208.15365%2014.3359%208.30193C14.6609%208.45018%2014.9141%208.65595%2015.0947%208.9201C15.2754%209.18439%2015.3683%209.49109%2015.374%209.83904H14.1904C14.1676%209.60898%2014.0695%209.4303%2013.8965%209.30291C13.7235%209.1756%2013.4889%209.1115%2013.1924%209.1115C12.9909%209.1115%2012.8204%209.1404%2012.6816%209.19744C12.543%209.25255%2012.4364%209.32917%2012.3623%209.42791C12.2901%209.52678%2012.2539%209.63933%2012.2539%209.76482C12.2501%209.8692%2012.272%209.9604%2012.3193%2010.0383C12.3688%2010.1162%2012.4369%2010.1843%2012.5225%2010.2414C12.6079%2010.2964%2012.7064%2010.3451%2012.8184%2010.3869C12.9304%2010.4268%2013.0505%2010.4609%2013.1777%2010.4894L13.7031%2010.6144C13.9578%2010.6715%2014.1914%2010.7479%2014.4043%2010.8429C14.6173%2010.938%2014.8021%2011.0547%2014.958%2011.1935C15.1138%2011.3323%2015.2348%2011.4957%2015.3203%2011.6838C15.4077%2011.8719%2015.4522%2012.088%2015.4541%2012.3312C15.4522%2012.6885%2015.3611%2012.9986%2015.1807%2013.2609C15.0019%2013.5214%2014.7427%2013.7248%2014.4043%2013.8693C14.0678%2014.0118%2013.6617%2014.0832%2013.1865%2014.0832C12.7153%2014.0832%2012.3048%2014.0107%2011.9551%2013.8664C11.6071%2013.7219%2011.3345%2013.5071%2011.1387%2013.2238C10.9449%2012.9387%2010.8435%2012.5862%2010.834%2012.1662H12.0283C12.0416%2012.362%2012.0984%2012.5252%2012.1973%2012.6564C12.298%2012.7857%2012.4323%2012.8838%2012.5996%2012.9504C12.7688%2013.0149%2012.96%2013.047%2013.1729%2013.047C13.3817%2013.047%2013.563%2013.0169%2013.7168%2012.9562C13.8727%2012.8954%2013.9935%2012.8106%2014.0791%2012.7023C14.1647%2012.5939%2014.208%2012.469%2014.208%2012.3283C14.2079%2012.1974%2014.1686%2012.0875%2014.0908%2011.9982C14.0148%2011.9089%2013.9022%2011.8324%2013.7539%2011.7697C13.6076%2011.707%2013.4276%2011.6501%2013.2148%2011.5988L12.5791%2011.4387C12.0869%2011.3189%2011.6982%2011.1318%2011.4131%2010.8771C11.128%2010.6224%2010.9855%2010.2793%2010.9873%209.84783C10.9854%209.49418%2011.0804%209.18439%2011.2705%208.9201C11.4625%208.65603%2011.7261%208.45015%2012.0605%208.30193C12.3951%208.15369%2012.7754%208.07928%2013.2012%208.07928Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M5.8125%2014.0002H4.48926L4.05664%2012.6681H1.94824L1.51465%2014.0002H0.19043L2.20703%208.15935H3.79883L5.8125%2014.0002ZM2.26172%2011.7043H3.74316L3.02539%209.49334H2.98047L2.26172%2011.7043Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M8.45215%208.15935C8.88165%208.15935%209.24031%208.22251%209.52734%208.34978C9.81445%208.47717%2010.0303%208.65477%2010.1748%208.88103C10.3192%209.10536%2010.3916%209.36368%2010.3916%209.65642C10.3916%209.88452%2010.3461%2010.085%2010.2549%2010.258C10.1637%2010.4289%2010.0384%2010.5696%209.87891%2010.6799C9.72117%2010.7882%209.54024%2010.8657%209.33691%2010.9113V10.9679C9.55917%2010.9775%209.76716%2011.0406%209.96094%2011.1564C10.1568%2011.2724%2010.3158%2011.4356%2010.4375%2011.6447C10.5591%2011.8519%2010.6201%2012.099%2010.6201%2012.3859C10.6201%2012.6958%2010.5427%2012.9727%2010.3887%2013.216C10.2366%2013.4573%2010.0113%2013.6486%209.71289%2013.7892C9.41443%2013.9299%209.04655%2014.0002%208.60938%2014.0002H6.11426V8.15935H8.45215ZM7.34863%2012.9904H8.35547C8.69943%2012.9904%208.95057%2012.9252%209.1084%2012.7941C9.26621%2012.661%209.34473%2012.4834%209.34473%2012.2629C9.34468%2012.1014%209.30643%2011.9587%209.22852%2011.8351C9.15056%2011.7116%209.03903%2011.6145%208.89453%2011.5441C8.75195%2011.4738%208.58148%2011.4387%208.38379%2011.4387H7.34863V12.9904ZM7.34863%2010.6037H8.26465C8.43369%2010.6036%208.58376%2010.5737%208.71484%2010.5148C8.84793%2010.454%208.95227%2010.3683%209.02832%2010.258C9.10628%2010.1477%209.14551%2010.0155%209.14551%209.8615C9.14546%209.65055%209.07008%209.48001%208.91992%209.35076C8.77165%209.22169%208.56064%209.15741%208.28711%209.1574H7.34863V10.6037Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20d%3D%22M7.16602%200.377127C7.44584%200.189493%207.82551%200.20905%208.08496%200.442557L11.418%203.44256C11.7257%203.71966%2011.7507%204.19428%2011.4736%204.50213C11.1966%204.80961%2010.7228%204.83441%2010.415%204.55779L7.60938%202.03338L5.11328%204.53045C4.82042%204.82326%204.34562%204.82322%204.05273%204.53045C3.75986%204.23757%203.75989%203.7628%204.05273%203.4699L7.05273%200.4699L7.16602%200.377127Z%22%20fill%3D%22black%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-adesc::before { mask-image: url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M10.3867%2011.4697C10.6796%2011.1771%2011.1544%2011.1769%2011.4473%2011.4697C11.7399%2011.7626%2011.7399%2012.2374%2011.4473%2012.5303L8.44727%2015.5303L8.33398%2015.623C8.05425%2015.8106%207.67449%2015.7909%207.41504%2015.5576L4.08203%2012.5576C3.77415%2012.2805%203.74927%2011.8059%204.02637%2011.498C4.30342%2011.1907%204.77722%2011.1657%205.08496%2011.4424L7.89062%2013.9668L10.3867%2011.4697Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20d%3D%22M13.2012%203.0791C13.6346%203.07912%2014.0128%203.1535%2014.3359%203.30176C14.6611%203.45006%2014.9141%203.65661%2015.0947%203.9209C15.2752%204.18513%2015.3683%204.49104%2015.374%204.83887H14.1904C14.1676%204.60882%2014.0695%204.43012%2013.8965%204.30273C13.7235%204.17546%2013.4889%204.11133%2013.1924%204.11133C12.9909%204.11133%2012.8204%204.14023%2012.6816%204.19727C12.5431%204.25236%2012.4364%204.32902%2012.3623%204.42773C12.2901%204.52659%2012.2539%204.63919%2012.2539%204.76465C12.2501%204.86901%2012.272%204.96023%2012.3193%205.03809C12.3688%205.11604%2012.4369%205.18417%2012.5225%205.24121C12.6079%205.29623%2012.7064%205.34496%2012.8184%205.38672C12.9304%205.42661%2013.0505%205.46075%2013.1777%205.48926L13.7031%205.61426C13.9578%205.67128%2014.1914%205.74776%2014.4043%205.84277C14.6172%205.93784%2014.8021%206.05457%2014.958%206.19336C15.1139%206.33216%2015.2348%206.49633%2015.3203%206.68457C15.4076%206.8727%2015.4522%207.08885%2015.4541%207.33203C15.4521%207.68929%2015.3612%207.99944%2015.1807%208.26172C15.0019%208.52216%2014.7427%208.72465%2014.4043%208.86914C14.0678%209.01165%2013.6617%209.08301%2013.1865%209.08301C12.7153%209.08299%2012.3048%209.01057%2011.9551%208.86621C11.6072%208.72173%2011.3345%208.50786%2011.1387%208.22461C10.9447%207.9394%2010.8435%207.58622%2010.834%207.16602H12.0283C12.0416%207.36176%2012.0985%207.52509%2012.1973%207.65625C12.298%207.78554%2012.4323%207.88365%2012.5996%207.9502C12.7688%208.01477%2012.96%208.04785%2013.1729%208.04785C13.3817%208.04781%2013.5629%208.01678%2013.7168%207.95605C13.8727%207.89522%2013.9935%207.81051%2014.0791%207.70215C14.1646%207.59387%2014.2079%207.46965%2014.208%207.3291C14.208%207.19796%2014.1687%207.08739%2014.0908%206.99805C14.0148%206.90868%2013.9022%206.83228%2013.7539%206.76953C13.6076%206.70685%2013.4276%206.64993%2013.2148%206.59863L12.5791%206.43848C12.0868%206.31871%2011.6982%206.13163%2011.4131%205.87695C11.1279%205.62221%2010.9855%205.27916%2010.9873%204.84766C10.9854%204.49404%2011.0804%204.18517%2011.2705%203.9209C11.4625%203.65661%2011.7259%203.45006%2012.0605%203.30176C12.3951%203.15353%2012.7754%203.0791%2013.2012%203.0791Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M5.8125%209H4.48926L4.05664%207.66797H1.94824L1.51465%209H0.19043L2.20703%203.15918H3.79883L5.8125%209ZM2.26172%206.7041H3.74316L3.02539%204.49414H2.98047L2.26172%206.7041Z%22%20fill%3D%22black%22%2F%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M8.45215%203.15918C8.88181%203.15918%209.24025%203.22322%209.52734%203.35059C9.81445%203.47798%2010.0303%203.6546%2010.1748%203.88086C10.3193%204.10518%2010.3916%204.36351%2010.3916%204.65625C10.3916%204.88432%2010.3461%205.08484%2010.2549%205.25781C10.1636%205.4289%2010.0386%205.57039%209.87891%205.68066C9.72118%205.78898%209.54022%205.86549%209.33691%205.91113V5.96875C9.55913%205.9783%209.76719%206.04044%209.96094%206.15625C10.1568%206.27223%2010.3158%206.43538%2010.4375%206.64453C10.5591%206.85173%2010.6201%207.09875%2010.6201%207.38574C10.6201%207.69567%2010.5427%207.97245%2010.3887%208.21582C10.2366%208.45719%2010.0113%208.64841%209.71289%208.78906C9.41442%208.9297%209.04658%208.99999%208.60938%209H6.11426V3.15918H8.45215ZM7.34863%207.99023H8.35547C8.69948%207.99023%208.95057%207.92504%209.1084%207.79395C9.26621%207.66085%209.34473%207.48325%209.34473%207.2627C9.34466%207.10125%209.3064%206.95844%209.22852%206.83496C9.15056%206.71143%209.03899%206.61427%208.89453%206.54395C8.75196%206.47365%208.58145%206.43848%208.38379%206.43848H7.34863V7.99023ZM7.34863%205.60352H8.26465C8.43369%205.60347%208.58376%205.57354%208.71484%205.51465C8.84791%205.45381%208.95228%205.36807%209.02832%205.25781C9.10623%205.14755%209.14551%205.01529%209.14551%204.86133C9.14542%204.65046%209.07002%204.48078%208.91992%204.35156C8.77163%204.22228%208.56087%204.15724%208.28711%204.15723H7.34863V5.60352Z%22%20fill%3D%22black%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-chevron-down::before { mask-image: url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12%206L8%2010L4%206%22%20stroke%3D%22currentColor%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-chevron-left::before { mask-image: url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M10%2012L6%208L10%204%22%20stroke%3D%22currentColor%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-chevron-right::before { mask-image: url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M6%2012L10%208L6%204%22%20stroke%3D%22currentColor%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-chevron-up::before { mask-image: url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M4%2010L8%206L12%2010%22%20stroke%3D%22currentColor%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-column-arrow::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M0%2026C0%2028.2092%201.79086%2030%204%2030H14C16.2091%2030%2018%2028.2092%2018%2026V15H25.8786L24.4394%2016.4393C23.8536%2017.0251%2023.8536%2017.9749%2024.4394%2018.5607C25.0252%2019.1464%2025.9748%2019.1464%2026.5606%2018.5607L30.5606%2014.5607C31.1464%2013.9749%2031.1464%2013.0251%2030.5606%2012.4393L26.5606%208.43934C25.9748%207.85356%2025.0252%207.85356%2024.4394%208.43934C23.8536%209.02512%2023.8536%209.97488%2024.4394%2010.5607L25.8786%2012H18V6C18%203.79086%2016.2091%202%2014%202H4C1.79086%202%200%203.79086%200%206V26ZM14%205H10.5V12H15V6C15%205.44772%2014.5523%205%2014%205ZM4%205H7.5V12H3V6C3%205.44772%203.44772%205%204%205ZM10.5%2015H15V26C15%2026.5522%2014.5523%2027%2014%2027H10.5V15ZM4%2027H7.5V15H3V26C3%2026.5522%203.44772%2027%204%2027Z%22%20fill%3D%22currentColor%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-edit::before { mask-image: url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M3.5%2010.6262V12.5012H5.375L10.905%206.97122L9.03%205.09622L3.5%2010.6262ZM12.355%205.52122C12.4014%205.47497%2012.4381%205.42002%2012.4632%205.35953C12.4883%205.29905%2012.5012%205.23421%2012.5012%205.16872C12.5012%205.10324%2012.4883%205.0384%2012.4632%204.97791C12.4381%204.91742%2012.4014%204.86248%2012.355%204.81622L11.185%203.64622C11.1387%203.59987%2011.0838%203.5631%2011.0233%203.53801C10.9628%203.51291%2010.898%203.5%2010.8325%203.5C10.767%203.5%2010.7022%203.51291%2010.6417%203.53801C10.5812%203.5631%2010.5263%203.59987%2010.48%203.64622L9.565%204.56122L11.44%206.43622L12.355%205.52122Z%22%20fill%3D%22currentColor%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-filter-add::before { mask-image: url('data:image/svg+xml,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5.12126%207.75L10.8517%207.75%22%20stroke%3D%22currentColor%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M6.65934%2011.748L9.32778%2011.748%22%20stroke%3D%22currentColor%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M12.2943%201.04872V6.19184M14.9886%203.74341H9.68478%22%20stroke%3D%22currentColor%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M8.25488%203C8.04799%203.18323%207.91706%203.45099%207.91699%203.74902C7.91713%204.04868%208.04988%204.31681%208.25879%204.5H2C1.58579%204.5%201.25%204.16421%201.25%203.75C1.25%203.33579%201.58579%203%202%203H8.25488Z%22%20fill%3D%22currentColor%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-pinned-bottom::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20class%3D%22ag-icon%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M3.47%2012.28A.75.75%200%200%201%204%2011h8a.75.75%200%200%201%200%201.5H4a.75.75%200%200%201-.53-.22ZM12.731%205.256a.75.75%200%200%201-.2.524l-4%204a.75.75%200%200%201-1.06%200l-4-4a.75.75%200%201%201%201.06-1.06l2.72%202.72V2a.75.75%200%200%201%201.5%200v5.44l2.72-2.72a.75.75%200%200%201%201.26.536Z%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-pinned-top::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M12.53%203.72A.75.75%200%200%201%2012%205H4a.75.75%200%200%201%200-1.5h8a.75.75%200%200%201%20.53.22ZM3.269%2010.744a.75.75%200%200%201%20.2-.524l4-4a.75.75%200%200%201%201.06%200l4%204a.75.75%200%201%201-1.06%201.06L8.75%208.56V14a.75.75%200%200%201-1.5%200V8.56l-2.72%202.72a.75.75%200%200%201-1.26-.536Z%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-small-down::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22black%22%20stroke%3D%22none%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M7.334%2010.667%2016%2021.334l8.667-10.667H7.334Z%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-small-up::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22black%22%20stroke%3D%22none%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M7.334%2021.333%2016%2010.666l8.667%2010.667H7.334Z%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-un-pin::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20class%3D%22ag-icon%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M8%2011a.75.75%200%200%200-.75.75v3.333a.75.75%200%201%200%201.5%200V11.75A.75.75%200%200%200%208%2011Z%22%2F%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M13.11%201.436a.75.75%200%200%200-1.22-.872l-10%2014a.75.75%200%201%200%201.22.872L5.207%2012.5h7.376a.75.75%200%200%200%20.75-.75v-1.174a2.08%202.08%200%200%200-1.153-1.863l-1.185-.599-.005-.002a.58.58%200%200%201-.323-.522V5.165a2.083%202.083%200%200%200%201.854-2.904l.589-.825Zm-3.943%205.52v.634a2.08%202.08%200%200%200%201.153%201.863l1.185.6.005.002a.58.58%200%200%201%20.323.522V11H6.28l2.887-4.044ZM9.277%201H5.25a2.084%202.084%200%200%200-.083%204.165v1.676l1.5-2.132v-.292a.75.75%200%200%200-.75-.75H5.25a.584.584%200%200%201%200-1.167h2.972L9.277%201Z%22%2F%3E%3C%2Fsvg%3E'); }
-.ag-icon-filter::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M3%206h18%22%2F%3E%3Cpath%20d%3D%22M7%2012h10%22%2F%3E%3Cpath%20d%3D%22M10%2018h4%22%2F%3E%3C%2Fsvg%3E'); }
-:where(.ag-theme-tabStyle-6) {
-.ag-tabs-header{background-color:var(--ag-tab-bar-background-color);border-bottom:var(--ag-tab-bar-border);display:flex;flex:1;gap:var(--ag-tab-spacing);padding:var(--ag-tab-bar-top-padding) var(--ag-tab-bar-horizontal-padding) 0}
-.ag-tabs-header-wrapper{display:flex}
-.ag-tabs-close-button-wrapper{align-items:center;border:0;display:flex;padding:var(--ag-spacing)}
-:where(.ag-ltr) .ag-tabs-close-button-wrapper{border-right:solid var(--ag-border-width) var(--ag-border-color)}
-:where(.ag-rtl) .ag-tabs-close-button-wrapper{border-left:solid var(--ag-border-width) var(--ag-border-color)}
-.ag-tabs-close-button{background-color:unset;border:0;cursor:pointer;padding:0}
-.ag-tab{align-items:center;background-color:var(--ag-tab-background-color);border-left:var(--ag-tab-selected-border-width) solid transparent;border-right:var(--ag-tab-selected-border-width) solid transparent;color:var(--ag-tab-text-color);cursor:pointer;display:flex;flex:1;justify-content:center;padding:var(--ag-tab-top-padding) var(--ag-tab-horizontal-padding) var(--ag-tab-bottom-padding);position:relative}
-.ag-tab:hover{background-color:var(--ag-tab-hover-background-color);color:var(--ag-tab-hover-text-color)}
-.ag-tab.ag-tab-selected{background-color:var(--ag-tab-selected-background-color);color:var(--ag-tab-selected-text-color)}
-:where(.ag-ltr) .ag-tab.ag-tab-selected:where(:not(:first-of-type)){border-left-color:var(--ag-tab-selected-border-color)}
-:where(.ag-rtl) .ag-tab.ag-tab-selected:where(:not(:first-of-type)){border-right-color:var(--ag-tab-selected-border-color)}
-:where(.ag-ltr) .ag-tab.ag-tab-selected:where(:not(:last-of-type)){border-right-color:var(--ag-tab-selected-border-color)}
-:where(.ag-rtl) .ag-tab.ag-tab-selected:where(:not(:last-of-type)){border-left-color:var(--ag-tab-selected-border-color)}
-.ag-tab:after{background-color:var(--ag-tab-selected-underline-color);bottom:0;content:"";display:block;height:var(--ag-tab-selected-underline-width);left:0;opacity:0;position:absolute;right:0;transition:opacity var(--ag-tab-selected-underline-transition-duration)}
-.ag-tab.ag-tab-selected:after{opacity:1}
-.ag-pinned-left-header,.ag-pinned-right-header{display:inline-block;height:100%;overflow:hidden;position:relative}
-.ag-pinned-left-header{border-right:var(--ag-pinned-column-border)}
-.ag-pinned-right-header{border-left:var(--ag-pinned-column-border)}
-.ag-pinned-left-floating-bottom,.ag-pinned-left-floating-top,.ag-pinned-right-floating-bottom,.ag-pinned-right-floating-top{min-width:0;overflow:hidden;position:relative}
-.ag-pinned-left-sticky-top,.ag-pinned-right-sticky-top{height:100%;overflow:hidden;position:relative}
-.ag-sticky-bottom-full-width-container,.ag-sticky-top-full-width-container{height:100%;overflow:hidden;width:100%}
-.ag-body-horizontal-scroll:not(.ag-scrollbar-invisible){.ag-horizontal-left-spacer:not(.ag-scroller-corner){border-right:var(--ag-pinned-column-border)}
-.ag-horizontal-right-spacer:not(.ag-scroller-corner){border-left:var(--ag-pinned-column-border)}
-.esa-icon{--_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));display:inline-flex;align-items:center;justify-content:center;width:var(--_icon-size);height:var(--_icon-size);line-height:1;color:inherit}
-.esa-icon--xs{--_icon-size: var(--icon-size-xs, 14px)}
-.esa-icon svg{display:block;width:var(--_icon-size);height:var(--_icon-size)}
-.esa-icon--sm{--_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px))}
-.esa-icon--md{--_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px))}
-.esa-icon-button{--_ib-size: var(--form-height-md, 40px);--_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));display:inline-flex;align-items:center;justify-content:center;width:var(--_ib-size);height:var(--_ib-size);padding:0;border:0;border-radius:var(--radius-200, 8px);background:transparent;color:inherit;cursor:pointer;transition:background var(--transition-fast, .15s ease);-webkit-appearance:none;appearance:none}
-.grid-header{display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-400);margin-bottom:var(--spacing-300)}
-.grid-header__filter{display:inline-flex;align-items:center;gap:var(--spacing-150);min-width:280px}
-.grid-header__filter esa-text-field{flex:1}
-.tracker-grid{width:100%;height:calc(100vh - 360px);min-height:400px}
-.table-footer{display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-400);padding:var(--spacing-200) var(--spacing-400);background:var(--color-background);border:1px solid var(--color-border);border-top:0;border-radius:0 0 var(--radius-100) var(--radius-100)}
-.row-count-data{display:flex;align-items:center;gap:var(--spacing-400);font-size:var(--type-size-100);color:var(--color-text-secondary);font-variant-numeric:tabular-nums}
-.filtered-rows-count{color:var(--color-text-tertiary)}
-.filtered-rows-count[hidden]{display:none}
-.ag-row{cursor:pointer}
-.bcn-grid-name{color:var(--color-text-link);font-weight:var(--font-weight-regular);text-decoration:underline}
-*,*:before,*:after{box-sizing:border-box}
-body{margin:0;font-family:var(--font-sans, system-ui, sans-serif);font-weight:var(--font-weight-regular, 350);color:var(--color-text-primary, #3d3d3d);background:var(--color-surface, #fff);-webkit-font-smoothing:antialiased}
-button{font-family:inherit;cursor:pointer;background:none;border:0}
-a{color:var(--color-text-link, #005862);text-decoration:none}
-img{display:block;max-width:100%}
-:where(h1,h2,h3,h4,h5,h6,p,figure,blockquote,dl,dd,ul,ol,pre){margin:0}
-:where(.ag-theme-columnDropStyle-2) {
-.ag-column-drop-vertical-empty-message{align-items:center;border:dashed var(--ag-border-width);border-color:var(--ag-border-color);display:flex;inset:0;justify-content:center;margin:calc(var(--ag-spacing)*1.5) calc(var(--ag-spacing)*2);overflow:hidden;padding:calc(var(--ag-spacing)*2);position:absolute}
-.ag-paging-panel{align-items:center;border-top:var(--ag-footer-row-border);display:flex;flex-wrap:wrap-reverse;gap:calc(var(--ag-spacing)*4);justify-content:flex-end;min-height:var(--ag-pagination-panel-height);padding:calc(var(--ag-spacing)*.5) var(--ag-cell-horizontal-padding);row-gap:calc(var(--ag-spacing)*.5);@container (width < 600px){justify-content:center}
+.bcn-bottom-drawer{--_width: var(--bcn-bottom-drawer-width, 90vw);--_height: var(--bcn-bottom-drawer-height, 80vh);--_inset: var(--bcn-bottom-drawer-inset, 0px);--_z: var(--bcn-bottom-drawer-z, 1400);display:contents}
+#bcn-evidence-drawer{--bcn-bottom-drawer-width: 96vw;--bcn-bottom-drawer-height: 92vh;--bcn-bottom-drawer-z: 1400;--form-border-color-focus: var(--color-secondary);--focus-ring-color: color-mix(in srgb, var(--color-secondary) 30%, transparent);--focus-ring-width: 2px;--color-primary-strong: var(--color-primary);--bcn-ev-search-gap: var(--spacing-250, .625rem);--card-padding: var(--spacing-200, .5rem)}
+.bcn-bottom-drawer__backdrop{position:fixed;inset:0;background:var(--color-backdrop, rgba(0, 0, 0, .5));-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);z-index:var(--_z);animation:bcn-bd-fade .15s ease}
+.bcn-bottom-drawer:not([open]):not([closing]) .bcn-bottom-drawer__backdrop,.bcn-bottom-drawer:not([open]):not([closing]) .bcn-bottom-drawer__panel{display:none}
+.bcn-bottom-drawer__panel{position:fixed;left:50%;bottom:var(--_inset);transform:translate(-50%);width:min(var(--_width),calc(100vw - var(--_inset) * 2));height:var(--_height);display:flex;flex-direction:column;background:var(--color-surface);border-radius:var(--radius-300) var(--radius-300) 0 0;box-shadow:0 -12px 48px -12px #00000052;z-index:calc(var(--_z) + 1);outline:none;overflow:hidden;animation:bcn-bd-up .3s cubic-bezier(.16,1,.3,1)}
+.esa-button{--_btn-height: var(--form-height-md, 40px);--_btn-padding-x: var(--form-padding-x-md, 16px);--_btn-font-size: var(--form-font-size-md, 14px);--_btn-radius: var(--form-radius-md, 6px);--_accent: var(--color-primary, #46a758);--_accent-hover: var(--color-primary-hover, #3e9b4f);--_on: var(--color-text-inverse, #ffffff);--_accent-text: var(--_accent);--_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);--_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);display:inline-block}
+.esa-button--sm{--_btn-height: var(--form-height-sm, 32px);--_btn-padding-x: var(--form-padding-x-sm, 12px);--_btn-font-size: var(--form-font-size-sm, 12px);--_btn-radius: var(--form-radius-sm, 4px)}
+.esa-button__native{display:inline-flex;align-items:center;justify-content:center;gap:var(--spacing-200, 8px);width:100%;height:var(--_btn-height);padding-inline:var(--_btn-padding-x);border:1px solid transparent;border-radius:var(--_btn-radius);font-size:var(--_btn-font-size);font-family:var(--font-sans, system-ui, sans-serif);font-weight:var(--font-weight-medium, 500);line-height:1;text-decoration:none;cursor:pointer;transition:background var(--transition-fast, .15s ease),border-color var(--transition-fast, .15s ease);-webkit-appearance:none;appearance:none}
+.esa-button--sm .esa-button__native{height:auto;padding-block:var(--spacing-150, 6px)}
+.esa-button--appearance-outline .esa-button__native,.esa-button--appearance-dashed .esa-button__native{background:transparent;color:var(--_accent-text);border-color:var(--_accent)}
+.esa-button--color-ghost .esa-button__native{background:transparent;color:var(--color-text-primary, #171717);border-color:transparent}
+.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native{border-color:var(--color-border, #e5e5e5)}
+.esa-button__label{white-space:nowrap}
+html,.modern-layout__content{scroll-behavior:smooth}
+.page-layout{display:flex;flex-direction:column;min-height:calc(100vh - 52px);padding:var(--spacing-600);background:var(--bcn-gray-50);box-sizing:border-box}
+.page-layout__container{display:flex;flex-direction:column}
+.page-layout section{width:100%}
+.breadcrumbs{padding:var(--spacing-400) 0}
+.breadcrumbs__items{display:flex;gap:var(--spacing-100);align-items:center;flex-wrap:wrap}
+.breadcrumbs__items .esa-icon{color:var(--bcn-gray-400)}
+.breadcrumb-item{color:var(--bcn-gray-600);text-transform:capitalize;font-size:.875rem}
+a.breadcrumb-item{text-decoration:none}
+.page-layout__title{border-bottom:1px solid var(--bcn-gray-200);padding:var(--spacing-500) 0;display:flex;align-items:center;justify-content:space-between;box-sizing:border-box}
+.page-layout__title-main{display:flex;align-items:center;gap:var(--spacing-200);min-width:0}
+.page-layout__title h1{display:flex;align-items:center;gap:var(--spacing-200);font-family:var(--font-decorative);font-weight:var(--font-weight-bold);font-size:var(--type-size-500);margin:0;color:var(--bcn-gray-1000)}
+.page-layout__content{padding:var(--spacing-500) 0;min-height:70vh;position:relative}
+:host {
+      --_field-padding-y: var(--form-padding-y-md, 0.5rem);
+      --_field-padding-x: var(--form-padding-x-md, 0.75rem);
+      --_field-font-size: var(--form-font-size-md, 0.9375rem);
+      --_field-height: var(--form-height-md, 40px);
+      --_field-radius: var(--form-radius-md, 0.5rem);
+      --_field-border-color: var(--form-border-color, #e5e5e5);
+      --_label-font-size: var(--type-size-200, 0.9375rem);
+      display: block;
+      font-family: var(--font-sans, sans-serif);
+    }
+:host([size='sm']) {
+      --_field-padding-y: var(--form-padding-y-sm, 0.375rem);
+      --_field-padding-x: var(--form-padding-x-sm, 0.5rem);
+      --_field-font-size: var(--form-font-size-sm, 0.875rem);
+      --_field-height: var(--form-height-sm, 32px);
+      --_field-radius: var(--form-radius-sm, 0.25rem);
+      --_label-font-size: var(--type-size-150, 0.875rem);
+    }
+.field {
+      display: flex;
+      flex-direction: column;
+    }
+.control {
+      display: flex;
+      align-items: stretch;
+      height: var(--_field-height);
+      background: var(--form-bg, #fff);
+      border: var(--form-border-width, 1px) solid var(--_field-border-color);
+      border-radius: var(--_field-radius);
+      box-sizing: border-box;
+      overflow: hidden;
+      transition:
+        border-color var(--transition-fast, 150ms ease),
+        box-shadow var(--transition-fast, 150ms ease);
+    }
+.input {
+      flex: 1 1 auto;
+      min-width: 0;
+      width: 100%;
+      height: 100%;
+      padding: var(--_field-padding-y) var(--_field-padding-x);
+      font-family: inherit;
+      font-size: var(--_field-font-size);
+      color: var(--form-text-color, #171717);
+      background: transparent;
+      border: none;
+      outline: none;
+      box-sizing: border-box;
+    }
+.input::placeholder {
+      color: var(--form-placeholder-color, #737373);
+    }
+:host { display: inline-block; }
+.esa-tooltip-anchor {
+      position: relative;
+      display: inline-flex;
+    }
 :has(> :where(.ag-theme-params-1)):not(:where(.ag-theme-params-1)) {
 	--ag-inherited-accent-color: var(--ag-accent-color);
 	--ag-inherited-advanced-filter-builder-button-bar-border: var(--ag-advanced-filter-builder-button-bar-border);
@@ -8653,75 +15154,19 @@ img{display:block;max-width:100%}
 	--ag-selected-row-background-color: var(--ag-inherited-selected-row-background-color, color-mix(in srgb, transparent, var(--ag-accent-color) 20%));
 	--ag-toggle-button-off-background-color: var(--ag-inherited-toggle-button-off-background-color, color-mix(in srgb, var(--ag-background-color), var(--ag-foreground-color) 40%));
 }
-:where(.ag-theme-inputStyle-7) {
-:where(.ag-input-field-input[type=number]:not(.ag-number-field-input-stepper)){-webkit-appearance:textfield;-moz-appearance:textfield;appearance:textfield;&::-webkit-inner-spin-button,&::-webkit-outer-spin-button{-webkit-appearance:none;appearance:none;margin:0}
-.ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){background-color:var(--ag-input-background-color);border:var(--ag-input-border);border-radius:var(--ag-input-border-radius);color:var(--ag-input-text-color);font-family:inherit;font-size:inherit;line-height:inherit;margin:0;min-height:var(--ag-input-height);padding:0;&:where(:disabled){background-color:var(--ag-input-disabled-background-color);border:var(--ag-input-disabled-border);color:var(--ag-input-disabled-text-color)}
-&:where(:focus){background-color:var(--ag-input-focus-background-color);border:var(--ag-input-focus-border);box-shadow:var(--ag-input-focus-shadow);color:var(--ag-input-focus-text-color);outline:none}
-&:where(:invalid){background-color:var(--ag-input-invalid-background-color);border:var(--ag-input-invalid-border);color:var(--ag-input-invalid-text-color)}
-&:where(.invalid){background-color:var(--ag-input-invalid-background-color);border:var(--ag-input-invalid-border);color:var(--ag-input-invalid-text-color)}
-&::-moz-placeholder{color:var(--ag-input-placeholder-text-color)}
-&::placeholder{color:var(--ag-input-placeholder-text-color)}
-:where(.ag-ltr) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding-left:var(--ag-input-padding-start)}
-:where(.ag-rtl) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding-right:var(--ag-input-padding-start)}
-&:where(.ag-ltr,.ag-rtl) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding:0 var(--ag-input-padding-start)}
-:where(.ag-column-select-header-filter-wrapper),:where(.ag-filter-add-select),:where(.ag-filter-filter),:where(.ag-filter-toolpanel-search),:where(.ag-floating-filter-search-icon),:where(.ag-mini-filter){.ag-input-wrapper:before{background-color:currentcolor;color:var(--ag-input-icon-color);content:"";display:block;height:12px;-webkit-mask-image:url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBkPSJNNS4zIDlhMy43IDMuNyAwIDEgMCAwLTcuNSAzLjcgMy43IDAgMCAwIDAgNy41Wk0xMC41IDEwLjUgOC4zIDguMiIvPjwvc3ZnPg==");mask-image:url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMiIgaGVpZ2h0PSIxMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBkPSJNNS4zIDlhMy43IDMuNyAwIDEgMCAwLTcuNSAzLjcgMy43IDAgMCAwIDAgNy41Wk0xMC41IDEwLjUgOC4zIDguMiIvPjwvc3ZnPg==");-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;opacity:.5;position:absolute;width:12px}
-:where(.ag-ltr) :where(.ag-column-select-header-filter-wrapper),:where(.ag-ltr) :where(.ag-filter-add-select),:where(.ag-ltr) :where(.ag-filter-filter),:where(.ag-ltr) :where(.ag-filter-toolpanel-search),:where(.ag-ltr) :where(.ag-floating-filter-search-icon),:where(.ag-ltr) :where(.ag-mini-filter){.ag-input-wrapper:before{margin-left:var(--ag-spacing)}
-.ag-number-field-input,.ag-text-field-input{padding-left:calc(var(--ag-spacing)*1.5 + 12px)}
-:where(.ag-rtl) :where(.ag-column-select-header-filter-wrapper),:where(.ag-rtl) :where(.ag-filter-add-select),:where(.ag-rtl) :where(.ag-filter-filter),:where(.ag-rtl) :where(.ag-filter-toolpanel-search),:where(.ag-rtl) :where(.ag-floating-filter-search-icon),:where(.ag-rtl) :where(.ag-mini-filter){.ag-input-wrapper:before{margin-right:var(--ag-spacing)}
-.ag-number-field-input,.ag-text-field-input{padding-right:calc(var(--ag-spacing)*1.5 + 12px)}
-.ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){&:focus{box-shadow:var(--ag-focus-shadow);&:where(.invalid),&:where(:invalid){box-shadow:var(--ag-focus-error-shadow)}
 :host {
-      --_field-padding-y: var(--form-padding-y-md, 0.5rem);
-      --_field-padding-x: var(--form-padding-x-md, 0.75rem);
-      --_field-font-size: var(--form-font-size-md, 0.9375rem);
-      --_field-height: var(--form-height-md, 40px);
-      --_field-radius: var(--form-radius-md, 0.5rem);
-      --_field-border-color: var(--form-border-color, #e5e5e5);
-      --_label-font-size: var(--type-size-200, 0.9375rem);
-      display: block;
-      font-family: var(--font-sans, sans-serif);
+      --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
+      --_popover-border: var(--popover-border-color, var(--color-border, #e5e5e5));
+      --_popover-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+      --_popover-radius: var(--popover-radius, var(--radius-200, 0.5rem));
+      --_popover-padding: var(--spacing-300, 0.75rem);
+      --_popover-arrow-size: 8px;
+      --_popover-color: var(--popover-color, var(--color-text-primary, #171717));
+      display: inline-block;
     }
-:host([size='sm']) {
-      --_field-padding-y: var(--form-padding-y-sm, 0.375rem);
-      --_field-padding-x: var(--form-padding-x-sm, 0.5rem);
-      --_field-font-size: var(--form-font-size-sm, 0.875rem);
-      --_field-height: var(--form-height-sm, 32px);
-      --_field-radius: var(--form-radius-sm, 0.25rem);
-      --_label-font-size: var(--type-size-150, 0.875rem);
-    }
-.field {
-      display: flex;
-      flex-direction: column;
-    }
-.control {
-      display: flex;
-      align-items: stretch;
-      height: var(--_field-height);
-      background: var(--form-bg, #fff);
-      border: var(--form-border-width, 1px) solid var(--_field-border-color);
-      border-radius: var(--_field-radius);
-      box-sizing: border-box;
-      overflow: hidden;
-      transition:
-        border-color var(--transition-fast, 150ms ease),
-        box-shadow var(--transition-fast, 150ms ease);
-    }
-.input {
-      flex: 1 1 auto;
-      min-width: 0;
-      width: 100%;
-      height: 100%;
-      padding: var(--_field-padding-y) var(--_field-padding-x);
-      font-family: inherit;
-      font-size: var(--_field-font-size);
-      color: var(--form-text-color, #171717);
-      background: transparent;
-      border: none;
-      outline: none;
-      box-sizing: border-box;
-    }
-.input::placeholder {
-      color: var(--form-placeholder-color, #737373);
+.esa-popover-anchor {
+      position: relative;
+      display: inline-block;
     }
 ```
 
@@ -8751,10 +15196,12 @@ img{display:block;max-width:100%}
 | `--bcn-helpbar-fg-muted` | `rgba(255, 255, 255, .72)` | component |
 | `--bcn-helpbar-hover-bg` | `rgba(255, 255, 255, .1)` | component |
 | `--color-accent` | `#f76b15` | semantic |
+| `--color-backdrop` | `rgba(0, 0, 0, .5)` | primitive |
 | `--color-background` | `#fafafa` | semantic |
 | `--color-border` | `#dcdcdc` | semantic |
 | `--color-primary` | `#005862` | semantic |
 | `--color-primary-hover` | `#00474f` | semantic |
+| `--color-secondary` | `#00918b` | semantic |
 | `--color-surface` | `#fcfcfc` | semantic |
 | `--color-surface-sunken` | `#efefef` | semantic |
 | `--color-text-inverse` | `#fcfcfc` | semantic |

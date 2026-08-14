@@ -1,6 +1,6 @@
 # Token contract — prototypes-data-catalog-action
 
-The 102 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 103 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -87,6 +87,7 @@ The 102 design tokens this page actually uses, resolved to their final values fo
 
 | Token | Value |
 |---|---|
+| `--color-backdrop` | `rgba(0, 0, 0, .5)` |
 | `--font-sans` | `"DM Sans", sans-serif` |
 | `--font-weight-bold` | `650` |
 | `--font-weight-medium` | `500` |
@@ -730,6 +731,10 @@ Defined per-component (not at `:root`); see the component's own rule in `styles.
 - `--ag-wrapper-background-color`
 - `--ag-wrapper-border`
 - `--ag-wrapper-border-radius`
+- `--bcn-bottom-drawer-height`
+- `--bcn-bottom-drawer-inset`
+- `--bcn-bottom-drawer-width`
+- `--bcn-bottom-drawer-z`
 - `--dialog-footer-bg`
 - `--dialog-header-bg`
 - `--file-list-row-padding-x`

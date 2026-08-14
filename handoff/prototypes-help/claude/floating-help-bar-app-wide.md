@@ -59,18 +59,27 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
     <span class="bcn-help-bar__guidance-label">Guidance</span>
   </button>
   <span class="bcn-help-bar__divider" aria-hidden="true"></span>
-  <!-- Search — icon-only; the tooltip host also carries the omni-search open hook. -->
+  <!-- Attach Evidence of Compliance — icon-only; the tooltip host carries the drawer's open hook.
+       GLYPH NOTE: the spoke's committed evidence glyph is the paperclip in global-search's
+       SCOPES (what the ⌘K palette shows for Evidence of Compliance), but esa-icon-button
+       forwards only a registry `name` — no custom `paths` — and the hub registry has no
+       paperclip. Using 'file-text' until paperclip is registered in the hub, the same
+       constraint and the same fix as 'notepad-text' below.
+       This slot used to hold a duplicate Search button. It was replaced (product meeting
+       2026-08-04): search already has the top bar's own field and ⌘K, and this bar is
+       where Beacon's bottom affordances live, which is where the global evidence drawer
+       belongs. -->
   <esa-tooltip
     class="bcn-help-bar__tooltip"
-    text="Search"
+    text="Attach Evidence of Compliance"
     position="above"
-    data-omni-trigger="true"
+    data-evidence-trigger="true"
   >
     <button
       class="esa-icon-button esa-icon-button--md"
       type="button"
-      aria-label="Search"
-      title="Search"
+      aria-label="Attach Evidence of Compliance"
+      title="Attach Evidence of Compliance"
     >
       <span class="esa-icon esa-icon--md" aria-hidden="true">
         <svg
@@ -84,8 +93,11 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
           stroke-linejoin="round"
           focusable="false"
         >
-          <circle cx="11" cy="11" r="8"></circle>
-          <path d="m21 21-4.3-4.3"></path>
+          <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+          <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+          <path d="M10 9H8"></path>
+          <path d="M16 13H8"></path>
+          <path d="M16 17H8"></path>
         </svg>
       </span>
     </button>
@@ -409,6 +421,20 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
   color: var(--color-text-tertiary);
   flex: none;
 }
+.bcn-disclosure .esa-icon {
+  transition: transform 0.15s ease;
+}
+.bcn-disclosure[aria-expanded="false"] .esa-icon {
+  transform: rotate(-90deg);
+}
+.bcn-ev-staging__title .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.bcn-ev-targets__title .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
 .topbar__right .esa-icon-button {
   color: var(--color-text-secondary);
 }
@@ -444,6 +470,36 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
 }
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
 }
 .esa-icon-button {
   --_ib-size: var(--form-height-md, 40px);
@@ -481,36 +537,6 @@ Aldo's home: a floating utility pill fixed to the bottom-center of the viewport 
 .esa-icon-button:focus-visible {
   outline: var(--focus-ring-width) solid currentColor;
   outline-offset: var(--focus-ring-offset, 2px);
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
