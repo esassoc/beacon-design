@@ -206,6 +206,15 @@
   --bcn-helpbar-fg-muted:  rgba(255, 255, 255, 0.72);
   --bcn-helpbar-hover-bg:  rgba(255, 255, 255, 0.10);
 
+  /* Entity SEAL frame — the identity treatment worn by a project's org seal, a
+     component's mark, and the logo picker's live preview. Tokenised because it is
+     applied by more than one component (bcn-entity-logo's `seal` variant frames the
+     mark; the picker frames a photo the same way), and a ring that only half the
+     surfaces follow is worse than no ring. Raw values live here per token discipline. */
+  --bcn-seal-ring-width: 3px;
+  --bcn-seal-ring-color: var(--color-surface);
+  --bcn-seal-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.08);
+
   /* ===== Entity mark palette — the 20 identity swatches =====
      A user picks one of these plus a glyph to give a Component (and later a
      Project) a LANDMARK: the parking-garage-floor argument — a visual anchor

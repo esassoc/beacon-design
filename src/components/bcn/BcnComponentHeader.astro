@@ -102,7 +102,7 @@ const starLabel = starred ? `Unstar ${component.name}` : `Star ${component.name}
          meeting, 2026-08-04: "mouse over that header area … a little change
          logo just to keep people in one spot"). -->
     <span class="bcn-chd__markwrap">
-      <BcnEntityLogo mark={component.mark} size="xl" shape="circle" label={`${component.name} mark`} />
+      <BcnEntityLogo mark={component.mark} size="xl" variant="seal" label={`${component.name} mark`} />
       <!-- The hook lives on the WRAPPER: esa-icon-button has a closed prop set
            and drops unknown attributes, so a data-* on the lego goes nowhere.
            The click bubbles out of the button to this span. -->
@@ -211,18 +211,14 @@ const starLabel = starred ? `Unstar ${component.name}` : `Star ${component.name}
     }
   }
 
-  /* The mark wears the project seal's exact treatment (BcnProjectHeader's
-     .bcn-phome__seal): a white ring and a soft lift around a 92px circle, so the
-     two bands read as the same idiom one level apart. No negative top margin
-     here — there is no hero band for it to overlap. */
+  /* The seal treatment (circle + white ring + soft lift) belongs to bcn-entity-logo's
+     `seal` variant, not here — this wrapper only positions the hover edit chip. It
+     used to carry the frame itself, which meant the picker's preview had to
+     reproduce it and promptly diverged. */
   .bcn-chd__markwrap {
     position: relative;
     flex-shrink: 0;
     display: inline-flex;
-    border-radius: var(--radius-full);
-    background: var(--color-surface);
-    border: 3px solid var(--color-surface);
-    box-shadow: var(--shadow-100, 0 2px 12px 0 rgba(0, 0, 0, 0.08));
   }
   /* Hover/keyboard-revealed logo edit — a chip on the mark's lower-right.
      :focus-within is the KEYBOARD path: the button stays in the tab order while
