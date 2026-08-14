@@ -71,10 +71,13 @@ const previewMark: EntityMark = { glyph: mark.glyph, color: mark.color, style: m
 
 <esa-dialog id={id} heading={heading} size="md" data-bcn-logo-picker>
   <div class="bcn-logo-picker stack" data-gap="lg">
-    <!-- Live preview — whatever this component will actually wear, at header size. -->
+    <!-- Live preview — whatever this component will actually wear, drawn the way the
+         header draws it: a CIRCLE at header size, in the seal frame (white ring +
+         soft lift). A preview that differs from the destination in shape is not a
+         preview, and this one was a rounded square while the header was round. -->
     <div class="bcn-logo-picker__preview cluster" data-gap="sm">
       <span class="bcn-logo-picker__previewslot">
-        <span data-lp-preview-mark><BcnEntityLogo mark={previewMark} size="xl" /></span>
+        <span data-lp-preview-mark><BcnEntityLogo mark={previewMark} size="xl" shape="circle" /></span>
         <img class="bcn-logo-picker__photo" data-lp-preview-photo alt="" hidden />
       </span>
       <span class="bcn-logo-picker__name type-card-title">{entityName}</span>
@@ -207,19 +210,24 @@ const previewMark: EntityMark = { glyph: mark.glyph, color: mark.color, style: m
   }
 
   /* The preview slot holds the mark and the photo in the same box, so swapping
-     between them never changes the dialog's layout. */
+     between them never changes the dialog's layout — and the SLOT carries the seal
+     frame, so both branches are framed identically instead of each doing its own
+     thing (the photo had a ring the mark did not). Same treatment as the header's
+     .bcn-chd__markwrap. */
   .bcn-logo-picker__previewslot {
     display: inline-flex;
     flex-shrink: 0;
+    border-radius: var(--radius-full);
+    background: var(--color-surface);
+    border: 3px solid var(--color-surface);
+    box-shadow: var(--shadow-100, 0 2px 12px 0 rgba(0, 0, 0, 0.08));
   }
   .bcn-logo-picker__photo {
     width: 72px;
     height: 72px;
     object-fit: cover;
     border-radius: var(--radius-full);
-    background: var(--color-surface);
-    border: 3px solid var(--color-surface);
-    box-shadow: var(--shadow-100, 0 2px 12px 0 rgba(0, 0, 0, 0.08));
+    display: block;
   }
   .bcn-logo-picker__photo[hidden],
   .bcn-logo-picker__chosen[hidden],
