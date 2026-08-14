@@ -39,8 +39,12 @@ interface Props {
   mark: EntityMark;
   /**
    * Tile size: sm=24, md=32, lg=48, xl=72, 2xl=92 px. Default 'md'.
-   * 2xl matches the project header's org seal exactly, so a project and a
-   * component wear their identity at the same weight.
+   *
+   * 2xl is the project seal's diameter, kept on the scale for the day
+   * BcnProjectHeader adopts this component — there the seal overlaps the hero
+   * photo, so 92px only shows half. No current consumer uses it: a 92px mark
+   * sitting fully inside a band becomes the tallest thing in it and takes the
+   * band's height away from its content (see BcnComponentHeader's note).
    */
   size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   /** Accessible name; omit for decorative (when the entity name sits beside it). */

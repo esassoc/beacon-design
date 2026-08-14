@@ -27,12 +27,18 @@
 // Rendered into PageLayout's `bleed` slot with `hideTitleRow`, so this
 // component owns the page's ONLY <h1> — same contract as BcnProjectHeader.
 //
-// THE MARK WEARS THE PROJECT SEAL'S TREATMENT (review, 2026-08-13): a 92px
-// circle with a white ring and a soft lift — the same diameter and idiom as
-// BcnProjectHeader's org seal. A project and a component then carry their
-// identity at the same weight, and the only difference between the two bands is
-// the one that matters (the project has a cover photo behind it, the component
-// does not).
+// THE MARK WEARS THE PROJECT SEAL'S TREATMENT (review, 2026-08-13): a circle
+// with a white ring and a soft lift, the same idiom as BcnProjectHeader's org
+// seal, so a project and a component read as one pattern a level apart.
+//
+// It is 72px rather than the seal's 92px, and that is the faithful choice, not a
+// compromise. The project's seal carries `margin-top: -46px` to overlap the hero
+// photo, so only 46px of it ever sits inside the white band — less than the text
+// beside it. There is no hero here to overlap, so a 92px mark sat fully inside
+// the band and became the tallest thing in it: the band's height stopped being
+// set by its content, and the text floated centred with dead air above and below.
+// At 72px the text is the tallest element again, exactly as on the project header,
+// and the mark still reads larger in-band than the project's 46px sliver.
 //
 // Composes: BcnEntityLogo (the mark), BcnStatusChip (status), EsaIconButton
 // (logo edit + star) + type roles. The band and the fact line are the only
@@ -96,7 +102,7 @@ const starLabel = starred ? `Unstar ${component.name}` : `Star ${component.name}
          meeting, 2026-08-04: "mouse over that header area … a little change
          logo just to keep people in one spot"). -->
     <span class="bcn-chd__markwrap">
-      <BcnEntityLogo mark={component.mark} size="2xl" shape="circle" label={`${component.name} mark`} />
+      <BcnEntityLogo mark={component.mark} size="xl" shape="circle" label={`${component.name} mark`} />
       <!-- The hook lives on the WRAPPER: esa-icon-button has a closed prop set
            and drops unknown attributes, so a data-* on the lego goes nowhere.
            The click bubbles out of the button to this span. -->
@@ -173,11 +179,17 @@ const starLabel = starred ? `Unstar ${component.name}` : `Star ${component.name}
 <style>
   /* Full-bleed identity band: white surface, hairline base to part it from the
      gray canvas below. No cover photo — see the header note. */
+  /* Vertical padding is symmetric and tight (review, 2026-08-13). It used to be
+     16px top and 0 bottom, which was invisible: the 98px mark was the tallest
+     child, so IT set the band height and the padding did nothing but push
+     everything down. The mark is now 78px — shorter than the 83px text block — so
+     the TEXT sets the height, the way it does on the project header, and this
+     padding is the band's actual breathing room. */
   .bcn-chd {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-300);
-    padding: var(--spacing-400) var(--spacing-600) 0;
+    padding: var(--spacing-200) var(--spacing-600);
     background: var(--color-surface);
     border-bottom: 1px solid var(--color-border);
   }
