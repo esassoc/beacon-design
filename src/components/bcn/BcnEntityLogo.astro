@@ -1,0 +1,121 @@
+---
+// <BcnEntityLogo> — the rendered identity mark a Component (later a Project) wears.
+//
+// The mark is a LANDMARK, not decoration (see src/data/entity-marks.ts for the
+// full argument): a project carrying two dozen components needs them TELLABLE
+// APART at a glance — in a header, a card, a grid row, a map popup. This is the
+// one place that drawing happens, so a component looks identical everywhere it
+// appears and a re-theme of the --bcn-mark-* ramp moves every surface at once.
+//
+// Three renderings, one component:
+//   • image  — an uploaded field photo WINS over the glyph/color pair, cropped
+//              square (object-fit: cover) so any aspect ratio still tiles.
+//   • fill   — neutral glyph on the color. A bold landmark for headers/heroes.
+//   • outline — color glyph on a low-alpha tint of the same color + a hairline.
+//              Recedes into a dense surface (grid rows, lists).
+//
+// The color arrives as an inline `--_c` custom property holding the mark's TOKEN
+// reference (never a hex) — the repo's value-driven-color idiom, same as
+// BcnStatusChip's --_chip and BcnStarredComponents' pulse dots. That is also what
+// lets BcnLogoPicker repaint a live preview by setting one property.
+//
+// Accessible naming is delegated: pass `label` when the mark stands alone (esa-icon
+// renders role="img" + aria-label, or aria-hidden when omitted); omit it when the
+// entity name sits beside the tile, so a screen reader hears the name once.
+//
+// bcn-lego-checked: no esa-* lego renders a glyph×color identity tile. esa-avatar is
+// a PERSON (initials/photo, no glyph or color axis); esa-badge/esa-pill are fixed-
+// variant status chrome; esa-icon draws a glyph but owns no tile, shape or color
+// treatment (it IS composed here, for the glyph). BcnAldoMark is the single fixed
+// help identity, not a data-driven one. Checked Beacon (no entity-mark component
+// exists — components render as plain AG Grid text). bcn-entity-logo is the
+// reusable home; every color reads --bcn-mark-* through --_c.
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import { withBase } from '../../lib/base';
+import { resolveMark, type EntityMark } from '../../data/entity-marks';
+
+interface Props {
+  /** The stored mark — glyph key + color key + style, or an uploaded image. */
+  mark: EntityMark;
+  /** Tile size: sm=24, md=32, lg=48, xl=72 px. Default 'md'. */
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  /** Accessible name; omit for decorative (when the entity name sits beside it). */
+  label?: string;
+  /** Tile silhouette. Default 'rounded'. */
+  shape?: 'rounded' | 'circle';
+  /** Extra class(es) for the host — composition glue only. */
+  class?: string;
+}
+const { mark, size = 'md', label, shape = 'rounded', class: className } = Astro.props;
+
+const { glyph, color, style, image } = resolveMark(mark);
+
+// Icons err SMALLER than their container (design-principles): ~50–58% of the tile.
+// 24→14, 32→18, 48→24, 72→36. The two off-scale steps are pinned in CSS through the
+// public --icon-size-* tokens esa-icon reads, the same way BcnAldoMark nudges its.
+const ICON_STEP = { sm: 'xs', md: 'sm', lg: 'lg', xl: 'xl' } as const;
+---
+
+<span
+  class:list={['bcn-entity-logo', className]}
+  data-size={size}
+  data-shape={shape}
+  data-style={image ? 'image' : style}
+  data-glyph={glyph.key}
+  data-color={color.key}
+  style={`--_c: ${color.token};`}
+>
+  {
+    image ? (
+      <img class="bcn-entity-logo__img" src={withBase(image)} alt={label ?? ''} />
+    ) : (
+      <EsaIcon name={glyph.key} paths={glyph.paths} size={ICON_STEP[size]} label={label} />
+    )
+  }
+</span>
+
+<style>
+  .bcn-entity-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+    line-height: 0;
+    /* Both weights read the SAME --_c, so a style flip never re-picks a color. */
+    background: color-mix(in srgb, var(--_c) 12%, transparent);
+    color: var(--_c);
+    border: 1px solid color-mix(in srgb, var(--_c) 30%, transparent);
+  }
+
+  /* fill — neutral glyph on the color; the bold landmark weight. */
+  .bcn-entity-logo[data-style='fill'] {
+    background: var(--_c);
+    color: var(--color-text-inverse);
+    border-color: transparent;
+  }
+
+  /* image — the tile is the crop; no tint, no hairline competing with the photo. */
+  .bcn-entity-logo[data-style='image'] {
+    background: var(--color-surface-sunken);
+    border-color: var(--color-border-light);
+  }
+  .bcn-entity-logo__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Tile box + the two off-scale glyph pins (esa-icon resolves these public tokens). */
+  .bcn-entity-logo[data-size='sm'] { width: 24px; height: 24px; }
+  .bcn-entity-logo[data-size='md'] { width: 32px; height: 32px; --icon-size-sm: 18px; }
+  .bcn-entity-logo[data-size='lg'] { width: 48px; height: 48px; }
+  .bcn-entity-logo[data-size='xl'] { width: 72px; height: 72px; --icon-size-xl: 36px; }
+
+  .bcn-entity-logo[data-shape='rounded'][data-size='sm'],
+  .bcn-entity-logo[data-shape='rounded'][data-size='md'] { border-radius: var(--radius-200); }
+  .bcn-entity-logo[data-shape='rounded'][data-size='lg'],
+  .bcn-entity-logo[data-shape='rounded'][data-size='xl'] { border-radius: var(--radius-400); }
+  .bcn-entity-logo[data-shape='circle'] { border-radius: var(--radius-full); }
+</style>

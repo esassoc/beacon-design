@@ -168,6 +168,11 @@
   --bcn-status-in-progress: var(--color-warning);
   --bcn-status-completed:   var(--color-success);
   --bcn-status-overdue:     var(--color-danger);
+  /* On Hold is DARKER than not-started, not lighter: a component someone
+     deliberately paused is a decision, where not-started is an absence. Added
+     with the component index, which is the first surface to render all four
+     lifecycle states beside each other. */
+  --bcn-status-on-hold:     var(--bcn-gray-600);
 
   /* Progress-report fill/background pairs. */
   --bcn-progress-not-started:    #444e86;
@@ -200,6 +205,38 @@
   --bcn-helpbar-fg:        rgba(255, 255, 255, 0.92);
   --bcn-helpbar-fg-muted:  rgba(255, 255, 255, 0.72);
   --bcn-helpbar-hover-bg:  rgba(255, 255, 255, 0.10);
+
+  /* ===== Entity mark palette — the 20 identity swatches =====
+     A user picks one of these plus a glyph to give a Component (and later a
+     Project) a LANDMARK: the parking-garage-floor argument — a visual anchor
+     that says "you are on the orange one", not decoration. Deliberately NOT
+     semantic: these never mean status, health, or urgency, so they are their
+     own primitive ramp rather than re-points of --color-*.
+
+     One even hue wheel at a single lightness, so no swatch reads louder than
+     another and every one carries white foreground at AA (fill mode) while
+     staying legible as a glyph on the neutral tile (outline mode). Raw values
+     live here per token discipline; entity-marks.ts references them by var(). */
+  --bcn-mark-red:      #c0392b;
+  --bcn-mark-rust:     #b3441d;
+  --bcn-mark-orange:   #b35309;
+  --bcn-mark-amber:    #96650b;
+  --bcn-mark-olive:    #6b7519;
+  --bcn-mark-moss:     #4d7c1f;
+  --bcn-mark-green:    #2f7d32;
+  --bcn-mark-emerald:  #12795c;
+  --bcn-mark-teal:     #0e807b;
+  --bcn-mark-cyan:     #0e7490;
+  --bcn-mark-sky:      #0369a1;
+  --bcn-mark-blue:     #1d4ed8;
+  --bcn-mark-indigo:   #4338ca;
+  --bcn-mark-violet:   #6d28d9;
+  --bcn-mark-purple:   #7e22ce;
+  --bcn-mark-fuchsia:  #a21caf;
+  --bcn-mark-magenta:  #b21e63;
+  --bcn-mark-rose:     #be123c;
+  --bcn-mark-brown:    #78503c;
+  --bcn-mark-slate:    #475569;
 }
 
 /* ===== Smooth in-page scrolling — app-wide, canonical spot =====

@@ -1,0 +1,232 @@
+---
+// <BcnSetupNotes> — the closing section of the Component Setup comparison page:
+// what separates the two models, what neither of them settles, and what a
+// reviewer should actually react to.
+//
+// The page exists to force a choice. Two models of the same job sit above this
+// section, and the temptation in a critique is to praise both and pick neither.
+// So this section names the ONE question that decides it — whether the job is a
+// backlog to work down or a stream to keep up with — and lists the things a
+// reviewer can disagree with concretely rather than in general.
+//
+// bcn-lego-checked: esa-card is each group's chrome. Checked Ecology for a
+// comparison/decision-notes lego (esa-alert-box is a single inline notice;
+// esa-tab-layout switches views rather than contrasting them) and Beacon prod
+// (no annotation surface). bcn-setup-notes is the reusable home for a
+// prototype's closing annotation; its own CSS is the two-column contrast table.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import { SETUP_TOTALS } from '../../data/component-commitments';
+
+// The contrast, one row per axis. Written so neither column reads as the
+// recommended one — the page is a question, not a proposal.
+const CONTRAST = [
+  {
+    axis: 'The bet',
+    a: 'Deciding is slow because the list is unusable. Give the user facets that work and the power to act on many at once.',
+    b: 'Deciding is slow because nobody starts. Show one question at a time and make the batch end.',
+  },
+  {
+    axis: 'Best when',
+    a: 'A large backlog arrives at once — a new source document lands and 40 commitments need sorting by species and type.',
+    b: 'A steady trickle — six commitments have appeared since Tuesday and the user has ten minutes.',
+  },
+  {
+    axis: 'Reading the commitment',
+    a: 'Preview pane beside the list. Fast to skim, easy to decide without fully reading.',
+    b: 'Full width, given room. Harder to skim past, slower per item.',
+  },
+  {
+    axis: 'Rationale',
+    a: 'Per item, or one for a batch — with a warning naming how many existing rationales it would overwrite.',
+    b: 'Always per item. A batch rationale is structurally impossible.',
+  },
+  {
+    axis: 'Risk',
+    a: 'Bulk makes a wrong decision cheap to make at scale.',
+    b: 'A user who skips everything ends where they started, with a queue that felt like progress.',
+  },
+];
+
+// The things that are genuinely unresolved — separated from taste, because
+// these need a decision from someone, not a preference.
+const OPEN = [
+  {
+    q: 'Should "new since last review" be per user or per component?',
+    why: 'Per component is one stored date and matches how the decision record already works. Per user means two people reviewing the same component each see their own delta, which is friendlier and is a new table.',
+  },
+  {
+    q: 'What resets the treadmill?',
+    why: 'A commitment added to a source document becomes undecided for every component in the project. Whether that is right depends on whether components are expected to be exhaustive. Nobody has said.',
+  },
+  {
+    q: 'Can a decision be undone?',
+    why: 'There is no unset path today — once a row exists it is applied or dismissed forever. Both models assume undo is possible; neither shows what happens to the actions that dismissal already deleted.',
+  },
+  {
+    q: 'Does Suggested earn its place?',
+    why: 'It matches on shared species or requirement type with commitments already applied here. That is a weak signal on a decision with real consequences, and a wrong suggestion is worse than none.',
+  },
+];
+
+const EVALUATE = [
+  'Read one commitment in each model. Which one did you actually understand well enough to decide on?',
+  `Both lead with ${SETUP_TOTALS.undecided} undecided and ${SETUP_TOTALS.newSince} new since the last review. Is that the right pair of numbers, or is one of them noise?`,
+  'Does "applying this creates N actions" land as the consequence it is, or does it read as a detail?',
+  'In Model A, is the bulk bar too easy to reach? In Model B, is Skip too easy to press?',
+  'Is a drawer the right container at all, or does this want to be a page?',
+];
+---
+
+<section class="bcn-sn stack" data-gap="md" aria-labelledby="bcn-sn-title">
+  <div>
+    <h2 class="type-section-title" id="bcn-sn-title">Choosing between them</h2>
+    <p class="type-body bcn-sn__lede">
+      One question decides it: is applying commitments to a component a backlog you work down, or a
+      stream you keep up with? Model A assumes the first. Model B assumes the second.
+    </p>
+  </div>
+
+  <EsaCard title="Where they differ" variant="outlined">
+    <table class="bcn-sn__table">
+      <thead>
+        <tr>
+          <th scope="col" class="bcn-sn__axis">&nbsp;</th>
+          <th scope="col">Model A — decision workspace</th>
+          <th scope="col">Model B — triage queue</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          CONTRAST.map((r) => (
+            <tr>
+              <th scope="row" class="bcn-sn__axis">
+                {r.axis}
+              </th>
+              <td>{r.a}</td>
+              <td>{r.b}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </EsaCard>
+
+  <div class="bcn-sn__grid">
+    <EsaCard title="Still open" variant="outlined">
+      <ul class="bcn-sn__open">
+        {
+          OPEN.map((o) => (
+            <li class="bcn-sn__openrow">
+              <span class="bcn-sn__q">{o.q}</span>
+              <span class="bcn-sn__why">{o.why}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </EsaCard>
+
+    <EsaCard title="What to react to" variant="outlined">
+      <ol class="bcn-sn__list">{EVALUATE.map((e) => <li class="bcn-sn__item">{e}</li>)}</ol>
+      <p class="type-caption bcn-sn__caveat">
+        Nothing here saves. Both models are pictures of the feature, built to be argued with.
+      </p>
+    </EsaCard>
+  </div>
+</section>
+
+<style>
+  .bcn-sn__lede {
+    margin: var(--spacing-200) 0 0;
+    max-width: 78ch;
+    color: var(--color-text-secondary);
+  }
+
+  /* Wide content scrolls inside its own container rather than the page. */
+  .bcn-sn__table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+  .bcn-sn__table th,
+  .bcn-sn__table td {
+    padding: var(--spacing-250) var(--spacing-300);
+    vertical-align: top;
+    font-size: var(--type-size-150, 0.875rem);
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+  .bcn-sn__table thead th {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .bcn-sn__table tbody tr + tr th,
+  .bcn-sn__table tbody tr + tr td {
+    border-top: 1px solid var(--color-border-light);
+  }
+  .bcn-sn__axis {
+    width: 9rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    white-space: nowrap;
+  }
+  @media (max-width: 60rem) {
+    .bcn-sn__axis {
+      width: auto;
+      white-space: normal;
+    }
+  }
+
+  .bcn-sn__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--spacing-400);
+    align-items: start;
+  }
+
+  .bcn-sn__open {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .bcn-sn__openrow {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+    padding: var(--spacing-250) 0;
+  }
+  .bcn-sn__openrow + .bcn-sn__openrow {
+    border-top: 1px solid var(--color-border-light);
+  }
+  .bcn-sn__q {
+    font-size: var(--type-size-150, 0.875rem);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .bcn-sn__why {
+    font-size: var(--type-size-150, 0.875rem);
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+
+  .bcn-sn__list {
+    margin: 0;
+    padding-left: 1.35rem;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-250, 0.625rem);
+  }
+  .bcn-sn__item {
+    font-size: var(--type-size-150, 0.875rem);
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+  .bcn-sn__caveat {
+    margin: var(--spacing-300) 0 0;
+    padding-top: var(--spacing-300);
+    border-top: 1px solid var(--color-border-light);
+    color: var(--color-text-tertiary);
+  }
+</style>

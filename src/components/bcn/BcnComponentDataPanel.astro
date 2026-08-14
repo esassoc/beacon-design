@@ -1,0 +1,461 @@
+---
+// <BcnComponentDataPanel> — the COMPONENT dashboard's data rail panel: one
+// esa-side-dialog hosting everything a component owns of its own record. The slim
+// sibling of <BcnProjectDataPanel>, same grammar (?data= URL contract, one body per
+// key, footer actions, read-only lists), a quarter the size.
+//
+// WHY FOUR KEYS AND NOT SIX — read this before "fixing" the asymmetry. The project
+// panel carries species, milestones, construction activities, seasons, spatial and
+// project info. Species, seasons and construction activities are PROJECT-level data:
+// a component does not own, extend or scope them. Giving a component its own copy of
+// those lists would imply a component-level override that the data model does not
+// have — the user would edit a species here and reasonably expect it to mean
+// something narrower than the project's, and nothing would be stored. So a component
+// gets exactly the four surfaces it can actually change or is actually scoped to:
+//
+//   component-info · the Component record (+ tenant custom fields, + delete)
+//   milestones     · ComponentMilestone.EstimatedDate — THE one editable thing a
+//                    component has of its own, an override of the project's date
+//   sources        · read-only; sources reach a component through its commitments,
+//                    never by direct assignment, so there is no Add
+//   layers         · read-only picks from the project's spatial layers; the layers
+//                    themselves are managed in the Spatial Library zone
+//
+// MILESTONES EDIT IN THE ROW, NOT IN A CHILD DRAWER. The project panel stacks a
+// second esa-side-dialog because its entities are multi-field forms that cannot live
+// in a 480px card. A component milestone has exactly ONE editable datum — a date —
+// and that date is only meaningful beside the project estimate it overrides, so both
+// dates sit on the row and the picker is the row. A drawer to hold a single date
+// field would be ceremony; if a second editable component field ever appears, the
+// child-drawer pattern is in BcnProjectDataPanel ready to copy.
+//
+// bcn-lego-checked: no esa-* "data panel" exists — the frame IS esa-side-dialog and
+// every control inside is a lego (esa-text-field / esa-textarea / esa-select /
+// esa-date-picker / esa-switch-toggle / esa-confirm-dialog / esa-button /
+// esa-empty-state) or a documented bcn- component (BcnKeyValue, BcnDangerZone).
+// Checked Beacon prod: this ports component-upsert-dialog + the component-milestones
+// tab. The remaining CSS is body-composition glue for the slim rows, deliberately
+// kept identical in grammar to bcn-pdp so the two panels read as one family.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import BcnKeyValue from './BcnKeyValue.astro';
+import BcnDangerZone from './BcnDangerZone.astro';
+import { COMPONENT, COMPONENT_MILESTONES, COMPONENT_LAYERS, MILESTONE_OVERRIDE_COUNT } from '../../data/component-detail';
+
+interface Props {
+  /** Root element id — also the anchor for the panel's confirm dialog. */
+  id?: string;
+}
+const { id = 'cd-panel' } = Astro.props;
+const confirmId = `${id}-delete-confirm`;
+
+const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+/** ISO → "Apr 30, 2026". String math, no Date — the fixture must render the same on every run. */
+const fmt = (iso: string): string => {
+  const [y, m, d] = iso.split('-').map(Number);
+  return `${MONTHS_SHORT[m - 1]} ${d}, ${y}`;
+};
+
+// THE SORT STANDARD (same as the project panel): alphabetical everywhere except the
+// date-primary list. Milestones are schedule order — the project estimate is the anchor.
+const MILESTONES_SORTED = [...COMPONENT_MILESTONES].sort(
+  (a, b) => a.projectDate.localeCompare(b.projectDate) || a.name.localeCompare(b.name)
+);
+const SOURCES_SORTED = [...COMPONENT.sources].sort((a, b) => a.name.localeCompare(b.name));
+const LAYERS_SORTED = [...COMPONENT_LAYERS].sort((a, b) => a.name.localeCompare(b.name));
+
+const STATUS_OPTIONS = JSON.stringify(
+  ['Active', 'On Hold', 'Complete'].map((s) => ({ label: s, value: s }))
+);
+---
+
+<esa-side-dialog
+  id={id}
+  data-cdp-root
+  data-cdp-confirm={confirmId}
+  position="right"
+  style="--_width: min(480px, 94vw); --z-modal: 1300; --z-modal-backdrop: 1250; --backdrop-filter: blur(4px);"
+>
+  <!-- Panel FOOTER. Only the editable keys get one; the controller re-slots this
+       span to 'void' for sources / layers, which collapses the lego's footer bar.
+       Save sits LEFT of Cancel (Windows order — the house rule). -->
+  <span slot="footer" data-cdp-foot class="bcn-cdp__foot">
+    <span data-cdp-foot-for="component-info" class="bcn-cdp__foot-actions" hidden>
+      <span data-cdp-save><EsaButton color="primary">Save</EsaButton></span>
+      <span data-cdp-cancel><EsaButton color="ghost">Cancel</EsaButton></span>
+    </span>
+    <span data-cdp-foot-for="milestones" class="bcn-cdp__foot-actions" hidden>
+      <span data-cdp-save><EsaButton color="primary">Save dates</EsaButton></span>
+      <span data-cdp-cancel><EsaButton color="ghost">Cancel</EsaButton></span>
+    </span>
+  </span>
+
+  <!-- ── Component Info — straight into the editable record form, ending in the
+       danger zone that gives delete-component its home. ── -->
+  <section class="bcn-cdp" data-cdp-body="component-info" data-cdp-heading="Component info" hidden>
+    <div class="bcn-cdp__form">
+      <esa-text-field label="Name" value={COMPONENT.name} required></esa-text-field>
+      <esa-select
+        label="Status"
+        options={STATUS_OPTIONS}
+        data-cdp-select-value={COMPONENT.status}
+        required></esa-select>
+      <div class="bcn-cdp__pair">
+        <esa-date-picker label="Start date" value={COMPONENT.startDate} required></esa-date-picker>
+        <esa-date-picker label="Expected end date" value={COMPONENT.expectedEndDate}></esa-date-picker>
+      </div>
+      <esa-textarea label="Description" value={COMPONENT.description} rows={3}></esa-textarea>
+
+      <h3 class="bcn-cdp__group-title">Custom fields</h3>
+      <div class="bcn-cdp__form">
+        {
+          COMPONENT.customFields.map((f) => (
+            <esa-text-field label={f.label} value={f.value}></esa-text-field>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="bcn-cdp__danger">
+      <BcnDangerZone
+        title="Delete this component"
+        description="Removes the component, its work areas, its milestone dates, and its commitment applicability decisions from Beacon."
+      >
+        <span data-cdp-delete><EsaButton color="danger" appearance="soft">Delete component</EsaButton></span>
+      </BcnDangerZone>
+    </div>
+  </section>
+
+  <!-- ── Milestones — the one thing a component really edits. Each row pairs the
+       PROJECT's estimate (read-through) with this component's override, because an
+       override only means anything against what it overrides. No override = the row
+       reads "Inherited"; an override swaps that word for the revert action. ── -->
+  <section class="bcn-cdp" data-cdp-body="milestones" data-cdp-heading="Milestones" hidden>
+    <div class="bcn-cdp__lede">
+      <BcnKeyValue label="Component dates">
+        <span class="bcn-cdp__count">
+          <span data-cdp-override-count>{MILESTONE_OVERRIDE_COUNT}</span> of {COMPONENT_MILESTONES.length}
+        </span>
+      </BcnKeyValue>
+    </div>
+
+    {
+      MILESTONES_SORTED.length === 0 ? (
+        <EsaEmptyState title="No project milestones" description="Milestones are defined on the project and inherited here." />
+      ) : (
+        <ol class="bcn-cdp__rows">
+          {MILESTONES_SORTED.map((m) => (
+            <li class="bcn-cdp__row" data-cdp-ms data-cdp-override={m.componentDate ? 'true' : 'false'}>
+              <div class="bcn-cdp__row-head">
+                <span class="bcn-cdp__row-name">{m.name}</span>
+                <span class="bcn-cdp__state" data-cdp-ms-state hidden={!!m.componentDate}>
+                  Inherited
+                </span>
+                <span class="bcn-cdp__revert" data-cdp-ms-clear hidden={!m.componentDate}>
+                  <EsaButton color="ghost" size="sm" icon="rotate-ccw" aria-label={`Use the project date for ${m.name}`}>
+                    Use project date
+                  </EsaButton>
+                </span>
+              </div>
+              <p class="bcn-cdp__row-sub">{m.description}</p>
+              <div class="bcn-cdp__pair">
+                <BcnKeyValue label="Project estimate" value={fmt(m.projectDate)} />
+                <esa-date-picker
+                  label="Component date"
+                  size="sm"
+                  value={m.componentDate ?? ''}
+                  data-cdp-ms-date></esa-date-picker>
+              </div>
+            </li>
+          ))}
+        </ol>
+      )
+    }
+  </section>
+
+  <!-- ── Source documents — read-only. A source reaches a component through its
+       commitments, so there is no Add here and no footer. ── -->
+  <section class="bcn-cdp" data-cdp-body="sources" data-cdp-heading="Source documents" hidden>
+    {
+      SOURCES_SORTED.length === 0 ? (
+        <EsaEmptyState title="No source documents" description="Sources appear here once a commitment from them applies to this component." />
+      ) : (
+        <ul class="bcn-cdp__rows">
+          {SOURCES_SORTED.map((s) => (
+            <li>
+              <a class="bcn-cdp__link-row" href={s.href}>
+                <span class="bcn-cdp__row-icon"><EsaIcon name="file-text" size="sm" /></span>
+                <span class="bcn-cdp__row-name">{s.name}</span>
+                <span class="bcn-cdp__row-icon"><EsaIcon name="chevron-right" size="sm" /></span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </section>
+
+  <!-- ── Footprint layers — read-only picks from the project's spatial layers; the
+       per-row switch controls what this component draws. ── -->
+  <section class="bcn-cdp" data-cdp-body="layers" data-cdp-heading="Footprint layers" hidden>
+    {
+      LAYERS_SORTED.length === 0 ? (
+        <EsaEmptyState title="No layers selected" description="Add layers to the project in the Spatial Library, then pick them here." />
+      ) : (
+        <ul class="bcn-cdp__rows">
+          {LAYERS_SORTED.map((l) => (
+            <li class="bcn-cdp__row bcn-cdp__row--inline">
+              <span class="bcn-cdp__row-main">
+                <span class="bcn-cdp__row-name">{l.name}</span>
+                <span class="bcn-cdp__row-sub">{l.source}</span>
+              </span>
+              <span class="bcn-cdp__code">{l.geometry}</span>
+              {/* The switch's accessible name is its own label, clipped via ::part
+                  below — the row already shows the layer name, and repeating
+                  "Visible" on every row would be chrome. */}
+              <esa-switch-toggle size="sm" checked={l.visible} label={`Show ${l.name}`}></esa-switch-toggle>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+    <div class="bcn-cdp__zone">
+      <BcnKeyValue label="Layer management">
+        <a class="bcn-cdp__zone-link" href="#spatial-library">
+          Spatial Library <EsaIcon name="chevron-right" size="sm" />
+        </a>
+      </BcnKeyValue>
+    </div>
+  </section>
+</esa-side-dialog>
+
+<esa-confirm-dialog
+  id={confirmId}
+  variant="danger"
+  heading="Delete Component"
+  message="Are you sure you want to delete this component? Its work areas, milestone dates, and commitment applicability decisions are deleted with it. This action cannot be undone."
+  confirm-label="Delete"
+  cancel-label="Cancel"
+  style="--z-modal: 1400; --z-modal-backdrop: 1350;"
+></esa-confirm-dialog>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-confirm-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-select';
+  import '@esa/ecology/esa-date-picker';
+  import '@esa/ecology/esa-switch-toggle';
+  import { initComponentDataPanels } from './component-data-panel';
+
+  initComponentDataPanels();
+</script>
+
+<style>
+  /* Panel-body composition glue only — every control above is a lego. */
+  .bcn-cdp {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+  /* display:flex would silently beat the UA's [hidden] rule — restate it, or every
+     body renders stacked in the one panel. */
+  .bcn-cdp[hidden] {
+    display: none;
+  }
+
+  /* ── Footer: right-aligned, Save left of Cancel (Windows order) ── */
+  .bcn-cdp__foot {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
+  .bcn-cdp__foot-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+  .bcn-cdp__foot-actions[hidden] {
+    display: none;
+  }
+
+  /* ── Rows — the slim card grammar shared with bcn-pdp: off-white so the row parts
+     from the panel's white body, mid-gray hairline (light read as none). ── */
+  .bcn-cdp__rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .bcn-cdp__row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    padding: var(--spacing-300);
+    background: var(--color-surface-sunken);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+  }
+  .bcn-cdp__row--inline {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+  .bcn-cdp__row-head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+  .bcn-cdp__row-main {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+    flex: 1;
+  }
+  .bcn-cdp__row-name {
+    flex: 1;
+    min-width: 0;
+    font-size: var(--form-font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    line-height: var(--line-height-tight);
+  }
+  .bcn-cdp__row-sub {
+    font-size: var(--type-size-150);
+    color: var(--color-text-tertiary);
+    line-height: var(--line-height-tight);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bcn-cdp__row-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    color: var(--color-text-muted);
+  }
+  p.bcn-cdp__row-sub {
+    margin: 0;
+    white-space: normal;
+  }
+
+  /* Inheriting rows say so in a quiet word — no colored border, no micro-label. */
+  .bcn-cdp__state {
+    flex-shrink: 0;
+    font-size: var(--type-size-150);
+    color: var(--color-text-tertiary);
+  }
+  .bcn-cdp__state[hidden],
+  .bcn-cdp__revert[hidden] {
+    display: none;
+  }
+  .bcn-cdp__revert {
+    flex-shrink: 0;
+  }
+
+  /* Geometry type — the quiet mono chip (white on the off-white row). */
+  .bcn-cdp__code {
+    flex-shrink: 0;
+    padding: 1px var(--spacing-200);
+    font-family: var(--font-mono);
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-100);
+  }
+
+  /* ── Source rows — a whole-row link ── */
+  .bcn-cdp__link-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    padding: var(--spacing-300);
+    background: var(--color-surface-sunken);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    text-decoration: none;
+  }
+  .bcn-cdp__link-row:hover {
+    border-color: var(--color-border-strong);
+  }
+
+  /* esa-switch-toggle's only accessible name is its own label; the layer name is
+     already the row's, so the label is CLIPPED (still in the a11y tree) through the
+     lego's exposed part rather than dropped. */
+  .bcn-cdp__row--inline esa-switch-toggle::part(label) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .bcn-cdp__link-row:hover .bcn-cdp__row-name {
+    color: var(--color-primary);
+  }
+
+  /* ── Milestone header count + the Spatial Library field ── */
+  .bcn-cdp__count {
+    font-size: var(--form-font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .bcn-cdp__lede,
+  .bcn-cdp__zone {
+    padding-bottom: var(--spacing-300);
+    border-bottom: 1px solid var(--color-border-light);
+  }
+  .bcn-cdp__zone {
+    padding-bottom: 0;
+    padding-top: var(--spacing-300);
+    border-bottom: 0;
+    border-top: 1px solid var(--color-border-light);
+  }
+  .bcn-cdp__zone-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    font-size: var(--form-font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+  .bcn-cdp__zone-link:hover {
+    color: var(--color-primary-hover);
+  }
+
+  /* ── Forms ── */
+  .bcn-cdp__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+  .bcn-cdp__pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    gap: var(--spacing-300) var(--spacing-400);
+  }
+  @media (max-width: 560px) {
+    .bcn-cdp__pair {
+      grid-template-columns: 1fr;
+    }
+  }
+  .bcn-cdp__group-title {
+    margin: 0;
+    font-size: var(--type-size-200);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .bcn-cdp__danger {
+    padding-top: var(--spacing-500);
+    margin-top: var(--spacing-300);
+    border-top: 1px solid var(--color-border-light);
+  }
+</style>

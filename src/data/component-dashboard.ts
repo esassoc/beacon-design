@@ -4,20 +4,39 @@
 // the real entity (esassoc/Beacon Component.cs dependent collections), so the
 // Astro page binds the way a live page eventually will.
 
+import { MARK_COLORS, MARK_GLYPHS, type EntityMark } from './entity-marks';
+
 export type ComponentStatus = 'not-started' | 'in-progress' | 'on-hold' | 'complete';
 
 export interface ComponentStatusMeta {
   label: string;
-  /** Lifecycle color — value-driven, fed to BcnStatusChip and the summary viz. */
+  /**
+   * Lifecycle color — value-driven, fed to BcnStatusChip, the summary viz, and the
+   * grid's status cell. A TOKEN REFERENCE, not a literal (same idiom as PULSE_META in
+   * project-dashboard.ts): the value is read into a `--_chip` / `--_c` custom property,
+   * so the theme — including dark mode — drives it. The field keeps the name `hex` for
+   * its consumers; what it carries is a `var(--…)`.
+   */
   hex: string;
 }
 
-/** The lifecycle palette for this surface: quiet gray → amber → gray → green. */
+/**
+ * The lifecycle palette for this surface: quiet gray → amber → gray → green.
+ *
+ * Re-pointed off raw literals (#bdbdbd / #f59e0b / #656565 / #22c55e) onto the Beacon
+ * status-color standard declared in theme-beacon.css, so this surface can never drift
+ * from the dashboards, the grid chips, and the pulses. Note `complete` moves from the
+ * generic #22c55e to Beacon's own --color-success (#2e7571) — that was the whole point
+ * of the standard. `on-hold` had no --bcn-status-* entry when this was re-pointed; the
+ * hook was added alongside the component index (the first surface to render all four
+ * lifecycle states side by side), and it is deliberately DARKER than not-started — a
+ * paused component is a decision, where not-started is an absence.
+ */
 export const STATUS_META: Record<ComponentStatus, ComponentStatusMeta> = {
-  'not-started': { label: 'Not started', hex: '#bdbdbd' },
-  'in-progress': { label: 'In progress', hex: '#f59e0b' },
-  'on-hold': { label: 'On hold', hex: '#656565' },
-  complete: { label: 'Complete', hex: '#22c55e' },
+  'not-started': { label: 'Not started', hex: 'var(--bcn-status-not-started)' },
+  'in-progress': { label: 'In progress', hex: 'var(--color-warning)' },
+  'on-hold': { label: 'On hold', hex: 'var(--bcn-status-on-hold)' },
+  complete: { label: 'Complete', hex: 'var(--color-success)' },
 };
 
 /** Fixed display order for the breakdown bar + legend. */
@@ -79,6 +98,38 @@ export function summarize(components: ProjectComponent[]): ComponentSummary {
 /** Board order: overdue components lead (needs-attention first), most-overdue on top. */
 export function byNeedsAttention(components: ProjectComponent[]): ProjectComponent[] {
   return [...components].sort((a, b) => b.overdueActions - a.overdueActions);
+}
+
+// ── Derived identity marks (fixture-only) ───────────────────────────────────
+/**
+ * A component's mark is a REAL stored field in the shipping model (EntityMark: glyph
+ * key, color key, style — see data/entity-marks.ts). These fixtures predate it and
+ * carry no `mark`, so this derives a stand-in from the component's name.
+ *
+ * Deterministic by construction — one FNV-1a pass over the name, two decorrelated
+ * draws off the same hash so glyph and color don't march in lockstep. Same name, same
+ * mark, on every surface and every demo run; no Math.random() anywhere near a screen a
+ * client watches. Style is `outline` (color glyph on a neutral tile), the weight
+ * entity-marks.ts designates for dense surfaces like a grid row.
+ *
+ * Replace with the persisted `mark` the moment the fixture grows one — this is a
+ * shim, not a policy.
+ */
+export function markForComponent(name: string): EntityMark {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < name.length; i += 1) {
+    h ^= name.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  const glyphIndex = Math.abs(h) % MARK_GLYPHS.length;
+  // A second draw off a scrambled copy of the hash: taking glyph and color from the
+  // same number would pair them permanently (every "waves" component also teal).
+  const colorIndex = Math.abs(Math.imul(h ^ 0x9e3779b9, 0x85ebca6b)) % MARK_COLORS.length;
+  return {
+    glyph: MARK_GLYPHS[glyphIndex].key,
+    color: MARK_COLORS[colorIndex].key,
+    style: 'outline',
+  };
 }
 
 // ── Populated project — a realistic DCP-shaped set, mixed statuses/rollups ──

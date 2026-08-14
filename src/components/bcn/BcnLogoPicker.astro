@@ -1,0 +1,248 @@
+---
+// <BcnLogoPicker> — the dialog that makes a component's identity mark: "pick a color
+// and a symbol, like you would for an account avatar."
+//
+// Why a picker instead of an upload field: asking someone for a good picture of the
+// Bouldin Island Launch Shaft is a question with no good answer and a high
+// abandonment rate — the field stays empty and every component in the project looks
+// identical (the full argument lives in src/data/entity-marks.ts). Two closed sets,
+// 20 glyphs × 20 swatches, mean two clicks always produce something legible and
+// impossible to get wrong. The photo path survives as the tertiary action.
+//
+// The LIVE PREVIEW is the point of the layout: an xl <BcnEntityLogo> sits beside the
+// entity's real name at the top, and every glyph/swatch/style click repaints it
+// immediately — the user is watching the landmark they are making, at the size it
+// will actually appear in a component header.
+//
+// Composition: esa-dialog (which brings Esc, click-outside, the close button and the
+// focus trap — this component deliberately adds none of its own dismissal), an
+// esa-button-toggle for Filled/Outline, esa-icon inside each glyph tile, esa-button
+// for the footer, and the .stack/.cluster/.grid/.repel layout primitives. Footer
+// follows the house Windows order: Save LEFT of Cancel, tertiary far left.
+//
+// Wiring: setupLogoPicker(root) is called for every rendered picker on load and the
+// controller is parked on the element as `.logoPicker`, so a host page opens it with
+// `document.getElementById('…').logoPicker.open(mark)` and listens for the bubbling
+// `bcn-mark-change` event. The tertiary "Upload an image instead" button is left for
+// the host to wire — its hook is `[data-lp="upload"]` — because where an upload goes
+// (esa-file-upload drawer, OS picker) is the host surface's decision, not the
+// picker's.
+//
+// bcn-lego-checked: no esa-* lego is an icon/symbol picker — I walked the full
+// catalog. esa-color-picker (a REAL lego, and the closest thing) is a FREEFORM hex
+// picker: native <input type=color> + a hex text field, its value is a hex string and
+// its swatch a11y label is literally "Select color <value>". A mark persists a stable
+// COLOR KEY from a closed 20-swatch ramp (never a hex, so the ramp stays themeable),
+// carries no free-color affordance by design, and has no glyph axis at all — so the
+// lego models a different data contract, not a different skin. esa-select/
+// esa-radio-group/esa-chip-group carry no glyph or color rendering; esa-dialog,
+// esa-button-toggle, esa-icon and esa-button ARE composed here for everything they do
+// cover. Checked Beacon (no mark/avatar picker exists — components are plain AG Grid
+// rows). bcn-logo-picker is the reusable home. legoGap noted for the hub: a keyed,
+// closed-set swatch group (value = key, label = name) would be a real
+// esa-color-picker variant.
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import BcnEntityLogo from './BcnEntityLogo.astro';
+import {
+  MARK_CATEGORY_ORDER,
+  MARK_COLORS,
+  MARK_GLYPHS,
+  type EntityMark,
+} from '../../data/entity-marks';
+
+interface Props {
+  /** The dialog's DOM id — the handle a host uses to open it. */
+  id?: string;
+  /** The current mark, pre-selected on open. */
+  mark: EntityMark;
+  /** Shown beside the live preview, e.g. "Bouldin Island Launch Shaft". */
+  entityName: string;
+  /** Dialog heading. */
+  heading?: string;
+}
+const { id = 'bcn-logo-picker', mark, entityName, heading = 'Component logo' } = Astro.props;
+
+// This dialog edits the GENERATED mark, so the preview always draws the glyph/color
+// pair even when the entity currently carries a photo — the photo is the other
+// branch, reached through "Upload an image instead".
+const previewMark: EntityMark = { glyph: mark.glyph, color: mark.color, style: mark.style };
+
+const glyphGroups = MARK_CATEGORY_ORDER.map((category) => ({
+  category,
+  glyphs: MARK_GLYPHS.filter((g) => g.category === category),
+}));
+---
+
+<esa-dialog id={id} heading={heading} size="md" data-bcn-logo-picker>
+  <div class="bcn-logo-picker stack" data-gap="lg">
+    <!-- Live preview — the landmark at the size it will wear in a header. -->
+    <div class="bcn-logo-picker__preview cluster" data-gap="sm">
+      <BcnEntityLogo mark={previewMark} size="xl" />
+      <span class="bcn-logo-picker__name type-card-title">{entityName}</span>
+    </div>
+
+    <esa-button-toggle class="bcn-logo-picker__style" label="Style" size="sm"></esa-button-toggle>
+
+    <section class="stack" data-gap="sm" aria-labelledby={`${id}-symbol-label`}>
+      <span class="bcn-logo-picker__field-label" id={`${id}-symbol-label`}>Symbol</span>
+      {
+        glyphGroups.map(({ category, glyphs }) => (
+          <div class="stack" data-gap="xs">
+            <span class="bcn-logo-picker__group" id={`${id}-cat-${category}`}>{category}</span>
+            <div
+              class="bcn-logo-picker__grid bcn-logo-picker__grid--glyph grid"
+              data-gap="xs"
+              role="group"
+              aria-labelledby={`${id}-cat-${category}`}
+            >
+              {glyphs.map((g) => (
+                <button
+                  type="button"
+                  class="bcn-logo-picker__glyph"
+                  data-glyph-option={g.key}
+                  aria-pressed="false"
+                  aria-label={g.label}
+                  title={g.label}
+                >
+                  <EsaIcon name={g.key} paths={g.paths} size="md" />
+                </button>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </section>
+
+    <section class="stack" data-gap="sm" aria-labelledby={`${id}-color-label`}>
+      <span class="bcn-logo-picker__field-label" id={`${id}-color-label`}>Color</span>
+      <div
+        class="bcn-logo-picker__grid bcn-logo-picker__grid--color grid"
+        data-gap="xs"
+        role="group"
+        aria-labelledby={`${id}-color-label`}
+      >
+        {
+          MARK_COLORS.map((c) => (
+            <button
+              type="button"
+              class="bcn-logo-picker__swatch"
+              data-color-option={c.key}
+              aria-pressed="false"
+              aria-label={c.label}
+              title={c.label}
+              style={`--_c: ${c.token};`}
+            />
+          ))
+        }
+      </div>
+    </section>
+  </div>
+
+  <!-- Windows order: tertiary far left, then the action group with Save LEFT of Cancel. -->
+  <div slot="footer" class="bcn-logo-picker__foot repel" data-gap="sm">
+    <EsaButton color="ghost" size="sm" icon="upload" data-lp="upload">Upload an image instead</EsaButton>
+    <span class="cluster" data-gap="xs">
+      <EsaButton color="primary" data-lp="save">Save</EsaButton>
+      <EsaButton color="ghost" appearance="outline" data-lp="cancel">Cancel</EsaButton>
+    </span>
+  </div>
+</esa-dialog>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-button-toggle';
+  import { setupLogoPicker, type LogoPickerController } from './logo-picker';
+
+  // Park the controller on the element so a host opens the picker without importing
+  // anything (the same handle idiom BcnNodeEdit uses for the work-breakdown API).
+  document.querySelectorAll<HTMLElement>('[data-bcn-logo-picker]').forEach((root) => {
+    (root as HTMLElement & { logoPicker?: LogoPickerController }).logoPicker =
+      setupLogoPicker(root);
+  });
+</script>
+
+<style>
+  /* Before the lego upgrades, the dialog's light DOM would flash as loose page
+     content — the repo's :not(:defined) guard, same as the tab-layout panels. */
+  esa-dialog:not(:defined) { display: none; }
+
+  .bcn-logo-picker__name {
+    color: var(--color-text-primary);
+    min-width: 0;
+  }
+
+  /* Field labels match the legos' form label exactly (esa-button-toggle's own
+     `label` renders at this size/weight), so the three controls read as one form. */
+  .bcn-logo-picker__field-label {
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-medium);
+    color: var(--form-label-color);
+  }
+  /* Category headings are CONTENT, not ornament: normal case, 14px, secondary. */
+  .bcn-logo-picker__group {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+
+  /* Both option grids ride the .grid primitive; the tiles keep their own square
+     footprint and center in the auto-fit track. */
+  .bcn-logo-picker__grid { justify-items: center; }
+  .bcn-logo-picker__grid--glyph { --grid-min: 2.75rem; }
+  .bcn-logo-picker__grid--color { --grid-min: 2rem; }
+
+  .bcn-logo-picker__glyph,
+  .bcn-logo-picker__swatch {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    cursor: pointer;
+    transition:
+      border-color 150ms ease,
+      background-color 150ms ease,
+      box-shadow 150ms ease;
+  }
+  /* Keyboard focus keeps a real outline (selection is drawn with box-shadow/border
+     precisely so the focus ring never has to be suppressed). */
+  .bcn-logo-picker__glyph:focus-visible,
+  .bcn-logo-picker__swatch:focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset, 2px);
+  }
+
+  .bcn-logo-picker__glyph {
+    width: 44px;
+    height: 44px;
+    color: var(--color-text-secondary);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+  }
+  .bcn-logo-picker__glyph:hover { border-color: var(--color-border-strong); color: var(--color-text-primary); }
+  .bcn-logo-picker__glyph[aria-pressed='true'] {
+    color: var(--color-primary);
+    background: color-mix(in srgb, var(--color-primary) 10%, var(--color-surface));
+    border-color: var(--color-primary);
+  }
+
+  /* Swatch: the color IS the control, so selection reads as a ring set OFF the chip
+     (a surface-colored gap, then primary) — never a thick border, which would eat
+     into the very color being judged. */
+  .bcn-logo-picker__swatch {
+    width: 28px;
+    height: 28px;
+    background: var(--_c);
+    border: 1px solid color-mix(in srgb, var(--_c) 82%, var(--color-text-primary));
+    border-radius: var(--radius-200);
+  }
+  .bcn-logo-picker__swatch[aria-pressed='true'] {
+    box-shadow:
+      0 0 0 2px var(--color-surface),
+      0 0 0 4px var(--color-primary);
+  }
+
+  /* The footer slot is a flex-end row; the repel needs the full width to push the
+     tertiary action to the far left. */
+  .bcn-logo-picker__foot { width: 100%; }
+</style>

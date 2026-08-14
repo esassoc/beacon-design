@@ -1,0 +1,864 @@
+---
+// <BcnSetupWorkspace> — MODEL A of two for Component setup: the DECISION WORKSPACE.
+// A wide side drawer opened from the component dashboard's rail, in which a user
+// decides which of the project's commitments apply to THIS component — in bulk or one
+// at a time — and can see what each decision will DO before making it. The sibling
+// model is <BcnSetupQueue>, which takes the same job as a triage queue; the two are
+// alternatives, not layers, and only one will survive review.
+//
+// THE DATA-MODEL FINDING THIS REDESIGN TURNS ON. Prod has no "pending" state:
+// ComponentCommitment.IsApplicable is a NOT NULL bit, so "pending" is manufactured by a
+// view that LEFT JOINs every component in the project against every commitment in the
+// project and calls the misses pending. The badge is therefore a CROSS PRODUCT — it
+// counts the project, not the component — it re-inflates whenever any source document
+// gains a commitment (a treadmill wearing a queue's clothing), and it counts the
+// unfiltered set while the list beneath it is filtered to one source document. "52
+// pending" over a list of three is the data model surfacing, not a rendering bug.
+//
+// So this drawer leads with three figures that are each scoped to this component and
+// each openable as a list, and the view toggle's segment counts are COUNTED OFF THE
+// RENDERED ROWS by the controller rather than read from a parallel total — the count and
+// the list cannot disagree because they are the same act of counting.
+//
+// APPLYING HAS TEETH. Applying a commitment materializes its actions against the
+// component (prod runs ReconcileImplementationsForApplicabilityChange on save), which is
+// what fills the tracker; dismissing deletes the deletable ones back out. The preview
+// pane therefore names the actions a decision will create, by code and name. Prod never
+// says so, which is the single largest omission on the screen.
+//
+// NO CONSTRUCTION ACTIVITY FACET. Commitments are not associated to construction
+// activities in the data model, which is why prod's filter is populated and permanently
+// disabled. A control that cannot act is debt; polish is subtractive.
+//
+// OPENING IT. Anything in the page carrying [data-setup-workspace-open] opens the
+// drawer — the same document-level delegate BcnGuidanceDrawer uses — so the component
+// dashboard's rail needs no wiring of its own. The drawer emits `bcn-setup-decision`
+// ({ ids, decision, rationale }) on every write and `bcn-setup-save`
+// ({ applied, dismissed, count }) when the footer saves. One instance per page.
+//
+// VOCABULARY. "Actions", never "implementations". "Suggested" marks a row whose species
+// or requirement type overlaps what is already applied here — it ATTACHES nothing on its
+// own, exactly as in <BcnEvidenceTargets>; the marker sits on the ROW and the user still
+// decides. Never "AI", no persona, no sparkle glyph.
+//
+// bcn-lego-checked: every control here is a lego — esa-side-dialog is the drawer,
+// esa-stat the three lead figures, esa-progress-bar the decided share, esa-button-toggle
+// the view pivot, esa-filter-container / esa-filter-dropdown / esa-filter-pills /
+// esa-filter-clear-button the facet bar (inside BcnFilterBar, the spoke's carded
+// filter-bar idiom), esa-checkbox the row selector, esa-badge the Suggested / decision /
+// action-type chips, esa-button every action, esa-dialog + esa-textarea + esa-alert-box
+// the rationale flow, esa-empty-state both nothing-here states, and BcnCommitmentBadge
+// every commitment code. What is NOT a lego and is therefore hand-built here: (a) the
+// SELECTABLE LIST ROW — Ecology has no selectable/expandable data row (esa-card is a
+// container with no selection semantics or roving activation; esa-file-list is
+// file-shaped; checked Beacon, whose equivalent is an AG Grid row, not portable to a
+// 40%-wide drawer pane) so the row's hit area is a native <button>, which is also what
+// makes it keyboard-operable; (b) the floating BULK BAR — no esa-* selection/action bar
+// exists (checked); and (c) this drawer's own two-pane geometry, which is composed from
+// the .sidebar layout primitive rather than bespoke grid CSS. bcn-setup-workspace is the
+// reusable home for all three.
+import EsaStat from '@esa/ecology/esa-stat.astro';
+import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
+import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
+import EsaFilterPills from '@esa/ecology/esa-filter-pills.astro';
+import FilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
+import BcnFilterBar from './BcnFilterBar.astro';
+import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
+import BcnKeyValue from './BcnKeyValue.astro';
+import {
+  SETUP_COMMITMENTS,
+  SETUP_TOTALS,
+  DECIDED_PERCENT,
+  LAST_REVIEWED,
+  PENDING_ACTION_COUNT,
+  SOURCE_BY_ID,
+  SPECIES_LABEL,
+  facetsFor,
+  fmtDate,
+} from '../../data/component-commitments';
+
+interface Props {
+  id?: string;
+  componentName: string;
+  /** Heading, default 'Component setup — applicable commitments'. */
+  heading?: string;
+}
+const {
+  id = 'bcn-setup-workspace',
+  componentName,
+  heading = 'Component setup — applicable commitments',
+} = Astro.props;
+
+/** Action-type words as the tracker says them. Local so the fixture stays the only import. */
+const ACTION_TYPE_LABEL: Record<string, string> = {
+  tracking: 'Tracking',
+  monitoring: 'Monitoring',
+  reporting: 'Reporting',
+};
+
+const plural = (n: number, one: string, many = `${one}s`) => (n === 1 ? one : many);
+
+/** Undecided AND added after the last decision here — the treadmill, made legible. */
+const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
+
+/**
+ * The pill vocabulary is the FULL fixture's facets (every value that can ever be
+ * active), rendered once and revealed by the controller. esa-filter-pills is an .astro
+ * lego — compile-time — so pre-rendering and toggling is how a runtime list still gets
+ * the real lego chip instead of a hand-written copy of it. Pill text stays the bare
+ * value (no count): a count on an active filter would restate the list beneath it.
+ */
+const allFacets = facetsFor(SETUP_COMMITMENTS);
+const pillFilters = allFacets.flatMap((f) =>
+  f.options.map((o) => ({
+    name: f.key,
+    label: f.label,
+    value: o.value,
+    // Species options label as "SWHA · Swainson's hawk"; a pill wants the code alone.
+    displayValue: f.key === 'species' ? o.value : o.label,
+  })),
+);
+
+/** The quiet meta line under each row title. */
+const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
+  [
+    SOURCE_BY_ID[c.sourceId]?.short,
+    c.requirementType,
+    c.species.length ? c.species.join(', ') : null,
+    c.actions.length ? `${c.actions.length} ${plural(c.actions.length, 'action')}` : 'No actions',
+  ]
+    .filter(Boolean)
+    .join(' · ');
+---
+
+<esa-side-dialog
+  id={id}
+  class="bcn-sw"
+  size="lg"
+  position="right"
+  heading={heading}
+  data-setup-workspace
+>
+  <div class="bcn-sw__body">
+    <!-- ── 1. Lead band — the honest counts. Each figure is scoped to this component
+         and each one opens as a list below. No sentence explaining them: the figures
+         and their labels are the statement. ── -->
+    <header class="bcn-sw__lead">
+      <p class="bcn-sw__scope type-body">{componentName}</p>
+      <div class="bcn-sw__figures">
+        <div class="bcn-sw__figure" data-sw-figure="undecided">
+          <EsaStat
+            value={SETUP_TOTALS.undecided}
+            label="Need a decision"
+            sub={`${PENDING_ACTION_COUNT} actions they would create`}
+          />
+        </div>
+        <div class="bcn-sw__figure" data-sw-figure="new">
+          <EsaStat
+            value={SETUP_TOTALS.newSince}
+            label="New since you last reviewed"
+            sub={`Last reviewed ${fmtDate(LAST_REVIEWED)}`}
+          />
+        </div>
+        <div class="bcn-sw__figure bcn-sw__figure--progress" data-sw-figure="decided">
+          <EsaStat value={`${SETUP_TOTALS.decided} of ${SETUP_TOTALS.total}`} label="Decided" />
+          <div class="bcn-sw__bar" data-sw-progress>
+            <EsaProgressBar value={DECIDED_PERCENT} size="sm" showValue label="" />
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ── 2 + 3. View toggle and the facets it recomputes. Segment counts are counted
+         off the rendered rows by the controller, so a segment can never claim a number
+         the list beneath it does not produce. ── -->
+    <div class="bcn-sw__controls">
+      <BcnFilterBar filtersLabel="Filters">
+        {/* The bar's lead slot is exactly what it was extracted for: a View pivot. The
+            toggle carries its own `label` so the lego wires aria-labelledby onto its
+            radiogroup — a leadLabel here would only duplicate it.
+            size="md", not "sm": at sm the lego resolves --form-font-size-sm (12px) for
+            BOTH its label and its segment text, and these segments are this drawer's
+            primary navigation — 12px is under the house floor. md lands at 15px / 36px.
+            It sits in the bar's TOP band, so it has no same-row sibling to match. */}
+        <esa-button-toggle slot="lead" data-sw-view size="md" label="View"></esa-button-toggle>
+        <esa-filter-dropdown data-sw-facet="source" name="source" label="Source document" multiple size="sm"></esa-filter-dropdown>
+        <esa-filter-dropdown data-sw-facet="type" name="type" label="Requirement type" multiple size="sm"></esa-filter-dropdown>
+        <esa-filter-dropdown data-sw-facet="species" name="species" label="Species" multiple size="sm"></esa-filter-dropdown>
+        <span class="bcn-sw__pills" data-sw-pills>
+          <EsaFilterPills filters={pillFilters} />
+        </span>
+        <span slot="actions" data-sw-clear><FilterClearButton /></span>
+      </BcnFilterBar>
+    </div>
+
+    <!-- ── 4. Two panes: the list decides, the preview explains. .sidebar primitive —
+         list ~40%, preview the rest. ── -->
+    <div class="sidebar bcn-sw__panes" data-gap="md">
+      <section class="bcn-sw__pane bcn-sw__pane--list" aria-label="Commitments in view">
+        <div class="bcn-sw__scroll" data-sw-scroll>
+          <ul class="bcn-sw__rows" data-sw-rows>
+            {
+              SETUP_COMMITMENTS.map((c) => (
+                <li
+                  class="bcn-sw-row"
+                  data-sw-row={c.id}
+                  data-code={c.code}
+                  data-decision={c.decision ?? ''}
+                  data-new={isNew(c.addedOn) ? 'true' : 'false'}
+                  data-source={c.sourceId}
+                  data-type={c.requirementType}
+                  data-species={c.species.join(' ')}
+                  data-suggested={c.suggested ? 'true' : 'false'}
+                  data-rationale={c.rationale ? 'true' : 'false'}
+                  hidden
+                >
+                  <span class="bcn-sw-row__check">
+                    <esa-checkbox
+                      size="sm"
+                      data-sw-check={c.id}
+                      aria-label={`Select ${c.code} for a bulk decision`}
+                    />
+                  </span>
+
+                  <button
+                    type="button"
+                    class="bcn-sw-row__hit"
+                    data-sw-open={c.id}
+                    aria-label={`Show ${c.code} ${c.title} in the preview`}
+                  >
+                    <span class="bcn-sw-row__titleline">
+                      <BcnCommitmentBadge code={c.code} size="sm" />
+                      <span class="bcn-sw-row__name">{c.title}</span>
+                      {c.suggested && (
+                        <span class="bcn-sw-row__mark">
+                          <EsaBadge value="Suggested" size="sm" />
+                        </span>
+                      )}
+                    </span>
+                    <span class="bcn-sw-row__meta">{rowMeta(c)}</span>
+                  </button>
+
+                  {/* The decision, as a chip — never a row edge. */}
+                  <span class="bcn-sw-row__state bcn-sw-row__state--applied">
+                    <EsaBadge value="Applied" size="sm" />
+                  </span>
+                  <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
+                    <EsaBadge value="Dismissed" size="sm" />
+                  </span>
+
+                  {/* One at a time, without leaving the list. */}
+                  <span class="bcn-sw-row__acts">
+                    <EsaButton size="sm" color="primary" appearance="soft" data-sw-apply={c.id}>
+                      Apply
+                    </EsaButton>
+                    <EsaButton size="sm" color="ghost" appearance="outline" data-sw-dismiss={c.id}>
+                      Dismiss
+                    </EsaButton>
+                  </span>
+                </li>
+              ))
+            }
+          </ul>
+
+          <div class="bcn-sw__none" data-sw-none hidden>
+            <EsaEmptyState
+              title="No commitments match these filters"
+              description="Clear a filter, or switch the view above."
+              size="sm"
+            />
+          </div>
+        </div>
+
+        <!-- ── 5. Bulk bar. It FLOATS over the bottom of the list rather than pushing it,
+             so appearing and disappearing never changes the pane's geometry. The list
+             carries a permanent bottom inset so the last row is never sat on. ── -->
+        <div class="bcn-sw__bulk" data-sw-bulk hidden>
+          <span class="bcn-sw__bulkcount" data-sw-bulk-count>0 selected</span>
+          <span class="bcn-sw__bulkacts">
+            <EsaButton size="sm" color="primary" data-sw-bulk-apply>Apply</EsaButton>
+            <EsaButton size="sm" color="ghost" appearance="outline" data-sw-bulk-dismiss>
+              Dismiss
+            </EsaButton>
+            <EsaButton size="sm" color="ghost" data-sw-bulk-clear>Clear</EsaButton>
+          </span>
+        </div>
+      </section>
+
+      <section class="bcn-sw__pane bcn-sw__pane--preview" aria-label="Selected commitment">
+        <div class="bcn-sw__scroll bcn-sw__scroll--pad">
+          <div class="bcn-sw__nopreview" data-sw-nopreview>
+            <EsaEmptyState
+              title="Select a commitment"
+              description="Its text, its requirements, and the actions a decision would create appear here."
+              size="sm"
+            />
+          </div>
+
+          {
+            SETUP_COMMITMENTS.map((c) => (
+              <article class="bcn-sw-prev" data-sw-preview={c.id} hidden>
+                <header class="bcn-sw-prev__head">
+                  <BcnCommitmentBadge code={c.code} />
+                  <h3 class="bcn-sw-prev__title">{c.title}</h3>
+                </header>
+
+                {/* The document voice — the commitment's own language, quoted. */}
+                <p class="bcn-sw-prev__doc">{c.text}</p>
+
+                <div class="bcn-sw-prev__facts">
+                  <BcnKeyValue label="Source document" value={SOURCE_BY_ID[c.sourceId]?.name} />
+                  <BcnKeyValue label="Requirement type" value={c.requirementType} />
+                  <BcnKeyValue
+                    label="Requirements"
+                    value={`${c.requirements} ${plural(c.requirements, 'requirement')}`}
+                  />
+                  <BcnKeyValue label="Species">
+                    <span class="bcn-sw-prev__species">
+                      {c.species.length
+                        ? c.species.map((s) => `${s} · ${SPECIES_LABEL[s]}`).join(', ')
+                        : 'None carried through its requirements'}
+                    </span>
+                  </BcnKeyValue>
+                  <BcnKeyValue label="Added to the project" value={fmtDate(c.addedOn)} />
+                </div>
+
+                {/* The part prod omits: what the decision DOES. */}
+                <section class="bcn-sw-prev__effect">
+                  <h4 class="bcn-sw-prev__efftitle">
+                    {c.actions.length
+                      ? `Applying this creates ${c.actions.length} ${plural(c.actions.length, 'action')} on this component`
+                      : 'Applying this creates no actions on this component'}
+                  </h4>
+                  {c.actions.length > 0 && (
+                    <ul class="bcn-sw-prev__actions">
+                      {c.actions.map((a) => (
+                        <li class="bcn-sw-prev__action">
+                          <BcnCommitmentBadge code={a.code} size="sm" />
+                          <span class="bcn-sw-prev__actname">{a.name}</span>
+                          <span class="bcn-sw-prev__acttype">
+                            <EsaBadge value={ACTION_TYPE_LABEL[a.type] ?? a.type} size="sm" />
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {c.actions.length > 0 && (
+                    <p class="bcn-sw-prev__undo">
+                      Dismissing removes {c.actions.length === 1 ? 'it' : 'them'} again.
+                    </p>
+                  )}
+                </section>
+
+                {/* Decision + rationale on record. Toggled by the controller. */}
+                <section class="bcn-sw-prev__decision" data-sw-prev-decision hidden>
+                  <BcnKeyValue label="Decision">
+                    <span class="bcn-sw-prev__decval" data-sw-prev-decval />
+                  </BcnKeyValue>
+                  <BcnKeyValue label="Rationale">
+                    <span class="bcn-sw-prev__rationale" data-sw-prev-rationale>
+                      {c.rationale ?? ''}
+                    </span>
+                  </BcnKeyValue>
+                </section>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- ── 6. Footer — Windows order: the tertiary state far left, the action group right
+       with the primary LEFT of Cancel. ── -->
+  <div slot="footer" class="bcn-sw__foot">
+    <span class="bcn-sw__pending" data-sw-pending hidden></span>
+    <span class="bcn-sw__footacts">
+      <EsaButton color="primary" data-sw-save>Save decisions</EsaButton>
+      <EsaButton color="ghost" appearance="outline" data-sw-cancel>Cancel</EsaButton>
+    </span>
+  </div>
+</esa-side-dialog>
+
+<!-- ── The rationale dialog for a BULK write. The overwrite warning is the point: in
+     prod a batch decision silently replaces a rationale someone already wrote, and the
+     count of what is about to be lost is never shown. ── -->
+<esa-dialog id={`${id}-rationale`} class="bcn-sw-rationale" heading="Apply commitments" data-sw-dialog>
+  <div class="bcn-sw-rationale__body">
+    <p class="bcn-sw-rationale__what type-body" data-sw-dialog-what></p>
+
+    <div class="bcn-sw-rationale__warn" data-sw-dialog-warn hidden>
+      <EsaAlertBox variant="warning" title="This replaces a rationale already on record">
+        <span data-sw-dialog-warn-text></span>
+      </EsaAlertBox>
+    </div>
+
+    <esa-textarea
+      data-sw-dialog-rationale
+      label="Rationale"
+      rows="4"
+      placeholder="Why this applies — or why it does not."
+    ></esa-textarea>
+  </div>
+
+  <div slot="footer" class="bcn-sw-rationale__foot">
+    <EsaButton color="primary" data-sw-dialog-confirm>Apply</EsaButton>
+    <EsaButton color="ghost" appearance="outline" data-sw-dialog-cancel>Cancel</EsaButton>
+  </div>
+</esa-dialog>
+
+<script>
+  import '@esa/ecology/esa-side-dialog';
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-filter-dropdown';
+  import '@esa/ecology/esa-checkbox';
+  import '@esa/ecology/esa-textarea';
+  import { initSetupWorkspace } from './setup-workspace';
+  initSetupWorkspace();
+</script>
+
+<style>
+  /* ── Drawer geometry. A STABLE GENEROUS FOOTPRINT: ~86vh tall (the lego's own
+       --side-dialog-inset knob at 7vh top and bottom) and wide, because this is a work
+       surface, not a slim rail panel. Neither dimension moves when the user filters or
+       selects — the panes scroll inside a frame that never resizes. ── */
+  .bcn-sw {
+    --side-dialog-inset: 7vh;
+    --side-dialog-width-lg: 1180px;
+    --z-modal-backdrop: 1300;
+    --z-modal: 1301;
+    --backdrop-filter: blur(2px);
+    /* Every small CONTROL in this drawer reads 14px, not 12px. --form-font-size-sm
+       resolves to --type-size-100 (12px), which is the right density for a chip but
+       under the house floor for something you click — the inline Apply / Dismiss and
+       the bulk bar are actions, not meta. Re-pointed once here so a control never
+       disagrees with its neighbour, rather than patched per button. */
+    --form-font-size-sm: var(--type-size-150);
+  }
+
+  /* The lego's .body is a definite-height flex child, so height:100% here fills it
+     exactly and the panes below own all the scrolling. */
+  .bcn-sw__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+    height: 100%;
+    min-height: 0;
+    color: var(--color-text-primary);
+  }
+
+  /* ── Lead band ── */
+  .bcn-sw__lead {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  .bcn-sw__scope {
+    margin: 0;
+    color: var(--color-text-secondary);
+  }
+  .bcn-sw__figures {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-700);
+    flex-wrap: wrap;
+  }
+  .bcn-sw__figure {
+    min-width: 0;
+    /* One step down from the lego default: three figures on one band, and the drawer is
+       a work surface, not a dashboard hero. */
+    --stat-value-size: var(--type-size-600);
+  }
+  .bcn-sw__figure--progress {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+    min-width: 220px;
+  }
+  .bcn-sw__bar {
+    max-width: 260px;
+  }
+
+  /* ── Controls ── */
+  .bcn-sw__controls {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+  }
+  /* The pill row rides inside the filter container. Every possible chip is pre-rendered
+     (esa-filter-pills is compile-time) and the controller reveals the active ones; the
+     wrapper itself hides when none are, so an empty bar has no stray gap.
+     Neutral chips: --color-primary-bg is not a Beacon token, so the lego's default pill
+     fill would resolve to its literal green fallback. Re-point to the house neutral pair. */
+  .bcn-sw__pills {
+    display: inline-flex;
+    min-width: 0;
+    --filter-pill-bg: var(--color-surface-sunken);
+    --filter-pill-bg-hover: var(--color-border);
+    --filter-pill-text: var(--color-text-primary);
+  }
+  .bcn-sw__pills[hidden] {
+    display: none;
+  }
+  .bcn-sw__pills :global(.esa-filter-pills__chip[hidden]) {
+    display: none;
+  }
+
+  /* ── The two panes ── */
+  .bcn-sw__panes {
+    --sidebar-width: 40%;
+    --sidebar-content-min: 56%;
+    flex: 1;
+    min-height: 0;
+    align-items: stretch;
+  }
+  .bcn-sw__pane {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    min-width: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    background: var(--color-surface);
+  }
+  .bcn-sw__pane--list {
+    position: relative;
+    background: var(--color-surface-sunken);
+    overflow: hidden;
+  }
+  .bcn-sw__scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    /* The permanent bottom inset the floating bulk bar sits in. Always reserved, so the
+       bar appearing never reflows the list. */
+    padding: var(--spacing-300) var(--spacing-300) 64px;
+  }
+  .bcn-sw__scroll--pad {
+    padding: var(--spacing-500);
+  }
+  .bcn-sw__rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .bcn-sw__none[hidden],
+  .bcn-sw__nopreview[hidden] {
+    display: none;
+  }
+
+  /* ── A row ── */
+  .bcn-sw-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-250, 0.625rem);
+    padding: var(--spacing-250, 0.625rem) var(--spacing-300);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    background: var(--color-surface);
+    transition:
+      border-color 120ms ease,
+      background 120ms ease;
+  }
+  .bcn-sw-row[hidden] {
+    display: none;
+  }
+  .bcn-sw-row:hover {
+    border-color: var(--color-border-strong);
+  }
+  /* Being previewed. A tint plus a full border — never a coloured left edge. */
+  .bcn-sw-row[data-active] {
+    border-color: var(--color-primary);
+    background: color-mix(in srgb, var(--color-primary) 5%, var(--color-surface));
+  }
+  .bcn-sw-row__check {
+    flex: none;
+    display: inline-flex;
+  }
+  /* The row's hit area is a real button — keyboard-operable, and it announces the row it
+     opens. It carries no button chrome: the ROW is the object, this is its surface. */
+  .bcn-sw-row__hit {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  .bcn-sw-row__hit:focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: 2px;
+    border-radius: var(--radius-100);
+  }
+  .bcn-sw-row__titleline {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-200);
+    min-width: 0;
+  }
+  .bcn-sw-row__name {
+    min-width: 0;
+    /* 14px — the dense-surface base. This is a scan-and-pick list, not prose. */
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.35;
+    color: var(--color-text-primary);
+  }
+  .bcn-sw-row__meta {
+    /* 13px is the deliberate floor: the scale steps 14px straight to 12px, and 12px is
+       under the house minimum. Colour steps UP as size steps down — darken as you
+       shrink, never grey out. */
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+  /* The suggestion marker: a quiet 4px badge, tinted away from the entity ramp so it
+     cannot be mistaken for one. Same treatment as the evidence drawer's. */
+  .bcn-sw-row__mark :global(.esa-badge) {
+    --badge-bg: var(--color-info-subtle);
+    --badge-text-color: var(--color-text-primary);
+    border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
+    font-weight: var(--font-weight-medium);
+  }
+  /* Decision chips — shown by the row's own data-decision, no JS toggling needed. */
+  .bcn-sw-row__state {
+    flex: none;
+    display: none;
+  }
+  .bcn-sw-row[data-decision='applied'] .bcn-sw-row__state--applied,
+  .bcn-sw-row[data-decision='dismissed'] .bcn-sw-row__state--dismissed {
+    display: inline-flex;
+  }
+  .bcn-sw-row__state--applied :global(.esa-badge) {
+    --badge-bg: var(--color-success-subtle);
+    --badge-text-color: var(--color-success-strong);
+    font-weight: var(--font-weight-medium);
+  }
+  .bcn-sw-row__state--dismissed :global(.esa-badge) {
+    --badge-bg: var(--color-surface-sunken);
+    --badge-text-color: var(--color-text-secondary);
+    font-weight: var(--font-weight-medium);
+  }
+  /* Inline actions: revealed on hover or when anything inside has focus, so keyboard
+     users reach them too. Space is reserved by visibility, not display — the row's width
+     does not jump as the pointer crosses it. */
+  .bcn-sw-row__acts {
+    flex: none;
+    display: inline-flex;
+    gap: var(--spacing-150);
+    visibility: hidden;
+  }
+  .bcn-sw-row:hover .bcn-sw-row__acts,
+  .bcn-sw-row:focus-within .bcn-sw-row__acts {
+    visibility: visible;
+  }
+
+  /* ── The floating bulk bar ── */
+  .bcn-sw__bulk {
+    position: absolute;
+    left: var(--spacing-300);
+    right: var(--spacing-300);
+    bottom: var(--spacing-300);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    padding: var(--spacing-200) var(--spacing-300);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-200);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-300);
+  }
+  .bcn-sw__bulk[hidden] {
+    display: none;
+  }
+  .bcn-sw__bulkcount {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    white-space: nowrap;
+  }
+  .bcn-sw__bulkacts {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-200);
+  }
+
+  /* ── The preview ── */
+  .bcn-sw-prev {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+  .bcn-sw-prev[hidden] {
+    display: none;
+  }
+  .bcn-sw-prev__head {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-300);
+  }
+  .bcn-sw-prev__title {
+    margin: 0;
+    font-size: var(--type-size-400);
+    font-weight: var(--font-weight-semibold);
+    line-height: 1.25;
+    color: var(--color-text-primary);
+  }
+  /* The document voice: Beacon's designated serif (Besley) on the citation surface, the
+     same treatment the commitment detail page gives quoted regulatory language. */
+  .bcn-sw-prev__doc {
+    margin: 0;
+    padding: var(--spacing-400);
+    border-radius: var(--radius-200);
+    background: var(--bcn-citation-bg);
+    font-family: var(--font-decorative);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--color-text-primary);
+  }
+  .bcn-sw-prev__facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-300) var(--spacing-500);
+  }
+  .bcn-sw-prev__species {
+    font-size: var(--form-font-size-md);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+
+  .bcn-sw-prev__effect {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    padding: var(--spacing-400);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    background: var(--color-surface-sunken);
+  }
+  .bcn-sw-prev__efftitle {
+    margin: 0;
+    font-size: var(--type-size-200);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .bcn-sw-prev__actions {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-200);
+  }
+  .bcn-sw-prev__action {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-200) var(--spacing-300);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-100);
+    background: var(--color-surface);
+  }
+  .bcn-sw-prev__actname {
+    flex: 1;
+    min-width: 0;
+    font-size: var(--type-size-150);
+    color: var(--color-text-primary);
+  }
+  .bcn-sw-prev__acttype :global(.esa-badge) {
+    --badge-bg: var(--color-surface-sunken);
+    --badge-text-color: var(--color-text-secondary);
+    font-weight: var(--font-weight-medium);
+  }
+  .bcn-sw-prev__undo {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+
+  .bcn-sw-prev__decision {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-300) var(--spacing-500);
+    padding-top: var(--spacing-300);
+    border-top: 1px solid var(--color-border-light);
+  }
+  .bcn-sw-prev__decision[hidden] {
+    display: none;
+  }
+  .bcn-sw-prev__decval,
+  .bcn-sw-prev__rationale {
+    font-size: var(--form-font-size-md);
+    color: var(--color-text-primary);
+  }
+
+  /* ── Footer ── */
+  .bcn-sw__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    width: 100%;
+  }
+  .bcn-sw__pending {
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+  }
+  .bcn-sw__pending[hidden] {
+    display: none;
+  }
+  .bcn-sw__footacts {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+
+  /* ── Rationale dialog ── */
+  .bcn-sw-rationale {
+    --z-modal-backdrop: 1400;
+    --z-modal: 1401;
+  }
+  .bcn-sw-rationale__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-400);
+  }
+  .bcn-sw-rationale__what {
+    margin: 0;
+    color: var(--color-text-primary);
+  }
+  .bcn-sw-rationale__warn[hidden] {
+    display: none;
+  }
+  .bcn-sw-rationale__foot {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--spacing-300);
+    width: 100%;
+  }
+
+  /* Narrow: the panes stack rather than crushing the list. */
+  @media (max-width: 60rem) {
+    .bcn-sw__panes {
+      --sidebar-width: 100%;
+      --sidebar-content-min: 100%;
+    }
+  }
+</style>

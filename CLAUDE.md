@@ -14,7 +14,10 @@ When ANY UI is needed, walk these tiers **in order**. Stop at the first hit.
    - List the catalog (source of truth — it grows): `ls node_modules/@esa/ecology/src/components/`
    - `.astro` lego → `import EsaCard from '@esa/ecology/esa-card.astro';` (frontmatter)
    - `.ts` lego → `import '@esa/ecology/esa-dialog';` in a client `<script>`, then use `<esa-dialog>` in markup.
-2. **Beacon next — the prod app.** `~/Dev/Beacon/Beacon.Web/src/app/shared/ui/components/` (Angular `ui-*`) and `~/Dev/Beacon/Beacon.Web/src/scss/`. Port the pattern faithfully (tokens, structure).
+2. **Beacon next — the prod app.** `C:\git\sitkatech\Beacon\Beacon.Web\src\app\shared\ui\components\` (Angular `ui-*`) and `…\Beacon.Web\src\scss\`. Port the pattern faithfully (tokens, structure).
+   The local `develop` checkout runs far behind `origin/develop` — read prod state with
+   `git show origin/develop:<path>`, not from the working tree, or you will survey code
+   that shipped months ago.
 3. **Only then a `bcn-` component.** If nothing exists, build a *real, reusable, documented* component prefixed `bcn-` — never a one-off `.rd-`/`.tt-` page blob. Token-driven, reusable in isolation.
 
 ## Reinvented → use the lego (the lookup that was missed the first time)

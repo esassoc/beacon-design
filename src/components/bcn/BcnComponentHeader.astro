@@ -1,0 +1,432 @@
+---
+// <BcnComponentHeader> — the component dashboard's identity band, and the
+// deliberately QUIETER sibling of BcnProjectHeader. Same job ("where am I?"),
+// one level down the tree: parent project as the eyebrow, the component's mark
+// beside its name as the page's sole H1, its status and dates worn as facts,
+// and the T·M·R pulse strip that makes the box you clicked on the project
+// dashboard and the page you landed on tell the same story.
+//
+// WHY THERE IS NO COVER PHOTO. The project header opens with a full-bleed hero
+// band; this one is a flat white bar. That is a design decision, not a missing
+// feature (2026-08-13 design call): a project has ONE cover somebody will
+// genuinely go find a photo for, but a project carries two dozen components and
+// "what's a good picture for the Bouldin Island Launch Shaft?" is a question
+// with no good answer — the field stays empty and every component page looks
+// identical. So a component's landmark is its MARK (glyph × swatch, see
+// src/data/entity-marks.ts): two clicks, always legible, impossible to get
+// wrong, and readable at any size. A quieter band also keeps the hierarchy
+// honest — the project is the place, the component is a room in it.
+//
+// Rendered into PageLayout's `bleed` slot with `hideTitleRow`, so this
+// component owns the page's ONLY <h1> — same contract as BcnProjectHeader.
+//
+// Composes: BcnEntityLogo (the mark), BcnStatusChip (status), EsaIconButton
+// (logo edit + star), EsaButton (Edit component), EsaIcon (wayfinding chevrons)
+// + type roles. The band, the pulse strip, and the fact line are composition
+// inside this component; pulse dot colors are VALUE-driven from PULSE_META via
+// the `--_c` inline custom property, so the theme (incl. dark mode) drives them.
+//
+// bcn-lego-checked: no esa-* lego is an entity identity header — esa-page-header
+// is a title + lede + actions row with no mark, no status/date facts and no
+// pulse strip, and esa-card is a static shell. Checked Beacon (prod's component
+// page is a plain title over a tab strip — this is the redesign). Checked the
+// spoke: BcnProjectHeader is the PROJECT-level band (hero cover + org seal) and
+// BcnComponentSummary is the project-wide roll-up, so neither covers a single
+// component's identity. bcn-component-header is the reusable home; every control
+// inside it is a lego.
+import BcnEntityLogo from './BcnEntityLogo.astro';
+import BcnStatusChip from './BcnStatusChip.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import { withBase } from '../../lib/base';
+import { PULSE_META, type AreaPulse } from '../../data/project-dashboard';
+import type { ComponentRecord } from '../../data/component-detail';
+
+/**
+ * Structurally the fixture's SIBLINGS shape — declared here rather than
+ * `typeof SIBLINGS` so the header doesn't take a runtime import on the fixture
+ * just to borrow a type.
+ */
+interface ComponentSiblings {
+  indexHref: string;
+  prev?: { name: string; href: string };
+  next?: { name: string; href: string };
+}
+
+interface Props {
+  component: ComponentRecord;
+  /** Exactly three, in Tracking / Monitoring / Reporting order. */
+  pulse: AreaPulse[];
+  /** Prev / next / index wayfinding — landing three levels down needs a way sideways. */
+  siblings?: ComponentSiblings;
+  /** Rendered as pressed when the user has starred this component (per-user starring, BCN-1576). */
+  starred?: boolean;
+}
+const { component, pulse, siblings, starred = false } = Astro.props;
+
+const linkHref = (href: string) => (href.startsWith('/') ? withBase(href) : href);
+
+// Deterministic ISO → display date (no Intl, no Date.now — every demo run
+// renders the same string).
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const fmtDate = (iso: string): string => {
+  const [y, m, d] = iso.split('-');
+  return `${MONTHS[Number(m) - 1]} ${Number(d)}, ${y}`;
+};
+
+// ComponentStatus.Name → chip key + token reference. Deliberately NOT the
+// green/amber/red pulse palette: the T·M·R dots sit inches away and amber there
+// means "attention", so an Active component must not wear the same amber. Active
+// reads as the neutral current state (brand primary, like the project's phase
+// chip), Complete is the one status that earns success green, On Hold recedes.
+const STATUS_TONE: Record<ComponentRecord['status'], { key: string; hex: string }> = {
+  Active: { key: 'active', hex: 'var(--color-primary)' },
+  'On Hold': { key: 'on-hold', hex: 'var(--bcn-status-not-started)' },
+  Complete: { key: 'complete', hex: 'var(--bcn-status-completed)' },
+};
+const tone = STATUS_TONE[component.status];
+
+const starLabel = starred ? `Unstar ${component.name}` : `Star ${component.name}`;
+---
+
+<section class="bcn-chd" aria-label={`${component.name} — component home`}>
+  <!-- Eyebrow line: the way back UP the tree on the left, sideways on the right. -->
+  <div class="bcn-chd__nav">
+    <a class="bcn-chd__up" href={linkHref(component.project.href)}>
+      <EsaIcon name="chevron-left" size="sm" />
+      {component.project.name}
+    </a>
+
+    {
+      siblings && (
+        <nav class="bcn-chd__siblings" aria-label="Other components">
+          {siblings.prev && (
+            <a class="bcn-chd__sib" href={linkHref(siblings.prev.href)} rel="prev">
+              <EsaIcon name="chevron-left" size="sm" />
+              <span class="bcn-chd__sib-name">{siblings.prev.name}</span>
+            </a>
+          )}
+          <a class="bcn-chd__sib bcn-chd__sib--index" href={linkHref(siblings.indexHref)}>
+            All components
+          </a>
+          {siblings.next && (
+            <a class="bcn-chd__sib" href={linkHref(siblings.next.href)} rel="next">
+              <span class="bcn-chd__sib-name">{siblings.next.name}</span>
+              <EsaIcon name="chevron-right" size="sm" />
+            </a>
+          )}
+        </nav>
+      )
+    }
+  </div>
+
+  <div class="bcn-chd__id">
+    <!-- The mark IS the cover here. Editing it stays on the page (product
+         meeting, 2026-08-04: "mouse over that header area … a little change
+         logo just to keep people in one spot"). -->
+    <span class="bcn-chd__markwrap">
+      <BcnEntityLogo mark={component.mark} size="xl" label={`${component.name} mark`} />
+      <!-- The hook lives on the WRAPPER: esa-icon-button has a closed prop set
+           and drops unknown attributes, so a data-* on the lego goes nowhere.
+           The click bubbles out of the button to this span. -->
+      <span class="bcn-chd__logo-edit" data-logo-edit>
+        <EsaIconButton icon="pencil" label="Change component logo" size="sm" />
+      </span>
+    </span>
+
+    <div class="bcn-chd__ident">
+      <div class="bcn-chd__title-row">
+        <h1 class="bcn-chd__name type-page-title">{component.name}</h1>
+        <BcnStatusChip status={tone.key} label={component.status} hex={tone.hex} />
+      </div>
+      <!-- Component.Description — the stored classifier line, not a blurb. -->
+      <p class="bcn-chd__desc">{component.description}</p>
+      <p class="bcn-chd__facts">
+        <span>Started <span class="bcn-chd__fact-value">{fmtDate(component.startDate)}</span></span>
+        <span class="bcn-chd__dot-sep" aria-hidden="true">·</span>
+        <span>Expected end <span class="bcn-chd__fact-value">{fmtDate(component.expectedEndDate)}</span></span>
+      </p>
+    </div>
+
+    <!-- Two affordances, no more: the personal star and the record edit. -->
+    <div class="bcn-chd__actions">
+      <span class="bcn-chd__star" data-star-toggle data-pressed={String(starred)} data-name={component.name}>
+        <EsaIconButton icon="star" label={starLabel} size="md" />
+      </span>
+      <EsaButton color="secondary" appearance="soft" size="sm" icon="pencil">Edit component</EsaButton>
+    </div>
+  </div>
+
+  <!-- T·M·R pulse — the same dot · area · note anatomy as the project
+       dashboard's component cards, so the box you clicked and the page you
+       landed on read alike. Each row jumps to its module section. -->
+  <ul class="bcn-chd__pulse" aria-label="Tracking, monitoring and reporting pulse">
+    {
+      pulse.map((p) => (
+        <li class="bcn-chd__pulse-row">
+          <a class="bcn-chd__pulse-link" href={`#${p.area}`}>
+            <span class="bcn-chd__dot" style={`--_c: ${PULSE_META[p.status].hex};`} aria-hidden="true" />
+            <span class="bcn-chd__pulse-area">{p.label}</span>
+            <span class="bcn-chd__pulse-note">{p.note}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<script>
+  // Star toggle — prototype behavior, identical to the starred-components cards
+  // (dev: writes the per-user star). aria-pressed is set here rather than in the
+  // markup because esa-icon-button owns its own attributes.
+  document.querySelectorAll<HTMLElement>('[data-star-toggle]').forEach((wrap) => {
+    const btn = wrap.querySelector('button');
+    if (!btn) return;
+    const name = wrap.dataset.name ?? 'this component';
+    const apply = (pressed: boolean) => {
+      btn.setAttribute('aria-pressed', String(pressed));
+      const label = pressed ? `Unstar ${name}` : `Star ${name}`;
+      btn.setAttribute('aria-label', label);
+      btn.setAttribute('title', label);
+    };
+    apply(wrap.dataset.pressed === 'true');
+    btn.addEventListener('click', () => apply(btn.getAttribute('aria-pressed') !== 'true'));
+  });
+
+  // Logo edit → the picker the PAGE mounts (BcnLogoPicker at #bcn-logo-picker).
+  // Setting `open` covers an esa-dialog/esa-side-dialog host; the bubbling event
+  // is the contract for any other host that wants to intercept it.
+  document.querySelectorAll<HTMLElement>('[data-logo-edit]').forEach((wrap) => {
+    wrap.addEventListener('click', () => {
+      const picker = document.getElementById('bcn-logo-picker') as (HTMLElement & { open?: boolean }) | null;
+      if (picker) picker.open = true;
+      document.dispatchEvent(new CustomEvent('bcn:edit-logo', { bubbles: true }));
+    });
+  });
+</script>
+
+<style>
+  /* Full-bleed identity band: white surface, hairline base to part it from the
+     gray canvas below. No cover photo — see the header note. */
+  .bcn-chd {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-300);
+    padding: var(--spacing-400) var(--spacing-600) 0;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* ── Eyebrow / wayfinding ────────────────────────────────────────────────── */
+  .bcn-chd__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+  .bcn-chd__up {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    margin-left: calc(var(--spacing-100) * -1);
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-primary);
+  }
+  .bcn-chd__up:hover {
+    color: var(--color-primary-hover);
+  }
+
+  .bcn-chd__siblings {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    min-width: 0;
+  }
+  .bcn-chd__sib {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+    max-width: 20ch;
+    font-size: var(--type-size-150);
+    color: var(--color-text-tertiary);
+  }
+  .bcn-chd__sib:hover {
+    color: var(--color-text-primary);
+  }
+  .bcn-chd__sib--index {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+  }
+  .bcn-chd__sib-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  @media (max-width: 720px) {
+    /* Prev/next names are the first thing to go; "All components" survives. */
+    .bcn-chd__sib:not(.bcn-chd__sib--index) .bcn-chd__sib-name {
+      display: none;
+    }
+  }
+
+  /* ── Identity row: mark, name, actions — vertically centred ──────────────── */
+  .bcn-chd__id {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-400);
+    min-width: 0;
+  }
+  @media (max-width: 640px) {
+    .bcn-chd__id {
+      flex-wrap: wrap;
+      gap: var(--spacing-300);
+    }
+  }
+
+  .bcn-chd__markwrap {
+    position: relative;
+    flex-shrink: 0;
+    display: inline-flex;
+  }
+  /* Hover/keyboard-revealed logo edit — a chip on the mark's lower-right.
+     :focus-within is the KEYBOARD path: the button stays in the tab order while
+     transparent, so tabbing to it reveals it. A hover-only control here would be
+     a keyboard trap (the gotcha recorded in the project-header handoff). */
+  .bcn-chd__logo-edit {
+    position: absolute;
+    right: calc(var(--spacing-150) * -1);
+    bottom: calc(var(--spacing-150) * -1);
+    display: inline-flex;
+    border-radius: var(--radius-full);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    opacity: 0;
+    transition: opacity 150ms ease;
+  }
+  .bcn-chd__markwrap:hover .bcn-chd__logo-edit,
+  .bcn-chd__markwrap:focus-within .bcn-chd__logo-edit {
+    opacity: 1;
+  }
+  /* Touch has no hover — the affordance would never appear. */
+  @media (hover: none) {
+    .bcn-chd__logo-edit {
+      opacity: 1;
+    }
+  }
+
+  .bcn-chd__ident {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+    min-width: 0;
+    flex: 1;
+  }
+  .bcn-chd__title-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+  .bcn-chd__name {
+    margin: 0;
+    color: var(--color-text-primary);
+  }
+  .bcn-chd__desc {
+    margin: 0;
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+  }
+  .bcn-chd__facts {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    flex-wrap: wrap;
+    margin: 0;
+    font-size: var(--type-size-150);
+    color: var(--color-text-tertiary);
+  }
+  .bcn-chd__fact-value {
+    color: var(--color-text-secondary);
+    font-weight: var(--font-weight-medium);
+  }
+  .bcn-chd__dot-sep {
+    color: var(--color-border-strong);
+  }
+
+  .bcn-chd__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-200);
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+  /* Pressed = the user's own star (per-user, never a team designation). */
+  .bcn-chd__star :global(button[aria-pressed='true']) {
+    color: var(--color-warning);
+  }
+  .bcn-chd__star :global(button[aria-pressed='true'] svg) {
+    fill: currentColor;
+  }
+
+  /* ── T·M·R pulse strip — the band's base rail ────────────────────────────── */
+  .bcn-chd__pulse {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--color-border-light);
+  }
+  @media (max-width: 720px) {
+    .bcn-chd__pulse {
+      grid-template-columns: 1fr;
+    }
+  }
+  .bcn-chd__pulse-row {
+    min-width: 0;
+  }
+  .bcn-chd__pulse-link {
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr);
+    align-items: center;
+    gap: var(--spacing-200);
+    padding: var(--spacing-300) var(--spacing-300) var(--spacing-300) 0;
+    min-width: 0;
+    color: inherit;
+  }
+  .bcn-chd__pulse-link:hover .bcn-chd__pulse-area {
+    color: var(--color-primary);
+  }
+  .bcn-chd__pulse-link:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+    border-radius: var(--radius-100);
+  }
+  .bcn-chd__dot {
+    width: 9px;
+    height: 9px;
+    border-radius: var(--radius-full);
+    background: var(--_c);
+    flex-shrink: 0;
+  }
+  .bcn-chd__pulse-area {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  .bcn-chd__pulse-note {
+    font-size: var(--type-size-150);
+    color: var(--color-text-tertiary);
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+</style>

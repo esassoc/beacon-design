@@ -1,0 +1,489 @@
+---
+// <BcnComponentMap> — a component's footprint, drawn from its WORK AREAS.
+//
+// Why work areas and not a boundary: a Component has no boundary geometry in the
+// product today. There is no GEOGRAPHY column on Component, and Stewart's
+// boundary epic (BCN-1582/1583/1584) is Ready-for-Dev with zero commits against
+// it. The only real geometry a component owns right now is its work areas —
+// already returned by the work-areas endpoint and currently thrown away (Site
+// Clearance collapses the set to a single centroid dot). So this map plots the
+// work areas themselves, which is both honest about today's data AND exactly
+// what BCN-1583 slice 1 proposes. When boundary geometry lands, it becomes a
+// layer UNDER these points; the points don't go away.
+//
+// ONE component, TWO callers:
+//   · variant="inset" — the component dashboard's right-rail card: a small
+//     non-interactive picture with an expand action that opens the real map in
+//     an esa-dialog.
+//   · variant="full"  — the components index: the interactive map at full width,
+//     no dialog, no heading (the PAGE owns the heading at that size; `title`
+//     still names the map for assistive tech).
+//
+// MULTI-INSTANCE CONTRACT — the thing BcnProjectMap got wrong. That component
+// hardcodes every DOM id (`bcn-map-inset`, `bcn-map-dialog`, `bcn-map-full`,
+// `bcn-map-expand`, `bcn-map-data`), so a second instance on one page silently
+// steals the first one's map. Here every id is namespaced by the REQUIRED
+// `idPrefix`, and — because an Astro `<script>` is hoisted and bundled ONCE per
+// page rather than re-run per instance — no prop is visible to the controller as
+// a closure. Props are threaded through the DOM instead: `data-*` on the root
+// plus a sibling `<script type="application/json" data-bcn-cmap-data={idPrefix}>`
+// payload (the idiom BcnProjectTimeline and BcnProjectMap already use). The
+// module walks every `[data-bcn-cmap]` and builds an independent map per root.
+//
+// Three Leaflet gotchas — the first two recorded in the project-map handoff,
+// the third found rendering this component on the components index:
+//   1. `setView()` must be called BEFORE any layer is added, otherwise Leaflet
+//      throws on the first tile; `fitBounds()` then takes over.
+//   2. the modal's map is created LAZILY on first open (a map built in a
+//      display:none dialog measures 0×0 and renders as a grey box) and
+//      `invalidateSize()` runs on every REopen.
+//   3. the FULL variant has the same problem without a dialog to hang lazy
+//      creation off: built inside a hidden tab/view panel it measures 0×0, so
+//      fitBounds resolves against nothing and the map opens zoomed to the middle
+//      of the ocean. It therefore watches its own box (ResizeObserver) and
+//      re-measures + re-fits the first time it has real size, so a caller never
+//      has to remember to poke it on reveal.
+//
+// Basemap is grayscale on purpose — house rule: containers stay neutral, color
+// lives in the data. The only color on this surface is the markers.
+//
+// bcn-lego-checked: no esa-* map lego exists — `ls
+// node_modules/@esa/ecology/src/components/` has nothing map/geo/spatial, and
+// the hub's /components esa-map entry is a documentation page with no source
+// behind it. Everything AROUND the map is a lego and is used as one: the card
+// shell IS esa-card, the expand affordance IS esa-icon-button, the modal IS
+// esa-dialog. Checked Beacon prod — its map is an Angular/Leaflet page, not a
+// reusable ui-* control. Sibling BcnProjectMap can't be reused (singleton ids,
+// boundary/alignment GeoJSON only, "component markers were cut"), and
+// BcnObservationMap is severity-pin-shaped with no card/dialog/legend chrome —
+// this is the reusable home for a component footprint. The CSS below is the map
+// container's own geometry plus the legend key, which no lego models.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import '../../styles/beacon-map.css';
+
+export interface MapPoint {
+  id: string;
+  lat: number;
+  lon: number;
+  /** WorkArea.Status (or any status vocabulary) — mapped to a token below. */
+  status?: string;
+  /** Tooltip text on the interactive map. Falls back to the id. */
+  label?: string;
+  /** Explicit override. A TOKEN REFERENCE (`var(--color-success)`), never a hex —
+   *  the controller resolves var() to a literal because Leaflet paths can't take one. */
+  markColor?: string;
+}
+
+interface Props {
+  /** Points to plot. For the detail page, one component's work areas. */
+  points: MapPoint[];
+  /** 'inset' = small non-interactive card that expands to a modal; 'full' = large interactive map. */
+  variant?: 'inset' | 'full';
+  title?: string;
+  /** Namespaces every DOM id so two instances can coexist. REQUIRED — no singletons. */
+  idPrefix: string;
+  /** Rendered as a field on the card, never as a caption. e.g. 'Work area locations (35)'. */
+  sourceLabel?: string;
+  /** Optional legend rows: { label, color } — color is a TOKEN reference. */
+  legend?: { label: string; color: string }[];
+}
+
+const {
+  points,
+  variant = 'inset',
+  title = 'Component footprint',
+  idPrefix,
+  sourceLabel,
+  legend = [],
+} = Astro.props;
+
+// Status → SEMANTIC token. Keyed lowercase so 'In progress' / 'in progress' /
+// 'IN PROGRESS' all land. Zero literals: every value is a token reference, and
+// the --bcn-status-* layer already re-points to the status-color standard.
+const STATUS_COLOR: Record<string, string> = {
+  cleared: 'var(--color-success)',
+  complete: 'var(--bcn-status-completed)',
+  completed: 'var(--bcn-status-completed)',
+  scheduled: 'var(--color-info)',
+  active: 'var(--color-info)',
+  'in progress': 'var(--bcn-status-in-progress)',
+  'not started': 'var(--bcn-status-not-started)',
+  'on hold': 'var(--bcn-status-not-started)',
+  overdue: 'var(--bcn-status-overdue)',
+};
+const FALLBACK_COLOR = 'var(--color-text-tertiary)';
+
+const payload = points.map((p) => ({
+  id: p.id,
+  lat: p.lat,
+  lon: p.lon,
+  label: p.label ?? p.id,
+  color: p.markColor ?? STATUS_COLOR[(p.status ?? '').trim().toLowerCase()] ?? FALLBACK_COLOR,
+}));
+
+const count = points.length;
+const mapLabel = count === 0 ? `${title} — no locations to show` : `${title} — ${count} location${count === 1 ? '' : 's'}`;
+
+const insetId = `${idPrefix}-inset`;
+const fullId = `${idPrefix}-full`;
+const dialogId = `${idPrefix}-dialog`;
+const expandId = `${idPrefix}-expand`;
+---
+
+<div
+  class="bcn-cmap"
+  id={`${idPrefix}-root`}
+  data-bcn-cmap
+  data-prefix={idPrefix}
+  data-variant={variant}
+>
+  {
+    variant === 'inset' ? (
+      <EsaCard title={title}>
+        {/* esa-icon-button doesn't forward `id`, so the host span carries it — repo idiom. */}
+        <span slot="actions" id={expandId}>
+          <EsaIconButton icon="expand" label={`Expand ${title.toLowerCase()} map`} size="sm" />
+        </span>
+
+        <div class="stack" data-gap="sm">
+          <div class="bcn-cmap__surface bcn-cmap__surface--inset" id={insetId} role="img" aria-label={mapLabel}></div>
+          {sourceLabel && (
+            <p class="bcn-cmap__source">
+              <span class="bcn-cmap__source-label">Geometry source</span>
+              <span class="bcn-cmap__source-value">{sourceLabel}</span>
+            </p>
+          )}
+        </div>
+      </EsaCard>
+    ) : (
+      <div class="stack" data-gap="sm">
+        <div
+          class="bcn-cmap__surface bcn-cmap__surface--full"
+          id={fullId}
+          role="region"
+          aria-label={mapLabel}
+        ></div>
+        {(legend.length > 0 || sourceLabel) && (
+          <div class="bcn-cmap__foot">
+            {legend.length > 0 && (
+              <ul class="cluster bcn-cmap__legend" data-gap="md">
+                {legend.map((row) => (
+                  <li class="bcn-cmap__legend-row">
+                    <span class="bcn-cmap__key" style={`--_cmap-key: ${row.color};`} aria-hidden="true"></span>
+                    {row.label}
+                  </li>
+                ))}
+              </ul>
+            )}
+            {sourceLabel && (
+              <p class="bcn-cmap__source">
+                <span class="bcn-cmap__source-label">Geometry source</span>
+                <span class="bcn-cmap__source-value">{sourceLabel}</span>
+              </p>
+            )}
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  {
+    variant === 'inset' && (
+      <esa-dialog id={dialogId} heading={title} size="lg" style="--z-modal: 1300; --z-modal-backdrop: 1250;">
+        <div class="bcn-cmap__surface bcn-cmap__surface--modal" id={fullId}></div>
+        {legend.length > 0 && (
+          <ul slot="footer" class="cluster bcn-cmap__legend" data-gap="md">
+            {legend.map((row) => (
+              <li class="bcn-cmap__legend-row">
+                <span class="bcn-cmap__key" style={`--_cmap-key: ${row.color};`} aria-hidden="true"></span>
+                {row.label}
+              </li>
+            ))}
+          </ul>
+        )}
+      </esa-dialog>
+    )
+  }
+</div>
+
+<script
+  type="application/json"
+  data-bcn-cmap-data={idPrefix}
+  set:html={JSON.stringify(payload)}
+></script>
+
+<script>
+  import L from 'leaflet';
+  import 'leaflet/dist/leaflet.css';
+  import '@esa/ecology/esa-dialog';
+
+  interface MapPoint {
+    id: string;
+    lat: number;
+    lon: number;
+    label: string;
+    /** Token reference (`var(--color-success)`) or a literal. */
+    color: string;
+  }
+
+  type CmapRoot = HTMLElement & { _bcnCmapReady?: boolean };
+  type CmapDialog = HTMLElement & { open: boolean; show?: () => void };
+
+  /** Statewide California — the neutral view when there is nothing to fit. */
+  const EMPTY_VIEW: [number, number] = [37.6, -120.4];
+  const EMPTY_ZOOM = 5;
+  const MARK_FALLBACK = '#8a9099';
+
+  const rootStyle = () => getComputedStyle(document.documentElement);
+
+  /**
+   * Leaflet paths take LITERAL colors, so a `var(--color-success)` prop has to be
+   * resolved first. Recurses because a semantic token may alias another var(),
+   * and honors an inline var() fallback.
+   */
+  function resolveColor(value: string, depth = 0): string {
+    const raw = (value || '').trim();
+    if (!raw || depth > 4) return MARK_FALLBACK;
+    const m = raw.match(/^var\(\s*(--[\w-]+)\s*(?:,\s*([\s\S]+))?\)$/);
+    if (!m) return raw;
+    const resolved = rootStyle().getPropertyValue(m[1]).trim();
+    if (resolved) return resolveColor(resolved, depth + 1);
+    return m[2] ? resolveColor(m[2], depth + 1) : MARK_FALLBACK;
+  }
+
+  /** Grayscale basemap — the container stays neutral so the markers carry the color. */
+  const basemap = () =>
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap &copy; CARTO',
+      subdomains: 'abcd',
+      maxZoom: 19,
+    });
+
+  const INSET_OPTIONS: L.MapOptions = {
+    zoomControl: false,
+    attributionControl: false,
+    dragging: false,
+    scrollWheelZoom: false,
+    doubleClickZoom: false,
+    boxZoom: false,
+    keyboard: false,
+    touchZoom: false,
+  };
+
+  const LIVE_OPTIONS: L.MapOptions = { zoomControl: true, attributionControl: true };
+
+  function readPoints(prefix: string): MapPoint[] {
+    const el = document.querySelector(`[data-bcn-cmap-data="${prefix}"]`);
+    if (!el) return [];
+    try {
+      const parsed = JSON.parse(el.textContent || '[]');
+      return Array.isArray(parsed) ? (parsed as MapPoint[]) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  /** Draw the points into `map` and fit the view to them. */
+  function plot(map: L.Map, pts: MapPoint[], interactive: boolean, pad: number) {
+    const stroke = rootStyle().getPropertyValue('--color-surface').trim() || '#ffffff';
+    const group = L.layerGroup().addTo(map);
+
+    for (const p of pts) {
+      const marker = L.circleMarker([p.lat, p.lon], {
+        // Modest: a footprint reads as a scatter of sites, not a pin cushion.
+        radius: interactive ? 6 : 4,
+        color: stroke,
+        weight: interactive ? 2 : 1,
+        fillColor: resolveColor(p.color),
+        fillOpacity: 0.9,
+        interactive,
+      });
+      if (interactive) marker.bindTooltip(p.label, { sticky: true, direction: 'top' });
+      marker.addTo(group);
+    }
+
+    if (pts.length > 0) {
+      map.fitBounds(L.latLngBounds(pts.map((p) => [p.lat, p.lon] as L.LatLngTuple)), {
+        padding: [pad, pad],
+        maxZoom: 14,
+      });
+    }
+  }
+
+  /**
+   * Gotcha 3 — a map built inside a HIDDEN container measures 0x0, so its
+   * fitBounds resolves against nothing and it comes back as a grey square zoomed
+   * to the middle of the ocean. The components index builds this map inside a
+   * hidden view panel, and the same is true of any tab or accordion host.
+   *
+   * Rather than making every caller remember to poke the map on reveal, the map
+   * watches its OWN box: the first time it has real size, it re-measures and
+   * re-fits. Cheap, self-contained, and correct for hosts that have not been
+   * written yet.
+   */
+  function refitWhenSized(map: L.Map, el: HTMLElement, pts: MapPoint[], pad: number) {
+    if (typeof ResizeObserver === 'undefined') return;
+    let settled = el.clientWidth > 0 && el.clientHeight > 0;
+    const ro = new ResizeObserver(() => {
+      const sized = el.clientWidth > 0 && el.clientHeight > 0;
+      if (!sized || settled) return;
+      settled = true;
+      map.invalidateSize();
+      if (pts.length > 0) {
+        map.fitBounds(L.latLngBounds(pts.map((p) => [p.lat, p.lon] as L.LatLngTuple)), {
+          padding: [pad, pad],
+          maxZoom: 14,
+        });
+      }
+      ro.disconnect();
+    });
+    ro.observe(el);
+  }
+
+  function build(root: CmapRoot) {
+    if (root._bcnCmapReady) return;
+    root._bcnCmapReady = true;
+
+    const prefix = root.dataset.prefix || '';
+    const variant = root.dataset.variant === 'full' ? 'full' : 'inset';
+    const pts = readPoints(prefix);
+
+    if (variant === 'full') {
+      const el = document.getElementById(`${prefix}-full`);
+      if (!el) return;
+      // Gotcha 1: a view must exist BEFORE any layer is added.
+      const map = L.map(el, LIVE_OPTIONS).setView(EMPTY_VIEW, EMPTY_ZOOM);
+      basemap().addTo(map);
+      plot(map, pts, true, 24);
+      requestAnimationFrame(() => map.invalidateSize());
+      refitWhenSized(map, el, pts, 24);
+      return;
+    }
+
+    // ── Inset: a picture of the footprint, no interaction ──
+    const insetEl = document.getElementById(`${prefix}-inset`);
+    if (insetEl) {
+      const inset = L.map(insetEl, INSET_OPTIONS).setView(EMPTY_VIEW, EMPTY_ZOOM);
+      basemap().addTo(inset);
+      plot(inset, pts, false, 10);
+      requestAnimationFrame(() => inset.invalidateSize());
+    }
+
+    // ── Modal: the interactive map, built on FIRST open (gotcha 2) ──
+    const dialog = document.getElementById(`${prefix}-dialog`) as CmapDialog | null;
+    const expand = document.getElementById(`${prefix}-expand`);
+    if (!dialog || !expand) return;
+
+    let full: L.Map | null = null;
+    expand.addEventListener('click', () => {
+      if (dialog.show) dialog.show();
+      else dialog.open = true;
+      requestAnimationFrame(() => {
+        if (!full) {
+          const el = document.getElementById(`${prefix}-full`);
+          if (!el) return;
+          full = L.map(el, LIVE_OPTIONS).setView(EMPTY_VIEW, EMPTY_ZOOM);
+          basemap().addTo(full);
+          plot(full, pts, true, 24);
+        } else {
+          // A map hidden since last close remembers a stale size — re-measure.
+          full.invalidateSize();
+        }
+      });
+    });
+  }
+
+  document.querySelectorAll<CmapRoot>('[data-bcn-cmap]').forEach(build);
+</script>
+
+<style>
+  /* Map-container geometry only — rounded, clipped, sunken while tiles load;
+     the same treatment BcnProjectMap and BcnObservationMap give their surfaces. */
+  .bcn-cmap__surface {
+    width: 100%;
+    border-radius: var(--radius-200);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+    background: var(--color-surface-sunken);
+  }
+
+  /* Rail inset — a fixed band that reads as a picture. */
+  .bcn-cmap__surface--inset {
+    height: 180px;
+  }
+
+  /* Full page view and the modal both hold a generous FIXED frame that never
+     resizes on interaction (design-principles: stabilize the frame). */
+  .bcn-cmap__surface--full {
+    height: min(64vh, 560px);
+  }
+  .bcn-cmap__surface--modal {
+    height: min(70vh, 620px);
+  }
+
+  /* Leaflet injects .leaflet-container itself, so it is outside Astro's scope. */
+  .bcn-cmap__surface :global(.leaflet-container) {
+    font-family: var(--font-sans, inherit);
+    background: var(--color-surface-sunken);
+  }
+  /* A picture must not offer a grab cursor it won't honor. */
+  .bcn-cmap__surface--inset :global(.leaflet-container) {
+    cursor: default;
+  }
+  .bcn-cmap__surface :global(.leaflet-interactive) {
+    cursor: pointer;
+  }
+
+  /* Provenance is a FIELD (label + value), never a caption under the map — once
+     the boundary epic lands this same slot names the uploaded geometry. */
+  .bcn-cmap__source {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    margin: 0;
+    font-size: 0.8125rem; /* 13px — the meta floor */
+  }
+  .bcn-cmap__source-label {
+    color: var(--color-text-tertiary);
+  }
+  .bcn-cmap__source-value {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+  }
+
+  .bcn-cmap__foot {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    flex-wrap: wrap;
+  }
+
+  .bcn-cmap__legend {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+  }
+  .bcn-cmap__foot .bcn-cmap__legend {
+    width: auto;
+  }
+  .bcn-cmap__legend-row {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-100);
+  }
+  /* The key mirrors the marker: a small filled dot, colored by the SAME token
+     the point carries. --_cmap-key is set inline from the legend prop. */
+  .bcn-cmap__key {
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-full, 999px);
+    flex-shrink: 0;
+    background: var(--_cmap-key, var(--color-border, #dcdcdc));
+    box-shadow: 0 0 0 1px var(--color-surface, #ffffff);
+  }
+</style>

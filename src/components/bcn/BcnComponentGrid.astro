@@ -1,0 +1,431 @@
+---
+// <BcnComponentGrid> — the project's component index, level two of the tree
+// (project → COMPONENTS → component detail).
+//
+// This level's job is ROUTING, and only routing. A user lands here to get to one
+// particular component and leave; the compliance thinking happens on the project
+// dashboard above it and the component dashboard below it. So the surface stays a
+// grid and deliberately declines to grow further utility — no rollup band, no
+// charts, no bulk editing. Adding those here would make the page a destination,
+// and it isn't one.
+//
+// What it does earn over the bare grid it replaces (name · status word · desc) is
+// two things, both in service of the same job: the component's IDENTITY MARK, so a
+// row is findable by shape and color instead of by reading, and a COLORED status
+// taxonomy in place of a status word. Twenty-four rows of black text on white are
+// scanned linearly; twenty-four rows carrying a mark and a colored chip are scanned
+// by target. The description column is gone — prose doesn't help you pick a row.
+//
+// The mark is derived, not stored: these fixtures predate EntityMark, so
+// markForComponent() hashes the name into the entity-marks glyph/color sets
+// (deterministic, no Math.random()). The glyph `paths` come straight out of
+// data/entity-marks.ts so this drawing and BcnEntityLogo's can never diverge.
+//
+// bcn-lego-checked: no esa-* data-grid lego exists — the hub's `esa-grid` is a
+// documentation page with no component source, and the nearest real legos are
+// esa-card (a box) and esa-link-column (a card of bare links). Checked Beacon: its
+// component list IS an AG Grid, and this spoke already ships that ported prod theme
+// as a shared kit (src/lib/beacon-grid.ts), which is what this composes. The SHELL
+// is esa-card (header + actions slot + footer slot do the whole grid chrome), the
+// controls are esa-text-field / esa-button / esa-icon-button, the status cell is a
+// cloned BcnStatusChip, and the footer/header rows are the `repel`/`cluster` layout
+// primitives. What is left below is grid-host geometry plus the two cell looks AG
+// Grid injects outside Astro's scope.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import BcnStatusChip from './BcnStatusChip.astro';
+import {
+  byNeedsAttention,
+  markForComponent,
+  STATUS_META,
+  STATUS_ORDER,
+  type ProjectComponent,
+} from '../../data/component-dashboard';
+import { resolveMark } from '../../data/entity-marks';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  components: ProjectComponent[];
+  /** Where a row routes to — the component dashboard. */
+  hrefFor?: (c: ProjectComponent) => string;
+  title?: string;
+}
+const { components, hrefFor, title = 'Components' } = Astro.props;
+
+const defaultHref = withBase('/prototypes/component-dashboard');
+
+// Rows are ordered ONCE here, at build time — overdue first. AG Grid preserves
+// rowData order until the user sorts, so the grid opens on needs-attention without
+// an initial sort model fighting the user's first click on a column header.
+const rows = byNeedsAttention(components).map((c) => {
+  const mark = resolveMark(markForComponent(c.name));
+  return {
+    name: c.name,
+    href: hrefFor ? hrefFor(c) : defaultHref,
+    markPaths: mark.glyph.paths,
+    markColor: mark.color.token,
+    type: c.type,
+    status: c.status,
+    // The DISPLAYED status is the label, so the column sorts, filters, and exports as
+    // words; `status` rides beside it as the key the chip template is looked up by, and
+    // `statusRank` as the lifecycle order the comparator sorts on (not alphabetical).
+    statusLabel: STATUS_META[c.status].label,
+    statusRank: STATUS_ORDER.indexOf(c.status),
+    openActions: c.openActions,
+    overdueActions: c.overdueActions,
+    workAreas: c.workAreas,
+    reqMet: c.requirements.met,
+    reqTotal: c.requirements.total,
+    lastMonitoring: c.lastMonitoring,
+    updated: c.updated,
+  };
+});
+---
+
+<section class="bcn-cg" data-cg aria-label={title}>
+  <EsaCard title={title} padding="compact">
+    <Fragment slot="actions">
+      <span class="bcn-cg__search">
+        <esa-text-field placeholder="Search grid…" size="sm" data-cg-search></esa-text-field>
+      </span>
+      <span data-cg-search-clear hidden><EsaIconButton icon="x" label="Clear search" size="sm" /></span>
+      <span data-cg-clear-filters><EsaButton color="ghost" appearance="outline" size="sm">Clear Filters</EsaButton></span>
+    </Fragment>
+
+    <div class="bcn-cg__host" data-cg-host></div>
+
+    <Fragment slot="footer">
+      <div class="repel" data-gap="md">
+        <span data-cg-download>
+          <EsaButton color="ghost" appearance="outline" size="sm" icon="download">Download as CSV</EsaButton>
+        </span>
+        <div class="cluster bcn-cg__count" data-gap="md">
+          <span>Total Records: <span data-cg-total>{rows.length}</span></span>
+          <span class="bcn-cg__count-filtered" data-cg-filtered hidden></span>
+        </div>
+      </div>
+    </Fragment>
+  </EsaCard>
+
+  {/* The status cell is a real BcnStatusChip, SSR'd once per status and cloned into
+      the cell — AG Grid builds cells at runtime, outside Astro's reach, and cloning
+      the lego beats re-declaring its look in a :global block that would drift. */}
+  <template data-cg-chips>
+    {STATUS_ORDER.map((s) => (
+      <BcnStatusChip status={s} label={STATUS_META[s].label} hex={STATUS_META[s].hex} />
+    ))}
+  </template>
+
+  <script type="application/json" data-cg-data set:html={JSON.stringify(rows)}></script>
+</section>
+
+<script>
+  import { createGrid, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
+  import type { ColDef, GridApi, GridOptions, ICellRendererParams } from 'ag-grid-community';
+  import { settingsTheme } from '../../lib/beacon-grid';
+  import '@esa/ecology/esa-text-field';
+
+  ModuleRegistry.registerModules([AllCommunityModule]);
+
+  interface Row {
+    name: string;
+    href: string;
+    markPaths: string;
+    markColor: string;
+    type: string;
+    status: string;
+    statusLabel: string;
+    statusRank: number;
+    openActions: number;
+    overdueActions: number;
+    workAreas: number;
+    reqMet: number;
+    reqTotal: number;
+    lastMonitoring: string | null;
+    updated: string;
+  }
+
+  // The kit's card-hosted variant, stepped from its ported 13px up to the 14px dense
+  // floor: this grid is the ONLY thing on its surface and it is read by scanning, so
+  // it gets the floor rather than the tightest legal size. Row height follows so the
+  // 24px identity mark still sits centred in a row.
+  const componentGridTheme = settingsTheme.withParams({
+    dataFontSize: '14px',
+    headerFontSize: '14px',
+    rowHeight: 46,
+  });
+
+  const EM_DASH = '—';
+
+  for (const mount of document.querySelectorAll<HTMLElement>('[data-cg]')) {
+    const data = mount.querySelector('[data-cg-data]');
+    const host = mount.querySelector<HTMLElement>('[data-cg-host]');
+    if (!data || !host) continue;
+
+    const rows: Row[] = JSON.parse(data.textContent || '[]');
+    const chipTemplate = mount.querySelector<HTMLTemplateElement>('[data-cg-chips]');
+
+    // Identity mark: the glyph drawn from the row's own `paths` (the same string
+    // data/entity-marks.ts hands the Astro renderers) on a neutral tile, in the
+    // `outline` weight that recedes into a dense row.
+    function markNode(row: Row): HTMLElement {
+      const tile = document.createElement('span');
+      tile.className = 'bcn-cg__mark';
+      tile.style.setProperty('--_mark', row.markColor);
+      // aria-hidden and untitled on purpose: the mark is a landmark you navigate BY,
+      // not a datum you read. The name beside it is the accessible label for the row.
+      tile.innerHTML =
+        '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" ' +
+        'stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+        row.markPaths +
+        '</svg>';
+      return tile;
+    }
+
+    // Mark + name, the whole cell routing to the component dashboard. A real <a> with
+    // a real href, so the row is reachable by keyboard and openable in a new tab —
+    // the row-click handler below is the convenience, not the only way in.
+    function identRenderer(p: ICellRendererParams<Row>): HTMLElement {
+      const cell = document.createElement('span');
+      cell.className = 'bcn-cg__ident';
+      if (p.data) cell.append(markNode(p.data));
+      const link = document.createElement('a');
+      link.className = 'bcn-cg__name';
+      link.href = p.data?.href ?? '#';
+      link.textContent = String(p.value ?? '');
+      cell.append(link);
+      return cell;
+    }
+
+    function statusRenderer(p: ICellRendererParams<Row>): Node | string {
+      const chip = chipTemplate?.content.querySelector(`[data-status="${p.data?.status}"]`);
+      return chip ? chip.cloneNode(true) : String(p.value ?? '');
+    }
+
+    // A column of zeros is noise on a routing surface: nothing open reads as nothing
+    // to do, and the em-dash says that faster than "0" does.
+    const zeroDash = (p: { value: number | null }) =>
+      p.value ? String(p.value) : EM_DASH;
+
+    const columnDefs: ColDef<Row>[] = [
+      {
+        field: 'name',
+        headerName: 'Component',
+        flex: 2.4,
+        minWidth: 280,
+        cellRenderer: identRenderer,
+      },
+      { field: 'type', headerName: 'Type', flex: 1.6, minWidth: 190 },
+      {
+        field: 'statusLabel',
+        headerName: 'Status',
+        width: 158,
+        cellRenderer: statusRenderer,
+        // Lifecycle order (not started → complete), not alphabetical.
+        comparator: (_a, _b, nodeA, nodeB) =>
+          (nodeA.data?.statusRank ?? 0) - (nodeB.data?.statusRank ?? 0),
+      },
+      {
+        field: 'openActions',
+        headerName: 'Open actions',
+        width: 132,
+        filter: 'agNumberColumnFilter',
+        cellClass: 'bcn-cg__num',
+        valueFormatter: zeroDash,
+        cellClassRules: { 'bcn-cg__quiet': (p) => !p.value },
+      },
+      {
+        field: 'overdueActions',
+        headerName: 'Overdue',
+        width: 118,
+        filter: 'agNumberColumnFilter',
+        cellClass: 'bcn-cg__num',
+        valueFormatter: zeroDash,
+        // The figure carries the danger tone, never the row — a tinted row would be
+        // the colored-status-band pattern in another costume.
+        cellClassRules: {
+          'bcn-cg__quiet': (p) => !p.value,
+          'bcn-cg__danger': (p) => !!p.value,
+        },
+      },
+      {
+        field: 'workAreas',
+        headerName: 'Work areas',
+        width: 126,
+        filter: 'agNumberColumnFilter',
+        cellClass: 'bcn-cg__num',
+      },
+      {
+        field: 'reqMet',
+        headerName: 'Requirements',
+        width: 148,
+        filter: 'agNumberColumnFilter',
+        cellClass: 'bcn-cg__num',
+        valueFormatter: (p) => `${p.value ?? 0} / ${p.data?.reqTotal ?? 0}`,
+      },
+      {
+        field: 'lastMonitoring',
+        headerName: 'Last monitoring',
+        width: 156,
+        valueFormatter: (p) => (p.value ? String(p.value) : EM_DASH),
+        cellClassRules: { 'bcn-cg__quiet': (p) => !p.value },
+      },
+      { field: 'updated', headerName: 'Updated', width: 138 },
+    ];
+
+    const totalEl = mount.querySelector<HTMLElement>('[data-cg-total]')!;
+    const filteredEl = mount.querySelector<HTMLElement>('[data-cg-filtered]')!;
+    // Takes the api off the event rather than the closure — `api` below is still in
+    // its temporal dead zone if AG Grid fires first-render synchronously.
+    function updateCounts(e: { api: GridApi<Row> }) {
+      const displayed = e.api.getDisplayedRowCount();
+      totalEl.textContent = String(rows.length);
+      if (displayed < rows.length) {
+        filteredEl.hidden = false;
+        filteredEl.textContent = `Filtered Records: ${displayed}`;
+      } else {
+        filteredEl.hidden = true;
+      }
+    }
+
+    const gridOptions: GridOptions<Row> = {
+      theme: componentGridTheme,
+      rowData: rows,
+      columnDefs,
+      defaultColDef: {
+        sortable: true,
+        resizable: true,
+        filter: true,
+        suppressHeaderMenuButton: true,
+        // A clipped column NAME reads as a defect where a clipped value reads as a
+        // value that ran long (and carries a tooltip) — so headers wrap, cells don't.
+        wrapHeaderText: true,
+        autoHeaderHeight: true,
+        tooltipValueGetter: (p) => p.value,
+      },
+      tooltipShowDelay: 0,
+      tooltipShowMode: 'whenTruncated',
+      onFirstDataRendered: updateCounts,
+      onFilterChanged: updateCounts,
+      // Row click routes to the component dashboard. Clicking the name anchor
+      // navigates on its own to the same href, so the two never disagree.
+      onRowClicked: (e) => {
+        if (e.data?.href) window.location.href = e.data.href;
+      },
+    };
+
+    const api: GridApi<Row> = createGrid(host, gridOptions);
+
+    // Header chrome: search → quick filter (+ its clear-x), and clear-all-filters.
+    const search = mount.querySelector('[data-cg-search]') as (HTMLElement & { value: string }) | null;
+    const searchClear = mount.querySelector<HTMLElement>('[data-cg-search-clear]');
+    search?.addEventListener('change', (e) => {
+      const value = (e as CustomEvent).detail?.value ?? search.value ?? '';
+      api.setGridOption('quickFilterText', value);
+      if (searchClear) searchClear.hidden = !value;
+    });
+    searchClear?.addEventListener('click', () => {
+      if (search) search.value = '';
+      api.setGridOption('quickFilterText', '');
+      searchClear.hidden = true;
+    });
+
+    mount
+      .querySelector('[data-cg-clear-filters]')
+      ?.addEventListener('click', () => api.setFilterModel(null));
+    mount
+      .querySelector('[data-cg-download]')
+      ?.addEventListener('click', () => api.exportDataAsCsv({ fileName: 'components.csv' }));
+  }
+</script>
+
+<style>
+  /* bcn-lego-checked: grid-host geometry, the card's header/footer control rows, and
+     the cell looks AG Grid injects outside Astro's scope (identity mark, name link,
+     numeric cells). Every control here is an esa-* lego or a cloned BcnStatusChip; no
+     primitive is reinvented. See the header note for the full lookup. */
+
+  .bcn-cg__search {
+    display: inline-flex;
+    min-inline-size: 15rem;
+  }
+  .bcn-cg__search :global(esa-text-field) {
+    inline-size: 100%;
+  }
+
+  /* A GENEROUS, FIXED scrollport. It holds its height through every filter and search
+     so the page below it never jumps — the frame is stable, the content compresses. */
+  .bcn-cg__host {
+    inline-size: 100%;
+    block-size: 38rem;
+  }
+
+  .bcn-cg__count {
+    font-size: var(--type-size-150);
+    color: var(--color-text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-cg__count-filtered {
+    color: var(--color-text-tertiary);
+  }
+  .bcn-cg__count-filtered[hidden] {
+    display: none;
+  }
+
+  /* ── Injected cells ─────────────────────────────────────────────────────── */
+  .bcn-cg :global(.ag-row) {
+    cursor: pointer;
+  }
+
+  .bcn-cg :global(.bcn-cg__ident) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-250);
+    min-inline-size: 0;
+  }
+
+  /* The identity mark, `outline` weight: the color on the glyph, a neutral tile under
+     it, so twenty-four rows read as a palette rather than twenty-four colored blocks. */
+  .bcn-cg :global(.bcn-cg__mark) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 24px;
+    block-size: 24px;
+    flex-shrink: 0;
+    border-radius: var(--radius-100);
+    background: var(--color-surface-sunken);
+    color: var(--_mark);
+  }
+
+  /* The cloned chip carries BcnStatusChip's own look untouched except for one step of
+     size: its default (--type-size-100, 12px) sits under this surface's 14px dense
+     floor. Contextual override, not a restyle — color, shape, and dot stay the lego's. */
+  .bcn-cg :global(.bcn-status-chip) {
+    font-size: var(--type-size-150);
+  }
+
+  .bcn-cg :global(.bcn-cg__name) {
+    color: var(--color-text-link);
+    text-decoration: underline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bcn-cg :global(.bcn-cg__name:hover) {
+    color: var(--color-primary-hover);
+  }
+
+  .bcn-cg :global(.bcn-cg__num) {
+    font-variant-numeric: tabular-nums;
+  }
+  /* Darken as you shrink, never gray out: an em-dash placeholder is the one thing
+     here that genuinely is absence, so it alone recedes. */
+  .bcn-cg :global(.bcn-cg__quiet) {
+    color: var(--color-text-muted);
+  }
+  .bcn-cg :global(.bcn-cg__danger) {
+    color: var(--color-danger-strong);
+    font-weight: var(--font-weight-semibold);
+  }
+</style>

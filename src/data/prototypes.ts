@@ -166,13 +166,43 @@ export const prototypeGroups: PrototypeGroup[] = [
         createdAt: '2026-07-14',
         status: 'in-progress',
       },
+    ],
+  },
+  {
+    slug: 'component-dashboard',
+    tenant: 'dcp',
+    title: 'Component Dashboard',
+    description:
+      'The follow-up to the Project Dashboard, one level down the tree: a component index that exists to route, and a per-component homepage that scopes tracking, monitoring, reporting, work areas, and setup to the one part of the project a person is actually working on.',
+    pages: [
       {
         slug: 'component-dashboard',
         title: 'Component Dashboard',
         description:
-          'The reimagined "All Components" surface: each component read as a compliance-tracking unit with a Tracking · Monitoring · Reporting pulse per card, and project-wide component health rolled up into a summary band. Companion to the Project Dashboard.',
+          'The per-component homepage — the project dashboard slimmed to one component. A white identity bar carrying a glyph-and-color mark instead of a cover photo, a timeline and Tracking · Monitoring · Reporting modules scoped to this component, the work-areas grid lifted off its retired tab complete with bulk import and delete, a footprint map drawn from the work areas\' real coordinates, and a deliberately thin data rail — because a component owns almost nothing of its own but its milestone overrides.',
         route: '/prototypes/component-dashboard',
+        createdAt: '2026-08-13',
+        ticket: 'BCN-1412',
+        status: 'in-progress',
+      },
+      {
+        slug: 'components',
+        title: 'Components (index)',
+        description:
+          'The middle of the tree, whose whole job is getting you to one component: a grid carrying each component\'s identity mark and a colored status so two dozen rows stay scannable, a card board reading each as a compliance-tracking unit, and a map of their footprints — with project-wide component health rolled up into a summary band above.',
+        route: '/prototypes/components',
         createdAt: '2026-07-16',
+        ticket: 'BCN-1412',
+        status: 'in-progress',
+      },
+      {
+        slug: 'component-setup-models',
+        title: 'Component Setup — two models',
+        description:
+          'Two answers to the same job: deciding which commitments apply to a component. Leads with why the current screen is broken — "pending" is a left-join miss over every component crossed with every commitment, so the count measures the project and can never reach zero — then puts a faceted decision workspace and a one-at-a-time triage queue side by side to be chosen between.',
+        route: '/prototypes/component-setup-models',
+        createdAt: '2026-08-13',
+        ticket: 'BCN-1412',
         status: 'in-progress',
       },
     ],

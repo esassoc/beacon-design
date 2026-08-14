@@ -1,0 +1,118 @@
+---
+// <BcnComponentSetupCard> — Component Setup on the component dashboard: the
+// slim card that says how much of this component's commitment applicability is
+// settled, and opens the surface that settles it.
+//
+// It sits where the project dashboard puts its Setup Wizard card, and for the
+// same reason: setup is a PIPELINE with a state, not a work area, so it gets its
+// own quiet strip in the main column rather than a fourth module beside
+// Tracking / Monitoring / Reporting.
+//
+// The figures are the point. Prod's tab badge shows a percentage derived from a
+// cross product of every component against every commitment in the project, so
+// it measures the project, drifts every time a source document gains a
+// commitment, and never reaches 100. These three figures are all scoped to THIS
+// component and each one names a list the user can actually open — which is the
+// minimum bar for a number on a dashboard.
+//
+// Two doors because this prototype carries two models of the same job; the
+// dashboard is where they are compared in context rather than side by side on a
+// specimen page. That is a prototype affordance, not a shipping proposal.
+//
+// bcn-lego-checked: esa-card is the shell, esa-stat the figures, esa-progress-bar
+// the completion, esa-button the doors, esa-badge the new-since marker. Checked
+// Ecology (no "pipeline status card" lego — esa-stat is a single metric, not a
+// carded group) and Beacon prod (its equivalent is a tab badge, not a card).
+// bcn-component-setup-card is the reusable home; its own CSS is the figure row.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaStat from '@esa/ecology/esa-stat.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
+import EsaBadge from '@esa/ecology/esa-badge.astro';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  /** Commitments with no decision on this component. */
+  undecided: number;
+  /** Of those, the ones that arrived after the last decision was made here. */
+  newSince: number;
+  /** Decisions made, against the component's whole commitment set. */
+  decided: number;
+  total: number;
+  percent: number;
+  /** Formatted date of the last decision, e.g. "Feb 11, 2026". */
+  lastReviewed: string;
+  /** Actions that would be created if every undecided commitment were applied. */
+  pendingActions: number;
+  /** DOM ids of the two model drawers this card can open. */
+  opensPrimary: string;
+  opensSecondary: string;
+  /** Route of the side-by-side comparison page. */
+  compareHref?: string;
+}
+
+const {
+  undecided,
+  newSince,
+  decided,
+  total,
+  percent,
+  lastReviewed,
+  pendingActions,
+  opensPrimary,
+  opensSecondary,
+  compareHref,
+} = Astro.props;
+---
+
+<EsaCard title="Component setup">
+  {newSince > 0 && <EsaBadge slot="actions" value={`${newSince} new`} variant="warning" size="sm" />}
+
+  <div class="bcn-csc stack" data-gap="md">
+    <div class="bcn-csc__figures">
+      <EsaStat value={String(undecided)} label="Need a decision" sub={`${pendingActions} actions waiting`} />
+      <EsaStat value={String(newSince)} label="New since your last review" sub={lastReviewed} />
+      <EsaStat value={`${decided} / ${total}`} label="Decided" sub={`${percent}% of this component`} />
+    </div>
+
+    <EsaProgressBar value={percent} variant="primary" size="sm" label="Commitments decided" />
+
+    <div class="bcn-csc__foot cluster" data-gap="sm" data-align="center">
+      <span data-opens={opensPrimary}>
+        <EsaButton color="primary">Review commitments</EsaButton>
+      </span>
+      <span data-opens={opensSecondary}>
+        <EsaButton color="secondary" appearance="outline">Try the queue</EsaButton>
+      </span>
+      {
+        compareHref && (
+          <a class="bcn-csc__compare" href={withBase(compareHref)}>
+            Compare the two models
+          </a>
+        )
+      }
+    </div>
+  </div>
+</EsaCard>
+
+<style>
+  .bcn-csc__figures {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: var(--spacing-400);
+  }
+  .bcn-csc__foot {
+    padding-top: var(--spacing-100);
+  }
+  /* The comparison link is a prototype affordance — quiet, and last. */
+  .bcn-csc__compare {
+    margin-left: auto;
+    font-size: var(--type-size-150, 0.875rem);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+  }
+  .bcn-csc__compare:hover {
+    color: var(--color-primary);
+    text-decoration: underline;
+  }
+</style>
