@@ -228,6 +228,19 @@ project dashboard.
   as license to invent them.**
 - The bulk bar no longer covers the grid search — the selection group sits beside
   the chrome, not over it.
+- **No evidence surface on the component dashboard.** The retired Summary tab
+  ended in a "Highlighted Evidence of Compliance" grid; it is not being ported.
+  That grid is fed by `dbo.ComponentSummaryEvidenceOfCompliance`, an opt-in join
+  **nothing in develop writes** (no UI touches it, `EvidenceOfComplianceUpsertDto`
+  has no field for it), and its template renders nothing at all when empty — which
+  is why it is invisible in QA. Evidence already has homes: the app-wide drawer
+  attaches it, the Data Catalog lists it. Re-confirm the no-write-path finding at
+  slicing. A component-scoped evidence view may earn its place later, as a new
+  surface designed on its own terms — not this grid resurrected.
+- **The Component details card carries only ComponentDto fields.** An invented
+  `files` array was cut (Component has no Files field; component files are
+  `EvidenceOfComplianceFile` rows on evidence records). Status and the project
+  link are also off it — the header chip and the breadcrumb own those.
 - **The header lost its T·M·R pulse strip and its "Edit component" button**, and
   the mark wears the project seal's circle/ring/lift at 72px (not the seal's
   92px: the seal overlaps the hero photo so only 46px sits in the band, and a

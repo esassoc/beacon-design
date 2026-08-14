@@ -33,6 +33,13 @@
 //     really only one it edits — milestones. Species, seasons and construction
 //     activities are project-level; a component copy would imply an override the
 //     data model does not have.
+//   · NO EVIDENCE SURFACE (decided 2026-08-13). The retired Summary tab ended in
+//     a "Highlighted Evidence of Compliance" grid, so its absence here could read
+//     as something lost in the move. It is not: that grid is fed by an opt-in
+//     join nothing in the app writes, and it renders nothing when empty — which
+//     is why nobody has seen it in QA. Evidence already has homes (the app-wide
+//     drawer attaches it, the Data Catalog lists it). A component-scoped evidence
+//     view may earn its place later; it would be a new surface, not that grid.
 //
 // The map draws WORK AREAS, not a boundary, because Component has no geometry
 // column and the boundary epic (BCN-1582) is Ready-for-Dev with zero commits.
