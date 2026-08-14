@@ -421,9 +421,17 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
 
   /* ── Grid host: a FIXED, generous frame. Filtering, selecting, and deleting all
         leave the footprint alone — the page below never jumps. ──────────────── */
+  /* min-width: 0 so the board never widens its column. Eight columns of work-area
+     data want more room than a dashboard's main column has, and a grid that pushes
+     its container is a grid that steals width from the rail beside it. AG Grid
+     scrolls horizontally inside this box instead. */
   .bcn-wa__grid {
     width: 100%;
+    min-width: 0;
     height: 34rem;
+  }
+  .bcn-wa {
+    min-width: 0;
   }
 
   /* ── Footer: download · record count (the house data-table chrome) ───────── */

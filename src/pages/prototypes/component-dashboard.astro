@@ -124,7 +124,13 @@ import { DECIDED_PERCENT, LAST_REVIEWED, PENDING_ACTION_COUNT, SETUP_TOTALS, fmt
         title="Timeline"
       />
 
-      <div class="sidebar" data-side="end" data-gap="xl" style="--sidebar-width: 16rem; --sidebar-content-min: 64%;">
+      {/* 21.5rem, not the project dashboard's declared 16rem, so the two pages LOOK
+          alike. Both declare 16rem; the project's rail renders ~343px anyway because
+          its content (long data labels, the project description) pushes past the
+          basis, while this page's shorter labels sit at it — 257px, and a main column
+          86px wider. Matching the rendered width is what actually matches the pages;
+          matching the declared one is what let them drift. */}
+      <div class="sidebar" data-side="end" data-gap="xl" style="--sidebar-width: 21.5rem; --sidebar-content-min: 64%;">
         <div class="stack" data-gap="lg">
           <BcnLinkRowCard title="Component data" rows={COMPONENT_UTILITIES} chevrons />
           <BcnComponentMap
