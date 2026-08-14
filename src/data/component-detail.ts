@@ -180,60 +180,6 @@ export const WORK_AREA_COUNT = WORK_AREAS.length;
 /** Total disturbance across the component's work areas — a real sum, not a label. */
 export const WORK_AREA_ACRES = Math.round(WORK_AREAS.reduce((n, w) => n + w.measureValue, 0) * 10) / 10;
 
-// ── Work-area dialogs: custom fields + a staged import file ─────────────────
-// The Create and Bulk Import dialogs are ports of prod's `work-area-upsert-dialog`
-// and `work-area-bulk-import-dialog`, so they need the two things those dialogs
-// read: the tenant's WorkArea custom-field definitions, and a parsed file to map.
-
-/** CustomFieldDefinition rows for WorkArea — tenant-defined, so this is a lookup. */
-export interface CustomFieldDef {
-  id: string;
-  label: string;
-  type: 'text' | 'number' | 'date' | 'select';
-  options?: string[];
-}
-export const WORK_AREA_CUSTOM_FIELDS: CustomFieldDef[] = [
-  { id: 'cf-method', label: 'Exploration method', type: 'select', options: ['Boring', 'CPT', 'Water Quality Test'] },
-  { id: 'cf-depth', label: 'Depth (ft)', type: 'number' },
-  { id: 'cf-apn', label: 'Parcel APN', type: 'text' },
-  { id: 'cf-dcpn', label: 'DCPN', type: 'text' },
-  { id: 'cf-county', label: 'County', type: 'select', options: ['SACRAMENTO', 'SAN JOAQUIN', 'CONTRA COSTA', 'ALAMEDA'] },
-  { id: 'cf-tep', label: 'Entry agreement', type: 'text' },
-];
-
-/**
- * A parsed upload, standing in for what `parse-shapefile` returns. Columns are the
- * raw header names a real geotech export carries — deliberately NOT already matching
- * Beacon's field names, because the whole point of the mapping step is that they
- * never do. Rows are real sites from the corridor that this component does not yet
- * track, so importing them is a plausible act rather than a duplicate.
- */
-export const IMPORT_FIXTURE = {
-  fileName: 'DCP_Geotech_Bouldin_Phase2.zip',
-  kind: 'shapefile' as const,
-  columns: ['SITE_ID', 'METHOD', 'DEPTH_FT', 'APN', 'DCPN', 'COUNTY', 'TEP_BATCH'],
-  rows: (sites.features as unknown as SiteFeature[])
-    .filter((f) => {
-      const [lon, lat] = f.geometry.coordinates;
-      // The reach immediately north of this component — adjacent, not overlapping.
-      return lat > BOULDIN_BOX.latMax && lat <= 38.3 && lon >= BOULDIN_BOX.lonMin && lon <= BOULDIN_BOX.lonMax;
-    })
-    .slice(0, 14)
-    .map((f) => {
-      const p = f.properties;
-      return {
-        SITE_ID: p.id,
-        METHOD: p.method,
-        DEPTH_FT: String(p.depthFt),
-        APN: p.parcelApn,
-        DCPN: p.dcpn,
-        COUNTY: p.county,
-        TEP_BATCH: p.entryAgreement,
-        hasGeometry: true,
-      };
-    }),
-};
-
 // ── Component-scoped actions ────────────────────────────────────────────────
 /** The component's slice of the one project action set. */
 export const COMPONENT_ACTIONS: ProjectAction[] = PROJECT_ACTIONS.filter((a) => a.where === COMPONENT_NAME);

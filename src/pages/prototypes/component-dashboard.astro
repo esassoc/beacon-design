@@ -46,7 +46,6 @@ import BcnSiblingNav from '../../components/bcn/BcnSiblingNav.astro';
 import BcnProjectTimeline from '../../components/bcn/BcnProjectTimeline.astro';
 import BcnModules from '../../components/bcn/BcnModules.astro';
 import BcnWorkAreaBoard from '../../components/bcn/BcnWorkAreaBoard.astro';
-import BcnWorkAreaDialogs from '../../components/bcn/BcnWorkAreaDialogs.astro';
 import BcnComponentSetupCard from '../../components/bcn/BcnComponentSetupCard.astro';
 import BcnLinkRowCard from '../../components/bcn/BcnLinkRowCard.astro';
 import BcnComponentMap from '../../components/bcn/BcnComponentMap.astro';
@@ -81,7 +80,6 @@ import { DECIDED_PERCENT, LAST_REVIEWED, PENDING_ACTION_COUNT, SETUP_TOTALS, fmt
     - timeline              -> bcn-project-timeline       # 30/60/90d, scoped to this component's actions
     - modules               -> bcn-modules                # Tracking / Monitoring / Reporting, scoped
     - work areas            -> bcn-work-area-board        # the retired tab's grid + its bulk actions
-    - work area dialogs     -> bcn-work-area-dialogs      # Create + two-stage Bulk Import, ported from prod
     - component setup       -> bcn-component-setup-card   # applicable-commitment progress; opens the wide drawer
     - component data rail   -> bcn-link-row-card          # four rows, not six; opens panels via ?data=<key>
     - component map         -> bcn-component-map          # work-area footprint, inset -> modal
@@ -159,7 +157,6 @@ import { DECIDED_PERCENT, LAST_REVIEWED, PENDING_ACTION_COUNT, SETUP_TOTALS, fmt
   </PageLayout>
 
   <BcnComponentDataPanel />
-  <BcnWorkAreaDialogs />
   <BcnLogoPicker mark={COMPONENT.mark} entityName={COMPONENT.name} heading="Component logo" />
   <BcnSetupWorkspace id="bcn-setup-workspace" componentName={COMPONENT.name} />
   <BcnSetupQueue id="bcn-setup-queue" componentName={COMPONENT.name} />

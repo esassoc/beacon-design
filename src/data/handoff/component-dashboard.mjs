@@ -119,15 +119,17 @@ export default {
         'The work-areas TAB goes away and the grid lives here. There is still a work-area detail page (level four); there does not need to be a work-area index page.',
         'The columns are the fields that were always there. Production\'s grid shows Identifier plus an edit and a delete button, while the endpoint it calls already returns geometry, measure, county, method, depth and custom fields — all discarded. Showing them is most of the improvement.',
         'Status renders as a quiet chip with a dot, never as a row tint or a colored edge.',
-        'The bulk bar swaps into the same grid cell as the search chrome, so the grid never shifts when a row is selected.',
+        'The bulk group sits BESIDE the search + clear-filters chrome, not over it. An earlier pass overlaid the two in one cell to stop the grid shifting on selection; it worked, but it removed the search field at exactly the moment someone who has filtered to a set wants to narrow it further. Selecting rows and searching are not alternatives.',
+        'REUSE PROD\'S TWO DIALOGS AS-IS. Create opens `work-area-upsert-dialog` (Identifier, required, plus the tenant\'s WorkArea custom fields via entity-custom-fields) and Bulk Import opens `work-area-bulk-import-dialog`. Neither is being redesigned, so neither is prototyped: the buttons on the prototype emit an event and open nothing ON PURPOSE. A prototype approximation was built and then deliberately cut, because it could not match their styling and a nearly-right dialog reads as a redesign proposal — a more expensive kind of wrong than an empty click. Do not treat their absence from the prototype as license to invent them.',
       ],
       gotchas: [
         'A row click must NOT open the work area when the click originated on a selection checkbox. Guard on .ag-selection-checkbox / .ag-checkbox — the same guard permit-tracking already carries.',
         'The grid kit\'s makeStatusRenderer requires a literal hex per status, which collides with token discipline. Use the tone-key renderer so color stays in CSS.',
-        'Bulk import is two-stage (upload, then column mapping) in production, including a filter to import a subset. Do not reduce it to a single file drop.',
+        'Bulk import is two-stage in production — upload a CSV or zipped shapefile, then map each source column to Ignore / Identifier / a CustomFieldDefinitionID, with an optional single-column filter and a preview of what will land. Exactly one column must be the Identifier. Do not reduce it to a single file drop, and do not lose the mapping step: a geotech export\'s headers never already match Beacon\'s field names.',
+        'The bulk-import dialog also carries prod\'s limits (10 MB, 5,000 rows, 50 preview rows) and routes shapefiles through POST /work-areas/parse-shapefile before committing via /work-areas/bulk-create.',
       ],
       acceptance: [
-        'All of the component\'s work areas list with their real columns; select-all and per-row selection drive the bulk bar; delete confirms and removes; the grid height does not change when filtering or selecting; a checkbox click never navigates.',
+        'All of the component\'s work areas list with their real columns; select-all and per-row selection drive the bulk bar while the search field stays visible and usable; delete confirms and removes; the grid height does not change when filtering or selecting; a checkbox click never navigates; Create and Bulk Import open the existing dialogs unchanged.',
       ],
     },
     {

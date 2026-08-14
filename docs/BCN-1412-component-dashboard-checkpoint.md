@@ -218,9 +218,21 @@ project dashboard.
   "where"; Board was a second answer to Grid's question. `bcn-component-board`
   and `bcn-component-card` were deleted with it — recoverable from git (`c82fb54`)
   if a cross-component comparison surface ever wants them.
-- **Work-area Create and Bulk Import** now open ports of prod's two dialogs, so
-  the buttons no longer look live and do nothing. The bulk bar no longer covers
-  the grid search.
+- **Work-area Create and Bulk Import stay UNWIRED on purpose.** Prod's
+  `work-area-upsert-dialog` and `work-area-bulk-import-dialog` are reused
+  unchanged, so neither is being redesigned. A prototype approximation of both
+  was built and then cut (2026-08-13): it could not match their styling, and a
+  nearly-right dialog reads as a redesign proposal — a more expensive kind of
+  wrong than a button that opens nothing. The instruction lives in the handoff
+  spec's work-areas section so the epic carries it. **Do not read their absence
+  as license to invent them.**
+- The bulk bar no longer covers the grid search — the selection group sits beside
+  the chrome, not over it.
+- **The header lost its T·M·R pulse strip and its "Edit component" button**, and
+  the mark wears the project seal's circle/ring/lift at 72px (not the seal's
+  92px: the seal overlaps the hero photo so only 46px sits in the band, and a
+  92px mark fully in-band became the tallest thing in it and took the band's
+  height away from its content).
 
 ## 7. Open questions for review
 

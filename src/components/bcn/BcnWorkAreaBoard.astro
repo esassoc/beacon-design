@@ -13,10 +13,23 @@
 //
 // Selection is the second half of the retired tab: per-row edit/delete pencils became
 // a checkbox column feeding a bulk bar, so deleting eleven cleared sites is one
-// action instead of eleven. The bulk bar SWAPS with the search/clear-filters chrome
-// in the same toolbar cell rather than inserting above it — the grid never moves when
-// a row is checked, which is the house rule that work surfaces hold a stable frame.
-// Same reason the grid host is a fixed height: filtering and selecting don't resize it.
+// action instead of eleven. The bulk group sits BESIDE the search/clear-filters
+// chrome rather than over it (review, 2026-08-13 — an earlier pass overlaid them in
+// one cell to keep the grid still, which removed search exactly when someone
+// narrowing a set wants it). The grid host is a fixed height for the same reason:
+// filtering and selecting must not resize the frame.
+//
+// CREATE AND BULK IMPORT ARE DELIBERATELY NOT WIRED (review, 2026-08-13). Both
+// emit an event and open nothing. Prod already has both dialogs —
+// `work-area-upsert-dialog` (Identifier + the tenant's custom fields) and
+// `work-area-bulk-import-dialog` (two stages: upload a CSV or zipped shapefile,
+// then map each column to the Identifier or a custom field, with an optional
+// single-column filter and a preview) — and the epic reuses them UNCHANGED. A
+// prototype approximation of them was built and then cut: it could not match their
+// styling, and a dialog that looks nearly-right reads as a redesign proposal, which
+// is a more expensive kind of wrong than an empty click. The buttons stay visible
+// because the affordances are part of this surface; only their contents are
+// out of scope here.
 //
 // bcn-lego-checked: no esa-* data-grid lego exists — the hub's "esa-grid" is a docs
 // page with no source, and the nearest components are esa-card (a box) and
