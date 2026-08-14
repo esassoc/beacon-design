@@ -57,8 +57,48 @@ export function setupLogoPicker(root: HTMLElement): LogoPickerController {
   const colorBtns = [...root.querySelectorAll<HTMLButtonElement>('[data-color-option]')];
   const btn = (role: string) => root.querySelector<HTMLElement>(`[data-lp="${role}"]`);
 
+  // ── The photo branch (the PRIMARY path) ──
+  const fileInput = root.querySelector<HTMLElement>('[data-lp-file]');
+  const dropzone = root.querySelector<HTMLElement>('[data-lp-dropzone]');
+  const chosen = root.querySelector<HTMLElement>('[data-lp-chosen]');
+  const filename = root.querySelector<HTMLElement>('[data-lp-filename]');
+  const photoPreview = root.querySelector<HTMLImageElement>('[data-lp-preview-photo]');
+  const markPreview = root.querySelector<HTMLElement>('[data-lp-preview-mark]');
+  const alt = root.querySelector<HTMLElement>('[data-lp-alt]');
+  const supplanted = root.querySelector<HTMLElement>('[data-lp-supplanted]');
+
   let current: EntityMark = readMarkFromDom();
   let baseline: EntityMark = { ...current };
+  /** Object URL for the staged photo, revoked on replace so nothing leaks. */
+  let objectUrl: string | null = null;
+
+  /**
+   * A photo WINS over the glyph pair, so setting one takes the symbol half out of
+   * play rather than leaving two live controls fighting over one outcome. The pair
+   * is never cleared — removing the photo restores whatever mark was there before.
+   */
+  function applyPhoto(image: string | undefined, name?: string): void {
+    current = { ...current, image };
+    const has = Boolean(image);
+
+    if (photoPreview) {
+      photoPreview.hidden = !has;
+      if (has) photoPreview.src = image as string;
+    }
+    if (markPreview) markPreview.hidden = has;
+    if (dropzone) dropzone.hidden = has;
+    if (chosen) chosen.hidden = !has;
+    if (filename && name) filename.textContent = name;
+    if (supplanted) supplanted.hidden = !has;
+    if (alt) alt.dataset.inert = String(has);
+  }
+
+  function releaseObjectUrl(): void {
+    if (objectUrl) {
+      URL.revokeObjectURL(objectUrl);
+      objectUrl = null;
+    }
+  }
 
   // The SSR'd preview already carries the starting mark on its data-* hooks, so the
   // controller starts from the DOM rather than needing the mark passed in twice.
@@ -75,7 +115,9 @@ export function setupLogoPicker(root: HTMLElement): LogoPickerController {
     const glyph = MARK_GLYPH_BY_KEY[mark.glyph] ?? MARK_GLYPH_BY_KEY[DEFAULT_MARK.glyph];
     const color = MARK_COLOR_BY_KEY[mark.color] ?? MARK_COLOR_BY_KEY[DEFAULT_MARK.color];
     const style: MarkStyle = mark.style ?? DEFAULT_MARK.style;
-    current = { glyph: glyph.key, color: color.key, style };
+    // `image` rides through: paint() owns the glyph pair, not the photo branch, and
+    // rebuilding `current` without it would silently drop a staged photo.
+    current = { glyph: glyph.key, color: color.key, style, image: mark.image };
 
     // Value-driven color: the TOKEN reference goes onto --_c, so the preview follows
     // the theme (and dark mode) exactly like every other surface drawing this mark.
@@ -151,6 +193,24 @@ export function setupLogoPicker(root: HTMLElement): LogoPickerController {
     });
   }
 
+  // esa-file-upload collects Files and emits `change`; the staged preview is a real
+  // object URL so the user sees their own photo, not a placeholder standing in for it.
+  fileInput?.addEventListener('change', (event) => {
+    const detail = (event as CustomEvent<{ files?: File[] }>).detail;
+    const file = detail?.files?.[0] ?? (event.target as HTMLInputElement | null)?.files?.[0];
+    if (!file) return;
+    releaseObjectUrl();
+    objectUrl = URL.createObjectURL(file);
+    applyPhoto(objectUrl, file.name);
+  });
+
+  btn('remove-photo')?.addEventListener('click', () => {
+    releaseObjectUrl();
+    applyPhoto(undefined);
+    // Repaint so the restored glyph pair is selected and the grids rove correctly.
+    paint({ ...current, image: undefined });
+  });
+
   btn('save')?.addEventListener('click', () => {
     baseline = { ...current };
     root.dispatchEvent(
@@ -166,14 +226,21 @@ export function setupLogoPicker(root: HTMLElement): LogoPickerController {
   btn('cancel')?.addEventListener('click', () => dialog.close());
 
   // Esc, the backdrop and the close button all land here — one revert path, so the
-  // lego keeps owning dismissal and this controller only owns the VALUE.
-  root.addEventListener('close', () => paint(baseline));
+  // lego keeps owning dismissal and this controller only owns the VALUE. The photo
+  // reverts with the pair, and a staged object URL is released rather than leaked.
+  root.addEventListener('close', () => {
+    if (baseline.image !== objectUrl) releaseObjectUrl();
+    applyPhoto(baseline.image);
+    paint(baseline);
+  });
 
+  applyPhoto(current.image);
   paint(current);
 
   return {
     open(mark: EntityMark) {
       baseline = { ...mark };
+      applyPhoto(mark.image);
       paint(mark);
       dialog.open = true;
     },

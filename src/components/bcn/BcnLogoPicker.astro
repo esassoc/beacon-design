@@ -1,13 +1,19 @@
 ---
-// <BcnLogoPicker> — the dialog that makes a component's identity mark: "pick a color
-// and a symbol, like you would for an account avatar."
+// <BcnLogoPicker> — the dialog that gives a component its identity mark: upload a
+// photo, or build one from a symbol and a color.
 //
-// Why a picker instead of an upload field: asking someone for a good picture of the
-// Bouldin Island Launch Shaft is a question with no good answer and a high
-// abandonment rate — the field stays empty and every component in the project looks
-// identical (the full argument lives in src/data/entity-marks.ts). Two closed sets,
-// 20 glyphs × 20 swatches, mean two clicks always produce something legible and
-// impossible to get wrong. The photo path survives as the tertiary action.
+// ORDER MATTERS HERE, and it was reversed at review (2026-08-13). The first pass
+// led with the symbol grid and left the photo as a tertiary "Upload an image
+// instead" button in the footer, which read as a fallback for people who could not
+// find one. It is the other way round: a real picture of the shaft is the strongest
+// landmark available, so the upload leads, and the glyph × swatch pair is the
+// alternative that always works — the thing that stops a user stranded on "what's a
+// good picture for the Bouldin Island Launch Shaft?" from leaving the field empty
+// and every component looking identical (the argument in src/data/entity-marks.ts).
+//
+// A photo WINS whenever one is set, so the symbol half is not editable underneath
+// it — it dims and says so, with Remove as the way back. The pair is kept rather
+// than cleared, so removing the photo restores the mark the component had before.
 //
 // The LIVE PREVIEW is the point of the layout: an xl <BcnEntityLogo> sits beside the
 // entity's real name at the top, and every glyph/swatch/style click repaints it
@@ -23,10 +29,9 @@
 // Wiring: setupLogoPicker(root) is called for every rendered picker on load and the
 // controller is parked on the element as `.logoPicker`, so a host page opens it with
 // `document.getElementById('…').logoPicker.open(mark)` and listens for the bubbling
-// `bcn-mark-change` event. The tertiary "Upload an image instead" button is left for
-// the host to wire — its hook is `[data-lp="upload"]` — because where an upload goes
-// (esa-file-upload drawer, OS picker) is the host surface's decision, not the
-// picker's.
+// `bcn-mark-change` event. The upload is now IN the dialog (esa-file-upload), not
+// delegated to the host: a photo is the primary path, and a primary path cannot be
+// left for someone else to wire.
 //
 // bcn-lego-checked: no esa-* lego is an icon/symbol picker — I walked the full
 // catalog. esa-color-picker (a REAL lego, and the closest thing) is a FREEFORM hex
@@ -44,12 +49,7 @@
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIcon from '@esa/ecology/esa-icon.astro';
 import BcnEntityLogo from './BcnEntityLogo.astro';
-import {
-  MARK_CATEGORY_ORDER,
-  MARK_COLORS,
-  MARK_GLYPHS,
-  type EntityMark,
-} from '../../data/entity-marks';
+import { MARK_COLORS, MARK_GLYPHS, type EntityMark } from '../../data/entity-marks';
 
 interface Props {
   /** The dialog's DOM id — the handle a host uses to open it. */
@@ -63,95 +63,116 @@ interface Props {
 }
 const { id = 'bcn-logo-picker', mark, entityName, heading = 'Component logo' } = Astro.props;
 
-// This dialog edits the GENERATED mark, so the preview always draws the glyph/color
-// pair even when the entity currently carries a photo — the photo is the other
-// branch, reached through "Upload an image instead".
+// The preview draws the glyph/color pair; when a photo is set the controller shows
+// the photo in its place. Both live in the same slot so the preview is always "what
+// this component will actually wear".
 const previewMark: EntityMark = { glyph: mark.glyph, color: mark.color, style: mark.style };
-
-const glyphGroups = MARK_CATEGORY_ORDER.map((category) => ({
-  category,
-  glyphs: MARK_GLYPHS.filter((g) => g.category === category),
-}));
 ---
 
 <esa-dialog id={id} heading={heading} size="md" data-bcn-logo-picker>
   <div class="bcn-logo-picker stack" data-gap="lg">
-    <!-- Live preview — the landmark at the size it will wear in a header. -->
+    <!-- Live preview — whatever this component will actually wear, at header size. -->
     <div class="bcn-logo-picker__preview cluster" data-gap="sm">
-      <BcnEntityLogo mark={previewMark} size="xl" />
+      <span class="bcn-logo-picker__previewslot">
+        <span data-lp-preview-mark><BcnEntityLogo mark={previewMark} size="xl" /></span>
+        <img class="bcn-logo-picker__photo" data-lp-preview-photo alt="" hidden />
+      </span>
       <span class="bcn-logo-picker__name type-card-title">{entityName}</span>
     </div>
 
-    <esa-button-toggle class="bcn-logo-picker__style" label="Style" size="sm"></esa-button-toggle>
+    <!-- PRIMARY: the photo. -->
+    <section class="stack" data-gap="sm" aria-labelledby={`${id}-photo-label`}>
+      <span class="bcn-logo-picker__field-label" id={`${id}-photo-label`}>Photo</span>
 
-    <section class="stack" data-gap="sm" aria-labelledby={`${id}-symbol-label`}>
-      <span class="bcn-logo-picker__field-label" id={`${id}-symbol-label`}>Symbol</span>
-      {
-        glyphGroups.map(({ category, glyphs }) => (
-          <div class="stack" data-gap="xs">
-            <span class="bcn-logo-picker__group" id={`${id}-cat-${category}`}>{category}</span>
-            <div
-              class="bcn-logo-picker__grid bcn-logo-picker__grid--glyph grid"
-              data-gap="xs"
-              role="group"
-              aria-labelledby={`${id}-cat-${category}`}
-            >
-              {glyphs.map((g) => (
-                <button
-                  type="button"
-                  class="bcn-logo-picker__glyph"
-                  data-glyph-option={g.key}
-                  aria-pressed="false"
-                  aria-label={g.label}
-                  title={g.label}
-                >
-                  <EsaIcon name={g.key} paths={g.paths} size="md" />
-                </button>
-              ))}
-            </div>
-          </div>
-        ))
-      }
-    </section>
+      <div data-lp-dropzone>
+        <esa-file-upload label="Component photo" accept="image/*" max-size-mb="5" data-lp-file></esa-file-upload>
+        <p class="bcn-logo-picker__hint">A picture of the component itself makes the strongest landmark.</p>
+      </div>
 
-    <section class="stack" data-gap="sm" aria-labelledby={`${id}-color-label`}>
-      <span class="bcn-logo-picker__field-label" id={`${id}-color-label`}>Color</span>
-      <div
-        class="bcn-logo-picker__grid bcn-logo-picker__grid--color grid"
-        data-gap="xs"
-        role="group"
-        aria-labelledby={`${id}-color-label`}
-      >
-        {
-          MARK_COLORS.map((c) => (
-            <button
-              type="button"
-              class="bcn-logo-picker__swatch"
-              data-color-option={c.key}
-              aria-pressed="false"
-              aria-label={c.label}
-              title={c.label}
-              style={`--_c: ${c.token};`}
-            />
-          ))
-        }
+      <!-- Shown once a photo is set; Remove is the way back to the symbol. -->
+      <div class="bcn-logo-picker__chosen repel" data-lp-chosen hidden>
+        <span class="bcn-logo-picker__filename" data-lp-filename></span>
+        <EsaButton color="ghost" appearance="outline" size="sm" icon="trash-2" data-lp="remove-photo">
+          Remove photo
+        </EsaButton>
       </div>
     </section>
+
+    <!-- SECONDARY: the always-works alternative. Dimmed while a photo is set. -->
+    <div class="bcn-logo-picker__alt stack" data-gap="lg" data-lp-alt>
+      <div class="bcn-logo-picker__rule" role="separator" aria-hidden="true">
+        <span>or use a symbol</span>
+      </div>
+
+      <p class="bcn-logo-picker__hint bcn-logo-picker__supplanted" data-lp-supplanted hidden>
+        The photo is being used. Remove it to go back to a symbol.
+      </p>
+
+      <esa-button-toggle class="bcn-logo-picker__style" label="Style" size="sm"></esa-button-toggle>
+
+      <section class="stack" data-gap="sm" aria-labelledby={`${id}-symbol-label`}>
+        <span class="bcn-logo-picker__field-label" id={`${id}-symbol-label`}>Symbol</span>
+        <div
+          class="bcn-logo-picker__grid bcn-logo-picker__grid--glyph grid"
+          data-gap="xs"
+          role="group"
+          aria-labelledby={`${id}-symbol-label`}
+        >
+          {
+            MARK_GLYPHS.map((g) => (
+              <button
+                type="button"
+                class="bcn-logo-picker__glyph"
+                data-glyph-option={g.key}
+                aria-pressed="false"
+                aria-label={g.label}
+                title={g.label}
+              >
+                <EsaIcon name={g.key} paths={g.paths} size="md" />
+              </button>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="stack" data-gap="sm" aria-labelledby={`${id}-color-label`}>
+        <span class="bcn-logo-picker__field-label" id={`${id}-color-label`}>Color</span>
+        <div
+          class="bcn-logo-picker__grid bcn-logo-picker__grid--color grid"
+          data-gap="xs"
+          role="group"
+          aria-labelledby={`${id}-color-label`}
+        >
+          {
+            MARK_COLORS.map((c) => (
+              <button
+                type="button"
+                class="bcn-logo-picker__swatch"
+                data-color-option={c.key}
+                aria-pressed="false"
+                aria-label={c.label}
+                title={c.label}
+                style={`--_c: ${c.token};`}
+              />
+            ))
+          }
+        </div>
+      </section>
+    </div>
   </div>
 
-  <!-- Windows order: tertiary far left, then the action group with Save LEFT of Cancel. -->
-  <div slot="footer" class="bcn-logo-picker__foot repel" data-gap="sm">
-    <EsaButton color="ghost" size="sm" icon="upload" data-lp="upload">Upload an image instead</EsaButton>
-    <span class="cluster" data-gap="xs">
-      <EsaButton color="primary" data-lp="save">Save</EsaButton>
-      <EsaButton color="ghost" appearance="outline" data-lp="cancel">Cancel</EsaButton>
-    </span>
+  <!-- Windows order: Save LEFT of Cancel. No tertiary action — the upload it used
+       to hold is now the section that leads the dialog. -->
+  <div slot="footer" class="bcn-logo-picker__foot cluster" data-gap="xs">
+    <EsaButton color="primary" data-lp="save">Save</EsaButton>
+    <EsaButton color="ghost" appearance="outline" data-lp="cancel">Cancel</EsaButton>
   </div>
 </esa-dialog>
 
 <script>
   import '@esa/ecology/esa-dialog';
   import '@esa/ecology/esa-button-toggle';
+  import '@esa/ecology/esa-file-upload';
   import { setupLogoPicker, type LogoPickerController } from './logo-picker';
 
   // Park the controller on the element so a host opens the picker without importing
@@ -179,10 +200,71 @@ const glyphGroups = MARK_CATEGORY_ORDER.map((category) => ({
     font-weight: var(--font-weight-medium);
     color: var(--form-label-color);
   }
-  /* Category headings are CONTENT, not ornament: normal case, 14px, secondary. */
-  .bcn-logo-picker__group {
+  .bcn-logo-picker__hint {
+    margin: var(--spacing-150) 0 0;
     font-size: 0.875rem;
-    color: var(--color-text-secondary);
+    color: var(--color-text-tertiary);
+  }
+
+  /* The preview slot holds the mark and the photo in the same box, so swapping
+     between them never changes the dialog's layout. */
+  .bcn-logo-picker__previewslot {
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+  .bcn-logo-picker__photo {
+    width: 72px;
+    height: 72px;
+    object-fit: cover;
+    border-radius: var(--radius-full);
+    background: var(--color-surface);
+    border: 3px solid var(--color-surface);
+    box-shadow: var(--shadow-100, 0 2px 12px 0 rgba(0, 0, 0, 0.08));
+  }
+  .bcn-logo-picker__photo[hidden],
+  .bcn-logo-picker__chosen[hidden],
+  .bcn-logo-picker__supplanted[hidden] {
+    display: none;
+  }
+
+  .bcn-logo-picker__chosen {
+    align-items: center;
+    gap: var(--spacing-300);
+    padding: var(--spacing-250) var(--spacing-300);
+    background: var(--color-surface-sunken);
+    border-radius: var(--radius-200);
+  }
+  .bcn-logo-picker__filename {
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* The "or use a symbol" rule is what makes the two paths read as primary and
+     alternative rather than as two equal fields. */
+  .bcn-logo-picker__rule {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    color: var(--color-text-tertiary);
+    font-size: 0.875rem;
+  }
+  .bcn-logo-picker__rule::before,
+  .bcn-logo-picker__rule::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--color-border-light);
+  }
+
+  /* A photo WINS, so the symbol half stops being editable underneath it. Dimmed
+     and inert, with the reason stated rather than left to be inferred. */
+  .bcn-logo-picker__alt[data-inert='true'] .bcn-logo-picker__style,
+  .bcn-logo-picker__alt[data-inert='true'] section {
+    opacity: 0.45;
+    pointer-events: none;
   }
 
   /* Both option grids ride the .grid primitive; the tiles keep their own square
@@ -242,7 +324,5 @@ const glyphGroups = MARK_CATEGORY_ORDER.map((category) => ({
       0 0 0 4px var(--color-primary);
   }
 
-  /* The footer slot is a flex-end row; the repel needs the full width to push the
-     tertiary action to the far left. */
-  .bcn-logo-picker__foot { width: 100%; }
+  .bcn-logo-picker__foot { justify-content: flex-end; }
 </style>
