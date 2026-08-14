@@ -199,6 +199,15 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
          list ~40%, preview the rest. ── -->
     <div class="sidebar bcn-sw__panes" data-gap="md">
       <section class="bcn-sw__pane bcn-sw__pane--list" aria-label="Commitments in view">
+        {/* List header — the home for select-all, which the first pass had nowhere
+            to live, so the checkboxes offered no way to take a whole filtered set.
+            Selecting all selects what is VISIBLE, never the hidden remainder: a
+            control that silently reaches past the filter you just set is a trap. */}
+        <div class="bcn-sw__listhead">
+          <esa-checkbox size="sm" data-sw-check-all aria-label="Select every commitment in view"></esa-checkbox>
+          <span class="bcn-sw__listcount" data-sw-listcount></span>
+        </div>
+
         <div class="bcn-sw__scroll" data-sw-scroll>
           <ul class="bcn-sw__rows" data-sw-rows>
             {
@@ -216,48 +225,57 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
                   data-rationale={c.rationale ? 'true' : 'false'}
                   hidden
                 >
-                  <span class="bcn-sw-row__check">
-                    <esa-checkbox
-                      size="sm"
-                      data-sw-check={c.id}
-                      aria-label={`Select ${c.code} for a bulk decision`}
-                    />
-                  </span>
-
-                  <button
-                    type="button"
-                    class="bcn-sw-row__hit"
-                    data-sw-open={c.id}
-                    aria-label={`Show ${c.code} ${c.title} in the preview`}
-                  >
-                    <span class="bcn-sw-row__titleline">
-                      <BcnCommitmentBadge code={c.code} size="sm" />
-                      <span class="bcn-sw-row__name">{c.title}</span>
-                      {c.suggested && (
-                        <span class="bcn-sw-row__mark">
-                          <EsaBadge value="Suggested" size="sm" />
-                        </span>
-                      )}
+                  <span class="bcn-sw-row__top">
+                    <span class="bcn-sw-row__check">
+                      <esa-checkbox
+                        size="sm"
+                        data-sw-check={c.id}
+                        aria-label={`Select ${c.code} for a bulk decision`}
+                      />
                     </span>
+
+                    <button
+                      type="button"
+                      class="bcn-sw-row__hit"
+                      data-sw-open={c.id}
+                      aria-label={`Show ${c.code} ${c.title} in the preview`}
+                    >
+                      <span class="bcn-sw-row__titleline">
+                        <BcnCommitmentBadge code={c.code} size="sm" />
+                        <span class="bcn-sw-row__name" title={c.title}>{c.title}</span>
+                      </span>
+                    </button>
+
+                    <span class="bcn-sw-row__marks">
+                      {c.suggested && <EsaBadge value="Suggested" size="sm" />}
+                      {/* The decision, as a chip — never a row edge. */}
+                      <span class="bcn-sw-row__state bcn-sw-row__state--applied">
+                        <EsaBadge value="Applied" size="sm" />
+                      </span>
+                      <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
+                        <EsaBadge value="Dismissed" size="sm" />
+                      </span>
+                    </span>
+                  </span>
+
+                  {/* Bottom row: the facts on the left, the decision on the right.
+                      Sharing one row rather than stacking a second band is what keeps
+                      the card slim; the buttons are ALWAYS laid out and only change
+                      visibility, so hovering reveals rather than resizes — 26 cards
+                      shifting under the cursor is unusable. */}
+                  <span class="bcn-sw-row__bottom">
                     <span class="bcn-sw-row__meta">{rowMeta(c)}</span>
-                  </button>
-
-                  {/* The decision, as a chip — never a row edge. */}
-                  <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                    <EsaBadge value="Applied" size="sm" />
-                  </span>
-                  <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                    <EsaBadge value="Dismissed" size="sm" />
-                  </span>
-
-                  {/* One at a time, without leaving the list. */}
-                  <span class="bcn-sw-row__acts">
-                    <EsaButton size="sm" color="primary" appearance="soft" data-sw-apply={c.id}>
-                      Apply
-                    </EsaButton>
-                    <EsaButton size="sm" color="ghost" appearance="outline" data-sw-dismiss={c.id}>
-                      Dismiss
-                    </EsaButton>
+                    <span class="bcn-sw-row__acts">
+                      <EsaButton size="sm" color="primary" appearance="soft" data-sw-apply={c.id}>
+                        Apply
+                      </EsaButton>
+                      <EsaButton size="sm" color="ghost" appearance="outline" data-sw-dismiss={c.id}>
+                        Dismiss
+                      </EsaButton>
+                      <button type="button" class="bcn-sw-row__undo" data-sw-undo={c.id}>
+                        Undo
+                      </button>
+                    </span>
                   </span>
                 </li>
               ))
@@ -326,12 +344,19 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
                   <BcnKeyValue label="Added to the project" value={fmtDate(c.addedOn)} />
                 </div>
 
-                {/* The part prod omits: what the decision DOES. */}
+                {/* THE PART PROD OMITS: what the decision DOES. Slimmed at review
+                    (2026-08-13) from a boxed panel to a labelled section, because the
+                    box gave a one-action commitment the visual weight of a warning.
+                    It is NOT a restatement of the facts above it: those count
+                    REQUIREMENTS, this names the ACTIONS that get materialised onto the
+                    component — a different entity, sometimes several, sometimes none,
+                    each landing in a different module. That relationship is the whole
+                    reason this screen has consequences, and prod never states it. */}
                 <section class="bcn-sw-prev__effect">
                   <h4 class="bcn-sw-prev__efftitle">
                     {c.actions.length
-                      ? `Applying this creates ${c.actions.length} ${plural(c.actions.length, 'action')} on this component`
-                      : 'Applying this creates no actions on this component'}
+                      ? `Creates ${c.actions.length} ${plural(c.actions.length, 'action')} on this component`
+                      : 'Creates no actions on this component'}
                   </h4>
                   {c.actions.length > 0 && (
                     <ul class="bcn-sw-prev__actions">
@@ -339,6 +364,10 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
                         <li class="bcn-sw-prev__action">
                           <BcnCommitmentBadge code={a.code} size="sm" />
                           <span class="bcn-sw-prev__actname">{a.name}</span>
+                          {/* The module the created action lands in — Tracking /
+                              Monitoring / Reporting. Derived in prod from the action's
+                              RequirementType; that mapping is still an open ADR on
+                              BCN-1041, so treat the label as illustrative. */}
                           <span class="bcn-sw-prev__acttype">
                             <EsaBadge value={ACTION_TYPE_LABEL[a.type] ?? a.type} size="sm" />
                           </span>
@@ -560,11 +589,15 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
   }
 
   /* ── A row ── */
+  /* SLIM. Twenty-six of these stack in a 40% pane, so a row is two FIXED lines — a
+     title and a meta line, each clipped rather than wrapped — over the action band.
+     Wrapping is what made the cards ragged and tall; the full title is a hover away
+     (title attribute) or a click away (the preview). */
   .bcn-sw-row {
     display: flex;
-    align-items: center;
-    gap: var(--spacing-250, 0.625rem);
-    padding: var(--spacing-250, 0.625rem) var(--spacing-300);
+    flex-direction: column;
+    gap: var(--spacing-100);
+    padding: var(--spacing-200) var(--spacing-250, 0.625rem);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-200);
     background: var(--color-surface);
@@ -574,6 +607,18 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
   }
   .bcn-sw-row[hidden] {
     display: none;
+  }
+  .bcn-sw-row__top {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-250, 0.625rem);
+    min-width: 0;
+  }
+  .bcn-sw-row__marks {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
   }
   .bcn-sw-row:hover {
     border-color: var(--color-border-strong);
@@ -607,10 +652,12 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
     outline-offset: 2px;
     border-radius: var(--radius-100);
   }
+  /* nowrap + one line each: the row's height is now a constant, so a filtered list
+     reads as an even stack rather than a ragged one. */
   .bcn-sw-row__titleline {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: var(--spacing-200);
     min-width: 0;
   }
@@ -621,13 +668,21 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
     font-weight: var(--font-weight-semibold);
     line-height: 1.35;
     color: var(--color-text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .bcn-sw-row__meta {
     /* 13px is the deliberate floor: the scale steps 14px straight to 12px, and 12px is
        under the house minimum. Colour steps UP as size steps down — darken as you
        shrink, never grey out. */
+    flex: 1;
+    min-width: 0;
     font-size: 0.8125rem;
     color: var(--color-text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   /* The suggestion marker: a quiet 4px badge, tinted away from the entity ramp so it
      cannot be mistaken for one. Same treatment as the evidence drawer's. */
@@ -659,15 +714,67 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
   /* Inline actions: revealed on hover or when anything inside has focus, so keyboard
      users reach them too. Space is reserved by visibility, not display — the row's width
      does not jump as the pointer crosses it. */
+  /* Bottom row: meta left, decision right. One shared row rather than a second
+     stacked band — that stacking cost a third of the card's height for controls that
+     are invisible most of the time. */
+  .bcn-sw-row__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-250, 0.625rem);
+    min-width: 0;
+  }
+
+  /* ALWAYS laid out, only visibility changes, so a row is exactly as tall hovered as
+     not. `visibility` also keeps the buttons out of the tab order while hidden, and
+     :focus-within reveals them for the keyboard path. */
   .bcn-sw-row__acts {
     flex: none;
-    display: inline-flex;
+    display: flex;
+    align-items: center;
     gap: var(--spacing-150);
     visibility: hidden;
   }
   .bcn-sw-row:hover .bcn-sw-row__acts,
   .bcn-sw-row:focus-within .bcn-sw-row__acts {
     visibility: visible;
+  }
+  /* Undo appears only once this row carries a staged decision — the way back out of
+     one without hunting for it in a bulk bar. */
+  .bcn-sw-row__undo {
+    margin-left: auto;
+    padding: 0;
+    background: none;
+    border: 0;
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+    text-decoration: underline;
+    cursor: pointer;
+    display: none;
+  }
+  .bcn-sw-row__undo:hover {
+    color: var(--color-primary);
+  }
+  .bcn-sw-row[data-staged='true'] .bcn-sw-row__undo {
+    display: inline;
+  }
+  /* A staged row keeps its buttons visible, so the decision reads as reversible
+     rather than as something that already happened behind your back. */
+  .bcn-sw-row[data-staged='true'] .bcn-sw-row__acts {
+    visibility: visible;
+  }
+
+  /* List header — select-all + what is in view. */
+  .bcn-sw__listhead {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-250, 0.625rem);
+    padding: 0 var(--spacing-250, 0.625rem) var(--spacing-200);
+  }
+  .bcn-sw__listcount {
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+    font-variant-numeric: tabular-nums;
   }
 
   /* ── The floating bulk bar ── */
@@ -746,14 +853,15 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
     color: var(--color-text-primary);
   }
 
+  /* A divided section, not a boxed panel. The box read as a warning, which is the
+     wrong weight for "this creates one action" — the consequence is worth stating,
+     not alarming about. */
   .bcn-sw-prev__effect {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-300);
-    padding: var(--spacing-400);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-200);
-    background: var(--color-surface-sunken);
+    gap: var(--spacing-250, 0.625rem);
+    padding-top: var(--spacing-300);
+    border-top: 1px solid var(--color-border-light);
   }
   .bcn-sw-prev__efftitle {
     margin: 0;

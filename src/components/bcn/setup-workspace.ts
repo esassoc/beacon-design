@@ -42,6 +42,8 @@ interface ValueEl extends HTMLElement {
 }
 interface CheckboxEl extends HTMLElement {
   checked: boolean;
+  /** esa-checkbox exposes this for the partial-selection state of a select-all. */
+  indeterminate?: boolean;
 }
 
 const VIEW_LABEL: Record<View, string> = {
@@ -96,6 +98,9 @@ export function initSetupWorkspace(): void {
   const bulkEl = root.querySelector<HTMLElement>('[data-sw-bulk]')!;
   const bulkCountEl = root.querySelector<HTMLElement>('[data-sw-bulk-count]')!;
   const pendingEl = root.querySelector<HTMLElement>('[data-sw-pending]')!;
+  const checkAllEl = root.querySelector<CheckboxEl>('[data-sw-check-all]');
+  const listCountEl = root.querySelector<HTMLElement>('[data-sw-listcount]');
+  const saveLabelEl = root.querySelector<HTMLElement>('[data-sw-save] button') ?? root.querySelector<HTMLElement>('[data-sw-save]');
   const scrollEl = root.querySelector<HTMLElement>('[data-sw-scroll]')!;
 
   const dialogWhat = dialog.querySelector<HTMLElement>('[data-sw-dialog-what]')!;
@@ -228,6 +233,27 @@ export function initSetupWorkspace(): void {
   function renderPending(): void {
     pendingEl.hidden = touched.size === 0;
     pendingEl.textContent = `${touched.size} ${plural(touched.size, 'decision')} not yet saved`;
+    // The commit button carries the count too. "Save decisions" beside a list where
+    // things already LOOK decided is what made the staging invisible.
+    if (saveLabelEl) {
+      saveLabelEl.textContent = touched.size === 0 ? 'Save decisions' : `Save ${touched.size} ${plural(touched.size, 'decision')}`;
+    }
+  }
+
+  /** Select-all reflects the VISIBLE set — the header box is checked only when every
+   *  row in view is selected, and indeterminate while some are. */
+  function renderListHead(): void {
+    const shown = rows.filter((r) => !r.hidden);
+    const chosen = shown.filter((r) => selected.has(r.dataset.swRow ?? ''));
+    if (listCountEl) {
+      listCountEl.textContent = chosen.length
+        ? `${chosen.length} of ${shown.length} selected`
+        : `${shown.length} ${plural(shown.length, 'commitment')}`;
+    }
+    if (checkAllEl) {
+      checkAllEl.checked = shown.length > 0 && chosen.length === shown.length;
+      checkAllEl.indeterminate = chosen.length > 0 && chosen.length < shown.length;
+    }
   }
 
   /** Show one commitment in the preview; the row it belongs to takes the active tint. */
@@ -261,6 +287,7 @@ export function initSetupWorkspace(): void {
     renderPills();
     renderRows();
     renderBulk();
+    renderListHead();
     renderPending();
     renderFigures();
     renderPreview();
@@ -277,6 +304,9 @@ export function initSetupWorkspace(): void {
       if (row) {
         row.dataset.decision = decision;
         row.dataset.rationale = rationales.has(id) ? 'true' : 'false';
+        // STAGED, not written. Everything on this surface is provisional until Save,
+        // so the row says so and keeps its Undo within reach.
+        row.dataset.staged = 'true';
       }
     }
     root!.dispatchEvent(
@@ -286,6 +316,21 @@ export function initSetupWorkspace(): void {
         composed: true,
       }),
     );
+    render();
+  }
+
+  /** Take a staged decision back off a row — the counterpart to `decide`. */
+  function undo(id: string): void {
+    const original = byId.get(id)?.decision ?? null;
+    decisions.set(id, original);
+    touched.delete(id);
+    rationales.delete(id);
+    const row = rows.find((r) => r.dataset.swRow === id);
+    if (row) {
+      row.dataset.decision = original ?? '';
+      row.dataset.rationale = 'false';
+      delete row.dataset.staged;
+    }
     render();
   }
 
@@ -346,12 +391,32 @@ export function initSetupWorkspace(): void {
 
   // Row-level: select for bulk, open in the preview, or decide inline.
   root.addEventListener('change', (e) => {
-    const box = (e.target as HTMLElement)?.closest<HTMLElement>('[data-sw-check]');
+    const target = e.target as HTMLElement;
+
+    // Select-all acts on the VISIBLE set only. Reaching past the filter the user just
+    // set would select rows they cannot see and are about to act on in bulk.
+    if (target?.closest('[data-sw-check-all]')) {
+      const on = !!checkAllEl?.checked;
+      for (const row of rows) {
+        if (row.hidden) continue;
+        const id = row.dataset.swRow!;
+        if (on) selected.add(id);
+        else selected.delete(id);
+        const box = row.querySelector<CheckboxEl>('[data-sw-check]');
+        if (box) box.checked = on;
+      }
+      renderBulk();
+      renderListHead();
+      return;
+    }
+
+    const box = target?.closest<HTMLElement>('[data-sw-check]');
     if (!box) return;
     const id = box.dataset.swCheck!;
     if ((box as CheckboxEl).checked) selected.add(id);
     else selected.delete(id);
     renderBulk();
+    renderListHead();
   });
 
   root.addEventListener('click', (e) => {
@@ -369,6 +434,9 @@ export function initSetupWorkspace(): void {
 
     const dismiss = target.closest<HTMLElement>('[data-sw-dismiss]');
     if (dismiss) return decide([dismiss.dataset.swDismiss!], 'dismissed');
+
+    const undoBtn = target.closest<HTMLElement>('[data-sw-undo]');
+    if (undoBtn) return undo(undoBtn.dataset.swUndo!);
 
     if (target.closest('[data-sw-bulk-apply]')) return openBulkDialog('applied');
     if (target.closest('[data-sw-bulk-dismiss]')) return openBulkDialog('dismissed');
