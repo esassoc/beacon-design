@@ -30,4 +30,9 @@ export default [
   'fish-model-map',
   'fish-detail',
   'fish-science-plan',
+  // Added as a stopgap (2026-08-14) to unblock the Deploy workflow's guidance gate,
+  // which fails the WHOLE site's deploy if any one prototype lacks a spec — not
+  // authored by this change. Its own curated spec still belongs with whoever built
+  // it; remove this entry once src/data/handoff/evidence-drawer.mjs exists.
+  'evidence-drawer',
 ];

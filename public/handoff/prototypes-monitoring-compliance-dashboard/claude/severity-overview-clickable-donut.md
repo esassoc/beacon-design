@@ -373,6 +373,19 @@ BcnOversightHero — the band that answers "how bad is it right now, and in what
   font-variant-numeric: tabular-nums;
   text-align: right;
 }
+.bcn-ev-staging__item .esa-card {
+  overflow: visible;
+}
+.bcn-ev-targets__item[data-receiving] .esa-card {
+  border-color: var(--color-secondary);
+  background: color-mix(in srgb, var(--color-secondary) 5%, transparent);
+}
+.bcn-ev-targets__item[data-blocked] .esa-card {
+  opacity: 0.45;
+}
+.bcn-ev-targets__item .esa-card {
+  overflow: visible;
+}
 .stack {
   --gap: var(--spacing-400, 1rem);
   display: flex;
@@ -527,6 +540,7 @@ BcnOversightHero — the band that answers "how bad is it right now, and in what
 - `--color-border-light`: #efefef _(semantic)_
 - `--color-primary`: #005862 _(semantic)_
 - `--color-primary-hover`: #00474f _(semantic)_
+- `--color-secondary`: #00918b _(semantic)_
 - `--color-surface`: #fcfcfc _(semantic)_
 - `--color-surface-sunken`: #efefef _(semantic)_
 - `--color-text-inverse`: #fcfcfc _(semantic)_

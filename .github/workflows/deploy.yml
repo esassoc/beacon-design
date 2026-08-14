@@ -55,6 +55,13 @@ jobs:
         working-directory: ecology
         run: npm ci || npm install
 
+      # packages/tokens/dist is gitignored in the hub (a generated artifact), so a
+      # fresh checkout has no tokens.css until this runs — without it, the spoke's
+      # `@esa/tokens/tokens.css` import fails to resolve and the build aborts.
+      - name: Build design tokens
+        working-directory: ecology
+        run: npm run build:tokens
+
       - name: Install spoke dependencies
         working-directory: beacon-design
         run: npm ci
