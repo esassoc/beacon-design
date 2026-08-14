@@ -128,12 +128,10 @@ import { DECIDED_PERCENT, LAST_REVIEWED, PENDING_ACTION_COUNT, SETUP_TOTALS, fmt
             sourceLabel={`Work area locations (${WORK_AREA_COUNT})`}
             legend={COMPONENT_MAP_LEGEND}
           />
-          <BcnProjectFacts
-            title="Component details"
-            facts={COMPONENT_FACTS}
-            description={COMPONENT.description}
-            files={COMPONENT.files}
-          />
+          {/* No `files`: ComponentDto has no Files field. Component files in prod are
+              EvidenceOfComplianceFile rows reached through evidence records, which is
+              a different entity and a different surface. */}
+          <BcnProjectFacts title="Component details" facts={COMPONENT_FACTS} description={COMPONENT.description} />
         </div>
 
         <div class="stack" data-gap="xl">

@@ -209,15 +209,22 @@ export default {
       label: 'Component details',
       selector: '.bcn-facts',
       intent:
-        'The quiet rail card of Component-record fields plus its attached files.',
+        'The quiet rail card of the Component record\'s own fields: start date, expected end date, and the tenant-defined custom field values, under the stored description.',
       decisions: [
-        'Every line traces to a real Component field — status, start, expected end, and the tenant-defined custom field values. Nothing derived, nothing decorative.',
+        'Every line maps to a field on ComponentDto. Nothing derived, nothing decorative.',
+        'NO FILES. ComponentDto has no Files field — a `files` array was invented in the first prototype pass and cut at review (2026-08-13). Component files in prod are `EvidenceOfComplianceFile` rows reached through evidence records, a different entity, which is why prod\'s Summary tab surfaces them in an evidence-of-compliance grid rather than as component fields. Do not add a file list to this card.',
+        'NO STATUS. The header renders it as a chip; one fact does not need two homes on one screen. (Prod\'s Summary tab does show it, because prod has no identity header to carry it.)',
+        'NO PROJECT LINK. The breadcrumb trail carries the hierarchy, as it does in prod.',
+        'NO SOURCE DOCUMENTS and no footprint layers. Both are real Component data and both are on the page — as their own rail rows, each opening a panel — so restating them inside this card would be a second home for the same fact.',
         'It reuses the project dashboard\'s facts card unchanged, with a title override. The two records differ; the treatment should not.',
       ],
       gotchas: [
-        'Resist re-adding derived or decorative facts. On the project card four were deleted for having no DB source, and that rule is why the card is short.',
+        'Resist re-adding derived or decorative facts. On the project card four were deleted for having no DB source; on this one an invented file list was. That rule is why the card is short.',
+        'Prod\'s Summary tab ALSO ends in an `<evidence-of-compliance-summary-grid [componentID]>`. The component dashboard currently has no evidence surface at all, so decide during slicing whether that grid moves here, moves into the evidence drawer, or is dropped — it should not be lost silently just because the tab it lived on is being retired.',
       ],
-      acceptance: ['Every fact maps to a Component field or custom field value; files download.'],
+      acceptance: [
+        'Every fact maps to a ComponentDto field or a custom field value; no file list appears; status and the project link are not duplicated from the header and breadcrumb.',
+      ],
     },
   ],
 };

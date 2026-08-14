@@ -26,6 +26,14 @@ import type { EntityMark } from './entity-marks';
 export { TODAY };
 
 // ── The component record ────────────────────────────────────────────────────
+// EVERY FIELD HERE EXISTS ON ComponentDto. That is the same rule the project
+// dashboard's details card is held to (four facts were deleted from it for having
+// no DB source), and it caught a fabrication at review on 2026-08-13: this record
+// carried a `files` array, which ComponentDto has NO equivalent of. Component
+// files in prod are `EvidenceOfComplianceFile` rows reached through evidence
+// records — a different entity, which is why prod's Summary tab surfaces them in
+// an evidence grid rather than as component fields. The array was invented and is
+// gone. Before adding a fact here, find it on the DTO.
 export interface ComponentRecord {
   name: string;
   /** Component.Description — the stored classifier line, not a narrated blurb. */
@@ -41,10 +49,12 @@ export interface ComponentRecord {
   mark: EntityMark;
   /** ComponentCustomFieldValue rows — tenant-defined, rendered as plain facts. */
   customFields: { label: string; value: string }[];
-  /** Component.Sources — the source documents whose commitments reach here. */
+  /**
+   * Component.Sources (SourceSimpleDto[]) — the source documents whose commitments
+   * reach here. Rendered by the rail's "Source documents" row and its panel, NOT
+   * by the details card: one home per fact.
+   */
   sources: { name: string; href: string }[];
-  /** Files attached to the component record. */
-  files: string[];
 }
 
 const COMPONENT_NAME = 'Bouldin Island Launch Shaft';
@@ -69,12 +79,26 @@ export const COMPONENT: ComponentRecord = {
     { name: 'CDFW Incidental Take Permit', href: '/prototypes/data-catalog-source-document' },
     { name: 'USACE Section 404 Permit', href: '/prototypes/data-catalog-source-document' },
   ],
-  files: ['Bouldin_Shaft_SitePlan_RevC.pdf', 'Geotech_Exploration_Plan_2026.pdf'],
 };
 
-/** Rail facts — every line is a Component-record field. Nothing derived, nothing decorative. */
+/**
+ * Rail facts — the Component record's own fields, and nothing else.
+ *
+ * Reconciled against prod's Summary tab at review (2026-08-13). That tab shows the
+ * project link, Status, Start Date, Expected End Date, Description, and the custom
+ * field values; separately it lists Source Documents and Footprint Layers, and ends
+ * in an evidence-of-compliance grid. This card carries only the first group, minus
+ * two deliberate omissions:
+ *
+ *   · STATUS is not here. The header renders it as a chip a few inches above, and
+ *     one fact does not need two homes on one screen.
+ *   · The PROJECT LINK is not here. The breadcrumb trail carries it, which is
+ *     where prod puts hierarchy too.
+ *
+ * Source documents and footprint layers live in the rail as their own rows, each
+ * opening a panel — so they are on the page, just not restated inside this card.
+ */
 export const COMPONENT_FACTS: { label: string; value: string }[] = [
-  { label: 'Status', value: COMPONENT.status },
   { label: 'Start Date', value: 'Sep 2, 2025' },
   { label: 'Expected End Date', value: 'Nov 30, 2029' },
   ...COMPONENT.customFields,
