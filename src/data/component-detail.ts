@@ -248,10 +248,16 @@ export const COMPONENT_ACTIONS: ProjectAction[] = PROJECT_ACTIONS.filter((a) => 
 export const componentRollupFor = (type: ActionType): ModuleRollup => rollupOver(COMPONENT_ACTIONS, type);
 
 /**
- * The header's T·M·R pulse strip — the same three-pulse anatomy the project
- * dashboard's component boxes carry, so the box you clicked and the page you
- * landed on tell the same story. Notes come from the fixed signal vocabulary;
- * no freeform prose reaches the surface.
+ * This component's three-pulse summary, in the same anatomy the project
+ * dashboard's component boxes carry. Notes come from the fixed signal vocabulary,
+ * so no freeform prose reaches a surface.
+ *
+ * NOT rendered on the component dashboard: the header's pulse strip was cut at
+ * review (2026-08-13) because the Tracking / Monitoring / Reporting cards sit
+ * directly below it and carry the same figures with more precision. It stays
+ * exported because this is what the PARENT surface — the project dashboard's box
+ * for this component — shows, where those cards are not on screen. Keeping one
+ * definition means the box and the page can never disagree.
  */
 export const COMPONENT_PULSE: AreaPulse[] = [
   { area: 'tracking', label: 'Tracking', status: 'attention', note: sig.actionsOverdue(1) },

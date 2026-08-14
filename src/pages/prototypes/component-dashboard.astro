@@ -63,7 +63,6 @@ import {
   COMPONENT_MAP_LEGEND,
   COMPONENT_MAP_POINTS,
   COMPONENT_MODULES,
-  COMPONENT_PULSE,
   COMPONENT_TIMELINE_MILESTONES,
   COMPONENT_UTILITIES,
   SIBLINGS,
@@ -110,7 +109,7 @@ import { DECIDED_PERCENT, LAST_REVIEWED, PENDING_ACTION_COUNT, SETUP_TOTALS, fmt
     ]}
   >
     <BcnSiblingNav slot="breadcrumb-end" items={SIBLINGS.items} currentIndex={SIBLINGS.currentIndex} />
-    <BcnComponentHeader slot="bleed" component={COMPONENT} pulse={COMPONENT_PULSE} starred />
+    <BcnComponentHeader slot="bleed" component={COMPONENT} starred />
 
     <div class="stack" data-gap="xl">
       <BcnProjectTimeline

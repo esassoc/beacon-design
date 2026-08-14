@@ -37,8 +37,12 @@ import { resolveMark, type EntityMark } from '../../data/entity-marks';
 interface Props {
   /** The stored mark — glyph key + color key + style, or an uploaded image. */
   mark: EntityMark;
-  /** Tile size: sm=24, md=32, lg=48, xl=72 px. Default 'md'. */
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  /**
+   * Tile size: sm=24, md=32, lg=48, xl=72, 2xl=92 px. Default 'md'.
+   * 2xl matches the project header's org seal exactly, so a project and a
+   * component wear their identity at the same weight.
+   */
+  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
   /** Accessible name; omit for decorative (when the entity name sits beside it). */
   label?: string;
   /** Tile silhouette. Default 'rounded'. */
@@ -53,7 +57,7 @@ const { glyph, color, style, image } = resolveMark(mark);
 // Icons err SMALLER than their container (design-principles): ~50–58% of the tile.
 // 24→14, 32→18, 48→24, 72→36. The two off-scale steps are pinned in CSS through the
 // public --icon-size-* tokens esa-icon reads, the same way BcnAldoMark nudges its.
-const ICON_STEP = { sm: 'xs', md: 'sm', lg: 'lg', xl: 'xl' } as const;
+const ICON_STEP = { sm: 'xs', md: 'sm', lg: 'lg', xl: 'xl', '2xl': 'xl' } as const;
 ---
 
 <span
@@ -112,10 +116,13 @@ const ICON_STEP = { sm: 'xs', md: 'sm', lg: 'lg', xl: 'xl' } as const;
   .bcn-entity-logo[data-size='md'] { width: 32px; height: 32px; --icon-size-sm: 18px; }
   .bcn-entity-logo[data-size='lg'] { width: 48px; height: 48px; }
   .bcn-entity-logo[data-size='xl'] { width: 72px; height: 72px; --icon-size-xl: 36px; }
+  /* 92px is the project seal's exact diameter — see BcnProjectHeader's .bcn-phome__seal. */
+  .bcn-entity-logo[data-size='2xl'] { width: 92px; height: 92px; --icon-size-xl: 44px; }
 
   .bcn-entity-logo[data-shape='rounded'][data-size='sm'],
   .bcn-entity-logo[data-shape='rounded'][data-size='md'] { border-radius: var(--radius-200); }
   .bcn-entity-logo[data-shape='rounded'][data-size='lg'],
-  .bcn-entity-logo[data-shape='rounded'][data-size='xl'] { border-radius: var(--radius-400); }
+  .bcn-entity-logo[data-shape='rounded'][data-size='xl'],
+  .bcn-entity-logo[data-shape='rounded'][data-size='2xl'] { border-radius: var(--radius-400); }
   .bcn-entity-logo[data-shape='circle'] { border-radius: var(--radius-full); }
 </style>
