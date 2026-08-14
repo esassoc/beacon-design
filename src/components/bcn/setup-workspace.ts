@@ -96,7 +96,8 @@ export function initSetupWorkspace(): void {
   const noneEl = root.querySelector<HTMLElement>('[data-sw-none]')!;
   const noPreviewEl = root.querySelector<HTMLElement>('[data-sw-nopreview]')!;
   const bulkEl = root.querySelector<HTMLElement>('[data-sw-bulk]')!;
-  const bulkCountEl = root.querySelector<HTMLElement>('[data-sw-bulk-count]')!;
+  // The selection count now rides the list header's own count line — see renderListHead.
+  const bulkCountEl = root.querySelector<HTMLElement>('[data-sw-bulk-count]');
   const pendingEl = root.querySelector<HTMLElement>('[data-sw-pending]')!;
   const checkAllEl = root.querySelector<CheckboxEl>('[data-sw-check-all]');
   const listCountEl = root.querySelector<HTMLElement>('[data-sw-listcount]');
@@ -227,7 +228,7 @@ export function initSetupWorkspace(): void {
 
   function renderBulk(): void {
     bulkEl.hidden = selected.size === 0;
-    bulkCountEl.textContent = `${selected.size} selected`;
+    if (bulkCountEl) bulkCountEl.textContent = `${selected.size} selected`;
   }
 
   function renderPending(): void {
