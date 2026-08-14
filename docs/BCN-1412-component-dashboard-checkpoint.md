@@ -200,14 +200,30 @@ project dashboard.
    now watches its own box and re-fits on first real size, so no tab/accordion
    host has to remember to poke it.
 
+## 6b. Settled at review round 1 (2026-08-13)
+
+- **Both setup drawers are flush** to the right edge, full height. Model A's 7vh
+  inset was cut — it read as a floating panel where every other Beacon drawer
+  comes in flush, and approved patterns are canon.
+- **Breadcrumbs above the header band**: project › All Components › this
+  component, per the Action List pattern. `PageLayout` renders the trail above a
+  bleed band and gained a `breadcrumb-end` slot.
+- **Sibling prev/next KEPT**, moved from the header into the end of the
+  breadcrumb bar — where prod puts it (`breadcrumbs.component` imports
+  `<commitment-navigation>`). Row-level access does not complicate it: the
+  component-scope global filter means any list the client can obtain is already
+  the in-scope set. Order is **alphabetical**, not the grid's needs-attention
+  sort, so the sequence is stable.
+- **Board view CUT from the index.** Grid answers "which one" and Map answers
+  "where"; Board was a second answer to Grid's question. `bcn-component-board`
+  and `bcn-component-card` were deleted with it — recoverable from git (`c82fb54`)
+  if a cross-component comparison surface ever wants them.
+- **Work-area Create and Bulk Import** now open ports of prod's two dialogs, so
+  the buttons no longer look live and do nothing. The bulk bar no longer covers
+  the grid search.
+
 ## 7. Open questions for review
 
-- **The two drawers do not match.** Model A floats inset from the right edge
-  (chasing the ~86vh stable-footprint rule); Model B sits flush, like Beacon's
-  other drawers. One is wrong — needs Kim/Andy to pick, since "approved patterns
-  are canon" argues for flush.
-- **Three views on the index may be one too many.** Kim asked for Grid + Map;
-  Board was kept because it already existed. Cut it if the toggle reads muddy.
 - Should "new since last review" be **per user or per component**? Per component
   is one stored date and matches the decision record; per user is friendlier and
   is a new table.

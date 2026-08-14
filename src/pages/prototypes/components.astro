@@ -17,9 +17,14 @@
 //     and that is correct — they are areas over areas over time in the same
 //     place. Color separates them, the way habitat layers do.
 //
-// Three views over one set, the Grid / Kanban / Timeline idiom the requirement
-// tracker already established here. Grid leads because it is the floor everyone
-// agreed on; the board is the richer read; the map is the spatial one.
+// TWO views, not three (review, 2026-08-13). A card board briefly sat beside
+// these, reading each component as a tracking unit. It was cut: Grid already
+// answers "which one do I want" now that the mark and the colored status do the
+// scanning, and Map answers "where", which Grid cannot. The board was a second
+// answer to the question Grid already answers, and a toggle whose options overlap
+// makes someone choose before they know what they are choosing between. Its
+// components (bcn-component-board / bcn-component-card) were deleted with it —
+// recoverable from git if a cross-component comparison surface ever wants them.
 //
 // The 16-component set is the default rather than the 7, because sixteen is
 // where scanning actually gets hard and therefore where the mark has to earn
@@ -31,7 +36,6 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import BcnComponentSummary from '../../components/bcn/BcnComponentSummary.astro';
-import BcnComponentBoard from '../../components/bcn/BcnComponentBoard.astro';
 import BcnComponentGrid from '../../components/bcn/BcnComponentGrid.astro';
 import BcnComponentMap from '../../components/bcn/BcnComponentMap.astro';
 import { DENSE, summarize } from '../../data/component-dashboard';
@@ -45,12 +49,11 @@ const mapPoints = indexMapPoints(DENSE);
 <!-- manifest:
   layout: stack(lg)                                    # the page SPINE
   sections:
-    - view toggle     -> esa-button-toggle             # Grid · Board · Map
+    - view toggle     -> esa-button-toggle             # Grid · Map
     - dataset toggle  -> esa-button-toggle             # populated / empty preview
     - new component   -> esa-button
     - status summary  -> bcn-component-summary         # project-wide component health
     - grid view       -> bcn-component-grid            # mark + colored status; routes to the dashboard
-    - board view      -> bcn-component-board           # each component as a tracking unit
     - map view        -> bcn-component-map             # footprints along the alignment, colored by status
     - empty state     -> esa-empty-state
 -->
@@ -79,10 +82,6 @@ const mapPoints = indexMapPoints(DENSE);
 
       <div data-view-panel="grid">
         <BcnComponentGrid components={DENSE} />
-      </div>
-
-      <div data-view-panel="board" hidden>
-        <BcnComponentBoard components={DENSE} />
       </div>
 
       <div data-view-panel="map" hidden>
@@ -152,7 +151,6 @@ const mapPoints = indexMapPoints(DENSE);
   if (viewToggle) {
     viewToggle.options = [
       { label: 'Grid', value: 'grid' },
-      { label: 'Board', value: 'board' },
       { label: 'Map', value: 'map' },
     ];
     viewToggle.value = 'grid';

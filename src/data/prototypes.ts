@@ -189,7 +189,7 @@ export const prototypeGroups: PrototypeGroup[] = [
         slug: 'components',
         title: 'Components (index)',
         description:
-          'The middle of the tree, whose whole job is getting you to one component: a grid carrying each component\'s identity mark and a colored status so two dozen rows stay scannable, a card board reading each as a compliance-tracking unit, and a map of their footprints — with project-wide component health rolled up into a summary band above.',
+          'The middle of the tree, whose whole job is getting you to one component: a grid carrying each component\'s identity mark and a colored status so two dozen rows stay scannable, and a map of their footprints along the project alignment — with project-wide component health rolled up into a summary band above.',
         route: '/prototypes/components',
         createdAt: '2026-07-16',
         ticket: 'BCN-1412',
