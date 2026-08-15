@@ -17,7 +17,7 @@
 // by target. The description column is gone — prose doesn't help you pick a row.
 //
 // The mark is derived, not stored: these fixtures predate EntityMark, so
-// markForComponent() hashes the name into the entity-marks glyph/color sets
+// marksForProject() assigns each component a DISTINCT glyph/color pair
 // (deterministic, no Math.random()). The glyph `paths` come straight out of
 // data/entity-marks.ts so this drawing and BcnEntityLogo's can never diverge.
 //
@@ -37,7 +37,7 @@ import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
 import BcnStatusChip from './BcnStatusChip.astro';
 import {
   byNeedsAttention,
-  markForComponent,
+  marksForProject,
   STATUS_META,
   STATUS_ORDER,
   type ProjectComponent,
@@ -58,8 +58,14 @@ const defaultHref = withBase('/prototypes/component-dashboard');
 // Rows are ordered ONCE here, at build time — overdue first. AG Grid preserves
 // rowData order until the user sorts, so the grid opens on needs-attention without
 // an initial sort model fighting the user's first click on a column header.
+// Marks are assigned across the WHOLE set, not per row: a hash can collide, and two
+// components wearing the same mark defeats the only thing a mark is for. Assigned in
+// the fixture's own order so the result does not depend on how the grid happens to be
+// sorted.
+const MARKS = marksForProject(components);
+
 const rows = byNeedsAttention(components).map((c) => {
-  const mark = resolveMark(markForComponent(c.name));
+  const mark = resolveMark(MARKS.get(c.name));
   return {
     name: c.name,
     href: hrefFor ? hrefFor(c) : defaultHref,

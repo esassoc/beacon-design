@@ -258,6 +258,46 @@ export interface ResolvedMark {
   image?: string;
 }
 
+/**
+ * The mark a NEW component is born with (design call follow-up, 2026-08-13): never
+ * blank, and never one already worn by a sibling in the same project.
+ *
+ * Differentiation is the entire point of the mark — a landmark that tells two dozen
+ * components apart. A default that collides defeats it on the very first collision,
+ * and "pick your own" defeats it by being skipped. So creation assigns one, and
+ * assigns it from what is still free.
+ *
+ * The walk is DIAGONAL — a Latin square over the two axes — so consecutive
+ * assignments differ in BOTH glyph and colour. Walking one axis at a time would
+ * exhaust all twenty glyphs on red before touching rust, and a project whose first
+ * twenty components are all red has a mark that differentiates nothing. Stepping
+ * both still yields all 20 x 20 = 400 pairs before anything repeats, which is well
+ * past any real project.
+ *
+ * Deterministic and order-dependent by design — the same set of existing marks
+ * always yields the same next one, so a seeded project looks identical every run.
+ * `style` follows the house default rather than varying, since two components that
+ * differ only in fill weight do not read as different.
+ */
+export const nextUnusedMark = (used: Iterable<Pick<EntityMark, 'glyph' | 'color'>>): EntityMark => {
+  const taken = new Set<string>();
+  for (const m of used) taken.add(`${m.glyph}|${m.color}`);
+
+  const G = MARK_GLYPHS.length;
+  const C = MARK_COLORS.length;
+  for (let i = 0; i < G * C; i += 1) {
+    const glyph = MARK_GLYPHS[i % G];
+    // The row offset is what turns a repeating diagonal into a full Latin square:
+    // without it the walk would revisit the same 20 pairs forever.
+    const color = MARK_COLORS[(i + Math.floor(i / C)) % C];
+    const key = `${glyph.key}|${color.key}`;
+    if (!taken.has(key)) return { glyph: glyph.key, color: color.key, style: DEFAULT_MARK.style };
+  }
+  // Every pair is spoken for (400 components in one project). Repeat rather than
+  // hand back nothing — a duplicate mark is worse than a blank one only in theory.
+  return { ...DEFAULT_MARK };
+};
+
 export const resolveMark = (mark?: EntityMark): ResolvedMark => {
   const m = mark ?? DEFAULT_MARK;
   return {

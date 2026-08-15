@@ -4,7 +4,7 @@
 // the real entity (esassoc/Beacon Component.cs dependent collections), so the
 // Astro page binds the way a live page eventually will.
 
-import { MARK_COLORS, MARK_GLYPHS, type EntityMark } from './entity-marks';
+import { MARK_COLORS, MARK_GLYPHS, nextUnusedMark, type EntityMark } from './entity-marks';
 
 export type ComponentStatus = 'not-started' | 'in-progress' | 'on-hold' | 'complete';
 
@@ -130,6 +130,33 @@ export function markForComponent(name: string): EntityMark {
     color: MARK_COLORS[colorIndex].key,
     style: 'outline',
   };
+}
+
+/**
+ * Marks for a whole project, GUARANTEED distinct.
+ *
+ * markForComponent() hashes a name, and a hash can collide — with 20x20 pairs and 16
+ * components the odds are not small, and one collision costs the mark its entire
+ * purpose. So the hash is only the OPENING BID: it keeps a component's mark stable
+ * and unrelated to list order, and any component whose bid is already taken falls
+ * through to nextUnusedMark(), which hands out the first free pair.
+ *
+ * This mirrors what the product should do on creation — assign a default that is not
+ * already in the project — with the difference that prod PERSISTS the assignment,
+ * where this recomputes it. Recomputing is fine for a fixture and wrong for a
+ * product: a mark that shifts when a sibling is renamed is not a landmark.
+ */
+export function marksForProject(components: { name: string }[]): Map<string, EntityMark> {
+  const out = new Map<string, EntityMark>();
+  const taken: EntityMark[] = [];
+  for (const c of components) {
+    const bid = markForComponent(c.name);
+    const clash = taken.some((t) => t.glyph === bid.glyph && t.color === bid.color);
+    const mark = clash ? { ...nextUnusedMark(taken), style: bid.style } : bid;
+    out.set(c.name, mark);
+    taken.push(mark);
+  }
+  return out;
 }
 
 // ── Populated project — a realistic DCP-shaped set, mixed statuses/rollups ──

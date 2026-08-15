@@ -49,7 +49,6 @@
 import AppShell from '../../layouts/AppShell.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import BcnComponentHeader from '../../components/bcn/BcnComponentHeader.astro';
-import BcnSiblingNav from '../../components/bcn/BcnSiblingNav.astro';
 import BcnProjectTimeline from '../../components/bcn/BcnProjectTimeline.astro';
 import BcnModules from '../../components/bcn/BcnModules.astro';
 import BcnWorkAreaBoard from '../../components/bcn/BcnWorkAreaBoard.astro';
@@ -82,7 +81,6 @@ import { DECIDED_PERCENT, LAST_REVIEWED, PENDING_ACTION_COUNT, SETUP_TOTALS, fmt
 <!-- manifest:
   layout: full-bleed header (PageLayout bleed slot), then stack(xl) > timeline + sidebar   # SPINE
   sections:
-    - breadcrumb sibling nav -> bcn-sibling-nav           # prev/next at the end of the trail, as prod does it
     - component header      -> bcn-component-header       # white identity bar; mark, not a cover photo
     - timeline              -> bcn-project-timeline       # 30/60/90d, scoped to this component's actions
     - modules               -> bcn-modules                # Tracking / Monitoring / Reporting, scoped
@@ -113,7 +111,13 @@ import { DECIDED_PERCENT, LAST_REVIEWED, PENDING_ACTION_COUNT, SETUP_TOTALS, fmt
       { label: COMPONENT.name },
     ]}
   >
-    <BcnSiblingNav slot="breadcrumb-end" items={SIBLINGS.items} currentIndex={SIBLINGS.currentIndex} />
+    {/* The prev/next stepper that sat at the end of the breadcrumb bar was cut at
+        review (2026-08-13). It was kept an earlier round on the strength of being a
+        nice addition, and on a second look it is not one the page needs: the trail
+        already goes back to All Components, walking a 16-component project one
+        arrow at a time is not how anyone finds a component, and it put a second
+        navigation model on a page whose job is to be scoped to ONE component.
+        bcn-sibling-nav survives in the repo for a surface that wants it. */}
     <BcnComponentHeader slot="bleed" component={COMPONENT} starred />
 
     <div class="stack" data-gap="xl">

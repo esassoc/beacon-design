@@ -111,31 +111,22 @@ const starLabel = starred ? `Unstar ${component.name}` : `Star ${component.name}
       </span>
     </span>
 
+    {/* Name, state, and the personal star — that is the whole band now. The stored
+        description and the start / expected-end dates were here and were cut at
+        review (2026-08-13): the rail's Component details card carries all three,
+        and a header that repeats the card beside it is a tagline with a bigger
+        font. The star sits immediately after the status chip rather than pushed to
+        the far edge, so the three things about THIS component read as one group. */}
     <div class="bcn-chd__ident">
       <div class="bcn-chd__title-row">
         <h1 class="bcn-chd__name type-page-title">{component.name}</h1>
         <BcnStatusChip status={tone.key} label={component.status} hex={tone.hex} />
+        <span class="bcn-chd__star" data-star-toggle data-pressed={String(starred)} data-name={component.name}>
+          <EsaIconButton icon="star" label={starLabel} size="md" />
+        </span>
       </div>
-      <!-- Component.Description — the stored classifier line, not a blurb. -->
-      <p class="bcn-chd__desc">{component.description}</p>
-      <p class="bcn-chd__facts">
-        <span>Started <span class="bcn-chd__fact-value">{fmtDate(component.startDate)}</span></span>
-        <span class="bcn-chd__dot-sep" aria-hidden="true">·</span>
-        <span>Expected end <span class="bcn-chd__fact-value">{fmtDate(component.expectedEndDate)}</span></span>
-      </p>
     </div>
 
-    <!-- ONE affordance: the personal star. "Edit component" was cut at review
-         (2026-08-13) — the Component info panel in the rail already opens the
-         record's editable form, so a second door to the same form is a duplicate
-         affordance, and the star is the only thing here that has nowhere else to
-         live. Editing the MARK stays on the header, on hover, because it is the
-         header's own content. -->
-    <div class="bcn-chd__actions">
-      <span class="bcn-chd__star" data-star-toggle data-pressed={String(starred)} data-name={component.name}>
-        <EsaIconButton icon="star" label={starLabel} size="md" />
-      </span>
-    </div>
   </div>
 
   <!-- The T·M·R pulse strip that sat here was cut at review (2026-08-13). The
