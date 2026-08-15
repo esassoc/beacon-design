@@ -17,6 +17,19 @@
 //     and that is correct — they are areas over areas over time in the same
 //     place. Color separates them, the way habitat layers do.
 //
+// The map draws FOOTPRINTS, not dots (review, 2026-08-13: "the map should be of
+// the component boundaries, I'm not sure what these points are supposed to
+// represent"). A component has no stored boundary in the product yet, so each
+// shape is the hull of the work areas that component owns — see
+// src/data/component-index-map.ts for the derivation and why a dot was worse
+// than nothing.
+//
+// Only one dataset now. A Populated/Empty toggle used to sit beside the view
+// toggle, previewing the first-run empty state; it was cut at the same review.
+// A control that swaps the page's DATA is a prototype's stage direction wearing
+// the same clothes as a real view control, and putting the two side by side
+// made neither legible.
+//
 // TWO views, not three (review, 2026-08-13). A card board briefly sat beside
 // these, reading each component as a tracking unit. It was cut: Grid already
 // answers "which one do I want" now that the mark and the colored status do the
@@ -34,28 +47,27 @@
 import AppShell from '../../layouts/AppShell.astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import BcnComponentSummary from '../../components/bcn/BcnComponentSummary.astro';
 import BcnComponentGrid from '../../components/bcn/BcnComponentGrid.astro';
 import BcnComponentMap from '../../components/bcn/BcnComponentMap.astro';
 import { DENSE, summarize } from '../../data/component-dashboard';
-import { INDEX_MAP_LEGEND, indexMapPoints } from '../../data/component-index-map';
+import { INDEX_MAP_LEGEND, componentFootprints } from '../../data/component-index-map';
 import { componentNav, COMPONENT_DASHBOARD_HREF } from '../../data/component-nav';
 
 const summary = summarize(DENSE);
-const mapPoints = indexMapPoints(DENSE);
+const footprints = componentFootprints(DENSE);
+const mapAreas = footprints.map((f) => ({ id: f.id, ring: f.ring, label: f.label, color: f.color }));
+const mappedSites = footprints.reduce((n, f) => n + f.siteCount, 0);
 ---
 
 <!-- manifest:
   layout: stack(lg)                                    # the page SPINE
   sections:
     - view toggle     -> esa-button-toggle             # Grid · Map
-    - dataset toggle  -> esa-button-toggle             # populated / empty preview
     - new component   -> esa-button
     - status summary  -> bcn-component-summary         # project-wide component health
     - grid view       -> bcn-component-grid            # mark + colored status; routes to the dashboard
     - map view        -> bcn-component-map             # footprints along the alignment, colored by status
-    - empty state     -> esa-empty-state
 -->
 
 <AppShell
@@ -70,14 +82,10 @@ const mapPoints = indexMapPoints(DENSE);
   >
     <div slot="utilities" class="cluster" data-gap="sm" data-align="center">
       <esa-button-toggle id="view-toggle" value="grid" size="sm"></esa-button-toggle>
-      <esa-button-toggle id="state-toggle" value="populated" size="sm"></esa-button-toggle>
-      <span id="new-cmp-wrap">
-        <EsaButton color="primary" icon="plus">New component</EsaButton>
-      </span>
+      <EsaButton color="primary" icon="plus">New component</EsaButton>
     </div>
 
-    <!-- STATE A — a real project's worth of components -->
-    <div class="stack" data-gap="lg" data-state-panel="populated">
+    <div class="stack" data-gap="lg">
       <BcnComponentSummary summary={summary} />
 
       <div data-view-panel="grid">
@@ -86,31 +94,14 @@ const mapPoints = indexMapPoints(DENSE);
 
       <div data-view-panel="map" hidden>
         <BcnComponentMap
-          points={mapPoints}
+          areas={mapAreas}
           variant="full"
           idPrefix="cmp-index-map"
           title="Component footprints"
-          sourceLabel={`${DENSE.length} components on the project alignment`}
+          sourceLabel={`Work areas (${mappedSites} across ${DENSE.length} components)`}
           legend={INDEX_MAP_LEGEND}
         />
       </div>
-    </div>
-
-    <!-- STATE B — empty (first run) -->
-    <div data-state-panel="empty" hidden>
-      <EsaEmptyState
-        title="No components yet"
-        description="Components are the pieces of Delta Conveyance you track compliance against — intakes, shafts, forebays, staging areas. Add the first one to start rolling up its requirements, actions, and monitoring activity here."
-        size="lg"
-      >
-        <svg slot="icon" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/>
-          <path d="M3.29 7 12 12l8.71-5"/>
-          <path d="M12 22V12"/>
-        </svg>
-        <EsaButton color="primary" icon="plus">Add first component</EsaButton>
-        <EsaButton color="ghost" appearance="outline">Import from source documents</EsaButton>
-      </EsaEmptyState>
     </div>
   </PageLayout>
 </AppShell>
@@ -124,11 +115,7 @@ const mapPoints = indexMapPoints(DENSE);
   }
 
   const viewToggle = document.getElementById('view-toggle') as ToggleEl | null;
-  const stateToggle = document.getElementById('state-toggle') as ToggleEl | null;
-  const statePanels = Array.from(document.querySelectorAll<HTMLElement>('[data-state-panel]'));
   const viewPanels = Array.from(document.querySelectorAll<HTMLElement>('[data-view-panel]'));
-  const newBtnWrap = document.getElementById('new-cmp-wrap');
-  const viewWrap = viewToggle?.parentElement ? viewToggle : null;
 
   const showView = (view: string) => {
     viewPanels.forEach((p) => {
@@ -139,15 +126,6 @@ const mapPoints = indexMapPoints(DENSE);
     window.dispatchEvent(new Event('resize'));
   };
 
-  const showState = (state: string) => {
-    statePanels.forEach((p) => {
-      p.hidden = p.dataset.statePanel !== state;
-    });
-    if (newBtnWrap) newBtnWrap.hidden = state === 'empty';
-    // A view choice is meaningless with nothing to view.
-    if (viewWrap) viewWrap.hidden = state === 'empty';
-  };
-
   if (viewToggle) {
     viewToggle.options = [
       { label: 'Grid', value: 'grid' },
@@ -156,15 +134,5 @@ const mapPoints = indexMapPoints(DENSE);
     viewToggle.value = 'grid';
     viewToggle.addEventListener('change', (e) => showView((e as CustomEvent).detail.value as string));
     showView('grid');
-  }
-
-  if (stateToggle) {
-    stateToggle.options = [
-      { label: 'Populated', value: 'populated' },
-      { label: 'Empty', value: 'empty' },
-    ];
-    stateToggle.value = 'populated';
-    stateToggle.addEventListener('change', (e) => showState((e as CustomEvent).detail.value as string));
-    showState('populated');
   }
 </script>

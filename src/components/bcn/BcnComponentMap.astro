@@ -11,6 +11,13 @@
 // what BCN-1583 slice 1 proposes. When boundary geometry lands, it becomes a
 // layer UNDER these points; the points don't go away.
 //
+// TWO geometry kinds, same map. `points` are individual locations (one
+// component's work areas). `areas` are filled rings — at the index, each
+// component's footprint, the hull of the work areas it owns. Areas draw UNDER
+// points and are translucent, so overlap is legible rather than occluding: the
+// call was explicit that components overlapping is fine and reads the way
+// habitat layers do.
+//
 // ONE component, TWO callers:
 //   · variant="inset" — the component dashboard's right-rail card: a small
 //     non-interactive picture with an expand action that opens the real map in
@@ -75,9 +82,21 @@ export interface MapPoint {
   markColor?: string;
 }
 
+export interface MapArea {
+  id: string;
+  /** Closed ring of [lat, lon] pairs. */
+  ring: [number, number][];
+  /** Tooltip text. Falls back to the id. */
+  label?: string;
+  /** A TOKEN REFERENCE (`var(--bcn-status-in-progress)`), never a hex. */
+  color?: string;
+}
+
 interface Props {
   /** Points to plot. For the detail page, one component's work areas. */
-  points: MapPoint[];
+  points?: MapPoint[];
+  /** Filled rings drawn under the points. For the index, one footprint per component. */
+  areas?: MapArea[];
   /** 'inset' = small non-interactive card that expands to a modal; 'full' = large interactive map. */
   variant?: 'inset' | 'full';
   title?: string;
@@ -90,7 +109,8 @@ interface Props {
 }
 
 const {
-  points,
+  points = [],
+  areas = [],
   variant = 'inset',
   title = 'Component footprint',
   idPrefix,
@@ -114,16 +134,26 @@ const STATUS_COLOR: Record<string, string> = {
 };
 const FALLBACK_COLOR = 'var(--color-text-tertiary)';
 
-const payload = points.map((p) => ({
-  id: p.id,
-  lat: p.lat,
-  lon: p.lon,
-  label: p.label ?? p.id,
-  color: p.markColor ?? STATUS_COLOR[(p.status ?? '').trim().toLowerCase()] ?? FALLBACK_COLOR,
-}));
+const payload = {
+  points: points.map((p) => ({
+    id: p.id,
+    lat: p.lat,
+    lon: p.lon,
+    label: p.label ?? p.id,
+    color: p.markColor ?? STATUS_COLOR[(p.status ?? '').trim().toLowerCase()] ?? FALLBACK_COLOR,
+  })),
+  areas: areas.map((a) => ({
+    id: a.id,
+    ring: a.ring,
+    label: a.label ?? a.id,
+    color: a.color ?? FALLBACK_COLOR,
+  })),
+};
 
-const count = points.length;
-const mapLabel = count === 0 ? `${title} — no locations to show` : `${title} — ${count} location${count === 1 ? '' : 's'}`;
+const count = points.length + areas.length;
+const noun = areas.length > 0 && points.length === 0 ? 'footprint' : 'location';
+const mapLabel =
+  count === 0 ? `${title} — nothing to show` : `${title} — ${count} ${noun}${count === 1 ? '' : 's'}`;
 
 const insetId = `${idPrefix}-inset`;
 const fullId = `${idPrefix}-full`;
@@ -227,6 +257,18 @@ const expandId = `${idPrefix}-expand`;
     color: string;
   }
 
+  interface MapArea {
+    id: string;
+    ring: [number, number][];
+    label: string;
+    color: string;
+  }
+
+  interface MapData {
+    points: MapPoint[];
+    areas: MapArea[];
+  }
+
   type CmapRoot = HTMLElement & { _bcnCmapReady?: boolean };
   type CmapDialog = HTMLElement & { open: boolean; show?: () => void };
 
@@ -273,23 +315,61 @@ const expandId = `${idPrefix}-expand`;
 
   const LIVE_OPTIONS: L.MapOptions = { zoomControl: true, attributionControl: true };
 
-  function readPoints(prefix: string): MapPoint[] {
+  const EMPTY: MapData = { points: [], areas: [] };
+
+  function readData(prefix: string): MapData {
     const el = document.querySelector(`[data-bcn-cmap-data="${prefix}"]`);
-    if (!el) return [];
+    if (!el) return EMPTY;
     try {
-      const parsed = JSON.parse(el.textContent || '[]');
-      return Array.isArray(parsed) ? (parsed as MapPoint[]) : [];
+      const parsed = JSON.parse(el.textContent || 'null');
+      if (!parsed || typeof parsed !== 'object') return EMPTY;
+      return {
+        points: Array.isArray(parsed.points) ? parsed.points : [],
+        areas: Array.isArray(parsed.areas) ? parsed.areas : [],
+      };
     } catch {
-      return [];
+      return EMPTY;
     }
   }
 
-  /** Draw the points into `map` and fit the view to them. */
-  function plot(map: L.Map, pts: MapPoint[], interactive: boolean, pad: number) {
+  /** Every coordinate on the map — what the view has to contain. */
+  const extentOf = (d: MapData): L.LatLngTuple[] => [
+    ...d.points.map((p) => [p.lat, p.lon] as L.LatLngTuple),
+    ...d.areas.flatMap((a) => a.ring.map((r) => [r[0], r[1]] as L.LatLngTuple)),
+  ];
+
+  /** Draw the geometry into `map` and fit the view to it. */
+  function plot(map: L.Map, data: MapData, interactive: boolean, pad: number) {
     const stroke = rootStyle().getPropertyValue('--color-surface').trim() || '#ffffff';
     const group = L.layerGroup().addTo(map);
 
-    for (const p of pts) {
+    // Areas first, so points sit ON them. Translucent fill with a solid edge:
+    // sixteen overlapping footprints have to stay legible where they stack, and
+    // the outline is what keeps each one's shape readable through the pile.
+    for (const a of data.areas) {
+      const color = resolveColor(a.color);
+      const shape = L.polygon(a.ring as L.LatLngExpression[], {
+        color,
+        weight: interactive ? 2 : 1,
+        fillColor: color,
+        fillOpacity: 0.18,
+        opacity: 0.85,
+        interactive,
+      });
+      if (interactive) {
+        shape.bindTooltip(a.label, { sticky: true, direction: 'top' });
+        // Bring the hovered footprint forward and firm up its fill — the only way
+        // to isolate one shape out of an overlapping stack without a legend click.
+        shape.on('mouseover', () => {
+          shape.bringToFront();
+          shape.setStyle({ fillOpacity: 0.36, weight: 3 });
+        });
+        shape.on('mouseout', () => shape.setStyle({ fillOpacity: 0.18, weight: 2 }));
+      }
+      shape.addTo(group);
+    }
+
+    for (const p of data.points) {
       const marker = L.circleMarker([p.lat, p.lon], {
         // Modest: a footprint reads as a scatter of sites, not a pin cushion.
         radius: interactive ? 6 : 4,
@@ -303,11 +383,9 @@ const expandId = `${idPrefix}-expand`;
       marker.addTo(group);
     }
 
-    if (pts.length > 0) {
-      map.fitBounds(L.latLngBounds(pts.map((p) => [p.lat, p.lon] as L.LatLngTuple)), {
-        padding: [pad, pad],
-        maxZoom: 14,
-      });
+    const extent = extentOf(data);
+    if (extent.length > 0) {
+      map.fitBounds(L.latLngBounds(extent), { padding: [pad, pad], maxZoom: 14 });
     }
   }
 
@@ -322,7 +400,7 @@ const expandId = `${idPrefix}-expand`;
    * re-fits. Cheap, self-contained, and correct for hosts that have not been
    * written yet.
    */
-  function refitWhenSized(map: L.Map, el: HTMLElement, pts: MapPoint[], pad: number) {
+  function refitWhenSized(map: L.Map, el: HTMLElement, data: MapData, pad: number) {
     if (typeof ResizeObserver === 'undefined') return;
     let settled = el.clientWidth > 0 && el.clientHeight > 0;
     const ro = new ResizeObserver(() => {
@@ -330,11 +408,9 @@ const expandId = `${idPrefix}-expand`;
       if (!sized || settled) return;
       settled = true;
       map.invalidateSize();
-      if (pts.length > 0) {
-        map.fitBounds(L.latLngBounds(pts.map((p) => [p.lat, p.lon] as L.LatLngTuple)), {
-          padding: [pad, pad],
-          maxZoom: 14,
-        });
+      const extent = extentOf(data);
+      if (extent.length > 0) {
+        map.fitBounds(L.latLngBounds(extent), { padding: [pad, pad], maxZoom: 14 });
       }
       ro.disconnect();
     });
@@ -347,7 +423,7 @@ const expandId = `${idPrefix}-expand`;
 
     const prefix = root.dataset.prefix || '';
     const variant = root.dataset.variant === 'full' ? 'full' : 'inset';
-    const pts = readPoints(prefix);
+    const data = readData(prefix);
 
     if (variant === 'full') {
       const el = document.getElementById(`${prefix}-full`);
@@ -355,9 +431,9 @@ const expandId = `${idPrefix}-expand`;
       // Gotcha 1: a view must exist BEFORE any layer is added.
       const map = L.map(el, LIVE_OPTIONS).setView(EMPTY_VIEW, EMPTY_ZOOM);
       basemap().addTo(map);
-      plot(map, pts, true, 24);
+      plot(map, data, true, 24);
       requestAnimationFrame(() => map.invalidateSize());
-      refitWhenSized(map, el, pts, 24);
+      refitWhenSized(map, el, data, 24);
       return;
     }
 
@@ -366,7 +442,7 @@ const expandId = `${idPrefix}-expand`;
     if (insetEl) {
       const inset = L.map(insetEl, INSET_OPTIONS).setView(EMPTY_VIEW, EMPTY_ZOOM);
       basemap().addTo(inset);
-      plot(inset, pts, false, 10);
+      plot(inset, data, false, 10);
       requestAnimationFrame(() => inset.invalidateSize());
     }
 
@@ -385,7 +461,7 @@ const expandId = `${idPrefix}-expand`;
           if (!el) return;
           full = L.map(el, LIVE_OPTIONS).setView(EMPTY_VIEW, EMPTY_ZOOM);
           basemap().addTo(full);
-          plot(full, pts, true, 24);
+          plot(full, data, true, 24);
         } else {
           // A map hidden since last close remembers a stale size — re-measure.
           full.invalidateSize();

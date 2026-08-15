@@ -28,13 +28,12 @@
 // as a shared kit (src/lib/beacon-grid.ts), which is what this composes. The SHELL
 // is esa-card (header + actions slot + footer slot do the whole grid chrome), the
 // controls are esa-text-field / esa-button / esa-icon-button, the status cell is a
-// cloned BcnStatusChip, and the footer/header rows are the `repel`/`cluster` layout
+// the shared quiet-chip renderer, and the footer/header rows are the `repel`/`cluster` layout
 // primitives. What is left below is grid-host geometry plus the two cell looks AG
 // Grid injects outside Astro's scope.
 import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
-import BcnStatusChip from './BcnStatusChip.astro';
 import {
   byNeedsAttention,
   marksForProject,
@@ -114,22 +113,13 @@ const rows = byNeedsAttention(components).map((c) => {
     </Fragment>
   </EsaCard>
 
-  {/* The status cell is a real BcnStatusChip, SSR'd once per status and cloned into
-      the cell — AG Grid builds cells at runtime, outside Astro's reach, and cloning
-      the lego beats re-declaring its look in a :global block that would drift. */}
-  <template data-cg-chips>
-    {STATUS_ORDER.map((s) => (
-      <BcnStatusChip status={s} label={STATUS_META[s].label} hex={STATUS_META[s].hex} />
-    ))}
-  </template>
-
   <script type="application/json" data-cg-data set:html={JSON.stringify(rows)}></script>
 </section>
 
 <script>
   import { createGrid, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
   import type { ColDef, GridApi, GridOptions, ICellRendererParams } from 'ag-grid-community';
-  import { settingsTheme } from '../../lib/beacon-grid';
+  import { settingsTheme, makeQuietChipRenderer } from '../../lib/beacon-grid';
   import '@esa/ecology/esa-text-field';
 
   ModuleRegistry.registerModules([AllCommunityModule]);
@@ -170,7 +160,6 @@ const rows = byNeedsAttention(components).map((c) => {
     if (!data || !host) continue;
 
     const rows: Row[] = JSON.parse(data.textContent || '[]');
-    const chipTemplate = mount.querySelector<HTMLTemplateElement>('[data-cg-chips]');
 
     // Identity mark: the glyph drawn from the row's own `paths` (the same string
     // data/entity-marks.ts hands the Astro renderers) on a neutral tile, in the
@@ -204,10 +193,11 @@ const rows = byNeedsAttention(components).map((c) => {
       return cell;
     }
 
-    function statusRenderer(p: ICellRendererParams<Row>): Node | string {
-      const chip = chipTemplate?.content.querySelector(`[data-status="${p.data?.status}"]`);
-      return chip ? chip.cloneNode(true) : String(p.value ?? '');
-    }
+    // The SAME quiet chip the work-area grid uses (dot + label, 4px radius, tone
+    // driven from CSS). It replaces a cloned BcnStatusChip, which is the tinted-PILL
+    // treatment — louder than the house badge standard and unlike every other status
+    // cell in this spoke. One chip pattern for status in a grid, not two.
+    const statusRenderer = makeQuietChipRenderer({ toneField: 'status', className: 'bcn-cg__chip' });
 
     // A column of zeros is noise on a routing surface: nothing open reads as nothing
     // to do, and the em-dash says that faster than "0" does.
@@ -349,7 +339,7 @@ const rows = byNeedsAttention(components).map((c) => {
 <style>
   /* bcn-lego-checked: grid-host geometry, the card's header/footer control rows, and
      the cell looks AG Grid injects outside Astro's scope (identity mark, name link,
-     numeric cells). Every control here is an esa-* lego or a cloned BcnStatusChip; no
+     numeric cells). Every control here is an esa-* lego; no
      primitive is reinvented. See the header note for the full lookup. */
 
   .bcn-cg__search {
@@ -405,12 +395,33 @@ const rows = byNeedsAttention(components).map((c) => {
     color: var(--_mark);
   }
 
-  /* The cloned chip carries BcnStatusChip's own look untouched except for one step of
-     size: its default (--type-size-100, 12px) sits under this surface's 14px dense
-     floor. Contextual override, not a restyle — color, shape, and dot stay the lego's. */
-  .bcn-cg :global(.bcn-status-chip) {
-    font-size: var(--type-size-150);
+  /* The quiet status chip — the same dot-and-label treatment the work-area grid
+     uses, tone driven from CSS so no literal reaches the cell. */
+  .bcn-cg :global(.bcn-cg__chip) {
+    --_tone: var(--bcn-status-not-started);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    padding: 1px var(--spacing-200);
+    border-radius: var(--radius-100);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
+    background: color-mix(in srgb, var(--_tone) 16%, transparent);
+    color: color-mix(in srgb, var(--_tone) 70%, var(--color-text-primary));
   }
+  .bcn-cg :global(.bcn-cg__chip::before) {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: var(--radius-full);
+    background: var(--_tone);
+  }
+  .bcn-cg :global(.bcn-cg__chip[data-tone='not-started']) { --_tone: var(--bcn-status-not-started); }
+  .bcn-cg :global(.bcn-cg__chip[data-tone='in-progress']) { --_tone: var(--color-warning); }
+  .bcn-cg :global(.bcn-cg__chip[data-tone='on-hold'])     { --_tone: var(--bcn-status-on-hold); }
+  .bcn-cg :global(.bcn-cg__chip[data-tone='complete'])    { --_tone: var(--color-success); }
 
   .bcn-cg :global(.bcn-cg__name) {
     color: var(--color-text-link);
