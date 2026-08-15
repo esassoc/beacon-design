@@ -96,12 +96,6 @@ export interface ApplicableCommitment {
   rationale?: string;
   /** ISO date the commitment entered the project via its source document. */
   addedOn: string;
-  /**
-   * Attribute overlap with commitments already applied here (shared species or
-   * requirement type). A hint that ATTACHES nothing on its own — the user still
-   * decides. Never called AI, never given a persona or a sparkle.
-   */
-  suggested?: boolean;
 }
 
 /** The last time anyone made a decision on this component — anchors "new since". */
@@ -118,7 +112,7 @@ type Row = [
   decision: Decision | null,
   addedOn: string,
   text: string,
-  extra?: { rationale?: string; suggested?: boolean },
+  extra?: { rationale?: string },
 ];
 
 const a = (code: string, name: string, type: ActionType): SetupAction => ({ code, name, type });
@@ -175,12 +169,10 @@ const ROWS: Row[] = [
   // ── Undecided, present since the last review ──────────────────────────────
   ['BIO-09', 'Swainson’s hawk nest buffer', 'itp', 'Avoidance & BMPs', 4, ['SWHA'],
     [a('BIO-09', 'Swainson’s hawk nest buffer verification', 'monitoring')], null, '2025-11-04',
-    'A 0.25-mile no-disturbance buffer shall be established around active Swainson’s hawk nests and maintained until a qualified biologist determines the young have fledged or the nest has failed.',
-    { suggested: true }],
+    'A 0.25-mile no-disturbance buffer shall be established around active Swainson’s hawk nests and maintained until a qualified biologist determines the young have fledged or the nest has failed.'],
   ['BIO-18', 'Worker environmental awareness program', 'feir', 'Training', 2, ['SWHA', 'GGS'],
     [a('BIO-18', 'Worker environmental awareness refresher', 'tracking')], null, '2025-11-04',
-    'All personnel shall complete an environmental awareness program prior to site access, with annual refresher training thereafter.',
-    { suggested: true }],
+    'All personnel shall complete an environmental awareness program prior to site access, with annual refresher training thereafter.'],
   ['BIO-27', 'Western pond turtle relocation protocol', 'itp', 'Survey', 3, ['WPT'],
     [a('BIO-27', 'Pond turtle clearance survey', 'monitoring')], null, '2025-11-04',
     'Where work occurs within 100 feet of aquatic habitat, a qualified biologist shall survey for western pond turtle and relocate individuals outside the work area prior to disturbance.',
@@ -195,20 +187,17 @@ const ROWS: Row[] = [
     {}],
   ['CUL-05', 'Inadvertent discovery stop-work protocol', 'feir', 'Avoidance & BMPs', 2, [],
     [a('CUL-05', 'Discovery protocol acknowledgement', 'tracking')], null, '2025-11-04',
-    'If cultural materials are encountered, work shall halt within 100 feet of the find and a qualified archaeologist shall evaluate the discovery before work resumes.',
-    { suggested: true }],
+    'If cultural materials are encountered, work shall halt within 100 feet of the find and a qualified archaeologist shall evaluate the discovery before work resumes.'],
   ['CUL-11', 'Archaeological construction monitoring', 'feir', 'Monitoring', 3, [],
     [a('CUL-11', 'Archaeological monitor coverage', 'monitoring')], null, '2025-11-18',
     'Ground disturbance in areas of elevated archaeological sensitivity shall be monitored by a qualified archaeologist and a Native American monitor.',
     {}],
   ['WQ-05', 'Dewatering discharge management', 'swrcb', 'Avoidance & BMPs', 3, [],
     [a('WQ-05', 'Dewatering discharge sampling', 'monitoring')], null, '2025-11-18',
-    'Dewatering discharge shall be routed through sediment controls and sampled for turbidity and pH prior to release to any surface water.',
-    { suggested: true }],
+    'Dewatering discharge shall be routed through sediment controls and sampled for turbidity and pH prior to release to any surface water.'],
   ['WQ-12', 'Quarterly SWPPP inspection', 'swrcb', 'Inspection', 2, [],
     [a('WQ-12', 'SWPPP quarterly inspection', 'tracking')], null, '2025-11-18',
-    'A Qualified SWPPP Practitioner shall inspect all stormwater controls quarterly and within 48 hours of any qualifying rain event.',
-    { suggested: true }],
+    'A Qualified SWPPP Practitioner shall inspect all stormwater controls quarterly and within 48 hours of any qualifying rain event.'],
   ['VEG-06', 'Revegetation of temporarily disturbed areas', 'feir', 'Plan Submittal', 3, [],
     [a('VEG-06', 'Revegetation plan agency review', 'tracking')], null, '2025-12-02',
     'Temporarily disturbed areas shall be revegetated with a native seed mix approved by the resource agencies within one growing season of disturbance.',
@@ -227,12 +216,10 @@ const ROWS: Row[] = [
     {}],
   ['GEO-04', 'Levee stability monitoring during exploration', 'usace', 'Monitoring', 3, [],
     [a('GEO-04', 'Levee deformation survey', 'monitoring')], null, '2025-12-16',
-    'Exploration within 100 feet of a federal project levee shall be accompanied by deformation monitoring before, during, and after drilling.',
-    { suggested: true }],
+    'Exploration within 100 feet of a federal project levee shall be accompanied by deformation monitoring before, during, and after drilling.'],
   ['GEO-09', 'Drilling fluid containment', 'usace', 'Avoidance & BMPs', 2, [],
     [a('GEO-09', 'Drilling fluid containment inspection', 'tracking')], null, '2025-12-16',
-    'Drilling fluids shall be fully contained and removed from the site. No discharge to surface water or to the levee prism is permitted.',
-    { suggested: true }],
+    'Drilling fluids shall be fully contained and removed from the site. No discharge to surface water or to the levee prism is permitted.'],
   ['USACE-02', 'Section 404 preconstruction notification', 'usace', 'Reporting', 2, [],
     [a('USACE-02', 'Preconstruction notification submittal', 'reporting')], null, '2025-12-16',
     'The permittee shall submit preconstruction notification to the District Engineer at least 45 days prior to commencing work in waters of the United States.',
@@ -243,8 +230,7 @@ const ROWS: Row[] = [
     {}],
   ['BIO-39', 'Biological monitor daily reporting', 'itp', 'Reporting', 3, ['SWHA', 'GGS'],
     [a('BIO-39', 'Daily biological monitoring report', 'reporting')], null, '2026-01-08',
-    'The biological monitor shall record daily observations, including species detected, avoidance measures implemented, and any incidental take, and submit within 5 working days.',
-    { suggested: true }],
+    'The biological monitor shall record daily observations, including species detected, avoidance measures implemented, and any incidental take, and submit within 5 working days.'],
 
   // ── Undecided AND new since the last review (added after LAST_REVIEWED) ───
   // These are the treadmill made legible: commitments the project gained after
@@ -255,32 +241,27 @@ const ROWS: Row[] = [
     {}],
   ['BIO-47', 'Nesting raptor buffer for non-listed species', 'feir', 'Avoidance & BMPs', 2, [],
     [a('BIO-47', 'Raptor buffer establishment', 'monitoring')], null, '2026-02-24',
-    'Active nests of non-listed raptors shall receive a 250-foot no-disturbance buffer until the young have fledged.',
-    { suggested: true }],
+    'Active nests of non-listed raptors shall receive a 250-foot no-disturbance buffer until the young have fledged.'],
   ['WQ-23', 'Spill prevention and response plan', 'swrcb', 'Plan Submittal', 3, [],
     [a('WQ-23', 'Spill response plan submittal', 'tracking')], null, '2026-03-03',
-    'A spill prevention and response plan shall be maintained on site, with response materials staged within 100 feet of any fueling or fluid transfer location.',
-    { suggested: true }],
+    'A spill prevention and response plan shall be maintained on site, with response materials staged within 100 feet of any fueling or fluid transfer location.'],
   ['AIR-11', 'Off-road equipment emissions tier', 'feir', 'Inspection', 2, [],
     [a('AIR-11', 'Equipment tier verification', 'tracking')], null, '2026-03-03',
     'Off-road diesel equipment greater than 50 horsepower shall meet Tier 4 Final emission standards, verified by equipment list prior to mobilization.',
     {}],
   ['CUL-14', 'Tribal monitor notification', 'feir', 'Reporting', 2, [],
     [a('CUL-14', 'Tribal monitor notification', 'reporting')], null, '2026-03-10',
-    'Culturally affiliated tribes shall receive no less than 14 days notice prior to the start of ground disturbance in areas identified as culturally sensitive.',
-    { suggested: true }],
+    'Culturally affiliated tribes shall receive no less than 14 days notice prior to the start of ground disturbance in areas identified as culturally sensitive.'],
   ['GEO-12', 'Artesian conditions contingency', 'usace', 'Avoidance & BMPs', 2, [],
     [], null, '2026-03-10',
-    'Where artesian conditions are encountered, drilling shall stop and the boring shall be sealed under the direction of a licensed engineering geologist.',
-    { suggested: true }],
+    'Where artesian conditions are encountered, drilling shall stop and the boring shall be sealed under the direction of a licensed engineering geologist.'],
   ['NOI-12', 'Vibration limits for adjacent structures', 'feir', 'Monitoring', 3, [],
     [a('NOI-12', 'Vibration monitoring at receptors', 'monitoring')], null, '2026-03-17',
     'Ground-borne vibration shall not exceed 0.2 in/sec PPV at any structure of normal construction, monitored continuously during impact activities.',
     {}],
   ['BIO-55', 'Lighting shielding for nocturnal wildlife', 'feir', 'Avoidance & BMPs', 2, ['GGS'],
     [], null, '2026-03-17',
-    'Nighttime lighting shall be directed downward, shielded, and of the minimum intensity necessary, with no direct illumination of adjacent aquatic habitat.',
-    { suggested: true }],
+    'Nighttime lighting shall be directed downward, shielded, and of the minimum intensity necessary, with no direct illumination of adjacent aquatic habitat.'],
 ];
 
 export const SETUP_COMMITMENTS: ApplicableCommitment[] = ROWS.map(
@@ -296,8 +277,7 @@ export const SETUP_COMMITMENTS: ApplicableCommitment[] = ROWS.map(
     actions,
     decision,
     addedOn,
-    rationale: extra?.rationale,
-    suggested: extra?.suggested,
+    rationale: extra?.rationale
   }),
 );
 
@@ -316,8 +296,6 @@ export const NEW_SINCE_REVIEW = UNDECIDED.filter((c) => c.addedOn > LAST_REVIEWE
 /** Undecided and already present at the last review — the standing backlog. */
 export const STANDING_BACKLOG = UNDECIDED.filter((c) => c.addedOn <= LAST_REVIEWED);
 
-export const SUGGESTED = UNDECIDED.filter((c) => c.suggested);
-
 /** Actions that would materialize if every undecided commitment were applied. */
 export const PENDING_ACTION_COUNT = UNDECIDED.reduce((n, c) => n + c.actions.length, 0);
 
@@ -327,7 +305,6 @@ export const SETUP_TOTALS = {
   applied: APPLIED.length,
   dismissed: DISMISSED.length,
   newSince: NEW_SINCE_REVIEW.length,
-  suggested: SUGGESTED.length,
   decided: APPLIED.length + DISMISSED.length,
 };
 

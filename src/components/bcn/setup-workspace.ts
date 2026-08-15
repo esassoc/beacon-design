@@ -81,6 +81,7 @@ export function initSetupWorkspace(): void {
     species: new Set(),
   };
   let view: View = 'undecided';
+  let query = '';
   let preview: string | null = null;
   /** Which decision the open rationale dialog is about to write. */
   let pendingBulk: Decision = 'applied';
@@ -92,7 +93,6 @@ export function initSetupWorkspace(): void {
     type: root.querySelector<FilterDropdownEl>('[data-sw-facet="type"]')!,
     species: root.querySelector<FilterDropdownEl>('[data-sw-facet="species"]')!,
   };
-  const pillWrap = root.querySelector<HTMLElement>('[data-sw-pills]')!;
   const noneEl = root.querySelector<HTMLElement>('[data-sw-none]')!;
   const noPreviewEl = root.querySelector<HTMLElement>('[data-sw-nopreview]')!;
   const bulkEl = root.querySelector<HTMLElement>('[data-sw-bulk]')!;
@@ -138,6 +138,18 @@ export function initSetupWorkspace(): void {
     (facets.type.size === 0 || facets.type.has(c.requirementType)) &&
     (facets.species.size === 0 || c.species.some((s) => facets.species.has(s)));
 
+  /** Keyword match across the code, the title, and the commitment's own text — the
+   *  three things someone would have in mind when they come looking for one. */
+  const matchesQuery = (c: ApplicableCommitment): boolean => {
+    if (!query) return true;
+    const q = query.toLowerCase();
+    return (
+      c.code.toLowerCase().includes(q) ||
+      c.title.toLowerCase().includes(q) ||
+      c.text.toLowerCase().includes(q)
+    );
+  };
+
   // ── Renderers ──────────────────────────────────────────────────────────────────
 
   /** Segment counts, counted off the rows the segment would actually render. */
@@ -165,19 +177,6 @@ export function initSetupWorkspace(): void {
     }
   }
 
-  function renderPills(): void {
-    let active = 0;
-    pillWrap.querySelectorAll<HTMLElement>('[data-esa-filter-remove]').forEach((btn) => {
-      const key = btn.dataset.name as FacetKey | undefined;
-      const value = btn.dataset.value ?? '';
-      const chip = btn.closest<HTMLElement>('.esa-filter-pills__chip');
-      if (!chip || !key) return;
-      const on = !!facets[key]?.has(value);
-      chip.hidden = !on;
-      if (on) active++;
-    });
-    pillWrap.hidden = active === 0;
-  }
 
   /** The lead band, kept honest as decisions are made in-session. */
   function renderFigures(): void {
@@ -213,7 +212,7 @@ export function initSetupWorkspace(): void {
     let visible = 0;
     for (const row of rows) {
       const c = byId.get(row.dataset.swRow ?? '');
-      const show = !!c && inView(c, view) && matchesFacets(c);
+      const show = !!c && inView(c, view) && matchesFacets(c) && matchesQuery(c);
       row.hidden = !show;
       if (show) visible++;
       else if (c && selected.delete(c.id)) uncheck(row);
@@ -285,7 +284,6 @@ export function initSetupWorkspace(): void {
   function render(): void {
     renderToggle();
     renderFacets();
-    renderPills();
     renderRows();
     renderBulk();
     renderListHead();
@@ -362,6 +360,13 @@ export function initSetupWorkspace(): void {
   }
 
   // ── Wiring ─────────────────────────────────────────────────────────────────────
+
+  // esa-text-field's change is composed; `input` gives per-keystroke filtering.
+  const searchEl = root.querySelector<ValueEl>('[data-sw-search]');
+  searchEl?.addEventListener('input', () => {
+    query = (searchEl.value ?? '').trim();
+    render();
+  });
 
   toggle.addEventListener('change', (e) => {
     view = ((e as CustomEvent).detail?.value as View) ?? 'undecided';

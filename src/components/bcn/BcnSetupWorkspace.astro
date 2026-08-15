@@ -36,17 +36,19 @@
 // ({ ids, decision, rationale }) on every write and `bcn-setup-save`
 // ({ applied, dismissed, count }) when the footer saves. One instance per page.
 //
-// VOCABULARY. "Actions", never "implementations". "Suggested" marks a row whose species
-// or requirement type overlaps what is already applied here — it ATTACHES nothing on its
-// own, exactly as in <BcnEvidenceTargets>; the marker sits on the ROW and the user still
-// decides. Never "AI", no persona, no sparkle glyph.
+// VOCABULARY. "Actions", never "implementations". Never "AI", no persona, no sparkle
+// glyph. A "Suggested" marker was here and was CUT at review (2026-08-13): it was
+// authored into the fixture by hand, not derived, and Beacon has no signal that could
+// produce it. Marking a row as recommended on the strength of nothing is worse than
+// leaving the user to read the commitment.
 //
 // bcn-lego-checked: every control here is a lego — esa-side-dialog is the drawer,
 // esa-stat the three lead figures, esa-progress-bar the decided share, esa-button-toggle
-// the view pivot, esa-filter-container / esa-filter-dropdown / esa-filter-pills /
+// the view pivot, esa-filter-container / esa-filter-dropdown /
 // esa-filter-clear-button the facet bar (inside BcnFilterBar, the spoke's carded
-// filter-bar idiom), esa-checkbox the row selector, esa-badge the Suggested / decision /
-// action-type chips, esa-button every action, esa-dialog + esa-textarea + esa-alert-box
+// filter-bar idiom), esa-text-field the keyword search, esa-checkbox the row selector,
+// esa-badge the decision / action-type chips, esa-icon-button + esa-tooltip the per-row
+// decisions, esa-button every other action, esa-dialog + esa-textarea + esa-alert-box
 // the rationale flow, esa-empty-state both nothing-here states, and BcnCommitmentBadge
 // every commitment code. What is NOT a lego and is therefore hand-built here: (a) the
 // SELECTABLE LIST ROW — Ecology has no selectable/expandable data row (esa-card is a
@@ -68,10 +70,11 @@
 import EsaStat from '@esa/ecology/esa-stat.astro';
 import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
 import EsaBadge from '@esa/ecology/esa-badge.astro';
+import EsaIcon from '@esa/ecology/esa-icon.astro';
+import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaEmptyState from '@esa/ecology/esa-empty-state.astro';
 import EsaAlertBox from '@esa/ecology/esa-alert-box.astro';
-import EsaFilterPills from '@esa/ecology/esa-filter-pills.astro';
 import FilterClearButton from '@esa/ecology/esa-filter-clear-button.astro';
 import BcnFilterBar from './BcnFilterBar.astro';
 import BcnCommitmentBadge from './BcnCommitmentBadge.astro';
@@ -97,8 +100,12 @@ interface Props {
 const {
   id = 'bcn-setup-workspace',
   componentName,
-  heading = 'Component setup — applicable commitments',
+  heading = 'Applicable Commitments',
 } = Astro.props;
+
+/** Not in esa-icon's registry; passed through its `paths` escape hatch. */
+const CLIPBOARD_CHECK =
+  '<rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/>';
 
 /** Action-type words as the tracker says them. Local so the fixture stays the only import. */
 const ACTION_TYPE_LABEL: Record<string, string> = {
@@ -111,24 +118,6 @@ const plural = (n: number, one: string, many = `${one}s`) => (n === 1 ? one : ma
 
 /** Undecided AND added after the last decision here — the treadmill, made legible. */
 const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
-
-/**
- * The pill vocabulary is the FULL fixture's facets (every value that can ever be
- * active), rendered once and revealed by the controller. esa-filter-pills is an .astro
- * lego — compile-time — so pre-rendering and toggling is how a runtime list still gets
- * the real lego chip instead of a hand-written copy of it. Pill text stays the bare
- * value (no count): a count on an active filter would restate the list beneath it.
- */
-const allFacets = facetsFor(SETUP_COMMITMENTS);
-const pillFilters = allFacets.flatMap((f) =>
-  f.options.map((o) => ({
-    name: f.key,
-    label: f.label,
-    value: o.value,
-    // Species options label as "SWHA · Swainson's hawk"; a pill wants the code alone.
-    displayValue: f.key === 'species' ? o.value : o.label,
-  })),
-);
 
 /** The quiet meta line under each row title. */
 const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
@@ -150,26 +139,28 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
   heading={heading}
   data-setup-workspace
 >
+  {/* The workflow's icon, its name, and the record it acts on as a BADGE — the
+      title-plus-badge pattern Beacon already uses (PageLayout's `title-badge` slot).
+      "Component setup" is gone: it was the tab's name, not this dialog's job, and the
+      component's name reads better beside the title than as a line under it. */}
+  <div slot="header" class="bcn-sw__head">
+    <EsaIcon name="clipboard-check" paths={CLIPBOARD_CHECK} size="lg" />
+    <h2 class="bcn-sw__headtitle">{heading}</h2>
+    <EsaBadge value={componentName} variant="secondary" size="sm" />
+  </div>
+
   <div class="bcn-sw__body">
-    <!-- ── 1. Lead band — the honest counts. Each figure is scoped to this component
-         and each one opens as a list below. No sentence explaining them: the figures
-         and their labels are the statement. ── -->
+    {/* Lead band — the honest counts. Each figure is scoped to this component and each
+        one opens as a list below. The sub-lines under them are gone: a label and a
+        number are the statement, and "23 actions they would create" was narration
+        about a figure sitting directly above it. */}
     <header class="bcn-sw__lead">
-      <p class="bcn-sw__scope type-body">{componentName}</p>
       <div class="bcn-sw__figures">
         <div class="bcn-sw__figure" data-sw-figure="undecided">
-          <EsaStat
-            value={SETUP_TOTALS.undecided}
-            label="Need a decision"
-            sub={`${PENDING_ACTION_COUNT} actions they would create`}
-          />
+          <EsaStat value={SETUP_TOTALS.undecided} label="Need a decision" />
         </div>
         <div class="bcn-sw__figure" data-sw-figure="new">
-          <EsaStat
-            value={SETUP_TOTALS.newSince}
-            label="New since you last reviewed"
-            sub={`Last reviewed ${fmtDate(LAST_REVIEWED)}`}
-          />
+          <EsaStat value={SETUP_TOTALS.newSince} label="New since last review" />
         </div>
         <div class="bcn-sw__figure bcn-sw__figure--progress" data-sw-figure="decided">
           <EsaStat value={`${SETUP_TOTALS.decided} of ${SETUP_TOTALS.total}`} label="Decided" />
@@ -193,12 +184,17 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
             primary navigation — 12px is under the house floor. md lands at 15px / 36px.
             It sits in the bar's TOP band, so it has no same-row sibling to match. */}
         <esa-button-toggle slot="lead" data-sw-view size="md" label="View"></esa-button-toggle>
+        {/* Keyword search beside the facets, the same control every other data surface
+            in this spoke uses (the grid kit's search, BcnWorkAreaBoard's). It matches
+            the commitment code, its title, and its text. */}
+        <span class="bcn-sw__search">
+          <esa-text-field data-sw-search size="sm" placeholder="Search commitments…"></esa-text-field>
+        </span>
         <esa-filter-dropdown data-sw-facet="source" name="source" label="Source document" multiple size="sm"></esa-filter-dropdown>
         <esa-filter-dropdown data-sw-facet="type" name="type" label="Requirement type" multiple size="sm"></esa-filter-dropdown>
         <esa-filter-dropdown data-sw-facet="species" name="species" label="Species" multiple size="sm"></esa-filter-dropdown>
-        <span class="bcn-sw__pills" data-sw-pills>
-          <EsaFilterPills filters={pillFilters} />
-        </span>
+        {/* No active-filter pills: each dropdown already shows its own selection, so
+            the chips restated a state the control beside them was displaying. */}
         <span slot="actions" data-sw-clear><FilterClearButton /></span>
       </BcnFilterBar>
     </div>
@@ -239,60 +235,72 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
                   data-source={c.sourceId}
                   data-type={c.requirementType}
                   data-species={c.species.join(' ')}
-                  data-suggested={c.suggested ? 'true' : 'false'}
                   data-rationale={c.rationale ? 'true' : 'false'}
                   hidden
                 >
-                  <span class="bcn-sw-row__top">
-                    <span class="bcn-sw-row__check">
-                      <esa-checkbox
-                        size="sm"
-                        data-sw-check={c.id}
-                        aria-label={`Select ${c.code} for a bulk decision`}
-                      />
-                    </span>
-
-                    <button
-                      type="button"
-                      class="bcn-sw-row__hit"
-                      data-sw-open={c.id}
-                      aria-label={`Show ${c.code} ${c.title} in the preview`}
-                    >
-                      <span class="bcn-sw-row__titleline">
-                        <BcnCommitmentBadge code={c.code} size="sm" />
-                        <span class="bcn-sw-row__name" title={c.title}>{c.title}</span>
-                      </span>
-                    </button>
-
-                    <span class="bcn-sw-row__marks">
-                      {c.suggested && <EsaBadge value="Suggested" size="sm" />}
-                      {/* The decision, as a chip — never a row edge. */}
-                      <span class="bcn-sw-row__state bcn-sw-row__state--applied">
-                        <EsaBadge value="Applied" size="sm" />
-                      </span>
-                      <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
-                        <EsaBadge value="Dismissed" size="sm" />
-                      </span>
-                    </span>
+                  {/* The checkbox owns a full-height GUTTER of its own (review,
+                      2026-08-13). Nothing else may enter that column — the meta line and
+                      the action buttons used to run underneath it, which buried the one
+                      control that starts a bulk decision. */}
+                  <span class="bcn-sw-row__check">
+                    <esa-checkbox
+                      size="sm"
+                      data-sw-check={c.id}
+                      aria-label={`Select ${c.code} for a bulk decision`}
+                    />
                   </span>
 
-                  <span class="bcn-sw-row__meta">{rowMeta(c)}</span>
+                  <span class="bcn-sw-row__content">
+                    <span class="bcn-sw-row__top">
+                      <button
+                        type="button"
+                        class="bcn-sw-row__hit"
+                        data-sw-open={c.id}
+                        aria-label={`Show ${c.code} ${c.title} in the preview`}
+                      >
+                        <span class="bcn-sw-row__titleline">
+                          <BcnCommitmentBadge code={c.code} size="sm" />
+                          <span class="bcn-sw-row__name" title={c.title}>{c.title}</span>
+                        </span>
+                      </button>
 
-                  {/* The decision gets its OWN line (review, 2026-08-13). Sharing a row
-                      with the meta line saved 20px and cost more than it saved: the meta
-                      truncated to nothing to make room for buttons that are invisible
-                      most of the time. Slim is the goal, not the only goal. The band is
-                      ALWAYS laid out and only changes visibility, so a row is exactly as
-                      tall hovered as not. */}
-                  <span class="bcn-sw-row__acts">
-                    <EsaButton size="sm" color="primary" appearance="soft" data-sw-apply={c.id}>
-                      Apply
-                    </EsaButton>
-                    <EsaButton size="sm" color="ghost" appearance="outline" data-sw-dismiss={c.id}>
-                      Dismiss
-                    </EsaButton>
-                    <span class="bcn-sw-row__undo" data-sw-undo-wrap>
-                      <EsaButton size="sm" color="ghost" data-sw-undo={c.id}>Undo</EsaButton>
+                      {/* The decision, as a chip — never a row edge. */}
+                      <span class="bcn-sw-row__marks">
+                        <span class="bcn-sw-row__state bcn-sw-row__state--applied">
+                          <EsaBadge value="Applied" size="sm" />
+                        </span>
+                        <span class="bcn-sw-row__state bcn-sw-row__state--dismissed">
+                          <EsaBadge value="Dismissed" size="sm" />
+                        </span>
+                      </span>
+                    </span>
+
+                    <span class="bcn-sw-row__meta">{rowMeta(c)}</span>
+
+                    {/* Icon buttons with tooltips rather than three text buttons: the
+                        words repeated on every row for a decision that is the same on
+                        every row. The tooltip carries the verb, and the icon-button's
+                        `label` is its accessible name, so nothing is lost to a screen
+                        reader. Always laid out, only visibility changes, so a row is
+                        exactly as tall hovered as not. */}
+                    <span class="bcn-sw-row__acts">
+                      <esa-tooltip text="Apply to this component" position="top">
+                        <span data-sw-apply={c.id}>
+                          <EsaIconButton icon="check" label={`Apply ${c.code}`} size="sm" />
+                        </span>
+                      </esa-tooltip>
+                      <esa-tooltip text="Not applicable" position="top">
+                        <span data-sw-dismiss={c.id}>
+                          <EsaIconButton icon="x" label={`Dismiss ${c.code}`} size="sm" />
+                        </span>
+                      </esa-tooltip>
+                      <span class="bcn-sw-row__undo">
+                        <esa-tooltip text="Undo this decision" position="top">
+                          <span data-sw-undo={c.id}>
+                            <EsaIconButton icon="rotate-ccw" label={`Undo ${c.code}`} size="sm" />
+                          </span>
+                        </esa-tooltip>
+                      </span>
                     </span>
                   </span>
                 </li>
@@ -301,11 +309,7 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
           </ul>
 
           <div class="bcn-sw__none" data-sw-none hidden>
-            <EsaEmptyState
-              title="No commitments match these filters"
-              description="Clear a filter, or switch the view above."
-              size="sm"
-            />
+            <EsaEmptyState title="No commitments match these filters" size="sm" />
           </div>
         </div>
 
@@ -314,11 +318,7 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
       <section class="bcn-sw__pane bcn-sw__pane--preview" aria-label="Selected commitment">
         <div class="bcn-sw__scroll bcn-sw__scroll--pad">
           <div class="bcn-sw__nopreview" data-sw-nopreview>
-            <EsaEmptyState
-              title="Select a commitment"
-              description="Its text, its requirements, and the actions a decision would create appear here."
-              size="sm"
-            />
+            <EsaEmptyState title="Select a commitment" size="sm" />
           </div>
 
           {
@@ -343,7 +343,7 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
                     <span class="bcn-sw-prev__species">
                       {c.species.length
                         ? c.species.map((s) => `${s} · ${SPECIES_LABEL[s]}`).join(', ')
-                        : 'None carried through its requirements'}
+                        : 'None'}
                     </span>
                   </BcnKeyValue>
                   <BcnKeyValue label="Added to the project" value={fmtDate(c.addedOn)} />
@@ -379,11 +379,6 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
                         </li>
                       ))}
                     </ul>
-                  )}
-                  {c.actions.length > 0 && (
-                    <p class="bcn-sw-prev__undo">
-                      Dismissing removes {c.actions.length === 1 ? 'it' : 'them'} again.
-                    </p>
                   )}
                 </section>
 
@@ -434,7 +429,7 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
       data-sw-dialog-rationale
       label="Rationale"
       rows="4"
-      placeholder="Why this applies — or why it does not."
+      placeholder="Rationale"
     ></esa-textarea>
   </div>
 
@@ -450,6 +445,8 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
   import '@esa/ecology/esa-button-toggle';
   import '@esa/ecology/esa-filter-dropdown';
   import '@esa/ecology/esa-checkbox';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-tooltip';
   import '@esa/ecology/esa-textarea';
   import { initSetupWorkspace } from './setup-workspace';
   initSetupWorkspace();
@@ -487,6 +484,39 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
     min-height: 0;
     color: var(--color-text-primary);
   }
+
+  /* Header slot: workflow glyph, name, and the record it acts on as a badge. */
+  .bcn-sw__head {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+    min-width: 0;
+  }
+  .bcn-sw__headtitle {
+    margin: 0;
+    font-size: var(--type-size-400);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    white-space: nowrap;
+  }
+  .bcn-sw__head :global(.esa-icon) { color: var(--color-text-secondary); }
+  /* The record badge is a LABEL, not a status: quiet hairline and text, per the house
+     badge standard. esa-badge's variants are all saturated FILLS, which put a block of
+     brand colour in the title bar and made the component's name read as an alert.
+     Overridden with `background`/`color` rather than the --badge-* tokens: the variant
+     class sets those properties directly, so re-pointing the token does nothing. */
+  .bcn-sw__head :global(.esa-badge) {
+    background: transparent;
+    color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .bcn-sw__search {
+    display: inline-flex;
+    min-width: 14rem;
+  }
+  .bcn-sw__search :global(esa-text-field) { width: 100%; }
 
   /* ── Lead band ── */
   .bcn-sw__lead {
@@ -603,11 +633,15 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
      title and a meta line, each clipped rather than wrapped — over the action band.
      Wrapping is what made the cards ragged and tall; the full title is a hover away
      (title attribute) or a click away (the preview). */
+  /* TWO COLUMNS: a gutter the checkbox owns outright, and everything else. Nothing
+     may enter that gutter — the meta line and the buttons used to run underneath the
+     checkbox, burying the one control that starts a bulk decision. */
   .bcn-sw-row {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-100);
-    padding: var(--spacing-200) var(--spacing-250, 0.625rem);
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    column-gap: var(--spacing-400);
+    padding: var(--spacing-250, 0.625rem) var(--spacing-300);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-200);
     background: var(--color-surface);
@@ -617,6 +651,12 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
   }
   .bcn-sw-row[hidden] {
     display: none;
+  }
+  .bcn-sw-row__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-100);
+    min-width: 0;
   }
   .bcn-sw-row__top {
     display: flex;
@@ -638,9 +678,12 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
     border-color: var(--color-primary);
     background: color-mix(in srgb, var(--color-primary) 5%, var(--color-surface));
   }
+  /* Vertically centred on the title line, not the whole card, so it reads as
+     belonging to the row rather than floating in the gutter. */
   .bcn-sw-row__check {
-    flex: none;
     display: inline-flex;
+    align-items: center;
+    min-height: 1.5rem;
   }
   /* The row's hit area is a real button — keyboard-operable, and it announces the row it
      opens. It carries no button chrome: the ROW is the object, this is its surface. */
@@ -711,14 +754,21 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
   .bcn-sw-row[data-decision='dismissed'] .bcn-sw-row__state--dismissed {
     display: inline-flex;
   }
+  /* Quiet chips in the house style — a hairline and text, no saturated fill. The
+     first pass used a bright success green that belongs to no Beacon ramp and read
+     as a status signal; Applied is a FACT about a decision, not an alarm, so it
+     wears the brand teal as text on the plain surface. */
   .bcn-sw-row__state--applied :global(.esa-badge) {
-    --badge-bg: var(--color-success-subtle);
-    --badge-text-color: var(--color-success-strong);
+    --badge-bg: transparent;
+    --badge-text-color: var(--color-primary);
+    --badge-border-color: var(--color-primary-border, var(--color-border));
+    border: 1px solid var(--color-primary-border, var(--color-border));
     font-weight: var(--font-weight-medium);
   }
   .bcn-sw-row__state--dismissed :global(.esa-badge) {
-    --badge-bg: var(--color-surface-sunken);
+    --badge-bg: transparent;
     --badge-text-color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
     font-weight: var(--font-weight-medium);
   }
   /* Inline actions: revealed on hover or when anything inside has focus, so keyboard

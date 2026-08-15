@@ -89,23 +89,6 @@ const ACTION_TYPE_LABEL: Record<string, string> = {
 const APPLIED_HERE = SETUP_COMMITMENTS.filter((c) => c.decision === 'applied');
 const series = (code: string): string => code.split('-')[0];
 
-function suggestedReason(c: ApplicableCommitment): string {
-  const shared = c.species.filter((s) => APPLIED_HERE.some((a) => a.species.includes(s)));
-  if (shared.length) {
-    const codes = APPLIED_HERE.filter((a) => a.species.some((s) => shared.includes(s))).map((a) => a.code);
-    const names = shared.map((s) => SPECIES_LABEL[s]).join(' and ');
-    return `Shares ${names} with ${codes.join(', ')}, already applied on this component.`;
-  }
-  const sameType = APPLIED_HERE.filter((a) => a.requirementType === c.requirementType).map((a) => a.code);
-  if (sameType.length) {
-    return `Same requirement type as ${sameType.join(', ')}, already applied on this component.`;
-  }
-  const sameSeries = APPLIED_HERE.filter((a) => series(a.code) === series(c.code)).map((a) => a.code);
-  if (sameSeries.length) {
-    return `Same commitment series as ${sameSeries.join(', ')}, already applied on this component.`;
-  }
-  return 'Shares attributes with commitments already applied on this component.';
-}
 
 // ── The batches. Each one is a door with a number on it, and every number is scoped to
 //    THIS component, so the count and the cards behind it are the same set. ────────────
@@ -256,11 +239,6 @@ const speciesLine = (c: ApplicableCommitment): string =>
                 <h3 class="bcn-sq-card__title" id={`${id}-title-${c.id}`}>
                   {c.title}
                 </h3>
-                {c.suggested && (
-                  <span class="bcn-sq-card__mark">
-                    <EsaBadge value="Suggested" size="sm" />
-                  </span>
-                )}
               </header>
 
               {/* The one screen where the user must actually READ what they are deciding
@@ -276,8 +254,6 @@ const speciesLine = (c: ApplicableCommitment): string =>
                 <span class="bcn-sq-card__dot">·</span>
                 {speciesLine(c)}
               </p>
-
-              {c.suggested && <p class="bcn-sq-card__why">{suggestedReason(c)}</p>}
 
               {/* The part production omits entirely. */}
               <section class="bcn-sq-does">
