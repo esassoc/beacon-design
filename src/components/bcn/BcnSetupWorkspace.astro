@@ -1,10 +1,14 @@
 ---
-// <BcnSetupWorkspace> — MODEL A of two for Component setup: the DECISION WORKSPACE.
-// A wide side drawer opened from the component dashboard's rail, in which a user
-// decides which of the project's commitments apply to THIS component — in bulk or one
-// at a time — and can see what each decision will DO before making it. The sibling
-// model is <BcnSetupQueue>, which takes the same job as a triage queue; the two are
-// alternatives, not layers, and only one will survive review.
+// <BcnSetupWorkspace> — Applicable Commitments: the DECISION WORKSPACE.
+// A wide side drawer opened from the component dashboard, in which a user decides
+// which of the project's commitments apply to THIS component — in bulk or one at a
+// time — and can see what each decision will DO before making it.
+//
+// This was Model A of two. A one-at-a-time triage queue took the same job and was
+// chosen against on 2026-08-14; it and the comparison page were deleted, and the
+// argument between them is kept in docs/component-setup-model-comparison.md. The
+// diagnosis below is the half that survived the choice — it is why the redesign
+// exists at all, whatever shape the interaction takes.
 //
 // THE DATA-MODEL FINDING THIS REDESIGN TURNS ON. Prod has no "pending" state:
 // ComponentCommitment.IsApplicable is a NOT NULL bit, so "pending" is manufactured by a

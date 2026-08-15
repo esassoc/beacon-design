@@ -25,10 +25,11 @@
 //     column, Identifier, while discarding the geometry, measure and custom
 //     fields it already fetched; the columns here are the fields that were
 //     always there.
-//   · SETUP WIZARD → COMPONENT SETUP. The project's four-step pipeline card is
-//     replaced by the applicable-commitments card, which opens a WIDE drawer.
-//     Two models of that drawer are mounted here and compared on
-//     /prototypes/component-setup-models.
+//   · SETUP WIZARD → APPLICABLE COMMITMENTS. The project's four-step pipeline
+//     card is replaced by the applicable-commitments card, which opens a WIDE
+//     drawer. Two models of that drawer were mounted here and chosen between on
+//     2026-08-14: the decision workspace won, the triage queue was deleted, and
+//     the comparison lives in docs/component-setup-model-comparison.md.
 //   · A THIN RAIL. The project has six data panels. A component has four, and
 //     really only one it edits — milestones. Species, seasons and construction
 //     activities are project-level; a component copy would imply an override the
@@ -59,7 +60,6 @@ import BcnProjectFacts from '../../components/bcn/BcnProjectFacts.astro';
 import BcnComponentDataPanel from '../../components/bcn/BcnComponentDataPanel.astro';
 import BcnLogoPicker from '../../components/bcn/BcnLogoPicker.astro';
 import BcnSetupWorkspace from '../../components/bcn/BcnSetupWorkspace.astro';
-import BcnSetupQueue from '../../components/bcn/BcnSetupQueue.astro';
 import { componentNav } from '../../data/component-nav';
 import {
   COMPONENT,
@@ -91,8 +91,7 @@ import { DECIDED_PERCENT, LAST_REVIEWED, PENDING_ACTION_COUNT, SETUP_TOTALS, fmt
     - component details     -> bcn-project-facts          # Component-record fields + files
     - component data panel  -> bcn-component-data-panel   # the ?data= side panels
     - logo picker           -> bcn-logo-picker            # glyph x color mark editor
-    - setup model A         -> bcn-setup-workspace        # faceted decision workspace (overlay)
-    - setup model B         -> bcn-setup-queue            # one-at-a-time triage queue (overlay)
+    - commitments drawer    -> bcn-setup-workspace        # faceted decision workspace (overlay)
 -->
 
 <AppShell
@@ -163,8 +162,6 @@ import { DECIDED_PERCENT, LAST_REVIEWED, PENDING_ACTION_COUNT, SETUP_TOTALS, fmt
             lastReviewed={fmtDate(LAST_REVIEWED)}
             pendingActions={PENDING_ACTION_COUNT}
             opensPrimary="bcn-setup-workspace"
-            opensSecondary="bcn-setup-queue"
-            compareHref="/prototypes/component-setup-models"
           />
         </div>
       </div>
@@ -174,7 +171,6 @@ import { DECIDED_PERCENT, LAST_REVIEWED, PENDING_ACTION_COUNT, SETUP_TOTALS, fmt
   <BcnComponentDataPanel />
   <BcnLogoPicker mark={COMPONENT.mark} entityName={COMPONENT.name} heading="Component logo" />
   <BcnSetupWorkspace id="bcn-setup-workspace" componentName={COMPONENT.name} />
-  <BcnSetupQueue id="bcn-setup-queue" componentName={COMPONENT.name} />
 </AppShell>
 
 <script>

@@ -145,7 +145,7 @@ export default {
         '"N actions waiting" states the consequence up front — applying commitments materializes actions onto this component, and that is what fills the tracker.',
       ],
       gotchas: [
-        'The two-door treatment (Model A and Model B buttons) is a PROTOTYPE affordance for comparing the two setup models in context. Production ships one.',
+        'The card carried two doors while a decision workspace and a triage queue were compared in context. The workspace was chosen on 2026-08-14 and the queue was deleted; one door is the shipping shape. The comparison is kept in docs/component-setup-model-comparison.md.',
       ],
       acceptance: [
         'Every figure is scoped to this component and matches the list it opens; the progress bar agrees with the decided figure; the new-since badge appears only when something arrived after the last decision.',

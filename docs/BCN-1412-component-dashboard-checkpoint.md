@@ -18,13 +18,15 @@ two-sentence pre-Claude stub; **this prototype is intended to become its spec**,
 the same way `/prototypes/project-dashboard` + its handoff bundle became
 BCN-1039's.
 
-Three routes were built:
+Two routes are live. A third, `/prototypes/component-setup-models`, put two
+competing models of the applicable-commitments redesign side by side; the
+decision workspace was chosen on 2026-08-14 and the page was retired to
+`docs/component-setup-model-comparison.md`.
 
 | Route | What it is |
 |---|---|
 | `/prototypes/component-dashboard` | **Level 3** — the per-component homepage (the new work) |
 | `/prototypes/components` | **Level 2** — the component index. Was at `/prototypes/component-dashboard`; **renamed** so the detail page could take that name |
-| `/prototypes/component-setup-models` | Two competing models of the applicable-commitments redesign, side by side |
 
 Andy's tree, in his words: project is level one, component index level two,
 component detail level three, work-area detail level four.
@@ -149,22 +151,27 @@ on Beacon's develop.
    people." The only investment is making 16 rows scannable: the mark and a real
    colored status taxonomy, plus the map Andy asked for. Overlapping component
    geometry is fine and expected.
-9. **Neither setup model is recommended.** Same card shape, same button weight.
-   Andy asked for the comparison, not for a winner picked in the prototype.
+9. **The setup model was chosen (2026-08-14).** The comparison was built with
+   neither recommended — same card shape, same button weight, because Andy asked
+   for the comparison and not for a winner picked in the prototype. Kim then
+   picked the decision workspace, and the triage queue was deleted.
 10. **Vocabulary**: "Actions", never "implementations". "Find matches" /
     "Suggested", never "AI", no persona, no sparkle glyphs.
 
 ## 5. What was built
 
-**Pages** — `src/pages/prototypes/{component-dashboard,components,component-setup-models}.astro`.
-All three are pure manifests, **zero page `<style>`**.
+**Pages** — `src/pages/prototypes/{component-dashboard,components}.astro`.
+Both are pure manifests, **zero page `<style>`**.
 
 **New components** (`src/components/bcn/`): `BcnComponentHeader`,
 `BcnEntityLogo`, `BcnLogoPicker` (+ `logo-picker.ts`), `BcnWorkAreaBoard`,
 `BcnComponentMap`, `BcnComponentDataPanel` (+ `component-data-panel.ts`),
 `BcnComponentSetupCard`, `BcnComponentGrid`, `BcnSetupWorkspace`
-(+ `setup-workspace.ts`), `BcnSetupQueue` (+ `setup-queue.ts`),
-`BcnSetupTeardown`, `BcnSetupNotes`, `BcnSetupModelCard`.
+(+ `setup-workspace.ts`), `BcnSiblingNav`.
+
+**Deleted with Model B (2026-08-14)**: `BcnSetupQueue` (+ `setup-queue.ts`),
+`BcnSetupTeardown`, `BcnSetupNotes`, `BcnSetupModelCard`. Recoverable from git;
+their argument is preserved in `docs/component-setup-model-comparison.md`.
 
 **Refactored**: `BcnProjectTimeline` and `BcnModules` now take optional props
 (`actions` / `milestones` / `seasons` / `modules` / `idPrefix` / `title`).

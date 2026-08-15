@@ -15,12 +15,15 @@
 // component and each one names a list the user can actually open — which is the
 // minimum bar for a number on a dashboard.
 //
-// Two doors because this prototype carries two models of the same job; the
-// dashboard is where they are compared in context rather than side by side on a
-// specimen page. That is a prototype affordance, not a shipping proposal.
+// ONE door. This card briefly carried two, plus a link to a side-by-side
+// comparison page, while a decision workspace and a triage queue were being
+// chosen between. The workspace won on 2026-08-14; the queue and the comparison
+// page were deleted, and their argument is preserved in
+// docs/component-setup-model-comparison.md. A card offering a choice that has
+// already been made is a prototype leaking its own history into the product.
 //
 // bcn-lego-checked: esa-card is the shell, esa-stat the figures, esa-progress-bar
-// the completion, esa-button the doors. Checked
+// the completion, esa-button the door. Checked
 // Ecology (no "pipeline status card" lego — esa-stat is a single metric, not a
 // carded group) and Beacon prod (its equivalent is a tab badge, not a card).
 // bcn-component-setup-card is the reusable home; its own CSS is the figure row.
@@ -28,7 +31,6 @@ import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaStat from '@esa/ecology/esa-stat.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
-import { withBase } from '../../lib/base';
 
 interface Props {
   /** Commitments with no decision on this component. */
@@ -43,11 +45,8 @@ interface Props {
   lastReviewed: string;
   /** Actions that would be created if every undecided commitment were applied. */
   pendingActions: number;
-  /** DOM ids of the two model drawers this card can open. */
+  /** DOM id of the drawer this card opens. */
   opensPrimary: string;
-  opensSecondary: string;
-  /** Route of the side-by-side comparison page. */
-  compareHref?: string;
 }
 
 const {
@@ -59,8 +58,6 @@ const {
   lastReviewed,
   pendingActions,
   opensPrimary,
-  opensSecondary,
-  compareHref,
 } = Astro.props;
 ---
 
@@ -78,20 +75,10 @@ const {
 
     <EsaProgressBar value={percent} variant="primary" size="sm" label="Commitments decided" />
 
-    <div class="bcn-csc__foot cluster" data-gap="sm" data-align="center">
+    <div class="bcn-csc__foot">
       <span data-opens={opensPrimary}>
         <EsaButton color="primary">Review commitments</EsaButton>
       </span>
-      <span data-opens={opensSecondary}>
-        <EsaButton color="secondary" appearance="outline">Try the queue</EsaButton>
-      </span>
-      {
-        compareHref && (
-          <a class="bcn-csc__compare" href={withBase(compareHref)}>
-            Compare the two models
-          </a>
-        )
-      }
     </div>
   </div>
 </EsaCard>
@@ -104,16 +91,5 @@ const {
   }
   .bcn-csc__foot {
     padding-top: var(--spacing-100);
-  }
-  /* The comparison link is a prototype affordance — quiet, and last. */
-  .bcn-csc__compare {
-    margin-left: auto;
-    font-size: var(--type-size-150, 0.875rem);
-    color: var(--color-text-secondary);
-    text-decoration: none;
-  }
-  .bcn-csc__compare:hover {
-    color: var(--color-primary);
-    text-decoration: underline;
   }
 </style>

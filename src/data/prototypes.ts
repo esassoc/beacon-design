@@ -195,16 +195,6 @@ export const prototypeGroups: PrototypeGroup[] = [
         ticket: 'BCN-1412',
         status: 'in-progress',
       },
-      {
-        slug: 'component-setup-models',
-        title: 'Component Setup — two models',
-        description:
-          'Two answers to the same job: deciding which commitments apply to a component. Leads with why the current screen is broken — "pending" is a left-join miss over every component crossed with every commitment, so the count measures the project and can never reach zero — then puts a faceted decision workspace and a one-at-a-time triage queue side by side to be chosen between.',
-        route: '/prototypes/component-setup-models',
-        createdAt: '2026-08-13',
-        ticket: 'BCN-1412',
-        status: 'in-progress',
-      },
     ],
   },
   {

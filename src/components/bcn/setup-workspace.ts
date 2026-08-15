@@ -1,5 +1,6 @@
-// setup-workspace — behavior for <BcnSetupWorkspace>, Model A of the Component setup
-// redesign (the sibling model is <BcnSetupQueue>).
+// setup-workspace — behavior for <BcnSetupWorkspace>, the Applicable Commitments
+// drawer. (It was Model A of two; the triage queue it was chosen over is gone —
+// see docs/component-setup-model-comparison.md.)
 //
 // EVERY ROW IS SERVER-RENDERED and hidden; this file only ever reveals, hides, and
 // re-labels. Nothing here builds markup — the same pre-render-and-toggle strategy
