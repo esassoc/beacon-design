@@ -86,7 +86,6 @@ import {
   LAST_REVIEWED,
   PENDING_ACTION_COUNT,
   SOURCE_BY_ID,
-  SPECIES_LABEL,
   facetsFor,
   fmtDate,
 } from '../../data/component-commitments';
@@ -334,18 +333,10 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
 
                 <div class="bcn-sw-prev__facts">
                   <BcnKeyValue label="Source document" value={SOURCE_BY_ID[c.sourceId]?.name} />
-                  <BcnKeyValue label="Requirement type" value={c.requirementType} />
                   <BcnKeyValue
                     label="Requirements"
                     value={`${c.requirements} ${plural(c.requirements, 'requirement')}`}
                   />
-                  <BcnKeyValue label="Species">
-                    <span class="bcn-sw-prev__species">
-                      {c.species.length
-                        ? c.species.map((s) => `${s} · ${SPECIES_LABEL[s]}`).join(', ')
-                        : 'None'}
-                    </span>
-                  </BcnKeyValue>
                   <BcnKeyValue label="Added to the project" value={fmtDate(c.addedOn)} />
                 </div>
 
@@ -404,7 +395,6 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
   <!-- ── 6. Footer — Windows order: the tertiary state far left, the action group right
        with the primary LEFT of Cancel. ── -->
   <div slot="footer" class="bcn-sw__foot">
-    <span class="bcn-sw__pending" data-sw-pending hidden></span>
     <span class="bcn-sw__footacts">
       <EsaButton color="primary" data-sw-save>Save decisions</EsaButton>
       <EsaButton color="ghost" appearance="outline" data-sw-cancel>Cancel</EsaButton>
@@ -670,8 +660,17 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
     align-items: center;
     gap: var(--spacing-150);
   }
+  /* The whole card is the hit area for opening the preview, so it says so. */
+  .bcn-sw-row {
+    cursor: pointer;
+  }
   .bcn-sw-row:hover {
     border-color: var(--color-border-strong);
+  }
+  /* …except the two regions that do something else. */
+  .bcn-sw-row__check,
+  .bcn-sw-row__acts {
+    cursor: default;
   }
   /* Being previewed. A tint plus a full border — never a coloured left edge. */
   .bcn-sw-row[data-active] {
@@ -871,11 +870,6 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: var(--spacing-300) var(--spacing-500);
   }
-  .bcn-sw-prev__species {
-    font-size: var(--form-font-size-md);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text-primary);
-  }
 
   /* A divided section, not a boxed panel. The box read as a warning, which is the
      wrong weight for "this creates one action" — the consequence is worth stating,
@@ -950,13 +944,6 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
     justify-content: space-between;
     gap: var(--spacing-400);
     width: 100%;
-  }
-  .bcn-sw__pending {
-    font-size: var(--type-size-150);
-    color: var(--color-text-secondary);
-  }
-  .bcn-sw__pending[hidden] {
-    display: none;
   }
   .bcn-sw__footacts {
     margin-left: auto;

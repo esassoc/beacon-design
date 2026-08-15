@@ -98,7 +98,8 @@ export function initSetupWorkspace(): void {
   const bulkEl = root.querySelector<HTMLElement>('[data-sw-bulk]')!;
   // The selection count now rides the list header's own count line — see renderListHead.
   const bulkCountEl = root.querySelector<HTMLElement>('[data-sw-bulk-count]');
-  const pendingEl = root.querySelector<HTMLElement>('[data-sw-pending]')!;
+  // The footer's pending line was cut — the Save button carries the count instead.
+  const pendingEl = root.querySelector<HTMLElement>('[data-sw-pending]');
   const checkAllEl = root.querySelector<CheckboxEl>('[data-sw-check-all]');
   const listCountEl = root.querySelector<HTMLElement>('[data-sw-listcount]');
   const saveLabelEl = root.querySelector<HTMLElement>('[data-sw-save] button') ?? root.querySelector<HTMLElement>('[data-sw-save]');
@@ -231,8 +232,10 @@ export function initSetupWorkspace(): void {
   }
 
   function renderPending(): void {
-    pendingEl.hidden = touched.size === 0;
-    pendingEl.textContent = `${touched.size} ${plural(touched.size, 'decision')} not yet saved`;
+    if (pendingEl) {
+      pendingEl.hidden = touched.size === 0;
+      pendingEl.textContent = `${touched.size} ${plural(touched.size, 'decision')} not yet saved`;
+    }
     // The commit button carries the count too. "Save decisions" beside a list where
     // things already LOOK decided is what made the staging invisible.
     if (saveLabelEl) {
@@ -428,12 +431,6 @@ export function initSetupWorkspace(): void {
   root.addEventListener('click', (e) => {
     const target = e.target as HTMLElement;
 
-    const open = target.closest<HTMLElement>('[data-sw-open]');
-    if (open) {
-      preview = open.dataset.swOpen!;
-      renderPreview();
-      return;
-    }
 
     const apply = target.closest<HTMLElement>('[data-sw-apply]');
     if (apply) return decide([apply.dataset.swApply!], 'applied');
@@ -443,6 +440,18 @@ export function initSetupWorkspace(): void {
 
     const undoBtn = target.closest<HTMLElement>('[data-sw-undo]');
     if (undoBtn) return undo(undoBtn.dataset.swUndo!);
+
+    // ANYWHERE on the card opens it in the preview — the title alone was too small a
+    // target for the card's only navigational act. The two exceptions are the controls
+    // that do something else: the checkbox (which selects) and the action band (which
+    // decides), both handled above and both excluded here. The title stays a real
+    // <button> so the keyboard path is unchanged.
+    const rowEl = target.closest<HTMLElement>('[data-sw-row]');
+    if (rowEl && !target.closest('.bcn-sw-row__check') && !target.closest('.bcn-sw-row__acts')) {
+      preview = rowEl.dataset.swRow!;
+      renderPreview();
+      return;
+    }
 
     if (target.closest('[data-sw-bulk-apply]')) return openBulkDialog('applied');
     if (target.closest('[data-sw-bulk-dismiss]')) return openBulkDialog('dismissed');
