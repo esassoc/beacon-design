@@ -73,7 +73,9 @@ interface Props {
 const {
   id = 'bcn-setup-queue',
   componentName,
-  heading = 'Component setup — review commitments',
+  // 'Component setup' was the retired tab's name; Model A dropped it, so B follows
+  // rather than leaving two names for one job on one page.
+  heading = 'Applicable Commitments — queue',
 } = Astro.props;
 
 const ACTION_TYPE_LABEL: Record<string, string> = {

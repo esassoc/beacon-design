@@ -1,5 +1,5 @@
 ---
-// <BcnComponentSetupCard> — Component Setup on the component dashboard: the
+// <BcnComponentSetupCard> — Applicable Commitments on the component dashboard: the
 // slim card that says how much of this component's commitment applicability is
 // settled, and opens the surface that settles it.
 //
@@ -20,7 +20,7 @@
 // specimen page. That is a prototype affordance, not a shipping proposal.
 //
 // bcn-lego-checked: esa-card is the shell, esa-stat the figures, esa-progress-bar
-// the completion, esa-button the doors, esa-badge the new-since marker. Checked
+// the completion, esa-button the doors. Checked
 // Ecology (no "pipeline status card" lego — esa-stat is a single metric, not a
 // carded group) and Beacon prod (its equivalent is a tab badge, not a card).
 // bcn-component-setup-card is the reusable home; its own CSS is the figure row.
@@ -28,7 +28,6 @@ import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaStat from '@esa/ecology/esa-stat.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import EsaProgressBar from '@esa/ecology/esa-progress-bar.astro';
-import EsaBadge from '@esa/ecology/esa-badge.astro';
 import { withBase } from '../../lib/base';
 
 interface Props {
@@ -65,9 +64,11 @@ const {
 } = Astro.props;
 ---
 
-<EsaCard title="Component setup">
-  {newSince > 0 && <EsaBadge slot="actions" value={`${newSince} new`} variant="warning" size="sm" />}
-
+{/* "Applicable Commitments", matching the drawer it opens — "Component setup" was
+    the retired tab's name, and a card that opens a surface should say that surface's
+    name. The "N new" badge that sat in the header is gone: the New-since-last-review
+    figure is one of the three stats an inch below it. */}
+<EsaCard title="Applicable Commitments">
   <div class="bcn-csc stack" data-gap="md">
     <div class="bcn-csc__figures">
       <EsaStat value={String(undecided)} label="Need a decision" sub={`${pendingActions} actions waiting`} />
