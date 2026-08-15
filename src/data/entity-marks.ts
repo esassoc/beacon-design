@@ -111,8 +111,13 @@ export const MARK_GLYPHS: MarkGlyph[] = [
   {
     key: 'waves',
     label: 'Waves',
+    // Each line runs the FULL 2→22 span, like every other glyph here. The first
+    // transcription stopped at x=17, which left the whole mark sitting 2.5 units
+    // left of centre inside its tile — visible as soon as it sat in a circle. Four
+    // half-waves (+2.5, +5, +5, +5, +2.5 = 20) with dy summing to zero, so each line
+    // ends level with where it started.
     paths:
-      '<path d="M2 6c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 1.3 0 1.9-.5 2.5-1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 1.3 0 1.9-.5 2.5-1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 1.3 0 1.9-.5 2.5-1"/>',
+      '<path d="M2 6c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/>',
   },
   {
     key: 'droplet',

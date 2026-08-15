@@ -89,7 +89,6 @@ const previewMark: EntityMark = { glyph: mark.glyph, color: mark.color, style: m
 
       <div data-lp-dropzone>
         <esa-file-upload label="Component photo" accept="image/*" max-size-mb="5" data-lp-file></esa-file-upload>
-        <p class="bcn-logo-picker__hint">A picture of the component itself makes the strongest landmark.</p>
       </div>
 
       <!-- Shown once a photo is set; Remove is the way back to the symbol. -->
@@ -204,9 +203,19 @@ const previewMark: EntityMark = { glyph: mark.glyph, color: mark.color, style: m
     color: var(--form-label-color);
   }
   .bcn-logo-picker__hint {
-    margin: var(--spacing-150) 0 0;
+    margin: 0;
     font-size: 0.875rem;
     color: var(--color-text-tertiary);
+  }
+
+  /* The dropzone's own padding is the only height knob the lego exposes — its .zone
+     rule reads `padding: var(--spacing-600) var(--spacing-400)` and nothing else in
+     its shadow DOM reads --spacing-600, so re-pointing it HERE shortens the zone
+     without touching anything else. 32px of vertical padding made the dialog scroll
+     to reach the symbol grid, which pushed the alternative out of sight.
+     legoGap: esa-file-upload has no `size` or `--file-upload-zone-padding`. */
+  [data-lp-dropzone] :global(esa-file-upload) {
+    --spacing-600: var(--spacing-300);
   }
 
   /* The slot holds the mark and the photo in the same box, so swapping between them
