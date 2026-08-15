@@ -118,16 +118,6 @@ const plural = (n: number, one: string, many = `${one}s`) => (n === 1 ? one : ma
 /** Undecided AND added after the last decision here — the treadmill, made legible. */
 const isNew = (addedOn: string) => addedOn > LAST_REVIEWED;
 
-/** The quiet meta line under each row title. */
-const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
-  [
-    SOURCE_BY_ID[c.sourceId]?.short,
-    c.requirementType,
-    c.species.length ? c.species.join(', ') : null,
-    c.actions.length ? `${c.actions.length} ${plural(c.actions.length, 'action')}` : 'No actions',
-  ]
-    .filter(Boolean)
-    .join(' · ');
 ---
 
 <esa-side-dialog
@@ -273,8 +263,6 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
                         </span>
                       </span>
                     </span>
-
-                    <span class="bcn-sw-row__meta">{rowMeta(c)}</span>
 
                     {/* Icon buttons with tooltips rather than three text buttons: the
                         words repeated on every row for a decision that is the same on
@@ -720,18 +708,6 @@ const rowMeta = (c: (typeof SETUP_COMMITMENTS)[number]) =>
     font-weight: var(--font-weight-semibold);
     line-height: 1.35;
     color: var(--color-text-primary);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .bcn-sw-row__meta {
-    /* 13px is the deliberate floor: the scale steps 14px straight to 12px, and 12px is
-       under the house minimum. Colour steps UP as size steps down — darken as you
-       shrink, never grey out. */
-    flex: 1;
-    min-width: 0;
-    font-size: 0.8125rem;
-    color: var(--color-text-secondary);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
