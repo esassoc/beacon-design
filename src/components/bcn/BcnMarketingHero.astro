@@ -1,12 +1,12 @@
 ---
 // <BcnMarketingHero> — the homepage hero: the aerial construction photo under a
 // deep-teal gradient, a two-line serif display headline, the positioning
-// paragraph, the two CTAs (inverse white + on-photo ghost), and the ESA
-// provenance badge. Content comes from HERO in src/data/homepage.ts.
+// paragraph, the single demo CTA (inverse white), and the ESA provenance badge.
+// Content comes from HERO in src/data/homepage.ts.
 //
 // bcn-lego-checked: no esa-* lego is a photo marketing hero (esa-page-header is
-// app chrome), and esa-button has no inverse white / on-photo ghost marketing
-// variants at this display scale; checked Beacon (no marketing site). The badge
+// app chrome), and esa-button has no inverse white marketing variant at this
+// display scale; checked Beacon (no marketing site). The badge
 // glyph is the esa-icon lego with a paths fallback. bcn-marketing-hero is the
 // reusable home; the CTA styles are the one-off marketing voice.
 import EsaIcon from '@esa/ecology/esa-icon.astro';
@@ -24,12 +24,9 @@ const heroImage = withBase('/images/marketing/hero-aerial.jpg');
       </h1>
       <p class="bcn-mkt-hero__sub">{HERO.sub}</p>
       <div class="bcn-mkt-hero__ctas">
-        <a href={HERO.primaryCta.href} class="bcn-mkt-hero__btn bcn-mkt-hero__btn--white">
+        <button type="button" data-bcn-demo-open class="bcn-mkt-hero__btn bcn-mkt-hero__btn--white">
           {HERO.primaryCta.label}
-        </a>
-        <a href={HERO.secondaryCta.href} class="bcn-mkt-hero__btn bcn-mkt-hero__btn--ghost">
-          {HERO.secondaryCta.label}
-        </a>
+        </button>
       </div>
     </div>
     <div class="bcn-mkt-hero__badge" data-reveal>
@@ -73,7 +70,7 @@ const heroImage = withBase('/images/marketing/hero-aerial.jpg');
   .bcn-mkt-hero__headline {
     margin: 0 0 var(--spacing-500);
     font-family: var(--font-decorative, var(--font-sans));
-    font-size: var(--type-size-1000);
+    font-size: var(--type-size-800);
     font-weight: var(--font-weight-bold);
     line-height: 1.15;
     color: #ffffff;
@@ -85,7 +82,7 @@ const heroImage = withBase('/images/marketing/hero-aerial.jpg');
     font-size: var(--type-size-400);
     font-weight: var(--font-weight-medium);
     color: rgba(255, 255, 255, 0.85);
-    line-height: var(--line-height-relaxed, 1.75);
+    line-height: normal;
     text-wrap: pretty;
   }
 
@@ -96,17 +93,20 @@ const heroImage = withBase('/images/marketing/hero-aerial.jpg');
     flex-wrap: wrap;
   }
 
-  /* On-photo marketing CTA voices (lg scale). */
+  /* On-photo marketing CTA voice (lg scale). Renders as a <button> — it opens the
+     demo dialog rather than navigating — so the font/cursor resets are load-bearing. */
   .bcn-mkt-hero__btn {
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-200);
     padding: var(--spacing-400) var(--spacing-600);
+    font-family: inherit;
     font-size: var(--type-size-300);
     font-weight: var(--font-weight-semibold);
     border-radius: var(--radius-200);
     border: 1px solid transparent;
     text-decoration: none;
+    cursor: pointer;
     transition: background 150ms ease, border-color 150ms ease;
   }
   .bcn-mkt-hero__btn--white {
@@ -117,16 +117,6 @@ const heroImage = withBase('/images/marketing/hero-aerial.jpg');
   .bcn-mkt-hero__btn--white:hover {
     background: var(--color-surface-sunken, #fafafa);
   }
-  .bcn-mkt-hero__btn--ghost {
-    background: transparent;
-    color: #ffffff;
-    border-color: rgba(255, 255, 255, 0.4);
-  }
-  .bcn-mkt-hero__btn--ghost:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: #ffffff;
-  }
-
   .bcn-mkt-hero__badge {
     display: inline-flex;
     align-items: center;

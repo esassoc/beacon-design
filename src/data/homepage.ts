@@ -43,16 +43,15 @@ export const MARKETING_ICON_PATHS: Record<string, string> = {
 export interface HeroContent {
   headlineLines: string[];
   sub: string;
-  primaryCta: { label: string; href: string };
-  secondaryCta: { label: string; href: string };
+  /** Opens the demo dialog (bcn-demo-dialog) — a button, not a link. */
+  primaryCta: { label: string };
   badge: string;
 }
 
 export const HERO: HeroContent = {
-  headlineLines: ['Construction compliance is complex.', 'Beacon makes it clear.'],
-  sub: 'Dozens of permits. Hundreds of commitments. Thousands of actions across years, phases, species, and locations. Beacon brings structure to the compliance work that keeps infrastructure projects on track.',
-  primaryCta: { label: 'Schedule a Demo', href: '#contact' },
-  secondaryCta: { label: 'See How It Works', href: '#solution' },
+  headlineLines: ['Environmental compliance can be a knot.', 'Beacon untangles it.'],
+  sub: "Nobody should need a day and three spreadsheets to answer what's due next month. Beacon keeps every requirement, the work behind it, and the evidence together — for as long as the project runs.",
+  primaryCta: { label: 'Schedule a Demo' },
   badge: 'Built by ESA — 50+ years of environmental science',
 };
 

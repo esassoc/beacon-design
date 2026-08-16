@@ -1,0 +1,183 @@
+---
+// <BcnDemoDialog> — the marketing demo-request dialog. Any element carrying
+// data-bcn-demo-open anywhere on the page opens it, so the hero CTA and the
+// Get Started card share one dialog instance.
+//
+// PROTOTYPE: there is no endpoint. Submit validates, renders the confirmation
+// state, and console.logs the payload. Wire a real POST before this ships.
+//
+// bcn-lego-checked: composed entirely from esa-* legos — esa-dialog is the shell
+// (backdrop, focus trap, Esc), esa-text-field / esa-checkbox-group / esa-textarea
+// are the fields, esa-button is the footer pair, .stack and .cluster are the
+// layout. bcn-demo-dialog exists only to hold the composition and the open/submit
+// wiring, which no lego provides.
+import EsaButton from '@esa/ecology/esa-button.astro';
+
+/** Interest picker options — the four platform functions, plus an out. */
+const INTERESTS = [
+  { label: 'Planning and commitment libraries', value: 'plan' },
+  { label: 'Tracking permits, tasks, and deadlines', value: 'track' },
+  { label: 'Monitoring and field data', value: 'monitor' },
+  { label: 'Agency reporting', value: 'report' },
+  { label: "Not sure yet — show me everything", value: 'unsure' },
+];
+---
+
+<esa-dialog id="bcn-demo-dialog" heading="Schedule a demo" size="md">
+  <form class="stack" data-gap="md" id="bcn-demo-form" novalidate>
+    <p class="type-body bcn-demo__lede">
+      Tell us about your project and we'll set up a walkthrough with the Beacon team.
+    </p>
+
+    <esa-text-field id="bcn-demo-name" label="Name" required></esa-text-field>
+    <esa-text-field id="bcn-demo-email" label="Work email" type="email" required></esa-text-field>
+    <esa-text-field id="bcn-demo-org" label="Organization" required></esa-text-field>
+
+    <esa-checkbox-group
+      id="bcn-demo-interests"
+      name="interests"
+      label="What would you like to see?"
+      options={JSON.stringify(INTERESTS)}></esa-checkbox-group>
+
+    <esa-textarea
+      id="bcn-demo-message"
+      label="Anything we should know about your project?"
+      rows="4"></esa-textarea>
+  </form>
+
+  <div class="stack" data-gap="sm" id="bcn-demo-done" hidden>
+    <p class="type-card-title">Thanks — we'll be in touch.</p>
+    <p class="type-body">
+      Someone from the Beacon team will reach out within two business days to schedule your
+      walkthrough.
+    </p>
+  </div>
+
+  <span slot="footer" class="cluster" data-gap="sm">
+    <!-- Wrapper spans, not the buttons themselves: `hidden` on an <EsaButton> reaches
+         only the native control, leaving the styled .esa-button wrapper on screen. -->
+    <span class="cluster" data-gap="sm" id="bcn-demo-actions">
+      <EsaButton color="ghost" appearance="soft" type="button" id="bcn-demo-cancel">Cancel</EsaButton>
+      <EsaButton color="primary" type="button" id="bcn-demo-submit">Send request</EsaButton>
+    </span>
+    <span id="bcn-demo-close-wrap" hidden>
+      <EsaButton color="primary" type="button" id="bcn-demo-close">Close</EsaButton>
+    </span>
+  </span>
+</esa-dialog>
+
+<script>
+  import '@esa/ecology/esa-dialog';
+  import '@esa/ecology/esa-text-field';
+  import '@esa/ecology/esa-textarea';
+  import '@esa/ecology/esa-checkbox-group';
+
+  interface ValueEl extends HTMLElement {
+    value: string | string[];
+    errorText?: string;
+  }
+
+  const byId = <T extends HTMLElement>(id: string) => document.getElementById(id) as T | null;
+
+  const dialog = byId<HTMLElement & { show(): void; close(): void }>('bcn-demo-dialog');
+  const form = byId<HTMLFormElement>('bcn-demo-form');
+  const done = byId<HTMLElement>('bcn-demo-done');
+  const actions = byId<HTMLElement>('bcn-demo-actions');
+  const closeWrap = byId<HTMLElement>('bcn-demo-close-wrap');
+  const cancelBtn = byId<HTMLButtonElement>('bcn-demo-cancel');
+  const submitBtn = byId<HTMLButtonElement>('bcn-demo-submit');
+  const closeBtn = byId<HTMLButtonElement>('bcn-demo-close');
+
+  if (dialog && form && done && actions && closeWrap && cancelBtn && submitBtn && closeBtn) {
+    /** The three required text fields, in the order they should be flagged. */
+    const REQUIRED = [
+      { id: 'bcn-demo-name', message: 'Enter your name' },
+      { id: 'bcn-demo-email', message: 'Enter your work email' },
+      { id: 'bcn-demo-org', message: 'Enter your organization' },
+    ];
+    const ALL_FIELDS = [...REQUIRED.map((f) => f.id), 'bcn-demo-interests', 'bcn-demo-message'];
+
+    const field = (id: string) => byId<ValueEl>(id);
+
+    function showForm() {
+      form!.hidden = false;
+      done!.hidden = true;
+      actions!.hidden = false;
+      closeWrap!.hidden = true;
+    }
+
+    function showDone() {
+      form!.hidden = true;
+      done!.hidden = false;
+      actions!.hidden = true;
+      closeWrap!.hidden = false;
+    }
+
+    function reset() {
+      for (const id of ALL_FIELDS) {
+        const el = field(id);
+        if (!el) continue;
+        el.value = id === 'bcn-demo-interests' ? [] : '';
+        if ('errorText' in el) el.errorText = '';
+      }
+      showForm();
+    }
+
+    /** Flags every empty required field; returns true when all are filled. */
+    function validate(): boolean {
+      let firstInvalid: ValueEl | null = null;
+      for (const { id, message } of REQUIRED) {
+        const el = field(id);
+        if (!el) continue;
+        const empty = String(el.value ?? '').trim() === '';
+        el.errorText = empty ? message : '';
+        if (empty && !firstInvalid) firstInvalid = el;
+      }
+      firstInvalid?.focus();
+      return !firstInvalid;
+    }
+
+    document.addEventListener('click', (event) => {
+      const trigger = (event.target as HTMLElement | null)?.closest('[data-bcn-demo-open]');
+      if (!trigger) return;
+      event.preventDefault();
+      reset();
+      dialog.show();
+    });
+
+    cancelBtn.addEventListener('click', () => dialog.close());
+    closeBtn.addEventListener('click', () => dialog.close());
+
+    submitBtn.addEventListener('click', () => {
+      if (!validate()) return;
+      // PROTOTYPE: no endpoint yet — this is where the POST goes.
+      console.log('[bcn-demo-dialog] request', {
+        name: field('bcn-demo-name')?.value,
+        email: field('bcn-demo-email')?.value,
+        organization: field('bcn-demo-org')?.value,
+        interests: field('bcn-demo-interests')?.value,
+        message: field('bcn-demo-message')?.value,
+      });
+      showDone();
+    });
+  }
+</script>
+
+<style>
+  /* .stack and .cluster set `display: flex`, which outranks the UA `[hidden]`
+     rule — without this, toggling `hidden` on the form/confirmation panels does
+     nothing and both render at once. */
+  [hidden] {
+    display: none !important;
+  }
+
+  .bcn-demo__lede {
+    margin: 0;
+    color: var(--color-text-secondary);
+  }
+
+  #bcn-demo-done .type-card-title,
+  #bcn-demo-done .type-body {
+    margin: 0;
+  }
+</style>

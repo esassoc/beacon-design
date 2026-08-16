@@ -16,6 +16,7 @@ import BcnMarketGrid from '../../components/bcn/BcnMarketGrid.astro';
 import BcnCaDotMap from '../../components/bcn/BcnCaDotMap.astro';
 import BcnCtaPaths from '../../components/bcn/BcnCtaPaths.astro';
 import BcnMarketingFooter from '../../components/bcn/BcnMarketingFooter.astro';
+import BcnDemoDialog from '../../components/bcn/BcnDemoDialog.astro';
 ---
 
 <!-- manifest:
@@ -31,6 +32,7 @@ import BcnMarketingFooter from '../../components/bcn/BcnMarketingFooter.astro';
     - active projects -> bcn-ca-dot-map          # interactive CA dot map + glass project cards
     - get started     -> bcn-cta-paths           # three doors, demo featured
     - footer          -> bcn-marketing-footer    # dark utility footer
+    - demo dialog     -> bcn-demo-dialog         # shared modal; any [data-bcn-demo-open] opens it
 -->
 
 <BaseLayout title="Beacon — Environmental Compliance Platform">
@@ -103,4 +105,5 @@ import BcnMarketingFooter from '../../components/bcn/BcnMarketingFooter.astro';
   </BcnMarketingSection>
 
   <BcnMarketingFooter />
+  <BcnDemoDialog />
 </BaseLayout>
