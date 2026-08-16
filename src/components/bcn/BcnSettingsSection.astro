@@ -70,7 +70,8 @@ const isSample =
 ---
 
 <section id={anchorId} class="bcn-set">
-  <EsaCard variant="outlined" title={section.title} subtitle={section.description}>
+  <EsaCard variant="outlined" title={section.title}>
+    {section.description && <p class="bcn-set__desc type-body">{section.description}</p>}
     {
       /* EVERY collection's add action sits in the card HEADER, right-aligned by
          esa-card's own actions slot (grids first, then the table sections joined them —
@@ -265,6 +266,16 @@ const isSample =
     font-weight: var(--font-weight-medium);
     color: var(--color-text-primary);
     white-space: nowrap;
+  }
+
+  /* The section's own description — a stored registry field, and the reason this
+     schema exists ("the real app ships almost no help text next to its settings").
+     It moved out of esa-card's subtitle when that prop was deprecated (2026-08-16):
+     a sentence has no field name, so it cannot be a meta pair, and it reads as the
+     first thing in the body instead. */
+  .bcn-set__desc {
+    margin: 0 0 var(--spacing-400);
+    color: var(--color-text-secondary);
   }
 
   /* How much of the list is on screen — a caption for the list above it, so it sits

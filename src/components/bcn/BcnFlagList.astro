@@ -34,7 +34,8 @@ interface Props {
 const { title, description, flags } = Astro.props;
 ---
 
-<EsaCard variant="outlined" title={title} subtitle={description}>
+<EsaCard variant="outlined" title={title}>
+  <p class="bcn-flag-list__desc type-body">{description}</p>
   <ul class="bcn-flag-list">
     {
       flags.map((flag) => (
@@ -47,6 +48,15 @@ const { title, description, flags } = Astro.props;
 </EsaCard>
 
 <style>
+  /* The group's description is body copy, not header chrome: it is a stored field of
+     the flag group, and it moved out of esa-card's subtitle when that prop was
+     deprecated (2026-08-16). A sentence has no field name to give, so it cannot be a
+     meta pair — it reads as the first thing in the body instead. */
+  .bcn-flag-list__desc {
+    margin: 0 0 var(--spacing-400, 1rem);
+    color: var(--color-text-secondary, #525252);
+  }
+
   /* Each BcnFlagRow owns its own block padding; the <li> only carries the hairline
      between siblings. Same divider glue as BcnSettingsSection's `rows` stack. */
   .bcn-flag-list {

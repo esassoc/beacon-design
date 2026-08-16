@@ -83,17 +83,15 @@ const segments = severityBreakdown.map((slice) => {
 
 ---
 
-<EsaCard
-  title={title}
-  subtitle="Active observations by compliance severity — select a segment to open that filtered list"
->
+<EsaCard title={title}>
   <div class="bcn-ohero cluster" data-gap="xl" data-align="start" data-justify="between">
     <!-- ── Clickable severity donut + legend ── -->
     <section class="stack" data-gap="xs">
-      <!-- Names the set the donut plots. Must agree with the card subtitle above and
-           with asOfLabel in the donut hole: this read "Yesterday's Observations" after
-           the donut moved from a prior-day sweep to the current active backlog, so the
-           heading contradicted both the caption beneath it and the data. -->
+      <!-- Names the set the donut plots. Must agree with asOfLabel in the donut hole:
+           this read "Yesterday's Observations" after the donut moved from a prior-day
+           sweep to the current active backlog, so the heading contradicted the data.
+           It is now the only thing naming the set — the card's caption, which restated
+           it and told the reader to click, came out with `subtitle` on 2026-08-16. -->
       <h4 class="bcn-ohero__section-title type-card-title">Active Observations</h4>
       <div class="cluster" data-gap="lg" data-align="center">
         <div class="bcn-ohero__donut">
