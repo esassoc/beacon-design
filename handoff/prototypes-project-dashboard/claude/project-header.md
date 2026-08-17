@@ -169,6 +169,9 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
+.bcn-mod__link .esa-icon {
+  color: var(--color-text-muted);
+}
 .bcn-phome {
   background: var(--color-surface);
   border-bottom: 1px solid var(--color-border);
@@ -270,9 +273,6 @@ The full-bleed identity band that answers "where am I": a cover photo, the tenan
   font-size: var(--type-size-150);
   font-weight: var(--font-weight-medium);
   color: var(--color-text-tertiary);
-}
-.bcn-mod__link .esa-icon {
-  color: var(--color-text-muted);
 }
 .bcn-status-chip {
   display: inline-flex;

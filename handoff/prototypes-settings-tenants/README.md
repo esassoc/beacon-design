@@ -12,4 +12,4 @@ snapshot of one page for a developer (or an AI agent) to re-implement on any sta
 - **`manifest.json`** — per-section data powering the live dev-mode overlay.
 
 Source URL: http://localhost:4399/beacon-design/prototypes/settings/tenants/
-Rules shipped: 229 · Tokens referenced: 180
+Rules shipped: 232 · Tokens referenced: 182

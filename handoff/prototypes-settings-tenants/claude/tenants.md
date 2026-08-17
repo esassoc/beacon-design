@@ -663,49 +663,55 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
     </nav>
     <!-- content -->
     <div class="modern-layout__content">
+      <!-- bcn-lego-checked: esa-breadcrumbs exists, but this whole layout is a deliberate
+     VERBATIM port of prod's page-layout + breadcrumbs (see the file header) so that
+     ported Angular views match the live app; the lego has a different anatomy (no
+     home glyph, its own spacing) and swapping it would restyle the breadcrumb row on
+     all 39 pages at once. That migration is its own decision, not a side effect of
+     moving where the row sits. Only the POSITION and an end slot changed here. -->
       <div class="page-layout">
+        <section class="page-layout__breadcrumbs">
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <div class="breadcrumbs__items">
+              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+                  <path
+                    d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+                  ></path>
+                </svg>
+              </span>
+              <a class="breadcrumb-item" href="/beacon-design/prototypes/settings"> Settings </a
+              ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path d="m9 18 6-6-6-6"></path>
+                </svg>
+              </span>
+              <span class="breadcrumb-item" aria-current="page"> Tenants </span>
+            </div>
+          </nav>
+        </section>
         <div class="page-layout__container">
-          <section class="page-layout__breadcrumbs">
-            <nav class="breadcrumbs" aria-label="Breadcrumb">
-              <div class="breadcrumbs__items">
-                <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
-                    <path
-                      d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
-                    ></path>
-                  </svg>
-                </span>
-                <a class="breadcrumb-item" href="/beacon-design/prototypes/settings"> Settings </a
-                ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path d="m9 18 6-6-6-6"></path>
-                  </svg>
-                </span>
-                <span class="breadcrumb-item" aria-current="page"> Tenants </span>
-              </div>
-            </nav>
-          </section>
           <section class="page-layout__title">
             <div class="page-layout__title-main">
               <h1>Tenants</h1>
@@ -4614,7 +4620,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   <template data-gd-aldo-avatar=""
     ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-omctboch="">
       <span class="bcn-aldo-mark__glyph" data-astro-cid-omctboch="">
-        <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-md4nwazs="">
+        <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-ci6i4t6v="">
           <svg
             width="14"
             height="14"
@@ -4625,7 +4631,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             stroke-linecap="round"
             stroke-linejoin="round"
             focusable="false"
-            data-astro-cid-md4nwazs=""
+            data-astro-cid-ci6i4t6v=""
           >
             <path
               d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
@@ -6347,9 +6353,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <li data-astro-cid-xyosy2wp="">
                     <span
                       class="esa-pill esa-pill--default esa-pill--sm"
-                      data-astro-cid-heggk5tk=""
+                      data-astro-cid-xacvfu7n=""
                     >
-                      <span class="esa-pill__label" data-astro-cid-heggk5tk=""></span>
+                      <span class="esa-pill__label" data-astro-cid-xacvfu7n=""></span>
                     </span>
                   </li>
                 </template>
@@ -6365,12 +6371,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         type="button"
                         aria-label="Remove this file from the evidence"
                         title="Remove this file from the evidence"
-                        data-astro-cid-q5zfyfab="true"
+                        data-astro-cid-3i6ienqg="true"
                       >
                         <span
                           class="esa-icon esa-icon--sm"
                           aria-hidden="true"
-                          data-astro-cid-md4nwazs=""
+                          data-astro-cid-ci6i4t6v=""
                         >
                           <svg
                             width="16"
@@ -6382,7 +6388,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             focusable="false"
-                            data-astro-cid-md4nwazs=""
+                            data-astro-cid-ci6i4t6v=""
                           >
                             <path d="M18 6 6 18"></path>
                             <path d="m6 6 12 12"></path>
@@ -12518,9 +12524,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <span class="bcn-ev-attached__mark" hidden="" data-astro-cid-5nz34ayf="">
                       <span
                         class="esa-badge esa-badge--primary esa-badge--sm"
-                        data-astro-cid-gz52qnjf=""
+                        data-astro-cid-xofpclsp=""
                       >
-                        <span class="esa-badge__text" data-astro-cid-gz52qnjf="">Suggested</span>
+                        <span class="esa-badge__text" data-astro-cid-xofpclsp="">Suggested</span>
                       </span>
                     </span>
                     <span class="bcn-ev-attached__remove" data-astro-cid-5nz34ayf="">
@@ -12529,12 +12535,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         type="button"
                         aria-label="Remove this evidence from the action"
                         title="Remove this evidence from the action"
-                        data-astro-cid-q5zfyfab="true"
+                        data-astro-cid-3i6ienqg="true"
                       >
                         <span
                           class="esa-icon esa-icon--sm"
                           aria-hidden="true"
-                          data-astro-cid-md4nwazs=""
+                          data-astro-cid-ci6i4t6v=""
                         >
                           <svg
                             width="16"
@@ -12546,7 +12552,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             focusable="false"
-                            data-astro-cid-md4nwazs=""
+                            data-astro-cid-ci6i4t6v=""
                           >
                             <path d="M18 6 6 18"></path>
                             <path d="m6 6 12 12"></path>
@@ -12642,266 +12648,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </bcn-bottom-drawer>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.DYWgdQnP.js"
+    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.DmiQsqh2.js"
   ></script>
 </div>
 ```
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
-.sidebar {
-  --gap: var(--spacing-500, 1.5rem);
-  --sidebar-width: 18rem;
-  --sidebar-content-min: 60%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap);
-}
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-}
-.sidebar > :first-child {
-  flex-basis: var(--sidebar-width);
-  flex-grow: 1;
-}
-.type-body {
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-relaxed);
-  letter-spacing: var(--letter-spacing-normal);
-}
-.type-label {
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-normal);
-  letter-spacing: var(--letter-spacing-normal);
-}
-.type-body-small {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-normal);
-  letter-spacing: var(--letter-spacing-normal);
-}
-.sidebar > :last-child {
-  flex-basis: 0;
-  flex-grow: 999;
-  min-inline-size: var(--sidebar-content-min);
-}
-.type-code {
-  font-family: var(--font-mono);
-  font-size: var(--type-size-100);
-  line-height: var(--line-height-normal);
-}
-.cluster {
-  --gap: var(--spacing-300, 0.75rem);
-  --align: center;
-  --justify: flex-start;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap);
-  align-items: var(--align);
-  justify-content: var(--justify);
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-card {
-  --_card-bg: var(--card-bg, var(--color-surface, #ffffff));
-  --_card-border: var(--card-border-color, var(--color-border, #e5e5e5));
-  --_card-radius: var(--card-radius, var(--radius-300, 0.5rem));
-  --_card-padding: var(--card-padding, var(--spacing-500, 1.5rem));
-  --_card-header-bg: var(--card-header-bg, transparent);
-  --_card-header-color: var(--card-header-color, var(--color-text-primary, #171717));
-  --_card-header-border: var(--card-header-border-color, var(--color-border-light, #efefef));
-  display: block;
-  background: var(--_card-bg);
-  border: 1px solid var(--_card-border);
-  border-radius: var(--_card-radius);
-  overflow: hidden;
-}
-.esa-card--outlined {
-  --_card-border: var(--color-border, #e5e5e5);
-}
-.esa-card__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--spacing-400, 1rem) var(--_card-padding);
-  background: var(--_card-header-bg);
-  color: var(--_card-header-color);
-  border-bottom: 1px solid var(--_card-header-border);
-  min-height: 56px;
-}
-.esa-card__header-content {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300, 0.75rem);
-}
-.esa-card__titles {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-050, 0.125rem);
-}
-.esa-card__title {
-  font-size: var(--type-size-250, 1.0625rem);
-  font-weight: 600;
-  margin: 0;
-  color: inherit;
-  font-family: var(--font-sans, "DM Sans", sans-serif);
-}
-.esa-card__actions {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200, 0.5rem);
-}
-.esa-card__body {
-  padding: var(--_card-padding);
-}
-.bcn-set {
-  display: block;
-  scroll-margin-block-start: var(--spacing-600);
-}
-.bcn-record-rows {
-  display: block;
-}
-.bcn-record-rows__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.bcn-record-rows__row {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  padding-block: var(--spacing-250);
-}
-.bcn-record-rows__content {
-  flex: 1;
-  min-inline-size: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100);
-}
-.bcn-record-rows__lead {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-200);
-  margin: 0;
-  line-height: 1.4;
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-  --badge-bg: var(--color-surface-sunken);
-  --badge-text-color: var(--color-text-secondary);
-}
-.bcn-record-rows__meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--spacing-100) var(--spacing-500);
-  margin: 0;
-  line-height: 1.4;
-}
-.bcn-record-rows__pair {
-  display: inline-flex;
-  align-items: baseline;
-  gap: var(--spacing-150);
-  min-inline-size: 0;
-}
-.bcn-record-rows__label {
-  color: var(--color-text-tertiary);
-}
-.bcn-record-rows__code {
-  padding: 1px var(--spacing-150);
-  border-radius: var(--radius-100);
-  background: var(--color-surface-sunken);
-  color: var(--color-text-secondary);
-}
-.bcn-record-rows__actions {
-  flex-shrink: 0;
-}
-.bcn-record-rows__row + .bcn-record-rows__row {
-  border-top: 1px solid var(--color-border-light);
-}
-.bcn-record-rows esa-dialog {
-  display: block;
-  --z-modal: 1300;
-  --z-modal-backdrop: 1250;
-}
-.esa-form-field {
-  --_label-color: var(--form-label-color, #171717);
-  --_help-color: var(--form-help-color, #737373);
-  --_error-color: var(--form-error-color, var(--color-danger-strong, #ce2c31));
-  --_label-gap: var(--form-label-gap, 4px);
-  --_help-gap: var(--form-help-gap, 4px);
-  --_font-weight: var(--font-weight-medium, 450);
-  --_help-font-size: var(--type-size-100, 0.75rem);
-  --_required-color: var(--color-danger-strong, #ce2c31);
-  --_label-font-size: var(--form-font-size-md, 0.9375rem);
-  display: flex;
-  flex-direction: column;
-}
-.esa-form-field__label {
-  color: var(--_label-color);
-  font-weight: var(--_font-weight);
-  font-size: var(--_label-font-size);
-  margin-block-end: var(--_label-gap);
-}
-.esa-form-field__input {
-  display: flex;
-  flex-direction: column;
-}
-.esa-form-field__help,
-.esa-form-field__error {
-  margin: 0;
-  margin-block-start: var(--_help-gap);
-  font-size: var(--_help-font-size);
-}
-.esa-form-field__help {
-  color: var(--_help-color);
-}
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
   --_btn-padding-x: var(--form-padding-x-md, 16px);
@@ -12973,6 +12726,38 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   color: var(--_on);
   border-color: transparent;
 }
+.esa-form-field {
+  --_label-color: var(--form-label-color, #171717);
+  --_help-color: var(--form-help-color, #737373);
+  --_error-color: var(--form-error-color, var(--color-danger-strong, #ce2c31));
+  --_label-gap: var(--form-label-gap, 4px);
+  --_help-gap: var(--form-help-gap, 4px);
+  --_font-weight: var(--font-weight-medium, 450);
+  --_help-font-size: var(--type-size-100, 0.75rem);
+  --_required-color: var(--color-danger-strong, #ce2c31);
+  --_label-font-size: var(--form-font-size-md, 0.9375rem);
+  display: flex;
+  flex-direction: column;
+}
+.esa-form-field__label {
+  color: var(--_label-color);
+  font-weight: var(--_font-weight);
+  font-size: var(--_label-font-size);
+  margin-block-end: var(--_label-gap);
+}
+.esa-form-field__input {
+  display: flex;
+  flex-direction: column;
+}
+.esa-form-field__help,
+.esa-form-field__error {
+  margin: 0;
+  margin-block-start: var(--_help-gap);
+  font-size: var(--_help-font-size);
+}
+.esa-form-field__help {
+  color: var(--_help-color);
+}
 .page-layout {
   display: flex;
   flex-direction: column;
@@ -12981,15 +12766,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   background: var(--bcn-gray-50);
   box-sizing: border-box;
 }
-.page-layout__container {
-  display: flex;
-  flex-direction: column;
-}
 .page-layout section {
   width: 100%;
 }
 .breadcrumbs {
   padding: var(--spacing-400) 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-400);
 }
 .breadcrumbs__items {
   display: flex;
@@ -13007,6 +12792,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 }
 a.breadcrumb-item {
   text-decoration: none;
+}
+.page-layout__container {
+  display: flex;
+  flex-direction: column;
 }
 .page-layout__title {
   border-bottom: 1px solid var(--bcn-gray-200);
@@ -13037,229 +12826,65 @@ a.breadcrumb-item {
   min-height: 70vh;
   position: relative;
 }
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
-  --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));
-  --_badge-height: var(--badge-height-md, 28px);
-  --_badge-font-size: 13px;
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  --_badge-min-width: var(--badge-height-md, 28px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: var(--_badge-height);
-  min-width: var(--_badge-min-width);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--badge-radius, var(--radius-100, 4px));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  font-size: var(--_badge-font-size);
-  font-weight: 600;
-  line-height: 1;
-  white-space: nowrap;
-  box-sizing: border-box;
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
 }
-.esa-badge--sm {
-  --_badge-height: var(--badge-height-sm, 22px);
-  --_badge-font-size: 11px;
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
-  --_badge-min-width: var(--badge-height-sm, 22px);
+.sidebar {
+  --gap: var(--spacing-500, 1.5rem);
+  --sidebar-width: 18rem;
+  --sidebar-content-min: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
 }
-.esa-pill {
-  --_pill-bg: var(--pill-bg, var(--color-surface-sunken, #efefef));
-  --_pill-text: var(--pill-text-color, var(--color-text-primary, #171717));
-  --_pill-border: var(--pill-border-color, var(--color-border-light, #efefef));
-  --_pill-height: var(--pill-height-md, 28px);
-  --_pill-font-size: 13px;
-  --_pill-padding-x: var(--spacing-200, 0.5rem);
-  --_pill-gap: var(--spacing-100, 0.25rem);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--_pill-gap);
-  height: var(--_pill-height);
-  padding-inline: var(--_pill-padding-x);
-  border: 1px solid var(--_pill-border);
-  border-radius: var(--pill-radius, var(--radius-full, 9999px));
-  background: var(--_pill-bg);
-  color: var(--_pill-text);
-  font-size: var(--_pill-font-size);
-  line-height: 1;
-  white-space: nowrap;
-  box-sizing: border-box;
-}
-.esa-pill--sm {
-  --_pill-height: var(--pill-height-sm, 22px);
-  --_pill-font-size: 11px;
-  --_pill-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-pill__label {
-  font-weight: 500;
-}
-.bcn-settings-shell__rail {
-  align-self: start;
-}
-.bcn-settings-search,
-.bcn-settings-search__fieldwrap {
-  position: relative;
-}
-.bcn-settings-search__icon {
-  position: absolute;
-  inset-inline-start: var(--spacing-250);
-  inset-block-start: 50%;
-  transform: translateY(-50%);
-  display: inline-flex;
-  z-index: 1;
-  color: var(--color-text-tertiary);
-  pointer-events: none;
-}
-.bcn-settings-search__field {
-  --form-padding-x-md: 2rem;
-  --form-border-color-focus: var(--color-text-link);
-  --focus-ring-color: var(--color-text-link);
-  display: block;
-}
-.bcn-settings-search__panel {
-  position: absolute;
-  inset-block-start: calc(100% + var(--spacing-100));
-  inset-inline: 0;
-  z-index: 30;
+.stack {
+  --gap: var(--spacing-400, 1rem);
   display: flex;
   flex-direction: column;
-  max-block-size: min(24rem, 60vh);
-  overflow-y: auto;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-100);
-  box-shadow: var(--shadow-300);
+  gap: var(--gap);
 }
-.bcn-settings-search__panel[hidden] {
-  display: none;
+.sidebar > :first-child {
+  flex-basis: var(--sidebar-width);
+  flex-grow: 1;
 }
-.bcn-settings-nav {
+.type-body {
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-relaxed);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-label {
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.type-body-small {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-normal);
+}
+.sidebar > :last-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: var(--sidebar-content-min);
+}
+.type-code {
+  font-family: var(--font-mono);
+  font-size: var(--type-size-100);
+  line-height: var(--line-height-normal);
+}
+.cluster {
+  --gap: var(--spacing-300, 0.75rem);
+  --align: center;
+  --justify: flex-start;
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-500, 1.5rem);
-}
-.bcn-settings-nav__block {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400, 1rem);
-}
-.bcn-settings-nav__block--esa {
-  background: var(--bcn-helpbar-bg);
-  -webkit-backdrop-filter: blur(14px) saturate(1.4);
-  backdrop-filter: blur(14px) saturate(1.4);
-  border: 1px solid var(--bcn-helpbar-border);
-  border-radius: var(--radius-300, 0.5rem);
-  padding: var(--spacing-300, 0.75rem);
-}
-.bcn-settings-nav__aud {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200, 0.5rem);
-  margin: 0;
-  padding-inline: var(--spacing-300, 0.75rem);
-  padding-block-end: var(--spacing-200, 0.5rem);
-  border-block-end: 1px solid var(--color-border-light, var(--color-border));
-  font-weight: var(--font-weight-semibold, 600);
-  color: var(--color-text-primary);
-}
-.bcn-settings-nav__block--esa .bcn-settings-nav__aud {
-  color: #fff;
-}
-.bcn-settings-nav__block--esa .bcn-settings-nav__aud {
-  border-block-end-color: color-mix(in srgb, #ffffff 18%, transparent);
-}
-.bcn-settings-nav__aud-icon {
-  display: inline-flex;
-  flex: none;
-}
-.bcn-settings-nav__zone {
-  margin: 0 0 var(--spacing-100, 0.25rem);
-  padding-inline: var(--spacing-300, 0.75rem);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  font-weight: var(--font-weight-bold, 700);
-  color: var(--color-text-tertiary);
-}
-.bcn-settings-nav__block--esa .bcn-settings-nav__zone {
-  color: color-mix(in srgb, #ffffff 78%, transparent);
-}
-.bcn-settings-nav__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-.bcn-settings-nav__link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-200, 0.5rem);
-  font-size: 0.8125rem;
-  padding: var(--spacing-150, 0.375rem) var(--spacing-300, 0.75rem);
-  border-radius: var(--radius-200, 0.5rem);
-  color: var(--color-text-secondary);
-  text-decoration: none;
-  transition:
-    background 0.1s ease,
-    color 0.1s ease;
-}
-.bcn-settings-nav__link[aria-current="page"] {
-  background: var(--color-surface-sunken);
-  color: var(--color-text-primary);
-}
-.bcn-settings-nav__block--esa .bcn-settings-nav__link {
-  color: color-mix(in srgb, #ffffff 88%, transparent);
-}
-.bcn-settings-nav__block--esa .bcn-settings-nav__link[aria-current="page"] {
-  background: color-mix(in srgb, #ffffff 18%, transparent);
-  color: #fff;
-}
-.bcn-settings-nav__page {
-  min-width: 0;
-}
-.bcn-settings-nav__count {
-  flex: none;
-  font-size: 0.6875rem;
-  line-height: 1.2;
-  padding: 1px 5px;
-  border-radius: var(--radius-100, 0.25rem);
-  background: var(--color-surface-sunken);
-  color: var(--color-text-secondary);
-  font-variant-numeric: tabular-nums;
-}
-.bcn-settings-nav__block--esa .bcn-settings-nav__count {
-  background: color-mix(in srgb, #ffffff 14%, transparent);
-  color: color-mix(in srgb, #ffffff 78%, transparent);
-}
-.bcn-settings-nav__link[aria-current="page"] .bcn-settings-nav__count {
-  color: inherit;
-  background: color-mix(in srgb, var(--color-text-primary) 10%, transparent);
-}
-.bcn-settings-nav__block--esa
-  .bcn-settings-nav__link[aria-current="page"]
-  .bcn-settings-nav__count {
-  background: color-mix(in srgb, #ffffff 20%, transparent);
-}
-.bcn-settings-nav__block + .bcn-settings-nav__block {
-  margin-block-start: var(--spacing-300, 0.75rem);
-}
-.bcn-settings-shell__content {
-  min-inline-size: 0;
-  --card-bg: #ffffff;
-}
-.bcn-settings-shell__content[data-esa-surface] .esa-card {
-  --card-header-bg: var(--bcn-helpbar-bg);
-  --card-header-color: #ffffff;
-  --card-header-border-color: transparent;
-}
-.bcn-settings-shell__content[data-esa-surface] .esa-card__header .esa-card__actions {
-  --color-text-primary: #ffffff;
-  --color-border: color-mix(in srgb, #ffffff 42%, transparent);
-  --color-surface-sunken: color-mix(in srgb, #ffffff 16%, transparent);
+  flex-wrap: wrap;
+  gap: var(--gap);
+  align-items: var(--align);
+  justify-content: var(--justify);
 }
 .modern-layout {
   display: flex;
@@ -14064,9 +13689,394 @@ a.breadcrumb-item {
   overflow: hidden;
   animation: bcn-bd-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-card {
+  --_card-bg: var(--card-bg, var(--color-surface, #ffffff));
+  --_card-border: var(--card-border-color, var(--color-border, #e5e5e5));
+  --_card-radius: var(--card-radius, var(--radius-300, 0.5rem));
+  --_card-padding: var(--card-padding, var(--spacing-500, 1.5rem));
+  --_card-header-bg: var(--card-header-bg, transparent);
+  --_card-header-color: var(--card-header-color, var(--color-text-primary, #171717));
+  --_card-header-border: var(--card-header-border-color, var(--color-border-light, #efefef));
+  display: block;
+  background: var(--_card-bg);
+  border: 1px solid var(--_card-border);
+  border-radius: var(--_card-radius);
+  overflow: hidden;
+}
+.esa-card--outlined {
+  --_card-border: var(--color-border, #e5e5e5);
+}
+.esa-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-400, 1rem) var(--_card-padding);
+  background: var(--_card-header-bg);
+  color: var(--_card-header-color);
+  border-bottom: 1px solid var(--_card-header-border);
+  min-height: 56px;
+}
+.esa-card__header-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300, 0.75rem);
+}
+.esa-card__titles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-050, 0.125rem);
+}
+.esa-card__title {
+  font-size: var(--type-size-250, 1.0625rem);
+  font-weight: 600;
+  margin: 0;
+  color: inherit;
+  font-family: var(--font-sans, "DM Sans", sans-serif);
+}
+.esa-card__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200, 0.5rem);
+}
+.esa-card__body {
+  padding: var(--_card-padding);
+}
+.bcn-set {
+  display: block;
+  scroll-margin-block-start: var(--spacing-600);
+}
+.bcn-record-rows {
+  display: block;
+}
+.bcn-record-rows__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.bcn-record-rows__row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  padding-block: var(--spacing-250);
+}
+.bcn-record-rows__content {
+  flex: 1;
+  min-inline-size: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100);
+}
+.bcn-record-rows__lead {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-200);
+  margin: 0;
+  line-height: 1.4;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  --badge-bg: var(--color-surface-sunken);
+  --badge-text-color: var(--color-text-secondary);
+}
+.bcn-record-rows__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--spacing-100) var(--spacing-500);
+  margin: 0;
+  line-height: 1.4;
+}
+.bcn-record-rows__pair {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--spacing-150);
+  min-inline-size: 0;
+}
+.bcn-record-rows__label {
+  color: var(--color-text-tertiary);
+}
+.bcn-record-rows__code {
+  padding: 1px var(--spacing-150);
+  border-radius: var(--radius-100);
+  background: var(--color-surface-sunken);
+  color: var(--color-text-secondary);
+}
+.bcn-record-rows__actions {
+  flex-shrink: 0;
+}
+.bcn-record-rows__row + .bcn-record-rows__row {
+  border-top: 1px solid var(--color-border-light);
+}
+.bcn-record-rows esa-dialog {
+  display: block;
+  --z-modal: 1300;
+  --z-modal-backdrop: 1250;
+}
+.bcn-settings-shell__rail {
+  align-self: start;
+}
+.bcn-settings-search,
+.bcn-settings-search__fieldwrap {
+  position: relative;
+}
+.bcn-settings-search__icon {
+  position: absolute;
+  inset-inline-start: var(--spacing-250);
+  inset-block-start: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  z-index: 1;
+  color: var(--color-text-tertiary);
+  pointer-events: none;
+}
+.bcn-settings-search__field {
+  --form-padding-x-md: 2rem;
+  --form-border-color-focus: var(--color-text-link);
+  --focus-ring-color: var(--color-text-link);
+  display: block;
+}
+.bcn-settings-search__panel {
+  position: absolute;
+  inset-block-start: calc(100% + var(--spacing-100));
+  inset-inline: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  max-block-size: min(24rem, 60vh);
+  overflow-y: auto;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-100);
+  box-shadow: var(--shadow-300);
+}
+.bcn-settings-search__panel[hidden] {
+  display: none;
+}
+.bcn-settings-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-500, 1.5rem);
+}
+.bcn-settings-nav__block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400, 1rem);
+}
+.bcn-settings-nav__block--esa {
+  background: var(--bcn-helpbar-bg);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  border: 1px solid var(--bcn-helpbar-border);
+  border-radius: var(--radius-300, 0.5rem);
+  padding: var(--spacing-300, 0.75rem);
+}
+.bcn-settings-nav__aud {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200, 0.5rem);
+  margin: 0;
+  padding-inline: var(--spacing-300, 0.75rem);
+  padding-block-end: var(--spacing-200, 0.5rem);
+  border-block-end: 1px solid var(--color-border-light, var(--color-border));
+  font-weight: var(--font-weight-semibold, 600);
+  color: var(--color-text-primary);
+}
+.bcn-settings-nav__block--esa .bcn-settings-nav__aud {
+  color: #fff;
+}
+.bcn-settings-nav__block--esa .bcn-settings-nav__aud {
+  border-block-end-color: color-mix(in srgb, #ffffff 18%, transparent);
+}
+.bcn-settings-nav__aud-icon {
+  display: inline-flex;
+  flex: none;
+}
+.bcn-settings-nav__zone {
+  margin: 0 0 var(--spacing-100, 0.25rem);
+  padding-inline: var(--spacing-300, 0.75rem);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--color-text-tertiary);
+}
+.bcn-settings-nav__block--esa .bcn-settings-nav__zone {
+  color: color-mix(in srgb, #ffffff 78%, transparent);
+}
+.bcn-settings-nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.bcn-settings-nav__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-200, 0.5rem);
+  font-size: 0.8125rem;
+  padding: var(--spacing-150, 0.375rem) var(--spacing-300, 0.75rem);
+  border-radius: var(--radius-200, 0.5rem);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition:
+    background 0.1s ease,
+    color 0.1s ease;
+}
+.bcn-settings-nav__link[aria-current="page"] {
+  background: var(--color-surface-sunken);
+  color: var(--color-text-primary);
+}
+.bcn-settings-nav__block--esa .bcn-settings-nav__link {
+  color: color-mix(in srgb, #ffffff 88%, transparent);
+}
+.bcn-settings-nav__block--esa .bcn-settings-nav__link[aria-current="page"] {
+  background: color-mix(in srgb, #ffffff 18%, transparent);
+  color: #fff;
+}
+.bcn-settings-nav__page {
+  min-width: 0;
+}
+.bcn-settings-nav__count {
+  flex: none;
+  font-size: 0.6875rem;
+  line-height: 1.2;
+  padding: 1px 5px;
+  border-radius: var(--radius-100, 0.25rem);
+  background: var(--color-surface-sunken);
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.bcn-settings-nav__block--esa .bcn-settings-nav__count {
+  background: color-mix(in srgb, #ffffff 14%, transparent);
+  color: color-mix(in srgb, #ffffff 78%, transparent);
+}
+.bcn-settings-nav__link[aria-current="page"] .bcn-settings-nav__count {
+  color: inherit;
+  background: color-mix(in srgb, var(--color-text-primary) 10%, transparent);
+}
+.bcn-settings-nav__block--esa
+  .bcn-settings-nav__link[aria-current="page"]
+  .bcn-settings-nav__count {
+  background: color-mix(in srgb, #ffffff 20%, transparent);
+}
+.bcn-settings-nav__block + .bcn-settings-nav__block {
+  margin-block-start: var(--spacing-300, 0.75rem);
+}
+.bcn-settings-shell__content {
+  min-inline-size: 0;
+  --card-bg: #ffffff;
+}
+.bcn-settings-shell__content[data-esa-surface] .esa-card {
+  --card-header-bg: var(--bcn-helpbar-bg);
+  --card-header-color: #ffffff;
+  --card-header-border-color: transparent;
+}
+.bcn-settings-shell__content[data-esa-surface] .esa-card__header .esa-card__actions {
+  --color-text-primary: #ffffff;
+  --color-border: color-mix(in srgb, #ffffff 42%, transparent);
+  --color-surface-sunken: color-mix(in srgb, #ffffff 16%, transparent);
+}
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
+  --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));
+  --_badge-height: var(--badge-height-md, 28px);
+  --_badge-font-size: 13px;
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  --_badge-min-width: var(--badge-height-md, 28px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--_badge-height);
+  min-width: var(--_badge-min-width);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--badge-radius, var(--radius-100, 4px));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  font-size: var(--_badge-font-size);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+.esa-badge--sm {
+  --_badge-height: var(--badge-height-sm, 22px);
+  --_badge-font-size: 11px;
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
+  --_badge-min-width: var(--badge-height-sm, 22px);
+}
+.esa-pill {
+  --_pill-bg: var(--pill-bg, var(--color-surface-sunken, #efefef));
+  --_pill-text: var(--pill-text-color, var(--color-text-primary, #171717));
+  --_pill-border: var(--pill-border-color, var(--color-border-light, #efefef));
+  --_pill-height: var(--pill-height-md, 28px);
+  --_pill-font-size: 13px;
+  --_pill-padding-x: var(--spacing-200, 0.5rem);
+  --_pill-gap: var(--spacing-100, 0.25rem);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--_pill-gap);
+  height: var(--_pill-height);
+  padding-inline: var(--_pill-padding-x);
+  border: 1px solid var(--_pill-border);
+  border-radius: var(--pill-radius, var(--radius-full, 9999px));
+  background: var(--_pill-bg);
+  color: var(--_pill-text);
+  font-size: var(--_pill-font-size);
+  line-height: 1;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+.esa-pill--sm {
+  --_pill-height: var(--pill-height-sm, 22px);
+  --_pill-font-size: 11px;
+  --_pill-padding-x: var(--spacing-150, 0.375rem);
+}
+.esa-pill__label {
+  font-weight: 500;
 }
 ```
 
