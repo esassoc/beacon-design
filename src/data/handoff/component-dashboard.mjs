@@ -209,7 +209,7 @@ export default {
     },
     {
       label: 'Component details',
-      selector: '.bcn-facts',
+      selector: '.bcn-pf',
       intent:
         'The quiet rail card of the Component record\'s own fields: start date, expected end date, and the tenant-defined custom field values, under the stored description.',
       decisions: [

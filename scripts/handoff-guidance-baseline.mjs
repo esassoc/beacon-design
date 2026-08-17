@@ -13,7 +13,6 @@ export default [
   'settings-feature-flags',
   'settings-operations',
   'settings-tenants',
-  'component-dashboard',
   'data-catalog-actions',
   'data-catalog-action',
   'data-catalog-commitment',
