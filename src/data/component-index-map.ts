@@ -252,7 +252,11 @@ export const componentFootprints = (components: ProjectComponent[]): ComponentFo
   });
 };
 
-/** Legend rows — one per lifecycle status, in pipeline order. */
+/**
+ * Legend rows — one per lifecycle status, in pipeline order. `shape: 'area'` because
+ * these key FILLED FOOTPRINTS, not points: a dot swatch would promise a marker the
+ * map does not draw.
+ */
 export const INDEX_MAP_LEGEND = (['not-started', 'in-progress', 'on-hold', 'complete'] as const).map(
-  (s) => ({ label: STATUS_META[s].label, color: STATUS_META[s].hex }),
+  (s) => ({ label: STATUS_META[s].label, color: STATUS_META[s].hex, shape: 'area' as const }),
 );

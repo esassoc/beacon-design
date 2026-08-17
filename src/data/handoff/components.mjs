@@ -87,7 +87,7 @@ export default {
 
     {
       label: 'Component footprint map',
-      selector: '.bcn-cmap',
+      selector: '.bcn-fmap',
       intent:
         'The second view, asked for explicitly on the design call: where the components ARE. Components overlap on it, and that is correct — they are areas over areas over time in the same place, and color separates them the way species habitat layers do ("if we color code them, that\'s what the species habitat layers look like, it\'s fine").',
       decisions: [

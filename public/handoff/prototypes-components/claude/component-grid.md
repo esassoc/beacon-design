@@ -25,39 +25,37 @@ The default view and the page's real job: sixteen rows a person can scan to find
         <div class="esa-card__titles"><h3 class="esa-card__title">Components</h3></div>
       </div>
       <div class="esa-card__actions">
-        <span class="bcn-cg__search">
-          <esa-text-field
+        <span class="bcn-gchrome__search"
+          ><esa-text-field
             placeholder="Search grid…"
             size="sm"
             data-cg-search="true"
-          ></esa-text-field>
-        </span>
-        <span data-cg-search-clear="" hidden=""
-          ><button
-            class="esa-icon-button esa-icon-button--sm"
-            type="button"
-            aria-label="Clear search"
-            title="Clear search"
-          >
-            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                focusable="false"
-              >
-                <path d="M18 6 6 18"></path>
-                <path d="m6 6 12 12"></path>
-              </svg>
-            </span>
-          </button>
-        </span>
-        <span data-cg-clear-filters=""
+          ></esa-text-field
+          ><span data-cg-search-clear="true" class="astro-hf6tmutk" hidden=""
+            ><button
+              class="esa-icon-button esa-icon-button--sm"
+              type="button"
+              aria-label="Clear search"
+              title="Clear search"
+            >
+              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path d="M18 6 6 18"></path>
+                  <path d="m6 6 12 12"></path>
+                </svg>
+              </span>
+            </button> </span></span
+        ><span data-cg-clear-filters="true" class="astro-hf6tmutk"
           ><span
             class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
           >
@@ -3303,8 +3301,8 @@ The default view and the page's real job: sixteen rows a person can scan to find
       </div>
     </div>
     <div class="esa-card__footer">
-      <div class="repel" data-gap="md">
-        <span data-cg-download="">
+      <div class="repel bcn-gfoot" data-gap="md">
+        <span data-cg-download="true" class="astro-awujj5yf">
           <span
             class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
           >
@@ -3330,9 +3328,12 @@ The default view and the page's real job: sixteen rows a person can scan to find
             </button>
           </span>
         </span>
-        <div class="cluster bcn-cg__count" data-gap="md">
-          <span>Total Records: <span data-cg-total="">16</span></span>
-          <span class="bcn-cg__count-filtered" data-cg-filtered="" hidden=""></span>
+        <div class="cluster bcn-gfoot__count" data-gap="md">
+          <span
+            >Total Records:
+            <span data-cg-total="true" class="astro-awujj5yf">16</span></span
+          >
+          <span class="bcn-gfoot__filtered" data-cg-filtered="true" hidden=""></span>
         </div>
       </div>
     </div>
@@ -4639,21 +4640,16 @@ The default view and the page's real job: sixteen rows a person can scan to find
 .cluster{--gap: var(--spacing-300, .75rem);--align: center;--justify: flex-start;display:flex;flex-wrap:wrap;gap:var(--gap);align-items:var(--align);justify-content:var(--justify)}
 .repel{--gap: var(--spacing-400, 1rem);--align: center;display:flex;flex-wrap:wrap;gap:var(--gap);align-items:var(--align);justify-content:space-between}
 .bcn-summary>.esa-card{height:100%}
-.bcn-cg__search{display:inline-flex;min-inline-size:15rem}
-.bcn-cg__search esa-text-field{inline-size:100%}
 .bcn-cg__host{inline-size:100%;block-size:38rem}
-.bcn-cg__count{font-size:var(--type-size-150);color:var(--color-text-secondary);font-variant-numeric:tabular-nums}
-.bcn-cg__count-filtered{color:var(--color-text-tertiary)}
-.bcn-cg__count-filtered[hidden]{display:none}
 .bcn-cg .ag-row{cursor:pointer}
 .bcn-cg .bcn-cg__ident{display:inline-flex;align-items:center;gap:var(--spacing-250);min-inline-size:0}
 .bcn-cg .bcn-cg__mark{display:inline-flex;align-items:center;justify-content:center;inline-size:24px;block-size:24px;flex-shrink:0;border-radius:var(--radius-100);background:var(--color-surface-sunken);color:var(--_mark)}
-.bcn-cg .bcn-cg__chip{--_tone: var(--bcn-status-not-started);display:inline-flex;align-items:center;gap:var(--spacing-150);padding:1px var(--spacing-200);border-radius:var(--radius-100);font-size:.875rem;line-height:1.5;font-weight:var(--font-weight-medium);white-space:nowrap;background:color-mix(in srgb,var(--_tone) 16%,transparent);color:color-mix(in srgb,var(--_tone) 70%,var(--color-text-primary))}
-.bcn-cg .bcn-cg__chip:before{content:"";width:7px;height:7px;border-radius:var(--radius-full);background:var(--_tone)}
-.bcn-cg .bcn-cg__chip[data-tone=not-started]{--_tone: var(--bcn-status-not-started)}
-.bcn-cg .bcn-cg__chip[data-tone=in-progress]{--_tone: var(--color-warning)}
-.bcn-cg .bcn-cg__chip[data-tone=on-hold]{--_tone: var(--bcn-status-on-hold)}
-.bcn-cg .bcn-cg__chip[data-tone=complete]{--_tone: var(--color-success)}
+.bcn-cg .bcn-cg__chip{--_tone: var(--bcn-status-not-started, #bdbdbd);display:inline-flex;align-items:center;gap:var(--spacing-150);padding:1px var(--spacing-200);border-radius:var(--radius-100);font-size:.875rem;line-height:1.5;font-weight:var(--font-weight-medium);white-space:nowrap;background:color-mix(in srgb,var(--_tone, #bdbdbd) 16%,transparent);color:color-mix(in srgb,var(--_tone, #bdbdbd) 70%,var(--color-text-primary))}
+.bcn-cg .bcn-cg__chip:before{content:"";width:7px;height:7px;border-radius:var(--radius-full);background:var(--_tone, #bdbdbd)}
+.bcn-cg .bcn-cg__chip[data-tone=not-started]{--_tone: var(--bcn-status-not-started, #bdbdbd)}
+.bcn-cg .bcn-cg__chip[data-tone=in-progress]{--_tone: var(--color-warning, #f59e0b)}
+.bcn-cg .bcn-cg__chip[data-tone=on-hold]{--_tone: var(--bcn-status-on-hold, #656565)}
+.bcn-cg .bcn-cg__chip[data-tone=complete]{--_tone: var(--color-success, #2e7571)}
 .bcn-cg .bcn-cg__name{color:var(--color-text-link);text-decoration:underline;overflow:hidden;text-overflow:ellipsis}
 .bcn-cg .bcn-cg__name:hover{color:var(--color-primary-hover)}
 .bcn-cg .bcn-cg__num{font-variant-numeric:tabular-nums}
@@ -4678,6 +4674,11 @@ The default view and the page's real job: sixteen rows a person can scan to find
 .esa-card__actions{display:flex;align-items:center;gap:var(--spacing-200, .5rem)}
 .esa-card__body{padding:var(--_card-padding)}
 .esa-card__footer{padding:var(--spacing-300, .75rem) var(--_card-padding);border-top:1px solid var(--_card-header-border);background:var(--card-footer-bg, var(--color-surface-sunken, #efefef))}
+.bcn-gchrome__search{display:inline-flex;align-items:center;gap:var(--spacing-100);min-inline-size:15rem}
+.bcn-gchrome__search esa-text-field{inline-size:100%}
+.bcn-gfoot__count{font-size:var(--type-size-150);color:var(--color-text-secondary);font-variant-numeric:tabular-nums}
+.bcn-gfoot__filtered{color:var(--color-text-tertiary)}
+.bcn-gfoot__filtered[hidden]{display:none}
 .esa-icon{--_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));display:inline-flex;align-items:center;justify-content:center;width:var(--_icon-size);height:var(--_icon-size);line-height:1;color:inherit}
 .esa-icon--xs{--_icon-size: var(--icon-size-xs, 14px)}
 .esa-icon--sm{--_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px))}
@@ -4789,6 +4790,7 @@ The default view and the page's real job: sixteen rows a person can scan to find
 - `--radius-full`: 9999px _(primitive)_
 - `--shadow-100`: 0 2px 12px 0 rgba(0, 0, 0, .04) _(primitive)_
 - `--spacing-050`: .125rem _(primitive)_
+- `--spacing-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-250`: .625rem _(primitive)_

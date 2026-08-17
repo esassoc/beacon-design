@@ -1,30 +1,40 @@
 ---
-// <BcnComponentMap> — a component's footprint, drawn from its WORK AREAS.
+// <BcnFootprintMap> — an entity's footprint on a map: points, filled areas, and
+// lines, as an inset card that expands to a modal or as a full-width interactive map.
 //
-// Why work areas and not a boundary: a Component has no boundary geometry in the
-// product today. There is no GEOGRAPHY column on Component, and Stewart's
-// boundary epic (BCN-1582/1583/1584) is Ready-for-Dev with zero commits against
-// it. The only real geometry a component owns right now is its work areas —
-// already returned by the work-areas endpoint and currently thrown away (Site
-// Clearance collapses the set to a single centroid dot). So this map plots the
-// work areas themselves, which is both honest about today's data AND exactly
-// what BCN-1583 slice 1 proposes. When boundary geometry lands, it becomes a
-// layer UNDER these points; the points don't go away.
+// Renamed from BcnComponentMap and generalized on 2026-08-17, when the decomposition
+// review found it had become a strict superset of BcnProjectMap without absorbing it.
+// It now serves all three surfaces — the project dashboard's boundary + alignment, the
+// component index's per-component footprints, and one component's work areas — so the
+// name no longer says "component". BcnProjectMap is deleted; what it had that this
+// lacked (a LineString layer, legend keys shaped per geometry kind, and a slot for
+// "Upload boundary") is folded in as `lines`, `MapLegendRow.shape`, and the
+// `modal-actions` slot.
 //
-// TWO geometry kinds, same map. `points` are individual locations (one
-// component's work areas). `areas` are filled rings — at the index, each
-// component's footprint, the hull of the work areas it owns. Areas draw UNDER
-// points and are translucent, so overlap is legible rather than occluding: the
-// call was explicit that components overlapping is fine and reads the way
-// habitat layers do.
+// WHAT THE GEOMETRY IS, per caller, because none of it is a surveyed boundary yet:
+//   · project    — a centreline through the conveyance corridor buffered ~2.4 km each
+//     side, derived from the 231 real DCP geotech coordinates. Stands in for the
+//     boundary a project will UPLOAD once the spatial-data epic lands.
+//   · component  — the hull of the component's work areas. A Component has NO geometry
+//     column at all, and BCN-1584 (which adds one) has zero commits. Work areas are
+//     the only real geometry a component owns, already returned by the work-areas
+//     endpoint and discarded by every current surface.
+//   · work areas — the points themselves, which is what BCN-1583 slice 1 proposes.
+// Every caller therefore names its own source in the provenance field rather than
+// letting the map imply an authority the data does not have.
 //
-// ONE component, TWO callers:
-//   · variant="inset" — the component dashboard's right-rail card: a small
-//     non-interactive picture with an expand action that opens the real map in
-//     an esa-dialog.
-//   · variant="full"  — the components index: the interactive map at full width,
-//     no dialog, no heading (the PAGE owns the heading at that size; `title`
-//     still names the map for assistive tech).
+// THREE geometry kinds, drawn in this order: areas (translucent, so overlap is
+// legible), then lines (dashed by default — a derived centreline is not a survey),
+// then points on top. The design call was explicit that overlapping components are
+// fine and read the way species habitat layers do.
+//
+// TWO variants:
+//   · variant="inset" — a right-rail card (project dashboard, component dashboard):
+//     a small non-interactive picture with an expand action that opens the real map
+//     in an esa-dialog.
+//   · variant="full"  — the components index: the interactive map at full width, no
+//     dialog, no heading (the PAGE owns the heading at that size; `title` still
+//     names the map for assistive tech).
 //
 // MULTI-INSTANCE CONTRACT — the thing BcnProjectMap got wrong. That component
 // hardcodes every DOM id (`bcn-map-inset`, `bcn-map-dialog`, `bcn-map-full`,
@@ -33,9 +43,9 @@
 // `idPrefix`, and — because an Astro `<script>` is hoisted and bundled ONCE per
 // page rather than re-run per instance — no prop is visible to the controller as
 // a closure. Props are threaded through the DOM instead: `data-*` on the root
-// plus a sibling `<script type="application/json" data-bcn-cmap-data={idPrefix}>`
+// plus a sibling `<script type="application/json" data-bcn-fmap-data={idPrefix}>`
 // payload (the idiom BcnProjectTimeline and BcnProjectMap already use). The
-// module walks every `[data-bcn-cmap]` and builds an independent map per root.
+// module walks every `[data-bcn-fmap]` and builds an independent map per root.
 //
 // Three Leaflet gotchas — the first two recorded in the project-map handoff,
 // the third found rendering this component on the components index:
@@ -92,11 +102,36 @@ export interface MapArea {
   color?: string;
 }
 
+export interface MapLine {
+  id: string;
+  /** Open path of [lat, lon] pairs — a corridor centreline, an alignment, a reach. */
+  path: [number, number][];
+  label?: string;
+  /** A TOKEN REFERENCE, never a hex. */
+  color?: string;
+  /** Dashed by default: a derived or planned line should not read as a surveyed one. */
+  solid?: boolean;
+}
+
+/**
+ * A legend row. `shape` matters because the three geometry kinds do not read as the
+ * same swatch — a dot for a point, a bordered block for a filled area, a dashed rule
+ * for a line. BcnProjectMap drew its two keys by hand for exactly this reason; making
+ * shape a prop is what let that component be absorbed rather than kept.
+ */
+export interface MapLegendRow {
+  label: string;
+  color: string;
+  shape?: 'dot' | 'area' | 'line';
+}
+
 interface Props {
   /** Points to plot. For the detail page, one component's work areas. */
   points?: MapPoint[];
   /** Filled rings drawn under the points. For the index, one footprint per component. */
   areas?: MapArea[];
+  /** Paths drawn over the areas. For the project, the tunnel alignment. */
+  lines?: MapLine[];
   /** 'inset' = small non-interactive card that expands to a modal; 'full' = large interactive map. */
   variant?: 'inset' | 'full';
   title?: string;
@@ -104,17 +139,21 @@ interface Props {
   idPrefix: string;
   /** Rendered as a field on the card, never as a caption. e.g. 'Work area locations (35)'. */
   sourceLabel?: string;
-  /** Optional legend rows: { label, color } — color is a TOKEN reference. */
-  legend?: { label: string; color: string }[];
+  /** The provenance field's LABEL — 'Geometry source' here, 'Boundary source' for a project. */
+  sourceName?: string;
+  /** Optional legend rows — color is a TOKEN reference. */
+  legend?: MapLegendRow[];
 }
 
 const {
   points = [],
   areas = [],
+  lines = [],
   variant = 'inset',
   title = 'Component footprint',
   idPrefix,
   sourceLabel,
+  sourceName = 'Geometry source',
   legend = [],
 } = Astro.props;
 
@@ -148,6 +187,13 @@ const payload = {
     label: a.label ?? a.id,
     color: a.color ?? FALLBACK_COLOR,
   })),
+  lines: lines.map((l) => ({
+    id: l.id,
+    path: l.path,
+    label: l.label ?? l.id,
+    color: l.color ?? FALLBACK_COLOR,
+    solid: l.solid === true,
+  })),
 };
 
 const count = points.length + areas.length;
@@ -162,9 +208,9 @@ const expandId = `${idPrefix}-expand`;
 ---
 
 <div
-  class="bcn-cmap"
+  class="bcn-fmap"
   id={`${idPrefix}-root`}
-  data-bcn-cmap
+  data-bcn-fmap
   data-prefix={idPrefix}
   data-variant={variant}
 >
@@ -177,11 +223,11 @@ const expandId = `${idPrefix}-expand`;
         </span>
 
         <div class="stack" data-gap="sm">
-          <div class="bcn-cmap__surface bcn-cmap__surface--inset" id={insetId} role="img" aria-label={mapLabel}></div>
+          <div class="bcn-fmap__surface bcn-fmap__surface--inset" id={insetId} role="img" aria-label={mapLabel}></div>
           {sourceLabel && (
-            <p class="bcn-cmap__source">
-              <span class="bcn-cmap__source-label">Geometry source</span>
-              <span class="bcn-cmap__source-value">{sourceLabel}</span>
+            <p class="bcn-fmap__source">
+              <span class="bcn-fmap__source-label">{sourceName}</span>
+              <span class="bcn-fmap__source-value">{sourceLabel}</span>
             </p>
           )}
         </div>
@@ -189,27 +235,32 @@ const expandId = `${idPrefix}-expand`;
     ) : (
       <div class="stack" data-gap="sm">
         <div
-          class="bcn-cmap__surface bcn-cmap__surface--full"
+          class="bcn-fmap__surface bcn-fmap__surface--full"
           id={fullId}
           role="region"
           aria-label={mapLabel}
         ></div>
         {(legend.length > 0 || sourceLabel) && (
-          <div class="bcn-cmap__foot">
+          <div class="bcn-fmap__foot">
             {legend.length > 0 && (
-              <ul class="cluster bcn-cmap__legend" data-gap="md">
+              <ul class="cluster bcn-fmap__legend" data-gap="md">
                 {legend.map((row) => (
-                  <li class="bcn-cmap__legend-row">
-                    <span class="bcn-cmap__key" style={`--_cmap-key: ${row.color};`} aria-hidden="true"></span>
+                  <li class="bcn-fmap__legend-row">
+                    <span
+                      class="bcn-fmap__key"
+                      data-shape={row.shape ?? 'dot'}
+                      style={`--_cmap-key: ${row.color};`}
+                      aria-hidden="true"
+                    />
                     {row.label}
                   </li>
                 ))}
               </ul>
             )}
             {sourceLabel && (
-              <p class="bcn-cmap__source">
-                <span class="bcn-cmap__source-label">Geometry source</span>
-                <span class="bcn-cmap__source-value">{sourceLabel}</span>
+              <p class="bcn-fmap__source">
+                <span class="bcn-fmap__source-label">{sourceName}</span>
+                <span class="bcn-fmap__source-value">{sourceLabel}</span>
               </p>
             )}
           </div>
@@ -221,17 +272,27 @@ const expandId = `${idPrefix}-expand`;
   {
     variant === 'inset' && (
       <esa-dialog id={dialogId} heading={title} size="lg" style="--z-modal: 1300; --z-modal-backdrop: 1250;">
-        <div class="bcn-cmap__surface bcn-cmap__surface--modal" id={fullId}></div>
-        {legend.length > 0 && (
-          <ul slot="footer" class="cluster bcn-cmap__legend" data-gap="md">
-            {legend.map((row) => (
-              <li class="bcn-cmap__legend-row">
-                <span class="bcn-cmap__key" style={`--_cmap-key: ${row.color};`} aria-hidden="true"></span>
-                {row.label}
-              </li>
-            ))}
-          </ul>
-        )}
+        <div class="bcn-fmap__surface bcn-fmap__surface--modal" id={fullId}></div>
+        <div slot="footer" class="bcn-fmap__modal-foot">
+          {legend.length > 0 && (
+            <ul class="cluster bcn-fmap__legend" data-gap="md">
+              {legend.map((row) => (
+                <li class="bcn-fmap__legend-row">
+                  <span
+                    class="bcn-fmap__key"
+                    data-shape={row.shape ?? 'dot'}
+                    style={`--_cmap-key: ${row.color};`}
+                    aria-hidden="true"
+                  />
+                  {row.label}
+                </li>
+              ))}
+            </ul>
+          )}
+          {/* Where a caller puts an action that belongs to the geometry itself —
+              the project map's "Upload boundary" is the case this exists for. */}
+          <slot name="modal-actions" />
+        </div>
       </esa-dialog>
     )
   }
@@ -239,7 +300,7 @@ const expandId = `${idPrefix}-expand`;
 
 <script
   type="application/json"
-  data-bcn-cmap-data={idPrefix}
+  data-bcn-fmap-data={idPrefix}
   set:html={JSON.stringify(payload)}
 ></script>
 
@@ -264,9 +325,18 @@ const expandId = `${idPrefix}-expand`;
     color: string;
   }
 
+  interface MapLine {
+    id: string;
+    path: [number, number][];
+    label: string;
+    color: string;
+    solid: boolean;
+  }
+
   interface MapData {
     points: MapPoint[];
     areas: MapArea[];
+    lines: MapLine[];
   }
 
   type CmapRoot = HTMLElement & { _bcnCmapReady?: boolean };
@@ -315,10 +385,10 @@ const expandId = `${idPrefix}-expand`;
 
   const LIVE_OPTIONS: L.MapOptions = { zoomControl: true, attributionControl: true };
 
-  const EMPTY: MapData = { points: [], areas: [] };
+  const EMPTY: MapData = { points: [], areas: [], lines: [] };
 
   function readData(prefix: string): MapData {
-    const el = document.querySelector(`[data-bcn-cmap-data="${prefix}"]`);
+    const el = document.querySelector(`[data-bcn-fmap-data="${prefix}"]`);
     if (!el) return EMPTY;
     try {
       const parsed = JSON.parse(el.textContent || 'null');
@@ -326,6 +396,7 @@ const expandId = `${idPrefix}-expand`;
       return {
         points: Array.isArray(parsed.points) ? parsed.points : [],
         areas: Array.isArray(parsed.areas) ? parsed.areas : [],
+        lines: Array.isArray(parsed.lines) ? parsed.lines : [],
       };
     } catch {
       return EMPTY;
@@ -336,6 +407,7 @@ const expandId = `${idPrefix}-expand`;
   const extentOf = (d: MapData): L.LatLngTuple[] => [
     ...d.points.map((p) => [p.lat, p.lon] as L.LatLngTuple),
     ...d.areas.flatMap((a) => a.ring.map((r) => [r[0], r[1]] as L.LatLngTuple)),
+    ...d.lines.flatMap((l) => l.path.map((r) => [r[0], r[1]] as L.LatLngTuple)),
   ];
 
   /** Draw the geometry into `map` and fit the view to it. */
@@ -367,6 +439,21 @@ const expandId = `${idPrefix}-expand`;
         shape.on('mouseout', () => shape.setStyle({ fillOpacity: 0.18, weight: 2 }));
       }
       shape.addTo(group);
+    }
+
+    // Lines over areas, under points: an alignment should read as crossing its
+    // footprints, and dashed by default because a derived centreline is not a survey.
+    for (const l of data.lines) {
+      const color = resolveColor(l.color);
+      const line = L.polyline(l.path as L.LatLngExpression[], {
+        color,
+        weight: interactive ? 3 : 2,
+        opacity: 0.9,
+        dashArray: l.solid ? undefined : '5 5',
+        interactive,
+      });
+      if (interactive) line.bindTooltip(l.label, { sticky: true, direction: 'top' });
+      line.addTo(group);
     }
 
     for (const p of data.points) {
@@ -470,13 +557,13 @@ const expandId = `${idPrefix}-expand`;
     });
   }
 
-  document.querySelectorAll<CmapRoot>('[data-bcn-cmap]').forEach(build);
+  document.querySelectorAll<CmapRoot>('[data-bcn-fmap]').forEach(build);
 </script>
 
 <style>
   /* Map-container geometry only — rounded, clipped, sunken while tiles load;
      the same treatment BcnProjectMap and BcnObservationMap give their surfaces. */
-  .bcn-cmap__surface {
+  .bcn-fmap__surface {
     width: 100%;
     border-radius: var(--radius-200);
     border: 1px solid var(--color-border);
@@ -485,50 +572,50 @@ const expandId = `${idPrefix}-expand`;
   }
 
   /* Rail inset — a fixed band that reads as a picture. */
-  .bcn-cmap__surface--inset {
+  .bcn-fmap__surface--inset {
     height: 180px;
   }
 
   /* Full page view and the modal both hold a generous FIXED frame that never
      resizes on interaction (design-principles: stabilize the frame). */
-  .bcn-cmap__surface--full {
+  .bcn-fmap__surface--full {
     height: min(64vh, 560px);
   }
-  .bcn-cmap__surface--modal {
+  .bcn-fmap__surface--modal {
     height: min(70vh, 620px);
   }
 
   /* Leaflet injects .leaflet-container itself, so it is outside Astro's scope. */
-  .bcn-cmap__surface :global(.leaflet-container) {
+  .bcn-fmap__surface :global(.leaflet-container) {
     font-family: var(--font-sans, inherit);
     background: var(--color-surface-sunken);
   }
   /* A picture must not offer a grab cursor it won't honor. */
-  .bcn-cmap__surface--inset :global(.leaflet-container) {
+  .bcn-fmap__surface--inset :global(.leaflet-container) {
     cursor: default;
   }
-  .bcn-cmap__surface :global(.leaflet-interactive) {
+  .bcn-fmap__surface :global(.leaflet-interactive) {
     cursor: pointer;
   }
 
   /* Provenance is a FIELD (label + value), never a caption under the map — once
      the boundary epic lands this same slot names the uploaded geometry. */
-  .bcn-cmap__source {
+  .bcn-fmap__source {
     display: flex;
     flex-direction: column;
     gap: 1px;
     margin: 0;
     font-size: 0.8125rem; /* 13px — the meta floor */
   }
-  .bcn-cmap__source-label {
+  .bcn-fmap__source-label {
     color: var(--color-text-tertiary);
   }
-  .bcn-cmap__source-value {
+  .bcn-fmap__source-value {
     font-weight: var(--font-weight-medium);
     color: var(--color-text-secondary);
   }
 
-  .bcn-cmap__foot {
+  .bcn-fmap__foot {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
@@ -536,7 +623,18 @@ const expandId = `${idPrefix}-expand`;
     flex-wrap: wrap;
   }
 
-  .bcn-cmap__legend {
+  /* The modal footer: legend left, any geometry action (e.g. "Upload boundary")
+     right — the Windows order this house follows puts the action group last. */
+  .bcn-fmap__modal-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-400);
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .bcn-fmap__legend {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -544,22 +642,43 @@ const expandId = `${idPrefix}-expand`;
     font-size: var(--type-size-150);
     color: var(--color-text-secondary);
   }
-  .bcn-cmap__foot .bcn-cmap__legend {
+  /* In BOTH footers the legend sits beside something else, so it must not claim the
+     full width — otherwise it pushes the sibling action onto its own row. */
+  .bcn-fmap__foot .bcn-fmap__legend,
+  .bcn-fmap__modal-foot .bcn-fmap__legend {
     width: auto;
   }
-  .bcn-cmap__legend-row {
+  .bcn-fmap__legend-row {
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-100);
   }
-  /* The key mirrors the marker: a small filled dot, colored by the SAME token
-     the point carries. --_cmap-key is set inline from the legend prop. */
-  .bcn-cmap__key {
+  /* The key mirrors what it stands for, so a legend row is readable without the
+     label: a filled dot for a point, a translucent bordered block for a filled area,
+     a dashed rule for a line. --_cmap-key is set inline from the legend prop. */
+  .bcn-fmap__key {
+    flex-shrink: 0;
+    background: var(--_cmap-key, var(--color-border, #dcdcdc));
+  }
+  .bcn-fmap__key[data-shape='dot'] {
     width: 10px;
     height: 10px;
     border-radius: var(--radius-full, 999px);
-    flex-shrink: 0;
-    background: var(--_cmap-key, var(--color-border, #dcdcdc));
     box-shadow: 0 0 0 1px var(--color-surface, #ffffff);
+  }
+  /* Matches the polygon's own treatment — 18% fill inside a solid edge. */
+  .bcn-fmap__key[data-shape='area'] {
+    width: 14px;
+    height: 10px;
+    border-radius: 2px;
+    background: color-mix(in srgb, var(--_cmap-key, #dcdcdc) 18%, transparent);
+    border: 1px solid var(--_cmap-key, #dcdcdc);
+  }
+  /* A rule, not a block — and dashed, matching the polyline's default dashArray. */
+  .bcn-fmap__key[data-shape='line'] {
+    width: 16px;
+    height: 0;
+    background: none;
+    border-top: 2px dashed var(--_cmap-key, #dcdcdc);
   }
 </style>

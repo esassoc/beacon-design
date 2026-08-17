@@ -49,7 +49,7 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
 import BcnComponentSummary from '../../components/bcn/BcnComponentSummary.astro';
 import BcnComponentGrid from '../../components/bcn/BcnComponentGrid.astro';
-import BcnComponentMap from '../../components/bcn/BcnComponentMap.astro';
+import BcnFootprintMap from '../../components/bcn/BcnFootprintMap.astro';
 import { DENSE, summarize } from '../../data/component-dashboard';
 import { INDEX_MAP_LEGEND, componentFootprints } from '../../data/component-index-map';
 import { componentNav, COMPONENT_DASHBOARD_HREF } from '../../data/component-nav';
@@ -67,7 +67,7 @@ const mappedSites = footprints.reduce((n, f) => n + f.siteCount, 0);
     - new component   -> esa-button
     - status summary  -> bcn-component-summary         # project-wide component health
     - grid view       -> bcn-component-grid            # mark + colored status; routes to the dashboard
-    - map view        -> bcn-component-map             # footprints along the alignment, colored by status
+    - map view        -> bcn-footprint-map             # footprints along the alignment, colored by status
 -->
 
 <AppShell
@@ -93,7 +93,7 @@ const mappedSites = footprints.reduce((n, f) => n + f.siteCount, 0);
       </div>
 
       <div data-view-panel="map" hidden>
-        <BcnComponentMap
+        <BcnFootprintMap
           areas={mapAreas}
           variant="full"
           idPrefix="cmp-index-map"

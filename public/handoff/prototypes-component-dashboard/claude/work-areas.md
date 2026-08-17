@@ -83,13 +83,13 @@ The work-areas grid, moved onto the dashboard from the tab this effort retires, 
     <div class="esa-card__body">
       <div class="bcn-wa__toolbar">
         <div class="repel bcn-wa__chrome" data-wa-chrome="">
-          <div class="cluster bcn-wa__search" data-gap="xs">
-            <esa-text-field
-              data-wa-search="true"
+          <span class="bcn-gchrome__search"
+            ><esa-text-field
               placeholder="Search grid…"
               size="sm"
-            ></esa-text-field>
-            <span data-wa-search-clear="" hidden=""
+              data-wa-search="true"
+            ></esa-text-field
+            ><span data-wa-search-clear="true" class="astro-hf6tmutk" hidden=""
               ><button
                 class="esa-icon-button esa-icon-button--sm"
                 type="button"
@@ -112,9 +112,8 @@ The work-areas grid, moved onto the dashboard from the tab this effort retires, 
                     <path d="m6 6 12 12"></path>
                   </svg>
                 </span>
-              </button>
-            </span>
-          </div>
+              </button> </span
+          ></span>
           <div class="cluster bcn-wa__right" data-gap="sm" data-align="center">
             <div
               class="cluster bcn-wa__bulk"
@@ -164,21 +163,19 @@ The work-areas grid, moved onto the dashboard from the tab this effort retires, 
                 </button>
               </span>
             </div>
-            <span
-              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
-            >
-              <button
-                class="esa-button__native"
-                type="button"
-                data-wa-clear-filters="true"
+            <span data-wa-clear-filters="true" class="astro-hf6tmutk"
+              ><span
+                class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
               >
-                <span class="esa-button__label"> Clear Filters </span>
-              </button>
+                <button class="esa-button__native" type="button">
+                  <span class="esa-button__label"> Clear Filters </span>
+                </button>
+              </span>
             </span>
           </div>
         </div>
       </div>
-      <div class="bcn-wa__grid" data-wa-grid="">
+      <div class="bcn-wa__grid" data-wa-host="">
         <div
           class="ag-theme-buttonStyle-1 ag-theme-columnDropStyle-2 ag-theme-batchEditStyle-3 ag-theme-checkboxStyle-4 ag-theme-iconSet-5 ag-theme-tabStyle-6 ag-theme-inputStyle-7 ag-theme-columnDropStyle-2 ag-theme-part-8 ag-theme-params-1"
           style="height: 100%; --ag-internal-row-border-width: 1px"
@@ -4331,34 +4328,39 @@ The work-areas grid, moved onto the dashboard from the tab this effort retires, 
           </div>
         </div>
       </div>
-      <div class="repel bcn-wa__footer">
-        <span
-          class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
-        >
-          <button class="esa-button__native" type="button" data-wa-download="true">
-            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                focusable="false"
-              >
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" x2="12" y1="15" y2="3"></line>
-              </svg>
-            </span>
-            <span class="esa-button__label"> Download as CSV </span>
-          </button>
+      <div class="repel bcn-gfoot" data-gap="md">
+        <span data-wa-download="true" class="astro-awujj5yf">
+          <span
+            class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+          >
+            <button class="esa-button__native" type="button">
+              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" x2="12" y1="15" y2="3"></line>
+                </svg>
+              </span>
+              <span class="esa-button__label"> Download as CSV </span>
+            </button>
+          </span>
         </span>
-        <div class="bcn-wa__records">
-          Total Records: <span data-wa-total="">35</span>
-          <span class="bcn-wa__filtered" data-wa-filtered="" hidden=""></span>
+        <div class="cluster bcn-gfoot__count" data-gap="md">
+          <span
+            >Total Records:
+            <span data-wa-total="true" class="astro-awujj5yf">35</span></span
+          >
+          <span class="bcn-gfoot__filtered" data-wa-filtered="true" hidden=""></span>
         </div>
       </div>
       <script type="application/json" data-wa-data="">
@@ -5838,9 +5840,6 @@ The work-areas grid, moved onto the dashboard from the tab this effort retires, 
 .side-nav.collapsed .nav-section__header>.esa-icon:last-child{display:none}
 .bcn-mod__link .esa-icon{color:var(--color-text-muted)}
 .bcn-count{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 var(--spacing-100);font-size:.8125rem;font-weight:var(--font-weight-medium);color:var(--color-text-secondary);background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-100);font-variant-numeric:tabular-nums;white-space:nowrap}
-.cluster{--gap: var(--spacing-300, .75rem);--align: center;--justify: flex-start;display:flex;flex-wrap:wrap;gap:var(--gap);align-items:var(--align);justify-content:var(--justify)}
-.repel{--gap: var(--spacing-400, 1rem);--align: center;display:flex;flex-wrap:wrap;gap:var(--gap);align-items:var(--align);justify-content:space-between}
-.type-card-title{font-size:var(--type-size-400);font-weight:var(--font-weight-medium);line-height:var(--line-height-normal);letter-spacing:var(--letter-spacing-normal)}
 .bcn-wa__title{margin:0;font-family:var(--font-decorative);font-weight:var(--font-weight-semibold);color:var(--color-text-primary)}
 .bcn-wa__acres{font-size:.875rem;color:var(--color-text-secondary);font-variant-numeric:tabular-nums}
 .bcn-wa__toolbar{margin-bottom:var(--spacing-300)}
@@ -5861,14 +5860,17 @@ The work-areas grid, moved onto the dashboard from the tab this effort retires, 
 .bcn-wa .bcn-grid-name{color:var(--color-text-link);font-weight:var(--font-weight-regular);text-decoration:underline}
 .bcn-wa .bcn-grid-name:hover{color:var(--color-primary-hover)}
 .bcn-wa .bcn-wa__num{font-variant-numeric:tabular-nums}
-.bcn-wa .bcn-wa__chip{--_tone: var(--bcn-status-not-started);display:inline-flex;align-items:center;gap:var(--spacing-150);padding:1px var(--spacing-200);border-radius:var(--radius-100);font-size:.875rem;line-height:1.5;font-weight:var(--font-weight-medium);white-space:nowrap;background:color-mix(in srgb,var(--_tone) 16%,transparent);color:color-mix(in srgb,var(--_tone) 70%,var(--color-text-primary))}
-.bcn-wa .bcn-wa__chip:before{content:"";width:7px;height:7px;border-radius:var(--radius-full);background:var(--_tone);flex-shrink:0}
-.bcn-wa .bcn-wa__chip[data-tone=cleared]{--_tone: var(--color-success)}
-.bcn-wa .bcn-wa__chip[data-tone=scheduled]{--_tone: var(--color-info)}
-.bcn-wa .bcn-wa__chip[data-tone=in-progress]{--_tone: var(--color-warning)}
-.bcn-wa .bcn-wa__chip[data-tone=not-started]{--_tone: var(--bcn-status-not-started)}
+.bcn-wa .bcn-wa__chip{--_tone: var(--bcn-status-not-started, #bdbdbd);display:inline-flex;align-items:center;gap:var(--spacing-150);padding:1px var(--spacing-200);border-radius:var(--radius-100);font-size:.875rem;line-height:1.5;font-weight:var(--font-weight-medium);white-space:nowrap;background:color-mix(in srgb,var(--_tone, #bdbdbd) 16%,transparent);color:color-mix(in srgb,var(--_tone, #bdbdbd) 70%,var(--color-text-primary))}
+.bcn-wa .bcn-wa__chip:before{content:"";width:7px;height:7px;border-radius:var(--radius-full);background:var(--_tone, #bdbdbd);flex-shrink:0}
+.bcn-wa .bcn-wa__chip[data-tone=cleared]{--_tone: var(--color-success, #2e7571)}
+.bcn-wa .bcn-wa__chip[data-tone=scheduled]{--_tone: var(--color-info, #228be6)}
+.bcn-wa .bcn-wa__chip[data-tone=in-progress]{--_tone: var(--color-warning, #f59e0b)}
+.bcn-wa .bcn-wa__chip[data-tone=not-started]{--_tone: var(--bcn-status-not-started, #bdbdbd)}
 .bcn-wa .ag-cell.bcn-wa__chip-cell{display:flex;align-items:center}
 .bcn-sw__head .esa-icon{color:var(--color-text-secondary)}
+.cluster{--gap: var(--spacing-300, .75rem);--align: center;--justify: flex-start;display:flex;flex-wrap:wrap;gap:var(--gap);align-items:var(--align);justify-content:var(--justify)}
+.repel{--gap: var(--spacing-400, 1rem);--align: center;display:flex;flex-wrap:wrap;gap:var(--gap);align-items:var(--align);justify-content:space-between}
+.type-card-title{font-size:var(--type-size-400);font-weight:var(--font-weight-medium);line-height:var(--line-height-normal);letter-spacing:var(--letter-spacing-normal)}
 .esa-card{--_card-bg: var(--card-bg, var(--color-surface, #ffffff));--_card-border: var(--card-border-color, var(--color-border, #e5e5e5));--_card-radius: var(--card-radius, var(--radius-300, .5rem));--_card-padding: var(--card-padding, var(--spacing-500, 1.5rem));--_card-header-bg: var(--card-header-bg, transparent);--_card-header-color: var(--card-header-color, var(--color-text-primary, #171717));--_card-header-border: var(--card-header-border-color, var(--color-border-light, #efefef));display:block;background:var(--_card-bg);border:1px solid var(--_card-border);border-radius:var(--_card-radius);overflow:hidden}
 .esa-card--outlined{--_card-border: var(--color-border, #e5e5e5)}
 .esa-card--elevated{--_card-border: transparent;box-shadow:var(--shadow-100, 0 2px 12px 0 rgba(0, 0, 0, .04))}
@@ -5901,6 +5903,11 @@ The work-areas grid, moved onto the dashboard from the tab this effort retires, 
 .esa-icon-button--lg{--_ib-size: var(--form-height-lg, 48px)}
 .esa-icon-button:hover{background:var(--_ib-bg-hover)}
 .esa-icon-button:focus-visible{outline:var(--focus-ring-width) solid currentColor;outline-offset:var(--focus-ring-offset, 2px)}
+.bcn-gchrome__search{display:inline-flex;align-items:center;gap:var(--spacing-100);min-inline-size:15rem}
+.bcn-gchrome__search esa-text-field{inline-size:100%}
+.bcn-gfoot__count{font-size:var(--type-size-150);color:var(--color-text-secondary);font-variant-numeric:tabular-nums}
+.bcn-gfoot__filtered{color:var(--color-text-tertiary)}
+.bcn-gfoot__filtered[hidden]{display:none}
 .breadcrumbs__items .esa-icon{color:var(--bcn-gray-400)}
 .page-layout__title h1 .esa-icon{color:var(--bcn-gray-1000);flex-shrink:0}
 ```

@@ -247,15 +247,6 @@ How much of this component's commitment applicability is settled, and the door i
   border-radius: 50%;
   animation: esa-button-spin 0.6s linear infinite;
 }
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-}
-.stack[data-split] > [data-split] {
-  margin-block-end: auto;
-}
 .esa-progress-bar {
   --_progress-height: var(--progress-bar-height-md, 8px);
   --_progress-radius: var(--progress-bar-radius, var(--radius-full, 9999px));
@@ -328,6 +319,15 @@ How much of this component's commitment applicability is settled, and the door i
 }
 .bcn-csc__foot {
   padding-top: var(--spacing-100);
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+.stack[data-split] > [data-split] {
+  margin-block-end: auto;
 }
 .esa-stat {
   --_stat-value-color: var(--stat-value-color, var(--color-text-primary, #171717));

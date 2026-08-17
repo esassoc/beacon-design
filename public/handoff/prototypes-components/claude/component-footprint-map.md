@@ -20,15 +20,15 @@ The second view, asked for explicitly on the design call: where the components A
 ## Markup
 ```html
 <div
-  class="bcn-cmap"
+  class="bcn-fmap"
   id="cmp-index-map-root"
-  data-bcn-cmap=""
+  data-bcn-fmap=""
   data-prefix="cmp-index-map"
   data-variant="full"
 >
   <div class="stack" data-gap="sm">
     <div
-      class="bcn-cmap__surface bcn-cmap__surface--full leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
+      class="bcn-fmap__surface bcn-fmap__surface--full leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom"
       id="cmp-index-map-full"
       role="region"
       aria-label="Component footprints — 16 footprints"
@@ -321,44 +321,48 @@ The second view, asked for explicitly on the design call: where the components A
         </div>
       </div>
     </div>
-    <div class="bcn-cmap__foot">
-      <ul class="cluster bcn-cmap__legend" data-gap="md">
-        <li class="bcn-cmap__legend-row">
+    <div class="bcn-fmap__foot">
+      <ul class="cluster bcn-fmap__legend" data-gap="md">
+        <li class="bcn-fmap__legend-row">
           <span
-            class="bcn-cmap__key"
+            class="bcn-fmap__key"
+            data-shape="area"
             style="--_cmap-key: var(--bcn-status-not-started)"
             aria-hidden="true"
           ></span>
           Not started
         </li>
-        <li class="bcn-cmap__legend-row">
+        <li class="bcn-fmap__legend-row">
           <span
-            class="bcn-cmap__key"
+            class="bcn-fmap__key"
+            data-shape="area"
             style="--_cmap-key: var(--color-warning)"
             aria-hidden="true"
           ></span>
           In progress
         </li>
-        <li class="bcn-cmap__legend-row">
+        <li class="bcn-fmap__legend-row">
           <span
-            class="bcn-cmap__key"
+            class="bcn-fmap__key"
+            data-shape="area"
             style="--_cmap-key: var(--bcn-status-on-hold)"
             aria-hidden="true"
           ></span>
           On hold
         </li>
-        <li class="bcn-cmap__legend-row">
+        <li class="bcn-fmap__legend-row">
           <span
-            class="bcn-cmap__key"
+            class="bcn-fmap__key"
+            data-shape="area"
             style="--_cmap-key: var(--color-success)"
             aria-hidden="true"
           ></span>
           Complete
         </li>
       </ul>
-      <p class="bcn-cmap__source">
-        <span class="bcn-cmap__source-label">Geometry source</span>
-        <span class="bcn-cmap__source-value">Work areas (80 across 16 components)</span>
+      <p class="bcn-fmap__source">
+        <span class="bcn-fmap__source-label">Geometry source</span>
+        <span class="bcn-fmap__source-value">Work areas (80 across 16 components)</span>
       </p>
     </div>
   </div>
@@ -849,54 +853,62 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .leaflet-container .leaflet-tooltip-right:before {
   border-right-color: var(--color-surface, #ffffff);
 }
-.bcn-cmap__surface {
+.bcn-fmap__surface {
   width: 100%;
   border-radius: var(--radius-200);
   border: 1px solid var(--color-border);
   overflow: hidden;
   background: var(--color-surface-sunken);
 }
-.bcn-cmap__surface--inset {
+.bcn-fmap__surface--inset {
   height: 180px;
 }
-.bcn-cmap__surface--full {
+.bcn-fmap__surface--full {
   height: min(64vh, 560px);
 }
-.bcn-cmap__surface--modal {
+.bcn-fmap__surface--modal {
   height: min(70vh, 620px);
 }
-.bcn-cmap__surface .leaflet-container {
+.bcn-fmap__surface .leaflet-container {
   font-family: var(--font-sans, inherit);
   background: var(--color-surface-sunken);
 }
-.bcn-cmap__surface--inset .leaflet-container {
+.bcn-fmap__surface--inset .leaflet-container {
   cursor: default;
 }
-.bcn-cmap__surface .leaflet-interactive {
+.bcn-fmap__surface .leaflet-interactive {
   cursor: pointer;
 }
-.bcn-cmap__source {
+.bcn-fmap__source {
   display: flex;
   flex-direction: column;
   gap: 1px;
   margin: 0;
   font-size: 0.8125rem;
 }
-.bcn-cmap__source-label {
+.bcn-fmap__source-label {
   color: var(--color-text-tertiary);
 }
-.bcn-cmap__source-value {
+.bcn-fmap__source-value {
   font-weight: var(--font-weight-medium);
   color: var(--color-text-secondary);
 }
-.bcn-cmap__foot {
+.bcn-fmap__foot {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: var(--spacing-400);
   flex-wrap: wrap;
 }
-.bcn-cmap__legend {
+.bcn-fmap__modal-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-400);
+  width: 100%;
+  flex-wrap: wrap;
+}
+.bcn-fmap__legend {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -904,21 +916,37 @@ svg.leaflet-image-layer.leaflet-interactive path {
   font-size: var(--type-size-150);
   color: var(--color-text-secondary);
 }
-.bcn-cmap__foot .bcn-cmap__legend {
+.bcn-fmap__foot .bcn-fmap__legend,
+.bcn-fmap__modal-foot .bcn-fmap__legend {
   width: auto;
 }
-.bcn-cmap__legend-row {
+.bcn-fmap__legend-row {
   display: inline-flex;
   align-items: center;
   gap: var(--spacing-100);
 }
-.bcn-cmap__key {
+.bcn-fmap__key {
+  flex-shrink: 0;
+  background: var(--_cmap-key, var(--color-border, #dcdcdc));
+}
+.bcn-fmap__key[data-shape="dot"] {
   width: 10px;
   height: 10px;
   border-radius: var(--radius-full, 999px);
-  flex-shrink: 0;
-  background: var(--_cmap-key, var(--color-border, #dcdcdc));
   box-shadow: 0 0 0 1px var(--color-surface, #ffffff);
+}
+.bcn-fmap__key[data-shape="area"] {
+  width: 14px;
+  height: 10px;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--_cmap-key, #dcdcdc) 18%, transparent);
+  border: 1px solid var(--_cmap-key, #dcdcdc);
+}
+.bcn-fmap__key[data-shape="line"] {
+  width: 16px;
+  height: 0;
+  background: none;
+  border-top: 2px dashed var(--_cmap-key, #dcdcdc);
 }
 ```
 

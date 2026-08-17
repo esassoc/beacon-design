@@ -110,6 +110,33 @@ The project record's own fields — description, start and end dates, and attach
   color: var(--color-text-tertiary);
   flex: none;
 }
+.bcn-disclosure .esa-icon {
+  transition: transform 0.15s ease;
+}
+.bcn-disclosure[aria-expanded="false"] .esa-icon {
+  transform: rotate(-90deg);
+}
+.bcn-ev-staging__title .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.bcn-ev-staging__item .esa-card {
+  overflow: visible;
+}
+.bcn-ev-targets__title .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.bcn-ev-targets__item[data-receiving] .esa-card {
+  border-color: var(--color-secondary);
+  background: color-mix(in srgb, var(--color-secondary) 5%, transparent);
+}
+.bcn-ev-targets__item[data-blocked] .esa-card {
+  opacity: 0.45;
+}
+.bcn-ev-targets__item .esa-card {
+  overflow: visible;
+}
 .topbar__right .esa-icon-button {
   color: var(--color-text-secondary);
 }
@@ -201,6 +228,73 @@ The project record's own fields — description, start and end dates, and attach
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon-button {
+  --_ib-size: var(--form-height-md, 40px);
+  --_ib-bg-hover: var(
+    --icon-button-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_ib-size);
+  height: var(--_ib-size);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-200, 8px);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-icon-button--xs {
+  --_ib-size: var(--form-height-xs, 28px);
+}
+.esa-icon-button--sm {
+  --_ib-size: var(--form-height-sm, 32px);
+}
+.esa-icon-button--lg {
+  --_ib-size: var(--form-height-lg, 48px);
+}
+.esa-icon-button:hover {
+  background: var(--_ib-bg-hover);
+}
+.esa-icon-button:focus-visible {
+  outline: var(--focus-ring-width) solid currentColor;
+  outline-offset: var(--focus-ring-offset, 2px);
 }
 .esa-card {
   --_card-bg: var(--card-bg, var(--color-surface, #ffffff));
@@ -298,73 +392,6 @@ The project record's own fields — description, start and end dates, and attach
   border-top: 1px solid var(--_card-header-border);
   background: var(--card-footer-bg, var(--color-surface-sunken, #efefef));
 }
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(
-    --icon-button-bg-hover,
-    color-mix(in srgb, currentColor 14%, transparent)
-  );
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-icon-button--xs {
-  --_ib-size: var(--form-height-xs, 28px);
-}
-.esa-icon-button--sm {
-  --_ib-size: var(--form-height-sm, 32px);
-}
-.esa-icon-button--lg {
-  --_ib-size: var(--form-height-lg, 48px);
-}
-.esa-icon-button:hover {
-  background: var(--_ib-bg-hover);
-}
-.esa-icon-button:focus-visible {
-  outline: var(--focus-ring-width) solid currentColor;
-  outline-offset: var(--focus-ring-offset, 2px);
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);
 }
@@ -394,6 +421,7 @@ The project record's own fields — description, start and end dates, and attach
 - `--color-border-light`: #efefef _(semantic)_
 - `--color-danger`: #e5484d _(semantic)_
 - `--color-primary`: #005862 _(semantic)_
+- `--color-secondary`: #00918b _(semantic)_
 - `--color-surface`: #fcfcfc _(semantic)_
 - `--color-surface-sunken`: #efefef _(semantic)_
 - `--color-text-inverse`: #fcfcfc _(semantic)_

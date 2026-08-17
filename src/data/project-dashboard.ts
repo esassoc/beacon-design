@@ -21,6 +21,7 @@
 
 import { PROJECT_DATA_META } from './project-data';
 import type { ActionType } from './project-actions';
+import dcpGeo from './dcp-geo.json';
 
 export const TODAY = '2026-03-25';
 
@@ -344,6 +345,21 @@ export const WIZARD_HREF = '#project-setup';
  * (e.g. "DCP_Boundary_2026.kmz") in the same slot.
  */
 export const BOUNDARY_SOURCE = 'Geotech exploration extent (derived)';
+
+/**
+ * The boundary ring and the tunnel alignment as [lat, lon] pairs.
+ *
+ * dcp-geo.json is GeoJSON, so its coordinates are [lon, lat] — the opposite order
+ * from every non-GeoJSON Leaflet API. BcnProjectMap used to hide that by handing the
+ * raw GeoJSON to `L.geoJSON()`; now that the project and component maps are one
+ * component taking plain rings and paths, the flip happens ONCE here rather than in
+ * each caller, where getting it backwards puts the Delta in the Indian Ocean.
+ */
+const flip = (pairs: number[][]): [number, number][] =>
+  pairs.map(([lon, lat]) => [lat, lon] as [number, number]);
+
+export const PROJECT_BOUNDARY_RING: [number, number][] = flip(dcpGeo.boundary.coordinates[0]);
+export const PROJECT_ALIGNMENT_PATH: [number, number][] = flip(dcpGeo.alignment.coordinates);
 
 // ── Project data — the quiet utility rail (project-level CRUD) ────────────────
 // Minimal utility text links, NOT the overly prominent PROD tabs. Every entry

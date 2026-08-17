@@ -606,6 +606,72 @@ The three work areas as equal cards, each rolling up this component's actions of
 .bcn-sw__head .esa-icon {
   color: var(--color-text-secondary);
 }
+.esa-stat {
+  --_stat-value-color: var(--stat-value-color, var(--color-text-primary, #171717));
+  --_stat-value-font: var(
+    --stat-value-font,
+    var(--font-display, var(--font-sans, "DM Sans", sans-serif))
+  );
+  --_stat-value-size: var(--stat-value-size, var(--type-size-700, 2.25rem));
+  --_stat-value-weight: var(--stat-value-weight, var(--font-weight-bold, 650));
+  --_stat-label-color: var(--stat-label-color, var(--color-text-secondary, #525252));
+  --_stat-label-size: var(--stat-label-size, var(--type-size-200, 0.9375rem));
+  --_stat-label-weight: var(--stat-label-weight, var(--font-weight-medium, 450));
+  --_stat-sub-color: var(--stat-sub-color, var(--color-text-muted, #737373));
+  --_stat-sub-size: var(--stat-sub-size, var(--type-size-150, 0.875rem));
+  --_stat-accent-color: var(--stat-accent-color, var(--color-secondary-strong, #3a7c59));
+  --_stat-gap: var(--stat-gap, var(--spacing-050, 0.125rem));
+  display: flex;
+  flex-direction: column;
+  gap: var(--_stat-gap);
+  background: transparent;
+}
+.esa-stat__value {
+  font-family: var(--_stat-value-font);
+  font-size: var(--_stat-value-size);
+  font-weight: var(--_stat-value-weight);
+  line-height: var(--line-height-tight, 1.3);
+  letter-spacing: var(--letter-spacing-tight, -0.01em);
+  color: var(--_stat-value-color);
+}
+.esa-stat--accent .esa-stat__value {
+  color: var(--_stat-accent-color);
+}
+.esa-stat__label {
+  font-size: var(--_stat-label-size);
+  font-weight: var(--_stat-label-weight);
+  line-height: var(--line-height-normal, 1.6);
+  color: var(--_stat-label-color);
+}
+.esa-stat__sub {
+  font-size: var(--_stat-sub-size);
+  font-weight: var(--font-weight-regular, 350);
+  line-height: var(--line-height-normal, 1.6);
+  color: var(--_stat-sub-color);
+}
+.bcn-cbadge {
+  display: inline-block;
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 12%, white);
+  border-radius: var(--radius-100);
+  white-space: nowrap;
+}
+.bcn-cbadge--md {
+  font-size: var(--type-size-100);
+  padding: 1px var(--spacing-200);
+}
+.bcn-cbadge--sm {
+  font-size: 0.75rem;
+  padding: 1px var(--spacing-150);
+}
+.bcn-cbadge--neutral {
+  font-family: var(--font-sans);
+  color: var(--bcn-gray-700);
+  background: var(--bcn-gray-100);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
@@ -672,72 +738,6 @@ The three work areas as equal cards, each rolling up this component's actions of
 .esa-icon-button:focus-visible {
   outline: var(--focus-ring-width) solid currentColor;
   outline-offset: var(--focus-ring-offset, 2px);
-}
-.bcn-cbadge {
-  display: inline-block;
-  flex-shrink: 0;
-  font-family: var(--font-mono);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-  border-radius: var(--radius-100);
-  white-space: nowrap;
-}
-.bcn-cbadge--md {
-  font-size: var(--type-size-100);
-  padding: 1px var(--spacing-200);
-}
-.bcn-cbadge--sm {
-  font-size: 0.75rem;
-  padding: 1px var(--spacing-150);
-}
-.bcn-cbadge--neutral {
-  font-family: var(--font-sans);
-  color: var(--bcn-gray-700);
-  background: var(--bcn-gray-100);
-}
-.esa-stat {
-  --_stat-value-color: var(--stat-value-color, var(--color-text-primary, #171717));
-  --_stat-value-font: var(
-    --stat-value-font,
-    var(--font-display, var(--font-sans, "DM Sans", sans-serif))
-  );
-  --_stat-value-size: var(--stat-value-size, var(--type-size-700, 2.25rem));
-  --_stat-value-weight: var(--stat-value-weight, var(--font-weight-bold, 650));
-  --_stat-label-color: var(--stat-label-color, var(--color-text-secondary, #525252));
-  --_stat-label-size: var(--stat-label-size, var(--type-size-200, 0.9375rem));
-  --_stat-label-weight: var(--stat-label-weight, var(--font-weight-medium, 450));
-  --_stat-sub-color: var(--stat-sub-color, var(--color-text-muted, #737373));
-  --_stat-sub-size: var(--stat-sub-size, var(--type-size-150, 0.875rem));
-  --_stat-accent-color: var(--stat-accent-color, var(--color-secondary-strong, #3a7c59));
-  --_stat-gap: var(--stat-gap, var(--spacing-050, 0.125rem));
-  display: flex;
-  flex-direction: column;
-  gap: var(--_stat-gap);
-  background: transparent;
-}
-.esa-stat__value {
-  font-family: var(--_stat-value-font);
-  font-size: var(--_stat-value-size);
-  font-weight: var(--_stat-value-weight);
-  line-height: var(--line-height-tight, 1.3);
-  letter-spacing: var(--letter-spacing-tight, -0.01em);
-  color: var(--_stat-value-color);
-}
-.esa-stat--accent .esa-stat__value {
-  color: var(--_stat-accent-color);
-}
-.esa-stat__label {
-  font-size: var(--_stat-label-size);
-  font-weight: var(--_stat-label-weight);
-  line-height: var(--line-height-normal, 1.6);
-  color: var(--_stat-label-color);
-}
-.esa-stat__sub {
-  font-size: var(--_stat-sub-size);
-  font-weight: var(--font-weight-regular, 350);
-  line-height: var(--line-height-normal, 1.6);
-  color: var(--_stat-sub-color);
 }
 .breadcrumbs__items .esa-icon {
   color: var(--bcn-gray-400);

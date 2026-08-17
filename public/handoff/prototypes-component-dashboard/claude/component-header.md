@@ -227,13 +227,6 @@ The component's identity band: a full-width white bar carrying its mark, its nam
 .bcn-mod__link .esa-icon {
   color: var(--color-text-muted);
 }
-.type-page-title {
-  font-family: var(--font-display, var(--font-sans));
-  font-size: var(--type-size-600);
-  font-weight: var(--font-weight-semibold);
-  line-height: var(--line-height-tight);
-  letter-spacing: var(--letter-spacing-tight);
-}
 .bcn-entity-logo {
   display: inline-flex;
   align-items: center;
@@ -389,6 +382,13 @@ The component's identity band: a full-width white bar carrying its mark, its nam
 }
 .bcn-sw__head .esa-icon {
   color: var(--color-text-secondary);
+}
+.type-page-title {
+  font-family: var(--font-display, var(--font-sans));
+  font-size: var(--type-size-600);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
 }
 .bcn-status-chip {
   display: inline-flex;

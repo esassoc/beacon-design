@@ -55,7 +55,7 @@ import BcnModules from '../../components/bcn/BcnModules.astro';
 import BcnWorkAreaBoard from '../../components/bcn/BcnWorkAreaBoard.astro';
 import BcnComponentSetupCard from '../../components/bcn/BcnComponentSetupCard.astro';
 import BcnLinkRowCard from '../../components/bcn/BcnLinkRowCard.astro';
-import BcnComponentMap from '../../components/bcn/BcnComponentMap.astro';
+import BcnFootprintMap from '../../components/bcn/BcnFootprintMap.astro';
 import BcnProjectFacts from '../../components/bcn/BcnProjectFacts.astro';
 import BcnComponentDataPanel from '../../components/bcn/BcnComponentDataPanel.astro';
 import BcnLogoPicker from '../../components/bcn/BcnLogoPicker.astro';
@@ -87,7 +87,7 @@ import { DECIDED_PERCENT, LAST_REVIEWED, PENDING_ACTION_COUNT, SETUP_TOTALS, fmt
     - work areas            -> bcn-work-area-board        # the retired tab's grid + its bulk actions
     - component setup       -> bcn-component-setup-card   # applicable-commitment progress; opens the wide drawer
     - component data rail   -> bcn-link-row-card          # four rows, not six; opens panels via ?data=<key>
-    - component map         -> bcn-component-map          # work-area footprint, inset -> modal
+    - component map         -> bcn-footprint-map          # work-area footprint, inset -> modal
     - component details     -> bcn-project-facts          # Component-record fields + files
     - component data panel  -> bcn-component-data-panel   # the ?data= side panels
     - logo picker           -> bcn-logo-picker            # glyph x color mark editor
@@ -136,7 +136,7 @@ import { DECIDED_PERCENT, LAST_REVIEWED, PENDING_ACTION_COUNT, SETUP_TOTALS, fmt
       <div class="sidebar" data-side="end" data-gap="xl" style="--sidebar-width: 21.5rem; --sidebar-content-min: 64%;">
         <div class="stack" data-gap="lg">
           <BcnLinkRowCard title="Component data" rows={COMPONENT_UTILITIES} chevrons />
-          <BcnComponentMap
+          <BcnFootprintMap
             points={COMPONENT_MAP_POINTS}
             variant="inset"
             idPrefix="cmp-footprint"
