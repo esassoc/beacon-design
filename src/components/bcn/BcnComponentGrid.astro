@@ -21,19 +21,25 @@
 // (deterministic, no Math.random()). The glyph `paths` come straight out of
 // data/entity-marks.ts so this drawing and BcnEntityLogo's can never diverge.
 //
+// The grid chrome and the footer are SHARED with BcnWorkAreaBoard — BcnGridChrome,
+// BcnGridFooter, and mountBeaconGrid() in src/lib/beacon-grid.ts. Both grids had
+// built all three by hand until the decomposition review caught it (2026-08-17).
+// What stays here is what is actually specific to this grid: the columns, the
+// identity-mark cell, and the row-click route.
+//
 // bcn-lego-checked: no esa-* data-grid lego exists — the hub's `esa-grid` is a
 // documentation page with no component source, and the nearest real legos are
 // esa-card (a box) and esa-link-column (a card of bare links). Checked Beacon: its
 // component list IS an AG Grid, and this spoke already ships that ported prod theme
 // as a shared kit (src/lib/beacon-grid.ts), which is what this composes. The SHELL
 // is esa-card (header + actions slot + footer slot do the whole grid chrome), the
-// controls are esa-text-field / esa-button / esa-icon-button, the status cell is a
-// the shared quiet-chip renderer, and the footer/header rows are the `repel`/`cluster` layout
-// primitives. What is left below is grid-host geometry plus the two cell looks AG
-// Grid injects outside Astro's scope.
+// controls come from bcn-grid-chrome / bcn-grid-footer (themselves esa-text-field /
+// esa-button / esa-icon-button), and the status cell is the shared quiet-chip
+// renderer. What is left below is grid-host geometry plus the cell looks AG Grid
+// injects outside Astro's scope.
 import EsaCard from '@esa/ecology/esa-card.astro';
-import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
+import BcnGridChrome from './BcnGridChrome.astro';
+import BcnGridFooter from './BcnGridFooter.astro';
 import {
   byNeedsAttention,
   marksForProject,
@@ -91,25 +97,13 @@ const rows = byNeedsAttention(components).map((c) => {
 <section class="bcn-cg" data-cg aria-label={title}>
   <EsaCard title={title} padding="compact">
     <Fragment slot="actions">
-      <span class="bcn-cg__search">
-        <esa-text-field placeholder="Search grid…" size="sm" data-cg-search></esa-text-field>
-      </span>
-      <span data-cg-search-clear hidden><EsaIconButton icon="x" label="Clear search" size="sm" /></span>
-      <span data-cg-clear-filters><EsaButton color="ghost" appearance="outline" size="sm">Clear Filters</EsaButton></span>
+      <BcnGridChrome prefix="cg" />
     </Fragment>
 
     <div class="bcn-cg__host" data-cg-host></div>
 
     <Fragment slot="footer">
-      <div class="repel" data-gap="md">
-        <span data-cg-download>
-          <EsaButton color="ghost" appearance="outline" size="sm" icon="download">Download as CSV</EsaButton>
-        </span>
-        <div class="cluster bcn-cg__count" data-gap="md">
-          <span>Total Records: <span data-cg-total>{rows.length}</span></span>
-          <span class="bcn-cg__count-filtered" data-cg-filtered hidden></span>
-        </div>
-      </div>
+      <BcnGridFooter prefix="cg" total={rows.length} />
     </Fragment>
   </EsaCard>
 
@@ -117,12 +111,9 @@ const rows = byNeedsAttention(components).map((c) => {
 </section>
 
 <script>
-  import { createGrid, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
-  import type { ColDef, GridApi, GridOptions, ICellRendererParams } from 'ag-grid-community';
-  import { settingsTheme, makeQuietChipRenderer } from '../../lib/beacon-grid';
+  import type { ColDef, GridOptions, ICellRendererParams } from 'ag-grid-community';
+  import { settingsTheme, makeQuietChipRenderer, mountBeaconGrid } from '../../lib/beacon-grid';
   import '@esa/ecology/esa-text-field';
-
-  ModuleRegistry.registerModules([AllCommunityModule]);
 
   interface Row {
     name: string;
@@ -156,8 +147,7 @@ const rows = byNeedsAttention(components).map((c) => {
 
   for (const mount of document.querySelectorAll<HTMLElement>('[data-cg]')) {
     const data = mount.querySelector('[data-cg-data]');
-    const host = mount.querySelector<HTMLElement>('[data-cg-host]');
-    if (!data || !host) continue;
+    if (!data) continue;
 
     const rows: Row[] = JSON.parse(data.textContent || '[]');
 
@@ -270,21 +260,6 @@ const rows = byNeedsAttention(components).map((c) => {
       { field: 'updated', headerName: 'Updated', width: 138 },
     ];
 
-    const totalEl = mount.querySelector<HTMLElement>('[data-cg-total]')!;
-    const filteredEl = mount.querySelector<HTMLElement>('[data-cg-filtered]')!;
-    // Takes the api off the event rather than the closure — `api` below is still in
-    // its temporal dead zone if AG Grid fires first-render synchronously.
-    function updateCounts(e: { api: GridApi<Row> }) {
-      const displayed = e.api.getDisplayedRowCount();
-      totalEl.textContent = String(rows.length);
-      if (displayed < rows.length) {
-        filteredEl.hidden = false;
-        filteredEl.textContent = `Filtered Records: ${displayed}`;
-      } else {
-        filteredEl.hidden = true;
-      }
-    }
-
     const gridOptions: GridOptions<Row> = {
       theme: componentGridTheme,
       rowData: rows,
@@ -302,8 +277,6 @@ const rows = byNeedsAttention(components).map((c) => {
       },
       tooltipShowDelay: 0,
       tooltipShowMode: 'whenTruncated',
-      onFirstDataRendered: updateCounts,
-      onFilterChanged: updateCounts,
       // Row click routes to the component dashboard. Clicking the name anchor
       // navigates on its own to the same href, so the two never disagree.
       onRowClicked: (e) => {
@@ -311,62 +284,30 @@ const rows = byNeedsAttention(components).map((c) => {
       },
     };
 
-    const api: GridApi<Row> = createGrid(host, gridOptions);
-
-    // Header chrome: search → quick filter (+ its clear-x), and clear-all-filters.
-    const search = mount.querySelector('[data-cg-search]') as (HTMLElement & { value: string }) | null;
-    const searchClear = mount.querySelector<HTMLElement>('[data-cg-search-clear]');
-    search?.addEventListener('change', (e) => {
-      const value = (e as CustomEvent).detail?.value ?? search.value ?? '';
-      api.setGridOption('quickFilterText', value);
-      if (searchClear) searchClear.hidden = !value;
+    // Chrome, counts and CSV are the shared kit's; this grid never mutates rowData,
+    // so the total is fixed for its lifetime.
+    mountBeaconGrid<Row>({
+      mount,
+      prefix: 'cg',
+      gridOptions,
+      csvName: 'components.csv',
+      totalRows: () => rows.length,
     });
-    searchClear?.addEventListener('click', () => {
-      if (search) search.value = '';
-      api.setGridOption('quickFilterText', '');
-      searchClear.hidden = true;
-    });
-
-    mount
-      .querySelector('[data-cg-clear-filters]')
-      ?.addEventListener('click', () => api.setFilterModel(null));
-    mount
-      .querySelector('[data-cg-download]')
-      ?.addEventListener('click', () => api.exportDataAsCsv({ fileName: 'components.csv' }));
   }
 </script>
 
 <style>
-  /* bcn-lego-checked: grid-host geometry, the card's header/footer control rows, and
-     the cell looks AG Grid injects outside Astro's scope (identity mark, name link,
-     numeric cells). Every control here is an esa-* lego; no
-     primitive is reinvented. See the header note for the full lookup. */
-
-  .bcn-cg__search {
-    display: inline-flex;
-    min-inline-size: 15rem;
-  }
-  .bcn-cg__search :global(esa-text-field) {
-    inline-size: 100%;
-  }
+  /* bcn-lego-checked: grid-host geometry plus the cell looks AG Grid injects outside
+     Astro's scope (identity mark, status chip, name link, numeric cells). The search /
+     clear-filters row and the download / record-count strip are no longer here — they
+     are bcn-grid-chrome and bcn-grid-footer, shared with the work-area board. See the
+     header note for the full lookup. */
 
   /* A GENEROUS, FIXED scrollport. It holds its height through every filter and search
      so the page below it never jumps — the frame is stable, the content compresses. */
   .bcn-cg__host {
     inline-size: 100%;
     block-size: 38rem;
-  }
-
-  .bcn-cg__count {
-    font-size: var(--type-size-150);
-    color: var(--color-text-secondary);
-    font-variant-numeric: tabular-nums;
-  }
-  .bcn-cg__count-filtered {
-    color: var(--color-text-tertiary);
-  }
-  .bcn-cg__count-filtered[hidden] {
-    display: none;
   }
 
   /* ── Injected cells ─────────────────────────────────────────────────────── */

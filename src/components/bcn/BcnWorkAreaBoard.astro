@@ -42,8 +42,9 @@
 // AG Grid injects outside Astro's scope. bcn-work-area-board is the reusable home.
 import EsaCard from '@esa/ecology/esa-card.astro';
 import EsaButton from '@esa/ecology/esa-button.astro';
-import EsaIconButton from '@esa/ecology/esa-icon-button.astro';
 import BcnCount from './BcnCount.astro';
+import BcnGridChrome from './BcnGridChrome.astro';
+import BcnGridFooter from './BcnGridFooter.astro';
 import type { WorkArea } from '../../data/component-detail';
 import { withBase } from '../../lib/base';
 
@@ -111,10 +112,12 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
          height-reserved, the bulk group still costs no vertical space when idle. -->
     <div class="bcn-wa__toolbar">
       <div class="repel bcn-wa__chrome" data-wa-chrome>
-        <div class="cluster bcn-wa__search" data-gap="xs">
-          <esa-text-field data-wa-search placeholder="Search grid…" size="sm"></esa-text-field>
-          <span data-wa-search-clear hidden><EsaIconButton icon="x" label="Clear search" size="sm" /></span>
-        </div>
+        {/* Search and Clear Filters are bcn-grid-chrome, shared with the component
+            index — but placed SEPARATELY here, which is why that component takes an
+            `only` prop. The placement is the one decided at review: search hard left,
+            and Clear Filters grouped right so the bulk bar sits BESIDE the chrome
+            rather than covering it. */}
+        <BcnGridChrome prefix="wa" only="search" />
 
         <div class="cluster bcn-wa__right" data-gap="sm" data-align="center">
           <div class="cluster bcn-wa__bulk" data-wa-bulk data-gap="xs" data-align="center" hidden>
@@ -122,20 +125,14 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
             <EsaButton color="danger" appearance="soft" size="sm" icon="trash-2" data-wa-delete>Delete</EsaButton>
             <EsaButton color="ghost" appearance="outline" size="sm" data-wa-bulk-clear>Clear selection</EsaButton>
           </div>
-          <EsaButton color="ghost" appearance="outline" size="sm" data-wa-clear-filters>Clear Filters</EsaButton>
+          <BcnGridChrome prefix="wa" only="clear-filters" />
         </div>
       </div>
     </div>
 
-    <div class="bcn-wa__grid" data-wa-grid></div>
+    <div class="bcn-wa__grid" data-wa-host></div>
 
-    <div class="repel bcn-wa__footer">
-      <EsaButton color="ghost" appearance="outline" size="sm" icon="download" data-wa-download>Download as CSV</EsaButton>
-      <div class="bcn-wa__records">
-        Total Records: <span data-wa-total>0</span>
-        <span class="bcn-wa__filtered" data-wa-filtered hidden></span>
-      </div>
-    </div>
+    <BcnGridFooter prefix="wa" total={workAreas.length} />
 
     <script type="application/json" data-wa-data set:html={JSON.stringify(payload)} />
   </EsaCard>
@@ -145,12 +142,9 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
   // One script per page, however many boards are on it: every [data-work-area-board]
   // mounts from its own inline payload, and every handle is a data-attribute scoped to
   // that mount — no page-global ids, so two boards never collide.
-  import { createGrid, ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
   import type { ColDef, GridApi, GridOptions, ICellRendererParams } from 'ag-grid-community';
-  import { beaconTheme, makeQuietChipRenderer } from '../../lib/beacon-grid';
+  import { beaconTheme, makeQuietChipRenderer, mountBeaconGrid } from '../../lib/beacon-grid';
   import '@esa/ecology/esa-text-field';
-
-  ModuleRegistry.registerModules([AllCommunityModule]);
 
   interface Row {
     identifier: string;
@@ -202,8 +196,7 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
 
   for (const mount of document.querySelectorAll<HTMLElement>('[data-work-area-board]')) {
     const data = mount.querySelector('[data-wa-data]');
-    const host = mount.querySelector<HTMLElement>('[data-wa-grid]');
-    if (!data || !host) continue;
+    if (!data) continue;
 
     const { rows, plural, singular, csvName }: Payload = JSON.parse(data.textContent || '{}');
     const pick = <T extends HTMLElement>(sel: string) => mount.querySelector<T>(sel)!;
@@ -260,31 +253,20 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
       { field: 'entryAgreement', headerName: 'Entry agreement', flex: 1.2, minWidth: 170 },
     ];
 
-    const totalEl = pick('[data-wa-total]');
-    const filteredEl = pick<HTMLElement>('[data-wa-filtered]');
     // bcn-count renders one span; the wrapper lets the board retitle it without
-    // reaching for the component's internal class name.
+    // reaching for the component's internal class name. It is this board's ONLY
+    // count extra — the footer's Total/Filtered pair is the shared kit's.
     const countEl = mount.querySelector<HTMLElement>('[data-wa-count] > *');
-    function updateCounts() {
-      const displayed = api.getDisplayedRowCount();
-      const total = rowData.length;
-      totalEl.textContent = String(total);
-      if (countEl) {
-        countEl.textContent = String(total);
-        countEl.setAttribute('aria-label', `${total} ${total === 1 ? singular : plural}`);
-      }
-      if (displayed < total) {
-        filteredEl.hidden = false;
-        filteredEl.textContent = `Filtered Records: ${displayed}`;
-      } else {
-        filteredEl.hidden = true;
-      }
-    }
 
     const bulk = pick<HTMLElement>('[data-wa-bulk]');
     const bulkCount = pick('[data-wa-bulk-count]');
+    // Declared BEFORE gridOptions and assigned after the mount: onSelectionChanged is
+    // wired during grid creation, so a `const api` below it would be in its temporal
+    // dead zone if AG Grid ever fired the event synchronously. The guard makes that
+    // a no-op instead of a crash.
+    let api: GridApi<Row> | null = null;
     function updateBulkBar() {
-      const n = api.getSelectedRows().length;
+      const n = api?.getSelectedRows().length ?? 0;
       // `hidden` (not visibility) so the group leaves the tab order and the a11y
       // tree entirely — no reachable invisible control. The search field beside it
       // is untouched: it stays visible and usable while rows are selected.
@@ -309,8 +291,6 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
       // click-to-select stays off so row clicks and selection don't fight.
       rowSelection: { mode: 'multiRow' },
       onSelectionChanged: () => updateBulkBar(),
-      onFirstDataRendered: updateCounts,
-      onFilterChanged: updateCounts,
       // Row click opens the work area — EXCEPT on the selection checkbox, which would
       // otherwise navigate away the instant a row was ticked.
       onRowClicked: (e) => {
@@ -319,23 +299,27 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
       },
     };
 
-    const api: GridApi<Row> = createGrid(host, gridOptions);
-
-    // ── Grid chrome: search → quick filter (+ clear-x), clear filters, CSV ─────
-    const search = pick<HTMLElement & { value: string }>('[data-wa-search]');
-    const searchClear = pick<HTMLElement>('[data-wa-search-clear]');
-    search.addEventListener('change', (e) => {
-      const v = (e as CustomEvent).detail?.value ?? search.value ?? '';
-      api.setGridOption('quickFilterText', v);
-      searchClear.hidden = !v;
+    // Chrome, footer counts and CSV come from the shared kit. `totalRows` is a
+    // FUNCTION because bulk delete rewrites rowData — a captured length would leave
+    // the footer claiming the pre-delete count.
+    const grid = mountBeaconGrid<Row>({
+      mount,
+      prefix: 'wa',
+      gridOptions,
+      csvName,
+      totalRows: () => rowData.length,
+      onCountsChanged: ({ total }) => {
+        if (!countEl) return;
+        countEl.textContent = String(total);
+        countEl.setAttribute('aria-label', `${total} ${total === 1 ? singular : plural}`);
+      },
     });
-    searchClear.addEventListener('click', () => {
-      search.value = '';
-      api.setGridOption('quickFilterText', '');
-      searchClear.hidden = true;
-    });
-    pick('[data-wa-clear-filters]').addEventListener('click', () => api.setFilterModel(null));
-    pick('[data-wa-download]').addEventListener('click', () => api.exportDataAsCsv({ fileName: csvName }));
+    if (!grid) continue;
+    api = grid.api;
+    // Non-null alias for the handlers below — `api` stays nullable only so
+    // updateBulkBar can be defined before the mount.
+    const gridApi = grid.api;
+    const updateCounts = grid.updateCounts;
 
     // ── Header + bulk actions ─────────────────────────────────────────────────
     // Create and Bulk import (CSV or zipped shapefile, matching prod's capability)
@@ -345,15 +329,15 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
 
     pick('[data-wa-create]').addEventListener('click', () => emit('bcn-work-area-create'));
     pick('[data-wa-import]').addEventListener('click', () => emit('bcn-work-areas-import'));
-    pick('[data-wa-bulk-clear]').addEventListener('click', () => api.deselectAll());
+    pick('[data-wa-bulk-clear]').addEventListener('click', () => gridApi.deselectAll());
     pick('[data-wa-delete]').addEventListener('click', () => {
-      const selected = api.getSelectedRows();
+      const selected = gridApi.getSelectedRows();
       if (!selected.length) return;
       const gone = new Set(selected);
       rowData = rowData.filter((r) => !gone.has(r));
       // Resetting rowData (rather than a remove transaction) also clears the
       // selection, so the bulk bar retires with the rows it acted on.
-      api.setGridOption('rowData', rowData);
+      gridApi.setGridOption('rowData', rowData);
       updateCounts();
       updateBulkBar();
       emit('bcn-work-areas-delete', { identifiers: selected.map((r) => r.identifier) });
