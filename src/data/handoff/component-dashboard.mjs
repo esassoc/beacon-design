@@ -152,6 +152,30 @@ export default {
       ],
     },
     {
+      label: 'Applicable Commitments drawer',
+      selector: '.bcn-sw',
+      intent:
+        'The surface that actually settles applicability: a wide side drawer listing the project commitments not yet decided for THIS component, with a preview beside the list, filters that work, and decisions that stage before they commit. It replaces the Component Setup tab, and it is the largest single piece of new design in this epic.',
+      decisions: [
+        'DECISIONS STAGE, THEY DO NOT FIRE. Apply and Dismiss mark a commitment and update the pending-changes summary; nothing is written until Save. That is what makes bulk action safe to offer — prod applies immediately, one PATCH per click, with no way back.',
+        'Every count is scoped to this component and agrees with the list it labels. The view chips (Needs a decision / New since review / Applied / Dismissed) each carry their own figure, so the number and the list can never disagree the way prod\'s tab badge does.',
+        'A decision names its CONSEQUENCE before it is made — applying materializes action implementations onto the component, which is what fills the tracker. Prod never states this anywhere.',
+        'Filters are keyword search plus Source document / Requirement type / Species. Selecting one does NOT spawn a chip row: the control already shows its own state, and chips restating it were removed at review (2026-08-14).',
+        'Rationale is captured per commitment. A batch rationale must warn, naming how many existing rationales it would overwrite — prod overwrites silently.',
+        'Clicking anywhere on a commitment card except the checkbox and the action buttons opens its preview. The checkbox owns generous space of its own so it reads as the separate, actionable thing it is.',
+      ],
+      gotchas: [
+        'THE DIAGNOSIS THIS SURFACE EXISTS FOR: ComponentCommitment.IsApplicable is NOT NULL, so there is no stored "pending" state. vComponentCommitmentDecisions manufactures it by LEFT JOINing every component in the project against every commitment in the project and calling the misses Pending. The badge therefore counts the PROJECT, re-inflates whenever any source document gains a commitment, and can never reach zero. Do not port that figure. Full teardown, including the seven defects it produces, is in docs/component-setup-model-comparison.md.',
+        'REQUIREMENT TYPE AND SPECIES ARE FILTERS ONLY — decided 2026-08-17. They are deliberately NOT shown on the commitment card or in the preview. An earlier pass carried them as a meta line under each row; it was cut as tagline noise, and after review the decision is to leave them off rather than restore them. They remain useful for narrowing a large set and are not useful as per-row decoration. Do not re-add them to the card as part of "completing" it.',
+        'THERE IS NO UNSET PATH TODAY. Once a ComponentCommitment row exists it is applied or dismissed forever. This surface assumes undo is possible; it does NOT show what happens to the action implementations a dismissal already deleted. Resolve that before slicing — it is one of the three open questions in the model-comparison doc.',
+        'A "Suggested" affordance was prototyped and REMOVED (2026-08-14). It matched on shared species or requirement type with commitments already applied here, which is a weak signal on a decision with real consequences, and the prototype was authoring it by hand rather than deriving it. Do not reintroduce it without a real signal behind it.',
+        'The list and the preview scroll INDEPENDENTLY, and the bulk action bar is static rather than living at the bottom of the list — a user acting on several items should not have to scroll to the end of the list to find the controls.',
+      ],
+      acceptance: [
+        'Opening the drawer shows the undecided set with counts that match each view; filters and keyword search narrow the list; selecting a card opens its preview; Apply/Dismiss stage a decision and update a pending-changes summary without writing; Save commits and Cancel discards; a batch rationale warns before overwriting existing ones; nothing on the surface shows requirement type or species outside the filter controls.',
+      ],
+    },
+    {
       label: 'Component data rail',
       selector: '.bcn-lrc',
       intent:
