@@ -479,7 +479,7 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
      from the theme's semantic status tokens, stamped as data-tone by the kit's
      quiet-chip renderer, so no color literal reaches the JS. */
   .bcn-wa :global(.bcn-wa__chip) {
-    --_tone: var(--bcn-status-not-started);
+    --_tone: var(--bcn-status-not-started, #bdbdbd);
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-150);
@@ -489,28 +489,28 @@ const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-'
     line-height: 1.5;
     font-weight: var(--font-weight-medium);
     white-space: nowrap;
-    background: color-mix(in srgb, var(--_tone) 16%, transparent);
-    color: color-mix(in srgb, var(--_tone) 70%, var(--color-text-primary));
+    background: color-mix(in srgb, var(--_tone, #bdbdbd) 16%, transparent);
+    color: color-mix(in srgb, var(--_tone, #bdbdbd) 70%, var(--color-text-primary));
   }
   .bcn-wa :global(.bcn-wa__chip::before) {
     content: '';
     width: 7px;
     height: 7px;
     border-radius: var(--radius-full);
-    background: var(--_tone);
+    background: var(--_tone, #bdbdbd);
     flex-shrink: 0;
   }
   .bcn-wa :global(.bcn-wa__chip[data-tone='cleared']) {
-    --_tone: var(--color-success);
+    --_tone: var(--color-success, #2e7571);
   }
   .bcn-wa :global(.bcn-wa__chip[data-tone='scheduled']) {
-    --_tone: var(--color-info);
+    --_tone: var(--color-info, #228be6);
   }
   .bcn-wa :global(.bcn-wa__chip[data-tone='in-progress']) {
-    --_tone: var(--color-warning);
+    --_tone: var(--color-warning, #f59e0b);
   }
   .bcn-wa :global(.bcn-wa__chip[data-tone='not-started']) {
-    --_tone: var(--bcn-status-not-started);
+    --_tone: var(--bcn-status-not-started, #bdbdbd);
   }
   /* The chip sits centered in its row rather than baseline-hung. */
   .bcn-wa :global(.ag-cell.bcn-wa__chip-cell) {

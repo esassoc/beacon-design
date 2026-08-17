@@ -398,7 +398,7 @@ const rows = byNeedsAttention(components).map((c) => {
   /* The quiet status chip — the same dot-and-label treatment the work-area grid
      uses, tone driven from CSS so no literal reaches the cell. */
   .bcn-cg :global(.bcn-cg__chip) {
-    --_tone: var(--bcn-status-not-started);
+    --_tone: var(--bcn-status-not-started, #bdbdbd);
     display: inline-flex;
     align-items: center;
     gap: var(--spacing-150);
@@ -408,20 +408,20 @@ const rows = byNeedsAttention(components).map((c) => {
     line-height: 1.5;
     font-weight: var(--font-weight-medium);
     white-space: nowrap;
-    background: color-mix(in srgb, var(--_tone) 16%, transparent);
-    color: color-mix(in srgb, var(--_tone) 70%, var(--color-text-primary));
+    background: color-mix(in srgb, var(--_tone, #bdbdbd) 16%, transparent);
+    color: color-mix(in srgb, var(--_tone, #bdbdbd) 70%, var(--color-text-primary));
   }
   .bcn-cg :global(.bcn-cg__chip::before) {
     content: '';
     width: 7px;
     height: 7px;
     border-radius: var(--radius-full);
-    background: var(--_tone);
+    background: var(--_tone, #bdbdbd);
   }
-  .bcn-cg :global(.bcn-cg__chip[data-tone='not-started']) { --_tone: var(--bcn-status-not-started); }
-  .bcn-cg :global(.bcn-cg__chip[data-tone='in-progress']) { --_tone: var(--color-warning); }
-  .bcn-cg :global(.bcn-cg__chip[data-tone='on-hold'])     { --_tone: var(--bcn-status-on-hold); }
-  .bcn-cg :global(.bcn-cg__chip[data-tone='complete'])    { --_tone: var(--color-success); }
+  .bcn-cg :global(.bcn-cg__chip[data-tone='not-started']) { --_tone: var(--bcn-status-not-started, #bdbdbd); }
+  .bcn-cg :global(.bcn-cg__chip[data-tone='in-progress']) { --_tone: var(--color-warning, #f59e0b); }
+  .bcn-cg :global(.bcn-cg__chip[data-tone='on-hold'])     { --_tone: var(--bcn-status-on-hold, #656565); }
+  .bcn-cg :global(.bcn-cg__chip[data-tone='complete'])    { --_tone: var(--color-success, #2e7571); }
 
   .bcn-cg :global(.bcn-cg__name) {
     color: var(--color-text-link);
