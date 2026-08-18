@@ -1,0 +1,243 @@
+---
+// <BcnTimelineExplorer> — the Compliance Dashboard's "Timeline Explorer" panel,
+// replacing the old aggregate opened-vs-resolved bar chart (BcnTrendPanel).
+//
+// A 30/60/90-day toggle drives one small sparkline tile per concern category
+// (needs-attention/non-compliance scope, same as the Outstanding list and the
+// two category-count lists on this dashboard) — each tile shows the category's
+// own recent trend and current open count, so a viewer can spot which category
+// is trending up without parsing an 8-way stacked/grouped chart.
+//
+// bcn-lego-checked: this is a bespoke small-multiples sparkline grid — there is
+// NO esa-* chart lego in Ecology (same confirmed gap as BcnOversightHero /
+// BcnTrendPanel / BcnMonitoringStats). The 30/60/90 toggle IS a lego
+// (esa-button-toggle). Tile colors are a fixed categorical set (CATEGORY_COLOR
+// in the fixture) — no design-system token for chart-series color exists yet
+// (logged in docs/system-improvement-ledger.md), so these are deliberate
+// literal hex per the "no token applies" exception, not raw values standing in
+// for a token that exists. bcn-timeline-explorer is the reusable home.
+import EsaCard from '@esa/ecology/esa-card.astro';
+
+interface CategorySeries {
+  category: string;
+  color: string;
+  /** 13 weekly buckets, oldest first — count of items open as of that week. */
+  weeklyOpen: number[];
+}
+
+interface Props {
+  /** 13 labels, oldest first, already short-formatted (e.g. "May 8"). */
+  weekLabels: string[];
+  categories: CategorySeries[];
+}
+
+const { weekLabels, categories } = Astro.props;
+const payload = { weekLabels, categories };
+---
+
+<EsaCard
+  title="Timeline Explorer"
+  subtitle="Open needs-attention / non-compliance concerns by category — select a window to see the trend"
+>
+  <div class="bcn-tlx stack" data-gap="md">
+    <div class="bcn-tlx__toolbar cluster" data-gap="md" data-align="center">
+      <span class="bcn-tlx__toolbar-label type-label">Timeframe</span>
+      <esa-button-toggle id="tlx-window" size="sm"></esa-button-toggle>
+      <span class="bcn-tlx__hint type-caption" id="tlx-hint"></span>
+    </div>
+
+    <div class="bcn-tlx__grid" id="tlx-grid" aria-hidden="true"></div>
+
+    <!-- The tile grid is aria-hidden; this table is the accessible reading of
+         the full trailing-90-day dataset (not re-sliced by the toggle). -->
+    <table class="bcn-tlx__table">
+      <caption>Open needs-attention / non-compliance concerns by category, by week (trailing 90 days)</caption>
+      <thead>
+        <tr>
+          <th scope="col">Category</th>
+          {weekLabels.map((label) => <th scope="col">{label}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {categories.map((c) => (
+          <tr>
+            <th scope="row">{c.category}</th>
+            {c.weeklyOpen.map((v) => <td>{v}</td>)}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</EsaCard>
+
+<script type="application/json" id="tlx-data" set:html={JSON.stringify(payload)}></script>
+
+<script>
+  import '@esa/ecology/esa-button-toggle';
+
+  interface CategorySeries { category: string; color: string; weeklyOpen: number[]; }
+  interface Payload { weekLabels: string[]; categories: CategorySeries[]; }
+
+  const payload: Payload = JSON.parse(document.getElementById('tlx-data')!.textContent || '{}');
+  const { weekLabels, categories } = payload;
+
+  const WINDOW_WEEKS: Record<string, number> = { '30': 4, '60': 9, '90': 13 };
+
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+  const grid = $('tlx-grid');
+  const hint = $('tlx-hint');
+
+  function sliceTail<T>(arr: T[], n: number): T[] {
+    return arr.slice(arr.length - n);
+  }
+
+  function sparklinePoints(values: number[], w: number, h: number, pad: number) {
+    const max = Math.max(1, ...values);
+    const n = values.length;
+    const stepX = n > 1 ? (w - pad * 2) / (n - 1) : 0;
+    return values.map((v, i) => {
+      const x = pad + i * stepX;
+      const y = h - pad - (v / max) * (h - pad * 2);
+      return [x, y] as const;
+    });
+  }
+
+  function delta(values: number[]) {
+    const d = values[values.length - 1] - values[0];
+    if (d > 0) return { text: `↑ +${d}`, cls: 'bcn-tlx__delta--up' };
+    if (d < 0) return { text: `↓ ${d}`, cls: 'bcn-tlx__delta--down' };
+    return { text: '→ flat', cls: 'bcn-tlx__delta--flat' };
+  }
+
+  function render(days: number) {
+    const n = WINDOW_WEEKS[String(days)];
+    grid.innerHTML = '';
+    categories.forEach((cat) => {
+      const vals = sliceTail(cat.weeklyOpen, n);
+      const labs = sliceTail(weekLabels, n);
+      const pts = sparklinePoints(vals, 160, 34, 4);
+      const linePts = pts.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
+      const areaPts =
+        `M${pts.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' L')}` +
+        ` L${pts[pts.length - 1][0].toFixed(1)},30 L${pts[0][0].toFixed(1)},30 Z`;
+      const last = pts[pts.length - 1];
+      const d = delta(vals);
+      const titleText = `${cat.category}: ${labs.map((l, i) => `${l} — ${vals[i]}`).join(', ')}`;
+
+      const tile = document.createElement('div');
+      tile.className = 'bcn-tlx__tile';
+      tile.innerHTML = `
+        <div class="bcn-tlx__tile-label">${cat.category}</div>
+        <div class="bcn-tlx__tile-row">
+          <div class="bcn-tlx__tile-spark">
+            <svg viewBox="0 0 160 34" role="img" aria-label="${titleText.replace(/"/g, '&quot;')}">
+              <title>${titleText}</title>
+              <path d="${areaPts}" fill="${cat.color}" opacity="0.16" stroke="none"></path>
+              <polyline points="${linePts}" fill="none" stroke="${cat.color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></polyline>
+              <circle cx="${last[0].toFixed(1)}" cy="${last[1].toFixed(1)}" r="2.6" fill="${cat.color}"></circle>
+            </svg>
+          </div>
+          <div class="bcn-tlx__tile-stat">
+            <span class="bcn-tlx__tile-count">${vals[vals.length - 1]}</span>
+            <span class="bcn-tlx__delta ${d.cls}">${d.text}</span>
+          </div>
+        </div>`;
+      grid.appendChild(tile);
+    });
+    hint.textContent = `last ${days} days · ${n} weeks shown`;
+  }
+
+  interface ToggleEl extends HTMLElement { options: { label: string; value: string }[]; value: string; }
+  const toggle = $('tlx-window') as ToggleEl;
+  toggle.options = [
+    { label: '30d', value: '30' },
+    { label: '60d', value: '60' },
+    { label: '90d', value: '90' },
+  ];
+  toggle.value = '90';
+  toggle.addEventListener('change', (e) => {
+    render(Number((e as CustomEvent).detail.value));
+  });
+
+  render(90);
+</script>
+
+<style>
+  .bcn-tlx__toolbar-label {
+    color: var(--color-text-tertiary);
+  }
+  .bcn-tlx__hint {
+    color: var(--color-text-tertiary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .bcn-tlx__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: var(--spacing-300);
+  }
+
+  .bcn-tlx__tile {
+    background: var(--color-surface-sunken);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-200);
+    padding: var(--spacing-300) var(--spacing-350);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-150);
+  }
+  .bcn-tlx__tile-label {
+    font-size: var(--type-size-150);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bcn-tlx__tile-row {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-300);
+  }
+  .bcn-tlx__tile-spark {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+  }
+  .bcn-tlx__tile-spark svg {
+    display: block;
+    width: 100%;
+    height: 34px;
+  }
+  .bcn-tlx__tile-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-shrink: 0;
+  }
+  .bcn-tlx__tile-count {
+    font-size: var(--type-size-400);
+    font-weight: var(--font-weight-bold);
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text-primary);
+    line-height: 1;
+  }
+  .bcn-tlx__delta {
+    font-size: var(--type-size-100);
+    font-weight: var(--font-weight-semibold);
+    margin-top: 2px;
+  }
+  /* Direction is never color-alone: the arrow glyph carries it too. */
+  .bcn-tlx__delta--up { color: var(--color-warning); }
+  .bcn-tlx__delta--down { color: var(--color-success); }
+  .bcn-tlx__delta--flat { color: var(--color-text-tertiary); }
+
+  /* ── the accessible table reading of the plot (off-screen, still announced) ── */
+  .bcn-tlx__table {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+</style>

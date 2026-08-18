@@ -256,12 +256,15 @@ export function mountBeaconGrid<T>(options: MountBeaconGridOptions<T>): BeaconGr
   return { api, updateCounts: () => readCounts(api) };
 }
 
-/** Underlined teal link cell (the Name / Commitment / Source Document columns). */
+/** Underlined teal link cell (the Name / Commitment / Source Document columns).
+ * Prefers the column's formatted value (e.g. a compact date) when a
+ * `valueFormatter` is set on the colDef; falls back to the raw value
+ * otherwise, so existing callers with no formatter are unaffected. */
 export function linkRenderer(p: ICellRendererParams) {
   const el = document.createElement('a');
   el.className = 'bcn-grid-name';
   el.href = '#';
-  el.textContent = String(p.value ?? '');
+  el.textContent = String(p.valueFormatted ?? p.value ?? '');
   el.addEventListener('click', (e) => e.preventDefault());
   return el;
 }

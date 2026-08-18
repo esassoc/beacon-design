@@ -412,6 +412,16 @@ export const prototypeGroups: PrototypeGroup[] = [
         status: 'in-progress',
         tenant: 'platform',
       },
+      {
+        slug: 'monitoring-daily-reports',
+        title: 'Daily Reports',
+        description:
+          'Fieldstone Environmental Monitoring’s field-inspector activity, one row per site visit, with a real downloadable report document per row — matching the Monitoring Portal’s existing Daily Reports grid.',
+        route: '/prototypes/monitoring/daily-reports',
+        createdAt: '2026-08-05',
+        status: 'in-progress',
+        tenant: 'platform',
+      },
     ],
   },
   {
