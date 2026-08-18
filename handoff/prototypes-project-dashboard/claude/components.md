@@ -486,6 +486,9 @@ The components the user works in, as portal cards into their component dashboard
 
 ## Styles
 ```css
+.bcn-mod__link .esa-icon {
+  color: var(--color-text-muted);
+}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -562,9 +565,6 @@ The components the user works in, as portal cards into their component dashboard
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-tight);
   letter-spacing: var(--letter-spacing-tight);
-}
-.bcn-mod__link .esa-icon {
-  color: var(--color-text-muted);
 }
 .bcn-stc {
   display: flex;

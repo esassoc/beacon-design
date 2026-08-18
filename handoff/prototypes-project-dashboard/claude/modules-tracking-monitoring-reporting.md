@@ -477,76 +477,6 @@ The three work areas as a row of equal cards ABOVE the components, each owning i
 
 ## Styles
 ```css
-.bcn-search-trigger .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
-}
-.bcn-help-bar .esa-icon-button:hover,
-.bcn-help-bar .esa-icon-button:focus-visible {
-  color: var(--bcn-helpbar-fg);
-}
-.bcn-gd__label .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
-}
-.bcn-gd-row .esa-icon {
-  color: var(--color-text-tertiary);
-  flex: none;
-}
-.bcn-disclosure .esa-icon {
-  transition: transform 0.15s ease;
-}
-.bcn-disclosure[aria-expanded="false"] .esa-icon {
-  transform: rotate(-90deg);
-}
-.bcn-ev-staging__title .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.bcn-ev-targets__title .esa-icon {
-  flex: none;
-  color: var(--color-text-tertiary);
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
-}
-.user-panel__item .esa-icon {
-  color: var(--bcn-gray-500);
-}
-.user-panel__item--danger .esa-icon {
-  color: var(--color-danger);
-}
-.project-switcher__trigger > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-500);
-}
-.nav-section__header:hover .esa-icon,
-.nav-section--active .nav-section__header,
-.nav-section--active .nav-section__header .esa-icon {
-  color: var(--color-primary);
-}
-.nav-section__header > .esa-icon:first-child {
-  flex-shrink: 0;
-  color: var(--bcn-gray-950);
-  transition: color 0.15s ease;
-}
-.nav-section__header > .esa-icon:last-child {
-  color: var(--bcn-gray-400);
-  transition:
-    transform 0.15s ease,
-    opacity 0.2s ease-in-out;
-  flex-shrink: 0;
-}
-.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
-  transform: rotate(-90deg);
-}
-.side-nav.collapsed .nav-section__header > .esa-icon:last-child {
-  display: none;
-}
 .bcn-tl__pop .bcn-cbadge {
   display: inline-block;
   font-family: var(--font-mono);
@@ -723,6 +653,76 @@ The three work areas as a row of equal cards ABOVE the components, each owning i
 }
 .bcn-mod__card:hover .bcn-mod__open {
   color: var(--color-primary-hover);
+}
+.bcn-search-trigger .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.bcn-help-bar .esa-icon-button {
+  color: var(--bcn-helpbar-fg-muted);
+  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
+}
+.bcn-help-bar .esa-icon-button:hover,
+.bcn-help-bar .esa-icon-button:focus-visible {
+  color: var(--bcn-helpbar-fg);
+}
+.bcn-gd__label .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.bcn-gd-row .esa-icon {
+  color: var(--color-text-tertiary);
+  flex: none;
+}
+.bcn-disclosure .esa-icon {
+  transition: transform 0.15s ease;
+}
+.bcn-disclosure[aria-expanded="false"] .esa-icon {
+  transform: rotate(-90deg);
+}
+.bcn-ev-staging__title .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.bcn-ev-targets__title .esa-icon {
+  flex: none;
+  color: var(--color-text-tertiary);
+}
+.topbar__right .esa-icon-button {
+  color: var(--color-text-secondary);
+}
+.user-panel__item .esa-icon {
+  color: var(--bcn-gray-500);
+}
+.user-panel__item--danger .esa-icon {
+  color: var(--color-danger);
+}
+.project-switcher__trigger > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-500);
+}
+.nav-section__header:hover .esa-icon,
+.nav-section--active .nav-section__header,
+.nav-section--active .nav-section__header .esa-icon {
+  color: var(--color-primary);
+}
+.nav-section__header > .esa-icon:first-child {
+  flex-shrink: 0;
+  color: var(--bcn-gray-950);
+  transition: color 0.15s ease;
+}
+.nav-section__header > .esa-icon:last-child {
+  color: var(--bcn-gray-400);
+  transition:
+    transform 0.15s ease,
+    opacity 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+.nav-section--collapsed .nav-section__header > .esa-icon:last-child {
+  transform: rotate(-90deg);
+}
+.side-nav.collapsed .nav-section__header > .esa-icon:last-child {
+  display: none;
 }
 .bcn-cbadge {
   display: inline-block;

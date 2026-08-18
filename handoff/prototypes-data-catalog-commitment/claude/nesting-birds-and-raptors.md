@@ -391,65 +391,71 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
     </nav>
     <!-- content -->
     <div class="modern-layout__content">
+      <!-- bcn-lego-checked: esa-breadcrumbs exists, but this whole layout is a deliberate
+     VERBATIM port of prod's page-layout + breadcrumbs (see the file header) so that
+     ported Angular views match the live app; the lego has a different anatomy (no
+     home glyph, its own spacing) and swapping it would restyle the breadcrumb row on
+     all 39 pages at once. That migration is its own decision, not a side effect of
+     moving where the row sits. Only the POSITION and an end slot changed here. -->
       <div class="page-layout">
+        <section class="page-layout__breadcrumbs">
+          <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <div class="breadcrumbs__items">
+              <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+                  <path
+                    d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+                  ></path>
+                </svg>
+              </span>
+              <a class="breadcrumb-item" href="#data-catalog"> Data Catalog </a
+              ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path d="m9 18 6-6-6-6"></path>
+                </svg>
+              </span>
+              <a class="breadcrumb-item" href="#data-catalog/commitments"> Commitments </a
+              ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path d="m9 18 6-6-6-6"></path>
+                </svg>
+              </span>
+              <span class="breadcrumb-item" aria-current="page"> MM-BIO-2 </span>
+            </div>
+          </nav>
+        </section>
         <div class="page-layout__container">
-          <section class="page-layout__breadcrumbs">
-            <nav class="breadcrumbs" aria-label="Breadcrumb">
-              <div class="breadcrumbs__items">
-                <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
-                    <path
-                      d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
-                    ></path>
-                  </svg>
-                </span>
-                <a class="breadcrumb-item" href="#data-catalog"> Data Catalog </a
-                ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path d="m9 18 6-6-6-6"></path>
-                  </svg>
-                </span>
-                <a class="breadcrumb-item" href="#data-catalog/commitments"> Commitments </a
-                ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    focusable="false"
-                  >
-                    <path d="m9 18 6-6-6-6"></path>
-                  </svg>
-                </span>
-                <span class="breadcrumb-item" aria-current="page"> MM-BIO-2 </span>
-              </div>
-            </nav>
-          </section>
           <section class="page-layout__title">
             <div class="page-layout__title-main"><h1>Nesting Birds and Raptors</h1></div>
           </section>
@@ -10923,7 +10929,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </bcn-bottom-drawer>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.DYWgdQnP.js"
+    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.DmiQsqh2.js"
   ></script>
 </div>
 ```
@@ -11132,6 +11138,34 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 }
 .bcn-danger-zone__action {
   flex-shrink: 0;
+}
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
+  --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));
+  --_badge-height: var(--badge-height-md, 28px);
+  --_badge-font-size: 13px;
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  --_badge-min-width: var(--badge-height-md, 28px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--_badge-height);
+  min-width: var(--_badge-min-width);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--badge-radius, var(--radius-100, 4px));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  font-size: var(--_badge-font-size);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+.esa-badge--sm {
+  --_badge-height: var(--badge-height-sm, 22px);
+  --_badge-font-size: 11px;
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
+  --_badge-min-width: var(--badge-height-sm, 22px);
 }
 .page-layout__title {
   display: none !important;
@@ -11556,6 +11590,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   justify-content: flex-end;
   width: 100%;
 }
+.esa-pill {
+  --_pill-bg: var(--pill-bg, var(--color-surface-sunken, #efefef));
+  --_pill-text: var(--pill-text-color, var(--color-text-primary, #171717));
+  --_pill-border: var(--pill-border-color, var(--color-border-light, #efefef));
+  --_pill-height: var(--pill-height-md, 28px);
+  --_pill-font-size: 13px;
+  --_pill-padding-x: var(--spacing-200, 0.5rem);
+  --_pill-gap: var(--spacing-100, 0.25rem);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--_pill-gap);
+  height: var(--_pill-height);
+  padding-inline: var(--_pill-padding-x);
+  border: 1px solid var(--_pill-border);
+  border-radius: var(--pill-radius, var(--radius-full, 9999px));
+  background: var(--_pill-bg);
+  color: var(--_pill-text);
+  font-size: var(--_pill-font-size);
+  line-height: 1;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+.esa-pill--sm {
+  --_pill-height: var(--pill-height-sm, 22px);
+  --_pill-font-size: 11px;
+  --_pill-padding-x: var(--spacing-150, 0.375rem);
+}
+.esa-pill__label {
+  font-weight: 500;
+}
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
 .page-layout {
   display: flex;
   flex-direction: column;
@@ -11564,15 +11632,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   background: var(--bcn-gray-50);
   box-sizing: border-box;
 }
-.page-layout__container {
-  display: flex;
-  flex-direction: column;
-}
 .page-layout section {
   width: 100%;
 }
 .breadcrumbs {
   padding: var(--spacing-400) 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-400);
 }
 .breadcrumbs__items {
   display: flex;
@@ -11591,6 +11659,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 a.breadcrumb-item {
   text-decoration: none;
 }
+.page-layout__container {
+  display: flex;
+  flex-direction: column;
+}
 .page-layout__title {
   border-bottom: 1px solid var(--bcn-gray-200);
   padding: var(--spacing-500) 0;
@@ -11603,119 +11675,6 @@ a.breadcrumb-item {
   padding: var(--spacing-500) 0;
   min-height: 70vh;
   position: relative;
-}
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
-  --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));
-  --_badge-height: var(--badge-height-md, 28px);
-  --_badge-font-size: 13px;
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  --_badge-min-width: var(--badge-height-md, 28px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: var(--_badge-height);
-  min-width: var(--_badge-min-width);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--badge-radius, var(--radius-100, 4px));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  font-size: var(--_badge-font-size);
-  font-weight: 600;
-  line-height: 1;
-  white-space: nowrap;
-  box-sizing: border-box;
-}
-.esa-badge--sm {
-  --_badge-height: var(--badge-height-sm, 22px);
-  --_badge-font-size: 11px;
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
-  --_badge-min-width: var(--badge-height-sm, 22px);
-}
-.esa-button {
-  --_btn-height: var(--form-height-md, 40px);
-  --_btn-padding-x: var(--form-padding-x-md, 16px);
-  --_btn-font-size: var(--form-font-size-md, 14px);
-  --_btn-radius: var(--form-radius-md, 6px);
-  --_accent: var(--color-primary, #46a758);
-  --_accent-hover: var(--color-primary-hover, #3e9b4f);
-  --_on: var(--color-text-inverse, #ffffff);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button--sm {
-  --_btn-height: var(--form-height-sm, 32px);
-  --_btn-padding-x: var(--form-padding-x-sm, 12px);
-  --_btn-font-size: var(--form-font-size-sm, 12px);
-  --_btn-radius: var(--form-radius-sm, 4px);
-}
-.esa-button--color-primary {
-  --_accent-text: var(--color-primary-strong);
-}
-.esa-button__native {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  height: var(--_btn-height);
-  padding-inline: var(--_btn-padding-x);
-  border: 1px solid transparent;
-  border-radius: var(--_btn-radius);
-  font-size: var(--_btn-font-size);
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-button--sm .esa-button__native {
-  height: auto;
-  padding-block: var(--spacing-150, 6px);
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: transparent;
-}
-.esa-button__label {
-  white-space: nowrap;
-}
-.esa-button--color-ghost .esa-button__native {
-  background: transparent;
-  color: var(--color-text-primary, #171717);
-  border-color: transparent;
-}
-.esa-button--appearance-outline .esa-button__native,
-.esa-button--appearance-dashed .esa-button__native {
-  background: transparent;
-  color: var(--_accent-text);
-  border-color: var(--_accent);
-}
-.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border, #e5e5e5);
-}
-.esa-button--color-danger {
-  --_accent: var(--color-danger);
-  --_accent-hover: var(--color-danger-hover);
-  --_accent-text: var(--color-danger-strong);
-}
-.esa-button--appearance-soft .esa-button__native {
-  background: color-mix(
-    in srgb,
-    var(--color-surface-sunken, #efefef) 45%,
-    var(--color-surface, #fff)
-  );
-  color: var(--_accent-text);
-  border-color: var(--color-border-strong, #d4d4d4);
 }
 .modern-layout {
   display: flex;
@@ -12501,39 +12460,90 @@ a.breadcrumb-item {
   overflow: hidden;
   animation: bcn-bd-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.esa-pill {
-  --_pill-bg: var(--pill-bg, var(--color-surface-sunken, #efefef));
-  --_pill-text: var(--pill-text-color, var(--color-text-primary, #171717));
-  --_pill-border: var(--pill-border-color, var(--color-border-light, #efefef));
-  --_pill-height: var(--pill-height-md, 28px);
-  --_pill-font-size: 13px;
-  --_pill-padding-x: var(--spacing-200, 0.5rem);
-  --_pill-gap: var(--spacing-100, 0.25rem);
+.esa-button {
+  --_btn-height: var(--form-height-md, 40px);
+  --_btn-padding-x: var(--form-padding-x-md, 16px);
+  --_btn-font-size: var(--form-font-size-md, 14px);
+  --_btn-radius: var(--form-radius-md, 6px);
+  --_accent: var(--color-primary, #46a758);
+  --_accent-hover: var(--color-primary-hover, #3e9b4f);
+  --_on: var(--color-text-inverse, #ffffff);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button--sm {
+  --_btn-height: var(--form-height-sm, 32px);
+  --_btn-padding-x: var(--form-padding-x-sm, 12px);
+  --_btn-font-size: var(--form-font-size-sm, 12px);
+  --_btn-radius: var(--form-radius-sm, 4px);
+}
+.esa-button--color-primary {
+  --_accent-text: var(--color-primary-strong);
+}
+.esa-button__native {
   display: inline-flex;
   align-items: center;
-  gap: var(--_pill-gap);
-  height: var(--_pill-height);
-  padding-inline: var(--_pill-padding-x);
-  border: 1px solid var(--_pill-border);
-  border-radius: var(--pill-radius, var(--radius-full, 9999px));
-  background: var(--_pill-bg);
-  color: var(--_pill-text);
-  font-size: var(--_pill-font-size);
+  justify-content: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  height: var(--_btn-height);
+  padding-inline: var(--_btn-padding-x);
+  border: 1px solid transparent;
+  border-radius: var(--_btn-radius);
+  font-size: var(--_btn-font-size);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-weight: var(--font-weight-medium, 500);
   line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-button--sm .esa-button__native {
+  height: auto;
+  padding-block: var(--spacing-150, 6px);
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: transparent;
+}
+.esa-button__label {
   white-space: nowrap;
-  box-sizing: border-box;
 }
-.esa-pill--sm {
-  --_pill-height: var(--pill-height-sm, 22px);
-  --_pill-font-size: 11px;
-  --_pill-padding-x: var(--spacing-150, 0.375rem);
+.esa-button--color-ghost .esa-button__native {
+  background: transparent;
+  color: var(--color-text-primary, #171717);
+  border-color: transparent;
 }
-.esa-pill__label {
-  font-weight: 500;
+.esa-button--appearance-outline .esa-button__native,
+.esa-button--appearance-dashed .esa-button__native {
+  background: transparent;
+  color: var(--_accent-text);
+  border-color: var(--_accent);
 }
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
+.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border, #e5e5e5);
+}
+.esa-button--color-danger {
+  --_accent: var(--color-danger);
+  --_accent-hover: var(--color-danger-hover);
+  --_accent-text: var(--color-danger-strong);
+}
+.esa-button--appearance-soft .esa-button__native {
+  background: color-mix(
+    in srgb,
+    var(--color-surface-sunken, #efefef) 45%,
+    var(--color-surface, #fff)
+  );
+  color: var(--_accent-text);
+  border-color: var(--color-border-strong, #d4d4d4);
 }
 ```
 

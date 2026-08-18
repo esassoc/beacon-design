@@ -1,6 +1,6 @@
 # Token contract — prototypes-data-catalog-requirement
 
-The 113 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 121 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -20,6 +20,7 @@ The 113 design tokens this page actually uses, resolved to their final values fo
 | `--color-surface-sunken` | `#efefef` |
 | `--color-text-inverse` | `#fcfcfc` |
 | `--color-text-link` | `#005862` |
+| `--color-text-muted` | `#7c7c7c` |
 | `--color-text-primary` | `#3d3d3d` |
 | `--color-text-secondary` | `#525252` |
 | `--color-text-tertiary` | `#656565` |
@@ -64,16 +65,23 @@ The 113 design tokens this page actually uses, resolved to their final values fo
 | `--dialog-width` | `480px` |
 | `--dialog-width-lg` | `640px` |
 | `--font-decorative` | `"Besley", serif` |
+| `--form-bg` | `#fcfcfc` |
+| `--form-border-color` | `#dcdcdc` |
+| `--form-border-width` | `1px` |
 | `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` |
 | `--form-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--form-height-md` | `36px` |
 | `--form-height-sm` | `28px` |
 | `--form-height-xs` | `24px` |
 | `--form-label-color` | `#525252` |
+| `--form-label-font-weight` | `500` |
 | `--form-padding-x-md` | `.75rem` |
 | `--form-padding-x-sm` | `.625rem` |
+| `--form-padding-y-md` | `.5rem` |
+| `--form-placeholder-color` | `#7c7c7c` |
 | `--form-radius-md` | `.25rem` |
 | `--form-radius-sm` | `.25rem` |
+| `--form-text-color` | `#3d3d3d` |
 | `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` |
 | `--icon-link-font-size-md` | `1rem` |
 | `--icon-link-font-size-sm` | `.875rem` |
@@ -140,3 +148,4 @@ Defined per-component (not at `:root`); see the component's own rule in `styles.
 - `--bcn-bottom-drawer-z`
 - `--dialog-footer-bg`
 - `--dialog-header-bg`
+- `--form-label-font-size`

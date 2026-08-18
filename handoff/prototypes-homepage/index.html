@@ -76,6 +76,30 @@
         --type-size-700: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem);
       }
 
+      *,
+      *:before,
+      *:after {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: var(--font-sans, system-ui, sans-serif);
+        font-weight: var(--font-weight-regular, 350);
+        color: var(--color-text-primary, #3d3d3d);
+        background: var(--color-surface, #fff);
+        -webkit-font-smoothing: antialiased;
+      }
+      a {
+        color: var(--color-text-link, #005862);
+        text-decoration: none;
+      }
+      :where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
+        margin: 0;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+      }
       .esa-icon {
         --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
         display: inline-flex;
@@ -152,30 +176,6 @@
       }
       .esa-button__label {
         white-space: nowrap;
-      }
-      *,
-      *:before,
-      *:after {
-        box-sizing: border-box;
-      }
-      body {
-        margin: 0;
-        font-family: var(--font-sans, system-ui, sans-serif);
-        font-weight: var(--font-weight-regular, 350);
-        color: var(--color-text-primary, #3d3d3d);
-        background: var(--color-surface, #fff);
-        -webkit-font-smoothing: antialiased;
-      }
-      a {
-        color: var(--color-text-link, #005862);
-        text-decoration: none;
-      }
-      :where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
-        margin: 0;
-      }
-      img {
-        display: block;
-        max-width: 100%;
       }
       .bcn-mkt-nav {
         position: absolute;

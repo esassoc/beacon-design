@@ -90,7 +90,7 @@ The same filtered observation set plotted geographically — BcnObservationMap a
                 width: 256px;
                 height: 256px;
                 transform: translate3d(168px, 487px, 0px);
-                opacity: 0.775;
+                opacity: 1;
               "
             /><img
               alt=""
@@ -160,7 +160,7 @@ The same filtered observation set plotted geographically — BcnObservationMap a
                 width: 256px;
                 height: 256px;
                 transform: translate3d(680px, 487px, 0px);
-                opacity: 0.77;
+                opacity: 1;
               "
             />
           </div>

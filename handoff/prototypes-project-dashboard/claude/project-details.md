@@ -90,6 +90,62 @@ The project record's own fields — description, start and end dates, and attach
 
 ## Styles
 ```css
+.bcn-mod__link .esa-icon {
+  color: var(--color-text-muted);
+}
+.bcn-pf__desc {
+  margin: 0 0 var(--spacing-300);
+  font-size: var(--type-size-150);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-secondary);
+}
+.bcn-pf {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+.bcn-pf__fact {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--spacing-250) 0;
+}
+.bcn-pf__fact + .bcn-pf__fact {
+  border-top: 1px solid var(--color-border-light);
+}
+.bcn-pf__label {
+  font-size: var(--type-size-150);
+  color: var(--color-text-tertiary);
+}
+.bcn-pf__value {
+  margin: 0;
+  font-size: var(--type-size-200);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-pf__files {
+  list-style: none;
+  margin: 0;
+  padding: var(--spacing-250) 0 0;
+  border-top: 1px solid var(--color-border-light);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+.bcn-pf__file {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  color: var(--color-text-muted);
+  min-width: 0;
+}
+.bcn-pf__file-name {
+  font-size: var(--type-size-150);
+  color: var(--color-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -172,62 +228,6 @@ The project record's own fields — description, start and end dates, and attach
 }
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
-}
-.bcn-mod__link .esa-icon {
-  color: var(--color-text-muted);
-}
-.bcn-pf__desc {
-  margin: 0 0 var(--spacing-300);
-  font-size: var(--type-size-150);
-  line-height: var(--line-height-normal);
-  color: var(--color-text-secondary);
-}
-.bcn-pf {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-}
-.bcn-pf__fact {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: var(--spacing-250) 0;
-}
-.bcn-pf__fact + .bcn-pf__fact {
-  border-top: 1px solid var(--color-border-light);
-}
-.bcn-pf__label {
-  font-size: var(--type-size-150);
-  color: var(--color-text-tertiary);
-}
-.bcn-pf__value {
-  margin: 0;
-  font-size: var(--type-size-200);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-pf__files {
-  list-style: none;
-  margin: 0;
-  padding: var(--spacing-250) 0 0;
-  border-top: 1px solid var(--color-border-light);
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
-}
-.bcn-pf__file {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  color: var(--color-text-muted);
-  min-width: 0;
-}
-.bcn-pf__file-name {
-  font-size: var(--type-size-150);
-  color: var(--color-text-secondary);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));

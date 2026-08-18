@@ -315,6 +315,9 @@ The project's SETUP PIPELINE as its own slim card — Source Documents → Commi
   border-radius: 50%;
   animation: esa-button-spin 0.6s linear infinite;
 }
+.bcn-mod__link .esa-icon {
+  color: var(--color-text-muted);
+}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -384,9 +387,6 @@ The project's SETUP PIPELINE as its own slim card — Source Documents → Commi
 }
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
-}
-.bcn-mod__link .esa-icon {
-  color: var(--color-text-muted);
 }
 .bcn-swc {
   display: flex;

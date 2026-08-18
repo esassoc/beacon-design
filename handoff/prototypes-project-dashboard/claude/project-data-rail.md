@@ -171,6 +171,71 @@ A quiet list of the project's own data — Project Info, Species, Milestones, Co
 
 ## Styles
 ```css
+.bcn-mod__link .esa-icon {
+  color: var(--color-text-muted);
+}
+.bcn-lrc {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.bcn-lrc__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-300);
+  padding: var(--spacing-250) 0;
+  text-decoration: none;
+  color: inherit;
+}
+.bcn-lrc li + li .bcn-lrc__row {
+  border-top: 1px solid var(--color-border-light);
+}
+.bcn-lrc__label {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  min-width: 0;
+}
+.bcn-lrc__row:hover .bcn-lrc__label {
+  color: var(--color-primary);
+}
+.bcn-lrc__right {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  flex-shrink: 0;
+}
+.bcn-lrc__meta {
+  font-size: var(--type-size-150);
+  color: var(--color-text-tertiary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.bcn-lrc__chev {
+  color: var(--color-text-muted);
+}
+.bcn-lrc__row:hover .bcn-lrc__chev {
+  color: var(--color-primary);
+}
+.bcn-lrc__footer {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-100);
+  margin-top: var(--spacing-100);
+  padding-top: var(--spacing-250);
+  border-top: 1px solid var(--color-border-light);
+  width: 100%;
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  text-decoration: none;
+}
+.bcn-lrc__footer:hover {
+  color: var(--color-primary-hover);
+}
 .bcn-search-trigger .esa-icon {
   flex: none;
   color: var(--color-text-tertiary);
@@ -253,71 +318,6 @@ A quiet list of the project's own data — Project Info, Species, Milestones, Co
 }
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
-}
-.bcn-mod__link .esa-icon {
-  color: var(--color-text-muted);
-}
-.bcn-lrc {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
-.bcn-lrc__row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-300);
-  padding: var(--spacing-250) 0;
-  text-decoration: none;
-  color: inherit;
-}
-.bcn-lrc li + li .bcn-lrc__row {
-  border-top: 1px solid var(--color-border-light);
-}
-.bcn-lrc__label {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-primary);
-  min-width: 0;
-}
-.bcn-lrc__row:hover .bcn-lrc__label {
-  color: var(--color-primary);
-}
-.bcn-lrc__right {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  flex-shrink: 0;
-}
-.bcn-lrc__meta {
-  font-size: var(--type-size-150);
-  color: var(--color-text-tertiary);
-  font-variant-numeric: tabular-nums;
-  white-space: nowrap;
-}
-.bcn-lrc__chev {
-  color: var(--color-text-muted);
-}
-.bcn-lrc__row:hover .bcn-lrc__chev {
-  color: var(--color-primary);
-}
-.bcn-lrc__footer {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-100);
-  margin-top: var(--spacing-100);
-  padding-top: var(--spacing-250);
-  border-top: 1px solid var(--color-border-light);
-  width: 100%;
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-primary);
-  text-decoration: none;
-}
-.bcn-lrc__footer:hover {
-  color: var(--color-primary-hover);
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
