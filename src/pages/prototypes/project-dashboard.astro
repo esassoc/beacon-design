@@ -35,10 +35,18 @@ import BcnModules from '../../components/bcn/BcnModules.astro';
 import BcnStarredComponents from '../../components/bcn/BcnStarredComponents.astro';
 import BcnSetupWizardCard from '../../components/bcn/BcnSetupWizardCard.astro';
 import BcnLinkRowCard from '../../components/bcn/BcnLinkRowCard.astro';
-import BcnProjectMap from '../../components/bcn/BcnProjectMap.astro';
+import BcnFootprintMap from '../../components/bcn/BcnFootprintMap.astro';
 import BcnProjectFacts from '../../components/bcn/BcnProjectFacts.astro';
 import BcnProjectDataPanel from '../../components/bcn/BcnProjectDataPanel.astro';
-import { PROJECT, STARRED_COMPONENTS, PROJECT_UTILITIES } from '../../data/project-dashboard';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import {
+  PROJECT,
+  STARRED_COMPONENTS,
+  PROJECT_UTILITIES,
+  BOUNDARY_SOURCE,
+  PROJECT_BOUNDARY_RING,
+  PROJECT_ALIGNMENT_PATH,
+} from '../../data/project-dashboard';
 import { PROJECT_INFO } from '../../data/project-data';
 ---
 
@@ -51,7 +59,7 @@ import { PROJECT_INFO } from '../../data/project-data';
     - components            -> bcn-starred-components  # project-scope row + starred component cards w/ T·M·R pulses
     - setup wizard          -> bcn-setup-wizard-card   # slim four-step setup pipeline
     - project data rail     -> bcn-link-row-card       # quiet project-data links; open the panel via ?data=<key>
-    - project map           -> bcn-project-map         # inset boundary map, expands to a modal
+    - project map           -> bcn-footprint-map       # inset boundary + alignment, expands to a modal
     - project details card  -> bcn-project-facts       # Project-record fields + files
     - project data panel    -> bcn-project-data-panel  # side panel replacing prod's project tab pages
 -->
@@ -71,7 +79,40 @@ import { PROJECT_INFO } from '../../data/project-data';
       <div class="sidebar" data-side="end" data-gap="xl" style="--sidebar-width: 16rem; --sidebar-content-min: 64%;">
         <div class="stack" data-gap="lg">
           <BcnLinkRowCard title="Project data" rows={PROJECT_UTILITIES} chevrons />
-          <BcnProjectMap />
+          {/* The SAME map component the component surfaces use — bcn-project-map was
+              its degenerate case and was deleted (decomposition review, 2026-08-17).
+              The boundary is an `area`, the tunnel alignment a dashed `line`, and
+              "Upload boundary" rides the modal-actions slot. */}
+          <BcnFootprintMap
+            idPrefix="proj-footprint"
+            title="Project area"
+            areas={[
+              {
+                id: 'boundary',
+                ring: PROJECT_BOUNDARY_RING,
+                label: `${PROJECT.name} boundary`,
+                color: 'var(--color-secondary)',
+              },
+            ]}
+            lines={[
+              {
+                id: 'alignment',
+                path: PROJECT_ALIGNMENT_PATH,
+                label: 'Tunnel alignment',
+                color: 'var(--color-secondary)',
+              },
+            ]}
+            sourceName="Boundary source"
+            sourceLabel={BOUNDARY_SOURCE}
+            legend={[
+              { label: 'Project boundary', color: 'var(--color-secondary)', shape: 'area' },
+              { label: 'Tunnel alignment', color: 'var(--color-secondary)', shape: 'line' },
+            ]}
+          >
+            <EsaButton slot="modal-actions" color="ghost" appearance="outline" size="sm">
+              Upload boundary
+            </EsaButton>
+          </BcnFootprintMap>
           <BcnProjectFacts facts={PROJECT.facts} description={PROJECT.description} files={PROJECT_INFO.files} />
         </div>
 

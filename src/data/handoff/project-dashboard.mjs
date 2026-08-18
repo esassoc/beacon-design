@@ -172,18 +172,20 @@ export default {
     },
     {
       label: 'Project area map',
-      selector: '.bcn-map',
+      selector: '.bcn-fmap',
       intent:
         'The project\'s footprint as an inset map in the rail, expandable to a modal. The review named the current map "not very useful yet, but I think it can be," and diagnosed it as a DATA problem: "we don\'t even have a footprint geometry."',
       decisions: [
         'The map shows the boundary polygon and the alignment only. Component markers were tried and cut — they read as noise at this size.',
         'The boundary\'s SOURCE renders as a field on the card, not a caption. Today it names the derivation; once projects can upload geometry it names the uploaded file in the same slot.',
         'The inset is deliberately non-interactive (it reads as a picture of the project); the modal is fully interactive and carries the legend plus an Upload-boundary affordance.',
+        'ONE map component serves all three surfaces — the project boundary, the component index footprints, and a single component’s work areas — and it is bcn-footprint-map. The boundary is an `area`, the tunnel alignment a `line`, and legend keys carry a `shape` so a filled area and a dashed line read as themselves rather than as two identical dots. Do not build a project-specific map: bcn-project-map existed, became a strict subset of this one, and was deleted 2026-08-17.',
       ],
       gotchas: [
         'DEFERRED PAST SLICE 1 — this is blocked on geometry, not design. Real boundaries arrive with the spatial-data epic (KMZ / shapefile / GDB upload, feature-server connections), agreed 2026-08-03. The prototype derives a stand-in boundary from the 231 real DCP geotech coordinates already in the repo.',
         'Leaflet needs setView() BEFORE any layer is added, or _clipPoints throws on a map with no view.',
-        'The modal map must be created lazily on first open (and invalidateSize() on reopen) so it measures a visible container.',
+        'The modal map must be created lazily on first open (and invalidateSize() on reopen) so it measures a visible container. The same class of bug bites any map built inside a hidden panel, which is why the component watches its own box and re-fits on first real size.',
+        'Geometry crosses the boundary as [lat, lon], NOT GeoJSON [lon, lat]. dcp-geo.json is GeoJSON, so the flip happens once in src/data/project-dashboard.ts (PROJECT_BOUNDARY_RING / PROJECT_ALIGNMENT_PATH). Getting it backwards puts the Delta in the Indian Ocean, silently.',
         'The review\'s appetite here was explicit and worth carrying into the spatial epic: "you should be able to upload a boundary just directly… let people draw on the maps or upload shape files."',
       ],
       acceptance: [

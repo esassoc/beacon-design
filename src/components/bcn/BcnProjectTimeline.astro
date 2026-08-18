@@ -26,18 +26,59 @@
 // Every position derives from the fixed TODAY — never Date.now() — and the client
 // controller re-lays the same DOM on toggle, so switching windows never refetches.
 //
+// SCOPABLE (BCN-1039 follow-on): the three lanes now arrive as PROPS defaulting
+// to the project fixtures, so the same timeline renders a single COMPONENT's
+// actions/seasons/milestones on the component dashboard. Two consequences:
+//   · TODAY travels in the serialized payload instead of being restated inside
+//     the controller — one source of truth for the axis origin.
+//   · DOM ids are namespaced by `idPrefix` (default 'bcn-tl', i.e. today's ids)
+//     and the controller mounts per `[data-bcn-timeline]` root rather than
+//     querying singletons, so two instances can coexist on one page.
+// Passing no props reproduces the project dashboard exactly.
+//
 // bcn-lego-checked: no esa-* lego is a multi-lane date timeline — esa-progress-bar
 // is a single ratio and esa-range-slider is an input; esa-popover anchors to a
 // static trigger, not to runtime-positioned marks (checked). Beacon prod has no
 // project timeline. The window toggle IS esa-button-toggle and the badge is
 // bcn-commitment-badge. bcn-project-timeline is the reusable home.
 import EsaCard from '@esa/ecology/esa-card.astro';
-import { PROJECT_ACTIONS, daysOut, urgencyOf, shortDate } from '../../data/project-actions';
-import { MILESTONES, SEASON_GROUPS } from '../../data/project-data';
+import {
+  PROJECT_ACTIONS,
+  daysOut,
+  urgencyOf,
+  shortDate,
+  type ProjectAction,
+} from '../../data/project-actions';
+import { MILESTONES, SEASON_GROUPS, type MilestoneRow, type SeasonGroup } from '../../data/project-data';
+import { TODAY } from '../../data/project-dashboard';
 import { withBase } from '../../lib/base';
 
+interface Props {
+  /** Action lane. Default: the whole project's actions. */
+  actions?: ProjectAction[];
+  /** Milestone lane. Default: the project's milestones. */
+  milestones?: MilestoneRow[];
+  /** Season lane, still grouped as authored. Default: the project's seasons. */
+  seasons?: SeasonGroup[];
+  /** Namespaces DOM ids so a second instance can coexist. Default keeps today's ids. */
+  idPrefix?: string;
+  title?: string;
+}
+
+const {
+  actions: actionRows = PROJECT_ACTIONS,
+  milestones: milestoneRows = MILESTONES,
+  seasons: seasonGroups = SEASON_GROUPS,
+  idPrefix = 'bcn-tl',
+  title = 'Timeline',
+} = Astro.props;
+
+// The window toggle is the only id-bearing node; the controller finds its root's
+// payload and toggle through this same prefix.
+const windowId = `${idPrefix}-window`;
+
 // Every item carries its raw dates; the controller positions them per window.
-const actions = PROJECT_ACTIONS.map((a) => ({
+const actions = actionRows.map((a) => ({
   code: a.code,
   name: a.name,
   type: a.type,
@@ -49,14 +90,14 @@ const actions = PROJECT_ACTIONS.map((a) => ({
   href: a.href.startsWith('/') ? withBase(a.href) : a.href,
 }));
 
-const milestones = MILESTONES.map((m) => ({
+const milestones = milestoneRows.map((m) => ({
   name: m.name,
   description: m.description,
   day: daysOut(m.estimatedDate),
   date: shortDate(m.estimatedDate),
 }));
 
-const seasons = SEASON_GROUPS.flatMap((g) =>
+const seasons = seasonGroups.flatMap((g) =>
   g.seasons.map((s) => ({
     name: s.name,
     group: g.group,
@@ -69,15 +110,17 @@ const seasons = SEASON_GROUPS.flatMap((g) =>
   }))
 );
 
-const payload = { actions, milestones, seasons };
+// TODAY rides in the payload — the axis origin has ONE source of truth (the
+// fixture), not a constant restated inside the client controller.
+const payload = { today: TODAY, actions, milestones, seasons };
 ---
 
-<EsaCard title="Timeline">
+<EsaCard title={title}>
   <div slot="actions" class="bcn-tl__head">
-    <esa-button-toggle id="bcn-tl-window" value="30" size="sm"></esa-button-toggle>
+    <esa-button-toggle id={windowId} value="30" size="sm"></esa-button-toggle>
   </div>
 
-  <div class="bcn-tl" data-bcn-timeline>
+  <div class="bcn-tl" data-bcn-timeline data-tl-id={idPrefix}>
     <!-- Axis -->
     <div class="bcn-tl__row bcn-tl__row--axis">
       <span class="bcn-tl__lane-label"></span>
@@ -118,7 +161,7 @@ const payload = { actions, milestones, seasons };
     <div class="bcn-tl__pop" data-tl-pop hidden role="dialog" aria-label="Timeline detail"></div>
   </div>
 
-  <script type="application/json" data-tl-data set:html={JSON.stringify(payload)}></script>
+  <script type="application/json" data-tl-data={idPrefix} set:html={JSON.stringify(payload)}></script>
 </EsaCard>
 
 <script>
@@ -147,11 +190,23 @@ const payload = { actions, milestones, seasons };
     endDay: number;
   }
 
-  const root = document.querySelector<HTMLElement>('[data-bcn-timeline]');
-  if (root) {
-    const data = JSON.parse(
-      document.querySelector<HTMLElement>('[data-tl-data]')!.textContent || '{}'
-    ) as { actions: TlAction[]; milestones: TlMilestone[]; seasons: TlSeason[] };
+  interface TlPayload {
+    /** The fixture's fixed TODAY — the axis origin, serialized by the component. */
+    today: string;
+    actions: TlAction[];
+    milestones: TlMilestone[];
+    seasons: TlSeason[];
+  }
+
+  // One controller PER timeline root: the component is scopable, so a page may
+  // carry a project timeline and a component timeline at once. Each root names
+  // its id namespace in data-tl-id and finds its own payload + window toggle
+  // through it.
+  function mountTimeline(root: HTMLElement): void {
+    const nsId = root.dataset.tlId || 'bcn-tl';
+    const dataEl = document.querySelector<HTMLElement>(`[data-tl-data="${nsId}"]`);
+    if (!dataEl) return;
+    const data = JSON.parse(dataEl.textContent || '{}') as TlPayload;
 
     // The window opens LOOKBACK days before today so overdue work stays visible.
     const LOOKBACK = 7;
@@ -172,8 +227,10 @@ const payload = { actions, milestones, seasons };
     };
 
     const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    // TODAY, mirrored from the fixture — the axis's origin.
-    const TODAY = '2026-03-25';
+    // TODAY arrives in the payload — the fixture stays the single source of
+    // truth for the axis origin (it used to be restated here, which meant two
+    // places to change and a silent drift if only one moved).
+    const TODAY = data.today;
     const [ty, tm, td] = TODAY.split('-').map(Number);
     const todayMs = Date.UTC(ty, tm - 1, td);
     const labelFor = (day: number) => {
@@ -248,7 +305,10 @@ const payload = { actions, milestones, seasons };
 
     document.addEventListener('click', (e) => {
       const t = e.target as HTMLElement;
-      if (!popEl.hidden && !popEl.contains(t) && !t.closest('[data-tl-mark]')) closePop();
+      // A mark in ANOTHER timeline is an outside click for this one — scope the
+      // exemption to marks belonging to this root.
+      const mark = t.closest('[data-tl-mark]');
+      if (!popEl.hidden && !popEl.contains(t) && !(mark && root.contains(mark))) closePop();
     });
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closePop();
@@ -406,7 +466,7 @@ const payload = { actions, milestones, seasons };
       render();
     });
 
-    const toggle = document.getElementById('bcn-tl-window') as HTMLElement & {
+    const toggle = document.getElementById(`${nsId}-window`) as HTMLElement & {
       options: { value: string; label: string }[];
       value: string;
     };
@@ -425,6 +485,8 @@ const payload = { actions, milestones, seasons };
 
     render();
   }
+
+  document.querySelectorAll<HTMLElement>('[data-bcn-timeline]').forEach(mountTimeline);
 </script>
 
 <style>

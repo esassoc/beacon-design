@@ -1,0 +1,504 @@
+---
+// <BcnWorkAreaBoard> — the component dashboard's work-areas section: the entity's
+// grid, lifted onto the dashboard and finally showing its own data.
+//
+// What prod does today, and why this exists. Work areas live behind a separate tab
+// whose grid renders THREE things: an Identifier, an edit button, a delete button.
+// The endpoint feeding that grid already returns geometry, MeasureValue/MeasureType,
+// county, exploration method, depth, and the tenant's custom fields — every one of
+// them fetched and then discarded at render. The design call retired the tab and
+// moved the grid onto the dashboard, so this component does two jobs: it puts the
+// grid where the reader already is, and it shows the columns that were always there
+// (method, depth, disturbance acres, status, planned start, county, entry agreement).
+//
+// Selection is the second half of the retired tab: per-row edit/delete pencils became
+// a checkbox column feeding a bulk bar, so deleting eleven cleared sites is one
+// action instead of eleven. The bulk group sits BESIDE the search/clear-filters
+// chrome rather than over it (review, 2026-08-13 — an earlier pass overlaid them in
+// one cell to keep the grid still, which removed search exactly when someone
+// narrowing a set wants it). The grid host is a fixed height for the same reason:
+// filtering and selecting must not resize the frame.
+//
+// CREATE AND BULK IMPORT ARE DELIBERATELY NOT WIRED (review, 2026-08-13). Both
+// emit an event and open nothing. Prod already has both dialogs —
+// `work-area-upsert-dialog` (Identifier + the tenant's custom fields) and
+// `work-area-bulk-import-dialog` (two stages: upload a CSV or zipped shapefile,
+// then map each column to the Identifier or a custom field, with an optional
+// single-column filter and a preview) — and the epic reuses them UNCHANGED. A
+// prototype approximation of them was built and then cut: it could not match their
+// styling, and a dialog that looks nearly-right reads as a redesign proposal, which
+// is a more expensive kind of wrong than an empty click. The buttons stay visible
+// because the affordances are part of this surface; only their contents are
+// out of scope here.
+//
+// bcn-lego-checked: no esa-* data-grid lego exists — the hub's "esa-grid" is a docs
+// page with no source, and the nearest components are esa-card (a box) and
+// esa-link-column (a card of bare links). Everything that CAN be a lego is one: the
+// shell IS esa-card (header slot + body), every control IS esa-button /
+// esa-icon-button / esa-text-field, the count IS bcn-count, and the grid itself is
+// the spoke's shared ported-from-prod kit (src/lib/beacon-grid.ts), not a fresh AG
+// Grid config. Checked Beacon: its work-area list is an ag-Grid, which is what this
+// composes. The CSS below is host geometry, the toolbar swap, and the two cell looks
+// AG Grid injects outside Astro's scope. bcn-work-area-board is the reusable home.
+import EsaCard from '@esa/ecology/esa-card.astro';
+import EsaButton from '@esa/ecology/esa-button.astro';
+import BcnCount from './BcnCount.astro';
+import BcnGridChrome from './BcnGridChrome.astro';
+import BcnGridFooter from './BcnGridFooter.astro';
+import type { WorkArea } from '../../data/component-detail';
+import { withBase } from '../../lib/base';
+
+interface Props {
+  workAreas: WorkArea[];
+  /** Card title — defaults to 'Work areas'. Tenants alias this entity, so it is a prop. */
+  title?: string;
+  /** Total disturbance across the set, e.g. 41.2 — rendered as a quiet figure beside the count. */
+  acres?: number;
+}
+const { workAreas, title = 'Work areas', acres } = Astro.props;
+
+// The bulk bar counts in the tenant's own word for the entity, not a hardcoded
+// "work areas" that would contradict an aliased title.
+const plural = title.toLowerCase();
+const singular = plural.endsWith('s') ? plural.slice(0, -1) : plural;
+
+// Status → tone key. The tone rides beside the label as its own field so the column
+// still sorts, filters, and exports as the LABEL, while the chip's color comes from a
+// semantic token in CSS — no hex crosses into the renderer.
+const TONE: Record<WorkArea['status'], string> = {
+  Cleared: 'cleared',
+  Scheduled: 'scheduled',
+  'In progress': 'in-progress',
+  'Not started': 'not-started',
+};
+
+const rows = workAreas.map((w) => ({
+  identifier: w.identifier,
+  method: w.method,
+  depthFt: w.depthFt,
+  acres: w.measureValue,
+  status: w.status,
+  tone: TONE[w.status],
+  plannedStart: w.plannedStart,
+  county: w.county,
+  entryAgreement: w.entryAgreement,
+  href: withBase(w.href),
+}));
+
+const payload = { rows, plural, singular, csvName: `${plural.replace(/\s+/g, '-')}.csv` };
+---
+
+<section class="bcn-wa" aria-label={title} data-work-area-board>
+  <EsaCard>
+    <div slot="header" class="cluster bcn-wa__ident" data-gap="sm">
+      <h2 class="type-card-title bcn-wa__title">{title}</h2>
+      <span data-wa-count
+        ><BcnCount value={workAreas.length} label={`${workAreas.length} ${workAreas.length === 1 ? singular : plural}`} /></span
+      >
+      {acres != null && <span class="bcn-wa__acres">{acres.toFixed(1)} acres</span>}
+    </div>
+
+    <div slot="header" class="cluster" data-gap="xs">
+      <EsaButton color="primary" size="sm" icon="plus" data-wa-create>Create</EsaButton>
+      <EsaButton color="ghost" appearance="outline" size="sm" icon="upload" data-wa-import>Bulk import</EsaButton>
+    </div>
+
+    <!-- Toolbar: ONE row. The bulk group joins the chrome on the right rather than
+         covering it (review, 2026-08-13) — the first pass overlaid both in a single
+         grid cell to keep the grid from shifting, which did keep it still but took
+         the search field away exactly when a user filtering down to a set wants to
+         narrow it further. Selecting rows and searching are not alternatives, so
+         they no longer compete for the same space. Being hidden rather than
+         height-reserved, the bulk group still costs no vertical space when idle. -->
+    <div class="bcn-wa__toolbar">
+      <div class="repel bcn-wa__chrome" data-wa-chrome>
+        {/* Search and Clear Filters are bcn-grid-chrome, shared with the component
+            index — but placed SEPARATELY here, which is why that component takes an
+            `only` prop. The placement is the one decided at review: search hard left,
+            and Clear Filters grouped right so the bulk bar sits BESIDE the chrome
+            rather than covering it. */}
+        <BcnGridChrome prefix="wa" only="search" />
+
+        <div class="cluster bcn-wa__right" data-gap="sm" data-align="center">
+          <div class="cluster bcn-wa__bulk" data-wa-bulk data-gap="xs" data-align="center" hidden>
+            <span class="bcn-wa__bulk-count" data-wa-bulk-count aria-live="polite"></span>
+            <EsaButton color="danger" appearance="soft" size="sm" icon="trash-2" data-wa-delete>Delete</EsaButton>
+            <EsaButton color="ghost" appearance="outline" size="sm" data-wa-bulk-clear>Clear selection</EsaButton>
+          </div>
+          <BcnGridChrome prefix="wa" only="clear-filters" />
+        </div>
+      </div>
+    </div>
+
+    <div class="bcn-wa__grid" data-wa-host></div>
+
+    <BcnGridFooter prefix="wa" total={workAreas.length} />
+
+    <script type="application/json" data-wa-data set:html={JSON.stringify(payload)} />
+  </EsaCard>
+</section>
+
+<script>
+  // One script per page, however many boards are on it: every [data-work-area-board]
+  // mounts from its own inline payload, and every handle is a data-attribute scoped to
+  // that mount — no page-global ids, so two boards never collide.
+  import type { ColDef, GridApi, GridOptions, ICellRendererParams } from 'ag-grid-community';
+  import { beaconTheme, makeQuietChipRenderer, mountBeaconGrid } from '../../lib/beacon-grid';
+  import '@esa/ecology/esa-text-field';
+
+  interface Row {
+    identifier: string;
+    method: string;
+    depthFt: number;
+    acres: number;
+    status: string;
+    tone: string;
+    plannedStart: string | null;
+    county: string;
+    entryAgreement: string;
+    href: string;
+  }
+  interface Payload {
+    rows: Row[];
+    plural: string;
+    singular: string;
+    csvName: string;
+  }
+
+  // The kit theme at the 14px dense floor. makeStatusRenderer's sibling grids run the
+  // kit's 13px, but that step is the META floor, not the DATA one, and this grid is a
+  // primary work surface on the dashboard rather than a catalog list. Only the two font
+  // steps move — font, accent, zebra, borders, and the 44px row are the kit's.
+  const workAreaTheme = beaconTheme.withParams({ dataFontSize: '14px', headerFontSize: '14px' });
+
+  // Deterministic, timezone-proof date label (the ISO string is parsed by parts, never
+  // through Date's local-midnight shift). A missing planned start is an em-dash: the
+  // site has no date yet, and blank would read as a rendering failure.
+  const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  function formatPlannedStart(iso: string | null | undefined): string {
+    if (!iso) return '—';
+    const [y, m, d] = iso.split('-').map(Number);
+    return `${MONTHS[m - 1]} ${d}, ${y}`;
+  }
+
+  // The identifier cell is a REAL link to the work area, not a click-handler span: it
+  // carries the row's own href so it opens on Enter, on middle-click, and in the status
+  // bar preview. It reuses the kit's .bcn-grid-name look, styled :global below.
+  function identifierRenderer(p: ICellRendererParams<Row>) {
+    const el = document.createElement('a');
+    el.className = 'bcn-grid-name';
+    el.href = p.data?.href ?? '#';
+    el.textContent = String(p.value ?? '');
+    return el;
+  }
+
+  const statusRenderer = makeQuietChipRenderer({ toneField: 'tone', className: 'bcn-wa__chip' });
+
+  for (const mount of document.querySelectorAll<HTMLElement>('[data-work-area-board]')) {
+    const data = mount.querySelector('[data-wa-data]');
+    if (!data) continue;
+
+    const { rows, plural, singular, csvName }: Payload = JSON.parse(data.textContent || '{}');
+    const pick = <T extends HTMLElement>(sel: string) => mount.querySelector<T>(sel)!;
+    // The live set. Bulk delete rewrites it, so the record count, the header badge,
+    // and the grid all read one source instead of drifting apart.
+    let rowData: Row[] = rows;
+
+    // The columns prod's grid already had the data for and never rendered.
+    const columnDefs: ColDef<Row>[] = [
+      {
+        field: 'identifier',
+        headerName: 'Identifier',
+        flex: 1.4,
+        minWidth: 150,
+        sort: 'asc',
+        cellRenderer: identifierRenderer,
+      },
+      { field: 'method', headerName: 'Method', flex: 1.2, minWidth: 150 },
+      {
+        field: 'depthFt',
+        headerName: 'Depth (ft)',
+        flex: 0.8,
+        minWidth: 110,
+        type: 'numericColumn',
+        filter: 'agNumberColumnFilter',
+        cellClass: 'bcn-wa__num',
+      },
+      {
+        field: 'acres',
+        headerName: 'Disturbance (acres)',
+        flex: 1,
+        minWidth: 150,
+        type: 'numericColumn',
+        filter: 'agNumberColumnFilter',
+        cellClass: 'bcn-wa__num',
+        valueFormatter: (p) => (p.value == null ? '—' : Number(p.value).toFixed(1)),
+      },
+      {
+        field: 'status',
+        headerName: 'Status',
+        flex: 1,
+        minWidth: 140,
+        cellRenderer: statusRenderer,
+        cellClass: 'bcn-wa__chip-cell',
+      },
+      {
+        field: 'plannedStart',
+        headerName: 'Planned start',
+        flex: 1,
+        minWidth: 140,
+        valueFormatter: (p) => formatPlannedStart(p.value as string | null),
+      },
+      { field: 'county', headerName: 'County', flex: 0.9, minWidth: 120 },
+      { field: 'entryAgreement', headerName: 'Entry agreement', flex: 1.2, minWidth: 170 },
+    ];
+
+    // bcn-count renders one span; the wrapper lets the board retitle it without
+    // reaching for the component's internal class name. It is this board's ONLY
+    // count extra — the footer's Total/Filtered pair is the shared kit's.
+    const countEl = mount.querySelector<HTMLElement>('[data-wa-count] > *');
+
+    const bulk = pick<HTMLElement>('[data-wa-bulk]');
+    const bulkCount = pick('[data-wa-bulk-count]');
+    // Declared BEFORE gridOptions and assigned after the mount: onSelectionChanged is
+    // wired during grid creation, so a `const api` below it would be in its temporal
+    // dead zone if AG Grid ever fired the event synchronously. The guard makes that
+    // a no-op instead of a crash.
+    let api: GridApi<Row> | null = null;
+    function updateBulkBar() {
+      const n = api?.getSelectedRows().length ?? 0;
+      // `hidden` (not visibility) so the group leaves the tab order and the a11y
+      // tree entirely — no reachable invisible control. The search field beside it
+      // is untouched: it stays visible and usable while rows are selected.
+      bulk.hidden = n === 0;
+      bulkCount.textContent = `${n} ${n === 1 ? singular : plural} selected`;
+    }
+
+    const gridOptions: GridOptions<Row> = {
+      theme: workAreaTheme,
+      rowData: rows,
+      columnDefs,
+      defaultColDef: {
+        sortable: true,
+        resizable: true,
+        filter: true,
+        suppressHeaderMenuButton: true,
+        tooltipValueGetter: (p) => p.value,
+      },
+      tooltipShowDelay: 0,
+      tooltipShowMode: 'whenTruncated',
+      // Checkbox multi-select (header select-all included) drives the bulk bar;
+      // click-to-select stays off so row clicks and selection don't fight.
+      rowSelection: { mode: 'multiRow' },
+      onSelectionChanged: () => updateBulkBar(),
+      // Row click opens the work area — EXCEPT on the selection checkbox, which would
+      // otherwise navigate away the instant a row was ticked.
+      onRowClicked: (e) => {
+        if ((e.event?.target as HTMLElement | undefined)?.closest('.ag-selection-checkbox, .ag-checkbox')) return;
+        if (e.data?.href) window.location.href = e.data.href;
+      },
+    };
+
+    // Chrome, footer counts and CSV come from the shared kit. `totalRows` is a
+    // FUNCTION because bulk delete rewrites rowData — a captured length would leave
+    // the footer claiming the pre-delete count.
+    const grid = mountBeaconGrid<Row>({
+      mount,
+      prefix: 'wa',
+      gridOptions,
+      csvName,
+      totalRows: () => rowData.length,
+      onCountsChanged: ({ total }) => {
+        if (!countEl) return;
+        countEl.textContent = String(total);
+        countEl.setAttribute('aria-label', `${total} ${total === 1 ? singular : plural}`);
+      },
+    });
+    if (!grid) continue;
+    api = grid.api;
+    // Non-null alias for the handlers below — `api` stays nullable only so
+    // updateBulkBar can be defined before the mount.
+    const gridApi = grid.api;
+    const updateCounts = grid.updateCounts;
+
+    // ── Header + bulk actions ─────────────────────────────────────────────────
+    // Create and Bulk import (CSV or zipped shapefile, matching prod's capability)
+    // announce intent; the hosting page decides what opens.
+    const emit = (name: string, detail?: unknown) =>
+      mount.dispatchEvent(new CustomEvent(name, { detail, bubbles: true }));
+
+    pick('[data-wa-create]').addEventListener('click', () => emit('bcn-work-area-create'));
+    pick('[data-wa-import]').addEventListener('click', () => emit('bcn-work-areas-import'));
+    pick('[data-wa-bulk-clear]').addEventListener('click', () => gridApi.deselectAll());
+    pick('[data-wa-delete]').addEventListener('click', () => {
+      const selected = gridApi.getSelectedRows();
+      if (!selected.length) return;
+      const gone = new Set(selected);
+      rowData = rowData.filter((r) => !gone.has(r));
+      // Resetting rowData (rather than a remove transaction) also clears the
+      // selection, so the bulk bar retires with the rows it acted on.
+      gridApi.setGridOption('rowData', rowData);
+      updateCounts();
+      updateBulkBar();
+      emit('bcn-work-areas-delete', { identifiers: selected.map((r) => r.identifier) });
+    });
+
+    updateBulkBar();
+  }
+</script>
+
+<style>
+  /* bcn-lego-checked: host geometry, the toolbar swap, and the cell looks AG Grid
+     injects outside Astro's scope (see the header note). Every control in the markup
+     is an esa-* lego; nothing here re-implements a primitive. */
+
+  /* ── Card header ─────────────────────────────────────────────────────────── */
+  .bcn-wa__title {
+    margin: 0;
+    font-family: var(--font-decorative);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+  /* The set's total disturbance — a figure, deliberately quieter than the count. */
+  .bcn-wa__acres {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Toolbar: ONE row — search on the left, bulk group + Clear Filters on the
+        right. The bulk group appears beside the chrome, never over it. ────────── */
+  .bcn-wa__toolbar {
+    margin-bottom: var(--spacing-300);
+  }
+  .bcn-wa__chrome {
+    flex-wrap: wrap;
+    row-gap: var(--spacing-200);
+  }
+  .bcn-wa__search {
+    min-width: 280px;
+  }
+  .bcn-wa__search :global(esa-text-field) {
+    flex: 1;
+  }
+  .bcn-wa__right {
+    flex-wrap: wrap;
+    row-gap: var(--spacing-200);
+  }
+
+  /* A tint inline with the content marks the selection state — not a colored edge. */
+  .bcn-wa__bulk {
+    padding: var(--spacing-100) var(--spacing-250);
+    background: var(--color-primary-subtle);
+    border: 1px solid var(--color-primary-border);
+    border-radius: var(--radius-200);
+  }
+  .bcn-wa__bulk[hidden] {
+    display: none;
+  }
+  .bcn-wa__bulk-count {
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Grid host: a FIXED, generous frame. Filtering, selecting, and deleting all
+        leave the footprint alone — the page below never jumps. ──────────────── */
+  /* min-width: 0 so the board never widens its column. Eight columns of work-area
+     data want more room than a dashboard's main column has, and a grid that pushes
+     its container is a grid that steals width from the rail beside it. AG Grid
+     scrolls horizontally inside this box instead. */
+  .bcn-wa__grid {
+    width: 100%;
+    min-width: 0;
+    height: 34rem;
+  }
+  .bcn-wa {
+    min-width: 0;
+  }
+
+  /* ── Footer: download · record count (the house data-table chrome) ───────── */
+  .bcn-wa__footer {
+    padding: var(--spacing-200) var(--spacing-300);
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-top: 0;
+    border-radius: 0 0 var(--radius-100) var(--radius-100);
+  }
+  .bcn-wa__records {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-400);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+  .bcn-wa__filtered {
+    color: var(--color-text-tertiary);
+  }
+  .bcn-wa__filtered[hidden] {
+    display: none;
+  }
+
+  /* ── Cells (global — AG Grid injects them outside Astro's scope) ─────────── */
+  .bcn-wa :global(.ag-row) {
+    cursor: pointer;
+  }
+  .bcn-wa :global(.bcn-grid-name) {
+    color: var(--color-text-link);
+    font-weight: var(--font-weight-regular);
+    text-decoration: underline;
+  }
+  .bcn-wa :global(.bcn-grid-name:hover) {
+    color: var(--color-primary-hover);
+  }
+  /* Numeric columns read as a column of numbers: right-aligned by AG Grid's
+     numericColumn type, aligned digit-for-digit by tabular numerals. */
+  .bcn-wa :global(.bcn-wa__num) {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Status is a CHIP — never a row tint, never a colored left border. Tone comes
+     from the theme's semantic status tokens, stamped as data-tone by the kit's
+     quiet-chip renderer, so no color literal reaches the JS. */
+  .bcn-wa :global(.bcn-wa__chip) {
+    --_tone: var(--bcn-status-not-started, #bdbdbd);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-150);
+    padding: 1px var(--spacing-200);
+    border-radius: var(--radius-100);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    font-weight: var(--font-weight-medium);
+    white-space: nowrap;
+    background: color-mix(in srgb, var(--_tone, #bdbdbd) 16%, transparent);
+    color: color-mix(in srgb, var(--_tone, #bdbdbd) 70%, var(--color-text-primary));
+  }
+  .bcn-wa :global(.bcn-wa__chip::before) {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: var(--radius-full);
+    background: var(--_tone, #bdbdbd);
+    flex-shrink: 0;
+  }
+  .bcn-wa :global(.bcn-wa__chip[data-tone='cleared']) {
+    --_tone: var(--color-success, #2e7571);
+  }
+  .bcn-wa :global(.bcn-wa__chip[data-tone='scheduled']) {
+    --_tone: var(--color-info, #228be6);
+  }
+  .bcn-wa :global(.bcn-wa__chip[data-tone='in-progress']) {
+    --_tone: var(--color-warning, #f59e0b);
+  }
+  .bcn-wa :global(.bcn-wa__chip[data-tone='not-started']) {
+    --_tone: var(--bcn-status-not-started, #bdbdbd);
+  }
+  /* The chip sits centered in its row rather than baseline-hung. */
+  .bcn-wa :global(.ag-cell.bcn-wa__chip-cell) {
+    display: flex;
+    align-items: center;
+  }
+</style>

@@ -20,7 +20,7 @@ A slim, full-width band plotting the next 30 / 60 / 90 days on one date axis, in
 
 ## Markup
 ```html
-<div class="bcn-tl" data-bcn-timeline="">
+<div class="bcn-tl" data-bcn-timeline="" data-tl-id="bcn-tl">
   <!-- Axis -->
   <div class="bcn-tl__row bcn-tl__row--axis">
     <span class="bcn-tl__lane-label"></span>
