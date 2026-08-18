@@ -480,71 +480,65 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
     </nav>
     <!-- content -->
     <div class="modern-layout__content">
-      <!-- bcn-lego-checked: esa-breadcrumbs exists, but this whole layout is a deliberate
-     VERBATIM port of prod's page-layout + breadcrumbs (see the file header) so that
-     ported Angular views match the live app; the lego has a different anatomy (no
-     home glyph, its own spacing) and swapping it would restyle the breadcrumb row on
-     all 39 pages at once. That migration is its own decision, not a side effect of
-     moving where the row sits. Only the POSITION and an end slot changed here. -->
       <div class="page-layout">
-        <section class="page-layout__breadcrumbs">
-          <nav class="breadcrumbs" aria-label="Breadcrumb">
-            <div class="breadcrumbs__items">
-              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
-                  <path
-                    d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
-                  ></path>
-                </svg>
-              </span>
-              <a class="breadcrumb-item" href="#project"> Delta Conveyance </a
-              ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path d="m9 18 6-6-6-6"></path>
-                </svg>
-              </span>
-              <a class="breadcrumb-item" href="#studies"> Studies </a
-              ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path d="m9 18 6-6-6-6"></path>
-                </svg>
-              </span>
-              <span class="breadcrumb-item" aria-current="page"> Study Planning </span>
-            </div>
-          </nav>
-        </section>
         <div class="page-layout__container">
+          <section class="page-layout__breadcrumbs">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+              <div class="breadcrumbs__items">
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+                    <path
+                      d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+                    ></path>
+                  </svg>
+                </span>
+                <a class="breadcrumb-item" href="#project"> Delta Conveyance </a
+                ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path d="m9 18 6-6-6-6"></path>
+                  </svg>
+                </span>
+                <a class="breadcrumb-item" href="#studies"> Studies </a
+                ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path d="m9 18 6-6-6-6"></path>
+                  </svg>
+                </span>
+                <span class="breadcrumb-item" aria-current="page"> Study Planning </span>
+              </div>
+            </nav>
+          </section>
           <section class="page-layout__title">
             <div class="page-layout__title-main">
               <h1>
@@ -4035,7 +4029,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <button
                             type="button"
                             class="bcn-wb__bar"
-                            style="left: 24.98%; width: 3.89%; --_c: #9aa0a6"
+                            style="left: 24.99%; width: 3.89%; --_c: #9aa0a6"
                             title="TSK-011 — Predation exposure model build · Not started"
                             aria-label="Open TSK-011 Predation exposure model build"
                           ></button>
@@ -4476,7 +4470,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <button
                             type="button"
                             class="bcn-wb__bar"
-                            style="left: 13.59%; width: 1.72%; --_c: #9aa0a6"
+                            style="left: 13.59%; width: 1.71%; --_c: #9aa0a6"
                             title="TSK-012 — Monitoring-array installation &amp; calibration · Not started"
                             aria-label="Open TSK-012 Monitoring-array installation &amp; calibration"
                           ></button>
@@ -5230,7 +5224,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <button
                             type="button"
                             class="bcn-wb__bar"
-                            style="left: 6.56%; width: 3.91%; --_c: #9aa0a6"
+                            style="left: 6.56%; width: 3.9%; --_c: #9aa0a6"
                             title="TSK-015 — Station siting &amp; regulatory clearance · Not started"
                             aria-label="Open TSK-015 Station siting &amp; regulatory clearance"
                           ></button>
@@ -7039,7 +7033,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <button
                             type="button"
                             class="bcn-wb__bar"
-                            style="left: 38.14%; width: 3.91%; --_c: #9aa0a6"
+                            style="left: 38.14%; width: 3.9%; --_c: #9aa0a6"
                             title="TSK-025 — Hydrodynamic model calibration · Not started"
                             aria-label="Open TSK-025 Hydrodynamic model calibration"
                           ></button>
@@ -7956,7 +7950,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <span class="bcn-wb__today" style="left: 2.9%"></span>
                           <span
                             class="bcn-wb__summary"
-                            style="left: 1.3%; width: 3.91%"
+                            style="left: 1.3%; width: 3.9%"
                             aria-hidden="true"
                           ></span>
                         </div>
@@ -8722,7 +8716,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <button
                             type="button"
                             class="bcn-wb__bar"
-                            style="left: 11.83%; width: 3.91%; --_c: #9aa0a6"
+                            style="left: 11.83%; width: 3.9%; --_c: #9aa0a6"
                             title="TSK-041 — FGS modeling, analysis &amp; reporting · Not started"
                             aria-label="Open TSK-041 FGS modeling, analysis &amp; reporting"
                           ></button>
@@ -8795,12 +8789,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           type="button"
                           aria-label="Add child"
                           title="Add child"
-                          data-astro-cid-3i6ienqg="true"
+                          data-astro-cid-q5zfyfab="true"
                         >
                           <span
                             class="esa-icon esa-icon--xs"
                             aria-hidden="true"
-                            data-astro-cid-ci6i4t6v=""
+                            data-astro-cid-md4nwazs=""
                           >
                             <svg
                               width="14"
@@ -8812,7 +8806,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               stroke-linecap="round"
                               stroke-linejoin="round"
                               focusable="false"
-                              data-astro-cid-ci6i4t6v=""
+                              data-astro-cid-md4nwazs=""
                             >
                               <path d="M5 12h14"></path>
                               <path d="M12 5v14"></path>
@@ -28458,7 +28452,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <section class="bcn-edit__section bcn-edit__actions" data-astro-cid-ftn3fswp="">
                   <span
                     class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                    data-astro-cid-t6dusbpm=""
+                    data-astro-cid-ojgm2tjl=""
                   >
                     <a
                       class="esa-button__native"
@@ -28466,12 +28460,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       role="button"
                       data-wb-details="true"
                       data-astro-cid-ftn3fswp="true"
-                      data-astro-cid-t6dusbpm=""
+                      data-astro-cid-ojgm2tjl=""
                     >
                       <span
                         class="esa-icon esa-icon--sm"
                         aria-hidden="true"
-                        data-astro-cid-ci6i4t6v=""
+                        data-astro-cid-md4nwazs=""
                       >
                         <svg
                           width="16"
@@ -28483,14 +28477,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           stroke-linecap="round"
                           stroke-linejoin="round"
                           focusable="false"
-                          data-astro-cid-ci6i4t6v=""
+                          data-astro-cid-md4nwazs=""
                         >
                           <path d="M15 3h6v6"></path>
                           <path d="M10 14 21 3"></path>
                           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                         </svg>
                       </span>
-                      <span class="esa-button__label" data-astro-cid-t6dusbpm="">
+                      <span class="esa-button__label" data-astro-cid-ojgm2tjl="">
                         View full details
                       </span>
                     </a>
@@ -28581,19 +28575,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <section class="bcn-edit__section bcn-edit__actions" data-astro-cid-ftn3fswp="">
                   <span
                     class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                    data-astro-cid-t6dusbpm=""
+                    data-astro-cid-ojgm2tjl=""
                   >
                     <button
                       class="esa-button__native"
                       type="button"
                       data-wb-add="true"
                       data-astro-cid-ftn3fswp="true"
-                      data-astro-cid-t6dusbpm=""
+                      data-astro-cid-ojgm2tjl=""
                     >
                       <span
                         class="esa-icon esa-icon--sm"
                         aria-hidden="true"
-                        data-astro-cid-ci6i4t6v=""
+                        data-astro-cid-md4nwazs=""
                       >
                         <svg
                           width="16"
@@ -28605,20 +28599,20 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           stroke-linecap="round"
                           stroke-linejoin="round"
                           focusable="false"
-                          data-astro-cid-ci6i4t6v=""
+                          data-astro-cid-md4nwazs=""
                         >
                           <path d="M5 12h14"></path>
                           <path d="M12 5v14"></path>
                         </svg>
                       </span>
-                      <span class="esa-button__label" data-astro-cid-t6dusbpm="">
+                      <span class="esa-button__label" data-astro-cid-ojgm2tjl="">
                         Add sub-study
                       </span>
                     </button>
                   </span>
                   <span
                     class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                    data-astro-cid-t6dusbpm=""
+                    data-astro-cid-ojgm2tjl=""
                   >
                     <a
                       class="esa-button__native"
@@ -28626,12 +28620,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       role="button"
                       data-wb-details="true"
                       data-astro-cid-ftn3fswp="true"
-                      data-astro-cid-t6dusbpm=""
+                      data-astro-cid-ojgm2tjl=""
                     >
                       <span
                         class="esa-icon esa-icon--sm"
                         aria-hidden="true"
-                        data-astro-cid-ci6i4t6v=""
+                        data-astro-cid-md4nwazs=""
                       >
                         <svg
                           width="16"
@@ -28643,14 +28637,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           stroke-linecap="round"
                           stroke-linejoin="round"
                           focusable="false"
-                          data-astro-cid-ci6i4t6v=""
+                          data-astro-cid-md4nwazs=""
                         >
                           <path d="M15 3h6v6"></path>
                           <path d="M10 14 21 3"></path>
                           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                         </svg>
                       </span>
-                      <span class="esa-button__label" data-astro-cid-t6dusbpm="">
+                      <span class="esa-button__label" data-astro-cid-ojgm2tjl="">
                         View full details
                       </span>
                     </a>
@@ -28849,12 +28843,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       type="button"
                       aria-label="Remove assignment"
                       title="Remove assignment"
-                      data-astro-cid-3i6ienqg="true"
+                      data-astro-cid-q5zfyfab="true"
                     >
                       <span
                         class="esa-icon esa-icon--sm"
                         aria-hidden="true"
-                        data-astro-cid-ci6i4t6v=""
+                        data-astro-cid-md4nwazs=""
                       >
                         <svg
                           width="16"
@@ -28866,7 +28860,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           stroke-linecap="round"
                           stroke-linejoin="round"
                           focusable="false"
-                          data-astro-cid-ci6i4t6v=""
+                          data-astro-cid-md4nwazs=""
                         >
                           <path d="M3 6h18"></path>
                           <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
@@ -30295,7 +30289,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   <template data-gd-aldo-avatar=""
     ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-omctboch="">
       <span class="bcn-aldo-mark__glyph" data-astro-cid-omctboch="">
-        <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-ci6i4t6v="">
+        <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-md4nwazs="">
           <svg
             width="14"
             height="14"
@@ -30306,7 +30300,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             stroke-linecap="round"
             stroke-linejoin="round"
             focusable="false"
-            data-astro-cid-ci6i4t6v=""
+            data-astro-cid-md4nwazs=""
           >
             <path
               d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
@@ -32028,9 +32022,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <li data-astro-cid-xyosy2wp="">
                     <span
                       class="esa-pill esa-pill--default esa-pill--sm"
-                      data-astro-cid-xacvfu7n=""
+                      data-astro-cid-heggk5tk=""
                     >
-                      <span class="esa-pill__label" data-astro-cid-xacvfu7n=""></span>
+                      <span class="esa-pill__label" data-astro-cid-heggk5tk=""></span>
                     </span>
                   </li>
                 </template>
@@ -32046,12 +32040,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         type="button"
                         aria-label="Remove this file from the evidence"
                         title="Remove this file from the evidence"
-                        data-astro-cid-3i6ienqg="true"
+                        data-astro-cid-q5zfyfab="true"
                       >
                         <span
                           class="esa-icon esa-icon--sm"
                           aria-hidden="true"
-                          data-astro-cid-ci6i4t6v=""
+                          data-astro-cid-md4nwazs=""
                         >
                           <svg
                             width="16"
@@ -32063,7 +32057,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             focusable="false"
-                            data-astro-cid-ci6i4t6v=""
+                            data-astro-cid-md4nwazs=""
                           >
                             <path d="M18 6 6 18"></path>
                             <path d="m6 6 12 12"></path>
@@ -38199,9 +38193,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <span class="bcn-ev-attached__mark" hidden="" data-astro-cid-5nz34ayf="">
                       <span
                         class="esa-badge esa-badge--primary esa-badge--sm"
-                        data-astro-cid-xofpclsp=""
+                        data-astro-cid-gz52qnjf=""
                       >
-                        <span class="esa-badge__text" data-astro-cid-xofpclsp="">Suggested</span>
+                        <span class="esa-badge__text" data-astro-cid-gz52qnjf="">Suggested</span>
                       </span>
                     </span>
                     <span class="bcn-ev-attached__remove" data-astro-cid-5nz34ayf="">
@@ -38210,12 +38204,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         type="button"
                         aria-label="Remove this evidence from the action"
                         title="Remove this evidence from the action"
-                        data-astro-cid-3i6ienqg="true"
+                        data-astro-cid-q5zfyfab="true"
                       >
                         <span
                           class="esa-icon esa-icon--sm"
                           aria-hidden="true"
-                          data-astro-cid-ci6i4t6v=""
+                          data-astro-cid-md4nwazs=""
                         >
                           <svg
                             width="16"
@@ -38227,7 +38221,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             focusable="false"
-                            data-astro-cid-ci6i4t6v=""
+                            data-astro-cid-md4nwazs=""
                           >
                             <path d="M18 6 6 18"></path>
                             <path d="m6 6 12 12"></path>
@@ -38323,7 +38317,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </bcn-bottom-drawer>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.DmiQsqh2.js"
+    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.DYWgdQnP.js"
   ></script>
 </div>
 ```
@@ -38446,25 +38440,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --type-size-500: clamp(1.125rem, 0.98rem + 0.72vw, 1.5rem);
 }
 
-:host {
-  --_dialog-bg: var(--dialog-bg, var(--color-surface-elevated, #ffffff));
-  --_dialog-border-radius: var(--dialog-radius, var(--radius-400, 0.75rem));
-  --_dialog-padding: var(--spacing-500, 1.5rem);
-  --_dialog-header-border: var(--dialog-border-color, var(--color-border-light, #efefef));
-  /* Optional header/footer surface tints — a spoke fills these to frame the
-         body; default transparent leaves existing consumers unchanged. */
-  --_dialog-header-bg: var(--dialog-header-bg, transparent);
-  --_dialog-footer-bg: var(--dialog-footer-bg, transparent);
-  --_dialog-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
-  --_dialog-width: var(--dialog-width, 480px);
-  --_dialog-max-height: 85vh;
-}
-:host([size="sm"]) {
-  --_dialog-width: var(--dialog-width-sm, 360px);
-}
-:host {
-  display: contents;
-}
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
   --_btn-padding-x: var(--form-padding-x-md, 16px);
@@ -38559,11 +38534,77 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   pointer-events: none;
 }
 :host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100, 4px);
+  --_height: var(--form-height-md, 40px);
+  --_padding-x: var(--form-padding-x-md, 12px);
+  --_font-size: var(--form-font-size-md, 14px);
+  --_radius: var(--form-radius-md, 8px);
+  --_border-width: var(--form-border-width, 1px);
+  --_border-color: var(--form-border-color, #d4d4d4);
+  --_icon-size: 18px;
+}
+.group {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  gap: 2px;
+  padding: 2px;
+  background: var(--color-surface-sunken, #efefef);
+  border: var(--_border-width) solid var(--_border-color);
+  border-radius: var(--_radius);
+}
+:host([size="sm"]) {
+  --_height: var(--form-height-sm, 32px);
+  --_padding-x: var(--form-padding-x-sm, 8px);
+  --_font-size: var(--form-font-size-sm, 12px);
+  --_radius: var(--form-radius-sm, 6px);
+  --_icon-size: 16px;
+}
+.option {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-150, 6px);
+  height: calc(var(--_height) - 4px);
+  padding: 0 var(--_padding-x);
+  font-family: var(--font-sans, sans-serif);
+  font-size: var(--_font-size);
+  font-weight: var(--font-weight-medium, 450);
+  color: var(--color-text-secondary, #525252);
+  background: transparent;
+  border: 0;
+  border-radius: calc(var(--_radius) - 2px);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition:
+    background-color var(--transition-fast, 150ms ease),
+    color var(--transition-fast, 150ms ease),
+    box-shadow var(--transition-fast, 150ms ease);
+}
+.option--selected {
+  background: var(--form-bg, #fff);
+  color: var(--color-primary, #43608a);
+  font-weight: var(--font-weight-semibold, 550);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+.option__icon {
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  flex-shrink: 0;
+}
+:host {
   display: inline-block;
 }
-.esa-tooltip-anchor {
+.esa-dropdown {
   position: relative;
-  display: inline-flex;
+  display: inline-block;
+}
+.esa-dropdown__trigger {
+  display: inline-block;
 }
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
@@ -38621,6 +38662,50 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 }
 .bcn-rrep__add {
   align-self: flex-start;
+}
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-weight: var(--font-weight-regular, 350);
+  color: var(--color-text-primary, #3d3d3d);
+  background: var(--color-surface, #fff);
+  -webkit-font-smoothing: antialiased;
+}
+button {
+  font-family: inherit;
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+a {
+  color: var(--color-text-link, #005862);
+  text-decoration: none;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
+  margin: 0;
+}
+:host {
+  --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
+  --_popover-border: var(--popover-border-color, var(--color-border, #e5e5e5));
+  --_popover-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
+  --_popover-radius: var(--popover-radius, var(--radius-200, 0.5rem));
+  --_popover-padding: var(--spacing-300, 0.75rem);
+  --_popover-arrow-size: 8px;
+  --_popover-color: var(--popover-color, var(--color-text-primary, #171717));
+  display: inline-block;
+}
+.esa-popover-anchor {
+  position: relative;
+  display: inline-block;
 }
 .bcn-gantt-coa {
   font-family: var(--font-mono);
@@ -39190,6 +39275,30 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
 }
+.bcn-wb__dialog-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-200);
+  width: 100%;
+}
+.bcn-wb__dialog-cancel,
+.bcn-wb__dialog-move {
+  padding: var(--spacing-200) var(--spacing-400);
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--radius-200);
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+}
+.bcn-wb__dialog-cancel {
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+}
+.bcn-wb__dialog-move {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  border-color: var(--color-primary);
+}
 .bcn-node-head {
   display: flex;
   align-items: center;
@@ -39308,182 +39417,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   width: 100%;
 }
 :host {
-  display: block;
-  --_field-padding-y: var(--form-padding-y-md, 8px);
-  --_field-padding-x: var(--form-padding-x-md, 12px);
-  --_field-font-size: var(--form-font-size-md, 14px);
-  --_field-height: var(--form-height-md, 40px);
-  --_field-radius: var(--form-radius-md, 8px);
-  --_field-border-color: var(--form-border-color, #d4d4d4);
-}
-:host([size="sm"]) {
-  --_field-padding-y: var(--form-padding-y-sm, 4px);
-  --_field-padding-x: var(--form-padding-x-sm, 8px);
-  --_field-font-size: var(--form-font-size-sm, 12px);
-  --_field-height: var(--form-height-sm, 32px);
-  --_field-radius: var(--form-radius-sm, 6px);
-}
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100, 4px);
-}
-.container {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100, 4px);
-}
-.input-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-.input {
-  width: 100%;
-  height: var(--_field-height);
-  padding: var(--_field-padding-y) var(--_field-padding-x);
-  padding-inline-end: calc(var(--_field-padding-x) + 24px);
-  font-family: var(--font-sans, sans-serif);
-  font-size: var(--_field-font-size);
-  color: var(--form-text-color, #171717);
-  background: var(--form-bg, #fff);
-  border: var(--form-border-width, 1px) solid var(--_field-border-color);
-  border-radius: var(--_field-radius);
-  outline: none;
-  cursor: pointer;
-  box-sizing: border-box;
-  transition:
-    border-color var(--transition-fast, 150ms ease),
-    box-shadow var(--transition-fast, 150ms ease);
-}
-.input::placeholder {
-  color: var(--form-placeholder-color, #737373);
-}
-.arrow {
-  position: absolute;
-  right: var(--_field-padding-x);
-  top: 50%;
-  transform: translateY(-50%);
-  display: inline-flex;
-  color: var(--color-text-muted, #737373);
-  pointer-events: none;
-  transition: transform var(--transition-fast, 150ms ease);
-}
-.arrow svg {
-  width: var(--icon-size-medium, 20px);
-  height: var(--icon-size-medium, 20px);
-}
-.field__label {
-  font-family: var(--font-sans, sans-serif);
-  font-size: var(--form-label-font-size, var(--_field-font-size));
-  font-weight: var(--form-label-font-weight, var(--font-weight-medium, 450));
-  color: var(--form-label-color, #171717);
-}
-.page-layout {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
-}
-.page-layout section {
-  width: 100%;
-}
-.breadcrumbs {
-  padding: var(--spacing-400) 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-400);
-}
-.breadcrumbs__items {
-  display: flex;
-  gap: var(--spacing-100);
-  align-items: center;
-  flex-wrap: wrap;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.breadcrumb-item {
-  color: var(--bcn-gray-600);
-  text-transform: capitalize;
-  font-size: 0.875rem;
-}
-a.breadcrumb-item {
-  text-decoration: none;
-}
-.page-layout__container {
-  display: flex;
-  flex-direction: column;
-}
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
-.page-layout__title-main {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.page-layout__title h1 {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  font-family: var(--font-decorative);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--type-size-500);
-  margin: 0;
-  color: var(--bcn-gray-1000);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
-}
-.page-layout__utilities {
-  display: flex;
-  gap: var(--spacing-200);
-}
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
-  position: relative;
-}
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
-}
-:host {
-  display: inline-block;
-}
-.esa-dropdown {
-  position: relative;
-  display: inline-block;
-}
-.esa-dropdown__trigger {
-  display: inline-block;
-}
-:host {
-  --_popover-bg: var(--popover-bg, var(--color-surface, #ffffff));
-  --_popover-border: var(--popover-border-color, var(--color-border, #e5e5e5));
-  --_popover-shadow: var(--shadow-300, 0 6px 24px -6px rgba(0, 0, 0, 0.07));
-  --_popover-radius: var(--popover-radius, var(--radius-200, 0.5rem));
-  --_popover-padding: var(--spacing-300, 0.75rem);
-  --_popover-arrow-size: 8px;
-  --_popover-color: var(--popover-color, var(--color-text-primary, #171717));
-  display: inline-block;
-}
-.esa-popover-anchor {
-  position: relative;
-  display: inline-block;
+  display: contents;
 }
 .modern-layout {
   display: flex;
@@ -40302,35 +40236,181 @@ html,
   overflow: hidden;
   animation: bcn-bd-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-*,
-*:before,
-*:after {
+:host {
+  display: block;
+  --_field-padding-y: var(--form-padding-y-md, 8px);
+  --_field-padding-x: var(--form-padding-x-md, 12px);
+  --_field-font-size: var(--form-font-size-md, 14px);
+  --_field-height: var(--form-height-md, 40px);
+  --_field-radius: var(--form-radius-md, 8px);
+  --_field-border-color: var(--form-border-color, #d4d4d4);
+}
+:host([size="sm"]) {
+  --_field-padding-y: var(--form-padding-y-sm, 4px);
+  --_field-padding-x: var(--form-padding-x-sm, 8px);
+  --_field-font-size: var(--form-font-size-sm, 12px);
+  --_field-height: var(--form-height-sm, 32px);
+  --_field-radius: var(--form-radius-sm, 6px);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100, 4px);
+}
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-100, 4px);
+}
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.input {
+  width: 100%;
+  height: var(--_field-height);
+  padding: var(--_field-padding-y) var(--_field-padding-x);
+  padding-inline-end: calc(var(--_field-padding-x) + 24px);
+  font-family: var(--font-sans, sans-serif);
+  font-size: var(--_field-font-size);
+  color: var(--form-text-color, #171717);
+  background: var(--form-bg, #fff);
+  border: var(--form-border-width, 1px) solid var(--_field-border-color);
+  border-radius: var(--_field-radius);
+  outline: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition:
+    border-color var(--transition-fast, 150ms ease),
+    box-shadow var(--transition-fast, 150ms ease);
+}
+.input::placeholder {
+  color: var(--form-placeholder-color, #737373);
+}
+.arrow {
+  position: absolute;
+  right: var(--_field-padding-x);
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  color: var(--color-text-muted, #737373);
+  pointer-events: none;
+  transition: transform var(--transition-fast, 150ms ease);
+}
+.arrow svg {
+  width: var(--icon-size-medium, 20px);
+  height: var(--icon-size-medium, 20px);
+}
+.field__label {
+  font-family: var(--font-sans, sans-serif);
+  font-size: var(--form-label-font-size, var(--_field-font-size));
+  font-weight: var(--form-label-font-weight, var(--font-weight-medium, 450));
+  color: var(--form-label-color, #171717);
+}
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
   box-sizing: border-box;
 }
-body {
-  margin: 0;
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-regular, 350);
-  color: var(--color-text-primary, #3d3d3d);
-  background: var(--color-surface, #fff);
-  -webkit-font-smoothing: antialiased;
+.page-layout__container {
+  display: flex;
+  flex-direction: column;
 }
-button {
-  font-family: inherit;
-  cursor: pointer;
-  background: none;
-  border: 0;
+.page-layout section {
+  width: 100%;
 }
-a {
-  color: var(--color-text-link, #005862);
+.breadcrumbs {
+  padding: var(--spacing-400) 0;
+}
+.breadcrumbs__items {
+  display: flex;
+  gap: var(--spacing-100);
+  align-items: center;
+  flex-wrap: wrap;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.breadcrumb-item {
+  color: var(--bcn-gray-600);
+  text-transform: capitalize;
+  font-size: 0.875rem;
+}
+a.breadcrumb-item {
   text-decoration: none;
 }
-img {
-  display: block;
-  max-width: 100%;
+.page-layout__title {
+  border-bottom: 1px solid var(--bcn-gray-200);
+  padding: var(--spacing-500) 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
 }
-:where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
+.page-layout__title-main {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+.page-layout__title h1 {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  font-family: var(--font-decorative);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--type-size-500);
   margin: 0;
+  color: var(--bcn-gray-1000);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
+.page-layout__utilities {
+  display: flex;
+  gap: var(--spacing-200);
+}
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
+  position: relative;
+}
+:host {
+  --_width: var(--side-dialog-width, 400px);
+}
+:host {
+  --_dialog-bg: var(--dialog-bg, var(--color-surface-elevated, #ffffff));
+  --_dialog-border-radius: var(--dialog-radius, var(--radius-400, 0.75rem));
+  --_dialog-padding: var(--spacing-500, 1.5rem);
+  --_dialog-header-border: var(--dialog-border-color, var(--color-border-light, #efefef));
+  /* Optional header/footer surface tints — a spoke fills these to frame the
+         body; default transparent leaves existing consumers unchanged. */
+  --_dialog-header-bg: var(--dialog-header-bg, transparent);
+  --_dialog-footer-bg: var(--dialog-footer-bg, transparent);
+  --_dialog-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
+  --_dialog-width: var(--dialog-width, 480px);
+  --_dialog-max-height: 85vh;
+}
+:host([size="sm"]) {
+  --_dialog-width: var(--dialog-width-sm, 360px);
+}
+:host {
+  display: inline-block;
+}
+.esa-tooltip-anchor {
+  position: relative;
+  display: inline-flex;
+}
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
 }
 :host {
   --_field-padding-y: var(--form-padding-y-md, 0.5rem);
@@ -40403,72 +40483,6 @@ img {
 }
 .help {
   color: var(--form-help-color, #737373);
-}
-:host {
-  --_width: var(--side-dialog-width, 400px);
-}
-:host {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-100, 4px);
-  --_height: var(--form-height-md, 40px);
-  --_padding-x: var(--form-padding-x-md, 12px);
-  --_font-size: var(--form-font-size-md, 14px);
-  --_radius: var(--form-radius-md, 8px);
-  --_border-width: var(--form-border-width, 1px);
-  --_border-color: var(--form-border-color, #d4d4d4);
-  --_icon-size: 18px;
-}
-.group {
-  display: inline-flex;
-  width: fit-content;
-  max-width: 100%;
-  gap: 2px;
-  padding: 2px;
-  background: var(--color-surface-sunken, #efefef);
-  border: var(--_border-width) solid var(--_border-color);
-  border-radius: var(--_radius);
-}
-:host([size="sm"]) {
-  --_height: var(--form-height-sm, 32px);
-  --_padding-x: var(--form-padding-x-sm, 8px);
-  --_font-size: var(--form-font-size-sm, 12px);
-  --_radius: var(--form-radius-sm, 6px);
-  --_icon-size: 16px;
-}
-.option {
-  appearance: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-150, 6px);
-  height: calc(var(--_height) - 4px);
-  padding: 0 var(--_padding-x);
-  font-family: var(--font-sans, sans-serif);
-  font-size: var(--_font-size);
-  font-weight: var(--font-weight-medium, 450);
-  color: var(--color-text-secondary, #525252);
-  background: transparent;
-  border: 0;
-  border-radius: calc(var(--_radius) - 2px);
-  cursor: pointer;
-  user-select: none;
-  white-space: nowrap;
-  transition:
-    background-color var(--transition-fast, 150ms ease),
-    color var(--transition-fast, 150ms ease),
-    box-shadow var(--transition-fast, 150ms ease);
-}
-.option--selected {
-  background: var(--form-bg, #fff);
-  color: var(--color-primary, #43608a);
-  font-weight: var(--font-weight-semibold, 550);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
-}
-.option__icon {
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  flex-shrink: 0;
 }
 ```
 

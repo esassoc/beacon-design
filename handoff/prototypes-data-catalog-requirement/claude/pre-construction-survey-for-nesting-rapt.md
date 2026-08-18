@@ -391,74 +391,68 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
     </nav>
     <!-- content -->
     <div class="modern-layout__content">
-      <!-- bcn-lego-checked: esa-breadcrumbs exists, but this whole layout is a deliberate
-     VERBATIM port of prod's page-layout + breadcrumbs (see the file header) so that
-     ported Angular views match the live app; the lego has a different anatomy (no
-     home glyph, its own spacing) and swapping it would restyle the breadcrumb row on
-     all 39 pages at once. That migration is its own decision, not a side effect of
-     moving where the row sits. Only the POSITION and an end slot changed here. -->
       <div class="page-layout">
-        <section class="page-layout__breadcrumbs">
-          <nav class="breadcrumbs" aria-label="Breadcrumb">
-            <div class="breadcrumbs__items">
-              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
-                  <path
-                    d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
-                  ></path>
-                </svg>
-              </span>
-              <a class="breadcrumb-item" href="#data-catalog"> Data Catalog </a
-              ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path d="m9 18 6-6-6-6"></path>
-                </svg>
-              </span>
-              <a class="breadcrumb-item" href="#data-catalog/requirements"> Requirements </a
-              ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path d="m9 18 6-6-6-6"></path>
-                </svg>
-              </span>
-              <span class="breadcrumb-item" aria-current="page">
-                Pre-construction survey for nesting raptors and other migratory birds during nesting
-                season
-              </span>
-            </div>
-          </nav>
-        </section>
         <div class="page-layout__container">
+          <section class="page-layout__breadcrumbs">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+              <div class="breadcrumbs__items">
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+                    <path
+                      d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+                    ></path>
+                  </svg>
+                </span>
+                <a class="breadcrumb-item" href="#data-catalog"> Data Catalog </a
+                ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path d="m9 18 6-6-6-6"></path>
+                  </svg>
+                </span>
+                <a class="breadcrumb-item" href="#data-catalog/requirements"> Requirements </a
+                ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path d="m9 18 6-6-6-6"></path>
+                  </svg>
+                </span>
+                <span class="breadcrumb-item" aria-current="page">
+                  Pre-construction survey for nesting raptors and other migratory birds during
+                  nesting season
+                </span>
+              </div>
+            </nav>
+          </section>
           <section class="page-layout__title">
             <div class="page-layout__title-main">
               <h1>
@@ -2651,7 +2645,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   <template data-gd-aldo-avatar=""
     ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-omctboch="">
       <span class="bcn-aldo-mark__glyph" data-astro-cid-omctboch="">
-        <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-ci6i4t6v="">
+        <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-md4nwazs="">
           <svg
             width="14"
             height="14"
@@ -2662,7 +2656,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             stroke-linecap="round"
             stroke-linejoin="round"
             focusable="false"
-            data-astro-cid-ci6i4t6v=""
+            data-astro-cid-md4nwazs=""
           >
             <path
               d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
@@ -4384,9 +4378,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <li data-astro-cid-xyosy2wp="">
                     <span
                       class="esa-pill esa-pill--default esa-pill--sm"
-                      data-astro-cid-xacvfu7n=""
+                      data-astro-cid-heggk5tk=""
                     >
-                      <span class="esa-pill__label" data-astro-cid-xacvfu7n=""></span>
+                      <span class="esa-pill__label" data-astro-cid-heggk5tk=""></span>
                     </span>
                   </li>
                 </template>
@@ -4402,12 +4396,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         type="button"
                         aria-label="Remove this file from the evidence"
                         title="Remove this file from the evidence"
-                        data-astro-cid-3i6ienqg="true"
+                        data-astro-cid-q5zfyfab="true"
                       >
                         <span
                           class="esa-icon esa-icon--sm"
                           aria-hidden="true"
-                          data-astro-cid-ci6i4t6v=""
+                          data-astro-cid-md4nwazs=""
                         >
                           <svg
                             width="16"
@@ -4419,7 +4413,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             focusable="false"
-                            data-astro-cid-ci6i4t6v=""
+                            data-astro-cid-md4nwazs=""
                           >
                             <path d="M18 6 6 18"></path>
                             <path d="m6 6 12 12"></path>
@@ -10555,9 +10549,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <span class="bcn-ev-attached__mark" hidden="" data-astro-cid-5nz34ayf="">
                       <span
                         class="esa-badge esa-badge--primary esa-badge--sm"
-                        data-astro-cid-xofpclsp=""
+                        data-astro-cid-gz52qnjf=""
                       >
-                        <span class="esa-badge__text" data-astro-cid-xofpclsp="">Suggested</span>
+                        <span class="esa-badge__text" data-astro-cid-gz52qnjf="">Suggested</span>
                       </span>
                     </span>
                     <span class="bcn-ev-attached__remove" data-astro-cid-5nz34ayf="">
@@ -10566,12 +10560,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         type="button"
                         aria-label="Remove this evidence from the action"
                         title="Remove this evidence from the action"
-                        data-astro-cid-3i6ienqg="true"
+                        data-astro-cid-q5zfyfab="true"
                       >
                         <span
                           class="esa-icon esa-icon--sm"
                           aria-hidden="true"
-                          data-astro-cid-ci6i4t6v=""
+                          data-astro-cid-md4nwazs=""
                         >
                           <svg
                             width="16"
@@ -10583,7 +10577,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             focusable="false"
-                            data-astro-cid-ci6i4t6v=""
+                            data-astro-cid-md4nwazs=""
                           >
                             <path d="M18 6 6 18"></path>
                             <path d="m6 6 12 12"></path>
@@ -10679,13 +10673,84 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </bcn-bottom-drawer>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.DmiQsqh2.js"
+    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.DYWgdQnP.js"
   ></script>
 </div>
 ```
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
+.esa-button {
+  --_btn-height: var(--form-height-md, 40px);
+  --_btn-padding-x: var(--form-padding-x-md, 16px);
+  --_btn-font-size: var(--form-font-size-md, 14px);
+  --_btn-radius: var(--form-radius-md, 6px);
+  --_accent: var(--color-primary, #46a758);
+  --_accent-hover: var(--color-primary-hover, #3e9b4f);
+  --_on: var(--color-text-inverse, #ffffff);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button--color-primary {
+  --_accent-text: var(--color-primary-strong);
+}
+.esa-button__native {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  height: var(--_btn-height);
+  padding-inline: var(--_btn-padding-x);
+  border: 1px solid transparent;
+  border-radius: var(--_btn-radius);
+  font-size: var(--_btn-font-size);
+  font-family: var(--font-sans, system-ui, sans-serif);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: transparent;
+}
+.esa-button__label {
+  white-space: nowrap;
+}
+.esa-button--sm {
+  --_btn-height: var(--form-height-sm, 32px);
+  --_btn-padding-x: var(--form-padding-x-sm, 12px);
+  --_btn-font-size: var(--form-font-size-sm, 12px);
+  --_btn-radius: var(--form-radius-sm, 4px);
+}
+.esa-button--sm .esa-button__native {
+  height: auto;
+  padding-block: var(--spacing-150, 6px);
+}
+.esa-button--color-ghost .esa-button__native {
+  background: transparent;
+  color: var(--color-text-primary, #171717);
+  border-color: transparent;
+}
+.esa-button--appearance-outline .esa-button__native,
+.esa-button--appearance-dashed .esa-button__native {
+  background: transparent;
+  color: var(--_accent-text);
+  border-color: var(--_accent);
+}
+.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border, #e5e5e5);
+}
 .esa-icon {
   --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
   display: inline-flex;
@@ -10812,465 +10877,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .esa-icon-link__label {
   display: inline-block;
 }
-.page-layout {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
-}
-.page-layout section {
-  width: 100%;
-}
-.breadcrumbs {
-  padding: var(--spacing-400) 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-400);
-}
-.breadcrumbs__items {
-  display: flex;
-  gap: var(--spacing-100);
-  align-items: center;
-  flex-wrap: wrap;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.breadcrumb-item {
-  color: var(--bcn-gray-600);
-  text-transform: capitalize;
-  font-size: 0.875rem;
-}
-a.breadcrumb-item {
-  text-decoration: none;
-}
-.page-layout__container {
-  display: flex;
-  flex-direction: column;
-}
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
-  position: relative;
-}
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
-}
-.page-layout__title {
-  display: none !important;
-}
-.bcn-req {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-600);
-}
-.bcn-req__head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--spacing-400);
-  padding-bottom: var(--spacing-400);
-  border-bottom: 1px solid var(--color-border);
-}
-.bcn-req__identity {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--spacing-100);
-  min-width: 0;
-}
-.bcn-req__badge {
-  flex-shrink: 0;
-  padding: 0.125rem 0.375rem;
-  border-radius: var(--radius-100);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.4;
-  white-space: nowrap;
-}
-.bcn-req__badge--commitment {
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-}
-.bcn-req__title-row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.bcn-req__title {
-  margin: 0;
-  font-family: var(--font-decorative);
-  font-size: 1.5rem;
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.2;
-  color: var(--color-text-primary);
-}
-.bcn-req__badge--type {
-  color: var(--color-text-secondary);
-  background: var(--color-surface-sunken);
-  transform: translateY(2px);
-}
-.bcn-req__head-actions {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  flex-shrink: 0;
-}
-.bcn-btn-ico {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-}
-.bcn-req__body {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px;
-  gap: var(--spacing-600);
-  align-items: start;
-}
-.bcn-req__main {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-600);
-}
-.bcn-req__section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-}
-.bcn-section-title {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  margin: 0;
-  font-size: var(--type-size-300);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-reqtext {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-  padding: var(--spacing-500);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-300);
-}
-.bcn-reqtext__text {
-  margin: 0;
-  font-family: var(--font-decorative);
-  font-size: 1.0625rem;
-  line-height: 1.65;
-  color: var(--color-text-primary);
-}
-.bcn-reqtext__footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--spacing-100);
-  padding-top: var(--spacing-200);
-  border-top: 1px solid var(--color-border-light);
-}
-.bcn-reqtext__footer .esa-button--color-ghost .esa-button__native {
-  color: var(--color-primary);
-}
-.bcn-action-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
-}
-.bcn-linked-action {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300) var(--spacing-400);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-  background: var(--color-surface);
-  text-decoration: none;
-  transition: background-color 0.12s ease;
-}
-.bcn-linked-action__name {
-  flex: 1;
-  min-width: 0;
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-linked-action .bcn-req__badge--type {
-  transform: none;
-}
-.bcn-linked-action > .esa-icon:last-child {
-  color: var(--color-text-tertiary);
-  flex-shrink: 0;
-  transition:
-    transform 0.12s ease,
-    color 0.12s ease;
-}
-.bcn-req__rail {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-500);
-}
-.bcn-req__rail .esa-collapsible__title {
-  font-size: var(--type-size-300);
-  font-weight: var(--font-weight-semibold);
-}
-.bcn-tagrow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-150);
-  margin-top: var(--spacing-100);
-}
-.bcn-tagrow .esa-pill {
-  border-radius: var(--radius-100);
-  background: var(--color-surface-sunken);
-  border: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
-}
-.bcn-rail-meta {
-  margin: var(--spacing-300) 0 0;
-  padding-top: var(--spacing-300);
-  border-top: 1px solid var(--color-border-light);
-  font-size: 0.75rem;
-  color: var(--color-text-secondary);
-}
-.bcn-lineage {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
-.bcn-lineage__node {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  gap: var(--spacing-300);
-  padding-bottom: var(--spacing-400);
-}
-.bcn-lineage__node:before {
-  content: "";
-  position: absolute;
-  left: 13px;
-  top: 30px;
-  bottom: 2px;
-  width: 2px;
-  background: var(--color-border);
-}
-.bcn-lineage__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
-}
-.bcn-lineage__icon .esa-icon {
-  --_icon-size: 14px;
-}
-.bcn-lineage__body {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  min-width: 0;
-  padding-top: 2px;
-}
-.bcn-lineage__kind {
-  font-size: 0.75rem;
-  color: var(--color-text-tertiary);
-}
-.bcn-lineage__name {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  line-height: 1.35;
-  color: var(--color-primary);
-  text-decoration: none;
-}
-.bcn-lineage__node:last-child {
-  padding-bottom: 0;
-}
-.bcn-lineage__node:last-child:before {
-  display: none;
-}
-.bcn-lineage__node--current .bcn-lineage__icon {
-  border-color: var(--color-secondary);
-  color: var(--color-secondary);
-}
-.bcn-lineage__name--current {
-  color: var(--color-text-primary);
-  font-weight: var(--font-weight-semibold);
-}
-.bcn-editor__head {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-}
-.bcn-editor__head-title {
-  font-family: var(--font-decorative);
-  font-size: var(--type-size-300);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-editor {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-  align-items: stretch;
-  height: calc(86vh - 8.5rem);
-  margin: calc(-1 * var(--_dialog-padding, 1.5rem));
-  overflow: hidden;
-}
-.bcn-context {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-  min-width: 0;
-  height: 100%;
-  overflow-y: auto;
-  padding: var(--spacing-500);
-  background: var(--color-background);
-  border-right: 1px solid var(--color-border);
-}
-.bcn-context__commitment {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-250);
-}
-.bcn-context__commitment-title {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-context__text {
-  margin: 0;
-  font-family: var(--font-decorative);
-  font-size: 1.0625rem;
-  line-height: 1.65;
-  color: var(--color-text-primary);
-}
-.bcn-context__actions {
-  display: flex;
-}
-.bcn-config {
-  min-width: 0;
-  min-height: 0;
-  overflow-y: auto;
-}
-.bcn-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-  padding: var(--spacing-400) var(--spacing-500) var(--spacing-500);
-}
-.bcn-grid-2 {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--spacing-300);
-}
-.bcn-form esa-input-tag {
-  --_chip-bg: var(--color-surface-sunken);
-  --_chip-color: var(--color-text-primary);
-  --_chip-radius: var(--radius-100);
-}
-.bcn-field-add {
-  position: relative;
-  min-width: 0;
-}
-.bcn-field-add__btn {
-  position: absolute;
-  right: 5px;
-  bottom: 5px;
-  display: inline-flex;
-}
-.bcn-editor__foot {
-  display: flex;
-  gap: var(--spacing-300);
-  justify-content: flex-end;
-  width: 100%;
-}
-.bcn-source-pdf {
-  height: 100%;
-  min-height: 60vh;
-}
-.bcn-source-pdf__frame {
-  width: 100%;
-  height: 100%;
-  min-height: 60vh;
-  border: 0;
-  border-radius: var(--radius-200);
-  background: var(--color-surface-sunken);
-}
-.bcn-source-foot {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-}
-.bcn-drawer-head {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-250);
-}
-.bcn-drawer-head__title {
-  font-size: var(--type-size-300);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-parsed {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-  font-family: var(--font-decorative);
-  font-size: 1.0625rem;
-  line-height: 1.65;
-  color: var(--color-text-primary);
-}
-.bcn-parsed__title {
-  margin: 0;
-  font-weight: var(--font-weight-semibold);
-}
-.bcn-parsed__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-}
-.bcn-entity-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-}
-.bcn-entity-form__date {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150);
-}
-.bcn-field__hint {
-  font-size: 0.75rem;
-  color: var(--color-text-tertiary);
-}
 .esa-badge {
   --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
   --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));
@@ -11332,77 +10938,6 @@ html,
 }
 .esa-pill__label {
   font-weight: 500;
-}
-.esa-button {
-  --_btn-height: var(--form-height-md, 40px);
-  --_btn-padding-x: var(--form-padding-x-md, 16px);
-  --_btn-font-size: var(--form-font-size-md, 14px);
-  --_btn-radius: var(--form-radius-md, 6px);
-  --_accent: var(--color-primary, #46a758);
-  --_accent-hover: var(--color-primary-hover, #3e9b4f);
-  --_on: var(--color-text-inverse, #ffffff);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button--color-primary {
-  --_accent-text: var(--color-primary-strong);
-}
-.esa-button__native {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  height: var(--_btn-height);
-  padding-inline: var(--_btn-padding-x);
-  border: 1px solid transparent;
-  border-radius: var(--_btn-radius);
-  font-size: var(--_btn-font-size);
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: transparent;
-}
-.esa-button__label {
-  white-space: nowrap;
-}
-.esa-button--sm {
-  --_btn-height: var(--form-height-sm, 32px);
-  --_btn-padding-x: var(--form-padding-x-sm, 12px);
-  --_btn-font-size: var(--form-font-size-sm, 12px);
-  --_btn-radius: var(--form-radius-sm, 4px);
-}
-.esa-button--sm .esa-button__native {
-  height: auto;
-  padding-block: var(--spacing-150, 6px);
-}
-.esa-button--color-ghost .esa-button__native {
-  background: transparent;
-  color: var(--color-text-primary, #171717);
-  border-color: transparent;
-}
-.esa-button--appearance-outline .esa-button__native,
-.esa-button--appearance-dashed .esa-button__native {
-  background: transparent;
-  color: var(--_accent-text);
-  border-color: var(--_accent);
-}
-.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border, #e5e5e5);
 }
 .modern-layout {
   display: flex;
@@ -12187,6 +11722,461 @@ html,
   outline: none;
   overflow: hidden;
   animation: bcn-bd-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
+  box-sizing: border-box;
+}
+.page-layout__container {
+  display: flex;
+  flex-direction: column;
+}
+.page-layout section {
+  width: 100%;
+}
+.breadcrumbs {
+  padding: var(--spacing-400) 0;
+}
+.breadcrumbs__items {
+  display: flex;
+  gap: var(--spacing-100);
+  align-items: center;
+  flex-wrap: wrap;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.breadcrumb-item {
+  color: var(--bcn-gray-600);
+  text-transform: capitalize;
+  font-size: 0.875rem;
+}
+a.breadcrumb-item {
+  text-decoration: none;
+}
+.page-layout__title {
+  border-bottom: 1px solid var(--bcn-gray-200);
+  padding: var(--spacing-500) 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
+  position: relative;
+}
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
+.page-layout__title {
+  display: none !important;
+}
+.bcn-req {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-600);
+}
+.bcn-req__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-400);
+  padding-bottom: var(--spacing-400);
+  border-bottom: 1px solid var(--color-border);
+}
+.bcn-req__identity {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-100);
+  min-width: 0;
+}
+.bcn-req__badge {
+  flex-shrink: 0;
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--radius-100);
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.bcn-req__badge--commitment {
+  color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 12%, white);
+}
+.bcn-req__title-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+.bcn-req__title {
+  margin: 0;
+  font-family: var(--font-decorative);
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.2;
+  color: var(--color-text-primary);
+}
+.bcn-req__badge--type {
+  color: var(--color-text-secondary);
+  background: var(--color-surface-sunken);
+  transform: translateY(2px);
+}
+.bcn-req__head-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  flex-shrink: 0;
+}
+.bcn-btn-ico {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+}
+.bcn-req__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: var(--spacing-600);
+  align-items: start;
+}
+.bcn-req__main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-600);
+}
+.bcn-req__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+}
+.bcn-section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  margin: 0;
+  font-size: var(--type-size-300);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-reqtext {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  padding: var(--spacing-500);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+}
+.bcn-reqtext__text {
+  margin: 0;
+  font-family: var(--font-decorative);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--color-text-primary);
+}
+.bcn-reqtext__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-100);
+  padding-top: var(--spacing-200);
+  border-top: 1px solid var(--color-border-light);
+}
+.bcn-reqtext__footer .esa-button--color-ghost .esa-button__native {
+  color: var(--color-primary);
+}
+.bcn-action-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+.bcn-linked-action {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-400);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+  background: var(--color-surface);
+  text-decoration: none;
+  transition: background-color 0.12s ease;
+}
+.bcn-linked-action__name {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-linked-action .bcn-req__badge--type {
+  transform: none;
+}
+.bcn-linked-action > .esa-icon:last-child {
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+  transition:
+    transform 0.12s ease,
+    color 0.12s ease;
+}
+.bcn-req__rail {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-500);
+}
+.bcn-req__rail .esa-collapsible__title {
+  font-size: var(--type-size-300);
+  font-weight: var(--font-weight-semibold);
+}
+.bcn-tagrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-150);
+  margin-top: var(--spacing-100);
+}
+.bcn-tagrow .esa-pill {
+  border-radius: var(--radius-100);
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+}
+.bcn-rail-meta {
+  margin: var(--spacing-300) 0 0;
+  padding-top: var(--spacing-300);
+  border-top: 1px solid var(--color-border-light);
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+.bcn-lineage {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.bcn-lineage__node {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-300);
+  padding-bottom: var(--spacing-400);
+}
+.bcn-lineage__node:before {
+  content: "";
+  position: absolute;
+  left: 13px;
+  top: 30px;
+  bottom: 2px;
+  width: 2px;
+  background: var(--color-border);
+}
+.bcn-lineage__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+}
+.bcn-lineage__icon .esa-icon {
+  --_icon-size: 14px;
+}
+.bcn-lineage__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  padding-top: 2px;
+}
+.bcn-lineage__kind {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+}
+.bcn-lineage__name {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.35;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+.bcn-lineage__node:last-child {
+  padding-bottom: 0;
+}
+.bcn-lineage__node:last-child:before {
+  display: none;
+}
+.bcn-lineage__node--current .bcn-lineage__icon {
+  border-color: var(--color-secondary);
+  color: var(--color-secondary);
+}
+.bcn-lineage__name--current {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
+}
+.bcn-editor__head {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+}
+.bcn-editor__head-title {
+  font-family: var(--font-decorative);
+  font-size: var(--type-size-300);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-editor {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+  align-items: stretch;
+  height: calc(86vh - 8.5rem);
+  margin: calc(-1 * var(--_dialog-padding, 1.5rem));
+  overflow: hidden;
+}
+.bcn-context {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+  min-width: 0;
+  height: 100%;
+  overflow-y: auto;
+  padding: var(--spacing-500);
+  background: var(--color-background);
+  border-right: 1px solid var(--color-border);
+}
+.bcn-context__commitment {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-250);
+}
+.bcn-context__commitment-title {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-context__text {
+  margin: 0;
+  font-family: var(--font-decorative);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--color-text-primary);
+}
+.bcn-context__actions {
+  display: flex;
+}
+.bcn-config {
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+}
+.bcn-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+  padding: var(--spacing-400) var(--spacing-500) var(--spacing-500);
+}
+.bcn-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-300);
+}
+.bcn-form esa-input-tag {
+  --_chip-bg: var(--color-surface-sunken);
+  --_chip-color: var(--color-text-primary);
+  --_chip-radius: var(--radius-100);
+}
+.bcn-field-add {
+  position: relative;
+  min-width: 0;
+}
+.bcn-field-add__btn {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  display: inline-flex;
+}
+.bcn-editor__foot {
+  display: flex;
+  gap: var(--spacing-300);
+  justify-content: flex-end;
+  width: 100%;
+}
+.bcn-source-pdf {
+  height: 100%;
+  min-height: 60vh;
+}
+.bcn-source-pdf__frame {
+  width: 100%;
+  height: 100%;
+  min-height: 60vh;
+  border: 0;
+  border-radius: var(--radius-200);
+  background: var(--color-surface-sunken);
+}
+.bcn-source-foot {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+.bcn-drawer-head {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-250);
+}
+.bcn-drawer-head__title {
+  font-size: var(--type-size-300);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-parsed {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+  font-family: var(--font-decorative);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--color-text-primary);
+}
+.bcn-parsed__title {
+  margin: 0;
+  font-weight: var(--font-weight-semibold);
+}
+.bcn-parsed__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+}
+.bcn-entity-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+}
+.bcn-entity-form__date {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+}
+.bcn-field__hint {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
 }
 ```
 

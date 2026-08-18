@@ -200,20 +200,8 @@ The way back up. A category page is the only nested route in the knowledge base,
   outline: var(--focus-ring-width) solid currentColor;
   outline-offset: var(--focus-ring-offset, 2px);
 }
-.page-layout__breadcrumbs--bleed {
-  padding: 0 var(--spacing-600);
-}
 .breadcrumbs {
   padding: var(--spacing-400) 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-400);
-}
-.breadcrumbs__end {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
 }
 .breadcrumbs__items {
   display: flex;
@@ -272,5 +260,4 @@ a.breadcrumb-item:hover {
 - `--radius-200`: .5rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
-- `--spacing-600`: 2rem _(primitive)_
 - `--transition-fast`: .15s ease _(primitive)_

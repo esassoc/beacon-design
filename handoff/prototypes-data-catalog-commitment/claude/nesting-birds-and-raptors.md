@@ -391,71 +391,65 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
     </nav>
     <!-- content -->
     <div class="modern-layout__content">
-      <!-- bcn-lego-checked: esa-breadcrumbs exists, but this whole layout is a deliberate
-     VERBATIM port of prod's page-layout + breadcrumbs (see the file header) so that
-     ported Angular views match the live app; the lego has a different anatomy (no
-     home glyph, its own spacing) and swapping it would restyle the breadcrumb row on
-     all 39 pages at once. That migration is its own decision, not a side effect of
-     moving where the row sits. Only the POSITION and an end slot changed here. -->
       <div class="page-layout">
-        <section class="page-layout__breadcrumbs">
-          <nav class="breadcrumbs" aria-label="Breadcrumb">
-            <div class="breadcrumbs__items">
-              <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
-                  <path
-                    d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
-                  ></path>
-                </svg>
-              </span>
-              <a class="breadcrumb-item" href="#data-catalog"> Data Catalog </a
-              ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path d="m9 18 6-6-6-6"></path>
-                </svg>
-              </span>
-              <a class="breadcrumb-item" href="#data-catalog/commitments"> Commitments </a
-              ><span class="esa-icon esa-icon--sm" aria-hidden="true">
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path d="m9 18 6-6-6-6"></path>
-                </svg>
-              </span>
-              <span class="breadcrumb-item" aria-current="page"> MM-BIO-2 </span>
-            </div>
-          </nav>
-        </section>
         <div class="page-layout__container">
+          <section class="page-layout__breadcrumbs">
+            <nav class="breadcrumbs" aria-label="Breadcrumb">
+              <div class="breadcrumbs__items">
+                <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+                    <path
+                      d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+                    ></path>
+                  </svg>
+                </span>
+                <a class="breadcrumb-item" href="#data-catalog"> Data Catalog </a
+                ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path d="m9 18 6-6-6-6"></path>
+                  </svg>
+                </span>
+                <a class="breadcrumb-item" href="#data-catalog/commitments"> Commitments </a
+                ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path d="m9 18 6-6-6-6"></path>
+                  </svg>
+                </span>
+                <span class="breadcrumb-item" aria-current="page"> MM-BIO-2 </span>
+              </div>
+            </nav>
+          </section>
           <section class="page-layout__title">
             <div class="page-layout__title-main"><h1>Nesting Birds and Raptors</h1></div>
           </section>
@@ -2901,7 +2895,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   <template data-gd-aldo-avatar=""
     ><span class="bcn-aldo-mark" data-size="sm" aria-hidden="true" data-astro-cid-omctboch="">
       <span class="bcn-aldo-mark__glyph" data-astro-cid-omctboch="">
-        <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-ci6i4t6v="">
+        <span class="esa-icon esa-icon--xs" aria-hidden="true" data-astro-cid-md4nwazs="">
           <svg
             width="14"
             height="14"
@@ -2912,7 +2906,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             stroke-linecap="round"
             stroke-linejoin="round"
             focusable="false"
-            data-astro-cid-ci6i4t6v=""
+            data-astro-cid-md4nwazs=""
           >
             <path
               d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"
@@ -4634,9 +4628,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <li data-astro-cid-xyosy2wp="">
                     <span
                       class="esa-pill esa-pill--default esa-pill--sm"
-                      data-astro-cid-xacvfu7n=""
+                      data-astro-cid-heggk5tk=""
                     >
-                      <span class="esa-pill__label" data-astro-cid-xacvfu7n=""></span>
+                      <span class="esa-pill__label" data-astro-cid-heggk5tk=""></span>
                     </span>
                   </li>
                 </template>
@@ -4652,12 +4646,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         type="button"
                         aria-label="Remove this file from the evidence"
                         title="Remove this file from the evidence"
-                        data-astro-cid-3i6ienqg="true"
+                        data-astro-cid-q5zfyfab="true"
                       >
                         <span
                           class="esa-icon esa-icon--sm"
                           aria-hidden="true"
-                          data-astro-cid-ci6i4t6v=""
+                          data-astro-cid-md4nwazs=""
                         >
                           <svg
                             width="16"
@@ -4669,7 +4663,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             focusable="false"
-                            data-astro-cid-ci6i4t6v=""
+                            data-astro-cid-md4nwazs=""
                           >
                             <path d="M18 6 6 18"></path>
                             <path d="m6 6 12 12"></path>
@@ -10805,9 +10799,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <span class="bcn-ev-attached__mark" hidden="" data-astro-cid-5nz34ayf="">
                       <span
                         class="esa-badge esa-badge--primary esa-badge--sm"
-                        data-astro-cid-xofpclsp=""
+                        data-astro-cid-gz52qnjf=""
                       >
-                        <span class="esa-badge__text" data-astro-cid-xofpclsp="">Suggested</span>
+                        <span class="esa-badge__text" data-astro-cid-gz52qnjf="">Suggested</span>
                       </span>
                     </span>
                     <span class="bcn-ev-attached__remove" data-astro-cid-5nz34ayf="">
@@ -10816,12 +10810,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         type="button"
                         aria-label="Remove this evidence from the action"
                         title="Remove this evidence from the action"
-                        data-astro-cid-3i6ienqg="true"
+                        data-astro-cid-q5zfyfab="true"
                       >
                         <span
                           class="esa-icon esa-icon--sm"
                           aria-hidden="true"
-                          data-astro-cid-ci6i4t6v=""
+                          data-astro-cid-md4nwazs=""
                         >
                           <svg
                             width="16"
@@ -10833,7 +10827,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             stroke-linecap="round"
                             stroke-linejoin="round"
                             focusable="false"
-                            data-astro-cid-ci6i4t6v=""
+                            data-astro-cid-md4nwazs=""
                           >
                             <path d="M18 6 6 18"></path>
                             <path d="m6 6 12 12"></path>
@@ -10929,7 +10923,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </bcn-bottom-drawer>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.DmiQsqh2.js"
+    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.DYWgdQnP.js"
   ></script>
 </div>
 ```
@@ -11139,6 +11133,429 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .bcn-danger-zone__action {
   flex-shrink: 0;
 }
+.page-layout__title {
+  display: none !important;
+}
+.bcn-cmt {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-600);
+}
+.bcn-cmt__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-400);
+  padding-bottom: var(--spacing-400);
+  border-bottom: 1px solid var(--color-border);
+}
+.bcn-cmt__identity {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-100);
+  min-width: 0;
+}
+.bcn-cmt__badge {
+  flex-shrink: 0;
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--radius-100);
+  font-size: var(--type-size-100);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.bcn-cmt__badge--commitment {
+  color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 12%, white);
+}
+.bcn-cmt__title-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+.bcn-cmt__title {
+  margin: 0;
+  font-family: var(--font-decorative);
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.2;
+  color: var(--color-text-primary);
+}
+.bcn-cmt__badge--type {
+  color: var(--color-text-secondary);
+  background: var(--color-surface-sunken);
+  transform: translateY(2px);
+}
+.bcn-cmt__head-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  flex-shrink: 0;
+}
+.bcn-btn-ico {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+}
+.bcn-cmt__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: var(--spacing-600);
+  align-items: start;
+}
+.bcn-cmt__main {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-600);
+}
+.bcn-cmt__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+}
+.bcn-section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  margin: 0;
+  font-size: var(--type-size-300);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-cmttext {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+  padding: var(--spacing-500);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-300);
+}
+.bcn-cmttext__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+}
+.bcn-cmttext__item {
+  font-family: var(--font-decorative);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--color-text-primary);
+}
+.bcn-cmttext__footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-100);
+  padding-top: var(--spacing-200);
+  border-top: 1px solid var(--color-border-light);
+}
+.bcn-cmttext__footer .esa-button--color-ghost .esa-button__native {
+  color: var(--color-primary);
+}
+.bcn-cmt__section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-300);
+}
+.bcn-count-neutral {
+  display: inline-flex;
+  align-items: center;
+  --badge-bg: var(--color-surface-sunken);
+  --badge-text-color: var(--color-text-secondary);
+}
+.bcn-reqfilters {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-250);
+}
+.bcn-reqfilters esa-text-field {
+  max-width: 360px;
+}
+.bcn-reqfilters__row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--spacing-300);
+}
+.bcn-row-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-200);
+}
+.bcn-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-400);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+  background: var(--color-surface);
+  text-decoration: none;
+  transition: background-color 0.12s ease;
+}
+.bcn-row__name {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+.bcn-row .bcn-cmt__badge--type,
+.bcn-row .bcn-cmt__badge--phase {
+  transform: none;
+}
+.bcn-cmt__badge--phase {
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: 1px solid var(--color-border);
+}
+.bcn-row > .esa-icon:last-child {
+  color: var(--color-text-tertiary);
+  flex-shrink: 0;
+  transition:
+    transform 0.12s ease,
+    color 0.12s ease;
+}
+.bcn-reqs__empty {
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-200);
+  padding: var(--spacing-400);
+}
+.bcn-cmt__rail {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-500);
+}
+.bcn-cmt__rail .esa-collapsible__title {
+  font-size: var(--type-size-250);
+  font-weight: var(--font-weight-semibold);
+}
+.bcn-lineage {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.bcn-lineage__node {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-300);
+  padding-bottom: var(--spacing-400);
+}
+.bcn-lineage__node:before {
+  content: "";
+  position: absolute;
+  left: 13px;
+  top: 30px;
+  bottom: 2px;
+  width: 2px;
+  background: var(--color-border);
+}
+.bcn-lineage__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+}
+.bcn-lineage__icon .esa-icon {
+  --_icon-size: 14px;
+}
+.bcn-lineage__body {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+  padding-top: 2px;
+}
+.bcn-lineage__kind {
+  font-size: 0.75rem;
+  color: var(--color-primary);
+  text-decoration: none;
+  width: fit-content;
+}
+.bcn-lineage__name {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.35;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+.bcn-lineage__node--current .bcn-lineage__icon {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+}
+.bcn-lineage__name--current {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
+}
+.bcn-lineage__node.bcn-lineage__node--child {
+  align-items: center;
+}
+.bcn-lineage__node--child .bcn-lineage__body {
+  flex: 1;
+  padding-top: 0;
+}
+.bcn-lineage__node--child .bcn-lineage__name {
+  font-size: 0.75rem;
+}
+.bcn-lineage__node--child .bcn-count-neutral {
+  flex-shrink: 0;
+}
+.bcn-lineage__node:last-child {
+  padding-bottom: 0;
+}
+.bcn-lineage__node:last-child:before {
+  display: none;
+}
+.bcn-tagrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-150);
+  margin-top: var(--spacing-100);
+}
+.bcn-tagrow .esa-pill {
+  border-radius: var(--radius-100);
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+}
+.bcn-rail-meta {
+  margin: var(--spacing-300) 0 0;
+  padding-top: var(--spacing-300);
+  border-top: 1px solid var(--color-border-light);
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+.bcn-lists {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing-150);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bcn-list-link {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  text-decoration: none;
+}
+.bcn-revs .bcn-lineage__body {
+  gap: 2px;
+}
+.bcn-revs__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-200);
+}
+.bcn-revs .bcn-lineage__kind {
+  color: var(--color-text-tertiary);
+}
+.bcn-revs__edit {
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+}
+.bcn-revs__summary {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.35;
+  color: var(--color-text-primary);
+}
+.bcn-revs__meta {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+.bcn-revs__by {
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary);
+  margin-top: 1px;
+}
+.bcn-revs__add {
+  padding-top: var(--spacing-300);
+}
+#add-rev .esa-button {
+  width: 100%;
+  justify-content: center;
+}
+.bcn-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-400);
+}
+.bcn-form--dialog {
+  padding: var(--spacing-100) 0;
+}
+.bcn-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-300);
+}
+.bcn-form esa-input-tag {
+  --_chip-bg: var(--color-surface-sunken);
+  --_chip-color: var(--color-text-primary);
+  --_chip-radius: var(--radius-100);
+}
+.bcn-editor__foot {
+  display: flex;
+  gap: var(--spacing-300);
+  justify-content: flex-end;
+  width: 100%;
+}
+.bcn-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+}
+.bcn-field__label {
+  font-size: var(--form-font-size-md);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+.bcn-source-pdf {
+  height: 100%;
+  min-height: 60vh;
+}
+.bcn-source-pdf__frame {
+  width: 100%;
+  height: 100%;
+  min-height: 60vh;
+  border: 0;
+  border-radius: var(--radius-200);
+  background: var(--color-surface-sunken);
+}
+.bcn-source-foot {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
 .page-layout {
   display: flex;
   flex-direction: column;
@@ -11147,15 +11564,15 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   background: var(--bcn-gray-50);
   box-sizing: border-box;
 }
+.page-layout__container {
+  display: flex;
+  flex-direction: column;
+}
 .page-layout section {
   width: 100%;
 }
 .breadcrumbs {
   padding: var(--spacing-400) 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-400);
 }
 .breadcrumbs__items {
   display: flex;
@@ -11173,10 +11590,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 }
 a.breadcrumb-item {
   text-decoration: none;
-}
-.page-layout__container {
-  display: flex;
-  flex-direction: column;
 }
 .page-layout__title {
   border-bottom: 1px solid var(--bcn-gray-200);
@@ -11218,36 +11631,6 @@ a.breadcrumb-item {
   --_badge-font-size: 11px;
   --_badge-padding-x: var(--spacing-150, 0.375rem);
   --_badge-min-width: var(--badge-height-sm, 22px);
-}
-.esa-pill {
-  --_pill-bg: var(--pill-bg, var(--color-surface-sunken, #efefef));
-  --_pill-text: var(--pill-text-color, var(--color-text-primary, #171717));
-  --_pill-border: var(--pill-border-color, var(--color-border-light, #efefef));
-  --_pill-height: var(--pill-height-md, 28px);
-  --_pill-font-size: 13px;
-  --_pill-padding-x: var(--spacing-200, 0.5rem);
-  --_pill-gap: var(--spacing-100, 0.25rem);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--_pill-gap);
-  height: var(--_pill-height);
-  padding-inline: var(--_pill-padding-x);
-  border: 1px solid var(--_pill-border);
-  border-radius: var(--pill-radius, var(--radius-full, 9999px));
-  background: var(--_pill-bg);
-  color: var(--_pill-text);
-  font-size: var(--_pill-font-size);
-  line-height: 1;
-  white-space: nowrap;
-  box-sizing: border-box;
-}
-.esa-pill--sm {
-  --_pill-height: var(--pill-height-sm, 22px);
-  --_pill-font-size: 11px;
-  --_pill-padding-x: var(--spacing-150, 0.375rem);
-}
-.esa-pill__label {
-  font-weight: 500;
 }
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
@@ -11333,10 +11716,6 @@ a.breadcrumb-item {
   );
   color: var(--_accent-text);
   border-color: var(--color-border-strong, #d4d4d4);
-}
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
 }
 .modern-layout {
   display: flex;
@@ -12122,428 +12501,39 @@ html,
   overflow: hidden;
   animation: bcn-bd-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.page-layout__title {
-  display: none !important;
-}
-.bcn-cmt {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-600);
-}
-.bcn-cmt__head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--spacing-400);
-  padding-bottom: var(--spacing-400);
-  border-bottom: 1px solid var(--color-border);
-}
-.bcn-cmt__identity {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--spacing-100);
-  min-width: 0;
-}
-.bcn-cmt__badge {
-  flex-shrink: 0;
-  padding: 0.125rem 0.375rem;
-  border-radius: var(--radius-100);
-  font-size: var(--type-size-100);
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.4;
+.esa-pill {
+  --_pill-bg: var(--pill-bg, var(--color-surface-sunken, #efefef));
+  --_pill-text: var(--pill-text-color, var(--color-text-primary, #171717));
+  --_pill-border: var(--pill-border-color, var(--color-border-light, #efefef));
+  --_pill-height: var(--pill-height-md, 28px);
+  --_pill-font-size: 13px;
+  --_pill-padding-x: var(--spacing-200, 0.5rem);
+  --_pill-gap: var(--spacing-100, 0.25rem);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--_pill-gap);
+  height: var(--_pill-height);
+  padding-inline: var(--_pill-padding-x);
+  border: 1px solid var(--_pill-border);
+  border-radius: var(--pill-radius, var(--radius-full, 9999px));
+  background: var(--_pill-bg);
+  color: var(--_pill-text);
+  font-size: var(--_pill-font-size);
+  line-height: 1;
   white-space: nowrap;
-}
-.bcn-cmt__badge--commitment {
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-}
-.bcn-cmt__title-row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.bcn-cmt__title {
-  margin: 0;
-  font-family: var(--font-decorative);
-  font-size: 1.5rem;
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.2;
-  color: var(--color-text-primary);
-}
-.bcn-cmt__badge--type {
-  color: var(--color-text-secondary);
-  background: var(--color-surface-sunken);
-  transform: translateY(2px);
-}
-.bcn-cmt__head-actions {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  flex-shrink: 0;
-}
-.bcn-btn-ico {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-}
-.bcn-cmt__body {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px;
-  gap: var(--spacing-600);
-  align-items: start;
-}
-.bcn-cmt__main {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-600);
-}
-.bcn-cmt__section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-}
-.bcn-section-title {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  margin: 0;
-  font-size: var(--type-size-300);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-cmttext {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-  padding: var(--spacing-500);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-300);
-}
-.bcn-cmttext__list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-}
-.bcn-cmttext__item {
-  font-family: var(--font-decorative);
-  font-size: 1.0625rem;
-  line-height: 1.65;
-  color: var(--color-text-primary);
-}
-.bcn-cmttext__footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: var(--spacing-100);
-  padding-top: var(--spacing-200);
-  border-top: 1px solid var(--color-border-light);
-}
-.bcn-cmttext__footer .esa-button--color-ghost .esa-button__native {
-  color: var(--color-primary);
-}
-.bcn-cmt__section-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-300);
-}
-.bcn-count-neutral {
-  display: inline-flex;
-  align-items: center;
-  --badge-bg: var(--color-surface-sunken);
-  --badge-text-color: var(--color-text-secondary);
-}
-.bcn-reqfilters {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-250);
-}
-.bcn-reqfilters esa-text-field {
-  max-width: 360px;
-}
-.bcn-reqfilters__row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: var(--spacing-300);
-}
-.bcn-row-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-200);
-}
-.bcn-row {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300) var(--spacing-400);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-  background: var(--color-surface);
-  text-decoration: none;
-  transition: background-color 0.12s ease;
-}
-.bcn-row__name {
-  flex: 1;
-  min-width: 0;
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-primary);
-}
-.bcn-row .bcn-cmt__badge--type,
-.bcn-row .bcn-cmt__badge--phase {
-  transform: none;
-}
-.bcn-cmt__badge--phase {
-  color: var(--color-text-secondary);
-  background: transparent;
-  border: 1px solid var(--color-border);
-}
-.bcn-row > .esa-icon:last-child {
-  color: var(--color-text-tertiary);
-  flex-shrink: 0;
-  transition:
-    transform 0.12s ease,
-    color 0.12s ease;
-}
-.bcn-reqs__empty {
-  border: 1px dashed var(--color-border);
-  border-radius: var(--radius-200);
-  padding: var(--spacing-400);
-}
-.bcn-cmt__rail {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-500);
-}
-.bcn-cmt__rail .esa-collapsible__title {
-  font-size: var(--type-size-250);
-  font-weight: var(--font-weight-semibold);
-}
-.bcn-lineage {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
-.bcn-lineage__node {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  gap: var(--spacing-300);
-  padding-bottom: var(--spacing-400);
-}
-.bcn-lineage__node:before {
-  content: "";
-  position: absolute;
-  left: 13px;
-  top: 30px;
-  bottom: 2px;
-  width: 2px;
-  background: var(--color-border);
-}
-.bcn-lineage__icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
-}
-.bcn-lineage__icon .esa-icon {
-  --_icon-size: 14px;
-}
-.bcn-lineage__body {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-  min-width: 0;
-  padding-top: 2px;
-}
-.bcn-lineage__kind {
-  font-size: 0.75rem;
-  color: var(--color-primary);
-  text-decoration: none;
-  width: fit-content;
-}
-.bcn-lineage__name {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  line-height: 1.35;
-  color: var(--color-primary);
-  text-decoration: none;
-}
-.bcn-lineage__node--current .bcn-lineage__icon {
-  border-color: var(--color-primary);
-  background: var(--color-primary);
-  color: var(--color-text-inverse);
-}
-.bcn-lineage__name--current {
-  color: var(--color-text-primary);
-  font-weight: var(--font-weight-semibold);
-}
-.bcn-lineage__node.bcn-lineage__node--child {
-  align-items: center;
-}
-.bcn-lineage__node--child .bcn-lineage__body {
-  flex: 1;
-  padding-top: 0;
-}
-.bcn-lineage__node--child .bcn-lineage__name {
-  font-size: 0.75rem;
-}
-.bcn-lineage__node--child .bcn-count-neutral {
-  flex-shrink: 0;
-}
-.bcn-lineage__node:last-child {
-  padding-bottom: 0;
-}
-.bcn-lineage__node:last-child:before {
-  display: none;
-}
-.bcn-tagrow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-150);
-  margin-top: var(--spacing-100);
-}
-.bcn-tagrow .esa-pill {
-  border-radius: var(--radius-100);
-  background: var(--color-surface-sunken);
-  border: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
-}
-.bcn-rail-meta {
-  margin: var(--spacing-300) 0 0;
-  padding-top: var(--spacing-300);
-  border-top: 1px solid var(--color-border-light);
-  font-size: 0.75rem;
-  color: var(--color-text-secondary);
-}
-.bcn-lists {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--spacing-150);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.bcn-list-link {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-primary);
-  text-decoration: none;
-}
-.bcn-revs .bcn-lineage__body {
-  gap: 2px;
-}
-.bcn-revs__head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--spacing-200);
-}
-.bcn-revs .bcn-lineage__kind {
-  color: var(--color-text-tertiary);
-}
-.bcn-revs__edit {
-  border: 0;
-  background: none;
-  padding: 0;
-  cursor: pointer;
-  font-size: 0.75rem;
-  font-weight: var(--font-weight-medium);
-  color: var(--color-primary);
-}
-.bcn-revs__summary {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  line-height: 1.35;
-  color: var(--color-text-primary);
-}
-.bcn-revs__meta {
-  font-size: 0.75rem;
-  color: var(--color-text-secondary);
-}
-.bcn-revs__by {
-  font-size: 0.75rem;
-  color: var(--color-text-tertiary);
-  margin-top: 1px;
-}
-.bcn-revs__add {
-  padding-top: var(--spacing-300);
-}
-#add-rev .esa-button {
-  width: 100%;
-  justify-content: center;
-}
-.bcn-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-400);
-}
-.bcn-form--dialog {
-  padding: var(--spacing-100) 0;
-}
-.bcn-grid-2 {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--spacing-300);
-}
-.bcn-form esa-input-tag {
-  --_chip-bg: var(--color-surface-sunken);
-  --_chip-color: var(--color-text-primary);
-  --_chip-radius: var(--radius-100);
-}
-.bcn-editor__foot {
-  display: flex;
-  gap: var(--spacing-300);
-  justify-content: flex-end;
-  width: 100%;
-}
-.bcn-field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150);
-}
-.bcn-field__label {
-  font-size: var(--form-font-size-md);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-primary);
-}
-.bcn-source-pdf {
-  height: 100%;
-  min-height: 60vh;
-}
-.bcn-source-pdf__frame {
-  width: 100%;
-  height: 100%;
-  min-height: 60vh;
-  border: 0;
-  border-radius: var(--radius-200);
-  background: var(--color-surface-sunken);
-}
-.bcn-source-foot {
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
+  box-sizing: border-box;
+}
+.esa-pill--sm {
+  --_pill-height: var(--pill-height-sm, 22px);
+  --_pill-font-size: 11px;
+  --_pill-padding-x: var(--spacing-150, 0.375rem);
+}
+.esa-pill__label {
+  font-weight: 500;
+}
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
 }
 ```
 

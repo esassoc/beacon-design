@@ -636,6 +636,58 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
 
 ## Styles
 ```css
+.bcn-apanel__body {
+  --sidebar-width: 19rem;
+  --sidebar-content-min: 52%;
+  align-items: stretch;
+}
+.bcn-apanel__heading {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+.bcn-apanel__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.bcn-apanel__row {
+  display: grid;
+  grid-template-columns: 7.5rem auto minmax(8rem, 1fr) minmax(9rem, 1fr) auto;
+  align-items: center;
+  gap: var(--spacing-400);
+  padding-block: var(--spacing-150);
+  padding-inline: var(--spacing-200);
+}
+.bcn-apanel__list > li + li {
+  border-top: 1px solid var(--color-border-light);
+}
+.bcn-apanel__id {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  white-space: nowrap;
+}
+.bcn-apanel__id:hover {
+  color: var(--color-primary-hover);
+}
+.bcn-apanel__category,
+.bcn-apanel__area {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bcn-apanel__category {
+  color: var(--color-text-primary);
+}
+.bcn-apanel__area {
+  color: var(--color-text-secondary);
+}
+.bcn-apanel__category,
+.bcn-apanel__area {
+  grid-column: 1 / -1;
+}
 .esa-button {
   --_btn-height: var(--form-height-md, 40px);
   --_btn-padding-x: var(--form-padding-x-md, 16px);
@@ -818,58 +870,6 @@ BcnAttentionPanel — one card answering the three questions a compliance lead a
   border-right-color: transparent;
   border-radius: 50%;
   animation: esa-button-spin 0.6s linear infinite;
-}
-.bcn-apanel__body {
-  --sidebar-width: 19rem;
-  --sidebar-content-min: 52%;
-  align-items: stretch;
-}
-.bcn-apanel__heading {
-  margin: 0;
-  color: var(--color-text-secondary);
-}
-.bcn-apanel__list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.bcn-apanel__row {
-  display: grid;
-  grid-template-columns: 7.5rem auto minmax(8rem, 1fr) minmax(9rem, 1fr) auto;
-  align-items: center;
-  gap: var(--spacing-400);
-  padding-block: var(--spacing-150);
-  padding-inline: var(--spacing-200);
-}
-.bcn-apanel__list > li + li {
-  border-top: 1px solid var(--color-border-light);
-}
-.bcn-apanel__id {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-primary);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  white-space: nowrap;
-}
-.bcn-apanel__id:hover {
-  color: var(--color-primary-hover);
-}
-.bcn-apanel__category,
-.bcn-apanel__area {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.bcn-apanel__category {
-  color: var(--color-text-primary);
-}
-.bcn-apanel__area {
-  color: var(--color-text-secondary);
-}
-.bcn-apanel__category,
-.bcn-apanel__area {
-  grid-column: 1 / -1;
 }
 .bcn-search-trigger .esa-icon {
   flex: none;

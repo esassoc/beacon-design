@@ -219,6 +219,33 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
+.esa-icon {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  line-height: 1;
+  color: inherit;
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--xl {
+  --_icon-size: var(--icon-size-xl, 28px);
+}
+.esa-icon--lg {
+  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+}
 .bcn-mkt-section {
   --_section-pad: clamp(48px, 8vw, 96px);
   padding-block: var(--_section-pad);
@@ -331,33 +358,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 }
 .bcn-section-intro--on-dark .bcn-section-intro__subtext {
   color: #fffc;
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--xl {
-  --_icon-size: var(--icon-size-xl, 28px);
-}
-.esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
 }
 ```
 

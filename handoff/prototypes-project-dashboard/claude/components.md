@@ -556,15 +556,15 @@ The components the user works in, as portal cards into their component dashboard
 .side-nav.collapsed .nav-section__header > .esa-icon:last-child {
   display: none;
 }
-.bcn-mod__link .esa-icon {
-  color: var(--color-text-muted);
-}
 .type-section-title {
   font-family: var(--font-display, var(--font-sans));
   font-size: var(--type-size-500);
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-tight);
   letter-spacing: var(--letter-spacing-tight);
+}
+.bcn-mod__link .esa-icon {
+  color: var(--color-text-muted);
 }
 .bcn-stc {
   display: flex;

@@ -1,6 +1,6 @@
 # Token contract — prototypes-data-catalog-commitment
 
-The 124 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
+The 126 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-primary)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -78,6 +78,7 @@ The 124 design tokens this page actually uses, resolved to their final values fo
 | `--form-height-md` | `36px` |
 | `--form-height-sm` | `28px` |
 | `--form-label-color` | `#525252` |
+| `--form-label-font-weight` | `500` |
 | `--form-padding-x-md` | `.75rem` |
 | `--form-padding-x-sm` | `.625rem` |
 | `--form-padding-y-md` | `.5rem` |
@@ -89,6 +90,7 @@ The 124 design tokens this page actually uses, resolved to their final values fo
 | `--icon-link-font-size-md` | `1rem` |
 | `--icon-link-font-size-sm` | `.875rem` |
 | `--icon-link-gap` | `.375rem` |
+| `--icon-size-large` | `24px` |
 | `--icon-size-medium` | `20px` |
 | `--icon-size-small` | `16px` |
 | `--pill-bg` | `#efefef` |
@@ -153,3 +155,4 @@ Defined per-component (not at `:root`); see the component's own rule in `styles.
 - `--dialog-header-bg`
 - `--file-list-row-padding-x`
 - `--file-list-row-padding-y`
+- `--form-label-font-size`
