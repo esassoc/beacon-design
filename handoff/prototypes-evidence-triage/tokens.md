@@ -1,6 +1,6 @@
 # Token contract — prototypes-evidence-triage
 
-The 157 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 155 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -110,7 +110,6 @@ The 157 design tokens this page actually uses, resolved to their final values fo
 | `--color-backdrop` | `rgba(0, 0, 0, .5)` |
 | `--color-border` | `#dcdcdc` |
 | `--color-border-light` | `#efefef` |
-| `--color-commitment` | `#58508d` |
 | `--color-info` | `#228be6` |
 | `--color-info-subtle` | `#fbfdff` |
 | `--color-primary` | `#005862` |
@@ -129,7 +128,6 @@ The 157 design tokens this page actually uses, resolved to their final values fo
 | `--empty-state-icon-size-sm` | `32px` |
 | `--filter-container-padding` | `0` |
 | `--font-decorative` | `"Besley", serif` |
-| `--font-mono` | `"Roboto Mono", ui-monospace, monospace` |
 | `--font-sans` | `"DM Sans", sans-serif` |
 | `--font-weight-bold` | `650` |
 | `--font-weight-medium` | `500` |
