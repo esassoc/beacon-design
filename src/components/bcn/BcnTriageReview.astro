@@ -318,12 +318,19 @@ const FILE_PLUS =
 
   /* With nothing selected the pane has no content to size to, so the prompt supplies the
      height itself rather than centring inside a collapsed box. */
+  /* While nothing is selected the pane drops its own chrome: the dashed invitation IS the
+     edge, and the solid border around it read as two boxes. The pane takes its border back
+     the moment a record fills it. */
+  .bcn-triage-review:has([data-triage-prompt]:not([hidden])) {
+    border: 0;
+    background: none;
+  }
+
   .bcn-triage-review__prompt {
     display: flex;
     flex: 1;
     align-items: stretch;
     min-height: 22rem;
-    padding: var(--spacing-400);
   }
 
   /* The platform's waiting-for-something pattern, as bcn-ev-row__hint draws it in the drawer:
