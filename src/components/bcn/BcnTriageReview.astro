@@ -363,11 +363,18 @@ const pickerOptions = (componentId: string) =>
 
   /* ── Sections ─────────────────────────────────────────────────────────── */
 
+  /* The bottom padding compensates for the header's own padding-block, which stacks on top
+     of the section's and made the space above the heading read ~8px deeper than the space
+     under the last card. Written as the SUM rather than a flat 18px so it stays correct if
+     either step moves — and so the reason survives.
+     (The last ~2px of the visual difference is line-height leading above the glyph, not
+     padding; matching that with a magic number would be over-fitting.) */
   .bcn-triage-review__section {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-250);
-    padding: var(--spacing-300) var(--spacing-400);
+    padding: var(--spacing-300) var(--spacing-400)
+      calc(var(--spacing-300) + var(--spacing-150));
   }
 
   .bcn-triage-review__section + .bcn-triage-review__section {
