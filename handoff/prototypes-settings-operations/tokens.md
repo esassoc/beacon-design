@@ -1,6 +1,6 @@
 # Token contract — prototypes-settings-operations
 
-The 150 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 152 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -126,6 +126,8 @@ The 150 design tokens this page actually uses, resolved to their final values fo
 | `--form-border-width` | `1px` |
 | `--form-error-color` | `#ce2c31` |
 | `--form-help-color` | `#646464` |
+| `--form-label-color` | `#646464` |
+| `--form-label-gap` | `.25rem` |
 | `--form-placeholder-color` | `#646464` |
 | `--form-text-color` | `#202020` |
 | `--shadow-300` | `0 6px 24px -6px rgba(0, 0, 0, .07)` |

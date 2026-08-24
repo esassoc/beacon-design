@@ -708,7 +708,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             <div class="stack" data-gap="md">
               <div class="bcn-filterbar">
                 <div class="bcn-filterbar__top">
-                  <div class="bcn-filterbar__search bcn-filterbar__search--alone">
+                  <div class="bcn-filterbar__group">
+                    <span class="bcn-filterbar__label">Show</span>
+                    <esa-button-toggle
+                      slot="lead"
+                      data-triage-scope="true"
+                      size="sm"
+                      value="all"
+                      data-options='[{"label":"All","value":"all"},{"label":"Has suggestions","value":"has"}]'
+                    ></esa-button-toggle>
+                  </div>
+                  <div class="bcn-filterbar__search">
                     <esa-text-field
                       slot="search"
                       data-triage-search="true"
@@ -740,13 +750,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       multiple=""
                       size="sm"
                       data-options='[{"value":"intake-b-north-delta","label":"Intake B — North Delta (3)"},{"value":"southern-forebay-pumping-plant","label":"Southern Forebay &amp; Pumping Plant (7)"},{"value":"none","label":"Component not set (4)"},{"value":"twin-cities-complex","label":"Twin Cities Complex (2)"}]'
-                    ></esa-filter-dropdown
-                    ><esa-filter-dropdown
-                      data-triage-filter="match"
-                      label="Match"
-                      multiple=""
-                      size="sm"
-                      data-options='[{"value":"confident","label":"High confidence — one match"},{"value":"multiple","label":"High confidence — several"},{"value":"unmatched","label":"Nothing proposed"}]'
                     ></esa-filter-dropdown>
                   </div>
                   <span class="bcn-filterbar__clear">
@@ -799,7 +802,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-triage-row="tri-ib-turbidity"
                               data-source="monitoring-portal"
                               data-component="intake-b-north-delta"
-                              data-match="confident"
                               data-search="intake b turbidity monitoring — jul 22 continuous readings at the cofferdam, 06:00–18:00. two exceedances of the 15 ntu trigger, both cleared within the hour. r. delgado intake b — north delta monitoring portal"
                             >
                               <button
@@ -833,7 +835,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-triage-row="tri-daily-forebay-0722"
                               data-source="daily-report"
                               data-component="southern-forebay-pumping-plant"
-                              data-match="confident"
                               data-search="daily biological monitoring — southern forebay, jul 22 ground disturbance at the north levee toe. one swainson’s hawk observed foraging; no nest located within the work area. c. anderson southern forebay &amp; pumping plant daily monitoring report"
                             >
                               <button
@@ -868,7 +869,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-triage-row="tri-dropbox-fish-screen"
                               data-source="drop-box"
                               data-component="none"
-                              data-match="confident"
                               data-search="fish screen approach-velocity readings — jul 21 velocity measurements at eight screen panels, submitted by the screen fabricator. all panels below the 0.33 ft/s criterion. t. yamada, cascade screen works  drop-box link"
                             >
                               <button
@@ -907,7 +907,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-triage-row="tri-swppp-inspection-0721"
                               data-source="monitoring-portal"
                               data-component="southern-forebay-pumping-plant"
-                              data-match="confident"
                               data-search="swppp inspection — southern forebay, jul 21 qualified-personnel walk of all four stockpiles. two corrective actions logged at the southern stockpile perimeter. m. okafor southern forebay &amp; pumping plant monitoring portal"
                             >
                               <button
@@ -941,7 +940,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-triage-row="tri-daily-forebay-0721"
                               data-source="daily-report"
                               data-component="southern-forebay-pumping-plant"
-                              data-match="confident"
                               data-search="daily biological monitoring — southern forebay, jul 21 excavation along the utility trench. no listed species observed; buffers intact. c. anderson southern forebay &amp; pumping plant daily monitoring report"
                             >
                               <button
@@ -976,7 +974,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-triage-row="tri-tc-rtm-stockpile"
                               data-source="monitoring-portal"
                               data-component="twin-cities-complex"
-                              data-match="confident"
                               data-search="rtm stockpile inspection — twin cities, jul 21 reusable tunnel material stockpile cover and perimeter controls checked after the jul 20 wind event. no erosion observed. j. whitfield twin cities complex monitoring portal"
                             >
                               <button
@@ -1015,7 +1012,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-triage-row="tri-hydroacoustic"
                               data-source="monitoring-portal"
                               data-component="intake-b-north-delta"
-                              data-match="confident"
                               data-search="hydroacoustic monitoring — intake b pile driving, jul 20 underwater sound pressure levels recorded at 10 m and 150 m during 6.5 hours of impact driving. peak 204 db at 10 m. delta acoustics llc intake b — north delta monitoring portal"
                             >
                               <button
@@ -1049,7 +1045,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-triage-row="tri-noise-readings-wk29"
                               data-source="monitoring-portal"
                               data-component="southern-forebay-pumping-plant"
-                              data-match="confident"
                               data-search="construction noise readings — week of jul 13 five sensitive receptors along the eastern boundary, all below the 75 dba threshold. highest reading 71 dba at receptor r-3. m. okafor southern forebay &amp; pumping plant monitoring portal"
                             >
                               <button
@@ -1083,7 +1078,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-triage-row="tri-dropbox-tribal-letter"
                               data-source="drop-box"
                               data-component="none"
-                              data-match="unmatched"
                               data-search="tribal monitor availability confirmation letter confirming monitor coverage for the august excavation window. no monitoring observations included. cultural resources liaison  drop-box link"
                             >
                               <button
@@ -1117,7 +1111,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-triage-row="tri-monthly-report-june"
                               data-source="beacon-report"
                               data-component="southern-forebay-pumping-plant"
-                              data-match="confident"
                               data-search="monthly compliance monitoring report — june 2026 finalized in beacon. covers all southern forebay actions for the june reporting period, including the four open corrective actions. beacon southern forebay &amp; pumping plant beacon report"
                             >
                               <button
@@ -1151,7 +1144,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-triage-row="tri-daily-forebay-0719"
                               data-source="daily-report"
                               data-component="southern-forebay-pumping-plant"
-                              data-match="multiple"
                               data-search="daily biological monitoring — southern forebay, jul 19 two mourning dove nests flagged with 50-ft buffers ahead of vegetation clearing. giant garter snake upland refugia re-checked. c. anderson southern forebay &amp; pumping plant daily monitoring report"
                             >
                               <button
@@ -1186,7 +1178,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-triage-row="tri-dust-log-wk29"
                               data-source="daily-report"
                               data-component="southern-forebay-pumping-plant"
-                              data-match="confident"
                               data-search="dust control log — week of jul 13 daily watering passes and two wind-speed shutdowns. logged by the site superintendent. site superintendent southern forebay &amp; pumping plant daily monitoring report"
                             >
                               <button
@@ -1226,7 +1217,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-triage-row="tri-fish-screen-inspection"
                               data-source="monitoring-portal"
                               data-component="intake-b-north-delta"
-                              data-match="confident"
                               data-search="fish screen criteria compliance inspection — jul 17 quarterly inspection of screen cleaning cycle, sweeping velocity and debris accumulation. one panel scheduled for servicing. r. delgado intake b — north delta monitoring portal"
                             >
                               <button
@@ -1260,7 +1250,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-triage-row="tri-tc-nesting-sweep"
                               data-source="monitoring-portal"
                               data-component="twin-cities-complex"
-                              data-match="confident"
                               data-search="nesting bird sweep — twin cities, jul 17 pre-clearing sweep of the staging area. one red-winged blackbird nest flagged; buffer released jul 21 after fledging. j. whitfield twin cities complex monitoring portal"
                             >
                               <button
@@ -1294,7 +1283,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-triage-row="tri-quarterly-summary"
                               data-source="beacon-report"
                               data-component="none"
-                              data-match="unmatched"
                               data-search="quarterly commitment status summary — q2 2026 finalized in beacon. project-wide roll-up across all components; not scoped to any single one. beacon  beacon report"
                             >
                               <button
@@ -1328,7 +1316,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               data-triage-row="tri-dropbox-equipment-certs"
                               data-source="drop-box"
                               data-component="none"
-                              data-match="unmatched"
                               data-search="contractor equipment emissions certificates tier 4 final certificates for eleven pieces of equipment, submitted by the earthwork subcontractor. k. boyle, meridian earthworks  drop-box link"
                             >
                               <button
@@ -1468,33 +1455,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
-                            <span class="bcn-triage-review__add" data-triage-add="tri-ib-turbidity">
-                              <span
-                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                                ><button
-                                  class="esa-button__native typography-microcopy-xs"
-                                  type="button"
-                                  aria-label="Add a suggested action"
-                                  title="Add a suggested action"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M5 12h14"></path>
-                                      <path d="M12 5v14"></path>
-                                    </svg>
-                                  </span></button
-                              ></span>
-                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -1524,6 +1484,33 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <span class="esa-badge__text">1</span>
                               </span>
+                            </span>
+                            <span class="bcn-triage-review__add" data-triage-add="tri-ib-turbidity">
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
                             </span>
                           </h3>
                           <div class="bcn-triage-review__sugs" data-triage-suglist="">
@@ -1671,36 +1658,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
-                            <span
-                              class="bcn-triage-review__add"
-                              data-triage-add="tri-daily-forebay-0722"
-                            >
-                              <span
-                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                                ><button
-                                  class="esa-button__native typography-microcopy-xs"
-                                  type="button"
-                                  aria-label="Add a suggested action"
-                                  title="Add a suggested action"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M5 12h14"></path>
-                                      <path d="M12 5v14"></path>
-                                    </svg>
-                                  </span></button
-                              ></span>
-                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -1730,6 +1687,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <span class="esa-badge__text">1</span>
                               </span>
+                            </span>
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-daily-forebay-0722"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
                             </span>
                           </h3>
                           <div class="bcn-triage-review__sugs" data-triage-suglist="">
@@ -1877,36 +1864,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
-                            <span
-                              class="bcn-triage-review__add"
-                              data-triage-add="tri-dropbox-fish-screen"
-                            >
-                              <span
-                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                                ><button
-                                  class="esa-button__native typography-microcopy-xs"
-                                  type="button"
-                                  aria-label="Add a suggested action"
-                                  title="Add a suggested action"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M5 12h14"></path>
-                                      <path d="M12 5v14"></path>
-                                    </svg>
-                                  </span></button
-                              ></span>
-                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -1936,6 +1893,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <span class="esa-badge__text">1</span>
                               </span>
+                            </span>
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-dropbox-fish-screen"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
                             </span>
                           </h3>
                           <div class="bcn-triage-review__sugs" data-triage-suglist="">
@@ -2083,36 +2070,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
-                            <span
-                              class="bcn-triage-review__add"
-                              data-triage-add="tri-swppp-inspection-0721"
-                            >
-                              <span
-                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                                ><button
-                                  class="esa-button__native typography-microcopy-xs"
-                                  type="button"
-                                  aria-label="Add a suggested action"
-                                  title="Add a suggested action"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M5 12h14"></path>
-                                      <path d="M12 5v14"></path>
-                                    </svg>
-                                  </span></button
-                              ></span>
-                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -2142,6 +2099,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <span class="esa-badge__text">1</span>
                               </span>
+                            </span>
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-swppp-inspection-0721"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
                             </span>
                           </h3>
                           <div class="bcn-triage-review__sugs" data-triage-suglist="">
@@ -2289,36 +2276,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
-                            <span
-                              class="bcn-triage-review__add"
-                              data-triage-add="tri-daily-forebay-0721"
-                            >
-                              <span
-                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                                ><button
-                                  class="esa-button__native typography-microcopy-xs"
-                                  type="button"
-                                  aria-label="Add a suggested action"
-                                  title="Add a suggested action"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M5 12h14"></path>
-                                      <path d="M12 5v14"></path>
-                                    </svg>
-                                  </span></button
-                              ></span>
-                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -2348,6 +2305,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <span class="esa-badge__text">1</span>
                               </span>
+                            </span>
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-daily-forebay-0721"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
                             </span>
                           </h3>
                           <div class="bcn-triage-review__sugs" data-triage-suglist="">
@@ -2493,36 +2480,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
-                            <span
-                              class="bcn-triage-review__add"
-                              data-triage-add="tri-tc-rtm-stockpile"
-                            >
-                              <span
-                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                                ><button
-                                  class="esa-button__native typography-microcopy-xs"
-                                  type="button"
-                                  aria-label="Add a suggested action"
-                                  title="Add a suggested action"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M5 12h14"></path>
-                                      <path d="M12 5v14"></path>
-                                    </svg>
-                                  </span></button
-                              ></span>
-                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -2552,6 +2509,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <span class="esa-badge__text">1</span>
                               </span>
+                            </span>
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-tc-rtm-stockpile"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
                             </span>
                           </h3>
                           <div class="bcn-triage-review__sugs" data-triage-suglist="">
@@ -2697,36 +2684,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
-                            <span
-                              class="bcn-triage-review__add"
-                              data-triage-add="tri-hydroacoustic"
-                            >
-                              <span
-                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                                ><button
-                                  class="esa-button__native typography-microcopy-xs"
-                                  type="button"
-                                  aria-label="Add a suggested action"
-                                  title="Add a suggested action"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M5 12h14"></path>
-                                      <path d="M12 5v14"></path>
-                                    </svg>
-                                  </span></button
-                              ></span>
-                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -2756,6 +2713,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <span class="esa-badge__text">1</span>
                               </span>
+                            </span>
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-hydroacoustic"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
                             </span>
                           </h3>
                           <div class="bcn-triage-review__sugs" data-triage-suglist="">
@@ -2903,36 +2890,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
-                            <span
-                              class="bcn-triage-review__add"
-                              data-triage-add="tri-noise-readings-wk29"
-                            >
-                              <span
-                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                                ><button
-                                  class="esa-button__native typography-microcopy-xs"
-                                  type="button"
-                                  aria-label="Add a suggested action"
-                                  title="Add a suggested action"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M5 12h14"></path>
-                                      <path d="M12 5v14"></path>
-                                    </svg>
-                                  </span></button
-                              ></span>
-                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -2962,6 +2919,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <span class="esa-badge__text">1</span>
                               </span>
+                            </span>
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-noise-readings-wk29"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
                             </span>
                           </h3>
                           <div class="bcn-triage-review__sugs" data-triage-suglist="">
@@ -3108,6 +3095,29 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                                <path d="M4 6h.01"></path>
+                                <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                                <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                                <path d="M12 18h.01"></path>
+                                <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                                <circle cx="12" cy="12" r="2"></circle>
+                                <path d="m13.41 10.59 5.66-5.66"></path>
+                              </svg>
+                            </span>
+                            Suggested actions
                             <span
                               class="bcn-triage-review__add"
                               data-triage-add="tri-dropbox-tribal-letter"
@@ -3138,29 +3148,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   </span></button
                               ></span>
                             </span>
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
-                                <path d="M4 6h.01"></path>
-                                <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
-                                <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
-                                <path d="M12 18h.01"></path>
-                                <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
-                                <circle cx="12" cy="12" r="2"></circle>
-                                <path d="m13.41 10.59 5.66-5.66"></path>
-                              </svg>
-                            </span>
-                            Suggested actions
                           </h3>
                           <div class="bcn-triage-review__sugs" data-triage-suglist=""></div>
                           <p class="bcn-triage-review__nonetext" data-triage-nomatch="">
@@ -3233,36 +3220,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
-                            <span
-                              class="bcn-triage-review__add"
-                              data-triage-add="tri-monthly-report-june"
-                            >
-                              <span
-                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                                ><button
-                                  class="esa-button__native typography-microcopy-xs"
-                                  type="button"
-                                  aria-label="Add a suggested action"
-                                  title="Add a suggested action"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M5 12h14"></path>
-                                      <path d="M12 5v14"></path>
-                                    </svg>
-                                  </span></button
-                              ></span>
-                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -3292,6 +3249,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <span class="esa-badge__text">1</span>
                               </span>
+                            </span>
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-monthly-report-june"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
                             </span>
                           </h3>
                           <div class="bcn-triage-review__sugs" data-triage-suglist="">
@@ -3439,36 +3426,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
-                            <span
-                              class="bcn-triage-review__add"
-                              data-triage-add="tri-daily-forebay-0719"
-                            >
-                              <span
-                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                                ><button
-                                  class="esa-button__native typography-microcopy-xs"
-                                  type="button"
-                                  aria-label="Add a suggested action"
-                                  title="Add a suggested action"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M5 12h14"></path>
-                                      <path d="M12 5v14"></path>
-                                    </svg>
-                                  </span></button
-                              ></span>
-                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -3498,6 +3455,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <span class="esa-badge__text">2</span>
                               </span>
+                            </span>
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-daily-forebay-0719"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
                             </span>
                           </h3>
                           <div class="bcn-triage-review__sugs" data-triage-suglist="">
@@ -3721,36 +3708,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
-                            <span
-                              class="bcn-triage-review__add"
-                              data-triage-add="tri-dust-log-wk29"
-                            >
-                              <span
-                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                                ><button
-                                  class="esa-button__native typography-microcopy-xs"
-                                  type="button"
-                                  aria-label="Add a suggested action"
-                                  title="Add a suggested action"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M5 12h14"></path>
-                                      <path d="M12 5v14"></path>
-                                    </svg>
-                                  </span></button
-                              ></span>
-                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -3780,6 +3737,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <span class="esa-badge__text">1</span>
                               </span>
+                            </span>
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-dust-log-wk29"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
                             </span>
                           </h3>
                           <div class="bcn-triage-review__sugs" data-triage-suglist="">
@@ -3925,36 +3912,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
-                            <span
-                              class="bcn-triage-review__add"
-                              data-triage-add="tri-fish-screen-inspection"
-                            >
-                              <span
-                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                                ><button
-                                  class="esa-button__native typography-microcopy-xs"
-                                  type="button"
-                                  aria-label="Add a suggested action"
-                                  title="Add a suggested action"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M5 12h14"></path>
-                                      <path d="M12 5v14"></path>
-                                    </svg>
-                                  </span></button
-                              ></span>
-                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -3984,6 +3941,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <span class="esa-badge__text">1</span>
                               </span>
+                            </span>
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-fish-screen-inspection"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
                             </span>
                           </h3>
                           <div class="bcn-triage-review__sugs" data-triage-suglist="">
@@ -4129,36 +4116,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
-                            <span
-                              class="bcn-triage-review__add"
-                              data-triage-add="tri-tc-nesting-sweep"
-                            >
-                              <span
-                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
-                                ><button
-                                  class="esa-button__native typography-microcopy-xs"
-                                  type="button"
-                                  aria-label="Add a suggested action"
-                                  title="Add a suggested action"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M5 12h14"></path>
-                                      <path d="M12 5v14"></path>
-                                    </svg>
-                                  </span></button
-                              ></span>
-                            </span>
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -4188,6 +4145,36 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               >
                                 <span class="esa-badge__text">1</span>
                               </span>
+                            </span>
+                            <span
+                              class="bcn-triage-review__add"
+                              data-triage-add="tri-tc-nesting-sweep"
+                            >
+                              <span
+                                class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                  aria-label="Add a suggested action"
+                                  title="Add a suggested action"
+                                >
+                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                      focusable="false"
+                                    >
+                                      <path d="M5 12h14"></path>
+                                      <path d="M12 5v14"></path>
+                                    </svg>
+                                  </span></button
+                              ></span>
                             </span>
                           </h3>
                           <div class="bcn-triage-review__sugs" data-triage-suglist="">
@@ -4333,6 +4320,29 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                                <path d="M4 6h.01"></path>
+                                <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                                <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                                <path d="M12 18h.01"></path>
+                                <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                                <circle cx="12" cy="12" r="2"></circle>
+                                <path d="m13.41 10.59 5.66-5.66"></path>
+                              </svg>
+                            </span>
+                            Suggested actions
                             <span
                               class="bcn-triage-review__add"
                               data-triage-add="tri-quarterly-summary"
@@ -4363,29 +4373,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   </span></button
                               ></span>
                             </span>
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
-                                <path d="M4 6h.01"></path>
-                                <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
-                                <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
-                                <path d="M12 18h.01"></path>
-                                <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
-                                <circle cx="12" cy="12" r="2"></circle>
-                                <path d="m13.41 10.59 5.66-5.66"></path>
-                              </svg>
-                            </span>
-                            Suggested actions
                           </h3>
                           <div class="bcn-triage-review__sugs" data-triage-suglist=""></div>
                           <p class="bcn-triage-review__nonetext" data-triage-nomatch="">
@@ -4458,6 +4445,29 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </header>
                         <section class="bcn-triage-review__section" aria-label="Suggested actions">
                           <h3 class="bcn-triage-review__legend">
+                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                              >
+                                <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
+                                <path d="M4 6h.01"></path>
+                                <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
+                                <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
+                                <path d="M12 18h.01"></path>
+                                <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
+                                <circle cx="12" cy="12" r="2"></circle>
+                                <path d="m13.41 10.59 5.66-5.66"></path>
+                              </svg>
+                            </span>
+                            Suggested actions
                             <span
                               class="bcn-triage-review__add"
                               data-triage-add="tri-dropbox-equipment-certs"
@@ -4488,29 +4498,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                   </span></button
                               ></span>
                             </span>
-                            <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                              <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                focusable="false"
-                              >
-                                <path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"></path>
-                                <path d="M4 6h.01"></path>
-                                <path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"></path>
-                                <path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"></path>
-                                <path d="M12 18h.01"></path>
-                                <path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"></path>
-                                <circle cx="12" cy="12" r="2"></circle>
-                                <path d="m13.41 10.59 5.66-5.66"></path>
-                              </svg>
-                            </span>
-                            Suggested actions
                           </h3>
                           <div class="bcn-triage-review__sugs" data-triage-suglist=""></div>
                           <p class="bcn-triage-review__nonetext" data-triage-nomatch="">
@@ -5243,7 +5230,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               </div>
               <script
                 type="module"
-                src="/beacon-design/_astro/BcnTriageWorkspace.astro_astro_type_script_index_0_lang.DBqY6CCn.js"
+                src="/beacon-design/_astro/BcnTriageWorkspace.astro_astro_type_script_index_0_lang.SP53fh8K.js"
               ></script>
             </div>
           </section>
@@ -15022,6 +15009,500 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 .esa-filter-clear-button__label {
   white-space: nowrap;
 }
+.bcn-triage-counts {
+  --gap: var(--spacing-250);
+}
+.bcn-triage-counts__chip {
+  display: inline-flex;
+  align-items: center;
+}
+.bcn-triage-counts__chip .esa-badge {
+  --badge-height-md: 24px;
+  font-weight: var(--font-weight-medium);
+}
+.bcn-triage-counts__chip .esa-badge {
+  --badge-bg: var(--color-surface-sunken);
+  --badge-text-color: var(--color-text-secondary);
+}
+.bcn-triage-counts__showing {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+.bcn-triage-counts__showing[hidden] {
+  display: none;
+}
+.bcn-triage-workspace__panes {
+  --sidebar-width: 31rem;
+  --sidebar-content-min: 42%;
+  height: clamp(32rem, 70vh, 58rem);
+  align-items: stretch;
+}
+.bcn-triage-workspace__queue,
+.bcn-triage-workspace__review {
+  height: 100%;
+  min-height: 0;
+}
+.bcn-triage-queue {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-100);
+  overflow: hidden;
+}
+.bcn-triage-queue__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-bottom: var(--spacing-500);
+}
+.bcn-triage-queue__day {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  margin: 0;
+  padding: var(--spacing-100) var(--spacing-300);
+  background: var(--color-surface-sunken);
+  border-block: 1px solid var(--color-border-light);
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+  line-height: 1.4;
+  color: var(--color-text-primary);
+}
+.bcn-triage-queue__group:first-child .bcn-triage-queue__day {
+  border-top: 0;
+}
+.bcn-triage-queue__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.bcn-triage-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  padding: var(--spacing-300);
+  border-bottom: 1px solid var(--color-border-light);
+  background: var(--color-surface);
+}
+.bcn-triage-row__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.bcn-triage-row__line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--spacing-250);
+  min-width: 0;
+}
+.bcn-triage-row__title {
+  min-width: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--color-text-primary);
+}
+.bcn-triage-row__date {
+  flex: none;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+.bcn-triage-row__meta {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+.bcn-triage-row__foot {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.bcn-triage-row__match {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+.bcn-triage-row__sug .esa-badge {
+  --badge-bg: var(--color-info-subtle);
+  --badge-text-color: var(--color-text-primary);
+  --badge-height-md: 24px;
+  border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
+  font-weight: var(--font-weight-medium);
+}
+.bcn-triage-row:last-child {
+  border-bottom: 0;
+}
+.bcn-triage-queue__group + .bcn-triage-queue__group {
+  margin-top: 0;
+}
+.bcn-triage-row__foot[hidden] {
+  display: none;
+}
+.bcn-triage-queue__empty {
+  padding: var(--spacing-700) var(--spacing-400);
+}
+.bcn-triage-queue__empty[hidden] {
+  display: none;
+}
+.bcn-triage-review {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  overflow-y: auto;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-100);
+}
+.bcn-triage-review,
+.bcn-triage-sug {
+  --color-primary-strong: var(--color-primary);
+}
+.bcn-triage-review__prompt {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-700) var(--spacing-500);
+}
+.bcn-triage-review__panel {
+  display: flex;
+  flex-direction: column;
+}
+.bcn-triage-review__panel[hidden] {
+  display: none;
+}
+.bcn-triage-add {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+}
+.bcn-triage-add__scope {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+.bcn-triage-add__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-150);
+  height: 22rem;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+.bcn-triage-add__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-300);
+  width: 100%;
+  padding: var(--spacing-250) var(--spacing-300);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-100);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.bcn-triage-add__name {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.35;
+  color: var(--color-text-primary);
+}
+.bcn-triage-add__meta {
+  display: flex;
+  align-items: center;
+  flex: none;
+  gap: var(--spacing-150);
+}
+.bcn-triage-add__meta .esa-badge {
+  --badge-bg: var(--color-surface-sunken);
+  --badge-text-color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+.bcn-triage-add__empty {
+  margin: 0;
+  padding: var(--spacing-300) 0;
+  font-size: 0.8125rem;
+  font-style: italic;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+.esa-badge {
+  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
+  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
+  --_badge-padding-y: var(--spacing-150, 0.375rem);
+  --_badge-padding-x: var(--spacing-200, 0.5rem);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: calc(1lh + 2 * var(--_badge-padding-y));
+  padding-block: var(--_badge-padding-y);
+  padding-inline: var(--_badge-padding-x);
+  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
+  background: var(--_badge-bg);
+  color: var(--_badge-text);
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+.esa-empty-state {
+  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
+  --_empty-gap: var(--spacing-200, 0.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
+  gap: var(--_empty-gap);
+}
+.esa-empty-state--sm {
+  --_empty-icon-size: var(--empty-state-icon-size-sm, 32px);
+  padding: var(--spacing-400, 1rem) var(--spacing-300, 0.75rem);
+}
+.esa-empty-state__title {
+  margin: 0;
+  color: var(--color-content-default, #202020);
+}
+.esa-empty-state__description {
+  margin: 0;
+  color: var(--color-content-default-secondary, #646464);
+  max-width: 360px;
+}
+.esa-empty-state__actions {
+  margin-top: var(--spacing-200, 0.5rem);
+}
+.bcn-cbadge {
+  display: inline-block;
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-commitment);
+  background: color-mix(in srgb, var(--color-commitment) 12%, white);
+  border-radius: var(--radius-100);
+  white-space: nowrap;
+}
+.bcn-cbadge--sm {
+  font-size: 0.75rem;
+  padding: 1px var(--spacing-150);
+}
+.esa-badge--sm {
+  --_badge-padding-y: var(--spacing-100, 0.25rem);
+  --_badge-padding-x: var(--spacing-150, 0.375rem);
+}
+html,
+.modern-layout__content {
+  scroll-behavior: smooth;
+}
+.typography-microcopy-md-subtle {
+  font-family: var(--typography-microcopy-md-subtle-font-family);
+  font-size: var(--typography-microcopy-md-subtle-font-size);
+  font-weight: var(--typography-microcopy-md-subtle-font-weight);
+  line-height: var(--typography-microcopy-md-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.typography-microcopy-sm {
+  font-family: var(--typography-microcopy-sm-font-family);
+  font-size: var(--typography-microcopy-sm-font-size);
+  font-weight: var(--typography-microcopy-sm-font-weight);
+  line-height: var(--typography-microcopy-sm-line-height);
+  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
+}
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
+  box-sizing: border-box;
+}
+.page-layout__container {
+  display: flex;
+  flex-direction: column;
+}
+.page-layout__title {
+  border-bottom: 1px solid var(--bcn-gray-200);
+  padding: var(--spacing-500) 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.page-layout section {
+  width: 100%;
+}
+.page-layout__title-main {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+.page-layout__title h1 {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  font-family: var(--font-decorative);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--type-size-500);
+  margin: 0;
+  color: var(--bcn-gray-1000);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
+.cluster {
+  --gap: var(--spacing-300, 0.75rem);
+  --align: center;
+  --justify: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+  align-items: var(--align);
+  justify-content: var(--justify);
+}
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
+  position: relative;
+}
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+.bcn-filterbar {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-200);
+}
+.bcn-filterbar__top {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-400);
+  padding: var(--spacing-300) var(--spacing-400);
+  flex-wrap: wrap;
+}
+.bcn-filterbar__group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-300);
+}
+.bcn-filterbar__label {
+  font-size: var(--type-size-150);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+}
+.bcn-filterbar__search {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-150);
+  min-width: 300px;
+}
+.bcn-filterbar__search esa-text-field {
+  flex: 1;
+}
+.bcn-filterbar__bottom {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-300);
+  padding: var(--spacing-300) var(--spacing-400);
+  flex-wrap: wrap;
+}
+.bcn-filterbar__top + .bcn-filterbar__bottom {
+  border-top: 1px solid var(--color-border);
+}
+.bcn-filterbar__clear {
+  margin-left: auto;
+}
+.sidebar {
+  --gap: var(--spacing-500, 1.5rem);
+  --sidebar-width: 18rem;
+  --sidebar-content-min: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+}
+.sidebar > :first-child {
+  flex-basis: var(--sidebar-width);
+  flex-grow: 1;
+}
+.sidebar > :last-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: var(--sidebar-content-min);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
 .modern-layout {
   display: flex;
   flex-direction: column;
@@ -15823,485 +16304,6 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   overflow: hidden;
   animation: bcn-bd-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.page-layout {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
-}
-.page-layout__container {
-  display: flex;
-  flex-direction: column;
-}
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
-.page-layout section {
-  width: 100%;
-}
-.page-layout__title-main {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.page-layout__title h1 {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  font-family: var(--font-decorative);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--type-size-500);
-  margin: 0;
-  color: var(--bcn-gray-1000);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
-}
-.cluster {
-  --gap: var(--spacing-300, 0.75rem);
-  --align: center;
-  --justify: flex-start;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap);
-  align-items: var(--align);
-  justify-content: var(--justify);
-}
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
-  position: relative;
-}
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-}
-.bcn-filterbar {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-200);
-}
-.bcn-filterbar__top {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-400);
-  padding: var(--spacing-300) var(--spacing-400);
-  flex-wrap: wrap;
-}
-.bcn-filterbar__search {
-  margin-left: auto;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-150);
-  min-width: 300px;
-}
-.bcn-filterbar__search--alone {
-  margin-left: 0;
-  flex: 1;
-}
-.bcn-filterbar__search esa-text-field {
-  flex: 1;
-}
-.bcn-filterbar__bottom {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-300);
-  padding: var(--spacing-300) var(--spacing-400);
-  flex-wrap: wrap;
-}
-.bcn-filterbar__top + .bcn-filterbar__bottom {
-  border-top: 1px solid var(--color-border);
-}
-.bcn-filterbar__label {
-  font-size: var(--type-size-150);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-text-tertiary);
-  white-space: nowrap;
-}
-.bcn-filterbar__clear {
-  margin-left: auto;
-}
-.sidebar {
-  --gap: var(--spacing-500, 1.5rem);
-  --sidebar-width: 18rem;
-  --sidebar-content-min: 60%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap);
-}
-.sidebar > :first-child {
-  flex-basis: var(--sidebar-width);
-  flex-grow: 1;
-}
-.sidebar > :last-child {
-  flex-basis: 0;
-  flex-grow: 999;
-  min-inline-size: var(--sidebar-content-min);
-}
-.esa-badge {
-  --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
-  --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
-  --_badge-padding-y: var(--spacing-150, 0.375rem);
-  --_badge-padding-x: var(--spacing-200, 0.5rem);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: calc(1lh + 2 * var(--_badge-padding-y));
-  padding-block: var(--_badge-padding-y);
-  padding-inline: var(--_badge-padding-x);
-  border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
-  background: var(--_badge-bg);
-  color: var(--_badge-text);
-  white-space: nowrap;
-  box-sizing: border-box;
-}
-.esa-empty-state {
-  --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
-  --_empty-gap: var(--spacing-200, 0.5rem);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: var(--spacing-600, 2rem) var(--spacing-400, 1rem);
-  gap: var(--_empty-gap);
-}
-.esa-empty-state--sm {
-  --_empty-icon-size: var(--empty-state-icon-size-sm, 32px);
-  padding: var(--spacing-400, 1rem) var(--spacing-300, 0.75rem);
-}
-.esa-empty-state__title {
-  margin: 0;
-  color: var(--color-content-default, #202020);
-}
-.esa-empty-state__description {
-  margin: 0;
-  color: var(--color-content-default-secondary, #646464);
-  max-width: 360px;
-}
-.esa-empty-state__actions {
-  margin-top: var(--spacing-200, 0.5rem);
-}
-.bcn-cbadge {
-  display: inline-block;
-  flex-shrink: 0;
-  font-family: var(--font-mono);
-  font-weight: var(--font-weight-semibold);
-  color: var(--color-commitment);
-  background: color-mix(in srgb, var(--color-commitment) 12%, white);
-  border-radius: var(--radius-100);
-  white-space: nowrap;
-}
-.bcn-cbadge--sm {
-  font-size: 0.75rem;
-  padding: 1px var(--spacing-150);
-}
-.esa-badge--sm {
-  --_badge-padding-y: var(--spacing-100, 0.25rem);
-  --_badge-padding-x: var(--spacing-150, 0.375rem);
-}
-.typography-microcopy-md-subtle {
-  font-family: var(--typography-microcopy-md-subtle-font-family);
-  font-size: var(--typography-microcopy-md-subtle-font-size);
-  font-weight: var(--typography-microcopy-md-subtle-font-weight);
-  line-height: var(--typography-microcopy-md-subtle-line-height);
-  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
-}
-.typography-body-sm {
-  font-family: var(--typography-body-sm-font-family);
-  font-size: var(--typography-body-sm-font-size);
-  font-weight: var(--typography-body-sm-font-weight);
-  line-height: var(--typography-body-sm-line-height);
-  letter-spacing: var(--typography-body-sm-letter-spacing);
-}
-.typography-label-md {
-  font-family: var(--typography-label-md-font-family);
-  font-size: var(--typography-label-md-font-size);
-  font-weight: var(--typography-label-md-font-weight);
-  line-height: var(--typography-label-md-line-height);
-  letter-spacing: var(--typography-label-md-letter-spacing);
-}
-.typography-microcopy-sm {
-  font-family: var(--typography-microcopy-sm-font-family);
-  font-size: var(--typography-microcopy-sm-font-size);
-  font-weight: var(--typography-microcopy-sm-font-weight);
-  line-height: var(--typography-microcopy-sm-line-height);
-  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
-}
-html,
-.modern-layout__content {
-  scroll-behavior: smooth;
-}
-.bcn-triage-counts {
-  --gap: var(--spacing-250);
-}
-.bcn-triage-counts__chip {
-  display: inline-flex;
-  align-items: center;
-}
-.bcn-triage-counts__chip .esa-badge {
-  --badge-height-md: 24px;
-  font-weight: var(--font-weight-medium);
-}
-.bcn-triage-counts__chip .esa-badge {
-  --badge-bg: var(--color-surface-sunken);
-  --badge-text-color: var(--color-text-secondary);
-}
-.bcn-triage-counts__showing {
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-}
-.bcn-triage-counts__showing[hidden] {
-  display: none;
-}
-.bcn-triage-workspace__panes {
-  --sidebar-width: 31rem;
-  --sidebar-content-min: 42%;
-  height: clamp(32rem, 70vh, 58rem);
-  align-items: stretch;
-}
-.bcn-triage-workspace__queue,
-.bcn-triage-workspace__review {
-  height: 100%;
-  min-height: 0;
-}
-.bcn-triage-queue {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  height: 100%;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-100);
-  overflow: hidden;
-}
-.bcn-triage-queue__scroll {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  padding-bottom: var(--spacing-500);
-}
-.bcn-triage-queue__day {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  margin: 0;
-  padding: var(--spacing-100) var(--spacing-300);
-  background: var(--color-surface-sunken);
-  border-block: 1px solid var(--color-border-light);
-  font-size: 0.875rem;
-  font-weight: var(--font-weight-medium);
-  line-height: 1.4;
-  color: var(--color-text-primary);
-}
-.bcn-triage-queue__group:first-child .bcn-triage-queue__day {
-  border-top: 0;
-}
-.bcn-triage-queue__list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.bcn-triage-row {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150);
-  padding: var(--spacing-300);
-  border-bottom: 1px solid var(--color-border-light);
-  background: var(--color-surface);
-}
-.bcn-triage-row__body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150);
-  min-width: 0;
-  padding: 0;
-  border: 0;
-  background: none;
-  font: inherit;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-.bcn-triage-row__line {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--spacing-250);
-  min-width: 0;
-}
-.bcn-triage-row__title {
-  min-width: 0;
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1.35;
-  color: var(--color-text-primary);
-}
-.bcn-triage-row__date {
-  flex: none;
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-}
-.bcn-triage-row__meta {
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-}
-.bcn-triage-row__foot {
-  display: flex;
-  align-items: center;
-  min-width: 0;
-}
-.bcn-triage-row__match {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.bcn-triage-row__sug .esa-badge {
-  --badge-bg: var(--color-info-subtle);
-  --badge-text-color: var(--color-text-primary);
-  --badge-height-md: 24px;
-  border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
-  font-weight: var(--font-weight-medium);
-}
-.bcn-triage-row:last-child {
-  border-bottom: 0;
-}
-.bcn-triage-queue__group + .bcn-triage-queue__group {
-  margin-top: 0;
-}
-.bcn-triage-row__foot[hidden] {
-  display: none;
-}
-.bcn-triage-queue__empty {
-  padding: var(--spacing-700) var(--spacing-400);
-}
-.bcn-triage-queue__empty[hidden] {
-  display: none;
-}
-.bcn-triage-review {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  height: 100%;
-  overflow-y: auto;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-100);
-}
-.bcn-triage-review,
-.bcn-triage-sug {
-  --color-primary-strong: var(--color-primary);
-}
-.bcn-triage-review__prompt {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing-700) var(--spacing-500);
-}
-.bcn-triage-review__panel {
-  display: flex;
-  flex-direction: column;
-}
-.bcn-triage-review__panel[hidden] {
-  display: none;
-}
-.bcn-triage-add {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-}
-.bcn-triage-add__scope {
-  margin: 0;
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
-}
-.bcn-triage-add__list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-150);
-  height: 22rem;
-  margin: 0;
-  padding: 0;
-  overflow-y: auto;
-  list-style: none;
-}
-.bcn-triage-add__option {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-300);
-  width: 100%;
-  padding: var(--spacing-250) var(--spacing-300);
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-100);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-.bcn-triage-add__name {
-  flex: 1 1 auto;
-  min-width: 0;
-  font-size: 0.875rem;
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.35;
-  color: var(--color-text-primary);
-}
-.bcn-triage-add__meta {
-  display: flex;
-  align-items: center;
-  flex: none;
-  gap: var(--spacing-150);
-}
-.bcn-triage-add__meta .esa-badge {
-  --badge-bg: var(--color-surface-sunken);
-  --badge-text-color: var(--color-text-secondary);
-  font-weight: var(--font-weight-medium);
-}
-.bcn-triage-add__empty {
-  margin: 0;
-  padding: var(--spacing-300) 0;
-  font-size: 0.8125rem;
-  font-style: italic;
-  text-align: center;
-  color: var(--color-text-muted);
-}
-.esa-icon {
-  --_icon-size: var(--icon-size-md, 20px);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, 16px);
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, 20px);
-}
 .esa-button {
   --_btn-pad-y: var(--spacing-300, 0.75rem);
   --_btn-padding-x: var(--spacing-300, 0.75rem);
@@ -16522,6 +16524,11 @@ html,
 | `--typography-microcopy-sm-strong-font-weight` | `550` | semantic |
 | `--typography-microcopy-sm-strong-letter-spacing` | `.01em` | semantic |
 | `--typography-microcopy-sm-strong-line-height` | `1` | semantic |
+| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-font-weight` | `500` | semantic |
+| `--typography-microcopy-xs-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-line-height` | `1` | semantic |
 | `--typography-microcopy-xs-strong-font-family` | `"DM Sans", sans-serif` | semantic |
 | `--typography-microcopy-xs-strong-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
 | `--typography-microcopy-xs-strong-font-weight` | `550` | semantic |

@@ -1,6 +1,6 @@
 # Token contract — prototypes-evidence-triage
 
-The 151 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
+The 157 design tokens this page actually uses, resolved to their final values for the `beacon` theme. Component CSS still references them by name (`var(--color-background-brand)`), so the names carry the intent; the values below are what they currently resolve to.
 
 ## Semantic
 
@@ -13,6 +13,7 @@ The 151 design tokens this page actually uses, resolved to their final values fo
 | `--color-background-brand-subtle` | `#fbfefb` |
 | `--color-background-elevation-floating` | `#fcfcfc` |
 | `--color-background-elevation-raised` | `#fcfcfc` |
+| `--color-background-elevation-sunken` | `#f0f0f0` |
 | `--color-background-field` | `rgba(0, 0, 0, 0)` |
 | `--color-border-default` | `#cecece` |
 | `--color-border-default-subtle` | `#d9d9d9` |
@@ -69,6 +70,11 @@ The 151 design tokens this page actually uses, resolved to their final values fo
 | `--typography-microcopy-sm-strong-font-weight` | `550` |
 | `--typography-microcopy-sm-strong-letter-spacing` | `.01em` |
 | `--typography-microcopy-sm-strong-line-height` | `1` |
+| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` |
+| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
+| `--typography-microcopy-xs-font-weight` | `500` |
+| `--typography-microcopy-xs-letter-spacing` | `.01em` |
+| `--typography-microcopy-xs-line-height` | `1` |
 | `--typography-microcopy-xs-strong-font-family` | `"DM Sans", sans-serif` |
 | `--typography-microcopy-xs-strong-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` |
 | `--typography-microcopy-xs-strong-font-weight` | `550` |
