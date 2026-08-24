@@ -135,6 +135,15 @@ const pickerOptions = (componentId: string) =>
             <h3 class="bcn-triage-review__legend">
               <EsaIcon name="radar" paths={scopeIcon('actions')} size="sm" />
               Suggested actions
+              {/* The count wears the same info chip as the queue row's badge and the
+                  confidence mark, so the number the row promised is visibly the same number
+                  the panel confirms. Hidden at zero — a "0" chip beside a heading that is
+                  about to say "nothing matched" is two ways of saying nothing. */}
+              {confident.length > 0 && (
+                <span class="bcn-triage-review__legendcount">
+                  <EsaBadge value={confident.length} />
+                </span>
+              )}
             </h3>
 
             {confident.length > 0 ? (
@@ -148,7 +157,7 @@ const pickerOptions = (componentId: string) =>
                       data-triage-sug={`${item.id}|${s.actionId}`}
                       data-tier="suggested"
                     >
-                      <EsaCard variant="outlined">
+                      <EsaCard>
                         <div class="bcn-ev-row">
                           {/* The code is part of the action's IDENTITY, so it stays on the
                               title line; type and phase are facets and drop below it. */}
@@ -417,6 +426,25 @@ const pickerOptions = (componentId: string) =>
     color: var(--color-text-muted);
   }
 
+  /* Sits a little away from the label so it reads as a count OF the section rather than a
+     word in its title. Same info tint + mixed border as the queue badge and the confidence
+     mark — one chip, three places, so the eye connects them. */
+  .bcn-triage-review__legendcount {
+    display: inline-flex;
+    margin-left: var(--spacing-150);
+  }
+
+  .bcn-triage-review__legendcount :global(.esa-badge) {
+    --badge-bg: var(--color-info-subtle);
+    --badge-text-color: var(--color-text-primary);
+    /* 22px, a step under the 24px count chips elsewhere: this one sits ON a heading line, so
+       it should not out-measure the text it belongs to.
+       SANCTIONED HARD-CODE: --badge-height-md is a real hook but no token defines it. */
+    --badge-height-md: 22px;
+    border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
+    font-weight: var(--font-weight-semibold);
+  }
+
   .bcn-triage-review__nonetext {
     margin: 0;
     font-size: 0.8125rem;
@@ -459,8 +487,18 @@ const pickerOptions = (componentId: string) =>
   /* esa-card's padding lives on .esa-card__body and defaults to --spacing-500 (24px), which
      is a page-level card's breathing room, not a dense review row's. --card-padding is the
      lego's own public hook, so this re-points it rather than reaching past it. */
+  /* THE WHOLE CARD carries the suggestion tint, not just its confidence chip: a proposal is
+     a different KIND of thing from the record around it — something a machine put there for a
+     person to rule on — and tinting the object says that once instead of decorating a corner.
+     Same info-subtle fill and mixed border as the queue badge, so the row, the panel heading
+     and the card are visibly one signal.
+
+     --card-bg and --card-border-color are esa-card's own public hooks. */
   .bcn-triage-sug {
     --card-padding: var(--spacing-250);
+    --card-bg: var(--color-info-subtle);
+    --card-border-color: color-mix(in srgb, var(--color-info) 35%, transparent);
+    --card-radius: var(--radius-100);
   }
 
   /* THEME GAP, patched locally. esa-button's outline appearance takes its LABEL colour from
@@ -522,9 +560,14 @@ const pickerOptions = (componentId: string) =>
      chip with its own colour and sits on the same line. esa-badge's DEFAULT variant is what
      reads --badge-bg / --badge-text-color; the named variants hardcode their fill, which is
      why leaving these unstyled rendered them as solid brand teal. */
+  /* Inverted for the tinted card, then given an EDGE. White on the blue wash measures 1.03 —
+     no separation at all, so a fill alone left these reading as loose words rather than
+     chips. A neutral hairline gives them shape, and keeps them distinguishable from the
+     confidence mark, whose border is the info mix. */
   .bcn-ev-row__meta :global(.esa-badge) {
-    --badge-bg: var(--color-surface-sunken);
+    --badge-bg: var(--color-surface);
     --badge-text-color: var(--color-text-secondary);
+    border: 1px solid var(--color-border);
     font-weight: var(--font-weight-medium);
   }
 
@@ -534,8 +577,10 @@ const pickerOptions = (componentId: string) =>
     flex: none;
   }
 
+  /* Same inversion: the card now carries the tint, so the mark takes the surface and keeps
+     the mixed border that ties it to the card's edge. */
   .bcn-ev-row__mark :global(.esa-badge) {
-    --badge-bg: var(--color-info-subtle);
+    --badge-bg: var(--color-surface);
     --badge-text-color: var(--color-text-primary);
     border: 1px solid color-mix(in srgb, var(--color-info) 35%, transparent);
     font-weight: var(--font-weight-medium);
@@ -551,7 +596,7 @@ const pickerOptions = (componentId: string) =>
     gap: var(--spacing-200);
     margin-top: var(--spacing-250);
     padding-top: var(--spacing-200);
-    border-top: 1px solid var(--color-border-light);
+    border-top: 1px solid color-mix(in srgb, var(--color-info) 22%, transparent);
   }
 
   .bcn-triage-sug__act[hidden],
