@@ -471,6 +471,8 @@ const pickerOptions = (componentId: string) =>
        should not out-measure the text it belongs to.
        SANCTIONED HARD-CODE: --badge-height-md is a real hook but no token defines it. */
     --badge-height-md: 22px;
+    --badge-bg: var(--color-surface-sunken);
+    --badge-text-color: var(--color-text-primary);
     font-weight: var(--font-weight-semibold);
   }
 
@@ -485,19 +487,6 @@ const pickerOptions = (componentId: string) =>
     display: flex;
     flex-direction: column;
     gap: var(--spacing-250);
-  }
-
-  /* The suggestions area is the surface proposals are filed INTO — one value below the
-     panel, matching the drawer's Actions column, with white cards sitting on it. */
-  .bcn-triage-review__section[aria-label='Suggested actions'] {
-    background: var(--color-surface-sunken);
-  }
-
-  /* On the gray band a chip needs the surface to read, so the header count inverts. */
-  .bcn-triage-review__legendcount :global(.esa-badge) {
-    --badge-bg: var(--color-surface);
-    --badge-text-color: var(--color-text-primary);
-    border: 1px solid var(--color-border);
   }
 
   .bcn-triage-review__picker {
