@@ -8489,12 +8489,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             generate reports.
           </div>
           <span
-            class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md"
+            class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md"
+            ><a class="esa-button__native typography-microcopy-md" href="#" role="button"
+              ><span class="esa-button__label">Go to Beacon</span></a
+            ></span
           >
-            <a class="esa-button__native" href="#" role="button">
-              <span class="esa-button__label"> Go to Beacon </span>
-            </a>
-          </span>
         </div>
         <div class="bcn-cta-paths__card bcn-cta-paths__card--featured">
           <div class="bcn-cta-paths__medallion">
@@ -8523,12 +8522,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             needs.
           </div>
           <span
-            class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md"
+            class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md"
+            ><a class="esa-button__native typography-microcopy-md" href="#" role="button"
+              ><span class="esa-button__label">Request a Demo</span></a
+            ></span
           >
-            <a class="esa-button__native" href="#" role="button">
-              <span class="esa-button__label"> Request a Demo </span>
-            </a>
-          </span>
         </div>
         <div class="bcn-cta-paths__card">
           <div class="bcn-cta-paths__medallion">
@@ -8557,12 +8555,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             software, not spreadsheets.
           </div>
           <span
-            class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md"
+            class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md"
+            ><a class="esa-button__native typography-microcopy-md" href="#" role="button"
+              ><span class="esa-button__label">Why Beacon?</span></a
+            ></span
           >
-            <a class="esa-button__native" href="#" role="button">
-              <span class="esa-button__label"> Why Beacon? </span>
-            </a>
-          </span>
         </div>
       </div>
     </div>
@@ -8578,24 +8575,27 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 ```css
 :root,
 [data-theme="beacon"] {
+  --border-width-default: 1px;
+  --button-radius-md: 0.5rem;
+  --color-background-brand: #46a758;
+  --color-background-brand-hover: #3e9b4f;
   --color-border: #dcdcdc;
-  --color-danger: #e5484d;
+  --color-content-brand: #2a7e3b;
+  --color-content-default-knockout: #fcfcfc;
+  --color-danger: #ce2c31;
   --color-danger-border: #fdbdbe;
   --color-danger-strong: #ce2c31;
-  --color-danger-subtle: #fff7f7;
+  --color-danger-subtle: #fffcfc;
   --color-gray-2: #f9f9f9;
   --color-primary: #005862;
-  --color-primary-hover: #00474f;
-  --color-primary-strong: #2a7e3b;
   --color-primary-subtle: #effefb;
   --color-success: #2e7571;
-  --color-success-border: #c2da91;
-  --color-success-strong: #5c7c2f;
-  --color-success-subtle: #f8faf3;
+  --color-success-border: #adddc0;
+  --color-success-strong: #218358;
+  --color-success-subtle: #fbfefc;
   --color-surface: #fcfcfc;
   --color-surface-sunken: #efefef;
-  --color-text-inverse: #fcfcfc;
-  --color-text-link: #005862;
+  --color-text-link: #46a758;
   --color-text-primary: #3d3d3d;
   --color-text-secondary: #525252;
   --color-text-tertiary: #656565;
@@ -8605,16 +8605,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --font-weight-medium: 500;
   --font-weight-regular: 350;
   --font-weight-semibold: 550;
-  --form-font-size-md: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
-  --form-height-md: 36px;
-  --form-padding-x-md: 0.75rem;
-  --form-radius-md: 0.25rem;
-  --icon-size-large: 24px;
   --icon-size-lg: 24px;
   --icon-size-md: 20px;
-  --icon-size-medium: 20px;
   --icon-size-sm: 16px;
-  --icon-size-small: 16px;
   --icon-size-xl: 28px;
   --line-height-normal: 1.6;
   --line-height-relaxed: 1.8;
@@ -8639,6 +8632,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --type-size-400: clamp(1rem, 0.88rem + 0.6vw, 1.25rem);
   --type-size-500: clamp(1.125rem, 0.98rem + 0.72vw, 1.5rem);
   --type-size-700: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem);
+  --typography-microcopy-md-font-family: "DM Sans", sans-serif;
+  --typography-microcopy-md-font-size: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
+  --typography-microcopy-md-font-weight: 500;
+  --typography-microcopy-md-letter-spacing: 0.01em;
+  --typography-microcopy-md-line-height: 1;
 }
 
 *,
@@ -8666,17 +8664,16 @@ img {
   max-width: 100%;
 }
 .esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  --_icon-size: var(--icon-size-md, 20px);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: var(--_icon-size);
   height: var(--_icon-size);
-  line-height: 1;
   color: inherit;
 }
 .esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+  --_icon-size: var(--icon-size-sm, 16px);
 }
 .esa-icon svg {
   display: block;
@@ -8687,60 +8684,14 @@ img {
   --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+  --_icon-size: var(--icon-size-lg, 24px);
 }
 .esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  --_icon-size: var(--icon-size-md, 20px);
 }
 html,
 .modern-layout__content {
   scroll-behavior: smooth;
-}
-.esa-button {
-  --_btn-height: var(--form-height-md, 40px);
-  --_btn-padding-x: var(--form-padding-x-md, 16px);
-  --_btn-font-size: var(--form-font-size-md, 14px);
-  --_btn-radius: var(--form-radius-md, 6px);
-  --_accent: var(--color-primary, #46a758);
-  --_accent-hover: var(--color-primary-hover, #3e9b4f);
-  --_on: var(--color-text-inverse, #ffffff);
-  --_accent-text: var(--_accent);
-  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
-  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
-  display: inline-block;
-}
-.esa-button--color-primary {
-  --_accent-text: var(--color-primary-strong);
-}
-.esa-button__native {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--spacing-200, 8px);
-  width: 100%;
-  height: var(--_btn-height);
-  padding-inline: var(--_btn-padding-x);
-  border: 1px solid transparent;
-  border-radius: var(--_btn-radius);
-  font-size: var(--_btn-font-size);
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    background var(--transition-fast, 0.15s ease),
-    border-color var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: transparent;
-}
-.esa-button__label {
-  white-space: nowrap;
 }
 .bcn-mkt-nav {
   position: absolute;
@@ -9388,48 +9339,92 @@ html,
   opacity: 1;
   transform: translateY(0);
 }
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.esa-button {
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
+  --_accent-text: var(--_accent);
+  --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
+  --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
+  display: inline-block;
+}
+.esa-button--variant-primary {
+  --_accent-text: var(--color-content-brand);
+}
+.esa-button__native {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-200, 8px);
+  width: 100%;
+  padding-block: var(--_btn-pad-y);
+  padding-inline: var(--_btn-padding-x);
+  border: var(--border-width-default, 1px) solid transparent;
+  border-radius: var(--_btn-radius);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background var(--transition-fast, 0.15s ease),
+    border-color var(--transition-fast, 0.15s ease);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
+}
+.esa-button__label {
+  white-space: nowrap;
+}
 ```
 
 ## Tokens
 | Token | Value | Tier |
 |---|---|---|
-| `--color-border` | `#dcdcdc` | semantic |
-| `--color-danger` | `#e5484d` | semantic |
-| `--color-danger-border` | `#fdbdbe` | semantic |
-| `--color-danger-strong` | `#ce2c31` | semantic |
-| `--color-danger-subtle` | `#fff7f7` | semantic |
+| `--border-width-default` | `1px` | semantic |
+| `--button-radius-md` | `.5rem` | component |
+| `--color-background-brand` | `#46a758` | semantic |
+| `--color-background-brand-hover` | `#3e9b4f` | semantic |
+| `--color-border` | `#dcdcdc` | component |
+| `--color-content-brand` | `#2a7e3b` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-danger` | `#ce2c31` | component |
+| `--color-danger-border` | `#fdbdbe` | component |
+| `--color-danger-strong` | `#ce2c31` | component |
+| `--color-danger-subtle` | `#fffcfc` | component |
 | `--color-gray-2` | `#f9f9f9` | primitive |
-| `--color-primary` | `#005862` | semantic |
-| `--color-primary-hover` | `#00474f` | semantic |
-| `--color-primary-strong` | `#2a7e3b` | semantic |
-| `--color-primary-subtle` | `#effefb` | semantic |
-| `--color-success` | `#2e7571` | semantic |
-| `--color-success-border` | `#c2da91` | semantic |
-| `--color-success-strong` | `#5c7c2f` | semantic |
-| `--color-success-subtle` | `#f8faf3` | semantic |
-| `--color-surface` | `#fcfcfc` | semantic |
-| `--color-surface-sunken` | `#efefef` | semantic |
-| `--color-text-inverse` | `#fcfcfc` | semantic |
-| `--color-text-link` | `#005862` | semantic |
-| `--color-text-primary` | `#3d3d3d` | semantic |
-| `--color-text-secondary` | `#525252` | semantic |
-| `--color-text-tertiary` | `#656565` | semantic |
+| `--color-primary` | `#005862` | component |
+| `--color-primary-subtle` | `#effefb` | component |
+| `--color-success` | `#2e7571` | component |
+| `--color-success-border` | `#adddc0` | component |
+| `--color-success-strong` | `#218358` | component |
+| `--color-success-subtle` | `#fbfefc` | component |
+| `--color-surface` | `#fcfcfc` | component |
+| `--color-surface-sunken` | `#efefef` | component |
+| `--color-text-link` | `#46a758` | component |
+| `--color-text-primary` | `#3d3d3d` | component |
+| `--color-text-secondary` | `#525252` | component |
+| `--color-text-tertiary` | `#656565` | component |
 | `--font-decorative` | `"Besley", serif` | component |
-| `--font-sans` | `"DM Sans", sans-serif` | primitive |
-| `--font-weight-bold` | `650` | primitive |
-| `--font-weight-medium` | `500` | primitive |
-| `--font-weight-regular` | `350` | primitive |
-| `--font-weight-semibold` | `550` | primitive |
-| `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | component |
-| `--form-height-md` | `36px` | component |
-| `--form-padding-x-md` | `.75rem` | component |
-| `--form-radius-md` | `.25rem` | component |
-| `--icon-size-large` | `24px` | component |
+| `--font-sans` | `"DM Sans", sans-serif` | component |
+| `--font-weight-bold` | `650` | component |
+| `--font-weight-medium` | `500` | component |
+| `--font-weight-regular` | `350` | component |
+| `--font-weight-semibold` | `550` | component |
 | `--icon-size-lg` | `24px` | primitive |
 | `--icon-size-md` | `20px` | primitive |
-| `--icon-size-medium` | `20px` | component |
 | `--icon-size-sm` | `16px` | primitive |
-| `--icon-size-small` | `16px` | component |
 | `--icon-size-xl` | `28px` | primitive |
 | `--line-height-normal` | `1.6` | primitive |
 | `--line-height-relaxed` | `1.8` | primitive |
@@ -9446,14 +9441,19 @@ html,
 | `--spacing-500` | `1.5rem` | primitive |
 | `--spacing-600` | `2rem` | primitive |
 | `--spacing-700` | `3rem` | primitive |
-| `--transition-fast` | `.15s ease` | primitive |
-| `--type-size-1000` | `clamp(3rem, 2.6rem + 2vw, 4rem)` | primitive |
-| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
-| `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | primitive |
-| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
-| `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
-| `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` | primitive |
-| `--type-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | primitive |
+| `--transition-fast` | `.15s ease` | semantic |
+| `--type-size-1000` | `clamp(3rem, 2.6rem + 2vw, 4rem)` | component |
+| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | component |
+| `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | component |
+| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | component |
+| `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | component |
+| `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` | component |
+| `--type-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | component |
+| `--typography-microcopy-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-microcopy-md-font-weight` | `500` | semantic |
+| `--typography-microcopy-md-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-md-line-height` | `1` | semantic |
 
 ---
 _Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._

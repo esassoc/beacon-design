@@ -146,19 +146,19 @@ The slim sticky rail that makes a long changelog navigable: one row per release 
 ```
 
 ## Tokens
-- `--color-primary`: #005862 _(semantic)_
-- `--color-surface-sunken`: #efefef _(semantic)_
-- `--color-text-inverse`: #fcfcfc _(semantic)_
-- `--color-text-link`: #005862 _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--focus-ring-color`: #65ba74 _(primitive)_
-- `--focus-ring-width`: 2px _(primitive)_
+- `--color-primary`: #005862 _(component)_
+- `--color-surface-sunken`: #efefef _(component)_
+- `--color-text-inverse`: #fcfcfc _(component)_
+- `--color-text-link`: #46a758 _(component)_
+- `--color-text-primary`: #3d3d3d _(component)_
+- `--color-text-secondary`: #525252 _(component)_
+- `--color-text-tertiary`: #656565 _(component)_
+- `--focus-ring-color`: #3e9b4f _(component)_
+- `--focus-ring-width`: 2px _(component)_
 - `--font-decorative`: "Besley", serif _(component)_
-- `--font-sans`: "DM Sans", sans-serif _(primitive)_
-- `--font-weight-medium`: 500 _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
+- `--font-sans`: "DM Sans", sans-serif _(component)_
+- `--font-weight-medium`: 500 _(component)_
+- `--font-weight-semibold`: 550 _(component)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_

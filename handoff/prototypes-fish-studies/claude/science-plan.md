@@ -6,7 +6,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 - **Source prototype:** http://localhost:4399/beacon-design/prototypes/fish-studies/
 - **Section element:** `<div>`
-- **Components:** esa-alert-box (hub), esa-badge (hub), esa-button (hub), esa-card (hub), esa-empty-state (hub), esa-filter-clear-button (hub), esa-filter-container (hub), esa-icon (hub), esa-icon-button (hub), esa-icon-link (hub), esa-loading-spinner (hub), esa-pill (hub)
+- **Components:** esa-alert-box (hub), esa-badge (hub), esa-button (hub), esa-card (hub), esa-empty-state (hub), esa-filter-clear-button (hub), esa-filter-container (hub), esa-icon (hub), esa-loading-spinner (hub), esa-pill (hub)
 
 ## Markup (de-scoped, framework-free)
 ```html
@@ -135,31 +135,32 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </svg>
         </span>
       </a>
-      <a
-        class="esa-icon-button esa-icon-button--md"
-        href="/beacon-design/prototypes/settings"
-        aria-label="Admin settings"
-        title="Admin settings"
-      >
-        <span class="esa-icon esa-icon--md" aria-hidden="true">
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path
-              d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
-            ></path>
-            <circle cx="12" cy="12" r="3"></circle>
-          </svg>
-        </span>
-      </a>
+      <span
+        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--md esa-button--icon-only"
+        ><a
+          class="esa-button__native typography-microcopy-md"
+          href="/beacon-design/prototypes/settings"
+          aria-label="Admin settings"
+          title="Admin settings"
+          ><span class="esa-icon esa-icon--md" aria-hidden="true">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path
+                d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+              ></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </span> </a
+      ></span>
       <div class="user-menu" id="user-menu">
         <button
           type="button"
@@ -610,9 +611,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <div class="bcn-fs-utils">
                 <span id="fs-generate"
                   ><span
-                    class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
-                  >
-                    <button class="esa-button__native" type="button">
+                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+                    ><button class="esa-button__native typography-microcopy-md" type="button">
                       <span class="esa-icon esa-icon--md" aria-hidden="true">
                         <svg
                           width="20"
@@ -630,10 +630,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <line x1="12" x2="12" y1="15" y2="3"></line>
                         </svg>
                       </span>
-                      <span class="esa-button__label"> Generate outputs </span>
-                    </button>
-                  </span>
-                </span>
+                      <span class="esa-button__label">Generate outputs</span>
+                    </button></span
+                  ></span
+                >
               </div>
             </div>
           </section>
@@ -655,41 +655,39 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     size="md"
                   ></esa-text-field>
                   <span id="fs-search-clear" hidden=""
-                    ><button
-                      class="esa-icon-button esa-icon-button--sm"
-                      type="button"
-                      aria-label="Clear search"
-                      title="Clear search"
-                    >
-                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          focusable="false"
-                        >
-                          <path d="M18 6 6 18"></path>
-                          <path d="m6 6 12 12"></path>
-                        </svg>
-                      </span>
-                    </button>
-                  </span>
+                    ><span
+                      class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                      ><button
+                        class="esa-button__native typography-microcopy-xs"
+                        type="button"
+                        aria-label="Clear search"
+                        title="Clear search"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span></button></span
+                  ></span>
                 </div>
               </div>
               <div class="bcn-filterbar__bottom">
                 <span class="bcn-filterbar__label">Filters</span>
                 <div
-                  class="esa-filter-container"
+                  class="esa-filter-container typography-label-md"
                   style="
-                    --_filter-container-gap: var(
-                      --filter-container-gap,
-                      var(--spacing-300, 0.75rem)
-                    );
+                    --_filter-container-gap: var(--spacing-200, var(--spacing-300, 0.75rem));
                     --_filter-container-row-gap: var(--spacing-200, 0.5rem);
                   "
                 >
@@ -726,7 +724,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 </div>
                 <span id="fs-clear-filters" class="bcn-filterbar__clear"
                   ><button
-                    class="esa-filter-clear-button"
+                    class="esa-filter-clear-button typography-microcopy-sm"
                     type="button"
                     data-esa-filter-clear=""
                     aria-label="Clear all filters"
@@ -748,12 +746,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     ><span class="esa-filter-clear-button__label">Clear all</span>
                   </button>
                   <script type="module">
-                    document.querySelectorAll("[data-esa-filter-clear]").forEach((e) => {
-                      e.addEventListener("click", () => {
+                    document.addEventListener("click", (t) => {
+                      const e = t.target.closest?.("[data-esa-filter-clear]");
+                      e &&
                         e.dispatchEvent(
                           new CustomEvent("esa-filter-clear", { bubbles: !0, composed: !0 }),
                         );
-                      });
                     });
                   </script></span
                 >
@@ -2059,9 +2057,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <div class="table-footer">
                 <span id="fs-download"
                   ><span
-                    class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
-                  >
-                    <button class="esa-button__native" type="button">
+                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                    ><button class="esa-button__native typography-microcopy-xs" type="button">
                       <span class="esa-icon esa-icon--sm" aria-hidden="true">
                         <svg
                           width="16"
@@ -2079,10 +2076,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           <line x1="12" x2="12" y1="15" y2="3"></line>
                         </svg>
                       </span>
-                      <span class="esa-button__label"> Download crosswalk (CSV) </span>
-                    </button>
-                  </span>
-                </span>
+                      <span class="esa-button__label">Download crosswalk (CSV)</span>
+                    </button></span
+                  ></span
+                >
                 <div class="row-count-data">
                   Total studies: <span id="fs-total">36</span>
                   <span id="fs-filtered" class="filtered-rows-count" hidden=""></span>
@@ -7133,7 +7130,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               </div>
               <script
                 type="module"
-                src="/beacon-design/_astro/BcnRolesMatrix.astro_astro_type_script_index_0_lang.C5aj0bl_.js"
+                src="/beacon-design/_astro/BcnRolesMatrix.astro_astro_type_script_index_0_lang.Bq4hCBEb.js"
               ></script>
             </div>
           </section>
@@ -7171,12 +7168,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               ><span>Word — the 27 study sketches, ready for CDFW review</span>
             </div>
             <span
-              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+              class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+              ><button class="esa-button__native typography-microcopy-xs" type="button">
+                <span class="esa-button__label">.docx</span>
+              </button></span
             >
-              <button class="esa-button__native" type="button">
-                <span class="esa-button__label"> .docx </span>
-              </button>
-            </span>
           </li>
           <li class="bcn-out__item">
             <span class="esa-icon esa-icon--md" aria-hidden="true">
@@ -7202,12 +7198,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               ><span>Excel — the wide reference table</span>
             </div>
             <span
-              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+              class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+              ><button class="esa-button__native typography-microcopy-xs" type="button">
+                <span class="esa-button__label">.xlsx</span>
+              </button></span
             >
-              <button class="esa-button__native" type="button">
-                <span class="esa-button__label"> .xlsx </span>
-              </button>
-            </span>
           </li>
           <li class="bcn-out__item">
             <span class="esa-icon esa-icon--md" aria-hidden="true">
@@ -7234,9 +7229,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
             </div>
             <span id="fs-out-roles"
               ><span
-                class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
-              >
-                <button class="esa-button__native" type="button">
+                class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                ><button class="esa-button__native typography-microcopy-xs" type="button">
                   <span class="esa-icon esa-icon--sm" aria-hidden="true">
                     <svg
                       width="16"
@@ -7254,10 +7248,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                     </svg>
                   </span>
-                  <span class="esa-button__label"> Open </span>
-                </button>
-              </span>
-            </span>
+                  <span class="esa-button__label">Open</span>
+                </button></span
+              ></span
+            >
           </li>
           <li class="bcn-out__item">
             <span class="esa-icon esa-icon--md" aria-hidden="true">
@@ -7283,24 +7277,22 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               ><span>PDF — the water-year schedule</span>
             </div>
             <span
-              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+              class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+              ><button class="esa-button__native typography-microcopy-xs" type="button">
+                <span class="esa-button__label">.pdf</span>
+              </button></span
             >
-              <button class="esa-button__native" type="button">
-                <span class="esa-button__label"> .pdf </span>
-              </button>
-            </span>
           </li>
         </ul>
         <div slot="footer" class="bcn-out__foot">
           <span id="fs-outputs-close"
             ><span
-              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
-            >
-              <button class="esa-button__native" type="button">
-                <span class="esa-button__label"> Close </span>
-              </button>
-            </span>
-          </span>
+              class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+              ><button class="esa-button__native typography-microcopy-md" type="button">
+                <span class="esa-button__label">Close</span>
+              </button></span
+            ></span
+          >
         </div>
       </esa-dialog>
       <esa-side-dialog
@@ -7484,45 +7476,44 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         </div>
         <span slot="footer" class="bcn-drawer__foot">
           <span id="fs-drawer-open"
-            ><a class="esa-icon-link esa-icon-link--sm esa-icon-link--medium" href="#"
-              ><span class="esa-icon-link__label">Open full study</span>
-              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  focusable="false"
-                >
-                  <path d="M5 12h14"></path>
-                  <path d="m12 5 7 7-7 7"></path>
-                </svg>
-              </span>
-            </a>
-          </span>
+            ><span
+              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm"
+              ><a class="esa-button__native typography-microcopy-xs" href="#"
+                ><span class="esa-button__label">Open full study</span
+                ><span class="esa-icon esa-icon--sm" aria-hidden="true">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    focusable="false"
+                  >
+                    <path d="M5 12h14"></path>
+                    <path d="m12 5 7 7-7 7"></path>
+                  </svg>
+                </span> </a></span
+          ></span>
           <span class="bcn-drawer__foot-actions">
             <span id="fs-drawer-cancel"
               ><span
-                class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
-              >
-                <button class="esa-button__native" type="button">
-                  <span class="esa-button__label"> Cancel </span>
-                </button>
-              </span>
-            </span>
+                class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+                ><button class="esa-button__native typography-microcopy-md" type="button">
+                  <span class="esa-button__label">Cancel</span>
+                </button></span
+              ></span
+            >
             <span id="fs-drawer-save"
               ><span
-                class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md"
-              >
-                <button class="esa-button__native" type="button">
-                  <span class="esa-button__label"> Save </span>
-                </button>
-              </span>
-            </span>
+                class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md"
+                ><button class="esa-button__native typography-microcopy-md" type="button">
+                  <span class="esa-button__label">Save</span>
+                </button></span
+              ></span
+            >
           </span>
         </span>
       </esa-side-dialog>
@@ -8505,47 +8496,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       position="above"
       data-evidence-trigger="true"
     >
-      <button
-        class="esa-icon-button esa-icon-button--md"
-        type="button"
-        aria-label="Attach Evidence of Compliance"
-        title="Attach Evidence of Compliance"
-      >
-        <span class="esa-icon esa-icon--md" aria-hidden="true">
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
-            <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-            <path d="M10 9H8"></path>
-            <path d="M16 13H8"></path>
-            <path d="M16 17H8"></path>
-          </svg>
-        </span>
-      </button>
-    </esa-tooltip>
-    <!-- What's new — icon-only trigger + unread dot; esa-popover panel opens above the bar. -->
-    <esa-popover
-      class="bcn-help-bar__popover"
-      position="top"
-      trigger="click"
-      offset="12"
-      appearance="default"
-    >
-      <span class="bcn-help-bar__whatsnew" data-whatsnew="">
-        <button
-          class="esa-icon-button esa-icon-button--md"
+      <span
+        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--md esa-button--icon-only"
+        ><button
+          class="esa-button__native typography-microcopy-md"
           type="button"
-          aria-label="What's new"
-          title="What's new"
+          aria-label="Attach Evidence of Compliance"
+          title="Attach Evidence of Compliance"
         >
           <span class="esa-icon esa-icon--md" aria-hidden="true">
             <svg
@@ -8559,16 +8516,55 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               stroke-linejoin="round"
               focusable="false"
             >
-              <path d="M8 2v4"></path>
-              <path d="M12 2v4"></path>
-              <path d="M16 2v4"></path>
-              <rect width="16" height="18" x="4" y="4" rx="2"></rect>
-              <path d="M8 10h6"></path>
-              <path d="M8 14h8"></path>
-              <path d="M8 18h5"></path>
+              <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+              <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+              <path d="M10 9H8"></path>
+              <path d="M16 13H8"></path>
+              <path d="M16 17H8"></path>
             </svg>
-          </span>
-        </button>
+          </span></button
+      ></span>
+    </esa-tooltip>
+    <!-- What's new — icon-only trigger + unread dot; esa-popover panel opens above the bar. -->
+    <esa-popover
+      class="bcn-help-bar__popover"
+      position="top"
+      trigger="click"
+      offset="12"
+      appearance="default"
+    >
+      <span class="bcn-help-bar__whatsnew" data-whatsnew="">
+        <span
+          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--md esa-button--icon-only"
+          ><button
+            class="esa-button__native typography-microcopy-md"
+            type="button"
+            aria-label="What's new"
+            title="What's new"
+            aria-expanded="false"
+          >
+            <span class="esa-icon esa-icon--md" aria-hidden="true">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="M8 2v4"></path>
+                <path d="M12 2v4"></path>
+                <path d="M16 2v4"></path>
+                <rect width="16" height="18" x="4" y="4" rx="2"></rect>
+                <path d="M8 10h6"></path>
+                <path d="M8 14h8"></path>
+                <path d="M8 18h5"></path>
+              </svg>
+            </span></button
+        ></span>
         <span class="bcn-help-bar__dot" data-whatsnew-dot="" aria-hidden="true"></span>
       </span>
       <div slot="content" class="bcn-help-bar__panel">
@@ -8626,7 +8622,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnHelpBar.astro_astro_type_script_index_0_lang.DoAGJheO.js"
+    src="/beacon-design/_astro/BcnHelpBar.astro_astro_type_script_index_0_lang.F3A0cH0L.js"
   ></script>
   <!-- ── Drawer (parent) ── --><esa-side-dialog
     class="bcn-gd"
@@ -9929,7 +9925,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </span>
                 </span>
                 <span class="bcn-help-article__video-duration"
-                  ><span class="esa-badge esa-badge--primary esa-badge--sm">
+                  ><span
+                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                  >
                     <span class="esa-badge__text">4:32</span>
                   </span>
                 </span>
@@ -10190,7 +10188,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </span>
                 </span>
                 <span class="bcn-help-article__video-duration"
-                  ><span class="esa-badge esa-badge--primary esa-badge--sm">
+                  ><span
+                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                  >
                     <span class="esa-badge__text">2:47</span>
                   </span>
                 </span>
@@ -11273,12 +11273,42 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </esa-side-dialog>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnGuidanceDrawer.astro_astro_type_script_index_0_lang.CSA-_RD7.js"
+    src="/beacon-design/_astro/BcnGuidanceDrawer.astro_astro_type_script_index_0_lang.Cn8RQg9O.js"
   ></script>
   <!-- The global evidence workspace — the bar's third affordance. App-shell
          furniture by design: it opens from ANY page, rises from the bottom, and
          layers above dialogs (see BcnBottomDrawer for the stack). Same root
          placement as the drawers above, for the same reason. -->
+  <script type="module">
+    document.addEventListener(
+      "click",
+      (t) => {
+        const s = t.target.closest?.("[data-esa-pill-remove]");
+        if (!s) return;
+        t.stopPropagation();
+        const e = s.closest(".esa-pill");
+        e && (e.dispatchEvent(new CustomEvent("removed", { bubbles: !0 })), e.remove());
+      },
+      !0,
+    );
+  </script>
+  <script type="module">
+    document.addEventListener("click", (o) => {
+      const n = o.target.closest?.("[data-esa-alert-dismiss]");
+      if (!n) return;
+      const t = n.closest(".esa-alert-box");
+      if (!t) return;
+      const s = Array.from(document.querySelectorAll(FOCUSABLE_SELECTOR)).filter(
+          (e) => !t.contains(e) && e.offsetParent !== null,
+        ),
+        r =
+          s.find((e) => t.compareDocumentPosition(e) & Node.DOCUMENT_POSITION_FOLLOWING) ??
+          s[s.length - 1];
+      ((t.style.display = "none"),
+        t.dispatchEvent(new CustomEvent("dismissed", { bubbles: !0 })),
+        r?.focus());
+    });
+  </script>
   <bcn-bottom-drawer id="bcn-evidence-drawer" class="bcn-bottom-drawer">
     <div class="bcn-bottom-drawer__backdrop" data-drawer-backdrop=""></div>
     <div
@@ -11294,29 +11324,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           <div class="bcn-ev__head"><h2 class="bcn-ev__title">Add Evidence of Compliance</h2></div>
         </div>
         <span class="bcn-bottom-drawer__close" data-drawer-close="">
-          <button
-            class="esa-icon-button esa-icon-button--md"
-            type="button"
-            aria-label="Close"
-            title="Close"
-          >
-            <span class="esa-icon esa-icon--md" aria-hidden="true">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                focusable="false"
-              >
-                <path d="M18 6 6 18"></path>
-                <path d="m6 6 12 12"></path>
-              </svg>
-            </span>
-          </button>
+          <span
+            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--md esa-button--icon-only"
+            ><button
+              class="esa-button__native typography-microcopy-md"
+              type="button"
+              aria-label="Close"
+              title="Close"
+            >
+              <span class="esa-icon esa-icon--md" aria-hidden="true">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path d="M18 6 6 18"></path>
+                  <path d="m6 6 12 12"></path>
+                </svg>
+              </span></button
+          ></span>
         </span>
       </header>
       <div class="bcn-bottom-drawer__body">
@@ -11370,6 +11402,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     multiple="true"
                     max-size-mb="50"
                     data-staging-dropzone="true"
+                    name="files"
                     data-bcn-chrome-trimmed="true"
                   ></esa-file-upload>
                 </div>
@@ -11380,7 +11413,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
          no disclosure toggle at all. -->
                 <div class="bcn-ev-staging__draft" data-draft="" hidden="">
                   <div class="esa-card esa-card--outlined">
-                    <div class="esa-card__body">
+                    <div class="esa-card__body typography-body-md">
                       <div class="bcn-ev-draft">
                         <div class="bcn-ev-draft__titlerow">
                           <h4 class="bcn-ev-draft__title" data-draft-title=""></h4>
@@ -11388,7 +11421,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                  copy: the border-only pill is already defined once there, and a second
                  definition is how the two would drift. -->
                           <span class="bcn-ev-card__count" data-draft-count="">
-                            <span class="esa-pill esa-pill--default esa-pill--sm">
+                            <span
+                              class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                            >
                               <span class="esa-pill__label"></span>
                             </span>
                           </span>
@@ -11429,21 +11464,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <footer class="bcn-ev-draft__foot">
                           <span data-draft-add="">
                             <span
-                              class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--sm"
+                              class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+                              ><button
+                                class="esa-button__native typography-microcopy-xs"
+                                type="button"
+                              >
+                                <span class="esa-button__label">Save</span>
+                              </button></span
                             >
-                              <button class="esa-button__native" type="button">
-                                <span class="esa-button__label"> Save </span>
-                              </button>
-                            </span>
                           </span>
                           <span data-draft-cancel="">
                             <span
-                              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                              class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                              ><button
+                                class="esa-button__native typography-microcopy-xs"
+                                type="button"
+                              >
+                                <span class="esa-button__label">Cancel</span>
+                              </button></span
                             >
-                              <button class="esa-button__native" type="button">
-                                <span class="esa-button__label"> Cancel </span>
-                              </button>
-                            </span>
                           </span>
                         </footer>
                       </div>
@@ -11455,7 +11494,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <template data-file-pill="">
                   <li data-astro-cid-xyosy2wp="">
                     <span
-                      class="esa-pill esa-pill--default esa-pill--sm"
+                      class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
                       data-astro-cid-heggk5tk=""
                     >
                       <span class="esa-pill__label" data-astro-cid-heggk5tk=""></span>
@@ -11469,35 +11508,39 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <span class="bcn-ev-draft__filename" data-astro-cid-xyosy2wp=""></span>
                     <span class="bcn-ev-draft__filesize" data-astro-cid-xyosy2wp=""></span>
                     <span class="bcn-ev-draft__fileremove" data-astro-cid-xyosy2wp="">
-                      <button
-                        class="esa-icon-button esa-icon-button--sm"
-                        type="button"
-                        aria-label="Remove this file from the evidence"
-                        title="Remove this file from the evidence"
-                        data-astro-cid-q5zfyfab="true"
-                      >
-                        <span
-                          class="esa-icon esa-icon--sm"
-                          aria-hidden="true"
-                          data-astro-cid-md4nwazs=""
+                      <span
+                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                        data-astro-cid-ojgm2tjl=""
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          aria-label="Remove this file from the evidence"
+                          title="Remove this file from the evidence"
+                          data-astro-cid-xyosy2wp="true"
+                          data-astro-cid-ojgm2tjl=""
                         >
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            focusable="false"
+                          <span
+                            class="esa-icon esa-icon--sm"
+                            aria-hidden="true"
                             data-astro-cid-md4nwazs=""
                           >
-                            <path d="M18 6 6 18"></path>
-                            <path d="m6 6 12 12"></path>
-                          </svg>
-                        </span>
-                      </button>
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                              data-astro-cid-md4nwazs=""
+                            >
+                              <path d="M18 6 6 18"></path>
+                              <path d="m6 6 12 12"></path>
+                            </svg>
+                          </span></button
+                      ></span>
                     </span>
                   </li>
                 </template>
@@ -11551,7 +11594,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -11596,7 +11639,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 >
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">3 files</span>
                                 </span>
                               </span>
@@ -11633,7 +11678,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -11644,29 +11690,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-card__remove"
                                 data-staging-remove="ev-staged-swha"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Swainson’s hawk nest survey — Jul 14"
-                                  title="Remove Swainson’s hawk nest survey — Jul 14"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Swainson’s hawk nest survey — Jul 14"
+                                    title="Remove Swainson’s hawk nest survey — Jul 14"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -11709,21 +11757,27 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <p class="bcn-ev-card__fileslabel">Files</p>
                               <ul class="bcn-ev-card__files">
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >SWHA-nest-survey-2026-07-14.pdf</span
                                     >
                                   </span>
                                 </li>
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >SWHA-nest-locations-2026-07-14.kmz</span
                                     >
                                   </span>
                                 </li>
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >SWHA-survey-photos-2026-07-14.zip</span
                                     >
@@ -11743,7 +11797,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -11788,7 +11842,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 >
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">1 file</span>
                                 </span>
                               </span>
@@ -11825,7 +11881,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -11836,29 +11893,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-card__remove"
                                 data-staging-remove="ev-staged-training"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Worker training roster — Jul 16"
-                                  title="Remove Worker training roster — Jul 16"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Worker training roster — Jul 16"
+                                    title="Remove Worker training roster — Jul 16"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -11900,7 +11959,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <p class="bcn-ev-card__fileslabel">Files</p>
                               <ul class="bcn-ev-card__files">
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >WEAP-training-roster-2026-07-16.pdf</span
                                     >
@@ -11920,7 +11981,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -11965,7 +12026,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 >
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">1 file</span>
                                 </span>
                               </span>
@@ -12002,7 +12065,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -12013,29 +12077,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-card__remove"
                                 data-staging-remove="ev-exist-ggs-survey"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Giant garter snake preconstruction survey — Jun 29"
-                                  title="Remove Giant garter snake preconstruction survey — Jun 29"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Giant garter snake preconstruction survey — Jun 29"
+                                    title="Remove Giant garter snake preconstruction survey — Jun 29"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -12078,7 +12144,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <p class="bcn-ev-card__fileslabel">Files</p>
                               <ul class="bcn-ev-card__files">
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >GGS-preconstruction-survey-2026-06-29.pdf</span
                                     >
@@ -12098,7 +12166,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -12143,7 +12211,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 >
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">4 files</span>
                                 </span>
                               </span>
@@ -12180,7 +12250,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -12191,29 +12262,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-card__remove"
                                 data-staging-remove="ev-exist-biologist-quals"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Qualified biologist statements of qualification"
-                                  title="Remove Qualified biologist statements of qualification"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Qualified biologist statements of qualification"
+                                    title="Remove Qualified biologist statements of qualification"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -12256,22 +12329,30 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <p class="bcn-ev-card__fileslabel">Files</p>
                               <ul class="bcn-ev-card__files">
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label">SOQ-C-Anderson.pdf</span>
                                   </span>
                                 </li>
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label">SOQ-M-Okafor.pdf</span>
                                   </span>
                                 </li>
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label">SOQ-R-Delgado.pdf</span>
                                   </span>
                                 </li>
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label">SOQ-J-Whitfield.pdf</span>
                                   </span>
                                 </li>
@@ -12289,7 +12370,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -12334,7 +12415,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 >
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">1 file</span>
                                 </span>
                               </span>
@@ -12371,7 +12454,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -12382,29 +12466,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-card__remove"
                                 data-staging-remove="ev-exist-noise-readings"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Noise level readings — week of Jul 6"
-                                  title="Remove Noise level readings — week of Jul 6"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Noise level readings — week of Jul 6"
+                                    title="Remove Noise level readings — week of Jul 6"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -12446,7 +12532,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <p class="bcn-ev-card__fileslabel">Files</p>
                               <ul class="bcn-ev-card__files">
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >noise-readings-2026-07-06.xlsx</span
                                     >
@@ -12466,7 +12554,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -12511,7 +12599,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 >
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">1 file</span>
                                 </span>
                               </span>
@@ -12548,7 +12638,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -12559,29 +12650,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-card__remove"
                                 data-staging-remove="ev-exist-swppp-inspection"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove SWPPP inspection report — Jul 9"
-                                  title="Remove SWPPP inspection report — Jul 9"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove SWPPP inspection report — Jul 9"
+                                    title="Remove SWPPP inspection report — Jul 9"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -12624,7 +12717,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <p class="bcn-ev-card__fileslabel">Files</p>
                               <ul class="bcn-ev-card__files">
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >SWPPP-inspection-2026-07-09.pdf</span
                                     >
@@ -12644,7 +12739,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -12689,7 +12784,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 >
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">1 file</span>
                                 </span>
                               </span>
@@ -12726,7 +12823,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -12737,29 +12835,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-card__remove"
                                 data-staging-remove="ev-exist-dust-log"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Dust control log — Jul 2026"
-                                  title="Remove Dust control log — Jul 2026"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Dust control log — Jul 2026"
+                                    title="Remove Dust control log — Jul 2026"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -12801,7 +12901,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <p class="bcn-ev-card__fileslabel">Files</p>
                               <ul class="bcn-ev-card__files">
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >dust-control-log-2026-07.pdf</span
                                     >
@@ -12821,7 +12923,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -12866,7 +12968,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 >
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">1 file</span>
                                 </span>
                               </span>
@@ -12903,7 +13007,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -12914,29 +13019,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-card__remove"
                                 data-staging-remove="ev-exist-haul-agreement"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Executed haul route maintenance agreement"
-                                  title="Remove Executed haul route maintenance agreement"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Executed haul route maintenance agreement"
+                                    title="Remove Executed haul route maintenance agreement"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -12978,7 +13085,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <p class="bcn-ev-card__fileslabel">Files</p>
                               <ul class="bcn-ev-card__files">
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >haul-route-agreement-executed.pdf</span
                                     >
@@ -12998,7 +13107,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -13043,7 +13152,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 >
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">1 file</span>
                                 </span>
                               </span>
@@ -13080,7 +13191,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -13091,29 +13203,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-card__remove"
                                 data-staging-remove="ev-exist-cultural-brief"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Cultural resources monitoring brief — Jul 8"
-                                  title="Remove Cultural resources monitoring brief — Jul 8"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Cultural resources monitoring brief — Jul 8"
+                                    title="Remove Cultural resources monitoring brief — Jul 8"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -13155,7 +13269,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <p class="bcn-ev-card__fileslabel">Files</p>
                               <ul class="bcn-ev-card__files">
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >cultural-monitoring-brief-2026-07-08.pdf</span
                                     >
@@ -13175,7 +13291,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -13220,7 +13336,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 >
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">2 files</span>
                                 </span>
                               </span>
@@ -13257,7 +13375,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -13268,29 +13387,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-card__remove"
                                 data-staging-remove="ev-exist-nesting-bird-sweep"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Nesting bird sweep — Jun 22"
-                                  title="Remove Nesting bird sweep — Jun 22"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Nesting bird sweep — Jun 22"
+                                    title="Remove Nesting bird sweep — Jun 22"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -13332,14 +13453,18 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <p class="bcn-ev-card__fileslabel">Files</p>
                               <ul class="bcn-ev-card__files">
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >nesting-bird-sweep-2026-06-22.pdf</span
                                     >
                                   </span>
                                 </li>
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >nest-buffer-map-2026-06-22.pdf</span
                                     >
@@ -13359,7 +13484,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -13403,7 +13528,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ></a>
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">0 files</span>
                                 </span>
                               </span>
@@ -13440,7 +13567,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -13448,29 +13576,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                               </esa-tooltip>
                               <span class="bcn-ev-card__remove" data-staging-remove="ev-new-1">
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove "
-                                  title="Remove "
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove "
+                                    title="Remove "
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -13522,7 +13652,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -13566,7 +13696,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ></a>
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">0 files</span>
                                 </span>
                               </span>
@@ -13603,7 +13735,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -13611,29 +13744,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                               </esa-tooltip>
                               <span class="bcn-ev-card__remove" data-staging-remove="ev-new-2">
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove "
-                                  title="Remove "
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove "
+                                    title="Remove "
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -13685,7 +13820,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -13729,7 +13864,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ></a>
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">0 files</span>
                                 </span>
                               </span>
@@ -13766,7 +13903,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -13774,29 +13912,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                               </esa-tooltip>
                               <span class="bcn-ev-card__remove" data-staging-remove="ev-new-3">
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove "
-                                  title="Remove "
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove "
+                                    title="Remove "
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -13848,7 +13988,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -13892,7 +14032,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ></a>
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">0 files</span>
                                 </span>
                               </span>
@@ -13929,7 +14071,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -13937,29 +14080,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                               </esa-tooltip>
                               <span class="bcn-ev-card__remove" data-staging-remove="ev-new-4">
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove "
-                                  title="Remove "
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove "
+                                    title="Remove "
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -14007,12 +14152,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <!-- Nothing staged yet. -->
                   <div class="bcn-ev-staging__empty" data-staging-empty="">
                     <div class="esa-empty-state esa-empty-state--sm">
-                      <h3 class="esa-empty-state__title">Nothing added yet</h3>
-                      <p class="esa-empty-state__description">
+                      <h3 class="esa-empty-state__title typography-label-sm-strong">
+                        Nothing added yet
+                      </h3>
+                      <p class="esa-empty-state__description typography-body-xs">
                         Search above for evidence already in Beacon, or upload a file on the Add New
                         tab.
                       </p>
-                      <div class="esa-empty-state__actions"></div>
+                      <div class="esa-empty-state__actions typography-label-md"></div>
                     </div>
                   </div>
                 </div>
@@ -14021,12 +14168,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <footer class="bcn-ev-staging__foot">
                   <span class="bcn-ev-staging__find" data-targets-find="">
                     <span
-                      class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                      class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                      ><button class="esa-button__native typography-microcopy-xs" type="button">
+                        <span class="esa-button__label">Find matches</span>
+                      </button></span
                     >
-                      <button class="esa-button__native" type="button">
-                        <span class="esa-button__label"> Find matches </span>
-                      </button>
-                    </span>
                   </span>
                 </footer>
               </div>
@@ -14135,11 +14281,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <!-- Working state for Find matches — replaced by rows the moment it resolves. -->
                 <div class="bcn-ev-targets__working" data-targets-working="" hidden="">
                   <span class="esa-loading-spinner esa-loading-spinner--sm">
-                    <span
-                      class="esa-loading-spinner__ring"
-                      role="status"
-                      aria-label="Loading"
-                    ></span>
+                    <span class="esa-loading-spinner__ring" role="img" aria-label="Loading"></span>
                   </span>
                   <span class="type-body-small"
                     >Reading the evidence and checking actions in this component…</span
@@ -14164,7 +14306,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -14238,7 +14380,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -14250,10 +14394,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Pre-Construction</span>
                                   </span>
                                 </span>
@@ -14264,29 +14412,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-swha-preconstruction-survey"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Preconstruction Swainson’s hawk nest survey"
-                                  title="Remove Preconstruction Swainson’s hawk nest survey"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Preconstruction Swainson’s hawk nest survey"
+                                    title="Remove Preconstruction Swainson’s hawk nest survey"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -14315,7 +14465,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -14389,7 +14539,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -14401,10 +14553,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -14415,29 +14571,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-swha-buffer-monitoring"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Swainson’s hawk active-nest buffer monitoring"
-                                  title="Remove Swainson’s hawk active-nest buffer monitoring"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Swainson’s hawk active-nest buffer monitoring"
+                                    title="Remove Swainson’s hawk active-nest buffer monitoring"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -14466,7 +14624,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -14540,7 +14698,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -14552,10 +14712,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Pre-Construction</span>
                                   </span>
                                 </span>
@@ -14566,29 +14730,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-ggs-preconstruction-survey"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Giant garter snake preconstruction survey"
-                                  title="Remove Giant garter snake preconstruction survey"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Giant garter snake preconstruction survey"
+                                    title="Remove Giant garter snake preconstruction survey"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -14617,7 +14783,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -14691,7 +14857,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -14703,10 +14871,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Tracking</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Implementation Planning</span>
                                   </span>
                                 </span>
@@ -14717,29 +14889,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-qualified-biologist"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Retain qualified biologist for covered species"
-                                  title="Remove Retain qualified biologist for covered species"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Retain qualified biologist for covered species"
+                                    title="Remove Retain qualified biologist for covered species"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -14768,7 +14942,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -14818,7 +14992,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     offset="6"
                                     appearance="default"
                                   >
-                                    <span class="bcn-ev-row__more">
+                                    <span class="bcn-ev-row__more" aria-expanded="false">
                                       <span class="bcn-cbadge bcn-cbadge--sm bcn-cbadge--neutral"
                                         >+ 2 more</span
                                       >
@@ -14869,7 +15043,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -14881,10 +15057,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Tracking</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Pre-Construction</span>
                                   </span>
                                 </span>
@@ -14895,29 +15075,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-worker-training"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Worker environmental awareness training"
-                                  title="Remove Worker environmental awareness training"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Worker environmental awareness training"
+                                    title="Remove Worker environmental awareness training"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -14946,7 +15128,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -14996,7 +15178,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     offset="6"
                                     appearance="default"
                                   >
-                                    <span class="bcn-ev-row__more">
+                                    <span class="bcn-ev-row__more" aria-expanded="false">
                                       <span class="bcn-cbadge bcn-cbadge--sm bcn-cbadge--neutral"
                                         >+ 3 more</span
                                       >
@@ -15050,7 +15232,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -15062,10 +15246,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -15076,29 +15264,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-daily-biological-monitoring"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Daily biological monitoring during ground disturbance"
-                                  title="Remove Daily biological monitoring during ground disturbance"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Daily biological monitoring during ground disturbance"
+                                    title="Remove Daily biological monitoring during ground disturbance"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -15127,7 +15317,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -15177,7 +15367,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     offset="6"
                                     appearance="default"
                                   >
-                                    <span class="bcn-ev-row__more">
+                                    <span class="bcn-ev-row__more" aria-expanded="false">
                                       <span class="bcn-cbadge bcn-cbadge--sm bcn-cbadge--neutral"
                                         >+ 3 more</span
                                       >
@@ -15231,7 +15421,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -15243,10 +15435,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Reporting</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -15257,29 +15453,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-monthly-compliance-report"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Monthly compliance monitoring report"
-                                  title="Remove Monthly compliance monitoring report"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Monthly compliance monitoring report"
+                                    title="Remove Monthly compliance monitoring report"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -15308,7 +15506,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -15382,7 +15580,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -15394,10 +15594,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -15408,29 +15612,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-noise-monitoring"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Construction noise level monitoring at sensitive receptors"
-                                  title="Remove Construction noise level monitoring at sensitive receptors"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Construction noise level monitoring at sensitive receptors"
+                                    title="Remove Construction noise level monitoring at sensitive receptors"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -15459,7 +15665,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -15533,7 +15739,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -15545,10 +15753,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -15559,29 +15771,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-dust-control-inspection"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Fugitive dust control inspection"
-                                  title="Remove Fugitive dust control inspection"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Fugitive dust control inspection"
+                                    title="Remove Fugitive dust control inspection"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -15610,7 +15824,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -15660,7 +15874,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     offset="6"
                                     appearance="default"
                                   >
-                                    <span class="bcn-ev-row__more">
+                                    <span class="bcn-ev-row__more" aria-expanded="false">
                                       <span class="bcn-cbadge bcn-cbadge--sm bcn-cbadge--neutral"
                                         >+ 1 more</span
                                       >
@@ -15708,7 +15922,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -15720,10 +15936,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -15734,29 +15954,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-swppp-inspection"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove SWPPP qualified-personnel site inspection"
-                                  title="Remove SWPPP qualified-personnel site inspection"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove SWPPP qualified-personnel site inspection"
+                                    title="Remove SWPPP qualified-personnel site inspection"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -15785,7 +16007,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -15859,7 +16081,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -15871,10 +16095,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -15885,29 +16113,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-cultural-monitoring"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Archaeological monitoring during excavation"
-                                  title="Remove Archaeological monitoring during excavation"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Archaeological monitoring during excavation"
+                                    title="Remove Archaeological monitoring during excavation"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -15936,7 +16166,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -16010,7 +16240,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -16022,10 +16254,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Tracking</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Implementation Planning</span>
                                   </span>
                                 </span>
@@ -16036,29 +16272,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-haul-route-agreement"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Execute haul route maintenance agreement"
-                                  title="Remove Execute haul route maintenance agreement"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Execute haul route maintenance agreement"
+                                    title="Remove Execute haul route maintenance agreement"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -16087,7 +16325,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -16161,7 +16399,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -16173,10 +16413,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -16187,29 +16431,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-ib-fish-screen-inspection"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Fish screen criteria compliance inspection"
-                                  title="Remove Fish screen criteria compliance inspection"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Fish screen criteria compliance inspection"
+                                    title="Remove Fish screen criteria compliance inspection"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -16238,7 +16484,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -16312,7 +16558,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -16324,10 +16572,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Tracking</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -16338,29 +16590,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-ib-inwater-work-window"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove In-water work window conformance record"
-                                  title="Remove In-water work window conformance record"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove In-water work window conformance record"
+                                    title="Remove In-water work window conformance record"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -16389,7 +16643,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -16439,7 +16693,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     offset="6"
                                     appearance="default"
                                   >
-                                    <span class="bcn-ev-row__more">
+                                    <span class="bcn-ev-row__more" aria-expanded="false">
                                       <span class="bcn-cbadge bcn-cbadge--sm bcn-cbadge--neutral"
                                         >+ 2 more</span
                                       >
@@ -16490,7 +16744,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -16502,10 +16758,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -16516,29 +16776,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-ib-turbidity-monitoring"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Turbidity monitoring during in-water construction"
-                                  title="Remove Turbidity monitoring during in-water construction"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Turbidity monitoring during in-water construction"
+                                    title="Remove Turbidity monitoring during in-water construction"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -16567,7 +16829,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -16641,7 +16903,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -16653,10 +16917,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Tracking</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Pre-Construction</span>
                                   </span>
                                 </span>
@@ -16667,29 +16935,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-ib-worker-training"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Worker environmental awareness training"
-                                  title="Remove Worker environmental awareness training"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Worker environmental awareness training"
+                                    title="Remove Worker environmental awareness training"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -16718,7 +16988,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -16792,7 +17062,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -16804,10 +17076,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Reporting</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -16818,29 +17094,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-ib-monthly-compliance-report"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Monthly compliance monitoring report"
-                                  title="Remove Monthly compliance monitoring report"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Monthly compliance monitoring report"
+                                    title="Remove Monthly compliance monitoring report"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -16869,7 +17147,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -16943,7 +17221,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -16955,10 +17235,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -16969,29 +17253,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-ib-pile-driving-hydroacoustic"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Hydroacoustic monitoring during pile driving"
-                                  title="Remove Hydroacoustic monitoring during pile driving"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Hydroacoustic monitoring during pile driving"
+                                    title="Remove Hydroacoustic monitoring during pile driving"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -17020,7 +17306,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -17094,7 +17380,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -17106,10 +17394,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -17120,29 +17412,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-tc-rtm-stockpile-inspection"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Reusable tunnel material stockpile inspection"
-                                  title="Remove Reusable tunnel material stockpile inspection"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Reusable tunnel material stockpile inspection"
+                                    title="Remove Reusable tunnel material stockpile inspection"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -17171,7 +17465,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -17245,7 +17539,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -17257,10 +17553,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Tracking</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Implementation Planning</span>
                                   </span>
                                 </span>
@@ -17271,29 +17571,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-tc-haul-route-agreement"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Execute haul route maintenance agreement"
-                                  title="Remove Execute haul route maintenance agreement"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Execute haul route maintenance agreement"
+                                    title="Remove Execute haul route maintenance agreement"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -17322,7 +17624,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -17396,7 +17698,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -17408,10 +17712,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Tracking</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Pre-Construction</span>
                                   </span>
                                 </span>
@@ -17422,29 +17730,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-tc-worker-training"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Worker environmental awareness training"
-                                  title="Remove Worker environmental awareness training"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Worker environmental awareness training"
+                                    title="Remove Worker environmental awareness training"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -17473,7 +17783,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -17547,7 +17857,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -17559,10 +17871,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Pre-Construction</span>
                                   </span>
                                 </span>
@@ -17573,29 +17889,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-tc-nesting-bird-survey"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Nesting bird survey before vegetation removal"
-                                  title="Remove Nesting bird survey before vegetation removal"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Nesting bird survey before vegetation removal"
+                                    title="Remove Nesting bird survey before vegetation removal"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -17626,53 +17944,59 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <span class="bcn-ev-attached__name" data-astro-cid-5nz34ayf=""></span>
                     <span class="bcn-ev-attached__mark" hidden="" data-astro-cid-5nz34ayf="">
                       <span
-                        class="esa-badge esa-badge--primary esa-badge--sm"
+                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
                         data-astro-cid-gz52qnjf=""
                       >
                         <span class="esa-badge__text" data-astro-cid-gz52qnjf="">Suggested</span>
                       </span>
                     </span>
                     <span class="bcn-ev-attached__remove" data-astro-cid-5nz34ayf="">
-                      <button
-                        class="esa-icon-button esa-icon-button--sm"
-                        type="button"
-                        aria-label="Remove this evidence from the action"
-                        title="Remove this evidence from the action"
-                        data-astro-cid-q5zfyfab="true"
-                      >
-                        <span
-                          class="esa-icon esa-icon--sm"
-                          aria-hidden="true"
-                          data-astro-cid-md4nwazs=""
+                      <span
+                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                        data-astro-cid-ojgm2tjl=""
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          aria-label="Remove this evidence from the action"
+                          title="Remove this evidence from the action"
+                          data-astro-cid-5nz34ayf="true"
+                          data-astro-cid-ojgm2tjl=""
                         >
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            focusable="false"
+                          <span
+                            class="esa-icon esa-icon--sm"
+                            aria-hidden="true"
                             data-astro-cid-md4nwazs=""
                           >
-                            <path d="M18 6 6 18"></path>
-                            <path d="m6 6 12 12"></path>
-                          </svg>
-                        </span>
-                      </button>
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                              data-astro-cid-md4nwazs=""
+                            >
+                              <path d="M18 6 6 18"></path>
+                              <path d="m6 6 12 12"></path>
+                            </svg>
+                          </span></button
+                      ></span>
                     </span>
                   </li>
                 </template>
                 <!-- Nothing on the list yet. -->
                 <div class="bcn-ev-targets__empty" data-targets-empty="">
                   <div class="esa-empty-state esa-empty-state--sm">
-                    <h3 class="esa-empty-state__title">No actions selected</h3>
-                    <p class="esa-empty-state__description">
+                    <h3 class="esa-empty-state__title typography-label-sm-strong">
+                      No actions selected
+                    </h3>
+                    <p class="esa-empty-state__description typography-body-xs">
                       Search above to add one, or run Find matches once you have added evidence.
                     </p>
-                    <div class="esa-empty-state__actions"></div>
+                    <div class="esa-empty-state__actions typography-label-md"></div>
                   </div>
                 </div>
               </div>
@@ -17682,7 +18006,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
        only while associations are unsaved; the Add New tab's draft has its own
        marker and is not counted here. -->
               <div class="bcn-ev-targets__pending" data-targets-pending="" hidden="">
-                <div class="esa-alert-box esa-alert-box--warning">
+                <div class="esa-alert-box esa-alert-box--warning typography-body-sm">
                   <div class="esa-alert-box__icon">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -17704,7 +18028,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     </svg>
                   </div>
                   <div class="esa-alert-box__body">
-                    <strong class="esa-alert-box__title">Unsaved changes</strong>
+                    <strong class="esa-alert-box__title typography-label-sm-strong"
+                      >Unsaved changes</strong
+                    >
                     <div class="esa-alert-box__message">
                       <span data-targets-pending-text=""></span>
                     </div>
@@ -17728,21 +18054,23 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           <div class="bcn-ev__actions">
             <span data-evidence-save="">
               <span
-                class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md esa-button--disabled"
+                class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md esa-button--disabled"
+                ><button
+                  class="esa-button__native typography-microcopy-md"
+                  type="button"
+                  disabled=""
+                >
+                  <span class="esa-button__label">Save</span>
+                </button></span
               >
-                <button class="esa-button__native" type="button" disabled="">
-                  <span class="esa-button__label"> Save </span>
-                </button>
-              </span>
             </span>
             <span data-drawer-close="">
               <span
-                class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
+                class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+                ><button class="esa-button__native typography-microcopy-md" type="button">
+                  <span class="esa-button__label">Cancel</span>
+                </button></span
               >
-                <button class="esa-button__native" type="button">
-                  <span class="esa-button__label"> Cancel </span>
-                </button>
-              </span>
             </span>
           </div>
         </div>
@@ -17751,39 +18079,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </bcn-bottom-drawer>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.DmiQsqh2.js"
+    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.CmrMiaQW.js"
   ></script>
 </div>
 ```
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
-.esa-filter-container{display:flex;flex-wrap:wrap;align-items:center;gap:var(--_filter-container-row-gap, .5rem) var(--_filter-container-gap, .75rem)}
-.esa-filter-clear-button{--_clear-text: var(--filter-clear-color, var(--color-primary-strong, #3a7c59));--_clear-text-hover: var(--filter-clear-color-hover, var(--color-primary-strong, #3a7c59));--_clear-font-size: var(--type-size-150, .875rem);--_clear-icon-size: 18px;display:inline-flex;align-items:center;gap:var(--spacing-100, .25rem);padding:var(--spacing-100, .25rem) var(--spacing-200, .5rem);border:none;border-radius:var(--radius-100, .25rem);background:transparent;color:var(--_clear-text);font-family:var(--font-sans, inherit);font-size:var(--_clear-font-size);font-weight:var(--font-weight-medium, 450);cursor:pointer;text-decoration:underline;text-underline-offset:2px;transition:color var(--transition-fast, .15s ease),background var(--transition-fast, .15s ease)}
-.esa-filter-clear-button__icon{width:var(--_clear-icon-size);height:var(--_clear-icon-size);flex:none}
-.esa-filter-clear-button__label{white-space:nowrap}
-.bcn-status-select{display:flex;flex-direction:column;gap:var(--spacing-100)}
-.bcn-status-select__label{font-size:.875rem;font-weight:var(--font-weight-medium);color:var(--form-label-color)}
-.bcn-status-select__dd{position:relative}
-.bcn-status-select__trigger{display:flex;align-items:center;gap:var(--spacing-200);width:100%;height:40px;padding:0 var(--spacing-300);font-size:.875rem;font-weight:var(--font-weight-medium);color:var(--color-text-primary);background:var(--color-surface);border:1px solid var(--form-border-color);border-radius:var(--form-radius-md);cursor:pointer;transition:border-color .15s ease,box-shadow .15s ease}
-.bcn-status-select__dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-.bcn-status-select__value{flex:1;text-align:left}
-.bcn-status-select__chev{color:var(--color-text-tertiary);flex-shrink:0;transition:transform .15s ease}
-.bcn-status-select__menu{position:absolute;top:calc(100% + 4px);left:0;min-width:100%;width:max-content;z-index:20;margin:0;padding:var(--spacing-100);list-style:none;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--form-radius-md);box-shadow:var(--shadow-300)}
-.bcn-status-select__menu[hidden]{display:none}
-.bcn-status-select[data-value=not-started] .bcn-status-select__dot--trigger{background:var(--bcn-status-not-started)}
-.esa-icon-link{--_il-font: var(--icon-link-font-size-md, 1rem);display:inline-flex;align-items:center;gap:var(--icon-link-gap, var(--spacing-150, 6px));padding:0;margin:0;border:0;background:none;color:inherit;font-family:var(--font-sans, system-ui, sans-serif);font-size:var(--_il-font);font-weight:var(--font-weight-medium, 500);line-height:1;text-decoration:none;cursor:pointer;white-space:nowrap}
-.esa-icon-link--sm{--_il-font: var(--icon-link-font-size-sm, .875rem)}
-.esa-icon-link--medium{font-weight:var(--font-weight-medium, 500)}
-.esa-icon-link__label{display:inline-block}
-.ag-measurement-container{height:0;overflow:hidden;visibility:hidden;width:0}
-.ag-chart,.ag-dnd-ghost,.ag-external,.ag-popup,.ag-root-wrapper{cursor:default;line-height:normal;white-space:normal;-webkit-font-smoothing:antialiased;background-color:var(--ag-wrapper-background-color);color:var(--ag-text-color);color-scheme:var(--ag-browser-color-scheme);font-family:var(--ag-font-family);font-size:var(--ag-font-size);font-weight:var(--ag-font-weight);--ag-indentation-level:0}
-:where(.ag-theme-part-8) {
-.ag-icon-filter::before { mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolygon%20points%3D%2222%203%202%203%2010%2012.46%2010%2019%2014%2021%2014%2012.46%2022%203%22%2F%3E%3C%2Fsvg%3E"); }
-;
-.ag-icon-filterActive::before { mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolygon%20points%3D%2222%203%202%203%2010%2012.46%2010%2019%2014%2021%2014%2012.46%2022%203%22%2F%3E%3C%2Fsvg%3E"); }
-:where(.ag-theme-buttonStyle-1) {
-:where(.ag-button){background:none;border:none;color:inherit;cursor:pointer;font-family:inherit;font-size:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;margin:0;padding:0;text-indent:inherit;text-shadow:inherit;text-transform:inherit;word-spacing:inherit;&:disabled{cursor:default}
 :has(> :where(.ag-theme-params-1)):not(:where(.ag-theme-params-1)) {
 	--ag-inherited-accent-color: var(--ag-accent-color);
 	--ag-inherited-advanced-filter-builder-button-bar-border: var(--ag-advanced-filter-builder-button-bar-border);
@@ -18398,112 +18700,32 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 	--ag-browser-color-scheme: var(--ag-inherited-browser-color-scheme, light);
 	--ag-chrome-background-color: var(--ag-inherited-chrome-background-color, color-mix(in srgb, var(--ag-background-color), var(--ag-foreground-color) 2%));
 }
-:where(.ag-theme-tabStyle-6) {
-.ag-tabs-header{background-color:var(--ag-tab-bar-background-color);border-bottom:var(--ag-tab-bar-border);display:flex;flex:1;gap:var(--ag-tab-spacing);padding:var(--ag-tab-bar-top-padding) var(--ag-tab-bar-horizontal-padding) 0}
-:where(.ag-ltr) .ag-tabs-close-button-wrapper{border-right:solid var(--ag-border-width) var(--ag-border-color)}
-:where(.ag-ltr) .ag-tab.ag-tab-selected:where(:not(:first-of-type)){border-left-color:var(--ag-tab-selected-border-color)}
-:where(.ag-ltr) .ag-tab.ag-tab-selected:where(:not(:last-of-type)){border-right-color:var(--ag-tab-selected-border-color)}
-.bcn-fs-utils{display:inline-flex;align-items:center;gap:var(--spacing-200)}
-.bcn-filterbar{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-200);margin-bottom:var(--spacing-400)}
-.bcn-filterbar__top{display:flex;align-items:center;gap:var(--spacing-400);padding:var(--spacing-300) var(--spacing-400);flex-wrap:wrap}
-.bcn-filterbar__group{display:inline-flex;align-items:center;gap:var(--spacing-300)}
-.bcn-filterbar__label{font-size:var(--type-size-150);font-weight:var(--font-weight-semibold);color:var(--color-text-tertiary);white-space:nowrap}
-.bcn-filterbar__search{margin-left:auto;display:inline-flex;align-items:center;gap:var(--spacing-150);min-width:300px}
-.bcn-filterbar__search esa-text-field{flex:1}
-.bcn-filterbar__bottom{display:flex;align-items:center;gap:var(--spacing-300);padding:var(--spacing-300) var(--spacing-400);border-top:1px solid var(--color-border);flex-wrap:wrap}
-.bcn-filterbar__clear{margin-left:auto}
-.bcn-view-pane[hidden]{display:none}
-.bcn-timeline{display:flex;flex-direction:column;gap:var(--spacing-300);--_label-w: 340px;--_plot-w: 1900px;--_row-h: 30px}
-.bcn-timeline__legend{display:flex;align-items:center;flex-wrap:wrap;gap:var(--spacing-300);font-size:var(--type-size-100);color:var(--color-text-secondary)}
-.bcn-timeline__legend-title{font-weight:var(--font-weight-semibold);color:var(--color-text-tertiary)}
-.bcn-timeline__legend-item{display:inline-flex;align-items:center;gap:var(--spacing-150)}
-.bcn-timeline__legend-dot{width:9px;height:9px;border-radius:var(--radius-full);background:var(--_c)}
-.bcn-timeline__legend-hint{margin-left:auto;color:var(--color-text-muted);font-style:italic}
-.bcn-timeline__scroll{overflow-x:auto;border:1px solid var(--color-border);border-radius:var(--radius-200);background:var(--color-surface)}
-.bcn-timeline__canvas{min-width:calc(var(--_label-w) + var(--_plot-w))}
-.bcn-timeline__axis{display:grid;grid-template-columns:var(--_label-w) 1fr;position:sticky;top:0;z-index:5;background:var(--color-surface);border-bottom:1px solid var(--color-border)}
-.bcn-timeline__corner{display:flex;align-items:flex-end;padding:var(--spacing-200) var(--spacing-300);font-size:var(--type-size-100);font-weight:var(--font-weight-semibold);color:var(--color-text-tertiary);border-right:1px solid var(--color-border)}
-.bcn-timeline__head-plot{position:relative}
-.bcn-timeline__head-bands{position:absolute;inset:0;z-index:0}
-.bcn-timeline__band{position:absolute;top:0;bottom:0}
-.bcn-timeline__band[data-phase=baseline]{background:color-mix(in srgb,var(--color-text-primary) 7%,transparent)}
-.bcn-timeline__band[data-phase=in-water-construction]{background:color-mix(in srgb,var(--color-text-primary) 3%,transparent)}
-.bcn-timeline__band[data-phase=phase1-ops]{background:color-mix(in srgb,var(--color-text-primary) 7%,transparent)}
-.bcn-timeline__band[data-phase=phase2-ops]{background:color-mix(in srgb,var(--color-text-primary) 3%,transparent)}
-.bcn-timeline__head-phases{position:relative;z-index:1;height:18px}
-.bcn-timeline__phase-tag{position:absolute;top:0;bottom:0;display:inline-flex;align-items:center;padding:0 var(--spacing-150);font-size:.625rem;font-weight:var(--font-weight-semibold);text-transform:uppercase;letter-spacing:.03em;color:var(--color-text-secondary);white-space:nowrap;overflow:hidden}
-.bcn-timeline__head-years{position:relative;z-index:1;height:20px}
-.bcn-timeline__yr{position:absolute;top:0;bottom:0;border-left:1px solid var(--color-border-light);display:flex;align-items:center}
-.bcn-timeline__yr-label{font-size:.6875rem;color:var(--color-text-muted);padding-left:4px;font-variant-numeric:tabular-nums}
-.bcn-timeline__yr.is-five{border-left-color:var(--color-border-strong)}
-.bcn-timeline__yr.is-five .bcn-timeline__yr-label{color:var(--color-text-secondary);font-weight:var(--font-weight-semibold)}
-.bcn-timeline__head-ms{position:relative;z-index:1;height:22px}
-.bcn-timeline__ms-tag{position:absolute;top:2px;transform:translate(-50%);font-size:.625rem;font-weight:var(--font-weight-semibold);color:var(--color-primary);white-space:nowrap;background:var(--color-surface);padding:0 3px;border:1px solid var(--color-primary-border);border-radius:var(--radius-100)}
-.bcn-timeline__ms-tag.is-alt{top:11px}
-.bcn-timeline__lane-title{margin:0;padding:var(--spacing-150) var(--spacing-300);font-size:var(--type-size-100);font-weight:var(--font-weight-semibold);color:var(--color-text-secondary);background:var(--color-surface-sunken);border-bottom:1px solid var(--color-border);position:sticky;left:0;z-index:3}
-.bcn-timeline__lane-title[hidden]{display:none}
-.bcn-timeline__row{display:grid;grid-template-columns:var(--_label-w) 1fr;border-bottom:1px solid var(--color-border-light)}
-.bcn-timeline__row-label{display:flex;align-items:center;gap:var(--spacing-200);padding:0 var(--spacing-300);min-height:var(--_row-h);width:100%;border:0;border-right:1px solid var(--color-border);overflow:hidden;background:var(--color-surface);position:sticky;left:0;z-index:3;cursor:pointer;text-align:left;font:inherit}
-.bcn-timeline__coa{flex-shrink:0;font-family:var(--font-mono);font-size:.625rem;font-weight:var(--font-weight-semibold);color:var(--color-commitment);background:color-mix(in srgb,var(--color-commitment) 12%,white);padding:1px 5px;border-radius:var(--radius-100)}
-.bcn-timeline__name{font-size:var(--type-size-200);font-weight:var(--font-weight-medium);color:var(--color-text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.bcn-timeline__plot{position:relative;min-height:var(--_row-h)}
-.bcn-timeline__grid{position:absolute;top:0;bottom:0;width:0;border-left:1px solid var(--color-border-light)}
-.bcn-timeline__grid.is-five{border-left-color:var(--color-border)}
-.bcn-timeline__ms-line{position:absolute;top:0;bottom:0;width:0;border-left:1px dashed color-mix(in srgb,var(--color-primary) 35%,transparent)}
-.bcn-timeline__today{position:absolute;top:0;bottom:0;width:0;border-left:2px solid var(--color-warning);z-index:2}
-.bcn-timeline__bar{position:absolute;top:50%;transform:translateY(-50%);height:16px;min-width:5px;border:1px solid color-mix(in srgb,var(--_c) 72%,black);border-radius:var(--radius-100);background:linear-gradient(90deg,var(--_c) 0%,color-mix(in srgb,var(--_c) 62%,white) 100%);padding:0;cursor:pointer;z-index:1;transition:filter .12s ease,box-shadow .12s ease}
-.bcn-out__head{font-family:var(--font-decorative);font-size:1.375rem;font-weight:var(--font-weight-semibold);color:var(--color-text-primary)}
-.bcn-out__lede{margin:0 0 var(--spacing-400);font-size:var(--type-size-200);color:var(--color-text-secondary);line-height:1.5}
-.bcn-out__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--spacing-200)}
-.bcn-out__item{display:flex;align-items:center;gap:var(--spacing-300);padding:var(--spacing-300);border:1px solid var(--color-border);border-radius:var(--radius-200)}
-.bcn-out__item .esa-icon{color:var(--color-secondary);flex-shrink:0}
-.bcn-out__item div{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0}
-.bcn-out__item strong{font-size:var(--form-font-size-md);font-weight:var(--font-weight-semibold);color:var(--color-text-primary)}
-.bcn-out__item span{font-size:.8125rem;color:var(--color-text-tertiary)}
-.bcn-out__foot{display:flex;justify-content:flex-end;width:100%}
-.bcn-drawer-head{display:flex;align-items:center;gap:var(--spacing-200);flex-wrap:wrap;min-width:0}
-.bcn-drawer-head__badge{flex-shrink:0;font-family:var(--font-mono);font-size:var(--type-size-100);font-weight:var(--font-weight-semibold);color:var(--color-commitment);background:color-mix(in srgb,var(--color-commitment) 12%,white);padding:1px var(--spacing-200);border-radius:var(--radius-100)}
-.bcn-drawer-head__title{font-family:var(--font-decorative);font-size:1.125rem;font-weight:var(--font-weight-semibold);color:var(--color-text-primary);line-height:1.25;min-width:0}
-.bcn-drawer{display:flex;flex-direction:column;gap:var(--spacing-400)}
-.bcn-drawer__dates{display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-300)}
-.bcn-drawer__foot{display:flex;align-items:center;justify-content:space-between;width:100%;gap:var(--spacing-300)}
-.bcn-drawer__foot-actions{display:inline-flex;align-items:center;gap:var(--spacing-200)}
-.fs-grid{width:100%;height:calc(100vh - 300px);min-height:600px}
-.esa-button{--_btn-height: var(--form-height-md, 40px);--_btn-padding-x: var(--form-padding-x-md, 16px);--_btn-font-size: var(--form-font-size-md, 14px);--_btn-radius: var(--form-radius-md, 6px);--_accent: var(--color-primary, #46a758);--_accent-hover: var(--color-primary-hover, #3e9b4f);--_on: var(--color-text-inverse, #ffffff);--_accent-text: var(--_accent);--_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);--_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);display:inline-block}
-.esa-button__native{display:inline-flex;align-items:center;justify-content:center;gap:var(--spacing-200, 8px);width:100%;height:var(--_btn-height);padding-inline:var(--_btn-padding-x);border:1px solid transparent;border-radius:var(--_btn-radius);font-size:var(--_btn-font-size);font-family:var(--font-sans, system-ui, sans-serif);font-weight:var(--font-weight-medium, 500);line-height:1;text-decoration:none;cursor:pointer;transition:background var(--transition-fast, .15s ease),border-color var(--transition-fast, .15s ease);-webkit-appearance:none;appearance:none}
-.esa-button--appearance-outline .esa-button__native,.esa-button--appearance-dashed .esa-button__native{background:transparent;color:var(--_accent-text);border-color:var(--_accent)}
-.esa-button--color-ghost .esa-button__native{background:transparent;color:var(--color-text-primary, #171717);border-color:transparent}
-.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native{border-color:var(--color-border, #e5e5e5)}
-.esa-button__label{white-space:nowrap}
-.esa-button--sm{--_btn-height: var(--form-height-sm, 32px);--_btn-padding-x: var(--form-padding-x-sm, 12px);--_btn-font-size: var(--form-font-size-sm, 12px);--_btn-radius: var(--form-radius-sm, 4px)}
-.esa-button--sm .esa-button__native{height:auto;padding-block:var(--spacing-150, 6px)}
-.esa-button--color-primary{--_accent-text: var(--color-primary-strong)}
-.esa-button--appearance-fill .esa-button__native{background:var(--_accent);color:var(--_on);border-color:transparent}
-:where(.ag-theme-inputStyle-7) {
-:where(.ag-input-field-input[type=number]:not(.ag-number-field-input-stepper)){-webkit-appearance:textfield;-moz-appearance:textfield;appearance:textfield;&::-webkit-inner-spin-button,&::-webkit-outer-spin-button{-webkit-appearance:none;appearance:none;margin:0}
-:where(.ag-ltr) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding-left:var(--ag-input-padding-start)}
-&:where(.ag-ltr,.ag-rtl) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding:0 var(--ag-input-padding-start)}
-:where(.ag-ltr) :where(.ag-column-select-header-filter-wrapper),:where(.ag-ltr) :where(.ag-filter-add-select),:where(.ag-ltr) :where(.ag-filter-filter),:where(.ag-ltr) :where(.ag-filter-toolpanel-search),:where(.ag-ltr) :where(.ag-floating-filter-search-icon),:where(.ag-ltr) :where(.ag-mini-filter){.ag-input-wrapper:before{margin-left:var(--ag-spacing)}
-:where(.ag-ltr){direction:ltr;.ag-body,.ag-body-horizontal-scroll,.ag-body-viewport,.ag-floating-bottom,.ag-floating-top,.ag-header,.ag-sticky-bottom,.ag-sticky-top{flex-direction:row}
-.ag-root-wrapper{border:var(--ag-wrapper-border);border-radius:var(--ag-wrapper-border-radius);container-type:inline-size;display:flex;flex-direction:column;overflow:hidden;position:relative;&.ag-layout-normal{content-visibility:auto;height:100%}
-&.ag-layout-normal{content-visibility:auto;height:100%}
-.ag-root-wrapper-body{display:flex;flex-direction:row;&.ag-layout-normal{flex:1 1 auto;height:0;min-height:0}
-&.ag-layout-normal{flex:1 1 auto;height:0;min-height:0}
-.ag-unselectable{-webkit-user-select:none;-moz-user-select:none;user-select:none}
-.ag-root{display:flex;flex-direction:column;position:relative;&.ag-layout-auto-height,&.ag-layout-normal{flex:1 1 auto;overflow:hidden;width:0}
-&.ag-layout-normal{height:100%}
-&.ag-layout-auto-height,&.ag-layout-normal{flex:1 1 auto;overflow:hidden;width:0}
-&.ag-layout-normal{height:100%}
-.ag-body{display:flex;flex:1 1 auto;flex-direction:row!important;min-height:0;position:relative}
-.ag-body,.ag-body-horizontal-scroll,.ag-body-viewport,.ag-floating-bottom,.ag-floating-top,.ag-header,.ag-sticky-bottom,.ag-sticky-top{flex-direction:row}
-.ag-body,.ag-floating-bottom,.ag-floating-top{background-color:var(--ag-data-background-color)}
-.ag-body-horizontal-scroll-viewport,.ag-body-vertical-scroll-viewport,.ag-body-viewport,.ag-center-cols-viewport,.ag-floating-bottom-viewport,.ag-floating-top-viewport,.ag-header-viewport,.ag-sticky-bottom-viewport,.ag-sticky-top-viewport{flex:1 1 auto;height:100%;min-width:0;overflow:hidden;position:relative}
-.ag-body-viewport,.ag-center-cols-viewport,.ag-floating-bottom-viewport,.ag-floating-top-viewport,.ag-header-viewport,.ag-sticky-bottom-viewport,.ag-sticky-top-viewport{overflow-x:auto;-ms-overflow-style:none!important;scrollbar-width:none!important}
-.ag-body-viewport{display:flex;overflow-x:hidden;&:where(.ag-layout-normal){overflow-y:auto;-webkit-overflow-scrolling:touch}
-&:where(.ag-layout-normal){overflow-y:auto;-webkit-overflow-scrolling:touch}
-.ag-viewport{position:relative}
-.ag-center-cols-viewport{min-height:100%;width:100%}
-html,.modern-layout__content{scroll-behavior:smooth}
+.typography-microcopy-md{font-family:var(--typography-microcopy-md-font-family);font-size:var(--typography-microcopy-md-font-size);font-weight:var(--typography-microcopy-md-font-weight);line-height:var(--typography-microcopy-md-line-height);letter-spacing:var(--typography-microcopy-md-letter-spacing)}
+.typography-label-md{font-family:var(--typography-label-md-font-family);font-size:var(--typography-label-md-font-size);font-weight:var(--typography-label-md-font-weight);line-height:var(--typography-label-md-line-height);letter-spacing:var(--typography-label-md-letter-spacing)}
+.typography-microcopy-sm{font-family:var(--typography-microcopy-sm-font-family);font-size:var(--typography-microcopy-sm-font-size);font-weight:var(--typography-microcopy-sm-font-weight);line-height:var(--typography-microcopy-sm-line-height);letter-spacing:var(--typography-microcopy-sm-letter-spacing)}
+.typography-microcopy-xs{font-family:var(--typography-microcopy-xs-font-family);font-size:var(--typography-microcopy-xs-font-size);font-weight:var(--typography-microcopy-xs-font-weight);line-height:var(--typography-microcopy-xs-line-height);letter-spacing:var(--typography-microcopy-xs-letter-spacing)}
+:where(.ag-theme-checkboxStyle-4) {
+.ag-checkbox-input-wrapper,.ag-radio-button-input-wrapper{background-color:var(--ag-checkbox-unchecked-background-color);border:solid var(--ag-checkbox-border-width) var(--ag-checkbox-unchecked-border-color);flex:none;height:var(--ag-icon-size);position:relative;width:var(--ag-icon-size);&:where(.ag-checked){background-color:var(--ag-checkbox-checked-background-color);border-color:var(--ag-checkbox-checked-border-color)}
+&:where(.ag-disabled){filter:grayscale();opacity:.5}
+.ag-cell-editing-error .ag-checkbox-input-wrapper:focus-within{box-shadow:var(--ag-focus-error-shadow)}
+.page-layout{display:flex;flex-direction:column;min-height:calc(100vh - 52px);padding:var(--spacing-600);background:var(--bcn-gray-50);box-sizing:border-box}
+.page-layout section{width:100%}
+.breadcrumbs{padding:var(--spacing-400) 0;display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-400)}
+.breadcrumbs__items{display:flex;gap:var(--spacing-100);align-items:center;flex-wrap:wrap}
+.breadcrumbs__items .esa-icon{color:var(--bcn-gray-400)}
+.breadcrumb-item{color:var(--bcn-gray-600);text-transform:capitalize;font-size:.875rem}
+a.breadcrumb-item{text-decoration:none}
+.page-layout__container{display:flex;flex-direction:column}
+.page-layout__title{border-bottom:1px solid var(--bcn-gray-200);padding:var(--spacing-500) 0;display:flex;align-items:center;justify-content:space-between;box-sizing:border-box}
+.page-layout__title-main{display:flex;align-items:center;gap:var(--spacing-200);min-width:0}
+.page-layout__title h1{display:flex;align-items:center;gap:var(--spacing-200);font-family:var(--font-decorative);font-weight:var(--font-weight-bold);font-size:var(--type-size-500);margin:0;color:var(--bcn-gray-1000)}
+.page-layout__title h1 .esa-icon{color:var(--bcn-gray-1000);flex-shrink:0}
+.page-layout__utilities{display:flex;gap:var(--spacing-200)}
+.page-layout__content{padding:var(--spacing-500) 0;min-height:70vh;position:relative}
+:where(.ag-theme-part-8) {
+.ag-icon-filter::before { mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolygon%20points%3D%2222%203%202%203%2010%2012.46%2010%2019%2014%2021%2014%2012.46%2022%203%22%2F%3E%3C%2Fsvg%3E"); }
+;
+.ag-icon-filterActive::before { mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22currentColor%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolygon%20points%3D%2222%203%202%203%2010%2012.46%2010%2019%2014%2021%2014%2012.46%2022%203%22%2F%3E%3C%2Fsvg%3E"); }
 .modern-layout{display:flex;flex-direction:column;height:100vh}
 .topbar{position:fixed;top:0;left:0;right:0;height:52px;background:var(--bcn-gray-100);border-bottom:1px solid var(--bcn-gray-300);z-index:1100;display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:0 var(--spacing-200)}
 .topbar{padding:0 var(--spacing-400)}
@@ -18518,9 +18740,8 @@ html,.modern-layout__content{scroll-behavior:smooth}
 .bcn-search-trigger__kbd{display:inline-flex;gap:2px;flex:none}
 .bcn-search-trigger__kbd kbd{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 4px;font-family:inherit;font-size:11px;font-weight:var(--font-weight-medium);color:var(--color-text-tertiary);background:var(--color-surface-sunken);border:1px solid var(--color-border);border-radius:4px}
 .topbar__right{display:flex;align-items:center;justify-content:flex-end;gap:var(--spacing-100)}
-.qa-warning{display:inline-flex;align-items:center;gap:var(--spacing-100);padding:var(--spacing-050) var(--spacing-200);font-size:.75rem;font-weight:600;background:var(--color-accent);color:var(--color-surface);border-radius:var(--spacing-100);white-space:nowrap}
+.qa-warning{display:inline-flex;align-items:center;gap:var(--spacing-100);padding:var(--spacing-050) var(--spacing-200);font-size:.8125rem;font-weight:600;background:var(--color-accent);color:var(--color-surface);border-radius:var(--spacing-100);white-space:nowrap}
 .icon-button{display:flex;align-items:center;justify-content:center;width:32px;height:32px;padding:0;border:none;border-radius:var(--spacing-050);background:transparent;color:var(--color-text-secondary);text-decoration:none;cursor:pointer;transition:background .15s ease,color .15s ease}
-.topbar__right .esa-icon-button{color:var(--color-text-secondary)}
 .user-menu{position:relative}
 .user-menu-trigger{display:flex;align-items:center;justify-content:center;width:44px;height:44px;padding:0;border:none;border-radius:9999px;background:transparent;cursor:pointer;transition:transform .15s ease}
 .user-menu-trigger__avatar{width:32px;height:32px;border-radius:9999px;object-fit:cover;border:2px solid var(--bcn-gray-200);transition:border-color .15s ease}
@@ -18561,7 +18782,6 @@ html,.modern-layout__content{scroll-behavior:smooth}
 .bcn-help-bar__guidance-label{white-space:nowrap}
 .bcn-help-bar__divider{flex:none;width:1px;height:22px;margin:0 var(--spacing-050, 2px);background:var(--bcn-helpbar-divider)}
 .bcn-help-bar__tooltip,.bcn-help-bar__popover{display:inline-flex}
-.bcn-help-bar .esa-icon-button{color:var(--bcn-helpbar-fg-muted);--icon-button-bg-hover: var(--bcn-helpbar-hover-bg)}
 .bcn-help-bar__whatsnew{position:relative;display:inline-flex}
 .bcn-help-bar__dot{position:absolute;top:7px;right:7px;width:8px;height:8px;border-radius:50%;background:var(--bcn-aldo);box-shadow:0 0 0 2px var(--bcn-helpbar-bg-solid);pointer-events:none}
 .bcn-help-bar__panel{width:340px;max-width:84vw;color:var(--color-text-primary)}
@@ -18608,23 +18828,6 @@ html,.modern-layout__content{scroll-behavior:smooth}
 .bcn-bottom-drawer__backdrop{position:fixed;inset:0;background:var(--color-backdrop, rgba(0, 0, 0, .5));-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px);z-index:var(--_z);animation:bcn-bd-fade .15s ease}
 .bcn-bottom-drawer:not([open]):not([closing]) .bcn-bottom-drawer__backdrop,.bcn-bottom-drawer:not([open]):not([closing]) .bcn-bottom-drawer__panel{display:none}
 .bcn-bottom-drawer__panel{position:fixed;left:50%;bottom:var(--_inset);transform:translate(-50%);width:min(var(--_width),calc(100vw - var(--_inset) * 2));height:var(--_height);display:flex;flex-direction:column;background:var(--color-surface);border-radius:var(--radius-300) var(--radius-300) 0 0;box-shadow:0 -12px 48px -12px #00000052;z-index:calc(var(--_z) + 1);outline:none;overflow:hidden;animation:bcn-bd-up .3s cubic-bezier(.16,1,.3,1)}
-:where(.ag-theme-batchEditStyle-3) {
-.ag-cell-batch-edit{background-color:var(--ag-cell-batch-edit-background-color);color:var(--ag-cell-batch-edit-text-color);display:inherit}
-.ag-row-batch-edit{background-color:var(--ag-row-batch-edit-background-color);color:var(--ag-row-batch-edit-text-color)}
-.page-layout{display:flex;flex-direction:column;min-height:calc(100vh - 52px);padding:var(--spacing-600);background:var(--bcn-gray-50);box-sizing:border-box}
-.page-layout section{width:100%}
-.breadcrumbs{padding:var(--spacing-400) 0;display:flex;align-items:center;justify-content:space-between;gap:var(--spacing-400)}
-.breadcrumbs__items{display:flex;gap:var(--spacing-100);align-items:center;flex-wrap:wrap}
-.breadcrumbs__items .esa-icon{color:var(--bcn-gray-400)}
-.breadcrumb-item{color:var(--bcn-gray-600);text-transform:capitalize;font-size:.875rem}
-a.breadcrumb-item{text-decoration:none}
-.page-layout__container{display:flex;flex-direction:column}
-.page-layout__title{border-bottom:1px solid var(--bcn-gray-200);padding:var(--spacing-500) 0;display:flex;align-items:center;justify-content:space-between;box-sizing:border-box}
-.page-layout__title-main{display:flex;align-items:center;gap:var(--spacing-200);min-width:0}
-.page-layout__title h1{display:flex;align-items:center;gap:var(--spacing-200);font-family:var(--font-decorative);font-weight:var(--font-weight-bold);font-size:var(--type-size-500);margin:0;color:var(--bcn-gray-1000)}
-.page-layout__title h1 .esa-icon{color:var(--bcn-gray-1000);flex-shrink:0}
-.page-layout__utilities{display:flex;gap:var(--spacing-200)}
-.page-layout__content{padding:var(--spacing-500) 0;min-height:70vh;position:relative}
 :where(.ag-theme-iconSet-5) {
 .ag-icon-aggregation::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpath%20d%3D%22M18%207V4H6l6%208-6%208h12v-3%22%2F%3E%3C%2Fsvg%3E'); }
 .ag-icon-arrows::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cstyle%3E*%20%7B%20vector-effect%3A%20non-scaling-stroke%3B%20%7D%3C%2Fstyle%3E%3Cpolyline%20points%3D%225%209%202%2012%205%2015%22%2F%3E%3Cpolyline%20points%3D%229%205%2012%202%2015%205%22%2F%3E%3Cpolyline%20points%3D%2215%2019%2012%2022%209%2019%22%2F%3E%3Cpolyline%20points%3D%2219%209%2022%2012%2019%2015%22%2F%3E%3Cline%20x1%3D%222%22%20x2%3D%2222%22%20y1%3D%2212%22%20y2%3D%2212%22%2F%3E%3Cline%20x1%3D%2212%22%20x2%3D%2212%22%20y1%3D%222%22%20y2%3D%2222%22%2F%3E%3C%2Fsvg%3E'); }
@@ -18691,18 +18894,183 @@ a.breadcrumb-item{text-decoration:none}
 .ag-icon-small-down::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22black%22%20stroke%3D%22none%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M7.334%2010.667%2016%2021.334l8.667-10.667H7.334Z%22%2F%3E%3C%2Fsvg%3E'); }
 .ag-icon-small-up::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20class%3D%22ag-icon%22%20fill%3D%22black%22%20stroke%3D%22none%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20d%3D%22M7.334%2021.333%2016%2010.666l8.667%2010.667H7.334Z%22%2F%3E%3C%2Fsvg%3E'); }
 .ag-icon-un-pin::before { mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20fill%3D%22none%22%20class%3D%22ag-icon%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M8%2011a.75.75%200%200%200-.75.75v3.333a.75.75%200%201%200%201.5%200V11.75A.75.75%200%200%200%208%2011Z%22%2F%3E%3Cpath%20fill%3D%22currentColor%22%20d%3D%22M13.11%201.436a.75.75%200%200%200-1.22-.872l-10%2014a.75.75%200%201%200%201.22.872L5.207%2012.5h7.376a.75.75%200%200%200%20.75-.75v-1.174a2.08%202.08%200%200%200-1.153-1.863l-1.185-.599-.005-.002a.58.58%200%200%201-.323-.522V5.165a2.083%202.083%200%200%200%201.854-2.904l.589-.825Zm-3.943%205.52v.634a2.08%202.08%200%200%200%201.153%201.863l1.185.6.005.002a.58.58%200%200%201%20.323.522V11H6.28l2.887-4.044ZM9.277%201H5.25a2.084%202.084%200%200%200-.083%204.165v1.676l1.5-2.132v-.292a.75.75%200%200%200-.75-.75H5.25a.584.584%200%200%201%200-1.167h2.972L9.277%201Z%22%2F%3E%3C%2Fsvg%3E'); }
-:where(.ag-theme-checkboxStyle-4) {
-.ag-checkbox-input-wrapper,.ag-radio-button-input-wrapper{background-color:var(--ag-checkbox-unchecked-background-color);border:solid var(--ag-checkbox-border-width) var(--ag-checkbox-unchecked-border-color);flex:none;height:var(--ag-icon-size);position:relative;width:var(--ag-icon-size);&:where(.ag-checked){background-color:var(--ag-checkbox-checked-background-color);border-color:var(--ag-checkbox-checked-border-color)}
-&:where(.ag-disabled){filter:grayscale();opacity:.5}
-.ag-cell-editing-error .ag-checkbox-input-wrapper:focus-within{box-shadow:var(--ag-focus-error-shadow)}
-:where(.ag-theme-columnDropStyle-2) {
-.ag-column-drop-vertical-empty-message{align-items:center;border:dashed var(--ag-border-width);border-color:var(--ag-border-color);display:flex;inset:0;justify-content:center;margin:calc(var(--ag-spacing)*1.5) calc(var(--ag-spacing)*2);overflow:hidden;padding:calc(var(--ag-spacing)*2);position:absolute}
-.esa-icon{--_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));display:inline-flex;align-items:center;justify-content:center;width:var(--_icon-size);height:var(--_icon-size);line-height:1;color:inherit}
+html,.modern-layout__content{scroll-behavior:smooth}
+.bcn-fs-utils{display:inline-flex;align-items:center;gap:var(--spacing-200)}
+.bcn-filterbar{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-200);margin-bottom:var(--spacing-400)}
+.bcn-filterbar__top{display:flex;align-items:center;gap:var(--spacing-400);padding:var(--spacing-300) var(--spacing-400);flex-wrap:wrap}
+.bcn-filterbar__group{display:inline-flex;align-items:center;gap:var(--spacing-300)}
+.bcn-filterbar__label{font-size:var(--type-size-150);font-weight:var(--font-weight-semibold);color:var(--color-text-tertiary);white-space:nowrap}
+.bcn-filterbar__search{margin-left:auto;display:inline-flex;align-items:center;gap:var(--spacing-150);min-width:300px}
+.bcn-filterbar__search esa-text-field{flex:1}
+.bcn-filterbar__bottom{display:flex;align-items:center;gap:var(--spacing-300);padding:var(--spacing-300) var(--spacing-400);border-top:1px solid var(--color-border);flex-wrap:wrap}
+.bcn-filterbar__clear{margin-left:auto}
+.bcn-view-pane[hidden]{display:none}
+.bcn-timeline{display:flex;flex-direction:column;gap:var(--spacing-300);--_label-w: 340px;--_plot-w: 1900px;--_row-h: 30px}
+.bcn-timeline__legend{display:flex;align-items:center;flex-wrap:wrap;gap:var(--spacing-300);font-size:var(--type-size-100);color:var(--color-text-secondary)}
+.bcn-timeline__legend-title{font-weight:var(--font-weight-semibold);color:var(--color-text-tertiary)}
+.bcn-timeline__legend-item{display:inline-flex;align-items:center;gap:var(--spacing-150)}
+.bcn-timeline__legend-dot{width:9px;height:9px;border-radius:var(--radius-full);background:var(--_c)}
+.bcn-timeline__legend-hint{margin-left:auto;color:var(--color-text-muted);font-style:italic}
+.bcn-timeline__scroll{overflow-x:auto;border:1px solid var(--color-border);border-radius:var(--radius-200);background:var(--color-surface)}
+.bcn-timeline__canvas{min-width:calc(var(--_label-w) + var(--_plot-w))}
+.bcn-timeline__axis{display:grid;grid-template-columns:var(--_label-w) 1fr;position:sticky;top:0;z-index:5;background:var(--color-surface);border-bottom:1px solid var(--color-border)}
+.bcn-timeline__corner{display:flex;align-items:flex-end;padding:var(--spacing-200) var(--spacing-300);font-size:var(--type-size-100);font-weight:var(--font-weight-semibold);color:var(--color-text-tertiary);border-right:1px solid var(--color-border)}
+.bcn-timeline__head-plot{position:relative}
+.bcn-timeline__head-bands{position:absolute;inset:0;z-index:0}
+.bcn-timeline__band{position:absolute;top:0;bottom:0}
+.bcn-timeline__band[data-phase=baseline]{background:color-mix(in srgb,var(--color-text-primary) 7%,transparent)}
+.bcn-timeline__band[data-phase=in-water-construction]{background:color-mix(in srgb,var(--color-text-primary) 3%,transparent)}
+.bcn-timeline__band[data-phase=phase1-ops]{background:color-mix(in srgb,var(--color-text-primary) 7%,transparent)}
+.bcn-timeline__band[data-phase=phase2-ops]{background:color-mix(in srgb,var(--color-text-primary) 3%,transparent)}
+.bcn-timeline__head-phases{position:relative;z-index:1;height:18px}
+.bcn-timeline__phase-tag{position:absolute;top:0;bottom:0;display:inline-flex;align-items:center;padding:0 var(--spacing-150);font-size:.625rem;font-weight:var(--font-weight-semibold);text-transform:uppercase;letter-spacing:.03em;color:var(--color-text-secondary);white-space:nowrap;overflow:hidden}
+.bcn-timeline__head-years{position:relative;z-index:1;height:20px}
+.bcn-timeline__yr{position:absolute;top:0;bottom:0;border-left:1px solid var(--color-border-light);display:flex;align-items:center}
+.bcn-timeline__yr-label{font-size:.6875rem;color:var(--color-text-muted);padding-left:4px;font-variant-numeric:tabular-nums}
+.bcn-timeline__yr.is-five{border-left-color:var(--color-border-strong)}
+.bcn-timeline__yr.is-five .bcn-timeline__yr-label{color:var(--color-text-secondary);font-weight:var(--font-weight-semibold)}
+.bcn-timeline__head-ms{position:relative;z-index:1;height:22px}
+.bcn-timeline__ms-tag{position:absolute;top:2px;transform:translate(-50%);font-size:.625rem;font-weight:var(--font-weight-semibold);color:var(--color-primary);white-space:nowrap;background:var(--color-surface);padding:0 3px;border:1px solid var(--color-primary-border);border-radius:var(--radius-100)}
+.bcn-timeline__ms-tag.is-alt{top:11px}
+.bcn-timeline__lane-title{margin:0;padding:var(--spacing-150) var(--spacing-300);font-size:var(--type-size-100);font-weight:var(--font-weight-semibold);color:var(--color-text-secondary);background:var(--color-surface-sunken);border-bottom:1px solid var(--color-border);position:sticky;left:0;z-index:3}
+.bcn-timeline__lane-title[hidden]{display:none}
+.bcn-timeline__row{display:grid;grid-template-columns:var(--_label-w) 1fr;border-bottom:1px solid var(--color-border-light)}
+.bcn-timeline__row-label{display:flex;align-items:center;gap:var(--spacing-200);padding:0 var(--spacing-300);min-height:var(--_row-h);width:100%;border:0;border-right:1px solid var(--color-border);overflow:hidden;background:var(--color-surface);position:sticky;left:0;z-index:3;cursor:pointer;text-align:left;font:inherit}
+.bcn-timeline__coa{flex-shrink:0;font-family:var(--font-mono);font-size:.625rem;font-weight:var(--font-weight-semibold);color:var(--color-commitment);background:color-mix(in srgb,var(--color-commitment) 12%,white);padding:1px 5px;border-radius:var(--radius-100)}
+.bcn-timeline__name{font-size:var(--type-size-200);font-weight:var(--font-weight-medium);color:var(--color-text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bcn-timeline__plot{position:relative;min-height:var(--_row-h)}
+.bcn-timeline__grid{position:absolute;top:0;bottom:0;width:0;border-left:1px solid var(--color-border-light)}
+.bcn-timeline__grid.is-five{border-left-color:var(--color-border)}
+.bcn-timeline__ms-line{position:absolute;top:0;bottom:0;width:0;border-left:1px dashed color-mix(in srgb,var(--color-primary) 35%,transparent)}
+.bcn-timeline__today{position:absolute;top:0;bottom:0;width:0;border-left:2px solid var(--color-warning);z-index:2}
+.bcn-timeline__bar{position:absolute;top:50%;transform:translateY(-50%);height:16px;min-width:5px;border:1px solid color-mix(in srgb,var(--_c) 72%,black);border-radius:var(--radius-100);background:linear-gradient(90deg,var(--_c) 0%,color-mix(in srgb,var(--_c) 62%,white) 100%);padding:0;cursor:pointer;z-index:1;transition:filter .12s ease,box-shadow .12s ease}
+.bcn-out__head{font-family:var(--font-decorative);font-size:1.375rem;font-weight:var(--font-weight-semibold);color:var(--color-text-primary)}
+.bcn-out__lede{margin:0 0 var(--spacing-400);font-size:var(--type-size-200);color:var(--color-text-secondary);line-height:1.5}
+.bcn-out__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--spacing-200)}
+.bcn-out__item{display:flex;align-items:center;gap:var(--spacing-300);padding:var(--spacing-300);border:1px solid var(--color-border);border-radius:var(--radius-200)}
+.bcn-out__item .esa-icon{color:var(--color-secondary);flex-shrink:0}
+.bcn-out__item div{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0}
+.bcn-out__item strong{font-size:var(--form-font-size-md);font-weight:var(--font-weight-semibold);color:var(--color-text-primary)}
+.bcn-out__item span{font-size:.8125rem;color:var(--color-text-tertiary)}
+.bcn-out__foot{display:flex;justify-content:flex-end;width:100%}
+.bcn-drawer-head{display:flex;align-items:center;gap:var(--spacing-200);flex-wrap:wrap;min-width:0}
+.bcn-drawer-head__badge{flex-shrink:0;font-family:var(--font-mono);font-size:var(--type-size-100);font-weight:var(--font-weight-semibold);color:var(--color-commitment);background:color-mix(in srgb,var(--color-commitment) 12%,white);padding:1px var(--spacing-200);border-radius:var(--radius-100)}
+.bcn-drawer-head__title{font-family:var(--font-decorative);font-size:1.125rem;font-weight:var(--font-weight-semibold);color:var(--color-text-primary);line-height:1.25;min-width:0}
+.bcn-drawer{display:flex;flex-direction:column;gap:var(--spacing-400)}
+.bcn-drawer__dates{display:grid;grid-template-columns:1fr 1fr;gap:var(--spacing-300)}
+.bcn-drawer__foot{display:flex;align-items:center;justify-content:space-between;width:100%;gap:var(--spacing-300)}
+.bcn-drawer__foot-actions{display:inline-flex;align-items:center;gap:var(--spacing-200)}
+.fs-grid{width:100%;height:calc(100vh - 300px);min-height:600px}
+.esa-icon{--_icon-size: var(--icon-size-md, 20px);display:inline-flex;align-items:center;justify-content:center;width:var(--_icon-size);height:var(--_icon-size);color:inherit}
 .esa-icon--xs{--_icon-size: var(--icon-size-xs, 14px)}
 .esa-icon svg{display:block;width:var(--_icon-size);height:var(--_icon-size)}
-.esa-icon--sm{--_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px))}
-.esa-icon--md{--_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px))}
-.esa-icon-button{--_ib-size: var(--form-height-md, 40px);--_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));display:inline-flex;align-items:center;justify-content:center;width:var(--_ib-size);height:var(--_ib-size);padding:0;border:0;border-radius:var(--radius-200, 8px);background:transparent;color:inherit;cursor:pointer;transition:background var(--transition-fast, .15s ease);-webkit-appearance:none;appearance:none}
+.esa-icon--sm{--_icon-size: var(--icon-size-sm, 16px)}
+.esa-icon--md{--_icon-size: var(--icon-size-md, 20px)}
+:where(.ag-theme-batchEditStyle-3) {
+.ag-cell-batch-edit{background-color:var(--ag-cell-batch-edit-background-color);color:var(--ag-cell-batch-edit-text-color);display:inherit}
+.ag-row-batch-edit{background-color:var(--ag-row-batch-edit-background-color);color:var(--ag-row-batch-edit-text-color)}
+.typography-microcopy-md-subtle {
+  font-family: var(--typography-microcopy-md-subtle-font-family);
+  font-size: var(--typography-microcopy-md-subtle-font-size);
+  font-weight: var(--typography-microcopy-md-subtle-font-weight);
+  line-height: var(--typography-microcopy-md-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-microcopy-md-strong {
+  font-family: var(--typography-microcopy-md-strong-font-family);
+  font-size: var(--typography-microcopy-md-strong-font-size);
+  font-weight: var(--typography-microcopy-md-strong-font-weight);
+  line-height: var(--typography-microcopy-md-strong-line-height);
+  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-sm {
+  font-family: var(--typography-microcopy-sm-font-family);
+  font-size: var(--typography-microcopy-sm-font-size);
+  font-weight: var(--typography-microcopy-sm-font-weight);
+  line-height: var(--typography-microcopy-sm-line-height);
+  letter-spacing: var(--typography-microcopy-sm-letter-spacing);
+}
+.ag-measurement-container{height:0;overflow:hidden;visibility:hidden;width:0}
+.ag-chart,.ag-dnd-ghost,.ag-external,.ag-popup,.ag-root-wrapper{cursor:default;line-height:normal;white-space:normal;-webkit-font-smoothing:antialiased;background-color:var(--ag-wrapper-background-color);color:var(--ag-text-color);color-scheme:var(--ag-browser-color-scheme);font-family:var(--ag-font-family);font-size:var(--ag-font-size);font-weight:var(--ag-font-weight);--ag-indentation-level:0}
+:where(.ag-ltr){direction:ltr;.ag-body,.ag-body-horizontal-scroll,.ag-body-viewport,.ag-floating-bottom,.ag-floating-top,.ag-header,.ag-sticky-bottom,.ag-sticky-top{flex-direction:row}
+.ag-root-wrapper{border:var(--ag-wrapper-border);border-radius:var(--ag-wrapper-border-radius);container-type:inline-size;display:flex;flex-direction:column;overflow:hidden;position:relative;&.ag-layout-normal{content-visibility:auto;height:100%}
+&.ag-layout-normal{content-visibility:auto;height:100%}
+.ag-root-wrapper-body{display:flex;flex-direction:row;&.ag-layout-normal{flex:1 1 auto;height:0;min-height:0}
+&.ag-layout-normal{flex:1 1 auto;height:0;min-height:0}
+.ag-unselectable{-webkit-user-select:none;-moz-user-select:none;user-select:none}
+.ag-root{display:flex;flex-direction:column;position:relative;&.ag-layout-auto-height,&.ag-layout-normal{flex:1 1 auto;overflow:hidden;width:0}
+&.ag-layout-normal{height:100%}
+&.ag-layout-auto-height,&.ag-layout-normal{flex:1 1 auto;overflow:hidden;width:0}
+&.ag-layout-normal{height:100%}
+.ag-body{display:flex;flex:1 1 auto;flex-direction:row!important;min-height:0;position:relative}
+.ag-body,.ag-body-horizontal-scroll,.ag-body-viewport,.ag-floating-bottom,.ag-floating-top,.ag-header,.ag-sticky-bottom,.ag-sticky-top{flex-direction:row}
+.ag-body,.ag-floating-bottom,.ag-floating-top{background-color:var(--ag-data-background-color)}
+.ag-body-horizontal-scroll-viewport,.ag-body-vertical-scroll-viewport,.ag-body-viewport,.ag-center-cols-viewport,.ag-floating-bottom-viewport,.ag-floating-top-viewport,.ag-header-viewport,.ag-sticky-bottom-viewport,.ag-sticky-top-viewport{flex:1 1 auto;height:100%;min-width:0;overflow:hidden;position:relative}
+.ag-body-viewport,.ag-center-cols-viewport,.ag-floating-bottom-viewport,.ag-floating-top-viewport,.ag-header-viewport,.ag-sticky-bottom-viewport,.ag-sticky-top-viewport{overflow-x:auto;-ms-overflow-style:none!important;scrollbar-width:none!important}
+.ag-body-viewport{display:flex;overflow-x:hidden;&:where(.ag-layout-normal){overflow-y:auto;-webkit-overflow-scrolling:touch}
+&:where(.ag-layout-normal){overflow-y:auto;-webkit-overflow-scrolling:touch}
+.ag-viewport{position:relative}
+.ag-center-cols-viewport{min-height:100%;width:100%}
+:where(.ag-theme-buttonStyle-1) {
+:where(.ag-button){background:none;border:none;color:inherit;cursor:pointer;font-family:inherit;font-size:inherit;font-weight:inherit;letter-spacing:inherit;line-height:inherit;margin:0;padding:0;text-indent:inherit;text-shadow:inherit;text-transform:inherit;word-spacing:inherit;&:disabled{cursor:default}
+:where(.ag-theme-inputStyle-7) {
+:where(.ag-input-field-input[type=number]:not(.ag-number-field-input-stepper)){-webkit-appearance:textfield;-moz-appearance:textfield;appearance:textfield;&::-webkit-inner-spin-button,&::-webkit-outer-spin-button{-webkit-appearance:none;appearance:none;margin:0}
+:where(.ag-ltr) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding-left:var(--ag-input-padding-start)}
+&:where(.ag-ltr,.ag-rtl) .ag-input-field-input:where(input:not([type]),input[type=text],input[type=number],input[type=tel],input[type=date],input[type=datetime-local],textarea){padding:0 var(--ag-input-padding-start)}
+:where(.ag-ltr) :where(.ag-column-select-header-filter-wrapper),:where(.ag-ltr) :where(.ag-filter-add-select),:where(.ag-ltr) :where(.ag-filter-filter),:where(.ag-ltr) :where(.ag-filter-toolpanel-search),:where(.ag-ltr) :where(.ag-floating-filter-search-icon),:where(.ag-ltr) :where(.ag-mini-filter){.ag-input-wrapper:before{margin-left:var(--ag-spacing)}
+:where(.ag-theme-columnDropStyle-2) {
+.ag-column-drop-vertical-empty-message{align-items:center;border:dashed var(--ag-border-width);border-color:var(--ag-border-color);display:flex;inset:0;justify-content:center;margin:calc(var(--ag-spacing)*1.5) calc(var(--ag-spacing)*2);overflow:hidden;padding:calc(var(--ag-spacing)*2);position:absolute}
+.esa-filter-container{display:flex;flex-wrap:wrap;align-items:center;gap:var(--_filter-container-row-gap, .5rem) var(--_filter-container-gap, .75rem);padding:var(--filter-container-padding, 0)}
+.esa-filter-clear-button{--_clear-text: var(--color-content-default-secondary, #646464);--_clear-text-hover: var(--color-content-utility-danger, var(--color-content-brand, #2a7e3b));--_clear-icon-size: 18px;display:inline-flex;align-items:center;gap:var(--spacing-100, .25rem);padding:var(--spacing-100, .25rem) var(--spacing-200, .5rem);border:none;border-radius:var(--radius-sm, .25rem);background:transparent;color:var(--_clear-text);cursor:pointer;text-decoration:underline;text-underline-offset:2px;transition:color var(--transition-fast, .15s ease),background var(--transition-fast, .15s ease)}
+.esa-filter-clear-button__icon{width:var(--_clear-icon-size);height:var(--_clear-icon-size);flex:none}
+.esa-filter-clear-button__label{white-space:nowrap}
+.bcn-status-select{display:flex;flex-direction:column;gap:var(--spacing-100)}
+.bcn-status-select__label{font-size:.875rem;font-weight:var(--font-weight-medium);color:var(--form-label-color)}
+.bcn-status-select__dd{position:relative}
+.bcn-status-select__trigger{display:flex;align-items:center;gap:var(--spacing-200);width:100%;height:40px;padding:0 var(--spacing-300);font-size:.875rem;font-weight:var(--font-weight-medium);color:var(--color-text-primary);background:var(--color-surface);border:1px solid var(--form-border-color);border-radius:var(--form-radius-md);cursor:pointer;transition:border-color .15s ease,box-shadow .15s ease}
+.bcn-status-select__dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.bcn-status-select__value{flex:1;text-align:left}
+.bcn-status-select__chev{color:var(--color-text-tertiary);flex-shrink:0;transition:transform .15s ease}
+.bcn-status-select__menu{position:absolute;top:calc(100% + 4px);left:0;min-width:100%;width:max-content;z-index:20;margin:0;padding:var(--spacing-100);list-style:none;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--form-radius-md);box-shadow:var(--shadow-300)}
+.bcn-status-select__menu[hidden]{display:none}
+.bcn-status-select[data-value=not-started] .bcn-status-select__dot--trigger{background:var(--bcn-status-not-started)}
+:where(.ag-theme-tabStyle-6) {
+.ag-tabs-header{background-color:var(--ag-tab-bar-background-color);border-bottom:var(--ag-tab-bar-border);display:flex;flex:1;gap:var(--ag-tab-spacing);padding:var(--ag-tab-bar-top-padding) var(--ag-tab-bar-horizontal-padding) 0}
+:where(.ag-ltr) .ag-tabs-close-button-wrapper{border-right:solid var(--ag-border-width) var(--ag-border-color)}
+:where(.ag-ltr) .ag-tab.ag-tab-selected:where(:not(:first-of-type)){border-left-color:var(--ag-tab-selected-border-color)}
+:where(.ag-ltr) .ag-tab.ag-tab-selected:where(:not(:last-of-type)){border-right-color:var(--ag-tab-selected-border-color)}
+.esa-button{--_btn-pad-y: var(--spacing-300, .75rem);--_btn-padding-x: var(--spacing-300, .75rem);--_btn-radius: var(--button-radius-md, .5rem);--_accent: var(--color-background-brand, #46a758);--_accent-hover: var(--color-background-brand-hover, #3e9b4f);--_on: var(--color-content-default-knockout, #fcfcfc);--_accent-text: var(--_accent);--_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);--_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);display:inline-block}
+.esa-button__native{display:inline-flex;align-items:center;justify-content:center;gap:var(--spacing-200, 8px);width:100%;padding-block:var(--_btn-pad-y);padding-inline:var(--_btn-padding-x);border:var(--border-width-default, 1px) solid transparent;border-radius:var(--_btn-radius);text-decoration:none;cursor:pointer;transition:background var(--transition-fast, .15s ease),border-color var(--transition-fast, .15s ease);-webkit-appearance:none;appearance:none}
+.esa-button--appearance-fill .esa-button__native{background:var(--_accent);color:var(--_on);border-color:var(--_accent-border, transparent)}
+.esa-button--variant-chrome .esa-button__native{background:transparent;color:inherit;border-color:transparent}
+.esa-button--icon-only .esa-button__native{padding-inline:var(--_btn-pad-y);aspect-ratio:1}
+.esa-button--appearance-outline .esa-button__native,.esa-button--appearance-dashed .esa-button__native{background:transparent;color:var(--_accent-text);border-color:var(--_accent)}
+.esa-button--variant-ghost .esa-button__native{background:transparent;color:var(--color-content-default, #202020);border-color:transparent}
+.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native{border-color:var(--color-border-default, #cecece)}
+.esa-button__label{white-space:nowrap}
+.esa-button--sm{--_btn-pad-y: var(--spacing-250, .625rem);--_btn-padding-x: var(--spacing-250, .625rem);--_btn-radius: var(--button-radius-sm, 4px)}
+.esa-button--variant-primary{--_accent-text: var(--color-content-brand)}
 ```
 
 ## Tokens
@@ -18726,63 +19094,57 @@ a.breadcrumb-item{text-decoration:none}
 | `--bcn-helpbar-border` | `rgba(255, 255, 255, .12)` | component |
 | `--bcn-helpbar-divider` | `rgba(255, 255, 255, .16)` | component |
 | `--bcn-helpbar-fg` | `rgba(255, 255, 255, .92)` | component |
-| `--bcn-helpbar-fg-muted` | `rgba(255, 255, 255, .72)` | component |
-| `--bcn-helpbar-hover-bg` | `rgba(255, 255, 255, .1)` | component |
 | `--bcn-status-not-started` | `#bdbdbd` | component |
-| `--color-accent` | `#f76b15` | semantic |
-| `--color-backdrop` | `rgba(0, 0, 0, .5)` | primitive |
-| `--color-border` | `#dcdcdc` | semantic |
-| `--color-border-light` | `#efefef` | semantic |
-| `--color-border-strong` | `#bdbdbd` | semantic |
+| `--border-width-default` | `1px` | semantic |
+| `--button-radius-md` | `.5rem` | component |
+| `--button-radius-sm` | `.25rem` | component |
+| `--color-accent` | `#f76b15` | component |
+| `--color-backdrop` | `rgba(0, 0, 0, .5)` | component |
+| `--color-background-brand` | `#46a758` | semantic |
+| `--color-background-brand-hover` | `#3e9b4f` | semantic |
+| `--color-border` | `#dcdcdc` | component |
+| `--color-border-default` | `#cecece` | semantic |
+| `--color-border-light` | `#efefef` | component |
+| `--color-border-strong` | `#bdbdbd` | component |
 | `--color-commitment` | `#58508d` | component |
-| `--color-primary` | `#005862` | semantic |
-| `--color-primary-border` | `#b9d6d2` | semantic |
-| `--color-primary-hover` | `#00474f` | semantic |
-| `--color-primary-strong` | `#2a7e3b` | semantic |
-| `--color-secondary` | `#00918b` | semantic |
-| `--color-surface` | `#fcfcfc` | semantic |
-| `--color-surface-sunken` | `#efefef` | semantic |
-| `--color-text-inverse` | `#fcfcfc` | semantic |
-| `--color-text-link` | `#005862` | semantic |
-| `--color-text-muted` | `#7c7c7c` | semantic |
-| `--color-text-primary` | `#3d3d3d` | semantic |
-| `--color-text-secondary` | `#525252` | semantic |
-| `--color-text-tertiary` | `#656565` | semantic |
-| `--color-warning` | `#f59e0b` | semantic |
-| `--filter-clear-color` | `#7c7c7c` | component |
-| `--filter-clear-color-hover` | `#ce2c31` | component |
+| `--color-content-brand` | `#2a7e3b` | semantic |
+| `--color-content-default` | `#202020` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-default-secondary` | `#646464` | semantic |
+| `--color-content-utility-danger` | `#ce2c31` | semantic |
+| `--color-primary` | `#005862` | component |
+| `--color-primary-border` | `#b9d6d2` | component |
+| `--color-secondary` | `#00918b` | component |
+| `--color-surface` | `#fcfcfc` | component |
+| `--color-surface-sunken` | `#efefef` | component |
+| `--color-text-inverse` | `#fcfcfc` | component |
+| `--color-text-link` | `#46a758` | component |
+| `--color-text-muted` | `#7c7c7c` | component |
+| `--color-text-primary` | `#3d3d3d` | component |
+| `--color-text-secondary` | `#525252` | component |
+| `--color-text-tertiary` | `#656565` | component |
+| `--color-warning` | `#f59e0b` | component |
+| `--filter-container-padding` | `0` | component |
 | `--font-decorative` | `"Besley", serif` | component |
-| `--font-mono` | `"Roboto Mono", ui-monospace, monospace` | primitive |
-| `--font-sans` | `"DM Sans", sans-serif` | primitive |
-| `--font-weight-bold` | `650` | primitive |
-| `--font-weight-medium` | `500` | primitive |
-| `--font-weight-regular` | `350` | primitive |
-| `--font-weight-semibold` | `550` | primitive |
-| `--form-border-color` | `#dcdcdc` | component |
+| `--font-mono` | `"Roboto Mono", ui-monospace, monospace` | component |
+| `--font-weight-bold` | `650` | component |
+| `--font-weight-medium` | `500` | component |
+| `--font-weight-regular` | `350` | component |
+| `--font-weight-semibold` | `550` | component |
+| `--form-border-color` | `#cecece` | component |
 | `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | component |
-| `--form-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` | component |
-| `--form-height-md` | `36px` | component |
-| `--form-height-sm` | `28px` | component |
-| `--form-label-color` | `#525252` | component |
-| `--form-padding-x-md` | `.75rem` | component |
-| `--form-padding-x-sm` | `.625rem` | component |
+| `--form-label-color` | `#646464` | component |
 | `--form-radius-md` | `.25rem` | component |
-| `--form-radius-sm` | `.25rem` | component |
-| `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
-| `--icon-link-font-size-md` | `1rem` | component |
-| `--icon-link-font-size-sm` | `.875rem` | component |
-| `--icon-link-gap` | `.375rem` | component |
 | `--icon-size-md` | `20px` | primitive |
-| `--icon-size-medium` | `20px` | component |
 | `--icon-size-sm` | `16px` | primitive |
-| `--icon-size-small` | `16px` | component |
 | `--icon-size-xs` | `14px` | primitive |
 | `--radius-100` | `.25rem` | primitive |
 | `--radius-200` | `.5rem` | primitive |
 | `--radius-300` | `.5rem` | primitive |
 | `--radius-400` | `.75rem` | primitive |
 | `--radius-full` | `9999px` | primitive |
-| `--shadow-300` | `0 6px 24px -6px rgba(0, 0, 0, .07)` | primitive |
+| `--radius-sm` | `.25rem` | semantic |
+| `--shadow-300` | `0 6px 24px -6px rgba(0, 0, 0, .07)` | component |
 | `--spacing-050` | `.125rem` | primitive |
 | `--spacing-100` | `.25rem` | primitive |
 | `--spacing-150` | `.375rem` | primitive |
@@ -18793,14 +19155,49 @@ a.breadcrumb-item{text-decoration:none}
 | `--spacing-500` | `1.5rem` | primitive |
 | `--spacing-600` | `2rem` | primitive |
 | `--spacing-700` | `3rem` | primitive |
-| `--transition-fast` | `.15s ease` | primitive |
-| `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | primitive |
-| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
-| `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | primitive |
-| `--type-size-250` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` | primitive |
-| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
-| `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
-| `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` | primitive |
+| `--transition-fast` | `.15s ease` | semantic |
+| `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | component |
+| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | component |
+| `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | component |
+| `--type-size-250` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` | component |
+| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | component |
+| `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | component |
+| `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` | component |
+| `--typography-body-sm-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-body-sm-font-weight` | `350` | semantic |
+| `--typography-body-sm-letter-spacing` | `.01em` | semantic |
+| `--typography-body-sm-line-height` | `1.6` | semantic |
+| `--typography-label-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-label-md-font-weight` | `500` | semantic |
+| `--typography-label-md-letter-spacing` | `.01em` | semantic |
+| `--typography-label-md-line-height` | `1.6` | semantic |
+| `--typography-microcopy-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-microcopy-md-font-weight` | `500` | semantic |
+| `--typography-microcopy-md-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-md-line-height` | `1` | semantic |
+| `--typography-microcopy-md-strong-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-md-strong-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-microcopy-md-strong-font-weight` | `550` | semantic |
+| `--typography-microcopy-md-strong-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-md-strong-line-height` | `1` | semantic |
+| `--typography-microcopy-md-subtle-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-md-subtle-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-microcopy-md-subtle-font-weight` | `350` | semantic |
+| `--typography-microcopy-md-subtle-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-md-subtle-line-height` | `1` | semantic |
+| `--typography-microcopy-sm-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-microcopy-sm-font-weight` | `500` | semantic |
+| `--typography-microcopy-sm-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-sm-line-height` | `1` | semantic |
+| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-font-weight` | `500` | semantic |
+| `--typography-microcopy-xs-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-line-height` | `1` | semantic |
 
 ---
 _Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._

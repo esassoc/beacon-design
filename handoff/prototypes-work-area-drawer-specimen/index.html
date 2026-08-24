@@ -13,32 +13,33 @@
     <style>
       :root,
       [data-theme="beacon"] {
-        --badge-bg: #005862;
-        --badge-height-md: 28px;
-        --badge-height-sm: 22px;
-        --badge-radius: 0.25rem;
+        --badge-bg: #46a758;
         --badge-text-color: #fcfcfc;
-        --collapsible-bg: #fcfcfc;
-        --collapsible-border-color: #dcdcdc;
-        --collapsible-padding-x: 1rem;
-        --collapsible-radius: 0.5rem;
-        --collapsible-title-color: #3d3d3d;
+        --border-width-default: 1px;
+        --button-radius-md: 0.5rem;
+        --button-radius-sm: 0.25rem;
         --color-background: #fafafa;
+        --color-background-brand: #46a758;
+        --color-background-brand-hover: #3e9b4f;
+        --color-background-brand-muted: #e9f6e9;
+        --color-background-elevation-raised: #fcfcfc;
+        --color-background-utility-danger: #ce2c31;
+        --color-background-utility-danger-hover: #641723;
         --color-border: #dcdcdc;
+        --color-border-default: #cecece;
         --color-border-light: #efefef;
         --color-border-strong: #bdbdbd;
-        --color-danger: #e5484d;
-        --color-danger-hover: #dc3e42;
-        --color-danger-strong: #ce2c31;
+        --color-content-brand: #2a7e3b;
+        --color-content-default: #202020;
+        --color-content-default-knockout: #fcfcfc;
+        --color-content-default-secondary: #646464;
+        --color-content-on-brand-muted: #203c25;
+        --color-content-utility-danger: #ce2c31;
         --color-primary: #005862;
-        --color-primary-hover: #00474f;
-        --color-primary-strong: #2a7e3b;
         --color-primary-subtle: #effefb;
         --color-secondary: #00918b;
-        --color-secondary-on-fill: #203c25;
         --color-surface: #fcfcfc;
-        --color-text-inverse: #fcfcfc;
-        --color-text-link: #005862;
+        --color-text-link: #46a758;
         --color-text-primary: #3d3d3d;
         --color-text-secondary: #525252;
         --color-text-tertiary: #656565;
@@ -49,23 +50,16 @@
         --font-weight-regular: 350;
         --font-weight-semibold: 550;
         --form-font-size-md: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
-        --form-font-size-sm: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
-        --form-height-md: 36px;
-        --form-height-sm: 28px;
-        --form-label-color: #525252;
-        --form-padding-x-md: 0.75rem;
-        --form-padding-x-sm: 0.625rem;
-        --form-radius-md: 0.25rem;
-        --form-radius-sm: 0.25rem;
-        --icon-button-bg-hover: color-mix(in srgb, currentColor 14%, transparent);
+        --form-label-color: #646464;
         --icon-size-md: 20px;
-        --icon-size-medium: 20px;
         --icon-size-sm: 16px;
-        --icon-size-small: 16px;
         --radius-100: 0.25rem;
         --radius-200: 0.5rem;
         --radius-300: 0.5rem;
+        --radius-chip: 0.25rem;
         --radius-full: 9999px;
+        --radius-md: 0.5rem;
+        --radius-sm: 0.25rem;
         --spacing-100: 0.25rem;
         --spacing-150: 0.375rem;
         --spacing-200: 0.5rem;
@@ -81,42 +75,51 @@
         --st-survey-scheduled: #74add1;
         --transition-fast: 0.15s ease;
         --type-size-100: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
-        --type-size-150: clamp(0.6875rem, 0.61rem + 0.38vw, 0.875rem);
         --type-size-200: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
         --type-size-400: clamp(1rem, 0.88rem + 0.6vw, 1.25rem);
+        --typography-body-md-font-family: "DM Sans", sans-serif;
+        --typography-body-md-font-size: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
+        --typography-body-md-font-weight: 350;
+        --typography-body-md-letter-spacing: 0.01em;
+        --typography-body-md-line-height: 1.6;
+        --typography-label-sm-strong-font-family: "DM Sans", sans-serif;
+        --typography-label-sm-strong-font-size: clamp(0.6875rem, 0.61rem + 0.38vw, 0.875rem);
+        --typography-label-sm-strong-font-weight: 550;
+        --typography-label-sm-strong-letter-spacing: 0.01em;
+        --typography-label-sm-strong-line-height: 1.6;
+        --typography-microcopy-md-font-family: "DM Sans", sans-serif;
+        --typography-microcopy-md-font-size: clamp(0.75rem, 0.66rem + 0.44vw, 0.9375rem);
+        --typography-microcopy-md-font-weight: 500;
+        --typography-microcopy-md-letter-spacing: 0.01em;
+        --typography-microcopy-md-line-height: 1;
+        --typography-microcopy-xs-font-family: "DM Sans", sans-serif;
+        --typography-microcopy-xs-font-size: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
+        --typography-microcopy-xs-font-weight: 500;
+        --typography-microcopy-xs-letter-spacing: 0.01em;
+        --typography-microcopy-xs-line-height: 1;
+        --typography-microcopy-xs-strong-font-family: "DM Sans", sans-serif;
+        --typography-microcopy-xs-strong-font-size: clamp(0.625rem, 0.56rem + 0.32vw, 0.75rem);
+        --typography-microcopy-xs-strong-font-weight: 550;
+        --typography-microcopy-xs-strong-letter-spacing: 0.01em;
+        --typography-microcopy-xs-strong-line-height: 1;
       }
 
-      *,
-      *:before,
-      *:after {
-        box-sizing: border-box;
+      .esa-icon {
+        --_icon-size: var(--icon-size-md, 20px);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: var(--_icon-size);
+        height: var(--_icon-size);
+        color: inherit;
       }
-      body {
-        margin: 0;
-        font-family: var(--font-sans, system-ui, sans-serif);
-        font-weight: var(--font-weight-regular, 350);
-        color: var(--color-text-primary, #3d3d3d);
-        background: var(--color-surface, #fff);
-        -webkit-font-smoothing: antialiased;
+      .esa-icon--sm {
+        --_icon-size: var(--icon-size-sm, 16px);
       }
-      :where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
-        margin: 0;
-      }
-      button {
-        font-family: inherit;
-        cursor: pointer;
-        background: none;
-        border: 0;
-      }
-      .stack {
-        --gap: var(--spacing-400, 1rem);
-        display: flex;
-        flex-direction: column;
-        gap: var(--gap);
-      }
-      a {
-        color: var(--color-text-link, #005862);
-        text-decoration: none;
+      .esa-icon svg {
+        display: block;
+        width: var(--_icon-size);
+        height: var(--_icon-size);
       }
       .bcn-status-chip {
         display: inline-flex;
@@ -152,28 +155,10 @@
         font-weight: var(--font-weight-semibold);
         color: var(--color-text-primary);
       }
-      .esa-icon {
-        --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: var(--_icon-size);
-        height: var(--_icon-size);
-        line-height: 1;
-        color: inherit;
-      }
-      .esa-icon--sm {
-        --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-      }
-      .esa-icon svg {
-        display: block;
-        width: var(--_icon-size);
-        height: var(--_icon-size);
-      }
       .esa-collapsible {
-        border: 1px solid var(--collapsible-border-color, var(--color-border, #e5e5e5));
-        border-radius: var(--collapsible-radius, var(--radius-300, 0.5rem));
-        background: var(--collapsible-bg, var(--color-surface, #fff));
+        border: var(--border-width-default, 1px) solid var(--color-border-default, #cecece);
+        border-radius: var(--radius-md, 0.5rem);
+        background: var(--color-background-elevation-raised, #fcfcfc);
       }
       .esa-collapsible--flush {
         border: none;
@@ -184,10 +169,8 @@
         display: flex;
         align-items: center;
         gap: var(--spacing-200, 0.5rem);
-        padding: var(--spacing-300, 0.75rem) var(--collapsible-padding-x, var(--spacing-400, 1rem));
-        font-size: var(--type-size-150, 0.9375rem);
-        font-weight: var(--font-weight-semibold, 600);
-        color: var(--collapsible-title-color, var(--color-text-primary, #171717));
+        padding: var(--spacing-300, 0.75rem) var(--spacing-400, 1rem);
+        color: var(--color-content-default, #202020);
         cursor: pointer;
         list-style: none;
       }
@@ -197,73 +180,42 @@
       }
       .esa-collapsible__summary .esa-icon {
         flex-shrink: 0;
-        color: var(--color-text-secondary, #404040);
+        color: var(--color-content-default-secondary, #646464);
       }
       .esa-collapsible__summary:after {
         content: "";
         width: 8px;
         height: 8px;
-        border-right: 2px solid var(--color-text-tertiary, #737373);
-        border-bottom: 2px solid var(--color-text-tertiary, #737373);
+        border-right: 2px solid var(--color-content-default-secondary, #646464);
+        border-bottom: 2px solid var(--color-content-default-secondary, #646464);
         transform: rotate(-45deg);
         transition: transform 0.15s ease;
         margin-left: auto;
       }
       .esa-badge {
-        --_badge-bg: var(--badge-bg, var(--color-primary, #43608a));
-        --_badge-text: var(--badge-text-color, var(--color-text-inverse, #fff));
-        --_badge-height: var(--badge-height-md, 28px);
-        --_badge-font-size: 13px;
+        --_badge-bg: var(--badge-bg, var(--color-background-brand, #46a758));
+        --_badge-text: var(--badge-text-color, var(--color-content-default-knockout, #fcfcfc));
+        --_badge-padding-y: var(--spacing-150, 0.375rem);
         --_badge-padding-x: var(--spacing-200, 0.5rem);
-        --_badge-min-width: var(--badge-height-md, 28px);
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        height: var(--_badge-height);
-        min-width: var(--_badge-min-width);
+        min-width: calc(1lh + 2 * var(--_badge-padding-y));
+        padding-block: var(--_badge-padding-y);
         padding-inline: var(--_badge-padding-x);
-        border-radius: var(--badge-radius, var(--radius-100, 4px));
+        border-radius: var(--radius-chip, var(--radius-sm, 0.25rem));
         background: var(--_badge-bg);
         color: var(--_badge-text);
-        font-size: var(--_badge-font-size);
-        font-weight: 600;
-        line-height: 1;
         white-space: nowrap;
         box-sizing: border-box;
       }
       .esa-badge--sm {
-        --_badge-height: var(--badge-height-sm, 22px);
-        --_badge-font-size: 11px;
+        --_badge-padding-y: var(--spacing-100, 0.25rem);
         --_badge-padding-x: var(--spacing-150, 0.375rem);
-        --_badge-min-width: var(--badge-height-sm, 22px);
       }
       .esa-badge--secondary {
-        --_badge-bg: var(--color-secondary, #65ba74);
-        --_badge-text: var(--color-secondary-on-fill, #203c25);
-      }
-      .esa-icon-button {
-        --_ib-size: var(--form-height-md, 40px);
-        --_ib-bg-hover: var(
-          --icon-button-bg-hover,
-          color-mix(in srgb, currentColor 14%, transparent)
-        );
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: var(--_ib-size);
-        height: var(--_ib-size);
-        padding: 0;
-        border: 0;
-        border-radius: var(--radius-200, 8px);
-        background: transparent;
-        color: inherit;
-        cursor: pointer;
-        transition: background var(--transition-fast, 0.15s ease);
-        -webkit-appearance: none;
-        appearance: none;
-      }
-      .esa-icon-button--sm {
-        --_ib-size: var(--form-height-sm, 32px);
+        --_badge-bg: var(--color-background-brand-muted, #e9f6e9);
+        --_badge-text: var(--color-content-on-brand-muted, #203c25);
       }
       .esa-collapsible[open] > .esa-collapsible__summary:after {
         transform: rotate(45deg);
@@ -272,7 +224,7 @@
         display: flex;
         flex-direction: column;
         gap: var(--spacing-400, 1rem);
-        padding: 0 var(--collapsible-padding-x, var(--spacing-400, 1rem)) var(--spacing-400, 1rem);
+        padding: 0 var(--spacing-400, 1rem) var(--spacing-400, 1rem);
       }
       body {
         background: var(--color-background);
@@ -1279,33 +1231,98 @@
         grid-row: 1;
         grid-column: 3;
       }
+      .typography-microcopy-xs {
+        font-family: var(--typography-microcopy-xs-font-family);
+        font-size: var(--typography-microcopy-xs-font-size);
+        font-weight: var(--typography-microcopy-xs-font-weight);
+        line-height: var(--typography-microcopy-xs-line-height);
+        letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+      }
+      .typography-label-sm-strong {
+        font-family: var(--typography-label-sm-strong-font-family);
+        font-size: var(--typography-label-sm-strong-font-size);
+        font-weight: var(--typography-label-sm-strong-font-weight);
+        line-height: var(--typography-label-sm-strong-line-height);
+        letter-spacing: var(--typography-label-sm-strong-letter-spacing);
+      }
+      .typography-microcopy-md {
+        font-family: var(--typography-microcopy-md-font-family);
+        font-size: var(--typography-microcopy-md-font-size);
+        font-weight: var(--typography-microcopy-md-font-weight);
+        line-height: var(--typography-microcopy-md-line-height);
+        letter-spacing: var(--typography-microcopy-md-letter-spacing);
+      }
+      .typography-microcopy-xs-strong {
+        font-family: var(--typography-microcopy-xs-strong-font-family);
+        font-size: var(--typography-microcopy-xs-strong-font-size);
+        font-weight: var(--typography-microcopy-xs-strong-font-weight);
+        line-height: var(--typography-microcopy-xs-strong-line-height);
+        letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+      }
+      .typography-body-md {
+        font-family: var(--typography-body-md-font-family);
+        font-size: var(--typography-body-md-font-size);
+        font-weight: var(--typography-body-md-font-weight);
+        line-height: var(--typography-body-md-line-height);
+        letter-spacing: var(--typography-body-md-letter-spacing);
+      }
+      *,
+      *:before,
+      *:after {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: var(--font-sans, system-ui, sans-serif);
+        font-weight: var(--font-weight-regular, 350);
+        color: var(--color-text-primary, #3d3d3d);
+        background: var(--color-surface, #fff);
+        -webkit-font-smoothing: antialiased;
+      }
+      :where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd, ul, ol, pre) {
+        margin: 0;
+      }
+      button {
+        font-family: inherit;
+        cursor: pointer;
+        background: none;
+        border: 0;
+      }
+      .stack {
+        --gap: var(--spacing-400, 1rem);
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap);
+      }
+      a {
+        color: var(--color-text-link, #005862);
+        text-decoration: none;
+      }
       html,
       .modern-layout__content {
         scroll-behavior: smooth;
       }
       .esa-button {
-        --_btn-height: var(--form-height-md, 40px);
-        --_btn-padding-x: var(--form-padding-x-md, 16px);
-        --_btn-font-size: var(--form-font-size-md, 14px);
-        --_btn-radius: var(--form-radius-md, 6px);
-        --_accent: var(--color-primary, #46a758);
-        --_accent-hover: var(--color-primary-hover, #3e9b4f);
-        --_on: var(--color-text-inverse, #ffffff);
+        --_btn-pad-y: var(--spacing-300, 0.75rem);
+        --_btn-padding-x: var(--spacing-300, 0.75rem);
+        --_btn-radius: var(--button-radius-md, 0.5rem);
+        --_accent: var(--color-background-brand, #46a758);
+        --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+        --_on: var(--color-content-default-knockout, #fcfcfc);
         --_accent-text: var(--_accent);
         --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
         --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
         display: inline-block;
       }
       .esa-button--sm {
-        --_btn-height: var(--form-height-sm, 32px);
-        --_btn-padding-x: var(--form-padding-x-sm, 12px);
-        --_btn-font-size: var(--form-font-size-sm, 12px);
-        --_btn-radius: var(--form-radius-sm, 4px);
+        --_btn-pad-y: var(--spacing-250, 0.625rem);
+        --_btn-padding-x: var(--spacing-250, 0.625rem);
+        --_btn-radius: var(--button-radius-sm, 4px);
       }
-      .esa-button--color-danger {
-        --_accent: var(--color-danger);
-        --_accent-hover: var(--color-danger-hover);
-        --_accent-text: var(--color-danger-strong);
+      .esa-button--variant-danger {
+        --_accent: var(--color-background-utility-danger);
+        --_accent-hover: var(--color-background-utility-danger-hover);
+        --_accent-text: var(--color-content-utility-danger);
       }
       .esa-button__native {
         display: inline-flex;
@@ -1313,14 +1330,10 @@
         justify-content: center;
         gap: var(--spacing-200, 8px);
         width: 100%;
-        height: var(--_btn-height);
+        padding-block: var(--_btn-pad-y);
         padding-inline: var(--_btn-padding-x);
-        border: 1px solid transparent;
+        border: var(--border-width-default, 1px) solid transparent;
         border-radius: var(--_btn-radius);
-        font-size: var(--_btn-font-size);
-        font-family: var(--font-sans, system-ui, sans-serif);
-        font-weight: var(--font-weight-medium, 500);
-        line-height: 1;
         text-decoration: none;
         cursor: pointer;
         transition:
@@ -1329,14 +1342,10 @@
         -webkit-appearance: none;
         appearance: none;
       }
-      .esa-button--sm .esa-button__native {
-        height: auto;
-        padding-block: var(--spacing-150, 6px);
-      }
       .esa-button--appearance-fill .esa-button__native {
         background: var(--_accent);
         color: var(--_on);
-        border-color: transparent;
+        border-color: var(--_accent-border, transparent);
       }
       .esa-button__label {
         white-space: nowrap;
@@ -1347,17 +1356,26 @@
         color: var(--_accent-text);
         border-color: var(--_accent);
       }
-      .esa-button--color-ghost .esa-button__native {
+      .esa-button--variant-ghost .esa-button__native {
         background: transparent;
-        color: var(--color-text-primary, #171717);
+        color: var(--color-content-default, #202020);
         border-color: transparent;
       }
-      .esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,
-      .esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
-        border-color: var(--color-border, #e5e5e5);
+      .esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
+      .esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
+        border-color: var(--color-border-default, #cecece);
       }
-      .esa-button--color-primary {
-        --_accent-text: var(--color-primary-strong);
+      .esa-button--variant-chrome .esa-button__native {
+        background: transparent;
+        color: inherit;
+        border-color: transparent;
+      }
+      .esa-button--icon-only .esa-button__native {
+        padding-inline: var(--_btn-pad-y);
+        aspect-ratio: 1;
+      }
+      .esa-button--variant-primary {
+        --_accent-text: var(--color-content-brand);
       }
     </style>
   </head>
@@ -1448,12 +1466,11 @@
                   </p>
                   <div class="decide__actions">
                     <span
-                      class="esa-button esa-button--color-danger esa-button--appearance-fill esa-button--sm"
+                      class="esa-button esa-button--variant-danger esa-button--appearance-fill esa-button--sm"
+                      ><button class="esa-button__native typography-microcopy-xs" type="button">
+                        <span class="esa-button__label">Confirm block</span>
+                      </button></span
                     >
-                      <button class="esa-button__native" type="button">
-                        <span class="esa-button__label"> Confirm block </span>
-                      </button>
-                    </span>
                   </div>
                 </div>
                 <section>
@@ -1583,7 +1600,7 @@
                 </section>
                 <div class="drawer__more">
                   <details class="esa-collapsible esa-collapsible--flush">
-                    <summary class="esa-collapsible__summary">
+                    <summary class="esa-collapsible__summary typography-label-sm-strong">
                       <span class="esa-icon esa-icon--sm" aria-hidden="true">
                         <svg
                           width="16"
@@ -1605,7 +1622,7 @@
                       </span>
                       <span class="esa-collapsible__title">Buffer conflicts (1)</span>
                     </summary>
-                    <div class="esa-collapsible__body">
+                    <div class="esa-collapsible__body typography-body-md">
                       <ul class="rows">
                         <li class="conflict">
                           <span class="conflict__main">
@@ -1620,7 +1637,7 @@
                     </div>
                   </details>
                   <details class="esa-collapsible esa-collapsible--flush">
-                    <summary class="esa-collapsible__summary">
+                    <summary class="esa-collapsible__summary typography-label-sm-strong">
                       <span class="esa-icon esa-icon--sm" aria-hidden="true">
                         <svg
                           width="16"
@@ -1643,7 +1660,7 @@
                       </span>
                       <span class="esa-collapsible__title">Notes (1)</span>
                     </summary>
-                    <div class="esa-collapsible__body">
+                    <div class="esa-collapsible__body typography-body-md">
                       <blockquote class="note">
                         5/27 email (from H. Barbare): 30-day Notification was scheduled to be sent
                         5/15/2026 for 6/15/2026 site clearance visit and 6/29/2026 work. This
@@ -1652,7 +1669,7 @@
                     </div>
                   </details>
                   <details class="esa-collapsible esa-collapsible--flush">
-                    <summary class="esa-collapsible__summary">
+                    <summary class="esa-collapsible__summary typography-label-sm-strong">
                       <span class="esa-icon esa-icon--sm" aria-hidden="true">
                         <svg
                           width="16"
@@ -1672,7 +1689,7 @@
                       </span>
                       <span class="esa-collapsible__title">Activity</span>
                     </summary>
-                    <div class="esa-collapsible__body">
+                    <div class="esa-collapsible__body typography-body-md">
                       <p class="empty">No changes this session.</p>
                     </div>
                   </details>
@@ -1680,12 +1697,11 @@
               </div>
               <footer class="drawer__foot">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+                  ><button class="esa-button__native typography-microcopy-md" type="button">
+                    <span class="esa-button__label">Edit site details</span>
+                  </button></span
                 >
-                  <button class="esa-button__native" type="button">
-                    <span class="esa-button__label"> Edit site details </span>
-                  </button>
-                </span>
               </footer>
             </article>
           </figure>
@@ -1753,12 +1769,11 @@
                   </div>
                   <div class="decide__actions">
                     <span
-                      class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                      class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                      ><button class="esa-button__native typography-microcopy-xs" type="button">
+                        <span class="esa-button__label">Edit start</span>
+                      </button></span
                     >
-                      <button class="esa-button__native" type="button">
-                        <span class="esa-button__label"> Edit start </span>
-                      </button>
-                    </span>
                   </div>
                 </div>
                 <section>
@@ -1902,7 +1917,7 @@
                 </section>
                 <div class="drawer__more">
                   <details class="esa-collapsible esa-collapsible--flush">
-                    <summary class="esa-collapsible__summary">
+                    <summary class="esa-collapsible__summary typography-label-sm-strong">
                       <span class="esa-icon esa-icon--sm" aria-hidden="true">
                         <svg
                           width="16"
@@ -1925,7 +1940,7 @@
                       </span>
                       <span class="esa-collapsible__title">Notes (1)</span>
                     </summary>
-                    <div class="esa-collapsible__body">
+                    <div class="esa-collapsible__body typography-body-md">
                       <blockquote class="note">
                         6/3 email: This DH is located in a gravel work pad. It was moved slightly to
                         be placed outside of a dry roadside ditch and to be situated further from
@@ -1937,7 +1952,7 @@
                     </div>
                   </details>
                   <details class="esa-collapsible esa-collapsible--flush">
-                    <summary class="esa-collapsible__summary">
+                    <summary class="esa-collapsible__summary typography-label-sm-strong">
                       <span class="esa-icon esa-icon--sm" aria-hidden="true">
                         <svg
                           width="16"
@@ -1957,7 +1972,7 @@
                       </span>
                       <span class="esa-collapsible__title">Activity</span>
                     </summary>
-                    <div class="esa-collapsible__body">
+                    <div class="esa-collapsible__body typography-body-md">
                       <p class="empty">No changes this session.</p>
                     </div>
                   </details>
@@ -1965,12 +1980,11 @@
               </div>
               <footer class="drawer__foot">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+                  ><button class="esa-button__native typography-microcopy-md" type="button">
+                    <span class="esa-button__label">Edit site details</span>
+                  </button></span
                 >
-                  <button class="esa-button__native" type="button">
-                    <span class="esa-button__label"> Edit site details </span>
-                  </button>
-                </span>
               </footer>
             </article>
           </figure>
@@ -2049,7 +2063,9 @@
                     <button type="button" class="board__cell board__cell--btn" data-active="true">
                       <span class="board__cellhead">
                         <span class="board__dim">Biological</span>
-                        <span class="esa-badge esa-badge--secondary esa-badge--sm">
+                        <span
+                          class="esa-badge esa-badge--secondary esa-badge--sm typography-microcopy-xs-strong"
+                        >
                           <span class="esa-badge__text">2</span>
                         </span>
                         <span class="board__chev"
@@ -2153,7 +2169,7 @@
                 </section>
                 <div class="drawer__more">
                   <details class="esa-collapsible esa-collapsible--flush">
-                    <summary class="esa-collapsible__summary">
+                    <summary class="esa-collapsible__summary typography-label-sm-strong">
                       <span class="esa-icon esa-icon--sm" aria-hidden="true">
                         <svg
                           width="16"
@@ -2175,7 +2191,7 @@
                       </span>
                       <span class="esa-collapsible__title">Buffer conflicts (1)</span>
                     </summary>
-                    <div class="esa-collapsible__body">
+                    <div class="esa-collapsible__body typography-body-md">
                       <ul class="rows">
                         <li class="conflict">
                           <span class="conflict__main">
@@ -2190,7 +2206,7 @@
                     </div>
                   </details>
                   <details class="esa-collapsible esa-collapsible--flush">
-                    <summary class="esa-collapsible__summary">
+                    <summary class="esa-collapsible__summary typography-label-sm-strong">
                       <span class="esa-icon esa-icon--sm" aria-hidden="true">
                         <svg
                           width="16"
@@ -2213,14 +2229,14 @@
                       </span>
                       <span class="esa-collapsible__title">Notes (1)</span>
                     </summary>
-                    <div class="esa-collapsible__body">
+                    <div class="esa-collapsible__body typography-body-md">
                       <blockquote class="note">
                         This was the site clearance visit that identified the SWHA nest on 5/18.
                       </blockquote>
                     </div>
                   </details>
                   <details class="esa-collapsible esa-collapsible--flush">
-                    <summary class="esa-collapsible__summary">
+                    <summary class="esa-collapsible__summary typography-label-sm-strong">
                       <span class="esa-icon esa-icon--sm" aria-hidden="true">
                         <svg
                           width="16"
@@ -2240,7 +2256,7 @@
                       </span>
                       <span class="esa-collapsible__title">Activity</span>
                     </summary>
-                    <div class="esa-collapsible__body">
+                    <div class="esa-collapsible__body typography-body-md">
                       <p class="empty">No changes this session.</p>
                     </div>
                   </details>
@@ -2248,12 +2264,11 @@
               </div>
               <footer class="drawer__foot">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+                  ><button class="esa-button__native typography-microcopy-md" type="button">
+                    <span class="esa-button__label">Edit site details</span>
+                  </button></span
                 >
-                  <button class="esa-button__native" type="button">
-                    <span class="esa-button__label"> Edit site details </span>
-                  </button>
-                </span>
               </footer>
             </article>
             <!-- Child drawer (top card — the discipline's review history) -->
@@ -2270,30 +2285,31 @@
                     <span class="bcn-status-chip__label">Blocked</span>
                   </span>
                   <span class="drawer__close"
-                    ><button
-                      class="esa-icon-button esa-icon-button--sm"
-                      type="button"
-                      aria-label="Close review history"
-                      title="Close review history"
-                    >
-                      <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          focusable="false"
-                        >
-                          <path d="M18 6 6 18"></path>
-                          <path d="m6 6 12 12"></path>
-                        </svg>
-                      </span>
-                    </button>
-                  </span>
+                    ><span
+                      class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                      ><button
+                        class="esa-button__native typography-microcopy-xs"
+                        type="button"
+                        aria-label="Close review history"
+                        title="Close review history"
+                      >
+                        <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                          >
+                            <path d="M18 6 6 18"></path>
+                            <path d="m6 6 12 12"></path>
+                          </svg>
+                        </span></button></span
+                  ></span>
                 </div>
                 <p class="drawer__sub">
                   DCTR2-DH-010 · the latest completed review sets this status
@@ -2303,12 +2319,11 @@
                 <div class="child__bar">
                   <span class="child__count">2 reviews</span>
                   <span
-                    class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                    ><button class="esa-button__native typography-microcopy-xs" type="button">
+                      <span class="esa-button__label">Add review</span>
+                    </button></span
                   >
-                    <button class="esa-button__native" type="button">
-                      <span class="esa-button__label"> Add review </span>
-                    </button>
-                  </span>
                 </div>
                 <ol class="revs">
                   <li class="rev" data-kind="scheduled">
@@ -2362,12 +2377,11 @@
               </div>
               <footer class="drawer__foot">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+                  ><button class="esa-button__native typography-microcopy-md" type="button">
+                    <span class="esa-button__label">Close</span>
+                  </button></span
                 >
-                  <button class="esa-button__native" type="button">
-                    <span class="esa-button__label"> Close </span>
-                  </button>
-                </span>
               </footer>
             </article>
           </div>
@@ -2480,19 +2494,17 @@
                       </p>
                       <div class="action__btns">
                         <span
-                          class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--sm"
+                          class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+                          ><button class="esa-button__native typography-microcopy-xs" type="button">
+                            <span class="esa-button__label">Confirm block</span>
+                          </button></span
                         >
-                          <button class="esa-button__native" type="button">
-                            <span class="esa-button__label"> Confirm block </span>
-                          </button>
-                        </span>
                         <span
-                          class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                          ><button class="esa-button__native typography-microcopy-xs" type="button">
+                            <span class="esa-button__label">Review gates</span>
+                          </button></span
                         >
-                          <button class="esa-button__native" type="button">
-                            <span class="esa-button__label"> Review gates </span>
-                          </button>
-                        </span>
                       </div>
                     </div>
                   </section>
@@ -2550,7 +2562,7 @@
                   </section>
                   <div class="drawer__more">
                     <details class="esa-collapsible esa-collapsible--flush" open="">
-                      <summary class="esa-collapsible__summary">
+                      <summary class="esa-collapsible__summary typography-label-sm-strong">
                         <span class="esa-icon esa-icon--sm" aria-hidden="true">
                           <svg
                             width="16"
@@ -2572,7 +2584,7 @@
                         </span>
                         <span class="esa-collapsible__title">Buffer conflicts (1)</span>
                       </summary>
-                      <div class="esa-collapsible__body">
+                      <div class="esa-collapsible__body typography-body-md">
                         <ul class="rows">
                           <li class="conflict">
                             <span class="conflict__main">
@@ -2589,7 +2601,7 @@
                       </div>
                     </details>
                     <details class="esa-collapsible esa-collapsible--flush">
-                      <summary class="esa-collapsible__summary">
+                      <summary class="esa-collapsible__summary typography-label-sm-strong">
                         <span class="esa-icon esa-icon--sm" aria-hidden="true">
                           <svg
                             width="16"
@@ -2611,12 +2623,12 @@
                         </span>
                         <span class="esa-collapsible__title">Survey records</span>
                       </summary>
-                      <div class="esa-collapsible__body">
+                      <div class="esa-collapsible__body typography-body-md">
                         <p class="empty">No survey on record.</p>
                       </div>
                     </details>
                     <details class="esa-collapsible esa-collapsible--flush">
-                      <summary class="esa-collapsible__summary">
+                      <summary class="esa-collapsible__summary typography-label-sm-strong">
                         <span class="esa-icon esa-icon--sm" aria-hidden="true">
                           <svg
                             width="16"
@@ -2639,7 +2651,7 @@
                         </span>
                         <span class="esa-collapsible__title">Notes (1)</span>
                       </summary>
-                      <div class="esa-collapsible__body">
+                      <div class="esa-collapsible__body typography-body-md">
                         <blockquote class="note">
                           5/27 email (from H. Barbare): 30-day Notification was scheduled to be sent
                           5/15/2026 for 6/15/2026 site clearance visit and 6/29/2026 work. This
@@ -2648,7 +2660,7 @@
                       </div>
                     </details>
                     <details class="esa-collapsible esa-collapsible--flush">
-                      <summary class="esa-collapsible__summary">
+                      <summary class="esa-collapsible__summary typography-label-sm-strong">
                         <span class="esa-icon esa-icon--sm" aria-hidden="true">
                           <svg
                             width="16"
@@ -2667,7 +2679,7 @@
                         </span>
                         <span class="esa-collapsible__title">Dates</span>
                       </summary>
-                      <div class="esa-collapsible__body">
+                      <div class="esa-collapsible__body typography-body-md">
                         <div class="dates">
                           <div class="bcn-key-value">
                             <span class="bcn-key-value__key">Notification</span>
@@ -2685,7 +2697,7 @@
                       </div>
                     </details>
                     <details class="esa-collapsible esa-collapsible--flush">
-                      <summary class="esa-collapsible__summary">
+                      <summary class="esa-collapsible__summary typography-label-sm-strong">
                         <span class="esa-icon esa-icon--sm" aria-hidden="true">
                           <svg
                             width="16"
@@ -2705,7 +2717,7 @@
                         </span>
                         <span class="esa-collapsible__title">Activity</span>
                       </summary>
-                      <div class="esa-collapsible__body">
+                      <div class="esa-collapsible__body typography-body-md">
                         <p class="empty">No changes this session.</p>
                       </div>
                     </details>
@@ -2713,12 +2725,11 @@
                 </div>
                 <footer class="drawer__foot">
                   <span
-                    class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
+                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+                    ><button class="esa-button__native typography-microcopy-md" type="button">
+                      <span class="esa-button__label">Edit clearance</span>
+                    </button></span
                   >
-                    <button class="esa-button__native" type="button">
-                      <span class="esa-button__label"> Edit clearance </span>
-                    </button>
-                  </span>
                 </footer>
               </article>
             </figure>
@@ -2776,12 +2787,11 @@
                       </p>
                       <div class="action__btns">
                         <span
-                          class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                          ><button class="esa-button__native typography-microcopy-xs" type="button">
+                            <span class="esa-button__label">Edit planned start</span>
+                          </button></span
                         >
-                          <button class="esa-button__native" type="button">
-                            <span class="esa-button__label"> Edit planned start </span>
-                          </button>
-                        </span>
                       </div>
                     </div>
                   </section>
@@ -2853,7 +2863,7 @@
                   </section>
                   <div class="drawer__more">
                     <details class="esa-collapsible esa-collapsible--flush">
-                      <summary class="esa-collapsible__summary">
+                      <summary class="esa-collapsible__summary typography-label-sm-strong">
                         <span class="esa-icon esa-icon--sm" aria-hidden="true">
                           <svg
                             width="16"
@@ -2875,7 +2885,7 @@
                         </span>
                         <span class="esa-collapsible__title">Survey records (1)</span>
                       </summary>
-                      <div class="esa-collapsible__body">
+                      <div class="esa-collapsible__body typography-body-md">
                         <ul class="rows">
                           <li class="survey">
                             <a class="survey__link" href="#" onclick="return false;">
@@ -2886,7 +2896,7 @@
                       </div>
                     </details>
                     <details class="esa-collapsible esa-collapsible--flush">
-                      <summary class="esa-collapsible__summary">
+                      <summary class="esa-collapsible__summary typography-label-sm-strong">
                         <span class="esa-icon esa-icon--sm" aria-hidden="true">
                           <svg
                             width="16"
@@ -2909,7 +2919,7 @@
                         </span>
                         <span class="esa-collapsible__title">Notes (1)</span>
                       </summary>
-                      <div class="esa-collapsible__body">
+                      <div class="esa-collapsible__body typography-body-md">
                         <blockquote class="note">
                           6/3 email: This DH is located in a gravel work pad. It was moved slightly
                           to be placed outside of a dry roadside ditch and to be situated further
@@ -2921,7 +2931,7 @@
                       </div>
                     </details>
                     <details class="esa-collapsible esa-collapsible--flush">
-                      <summary class="esa-collapsible__summary">
+                      <summary class="esa-collapsible__summary typography-label-sm-strong">
                         <span class="esa-icon esa-icon--sm" aria-hidden="true">
                           <svg
                             width="16"
@@ -2940,7 +2950,7 @@
                         </span>
                         <span class="esa-collapsible__title">Dates</span>
                       </summary>
-                      <div class="esa-collapsible__body">
+                      <div class="esa-collapsible__body typography-body-md">
                         <div class="dates">
                           <div class="bcn-key-value">
                             <span class="bcn-key-value__key">Notification</span>
@@ -2958,7 +2968,7 @@
                       </div>
                     </details>
                     <details class="esa-collapsible esa-collapsible--flush">
-                      <summary class="esa-collapsible__summary">
+                      <summary class="esa-collapsible__summary typography-label-sm-strong">
                         <span class="esa-icon esa-icon--sm" aria-hidden="true">
                           <svg
                             width="16"
@@ -2978,7 +2988,7 @@
                         </span>
                         <span class="esa-collapsible__title">Activity</span>
                       </summary>
-                      <div class="esa-collapsible__body">
+                      <div class="esa-collapsible__body typography-body-md">
                         <p class="empty">No changes this session.</p>
                       </div>
                     </details>
@@ -2986,12 +2996,11 @@
                 </div>
                 <footer class="drawer__foot">
                   <span
-                    class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
+                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+                    ><button class="esa-button__native typography-microcopy-md" type="button">
+                      <span class="esa-button__label">Edit clearance</span>
+                    </button></span
                   >
-                    <button class="esa-button__native" type="button">
-                      <span class="esa-button__label"> Edit clearance </span>
-                    </button>
-                  </span>
                 </footer>
               </article>
             </figure>
@@ -3142,12 +3151,11 @@
                     </div>
                     <div class="disc-panel__foot">
                       <span
-                        class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button class="esa-button__native typography-microcopy-xs" type="button">
+                          <span class="esa-button__label">Edit biological review</span>
+                        </button></span
                       >
-                        <button class="esa-button__native" type="button">
-                          <span class="esa-button__label"> Edit biological review </span>
-                        </button>
-                      </span>
                     </div>
                   </section>
                   <!-- Cultural — not reviewed -->
@@ -3158,19 +3166,17 @@
                     </p>
                     <div class="disc-panel__foot">
                       <span
-                        class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button class="esa-button__native typography-microcopy-xs" type="button">
+                          <span class="esa-button__label">Add review</span>
+                        </button></span
                       >
-                        <button class="esa-button__native" type="button">
-                          <span class="esa-button__label"> Add review </span>
-                        </button>
-                      </span>
                       <span
-                        class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button class="esa-button__native typography-microcopy-xs" type="button">
+                          <span class="esa-button__label">Mark no review required</span>
+                        </button></span
                       >
-                        <button class="esa-button__native" type="button">
-                          <span class="esa-button__label"> Mark no review required </span>
-                        </button>
-                      </span>
                     </div>
                   </section>
                   <!-- Noise — review scheduled -->
@@ -3204,12 +3210,11 @@
                     </div>
                     <div class="disc-panel__foot">
                       <span
-                        class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button class="esa-button__native typography-microcopy-xs" type="button">
+                          <span class="esa-button__label">Edit noise review</span>
+                        </button></span
                       >
-                        <button class="esa-button__native" type="button">
-                          <span class="esa-button__label"> Edit noise review </span>
-                        </button>
-                      </span>
                     </div>
                   </section>
                   <!-- Geology — review scheduled (default panel: the next pending review) -->
@@ -3265,23 +3270,21 @@
                     </p>
                     <div class="disc-panel__foot">
                       <span
-                        class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                        class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                        ><button class="esa-button__native typography-microcopy-xs" type="button">
+                          <span class="esa-button__label">Edit geology review</span>
+                        </button></span
                       >
-                        <button class="esa-button__native" type="button">
-                          <span class="esa-button__label"> Edit geology review </span>
-                        </button>
-                      </span>
                     </div>
                   </section>
                 </div>
                 <footer class="drawer__foot">
                   <span
-                    class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
+                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+                    ><button class="esa-button__native typography-microcopy-md" type="button">
+                      <span class="esa-button__label">Edit site details</span>
+                    </button></span
                   >
-                    <button class="esa-button__native" type="button">
-                      <span class="esa-button__label"> Edit site details </span>
-                    </button>
-                  </span>
                 </footer>
               </article>
             </figure>
@@ -3395,12 +3398,14 @@
                           </p>
                           <div class="action__btns">
                             <span
-                              class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--sm"
+                              class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+                              ><button
+                                class="esa-button__native typography-microcopy-xs"
+                                type="button"
+                              >
+                                <span class="esa-button__label">Confirm block</span>
+                              </button></span
                             >
-                              <button class="esa-button__native" type="button">
-                                <span class="esa-button__label"> Confirm block </span>
-                              </button>
-                            </span>
                           </div>
                         </div>
                       </div>
@@ -3483,12 +3488,14 @@
                         <p class="step__text">No 30-day landowner notification recorded.</p>
                         <div class="step__act">
                           <span
-                            class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                            class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                            >
+                              <span class="esa-button__label">Record notification</span>
+                            </button></span
                           >
-                            <button class="esa-button__native" type="button">
-                              <span class="esa-button__label"> Record notification </span>
-                            </button>
-                          </span>
                         </div>
                       </div>
                     </li>
@@ -3545,13 +3552,15 @@
                             <span class="check__dim">Cultural Resources</span>
                             <span class="check__act"
                               ><span
-                                class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
-                              >
-                                <button class="esa-button__native" type="button">
-                                  <span class="esa-button__label"> Add review </span>
-                                </button>
-                              </span>
-                            </span>
+                                class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                                ><button
+                                  class="esa-button__native typography-microcopy-xs"
+                                  type="button"
+                                >
+                                  <span class="esa-button__label">Add review</span>
+                                </button></span
+                              ></span
+                            >
                             <span class="check__state">Not reviewed</span>
                           </li>
                         </ul>
@@ -3598,12 +3607,14 @@
                         </p>
                         <div class="step__act">
                           <span
-                            class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                            class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                            ><button
+                              class="esa-button__native typography-microcopy-xs"
+                              type="button"
+                            >
+                              <span class="esa-button__label">Edit planned start</span>
+                            </button></span
                           >
-                            <button class="esa-button__native" type="button">
-                              <span class="esa-button__label"> Edit planned start </span>
-                            </button>
-                          </span>
                         </div>
                       </div>
                     </li>

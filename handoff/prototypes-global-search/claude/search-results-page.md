@@ -150,12 +150,14 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
               <path d="m21 21-4.3-4.3"></path>
             </svg>
           </div>
-          <h3 class="esa-empty-state__title">Search the project</h3>
-          <p class="esa-empty-state__description">
+          <h3 class="esa-empty-state__title typography-label-md-strong">
+            Search the project
+          </h3>
+          <p class="esa-empty-state__description typography-body-sm">
             Source documents, commitments, requirements, actions, components, evidence,
             work areas, and observations — search titles and full document text.
           </p>
-          <div class="esa-empty-state__actions"></div>
+          <div class="esa-empty-state__actions typography-label-md"></div>
         </div>
       </div>
       <!-- Grouped results -->
@@ -11198,12 +11200,12 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
                 <path d="m21 21-4.3-4.3"></path>
               </svg>
             </div>
-            <h3 class="esa-empty-state__title">No matches</h3>
-            <p class="esa-empty-state__description">
+            <h3 class="esa-empty-state__title typography-label-md-strong">No matches</h3>
+            <p class="esa-empty-state__description typography-body-sm">
               No records match your search. Try a different term or clear the active type
               filter.
             </p>
-            <div class="esa-empty-state__actions"></div>
+            <div class="esa-empty-state__actions typography-label-md"></div>
           </div>
         </div>
       </div>
@@ -11216,6 +11218,48 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
 
 ## Styles
 ```css
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-label-md-strong {
+  font-family: var(--typography-label-md-strong-font-family);
+  font-size: var(--typography-label-md-strong-font-size);
+  font-weight: var(--typography-label-md-strong-font-weight);
+  line-height: var(--typography-label-md-strong-line-height);
+  letter-spacing: var(--typography-label-md-strong-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-label-md-strong {
+  font-family: var(--typography-label-md-strong-font-family);
+  font-size: var(--typography-label-md-strong-font-size);
+  font-weight: var(--typography-label-md-strong-font-weight);
+  line-height: var(--typography-label-md-strong-line-height);
+  letter-spacing: var(--typography-label-md-strong-letter-spacing);
+}
 .bcn-sr {
   display: flex;
   flex-direction: column;
@@ -11474,9 +11518,7 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
 }
 .esa-empty-state {
   --_empty-icon-size: var(--empty-state-icon-size-md, 48px);
-  --_empty-title-size: 16px;
-  --_empty-desc-size: 14px;
-  --_empty-gap: var(--empty-state-gap, var(--spacing-200, 0.5rem));
+  --_empty-gap: var(--spacing-200, 0.5rem);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11487,24 +11529,18 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
 }
 .esa-empty-state--xs {
   --_empty-icon-size: var(--empty-state-icon-size-xs, 24px);
-  --_empty-title-size: 13px;
-  --_empty-desc-size: 11px;
   padding: var(--spacing-300, 0.75rem) var(--spacing-200, 0.5rem);
 }
 .esa-empty-state--sm {
   --_empty-icon-size: var(--empty-state-icon-size-sm, 32px);
-  --_empty-title-size: 14px;
-  --_empty-desc-size: 12px;
   padding: var(--spacing-400, 1rem) var(--spacing-300, 0.75rem);
 }
 .esa-empty-state--lg {
   --_empty-icon-size: var(--empty-state-icon-size-lg, 64px);
-  --_empty-title-size: 20px;
-  --_empty-desc-size: 16px;
   padding: var(--spacing-800, 4rem) var(--spacing-400, 1rem);
 }
 .esa-empty-state__icon {
-  color: var(--empty-state-icon-color, var(--color-text-muted, #737373));
+  color: var(--color-content-default-secondary, #646464);
   margin-bottom: var(--spacing-100, 0.25rem);
   display: inline-flex;
 }
@@ -11514,14 +11550,11 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
 }
 .esa-empty-state__title {
   margin: 0;
-  font-size: var(--_empty-title-size);
-  font-weight: 600;
-  color: var(--empty-state-title-color, var(--color-text-primary, #171717));
+  color: var(--color-content-default, #202020);
 }
 .esa-empty-state__description {
   margin: 0;
-  font-size: var(--_empty-desc-size);
-  color: var(--empty-state-description-color, var(--color-text-secondary, #525252));
+  color: var(--color-content-default-secondary, #646464);
   max-width: 360px;
 }
 .esa-empty-state__actions {
@@ -11533,29 +11566,26 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
 ```
 
 ## Tokens
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-border-light`: #efefef _(semantic)_
+- `--color-border`: #dcdcdc _(component)_
+- `--color-border-light`: #efefef _(component)_
 - `--color-commitment`: #58508d _(component)_
-- `--color-primary`: #005862 _(semantic)_
-- `--color-primary-subtle`: #effefb _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-surface-sunken`: #efefef _(semantic)_
-- `--color-text-inverse`: #fcfcfc _(semantic)_
-- `--color-text-muted`: #7c7c7c _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--empty-state-description-color`: #525252 _(component)_
-- `--empty-state-gap`: .5rem _(component)_
-- `--empty-state-icon-color`: #7c7c7c _(component)_
+- `--color-content-default`: #202020 _(semantic)_
+- `--color-content-default-secondary`: #646464 _(semantic)_
+- `--color-primary`: #005862 _(component)_
+- `--color-primary-subtle`: #effefb _(component)_
+- `--color-surface`: #fcfcfc _(component)_
+- `--color-surface-sunken`: #efefef _(component)_
+- `--color-text-inverse`: #fcfcfc _(component)_
+- `--color-text-primary`: #3d3d3d _(component)_
+- `--color-text-secondary`: #525252 _(component)_
+- `--color-text-tertiary`: #656565 _(component)_
 - `--empty-state-icon-size-lg`: 64px _(component)_
 - `--empty-state-icon-size-md`: 48px _(component)_
 - `--empty-state-icon-size-sm`: 32px _(component)_
 - `--empty-state-icon-size-xs`: 24px _(component)_
-- `--empty-state-title-color`: #3d3d3d _(component)_
 - `--font-decorative`: "Besley", serif _(component)_
-- `--font-sans`: "DM Sans", sans-serif _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
+- `--font-sans`: "DM Sans", sans-serif _(component)_
+- `--font-weight-semibold`: 550 _(component)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
 - `--radius-300`: .5rem _(primitive)_
@@ -11569,7 +11599,22 @@ The full-page results surface — the destination of the palette's ⌘+Enter "se
 - `--spacing-600`: 2rem _(primitive)_
 - `--spacing-700`: 3rem _(primitive)_
 - `--spacing-800`: 4rem _(primitive)_
-- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(primitive)_
-- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
-- `--type-size-300`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(primitive)_
+- `--type-size-100`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
+- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(component)_
+- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
+- `--type-size-300`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(component)_
+- `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-body-sm-font-weight`: 350 _(semantic)_
+- `--typography-body-sm-letter-spacing`: .01em _(semantic)_
+- `--typography-body-sm-line-height`: 1.6 _(semantic)_
+- `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-label-md-font-weight`: 500 _(semantic)_
+- `--typography-label-md-letter-spacing`: .01em _(semantic)_
+- `--typography-label-md-line-height`: 1.6 _(semantic)_
+- `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-label-md-strong-font-weight`: 550 _(semantic)_
+- `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-label-md-strong-line-height`: 1.6 _(semantic)_

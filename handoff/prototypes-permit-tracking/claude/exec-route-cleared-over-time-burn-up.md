@@ -194,13 +194,13 @@ A burn-up chart: cumulative route-miles cleared to date (the actual trail from f
 ```
 
 ## Tokens
-- `--color-border-light`: #efefef _(semantic)_
-- `--color-primary`: #005862 _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
+- `--color-border-light`: #efefef _(component)_
+- `--color-primary`: #005862 _(component)_
+- `--color-surface`: #fcfcfc _(component)_
+- `--color-text-secondary`: #525252 _(component)_
+- `--color-text-tertiary`: #656565 _(component)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-500`: 1.5rem _(primitive)_
 - `--st-cleared`: #1a9850 _(component)_
-- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
+- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(component)_

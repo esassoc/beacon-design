@@ -371,25 +371,6 @@ The second view, asked for explicitly on the design call: where the components A
 
 ## Styles
 ```css
-.stack {
-  --gap: var(--spacing-400, 1rem);
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap);
-}
-.stack[data-split] > [data-split] {
-  margin-block-end: auto;
-}
-.cluster {
-  --gap: var(--spacing-300, 0.75rem);
-  --align: center;
-  --justify: flex-start;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--gap);
-  align-items: var(--align);
-  justify-content: var(--justify);
-}
 .leaflet-pane,
 .leaflet-tile,
 .leaflet-marker-icon,
@@ -948,24 +929,43 @@ svg.leaflet-image-layer.leaflet-interactive path {
   background: none;
   border-top: 2px dashed var(--_cmap-key, #dcdcdc);
 }
+.stack {
+  --gap: var(--spacing-400, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+.stack[data-split] > [data-split] {
+  margin-block-end: auto;
+}
+.cluster {
+  --gap: var(--spacing-300, 0.75rem);
+  --align: center;
+  --justify: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+  align-items: var(--align);
+  justify-content: var(--justify);
+}
 ```
 
 ## Tokens
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-surface-sunken`: #efefef _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--font-sans`: "DM Sans", sans-serif _(primitive)_
-- `--font-weight-medium`: 500 _(primitive)_
-- `--font-weight-semibold`: 550 _(primitive)_
+- `--color-border`: #dcdcdc _(component)_
+- `--color-surface`: #fcfcfc _(component)_
+- `--color-surface-sunken`: #efefef _(component)_
+- `--color-text-primary`: #3d3d3d _(component)_
+- `--color-text-secondary`: #525252 _(component)_
+- `--color-text-tertiary`: #656565 _(component)_
+- `--font-sans`: "DM Sans", sans-serif _(component)_
+- `--font-weight-medium`: 500 _(component)_
+- `--font-weight-semibold`: 550 _(component)_
 - `--gap`: 1.5rem _(component)_
 - `--radius-100`: .25rem _(primitive)_
 - `--radius-200`: .5rem _(primitive)_
 - `--radius-full`: 9999px _(primitive)_
-- `--shadow-300`: 0 6px 24px -6px rgba(0, 0, 0, .07) _(primitive)_
+- `--shadow-300`: 0 6px 24px -6px rgba(0, 0, 0, .07) _(component)_
 - `--spacing-100`: .25rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
-- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
+- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(component)_

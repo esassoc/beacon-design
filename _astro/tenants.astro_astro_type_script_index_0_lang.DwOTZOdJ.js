@@ -1,1 +1,0 @@
-import"./esa-side-dialog.dYSTc6GU.js";import"./BcnKbHero.astro_astro_type_script_index_0_lang.Bh9QjbpR.js";import"./lit-element.C8p3bJxG.js";const e=document.getElementById("new-tenant");document.querySelector('[data-settings-add="tenant-list"]')?.addEventListener("click",()=>e?.show());document.getElementById("new-tenant-cancel")?.addEventListener("click",()=>e?.close());

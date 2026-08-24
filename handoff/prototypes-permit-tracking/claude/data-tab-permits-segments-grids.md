@@ -4506,7 +4506,7 @@ The data workspace: Permits × Segments as AG Grids built on the shared beacon-g
 ## Tokens
 - `--ag-internal-hover-color`: rgba(0, 0, 0, 0) _(component)_
 - `--ag-internal-moving-color`: rgba(0, 0, 0, 0) _(component)_
-- `--font-weight-semibold`: 550 _(primitive)_
+- `--font-weight-semibold`: 550 _(component)_
 - `--radius-100`: .25rem _(primitive)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_

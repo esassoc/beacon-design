@@ -162,17 +162,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
 .esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  --_icon-size: var(--icon-size-md, 20px);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: var(--_icon-size);
   height: var(--_icon-size);
-  line-height: 1;
   color: inherit;
 }
 .esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
+  --_icon-size: var(--icon-size-sm, 16px);
 }
 .esa-icon svg {
   display: block;
@@ -183,10 +182,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   --_icon-size: var(--icon-size-xl, 28px);
 }
 .esa-icon--lg {
-  --_icon-size: var(--icon-size-lg, var(--icon-size-large, 24px));
+  --_icon-size: var(--icon-size-lg, 24px);
 }
 .esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
+  --_icon-size: var(--icon-size-md, 20px);
 }
 .bcn-mkt-section {
   --_section-pad: clamp(48px, 8vw, 96px);
@@ -317,22 +316,19 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 | Token | Value | Tier |
 |---|---|---|
 | `--color-gray-2` | `#f9f9f9` | primitive |
-| `--color-primary` | `#005862` | semantic |
-| `--color-surface` | `#fcfcfc` | semantic |
-| `--color-surface-sunken` | `#efefef` | semantic |
-| `--color-text-primary` | `#3d3d3d` | semantic |
-| `--color-text-secondary` | `#525252` | semantic |
-| `--color-text-tertiary` | `#656565` | semantic |
+| `--color-primary` | `#005862` | component |
+| `--color-surface` | `#fcfcfc` | component |
+| `--color-surface-sunken` | `#efefef` | component |
+| `--color-text-primary` | `#3d3d3d` | component |
+| `--color-text-secondary` | `#525252` | component |
+| `--color-text-tertiary` | `#656565` | component |
 | `--font-decorative` | `"Besley", serif` | component |
-| `--font-sans` | `"DM Sans", sans-serif` | primitive |
-| `--font-weight-bold` | `650` | primitive |
-| `--font-weight-semibold` | `550` | primitive |
-| `--icon-size-large` | `24px` | component |
+| `--font-sans` | `"DM Sans", sans-serif` | component |
+| `--font-weight-bold` | `650` | component |
+| `--font-weight-semibold` | `550` | component |
 | `--icon-size-lg` | `24px` | primitive |
 | `--icon-size-md` | `20px` | primitive |
-| `--icon-size-medium` | `20px` | component |
 | `--icon-size-sm` | `16px` | primitive |
-| `--icon-size-small` | `16px` | component |
 | `--icon-size-xl` | `28px` | primitive |
 | `--line-height-normal` | `1.6` | primitive |
 | `--line-height-relaxed` | `1.8` | primitive |
@@ -344,10 +340,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 | `--spacing-400` | `1rem` | primitive |
 | `--spacing-500` | `1.5rem` | primitive |
 | `--spacing-700` | `3rem` | primitive |
-| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
-| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
-| `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` | primitive |
-| `--type-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | primitive |
+| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | component |
+| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | component |
+| `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` | component |
+| `--type-size-700` | `clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem)` | component |
 
 ---
 _Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._

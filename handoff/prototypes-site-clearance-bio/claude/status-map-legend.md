@@ -111,14 +111,14 @@ The Leaflet map of the component's work areas (geometry from the client KMZ shap
 ```
 
 ## Tokens
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--font-weight-semibold`: 550 _(primitive)_
+- `--color-border`: #dcdcdc _(component)_
+- `--color-surface`: #fcfcfc _(component)_
+- `--color-text-primary`: #3d3d3d _(component)_
+- `--color-text-secondary`: #525252 _(component)_
+- `--font-weight-semibold`: 550 _(component)_
 - `--obs-color`: #7b5ea7 _(component)_
 - `--radius-300`: .5rem _(primitive)_
-- `--shadow-400`: 0 8px 32px -8px rgba(0, 0, 0, .08) _(primitive)_
+- `--shadow-400`: 0 8px 32px -8px rgba(0, 0, 0, .08) _(component)_
 - `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_

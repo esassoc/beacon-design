@@ -6,7 +6,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
 
 - **Source prototype:** http://localhost:4399/beacon-design/prototypes/fish-gantt/
 - **Section element:** `<div>`
-- **Components:** esa-alert-box (hub), esa-badge (hub), esa-button (hub), esa-card (hub), esa-empty-state (hub), esa-filter-clear-button (hub), esa-icon (hub), esa-icon-button (hub), esa-loading-spinner (hub), esa-pill (hub)
+- **Components:** esa-alert-box (hub), esa-badge (hub), esa-button (hub), esa-card (hub), esa-empty-state (hub), esa-filter-clear-button (hub), esa-icon (hub), esa-loading-spinner (hub), esa-pill (hub)
 
 ## Markup (de-scoped, framework-free)
 ```html
@@ -135,31 +135,32 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           </svg>
         </span>
       </a>
-      <a
-        class="esa-icon-button esa-icon-button--md"
-        href="/beacon-design/prototypes/settings"
-        aria-label="Admin settings"
-        title="Admin settings"
-      >
-        <span class="esa-icon esa-icon--md" aria-hidden="true">
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path
-              d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
-            ></path>
-            <circle cx="12" cy="12" r="3"></circle>
-          </svg>
-        </span>
-      </a>
+      <span
+        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--md esa-button--icon-only"
+        ><a
+          class="esa-button__native typography-microcopy-md"
+          href="/beacon-design/prototypes/settings"
+          aria-label="Admin settings"
+          title="Admin settings"
+          ><span class="esa-icon esa-icon--md" aria-hidden="true">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              focusable="false"
+            >
+              <path
+                d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"
+              ></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          </span> </a
+      ></span>
       <div class="user-menu" id="user-menu">
         <button
           type="button"
@@ -579,13 +580,18 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <esa-dropdown-menu id="export-menu" position="below-end" width="auto">
                   <span id="export-trigger"
                     ><span
-                      class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
-                    >
-                      <button class="esa-button__native" type="button">
-                        <span class="esa-button__label"> Export </span>
-                      </button>
-                    </span>
-                  </span>
+                      class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+                      ><button
+                        class="esa-button__native typography-microcopy-md"
+                        type="button"
+                        aria-haspopup="menu"
+                        aria-expanded="false"
+                        aria-controls="menu"
+                      >
+                        <span class="esa-button__label">Export</span>
+                      </button></span
+                    ></span
+                  >
                 </esa-dropdown-menu>
               </div>
             </div>
@@ -1821,35 +1827,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <span class="bcn-wb__name">Fisheries Evaluation Studies</span>
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add study"
-                              title="Add study"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add study"
+                                title="Add study"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Fisheries Evaluation Studies"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -1949,35 +1960,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <span class="bcn-wb__name">Migration &amp; Survival Study</span>
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add sub-study"
-                              title="Add sub-study"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add sub-study"
+                                title="Add sub-study"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Migration &amp; Survival Study"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -2078,35 +2094,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             >
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add task"
-                              title="Add task"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add task"
+                                title="Add task"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Near-field intake behavior &amp; survival"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -2195,6 +2216,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Detailed baseline study plan"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -2287,6 +2311,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Acoustic tag &amp; receiver procurement"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -2379,6 +2406,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Fabricate &amp; install acoustic receiver array"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -2469,6 +2499,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Winter-freshet acoustic tagging season"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -2559,6 +2592,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Receiver retrieval &amp; detection QA"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -2649,6 +2685,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Draft near-field survival memo"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -2753,35 +2792,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             >
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add task"
-                              title="Add task"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add task"
+                                title="Add task"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Far-field through-Delta survival &amp; routing"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -2870,6 +2914,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Receiver-site encroachment permits"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -2960,6 +3007,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Regional receiver network build-out"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -3050,6 +3100,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Multi-year tag release &amp; tracking"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -3140,6 +3193,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Through-Delta survival model fit"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -3243,35 +3299,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <span class="bcn-wb__name">Predation Study</span>
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add sub-study"
-                              title="Add sub-study"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add sub-study"
+                                title="Add sub-study"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Predation Study"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -3372,35 +3433,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             >
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add task"
-                              title="Add task"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add task"
+                                title="Add task"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Predator density &amp; distribution surveys"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -3489,6 +3555,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Predation study plan &amp; permitting"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -3579,6 +3648,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Baseline predator hydroacoustic survey"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -3669,6 +3741,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Predation hotspot mapping"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -3771,35 +3846,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <span class="bcn-wb__name">Predation exposure modeling</span>
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add task"
-                              title="Add task"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add task"
+                                title="Add task"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Predation exposure modeling"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -3888,6 +3968,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Diet &amp; eDNA sampling"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -3978,6 +4061,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Predation exposure model build"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -4081,35 +4167,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <span class="bcn-wb__name">Abundance &amp; Distribution Study</span>
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add sub-study"
-                              title="Add sub-study"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add sub-study"
+                                title="Add sub-study"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Abundance &amp; Distribution Study"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -4210,35 +4301,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             >
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add task"
-                              title="Add task"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add task"
+                                title="Add task"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Juvenile abundance &amp; distribution monitoring"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -4327,6 +4423,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Abundance-methods pilot design"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -4419,6 +4518,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Monitoring-array installation &amp; calibration"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -4511,6 +4613,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Abundance &amp; distribution field seasons"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -4601,6 +4706,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Abundance &amp; distribution analysis"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -4703,35 +4811,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <span class="bcn-wb__name">Water Quality Evaluation Studies</span>
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add study"
-                              title="Add study"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add study"
+                                title="Add study"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Water Quality Evaluation Studies"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -4835,35 +4948,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             >
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add sub-study"
-                              title="Add sub-study"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add sub-study"
+                                title="Add sub-study"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Installation of New Real-time Monitoring Station"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -4962,35 +5080,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <span class="bcn-wb__name">Real-time station build-out</span>
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add task"
-                              title="Add task"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add task"
+                                title="Add task"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Real-time station build-out"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -5081,6 +5204,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Station design &amp; permitting scoping"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -5173,6 +5299,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Station siting &amp; regulatory clearance"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -5263,6 +5392,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Sensor procurement &amp; installation"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -5353,6 +5485,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Telemetry commissioning"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -5455,35 +5590,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <span class="bcn-wb__name">Data QA/QC &amp; pipeline</span>
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add task"
-                              title="Add task"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add task"
+                                title="Add task"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Data QA/QC &amp; pipeline"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -5572,6 +5712,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for QA/QC protocol authoring"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -5664,6 +5807,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for CDEC / Beacon data-pipeline integration"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -5767,35 +5913,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <span class="bcn-wb__name">Sediment &amp; Turbidity Monitoring</span>
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add sub-study"
-                              title="Add sub-study"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add sub-study"
+                                title="Add sub-study"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Sediment &amp; Turbidity Monitoring"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -5896,35 +6047,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             >
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add task"
-                              title="Add task"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add task"
+                                title="Add task"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Sediment &amp; turbidity sampling program"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -6013,6 +6169,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Sampling design &amp; QAPP"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -6103,6 +6262,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Turbidity &amp; SSC field season 1"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -6195,6 +6357,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Sediment-flux lab analysis &amp; reporting"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -6297,35 +6462,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <span class="bcn-wb__name">Ecological Response Evaluation Studies</span>
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add study"
-                              title="Add study"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add study"
+                                title="Add study"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Ecological Response Evaluation Studies"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -6427,35 +6597,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             >
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add sub-study"
-                              title="Add sub-study"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add sub-study"
+                                title="Add sub-study"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Hydrodynamics at Georgiana Slough Monitoring"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -6554,35 +6729,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <span class="bcn-wb__name">Continuous hydrodynamic monitoring</span>
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add task"
-                              title="Add task"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add task"
+                                title="Add task"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Continuous hydrodynamic monitoring"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -6673,6 +6853,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for ADCP array deployment &amp; data collection"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -6763,6 +6946,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Multi-year flow-split synthesis"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -6865,35 +7051,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <span class="bcn-wb__name">Routing &amp; flow-reversal analysis</span>
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add task"
-                              title="Add task"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add task"
+                                title="Add task"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Routing &amp; flow-reversal analysis"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -6982,6 +7173,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Hydrodynamic model calibration"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -7072,6 +7266,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Annual hydrodynamic monitoring"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -7175,35 +7372,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <span class="bcn-wb__name">Covered Fish Species Life Cycle Models</span>
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add sub-study"
-                              title="Add sub-study"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add sub-study"
+                                title="Add sub-study"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Covered Fish Species Life Cycle Models"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -7302,35 +7504,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <span class="bcn-wb__name">Life-cycle model refinement</span>
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add task"
-                              title="Add task"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add task"
+                                title="Add task"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Life-cycle model refinement"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -7419,6 +7626,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Model refinement with monitoring data"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -7511,6 +7721,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Decadal model validation &amp; CDFW report-out"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -7616,35 +7829,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             >
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add study"
-                              title="Add study"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add study"
+                                title="Add study"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Incorporation of Fish Guidance System into the North Delta Intake Structures"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -7744,35 +7962,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <span class="bcn-wb__name">Fish Guidance System Study</span>
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add sub-study"
-                              title="Add sub-study"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add sub-study"
+                                title="Add sub-study"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Fish Guidance System Study"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -7871,35 +8094,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <span class="bcn-wb__name">Study design &amp; procurement</span>
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add task"
-                              title="Add task"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add task"
+                                title="Add task"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Study design &amp; procurement"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -7990,6 +8218,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Detailed study plan &amp; tracking-array design"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -8082,6 +8313,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Telemetry equipment &amp; tagged-fish orders"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -8174,6 +8408,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Pile &amp; science-deployment permitting"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -8276,35 +8513,40 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                             <span class="bcn-wb__name">Field seasons &amp; analysis</span>
                           </button>
                           <span class="bcn-wb__add">
-                            <button
-                              class="esa-icon-button esa-icon-button--xs"
-                              type="button"
-                              aria-label="Add task"
-                              title="Add task"
-                            >
-                              <span class="esa-icon esa-icon--xs" aria-hidden="true">
-                                <svg
-                                  width="14"
-                                  height="14"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  stroke-width="2"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  focusable="false"
-                                >
-                                  <path d="M5 12h14"></path>
-                                  <path d="M12 5v14"></path>
-                                </svg>
-                              </span>
-                            </button>
+                            <span
+                              class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                              ><button
+                                class="esa-button__native typography-microcopy-2xs"
+                                type="button"
+                                aria-label="Add task"
+                                title="Add task"
+                              >
+                                <span class="esa-icon esa-icon--xs" aria-hidden="true">
+                                  <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    focusable="false"
+                                  >
+                                    <path d="M5 12h14"></path>
+                                    <path d="M12 5v14"></path>
+                                  </svg>
+                                </span></button
+                            ></span>
                           </span>
                           <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                             <button
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Field seasons &amp; analysis"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -8393,6 +8635,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Winter 26/27 tracking field season"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -8485,6 +8730,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Season-1 analysis &amp; STAIRS calibration"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -8575,6 +8823,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for Winter 27/28 tracking field season"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -8665,6 +8916,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               type="button"
                               class="bcn-wb__kebab"
                               aria-label="Actions for FGS modeling, analysis &amp; reporting"
+                              aria-haspopup="menu"
+                              aria-expanded="false"
+                              aria-controls="menu"
                             >
                               ⋯
                             </button>
@@ -8735,9 +8989,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <div class="bcn-wb__addrow">
                       <span id="bcn-wb-add-program"
                         ><span
-                          class="esa-button esa-button--color-ghost esa-button--appearance-dashed esa-button--sm"
-                        >
-                          <button class="esa-button__native" type="button">
+                          class="esa-button esa-button--variant-ghost esa-button--appearance-dashed esa-button--sm"
+                          ><button class="esa-button__native typography-microcopy-xs" type="button">
                             <span class="esa-icon esa-icon--sm" aria-hidden="true">
                               <svg
                                 width="16"
@@ -8754,10 +9007,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 <path d="M12 5v14"></path>
                               </svg>
                             </span>
-                            <span class="esa-button__label"> Add commitment </span>
-                          </button>
-                        </span>
-                      </span>
+                            <span class="esa-button__label">Add commitment</span>
+                          </button></span
+                        ></span
+                      >
                       <span class="bcn-wb__lead" aria-hidden="true"></span>
                       <span class="bcn-wb__money" aria-hidden="true"></span>
                     </div>
@@ -8790,35 +9043,38 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <span class="bcn-wb__id"></span> <span class="bcn-wb__name"></span>
                       </button>
                       <span class="bcn-wb__add">
-                        <button
-                          class="esa-icon-button esa-icon-button--xs"
-                          type="button"
-                          aria-label="Add child"
-                          title="Add child"
-                          data-astro-cid-q5zfyfab="true"
-                        >
-                          <span
-                            class="esa-icon esa-icon--xs"
-                            aria-hidden="true"
-                            data-astro-cid-md4nwazs=""
+                        <span
+                          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--xs esa-button--icon-only"
+                          data-astro-cid-ojgm2tjl=""
+                          ><button
+                            class="esa-button__native typography-microcopy-2xs"
+                            type="button"
+                            aria-label="Add child"
+                            title="Add child"
+                            data-astro-cid-ojgm2tjl=""
                           >
-                            <svg
-                              width="14"
-                              height="14"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              focusable="false"
+                            <span
+                              class="esa-icon esa-icon--xs"
+                              aria-hidden="true"
                               data-astro-cid-md4nwazs=""
                             >
-                              <path d="M5 12h14"></path>
-                              <path d="M12 5v14"></path>
-                            </svg>
-                          </span>
-                        </button>
+                              <svg
+                                width="14"
+                                height="14"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                focusable="false"
+                                data-astro-cid-md4nwazs=""
+                              >
+                                <path d="M5 12h14"></path>
+                                <path d="M12 5v14"></path>
+                              </svg>
+                            </span></button
+                        ></span>
                       </span>
                       <esa-dropdown-menu class="bcn-wb__menu" position="below-end" width="auto">
                         <button type="button" class="bcn-wb__kebab" aria-label="Row actions">
@@ -8907,7 +9163,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               </div>
               <script
                 type="module"
-                src="/beacon-design/_astro/BcnWorkBreakdown.astro_astro_type_script_index_0_lang.Bqxb_5G4.js"
+                src="/beacon-design/_astro/BcnWorkBreakdown.astro_astro_type_script_index_0_lang.D86kCkWn.js"
               ></script>
             </div>
             <div id="view-roles" hidden="">
@@ -9575,7 +9831,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               </div>
               <script
                 type="module"
-                src="/beacon-design/_astro/BcnRolesMatrix.astro_astro_type_script_index_0_lang.C5aj0bl_.js"
+                src="/beacon-design/_astro/BcnRolesMatrix.astro_astro_type_script_index_0_lang.Bq4hCBEb.js"
               ></script>
             </div>
             <div id="view-readiness" hidden="">
@@ -9628,7 +9884,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       style="left: 14.6%; width: 27.88%"
                     >
                       <esa-popover position="bottom" trigger="hover" appearance="default">
-                        <button type="button" class="bcn-readiness__tl-band-btn">
+                        <button
+                          type="button"
+                          class="bcn-readiness__tl-band-btn"
+                          aria-expanded="false"
+                        >
                           <span class="bcn-readiness__tl-band-lbl">Baseline monitoring</span>
                         </button>
                         <div slot="content" class="bcn-readiness__tl-pop">
@@ -9654,6 +9914,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         class="bcn-readiness__tl-point"
                         data-state="upcoming"
                         data-row="0"
+                        aria-expanded="false"
                       >
                         <span class="bcn-readiness__tl-lbl">30% Design</span>
                         <span class="bcn-readiness__tl-stem" aria-hidden="true"></span>
@@ -9680,6 +9941,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         class="bcn-readiness__tl-point"
                         data-state="upcoming"
                         data-row="1"
+                        aria-expanded="false"
                       >
                         <span class="bcn-readiness__tl-lbl">60% Design</span>
                         <span class="bcn-readiness__tl-stem" aria-hidden="true"></span>
@@ -9702,6 +9964,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         class="bcn-readiness__tl-point"
                         data-state="upcoming"
                         data-row="0"
+                        aria-expanded="false"
                       >
                         <span class="bcn-readiness__tl-lbl"
                           >In-water construction (cofferdam &amp; intakes)</span
@@ -9728,6 +9991,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         class="bcn-readiness__tl-point"
                         data-state="upcoming"
                         data-row="1"
+                        aria-expanded="false"
                       >
                         <span class="bcn-readiness__tl-lbl">Phase 1 Operations</span>
                         <span class="bcn-readiness__tl-stem" aria-hidden="true"></span>
@@ -9750,6 +10014,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         class="bcn-readiness__tl-point"
                         data-state="upcoming"
                         data-row="0"
+                        aria-expanded="false"
                       >
                         <span class="bcn-readiness__tl-lbl">Phase 2 Operations</span>
                         <span class="bcn-readiness__tl-stem" aria-hidden="true"></span>
@@ -9906,7 +10171,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </div>
                       <span class="bcn-readiness__fb-clear"
                         ><button
-                          class="esa-filter-clear-button"
+                          class="esa-filter-clear-button typography-microcopy-sm"
                           type="button"
                           data-esa-filter-clear=""
                           aria-label="Clear all filters"
@@ -9928,12 +10193,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                           ><span class="esa-filter-clear-button__label">Clear</span>
                         </button>
                         <script type="module">
-                          document.querySelectorAll("[data-esa-filter-clear]").forEach((e) => {
-                            e.addEventListener("click", () => {
+                          document.addEventListener("click", (t) => {
+                            const e = t.target.closest?.("[data-esa-filter-clear]");
+                            e &&
                               e.dispatchEvent(
                                 new CustomEvent("esa-filter-clear", { bubbles: !0, composed: !0 }),
                               );
-                            });
                           });
                         </script></span
                       >
@@ -9954,7 +10219,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       tabindex="0"
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-readiness__study">
                             <header class="bcn-readiness__study-head">
                               <div class="bcn-readiness__study-id">
@@ -10051,7 +10316,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       tabindex="0"
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-readiness__study">
                             <header class="bcn-readiness__study-head">
                               <div class="bcn-readiness__study-id">
@@ -10129,7 +10394,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       tabindex="0"
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-readiness__study">
                             <header class="bcn-readiness__study-head">
                               <div class="bcn-readiness__study-id">
@@ -10223,7 +10488,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       tabindex="0"
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-readiness__study">
                             <header class="bcn-readiness__study-head">
                               <div class="bcn-readiness__study-id">
@@ -10320,7 +10585,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       tabindex="0"
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-readiness__study">
                             <header class="bcn-readiness__study-head">
                               <div class="bcn-readiness__study-id">
@@ -10398,7 +10663,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       tabindex="0"
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-readiness__study">
                             <header class="bcn-readiness__study-head">
                               <div class="bcn-readiness__study-id">
@@ -10457,7 +10722,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       tabindex="0"
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-readiness__study">
                             <header class="bcn-readiness__study-head">
                               <div class="bcn-readiness__study-id">
@@ -10516,7 +10781,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       tabindex="0"
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-readiness__study">
                             <header class="bcn-readiness__study-head">
                               <div class="bcn-readiness__study-id">
@@ -10571,10 +10836,29 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <details class="bcn-readiness__period" data-current="" open="">
                       <summary class="bcn-readiness__period-sum">
                         <span class="bcn-readiness__period-label">2026 · Apr – Sep</span>
-                        <span class="esa-pill esa-pill--warning esa-pill--sm">
+                        <span
+                          class="esa-pill esa-pill--warning esa-pill--sm typography-microcopy-xs"
+                        >
                           <span class="esa-pill__label">Dry season</span>
                         </span>
-                        <span class="esa-pill esa-pill--success esa-pill--sm">
+                        <script type="module">
+                          document.addEventListener(
+                            "click",
+                            (t) => {
+                              const s = t.target.closest?.("[data-esa-pill-remove]");
+                              if (!s) return;
+                              t.stopPropagation();
+                              const e = s.closest(".esa-pill");
+                              e &&
+                                (e.dispatchEvent(new CustomEvent("removed", { bubbles: !0 })),
+                                e.remove());
+                            },
+                            !0,
+                          );
+                        </script>
+                        <span
+                          class="esa-pill esa-pill--success esa-pill--sm typography-microcopy-xs"
+                        >
                           <span class="esa-pill__label">Now</span>
                         </span>
                       </summary>
@@ -10756,7 +11040,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <details class="bcn-readiness__period">
                       <summary class="bcn-readiness__period-sum">
                         <span class="bcn-readiness__period-label">2026/27 · Oct – Mar</span>
-                        <span class="esa-pill esa-pill--info esa-pill--sm">
+                        <span class="esa-pill esa-pill--info esa-pill--sm typography-microcopy-xs">
                           <span class="esa-pill__label">Winter freshet</span>
                         </span>
                       </summary>
@@ -10995,7 +11279,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <details class="bcn-readiness__period">
                       <summary class="bcn-readiness__period-sum">
                         <span class="bcn-readiness__period-label">2027 · Apr – Sep</span>
-                        <span class="esa-pill esa-pill--warning esa-pill--sm">
+                        <span
+                          class="esa-pill esa-pill--warning esa-pill--sm typography-microcopy-xs"
+                        >
                           <span class="esa-pill__label">Dry season</span>
                         </span>
                       </summary>
@@ -11227,7 +11513,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <details class="bcn-readiness__period">
                       <summary class="bcn-readiness__period-sum">
                         <span class="bcn-readiness__period-label">2027/28 · Oct – Mar</span>
-                        <span class="esa-pill esa-pill--info esa-pill--sm">
+                        <span class="esa-pill esa-pill--info esa-pill--sm typography-microcopy-xs">
                           <span class="esa-pill__label">Winter freshet</span>
                         </span>
                       </summary>
@@ -11421,7 +11707,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <details class="bcn-readiness__period">
                       <summary class="bcn-readiness__period-sum">
                         <span class="bcn-readiness__period-label">2028 · Apr – Sep</span>
-                        <span class="esa-pill esa-pill--warning esa-pill--sm">
+                        <span
+                          class="esa-pill esa-pill--warning esa-pill--sm typography-microcopy-xs"
+                        >
                           <span class="esa-pill__label">Dry season</span>
                         </span>
                       </summary>
@@ -11689,7 +11977,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <details class="bcn-readiness__period">
                       <summary class="bcn-readiness__period-sum">
                         <span class="bcn-readiness__period-label">2028/29 · Oct – Mar</span>
-                        <span class="esa-pill esa-pill--info esa-pill--sm">
+                        <span class="esa-pill esa-pill--info esa-pill--sm typography-microcopy-xs">
                           <span class="esa-pill__label">Winter freshet</span>
                         </span>
                       </summary>
@@ -11955,13 +12243,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               </section>
               <script
                 type="module"
-                src="/beacon-design/_astro/BcnReadiness.astro_astro_type_script_index_0_lang.CRtRi1LR.js"
+                src="/beacon-design/_astro/BcnReadiness.astro_astro_type_script_index_0_lang.CfW3S89W.js"
               ></script>
             </div>
             <div id="print-memo" hidden="">
               <div class="bcn-memo">
                 <div class="esa-card esa-card--outlined esa-card--padding-spacious">
-                  <div class="esa-card__body">
+                  <div class="esa-card__body typography-body-md">
                     <article class="bcn-memo__doc">
                       <!-- ── Memo header block ── -->
                       <header class="bcn-memo__head">
@@ -13116,11 +13404,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       </div>
       <script
         type="module"
-        src="/beacon-design/_astro/BcnFundingPlan.astro_astro_type_script_index_0_lang.BpU5iGfi.js"
+        src="/beacon-design/_astro/BcnFundingPlan.astro_astro_type_script_index_0_lang.CMhmoNI0.js"
       ></script>
       <script
         type="module"
-        src="/beacon-design/_astro/BcnNodeEdit.astro_astro_type_script_index_0_lang.CbVKA7pm.js"
+        src="/beacon-design/_astro/BcnNodeEdit.astro_astro_type_script_index_0_lang.DteW_07v.js"
       ></script>
       <esa-side-dialog
         id="node-drawer"
@@ -13371,9 +13659,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -13390,19 +13681,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add study </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add study</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/COA-10.19"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -13419,9 +13708,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -13654,9 +13943,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -13673,19 +13965,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add sub-study </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add sub-study</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/STY-014"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -13702,9 +13992,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -13887,9 +14177,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -13906,19 +14199,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add task </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add task</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/SUB-021"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -13935,9 +14226,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -14139,15 +14430,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-029"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -14164,9 +14453,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -14368,15 +14657,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-030"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -14393,9 +14680,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -14582,15 +14869,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-001"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -14607,9 +14892,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -14796,15 +15081,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-002"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -14821,9 +15104,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -15010,15 +15293,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-003"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -15035,9 +15316,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -15239,15 +15520,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-004"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -15264,9 +15543,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -15472,9 +15751,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -15491,19 +15773,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add task </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add task</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/SUB-022"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -15520,9 +15800,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -15709,15 +15989,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-031"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -15734,9 +16012,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -15938,15 +16216,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-005"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -15963,9 +16239,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -16182,15 +16458,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-006"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -16207,9 +16481,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -16411,15 +16685,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-007"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -16436,9 +16708,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -16616,9 +16888,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -16635,19 +16910,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add sub-study </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add sub-study</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/STY-015"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -16664,9 +16937,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -16815,9 +17088,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -16834,19 +17110,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add task </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add task</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/SUB-023"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -16863,9 +17137,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -17052,15 +17326,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-032"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -17077,9 +17349,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -17266,15 +17538,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-008"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -17291,9 +17561,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -17480,15 +17750,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-009"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -17505,9 +17773,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -17637,9 +17905,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -17656,19 +17927,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add task </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add task</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/SUB-024"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -17685,9 +17954,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -17874,15 +18143,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-010"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -17899,9 +18166,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -18088,15 +18355,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-011"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -18113,9 +18378,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -18350,9 +18615,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -18369,19 +18637,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add sub-study </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add sub-study</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/STY-016"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -18398,9 +18664,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -18625,9 +18891,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -18644,19 +18913,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add task </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add task</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/SUB-025"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -18673,9 +18940,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -18877,15 +19144,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-033"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -18902,9 +19167,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -19106,15 +19371,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-012"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -19131,9 +19394,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -19365,15 +19628,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-013"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -19390,9 +19651,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -19594,15 +19855,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-014"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -19619,9 +19878,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -19806,9 +20065,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -19825,19 +20087,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add study </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add study</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/COA-10.20"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -19854,9 +20114,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -20032,9 +20292,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -20051,19 +20314,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add sub-study </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add sub-study</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/STY-017"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -20080,9 +20341,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -20246,9 +20507,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -20265,19 +20529,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add task </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add task</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/SUB-026"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -20294,9 +20556,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -20498,15 +20760,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-034"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -20523,9 +20783,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -20727,15 +20987,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-015"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -20752,9 +21010,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -20941,15 +21199,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-016"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -20966,9 +21222,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -21170,15 +21426,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-017"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -21195,9 +21449,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -21327,9 +21581,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -21346,19 +21603,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add task </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add task</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/SUB-027"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -21375,9 +21630,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -21564,15 +21819,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-018"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -21589,9 +21842,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -21793,15 +22046,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-019"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -21818,9 +22069,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -21960,9 +22211,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -21979,19 +22233,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add sub-study </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add sub-study</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/STY-018"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -22008,9 +22260,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -22140,9 +22392,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -22159,19 +22414,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add task </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add task</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/SUB-028"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -22188,9 +22441,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -22377,15 +22630,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-020"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -22402,9 +22653,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -22606,15 +22857,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-021"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -22631,9 +22880,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -22820,15 +23069,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-022"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -22845,9 +23092,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -23129,9 +23376,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -23148,19 +23398,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add study </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add study</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/COA-10.21"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -23177,9 +23425,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -23452,9 +23700,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -23471,19 +23722,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add sub-study </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add sub-study</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/STY-019"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -23500,9 +23749,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -23689,9 +23938,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -23708,19 +23960,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add task </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add task</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/SUB-029"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -23737,9 +23987,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -23971,15 +24221,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-023"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -23996,9 +24244,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -24200,15 +24448,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-024"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -24225,9 +24471,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -24490,9 +24736,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -24509,19 +24758,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add task </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add task</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/SUB-030"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -24538,9 +24785,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -24742,15 +24989,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-025"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -24767,9 +25012,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -25061,15 +25306,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-026"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -25086,9 +25329,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -25228,9 +25471,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -25247,19 +25493,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add sub-study </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add sub-study</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/STY-020"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -25276,9 +25520,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -25408,9 +25652,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -25427,19 +25674,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add task </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add task</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/SUB-033"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -25456,9 +25701,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -25645,15 +25890,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-027"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -25670,9 +25913,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -25859,15 +26102,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-028"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -25884,9 +26125,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -26054,9 +26295,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -26073,19 +26317,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add study </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add study</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/COA-10.26"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -26102,9 +26344,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -26282,9 +26524,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -26301,19 +26546,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add sub-study </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add sub-study</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/STY-021"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -26330,9 +26573,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -26462,9 +26705,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -26481,19 +26727,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add task </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add task</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/SUB-031"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -26510,9 +26754,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -26699,15 +26943,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-035"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -26724,9 +26966,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -26928,15 +27170,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-036"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -26953,9 +27193,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -27157,15 +27397,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-037"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -27182,9 +27420,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -27333,9 +27571,12 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
-                >
-                  <button class="esa-button__native" type="button" data-wb-add="true">
+                  class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
+                  ><button
+                    class="esa-button__native typography-microcopy-xs"
+                    type="button"
+                    data-wb-add="true"
+                  >
                     <span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
@@ -27352,19 +27593,17 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M12 5v14"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> Add task </span>
-                  </button>
-                </span>
-                <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    <span class="esa-button__label"> Add task</span>
+                  </button></span
                 >
-                  <a
-                    class="esa-button__native"
+                <span
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/SUB-032"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -27381,9 +27620,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -27570,15 +27809,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-038"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -27595,9 +27832,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -27784,15 +28021,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-039"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -27809,9 +28044,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -27998,15 +28233,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-040"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -28023,9 +28256,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -28227,15 +28460,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               <!-- ── Actions: add child / delete / full details ── -->
               <section class="bcn-edit__section bcn-edit__actions">
                 <span
-                  class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                >
-                  <a
-                    class="esa-button__native"
+                  class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                  ><a
+                    class="esa-button__native typography-microcopy-xs"
                     href="/beacon-design/prototypes/fish-detail/TSK-041"
                     role="button"
                     data-wb-details="true"
-                  >
-                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                    ><span class="esa-icon esa-icon--sm" aria-hidden="true">
                       <svg
                         width="16"
                         height="16"
@@ -28252,9 +28483,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                       </svg>
                     </span>
-                    <span class="esa-button__label"> View full details </span>
-                  </a>
-                </span>
+                    <span class="esa-button__label"> View full details </span></a
+                  ></span
+                >
               </section>
             </div>
           </section>
@@ -28457,18 +28688,16 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <!-- ── Actions: add child / delete / full details ── -->
                 <section class="bcn-edit__section bcn-edit__actions" data-astro-cid-ftn3fswp="">
                   <span
-                    class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
                     data-astro-cid-ojgm2tjl=""
-                  >
-                    <a
-                      class="esa-button__native"
+                    ><a
+                      class="esa-button__native typography-microcopy-xs"
                       href="/beacon-design/prototypes/fish-detail/"
                       role="button"
                       data-wb-details="true"
                       data-astro-cid-ftn3fswp="true"
                       data-astro-cid-ojgm2tjl=""
-                    >
-                      <span
+                      ><span
                         class="esa-icon esa-icon--sm"
                         aria-hidden="true"
                         data-astro-cid-md4nwazs=""
@@ -28492,9 +28721,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </span>
                       <span class="esa-button__label" data-astro-cid-ojgm2tjl="">
                         View full details
-                      </span>
-                    </a>
-                  </span>
+                      </span></a
+                    ></span
+                  >
                 </section>
               </div>
             </section>
@@ -28580,11 +28809,10 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <!-- ── Actions: add child / delete / full details ── -->
                 <section class="bcn-edit__section bcn-edit__actions" data-astro-cid-ftn3fswp="">
                   <span
-                    class="esa-button esa-button--color-secondary esa-button--appearance-outline esa-button--sm"
+                    class="esa-button esa-button--variant-secondary esa-button--appearance-outline esa-button--sm"
                     data-astro-cid-ojgm2tjl=""
-                  >
-                    <button
-                      class="esa-button__native"
+                    ><button
+                      class="esa-button__native typography-microcopy-xs"
                       type="button"
                       data-wb-add="true"
                       data-astro-cid-ftn3fswp="true"
@@ -28612,23 +28840,21 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         </svg>
                       </span>
                       <span class="esa-button__label" data-astro-cid-ojgm2tjl="">
-                        Add sub-study
-                      </span>
-                    </button>
-                  </span>
-                  <span
-                    class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
-                    data-astro-cid-ojgm2tjl=""
+                        Add sub-study</span
+                      >
+                    </button></span
                   >
-                    <a
-                      class="esa-button__native"
+                  <span
+                    class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm bcn-edit__details"
+                    data-astro-cid-ojgm2tjl=""
+                    ><a
+                      class="esa-button__native typography-microcopy-xs"
                       href="/beacon-design/prototypes/fish-detail/"
                       role="button"
                       data-wb-details="true"
                       data-astro-cid-ftn3fswp="true"
                       data-astro-cid-ojgm2tjl=""
-                    >
-                      <span
+                      ><span
                         class="esa-icon esa-icon--sm"
                         aria-hidden="true"
                         data-astro-cid-md4nwazs=""
@@ -28652,9 +28878,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       </span>
                       <span class="esa-button__label" data-astro-cid-ojgm2tjl="">
                         View full details
-                      </span>
-                    </a>
-                  </span>
+                      </span></a
+                    ></span
+                  >
                 </section>
               </div>
             </section>
@@ -28663,9 +28889,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         <span slot="footer" class="bcn-node-foot">
           <span id="node-delete"
             ><span
-              class="esa-button esa-button--color-danger esa-button--appearance-soft esa-button--md"
-            >
-              <button class="esa-button__native" type="button">
+              class="esa-button esa-button--variant-danger esa-button--appearance-soft esa-button--md"
+              ><button class="esa-button__native typography-microcopy-md" type="button">
                 <span class="esa-icon esa-icon--md" aria-hidden="true">
                   <svg
                     width="20"
@@ -28685,19 +28910,18 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <line x1="14" x2="14" y1="11" y2="17"></line>
                   </svg>
                 </span>
-                <span class="esa-button__label"> Delete </span>
-              </button>
-            </span>
-          </span>
+                <span class="esa-button__label">Delete</span>
+              </button></span
+            ></span
+          >
           <span id="node-close"
             ><span
-              class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md"
-            >
-              <button class="esa-button__native" type="button">
-                <span class="esa-button__label"> Close </span>
-              </button>
-            </span>
-          </span>
+              class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md"
+              ><button class="esa-button__native typography-microcopy-md" type="button">
+                <span class="esa-button__label">Close</span>
+              </button></span
+            ></span
+          >
         </span>
       </esa-side-dialog>
       <esa-side-dialog
@@ -28779,22 +29003,20 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
         <span slot="footer" class="bcn-create-foot">
           <span id="create-cancel"
             ><span
-              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
-            >
-              <button class="esa-button__native" type="button">
-                <span class="esa-button__label"> Cancel </span>
-              </button>
-            </span>
-          </span>
+              class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+              ><button class="esa-button__native typography-microcopy-md" type="button">
+                <span class="esa-button__label">Cancel</span>
+              </button></span
+            ></span
+          >
           <span id="create-submit"
             ><span
-              class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md esa-button--disabled"
-            >
-              <button class="esa-button__native" type="button" disabled="">
-                <span class="esa-button__label"> Create </span>
-              </button>
-            </span>
-          </span>
+              class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md esa-button--disabled"
+              ><button class="esa-button__native typography-microcopy-md" type="button" disabled="">
+                <span class="esa-button__label">Create</span>
+              </button></span
+            ></span
+          >
         </span>
       </esa-side-dialog>
       <esa-side-dialog
@@ -28844,47 +29066,50 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <span data-astro-cid-otcsgbor="">Tentative</span>
                   </label>
                   <span class="bcn-rrep__del" data-rr-del="" data-astro-cid-otcsgbor="">
-                    <button
-                      class="esa-icon-button esa-icon-button--sm"
-                      type="button"
-                      aria-label="Remove assignment"
-                      title="Remove assignment"
-                      data-astro-cid-q5zfyfab="true"
-                    >
-                      <span
-                        class="esa-icon esa-icon--sm"
-                        aria-hidden="true"
-                        data-astro-cid-md4nwazs=""
+                    <span
+                      class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                      data-astro-cid-ojgm2tjl=""
+                      ><button
+                        class="esa-button__native typography-microcopy-xs"
+                        type="button"
+                        aria-label="Remove assignment"
+                        title="Remove assignment"
+                        data-astro-cid-otcsgbor="true"
+                        data-astro-cid-ojgm2tjl=""
                       >
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          focusable="false"
+                        <span
+                          class="esa-icon esa-icon--sm"
+                          aria-hidden="true"
                           data-astro-cid-md4nwazs=""
                         >
-                          <path d="M3 6h18"></path>
-                          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
-                          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
-                          <line x1="10" x2="10" y1="11" y2="17"></line>
-                          <line x1="14" x2="14" y1="11" y2="17"></line>
-                        </svg>
-                      </span>
-                    </button>
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            focusable="false"
+                            data-astro-cid-md4nwazs=""
+                          >
+                            <path d="M3 6h18"></path>
+                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                            <line x1="10" x2="10" y1="11" y2="17"></line>
+                            <line x1="14" x2="14" y1="11" y2="17"></line>
+                          </svg>
+                        </span></button
+                    ></span>
                   </span>
                 </div>
               </div>
             </template>
             <span data-rr-add="" class="bcn-rrep__add">
               <span
-                class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
-              >
-                <button class="esa-button__native" type="button">
+                class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                ><button class="esa-button__native typography-microcopy-xs" type="button">
                   <span class="esa-icon esa-icon--sm" aria-hidden="true">
                     <svg
                       width="16"
@@ -28901,31 +29126,29 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       <path d="M12 5v14"></path>
                     </svg>
                   </span>
-                  <span class="esa-button__label"> Add assignment </span>
-                </button>
-              </span>
+                  <span class="esa-button__label">Add assignment</span>
+                </button></span
+              >
             </span>
           </div>
         </div>
         <span slot="footer" class="bcn-roles-edit-foot">
           <span id="roles-drawer-cancel"
             ><span
-              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
-            >
-              <button class="esa-button__native" type="button">
-                <span class="esa-button__label"> Cancel </span>
-              </button>
-            </span>
-          </span>
+              class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+              ><button class="esa-button__native typography-microcopy-md" type="button">
+                <span class="esa-button__label">Cancel</span>
+              </button></span
+            ></span
+          >
           <span id="roles-drawer-save"
             ><span
-              class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md"
-            >
-              <button class="esa-button__native" type="button">
-                <span class="esa-button__label"> Save roles </span>
-              </button>
-            </span>
-          </span>
+              class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md"
+              ><button class="esa-button__native typography-microcopy-md" type="button">
+                <span class="esa-button__label">Save roles</span>
+              </button></span
+            ></span
+          >
         </span>
       </esa-side-dialog>
     </div>
@@ -29077,47 +29300,13 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
       position="above"
       data-evidence-trigger="true"
     >
-      <button
-        class="esa-icon-button esa-icon-button--md"
-        type="button"
-        aria-label="Attach Evidence of Compliance"
-        title="Attach Evidence of Compliance"
-      >
-        <span class="esa-icon esa-icon--md" aria-hidden="true">
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            focusable="false"
-          >
-            <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
-            <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-            <path d="M10 9H8"></path>
-            <path d="M16 13H8"></path>
-            <path d="M16 17H8"></path>
-          </svg>
-        </span>
-      </button>
-    </esa-tooltip>
-    <!-- What's new — icon-only trigger + unread dot; esa-popover panel opens above the bar. -->
-    <esa-popover
-      class="bcn-help-bar__popover"
-      position="top"
-      trigger="click"
-      offset="12"
-      appearance="default"
-    >
-      <span class="bcn-help-bar__whatsnew" data-whatsnew="">
-        <button
-          class="esa-icon-button esa-icon-button--md"
+      <span
+        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--md esa-button--icon-only"
+        ><button
+          class="esa-button__native typography-microcopy-md"
           type="button"
-          aria-label="What's new"
-          title="What's new"
+          aria-label="Attach Evidence of Compliance"
+          title="Attach Evidence of Compliance"
         >
           <span class="esa-icon esa-icon--md" aria-hidden="true">
             <svg
@@ -29131,16 +29320,55 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
               stroke-linejoin="round"
               focusable="false"
             >
-              <path d="M8 2v4"></path>
-              <path d="M12 2v4"></path>
-              <path d="M16 2v4"></path>
-              <rect width="16" height="18" x="4" y="4" rx="2"></rect>
-              <path d="M8 10h6"></path>
-              <path d="M8 14h8"></path>
-              <path d="M8 18h5"></path>
+              <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+              <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+              <path d="M10 9H8"></path>
+              <path d="M16 13H8"></path>
+              <path d="M16 17H8"></path>
             </svg>
-          </span>
-        </button>
+          </span></button
+      ></span>
+    </esa-tooltip>
+    <!-- What's new — icon-only trigger + unread dot; esa-popover panel opens above the bar. -->
+    <esa-popover
+      class="bcn-help-bar__popover"
+      position="top"
+      trigger="click"
+      offset="12"
+      appearance="default"
+    >
+      <span class="bcn-help-bar__whatsnew" data-whatsnew="">
+        <span
+          class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--md esa-button--icon-only"
+          ><button
+            class="esa-button__native typography-microcopy-md"
+            type="button"
+            aria-label="What's new"
+            title="What's new"
+            aria-expanded="false"
+          >
+            <span class="esa-icon esa-icon--md" aria-hidden="true">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                focusable="false"
+              >
+                <path d="M8 2v4"></path>
+                <path d="M12 2v4"></path>
+                <path d="M16 2v4"></path>
+                <rect width="16" height="18" x="4" y="4" rx="2"></rect>
+                <path d="M8 10h6"></path>
+                <path d="M8 14h8"></path>
+                <path d="M8 18h5"></path>
+              </svg>
+            </span></button
+        ></span>
         <span class="bcn-help-bar__dot" data-whatsnew-dot="" aria-hidden="true"></span>
       </span>
       <div slot="content" class="bcn-help-bar__panel">
@@ -29198,7 +29426,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </div>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnHelpBar.astro_astro_type_script_index_0_lang.DoAGJheO.js"
+    src="/beacon-design/_astro/BcnHelpBar.astro_astro_type_script_index_0_lang.F3A0cH0L.js"
   ></script>
   <!-- ── Drawer (parent) ── --><esa-side-dialog
     class="bcn-gd"
@@ -30501,7 +30729,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </span>
                 </span>
                 <span class="bcn-help-article__video-duration"
-                  ><span class="esa-badge esa-badge--primary esa-badge--sm">
+                  ><span
+                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                  >
                     <span class="esa-badge__text">4:32</span>
                   </span>
                 </span>
@@ -30762,7 +30992,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   </span>
                 </span>
                 <span class="bcn-help-article__video-duration"
-                  ><span class="esa-badge esa-badge--primary esa-badge--sm">
+                  ><span
+                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                  >
                     <span class="esa-badge__text">2:47</span>
                   </span>
                 </span>
@@ -31845,12 +32077,29 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </esa-side-dialog>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnGuidanceDrawer.astro_astro_type_script_index_0_lang.CSA-_RD7.js"
+    src="/beacon-design/_astro/BcnGuidanceDrawer.astro_astro_type_script_index_0_lang.Cn8RQg9O.js"
   ></script>
   <!-- The global evidence workspace — the bar's third affordance. App-shell
          furniture by design: it opens from ANY page, rises from the bottom, and
          layers above dialogs (see BcnBottomDrawer for the stack). Same root
          placement as the drawers above, for the same reason. -->
+  <script type="module">
+    document.addEventListener("click", (o) => {
+      const n = o.target.closest?.("[data-esa-alert-dismiss]");
+      if (!n) return;
+      const t = n.closest(".esa-alert-box");
+      if (!t) return;
+      const s = Array.from(document.querySelectorAll(FOCUSABLE_SELECTOR)).filter(
+          (e) => !t.contains(e) && e.offsetParent !== null,
+        ),
+        r =
+          s.find((e) => t.compareDocumentPosition(e) & Node.DOCUMENT_POSITION_FOLLOWING) ??
+          s[s.length - 1];
+      ((t.style.display = "none"),
+        t.dispatchEvent(new CustomEvent("dismissed", { bubbles: !0 })),
+        r?.focus());
+    });
+  </script>
   <bcn-bottom-drawer id="bcn-evidence-drawer" class="bcn-bottom-drawer">
     <div class="bcn-bottom-drawer__backdrop" data-drawer-backdrop=""></div>
     <div
@@ -31866,29 +32115,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           <div class="bcn-ev__head"><h2 class="bcn-ev__title">Add Evidence of Compliance</h2></div>
         </div>
         <span class="bcn-bottom-drawer__close" data-drawer-close="">
-          <button
-            class="esa-icon-button esa-icon-button--md"
-            type="button"
-            aria-label="Close"
-            title="Close"
-          >
-            <span class="esa-icon esa-icon--md" aria-hidden="true">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                focusable="false"
-              >
-                <path d="M18 6 6 18"></path>
-                <path d="m6 6 12 12"></path>
-              </svg>
-            </span>
-          </button>
+          <span
+            class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--md esa-button--icon-only"
+            ><button
+              class="esa-button__native typography-microcopy-md"
+              type="button"
+              aria-label="Close"
+              title="Close"
+            >
+              <span class="esa-icon esa-icon--md" aria-hidden="true">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  focusable="false"
+                >
+                  <path d="M18 6 6 18"></path>
+                  <path d="m6 6 12 12"></path>
+                </svg>
+              </span></button
+          ></span>
         </span>
       </header>
       <div class="bcn-bottom-drawer__body">
@@ -31942,6 +32193,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     multiple="true"
                     max-size-mb="50"
                     data-staging-dropzone="true"
+                    name="files"
                     data-bcn-chrome-trimmed="true"
                   ></esa-file-upload>
                 </div>
@@ -31952,7 +32204,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
          no disclosure toggle at all. -->
                 <div class="bcn-ev-staging__draft" data-draft="" hidden="">
                   <div class="esa-card esa-card--outlined">
-                    <div class="esa-card__body">
+                    <div class="esa-card__body typography-body-md">
                       <div class="bcn-ev-draft">
                         <div class="bcn-ev-draft__titlerow">
                           <h4 class="bcn-ev-draft__title" data-draft-title=""></h4>
@@ -31960,7 +32212,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                  copy: the border-only pill is already defined once there, and a second
                  definition is how the two would drift. -->
                           <span class="bcn-ev-card__count" data-draft-count="">
-                            <span class="esa-pill esa-pill--default esa-pill--sm">
+                            <span
+                              class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                            >
                               <span class="esa-pill__label"></span>
                             </span>
                           </span>
@@ -32001,21 +32255,25 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                         <footer class="bcn-ev-draft__foot">
                           <span data-draft-add="">
                             <span
-                              class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--sm"
+                              class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--sm"
+                              ><button
+                                class="esa-button__native typography-microcopy-xs"
+                                type="button"
+                              >
+                                <span class="esa-button__label">Save</span>
+                              </button></span
                             >
-                              <button class="esa-button__native" type="button">
-                                <span class="esa-button__label"> Save </span>
-                              </button>
-                            </span>
                           </span>
                           <span data-draft-cancel="">
                             <span
-                              class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                              class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                              ><button
+                                class="esa-button__native typography-microcopy-xs"
+                                type="button"
+                              >
+                                <span class="esa-button__label">Cancel</span>
+                              </button></span
                             >
-                              <button class="esa-button__native" type="button">
-                                <span class="esa-button__label"> Cancel </span>
-                              </button>
-                            </span>
                           </span>
                         </footer>
                       </div>
@@ -32027,7 +32285,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <template data-file-pill="">
                   <li data-astro-cid-xyosy2wp="">
                     <span
-                      class="esa-pill esa-pill--default esa-pill--sm"
+                      class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
                       data-astro-cid-heggk5tk=""
                     >
                       <span class="esa-pill__label" data-astro-cid-heggk5tk=""></span>
@@ -32041,35 +32299,39 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <span class="bcn-ev-draft__filename" data-astro-cid-xyosy2wp=""></span>
                     <span class="bcn-ev-draft__filesize" data-astro-cid-xyosy2wp=""></span>
                     <span class="bcn-ev-draft__fileremove" data-astro-cid-xyosy2wp="">
-                      <button
-                        class="esa-icon-button esa-icon-button--sm"
-                        type="button"
-                        aria-label="Remove this file from the evidence"
-                        title="Remove this file from the evidence"
-                        data-astro-cid-q5zfyfab="true"
-                      >
-                        <span
-                          class="esa-icon esa-icon--sm"
-                          aria-hidden="true"
-                          data-astro-cid-md4nwazs=""
+                      <span
+                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                        data-astro-cid-ojgm2tjl=""
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          aria-label="Remove this file from the evidence"
+                          title="Remove this file from the evidence"
+                          data-astro-cid-xyosy2wp="true"
+                          data-astro-cid-ojgm2tjl=""
                         >
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            focusable="false"
+                          <span
+                            class="esa-icon esa-icon--sm"
+                            aria-hidden="true"
                             data-astro-cid-md4nwazs=""
                           >
-                            <path d="M18 6 6 18"></path>
-                            <path d="m6 6 12 12"></path>
-                          </svg>
-                        </span>
-                      </button>
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                              data-astro-cid-md4nwazs=""
+                            >
+                              <path d="M18 6 6 18"></path>
+                              <path d="m6 6 12 12"></path>
+                            </svg>
+                          </span></button
+                      ></span>
                     </span>
                   </li>
                 </template>
@@ -32123,7 +32385,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -32168,7 +32430,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 >
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">3 files</span>
                                 </span>
                               </span>
@@ -32205,7 +32469,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -32216,29 +32481,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-card__remove"
                                 data-staging-remove="ev-staged-swha"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Swainson’s hawk nest survey — Jul 14"
-                                  title="Remove Swainson’s hawk nest survey — Jul 14"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Swainson’s hawk nest survey — Jul 14"
+                                    title="Remove Swainson’s hawk nest survey — Jul 14"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -32281,21 +32548,27 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <p class="bcn-ev-card__fileslabel">Files</p>
                               <ul class="bcn-ev-card__files">
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >SWHA-nest-survey-2026-07-14.pdf</span
                                     >
                                   </span>
                                 </li>
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >SWHA-nest-locations-2026-07-14.kmz</span
                                     >
                                   </span>
                                 </li>
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >SWHA-survey-photos-2026-07-14.zip</span
                                     >
@@ -32315,7 +32588,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -32360,7 +32633,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 >
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">1 file</span>
                                 </span>
                               </span>
@@ -32397,7 +32672,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -32408,29 +32684,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-card__remove"
                                 data-staging-remove="ev-staged-training"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Worker training roster — Jul 16"
-                                  title="Remove Worker training roster — Jul 16"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Worker training roster — Jul 16"
+                                    title="Remove Worker training roster — Jul 16"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -32472,7 +32750,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <p class="bcn-ev-card__fileslabel">Files</p>
                               <ul class="bcn-ev-card__files">
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >WEAP-training-roster-2026-07-16.pdf</span
                                     >
@@ -32492,7 +32772,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -32537,7 +32817,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 >
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">1 file</span>
                                 </span>
                               </span>
@@ -32574,7 +32856,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -32585,29 +32868,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-card__remove"
                                 data-staging-remove="ev-exist-ggs-survey"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Giant garter snake preconstruction survey — Jun 29"
-                                  title="Remove Giant garter snake preconstruction survey — Jun 29"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Giant garter snake preconstruction survey — Jun 29"
+                                    title="Remove Giant garter snake preconstruction survey — Jun 29"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -32650,7 +32935,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <p class="bcn-ev-card__fileslabel">Files</p>
                               <ul class="bcn-ev-card__files">
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >GGS-preconstruction-survey-2026-06-29.pdf</span
                                     >
@@ -32670,7 +32957,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -32715,7 +33002,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 >
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">4 files</span>
                                 </span>
                               </span>
@@ -32752,7 +33041,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -32763,29 +33053,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-card__remove"
                                 data-staging-remove="ev-exist-biologist-quals"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Qualified biologist statements of qualification"
-                                  title="Remove Qualified biologist statements of qualification"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Qualified biologist statements of qualification"
+                                    title="Remove Qualified biologist statements of qualification"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -32828,22 +33120,30 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <p class="bcn-ev-card__fileslabel">Files</p>
                               <ul class="bcn-ev-card__files">
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label">SOQ-C-Anderson.pdf</span>
                                   </span>
                                 </li>
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label">SOQ-M-Okafor.pdf</span>
                                   </span>
                                 </li>
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label">SOQ-R-Delgado.pdf</span>
                                   </span>
                                 </li>
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label">SOQ-J-Whitfield.pdf</span>
                                   </span>
                                 </li>
@@ -32861,7 +33161,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -32906,7 +33206,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 >
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">1 file</span>
                                 </span>
                               </span>
@@ -32943,7 +33245,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -32954,29 +33257,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-card__remove"
                                 data-staging-remove="ev-exist-noise-readings"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Noise level readings — week of Jul 6"
-                                  title="Remove Noise level readings — week of Jul 6"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Noise level readings — week of Jul 6"
+                                    title="Remove Noise level readings — week of Jul 6"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -33018,7 +33323,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <p class="bcn-ev-card__fileslabel">Files</p>
                               <ul class="bcn-ev-card__files">
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >noise-readings-2026-07-06.xlsx</span
                                     >
@@ -33038,7 +33345,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -33083,7 +33390,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 >
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">1 file</span>
                                 </span>
                               </span>
@@ -33120,7 +33429,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -33131,29 +33441,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-card__remove"
                                 data-staging-remove="ev-exist-swppp-inspection"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove SWPPP inspection report — Jul 9"
-                                  title="Remove SWPPP inspection report — Jul 9"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove SWPPP inspection report — Jul 9"
+                                    title="Remove SWPPP inspection report — Jul 9"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -33196,7 +33508,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <p class="bcn-ev-card__fileslabel">Files</p>
                               <ul class="bcn-ev-card__files">
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >SWPPP-inspection-2026-07-09.pdf</span
                                     >
@@ -33216,7 +33530,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -33261,7 +33575,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 >
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">1 file</span>
                                 </span>
                               </span>
@@ -33298,7 +33614,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -33309,29 +33626,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-card__remove"
                                 data-staging-remove="ev-exist-dust-log"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Dust control log — Jul 2026"
-                                  title="Remove Dust control log — Jul 2026"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Dust control log — Jul 2026"
+                                    title="Remove Dust control log — Jul 2026"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -33373,7 +33692,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <p class="bcn-ev-card__fileslabel">Files</p>
                               <ul class="bcn-ev-card__files">
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >dust-control-log-2026-07.pdf</span
                                     >
@@ -33393,7 +33714,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -33438,7 +33759,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 >
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">1 file</span>
                                 </span>
                               </span>
@@ -33475,7 +33798,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -33486,29 +33810,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-card__remove"
                                 data-staging-remove="ev-exist-haul-agreement"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Executed haul route maintenance agreement"
-                                  title="Remove Executed haul route maintenance agreement"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Executed haul route maintenance agreement"
+                                    title="Remove Executed haul route maintenance agreement"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -33550,7 +33876,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <p class="bcn-ev-card__fileslabel">Files</p>
                               <ul class="bcn-ev-card__files">
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >haul-route-agreement-executed.pdf</span
                                     >
@@ -33570,7 +33898,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -33615,7 +33943,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 >
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">1 file</span>
                                 </span>
                               </span>
@@ -33652,7 +33982,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -33663,29 +33994,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-card__remove"
                                 data-staging-remove="ev-exist-cultural-brief"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Cultural resources monitoring brief — Jul 8"
-                                  title="Remove Cultural resources monitoring brief — Jul 8"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Cultural resources monitoring brief — Jul 8"
+                                    title="Remove Cultural resources monitoring brief — Jul 8"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -33727,7 +34060,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <p class="bcn-ev-card__fileslabel">Files</p>
                               <ul class="bcn-ev-card__files">
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >cultural-monitoring-brief-2026-07-08.pdf</span
                                     >
@@ -33747,7 +34082,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -33792,7 +34127,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 >
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">2 files</span>
                                 </span>
                               </span>
@@ -33829,7 +34166,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -33840,29 +34178,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-card__remove"
                                 data-staging-remove="ev-exist-nesting-bird-sweep"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Nesting bird sweep — Jun 22"
-                                  title="Remove Nesting bird sweep — Jun 22"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Nesting bird sweep — Jun 22"
+                                    title="Remove Nesting bird sweep — Jun 22"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -33904,14 +34244,18 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                               <p class="bcn-ev-card__fileslabel">Files</p>
                               <ul class="bcn-ev-card__files">
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >nesting-bird-sweep-2026-06-22.pdf</span
                                     >
                                   </span>
                                 </li>
                                 <li>
-                                  <span class="esa-pill esa-pill--default esa-pill--sm">
+                                  <span
+                                    class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                  >
                                     <span class="esa-pill__label"
                                       >nest-buffer-map-2026-06-22.pdf</span
                                     >
@@ -33931,7 +34275,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -33975,7 +34319,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ></a>
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">0 files</span>
                                 </span>
                               </span>
@@ -34012,7 +34358,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -34020,29 +34367,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                               </esa-tooltip>
                               <span class="bcn-ev-card__remove" data-staging-remove="ev-new-1">
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove "
-                                  title="Remove "
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove "
+                                    title="Remove "
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -34094,7 +34443,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -34138,7 +34487,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ></a>
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">0 files</span>
                                 </span>
                               </span>
@@ -34175,7 +34526,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -34183,29 +34535,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                               </esa-tooltip>
                               <span class="bcn-ev-card__remove" data-staging-remove="ev-new-2">
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove "
-                                  title="Remove "
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove "
+                                    title="Remove "
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -34257,7 +34611,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -34301,7 +34655,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ></a>
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">0 files</span>
                                 </span>
                               </span>
@@ -34338,7 +34694,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -34346,29 +34703,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                               </esa-tooltip>
                               <span class="bcn-ev-card__remove" data-staging-remove="ev-new-3">
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove "
-                                  title="Remove "
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove "
+                                    title="Remove "
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -34420,7 +34779,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                       data-collapsed=""
                     >
                       <div class="esa-card esa-card--outlined">
-                        <div class="esa-card__body">
+                        <div class="esa-card__body typography-body-md">
                           <div class="bcn-ev-card">
                             <span
                               class="bcn-ev-card__grip"
@@ -34464,7 +34823,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 ></a>
                               </p>
                               <span class="bcn-ev-card__count">
-                                <span class="esa-pill esa-pill--default esa-pill--sm">
+                                <span
+                                  class="esa-pill esa-pill--default esa-pill--sm typography-microcopy-xs"
+                                >
                                   <span class="esa-pill__label">0 files</span>
                                 </span>
                               </span>
@@ -34501,7 +34862,8 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     </span>
                                   </span>
                                   <span class="bcn-countchip__num" aria-hidden="true">
-                                    <span class="esa-badge esa-badge--primary esa-badge--xs"
+                                    <span
+                                      class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
                                       >0</span
                                     >
                                   </span>
@@ -34509,29 +34871,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                               </esa-tooltip>
                               <span class="bcn-ev-card__remove" data-staging-remove="ev-new-4">
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove "
-                                  title="Remove "
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove "
+                                    title="Remove "
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                             <span class="bcn-ev-card__toggle">
@@ -34579,12 +34943,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                   <!-- Nothing staged yet. -->
                   <div class="bcn-ev-staging__empty" data-staging-empty="">
                     <div class="esa-empty-state esa-empty-state--sm">
-                      <h3 class="esa-empty-state__title">Nothing added yet</h3>
-                      <p class="esa-empty-state__description">
+                      <h3 class="esa-empty-state__title typography-label-sm-strong">
+                        Nothing added yet
+                      </h3>
+                      <p class="esa-empty-state__description typography-body-xs">
                         Search above for evidence already in Beacon, or upload a file on the Add New
                         tab.
                       </p>
-                      <div class="esa-empty-state__actions"></div>
+                      <div class="esa-empty-state__actions typography-label-md"></div>
                     </div>
                   </div>
                 </div>
@@ -34593,12 +34959,11 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <footer class="bcn-ev-staging__foot">
                   <span class="bcn-ev-staging__find" data-targets-find="">
                     <span
-                      class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--sm"
+                      class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--sm"
+                      ><button class="esa-button__native typography-microcopy-xs" type="button">
+                        <span class="esa-button__label">Find matches</span>
+                      </button></span
                     >
-                      <button class="esa-button__native" type="button">
-                        <span class="esa-button__label"> Find matches </span>
-                      </button>
-                    </span>
                   </span>
                 </footer>
               </div>
@@ -34707,11 +35072,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                 <!-- Working state for Find matches — replaced by rows the moment it resolves. -->
                 <div class="bcn-ev-targets__working" data-targets-working="" hidden="">
                   <span class="esa-loading-spinner esa-loading-spinner--sm">
-                    <span
-                      class="esa-loading-spinner__ring"
-                      role="status"
-                      aria-label="Loading"
-                    ></span>
+                    <span class="esa-loading-spinner__ring" role="img" aria-label="Loading"></span>
                   </span>
                   <span class="type-body-small"
                     >Reading the evidence and checking actions in this component…</span
@@ -34736,7 +35097,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -34810,7 +35171,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -34822,10 +35185,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Pre-Construction</span>
                                   </span>
                                 </span>
@@ -34836,29 +35203,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-swha-preconstruction-survey"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Preconstruction Swainson’s hawk nest survey"
-                                  title="Remove Preconstruction Swainson’s hawk nest survey"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Preconstruction Swainson’s hawk nest survey"
+                                    title="Remove Preconstruction Swainson’s hawk nest survey"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -34887,7 +35256,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -34961,7 +35330,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -34973,10 +35344,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -34987,29 +35362,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-swha-buffer-monitoring"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Swainson’s hawk active-nest buffer monitoring"
-                                  title="Remove Swainson’s hawk active-nest buffer monitoring"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Swainson’s hawk active-nest buffer monitoring"
+                                    title="Remove Swainson’s hawk active-nest buffer monitoring"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -35038,7 +35415,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -35112,7 +35489,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -35124,10 +35503,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Pre-Construction</span>
                                   </span>
                                 </span>
@@ -35138,29 +35521,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-ggs-preconstruction-survey"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Giant garter snake preconstruction survey"
-                                  title="Remove Giant garter snake preconstruction survey"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Giant garter snake preconstruction survey"
+                                    title="Remove Giant garter snake preconstruction survey"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -35189,7 +35574,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -35263,7 +35648,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -35275,10 +35662,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Tracking</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Implementation Planning</span>
                                   </span>
                                 </span>
@@ -35289,29 +35680,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-qualified-biologist"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Retain qualified biologist for covered species"
-                                  title="Remove Retain qualified biologist for covered species"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Retain qualified biologist for covered species"
+                                    title="Remove Retain qualified biologist for covered species"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -35340,7 +35733,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -35390,7 +35783,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     offset="6"
                                     appearance="default"
                                   >
-                                    <span class="bcn-ev-row__more">
+                                    <span class="bcn-ev-row__more" aria-expanded="false">
                                       <span class="bcn-cbadge bcn-cbadge--sm bcn-cbadge--neutral"
                                         >+ 2 more</span
                                       >
@@ -35441,7 +35834,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -35453,10 +35848,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Tracking</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Pre-Construction</span>
                                   </span>
                                 </span>
@@ -35467,29 +35866,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-worker-training"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Worker environmental awareness training"
-                                  title="Remove Worker environmental awareness training"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Worker environmental awareness training"
+                                    title="Remove Worker environmental awareness training"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -35518,7 +35919,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -35568,7 +35969,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     offset="6"
                                     appearance="default"
                                   >
-                                    <span class="bcn-ev-row__more">
+                                    <span class="bcn-ev-row__more" aria-expanded="false">
                                       <span class="bcn-cbadge bcn-cbadge--sm bcn-cbadge--neutral"
                                         >+ 3 more</span
                                       >
@@ -35622,7 +36023,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -35634,10 +36037,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -35648,29 +36055,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-daily-biological-monitoring"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Daily biological monitoring during ground disturbance"
-                                  title="Remove Daily biological monitoring during ground disturbance"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Daily biological monitoring during ground disturbance"
+                                    title="Remove Daily biological monitoring during ground disturbance"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -35699,7 +36108,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -35749,7 +36158,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     offset="6"
                                     appearance="default"
                                   >
-                                    <span class="bcn-ev-row__more">
+                                    <span class="bcn-ev-row__more" aria-expanded="false">
                                       <span class="bcn-cbadge bcn-cbadge--sm bcn-cbadge--neutral"
                                         >+ 3 more</span
                                       >
@@ -35803,7 +36212,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -35815,10 +36226,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Reporting</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -35829,29 +36244,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-monthly-compliance-report"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Monthly compliance monitoring report"
-                                  title="Remove Monthly compliance monitoring report"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Monthly compliance monitoring report"
+                                    title="Remove Monthly compliance monitoring report"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -35880,7 +36297,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -35954,7 +36371,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -35966,10 +36385,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -35980,29 +36403,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-noise-monitoring"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Construction noise level monitoring at sensitive receptors"
-                                  title="Remove Construction noise level monitoring at sensitive receptors"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Construction noise level monitoring at sensitive receptors"
+                                    title="Remove Construction noise level monitoring at sensitive receptors"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -36031,7 +36456,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -36105,7 +36530,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -36117,10 +36544,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -36131,29 +36562,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-dust-control-inspection"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Fugitive dust control inspection"
-                                  title="Remove Fugitive dust control inspection"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Fugitive dust control inspection"
+                                    title="Remove Fugitive dust control inspection"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -36182,7 +36615,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -36232,7 +36665,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     offset="6"
                                     appearance="default"
                                   >
-                                    <span class="bcn-ev-row__more">
+                                    <span class="bcn-ev-row__more" aria-expanded="false">
                                       <span class="bcn-cbadge bcn-cbadge--sm bcn-cbadge--neutral"
                                         >+ 1 more</span
                                       >
@@ -36280,7 +36713,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -36292,10 +36727,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -36306,29 +36745,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-swppp-inspection"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove SWPPP qualified-personnel site inspection"
-                                  title="Remove SWPPP qualified-personnel site inspection"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove SWPPP qualified-personnel site inspection"
+                                    title="Remove SWPPP qualified-personnel site inspection"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -36357,7 +36798,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -36431,7 +36872,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -36443,10 +36886,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -36457,29 +36904,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-cultural-monitoring"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Archaeological monitoring during excavation"
-                                  title="Remove Archaeological monitoring during excavation"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Archaeological monitoring during excavation"
+                                    title="Remove Archaeological monitoring during excavation"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -36508,7 +36957,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -36582,7 +37031,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -36594,10 +37045,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Tracking</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Implementation Planning</span>
                                   </span>
                                 </span>
@@ -36608,29 +37063,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-haul-route-agreement"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Execute haul route maintenance agreement"
-                                  title="Remove Execute haul route maintenance agreement"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Execute haul route maintenance agreement"
+                                    title="Remove Execute haul route maintenance agreement"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -36659,7 +37116,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -36733,7 +37190,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -36745,10 +37204,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -36759,29 +37222,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-ib-fish-screen-inspection"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Fish screen criteria compliance inspection"
-                                  title="Remove Fish screen criteria compliance inspection"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Fish screen criteria compliance inspection"
+                                    title="Remove Fish screen criteria compliance inspection"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -36810,7 +37275,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -36884,7 +37349,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -36896,10 +37363,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Tracking</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -36910,29 +37381,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-ib-inwater-work-window"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove In-water work window conformance record"
-                                  title="Remove In-water work window conformance record"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove In-water work window conformance record"
+                                    title="Remove In-water work window conformance record"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -36961,7 +37434,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -37011,7 +37484,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                     offset="6"
                                     appearance="default"
                                   >
-                                    <span class="bcn-ev-row__more">
+                                    <span class="bcn-ev-row__more" aria-expanded="false">
                                       <span class="bcn-cbadge bcn-cbadge--sm bcn-cbadge--neutral"
                                         >+ 2 more</span
                                       >
@@ -37062,7 +37535,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -37074,10 +37549,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -37088,29 +37567,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-ib-turbidity-monitoring"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Turbidity monitoring during in-water construction"
-                                  title="Remove Turbidity monitoring during in-water construction"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Turbidity monitoring during in-water construction"
+                                    title="Remove Turbidity monitoring during in-water construction"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -37139,7 +37620,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -37213,7 +37694,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -37225,10 +37708,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Tracking</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Pre-Construction</span>
                                   </span>
                                 </span>
@@ -37239,29 +37726,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-ib-worker-training"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Worker environmental awareness training"
-                                  title="Remove Worker environmental awareness training"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Worker environmental awareness training"
+                                    title="Remove Worker environmental awareness training"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -37290,7 +37779,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -37364,7 +37853,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -37376,10 +37867,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Reporting</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -37390,29 +37885,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-ib-monthly-compliance-report"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Monthly compliance monitoring report"
-                                  title="Remove Monthly compliance monitoring report"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Monthly compliance monitoring report"
+                                    title="Remove Monthly compliance monitoring report"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -37441,7 +37938,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -37515,7 +38012,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -37527,10 +38026,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -37541,29 +38044,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-ib-pile-driving-hydroacoustic"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Hydroacoustic monitoring during pile driving"
-                                  title="Remove Hydroacoustic monitoring during pile driving"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Hydroacoustic monitoring during pile driving"
+                                    title="Remove Hydroacoustic monitoring during pile driving"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -37592,7 +38097,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -37666,7 +38171,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -37678,10 +38185,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Construction</span>
                                   </span>
                                 </span>
@@ -37692,29 +38203,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-tc-rtm-stockpile-inspection"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Reusable tunnel material stockpile inspection"
-                                  title="Remove Reusable tunnel material stockpile inspection"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Reusable tunnel material stockpile inspection"
+                                    title="Remove Reusable tunnel material stockpile inspection"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -37743,7 +38256,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -37817,7 +38330,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -37829,10 +38344,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Tracking</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Implementation Planning</span>
                                   </span>
                                 </span>
@@ -37843,29 +38362,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-tc-haul-route-agreement"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Execute haul route maintenance agreement"
-                                  title="Remove Execute haul route maintenance agreement"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Execute haul route maintenance agreement"
+                                    title="Remove Execute haul route maintenance agreement"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -37894,7 +38415,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -37968,7 +38489,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -37980,10 +38503,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Tracking</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Pre-Construction</span>
                                   </span>
                                 </span>
@@ -37994,29 +38521,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-tc-worker-training"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Worker environmental awareness training"
-                                  title="Remove Worker environmental awareness training"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Worker environmental awareness training"
+                                    title="Remove Worker environmental awareness training"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -38045,7 +38574,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     hidden=""
                   >
                     <div class="esa-card esa-card--outlined">
-                      <div class="esa-card__body">
+                      <div class="esa-card__body typography-body-md">
                         <div class="bcn-ev-row">
                           <div class="bcn-ev-row__head">
                             <div class="bcn-ev-row__main">
@@ -38119,7 +38648,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                         </span>
                                       </span>
                                       <span class="bcn-countchip__num" aria-hidden="true">
-                                        <span class="esa-badge esa-badge--primary esa-badge--xs">
+                                        <span
+                                          class="esa-badge esa-badge--primary esa-badge--xs typography-microcopy-2xs-strong"
+                                        >
                                           <span class="esa-badge__text">0</span>
                                         </span>
                                       </span>
@@ -38131,10 +38662,14 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 </span>
                                 <span class="bcn-ev-row__spacer" aria-hidden="true"></span>
                                 <span class="bcn-ev-row__tags">
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Monitoring</span>
                                   </span>
-                                  <span class="esa-badge esa-badge--primary esa-badge--sm">
+                                  <span
+                                    class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
+                                  >
                                     <span class="esa-badge__text">Pre-Construction</span>
                                   </span>
                                 </span>
@@ -38145,29 +38680,31 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                                 class="bcn-ev-row__dismiss"
                                 data-target-dismiss="act-tc-nesting-bird-survey"
                               >
-                                <button
-                                  class="esa-icon-button esa-icon-button--sm"
-                                  type="button"
-                                  aria-label="Remove Nesting bird survey before vegetation removal"
-                                  title="Remove Nesting bird survey before vegetation removal"
-                                >
-                                  <span class="esa-icon esa-icon--sm" aria-hidden="true">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      focusable="false"
-                                    >
-                                      <path d="M18 6 6 18"></path>
-                                      <path d="m6 6 12 12"></path>
-                                    </svg>
-                                  </span>
-                                </button>
+                                <span
+                                  class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                                  ><button
+                                    class="esa-button__native typography-microcopy-xs"
+                                    type="button"
+                                    aria-label="Remove Nesting bird survey before vegetation removal"
+                                    title="Remove Nesting bird survey before vegetation removal"
+                                  >
+                                    <span class="esa-icon esa-icon--sm" aria-hidden="true">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        focusable="false"
+                                      >
+                                        <path d="M18 6 6 18"></path>
+                                        <path d="m6 6 12 12"></path>
+                                      </svg>
+                                    </span></button
+                                ></span>
                               </span>
                             </div>
                           </div>
@@ -38198,53 +38735,59 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     <span class="bcn-ev-attached__name" data-astro-cid-5nz34ayf=""></span>
                     <span class="bcn-ev-attached__mark" hidden="" data-astro-cid-5nz34ayf="">
                       <span
-                        class="esa-badge esa-badge--primary esa-badge--sm"
+                        class="esa-badge esa-badge--primary esa-badge--sm typography-microcopy-xs-strong"
                         data-astro-cid-gz52qnjf=""
                       >
                         <span class="esa-badge__text" data-astro-cid-gz52qnjf="">Suggested</span>
                       </span>
                     </span>
                     <span class="bcn-ev-attached__remove" data-astro-cid-5nz34ayf="">
-                      <button
-                        class="esa-icon-button esa-icon-button--sm"
-                        type="button"
-                        aria-label="Remove this evidence from the action"
-                        title="Remove this evidence from the action"
-                        data-astro-cid-q5zfyfab="true"
-                      >
-                        <span
-                          class="esa-icon esa-icon--sm"
-                          aria-hidden="true"
-                          data-astro-cid-md4nwazs=""
+                      <span
+                        class="esa-button esa-button--variant-chrome esa-button--appearance-fill esa-button--sm esa-button--icon-only"
+                        data-astro-cid-ojgm2tjl=""
+                        ><button
+                          class="esa-button__native typography-microcopy-xs"
+                          type="button"
+                          aria-label="Remove this evidence from the action"
+                          title="Remove this evidence from the action"
+                          data-astro-cid-5nz34ayf="true"
+                          data-astro-cid-ojgm2tjl=""
                         >
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            focusable="false"
+                          <span
+                            class="esa-icon esa-icon--sm"
+                            aria-hidden="true"
                             data-astro-cid-md4nwazs=""
                           >
-                            <path d="M18 6 6 18"></path>
-                            <path d="m6 6 12 12"></path>
-                          </svg>
-                        </span>
-                      </button>
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              focusable="false"
+                              data-astro-cid-md4nwazs=""
+                            >
+                              <path d="M18 6 6 18"></path>
+                              <path d="m6 6 12 12"></path>
+                            </svg>
+                          </span></button
+                      ></span>
                     </span>
                   </li>
                 </template>
                 <!-- Nothing on the list yet. -->
                 <div class="bcn-ev-targets__empty" data-targets-empty="">
                   <div class="esa-empty-state esa-empty-state--sm">
-                    <h3 class="esa-empty-state__title">No actions selected</h3>
-                    <p class="esa-empty-state__description">
+                    <h3 class="esa-empty-state__title typography-label-sm-strong">
+                      No actions selected
+                    </h3>
+                    <p class="esa-empty-state__description typography-body-xs">
                       Search above to add one, or run Find matches once you have added evidence.
                     </p>
-                    <div class="esa-empty-state__actions"></div>
+                    <div class="esa-empty-state__actions typography-label-md"></div>
                   </div>
                 </div>
               </div>
@@ -38254,7 +38797,7 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
        only while associations are unsaved; the Add New tab's draft has its own
        marker and is not counted here. -->
               <div class="bcn-ev-targets__pending" data-targets-pending="" hidden="">
-                <div class="esa-alert-box esa-alert-box--warning">
+                <div class="esa-alert-box esa-alert-box--warning typography-body-sm">
                   <div class="esa-alert-box__icon">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -38276,7 +38819,9 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
                     </svg>
                   </div>
                   <div class="esa-alert-box__body">
-                    <strong class="esa-alert-box__title">Unsaved changes</strong>
+                    <strong class="esa-alert-box__title typography-label-sm-strong"
+                      >Unsaved changes</strong
+                    >
                     <div class="esa-alert-box__message">
                       <span data-targets-pending-text=""></span>
                     </div>
@@ -38300,21 +38845,23 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
           <div class="bcn-ev__actions">
             <span data-evidence-save="">
               <span
-                class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md esa-button--disabled"
+                class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md esa-button--disabled"
+                ><button
+                  class="esa-button__native typography-microcopy-md"
+                  type="button"
+                  disabled=""
+                >
+                  <span class="esa-button__label">Save</span>
+                </button></span
               >
-                <button class="esa-button__native" type="button" disabled="">
-                  <span class="esa-button__label"> Save </span>
-                </button>
-              </span>
             </span>
             <span data-drawer-close="">
               <span
-                class="esa-button esa-button--color-ghost esa-button--appearance-outline esa-button--md"
+                class="esa-button esa-button--variant-ghost esa-button--appearance-outline esa-button--md"
+                ><button class="esa-button__native typography-microcopy-md" type="button">
+                  <span class="esa-button__label">Cancel</span>
+                </button></span
               >
-                <button class="esa-button__native" type="button">
-                  <span class="esa-button__label"> Cancel </span>
-                </button>
-              </span>
             </span>
           </div>
         </div>
@@ -38323,16 +38870,204 @@ names (`var(--…)`) so it stays themeable — the values below are the resolved
   </bcn-bottom-drawer>
   <script
     type="module"
-    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.DmiQsqh2.js"
+    src="/beacon-design/_astro/BcnEvidenceDrawer.astro_astro_type_script_index_0_lang.CmrMiaQW.js"
   ></script>
 </div>
 ```
 
 ## Styles (only what this section uses; tokens resolved for the theme)
 ```css
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-2xs {
+  font-family: var(--typography-microcopy-2xs-font-family);
+  font-size: var(--typography-microcopy-2xs-font-size);
+  font-weight: var(--typography-microcopy-2xs-font-weight);
+  line-height: var(--typography-microcopy-2xs-line-height);
+  letter-spacing: var(--typography-microcopy-2xs-letter-spacing);
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
 html,
 .modern-layout__content {
   scroll-behavior: smooth;
+}
+.page-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 52px);
+  padding: var(--spacing-600);
+  background: var(--bcn-gray-50);
+  box-sizing: border-box;
+}
+.page-layout section {
+  width: 100%;
+}
+.breadcrumbs {
+  padding: var(--spacing-400) 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-400);
+}
+.breadcrumbs__items {
+  display: flex;
+  gap: var(--spacing-100);
+  align-items: center;
+  flex-wrap: wrap;
+}
+.breadcrumbs__items .esa-icon {
+  color: var(--bcn-gray-400);
+}
+.breadcrumb-item {
+  color: var(--bcn-gray-600);
+  text-transform: capitalize;
+  font-size: 0.875rem;
+}
+a.breadcrumb-item {
+  text-decoration: none;
+}
+.page-layout__container {
+  display: flex;
+  flex-direction: column;
+}
+.page-layout__title {
+  border-bottom: 1px solid var(--bcn-gray-200);
+  padding: var(--spacing-500) 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+.page-layout__title-main {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  min-width: 0;
+}
+.page-layout__title h1 {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-200);
+  font-family: var(--font-decorative);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--type-size-500);
+  margin: 0;
+  color: var(--bcn-gray-1000);
+}
+.page-layout__title h1 .esa-icon {
+  color: var(--bcn-gray-1000);
+  flex-shrink: 0;
+}
+.page-layout__utilities {
+  display: flex;
+  gap: var(--spacing-200);
+}
+.page-layout__content {
+  padding: var(--spacing-500) 0;
+  min-height: 70vh;
+  position: relative;
+}
+.typography-body-md {
+  font-family: var(--typography-body-md-font-family);
+  font-size: var(--typography-body-md-font-size);
+  font-weight: var(--typography-body-md-font-weight);
+  line-height: var(--typography-body-md-line-height);
+  letter-spacing: var(--typography-body-md-letter-spacing);
+}
+.typography-microcopy-xs-subtle {
+  font-family: var(--typography-microcopy-xs-subtle-font-family);
+  font-size: var(--typography-microcopy-xs-subtle-font-size);
+  font-weight: var(--typography-microcopy-xs-subtle-font-weight);
+  line-height: var(--typography-microcopy-xs-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-xs-subtle-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-microcopy-xs-strong {
+  font-family: var(--typography-microcopy-xs-strong-font-family);
+  font-size: var(--typography-microcopy-xs-strong-font-size);
+  font-weight: var(--typography-microcopy-xs-strong-font-weight);
+  line-height: var(--typography-microcopy-xs-strong-line-height);
+  letter-spacing: var(--typography-microcopy-xs-strong-letter-spacing);
+}
+.typography-microcopy-xs {
+  font-family: var(--typography-microcopy-xs-font-family);
+  font-size: var(--typography-microcopy-xs-font-size);
+  font-weight: var(--typography-microcopy-xs-font-weight);
+  line-height: var(--typography-microcopy-xs-line-height);
+  letter-spacing: var(--typography-microcopy-xs-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-microcopy-md-strong {
+  font-family: var(--typography-microcopy-md-strong-font-family);
+  font-size: var(--typography-microcopy-md-strong-font-size);
+  font-weight: var(--typography-microcopy-md-strong-font-weight);
+  line-height: var(--typography-microcopy-md-strong-line-height);
+  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.esa-icon {
+  --_icon-size: var(--icon-size-md, 20px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+  color: inherit;
+}
+.esa-icon--xs {
+  --_icon-size: var(--icon-size-xs, 14px);
+}
+.esa-icon svg {
+  display: block;
+  width: var(--_icon-size);
+  height: var(--_icon-size);
+}
+.esa-icon--sm {
+  --_icon-size: var(--icon-size-sm, 16px);
+}
+.esa-icon--md {
+  --_icon-size: var(--icon-size-md, 20px);
+}
+.bcn-rrep {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-300);
+}
+.bcn-rrep__list {
+  display: flex;
+  flex-direction: column;
+}
+.bcn-rrep__add {
+  align-self: flex-start;
 }
 .modern-layout {
   display: flex;
@@ -38463,7 +39198,7 @@ html,
   align-items: center;
   gap: var(--spacing-100);
   padding: var(--spacing-050) var(--spacing-200);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   background: var(--color-accent);
   color: var(--color-surface);
@@ -38486,9 +39221,6 @@ html,
   transition:
     background 0.15s ease,
     color 0.15s ease;
-}
-.topbar__right .esa-icon-button {
-  color: var(--color-text-secondary);
 }
 .user-menu {
   position: relative;
@@ -38798,10 +39530,6 @@ html,
 .bcn-help-bar__tooltip,
 .bcn-help-bar__popover {
   display: inline-flex;
-}
-.bcn-help-bar .esa-icon-button {
-  color: var(--bcn-helpbar-fg-muted);
-  --icon-button-bg-hover: var(--bcn-helpbar-hover-bg);
 }
 .bcn-help-bar__whatsnew {
   position: relative;
@@ -39132,147 +39860,13 @@ html,
   overflow: hidden;
   animation: bcn-bd-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.esa-icon {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-  line-height: 1;
-  color: inherit;
-}
-.esa-icon--xs {
-  --_icon-size: var(--icon-size-xs, 14px);
-}
-.esa-icon svg {
-  display: block;
-  width: var(--_icon-size);
-  height: var(--_icon-size);
-}
-.esa-icon--sm {
-  --_icon-size: var(--icon-size-sm, var(--icon-size-small, 16px));
-}
-.esa-icon--md {
-  --_icon-size: var(--icon-size-md, var(--icon-size-medium, 20px));
-}
-.esa-icon-button {
-  --_ib-size: var(--form-height-md, 40px);
-  --_ib-bg-hover: var(--icon-button-bg-hover, color-mix(in srgb, currentColor 14%, transparent));
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--_ib-size);
-  height: var(--_ib-size);
-  padding: 0;
-  border: 0;
-  border-radius: var(--radius-200, 8px);
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
-  transition: background var(--transition-fast, 0.15s ease);
-  -webkit-appearance: none;
-  appearance: none;
-}
-.esa-icon-button--xs {
-  --_ib-size: var(--form-height-xs, 28px);
-}
-.bcn-rrep {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-300);
-}
-.bcn-rrep__list {
-  display: flex;
-  flex-direction: column;
-}
-.bcn-rrep__add {
-  align-self: flex-start;
-}
-.page-layout {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 52px);
-  padding: var(--spacing-600);
-  background: var(--bcn-gray-50);
-  box-sizing: border-box;
-}
-.page-layout section {
-  width: 100%;
-}
-.breadcrumbs {
-  padding: var(--spacing-400) 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--spacing-400);
-}
-.breadcrumbs__items {
-  display: flex;
-  gap: var(--spacing-100);
-  align-items: center;
-  flex-wrap: wrap;
-}
-.breadcrumbs__items .esa-icon {
-  color: var(--bcn-gray-400);
-}
-.breadcrumb-item {
-  color: var(--bcn-gray-600);
-  text-transform: capitalize;
-  font-size: 0.875rem;
-}
-a.breadcrumb-item {
-  text-decoration: none;
-}
-.page-layout__container {
-  display: flex;
-  flex-direction: column;
-}
-.page-layout__title {
-  border-bottom: 1px solid var(--bcn-gray-200);
-  padding: var(--spacing-500) 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-}
-.page-layout__title-main {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  min-width: 0;
-}
-.page-layout__title h1 {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-200);
-  font-family: var(--font-decorative);
-  font-weight: var(--font-weight-bold);
-  font-size: var(--type-size-500);
-  margin: 0;
-  color: var(--bcn-gray-1000);
-}
-.page-layout__title h1 .esa-icon {
-  color: var(--bcn-gray-1000);
-  flex-shrink: 0;
-}
-.page-layout__utilities {
-  display: flex;
-  gap: var(--spacing-200);
-}
-.page-layout__content {
-  padding: var(--spacing-500) 0;
-  min-height: 70vh;
-  position: relative;
-}
 .esa-button {
-  --_btn-height: var(--form-height-md, 40px);
-  --_btn-padding-x: var(--form-padding-x-md, 16px);
-  --_btn-font-size: var(--form-font-size-md, 14px);
-  --_btn-radius: var(--form-radius-md, 6px);
-  --_accent: var(--color-primary, #46a758);
-  --_accent-hover: var(--color-primary-hover, #3e9b4f);
-  --_on: var(--color-text-inverse, #ffffff);
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
   --_accent-text: var(--_accent);
   --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
   --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
@@ -39284,14 +39878,10 @@ a.breadcrumb-item {
   justify-content: center;
   gap: var(--spacing-200, 8px);
   width: 100%;
-  height: var(--_btn-height);
+  padding-block: var(--_btn-pad-y);
   padding-inline: var(--_btn-padding-x);
-  border: 1px solid transparent;
+  border: var(--border-width-default, 1px) solid transparent;
   border-radius: var(--_btn-radius);
-  font-size: var(--_btn-font-size);
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
   text-decoration: none;
   cursor: pointer;
   transition:
@@ -39300,58 +39890,67 @@ a.breadcrumb-item {
   -webkit-appearance: none;
   appearance: none;
 }
+.esa-button--appearance-fill .esa-button__native {
+  background: var(--_accent);
+  color: var(--_on);
+  border-color: var(--_accent-border, transparent);
+}
+.esa-button--variant-chrome .esa-button__native {
+  background: transparent;
+  color: inherit;
+  border-color: transparent;
+}
+.esa-button--icon-only .esa-button__native {
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
+}
 .esa-button--appearance-outline .esa-button__native,
 .esa-button--appearance-dashed .esa-button__native {
   background: transparent;
   color: var(--_accent-text);
   border-color: var(--_accent);
 }
-.esa-button--color-ghost .esa-button__native {
+.esa-button--variant-ghost .esa-button__native {
   background: transparent;
-  color: var(--color-text-primary, #171717);
+  color: var(--color-content-default, #202020);
   border-color: transparent;
 }
-.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border, #e5e5e5);
+.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border-default, #cecece);
 }
 .esa-button__label {
   white-space: nowrap;
 }
-.esa-button--sm {
-  --_btn-height: var(--form-height-sm, 32px);
-  --_btn-padding-x: var(--form-padding-x-sm, 12px);
-  --_btn-font-size: var(--form-font-size-sm, 12px);
-  --_btn-radius: var(--form-radius-sm, 4px);
+.esa-button--xs {
+  --_btn-pad-y: var(--spacing-200, 0.5rem);
+  --_btn-padding-x: var(--spacing-200, 0.5rem);
+  --_btn-radius: var(--button-radius-xs, 4px);
 }
-.esa-button--sm .esa-button__native {
-  height: auto;
-  padding-block: var(--spacing-150, 6px);
+.esa-button--sm {
+  --_btn-pad-y: var(--spacing-250, 0.625rem);
+  --_btn-padding-x: var(--spacing-250, 0.625rem);
+  --_btn-radius: var(--button-radius-sm, 4px);
 }
 .esa-button--appearance-dashed .esa-button__native {
   border-style: dashed;
 }
-.esa-button--color-danger {
-  --_accent: var(--color-danger);
-  --_accent-hover: var(--color-danger-hover);
-  --_accent-text: var(--color-danger-strong);
+.esa-button--variant-danger {
+  --_accent: var(--color-background-utility-danger);
+  --_accent-hover: var(--color-background-utility-danger-hover);
+  --_accent-text: var(--color-content-utility-danger);
 }
 .esa-button--appearance-soft .esa-button__native {
   background: color-mix(
     in srgb,
-    var(--color-surface-sunken, #efefef) 45%,
-    var(--color-surface, #fff)
+    var(--color-background-elevation-sunken, #f0f0f0) 45%,
+    var(--color-background-elevation-raised, #fcfcfc)
   );
   color: var(--_accent-text);
-  border-color: var(--color-border-strong, #d4d4d4);
+  border-color: var(--color-border-default-strong, #bbbbbb);
 }
-.esa-button--color-primary {
-  --_accent-text: var(--color-primary-strong);
-}
-.esa-button--appearance-fill .esa-button__native {
-  background: var(--_accent);
-  color: var(--_on);
-  border-color: transparent;
+.esa-button--variant-primary {
+  --_accent-text: var(--color-content-brand);
 }
 .esa-button--disabled {
   opacity: 0.5;
@@ -39691,12 +40290,6 @@ a.breadcrumb-item {
   display: inline-flex;
   opacity: 0.55;
   transition: opacity 0.12s ease;
-}
-.bcn-wb__add .esa-icon-button {
-  width: 24px;
-  height: 24px;
-  color: var(--color-text-tertiary);
-  border-radius: var(--radius-100);
 }
 .bcn-wb__menu {
   flex-shrink: 0;
@@ -40090,51 +40683,48 @@ a.breadcrumb-item {
 | `--bcn-helpbar-border` | `rgba(255, 255, 255, .12)` | component |
 | `--bcn-helpbar-divider` | `rgba(255, 255, 255, .16)` | component |
 | `--bcn-helpbar-fg` | `rgba(255, 255, 255, .92)` | component |
-| `--bcn-helpbar-fg-muted` | `rgba(255, 255, 255, .72)` | component |
-| `--bcn-helpbar-hover-bg` | `rgba(255, 255, 255, .1)` | component |
-| `--color-accent` | `#f76b15` | semantic |
-| `--color-backdrop` | `rgba(0, 0, 0, .5)` | primitive |
-| `--color-border` | `#dcdcdc` | semantic |
-| `--color-border-light` | `#efefef` | semantic |
-| `--color-border-strong` | `#bdbdbd` | semantic |
+| `--border-width-default` | `1px` | semantic |
+| `--button-radius-md` | `.5rem` | component |
+| `--button-radius-sm` | `.25rem` | component |
+| `--button-radius-xs` | `.25rem` | component |
+| `--color-accent` | `#f76b15` | component |
+| `--color-backdrop` | `rgba(0, 0, 0, .5)` | component |
+| `--color-background-brand` | `#46a758` | semantic |
+| `--color-background-brand-hover` | `#3e9b4f` | semantic |
+| `--color-background-elevation-raised` | `#fcfcfc` | semantic |
+| `--color-background-elevation-sunken` | `#f0f0f0` | semantic |
+| `--color-background-utility-danger` | `#ce2c31` | semantic |
+| `--color-background-utility-danger-hover` | `#641723` | semantic |
+| `--color-border` | `#dcdcdc` | component |
+| `--color-border-default` | `#cecece` | semantic |
+| `--color-border-default-strong` | `#bbbbbb` | semantic |
+| `--color-border-light` | `#efefef` | component |
+| `--color-border-strong` | `#bdbdbd` | component |
 | `--color-commitment` | `#58508d` | component |
-| `--color-danger` | `#e5484d` | semantic |
-| `--color-danger-hover` | `#dc3e42` | semantic |
-| `--color-danger-strong` | `#ce2c31` | semantic |
-| `--color-primary` | `#005862` | semantic |
-| `--color-primary-border` | `#b9d6d2` | semantic |
-| `--color-primary-hover` | `#00474f` | semantic |
-| `--color-primary-strong` | `#2a7e3b` | semantic |
-| `--color-surface` | `#fcfcfc` | semantic |
-| `--color-surface-sunken` | `#efefef` | semantic |
-| `--color-text-inverse` | `#fcfcfc` | semantic |
-| `--color-text-link` | `#005862` | semantic |
-| `--color-text-muted` | `#7c7c7c` | semantic |
-| `--color-text-primary` | `#3d3d3d` | semantic |
-| `--color-text-secondary` | `#525252` | semantic |
-| `--color-text-tertiary` | `#656565` | semantic |
-| `--color-warning` | `#f59e0b` | semantic |
+| `--color-content-brand` | `#2a7e3b` | semantic |
+| `--color-content-default` | `#202020` | semantic |
+| `--color-content-default-knockout` | `#fcfcfc` | semantic |
+| `--color-content-utility-danger` | `#ce2c31` | semantic |
+| `--color-primary` | `#005862` | component |
+| `--color-primary-border` | `#b9d6d2` | component |
+| `--color-surface` | `#fcfcfc` | component |
+| `--color-surface-sunken` | `#efefef` | component |
+| `--color-text-inverse` | `#fcfcfc` | component |
+| `--color-text-link` | `#46a758` | component |
+| `--color-text-muted` | `#7c7c7c` | component |
+| `--color-text-primary` | `#3d3d3d` | component |
+| `--color-text-secondary` | `#525252` | component |
+| `--color-text-tertiary` | `#656565` | component |
+| `--color-warning` | `#f59e0b` | component |
 | `--font-decorative` | `"Besley", serif` | component |
-| `--font-mono` | `"Roboto Mono", ui-monospace, monospace` | primitive |
-| `--font-sans` | `"DM Sans", sans-serif` | primitive |
-| `--font-weight-bold` | `650` | primitive |
-| `--font-weight-medium` | `500` | primitive |
-| `--font-weight-regular` | `350` | primitive |
-| `--font-weight-semibold` | `550` | primitive |
+| `--font-mono` | `"Roboto Mono", ui-monospace, monospace` | component |
+| `--font-weight-bold` | `650` | component |
+| `--font-weight-medium` | `500` | component |
+| `--font-weight-regular` | `350` | component |
+| `--font-weight-semibold` | `550` | component |
 | `--form-font-size-md` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | component |
-| `--form-font-size-sm` | `clamp(.625rem, .56rem + .32vw, .75rem)` | component |
-| `--form-height-md` | `36px` | component |
-| `--form-height-sm` | `28px` | component |
-| `--form-height-xs` | `24px` | component |
-| `--form-padding-x-md` | `.75rem` | component |
-| `--form-padding-x-sm` | `.625rem` | component |
-| `--form-radius-md` | `.25rem` | component |
-| `--form-radius-sm` | `.25rem` | component |
-| `--icon-button-bg-hover` | `color-mix(in srgb, currentColor 14%, transparent)` | component |
 | `--icon-size-md` | `20px` | primitive |
-| `--icon-size-medium` | `20px` | component |
 | `--icon-size-sm` | `16px` | primitive |
-| `--icon-size-small` | `16px` | component |
 | `--icon-size-xs` | `14px` | primitive |
 | `--radius-100` | `.25rem` | primitive |
 | `--radius-200` | `.5rem` | primitive |
@@ -40151,14 +40741,59 @@ a.breadcrumb-item {
 | `--spacing-500` | `1.5rem` | primitive |
 | `--spacing-600` | `2rem` | primitive |
 | `--spacing-700` | `3rem` | primitive |
-| `--transition-fast` | `.15s ease` | primitive |
-| `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | primitive |
-| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | primitive |
-| `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | primitive |
-| `--type-size-250` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` | primitive |
-| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | primitive |
-| `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | primitive |
-| `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` | primitive |
+| `--transition-fast` | `.15s ease` | semantic |
+| `--type-size-100` | `clamp(.625rem, .56rem + .32vw, .75rem)` | component |
+| `--type-size-150` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | component |
+| `--type-size-200` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | component |
+| `--type-size-250` | `clamp(.8125rem, .71rem + .5vw, 1.0625rem)` | component |
+| `--type-size-300` | `clamp(.875rem, .77rem + .52vw, 1.125rem)` | component |
+| `--type-size-400` | `clamp(1rem, .88rem + .6vw, 1.25rem)` | component |
+| `--type-size-500` | `clamp(1.125rem, .98rem + .72vw, 1.5rem)` | component |
+| `--typography-body-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-body-md-font-weight` | `350` | semantic |
+| `--typography-body-md-letter-spacing` | `.01em` | semantic |
+| `--typography-body-md-line-height` | `1.6` | semantic |
+| `--typography-body-sm-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-body-sm-font-size` | `clamp(.6875rem, .61rem + .38vw, .875rem)` | semantic |
+| `--typography-body-sm-font-weight` | `350` | semantic |
+| `--typography-body-sm-letter-spacing` | `.01em` | semantic |
+| `--typography-body-sm-line-height` | `1.6` | semantic |
+| `--typography-label-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-label-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-label-md-font-weight` | `500` | semantic |
+| `--typography-label-md-letter-spacing` | `.01em` | semantic |
+| `--typography-label-md-line-height` | `1.6` | semantic |
+| `--typography-microcopy-2xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-2xs-font-size` | `clamp(.5rem, .44rem + .3vw, .625rem)` | semantic |
+| `--typography-microcopy-2xs-font-weight` | `500` | semantic |
+| `--typography-microcopy-2xs-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-2xs-line-height` | `1` | semantic |
+| `--typography-microcopy-md-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-md-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-microcopy-md-font-weight` | `500` | semantic |
+| `--typography-microcopy-md-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-md-line-height` | `1` | semantic |
+| `--typography-microcopy-md-strong-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-md-strong-font-size` | `clamp(.75rem, .66rem + .44vw, .9375rem)` | semantic |
+| `--typography-microcopy-md-strong-font-weight` | `550` | semantic |
+| `--typography-microcopy-md-strong-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-md-strong-line-height` | `1` | semantic |
+| `--typography-microcopy-xs-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-font-weight` | `500` | semantic |
+| `--typography-microcopy-xs-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-line-height` | `1` | semantic |
+| `--typography-microcopy-xs-strong-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-strong-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-strong-font-weight` | `550` | semantic |
+| `--typography-microcopy-xs-strong-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-strong-line-height` | `1` | semantic |
+| `--typography-microcopy-xs-subtle-font-family` | `"DM Sans", sans-serif` | semantic |
+| `--typography-microcopy-xs-subtle-font-size` | `clamp(.625rem, .56rem + .32vw, .75rem)` | semantic |
+| `--typography-microcopy-xs-subtle-font-weight` | `350` | semantic |
+| `--typography-microcopy-xs-subtle-letter-spacing` | `.01em` | semantic |
+| `--typography-microcopy-xs-subtle-line-height` | `1` | semantic |
 
 ---
 _Full page, complete stylesheet, and all tokens: `./full-page.md`, `../styles.css`, `../index.html`._

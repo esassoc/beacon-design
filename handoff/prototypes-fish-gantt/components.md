@@ -11,6 +11,5 @@ The component blocks composing this page. Hub (`esa-*`) components are the share
 | `esa-empty-state` | hub | src/components/esa-empty-state.astro |
 | `esa-filter-clear-button` | hub | src/components/esa-filter-clear-button.astro |
 | `esa-icon` | hub | src/components/esa-icon.astro |
-| `esa-icon-button` | hub | src/components/esa-icon-button.astro |
 | `esa-loading-spinner` | hub | src/components/esa-loading-spinner.astro |
 | `esa-pill` | hub | src/components/esa-pill.astro |

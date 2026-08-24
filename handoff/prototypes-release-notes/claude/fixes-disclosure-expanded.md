@@ -79,11 +79,11 @@ The long tail of each release — small fixes and improvements — collapsed beh
 ```
 
 ## Tokens
-- `--color-border-strong`: #bdbdbd _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-text-tertiary`: #656565 _(semantic)_
-- `--font-weight-medium`: 500 _(primitive)_
+- `--color-border-strong`: #bdbdbd _(component)_
+- `--color-text-primary`: #3d3d3d _(component)_
+- `--color-text-secondary`: #525252 _(component)_
+- `--color-text-tertiary`: #656565 _(component)_
+- `--font-weight-medium`: 500 _(component)_
 - `--line-height-normal`: 1.6 _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
 - `--spacing-300`: .75rem _(primitive)_

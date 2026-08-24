@@ -12,4 +12,4 @@ snapshot of one page for a developer (or an AI agent) to re-implement on any sta
 - **`manifest.json`** — per-section data powering the live dev-mode overlay.
 
 Source URL: http://localhost:4399/beacon-design/prototypes/work-area-drawer-specimen/
-Rules shipped: 202 · Tokens referenced: 88
+Rules shipped: 206 · Tokens referenced: 103

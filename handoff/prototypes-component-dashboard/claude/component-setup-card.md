@@ -18,19 +18,19 @@ How much of this component's commitment applicability is settled, and the door i
 <div class="bcn-csc stack" data-gap="md">
   <div class="bcn-csc__figures">
     <div class="esa-stat">
-      <div class="esa-stat__value">26</div>
-      <div class="esa-stat__label">Need a decision</div>
-      <div class="esa-stat__sub">23 actions waiting</div>
+      <div class="esa-stat__value typography-display-sm">26</div>
+      <div class="esa-stat__label typography-label-md">Need a decision</div>
+      <div class="esa-stat__sub typography-body-sm">23 actions waiting</div>
     </div>
     <div class="esa-stat">
-      <div class="esa-stat__value">8</div>
-      <div class="esa-stat__label">New since your last review</div>
-      <div class="esa-stat__sub">Feb 11, 2026</div>
+      <div class="esa-stat__value typography-display-sm">8</div>
+      <div class="esa-stat__label typography-label-md">New since your last review</div>
+      <div class="esa-stat__sub typography-body-sm">Feb 11, 2026</div>
     </div>
     <div class="esa-stat">
-      <div class="esa-stat__value">11 / 37</div>
-      <div class="esa-stat__label">Decided</div>
-      <div class="esa-stat__sub">30% of this component</div>
+      <div class="esa-stat__value typography-display-sm">11 / 37</div>
+      <div class="esa-stat__label typography-label-md">Decided</div>
+      <div class="esa-stat__sub typography-body-sm">30% of this component</div>
     </div>
   </div>
   <div
@@ -41,8 +41,9 @@ How much of this component's commitment applicability is settled, and the door i
     aria-valuemax="100"
     aria-label="Commitments decided"
   >
-    <div class="esa-progress-bar__header">
-      <span class="esa-progress-bar__label">Commitments decided</span>
+    <div class="esa-progress-bar__header typography-body-xs">
+      <span class="esa-progress-bar__label typography-label-xs">Commitments decided</span>
+      <span class="esa-progress-bar__value">30%</span>
     </div>
     <div class="esa-progress-bar__track">
       <div class="esa-progress-bar__fill" style="width: 30%"></div>
@@ -51,98 +52,181 @@ How much of this component's commitment applicability is settled, and the door i
   <div class="bcn-csc__foot">
     <span data-opens="bcn-setup-workspace"
       ><span
-        class="esa-button esa-button--color-primary esa-button--appearance-fill esa-button--md"
-      >
-        <button class="esa-button__native" type="button">
-          <span class="esa-button__label"> Review commitments </span>
-        </button>
-      </span>
-    </span>
+        class="esa-button esa-button--variant-primary esa-button--appearance-fill esa-button--md"
+        ><button class="esa-button__native typography-microcopy-md" type="button">
+          <span class="esa-button__label">Review commitments</span>
+        </button></span
+      ></span
+    >
   </div>
 </div>
 ```
 
 ## Styles
 ```css
+/* Type comes from .typography-body-sm on the element.
+
+       Both nodes are always in the DOM (the live region has to pre-exist its content),
+       so the gap is opt-IN via .is-shown rather than collapsed with :empty — Lit's
+       template whitespace defeats :empty in engines that follow Selectors L3. */
+.help,
+.error {
+  margin: 0;
+}
+/* Type comes from .typography-body-sm — help and error are one size at every
+       control step, so they name the composite directly rather than mapping. */
+/* Both nodes are ALWAYS in the DOM (see render()), so the gap is opt-IN rather
+       than collapsed away. Deliberately not display:none when empty — that removes
+       the node from the accessibility tree, and a live region that is not in the tree
+       cannot announce anything. An empty <p> with no margin occupies no space.
+
+       .is-shown rather than :empty: Lit's template whitespace leaves a text node
+       inside the element, and browsers still disagree about whether :empty ignores
+       whitespace-only children (Selectors L4 says yes, L3 says no). A class is
+       deterministic; :empty here would silently leave 4px of dead space under every
+       clean field in some engines and not others. */
+.help,
+.error {
+  margin: 0;
+}
+.typography-display-sm {
+  font-family: var(--typography-display-sm-font-family);
+  font-size: var(--typography-display-sm-font-size);
+  font-weight: var(--typography-display-sm-font-weight);
+  line-height: var(--typography-display-sm-line-height);
+  letter-spacing: var(--typography-display-sm-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-body-xs {
+  font-family: var(--typography-body-xs-font-family);
+  font-size: var(--typography-body-xs-font-size);
+  font-weight: var(--typography-body-xs-font-weight);
+  line-height: var(--typography-body-xs-line-height);
+  letter-spacing: var(--typography-body-xs-letter-spacing);
+}
+.typography-label-xs {
+  font-family: var(--typography-label-xs-font-family);
+  font-size: var(--typography-label-xs-font-size);
+  font-weight: var(--typography-label-xs-font-weight);
+  line-height: var(--typography-label-xs-line-height);
+  letter-spacing: var(--typography-label-xs-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-label-xs-strong {
+  font-family: var(--typography-label-xs-strong-font-family);
+  font-size: var(--typography-label-xs-strong-font-size);
+  font-weight: var(--typography-label-xs-strong-font-weight);
+  line-height: var(--typography-label-xs-strong-line-height);
+  letter-spacing: var(--typography-label-xs-strong-letter-spacing);
+}
+.typography-label-md-strong {
+  font-family: var(--typography-label-md-strong-font-family);
+  font-size: var(--typography-label-md-strong-font-size);
+  font-weight: var(--typography-label-md-strong-font-weight);
+  line-height: var(--typography-label-md-strong-line-height);
+  letter-spacing: var(--typography-label-md-strong-letter-spacing);
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-md-subtle {
+  font-family: var(--typography-microcopy-md-subtle-font-family);
+  font-size: var(--typography-microcopy-md-subtle-font-size);
+  font-weight: var(--typography-microcopy-md-subtle-font-weight);
+  line-height: var(--typography-microcopy-md-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+}
+.typography-microcopy-md-strong {
+  font-family: var(--typography-microcopy-md-strong-font-family);
+  font-size: var(--typography-microcopy-md-strong-font-size);
+  font-weight: var(--typography-microcopy-md-strong-font-weight);
+  line-height: var(--typography-microcopy-md-strong-line-height);
+  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
+}
 .esa-button {
-  --_btn-height: var(--form-height-md, 40px);
-  --_btn-padding-x: var(--form-padding-x-md, 16px);
-  --_btn-font-size: var(--form-font-size-md, 14px);
-  --_btn-radius: var(--form-radius-md, 6px);
-  --_accent: var(--color-primary, #46a758);
-  --_accent-hover: var(--color-primary-hover, #3e9b4f);
-  --_on: var(--color-text-inverse, #ffffff);
+  --_btn-pad-y: var(--spacing-300, 0.75rem);
+  --_btn-padding-x: var(--spacing-300, 0.75rem);
+  --_btn-radius: var(--button-radius-md, 0.5rem);
+  --_accent: var(--color-background-brand, #46a758);
+  --_accent-hover: var(--color-background-brand-hover, #3e9b4f);
+  --_on: var(--color-content-default-knockout, #fcfcfc);
   --_accent-text: var(--_accent);
   --_btn-tint-hover: color-mix(in srgb, var(--_accent) 8%, transparent);
   --_btn-tint-active: color-mix(in srgb, var(--_accent) 14%, transparent);
   display: inline-block;
 }
 .esa-button--xs {
-  --_btn-height: var(--form-height-xs, 28px);
-  --_btn-padding-x: var(--form-padding-x-xs, 8px);
-  --_btn-font-size: var(--form-font-size-xs, 11px);
-  --_btn-radius: var(--form-radius-xs, 4px);
+  --_btn-pad-y: var(--spacing-200, 0.5rem);
+  --_btn-padding-x: var(--spacing-200, 0.5rem);
+  --_btn-radius: var(--button-radius-xs, 4px);
 }
 .esa-button--sm {
-  --_btn-height: var(--form-height-sm, 32px);
-  --_btn-padding-x: var(--form-padding-x-sm, 12px);
-  --_btn-font-size: var(--form-font-size-sm, 12px);
-  --_btn-radius: var(--form-radius-sm, 4px);
+  --_btn-pad-y: var(--spacing-250, 0.625rem);
+  --_btn-padding-x: var(--spacing-250, 0.625rem);
+  --_btn-radius: var(--button-radius-sm, 4px);
 }
 .esa-button--lg {
-  --_btn-height: var(--form-height-lg, 48px);
-  --_btn-padding-x: var(--form-padding-x-lg, 20px);
-  --_btn-font-size: var(--form-font-size-lg, 16px);
-  --_btn-radius: var(--form-radius-lg, 8px);
+  --_btn-pad-y: var(--spacing-400, 1rem);
+  --_btn-padding-x: var(--spacing-400, 1rem);
+  --_btn-radius: var(--button-radius-lg, 8px);
 }
-.esa-button--sm .esa-button__native {
-  height: auto;
-  padding-block: var(--spacing-150, 6px);
+.esa-button--variant-primary {
+  --_accent-text: var(--color-content-brand);
 }
-.esa-button--sm.esa-button--icon-only .esa-button__native {
-  height: var(--form-height-sm, 32px);
-  padding-block: 0;
+.esa-button--variant-secondary {
+  --_accent: var(--color-background-brand-muted);
+  --_accent-hover: var(--color-background-brand-muted-hover);
+  --_on: var(--color-content-on-brand-muted, var(--color-content-default));
+  --_accent-text: var(--color-content-brand);
+  --_accent-border: var(--color-border-default-strong, #bbbbbb);
 }
-.esa-button--color-primary {
-  --_accent-text: var(--color-primary-strong);
+.esa-button--variant-danger {
+  --_accent: var(--color-background-utility-danger);
+  --_accent-hover: var(--color-background-utility-danger-hover);
+  --_accent-text: var(--color-content-utility-danger);
 }
-.esa-button--color-secondary {
-  --_accent: var(--color-secondary);
-  --_accent-hover: var(--color-secondary-hover);
-  --_on: var(--color-secondary-on-fill, var(--color-gray-12));
-  --_accent-text: var(--color-secondary-strong);
+.esa-button--variant-success {
+  --_accent: var(--color-background-utility-success);
+  --_accent-hover: var(--color-background-utility-success-hover);
+  --_on: var(--color-content-on-utility-success);
+  --_accent-text: var(--color-content-utility-success);
 }
-.esa-button--color-danger {
-  --_accent: var(--color-danger);
-  --_accent-hover: var(--color-danger-hover);
-  --_accent-text: var(--color-danger-strong);
+.esa-button--variant-warning {
+  --_accent: var(--color-background-utility-warning);
+  --_accent-hover: var(--color-background-utility-warning-hover);
+  --_on: var(--button-on-warning, var(--color-content-on-utility-warning, #4f3422));
+  --_accent-text: var(--color-content-utility-warning);
 }
-.esa-button--color-success {
-  --_accent: var(--color-success);
-  --_accent-hover: var(--color-success-hover);
-  --_on: var(--color-success-on-fill);
-  --_accent-text: var(--color-success-strong);
+.esa-button--variant-info {
+  --_accent: var(--color-background-utility-info);
+  --_accent-hover: var(--color-background-utility-info-hover);
+  --_accent-text: var(--color-content-utility-info);
 }
-.esa-button--color-warning {
-  --_accent: var(--color-warning);
-  --_accent-hover: var(--color-warning-hover);
-  --_on: var(--button-on-warning, var(--color-gray-12));
-  --_accent-text: var(--color-warning-strong);
-}
-.esa-button--color-info {
-  --_accent: var(--color-info);
-  --_accent-hover: var(--color-info-hover);
-  --_accent-text: var(--color-info-strong);
-}
-.esa-button--color-ai {
-  --_accent: var(--color-ai);
-  --_accent-hover: var(--color-ai-hover);
-  --_accent-text: var(--color-ai-strong);
+.esa-button--variant-ai {
+  --_accent: var(--color-background-ai);
+  --_accent-hover: var(--color-background-ai-hover);
+  --_accent-text: var(--color-content-ai);
 }
 .esa-button--appearance-fill .esa-button__native {
   background: var(--_accent);
   color: var(--_on);
-  border-color: transparent;
+  border-color: var(--_accent-border, transparent);
 }
 .esa-button--appearance-fill .esa-button__native:hover:not(:disabled) {
   background: var(--_accent-hover);
@@ -170,11 +254,11 @@ How much of this component's commitment applicability is settled, and the door i
 .esa-button--appearance-soft .esa-button__native {
   background: color-mix(
     in srgb,
-    var(--color-surface-sunken, #efefef) 45%,
-    var(--color-surface, #fff)
+    var(--color-background-elevation-sunken, #f0f0f0) 45%,
+    var(--color-background-elevation-raised, #fcfcfc)
   );
   color: var(--_accent-text);
-  border-color: var(--color-border-strong, #d4d4d4);
+  border-color: var(--color-border-default-strong, #bbbbbb);
 }
 .esa-button--appearance-soft .esa-button__native:hover:not(:disabled),
 .esa-button--appearance-soft.esa-button--active .esa-button__native {
@@ -182,18 +266,34 @@ How much of this component's commitment applicability is settled, and the door i
   color: var(--_on);
   border-color: var(--_accent);
 }
-.esa-button--color-ghost .esa-button__native {
+.esa-button--variant-ghost .esa-button__native {
   background: transparent;
-  color: var(--color-text-primary, #171717);
+  color: var(--color-content-default, #202020);
   border-color: transparent;
 }
-.esa-button--color-ghost.esa-button--appearance-outline .esa-button__native,
-.esa-button--color-ghost.esa-button--appearance-dashed .esa-button__native {
-  border-color: var(--color-border, #e5e5e5);
+.esa-button--variant-ghost.esa-button--appearance-outline .esa-button__native,
+.esa-button--variant-ghost.esa-button--appearance-dashed .esa-button__native {
+  border-color: var(--color-border-default, #cecece);
 }
-.esa-button--color-ghost .esa-button__native:hover:not(:disabled),
-.esa-button--color-ghost.esa-button--active .esa-button__native {
-  background: var(--color-surface-sunken, #efefef);
+.esa-button--variant-ghost .esa-button__native:hover:not(:disabled),
+.esa-button--variant-ghost.esa-button--active .esa-button__native {
+  background: var(--color-background-elevation-sunken, #f0f0f0);
+}
+.esa-button--variant-chrome .esa-button__native {
+  background: transparent;
+  color: inherit;
+  border-color: transparent;
+}
+.esa-button--variant-chrome .esa-button__native:hover:not(:disabled),
+.esa-button--variant-chrome.esa-button--active .esa-button__native,
+.esa-button--variant-chrome.esa-button--current .esa-button__native {
+  background: var(
+    --button-chrome-bg-hover,
+    color-mix(in srgb, currentColor 14%, transparent)
+  );
+}
+.esa-button--variant-chrome .esa-button__native:focus-visible {
+  outline-color: currentColor;
 }
 .esa-button__native {
   display: inline-flex;
@@ -201,14 +301,10 @@ How much of this component's commitment applicability is settled, and the door i
   justify-content: center;
   gap: var(--spacing-200, 8px);
   width: 100%;
-  height: var(--_btn-height);
+  padding-block: var(--_btn-pad-y);
   padding-inline: var(--_btn-padding-x);
-  border: 1px solid transparent;
+  border: var(--border-width-default, 1px) solid transparent;
   border-radius: var(--_btn-radius);
-  font-size: var(--_btn-font-size);
-  font-family: var(--font-sans, system-ui, sans-serif);
-  font-weight: var(--font-weight-medium, 500);
-  line-height: 1;
   text-decoration: none;
   cursor: pointer;
   transition:
@@ -218,7 +314,7 @@ How much of this component's commitment applicability is settled, and the door i
   appearance: none;
 }
 .esa-button__native:focus-visible {
-  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
   outline-offset: var(--focus-ring-offset, 2px);
 }
 .esa-button--disabled {
@@ -227,16 +323,34 @@ How much of this component's commitment applicability is settled, and the door i
   pointer-events: none;
 }
 .esa-button--icon-only .esa-button__native {
-  padding-inline: 0;
-  width: var(--_btn-height);
+  padding-inline: var(--_btn-pad-y);
+  aspect-ratio: 1;
+}
+summary.esa-button {
+  list-style: none;
+  cursor: pointer;
+}
+summary.esa-button::-webkit-details-marker {
+  display: none;
+}
+summary.esa-button:focus-visible {
+  outline: var(--focus-ring-width, 2px) solid var(--focus-ring-color, #3e9b4f);
+  outline-offset: var(--focus-ring-offset, 2px);
+  border-radius: var(--_btn-radius);
+}
+summary.esa-button--variant-chrome:focus-visible {
+  outline-color: currentColor;
 }
 .esa-button__label {
   white-space: nowrap;
 }
 .esa-button__label--hidden {
-  visibility: hidden;
-  width: 0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
   overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 .esa-button__spinner {
   display: inline-block;
@@ -245,17 +359,147 @@ How much of this component's commitment applicability is settled, and the door i
   border: 2px solid currentColor;
   border-right-color: transparent;
   border-radius: 50%;
-  animation: esa-button-spin 0.6s linear infinite;
+  animation: esa-button-spin var(--animation-spin, 0.75s linear infinite);
+}
+.bcn-csc__figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: var(--spacing-400);
+}
+.bcn-csc__foot {
+  padding-top: var(--spacing-100);
+}
+.typography-display-sm {
+  font-family: var(--typography-display-sm-font-family);
+  font-size: var(--typography-display-sm-font-size);
+  font-weight: var(--typography-display-sm-font-weight);
+  line-height: var(--typography-display-sm-line-height);
+  letter-spacing: var(--typography-display-sm-letter-spacing);
+}
+.typography-body-sm {
+  font-family: var(--typography-body-sm-font-family);
+  font-size: var(--typography-body-sm-font-size);
+  font-weight: var(--typography-body-sm-font-weight);
+  line-height: var(--typography-body-sm-line-height);
+  letter-spacing: var(--typography-body-sm-letter-spacing);
+}
+.typography-body-xs {
+  font-family: var(--typography-body-xs-font-family);
+  font-size: var(--typography-body-xs-font-size);
+  font-weight: var(--typography-body-xs-font-weight);
+  line-height: var(--typography-body-xs-line-height);
+  letter-spacing: var(--typography-body-xs-letter-spacing);
+}
+.typography-label-xs {
+  font-family: var(--typography-label-xs-font-family);
+  font-size: var(--typography-label-xs-font-size);
+  font-weight: var(--typography-label-xs-font-weight);
+  line-height: var(--typography-label-xs-line-height);
+  letter-spacing: var(--typography-label-xs-letter-spacing);
+}
+.typography-label-md {
+  font-family: var(--typography-label-md-font-family);
+  font-size: var(--typography-label-md-font-size);
+  font-weight: var(--typography-label-md-font-weight);
+  line-height: var(--typography-label-md-line-height);
+  letter-spacing: var(--typography-label-md-letter-spacing);
+}
+.typography-label-xs-strong {
+  font-family: var(--typography-label-xs-strong-font-family);
+  font-size: var(--typography-label-xs-strong-font-size);
+  font-weight: var(--typography-label-xs-strong-font-weight);
+  line-height: var(--typography-label-xs-strong-line-height);
+  letter-spacing: var(--typography-label-xs-strong-letter-spacing);
+}
+.typography-label-md-strong {
+  font-family: var(--typography-label-md-strong-font-family);
+  font-size: var(--typography-label-md-strong-font-size);
+  font-weight: var(--typography-label-md-strong-font-weight);
+  line-height: var(--typography-label-md-strong-line-height);
+  letter-spacing: var(--typography-label-md-strong-letter-spacing);
+}
+.typography-microcopy-md {
+  font-family: var(--typography-microcopy-md-font-family);
+  font-size: var(--typography-microcopy-md-font-size);
+  font-weight: var(--typography-microcopy-md-font-weight);
+  line-height: var(--typography-microcopy-md-line-height);
+  letter-spacing: var(--typography-microcopy-md-letter-spacing);
+}
+.typography-microcopy-md-subtle {
+  font-family: var(--typography-microcopy-md-subtle-font-family);
+  font-size: var(--typography-microcopy-md-subtle-font-size);
+  font-weight: var(--typography-microcopy-md-subtle-font-weight);
+  line-height: var(--typography-microcopy-md-subtle-line-height);
+  letter-spacing: var(--typography-microcopy-md-subtle-letter-spacing);
+}
+.typography-microcopy-md-strong {
+  font-family: var(--typography-microcopy-md-strong-font-family);
+  font-size: var(--typography-microcopy-md-strong-font-size);
+  font-weight: var(--typography-microcopy-md-strong-font-weight);
+  line-height: var(--typography-microcopy-md-strong-line-height);
+  letter-spacing: var(--typography-microcopy-md-strong-letter-spacing);
+}
+.esa-stat {
+  --_stat-value-color: var(--stat-value-color, var(--color-content-default, #202020));
+  --_stat-value-font: var(
+    --typography-font-family-display,
+    var(
+      --typography-display-sm-font-family,
+      var(--typography-font-family-display, "DM Sans", sans-serif)
+    )
+  );
+  --_stat-value-size: var(
+    --stat-value-size,
+    var(--typography-display-sm-font-size, var(--font-size-700, 2.25rem))
+  );
+  --_stat-value-weight: var(
+    --typography-font-weight-bold,
+    var(--typography-display-sm-font-weight, var(--typography-font-weight-bold, 650))
+  );
+  --_stat-label-color: var(--color-content-default-secondary, #646464);
+  --_stat-label-size: var(
+    --font-size-200,
+    var(--typography-label-md-font-size, var(--font-size-200, 0.9375rem))
+  );
+  --_stat-label-weight: var(
+    --typography-font-weight-medium,
+    var(--typography-label-md-font-weight, var(--typography-font-weight-medium, 500))
+  );
+  --_stat-sub-color: var(--color-content-default-secondary, #646464);
+  --_stat-sub-size: var(
+    --font-size-150,
+    var(--typography-body-sm-font-size, var(--font-size-150, 0.875rem))
+  );
+  --_stat-accent-color: var(--stat-accent-color, var(--color-content-brand, #2a7e3b));
+  --_stat-gap: var(--spacing-050, 0.125rem);
+  display: flex;
+  flex-direction: column;
+  gap: var(--_stat-gap);
+  background: transparent;
+}
+.esa-stat__value {
+  font-family: var(--_stat-value-font);
+  font-size: var(--_stat-value-size);
+  font-weight: var(--_stat-value-weight);
+  color: var(--_stat-value-color);
+}
+.esa-stat--accent .esa-stat__value {
+  color: var(--_stat-accent-color);
+}
+.esa-stat__label {
+  font-size: var(--_stat-label-size);
+  font-weight: var(--_stat-label-weight);
+  color: var(--_stat-label-color);
+}
+.esa-stat__sub {
+  font-size: var(--_stat-sub-size);
+  color: var(--_stat-sub-color);
 }
 .esa-progress-bar {
   --_progress-height: var(--progress-bar-height-md, 8px);
-  --_progress-radius: var(--progress-bar-radius, var(--radius-full, 9999px));
-  --_progress-track-bg: var(
-    --progress-bar-track-bg,
-    var(--color-surface-sunken, #efefef)
-  );
-  --_progress-fill-bg: var(--progress-bar-fill-bg, var(--color-primary, #43608a));
-  --_progress-font-size: 13px;
+  --_progress-radius: var(--radius-pill, 9999px);
+  --_progress-track-bg: var(--color-background-elevation-sunken, #f0f0f0);
+  --_progress-fill-bg: var(--color-background-brand, #46a758);
   display: block;
   width: 100%;
 }
@@ -264,14 +508,12 @@ How much of this component's commitment applicability is settled, and the door i
   justify-content: space-between;
   align-items: baseline;
   margin-bottom: var(--spacing-100, 0.25rem);
-  font-size: var(--_progress-font-size);
 }
 .esa-progress-bar__label {
-  color: var(--color-text-primary, #171717);
-  font-weight: 500;
+  color: var(--color-content-default, #202020);
 }
 .esa-progress-bar__value {
-  color: var(--color-text-secondary, #525252);
+  color: var(--color-content-default-secondary, #646464);
   font-variant-numeric: tabular-nums;
 }
 .esa-progress-bar__track {
@@ -289,36 +531,32 @@ How much of this component's commitment applicability is settled, and the door i
 }
 .esa-progress-bar--xs {
   --_progress-height: var(--progress-bar-height-xs, 2px);
-  --_progress-font-size: 10px;
 }
 .esa-progress-bar--sm {
   --_progress-height: var(--progress-bar-height-sm, 4px);
-  --_progress-font-size: 11px;
 }
 .esa-progress-bar--lg {
   --_progress-height: var(--progress-bar-height-lg, 12px);
-  --_progress-font-size: 14px;
 }
 .esa-progress-bar--success {
-  --_progress-fill-bg: var(--color-success, #22c55e);
+  --_progress-fill-bg: var(--color-background-utility-success, #30a46c);
 }
 .esa-progress-bar--warning {
-  --_progress-fill-bg: var(--color-warning, #f59e0b);
+  --_progress-fill-bg: var(--color-background-utility-warning, #ffc53d);
 }
 .esa-progress-bar--danger {
-  --_progress-fill-bg: var(--color-danger, #ef4444);
+  --_progress-fill-bg: var(--color-background-utility-danger, #e5484d);
 }
 .esa-progress-bar--indeterminate .esa-progress-bar__fill {
   width: 40% !important;
-  animation: esa-progress-indeterminate 1.5s ease-in-out infinite;
+  animation: esa-progress-indeterminate
+    var(--animation-indeterminate, 1.5s ease-in-out infinite);
 }
-.bcn-csc__figures {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
-  gap: var(--spacing-400);
+.esa-progress-bar__fill {
+  transition: none;
 }
-.bcn-csc__foot {
-  padding-top: var(--spacing-100);
+.esa-progress-bar__fill {
+  background: Highlight;
 }
 .stack {
   --gap: var(--spacing-400, 1rem);
@@ -329,127 +567,120 @@ How much of this component's commitment applicability is settled, and the door i
 .stack[data-split] > [data-split] {
   margin-block-end: auto;
 }
-.esa-stat {
-  --_stat-value-color: var(--stat-value-color, var(--color-text-primary, #171717));
-  --_stat-value-font: var(
-    --stat-value-font,
-    var(--font-display, var(--font-sans, "DM Sans", sans-serif))
-  );
-  --_stat-value-size: var(--stat-value-size, var(--type-size-700, 2.25rem));
-  --_stat-value-weight: var(--stat-value-weight, var(--font-weight-bold, 650));
-  --_stat-label-color: var(--stat-label-color, var(--color-text-secondary, #525252));
-  --_stat-label-size: var(--stat-label-size, var(--type-size-200, 0.9375rem));
-  --_stat-label-weight: var(--stat-label-weight, var(--font-weight-medium, 450));
-  --_stat-sub-color: var(--stat-sub-color, var(--color-text-muted, #737373));
-  --_stat-sub-size: var(--stat-sub-size, var(--type-size-150, 0.875rem));
-  --_stat-accent-color: var(--stat-accent-color, var(--color-secondary-strong, #3a7c59));
-  --_stat-gap: var(--stat-gap, var(--spacing-050, 0.125rem));
-  display: flex;
-  flex-direction: column;
-  gap: var(--_stat-gap);
-  background: transparent;
-}
-.esa-stat__value {
-  font-family: var(--_stat-value-font);
-  font-size: var(--_stat-value-size);
-  font-weight: var(--_stat-value-weight);
-  line-height: var(--line-height-tight, 1.3);
-  letter-spacing: var(--letter-spacing-tight, -0.01em);
-  color: var(--_stat-value-color);
-}
-.esa-stat--accent .esa-stat__value {
-  color: var(--_stat-accent-color);
-}
-.esa-stat__label {
-  font-size: var(--_stat-label-size);
-  font-weight: var(--_stat-label-weight);
-  line-height: var(--line-height-normal, 1.6);
-  color: var(--_stat-label-color);
-}
-.esa-stat__sub {
-  font-size: var(--_stat-sub-size);
-  font-weight: var(--font-weight-regular, 350);
-  line-height: var(--line-height-normal, 1.6);
-  color: var(--_stat-sub-color);
-}
 ```
 
 ## Tokens
+- `--animation-indeterminate`: 1.5s ease-in-out infinite _(semantic)_
+- `--animation-spin`: .75s linear infinite _(semantic)_
+- `--border-width-default`: 1px _(semantic)_
+- `--button-chrome-bg-hover`: color-mix(in srgb, currentColor 14%, transparent) _(component)_
 - `--button-on-warning`: #ffffff _(component)_
-- `--color-ai`: #699cc6 _(semantic)_
-- `--color-ai-hover`: #4c75a9 _(semantic)_
-- `--color-ai-strong`: #7d5e54 _(semantic)_
-- `--color-border`: #dcdcdc _(semantic)_
-- `--color-border-strong`: #bdbdbd _(semantic)_
-- `--color-danger`: #e5484d _(semantic)_
-- `--color-danger-hover`: #dc3e42 _(semantic)_
-- `--color-danger-strong`: #ce2c31 _(semantic)_
-- `--color-gray-12`: #202020 _(primitive)_
-- `--color-info`: #228be6 _(semantic)_
-- `--color-info-hover`: #0588f0 _(semantic)_
-- `--color-info-strong`: #0d74ce _(semantic)_
-- `--color-primary`: #005862 _(semantic)_
-- `--color-primary-hover`: #00474f _(semantic)_
-- `--color-primary-strong`: #2a7e3b _(semantic)_
-- `--color-secondary`: #00918b _(semantic)_
-- `--color-secondary-hover`: #0a6562 _(semantic)_
-- `--color-secondary-on-fill`: #203c25 _(semantic)_
-- `--color-secondary-strong`: #2a7e3b _(semantic)_
-- `--color-success`: #2e7571 _(semantic)_
-- `--color-success-hover`: #b0e64c _(semantic)_
-- `--color-success-on-fill`: #37401c _(semantic)_
-- `--color-success-strong`: #5c7c2f _(semantic)_
-- `--color-surface`: #fcfcfc _(semantic)_
-- `--color-surface-sunken`: #efefef _(semantic)_
-- `--color-text-inverse`: #fcfcfc _(semantic)_
-- `--color-text-muted`: #7c7c7c _(semantic)_
-- `--color-text-primary`: #3d3d3d _(semantic)_
-- `--color-text-secondary`: #525252 _(semantic)_
-- `--color-warning`: #f59e0b _(semantic)_
-- `--color-warning-hover`: #ffba18 _(semantic)_
-- `--color-warning-strong`: #ab6400 _(semantic)_
-- `--focus-ring-color`: #65ba74 _(primitive)_
-- `--focus-ring-offset`: 2px _(primitive)_
-- `--focus-ring-width`: 2px _(primitive)_
-- `--font-display`: "DM Sans", sans-serif _(primitive)_
-- `--font-sans`: "DM Sans", sans-serif _(primitive)_
-- `--font-weight-bold`: 650 _(primitive)_
-- `--font-weight-medium`: 500 _(primitive)_
-- `--font-weight-regular`: 350 _(primitive)_
-- `--form-font-size-lg`: clamp(.875rem, .77rem + .52vw, 1.125rem) _(component)_
-- `--form-font-size-md`: clamp(.75rem, .66rem + .44vw, .9375rem) _(component)_
-- `--form-font-size-sm`: clamp(.625rem, .56rem + .32vw, .75rem) _(component)_
-- `--form-font-size-xs`: clamp(.5rem, .44rem + .3vw, .625rem) _(component)_
-- `--form-height-lg`: 44px _(component)_
-- `--form-height-md`: 36px _(component)_
-- `--form-height-sm`: 28px _(component)_
-- `--form-height-xs`: 24px _(component)_
-- `--form-padding-x-lg`: 1rem _(component)_
-- `--form-padding-x-md`: .75rem _(component)_
-- `--form-padding-x-sm`: .625rem _(component)_
-- `--form-padding-x-xs`: .5rem _(component)_
-- `--form-radius-lg`: .25rem _(component)_
-- `--form-radius-md`: .25rem _(component)_
-- `--form-radius-sm`: .25rem _(component)_
-- `--form-radius-xs`: .25rem _(component)_
+- `--button-radius-lg`: .5rem _(component)_
+- `--button-radius-md`: .5rem _(component)_
+- `--button-radius-sm`: .25rem _(component)_
+- `--button-radius-xs`: .25rem _(component)_
+- `--color-background-ai`: #a18072 _(semantic)_
+- `--color-background-ai-hover`: #957468 _(semantic)_
+- `--color-background-brand`: #46a758 _(semantic)_
+- `--color-background-brand-hover`: #3e9b4f _(semantic)_
+- `--color-background-brand-muted`: #e9f6e9 _(semantic)_
+- `--color-background-brand-muted-hover`: #daf1db _(semantic)_
+- `--color-background-elevation-raised`: #fcfcfc _(semantic)_
+- `--color-background-elevation-sunken`: #f0f0f0 _(semantic)_
+- `--color-background-utility-danger`: #ce2c31 _(semantic)_
+- `--color-background-utility-danger-hover`: #641723 _(semantic)_
+- `--color-background-utility-info`: #0d74ce _(semantic)_
+- `--color-background-utility-info-hover`: #113264 _(semantic)_
+- `--color-background-utility-success`: #218358 _(semantic)_
+- `--color-background-utility-success-hover`: #193b2d _(semantic)_
+- `--color-background-utility-warning`: #ffc53d _(semantic)_
+- `--color-background-utility-warning-hover`: #ffba18 _(semantic)_
+- `--color-border-default`: #cecece _(semantic)_
+- `--color-border-default-strong`: #bbbbbb _(semantic)_
+- `--color-content-ai`: #7d5e54 _(semantic)_
+- `--color-content-brand`: #2a7e3b _(semantic)_
+- `--color-content-default`: #202020 _(semantic)_
+- `--color-content-default-knockout`: #fcfcfc _(semantic)_
+- `--color-content-default-secondary`: #646464 _(semantic)_
+- `--color-content-on-brand-muted`: #203c25 _(semantic)_
+- `--color-content-on-utility-success`: #fcfcfc _(semantic)_
+- `--color-content-on-utility-warning`: #4f3422 _(semantic)_
+- `--color-content-utility-danger`: #ce2c31 _(semantic)_
+- `--color-content-utility-info`: #0d74ce _(semantic)_
+- `--color-content-utility-success`: #218358 _(semantic)_
+- `--color-content-utility-warning`: #ab6400 _(semantic)_
+- `--focus-ring-color`: #3e9b4f _(component)_
+- `--focus-ring-offset`: 2px _(component)_
+- `--focus-ring-width`: 2px _(component)_
+- `--font-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
+- `--font-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
+- `--font-size-700`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(primitive)_
 - `--gap`: 1rem _(component)_
-- `--letter-spacing-tight`: -.01em _(primitive)_
-- `--line-height-normal`: 1.6 _(primitive)_
-- `--line-height-tight`: 1.3 _(primitive)_
-- `--progress-bar-fill-bg`: #005862 _(component)_
 - `--progress-bar-height-lg`: 12px _(component)_
 - `--progress-bar-height-md`: 8px _(component)_
 - `--progress-bar-height-sm`: 4px _(component)_
 - `--progress-bar-height-xs`: 2px _(component)_
-- `--progress-bar-radius`: 9999px _(component)_
-- `--progress-bar-track-bg`: #efefef _(component)_
-- `--radius-full`: 9999px _(primitive)_
+- `--radius-pill`: 9999px _(semantic)_
 - `--spacing-050`: .125rem _(primitive)_
 - `--spacing-100`: .25rem _(primitive)_
-- `--spacing-150`: .375rem _(primitive)_
 - `--spacing-200`: .5rem _(primitive)_
+- `--spacing-250`: .625rem _(primitive)_
+- `--spacing-300`: .75rem _(primitive)_
 - `--spacing-400`: 1rem _(primitive)_
-- `--transition-fast`: .15s ease _(primitive)_
-- `--type-size-150`: clamp(.6875rem, .61rem + .38vw, .875rem) _(primitive)_
-- `--type-size-200`: clamp(.75rem, .66rem + .44vw, .9375rem) _(primitive)_
-- `--type-size-700`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(primitive)_
+- `--stat-accent-color`: #2a7e3b _(component)_
+- `--stat-value-color`: #202020 _(component)_
+- `--stat-value-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(component)_
+- `--transition-fast`: .15s ease _(semantic)_
+- `--typography-body-sm-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-body-sm-font-size`: clamp(.6875rem, .61rem + .38vw, .875rem) _(semantic)_
+- `--typography-body-sm-font-weight`: 350 _(semantic)_
+- `--typography-body-sm-letter-spacing`: .01em _(semantic)_
+- `--typography-body-sm-line-height`: 1.6 _(semantic)_
+- `--typography-body-xs-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-body-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-body-xs-font-weight`: 350 _(semantic)_
+- `--typography-body-xs-letter-spacing`: .01em _(semantic)_
+- `--typography-body-xs-line-height`: 1.6 _(semantic)_
+- `--typography-display-sm-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-display-sm-font-size`: clamp(1.625rem, 1.41rem + 1.08vw, 2.25rem) _(semantic)_
+- `--typography-display-sm-font-weight`: 650 _(semantic)_
+- `--typography-display-sm-letter-spacing`: -.01em _(semantic)_
+- `--typography-display-sm-line-height`: 1.3 _(semantic)_
+- `--typography-font-family-display`: "DM Sans", sans-serif _(semantic)_
+- `--typography-font-weight-bold`: 650 _(semantic)_
+- `--typography-font-weight-medium`: 500 _(semantic)_
+- `--typography-label-md-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-label-md-font-weight`: 500 _(semantic)_
+- `--typography-label-md-letter-spacing`: .01em _(semantic)_
+- `--typography-label-md-line-height`: 1.6 _(semantic)_
+- `--typography-label-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-label-md-strong-font-weight`: 550 _(semantic)_
+- `--typography-label-md-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-label-md-strong-line-height`: 1.6 _(semantic)_
+- `--typography-label-xs-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-xs-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-label-xs-font-weight`: 500 _(semantic)_
+- `--typography-label-xs-letter-spacing`: .01em _(semantic)_
+- `--typography-label-xs-line-height`: 1.6 _(semantic)_
+- `--typography-label-xs-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-label-xs-strong-font-size`: clamp(.625rem, .56rem + .32vw, .75rem) _(semantic)_
+- `--typography-label-xs-strong-font-weight`: 550 _(semantic)_
+- `--typography-label-xs-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-label-xs-strong-line-height`: 1.6 _(semantic)_
+- `--typography-microcopy-md-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-md-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-microcopy-md-font-weight`: 500 _(semantic)_
+- `--typography-microcopy-md-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-md-line-height`: 1 _(semantic)_
+- `--typography-microcopy-md-strong-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-md-strong-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-microcopy-md-strong-font-weight`: 550 _(semantic)_
+- `--typography-microcopy-md-strong-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-md-strong-line-height`: 1 _(semantic)_
+- `--typography-microcopy-md-subtle-font-family`: "DM Sans", sans-serif _(semantic)_
+- `--typography-microcopy-md-subtle-font-size`: clamp(.75rem, .66rem + .44vw, .9375rem) _(semantic)_
+- `--typography-microcopy-md-subtle-font-weight`: 350 _(semantic)_
+- `--typography-microcopy-md-subtle-letter-spacing`: .01em _(semantic)_
+- `--typography-microcopy-md-subtle-line-height`: 1 _(semantic)_
